@@ -6,6 +6,8 @@ web:
     - "3000:3000"
   links:
     - db
+    - redis
+    - rabbitmq
   env_file:
     - '.env.web'
   command: bundle exec rails s -b 0.0.0.0
@@ -14,3 +16,15 @@ db:
   image: postgres
   ports:
     - "5432"
+
+redis:
+  image: redis
+  ports:
+    - "6379:6379"
+
+rabbitmq:
+  image: rabbitmq
+  ports:
+    - "5672:5672"
+    - "15672:15672"
+    - "8080:8080"
