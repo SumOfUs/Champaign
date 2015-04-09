@@ -11,3 +11,6 @@
 /log/*
 !/log/.keep
 /tmp
+
+.idea/*
+.env.web

@@ -8,6 +8,8 @@ web:
     - db
   env_file:
     - '.env.web'
+  command: bundle exec rails s -b 0.0.0.0
+
 db:
   image: postgres
   ports:
