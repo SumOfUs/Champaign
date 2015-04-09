@@ -1,0 +1,14 @@
+web:
+  build: .
+  volumes:
+    - .:/myapp
+  ports:
+    - "3000:3000"
+  links:
+    - db
+  env_file:
+    - '.env.web'
+db:
+  image: postgres
+  ports:
+    - "5432"
