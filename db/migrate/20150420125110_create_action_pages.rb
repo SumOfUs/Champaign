@@ -8,8 +8,8 @@ class CreateActionPages < ActiveRecord::Migration
       t.boolean :featured, null: false
     end
     # adds foreign key called campaign_id to the campaign_id column in the campaigns table
-    add_foreign_key :action_pages, :campaigns, column: :campaign_id, name: :campaign_id
+    # add_foreign_key :action_pages, :campaigns, column: :campaign_id, name: :campaign_id
     # adds a foreign key called language_code to the language_code column in the languages table
-    add_foreign_key :action_pages, :languages, column: :language_code, name: :language_code
+    # add_foreign_key :action_pages, :languages, column: :language_code, name: :language_code
   end
 end
