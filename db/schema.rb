@@ -11,9 +11,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20150420131131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_pages", primary_key: "action_page_id", force: :cascade do |t|
+    t.string  "title",    null: false
+    t.string  "slug",     null: false
+    t.boolean "active",   null: false
+    t.boolean "featured", null: false
+  end
+
+  create_table "campaigns", primary_key: "campaign_id", force: :cascade do |t|
+    t.string "campaign_name"
+  end
+
+  create_table "languages", id: false, force: :cascade do |t|
+    t.string "language_code", null: false
+    t.string "language_name", null: false
+  end
+
+  create_table "widget_types", id: false, force: :cascade do |t|
+    t.string "widget_type",       null: false
+    t.string "partial_path",      null: false
+    t.string "form_partial_path"
+    t.string "action_table_name", null: false
+  end
 
 end
