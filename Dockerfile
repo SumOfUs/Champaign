@@ -13,4 +13,4 @@ EXPOSE 3000
 ADD . /myapp
 WORKDIR /myapp
 
-RUN rm /myapp/tmp/pids/server.pid
+RUN rm -f /myapp/tmp/pids/server.pid
