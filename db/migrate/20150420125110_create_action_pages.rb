@@ -6,6 +6,7 @@ class CreateActionPages < ActiveRecord::Migration
       t.string :slug, null: false
       t.boolean :active, null: false
       t.boolean :featured, null: false
+      t.timestamps
     end
     # adds foreign key called campaign_id to the campaign_id column in the campaigns table
     # add_foreign_key :action_pages, :campaigns, column: :campaign_id, name: :campaign_id
