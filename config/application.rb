@@ -24,6 +24,8 @@ module Champaign
     config.active_record.raise_in_transactional_callbacks = true
 
     # We're using Redis as our cache. Configure that here.
-    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache'
+    # we use 'redis' as the host name because that's configured by docker
+    # during our setup as the host where our redis instance is stored.
+    config.cache_store = :redis_store, 'redis://redis:6379/0/cache'
   end
 end
