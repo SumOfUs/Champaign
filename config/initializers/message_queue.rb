@@ -5,14 +5,7 @@ class MessageQueue
   # connections are persistent while the application is alive.
   class_attribute :connection
 
-  def enqueue(object_to_queue)
-    conn = start_connection
-    # Enqueue the object
-  end
-
-  protected
-
-  def start_connection
+  def get_connection
     if MessageQueue.connection
       MessageQueue.connection
     else
@@ -22,6 +15,9 @@ class MessageQueue
       MessageQueue.connection.start
 
       # Need to have a bunch more stuff here about connecting to channels.
+
+      # Return the conenction
+      MessageQueue.connection
     end
   end
 end
