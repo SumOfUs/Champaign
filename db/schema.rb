@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(version: 20150420152052) do
   end
 
   create_table "actionkit_pages", force: :cascade do |t|
-    t.integer "actionkit_page_type_id"
-    t.integer "campaign_page_id"
+    t.integer "actionkit_page_type_id", null: false
+    t.integer "campaign_page_id",       null: false
   end
 
   create_table "campaign_pages", force: :cascade do |t|
@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(version: 20150420152052) do
   end
 
   create_table "members", force: :cascade do |t|
-    t.string "email_address"
-    t.string "actionkit_member_id"
+    t.string "email_address",       null: false
+    t.string "actionkit_member_id", null: false
   end
 
   create_table "widget_types", force: :cascade do |t|
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20150420152052) do
     t.jsonb    "specifications",    null: false
     t.string   "partial_path",      null: false
     t.string   "form_partial_path"
-    t.string   "action_table_name", null: false
+    t.string   "action_table_name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",            null: false
