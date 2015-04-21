@@ -16,7 +16,7 @@ class MessageQueue
 
       # Need to have a bunch more stuff here about connecting to channels.
 
-      # Return the conenction
+      # Return the connection
       MessageQueue.connection
     end
   end
