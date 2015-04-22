@@ -20,6 +20,7 @@
     </content>
     <orderEntry type="jdk" jdkName="RVM: ruby-2.1.5" jdkType="RUBY_SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" scope="PROVIDED" name="action_parameter (v0.0.3, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionmailer (v4.2.0, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionpack (v4.2.0, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="actionview (v4.2.0, RVM: ruby-2.1.5) [gem]" level="application" />
@@ -39,6 +40,7 @@
     <orderEntry type="library" scope="PROVIDED" name="columnize (v0.9.0, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="debug_inspector (v0.0.2, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="devise (v3.4.1, RVM: ruby-2.1.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="diff-lcs (v1.2.5, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="erubis (v2.7.0, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="execjs (v2.5.2, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="globalid (v0.3.5, RVM: ruby-2.1.5) [gem]" level="application" />
@@ -75,6 +77,11 @@
     <orderEntry type="library" scope="PROVIDED" name="redis-rails (v4.0.0, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="redis-store (v1.1.4, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="responders (v2.1.0, RVM: ruby-2.1.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-core (v3.2.3, RVM: ruby-2.1.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-expectations (v3.2.1, RVM: ruby-2.1.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-mocks (v3.2.1, RVM: ruby-2.1.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-rails (v3.2.1, RVM: ruby-2.1.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="rspec-support (v3.2.2, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass (v3.4.13, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sass-rails (v5.0.3, RVM: ruby-2.1.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="sdoc (v0.4.1, RVM: ruby-2.1.5) [gem]" level="application" />

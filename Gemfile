@@ -44,6 +44,12 @@ gem 'slim'
 # Use Devise for Authentication
 gem 'devise'
 
+# Use ActionParameter as a way to extract model-based mass-assignment into
+# a class that Does One Thing (in this case, filter mass assignments) in the
+# Rails 4 style. https://github.com/edelpero/action_parameter
+
+gem 'action_parameter'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -53,5 +59,8 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  # Rspec for testing
+  gem 'rspec-rails', '~> 3.0'
 end
 
