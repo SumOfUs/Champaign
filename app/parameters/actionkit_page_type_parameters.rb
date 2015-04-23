@@ -1,4 +1,4 @@
-class ActionKitPageTypeParameters < ActionParameter::Base
+class ActionkitPageTypeParameters < ActionParameter::Base
 
   def permit
     p params.object_id

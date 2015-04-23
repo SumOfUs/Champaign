@@ -1,6 +1,5 @@
 class Campaign < ActiveRecord::Base
 
-
   has_many :campaign_page
 
   validates_presence_of :campaign_id, :campaign_name
