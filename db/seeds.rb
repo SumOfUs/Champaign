@@ -20,8 +20,8 @@
   widget_type = WidgetTypes.create!({
       widget_name: 'test_widget',
       specifications: {
-        'height': 'integer',
-        'width': 'integer'
+          width: 'integer',
+          height: 'integer'
       },
       partial_path: '/test_widget',
       form_partial_path: '/form/test_widget',
@@ -29,17 +29,17 @@
       active: false
     })
 
-# 5. make a campaigns page
+# 5. make a campaign page
   campaign_page = CampaignPages.create!({
       language_id: language.id,
       actionkit_page_id: actionkit_page.id,
-      title: 'Test campaigns page',
+      title: 'Test campaign page',
       slug: 'test_campaign_page',
       active: false,
       featured: false
     })
 
-# 6. make campaigns pages widgets
+# 6. make campaign pages widgets
   campaign_page_widget = CampaignPagesWidgets.create!()
 # 7. make actionkit pages
 
