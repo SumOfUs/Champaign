@@ -19,11 +19,11 @@ parameter_classes_to_test = {
             actionkit_page_type_id: 'test'
         }
     },
-    campaign_page: {
+    campaign_pages: {
         class_type: CampaignPageParameters,
         correct_params: {
             title: 'Awesome Campaign Page',
-            slug: '/page/awesome-campaign-page',
+            slug: '/page/awesome-campaigns-page',
             active: true,
             featured: false
         }
@@ -36,10 +36,10 @@ parameter_classes_to_test = {
             widget_type_id: 1
         }
     },
-    campaign: {
+    campaigns: {
         class_type: CampaignParameters,
         correct_params: {
-            campaign_name: 'My campaign!'
+            campaign_name: 'My campaigns!'
         }
     },
     language: {

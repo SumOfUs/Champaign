@@ -1,0 +1,9 @@
+h3 = @campaign.campaign_name
+=> link_to 'Edit Campaign', edit_campaign_path(@campaign), class: "btn btn-sm btn-warning"
+= link_to 'Disable Campaign', @campaign, method: 'delete', class: "btn btn-sm btn-danger", data: {warning: 'Are you sure?'}
+
+
+p Pages in this campaign:
+
+- @campaign.campaign_page.each do |page|
+  = link_to page

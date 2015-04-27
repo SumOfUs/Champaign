@@ -13,7 +13,7 @@
   language = Languages.create!({language_code: 'EN/US', language_name: 'American English'})
 
 # 3  make campaigns
-  campaign = Campaigns.create!({campaign_name: 'Test campaign'})
+  campaign = Campaigns.create!({campaign_name: 'Test campaigns'})
 
 # 4. make widget types
 
@@ -29,17 +29,17 @@
       active: false
     })
 
-# 5. make a campaign page
+# 5. make a campaigns page
   campaign_page = CampaignPages.create!({
       language_id: language.id,
       actionkit_page_id: actionkit_page.id,
-      title: 'Test campaign page',
+      title: 'Test campaigns page',
       slug: 'test_campaign_page',
       active: false,
       featured: false
     })
 
-# 6. make campaign pages widgets
+# 6. make campaigns pages widgets
   campaign_page_widget = CampaignPagesWidgets.create!()
 # 7. make actionkit pages
 

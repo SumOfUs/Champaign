@@ -10,6 +10,6 @@ class AddForeignKeys < ActiveRecord::Migration
     add_foreign_key :campaign_pages, :actionkit_pages
     add_foreign_key :campaign_pages_widgets, :campaign_pages
     add_foreign_key :campaign_pages_widgets, :widget_types
-    # TODO: add FKs between campaign widgets table, widget actions tables and members table 
+    # TODO: add FKs between campaigns widgets table, widget actions tables and members table
   end
 end
