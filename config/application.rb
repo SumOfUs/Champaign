@@ -22,5 +22,9 @@ module Myapp
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # Disable the web console gem from complaining about being unable to render
+    # a console while you're accessing the site from a host on Docker.
+    config.web_console.whiny_requests = false
   end
 end

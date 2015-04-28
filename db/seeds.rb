@@ -42,12 +42,12 @@
 # 6. create a widget for the campaign page
 
   campaign_page_widget = campaign_page.campaign_pages_widget.create!({
-    widget_type_id: (WidgetType.find_by widget_name: "test_widget").id,
-    content: {"text_body":"Sign this petition to save the jumping spiders!"},
+    widget_type_id: (WidgetType.find_by widget_name: 'test_widget').id,
+    content: {text_body: 'Sign this petition to save the jumping spiders!'},
     page_display_order: 1,
   })
 
 # 7. create an actionkit page match for the campaign page widget
- campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
+#  campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
 
 # 8. make members 
