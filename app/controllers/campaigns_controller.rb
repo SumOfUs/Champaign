@@ -10,9 +10,8 @@ class CampaignsController < ApplicationController
 
   def create
     permitted_params = CampaignParameters.new(params).permit
-    @campaign = Campaign.new permitted_params
-    @campaign.save
-    redirect_to :campaigns
+    @campaign = Campaign.create permitted_params
+    redirect_to :campaigns, notice: 'Campaign Created'
   end
 
   def show
@@ -21,5 +20,12 @@ class CampaignsController < ApplicationController
 
   def edit
     @campaign = Campaign.find params['id']
+  end
+
+  def update
+    @campaign = Campaign.find params['id']
+    permitted_params = CampaignParameters.new(params).permit
+    @campaign.update permitted_params
+    redirect_to :campaigns, notice: 'Campaign Updated'
   end
 end
