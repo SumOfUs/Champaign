@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
   resources :campaigns
+  get '/campaign_pages/customize/:id', to: 'campaign_pages#customize'
   resources :campaign_pages
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

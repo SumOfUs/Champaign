@@ -1,0 +1,12 @@
+= form_for(@campaign_page, class: 'form-horizontal') do |f|
+  div.form-group
+    = f.label :title, class: 'control-label'
+    = f.text_field :title, class: 'col-lg-3', placeholder: 'Page Name...'
+  div.form-group
+    p = label_tag 'Which widgets to include on this page?'
+    - @widget_types.each do |widget_type|
+      = check_box_tag "widget_types[#{widget_type.id}]", widget_type.widget_name
+      span< = widget_type.widget_name
+  div.form-group
+    = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+
