@@ -2,6 +2,7 @@ class CampaignPagesWidget < ActiveRecord::Base
 
   belongs_to :campaign_page
   belongs_to :widget_type
+  has_one :actionkit_page
 
   validates_presence_of :content, :page_display_order, :campaign_page_id, :widget_type_id
   # validates that there are not two widgets with exactly same content on the same campaign page
