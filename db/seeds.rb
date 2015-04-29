@@ -39,6 +39,16 @@
       active: true
     },
     {
+      widget_name: 'petition',
+      specifications: {
+        petition_text: 'string',
+        # building petition forms is kind of an art of its own - I'm not sure what specifications to add
+      },
+      partial_path: 'widgets/image/display.slim',
+      form_partial_path: 'widgets/image/form.slim',
+      active: true
+    },
+    {
       widget_name: 'donation',
       specifications: {
         # a hash containing location / currency / multiplier for the donation amounts
