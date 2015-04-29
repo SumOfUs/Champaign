@@ -41,9 +41,9 @@
 
 # 6. create a widget for the campaign page
 
-  campaign_page_widget = campaign_page.create_campaign_pages_widget({
-    widget_type_id: (WidgetType.find_by widget_name: 'test_widget').id,
-    content: {text_body: 'Sign this petition to save the jumping spiders!'},
+  campaign_page_widget = campaign_page.campaign_pages_widget.create!({
+    widget_type_id: (WidgetType.find_by widget_name: "test_widget").id,
+    content: {"text_body":"Sign this petition to save the jumping spiders!"},
     page_display_order: 1,
   })
 
