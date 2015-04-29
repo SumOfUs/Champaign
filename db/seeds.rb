@@ -34,8 +34,8 @@
         width: 'integer',
         height: 'integer'
       },
-      partial_path: 'widgets/text_body/_display.slim',
-      form_partial_path: 'widgets/text_body/_form.slim',
+      partial_path: 'widgets/image/_display.slim',
+      form_partial_path: 'widgets/image/_form.slim',
       active: true
     },
     {
@@ -46,8 +46,8 @@
 
         },
       },
-      partial_path: 'widgets/text_body/_display.slim',
-      form_partial_path: 'widgets/text_body/_form.slim',
+      partial_path: 'widgets/donation/_display.slim',
+      form_partial_path: 'widgets/donation/_form.slim',
       active: true
     }
   ])
