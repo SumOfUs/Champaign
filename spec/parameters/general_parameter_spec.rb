@@ -19,7 +19,7 @@ parameter_classes_to_test = {
             actionkit_page_type_id: 'test'
         }
     },
-    campaign_pages: {
+    campaign_page: {
         class_type: CampaignPageParameters,
         correct_params: {
             title: 'Awesome Campaign Page',
@@ -36,7 +36,7 @@ parameter_classes_to_test = {
             widget_type_id: 1
         }
     },
-    campaigns: {
+    campaign: {
         class_type: CampaignParameters,
         correct_params: {
             campaign_name: 'My campaigns!'
