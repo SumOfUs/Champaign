@@ -23,8 +23,8 @@
       specifications: {
         text_body_html: 'string'
       },
-      partial_path: 'widgets/text_body/_display.slim',
-      form_partial_path: 'widgets/text_body/_form.slim',
+      partial_path: 'widgets/text_body/display.slim',
+      form_partial_path: 'widgets/text_body/form.slim',
       action_table_name: nil,
       active: true
     },
@@ -34,8 +34,8 @@
         width: 'integer',
         height: 'integer'
       },
-      partial_path: 'widgets/image/_display.slim',
-      form_partial_path: 'widgets/image/_form.slim',
+      partial_path: 'widgets/image/display.slim',
+      form_partial_path: 'widgets/image/form.slim',
       active: true
     },
     {
@@ -46,8 +46,8 @@
 
         },
       },
-      partial_path: 'widgets/donation/_display.slim',
-      form_partial_path: 'widgets/donation/_form.slim',
+      partial_path: 'widgets/donation/display.slim',
+      form_partial_path: 'widgets/donation/form.slim',
       active: true
     }
   ])
