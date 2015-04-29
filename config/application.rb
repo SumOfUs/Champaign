@@ -8,6 +8,8 @@ Bundler.require(*Rails.groups)
 
 module Champaign
   class Application < Rails::Application
+    # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
+    config.web_console.whitelisted_ips = '172.17.42.1'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

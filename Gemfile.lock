@@ -211,11 +211,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-<<<<<<< HEAD
   action_parameter
-=======
   bunny
->>>>>>> c7f374655588a5fbd906d10f5b343c0146639a5e
   byebug
   coffee-rails (~> 4.1.0)
   devise
