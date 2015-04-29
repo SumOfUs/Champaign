@@ -33,6 +33,5 @@ module Champaign
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.
     config.cache_store = :redis_store, 'redis://redis:6379/0/cache'
->>>>>>> 61949b37611bb049166a93e33a789e42cdd53371
   end
 end
