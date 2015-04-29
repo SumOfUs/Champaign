@@ -38,6 +38,9 @@ gem 'redis-namespace'
 gem 'redis-rails'
 gem 'redis-rack-cache'
 
+# Using RabbitMQ for Message Queuing - Bunny is our interface gem
+gem 'bunny'
+
 # Use Slim for Templating
 gem 'slim'
 

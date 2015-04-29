@@ -6,8 +6,10 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Myapp
+module Champaign
   class Application < Rails::Application
+    # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
+    config.web_console.whitelisted_ips = '172.17.42.1'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -26,5 +28,11 @@ module Myapp
     # Disable the web console gem from complaining about being unable to render
     # a console while you're accessing the site from a host on Docker.
     config.web_console.whiny_requests = false
+
+    # We're using Redis as our cache. Configure that here.
+    # we use 'redis' as the host name because that's configured by docker
+    # during our setup as the host where our redis instance is stored.
+    config.cache_store = :redis_store, 'redis://redis:6379/0/cache'
+>>>>>>> 61949b37611bb049166a93e33a789e42cdd53371
   end
 end
