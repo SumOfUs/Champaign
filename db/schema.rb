@@ -65,8 +65,6 @@ ActiveRecord::Schema.define(version: 20150420152052) do
   create_table "widget_types", force: :cascade do |t|
     t.string   "widget_name",       null: false
     t.jsonb    "specifications",    null: false
-    t.string   "partial_path",      null: false
-    t.string   "form_partial_path"
     t.string   "action_table_name"
     t.datetime "created_at"
     t.datetime "updated_at"
