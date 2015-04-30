@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150429140640) do
+ActiveRecord::Schema.define(version: 20150430150211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,19 @@ ActiveRecord::Schema.define(version: 20150429140640) do
     t.string "actionkit_member_id", null: false
   end
 
+  create_table "templates", force: :cascade do |t|
+    t.string "template_name"
+  end
+
+  create_table "templates_widget_types", id: false, force: :cascade do |t|
+    t.integer "template_id",    null: false
+    t.integer "widget_type_id", null: false
+    t.integer "page_order"
+  end
+
+  add_index "templates_widget_types", ["template_id"], name: "index_templates_widget_types_on_template_id", using: :btree
+  add_index "templates_widget_types", ["widget_type_id"], name: "index_templates_widget_types_on_widget_type_id", using: :btree
+
   create_table "widget_types", force: :cascade do |t|
     t.string   "widget_name",       null: false
     t.jsonb    "specifications",    null: false
@@ -78,4 +91,6 @@ ActiveRecord::Schema.define(version: 20150429140640) do
   add_foreign_key "campaign_pages", "languages"
   add_foreign_key "campaign_pages_widgets", "campaign_pages"
   add_foreign_key "campaign_pages_widgets", "widget_types"
+  add_foreign_key "templates_widget_types", "templates"
+  add_foreign_key "templates_widget_types", "widget_types"
 end
