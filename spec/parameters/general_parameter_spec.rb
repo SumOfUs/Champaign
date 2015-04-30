@@ -61,8 +61,13 @@ parameter_classes_to_test = {
         correct_params: {
             widget_name: 'Awesome Widget',
             specifications: 'Test',
-            partial_path: '/partials/path',
-            form_partial_path: '/partials/forms/path',
+            active: false
+        }
+    },
+    template: {
+        class_type: TemplateParameters,
+        correct_params: {
+            template_name: 'Awesome Template',
             active: false
         }
     }

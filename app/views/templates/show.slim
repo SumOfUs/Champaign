@@ -1,0 +1,11 @@
+h3 = @template.template_name
+
+p Name: = @template.template_name
+p Active: = @template.active.to_s
+
+p
+  | Included Widgets:
+  br
+  - @template.widget_types.each do |widget_type|
+    = widget_type.widget_name.titleize
+    br

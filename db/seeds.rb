@@ -35,7 +35,7 @@
       active: true
     },
     {
-      widget_name: 'petition',
+      widget_name: 'petition_form',
       specifications: {
         petition_text: 'string',
         # building petition forms is kind of an art of its own - I'm not sure what specifications to add

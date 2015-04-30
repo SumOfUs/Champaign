@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430150211) do
+ActiveRecord::Schema.define(version: 20150430181119) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,18 +21,18 @@ ActiveRecord::Schema.define(version: 20150430150211) do
   end
 
   create_table "actionkit_pages", force: :cascade do |t|
-    t.integer "actionkit_page_type_id", null: false
-    t.integer "campaign_page_id",       null: false
+    t.integer "actionkit_id",             null: false
+    t.integer "actionkit_page_type_id",   null: false
+    t.integer "campaign_pages_widget_id", null: false
   end
 
   create_table "campaign_pages", force: :cascade do |t|
-    t.integer  "language_id",       null: false
+    t.integer  "language_id", null: false
     t.integer  "campaign_id"
-    t.integer  "actionkit_page_id"
-    t.string   "title",             null: false
-    t.string   "slug",              null: false
-    t.boolean  "active",            null: false
-    t.boolean  "featured",          null: false
+    t.string   "title",       null: false
+    t.string   "slug",        null: false
+    t.boolean  "active",      null: false
+    t.boolean  "featured",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -63,7 +63,8 @@ ActiveRecord::Schema.define(version: 20150430150211) do
   end
 
   create_table "templates", force: :cascade do |t|
-    t.string "template_name"
+    t.string  "template_name"
+    t.boolean "active"
   end
 
   create_table "templates_widget_types", id: false, force: :cascade do |t|
@@ -85,8 +86,7 @@ ActiveRecord::Schema.define(version: 20150430150211) do
   end
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
-  add_foreign_key "actionkit_pages", "campaign_pages"
-  add_foreign_key "campaign_pages", "actionkit_pages"
+  add_foreign_key "actionkit_pages", "campaign_pages_widgets"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
   add_foreign_key "campaign_pages_widgets", "campaign_pages"

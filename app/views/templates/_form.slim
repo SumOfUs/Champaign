@@ -1,0 +1,18 @@
+= form_for @template do |f|
+  div.form-control
+    = f.label :template_name
+    =< f.text_field :template_name
+  div.form-control
+    => f.check_box :active
+    = f.label :active
+  hr
+  div.form-control
+    = f.label 'Widget Types in this Template:'
+    br
+  div.form-control
+    = fields_for @widget_types do |widget_fields|
+      - @widget_types.each do |widget_type|
+        =< check_box_tag 'widget_types[]', widget_type.id
+        => widget_fields.label widget_type.widget_name
+  div.form-control
+    = f.submit 'Save Template', class: 'btn btn-sm btn-primary'

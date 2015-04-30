@@ -4,9 +4,14 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'home#index'
+
+  # Custom paths
+  post '/campaign_pages/new', to: 'campaign_pages#new'
+
+  # Standard resources
   resources :campaigns
-  get '/campaign_pages/customize/:id', to: 'campaign_pages#customize'
   resources :campaign_pages
+  resources :templates
 
 
   # Example of regular route:
