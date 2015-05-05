@@ -6,7 +6,7 @@
     div Customize the widgets on this page:
     br
     - @widget_types.each do |widget|
-      = render widget.form_partial_path
+      = render widget.form_partial_path, {widget_type_id: widget.id}
       br
   div.form-group
     = f.submit 'Save Page', class: 'btn btn-sm btn-primary'

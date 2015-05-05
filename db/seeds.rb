@@ -30,7 +30,8 @@
       widget_name: 'image',
       specifications: {
         width: 'integer',
-        height: 'integer'
+        height: 'integer',
+        image_url: 'string'
       },
       active: true
     },
