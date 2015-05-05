@@ -7,5 +7,6 @@ p
   | Included Widgets:
   br
   - @template.widget_types.each do |widget_type|
-    = render widget_type.form_partial_path
+    = render widget_type.widget_name.titleize
     br
+      
