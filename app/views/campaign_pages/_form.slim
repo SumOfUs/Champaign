@@ -3,10 +3,11 @@
     = f.label :title, class: 'control-label'
     = f.text_field :title, class: 'col-lg-3', placeholder: 'Page Name...'
   div.form-group
-    div Customize the widgets on this page:
+    div Select a template to load:
     br
-    - @widget_types.each do |widget|
-      = render widget.form_partial_path, {widget_type_id: widget.id}
+    - @templates.each do |template|
+      input type="radio" name="template" value="#{template.id}" 
+      = link_to template.template_name, template
       br
   div.form-group
     = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
