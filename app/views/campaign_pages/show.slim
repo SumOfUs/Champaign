@@ -1,0 +1,4 @@
+h2 = @page.title
+
+- @page.campaign_pages_widget.each do |widget|
+  = render widget.widget_type.display_partial_path, {options: widget.content}
