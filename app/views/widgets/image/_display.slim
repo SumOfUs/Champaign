@@ -1,9 +1,4 @@
 /if image is not passed, the display partial is used to render an example of the template layout in template creation.
 /this means that the default contents should be loaded from the local database.
 
-/ - if (defined? options['image_url']).nil?
-/   = image_tag 'https://placeimg.com/640/480/any'
-/ - else
-/   = image_tag options['image_url']
-
 = image_tag src=((defined? options['image_url']).nil? ? 'https://placeimg.com/640/480/any' : options['image_url'])
