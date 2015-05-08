@@ -14,7 +14,7 @@ class TemplatesController < ApplicationController
 
   def create
     permitted_params = TemplateParameters.new(params).permit
-    template = Template.create permitted_params
+    template = Template.new permitted_params
     template.widget_types = WidgetType.find params[:widget_types]
     template.save
     redirect_to template, notice: 'Template created'

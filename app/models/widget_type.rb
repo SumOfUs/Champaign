@@ -6,10 +6,14 @@ class WidgetType < ActiveRecord::Base
 
   has_and_belongs_to_many :templates
 
+  # This method builds the path to render the widget form partial for a particular widget
+  # based on the name of that widget.
   def form_partial_path
     "widgets/#{self.widget_name.parameterize.underscore}/form.slim"
   end
 
+  # This method builds the path to render the widget display partial for a particular widget
+  # based on the name of that widget.
   def display_partial_path
     "widgets/#{self.widget_name.parameterize.underscore}/display.slim"
   end
