@@ -14,6 +14,11 @@ class CampaignPagesController < ApplicationController
     permitted_params[:featured] = false
     permitted_params[:language_id] = 1
     page = CampaignPage.create! permitted_params
+    # Collects all widgets that were associated with the campaign page that was creted, 
+    # then loops through them to store them as entries in the campaign_pages_widgets 
+    # table linked to the campaign page they belong to. Their content is pulled from 
+    # the data entered to the forms for the widgets, and their page display order is assigned
+    # from the order in which they were laid out in the creation form.
     widgets = params[:widgets]
     i = 0
     widgets.each do |widget_type_name, widget_data|
