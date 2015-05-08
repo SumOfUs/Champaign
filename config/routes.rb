@@ -7,6 +7,9 @@ Rails.application.routes.draw do
 
   # Custom paths
   post '/campaign_pages/new', to: 'campaign_pages#new'
+
+  # Specifies routing to templates controller for when a new template layout is requested by 
+  # a user toggling different templates when creating a campaign page
   get '/templates/show_form/:id', to: 'templates#show_form'
 
   # Standard resources
