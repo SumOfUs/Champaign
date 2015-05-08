@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
   # Custom paths
   post '/campaign_pages/new', to: 'campaign_pages#new'
-  get '/templates/show_form', to: 'templates#show_form'
+  get '/templates/show_form/:id', to: 'templates#show_form'
 
   # Standard resources
   resources :campaigns

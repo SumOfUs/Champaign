@@ -33,6 +33,7 @@ class TemplatesController < ApplicationController
   end
 
   def show_form
-    @template = Template.find params[:template_id]
+    @template = Template.find params[:id]
+    render 'templates/show_form', layout: false
   end
 end
