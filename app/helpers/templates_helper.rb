@@ -1,10 +1,17 @@
+# This is a module that checks if a widget we want to render is associated with an already saved campaign page.
+# If it is, it returns the contents of that widget for rendering. If not - if it's called for a template preview,
+# or when creating a new campaign page from scratch - it'll pass default content to be rendered for the widget.
+
 module TemplatesHelper
 
   def build_options_hash(widget)
+    # if widget is in a template creation page
     if widget.class == WidgetType
       default_params(widget.widget_name)
+    # if widget belongs to a campaign page that hasn't been saved yet
     elsif widget.campaign_page_id.nil?
       default_params(widget.widget_type.widget_name)
+    # if widget belongs to a saved campaign page
     else
       widget.content
     end
