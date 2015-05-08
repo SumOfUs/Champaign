@@ -2,9 +2,7 @@ class CampaignPagesController < ApplicationController
 
   def new
     @campaign_page = CampaignPage.new
-    @templates = Template.where :active => true
-    # template = Template.find params[:template]
-    # @widget_types = template.widget_types
+    @templates = Template.where active: true
   end
 
   def create

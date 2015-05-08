@@ -13,6 +13,11 @@
     = f.label :language, 'Language: '
     => f.select(:language,
                 options_from_collection_for_select(Language.all,'language_code', 'language_name'))
+
+  div.form-group#template_form
+    p template gets rendered here
+    = render :partial => '/templates/show_form'
+
   div.form-group
     = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
 

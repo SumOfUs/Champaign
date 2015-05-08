@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   # Custom paths
   post '/campaign_pages/new', to: 'campaign_pages#new'
+  get '/templates/show_form', to: 'templates#show_form'
 
   # Standard resources
   resources :campaigns
@@ -19,7 +20,6 @@ Rails.application.routes.draw do
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

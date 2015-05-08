@@ -31,4 +31,8 @@ class TemplatesController < ApplicationController
     @template.widget_types = params[:widget_types]
     @template.save
   end
+
+  def show_form
+    @template = Template.find params[:template_id]
+  end
 end
