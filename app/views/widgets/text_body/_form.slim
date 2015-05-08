@@ -1,3 +1,4 @@
 /in reality, this should probably be a WYSIWYG editor
-=> label_tag :text_body
-= text_area_tag :text_body
+=> label_tag 'widgets[text_body][text_value]', 'Page Text:'
+= text_area_tag 'widgets[text_body][text_body_html]'
+= hidden_field_tag 'widgets[text_body][widget_type]', widget_type_id.to_s

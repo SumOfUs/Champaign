@@ -15,3 +15,4 @@
 .idea/*
 .env.web
 champaign.iml
+out/*

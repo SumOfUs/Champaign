@@ -1,2 +1,3 @@
-=> label_tag :image_location
-= text_field_tag :image_location
+=> label_tag 'widgets[image][image_url]', 'Image URL:'
+= text_field_tag 'widgets[image][image_url]'
+= hidden_field_tag 'widgets[image][widget_type]', widget_type_id

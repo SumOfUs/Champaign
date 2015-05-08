@@ -15,7 +15,7 @@
 # 3  make campaigns
   campaign = Campaign.create!({campaign_name: 'Test campaigns'})
 
-# 4. make widget types - think of moving the partial path information into the model
+# 4. make widget types
 
   WidgetType.create!([
     {
@@ -30,12 +30,13 @@
       widget_name: 'image',
       specifications: {
         width: 'integer',
-        height: 'integer'
+        height: 'integer',
+        image_url: 'string'
       },
       active: true
     },
     {
-      widget_name: 'petition',
+      widget_name: 'petition_form',
       specifications: {
         petition_text: 'string',
         # building petition forms is kind of an art of its own - I'm not sure what specifications to add

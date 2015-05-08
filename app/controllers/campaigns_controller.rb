@@ -16,6 +16,7 @@ class CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.find params['id']
+    @templates = Template.where active: true
   end
 
   def edit

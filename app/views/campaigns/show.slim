@@ -4,8 +4,13 @@ h3 = @campaign.campaign_name
 
 
 h4 Pages in this campaign:
+- if @campaign.campaign_page.length > 0
+  - @campaign.campaign_page.each do |page|
+    = link_to page
+- else
+  p No pages in this campaign yet.
 
-= link_to 'Add a page to this campaign', new_campaign_page_path, class: 'btn btn-sm btn-primary'
+= form_tag(new_campaign_page_path, method: :post) do
+  = select_tag 'templates', options_from_collection_for_select(@templates, 'id', 'template_name'), class: 'col-lg-4'
+  = submit_tag 'Add a page with the selected template', class: 'btn btn-primary btn-sm'
 
-- @campaign.campaign_page.each do |page|
-  = link_to page
