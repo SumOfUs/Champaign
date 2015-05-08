@@ -2,7 +2,7 @@
   div.form-group
     = f.label :title, class: 'control-label'
     = f.text_field :title, class: 'col-lg-3', placeholder: 'Page Name...'
-  #widget_location.form-group
+  div.form-group
     div Select a template to load:
     br
     - @templates.each do |template|
@@ -13,5 +13,9 @@
     = f.label :language, 'Language: '
     => f.select(:language,
                 options_from_collection_for_select(Language.all,'language_code', 'language_name'))
+
+
+  #widget_location.form-group
+
   div.form-group
     = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
