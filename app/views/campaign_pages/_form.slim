@@ -6,7 +6,7 @@
     div Select a template to load:
     br
     - @templates.each do |template|
-      input type="radio" name="template" value="#{template.id}"
+      input type="radio" name="template" class="template_selector" value="#{template.id}"
       = link_to template.template_name, template
       br
   div.form-group
@@ -15,3 +15,4 @@
                 options_from_collection_for_select(Language.all,'language_code', 'language_name'))
   div.form-group
     = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+
