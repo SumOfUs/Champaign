@@ -15,7 +15,7 @@
 # 3  make campaigns
   campaign = Campaign.create!({campaign_name: 'Test campaigns'})
 
-# 4. make widget types - think of moving the partial path information into the model
+# 4. make widget types
 
   WidgetType.create!([
     {
