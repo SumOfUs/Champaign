@@ -3,6 +3,7 @@ class CampaignPagesController < ApplicationController
   def new
     @campaign_page = CampaignPage.new
     @templates = Template.where active: true
+    @campaigns = Campaign.where active: true
   end
 
   def create
@@ -13,7 +14,9 @@ class CampaignPagesController < ApplicationController
     permitted_params[:active] = true
     permitted_params[:featured] = false
     permitted_params[:language_id] = 1
-    page = CampaignPage.create! permitted_params
+    campaign = Campaign.find(permitted_params[:campaign])
+    # creates a campaign page associated to the campaign specified in the form.
+    page = campaign.campaign_page.create! permitted_params.except(:campaign)
     # Collects all widgets that were associated with the campaign page that was creted, 
     # then loops through them to store them as entries in the campaign_pages_widgets 
     # table linked to the campaign page they belong to. Their content is pulled from 
