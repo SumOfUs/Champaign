@@ -13,7 +13,7 @@
   
   div.form-group
     = f.label :campaign, 'Campaign: '
-    = f.select(:campaign, options_from_collection_for_select(@campaigns, 'id', 'campaign_name'))
+    = f.select(:campaign, options_from_collection_for_select(@campaigns, 'id', 'campaign_name', @campaign))
 
   div.form-group
     = f.label :language, 'Language: '

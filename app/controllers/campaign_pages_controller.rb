@@ -4,6 +4,9 @@ class CampaignPagesController < ApplicationController
     @campaign_page = CampaignPage.new
     @templates = Template.where active: true
     @campaigns = Campaign.where active: true
+    # Sets @campaign, which is defined if a new campaign page is created through a link from an existing campaign page.
+    # In this case, that campaign is set as a default in the dropdown list.
+    @campaign = params[:campaign]
   end
 
   def create
