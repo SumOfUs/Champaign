@@ -35,6 +35,9 @@ class CampaignsController < ApplicationController
 
   def destroy
     @campaign = Campaign.find params['id']
+    # deactivates campaign pages associated with that campaign
+    @campaign.campaign_page.update_all(:active =>false)
+    # deactivates the campaign itself
     @campaign.update(:active => false)
     redirect_to :campaigns, notice: "The campaign '" + @campaign.campaign_name + "' was deactivated. Contact an admin if you'd like to reactivate it."
   end

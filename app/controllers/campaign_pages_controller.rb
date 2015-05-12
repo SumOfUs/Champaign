@@ -1,5 +1,9 @@
 class CampaignPagesController < ApplicationController
 
+  def index
+    @campaign_pages = CampaignPage.where active: true
+  end
+
   def new
     @campaign_page = CampaignPage.new
     @templates = Template.where active: true
@@ -39,5 +43,8 @@ class CampaignPagesController < ApplicationController
 
   def show
     @page = CampaignPage.find params[:id]
+    if @page.active == false
+      redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
+    end  
   end
 end
