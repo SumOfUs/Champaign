@@ -1,1 +1,31 @@
-#petition_form
+=> label_tag 'widgets[petition_form][petition_text]', 'Petition Text: ', class: 'control-label'
+= text_field_tag 'widgets[petition_form][petition_text]', '', placeholder: 'Sign our form!'
+
+br
+=> label_tag 'widgets[petition_form][form_button_text]', 'Button Text: '
+= text_field_tag 'widgets[petition_form][form_button_text]', '', placeholder: 'Share your voice!'
+
+br
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_full_name]', 'true', checked: true
+  =< label_tag 'widgets[petition_form][require_full_name]', 'Require Full Name'
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_email_address]', 'true', checked: true
+  =< label_tag 'widgets[petition_form][require_email_address]', 'Require Email Address'
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_country]', 'true', checked: true
+  =< label_tag 'widgets[petition_form][require_full_country]', 'Require Country'
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_state]', 'true'
+  =< label_tag 'widgets[petition_form][require_full_state]', 'Require State'
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_postal_code]', 'true'
+  =< label_tag 'widgets[petition_form][require_full_postal_code]', 'Require Postal Code'
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_address]', 'true'
+  =< label_tag 'widgets[petition_form][require_full_address]', 'Require Address'
+span.checkbox
+  => check_box_tag 'widgets[petition_form][require_phone]', 'true'
+  =< label_tag 'widgets[petition_form][require_full_phone]', 'Require Phone'
+
+= hidden_field_tag 'widgets[petition_form][widget_type]', widget_type_id
