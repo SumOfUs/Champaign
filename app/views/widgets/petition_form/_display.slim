@@ -29,4 +29,9 @@
       => label_tag :phone
       = text_field_tag :phone, '', placeholder: 'My Phone Number'
       br
+    - options['checkboxes'].each do |checkbox|
+      span.checkbox
+        => check_box_tag "action_#{checkbox[1]['name']}", checkbox[1]['name']
+        = label_tag "action_#{checkbox[1]['name']}", checkbox[1]['label']
+
     = submit_tag options['form_button_text'], class: 'btn btn-primary'

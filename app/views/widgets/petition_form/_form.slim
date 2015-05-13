@@ -28,4 +28,17 @@ span.checkbox
   => check_box_tag 'widgets[petition_form][require_phone]', 'true'
   =< label_tag 'widgets[petition_form][require_full_phone]', 'Require Phone'
 
+#checkbox-container
+  a href="#" id="add-checkbox" class="btn btn-info btn-sm" Add Checkbox
+#textarea-container
+  a href="#" id="add-textarea" class="btn btn-info btn-sm" Add Textarea
+
+#checkbox-seed.hidden
+  br
+  => label_tag 'widgets[petition_form][checkboxes][{cb_number}][label]', 'Checkbox Label:'
+  = text_field_tag 'widgets[petition_form][checkboxes][{cb_number}][label]', '', placeholder: 'What the user will see'
+  br
+  => label_tag 'widgets[petition_form][checkboxes][{cb_number}][name]', 'Checkbox Name:'
+  = text_field_tag 'widgets[petition_form][checkboxes][{cb_number}][name]', '', placeholder: 'How it will save in ActionKit'
+
 = hidden_field_tag 'widgets[petition_form][widget_type]', widget_type_id
