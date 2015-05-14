@@ -1,0 +1,12 @@
+#thermometer_widget
+  div.form-group
+    label for='widgets[thermometer][goal]' Goal: 
+    input type='number' name='widgets[thermometer][goal]' value=10000
+  div.form-group
+    label for='widgets[thermometer][goal]' Starting count: 
+    input type='number' name='widgets[thermometer][count]' value=10000
+  div.form-group
+    label for='widgets[thermometer][autoincrement]' Autoincrement goal?
+    input type='checkbox' name='widgets[thermometer][autoincrement]'
+  = hidden_field_tag 'widgets[thermometer][widget_type]', widget_type_id.to_s
+
