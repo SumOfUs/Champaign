@@ -1,0 +1,5 @@
+div.progress
+  / get a percentile value of width for the progress bar from count and goal
+  - @width = 100 * options['count'].to_f / options['goal'].to_f
+  div.progress-bar role="progressbar" aria-valuenow=options['count'] aria-valuemin="0" aria-valuemax=options['goal'] style="width: #{@width}%"
+    = options['count']

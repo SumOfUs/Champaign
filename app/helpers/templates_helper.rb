@@ -31,6 +31,11 @@ module TemplatesHelper
         Sed vitae magna ut urna auctor venenatis. Cras lacinia neque tortor, id gravida mauris laoreet vel. Phasellus dictum mattis interdum. Aenean et gravida dolor. Sed at luctus leo. Phasellus eu neque tortor. Aliquam sed felis bibendum, consequat eros sit amet, sagittis velit. Maecenas sed mi nulla. Donec tincidunt leo vitae nisi commodo, eget commodo mi scelerisque. Duis pretium nulla accumsan auctor finibus. Sed non tortor quis nisl ultricies hendrerit. Aliquam fringilla lorem eu interdum lacinia. Aliquam vel blandit orci. Fusce semper, lacus a iaculis sodales, ipsum est consequat nunc, eu porttitor nulla turpis vestibulum quam.
         Nullam sit amet augue augue. Donec porta eleifend est laoreet sollicitudin. Curabitur nec ligula vitae libero mollis vestibulum. Aenean mi lectus, molestie nec finibus sit amet, faucibus eget ante. Quisque mattis, diam ac aliquet commodo, sapien nisi accumsan ligula, nec consectetur lacus sapien sit amet eros. Proin vestibulum interdum lacus, egestas consequat lacus commodo et. Mauris scelerisque maximus arcu sed dapibus. Quisque non magna in urna suscipit dignissim sed at diam. Nullam sollicitudin massa urna, vel fringilla mauris lacinia vel. Mauris eu sapien rhoncus, congue velit sit amet, pellentesque felis.
         Sed porta rutrum gravida. Vestibulum eu sem eget dui finibus ultricies nec in orci. Aenean quam turpis, tristique nec arcu vitae, viverra pellentesque neque. Praesent vitae mauris felis. Phasellus eleifend vehicula ligula vitae gravida. Aliquam congue ultricies varius. Cras lorem risus, condimentum nec justo id, iaculis vestibulum lorem. Donec quis erat ac augue aliquet laoreet.'
+      },
+      thermometer: {
+        'goal' => 10000,
+        'autoincrement' => true,
+        'linked_actions' => [1, 2, 3]
       }
     }
     
