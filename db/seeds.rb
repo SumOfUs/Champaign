@@ -52,7 +52,20 @@
         },
       },
       active: true
+    },
+    {
+      widget_name: 'thermometer',
+      specifications: {
+        goal: 'integer',
+        autoincrement: 'boolean',
+        # this should be array of action table IDs for the campaign_page_widgets that will be linked to the thermometer,
+        # as a new way of linking several campaign pages to the same thermometer
+        linked_actions: 'array',
+        count: 'integer' 
+      },
+      active: true,
     }
+
   ])
 
 # 5. make a campaign page
