@@ -23,6 +23,17 @@ class CampaignPagesController < ApplicationController
     i = 0
     widgets.each do |widget_type_name, widget_data|
       widget_type_id = widget_data.delete('widget_type')
+
+      # We have some placeholder data for checkboxes and textareas if we are using a
+      # petition form. We need to remove those or we'll end up with phantom elements in our
+      # form.
+      if widget_data.key?('checkboxes') and widget_data['checkboxes'].key?('{cb_number}')
+        widget_data['checkboxes'].delete('{cb_number}')
+      end
+      if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
+        widget_data['textarea'].delete('placeholder')
+      end
+      
       page.campaign_pages_widget.create!(widget_type_id: widget_type_id,
                                          content: widget_data,
                                          page_display_order: i)
