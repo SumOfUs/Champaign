@@ -65,6 +65,13 @@
         },
       },
       active: true
+    },
+    {
+      widget_name: 'raw_html',
+      specifications: {
+        content: 'string'
+      },
+      active: true
     }
   ])
 

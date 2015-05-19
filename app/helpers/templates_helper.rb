@@ -43,6 +43,9 @@ module TemplatesHelper
         'call_in_form' => {},
         'letter_sent_form' => {},
         'form_button_text' => 'Add your voice!'
+      },
+      raw_html: {
+        'content' => '<span>This is some raw HTML</span>'
       }
     }
     
