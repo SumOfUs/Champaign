@@ -28,21 +28,21 @@ module TemplatesHelper
         'text_body_html' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec pretium sem.'
       },
       petition_form: {
-          'petition_text' => 'Please sign the petition!',
-          'require_full_name' => true,
-          'require_email_address' => true,
-          'require_state' => false,
-          'require_country' => true,
-          'require_postal_code' => false,
-          'require_address' => false,
-          'require_city' => false,
-          'require_phone' => false,
-          'checkboxes' => [],
-          'select_box' => {},
-          'comment_textarea' => '',
-          'call_in_form' => {},
-          'letter_sent_form' => {},
-          'form_button_text' => 'Add your voice!'
+        'petition_text' => 'Please sign the petition!',
+        'require_full_name' => true,
+        'require_email_address' => true,
+        'require_state' => false,
+        'require_country' => true,
+        'require_postal_code' => false,
+        'require_address' => false,
+        'require_city' => false,
+        'require_phone' => false,
+        'checkboxes' => [],
+        'select_box' => {},
+        'comment_textarea' => '',
+        'call_in_form' => {},
+        'letter_sent_form' => {},
+        'form_button_text' => 'Add your voice!'
       }
     }
     
