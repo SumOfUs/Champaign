@@ -21,6 +21,12 @@ $(function() {
   widget_location.on('click', '#add_checkbox', function(event){
     event.preventDefault();
     var checkbox_html = $('#checkbox_seed').html();
+
+    // This replaces the placeholder 'cb_number' section in the checkbox we're pulling out
+    // with the current inline number to be used for the checkbox. So for instance, the first
+    // checkbox which is placed on the page will be in [widget][checkboxes][0][label],
+    // while the second will be in [widget][checkboxes][1][label] to differentiate them
+    // when they're saved in the database.
     var final_html = checkbox_html.replace(/{cb_number}/g, checkbox_count);
     $('#checkbox_container').append(final_html);
     checkbox_count++;
