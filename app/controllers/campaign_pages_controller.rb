@@ -61,28 +61,24 @@ class CampaignPagesController < ApplicationController
 
     permitted_params = CampaignPageParameters.new(params).permit
     permitted_params[:slug] = permitted_params[:title].parameterize
-    # {"title"=>"parametertest", "slug"=>"parametertest", "campaign_pages_widgets_attributes"=>{"text_body"=>{"text_body_html"=>"jslieoitper", "widget_type"=>"1"}}}
-    widget_attributes = []
+    permitted_params[:campaign_pages_widgets_attributes] = []
     params[:widgets].each do |widget_type_name, widget_data|
       # widget type id is contained in a field called widget_type:
       widget_type_id = widget_data.delete :widget_type
       # This will break if there will be two widgets of the same type for the page. If we enable having two of the same widget type per page,
       # page display order will need to be considered as well for fetching the correct id of the widget.
       widget = @widgets.find_by(widget_type_id: widget_type_id)
-      widget_attributes.push({
+      permitted_params[:campaign_pages_widgets_attributes].push({
         id: widget.id,
         widget_type_id: widget_type_id,
         content: widget_data,
         page_display_order: widget.page_display_order})
     end
 
-    permitted_params[:campaign_pages_widgets_attributes] = widget_attributes
     # We pass the parameters through the strong parameter class first. That transforms it from a hash to ActionController::Parameters. 
     # Only after that, we manipulate it by adding slug and title, and in my case, by adding a key called :campaign_pages_widgets_attributes, 
     # which is required for the nested parameters. Despite of setting up the strong parameters for the dependent object (campaign_pages_widgets),
-    # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine,
-    # but currently the scoped uniqueness validation in the campaign_pages_widgets model is broken. I'm reading 
-    # http://blog.spoolz.com/2012/12/21/rails-nested-attributes-with-scoped-uniqueness-validation-of-association/ for ideas.
+    # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine.
     @campaign_page.update! permitted_params.to_hash
     redirect_to @campaign_page
 
