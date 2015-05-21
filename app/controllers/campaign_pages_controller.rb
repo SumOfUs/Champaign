@@ -63,7 +63,6 @@ class CampaignPagesController < ApplicationController
     permitted_params[:slug] = permitted_params[:title].parameterize
     # {"title"=>"parametertest", "slug"=>"parametertest", "campaign_pages_widgets_attributes"=>{"text_body"=>{"text_body_html"=>"jslieoitper", "widget_type"=>"1"}}}
     widget_attributes = []
-    i = 0
     params[:widgets].each do |widget_type_name, widget_data|
       # widget type id is contained in a field called widget_type:
       widget_type_id = widget_data.delete :widget_type
@@ -74,8 +73,7 @@ class CampaignPagesController < ApplicationController
         id: widget.id,
         widget_type_id: widget_type_id,
         content: widget_data,
-        page_display_order: i})
-      i += 1
+        page_display_order: widget.page_display_order})
     end
 
     permitted_params[:campaign_pages_widgets_attributes] = widget_attributes
@@ -86,6 +84,7 @@ class CampaignPagesController < ApplicationController
     # but currently the scoped uniqueness validation in the campaign_pages_widgets model is broken. I'm reading 
     # http://blog.spoolz.com/2012/12/21/rails-nested-attributes-with-scoped-uniqueness-validation-of-association/ for ideas.
     @campaign_page.update! permitted_params.to_hash
-    
+    redirect_to @campaign_page
+
   end 
 end
