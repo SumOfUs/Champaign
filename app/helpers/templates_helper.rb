@@ -37,6 +37,23 @@ module TemplatesHelper
         'count' => 0,
         'autoincrement' => false,
         'linked_actions' => [1, 2, 3]
+      },
+      petition_form: {
+        'petition_text' => 'Please sign the petition!',
+        'require_full_name' => true,
+        'require_email_address' => true,
+        'require_state' => false,
+        'require_country' => true,
+        'require_postal_code' => false,
+        'require_address' => false,
+        'require_city' => false,
+        'require_phone' => false,
+        'checkboxes' => [],
+        'select_box' => {},
+        'comment_textarea' => '',
+        'call_in_form' => {},
+        'letter_sent_form' => {},
+        'form_button_text' => 'Add your voice!'
       }
     }
     
