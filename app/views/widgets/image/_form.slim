@@ -1,4 +1,4 @@
 #image_widget_form.form-group
   => label_tag 'widgets[image][image_url]', 'Image URL:'
-  = text_field_tag 'widgets[image][image_url]'
+  = text_field_tag 'widgets[image][image_url]', options['image_url']
   = hidden_field_tag 'widgets[image][widget_type]', WidgetType.find_by(:widget_name => 'image').id
