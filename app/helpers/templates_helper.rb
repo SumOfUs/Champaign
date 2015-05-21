@@ -34,7 +34,8 @@ module TemplatesHelper
       },
       thermometer: {
         'goal' => 10000,
-        'autoincrement' => true,
+        'count' => 0,
+        'autoincrement' => false,
         'linked_actions' => [1, 2, 3]
       }
     }
