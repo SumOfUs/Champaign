@@ -3,5 +3,3 @@ class AddTemplateIdToCampaignPagesTable < ActiveRecord::Migration
     add_column :campaign_pages, :template_id, :integer
   end
 end
-
-

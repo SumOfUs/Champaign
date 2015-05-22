@@ -3,5 +3,3 @@ class AddActiveToCampaignTable < ActiveRecord::Migration
     add_column :campaigns, :active, :boolean, :default => true
   end
 end
-
-

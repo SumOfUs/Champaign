@@ -10,10 +10,10 @@
   actionkit_page_type = ActionkitPageType.create!({actionkit_page_type: 'petition'})
 
 # 2. make languages
-  language = Language.create!({language_code: 'EN/US', language_name: 'American English'})
+  language = Language.create!({language_code: 'EN/US', language_name: 'English'})
 
 # 3  make campaigns
-  campaign = Campaign.create!({campaign_name: 'Test campaigns'})
+  campaign = Campaign.create!({campaign_name: 'Test campaign'})
 
 # 4. make widget types
 
@@ -71,8 +71,8 @@
       specifications: {
         goal: 'integer',
         autoincrement: 'boolean',
-        # this should be array of action table IDs for the campaign_page_widgets that will be linked to the thermometer,
-        # as a new way of linking several campaign pages to the same thermometer
+        # thermometers should have a way of storing action table IDs for the campaign_page_widgets that will be linked 
+        # to the thermometer, as a new way of linking several campaign pages to the same thermometer
         linked_actions: 'array',
         count: 'integer' 
       },
