@@ -32,7 +32,7 @@ class CampaignPagesController < ApplicationController
     campaign = Campaign.find(permitted_params[:campaign_id])
     # creates a campaign page associated to the campaign specified in the form.
     page = campaign.campaign_page.create! permitted_params.except(:campaign)
-    # Collects all widgets that were associated with the campaign page that was creted, 
+    # Collects all widgets that were associated with the campaign page that was created,
     # then loops through them to store them as entries in the campaign_pages_widgets 
     # table linked to the campaign page they belong to. Their content is pulled from 
     # the data entered to the forms for the widgets, and their page display order is assigned
