@@ -1,5 +1,11 @@
 class CampaignPagesController < ApplicationController
 
+  before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
+
+  def get_campaign_page
+    @campaign_page = CampaignPage.find(params[:id])
+  end
+
   def index
     @campaign_pages = CampaignPage.where active: true
   end
@@ -12,7 +18,7 @@ class CampaignPagesController < ApplicationController
     # In this case, that campaign is set as a default in the dropdown list.
     @campaign = params[:campaign]
     # Load the first active template as a default.
-    @template = @templates.first  
+    @template = @templates.first 
   end
 
   def create
@@ -55,18 +61,15 @@ class CampaignPagesController < ApplicationController
   end
 
   def show
-    @campaign_page = CampaignPage.find params[:id]
     if @campaign_page.active == false
       redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
     end  
   end
 
   def edit
-    @campaign_page = CampaignPage.find params[:id]
   end
 
   def update
-    @campaign_page = CampaignPage.find params[:id]
     @widgets = @campaign_page.campaign_pages_widgets
 
     permitted_params = CampaignPageParameters.new(params).permit
