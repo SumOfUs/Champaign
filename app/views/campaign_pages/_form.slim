@@ -5,8 +5,8 @@
     = f.text_field :title, class: 'col-lg-3', placeholder: 'Page Name...'
   
   div.form-group
-    = f.label :template_id, 'Select a template to load: '
-    = f.select(:template_id, options_from_collection_for_select(@templates, 'id', 'template_name', @template))
+    label for='template_id' Select a template to load: 
+    = select_tag 'template_id', options_from_collection_for_select(@templates, 'id', 'template_name', @template)
   
   div.form-group
     = f.label :campaign_id, 'Campaign: '
