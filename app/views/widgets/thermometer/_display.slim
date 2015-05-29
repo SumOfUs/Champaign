@@ -1,6 +1,5 @@
-div.progress
-  / get a percentile value of width for the progress bar from count and goal
+div#thermometer_widget.progress
+  / get a percentile value of display width for the progress bar from count and goal
   - @width = 100 * options['count'].to_f / options['goal'].to_f
-  div.progress-bar role="progressbar" aria-valuenow=options['count'] aria-valuemin="0" aria-valuemax=options['goal'] style="width: #{@width}%"
+  div.progress-bar role="progressbar" aria-valuenow=options['count'].to_f aria-valuemin="0" aria-valuemax=options['goal'].to_f style="width: #{@width}%"
     = options['count']
-    
