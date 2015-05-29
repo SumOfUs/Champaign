@@ -17,7 +17,7 @@ class CampaignsController < ApplicationController
   def show
     @campaign = Campaign.find params['id']
     if @campaign.active == false
-      redirect_to :campaigns, notice: 'The campaign you requested has been deactivated.'
+      raise ActionController::RoutingError.new('The campaign you requested has been deactivated.')
     end 
     @templates = Template.where active: true
   end
