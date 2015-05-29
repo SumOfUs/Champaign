@@ -1,16 +1,15 @@
 h3 = @campaign.campaign_name
-=> link_to 'Edit Campaign', edit_campaign_path(@campaign), class: 'btn btn-sm btn-warning'
+= link_to 'Edit Campaign', edit_campaign_path(@campaign), class: 'btn btn-sm btn-warning'
 = link_to 'Disable Campaign', @campaign, method: 'delete', class: 'btn btn-sm btn-danger', data: {warning: 'Are you sure?'}
-
-
-h4 Pages in this campaign:
-- if @campaign.campaign_page.length > 0
-  - @campaign.campaign_page.each do |page|
-    = link_to page
-- else
-  p No pages in this campaign yet.
-
 = form_tag(new_campaign_page_path, method: :post) do
-  = select_tag 'templates', options_from_collection_for_select(@templates, 'id', 'template_name'), class: 'col-lg-4'
-  = submit_tag 'Add a page with the selected template', class: 'btn btn-primary btn-sm'
+  = hidden_field_tag :campaign, @campaign.id
+  = submit_tag 'New campaign page', class: 'btn btn-primary btn-sm'
 
+
+- if @campaign.campaign_page.length > 0
+  h4 Pages in this campaign:
+  ul
+  - @campaign.campaign_page.each do |page|
+    li = link_to page.title, page 
+- else
+  h4 No pages in this campaign yet.

@@ -1,6 +1,6 @@
 class CampaignPagesWidget < ActiveRecord::Base
 
-  belongs_to :campaign_page
+  belongs_to :campaign_page, inverse_of: :campaign_pages_widgets
   belongs_to :widget_type
   has_one :actionkit_page
 

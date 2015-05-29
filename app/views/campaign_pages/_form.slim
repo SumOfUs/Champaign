@@ -1,20 +1,24 @@
 = form_for(@campaign_page, class: 'form-horizontal') do |f|
+
   div.form-group
     = f.label :title, class: 'control-label'
     = f.text_field :title, class: 'col-lg-3', placeholder: 'Page Name...'
+  
   div.form-group
-    div Select a template to load:
-    br
-    - @templates.each do |template|
-      input type="radio" name="template" class="template_selector" value="#{template.id}"
-      = link_to template.template_name, template
-      br
+    label for='template_id' Select a template to load: 
+    = select_tag 'template_id', options_from_collection_for_select(@templates, 'id', 'template_name', @template)
+  
   div.form-group
-    = f.label :language, 'Language: '
-    => f.select(:language,
-                options_from_collection_for_select(Language.all,'language_code', 'language_name'))
+    = f.label :campaign_id, 'Campaign: '
+    = f.select(:campaign_id, options_from_collection_for_select(@campaigns, 'id', 'campaign_name', @campaign))
+
+  div.form-group
+    = f.label :language_id, 'Language: '
+    => f.select(:language_id,
+                options_from_collection_for_select(Language.all,'id', 'language_name'))
 
   #widget_location.form-group
+    = render :file => 'templates/show_form', layout: false
 
   div.form-group
     = f.submit 'Save Page', class: 'btn btn-sm btn-primary'

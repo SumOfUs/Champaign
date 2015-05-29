@@ -1,0 +1,13 @@
+= form_for(@campaign_page, class: 'form-horizontal') do |f|
+  h2 = @campaign_page.title
+
+  div.form-group
+    = f.label :title, class: 'control-label'
+    = f.text_field :title, class: 'col-lg-3', placeholder: @campaign_page.title
+
+  - @campaign_page.campaign_pages_widgets.each do |widget|
+    = render widget.widget_type.form_partial_path, {options: widget.content}
+
+  div.form-group
+    = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+    
