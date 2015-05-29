@@ -49,6 +49,12 @@ module TemplatesHelper
         'call_in_form' => {},
         'letter_sent_form' => {},
         'form_button_text' => 'Add your voice!'
+      },
+      thermometer: {
+        'goal' => 10000,
+        'count' => 0,
+        'autoincrement' => true,
+        'linked_actions' => [1, 2, 3]
       }
     }
     
