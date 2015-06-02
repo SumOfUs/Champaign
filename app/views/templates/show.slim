@@ -7,5 +7,7 @@ p
   | Included Widgets:
   br
   - @template.widget_types.each do |widget_type|
-    = render widget_type.display_partial_path, build_options_hash(widget_type)
+    / Renders the widget from the location of its partial, and either gets its default values as
+    / options, or populates it with its content data from the database (if it belongs to a campaign page)
+    = render widget_type.display_partial_path, {options: build_options_hash(widget_type)}
     br

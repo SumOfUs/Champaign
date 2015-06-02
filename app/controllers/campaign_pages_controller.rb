@@ -3,7 +3,6 @@ class CampaignPagesController < ApplicationController
   def new
     @campaign_page = CampaignPage.new
     @templates = Template.where active: true
-    # @widget_types = template.widget_types
   end
 
   def create
@@ -15,10 +14,26 @@ class CampaignPagesController < ApplicationController
     permitted_params[:featured] = false
     permitted_params[:language_id] = 1
     page = CampaignPage.create! permitted_params
+    # Collects all widgets that were associated with the campaign page that was creted, 
+    # then loops through them to store them as entries in the campaign_pages_widgets 
+    # table linked to the campaign page they belong to. Their content is pulled from 
+    # the data entered to the forms for the widgets, and their page display order is assigned
+    # from the order in which they were laid out in the creation form.
     widgets = params[:widgets]
     i = 0
     widgets.each do |widget_type_name, widget_data|
       widget_type_id = widget_data.delete('widget_type')
+
+      # We have some placeholder data for checkboxes and textareas if we are using a
+      # petition form. We need to remove those or we'll end up with phantom elements in our
+      # form.
+      if widget_data.key?('checkboxes') and widget_data['checkboxes'].key?('{cb_number}')
+        widget_data['checkboxes'].delete('{cb_number}')
+      end
+      if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
+        widget_data['textarea'].delete('placeholder')
+      end
+      
       page.campaign_pages_widget.create!(widget_type_id: widget_type_id,
                                          content: widget_data,
                                          page_display_order: i)

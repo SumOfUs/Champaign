@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   # Custom paths
   post '/campaign_pages/new', to: 'campaign_pages#new'
 
+  # Specifies routing to templates controller for when a new template layout is requested by 
+  # a user toggling different templates when creating a campaign page
+  get '/templates/show_form/:id', to: 'templates#show_form'
+
   # Standard resources
   resources :campaigns
   resources :campaign_pages
@@ -20,7 +24,6 @@ Rails.application.routes.draw do
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

@@ -1,6 +1,42 @@
-= form_tag do
-  - if @form_options.require_name
-    = label_tag :full_name
-    =
-  - if @form_options.require_country
+#petition_form
+  = form_tag do
+    blockquote = options['petition_text']
+    - if options['require_full_name']
+      => label_tag :full_name
+      = text_field_tag :full_name, '', placeholder: 'My Name'
+      br
+    - if options['require_email_address']
+      => label_tag :email_address
+      = text_field_tag :email_address, '', placeholder: 'me@myemail.com'
+      br
+    - if options['require_address']
+      => label_tag :address
+      = text_field_tag :address, '', placeholder: 'My Address'
+      br
+    - if options['require_state']
+      => label_tag :state
+      = text_field_tag :state, '', placeholder: 'My State'
+      br
+    - if options['require_postal_code']
+      => label_tag :postal_code
+      = text_field_tag :postal_code, '', placeholder: 'My Postal Code'
+      br
+    - if options['require_country']
+      => label_tag :country
+      = text_field_tag :country, '', placeholder: 'Where I live'
+      br
+    - if options['require_phone']
+      => label_tag :phone
+      = text_field_tag :phone, '', placeholder: 'My Phone Number'
+      br
+    - options['checkboxes'].each do |checkbox|
+      span.checkbox
+        => check_box_tag "action_#{checkbox[1]['name']}", checkbox[1]['name']
+        = label_tag "action_#{checkbox[1]['name']}", checkbox[1]['label']
+    - if options['textarea']
+      span.textarea
+        => label_tag options['textarea']['name'], options['textarea']['label']
+        = text_area_tag options['textarea']['name']
+        br
 
+    = submit_tag options['form_button_text'], class: 'btn btn-primary'
