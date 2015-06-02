@@ -48,6 +48,9 @@ gem 'slim'
 gem 'devise'
 gem 'omniauth-google-oauth2'
 
+# Rails admin for data administration
+gem 'rails_admin'
+
 # Use ActionParameter as a way to extract model-based mass-assignment into
 # a class that Does One Thing (in this case, filter mass assignments) in the
 # Rails 4 style. https://github.com/edelpero/action_parameter
