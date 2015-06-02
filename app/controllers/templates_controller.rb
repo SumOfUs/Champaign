@@ -1,4 +1,6 @@
 class TemplatesController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @templates = Template.where active: true
   end

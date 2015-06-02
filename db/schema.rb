@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150430181119) do
+ActiveRecord::Schema.define(version: 20150514115828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150430181119) do
     t.boolean  "featured",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "template_id"
   end
 
   create_table "campaign_pages_widgets", force: :cascade do |t|
@@ -48,6 +49,7 @@ ActiveRecord::Schema.define(version: 20150430181119) do
     t.string   "campaign_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active",        default: true
   end
 
   create_table "languages", force: :cascade do |t|
@@ -76,6 +78,24 @@ ActiveRecord::Schema.define(version: 20150430181119) do
   add_index "templates_widget_types", ["template_id"], name: "index_templates_widget_types_on_template_id", using: :btree
   add_index "templates_widget_types", ["widget_type_id"], name: "index_templates_widget_types_on_widget_type_id", using: :btree
 
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
   create_table "widget_types", force: :cascade do |t|
     t.string   "widget_name",       null: false
     t.jsonb    "specifications",    null: false
@@ -89,6 +109,7 @@ ActiveRecord::Schema.define(version: 20150430181119) do
   add_foreign_key "actionkit_pages", "campaign_pages_widgets"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
+  add_foreign_key "campaign_pages", "templates"
   add_foreign_key "campaign_pages_widgets", "campaign_pages"
   add_foreign_key "campaign_pages_widgets", "widget_types"
   add_foreign_key "templates_widget_types", "templates"
