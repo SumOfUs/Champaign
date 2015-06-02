@@ -46,6 +46,7 @@ gem 'slim'
 
 # Use Devise for Authentication
 gem 'devise'
+gem 'omniauth-google-oauth2'
 
 # Use ActionParameter as a way to extract model-based mass-assignment into
 # a class that Does One Thing (in this case, filter mass assignments) in the
