@@ -17,3 +17,11 @@
 #petition_form {
     float: right;
 }
+
+#image_widget_image {
+    width: 100%;
+}
+
+h1 {
+  text-align: center;
+}
