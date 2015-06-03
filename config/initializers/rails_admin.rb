@@ -31,4 +31,12 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  # Require authentication prior to being able to access the admin console.
+  RailsAdmin.config do |config|
+    config.authenticate_with do
+      warden.authenticate! scope: :user
+    end
+    config.current_user_method(&:current_user)
+  end
 end
