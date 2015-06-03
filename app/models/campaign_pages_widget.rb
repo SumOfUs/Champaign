@@ -1,4 +1,5 @@
 class CampaignPagesWidget < ActiveRecord::Base
+  has_paper_trail
 
   belongs_to :campaign_page, inverse_of: :campaign_pages_widgets
   belongs_to :widget_type
