@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title Champaign
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
+    = csrf_meta_tags
+ 
+  body
+    div.container
+    - if flash[:error]
+      div.alert.alert-dismissible.alert-error
+        button type='button' class='close' data-dismiss='alert' x
+        strong #{flash[:error]}
+    - if flash[:notice]
+      div.alert.alert-dismissible.alert-success
+        button type='button' class='close' data-dismiss='alert' x
+        strong #{flash[:notice]}
+    = yield
