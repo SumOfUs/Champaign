@@ -114,6 +114,9 @@ GEM
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
     orm_adapter (0.5.0)
+    paper_trail (3.0.8)
+      activerecord (>= 3.0, < 5.0)
+      activesupport (>= 3.0, < 5.0)
     pg (0.18.1)
     rack (1.6.0)
     rack-cache (1.2)
@@ -242,6 +245,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   omniauth-google-oauth2
+  paper_trail
   pg
   rails (= 4.2.0)
   redis

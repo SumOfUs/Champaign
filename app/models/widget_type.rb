@@ -1,4 +1,5 @@
 class WidgetType < ActiveRecord::Base
+  has_paper_trail
 
   validates_presence_of :widget_name, :specifications
   # validating presence of a boolean field 'active'
