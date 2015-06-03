@@ -1,5 +1,5 @@
 class TemplatesController < ApplicationController
-
+  before_action :authenticate_user!
   before_action :get_template, only: [:show, :edit, :update, :show_form, :destroy]
 
   def get_template
