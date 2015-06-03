@@ -27,6 +27,12 @@ module TemplatesHelper
       text_body: {
         'text_body_html' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec pretium sem.'
       },
+      thermometer: {
+        'goal' => 10000,
+        'count' => 0,
+        'autoincrement' => false,
+        'linked_actions' => [1, 2, 3]
+      },
       petition_form: {
         'petition_text' => 'Please sign the petition!',
         'require_full_name' => true,
@@ -43,6 +49,12 @@ module TemplatesHelper
         'call_in_form' => {},
         'letter_sent_form' => {},
         'form_button_text' => 'Add your voice!'
+      },
+      thermometer: {
+        'goal' => 10000,
+        'count' => 0,
+        'autoincrement' => true,
+        'linked_actions' => [1, 2, 3]
       }
     }
     

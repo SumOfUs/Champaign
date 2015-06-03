@@ -48,8 +48,13 @@ gem 'slim'
 gem 'devise'
 gem 'omniauth-google-oauth2'
 
+<<<<<<< HEAD
 # Rails admin for data administration
 gem 'rails_admin'
+=======
+# Use Paper Trail for containing a full history of our edits.
+gem 'paper_trail'
+>>>>>>> devise-authentication
 
 # Use ActionParameter as a way to extract model-based mass-assignment into
 # a class that Does One Thing (in this case, filter mass assignments) in the
