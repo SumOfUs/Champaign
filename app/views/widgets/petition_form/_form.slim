@@ -49,4 +49,4 @@ span.checkbox
   => label_tag 'widgets[petition_form][textarea][placeholder][name]', 'Textarea Name:'
   = text_field_tag 'widgets[petition_form][textarea][placeholder][name]', '', placeholder: 'How should the textarea be saved in AK?'
 
-= hidden_field_tag 'widgets[petition_form][widget_type]', widget_type_id
+= hidden_field_tag 'widgets[petition_form][widget_type]', WidgetType.find_by(:widget_name => 'petition_form').id
