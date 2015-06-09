@@ -1,4 +1,7 @@
-#petition_form
+/ I think we could make this more DRY, storing possible petition form options in a hash,
+/ looping over it, checking if options contain that particular item, and then making an
+/ input for it. There's a lot of duplication here.
+#petition_form.form-horizontal.col-xs-3
   = form_tag do
     blockquote = options['petition_text']
     - if options['require_full_name']
