@@ -1,8 +1,25 @@
 class CampaignPagesController < ApplicationController
+  before_action :authenticate_user!, except: [:show]
+
+  before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
+
+  def get_campaign_page
+    @campaign_page = CampaignPage.find(params[:id])
+  end
+
+  def index
+    @campaign_pages = CampaignPage.where active: true
+  end
 
   def new
     @campaign_page = CampaignPage.new
     @templates = Template.where active: true
+    @campaigns = Campaign.where active: true
+    # Sets @campaign, which is defined if a new campaign page is created through a link from a campaign page.
+    # In this case, that campaign is set as a default in the dropdown list.
+    @campaign = params[:campaign]
+    # Load the first active template as a default.
+    @template = @templates.first 
   end
 
   def create
@@ -12,9 +29,11 @@ class CampaignPagesController < ApplicationController
     end
     permitted_params[:active] = true
     permitted_params[:featured] = false
-    permitted_params[:language_id] = 1
-    page = CampaignPage.create! permitted_params
-    # Collects all widgets that were associated with the campaign page that was creted, 
+    #language and template are passed as 'language' and 'template', but required as 'language_id' and 'template_id':
+    campaign = Campaign.find(permitted_params[:campaign_id])
+    # creates a campaign page associated to the campaign specified in the form.
+    page = campaign.campaign_page.create! permitted_params.except(:campaign)
+    # Collects all widgets that were associated with the campaign page that was created,
     # then loops through them to store them as entries in the campaign_pages_widgets 
     # table linked to the campaign page they belong to. Their content is pulled from 
     # the data entered to the forms for the widgets, and their page display order is assigned
@@ -22,8 +41,8 @@ class CampaignPagesController < ApplicationController
     widgets = params[:widgets]
     i = 0
     widgets.each do |widget_type_name, widget_data|
-      widget_type_id = widget_data.delete('widget_type')
-
+      # widget type id is contained in a field called widget_type:
+      widget_type_id = widget_data.delete :widget_type
       # We have some placeholder data for checkboxes and textareas if we are using a
       # petition form. We need to remove those or we'll end up with phantom elements in our
       # form.
@@ -34,7 +53,7 @@ class CampaignPagesController < ApplicationController
         widget_data['textarea'].delete('placeholder')
       end
       
-      page.campaign_pages_widget.create!(widget_type_id: widget_type_id,
+      page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,
                                          content: widget_data,
                                          page_display_order: i)
       i += 1
@@ -43,6 +62,39 @@ class CampaignPagesController < ApplicationController
   end
 
   def show
-    @page = CampaignPage.find params[:id]
+    if @campaign_page.active == false
+      redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
+    end  
   end
+
+  def edit
+  end
+
+  def update
+    @widgets = @campaign_page.campaign_pages_widgets
+
+    permitted_params = CampaignPageParameters.new(params).permit
+    permitted_params[:slug] = permitted_params[:title].parameterize
+    permitted_params[:campaign_pages_widgets_attributes] = []
+    params[:widgets].each do |widget_type_name, widget_data|
+      # widget type id is contained in a field called widget_type:
+      widget_type_id = widget_data.delete :widget_type
+      # This will break if there will be two widgets of the same type for the page. If we enable having two of the same widget type per page,
+      # page display order will need to be considered as well for fetching the correct id of the widget.
+      widget = @widgets.find_by(widget_type_id: widget_type_id)
+      permitted_params[:campaign_pages_widgets_attributes].push({
+        id: widget.id,
+        widget_type_id: widget_type_id,
+        content: widget_data,
+        page_display_order: widget.page_display_order})
+    end
+
+    # We pass the parameters through the strong parameter class first. That transforms it from a hash to ActionController::Parameters. 
+    # Only after that, we manipulate it by adding slug and title, and in my case, by adding a key called :campaign_pages_widgets_attributes, 
+    # which is required for the nested parameters. Despite of setting up the strong parameters for the dependent object (campaign_pages_widgets),
+    # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine.
+    @campaign_page.update! permitted_params.to_hash
+    redirect_to @campaign_page
+
+  end 
 end
