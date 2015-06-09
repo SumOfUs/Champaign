@@ -1,29 +1,28 @@
 = form_for(@campaign_page, class: 'form-horizontal') do |f|
   fieldset
     legend Basic page information
-    div.form-group
+    .form-group
       = f.label :title, class: 'control-label col-lg-2'
       .col-lg-10
         = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
     
-    div.form-group
+    .form-group
       = f.label :campaign_id, 'Campaign: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :campaign_id, options_from_collection_for_select(@campaigns, 'id', 'campaign_name', @campaign), {}, html_options= {:class => 'form-control'}
     
-    div.form-group
+    .form-group
       = f.label :language_id, 'Language: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :language_id, options_from_collection_for_select(Language.all,'id', 'language_name'), {}, html_options= {:class => 'form-control'}
     
-    div.form-group
+    .form-group
       label for='template_id' class='control-label col-lg-2' Template: 
       .col-lg-10
         = select_tag 'template_id', options_from_collection_for_select(@templates, 'id', 'template_name', @template), class: 'form-control'
 
-    br
     #widget_location
       = render :file => 'templates/show_form', layout: false
 
-    div.form-group
+    .form-group
       = f.submit 'Save Page', class: 'btn btn-sm btn-primary'

@@ -1,5 +1,10 @@
-h2 = @campaign_page.title
-= link_to 'Edit page', edit_campaign_page_path(@campaign_page), class: 'btn btn-sm btn-warning'
+- if user_signed_in?
+  = link_to 'Edit page', edit_campaign_page_path(@campaign_page), class: 'btn btn-sm btn-warning'
 
-- @campaign_page.campaign_pages_widgets.each do |widget|
-  = render widget.widget_type.display_partial_path, {options: widget.content}
+.jumbotron
+  h1 = @campaign_page.title
+
+
+.row
+  - @campaign_page.campaign_pages_widgets.each do |widget|  
+    = render widget.widget_type.display_partial_path, {options: widget.content}
