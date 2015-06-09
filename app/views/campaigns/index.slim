@@ -1,7 +1,6 @@
 h3 All Active Campaigns
 a href="/campaigns/new" class="btn btn-primary btn-sm" Create a campaign
-p
-  |
+br
 - @campaigns.each do |campaign|
   = link_to campaign.campaign_name, campaign
   br
