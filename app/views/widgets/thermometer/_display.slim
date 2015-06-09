@@ -1,5 +1,8 @@
-div#thermometer_widget.progress.col-xs-12
-  / get a percentile value of display width for the progress bar from count and goal
-  - @width = 100 * options['count'].to_f / options['goal'].to_f
-  div.progress-bar role="progressbar" aria-valuenow=options['count'].to_f aria-valuemin="0" aria-valuemax=options['goal'].to_f style="width: #{@width}%"
-    = options['count']
+#thermometer_widget.col-xs-12.widget-display
+  .progress.col-xs-9
+    / get a percentile value of display width for the progress bar from count and goal
+    - @width = 100 * options['count'].to_f / options['goal'].to_f
+    .progress-bar role="progressbar" aria-valuenow=options['count'].to_f aria-valuemin="0" aria-valuemax=options['goal'].to_f style="width: #{@width}%"
+      = "#{@width}%"
+  .col-xs-3
+    blockquote = "#{options['count']} out of #{options['goal']} people reached!"

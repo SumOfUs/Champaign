@@ -1,45 +1,44 @@
 / I think we could make this more DRY, storing possible petition form options in a hash,
 / looping over it, checking if options contain that particular item, and then making an
 / input for it. There's a lot of duplication here.
-#petition_form.form-horizontal.col-xs-3
+#petition_form.form-horizontal.col-xs-3.widget-display
   = form_tag do
     blockquote = options['petition_text']
     - if options['require_full_name']
-      => label_tag :full_name
-      = text_field_tag :full_name, '', placeholder: 'My Name'
-      br
+      .form-group
+        = label_tag :full_name, nil, class: 'control-label'
+        = text_field_tag :full_name, '', placeholder: 'My Name', class: 'form-control'
     - if options['require_email_address']
-      => label_tag :email_address
-      = text_field_tag :email_address, '', placeholder: 'me@myemail.com'
-      br
+      .form-group
+        = label_tag :email_address,  nil, class: 'control-label'
+        = text_field_tag :email_address, '', placeholder: 'me@myemail.com', class: 'form-control'
     - if options['require_address']
-      => label_tag :address
-      = text_field_tag :address, '', placeholder: 'My Address'
-      br
+      .form-group
+        = label_tag :address, nil, class: 'control-label'
+        = text_field_tag :address, '', placeholder: 'My Address', class: 'form-control'
     - if options['require_state']
-      => label_tag :state
-      = text_field_tag :state, '', placeholder: 'My State'
-      br
+      .form-group
+        = label_tag :state, nil, class: 'control-label'
+        = text_field_tag :state, '', placeholder: 'My State', class: 'form-control'
     - if options['require_postal_code']
-      => label_tag :postal_code
-      = text_field_tag :postal_code, '', placeholder: 'My Postal Code'
-      br
+      .form-group
+        = label_tag :postal_code, nil, class: 'control-label'
+        = text_field_tag :postal_code, '', placeholder: 'My Postal Code', class: 'form-control'
     - if options['require_country']
-      => label_tag :country
-      = text_field_tag :country, '', placeholder: 'Where I live'
-      br
+      .form-group
+        = label_tag :country, nil, class: 'control-label'
+        = text_field_tag :country, '', placeholder: 'Where I live', class: 'form-control'
     - if options['require_phone']
-      => label_tag :phone
-      = text_field_tag :phone, '', placeholder: 'My Phone Number'
-      br
+      .form-group
+        = label_tag :phone, nil, class: 'control-label'
+        = text_field_tag :phone, '', placeholder: 'My Phone Number', class: 'form-control'
     - options['checkboxes'].each do |checkbox|
-      span.checkbox
-        => check_box_tag "action_#{checkbox[1]['name']}", checkbox[1]['name']
-        = label_tag "action_#{checkbox[1]['name']}", checkbox[1]['label']
+      .form-group
+        = check_box_tag "action_#{checkbox[1]['name']}", checkbox[1]['name'], class: 'form-control'
+        = label_tag "action_#{checkbox[1]['name']}", checkbox[1]['label'], class: 'control-label'
     - if options['textarea']
-      span.textarea
-        => label_tag options['textarea']['name'], options['textarea']['label']
-        = text_area_tag options['textarea']['name']
-        br
+      .form-group
+        = label_tag options['textarea']['name'], options['textarea']['label'], class: 'control-label'
+        = text_area_tag options['textarea']['name'], '', class: 'form-control'
 
     = submit_tag options['form_button_text'], class: 'btn btn-primary'
