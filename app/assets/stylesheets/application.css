@@ -25,3 +25,86 @@
 h1 {
   text-align: center;
 }
+
+h4 {
+  margin-bottom: 20px;
+}
+
+.form-inline .form-group {
+  margin-left: 0;
+  margin-right: 0;
+}
+ 
+.petition_widget_form_container *.form-control {
+  display:block;
+}
+
+.nested-block-form {
+  display: block;
+  width: 100%;
+  height: 37px;
+  padding-left:0px;
+  padding-right:0px;
+  margin-left:0px;
+  margin-right:0px;
+}
+
+#checkbox_container {
+  display: block;
+  min-height: 100px;
+  overflow: auto;
+}
+
+
+.custom-petition-label {
+  width: 15%;
+}
+
+.form-control.custom-petition-input {
+  width: 30%;
+}
+
+.text_body_widget_text_area {
+  width: 100%;
+  min-height: 300px;
+}
+
+
+.progress {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0px;
+  height: 20px;
+  text-align: center;
+}
+
+.widget-display {
+  padding-left, padding-right: 0px;
+}
+
+
+/*CSS FOR STICKY FOOTER*/
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin: 0 0 100px; /* bottom = footer height */
+}
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    padding-top: 30px;
+    background-color: transparent;
+    background-image: none;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+footer .container {
+  text-align: center;
+}
+
