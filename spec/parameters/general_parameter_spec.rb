@@ -8,64 +8,69 @@ require 'spec_helper'
 # in the relevant values.
 
 parameter_classes_to_test = {
-    actionkit_page_type: {
-        class_type: ActionkitPageTypeParameters,
-        correct_params: { actionkit_page_type: 'test' }
-    },
-    actionkit_page: {
-        class_type: ActionkitPageParameters,
-        correct_params: {
-            campaign_page_id: 1,
-            actionkit_page_type_id: 'test'
-        }
-    },
-    campaign_pages: {
-        class_type: CampaignPageParameters,
-        correct_params: {
-            title: 'Awesome Campaign Page',
-            slug: '/page/awesome-campaigns-page',
-            active: true,
-            featured: false
-        }
-    },
-    campaign_pages_widget: {
-        class_type: CampaignPagesWidgetParameters,
-        correct_params: {
-            content: 'This is some content',
-            page_display_order: 1,
-            widget_type_id: 1
-        }
-    },
-    campaigns: {
-        class_type: CampaignParameters,
-        correct_params: {
-            campaign_name: 'My campaigns!'
-        }
-    },
-    language: {
-        class_type: LanguageParameters,
-        correct_params: {
-            language_code: 'en',
-            language_name: 'English'
-        }
-    },
-    member: {
-        class_type: MemberParameters,
-        correct_params: {
-            email_address: 'notarealemail@notarealdomain.notarealtld',
-            actionkit_member_id: '1234564sga'
-        }
-    },
-    widget_type: {
-        class_type: WidgetTypeParameters,
-        correct_params: {
-            widget_name: 'Awesome Widget',
-            specifications: 'Test',
-            partial_path: '/partials/path',
-            form_partial_path: '/partials/forms/path',
-            active: false
-        }
+  actionkit_page_type: {
+    class_type: ActionkitPageTypeParameters,
+    correct_params: { actionkit_page_type: 'test' }
+  },
+  actionkit_page: {
+    class_type: ActionkitPageParameters,
+    correct_params: {
+      campaign_page_id: 1,
+      actionkit_page_type_id: 'test'
     }
+  },
+  campaign_page: {
+    class_type: CampaignPageParameters,
+    correct_params: {
+      title: 'Awesome Campaign Page',
+      slug: '/page/awesome-campaigns-page',
+      active: true,
+      featured: false
+    }
+  },
+  campaign_pages_widget: {
+    class_type: CampaignPagesWidgetParameters,
+    correct_params: {
+      content: 'This is some content',
+      page_display_order: 1,
+      widget_type_id: 1
+    }
+  },
+  campaign: {
+    class_type: CampaignParameters,
+    correct_params: {
+      campaign_name: 'My campaigns!'
+    }
+  },
+  language: {
+    class_type: LanguageParameters,
+    correct_params: {
+      language_code: 'en',
+      language_name: 'English'
+    }
+  },
+  member: {
+    class_type: MemberParameters,
+    correct_params: {
+      email_address: 'notarealemail@notarealdomain.notarealtld',
+      actionkit_member_id: '1234564sga'
+    }
+  },
+  widget_type: {
+    class_type: WidgetTypeParameters,
+    correct_params: {
+      widget_name: 'Awesome Widget',
+      specifications: 'Test',
+      active: false
+    }
+  },
+  template: {
+    class_type: TemplateParameters,
+    correct_params: {
+      template_name: 'Awesome Template',
+      active: false
+    }
+  }
 }
 
 # Here we do the actual looping with the repeated tests.

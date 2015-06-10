@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  has_paper_trail
 
   validates_presence_of :email_address, :actionkit_member_id
   # validates that e-mail is valid

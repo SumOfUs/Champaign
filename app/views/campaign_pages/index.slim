@@ -1,0 +1,6 @@
+h3 All Active Campaign Pages 
+a href="/campaign_pages/new" class="btn btn-primary btn-sm" Create a new page
+br
+- @campaign_pages.each do |campaign_page|
+  = link_to campaign_page.title, campaign_page
+  br

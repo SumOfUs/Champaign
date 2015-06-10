@@ -1,18 +1,30 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   root 'home#index'
+
+  # Custom paths
+  post '/campaign_pages/new', to: 'campaign_pages#new'
+
+  # Specifies routing to templates controller for when a new template layout is requested by 
+  # a user toggling different templates when creating a campaign page
+  get '/templates/show_form/:id', to: 'templates#show_form'
+
+  # Standard resources
   resources :campaigns
   resources :campaign_pages
+  resources :templates
+
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
   # Example resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
 

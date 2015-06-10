@@ -15,3 +15,5 @@
 .idea/*
 .env.web
 champaign.iml
+out/*
+config/secrets.yml

@@ -1,0 +1,5 @@
+#text_body_widget_form.form-group
+  /in reality, this should probably be a WYSIWYG editor
+  /= label_tag 'widgets[text_body][text_body_html]', 'Page Text:', class: 'control-label'
+  = text_area_tag 'widgets[text_body][text_body_html]', options['text_body_html'], class: 'text_body_widget_text_area form-control'
+  = hidden_field_tag 'widgets[text_body][widget_type]', WidgetType.find_by(:widget_name => 'text_body').id

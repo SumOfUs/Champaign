@@ -1,4 +1,5 @@
 class Campaign < ActiveRecord::Base
+  has_paper_trail
 
   has_many :campaign_page
 
