@@ -50,6 +50,9 @@ module TemplatesHelper
         'letter_sent_form' => {},
         'form_button_text' => 'Add your voice!'
       },
+      raw_html: {
+        'content' => '<span>This is some raw HTML</span>'
+      },
       thermometer: {
         'goal' => 10000,
         'count' => 0,

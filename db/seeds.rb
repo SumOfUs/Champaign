@@ -49,6 +49,13 @@
       active: true
     },
     {
+      widget_name: 'raw_html',
+      specifications: {
+        content: 'string'
+      },
+      active: true
+    },
+    {
       widget_name: 'thermometer',
       specifications: {
         goal: 'integer',
