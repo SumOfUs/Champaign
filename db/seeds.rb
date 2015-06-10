@@ -68,17 +68,6 @@
       action_table_name: nil,
       active: true
     },
-    {
-      widget_name: 'donation',
-      specifications: {
-        # a hash containing location / currency / multiplier for the donation amounts
-        currencies_and_multipliers: {
-
-        },
-      },
-      active: true
-    }
-
   ])
 
 # 5. make a campaign page
