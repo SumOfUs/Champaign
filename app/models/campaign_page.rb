@@ -1,4 +1,5 @@
 class CampaignPage < ActiveRecord::Base
+  has_paper_trail
 
   belongs_to :language
   belongs_to :campaign # Note that some campaign pages do not necessarily belong to campaigns
