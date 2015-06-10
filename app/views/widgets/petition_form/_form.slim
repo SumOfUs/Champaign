@@ -1,52 +1,54 @@
-=> label_tag 'widgets[petition_form][petition_text]', 'Petition Text: ', class: 'control-label'
-= text_field_tag 'widgets[petition_form][petition_text]', '', placeholder: 'Sign our form!'
+#petition_widget_form.form-inline
 
-br
-=> label_tag 'widgets[petition_form][form_button_text]', 'Button Text: '
-= text_field_tag 'widgets[petition_form][form_button_text]', '', placeholder: 'Share your voice!'
+  .petition_widget_form_container.form-group.col-lg-4
+    / make changes to more elegantly display block checkboxes inside form-inline
+    = check_box_tag 'widgets[petition_form][require_full_name]', 'true', checked: true, class: 'form-control'
+    = label_tag 'widgets[petition_form][require_full_name]', 'Require Full Name', class: 'control-label'
+    br
+    = check_box_tag 'widgets[petition_form][require_email_address]', 'true', checked: true, class: 'form-control'
+    = label_tag 'widgets[petition_form][require_email_address]', 'Require Email Address', class: 'control-label'
+    br
+    = check_box_tag 'widgets[petition_form][require_country]', 'true', checked: true, class: 'form-control'
+    = label_tag 'widgets[petition_form][require_full_country]', 'Require Country', class: 'control-label'
+    br
+    = check_box_tag 'widgets[petition_form][require_state]', 'true', class: 'form-control'
+    = label_tag 'widgets[petition_form][require_full_state]', 'Require State', class: 'control-label'
+    br
+    = check_box_tag 'widgets[petition_form][require_postal_code]', 'true', class: 'form-control'
+    = label_tag 'widgets[petition_form][require_full_postal_code]', 'Require Postal Code', class: 'control-label'
+    br
+    = check_box_tag 'widgets[petition_form][require_address]', 'true', class: 'form-control'
+    = label_tag 'widgets[petition_form][require_full_address]', 'Require Address', class: 'control-label'
+    br
+    = check_box_tag 'widgets[petition_form][require_phone]', 'true', class: 'form-control'
+    = label_tag 'widgets[petition_form][require_full_phone]', 'Require Phone', class: 'control-label'
 
-br
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_full_name]', 'true', checked: true
-  =< label_tag 'widgets[petition_form][require_full_name]', 'Require Full Name'
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_email_address]', 'true', checked: true
-  =< label_tag 'widgets[petition_form][require_email_address]', 'Require Email Address'
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_country]', 'true', checked: true
-  =< label_tag 'widgets[petition_form][require_full_country]', 'Require Country'
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_state]', 'true'
-  =< label_tag 'widgets[petition_form][require_full_state]', 'Require State'
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_postal_code]', 'true'
-  =< label_tag 'widgets[petition_form][require_full_postal_code]', 'Require Postal Code'
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_address]', 'true'
-  =< label_tag 'widgets[petition_form][require_full_address]', 'Require Address'
-span.checkbox
-  => check_box_tag 'widgets[petition_form][require_phone]', 'true'
-  =< label_tag 'widgets[petition_form][require_full_phone]', 'Require Phone'
+  .form-group.col-lg-8.petition_widget_form_container
+    .nested-block-form
+      = label_tag 'widgets[petition_form][petition_text]', 'Petition Text: ', class: 'control-label col-lg-3'
+      = text_field_tag 'widgets[petition_form][petition_text]', '', placeholder: 'Sign our form!', class: 'form-control col-lg-9'
+    .nested-block-form
+      = label_tag 'widgets[petition_form][form_button_text]', 'Button Text: ', class: 'control-label col-lg-3'
+      = text_field_tag 'widgets[petition_form][form_button_text]', '', placeholder: 'Share your voice!', class: 'form-control col-lg-9'
 
-#checkbox_container
-  a href="#" id="add_checkbox" class="btn btn-info btn-sm" Add Checkbox
-#textarea_container
-  a href="#" id="add_textarea" class="btn btn-info btn-sm" Add Textarea
+  #textarea_container.form-group.nested-block-form
+    a href="#" id="add_textarea" class="btn btn-info btn-sm" Add Textarea
 
-#checkbox_seed.hidden
-  br
-  => label_tag 'widgets[petition_form][checkboxes][{cb_number}][label]', 'Checkbox Label:'
-  = text_field_tag 'widgets[petition_form][checkboxes][{cb_number}][label]', '', placeholder: 'What the user will see'
-  br
-  => label_tag 'widgets[petition_form][checkboxes][{cb_number}][name]', 'Checkbox Name:'
-  = text_field_tag 'widgets[petition_form][checkboxes][{cb_number}][name]', '', placeholder: 'How it will save in ActionKit'
+  #checkbox_container.form-group.nested-block-form
+    a href="#" id="add_checkbox" class="btn btn-info btn-sm" Add Checkbox
 
-#textarea_seed.hidden
-  br
-  => label_tag 'widgets[petition_form][textarea][placeholder][label]', 'Textarea Label:'
-  = text_field_tag 'widgets[petition_form][textarea][placeholder][label]', '', placeholder: 'How should the textarea be labeled?'
-  br
-  => label_tag 'widgets[petition_form][textarea][placeholder][name]', 'Textarea Name:'
-  = text_field_tag 'widgets[petition_form][textarea][placeholder][name]', '', placeholder: 'How should the textarea be saved in AK?'
+  #checkbox_seed.hidden
+    .form-inline
+      = label_tag 'widgets[petition_form][checkboxes][{cb_number}][label]', 'Checkbox Label:', class: 'control-label custom-petition-label'
+      = text_field_tag 'widgets[petition_form][checkboxes][{cb_number}][label]', '', placeholder: 'What the user will see', class: 'form-control custom-petition-input'
+      = label_tag 'widgets[petition_form][checkboxes][{cb_number}][name]', 'Checkbox Name:', class: 'control-label custom-petition-label'
+      = text_field_tag 'widgets[petition_form][checkboxes][{cb_number}][name]', '', placeholder: 'How it will save in ActionKit', class: 'form-control custom-petition-input'
 
-= hidden_field_tag 'widgets[petition_form][widget_type]', WidgetType.find_by(:widget_name => 'petition_form').id
+  #textarea_seed.hidden
+    .form-inline
+      = label_tag 'widgets[petition_form][textarea][placeholder][label]', 'Textarea Label:', class: 'control-label custom-petition-label'
+      = text_field_tag 'widgets[petition_form][textarea][placeholder][label]', '', placeholder: 'How should the textarea be labeled?', class: 'form-control custom-petition-input'
+      = label_tag 'widgets[petition_form][textarea][placeholder][name]', 'Textarea Name:', class: 'control-label custom-petition-label'
+      = text_field_tag 'widgets[petition_form][textarea][placeholder][name]', '', placeholder: 'How should the textarea be saved in AK?', class: 'form-control custom-petition-input'
+
+  = hidden_field_tag 'widgets[petition_form][widget_type]', WidgetType.find_by(:widget_name => 'petition_form').id

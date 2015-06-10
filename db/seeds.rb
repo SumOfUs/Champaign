@@ -19,14 +19,6 @@
 
   WidgetType.create!([
     {
-      widget_name: 'text_body',
-      specifications: {
-        text_body_html: 'string'
-      },
-      action_table_name: nil,
-      active: true
-    },
-    {
       widget_name: 'image',
       specifications: {
         width: 'integer',
@@ -57,16 +49,6 @@
       active: true
     },
     {
-      widget_name: 'donation',
-      specifications: {
-        # a hash containing location / currency / multiplier for the donation amounts
-        currencies_and_multipliers: {
-
-        },
-      },
-      active: true
-    },
-    {
       widget_name: 'raw_html',
       specifications: {
         content: 'string'
@@ -84,8 +66,15 @@
         count: 'integer' 
       },
       active: true,
-    }
-
+    },
+    {
+      widget_name: 'text_body',
+      specifications: {
+        text_body_html: 'string'
+      },
+      action_table_name: nil,
+      active: true
+    },
   ])
 
 # 5. make a campaign page

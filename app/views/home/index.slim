@@ -1,2 +1,25 @@
-h1 Welcome to Champaign
-p It's a work in progress
+.jumbotron.row
+  h1.col-xs-9 Welcome to Champaign!
+  .col-xs-3
+    img src='https://cdn0.iconfinder.com/data/icons/strategy-and-business/1052/Victory-512.png' style='height: 128px' alt='pop'
+p This is a demo of a campaining platform we're working hard to build for you! The MVP of Champaign comes with a few changes from ActionSweet.
+p With Champaign, we wanted to increase the flexibility you have when you're creating a petition page. In fact, they're no longer called petition pages, but <strong>campaign pages</strong>, because they belong to a multilingual campaign, and do not necessarily contain a petition form. 
+p A campaign page consists of several <strong>widgets</strong>. Widgets are stand-alone components that can be used together to make out a page. For example, a typical petition page in ActionSweet right now consists of an image, a petition form, a progress bar and a text body. In Champaign, a similar page would consist of an image widget, a petition widget, a progress bar widget and a text body widget. The benefit of composing pages in a modular manner like this is that you can have a number of different page layouts. You can change the order of the widgets on a page, remove elements, add elements (e.g. if you want a petition page that also has a donation option), and if you have an awesome idea for something else you'd like to add to your campaign pages, you need only make a feature request for a new widget, and we'll see what we can do for you! Similarly, we will be able to easily change parts of campaign pages by modifying specifications for their individual widgets - so we can e.g. make fast changes to our content based on experiments and analyses by TOP on what changes could increase our member engagement.
+p The fact that campaign pages will consist of widgets might sound like there will be a lot of manual work for you. This will not be the case. Different page layouts are specified by creating <strong>templates</strong>. Templates are blueprints for how pages should be laid out. For example, an AS-style petition page could be created using a petition template. Therefore, unless you want to create an entirely new page layout, you don't need to concern yourself with widgets at all. All you do is go create a new campaign page, select the template you want to use, and we'll automatically load you the form for that page layout. 
+p There are a few things you can do right now.
+p 
+  ' You can
+  a href="/campaign_pages/" view 
+  ' and 
+  a href="/campaign_pages/new" create 
+  ' campaign pages, and you can
+  a href="/templates/" view 
+  ' and 
+  a href="/templates/new" create 
+  ' templates. 
+  ' You can also
+  a href="/campaigns/" view 
+  ' and 
+  a href="/campaigns/new" create 
+  ' campaigns, but that's not as much fun!
+  

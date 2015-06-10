@@ -1,13 +1,7 @@
-h3 = @template.template_name
-
-p Name: = @template.template_name
-p Active: = @template.active.to_s
-
-p
-  | Included Widgets:
-  br
-  - @template.widget_types.each do |widget_type|
-    / Renders the widget from the location of its partial, and either gets its default values as
-    / options, or populates it with its content data from the database (if it belongs to a campaign page)
-    = render widget_type.display_partial_path, {options: build_options_hash(widget_type)}
-    br
+/ A slim file for 'promoing' how a campaign page would look like when created with the template. 
+.jumbotron
+  h1 = @template.template_name
+- @template.widget_types.each do |widget_type|
+  / Renders the widget from the location of its partial, and either gets its default values as
+  / options, or populates it with its content data from the database (if it belongs to a campaign page)
+  = render widget_type.display_partial_path, {options: build_options_hash(widget_type)}
