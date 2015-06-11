@@ -2,6 +2,11 @@
   fieldset
     legend Basic page information
     .form-group
+      = f.label :featured, class: 'control-label col-lg-2'
+      .col-lg-10
+        = f.check_box :featured
+
+    .form-group
       = f.label :title, class: 'control-label col-lg-2'
       .col-lg-10
         = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
