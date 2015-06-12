@@ -2,24 +2,26 @@
   fieldset
     legend Basic page information
     .form-group
+      = f.label :featured, class: 'control-label col-lg-2'
+      .col-lg-10
+        = f.check_box :featured, class: 'form-control'
+
       = f.label :title, class: 'control-label col-lg-2'
       .col-lg-10
         = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
     
-    .form-group
       = f.label :campaign_id, 'Campaign: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :campaign_id, options_from_collection_for_select(@campaigns, 'id', 'campaign_name', @campaign), {}, html_options= {:class => 'form-control'}
     
-    .form-group
       = f.label :language_id, 'Language: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :language_id, options_from_collection_for_select(Language.all,'id', 'language_name'), {}, html_options= {:class => 'form-control'}
     
-    .form-group
       label for='template_id' class='control-label col-lg-2' Template: 
       .col-lg-10
         = select_tag 'template_id', options_from_collection_for_select(@templates, 'id', 'template_name', @template), class: 'form-control'
+          | data-no-turbolink="true"
 
     #widget_location
       = render :file => 'templates/show_form', layout: false
