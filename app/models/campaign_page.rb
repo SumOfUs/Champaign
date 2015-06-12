@@ -6,7 +6,7 @@ class CampaignPage < ActiveRecord::Base
    
   has_many :campaign_pages_widgets, inverse_of: :campaign_page
 
-  validates_uniqueness_of :title, :slug
+  validates :title, :slug, presence: true, uniqueness: true
 
   # validating presence of a boolean fields
   validates_inclusion_of :active, in: [true, false]

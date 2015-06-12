@@ -1,19 +1,23 @@
 = form_for(@campaign_page, class: 'form-horizontal') do |f|
   .jumbotron
-    h2 = @campaign_page.title
+    h1 Edit your campaign page
 
   fieldset
     .form-group
+      legend Basic page information
       = f.label :title, class: 'control-label col-lg-2'
       .col-lg-10
         = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
+      = f.label :featured, class: 'control-label col-lg-2'
+      .col-lg-10
+        = f.check_box :featured
 
-    - @campaign_page.campaign_pages_widgets.each do |widget|
-      /this could be replaced with a call to templates/show_form, where a change would need to be made to
-      /call build_options_hash on the widgets if creating a new page, and to pass widget.content
-      /as options if editing an existing page
-      legend = widget.widget_type.widget_name.titleize
-      = render widget.widget_type.form_partial_path, {options: widget.content}
+      - @campaign_page.campaign_pages_widgets.each do |widget|
+        /this could be replaced with a call to templates/show_form, where a change would need to be made to
+        /call build_options_hash on the widgets if creating a new page, and to pass widget.content
+        /as options if editing an existing page
+        legend = widget.widget_type.widget_name.titleize
+        = render widget.widget_type.form_partial_path, {options: widget.content}
 
-    div.form-group
-      = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+      div.form-group
+       = f.submit 'Save Page', class: 'btn btn-sm btn-primary'

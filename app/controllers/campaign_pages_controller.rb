@@ -9,6 +9,7 @@ class CampaignPagesController < ApplicationController
 
   def index
     @campaign_pages = CampaignPage.where active: true
+    @featured_pages = @campaign_pages.where featured: true
   end
 
   def new

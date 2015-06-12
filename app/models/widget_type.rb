@@ -4,7 +4,6 @@ class WidgetType < ActiveRecord::Base
   validates_presence_of :widget_name, :specifications
   # validating presence of a boolean field 'active'
   validates_inclusion_of :active, in: [true, false]
-
   has_and_belongs_to_many :templates
 
   # Specifies where this widget type's form partial is stored in the project.
