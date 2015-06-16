@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   resources :campaigns
   resources :campaign_pages
   resources :templates
-  
 
 
   # Example of regular route:
