@@ -96,6 +96,10 @@ class CampaignPagesController < ApplicationController
     # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine.
     @campaign_page.update! permitted_params.to_hash
     redirect_to @campaign_page
+  end
 
-  end 
+  def sign
+    # Nothing here for the moment
+    render json: {success: true}, layout: false
+  end
 end

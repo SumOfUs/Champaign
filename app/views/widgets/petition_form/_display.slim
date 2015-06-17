@@ -40,5 +40,8 @@
       .form-group
         = label_tag options['textarea']['name'], options['textarea']['label'], class: 'control-label'
         = text_area_tag options['textarea']['name'], '', class: 'form-control'
+    - if options['redirect_location']
+      #redirect-location.hidden = options['redirect_location']
 
-    = submit_tag options['form_button_text'], class: 'btn btn-primary'
+
+    = submit_tag options['form_button_text'], class: 'btn btn-primary', id: 'action-button'
