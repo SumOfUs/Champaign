@@ -46,7 +46,10 @@ $(function() {
       url: '/campaign_pages/sign/',
       method: 'post',
       success: function(data, textStatus, jqXHR) {
-        window.location.href = $('#redirect-location').html();
+        var redirect_location = $('#redirect-location').html();
+        if(redirect_location != '') {
+          window.location.href = redirect_location;
+        }
       }
     });
   });

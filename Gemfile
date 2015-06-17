@@ -76,7 +76,7 @@ group :development, :test do
   # Capybara for integration testing
   gem 'capybara'
 
-
+  # Poltergeist allows for headless JS testing with Capybara.
   gem 'poltergeist'
 end
 
