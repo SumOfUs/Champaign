@@ -8,8 +8,17 @@ class CampaignPagesController < ApplicationController
   end
 
   def index
-    @campaign_pages = CampaignPage.where active: true
-    @featured_pages = @campaign_pages.where featured: true
+    p params
+    if params['disabled']
+      @campaign_pages = CampaignPage.where active: false
+      @title = 'All Disabled Campaign Pages'
+      @disabled = true
+    else
+      @campaign_pages = CampaignPage.where(active: true).order(created_at: :desc).limit(25)
+      @title = 'All Active Campaign Pages'
+      @featured_pages = @campaign_pages.where featured: true
+      @disabled = false
+    end
   end
 
   def new
