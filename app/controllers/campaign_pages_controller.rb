@@ -8,7 +8,6 @@ class CampaignPagesController < ApplicationController
   end
 
   def index
-    p params
     if params['disabled']
       @campaign_pages = CampaignPage.where active: false
       @title = 'All Disabled Campaign Pages'
