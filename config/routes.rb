@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   # Custom paths
   post '/campaign_pages/new', to: 'campaign_pages#new'
+  post '/campaign_pages/sign', to: 'campaign_pages#sign'
 
   # Specifies routing to templates controller for when a new template layout is requested by 
   # a user toggling different templates when creating a campaign page

@@ -38,4 +38,19 @@ $(function() {
     var final_html = textarea_html.replace('[placeholder]', '');
     $('#textarea_container').html(final_html);
   });
+
+  $('#action-button').on('click', function(event){
+    //Don't actually submit anything
+    event.preventDefault();
+    $.ajax({
+      url: '/campaign_pages/sign/',
+      method: 'post',
+      success: function(data, textStatus, jqXHR) {
+        var redirect_location = $('#redirect-location').html();
+        if(redirect_location != '') {
+          window.location.href = redirect_location;
+        }
+      }
+    });
+  });
 });
