@@ -30,6 +30,9 @@
     .nested-block-form
       = label_tag 'widgets[petition_form][form_button_text]', 'Button Text: ', class: 'control-label col-lg-3'
       = text_field_tag 'widgets[petition_form][form_button_text]', '', placeholder: 'Share your voice!', class: 'form-control col-lg-9'
+    .nested-block-form
+      = label_tag 'widgets[petition_form][redirect_location]', 'Post-Action URL:', class: 'control-label col-lg-3'
+      = text_field_tag 'widgets[petition_form][redirect_location]', '', placeholder: 'Redirect after signature', class: 'form-control col-lg-9'
 
   #textarea_container.form-group.nested-block-form
     a href="#" id="add_textarea" class="btn btn-info btn-sm" Add Textarea

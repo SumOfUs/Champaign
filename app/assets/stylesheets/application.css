@@ -83,7 +83,8 @@ h4 {
 }
 
 .widget-display {
-  padding-left, padding-right: 0px;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 
