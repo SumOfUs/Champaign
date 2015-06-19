@@ -1,3 +1,6 @@
+# required for reading/writing images for the image widget. Should be refactored to a separate file, together with 
+# the image processing logic.
+
 class CampaignPagesController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
@@ -32,12 +35,9 @@ class CampaignPagesController < ApplicationController
 
   def create
     permitted_params = CampaignPageParameters.new(params).permit
-    if permitted_params[:slug].nil?
-      permitted_params[:slug] = permitted_params[:title].parameterize
-    end
+    permitted_params[:slug] = permitted_params[:title].parameterize
     permitted_params[:active] = true
     permitted_params[:featured] = false
-    #language and template are passed as 'language' and 'template', but required as 'language_id' and 'template_id':
     campaign = Campaign.find(permitted_params[:campaign_id])
     # creates a campaign page associated to the campaign specified in the form.
     page = campaign.campaign_page.create! permitted_params.except(:campaign)
@@ -67,20 +67,19 @@ class CampaignPagesController < ApplicationController
         when 'image'
           # if image upload field has been specified
           if widget_data.key? 'image_upload'
-            puts "upload dat img"
-            @uploaded_image = widget_data['image_upload']
-            # write the file into a file with the right filename in public/uploads
-            File.open(Rails.root.join('public', 'uploads', @uploaded_image.original_filename), 'wb') do |file|
-              file.write(@uploaded_image.read)
-            # update information on the image's location in the widget content
-            end
+            @image = widget_data['image_upload']
           # else, if we want the image from a URL
           else
-            puts "nothing to upload" 
-            @image = Magick::Image.from_blob(open(widget_data['image_url']).read).first
-            @image.write(@image_path)
+            @image = URI.parse(widget_data['image_url'])
           end
-      end
+            # save image to file named after the slug, with a UUID appended to it, in the public/uploads directory
+            image_name = add_uuid_to_filename(permitted_params[:slug])
+            File.open(Rails.root.join('public', 'uploads', image_name), 'wb') do |file|
+              file.write(@image.read)
+            # update information on the image's location in the widget content
+            widget_data['image_url'] = 'public/uploads/' + image_name
+          end
+       end
       
       page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,
                                          content: widget_data,

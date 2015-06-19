@@ -14,7 +14,7 @@ class CampaignPagesWidget < ActiveRecord::Base
   before_save :validate_image_name
 
   def validate_image_name
-    # Will return false and prevent saving if the image name included in the contents isn't valid.
-    image_name_valid self.contents
+    # Will return false and prevent saving if the image name included in the content isn't valid.
+    image_name_valid self.content
   end
 end
