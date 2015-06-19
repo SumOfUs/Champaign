@@ -43,21 +43,35 @@ class CampaignPagesController < ApplicationController
     widgets.each do |widget_type_name, widget_data|
       # widget type id is contained in a field called widget_type:
       widget_type_id = widget_data.delete :widget_type
-      # We have some placeholder data for checkboxes and textareas if we are using a
-      # petition form. We need to remove those or we'll end up with phantom elements in our
-      # form.
-      if widget_data.key?('checkboxes') and widget_data['checkboxes'].key?('{cb_number}')
-        widget_data['checkboxes'].delete('{cb_number}')
-      end
-      if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
-        widget_data['textarea'].delete('placeholder')
-      end
 
-      if widget_data.key?('image_upload')
-        uploaded_image = widget_data['image_upload']
-        File.open(Rails.root.join('public', 'uploads', uploaded_image.original_filename), 'wb') do |file|
-          file.write(uploaded_image.read)
-        end
+      case widget_type_name 
+        # We have some placeholder data for checkboxes and textareas if we are using a
+        # petition form. We need to remove those or we'll end up with phantom elements in our
+        # form.
+        when 'petition'
+          if widget_data.key?('checkboxes') and widget_data['checkboxes'].key?('{cb_number}')
+            widget_data['checkboxes'].delete('{cb_number}')
+          end
+          if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
+            widget_data['textarea'].delete('placeholder')
+          end
+
+        when 'image'
+          # if image upload field has been specified
+          if widget_data.key? 'image_upload'
+            puts "upload dat img"
+            @uploaded_image = widget_data['image_upload']
+            # write the file into a file with the right filename in public/uploads
+            File.open(Rails.root.join('public', 'uploads', @uploaded_image.original_filename), 'wb') do |file|
+              file.write(@uploaded_image.read)
+            # update information on the image's location in the widget content
+            end
+          # else, if we want the image from a URL
+          else
+            puts "nothing to upload" 
+            @image = Magick::Image.from_blob(open(widget_data['image_url']).read).first
+            @image.write(@image_path)
+          end
       end
       
       page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,
