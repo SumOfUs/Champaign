@@ -3,3 +3,4 @@
   .col-lg-10
     = text_field_tag 'widgets[image][image_url]', options['image_url'], class: 'form-control'
     = hidden_field_tag 'widgets[image][widget_type]', WidgetType.find_by(:widget_name => 'image').id
+    = file_field_tag 'widgets[image][image_upload]'

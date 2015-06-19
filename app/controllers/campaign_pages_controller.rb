@@ -1,6 +1,5 @@
 class CampaignPagesController < ApplicationController
   before_action :authenticate_user!, except: [:show]
-
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
 
   def get_campaign_page
@@ -52,6 +51,13 @@ class CampaignPagesController < ApplicationController
       end
       if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
         widget_data['textarea'].delete('placeholder')
+      end
+
+      if widget_data.key?('image_upload')
+        uploaded_image = widget_data['image_upload']
+        File.open(Rails.root.join('public', 'uploads', uploaded_image.original_filename), 'wb') do |file|
+          file.write(uploaded_image.read)
+        end
       end
       
       page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,
