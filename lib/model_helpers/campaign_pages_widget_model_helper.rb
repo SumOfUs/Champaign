@@ -17,7 +17,7 @@ end
 
 def image_has_uuid(string_to_check)
   # Checks whether the image name has a UUID in it, of the form:
-  # 987f1d1-bf76-4985-94e9-08a354f4712f
+  # 6987f1d1-bf76-4985-94e9-08a354f4712f
   if (string_to_check =~ /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/).nil?
     false
   else
