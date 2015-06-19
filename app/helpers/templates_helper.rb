@@ -30,7 +30,7 @@ module TemplatesHelper
       thermometer: {
         'goal' => 10000,
         'count' => 0,
-        'autoincrement' => false,
+        'autoincrement' => true,
         'linked_actions' => [1, 2, 3]
       },
       petition_form: {
@@ -52,12 +52,6 @@ module TemplatesHelper
       },
       raw_html: {
         'content' => '<span>This is some raw HTML</span>'
-      },
-      thermometer: {
-        'goal' => 10000,
-        'count' => 0,
-        'autoincrement' => true,
-        'linked_actions' => [1, 2, 3]
       }
     }
     

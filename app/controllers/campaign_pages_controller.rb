@@ -7,8 +7,16 @@ class CampaignPagesController < ApplicationController
   end
 
   def index
-    @campaign_pages = CampaignPage.where active: true
-    @featured_pages = @campaign_pages.where featured: true
+    if params['disabled']
+      @campaign_pages = CampaignPage.where active: false
+      @title = 'All Disabled Campaign Pages'
+      @disabled = true
+    else
+      @campaign_pages = CampaignPage.where(active: true).order(created_at: :desc).limit(25)
+      @title = 'All Active Campaign Pages'
+      @featured_pages = @campaign_pages.where featured: true
+      @disabled = false
+    end
   end
 
   def new
@@ -116,6 +124,10 @@ class CampaignPagesController < ApplicationController
     # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine.
     @campaign_page.update! permitted_params.to_hash
     redirect_to @campaign_page
+  end
 
-  end 
+  def sign
+    # Nothing here for the moment
+    render json: {success: true}, layout: false
+  end
 end

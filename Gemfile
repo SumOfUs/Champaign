@@ -72,5 +72,11 @@ group :development, :test do
 
   # Rspec for testing
   gem 'rspec-rails', '~> 3.0'
+
+  # Capybara for integration testing
+  gem 'capybara'
+
+  # Poltergeist allows for headless JS testing with Capybara.
+  gem 'poltergeist'
 end
 
