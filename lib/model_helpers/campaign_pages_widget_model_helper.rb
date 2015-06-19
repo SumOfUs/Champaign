@@ -7,6 +7,7 @@ def image_name_valid(contents)
 end
 
 def image_is_external_url(string_to_check)
+  # Checks whether the file name points to an external URL like http://imgur.com
   if (string_to_check =~ /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/).nil?
     false
   else
@@ -15,6 +16,8 @@ def image_is_external_url(string_to_check)
 end
 
 def image_has_uuid(string_to_check)
+  # Checks whether the image name has a UUID in it, of the form:
+  # 987f1d1-bf76-4985-94e9-08a354f4712f
   if (string_to_check =~ /[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}/).nil?
     false
   else
@@ -37,5 +40,4 @@ def add_uuid_to_filename(string_to_modify)
     split_string[-2] = split_string[-2] + SecureRandom.uuid.to_s
     split_string.join '.'
   end
-
 end
