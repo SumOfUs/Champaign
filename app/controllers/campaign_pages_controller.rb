@@ -1,5 +1,6 @@
 # required for reading/writing images for the image widget. Should be refactored to a separate file, together with 
 # the image processing logic.
+require 'open-uri'
 
 class CampaignPagesController < ApplicationController
   before_action :authenticate_user!, except: [:show]
@@ -72,12 +73,13 @@ class CampaignPagesController < ApplicationController
           else
             @image = URI.parse(widget_data['image_url'])
           end
-            # save image to file named after the slug, with a UUID appended to it, in the public/uploads directory
-            image_name = add_uuid_to_filename(permitted_params[:slug])
-            File.open(Rails.root.join('public', 'uploads', image_name), 'wb') do |file|
+            # save image to file named after the slug, with a UUID appended to it, in app/assets/images
+            image_name = add_uuid_to_filename(permitted_params[:slug]) + '.jpeg'
+            # handle image processing and save image
+            File.open(Rails.root.join('app', 'assets', 'images', image_name), 'wb') do |file|
               file.write(@image.read)
             # update information on the image's location in the widget content
-            widget_data['image_url'] = 'public/uploads/' + image_name
+            widget_data['image_url'] = image_name
           end
        end
       
