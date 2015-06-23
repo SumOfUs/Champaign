@@ -1,4 +1,4 @@
-// Vanilla JavaScript image cropper
+// Vanilla JavaScript image cropper from http://dev.vizuina.com/cropper/
 var Cropper = function() {
     function t(e, t) {
         return e.currentStyle ? e.currentStyle[t] : typeof window.getComputedStyle == "function" ? window.getComputedStyle(e, null).getPropertyValue(t) : e.style[t]
