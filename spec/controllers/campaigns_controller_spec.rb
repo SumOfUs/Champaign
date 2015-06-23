@@ -1,10 +1,12 @@
 require 'rails_helper'
+require 'helper_functions'
 
-RSpec.describe CampaignsController, type: :request do
-  it 'raises an error if trying to show a deactivated campaign' do
+RSpec.describe CampaignsController, type: :feature do
+  scenario 'raises an error if trying to show a deactivated campaign' do
+    campaign = Campaign.create! campaign_name: 'Deactivated Campaign', active: false
+    log_in
     expect {
-      campaign = Campaign.create campaign_name: 'Deactivated Campaign', active: false
-      get "/campaigns/#{campaign.id}"
+      visit "/campaigns/#{campaign.id}"
     }.to raise_error(ActionController::RoutingError)
   end
 end
