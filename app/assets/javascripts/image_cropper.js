@@ -26,31 +26,38 @@ create_cropper_parameters = function(ratio_width, ratio_height, image_id) {
     return cropper_parameters;
 }
 
+handle_image_load = function() {
+    $("#image").load(function() {
+        image_cropper_parameters = create_cropper_parameters(14, 10, 'image');
+        image_cropper_parameters.update = function (coordinates) {
+            var cropper_width = $(".cropper").width()
+            var cropper_height = $(".cropper").height()
+            $("#image_x").val(coordinates['x']/cropper_width)
+            $("#image_y").val(coordinates['y']/cropper_height)
+            $("#image_width").val(coordinates['width']/cropper_width)
+            $("#image_height").val(coordinates['height']/cropper_height)
+
+        }
+        new Cropper($(this).get(0), image_cropper_parameters);
+    }); 
+}
+
 $(document).ready(function (){
-    // $("#image_container").hide();
+    //lay out initial cropper on top of the image loaded by default
+    handle_image_load();
+    //loads the image into image preview when image_url is changed:
     $("#widgets_image_image_url").change(function() {
-        $("#image_container").show();
-        $("#image_preview").empty()
         //append new image to image preview
-        $("#image_preview").append($("<img>", {
+        console.log('changed url')
+        $("#image_preview").html($("<img>", {
             id: "image", 
             class: "img-responsive center-block",
-            alt: "Enter a campaign image URL!",
-            src: $("#widgets_image_image_url").val()
-        }))
+            alt: "Enter an image URL to begin cropping!",
+            src: $("#widgets_image_image_url").val()+'?'+new Date().getTime()
+        }));
+        //prepare a cropper frame on top of the image when it loads
+        handle_image_load();
 
-        $("#image").load(function() {
-            image_cropper_parameters = create_cropper_parameters(14, 10, 'image');
-            image_cropper_parameters.update = function (coordinates) {
-                var cropper_width = $(".cropper").width()
-                var cropper_height = $(".cropper").height()
-                $("#image_x").val(coordinates['x']/cropper_width)
-                $("#image_y").val(coordinates['y']/cropper_height)
-                $("#image_width").val(coordinates['width']/cropper_width)
-                $("#image_height").val(coordinates['height']/cropper_height)
+    });
 
-            }
-            new Cropper($(this).get(0), image_cropper_parameters);
-        })
-    })
 })
