@@ -4,3 +4,11 @@
     = text_field_tag 'widgets[image][image_url]', options['image_url'], class: 'form-control'
     = hidden_field_tag 'widgets[image][widget_type]', WidgetType.find_by(:widget_name => 'image').id
     = file_field_tag 'widgets[image][image_upload]'
+    #image_container
+      #image_preview
+        = image_tag(options['image_url'], :id=>'image', :class=>"img-responsive center-block", :alt=>"")
+      div
+        input type="hidden" name="image_x" id="image_x"
+        input type="hidden" name="image_y" id="image_y"
+        input type="hidden" name="image_width" id="image_width"
+        input type="hidden" name="image_height" id="image_height"
