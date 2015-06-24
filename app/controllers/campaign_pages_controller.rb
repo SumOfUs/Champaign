@@ -1,8 +1,9 @@
 # required for reading/writing images for the image widget. Should be refactored to a separate file, together with 
 # the image processing logic.
-require 'open-uri'
-
 class CampaignPagesController < ApplicationController
+
+  include ImageCropper
+
   before_action :authenticate_user!, except: [:show]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
 
@@ -68,19 +69,25 @@ class CampaignPagesController < ApplicationController
         when 'image'
           # if image upload field has been specified
           if widget_data.key? 'image_upload'
-            @image = widget_data['image_upload']
+            image = widget_data['image_upload']
           # else, if we want the image from a URL
           else
-            @image = URI.parse(widget_data['image_url'])
+            image = URI.parse(widget_data['image_url'])
           end
-            # save image to file named after the slug, with a UUID appended to it, in app/assets/images
-            image_name = add_uuid_to_filename(permitted_params[:slug]) + '.jpeg'
+            # save image to file named after the slug, with a UUID appended to it, in app/assets/images.
+            # the .jpg extension is added because all images are made into jpg in ImageCropper.save
+            filename = add_uuid_to_filename(permitted_params[:slug]) + '.jpg'
             # handle image processing and save image
-            File.open(Rails.root.join('app', 'assets', 'images', image_name), 'wb') do |file|
-              file.write(@image.read)
+
+            # File.open(Rails.root.join('app', 'assets', 'images', filename), 'wb') do |file|
+            #   file.write(@image.read)
+            ImageCropper.set_params(params, image)
+            ImageCropper.crop
+            ImageCropper.resize
+            ImageCropper.save(filename)
+
             # update information on the image's location in the widget content
-            widget_data['image_url'] = image_name
-          end
+            widget_data['image_url'] = filename
        end
       
       page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,

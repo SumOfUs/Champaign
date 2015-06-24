@@ -59,5 +59,4 @@ $(document).ready(function (){
         handle_image_load();
 
     });
-
 })
