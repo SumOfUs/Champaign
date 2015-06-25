@@ -15,6 +15,11 @@ Rails.application.routes.draw do
   # a user toggling different templates when creating a campaign page
   get '/templates/show_form/:id', to: 'templates#show_form'
 
+  # Tagging pages
+  get '/tags/search/:search', to: 'tags#search'
+  post '/tags/add', to: 'tags#add_tag_to_campaign_page'
+  delete '/tags/remove', to: 'tags#remove_tag_from_campaign_page'
+
   # Standard resources
   resources :campaigns
   resources :campaign_pages

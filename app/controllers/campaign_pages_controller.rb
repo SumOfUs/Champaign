@@ -36,13 +36,20 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    permitted_params = CampaignPageParameters.new(params).permit
-    permitted_params[:slug] = permitted_params[:title].parameterize
+    parameter_filter = CampaignPageParameters.new(params)
+    permitted_params = parameter_filter.permit
+    if permitted_params[:slug].nil?
+      permitted_params[:slug] = permitted_params[:title].parameterize
+    end
+    tags = Tag.find parameter_filter.convert_tags(permitted_params[:tags])
     permitted_params[:active] = true
-    permitted_params[:featured] = false
+    #language and template are passed as 'language' and 'template', but required as 'language_id' and 'template_id':
     campaign = Campaign.find(permitted_params[:campaign_id])
     # creates a campaign page associated to the campaign specified in the form.
-    page = campaign.campaign_page.create! permitted_params.except(:campaign)
+    page = campaign.campaign_page.create! permitted_params.except(:campaign, :tags)
+    # Add the tags to the page
+    page.tags << tags
+    page.save
     # Collects all widgets that were associated with the campaign page that was created,
     # then loops through them to store them as entries in the campaign_pages_widgets 
     # table linked to the campaign page they belong to. Their content is pulled from 
@@ -107,8 +114,8 @@ class CampaignPagesController < ApplicationController
 
   def update
     @widgets = @campaign_page.campaign_pages_widgets
-
-    permitted_params = CampaignPageParameters.new(params).permit
+    param_filter = CampaignPageParameters.new(params)
+    permitted_params = param_filter.permit
     permitted_params[:slug] = permitted_params[:title].parameterize
     permitted_params[:campaign_pages_widgets_attributes] = []
     params[:widgets].each do |widget_type_name, widget_data|
@@ -128,7 +135,12 @@ class CampaignPagesController < ApplicationController
     # Only after that, we manipulate it by adding slug and title, and in my case, by adding a key called :campaign_pages_widgets_attributes, 
     # which is required for the nested parameters. Despite of setting up the strong parameters for the dependent object (campaign_pages_widgets),
     # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine.
-    @campaign_page.update! permitted_params.to_hash
+    @campaign_page.update! permitted_params.except(:tags).to_hash
+
+    # Now update the tags.
+    tags = Tag.find(param_filter.convert_tags(permitted_params[:tags]))
+    @campaign_page.tags.delete_all
+    @campaign_page.tags << tags
     redirect_to @campaign_page
   end
 
