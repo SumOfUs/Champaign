@@ -38,25 +38,48 @@ handle_image_load = function() {
             $("#image_height").val(coordinates['height']/cropper_height)
 
         }
+        //Load new cropper frame on top of the new image
         new Cropper($(this).get(0), image_cropper_parameters);
     }); 
+}
+
+replace_image = function(new_src) {
+    $("#image_preview").html($("<img>", {
+        id: "image", 
+        class: "img-responsive center-block",
+        alt: "Enter an image URL to begin cropping!",
+        src: new_src
+    }));
+    //prepare a cropper frame on top of the image when it loads
+    handle_image_load();
+}
+
+function read_url(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = (function(theFile) {
+            return function(e) {
+                replace_image(e.target.result)
+            }
+        })(input.files[0])
+        // read the image file as a data URL
+        reader.readAsDataURL(input.files[0]);
+    }
 }
 
 $(document).ready(function (){
     //lay out initial cropper on top of the image loaded by default
     handle_image_load();
+
+    //bind logic into image upload button
+    $("#widgets_image_image_upload").change(function(){
+        read_url(this);
+    });
+
     //loads the image into image preview when image_url is changed:
     $("#widgets_image_image_url").change(function() {
         //append new image to image preview
         console.log('changed url')
-        $("#image_preview").html($("<img>", {
-            id: "image", 
-            class: "img-responsive center-block",
-            alt: "Enter an image URL to begin cropping!",
-            src: $("#widgets_image_image_url").val()+'?'+new Date().getTime()
-        }));
-        //prepare a cropper frame on top of the image when it loads
-        handle_image_load();
-
+        replace_image($("#widgets_image_image_url").val()+'?'+new Date().getTime())
     });
 })
