@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603175701) do
+ActiveRecord::Schema.define(version: 20150623200743) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,11 @@ ActiveRecord::Schema.define(version: 20150603175701) do
     t.boolean  "featured",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "campaign_pages_tags", force: :cascade do |t|
+    t.integer "campaign_page_id"
+    t.integer "tag_id"
   end
 
   create_table "campaign_pages_widgets", force: :cascade do |t|
@@ -61,6 +66,13 @@ ActiveRecord::Schema.define(version: 20150603175701) do
   create_table "members", force: :cascade do |t|
     t.string "email_address",       null: false
     t.string "actionkit_member_id", null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string   "tag_name"
+    t.string   "actionkit_uri"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "templates", force: :cascade do |t|
