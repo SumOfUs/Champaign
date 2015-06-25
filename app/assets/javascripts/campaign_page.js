@@ -53,4 +53,8 @@ $(function() {
       }
     });
   });
+
+  $('#campaign_page_tags').select2({
+    placeholder: 'Add some tags'
+  });
 });
