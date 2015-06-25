@@ -74,19 +74,17 @@ class CampaignPagesController < ApplicationController
           else
             image = URI.parse(widget_data['image_url'])
           end
-            # save image to file named after the slug, with a UUID appended to it, in app/assets/images.
-            # the .jpg extension is added because all images are made into jpg in ImageCropper.save
+            # Save image to file named after the slug, with a UUID appended to it, in app/assets/images.
+            # All images are saved as jpg in ImageCropper.save
             filename = add_uuid_to_filename(permitted_params[:slug]) + '.jpg'
-            # handle image processing and save image
 
-            # File.open(Rails.root.join('app', 'assets', 'images', filename), 'wb') do |file|
-            #   file.write(@image.read)
+            # handle image processing and save image
             ImageCropper.set_params(params, image)
             ImageCropper.crop
             ImageCropper.resize
             ImageCropper.save(filename)
 
-            # update information on the image's location in the widget content
+            # The image's location /filename in the widget content
             widget_data['image_url'] = filename
        end
       

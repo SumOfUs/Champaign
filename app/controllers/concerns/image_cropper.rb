@@ -6,9 +6,6 @@ require 'RMagick'
 module ImageCropper
   extend ActiveSupport::Concern
 
-  # included do
-  #   scope :disabled, where(:disabled => true)
-  # end
   def self.set_params(params, image)
     @x = params['image_x'].to_f
     @y = params['image_y'].to_f
