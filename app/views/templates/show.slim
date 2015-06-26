@@ -1,4 +1,9 @@
 / A slim file for 'promoing' how a campaign page would look like when created with the template. 
+
+/ button for 'edit template'
+/ button for 'create a page using this template'
+/ button for 'create a new template using this one'
+
 .jumbotron
   h1 = @template.template_name
 - @template.widget_types.each do |widget_type|
