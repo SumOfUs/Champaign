@@ -2,6 +2,7 @@
 require 'active_support/concern'
 
 module ImageWidget
+  
   extend ActiveSupport::Concern
   include ImageCropper
 
