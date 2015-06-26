@@ -2,7 +2,7 @@
 # the image processing logic.
 class CampaignPagesController < ApplicationController
 
-  include ImageCropper
+  include ImageWidget
 
   before_action :authenticate_user!, except: [:show]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
@@ -36,11 +36,9 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
+    params[:campaign_page][:slug] = params[:campaign_page][:title].parameterize
     parameter_filter = CampaignPageParameters.new(params)
     permitted_params = parameter_filter.permit
-    if permitted_params[:slug].nil?
-      permitted_params[:slug] = permitted_params[:title].parameterize
-    end
     tags = Tag.find parameter_filter.convert_tags(permitted_params[:tags])
     permitted_params[:active] = true
     #language and template are passed as 'language' and 'template', but required as 'language_id' and 'template_id':
@@ -55,6 +53,9 @@ class CampaignPagesController < ApplicationController
     # table linked to the campaign page they belong to. Their content is pulled from 
     # the data entered to the forms for the widgets, and their page display order is assigned
     # from the order in which they were laid out in the creation form.
+
+
+    #call widget_handler with params[:widgets]
     widgets = params[:widgets]
     i = 0
     widgets.each do |widget_type_name, widget_data|
@@ -66,33 +67,10 @@ class CampaignPagesController < ApplicationController
         # petition form. We need to remove those or we'll end up with phantom elements in our
         # form.
         when 'petition'
-          if widget_data.key?('checkboxes') and widget_data['checkboxes'].key?('{cb_number}')
-            widget_data['checkboxes'].delete('{cb_number}')
-          end
-          if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
-            widget_data['textarea'].delete('placeholder')
-          end
+          PetitionWidget.handle(widget_data, params)
 
         when 'image'
-          # if image upload field has been specified
-          if widget_data.key? 'image_upload'
-            image = widget_data['image_upload']
-          # else, if we want the image from a URL
-          else
-            image = URI.parse(widget_data['image_url'])
-          end
-            # Save image to file named after the slug, with a UUID appended to it, in app/assets/images.
-            # All images are saved as jpg in ImageCropper.save
-            filename = add_uuid_to_filename(permitted_params[:slug]) + '.jpg'
-
-            # handle image processing and save image
-            ImageCropper.set_params(params, image)
-            ImageCropper.crop
-            ImageCropper.resize
-            ImageCropper.save(filename)
-
-            # The image's location /filename in the widget content
-            widget_data['image_url'] = filename
+          ImageWidget.handle(widget_data, params)
        end
       
       page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,
