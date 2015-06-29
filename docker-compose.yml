@@ -28,3 +28,15 @@ rabbitmq:
     - "5672"
     - "15672"
     - "8080"
+
+listeners:
+  build: ./queue_listeners
+  volumes:
+    - ./queue_listeners:/listeners
+    - .:/app_files
+  links:
+    - db
+    - rabbitmq
+    - redis
+  command: ruby /listeners/start_queue_listeners.rb
+
