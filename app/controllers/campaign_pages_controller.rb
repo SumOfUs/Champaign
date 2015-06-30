@@ -43,8 +43,9 @@ class CampaignPagesController < ApplicationController
     permitted_params = parameter_filter.permit
     tags = Tag.find parameter_filter.convert_tags(permitted_params[:tags])
 
-    # call widget_handler with params[:widgets]
-    permitted_params[:campaign_pages_widgets_attributes] = WidgetHandler.build_widget_attributes(params)
+    # handle data from widget forms by processing them with the widget handler that builds
+    # a hash we can store using nested attributes 
+    permitted_params[:campaign_pages_widgets_attributes] = WidgetHandler.build_widget_attributes(params, nil)
       
     page = CampaignPage.create! permitted_params.except(:campaign, :tags).to_hash
     # Add the tags to the page
@@ -68,19 +69,7 @@ class CampaignPagesController < ApplicationController
     param_filter = CampaignPageParameters.new(params)
     permitted_params = param_filter.permit
     permitted_params[:slug] = permitted_params[:title].parameterize
-    permitted_params[:campaign_pages_widgets_attributes] = []
-    params[:widgets].each do |widget_type_name, widget_data|
-      # widget type id is contained in a field called widget_type:
-      widget_type_id = widget_data.delete :widget_type
-      # This will break if there will be two widgets of the same type for the page. If we enable having two of the same widget type per page,
-      # page display order will need to be considered as well for fetching the correct id of the widget.
-      widget = @widgets.find_by(widget_type_id: widget_type_id)
-      permitted_params[:campaign_pages_widgets_attributes].push({
-        id: widget.id,
-        widget_type_id: widget_type_id,
-        content: widget_data,
-        page_display_order: widget.page_display_order})
-    end
+    permitted_params[:campaign_pages_widgets_attributes] = WidgetHandler.build_widget_attributes(params, @widgets)
 
     @campaign_page.update! permitted_params.except(:tags).to_hash
 

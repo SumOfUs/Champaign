@@ -16,5 +16,4 @@ module PetitionWidget
       widget_data['textarea'].delete('placeholder')
     end
   end
-
 end
