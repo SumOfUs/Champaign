@@ -17,3 +17,9 @@
 champaign.iml
 out/*
 config/secrets.yml
+
+# Ignore uploads
+public/uploads*
+
+# Ignore images
+app/assets/images

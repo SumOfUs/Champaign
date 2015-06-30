@@ -1,4 +1,4 @@
-= form_for(@campaign_page, class: 'form-horizontal') do |f|
+= form_for(@campaign_page, class: 'form-horizontal', html: {multipart: true}) do |f|
   fieldset
     legend Basic page information
     .form-group
@@ -17,6 +17,10 @@
       = f.label :language_id, 'Language: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :language_id, options_from_collection_for_select(Language.all,'id', 'language_name'), {}, html_options= {:class => 'form-control'}
+
+      = f.label :tags, 'Tags: ', class: 'control-label col-lg-2'
+      .col-lg-10
+        = f.select :tags, options_from_collection_for_select(Tag.all, 'id', 'tag_name'), {}, html_options= {class: 'form-control', multiple: true}
     
       label for='template_id' class='control-label col-lg-2' Template: 
       .col-lg-10
