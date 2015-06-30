@@ -21,7 +21,6 @@ module WidgetHandler
     widget_attributes = []
 
     widget_params.each_with_index do |(widget_type_name, widget_data), index|
-      puts 'index', index
       # widget type id is contained in a field called widget_type:
       widget_type_id = widget_data.delete :widget_type
       # goes through all widget types by name and calls their respective handlers

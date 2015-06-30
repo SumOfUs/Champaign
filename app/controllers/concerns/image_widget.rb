@@ -11,17 +11,20 @@ module ImageWidget
     # All images are saved as jpg in ImageCropper.save
     filename = add_uuid_to_filename(params[:campaign_page][:title].parameterize) + '.jpg'
 
+    
+    # if image upload field has been specified, use file upload
+    if widget_data.key? 'image_upload'
+      puts 'upload the image'
+      image = widget_data['image_upload']
+    # else, look at image URL:
     # if file already exists in app/assets/images, use it
-    if File.exist? "app/assets/images/#{widget_data['image_url']}"
+    elsif File.exist? "app/assets/images/#{widget_data['image_url']}"
       image = "app/assets/images/#{widget_data['image_url']}"
       # if the image name already contains the UUID (if we're editing a page),
       # keep the original file name
       if image_has_uuid(widget_data['image_url'])
         filename = widget_data['image_url']
       end
-    # if image upload field has been specified, use file upload
-    elsif widget_data.key? 'image_upload'
-      image = widget_data['image_upload']
     # else, if the image url specifies an external image
     elsif image_is_external_url(widget_data['image_url'])
       image = URI.parse(widget_data['image_url'])    

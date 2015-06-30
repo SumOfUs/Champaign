@@ -1,8 +1,6 @@
-# required for reading/writing images for the image widget. Should be refactored to a separate file, together with 
-# the image processing logic.
 class CampaignPagesController < ApplicationController
 
-  include ImageWidget
+  include WidgetHandler
 
   before_action :authenticate_user!, except: [:show]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
