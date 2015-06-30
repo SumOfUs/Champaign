@@ -26,3 +26,5 @@ Champaign is a digital campaigning platform built by SumOfUs. It is under develo
   * If you are on OS X, you will need to retrieve the IP of your Docker vm by running `boot2docker ip`
   on the command line. (On most machines, this seems to be `192.168.59.103`).
   * On OS X, visit `http://boot2docker_ip:port` (or the equivalent result of `boot2docker ip` with port 3000) in your browser to see the application running.
+7. Run the tests
+  * `docker-compose run web rspec spec`
