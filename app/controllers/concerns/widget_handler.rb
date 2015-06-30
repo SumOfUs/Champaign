@@ -24,7 +24,8 @@ module WidgetHandler
       puts 'index', index
       # widget type id is contained in a field called widget_type:
       widget_type_id = widget_data.delete :widget_type
-
+      # goes through all widget types by name and calls their respective handlers
+      # to build the objects for the widget attributes array
       case widget_type_name 
         when 'petition'
           PetitionWidget.handle(widget_data, params)
@@ -38,12 +39,12 @@ module WidgetHandler
       }
 
       # if an existing collection of widgets hasn't been passed,
-      # create a widget_attributes hash for CREATING a page
+      # create a widget_object hash for CREATING a page:
       if widgets.nil?
         widget_object[:page_display_order] = index
+      # else, create  a widget_object hash for UPDATING a page:
       else
-        # match the widget form with the existing widget in the 
-        # array of widgets that was passed for the campaign page update call
+        # match the widget form with the existing widgets for the campaign page
         # -> NOTE - display order will need to be passed as addition to
         # widget type id if we will ever enable having two same widgets on a page
         widget = widgets.find_by(widget_type_id: widget_type_id)
