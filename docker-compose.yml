@@ -32,11 +32,11 @@ rabbitmq:
 listeners:
   build: ./queue_listeners
   volumes:
-    - ./queue_listeners:/listeners
+    - ./queue_listeners:/queue_listeners
     - .:/app_files
   links:
     - db
     - rabbitmq
     - redis
-  command: ruby /listeners/start_queue_listeners.rb
+  command: ruby /queue_listeners/*.rb
 
