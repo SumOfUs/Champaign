@@ -135,7 +135,7 @@ Tag.create!([
   {tag_name: '*Other_High_Bar_Action', actionkit_uri: '/rest/v1/tag/977/'},
   {tag_name: '*Social_Media', actionkit_uri: '/rest/v1/tag/974/'},
   {tag_name: '+MVP', actionkit_uri: '/rest/v1/tag/948/'},
-  {tag_name: '+Test', actionkit_uri: '/rest/v1/tag/947/'},
+  {tag_name: '+Test', actionkit_uri: '/rest/v1/tag/949/'},
   {tag_name: '+Full_Universe', actionkit_uri: '/rest/v1/tag/951/'},
   {tag_name: '+Special_Universe', actionkit_uri: '/rest/v1/tag/964/'},
   {tag_name: '+Kicker', actionkit_uri: '/rest/v1/tag/952/'},
