@@ -2,7 +2,7 @@ class CampaignsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @campaigns = Campaign.where(:active => true)
+    @campaigns = Campaign.active
   end
 
   def new

@@ -7,7 +7,7 @@ describe Campaign do
 
   describe 'scopes' do
     describe 'active' do
-      #TODO Implement fixtures. FactoryGirl, perheps?
+      #TODO Implement fixtures. FactoryGirl, perhaps?
       let(:active_campaign)     { Campaign.create( campaign_name: "I'm active", active: true ) }
       let(:not_active_campaign) { Campaign.create( campaign_name: "I'm not active", active: false ) }
 
