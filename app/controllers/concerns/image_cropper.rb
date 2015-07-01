@@ -1,7 +1,7 @@
 # Image cropper - used on images when posting and updating campaigns and donations
 require 'active_support/concern'
 require 'open-uri'
-require 'RMagick'
+require 'rmagick'
 
 module ImageCropper
   extend ActiveSupport::Concern
