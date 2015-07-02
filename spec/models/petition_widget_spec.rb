@@ -42,9 +42,7 @@ RSpec.describe PetitionWidget, type: :model do
     end
 
     it "should be invalid without a required field" do
-
       widget.content.delete('petition_text')
-      # widget.content['petition_text'] = nil
       expect(widget.content['petition_text']).to be_nil
       expect(widget).not_to be_valid
     end
@@ -61,7 +59,6 @@ RSpec.describe PetitionWidget, type: :model do
 
     it "should be valid without a non-required field" do
       widget.content.delete('form_button_text')
-      # widget.content['form_button_text'] = nil
       expect(widget.content['form_button_text']).to be_nil
       expect(widget).to be_valid
     end
