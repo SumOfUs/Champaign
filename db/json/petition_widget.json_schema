@@ -4,12 +4,10 @@
   "properties": {
     "petition_text": {
       "type": "string",
-      "required": true,
       "minLength": 10
     },
     "form_button_text": {
-      "type": "string",
-      "required": false
+      "type": "string"
     },
     "require_full_name": {
       "type": "boolean"
@@ -50,5 +48,6 @@
     "letter_sent_form": {
       "type": "dictionary"
     }
-  }
+  },
+  "required": ["petition_text"]
 }
