@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe PetitionWidget, type: :model do
 
   let(:content) { {
-    city: "London",
-    country: "England",
     petition_text: "Stop rails developers writing tests!",
     require_full_name: true,
     require_email_address: true,
@@ -29,8 +27,29 @@ RSpec.describe PetitionWidget, type: :model do
 
   describe :content do
 
-    it "should be invalid without a city" do
-      widget.content[:city] = nil
+    it "should be invalid without a required field" do
+      widget.content[:petition_text] = nil
+      expect(widget).not_to be_valid
+    end
+
+    it "should be invalid with petition_text too short" do
+      widget.content[:petition_text] = "meh"
+      expect(widget).not_to be_valid
+    end
+
+    it "should be valid changin a non-required field" do
+      widget.content[:form_button_text] = "Go!"
+      expect(widget).to be_valid
+    end
+
+    it "should be valid without a non-required field" do
+      widget.content.delete(:form_button_text)
+      expect(widget).to be_valid
+      expect(widget.content[:form_button_text]).to be_nil
+    end
+
+    it "should enforce string types" do
+      widget.content[:petition_text] = 123
       expect(widget).not_to be_valid
     end
   end
