@@ -22,7 +22,7 @@ RSpec.describe PetitionWidget, type: :model do
     form_button_text: "Stop 'em!"
   } }
   let(:params) { { page_display_order: 1, content: content } }
-  let(:petition_widget) { PetitionWidget.new(params) }
+  let(:widget) { PetitionWidget.new(params) }
 
   subject { widget }
   it { should be_valid }
