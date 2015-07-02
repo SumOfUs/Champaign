@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'capybara/poltergeist'
 
 RSpec.describe CampaignPagesController, type: :feature do
   scenario 'Redirect after a user signs the petition' do
