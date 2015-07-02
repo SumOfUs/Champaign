@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623200743) do
+ActiveRecord::Schema.define(version: 20150702192503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,15 @@ ActiveRecord::Schema.define(version: 20150623200743) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",            null: false
+  end
+
+  create_table "widgets", force: :cascade do |t|
+    t.jsonb    "content"
+    t.string   "type"
+    t.integer  "page_display_order"
+    t.integer  "campaign_page_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
   end
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
