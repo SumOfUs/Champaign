@@ -19,7 +19,7 @@ RSpec.describe TextWidget, type: :model do
 
   end
 
-  describe :content do
+  describe 'content' do
 
     it "should have the initialized values" do
       expect(widget.content['body_html']).to eq content[:body_html]

@@ -13,14 +13,14 @@ RSpec.describe Widget, type: :model do
   it { should respond_to :type }
 
 
-  describe :type do
+  describe 'type' do
     it "should be invalid when not in the allowed types" do
       widget.type = "NotARealWidget"
       expect(widget).not_to be_valid
     end
   end
 
-  describe :page_display_order do
+  describe 'page_display_order' do
     it "should be invalid when negative" do
       widget.page_display_order = -1
       expect(widget).not_to be_valid
