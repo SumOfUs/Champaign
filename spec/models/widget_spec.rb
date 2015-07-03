@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Widget, type: :model do
 
-  let(:widget) { Widget.new(page_display_order: 1, type: "TextWidget") }
+  let(:widget) { Widget.new(page_display_order: 1, type: "TextWidget", content: { body_html: "yippee!"}) }
 
   subject { widget }
 
