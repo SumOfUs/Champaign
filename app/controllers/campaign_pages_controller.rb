@@ -6,10 +6,7 @@ class CampaignPagesController < ApplicationController
 
   before_action :authenticate_user!, except: [:show]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
-
-  def get_campaign_page
-    @campaign_page = CampaignPage.find(params[:id])
-  end
+  before_action :clean_params, only: [:create, :update]
 
   def index
     if params['disabled']
@@ -36,11 +33,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    parameter_filter = CampaignPageParameters.new(params)
-    permitted_params = parameter_filter.permit
-    if permitted_params[:slug].nil?
-      permitted_params[:slug] = permitted_params[:title].parameterize
-    end
+    permitted_params = CampaignPageParameters.new(params).permit
     tags = Tag.find parameter_filter.convert_tags(permitted_params[:tags])
     permitted_params[:active] = true
     #language and template are passed as 'language' and 'template', but required as 'language_id' and 'template_id':
@@ -148,4 +141,15 @@ class CampaignPagesController < ApplicationController
     # Nothing here for the moment
     render json: {success: true}, layout: false
   end
+
+  private
+
+  def get_campaign_page
+    @campaign_page = CampaignPage.find(params[:id])
+  end
+
+  def clean_params
+    @page_params = CampaignPageParameters.new(params).permit
+  end
+
 end

@@ -21,4 +21,11 @@ class CampaignPage < ActiveRecord::Base
 
   # allows updating associated campaign page widgets
   accepts_nested_attributes_for :widgets
+
+  before_validation :create_slug
+
+  # have we thought about using friendly id? probably better
+  def create_slug
+    self.slug = title.parameterize if slug.nil? and not title.nil?
+  end
 end
