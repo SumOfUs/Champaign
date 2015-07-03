@@ -10,14 +10,15 @@ class CampaignPage < ActiveRecord::Base
   has_many :widgets
 
   validates :title, :slug, presence: true, uniqueness: true
+  validates :language, presence: true
 
   # validating presence of a boolean fields
   validates_inclusion_of :active, in: [true, false]
   validates_inclusion_of :featured, in: [true, false]
 
   # calls validations on the widgets associated to the campaign page:
-  validates_associated :campaign_pages_widgets
+  validates_associated :widgets
 
   # allows updating associated campaign page widgets
-  accepts_nested_attributes_for :campaign_pages_widgets
+  accepts_nested_attributes_for :widgets
 end
