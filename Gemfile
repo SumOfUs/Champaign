@@ -53,5 +53,9 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.3'
   gem 'capybara' # Capybara for integration testing
   gem 'envyable'
+
+  # data for tests
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
