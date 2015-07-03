@@ -1,14 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Widget, type: :model do
+RSpec.describe CampaignPage do
 
-  # TODO real soon get factory girl set up
-  let(:english) { Language.new(language_code: 'en', language_name: "English") }
-  let(:text_widget_params_1) { { content: { body_html: "Once in a while you can get shown the light"}, type: "TextWidget", page_display_order: 1} }
-  let(:text_widget_params_2) { { content: { body_html: "In the strangest of places if you look at it right"}, type: "TextWidget", page_display_order: 2} }
-  # let(:petition_widget_params) { { content: { petition_text: "Casey Jones you better / watch your speed"}, type: "PetitionWidget", page_display_order: 3} }
+  let(:english) { create :language }
+  let(:text_widget_params_1) { attributes_for :text_widget }
+  let(:text_widget_params_2) { attributes_for :text_widget }
   let(:widget_params) { [text_widget_params_1, text_widget_params_2] }
-  let(:page_params) { {title: "My Campaign", slug: "my-campaign", active: true, featured: false, language: english } }
+  let(:page_params) { attributes_for :widgetless_page, language: english }
   let(:page) { CampaignPage.new(page_params) }
 
   subject { page }

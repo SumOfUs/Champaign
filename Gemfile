@@ -90,5 +90,9 @@ group :development, :test do
 
   # Poltergeist allows for headless JS testing with Capybara.
   gem 'poltergeist'
+
+  # data for tests
+  gem 'factory_girl_rails'
+  gem 'faker'
 end
 
