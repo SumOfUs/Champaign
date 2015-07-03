@@ -5,7 +5,8 @@ RSpec.describe CampaignPage do
   let(:english) { create :language }
   let(:text_widget_params_1) { attributes_for :text_widget }
   let(:text_widget_params_2) { attributes_for :text_widget }
-  let(:widget_params) { [text_widget_params_1, text_widget_params_2] }
+  let(:petition_widget_params) { attributes_for :petition_widget }
+  let(:widget_params) { [petition_widget_params, text_widget_params_1, text_widget_params_2] }
   let(:page_params) { attributes_for :widgetless_page, language: english }
   let(:page) { CampaignPage.new(page_params) }
 
@@ -26,8 +27,8 @@ RSpec.describe CampaignPage do
         page = CampaignPage.new(page_params.merge({widgets_attributes: widget_params}))
         page.save
         expect(page.errors.keys).to eq []
-        expect(Widget.count).to eq (old_widget_count + 2)
-        # expect(PetitionWidget.last.content['petition_text']).to eq petition_widget_params[:petition_text]
+        expect(Widget.count).to eq (old_widget_count + 3)
+        expect(PetitionWidget.last.content['petition_text']).to eq petition_widget_params[:content][:petition_text]
       end
     end
   end
