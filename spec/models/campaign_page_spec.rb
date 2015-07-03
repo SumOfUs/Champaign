@@ -10,7 +10,7 @@ RSpec.describe CampaignPage do
   let(:widget_params) { [petition_widget_params, text_widget_params_1, text_widget_params_2] }
   let(:page_params) { attributes_for :widgetless_page, language: english }
   let(:simple_page) { CampaignPage.new(page_params) }
-  let(:existing_page) { p = CampaignPage.new(page_params.merge({widgets_attributes: widget_params})); p.save!; p }
+  let(:existing_page) { CampaignPage.create!(page_params.merge({widgets_attributes: widget_params})) }
 
   subject { simple_page }
 
@@ -21,9 +21,9 @@ RSpec.describe CampaignPage do
   it { should respond_to :featured }
   it { should respond_to :widgets }
 
-  describe :widgets do
+  describe 'widgets' do
 
-    describe :create do
+    describe 'create' do
       
       it "should create widgets with good params" do
         old_widget_count = Widget.count
@@ -53,14 +53,14 @@ RSpec.describe CampaignPage do
       end
     end
 
-    describe :destroy do
+    describe 'destroy' do
       it 'should destroy the widgets when the page is destroyed' do
         page = existing_page # until existing page is called, it doesn't exist cause let() is lazy
         expect{ page.destroy }.to change{ Widget.count }.by -3
       end
     end
 
-    describe :show do
+    describe 'show' do
 
       it 'should be able to iterate over the widgets' do
         expect(existing_page.widgets.size).to eq 3
@@ -72,7 +72,7 @@ RSpec.describe CampaignPage do
 
   end
 
-  describe :language do
+  describe 'language' do
     it 'should be required' do
       simple_page.language = nil
       expect(simple_page).not_to be_valid

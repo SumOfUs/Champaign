@@ -35,7 +35,7 @@ RSpec.describe PetitionWidget, type: :model do
 
   end
 
-  describe :content do
+  describe 'content' do
 
     it "should have the initialized values" do
       expect(widget.content['form_button_text']).to eq content[:form_button_text]
