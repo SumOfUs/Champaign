@@ -7,7 +7,7 @@ class CampaignPage < ActiveRecord::Base
   has_many :campaign_pages_widgets, inverse_of: :campaign_page
   has_many :campaign_pages_tags
   has_many :tags, through: :campaign_pages_tags, source: :tag
-  has_many :widgets
+  has_many :widgets, dependent: :destroy
 
   validates :title, :slug, presence: true, uniqueness: true
   validates :language, presence: true
