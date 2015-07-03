@@ -1,26 +1,43 @@
 require 'rails_helper'
 
-RSpec.describe CampaignPagesController, type: :feature do
-  scenario 'Redirect after a user signs the petition' do
-    cam_page = create_petition_page
-    visit "/campaign_pages/#{cam_page.id}"
-    expect(find('#redirect-location')).to have_text 'www.google.com'
-  end
+RSpec.describe CampaignPagesController, type: :controller do
 
-  scenario 'Index displays the list of active campaign pages' do
-    cam_page = create_petition_page
-    log_in
-    visit '/campaign_pages'
-    expect(page.body).to have_text cam_page.title
-  end
+  let(:english) { create :language }
+  let( :admin ) { create :admin }
+  let(:petition_widget_params) { attributes_for :petition_widget }
+  let(:text_widget_params_1) { attributes_for :text_widget }
+  let(:text_widget_params_2) { attributes_for :text_widget }
+  # let(:bad_widget_params) { attributes_for :text_widget, content: {} }
+  let(:widget_params) { [petition_widget_params, text_widget_params_1, text_widget_params_2] }
+  let(:page_params) { attributes_for :widgetless_page, language: english }
+  let(:page_widget_params) { page_params.merge({widgets_attributes: widget_params}) }
+  # let(:simple_page) { CampaignPage.new(page_params) }
+  # let(:existing_page) { p = CampaignPage.new(page_widget_params); p.save!; p }
 
-  scenario 'Index page for disabled pages displays the list of disabled pages' do
-    cam_page = create_petition_page
-    cam_page.active = false
-    cam_page.save
-    log_in
-    visit '/campaign_pages?disabled=1'
-    expect(page.body).to have_text cam_page.title
+  describe "logged in as admin" do
+
+    before :each do
+      expect(admin).to be_persisted
+      allow(controller).to receive(:current_user) { admin }
+    end
+
+    describe 'create' do
+
+      it 'should be able to create a page without widgets' do
+        expect{ post :create, page_params }.to change{ CampaignPage.count }.by 1
+        expect(response).to be_successful
+      end
+
+      it 'should be able to create a page with widgets' do
+        expect{ post :create, page_widget_params }.to change{ CampaignPage.count }.by 1
+        expect(response).to be_successful
+      end
+
+      it 'should be able to create widgets with a page' do
+        expect{ post :create, page_widget_params }.to change{ CampaignPage.count }.by 3
+        expect(response).to be_successful
+      end
+    end
   end
 end
 

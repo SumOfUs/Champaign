@@ -31,6 +31,18 @@ FactoryGirl.define do
     type "PetitionWidget"
   end
 
+  factory :user do
+    email
+    password { Faker::Internet.password }
+    admin false
+  end
+
+  factory :admin, class: :user do
+    email
+    password { Faker::Internet.password }
+    admin true
+  end
+
   factory :language do
     language_code 'en'
     language_name 'English'
