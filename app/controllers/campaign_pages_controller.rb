@@ -1,10 +1,6 @@
-# required for reading/writing images for the image widget. Should be refactored to a separate file, together with 
-# the image processing logic.
 class CampaignPagesController < ApplicationController
 
-  include ImageCropper
-
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show, :create]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
   before_action :clean_params, only: [:create, :update]
 
@@ -33,67 +29,12 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    permitted_params = CampaignPageParameters.new(params).permit
-    tags = Tag.find parameter_filter.convert_tags(permitted_params[:tags])
-    permitted_params[:active] = true
-    #language and template are passed as 'language' and 'template', but required as 'language_id' and 'template_id':
-    campaign = Campaign.find(permitted_params[:campaign_id])
-    # creates a campaign page associated to the campaign specified in the form.
-    page = campaign.campaign_page.create! permitted_params.except(:campaign, :tags)
-    # Add the tags to the page
-    page.tags << tags
-    page.save
-    # Collects all widgets that were associated with the campaign page that was created,
-    # then loops through them to store them as entries in the campaign_pages_widgets 
-    # table linked to the campaign page they belong to. Their content is pulled from 
-    # the data entered to the forms for the widgets, and their page display order is assigned
-    # from the order in which they were laid out in the creation form.
-    widgets = params[:widgets]
-    i = 0
-    widgets.each do |widget_type_name, widget_data|
-      # widget type id is contained in a field called widget_type:
-      widget_type_id = widget_data.delete :widget_type
-
-      case widget_type_name 
-        # We have some placeholder data for checkboxes and textareas if we are using a
-        # petition form. We need to remove those or we'll end up with phantom elements in our
-        # form.
-        when 'petition'
-          if widget_data.key?('checkboxes') and widget_data['checkboxes'].key?('{cb_number}')
-            widget_data['checkboxes'].delete('{cb_number}')
-          end
-          if widget_data.key?('textarea') and widget_data['textarea'].key?('placeholder')
-            widget_data['textarea'].delete('placeholder')
-          end
-
-        when 'image'
-          # if image upload field has been specified
-          if widget_data.key? 'image_upload'
-            image = widget_data['image_upload']
-          # else, if we want the image from a URL
-          else
-            image = URI.parse(widget_data['image_url'])
-          end
-            # Save image to file named after the slug, with a UUID appended to it, in app/assets/images.
-            # All images are saved as jpg in ImageCropper.save
-            filename = add_uuid_to_filename(permitted_params[:slug]) + '.jpg'
-
-            # handle image processing and save image
-            ImageCropper.set_params(params, image)
-            ImageCropper.crop
-            ImageCropper.resize
-            ImageCropper.save(filename)
-
-            # The image's location /filename in the widget content
-            widget_data['image_url'] = filename
-       end
-      
-      page.campaign_pages_widgets.create!(widget_type_id: widget_type_id,
-                                         content: widget_data,
-                                         page_display_order: i)
-      i += 1
+    page = CampaignPage.new(@page_params)
+    if page.save
+      redirect_to page
+    else
+      render :new
     end
-    redirect_to page
   end
 
   def show
@@ -149,7 +90,17 @@ class CampaignPagesController < ApplicationController
   end
 
   def clean_params
-    @page_params = CampaignPageParameters.new(params).permit
+    @page_params = params.require(:campaign_page).permit(
+      :title,
+      :slug,
+      :active,
+      :featured,
+      :template_id,
+      :campaign_id,
+      :language_id,
+      {:tags => []},
+      widgets_attributes: widget_params
+    )#
   end
 
 end
