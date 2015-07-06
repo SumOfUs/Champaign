@@ -70,6 +70,58 @@ describe CampaignPage do
     end
   end
 
+
+  describe 'tags' do
+
+    before :each do
+      4.times do create :tag end
+    end
+
+    it 'should be a reciprocal many-to-many relationship' do
+      page = CampaignPage.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+      expect(page.tags).to match_array Tag.last(2)
+      expect(Tag.last.campaign_pages).to match_array [page]
+      expect(Tag.first.campaign_pages).to match_array []
+    end
+
+    describe 'create' do
+
+      after :each do
+        page = CampaignPage.new page_params
+        expect{ page.save! }.to change{ CampaignPagesTag.count }.by 2
+        expect(page.tags).to match_array(Tag.last(2))
+      end
+
+      it 'should create the many-to-many association with int ids' do
+        page_params[:tag_ids] = Tag.last(2).map(&:id).map(&:to_i)
+      end
+
+      it 'should create the many-to-many association with string ids' do
+        page_params[:tag_ids] = Tag.last(2).map(&:id).map(&:to_s)
+      end
+    end
+
+    describe 'destroy' do
+
+      before :each do
+        @page = CampaignPage.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+      end
+
+      it 'should destroy the page' do
+        expect{ @page.destroy }.to change{ CampaignPage.count }.by -1
+      end
+
+      it 'should destroy the join table records' do
+        expect{ @page.destroy }.to change{ CampaignPagesTag.count }.by -2
+      end
+
+      it 'should not destroy the tag' do
+        expect{ @page.destroy }.to change{ Tag.count }.by 0
+      end
+    end
+
+  end
+
   describe 'slug' do
 
     it 'should auto-fill slug' do
