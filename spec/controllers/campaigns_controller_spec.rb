@@ -130,7 +130,6 @@ describe CampaignsController do
     end
 
     it 'assigns campaign' do
-      post :create
       expect(assigns(:campaign)).to eq(campaign)
     end
   end
