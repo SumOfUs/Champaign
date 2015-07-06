@@ -38,5 +38,4 @@ listeners:
     - db
     - rabbitmq
     - redis
-  command: ruby /queue_listeners/*.rb
-
+  command: sh /queue_listeners/start_listeners.sh

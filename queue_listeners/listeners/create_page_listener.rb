@@ -12,13 +12,12 @@ fanout = factory.get_fanout_channel
 
 
 begin
-  puts " [*] Waiting for messages. To exit press CTRL+C"
+  file.write('listener_output', '[*] Waiting for messages. To exit press CTRL+C')
   channel.queue('create_page', auto_delete: true).bind(fanout).subscribe(block: true) do |delivery_info, metadata, payload|
-    p "#{payload} received and processed"
+    file.write('listener_output', "#{payload} received and processed")
   end
 rescue Interrupt => _
   connection.close
 
   exit(0)
 end
-
