@@ -8,7 +8,7 @@ describe CampaignPage do
   let(:widget_params) { [petition_widget_params, text_widget_params_1, text_widget_params_2] }
   let(:page_params) { attributes_for :widgetless_page, language: english }
   let(:simple_page) { CampaignPage.new(page_params) }
-  let(:existing_page) { CampaignPage.create!(page_params.merge({widgets_attributes: widget_params})) }
+  let(:existing_page) { create :widgetless_page, language: english, widgets_attributes: widget_params }
 
   subject { simple_page }
 
