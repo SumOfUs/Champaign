@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe WidgetType do
+describe WidgetType do
   widget = WidgetType.new widget_name: 'Test Widget'
 
   it 'should generate its own form partial location' do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe TextWidget, type: :model do
+describe TextWidget do
 
   let(:content) { { body_html: "We need to stop rails developers writing tests!" } }
   let(:params) { { page_display_order: 1, content: content } }
