@@ -19,6 +19,8 @@ Champaign is a digital campaigning platform built by SumOfUs. It is under develo
   * `docker-compose build` This will take a few minutes to download the relevant containers and install
   ruby gems.
   * Copy `secrets.yml` to the `config` directory.
+  * Run `cp config/env.yml.template config/env.yml`.
+  * Update `env.yml` with valid keys.
   * Create the database by issuing `docker-compose run web rake db:create` and load the tables by issuing `docker-compose run web rake db:schema:load`
   * `docker-compose up` This will start the application running in the docker container.
 6. Check that it's running

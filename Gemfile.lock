@@ -55,7 +55,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    cliver (0.3.2)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -73,6 +72,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    envyable (0.2.0)
     erubis (2.7.0)
     execjs (2.5.2)
     faraday (0.9.1)
@@ -135,14 +135,7 @@ GEM
       activerecord (>= 3.0, < 5.0)
       activesupport (>= 3.0, < 5.0)
     pg (0.18.2)
-    poltergeist (1.6.0)
-      capybara (~> 2.1)
-      cliver (~> 0.3.1)
-      multi_json (~> 1.0)
-      websocket-driver (>= 0.2.0)
     rack (1.6.4)
-    rack-cache (1.2)
-      rack (>= 0.4)
     rack-pjax (0.8.0)
       nokogiri (~> 1.5)
       rack (~> 1.1)
@@ -188,28 +181,6 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
-    redis (3.2.1)
-    redis-actionpack (4.0.0)
-      actionpack (~> 4)
-      redis-rack (~> 1.5.0)
-      redis-store (~> 1.1.0)
-    redis-activesupport (4.0.0)
-      activesupport (~> 4)
-      redis-store (~> 1.1.0)
-    redis-namespace (1.5.2)
-      redis (~> 3.0, >= 3.0.4)
-    redis-rack (1.5.0)
-      rack (~> 1.5)
-      redis-store (~> 1.1.0)
-    redis-rack-cache (1.2.2)
-      rack-cache (~> 1.2)
-      redis-store (~> 1.1.0)
-    redis-rails (4.0.0)
-      redis-actionpack (~> 4)
-      redis-activesupport (~> 4)
-      redis-store (~> 1.1.0)
-    redis-store (1.1.5)
-      redis (>= 2.2)
     remotipart (1.2.1)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
@@ -272,9 +243,6 @@ GEM
       binding_of_caller (>= 0.7.2)
       railties (>= 4.0)
       sprockets-rails (>= 2.0, < 4.0)
-    websocket-driver (0.5.4)
-      websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.2)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -288,19 +256,15 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.1.0)
   devise
+  envyable
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
   omniauth-google-oauth2
   paper_trail
   pg
-  poltergeist
   rails (= 4.2.3)
   rails_admin
-  redis
-  redis-namespace
-  redis-rack-cache
-  redis-rails
   rmagick
   rspec-rails (~> 3.3)
   sass-rails (~> 5.0)
@@ -311,3 +275,6 @@ DEPENDENCIES
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.10.4

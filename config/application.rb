@@ -32,6 +32,5 @@ module Champaign
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.
-    config.cache_store = :redis_store, 'redis://redis:6379/0/cache'
   end
 end
