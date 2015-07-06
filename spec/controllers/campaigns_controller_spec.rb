@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe CampaignsController do
   let(:user) { double(:user) }
 

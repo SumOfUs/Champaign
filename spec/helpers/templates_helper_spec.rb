@@ -1,6 +1,3 @@
-require 'rails_helper'
-
-
 describe TemplatesHelper do
   expected_image_hash = {'width' => 640, 'height' => 480, 'image_url' => 'https://placeimg.com/640/480/any'}
   expected_text_body_hash = {'text_body_html' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec pretium sem.'}

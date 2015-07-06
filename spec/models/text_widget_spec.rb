@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe TextWidget do
 
   let(:content) { { body_html: "We need to stop rails developers writing tests!" } }

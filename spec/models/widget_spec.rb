@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe Widget do
 
   let(:widget) { Widget.new(page_display_order: 1, type: "TextWidget", content: { body_html: "yippee!"}) }
