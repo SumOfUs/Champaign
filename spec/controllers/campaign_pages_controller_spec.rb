@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe CampaignPagesController do
 
   let(:english) { create :language }

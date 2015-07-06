@@ -1,5 +1,3 @@
-require 'rails_helper'
-require 'spec_helper'
 
 # Since the tests for our Parameter types are all identical (make sure
 # that they correctly filter the right values and throw errors on the

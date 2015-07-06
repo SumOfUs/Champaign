@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe WidgetType do
   widget = WidgetType.new widget_name: 'Test Widget'
 

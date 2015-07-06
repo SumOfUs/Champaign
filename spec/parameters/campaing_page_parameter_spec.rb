@@ -1,6 +1,3 @@
-require 'rails_helper'
-require 'spec_helper'
-
 describe CampaignPageParameters do
   it 'should filter a tag list full of strings' do
     tag_list = ["1", "2", "3"]

@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe PetitionWidget do
 
   let(:content) { {
