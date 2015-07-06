@@ -12,11 +12,11 @@ describe CampaignsController do
     let(:campaign) { double(:campaign) }
 
     before do
-      allow(Campaign).to receive(:active).and_return([campaign])
+      allow(ActiveQuery).to receive(:new).and_return([campaign])
     end
 
     it 'gets active campaigns' do
-      expect(Campaign).to receive(:active)
+      expect(ActiveQuery).to receive(:new).with(Campaign)
       get :index
     end
 
