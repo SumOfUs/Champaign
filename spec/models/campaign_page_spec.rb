@@ -18,6 +18,9 @@ describe CampaignPage do
   it { should respond_to :active }
   it { should respond_to :featured }
   it { should respond_to :widgets }
+  it { should respond_to :tags }
+  it { should respond_to :campaign_pages_tags }
+  it { should respond_to :campaign }
 
   describe 'widgets' do
 
@@ -68,11 +71,10 @@ describe CampaignPage do
     end
   end
 
-
   describe 'tags' do
 
     before :each do
-      4.times do create :tag end
+      3.times do create :tag end
     end
 
     it 'should be a reciprocal many-to-many relationship' do
@@ -102,7 +104,7 @@ describe CampaignPage do
     describe 'destroy' do
 
       before :each do
-        @page = CampaignPage.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+        @page = create :campaign_page, language: english, tag_ids: Tag.last(2).map(&:id)
       end
 
       it 'should destroy the page' do
@@ -118,6 +120,48 @@ describe CampaignPage do
       end
     end
 
+    describe 'update' do
+
+      before :each do
+        @page = create :campaign_page, language: english, tag_ids: Tag.last(2).map(&:id)
+        @new_ids = Tag.first.id
+      end
+
+      it 'should update both sides of the relationship' do
+        @page.update! tag_ids: @new_ids
+        expect(@page.tags).to eq [Tag.first]
+        expect(Tag.first.campaign_pages).to eq [@page]
+        expect(Tag.last.campaign_pages).to eq []
+      end
+
+      it 'should destroy the old join table records and make a new one' do
+        expect{ @page.update! tag_ids: @new_ids }.to change{ CampaignPagesTag.count }.by -1
+      end
+    end
+  end
+
+  describe 'campaigns' do
+
+    before :each do
+      3.times do create :campaign end
+    end
+
+    describe 'create' do
+
+      after :each do
+        page = CampaignPage.new page_params
+        expect{ page.save! }.to change{ Campaign.count }.by 0
+        expect(page.campaign).to eq Campaign.last
+      end
+
+      it 'should create the many-to-many association with int ids' do
+        page_params[:campaign_id] = Campaign.last.id.to_i
+      end
+
+      it 'should create the many-to-many association with string ids' do
+        page_params[:campaign_id] = Campaign.last.id.to_s
+      end
+    end
   end
 
   describe 'slug' do

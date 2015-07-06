@@ -3,7 +3,7 @@ class CampaignPage < ActiveRecord::Base
 
   belongs_to :language
   belongs_to :campaign # Note that some campaign pages do not necessarily belong to campaigns
-   
+
   has_many :campaign_pages_widgets, inverse_of: :campaign_page
   has_many :campaign_pages_tags, dependent: :destroy
   has_many :tags, through: :campaign_pages_tags
