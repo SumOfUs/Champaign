@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe PetitionWidget, type: :model do
+describe PetitionWidget do
 
   let(:content) { {
     petition_text: "Stop rails developers writing tests!",

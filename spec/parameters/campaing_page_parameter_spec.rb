@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'spec_helper'
 
-RSpec.describe CampaignPageParameters do
+describe CampaignPageParameters do
   it 'should filter a tag list full of strings' do
     tag_list = ["1", "2", "3"]
     filter = CampaignPageParameters.new foo: :bar

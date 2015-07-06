@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative '../../lib/model_helpers/campaign_pages_widget_model_helper'
 
-RSpec.describe 'Campaign Pages Widget Model Helper', type: :helper do
+describe 'Campaign Pages Widget Model Helper' do
   it 'Effectively identifes non-URL file locations which need to be modified' do
     contents = {
         image_url: 'http://i.imgur.com/6GvZ4Ur.jpg'

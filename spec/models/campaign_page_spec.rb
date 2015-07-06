@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CampaignPage do
+describe CampaignPage do
 
   let(:english) { create :language }
   let(:petition_widget_params) { attributes_for :petition_widget }
@@ -61,7 +61,6 @@ RSpec.describe CampaignPage do
     end
 
     describe 'show' do
-
       it 'should be able to iterate over the widgets' do
         expect(existing_page.widgets.size).to eq 3
         existing_page.widgets.each do |widget|
@@ -69,7 +68,6 @@ RSpec.describe CampaignPage do
         end
       end
     end
-
   end
 
   describe 'slug' do

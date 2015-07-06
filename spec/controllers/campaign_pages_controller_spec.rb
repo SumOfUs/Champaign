@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CampaignPagesController, type: :controller do
+describe CampaignPagesController do
 
   let(:english) { create :language }
   let( :admin ) { create :admin }
