@@ -57,6 +57,11 @@ FactoryGirl.define do
     featured false
   end
 
+  factory :campaign do
+    campaign_name { Faker::Company.bs }
+    active true
+  end
+
   factory :tag do
     tag_name
     actionkit_uri
