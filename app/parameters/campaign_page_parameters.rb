@@ -23,7 +23,7 @@ class CampaignPageParameters < ActionParameter::Base
         allowed_keys << strong_params_representation(field_name, field_properties)
       end
     end
-    return [{:content => [allowed_keys]}, :id, :type, :page_display_order]
+    return [{:content => allowed_keys}, :id, :type, :page_display_order]
   end
 
   def strong_params_representation(field_name, properties)
