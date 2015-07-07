@@ -8,7 +8,8 @@ describe CampaignPageParameters do
                     template_id: 1,
                     campaign_id: 2,
                     language_id: 1 }
-    @params = ActionController::Parameters.new(campaign_page: base_params)
+    @all_params = ActionController::Parameters.new(campaign_page: base_params)
+    @params = @all_params[:campaign_page]
   end
 
   describe 'widget_params' do
@@ -16,8 +17,8 @@ describe CampaignPageParameters do
     describe 'with all allowed' do
 
       after :each do
-        permitted = CampaignPageParameters.new(@params).permit
-        expect(permitted).to eq @params[:campaign_page].with_indifferent_access
+        permitted = CampaignPageParameters.new(@all_params).permit
+        expect(permitted).to eq @params.with_indifferent_access
       end
 
       it 'should pass base params' do
@@ -42,7 +43,7 @@ describe CampaignPageParameters do
     describe 'with disallowed' do
 
       after :each do
-        expect{ CampaignPageParameters.new(@params).permit }.
+        expect{ CampaignPageParameters.new(@all_params).permit }.
             to raise_error(ActionController::UnpermittedParameters)
       end
 
