@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CampaignPagesController, type: :feature do
+describe CampaignPagesController do
   scenario 'Redirect after a user signs the petition' do
     cam_page = create_petition_page
     visit "/campaign_pages/#{cam_page.id}"
