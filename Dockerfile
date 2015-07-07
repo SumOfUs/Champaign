@@ -1,6 +1,5 @@
 FROM ruby:2.2.0
 RUN apt-get update -qq && apt-get install -y build-essential nodejs npm nodejs-legacy libpq-dev vim postgresql-9.4 imagemagick
-RUN npm install -g phantomjs
 
 RUN mkdir /myapp
 
