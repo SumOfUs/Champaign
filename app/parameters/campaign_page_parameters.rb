@@ -10,7 +10,7 @@ class CampaignPageParameters < ActionParameter::Base
       :template_id,
       :campaign_id,
       :language_id,
-      {:tags => []},
+      {:tag_ids => []},
       widgets_attributes: widget_params
     )
   end
