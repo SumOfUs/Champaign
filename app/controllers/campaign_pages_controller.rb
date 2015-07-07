@@ -90,17 +90,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def clean_params
-    @page_params = params.require(:campaign_page).permit(
-      :title,
-      :slug,
-      :active,
-      :featured,
-      :template_id,
-      :campaign_id,
-      :language_id,
-      {:tags => []},
-      widgets_attributes: widget_params
-    )#
+    @page_params = CampaignPageParameters.new(params).permit
   end
 
 end

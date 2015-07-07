@@ -3,32 +3,43 @@ class CampaignPageParameters < ActionParameter::Base
 
   def permit
     params.require(:campaign_page).permit(
-      :title, 
-      :slug, 
-      :active, 
-      :featured, 
-      :template_id, 
-      :campaign_id, 
+      :title,
+      :slug,
+      :active,
+      :featured,
+      :template_id,
+      :campaign_id,
       :language_id,
       {:tags => []},
-      campaign_pages_widgets_attributes: [:id, :widget_type_id, :content, :page_display_order]
+      widgets_attributes: widget_params
     )
   end
 
-  def convert_tags(tags)
-    # Tags come in to the campaign pages controller as strings, we convert them into
-    # integers so they can be used in a `Tag.find` call without problems
-
-    final_tags = []
-    tags.each do |tag|
-      if tag == ''
-        # Sometimes, the form sends an empty string along with Tag IDs.
-        # This breaks `Tag.find` for obvious reasons, so we skip it
-        # here to make sure that we don't have that problem
-        next
+  private
+  def widget_params
+    allowed_keys = []
+    schemas.each do |schema|
+      schema['properties'].each_pair do |field_name, field_properties|
+        allowed_keys << strong_params_representation(field_name, field_properties)
       end
-      final_tags.push tag.to_i
     end
-    final_tags
+    return [{:content => [allowed_keys]}, :id, :type, :page_display_order]
   end
+
+  def strong_params_representation(field_name, properties)
+    if not properties.has_key? 'type'
+      field_name.to_sym
+    elsif properties['type'] == "dictionary"
+      {field_name.to_sym => {}}
+    elsif properties['type'] == "array"
+      {field_name.to_sym => []}
+    else
+      field_name.to_sym
+    end
+  end
+
+  def schemas
+    Dir[Rails.root.join('db','json','*.json_schema')].map{ |f| JSON.parse File.read(f) }
+  end
+
 end
