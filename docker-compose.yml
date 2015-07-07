@@ -35,5 +35,4 @@ listeners:
   links:
     - db
     - rabbitmq
-    - redis
   command: sh /queue_listeners/start_listeners.sh
