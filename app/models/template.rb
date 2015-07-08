@@ -5,4 +5,6 @@ class Template < ActiveRecord::Base
 
   has_and_belongs_to_many :widget_types
   accepts_nested_attributes_for :widget_types
+
+  scope :active, -> { where(active: true) }
 end

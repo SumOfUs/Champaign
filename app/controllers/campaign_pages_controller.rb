@@ -19,21 +19,18 @@ class CampaignPagesController < ApplicationController
 
   def new
     @campaign_page = CampaignPage.new
-    @templates = Template.where active: true
-    @campaigns = Campaign.where active: true
-    # Sets @campaign, which is defined if a new campaign page is created through a link from a campaign page.
-    # In this case, that campaign is set as a default in the dropdown list.
-    @campaign = params[:campaign]
-    # Load the first active template as a default.
-    @template = @templates.first 
+    @campaign_page.campaign_id = params[:campaign] if params[:campaign].present?
+    @options = create_form_options(params)
   end
 
   def create
-    page = CampaignPage.new(@page_params)
-    if page.save
-      redirect_to page
+    @campaign_page = CampaignPage.new(@page_params)
+    if @campaign_page.save
+      redirect_to @campaign_page
     else
+      @options = create_form_options(@page_params)
       render :new
+      # render partial: 'campaign_pages/form', locals: {options: create_form_options(@page_params)}
     end
   end
 
@@ -56,7 +53,7 @@ class CampaignPagesController < ApplicationController
       # widget type id is contained in a field called widget_type:
       widget_type_id = widget_data.delete :widget_type
       # This will break if there will be two widgets of the same type for the page. If we enable having two of the same widget type per page,
-      # page display order will need to be considered as well for fetching the correct id of the widget.
+      # page display order will need to be considered as well for fetching the correct i@d of the widget.
       widget = @widgets.find_by(widget_type_id: widget_type_id)
       permitted_params[:campaign_pages_widgets_attributes].push({
         id: widget.id,
@@ -91,6 +88,18 @@ class CampaignPagesController < ApplicationController
 
   def clean_params
     @page_params = CampaignPageParameters.new(params).permit
+  end
+
+  def create_form_options(params)
+    @form_options = {
+      campaigns: Campaign.active,
+      languages: Language.all,
+      templates: Template.active,
+      campaign: params[:campaign],
+      tags: Tag.all,
+      template: (params[:template].nil? ? Template.active.first : params[:template]),
+      campaign: (params[:campaign].nil? ? Campaign.active.first : params[:campaign])
+    }
   end
 
 end

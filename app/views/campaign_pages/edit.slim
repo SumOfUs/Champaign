@@ -15,8 +15,8 @@
         = f.label :featured, class: 'control-label col-lg-2'
         = f.check_box :featured
       .form-group
-        = f.label :tags, class: 'control-label col-lg-2'
-        = f.select :tags, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tags.ids), {}, html_options= {class: 'form-control', multiple: true}
+        = f.label :tag_ids, class: 'control-label col-lg-2'
+        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tags.ids), {}, html_options= {class: 'form-control', multiple: true}
 
       - @campaign_page.campaign_pages_widgets.each do |widget|
         /this could be replaced with a call to templates/show_form, where a change would need to be made to

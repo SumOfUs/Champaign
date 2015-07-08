@@ -54,7 +54,7 @@ $(function() {
     });
   });
 
-  $('#campaign_page_tags').select2({
+  $('#campaign_page_tag_ids').select2({
     placeholder: 'Add some tags'
   });
 });
