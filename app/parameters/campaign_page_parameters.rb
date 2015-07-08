@@ -3,6 +3,7 @@ class CampaignPageParameters < ActionParameter::Base
 
   def permit
     params.require(:campaign_page).permit(
+      :id,
       :title,
       :slug,
       :active,
