@@ -24,15 +24,15 @@ describe CampaignPageParameters do
     end
 
     it 'a list of tag ids as strings' do
-      @params[:tags] = ['1', '234', '57']
+      @params[:tag_ids] = ['1', '234', '57']
     end
 
     it 'a list of tag ids as integers' do
-      @params[:tags] = [1, 234, 57]
+      @params[:tag_ids] = [1, 234, 57]
     end
 
     it 'an empty tag list' do
-      @params[:tags] = []
+      @params[:tag_ids] = []
     end
 
     it 'an empty widget list' do
@@ -74,7 +74,7 @@ describe CampaignPageParameters do
       end
 
       it 'with a string value' do
-        @content = {a: {b: {c: 1}, d: 2}}
+        @content = "don't get high on your own supply"
       end
     end
 
@@ -92,7 +92,7 @@ describe CampaignPageParameters do
     end
 
     it 'should reject a real key with a hash' do
-      @params[:tags] = {pitaya: "Dragonfruit"}
+      @params[:tag_ids] = {pitaya: "Dragonfruit"}
     end
 
     it 'should reject a real key with a list' do
