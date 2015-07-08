@@ -48,6 +48,13 @@ describe CampaignPageParameters do
       @params[:widgets_attributes] = [ps]
     end
 
+    it 'a widget list with different content in order' do
+      first = {id: 1, content: {a: 'b'}}
+      second = {id: 2, type: "TextWidget", content: {'c' => {'d' => 'e'}}}
+      third = {id: 3}
+      @params[:widgets_attributes] = [first, second, third]
+    end
+
     describe 'widgets content' do
 
       after :each do
@@ -58,24 +65,16 @@ describe CampaignPageParameters do
         @content = {}
       end
 
-      it 'with keys from two schemas' do
-        @content = {body_html: "Tis a beautiful day", petition_text: "here on the patio."}
+      it 'with absolutely any key' do
+        @content = {thank_goodness_im_not_debugging_strong_params_anymore: "seriously"}
       end
 
-      it 'with non-list non-hash type mismatches' do
-        @content = {body_html: 1234567, petition_text: false}
+      it 'with deeply nested hashes' do
+        @content = {a: {b: {c: 1}, d: 2}}
       end
 
-      it 'with empty lists and hashes' do
-        @content = {checkboxes: [], select_box: {}}
-      end
-
-      it 'with lists of all kinds of non-hash non-list types' do
-        @content = {checkboxes: ["a", 1, true]}
-      end
-
-      it 'with hashes of all kinds of non-hash non-list types' do
-        @content = {select_box: {"a" => 1, b: true}}
+      it 'with a string value' do
+        @content = {a: {b: {c: 1}, d: 2}}
       end
     end
 
@@ -103,33 +102,6 @@ describe CampaignPageParameters do
     it 'a widgets_attributes with an unknown key' do
       ps = {id: 1, type: "TextWidget", page_display_order: 1, blerp: 'derp'}
       @params[:widgets_attributes] = [ps]
-    end
-
-    describe 'widgets content' do
-
-      after :each do
-        @params[:widgets_attributes] = [{id: 1, type: "TextWidget", page_display_order: 1, content: @content}]
-      end
-
-      it 'with an known key' do
-        @content = {surely_nobody_will_use_this_key: "right?"}
-      end
-
-      it 'with a list for a non-list field' do
-        @content = {body_html: []}
-      end
-
-      it 'with a list for a non-list field' do
-        @content = {body_html: {}}
-      end
-
-      it 'with a non-list for a list field' do
-        @content = {checkboxes: "whale hello there" }
-      end
-
-      it 'with a non-hash for a hash field' do
-        @content = {select_box: "heyy"}
-      end
     end
 
   end
