@@ -40,6 +40,7 @@ class TemplatesController < ApplicationController
     # This returns the html from templates/show_form.slim without a layout.
     # The HTML gets requested by an AJAX call in campaign page creation, whenever the
     # user changes which template they want to use as the base for their campaign page.
+    @template = Template.find(params[:id])
     render 'templates/show_form', layout: false
   end
 end

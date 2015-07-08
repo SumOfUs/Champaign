@@ -1,6 +1,11 @@
 / This slim file gets requested with AJAX calls in campaign page creation - this is what we use to dynamically load 
 / a form for page creation associated with the template the campaigner wants to use.
-- @template.widget_types.each do |widget_type|
+
+/ options[:template] is set if the form is requested on initial page load.
+/ if options is not set, the form is rendered for an AJAX call, in which case
+/ an instance variable called @template is passed.
+- template = @options.nil? ? @template : @options[:template]
+- template.widget_types.each do |widget_type|
   / goes through all of the widgets associated with the template and gets their default content and settings from build_options_hash
   legend = widget_type.widget_name.titleize
   = render widget_type.form_partial_path, {widget_type_id: widget_type.id, options: build_options_hash(widget_type)}
