@@ -30,7 +30,6 @@ class CampaignPagesController < ApplicationController
     else
       @options = create_form_options(@page_params)
       render :new
-      # render partial: 'campaign_pages/form', locals: {options: create_form_options(@page_params)}
     end
   end
 
