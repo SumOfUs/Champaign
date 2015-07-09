@@ -79,7 +79,6 @@ $(document).ready(function (){
     //loads the image into image preview when image_url is changed:
     $("#widgets_image_image_url").change(function() {
         //append new image to image preview
-        console.log('changed url')
         replace_image($("#widgets_image_image_url").val()+'?'+new Date().getTime())
     });
 })
