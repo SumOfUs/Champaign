@@ -1,7 +1,11 @@
 class CrmPage
-  attr_accessor :language, :resource_uri, :type, :name, :id, :status, :hidden, :title
+  attr_accessor :language, :resource_uri, :type,
+                :name, :id, :status, :hidden, :title, :base_url
+
   def initialize(provided_id=nil, base_url=nil)
     @id = provided_id
+    # I'm not sure yet that the base_url is actually important, but
+    # we're storing it here for the time being.
     @base_url = base_url
   end
 
