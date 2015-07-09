@@ -45,6 +45,7 @@ gem 'activerecord_json_validator'
 
 gem 'action_parameter'
 gem 'rmagick' # rmagick for image processing
+gem 'paperclip'
 
 group :development, :test do
   gem 'byebug'
