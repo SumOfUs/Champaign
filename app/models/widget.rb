@@ -8,4 +8,26 @@ class Widget < ActiveRecord::Base
   types = %w(TextWidget PetitionWidget ImageWidget)
   validates :type, presence: true, inclusion: types
 
+  validate :restrict_content_keys
+
+  def restrict_content_keys
+    if content.present?
+      acceptable_keys = self.class.load_schema.keys
+      content.each_key do |key|
+        unless acceptable_keys.include? key
+          errors.add(:content, "has unknown key '#{key}'")
+        end
+      end
+    end
+  end
+
+  def self.load_schema
+    full_schema = JSON.parse File.read(self.json_schema)
+    return full_schema["properties"]
+  end
+
+  def self.json_schema
+    Rails.root.join('db','json',"#{self.name.underscore}.json_schema").to_s
+  end
+
 end
