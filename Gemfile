@@ -44,6 +44,7 @@ gem 'activerecord_json_validator'
 # Rails 4 style. https://github.com/edelpero/action_parameter
 gem 'action_parameter'
 gem 'rmagick' # rmagick for image processing
+gem 'paperclip'
 
 group :development, :test do
   gem 'byebug'
