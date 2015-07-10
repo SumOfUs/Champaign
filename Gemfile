@@ -50,5 +50,6 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.3'
   gem 'capybara' # Capybara for integration testing
   gem 'envyable'
+  gem 'database_cleaner'
 end
 
