@@ -34,15 +34,6 @@ module HelperFunctions
     Template.create! template_name: 'test', widget_types: widget_types
   end
 
-  def create_widget(widget_type, page, content, page_display_order)
-    CampaignPagesWidget.create!(
-        widget_type: widget_type,
-        content: content,
-        campaign_page: page,
-        page_display_order: page_display_order
-    )
-  end
-
   def log_in
     email = 'test@sumofus.org'
     password = 'password'

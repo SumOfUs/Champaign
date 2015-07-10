@@ -31,15 +31,6 @@ parameter_classes_to_test = {
       featured: false
     }
   },
-  campaign_pages_widget: {
-    class_type: CampaignPagesWidgetParameters,
-    correct_params: {
-      id: 1,
-      content: 'This is some content',
-      page_display_order: 1,
-      widget_type_id: 1
-    }
-  },
   campaign: {
     class_type: CampaignParameters,
     correct_params: {
