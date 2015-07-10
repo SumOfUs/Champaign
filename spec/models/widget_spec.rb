@@ -7,9 +7,30 @@ describe Widget do
   it { should be_valid }
   it { should respond_to :page_display_order }
   it { should respond_to :content }
-  it { should respond_to :campaign_page_id }
+  it { should respond_to :page_id }
+  it { should respond_to :page }
   it { should respond_to :type }
+  it { should respond_to :page_type }
 
+  describe 'page' do
+
+    let(:english) { create :language }
+    let(:template) { create :template }
+    let(:campaign_page) { create :campaign_page, language: english }
+
+    it "should be able to assign a template as page" do
+      widget.page = template
+      widget.save!
+      expect(template.reload.widgets.first).to eq widget
+    end
+
+    it "should be able to assign a campaign_page as page" do
+      widget.page = campaign_page
+      widget.save!
+      expect(campaign_page.reload.widgets.first).to eq widget
+    end
+
+  end
 
   describe 'type' do
     it "should be invalid when not in the allowed types" do

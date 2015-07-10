@@ -6,7 +6,7 @@ class CampaignPage < ActiveRecord::Base
 
   has_many :campaign_pages_tags, dependent: :destroy
   has_many :tags, through: :campaign_pages_tags
-  has_many :widgets, dependent: :destroy
+  has_many :widgets, dependent: :destroy, as: :page
 
   validates :title, :slug, presence: true, uniqueness: true
   validates :language, presence: true
