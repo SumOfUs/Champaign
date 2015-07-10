@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710210933) do
+ActiveRecord::Schema.define(version: 20150710230343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -135,10 +135,13 @@ ActiveRecord::Schema.define(version: 20150710210933) do
     t.jsonb    "content"
     t.string   "type"
     t.integer  "page_display_order"
-    t.integer  "campaign_page_id"
+    t.integer  "page_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "page_type"
   end
+
+  add_index "widgets", ["page_id"], name: "index_widgets_on_page_id", using: :btree
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
   add_foreign_key "campaign_pages", "campaigns"

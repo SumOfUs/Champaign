@@ -77,4 +77,8 @@ FactoryGirl.define do
     actionkit_page_type
   end
 
+  factory :template do
+    template_name { Faker::Commerce.color }
+  end
+
 end
