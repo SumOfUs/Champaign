@@ -3,6 +3,7 @@ FactoryGirl.define do
   sequence :email do |n| "person#{n}@gmail.com" end
   sequence :slug do |n| "petition-#{n}" end
   sequence :page_display_order do |n| n end
+  sequence :actionkit_id do |n| n end
   sequence :actionkit_uri do |n| "/rest/v1/tag/#{n}/" end
   sequence :tag_name do |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" end
 
@@ -65,6 +66,15 @@ FactoryGirl.define do
   factory :tag do
     tag_name
     actionkit_uri
+  end
+
+  factory :actionkit_page_type do
+    actionkit_page_type { Faker::Commerce.color }
+  end
+
+  factory :actionkit_page do
+    actionkit_id
+    actionkit_page_type
   end
 
 end
