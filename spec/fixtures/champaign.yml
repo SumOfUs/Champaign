@@ -1,0 +1,5 @@
+champaign:
+  google_oauth_whitelist:
+    domains:
+      - sumofus.org
+
