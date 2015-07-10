@@ -1,12 +1,17 @@
 describe ImageWidget do
 
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.png')) }
-  # let(:content) { { image_attributes: { content: image_file } } }
   let(:params) { { page_display_order: 1, image_attributes: { content: image_file } } }
   let(:widget) { ImageWidget.new(params) }
 
   subject { widget }
   it { should be_valid }
+
+  after :each do
+    # when rspec cleans up, it doesn't actually commit like normal,
+    # so paperclip's file delete callback isn't called.
+    Image.all.map{ |i| i.destroy; i.run_callbacks(:commit) }
+  end
 
   describe 'image' do
 
@@ -30,6 +35,7 @@ describe ImageWidget do
     it "destroys the Image when the widget is destroyed" do
       widget.destroy
       expect(Image.count).to eq 0
+      widget.image.run_callbacks(:commit) # clean up files
     end
 
   end
