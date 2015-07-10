@@ -20,4 +20,5 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  oauth:
+    not_authorised: "You're not authorised to authenticate with that account."
