@@ -15,23 +15,21 @@ class ActionkitPageParser
 
     # We need to create CRM pages for each widget type that demands them, which might
     # be a lot.
-    parsed_page = parsed_json["page"]
-    widgets = parsed_page["widgets"]
+    parsed_page = parsed_json['page']
+    widgets = parsed_page['widgets']
     created_pages = []
     if widgets
       widgets.each do |widget|
-        if @widget_to_page_types[widget["widget_type"].to_sym]
-          page = CrmPage.new
-          page.title = parsed_page["title"]
-          page.name = "#{parsed_page["slug"]}-#{widget["widget_type"].to_s}"
-          page.type = @widget_to_page_types[widget["widget_type"].to_sym]
-          if parsed_page["active"]
+        if @widget_to_page_types[widget['widget_type'].to_sym]
+          page = CrmPage.new title: parsed_page['title'], name: "#{parsed_page['slug']}-#{widget['widget_type'].to_s}",
+                             type: @widget_to_page_types[widget['widget_type'].to_sym], hidden: false,
+                             language: parsed_page['language']
+
+          if parsed_page['active']
             page.status = 'active'
           else
             page.status = 'inactive'
           end
-          page.hidden = false
-          page.language = parsed_page["language"]
           created_pages.push page
         end
       end
@@ -54,14 +52,10 @@ class ActionkitPageParser
       parsed_json = JSON.parse(ak_json)
     end
 
-    page = CrmPage.new parsed_json['id'], @base_url
-    page.language = parsed_json['language']
-    page.resource_uri = parsed_json['resource_uri']
-    page.type = parsed_json['type']
-    page.name = parsed_json['name']
-    page.status = parsed_json['status']
-    page.hidden = parsed_json['hidden']
-    page.title = parsed_json['title']
-    page
+    if parsed_json['id']
+      parsed_json['crm_id'] = parsed_json['id']
+    end
+
+    CrmPage.new parsed_json
   end
 end

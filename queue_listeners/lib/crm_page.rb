@@ -1,19 +1,20 @@
 class CrmPage
   attr_accessor :language, :resource_uri, :type,
-                :name, :id, :status, :hidden, :title, :base_url
+                :name, :crm_id, :status, :hidden, :title, :base_url,
+                :active
 
-  def initialize(provided_id=nil, base_url=nil)
-    @id = provided_id
-    # I'm not sure yet that the base_url is actually important, but
-    # we're storing it here for the time being.
-    @base_url = base_url
+  def initialize(value_hash={})
+    update_values(value_hash)
   end
 
-  def action_count
-    if @id
-
-    else
-      raise StandardError 'Page has not been saved to ActionKit, save it before trying to access actions.'
+  # A simple method for assigning any provided values, as a way to be DRY
+  # since we've got a lot of places that values need to be set.
+  def update_values(values={})
+    values.each do |key, value|
+      if self.respond_to? key
+      # instance_variable_set requires the '@' symbol prepended to the name of the variable
+        self.instance_variable_set("@#{key}", value)
+      end
     end
   end
 

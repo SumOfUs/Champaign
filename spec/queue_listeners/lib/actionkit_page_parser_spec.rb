@@ -44,16 +44,10 @@ describe ActionkitPageParser do
     "url": ""
 }' }
   let(:crm_page) {
-    page = CrmPage.new
-    page.id = 3308
-    page.hidden = false
-    page.status = 'active'
-    page.language = '/rest/v1/language/100/'
-    page.title = 'ControlShift: COMPANY: Stop selling bee-killing pestices'
-    page.resource_uri = '/rest/v1/importpage/3308/'
-    page.type = 'Import'
-    page.name = 'controlshift-company-stop-selling-bee-killing-pestices-11'
-    page
+    CrmPage.new crm_id: 3308, hidden: false, status: 'active', language: '/rest/v1/language/100/',
+                title: 'ControlShift: COMPANY: Stop selling bee-killing pestices',
+                resource_uri: '/rest/v1/importpage/3308/', type: 'Import',
+                name: 'controlshift-company-stop-selling-bee-killing-pestices-11'
   }
   let(:ak_parser) { ActionkitPageParser.new }
   let(:message_json) {
@@ -76,24 +70,14 @@ describe ActionkitPageParser do
     }.to_json
   }
   let(:created_petition_page) {
-    petition_page = CrmPage.new
-    petition_page.title = 'A test petition page from Champaign'
-    petition_page.language = '/rest/v1/language/100'
-    petition_page.status = 'active'
-    petition_page.hidden = false
-    petition_page.name = 'a-test-petition-page-from-champaign-petition'
-    petition_page.type = 'Petition'
-    petition_page
+    CrmPage.new title: 'A test petition page from Champaign', language: '/rest/v1/language/100',
+                status: 'active', hidden: false, name: 'a-test-petition-page-from-champaign-petition',
+                type: 'Petition'
   }
   let(:created_donation_page) {
-    donation_page = CrmPage.new
-    donation_page.title = 'A test petition page from Champaign'
-    donation_page.language = '/rest/v1/language/100'
-    donation_page.status = 'active'
-    donation_page.hidden = false
-    donation_page.name = 'a-test-petition-page-from-champaign-donation'
-    donation_page.type = 'Donation'
-    donation_page
+    CrmPage.new title: 'A test petition page from Champaign', language: '/rest/v1/language/100',
+                status: 'active', hidden: false, name: 'a-test-petition-page-from-champaign-donation',
+                type: 'Donation'
   }
   let(:message_pages) {
     [created_petition_page, created_donation_page]
