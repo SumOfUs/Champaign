@@ -18,7 +18,7 @@ describe PetitionWidget do
     form_button_text: "Stop 'em!"
   } }
   let(:params) { { page_display_order: 1, content: content } }
-  let(:widget) { PetitionWidget.new(params) }
+  let(:widget) { PetitionWidget.create!(params) }
 
   subject { widget }
   it { should be_valid }
@@ -71,4 +71,20 @@ describe PetitionWidget do
       expect(widget).not_to be_valid
     end
   end
+
+  describe 'actionkit_page' do
+
+    let(:actionkit_page) { create :actionkit_page, widget: widget }
+
+    it 'should find the widget from the actionkit_page' do
+      expect(actionkit_page.widget).to eq widget
+    end
+
+    it 'should find the actionkit_page from the widget' do
+      expect(actionkit_page).to be_persisted
+      expect(widget.actionkit_page).to eq actionkit_page
+    end
+
+  end
+
 end

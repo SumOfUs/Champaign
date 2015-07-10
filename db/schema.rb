@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710192612) do
+ActiveRecord::Schema.define(version: 20150710210933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20150710192612) do
   end
 
   create_table "actionkit_pages", force: :cascade do |t|
-    t.integer "actionkit_id",             null: false
-    t.integer "actionkit_page_type_id",   null: false
-    t.integer "campaign_pages_widget_id", null: false
+    t.integer "actionkit_id",           null: false
+    t.integer "actionkit_page_type_id", null: false
+    t.integer "widget_id",              null: false
   end
 
   create_table "campaign_pages", force: :cascade do |t|
