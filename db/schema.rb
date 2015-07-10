@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709204235) do
+ActiveRecord::Schema.define(version: 20150710192612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,13 +40,6 @@ ActiveRecord::Schema.define(version: 20150709204235) do
   create_table "campaign_pages_tags", force: :cascade do |t|
     t.integer "campaign_page_id"
     t.integer "tag_id"
-  end
-
-  create_table "campaign_pages_widgets", force: :cascade do |t|
-    t.jsonb   "content",            null: false
-    t.integer "page_display_order", null: false
-    t.integer "campaign_page_id",   null: false
-    t.integer "widget_type_id",     null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -148,11 +141,8 @@ ActiveRecord::Schema.define(version: 20150709204235) do
   end
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
-  add_foreign_key "actionkit_pages", "campaign_pages_widgets"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
-  add_foreign_key "campaign_pages_widgets", "campaign_pages"
-  add_foreign_key "campaign_pages_widgets", "widget_types"
   add_foreign_key "templates_widget_types", "templates"
   add_foreign_key "templates_widget_types", "widget_types"
 end
