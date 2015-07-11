@@ -15,68 +15,6 @@ language = Language.create!({language_code: 'EN/US', language_name: 'English'})
 # 3  make campaigns
 campaign = Campaign.create!({campaign_name: 'Test campaign'})
 
-# 4. make widget types
-
-WidgetType.create!([
-  {
-    widget_name: 'image',
-    specifications: {
-      width: 'integer',
-      height: 'integer',
-      image_url: 'string'
-    },
-    active: true
-  },
-  {
-    widget_name: 'petition_form',
-    specifications: {
-      petition_text: 'string',
-      require_full_name: 'boolean',
-      require_email_address: 'boolean',
-      require_state: 'boolean',
-      require_country: 'boolean',
-      require_postal_code: 'boolean',
-      require_address: 'boolean',
-      require_city: 'boolean',
-      require_phone: 'boolean',
-      checkboxes: 'array',
-      select_box: 'dictionary',
-      comment_textarea: 'dictionary',
-      call_in_form: 'dictionary',
-      letter_sent_form: 'dictionary',
-      form_button_text: 'string'
-    },
-    active: true
-  },
-  {
-    widget_name: 'raw_html',
-    specifications: {
-      content: 'string'
-    },
-    active: true
-  },
-  {
-    widget_name: 'thermometer',
-    specifications: {
-      goal: 'integer',
-      autoincrement: 'boolean',
-      # thermometers should have a way of storing action table IDs for the campaign_page_widgets that will be linked
-      # to the thermometer, as a new way of linking several campaign pages to the same thermometer
-      linked_actions: 'array',
-      count: 'integer'
-    },
-    active: true,
-  },
-  {
-    widget_name: 'text_body',
-    specifications: {
-      text_body_html: 'string'
-    },
-    action_table_name: nil,
-    active: true
-  },
-])
-
 # 5. make a campaign page
 
 campaign_page = CampaignPage.create!({

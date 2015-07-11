@@ -54,15 +54,6 @@ parameter_classes_to_test = {
       actionkit_member_id: '1234564sga'
     }
   },
-  widget_type: {
-    class_type: WidgetTypeParameters,
-    correct_params: {
-      id: 1,
-      widget_name: 'Awesome Widget',
-      specifications: 'Test',
-      active: false
-    }
-  },
   template: {
     class_type: TemplateParameters,
     correct_params: {
