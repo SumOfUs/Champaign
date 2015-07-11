@@ -44,13 +44,13 @@ describe CampaignPageParameters do
     end
 
     it 'a widget list with base params' do
-      ps = {id: 1, type: "TextWidget", page_display_order: 1}
+      ps = {id: 1, type: "TextBodyWidget", page_display_order: 1}
       @params[:widgets_attributes] = [ps]
     end
 
     it 'a widget list with different content in order' do
       first = {id: 1, content: {a: 'b'}}
-      second = {id: 2, type: "TextWidget", content: {'c' => {'d' => 'e'}}}
+      second = {id: 2, type: "TextBodyWidget", content: {'c' => {'d' => 'e'}}}
       third = {id: 3}
       @params[:widgets_attributes] = [first, second, third]
     end
@@ -58,7 +58,7 @@ describe CampaignPageParameters do
     describe 'widgets content' do
 
       after :each do
-        @params[:widgets_attributes] = [{id: 1, type: "TextWidget", page_display_order: 1, content: @content}]
+        @params[:widgets_attributes] = [{id: 1, type: "TextBodyWidget", page_display_order: 1, content: @content}]
       end
 
       it 'with empty content' do
@@ -100,7 +100,7 @@ describe CampaignPageParameters do
     end
 
     it 'a widgets_attributes with an unknown key' do
-      ps = {id: 1, type: "TextWidget", page_display_order: 1, blerp: 'derp'}
+      ps = {id: 1, type: "TextBodyWidget", page_display_order: 1, blerp: 'derp'}
       @params[:widgets_attributes] = [ps]
     end
 

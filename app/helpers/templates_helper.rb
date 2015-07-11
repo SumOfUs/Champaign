@@ -5,6 +5,8 @@
 module TemplatesHelper
 
   def build_options_hash(widget)
+    # TODO: Once widgets belong to templates, remove first condition
+
     # if widget is in a template creation page
     if widget.class == WidgetType
       default_params(widget.widget_name)

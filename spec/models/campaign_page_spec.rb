@@ -2,10 +2,10 @@ describe CampaignPage do
 
   let(:english) { create :language }
   let(:petition_widget_params) { attributes_for :petition_widget }
-  let(:text_widget_params_1) { attributes_for :text_widget }
-  let(:text_widget_params_2) { attributes_for :text_widget }
-  let(:bad_widget_params) { attributes_for :text_widget, content: {} }
-  let(:widget_params) { [petition_widget_params, text_widget_params_1, text_widget_params_2] }
+  let(:text_body_widget_params_1) { attributes_for :text_body_widget }
+  let(:text_body_widget_params_2) { attributes_for :text_body_widget }
+  let(:bad_widget_params) { attributes_for :text_body_widget, content: {} }
+  let(:widget_params) { [petition_widget_params, text_body_widget_params_1, text_body_widget_params_2] }
   let(:page_params) { attributes_for :widgetless_page, language: english }
   let(:simple_page) { CampaignPage.new(page_params) }
   let(:existing_page) { create :widgetless_page, language: english, widgets_attributes: widget_params }
