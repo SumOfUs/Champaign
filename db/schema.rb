@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150710230343) do
+ActiveRecord::Schema.define(version: 20150711001257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,15 +81,6 @@ ActiveRecord::Schema.define(version: 20150710230343) do
     t.boolean "active"
   end
 
-  create_table "templates_widget_types", id: false, force: :cascade do |t|
-    t.integer "template_id",    null: false
-    t.integer "widget_type_id", null: false
-    t.integer "page_order"
-  end
-
-  add_index "templates_widget_types", ["template_id"], name: "index_templates_widget_types_on_template_id", using: :btree
-  add_index "templates_widget_types", ["widget_type_id"], name: "index_templates_widget_types_on_widget_type_id", using: :btree
-
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -122,15 +113,6 @@ ActiveRecord::Schema.define(version: 20150710230343) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  create_table "widget_types", force: :cascade do |t|
-    t.string   "widget_name",       null: false
-    t.jsonb    "specifications",    null: false
-    t.string   "action_table_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "active",            null: false
-  end
-
   create_table "widgets", force: :cascade do |t|
     t.jsonb    "content"
     t.string   "type"
@@ -146,6 +128,4 @@ ActiveRecord::Schema.define(version: 20150710230343) do
   add_foreign_key "actionkit_pages", "actionkit_page_types"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
-  add_foreign_key "templates_widget_types", "templates"
-  add_foreign_key "templates_widget_types", "widget_types"
 end

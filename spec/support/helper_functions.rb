@@ -1,38 +1,4 @@
 module HelperFunctions
-  def create_petition_page
-    language = create_stub_language
-    page = create_stub_page(language)
-    widget_type = create_widget_type
-    create_template([widget_type])
-    create_widget(widget_type, page, {redirect_location: 'www.google.com'}, 0)
-    page
-  end
-
-  def create_stub_language
-    Language.create! language_name: 'Test', language_code: 'ts'
-  end
-
-  def create_stub_page(language)
-    CampaignPage.create!(
-        title: 'test',
-        slug: 'test',
-        active: true,
-        featured: false,
-        language: language
-    )
-  end
-
-  def create_widget_type
-    WidgetType.create!(
-        widget_name: 'petition_form',
-        specifications: {foo: 'bar'},
-        active: true
-    )
-  end
-
-  def create_template(widget_types)
-    Template.create! template_name: 'test', widget_types: widget_types
-  end
 
   def log_in
     email = 'test@sumofus.org'
