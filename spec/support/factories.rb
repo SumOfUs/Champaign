@@ -6,10 +6,10 @@ FactoryGirl.define do
   sequence :actionkit_uri do |n| "/rest/v1/tag/#{n}/" end
   sequence :tag_name do |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" end
 
-  factory :text_widget, aliases: [:widget] do
-    content { { body_html: Faker::Lorem.paragraph(2) } }
+  factory :text_body_widget, aliases: [:widget] do
+    content { { text_body_html: Faker::Lorem.paragraph(2) } }
     page_display_order
-    type "TextWidget"
+    type "TextBodyWidget"
   end
 
   factory :petition_widget do

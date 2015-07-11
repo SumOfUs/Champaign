@@ -5,10 +5,10 @@ class Widget < ActiveRecord::Base
   validates :page_display_order, presence: true, numericality: { only_integer: true, greater_than: 0 }
   # validates_uniqueness_of  :page_display_order, :scope => :campaign_page_id
 
-  types = %w(TextWidget PetitionWidget ImageWidget)
+  types = %w(TextBodyWidget PetitionWidget ImageWidget ThermometerWidget RawHtmlWidget)
   validates :type, presence: true, inclusion: types
 
-  validate :restrict_content_keys
+  validates :restrict_content_keys, json: { message: ->(errors) { errors } }
 
   def restrict_content_keys
     if content.present?

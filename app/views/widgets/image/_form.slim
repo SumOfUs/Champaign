@@ -1,3 +1,10 @@
+/- @campaign_page.widgets.each do |widget|
+/  = render "forms/#{widget.type.underscore}_form", widget: widget, builder: form
+/
+/## forms/image_widget_form.slim
+/- builder.fields_for widget do |image_form|
+/  -# image widget specific fields```
+
 #image_widget_form.form-group
   = label_tag 'widgets[image][image_url]', 'Image URL:', class: 'control-label col-lg-2'
   .col-lg-10

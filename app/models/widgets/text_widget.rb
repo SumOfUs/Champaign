@@ -1,3 +1,3 @@
-class TextWidget < Widget
-  validates :content, presence: true, json: { schema: self.json_schema }
+class TextBodyWidget < Widget
+  validates :content, presence: true, json: { schema: self.json_schema, message: ->(errors) { errors } }
 end

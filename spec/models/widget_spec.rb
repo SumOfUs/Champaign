@@ -1,6 +1,6 @@
 describe Widget do
 
-  let(:widget) { Widget.new(page_display_order: 1, type: "TextWidget", content: { body_html: "yippee!"}) }
+  let(:widget) { Widget.new(page_display_order: 1, type: "TextBodyWidget", content: { text_body_html: "yippee!"}) }
 
   subject { widget }
 
