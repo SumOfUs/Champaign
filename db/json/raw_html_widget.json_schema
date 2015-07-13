@@ -2,9 +2,9 @@
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
   "properties": {
-    "content": {
+    "html": {
       "type": "string"
     }
   },
-  "required": ["content"]
+  "required": ["html"]
 }

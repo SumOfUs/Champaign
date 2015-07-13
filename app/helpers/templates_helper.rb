@@ -53,7 +53,7 @@ module TemplatesHelper
         'form_button_text' => 'Add your voice!'
       },
       raw_html: {
-        'content' => '<span>This is some raw HTML</span>'
+        'html' => '<span>This is some raw HTML</span>'
       }
     }
     
