@@ -20,11 +20,11 @@ class Widget < ActiveRecord::Base
     end
   end
 
-  def type
-    self.class.type
+  def snake_type
+    type.underscore
   end
 
-  def self.type
+  def self.snake_type
     self.name.underscore
   end
 
@@ -46,11 +46,11 @@ class Widget < ActiveRecord::Base
   end
 
   def self.fields
-    "widgets/#{self.type}/fields"
+    "widgets/#{self.snake_type}/fields"
   end
 
   def self.json_schema
-    Rails.root.join('db','json',"#{self.type}.json_schema").to_s
+    Rails.root.join('db','json',"#{self.snake_type}.json_schema").to_s
   end
 
 end
