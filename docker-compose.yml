@@ -26,3 +26,13 @@ rabbitmq:
     - "5672"
     - "15672"
     - "8080"
+
+listeners:
+  build: ./queue_listeners
+  volumes:
+    - ./queue_listeners:/queue_listeners
+    - .:/app_files
+  links:
+    - db
+    - rabbitmq
+  command: sh /queue_listeners/start_listeners.sh

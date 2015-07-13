@@ -1,0 +1,21 @@
+source 'https://rubygems.org'
+
+# We only need a subset of Gems installed on the VM that's designed for queue_listeners
+# so we install them here, but we don't install everything from the upstream application's
+# Gemfile
+
+# Use postgresql as the database for Active Record
+gem 'pg'
+
+# Using RabbitMQ for Message Queuing - Bunny is our interface gem
+gem 'bunny'
+
+# Rails Gems we're going to want
+gem 'activemodel'
+gem 'activerecord'
+gem 'activesupport'
+
+# Action_Kit_Rest is built to make interaction with ActionKit easy. We use it to interface
+# with the API of our instance.
+
+gem 'action_kit_rest'

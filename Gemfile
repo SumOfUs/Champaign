@@ -39,7 +39,6 @@ gem 'paper_trail'
 # Use ActionParameter as a way to extract model-based mass-assignment into
 # a class that Does One Thing (in this case, filter mass assignments) in the
 # Rails 4 style. https://github.com/edelpero/action_parameter
-
 gem 'action_parameter'
 gem 'rmagick' # rmagick for image processing
 
