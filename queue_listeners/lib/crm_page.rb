@@ -18,6 +18,10 @@ class CrmPage
     end
   end
 
+  def status
+    active? ? 'active' : 'inactive'
+  end
+
   def ==(other_obj)
     # We don't care about object IDs in determining if pages are the same thing,
     # so we override the initial `==` method to just check whether or not

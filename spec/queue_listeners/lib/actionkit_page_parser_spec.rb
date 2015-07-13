@@ -49,7 +49,7 @@ describe ActionkitPageParser do
                 resource_uri: '/rest/v1/importpage/3308/', type: 'Import',
                 name: 'controlshift-company-stop-selling-bee-killing-pestices-11'
   }
-  let(:ak_parser) { ActionkitPageParser.new }
+  let(:ak_parser) { ActionkitPageParser }
   let(:message_json) {
     {
         page: {
