@@ -24,10 +24,7 @@ class ConnectWithOauthProvider
 
   def whitelisted
     return true if whitelist.empty?
-
-    whitelist.select do |list_domain|
-      email_domain == list_domain
-    end.any?
+    whitelist.include? email_domain
   end
 
   def connected_user
