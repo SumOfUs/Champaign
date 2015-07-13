@@ -1,0 +1,21 @@
+.widget-editor
+  div.widget-form-library
+    - Widget.classes.each do |widget_class|
+      = render 'shared/widget_form', widget: widget_class.new, builder: builder
+
+  div.fieldsets
+    - widgets.each do |widget|
+      = render 'shared/widget_form', widget: widget, builder: builder
+
+  div.add-widget
+    = render 'shared/widget_type_selector'
+    div.btn.btn-sm.new-widget New Widget
+
+coffee:
+  window.editor = new WidgetEditor
+    editor: '.widget-editor'
+    library: '.widget-form-library'
+    fieldsets: '.fieldsets'
+    new_button: '.new-widget'
+    type_selector: '#widget_type'
+   console.log('we should have editor',editor)
