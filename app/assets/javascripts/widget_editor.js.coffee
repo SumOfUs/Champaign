@@ -15,7 +15,14 @@ class WidgetEditor
     cloned = @$library.find(".#{widget_type}").clone()
     @$fieldsets.append(cloned)
 
+  remove_library: (evt) =>
+    # don't submit the data in the template widget forms
+    evt.preventDefault()
+    @$library.remove()
+    evt.target.submit()
+
   bind_events: ->
     @$new_button.on 'click', @new_widget
+    @$editor.parents('form').on 'submit', @remove_library
 
 window.WidgetEditor = WidgetEditor
