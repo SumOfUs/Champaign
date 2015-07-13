@@ -4,8 +4,8 @@ class Widget < ActiveRecord::Base
 
   validates :page_display_order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
-  types = %w(TextBodyWidget PetitionWidget ImageWidget ThermometerWidget RawHtmlWidget)
-  validates :type, presence: true, inclusion: types
+  TYPES = %w(TextBodyWidget PetitionWidget ImageWidget ThermometerWidget RawHtmlWidget)
+  validates :type, presence: true, inclusion: TYPES
 
   validate :restrict_content_keys
 
@@ -20,13 +20,37 @@ class Widget < ActiveRecord::Base
     end
   end
 
+  def type
+    self.class.type
+  end
+
+  def self.type
+    self.name.underscore
+  end
+
+  def self.types
+    TYPES
+  end
+
+  def self.classes
+    TYPES.map(&:constantize)
+  end
+
+  def self.title
+    self.name.titleize
+  end
+
   def self.load_schema
     @full_schema ||= JSON.parse File.read(self.json_schema)
     return @full_schema["properties"]
   end
 
+  def self.fields
+    "widgets/#{self.type}/fields"
+  end
+
   def self.json_schema
-    Rails.root.join('db','json',"#{self.name.underscore}.json_schema").to_s
+    Rails.root.join('db','json',"#{self.type}.json_schema").to_s
   end
 
 end
