@@ -17,12 +17,13 @@ module ChampaignConfig
 
   def reset!
     @location = DEFAULT_YAML
+    @data = nil
   end
 
   private
 
   def data
-    @data = YAML.load_file(@location)
+    @data ||= YAML.load_file(@location)
   end
 
   def root
