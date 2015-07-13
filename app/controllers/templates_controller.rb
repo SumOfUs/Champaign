@@ -2,10 +2,6 @@ class TemplatesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_template, only: [:show, :edit, :update, :show_form, :destroy]
 
-  def get_template
-    @template = Template.find params[:id]
-  end
-
   def index
     @templates = Template.where active: true
   end
@@ -15,7 +11,6 @@ class TemplatesController < ApplicationController
 
   def new
     @template = Template.new
-    @widget_types = WidgetType.where(active: true).all
   end
 
   def create
@@ -40,7 +35,11 @@ class TemplatesController < ApplicationController
     # This returns the html from templates/show_form.slim without a layout.
     # The HTML gets requested by an AJAX call in campaign page creation, whenever the
     # user changes which template they want to use as the base for their campaign page.
-    @template = Template.find(params[:id])
     render 'templates/show_form', layout: false
+  end
+
+  private
+  def get_template
+    @template = Template.find params[:id]
   end
 end
