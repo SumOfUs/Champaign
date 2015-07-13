@@ -21,8 +21,8 @@ class Widget < ActiveRecord::Base
   end
 
   def self.load_schema
-    full_schema = JSON.parse File.read(self.json_schema)
-    return full_schema["properties"]
+    @full_schema ||= JSON.parse File.read(self.json_schema)
+    return @full_schema["properties"]
   end
 
   def self.json_schema
