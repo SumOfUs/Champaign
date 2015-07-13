@@ -7,7 +7,7 @@ class Widget < ActiveRecord::Base
   types = %w(TextBodyWidget PetitionWidget ImageWidget ThermometerWidget RawHtmlWidget)
   validates :type, presence: true, inclusion: types
 
-  validates :restrict_content_keys, json: { message: ->(errors) { errors } }
+  validate :restrict_content_keys
 
   def restrict_content_keys
     if content.present?
