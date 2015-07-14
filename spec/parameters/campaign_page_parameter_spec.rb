@@ -16,8 +16,9 @@ describe CampaignPageParameters do
   describe 'should pass' do
 
     after :each do
+      desired = @params.clone
       permitted = CampaignPageParameters.new(@all_params).permit
-      expect(permitted).to eq @params.with_indifferent_access
+      expect(permitted).to eq desired.with_indifferent_access
     end
 
     it 'base params' do
