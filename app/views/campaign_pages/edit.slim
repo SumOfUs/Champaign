@@ -1,29 +1,4 @@
-= form_for(@campaign_page, class: 'form-horizontal') do |f|
-  .jumbotron
-    h1 Edit your campaign page
+.jumbotron
+  h1 Edit your campaign page
 
-  fieldset
-    .form-group
-      legend Basic page information
-      = f.label :title, class: 'control-label col-lg-2'
-      .col-lg-10
-        = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
-      .form-group
-        = f.label :active, class: 'control-label col-lg-2'
-        = f.check_box :active
-      .form-group
-        = f.label :featured, class: 'control-label col-lg-2'
-        = f.check_box :featured
-      .form-group
-        = f.label :tag_ids, class: 'control-label col-lg-2'
-        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tags.ids), {}, html_options= {class: 'form-control', multiple: true}
-
-      - @campaign_page.campaign_pages_widgets.each do |widget|
-        /this could be replaced with a call to templates/show_form, where a change would need to be made to
-        /call build_options_hash on the widgets if creating a new page, and to pass widget.content
-        /as options if editing an existing page
-        legend = widget.widget_type.widget_name.titleize
-        = render widget.widget_type.form_partial_path, {options: widget.content}
-
-      div.form-group
-       = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+= render 'form'
