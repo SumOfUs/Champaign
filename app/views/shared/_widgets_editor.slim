@@ -1,15 +1,15 @@
 .widget-editor
-  div.widget-form-library
-    - Widget.classes.each do |widget_class|
-      = render 'shared/widget_form', widget: widget_class.new, builder: builder
+    div.widget-form-library
+      = builder.fields_for :widgets, Widget.classes.map(&:new), child_index: 'replace_with_unique_idx' do |widgets_builder|
+          = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
 
-  div.fieldsets
-    - widgets.each do |widget|
-      = render 'shared/widget_form', widget: widget, builder: builder
+    div.fieldsets
+      = builder.fields_for :widgets do |widgets_builder|
+        = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
 
-  div.add-widget
-    = render 'shared/widget_type_selector'
-    div.btn.btn-sm.new-widget Add Widget
+    div.add-widget
+      = render 'shared/widget_type_selector'
+      div.btn.btn-sm.new-widget Add Widget
 
 coffee:
   window.editor = new WidgetEditor

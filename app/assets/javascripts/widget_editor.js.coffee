@@ -13,7 +13,11 @@ class WidgetEditor
   new_widget: =>
     widget_type = @$type_selector.val()
     cloned = @$library.find(".#{widget_type}").clone()
-    @$fieldsets.append(cloned)
+    @$fieldsets.append( @update_child_index(cloned) )
+
+  update_child_index: (template) ->
+    unique_index = new Date().getTime()
+    template.html(template.html().replace(/replace_with_unique_idx/g, unique_index))
 
   remove_library: (evt) =>
     # don't submit the data in the template widget forms

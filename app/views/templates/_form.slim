@@ -2,7 +2,7 @@
   = render 'shared/error_messages', target: @template
   div.form-control
     = f.label :template_name
-    =< f.text_field :template_name
+    = f.text_field :template_name
   div.form-control
     => f.check_box :active
     = f.label :active
