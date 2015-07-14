@@ -28,7 +28,16 @@ parameter_classes_to_test = {
       title: 'Awesome Campaign Page',
       slug: '/page/awesome-campaigns-page',
       active: true,
-      featured: false
+      featured: false,
+      widgets_attributes: [{
+        content: {
+          my_arbitrary_made_up_key: {
+            nested: 'hell yeah'
+          }
+        },
+        id: 1,
+        type: 'TextBodyWidget'
+      }]
     }
   },
   campaign: {
