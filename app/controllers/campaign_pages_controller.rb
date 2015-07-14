@@ -40,38 +40,17 @@ class CampaignPagesController < ApplicationController
   end
 
   def edit
+    @options = create_form_options(params)
   end
 
   def update
-    @widgets = @campaign_page.campaign_pages_widgets
-    param_filter = CampaignPageParameters.new(params)
-    permitted_params = param_filter.permit
-    permitted_params[:slug] = permitted_params[:title].parameterize
-    permitted_params[:campaign_pages_widgets_attributes] = []
-    params[:widgets].each do |widget_type_name, widget_data|
-      # widget type id is contained in a field called widget_type:
-      widget_type_id = widget_data.delete :widget_type
-      # This will break if there will be two widgets of the same type for the page. If we enable having two of the same widget type per page,
-      # page display order will need to be considered as well for fetching the correct i@d of the widget.
-      widget = @widgets.find_by(widget_type_id: widget_type_id)
-      permitted_params[:campaign_pages_widgets_attributes].push({
-        id: widget.id,
-        widget_type_id: widget_type_id,
-        content: widget_data,
-        page_display_order: widget.page_display_order})
+    @campaign_page.update_attributes @page_params
+    if @campaign_page.save
+      redirect_to @campaign_page, notice: 'Template updated!'
+    else
+      @options = create_form_options(@page_params)
+      render :edit
     end
-
-    # We pass the parameters through the strong parameter class first. That transforms it from a hash to ActionController::Parameters. 
-    # Only after that, we manipulate it by adding slug and title, and in my case, by adding a key called :campaign_pages_widgets_attributes, 
-    # which is required for the nested parameters. Despite of setting up the strong parameters for the dependent object (campaign_pages_widgets),
-    # Strong params don't pass those values through. My current work around is to just pass permitted_params.to_hash instead, and the pages update fine.
-    @campaign_page.update! permitted_params.except(:tags).to_hash
-
-    # Now update the tags.
-    tags = Tag.find(param_filter.convert_tags(permitted_params[:tags]))
-    @campaign_page.tags.delete_all
-    @campaign_page.tags << tags
-    redirect_to @campaign_page
   end
 
   def sign
