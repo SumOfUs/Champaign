@@ -46,10 +46,6 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    # To Omar: I don't think this any longer needs to do anything beyond a standard rails 
-    #          update action. The key is that it needs to updates the widgets whose params
-    #          are nested under :widgets_attributes. 
-
     @widgets = @campaign_page.campaign_pages_widgets
     param_filter = CampaignPageParameters.new(params)
     permitted_params = param_filter.permit
