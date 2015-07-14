@@ -5,6 +5,10 @@ describe CampaignPagesController do
 
   context 'logged in' do
 
+    # To Omar: All these tests are pending because I couldn't stub ActiveRecord_Relation
+    #          It would be magnificent if you made the controller actions and these tests work.
+    #          With Bogus perhaps! The params you expect can be seen in the model spec.
+
     before do
       pending("making collections and redirect work with doubles")
       allow(request.env['warden']).to receive(:authenticate!) { user }
