@@ -1,7 +1,7 @@
 class TemplateParameters < PageParameters
 
   def permit
-    params[:template][:widgets_attributes] = params[:template][:widgets_attributes].values
+    format_widget_attributes(params, :template)
     contents = save_json(params, :template)
     permitted = strip_json(params, :template).require(:template).permit(
       :id,

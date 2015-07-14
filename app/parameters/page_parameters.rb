@@ -5,6 +5,10 @@ class PageParameters < ActionParameter::Base
   # In order to pass strong params inspection with nested hashes with
   # unknown keys, we strip that part out and replace it after inspection
 
+  def format_widget_attributes params, root_symbol
+    params[root_symbol][:widgets_attributes] = params[root_symbol][:widgets_attributes].values
+  end
+
   def strip_json params, root_symbol
     return params unless params[root_symbol][:widgets_attributes].present?
     params[root_symbol][:widgets_attributes].each{ |a| a.delete(:content) }

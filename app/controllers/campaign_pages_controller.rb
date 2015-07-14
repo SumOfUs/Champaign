@@ -24,9 +24,6 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    if not params[:widgets][:image].nil?
-      ImageWidgetService.new(params).process
-    end
     @campaign_page = CampaignPage.new(@page_params)
     if @campaign_page.save
       redirect_to @campaign_page
