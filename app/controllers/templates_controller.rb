@@ -17,7 +17,7 @@ class TemplatesController < ApplicationController
   def create
     @template = Template.new @template_params
     if @template.save
-      redirect_to @template, notice: 'Template created'
+      redirect_to @template, notice: 'Template created!'
     else
       render :new
     end
@@ -27,9 +27,12 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    @template.update_attribute @template_params
-    @template.widget_types = params[:widget_types]
-    @template.save
+    @template.update_attributes @template_params
+    if @template.save
+      redirect_to @template, notice: 'Template updated!'
+    else
+      render :edit
+    end
   end
 
   def show_form
