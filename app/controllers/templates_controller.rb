@@ -1,6 +1,7 @@
 class TemplatesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_template, only: [:show, :edit, :update, :show_form, :destroy]
+  before_action :clean_params, only: [:update, :create]
 
   def index
     @templates = Template.where active: true
@@ -14,8 +15,7 @@ class TemplatesController < ApplicationController
   end
 
   def create
-    permitted_params = TemplateParameters.new(params).permit
-    @template = Template.new permitted_params
+    @template = Template.new @template_params
     if @template.save
       redirect_to @template, notice: 'Template created'
     else
@@ -27,8 +27,7 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    permitted_params = TemplateParameters.new(params).permit
-    @template.update_attribute permitted_params
+    @template.update_attribute @template_params
     @template.widget_types = params[:widget_types]
     @template.save
   end
@@ -43,5 +42,9 @@ class TemplatesController < ApplicationController
   private
   def get_template
     @template = Template.find params[:id]
+  end
+
+  def clean_params
+    @template_params = TemplateParameters.new(params).permit
   end
 end
