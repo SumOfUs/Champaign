@@ -68,7 +68,16 @@ parameter_classes_to_test = {
     correct_params: {
       id: 1,
       template_name: 'Awesome Template',
-      active: false
+      active: false,
+      widgets_attributes: [{
+        content: {
+          my_arbitrary_made_up_key: {
+            nested: 'hell yeah'
+          }
+        },
+        id: 1,
+        type: 'TextBodyWidget'
+      }]
     }
   }
 }
