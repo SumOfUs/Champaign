@@ -20,6 +20,8 @@ module ImageCropper
   end
 
   def self.resize
+    # the ratio is specified as 14 x 10 in image_cropper.js (for the cropper interface),
+    # and these will both need to be changed if we want different image proportion
     @image.change_geometry!('1120x800') { |cols, rows, img|
       img.resize!(cols, rows)
     }
