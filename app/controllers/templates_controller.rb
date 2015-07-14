@@ -14,6 +14,12 @@ class TemplatesController < ApplicationController
   end
 
   def create
+    # To Omar: This action is correctly making the Template, but not the nested widgets.
+    #          I'll sort out the rest of the strong params and finish
+    #          the form tomorrow, but you can feel free to use your Creator style here and
+    #          in the update action. This controller needs a spec too.
+    # 
+    #    example params: {"template"=>{"template_name"=>"Hey", "active"=>"1", "thermometer_widget"=>{"page_display_order"=>"2"}, "text_body_widget"=>{"page_display_order"=>"1", "content"=>{"text_body_html"=>"hey hey"}}}, "widget_type"=>"text_body_widget", "utf8"=>"✓", "authenticity_token"=>"ekzDa3XuwKpsVnP4kLlVKFSod+NLJW0fhtUPuvs5FyuxsUGCiI+2gDnUI0rYmpZsbjvTZEDRVWeZPzstJyKAFg==", "commit"=>"Save Template"}
     permitted_params = TemplateParameters.new(params).permit
     @template = Template.new permitted_params
     if @template.save
