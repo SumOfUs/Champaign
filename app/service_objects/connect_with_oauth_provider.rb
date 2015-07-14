@@ -1,5 +1,7 @@
-class ConnectWithOauthProvider
+# Raise if user's email domain is not whitelisted
+class Champaign::NotWhitelisted < StandardError; end;
 
+class ConnectWithOauthProvider
   def self.connect(data)
     new(data).connect
   end
@@ -9,6 +11,8 @@ class ConnectWithOauthProvider
   end
 
   def connect
+    raise Champaign::NotWhitelisted unless whitelisted
+
     return connected_user if user_already_connected
 
     return updated_disconnected_user if user_exists_but_disconnected
@@ -17,6 +21,11 @@ class ConnectWithOauthProvider
   end
 
   private
+
+  def whitelisted
+    return true if whitelist.empty?
+    whitelist.include? email_domain
+  end
 
   def connected_user
     @connected_user ||= User.find_by(provider: @resp.provider, uid: @resp.uid)
@@ -38,6 +47,14 @@ class ConnectWithOauthProvider
       uid: @resp.uid,
       password: Devise.friendly_token[0, 20]
     )
+  end
+
+  def email_domain
+    @resp.info.email.split('@').last
+  end
+
+  def whitelist
+    ChampaignConfig.oauth_domain_whitelist
   end
 
   alias_method :user_exists_but_disconnected, :disconnected_user
