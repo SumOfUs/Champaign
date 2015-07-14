@@ -1,7 +1,0 @@
-fieldset class=widget.snake_type
-  h4= widget.class.name.titleize
-  = builder.fields_for widget do |widget_builder|
-    = widget_builder.label :page_display_order
-    = widget_builder.text_field :page_display_order
-    = widget_builder.fields_for :content do |content_builder|
-      = render widget.class.fields, builder: content_builder, widget: widget
