@@ -32,7 +32,7 @@ describe CampaignPage do
         expect{ page.save }.to change{ CampaignPage.count }.by 1
         expect(page.errors.keys).to eq []
         expect(Widget.count).to eq (old_widget_count + 3)
-        expect(PetitionWidget.last.content['petition_text']).to eq petition_widget_params[:content][:petition_text]
+        expect(PetitionWidget.last.petition_text).to eq petition_widget_params[:content][:petition_text]
       end
 
       it "should not create page if one widget has errors" do
