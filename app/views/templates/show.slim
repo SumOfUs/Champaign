@@ -6,3 +6,8 @@
 
 .jumbotron
   h1 = @template.template_name
+
+  - @template.widgets.each do |widget|
+    div.widget
+      h5= widget.type
+      p= widget.content

@@ -1,0 +1,6 @@
+- if target.errors.any?
+  div.has-error.help-block
+    | We couldn't save your submission because of the following errors:
+    ul
+      - target.errors.full_messages.each do |msg|
+        li= msg
