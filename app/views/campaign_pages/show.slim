@@ -4,7 +4,8 @@
 .jumbotron
   h1 = @campaign_page.title
 
-
 .row
-  - @campaign_page.campaign_pages_widgets.each do |widget|  
-    = render widget.widget_type.display_partial_path, {options: widget.content}
+  - @campaign_page.widgets.each do |widget|
+    div.widget
+      h5= widget.type
+      p= widget.content

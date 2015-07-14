@@ -6,7 +6,7 @@
   div.form-control
     => f.check_box :active
     = f.label :active
-  = render 'shared/widgets_editor', widgets: @template.widgets, builder: f
+  = render 'shared/widgets_editor', builder: f
   div.form-control
     = f.submit 'Save Template', class: 'btn btn-sm btn-primary'
 

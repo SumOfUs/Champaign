@@ -1,6 +1,7 @@
 class CampaignPageParameters < PageParameters
 
   def permit
+    format_widget_attributes(params, :campaign_page)
     contents = save_json(params, :campaign_page)
     permitted = strip_json(params, :campaign_page).require(:campaign_page).permit(
       :id,
