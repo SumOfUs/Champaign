@@ -59,6 +59,16 @@ describe CampaignPage do
         page = existing_page # until existing page is called, it doesn't exist cause let() is lazy
         expect{ page.destroy }.to change{ Widget.count }.by -3
       end
+
+      it 'can destroy associated widgets with updates_attributes' do
+        update_params = { widgets_attributes: [{id: existing_page.widgets.first.id, _destroy: "true"}] }
+        expect{ existing_page.update_attributes update_params }.to change{ Widget.count }.by -1
+      end
+
+      it "won't destroy associated widgets updates_attributes with 'false'" do
+        update_params = { widgets_attributes: [{id: existing_page.widgets.first.id, _destroy: "false"}] }
+        expect{ existing_page.update_attributes update_params }.to change{ Widget.count }.by 0
+      end
     end
 
     describe 'show' do

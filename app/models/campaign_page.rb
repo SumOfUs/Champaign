@@ -19,7 +19,7 @@ class CampaignPage < ActiveRecord::Base
   validates_associated :widgets
 
   # allows updating associated campaign page widgets
-  accepts_nested_attributes_for :widgets
+  accepts_nested_attributes_for :widgets, allow_destroy: true
 
   before_validation :create_slug
 
