@@ -36,7 +36,8 @@ parameter_classes_to_test = {
           }
         },
         id: 1,
-        type: 'TextBodyWidget'
+        type: 'TextBodyWidget',
+        _destroy: 'false'
       }]
     }
   },
@@ -76,7 +77,8 @@ parameter_classes_to_test = {
           }
         },
         id: 1,
-        type: 'TextBodyWidget'
+        type: 'TextBodyWidget',
+        _destroy: 'false'
       }]
     }
   }
