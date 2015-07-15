@@ -44,8 +44,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    @campaign_page.update_attributes @page_params
-    if @campaign_page.save
+    if @campaign_page.update_attributes @page_params
       redirect_to @campaign_page, notice: 'Template updated!'
     else
       @options = create_form_options(@page_params)
