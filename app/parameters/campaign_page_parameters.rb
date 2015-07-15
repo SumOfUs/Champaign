@@ -12,7 +12,7 @@ class CampaignPageParameters < PageParameters
       :template_id,
       :campaign_id,
       :language_id,
-      {:tags => []},
+      {:tag_ids => []},
       widgets_attributes: [:id, :type, :page_display_order]
     ) 
     return restore_json(permitted, contents)
