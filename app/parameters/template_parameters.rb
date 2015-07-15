@@ -1,7 +1,14 @@
-# The parameters classes specify which parameters are allowed for mass assignment and permits those
-class TemplateParameters < ActionParameter::Base
+class TemplateParameters < PageParameters
 
   def permit
-    params.require(:template).permit(:template_name, :active)
+    format_widget_attributes(params, :template)
+    contents = save_json(params, :template)
+    permitted = strip_json(params, :template).require(:template).permit(
+      :id,
+      :active,
+      :template_name,
+      widgets_attributes: [:id, :type, :page_display_order]
+    )
+    return restore_json(permitted, contents)
   end
 end

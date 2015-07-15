@@ -1,0 +1,23 @@
+.widget-editor
+    div.widget-form-library
+      / this `child_index: 'replace_with_unique_idx'` allows us to submit a collection of
+      / widgets without knowing how many we'll want when we render the form html. Instead
+      / we give each copied set of fields a new unique index in javascript when it's copied.
+      = builder.fields_for :widgets, Widget.classes.map(&:new), child_index: 'replace_with_unique_idx' do |widgets_builder|
+          = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
+
+    div.fieldsets
+      = builder.fields_for :widgets do |widgets_builder|
+        = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
+
+    div.add-widget
+      = render 'shared/widget_type_selector'
+      div.btn.btn-sm.new-widget Add Widget
+
+coffee:
+  window.editor = new WidgetEditor
+    editor: '.widget-editor'
+    library: '.widget-form-library'
+    fieldsets: '.fieldsets'
+    new_button: '.new-widget'
+    type_selector: '#widget_type'

@@ -1,3 +1,10 @@
+/- @campaign_page.widgets.each do |widget|
+/  = render "forms/#{widget.type.underscore}_form", widget: widget, builder: form
+/
+/## forms/image_widget_form.slim
+/- builder.fields_for widget do |image_form|
+/  -# image widget specific fields```
+
 #image_widget_form.form-group
   = label_tag 'widgets[image][image_url]', 'Image URL:', class: 'control-label col-lg-2'
   .col-lg-10
@@ -8,7 +15,7 @@
       #image_preview
         = image_tag(options['image_url'], :id=>'image', :class=>"img-responsive center-block", :alt=>"")
       div
-        input type="hidden" name="image_x" id="image_x"
-        input type="hidden" name="image_y" id="image_y"
-        input type="hidden" name="image_width" id="image_width"
-        input type="hidden" name="image_height" id="image_height"
+        input type="hidden" name="widgets[image][image_x]" id="image_x"
+        input type="hidden" name="widgets[image][image_y]" id="image_y"
+        input type="hidden" name="widgets[image][image_width]" id="image_width"
+        input type="hidden" name="widgets[image][image_height]" id="image_height"

@@ -1,5 +1,6 @@
 class CampaignsController < ApplicationController
   before_action :authenticate_user!
+  before_action :find_campaign, only: [:show, :edit, :update, :destroy]
 
   def index
     @campaigns = ActiveQuery.new(Campaign)
@@ -15,8 +16,6 @@ class CampaignsController < ApplicationController
   end
 
   def show
-    @campaign = Campaign.find params['id']
-
     unless @campaign.active?
       raise ActionController::RoutingError.new('The campaign you requested has been deactivated.')
     end
@@ -24,18 +23,14 @@ class CampaignsController < ApplicationController
   end
 
   def edit
-    find_campaign
   end
 
   def update
-    find_campaign
     @campaign.update permitted_params
     redirect_to :campaigns, notice: 'Campaign Updated'
   end
 
   def destroy
-    find_campaign
-
     # deactivates campaign pages associated with that campaign
     @campaign.campaign_page.update_all(:active =>false)
     # deactivates the campaign itself

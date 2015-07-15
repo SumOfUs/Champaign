@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150623200743) do
+ActiveRecord::Schema.define(version: 20150711001257) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,9 +21,9 @@ ActiveRecord::Schema.define(version: 20150623200743) do
   end
 
   create_table "actionkit_pages", force: :cascade do |t|
-    t.integer "actionkit_id",             null: false
-    t.integer "actionkit_page_type_id",   null: false
-    t.integer "campaign_pages_widget_id", null: false
+    t.integer "actionkit_id",           null: false
+    t.integer "actionkit_page_type_id", null: false
+    t.integer "widget_id",              null: false
   end
 
   create_table "campaign_pages", force: :cascade do |t|
@@ -42,18 +42,19 @@ ActiveRecord::Schema.define(version: 20150623200743) do
     t.integer "tag_id"
   end
 
-  create_table "campaign_pages_widgets", force: :cascade do |t|
-    t.jsonb   "content",            null: false
-    t.integer "page_display_order", null: false
-    t.integer "campaign_page_id",   null: false
-    t.integer "widget_type_id",     null: false
-  end
-
   create_table "campaigns", force: :cascade do |t|
     t.string   "campaign_name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",        default: true
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string   "content_file_name"
+    t.string   "content_content_type"
+    t.integer  "content_file_size"
+    t.datetime "content_updated_at"
+    t.integer  "widget_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -79,15 +80,6 @@ ActiveRecord::Schema.define(version: 20150623200743) do
     t.string  "template_name"
     t.boolean "active"
   end
-
-  create_table "templates_widget_types", id: false, force: :cascade do |t|
-    t.integer "template_id",    null: false
-    t.integer "widget_type_id", null: false
-    t.integer "page_order"
-  end
-
-  add_index "templates_widget_types", ["template_id"], name: "index_templates_widget_types_on_template_id", using: :btree
-  add_index "templates_widget_types", ["widget_type_id"], name: "index_templates_widget_types_on_widget_type_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -121,21 +113,19 @@ ActiveRecord::Schema.define(version: 20150623200743) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  create_table "widget_types", force: :cascade do |t|
-    t.string   "widget_name",       null: false
-    t.jsonb    "specifications",    null: false
-    t.string   "action_table_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "active",            null: false
+  create_table "widgets", force: :cascade do |t|
+    t.jsonb    "content"
+    t.string   "type"
+    t.integer  "page_display_order"
+    t.integer  "page_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "page_type"
   end
 
+  add_index "widgets", ["page_id"], name: "index_widgets_on_page_id", using: :btree
+
   add_foreign_key "actionkit_pages", "actionkit_page_types"
-  add_foreign_key "actionkit_pages", "campaign_pages_widgets"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
-  add_foreign_key "campaign_pages_widgets", "campaign_pages"
-  add_foreign_key "campaign_pages_widgets", "widget_types"
-  add_foreign_key "templates_widget_types", "templates"
-  add_foreign_key "templates_widget_types", "widget_types"
 end

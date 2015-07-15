@@ -1,5 +1,3 @@
-require 'rails_helper'
-
 describe CampaignsController do
   let(:user) { double(:user) }
   let(:campaign) { instance_double('Campaign', active?: true) }

@@ -1,5 +1,3 @@
-require 'rails_helper'
-require 'spec_helper'
 
 # Since the tests for our Parameter types are all identical (make sure
 # that they correctly filter the right values and throw errors on the
@@ -10,11 +8,15 @@ require 'spec_helper'
 parameter_classes_to_test = {
   actionkit_page_type: {
     class_type: ActionkitPageTypeParameters,
-    correct_params: { actionkit_page_type: 'test' }
+    correct_params: { 
+      id: 1,
+      actionkit_page_type: 'test'
+    }
   },
   actionkit_page: {
     class_type: ActionkitPageParameters,
     correct_params: {
+      id: 1,
       campaign_page_id: 1,
       actionkit_page_type_id: 'test'
     }
@@ -22,29 +24,33 @@ parameter_classes_to_test = {
   campaign_page: {
     class_type: CampaignPageParameters,
     correct_params: {
+      id: 1,
       title: 'Awesome Campaign Page',
       slug: '/page/awesome-campaigns-page',
       active: true,
-      featured: false
-    }
-  },
-  campaign_pages_widget: {
-    class_type: CampaignPagesWidgetParameters,
-    correct_params: {
-      content: 'This is some content',
-      page_display_order: 1,
-      widget_type_id: 1
+      featured: false,
+      widgets_attributes: [{
+        content: {
+          my_arbitrary_made_up_key: {
+            nested: 'hell yeah'
+          }
+        },
+        id: 1,
+        type: 'TextBodyWidget'
+      }]
     }
   },
   campaign: {
     class_type: CampaignParameters,
     correct_params: {
+      id: 1,
       campaign_name: 'My campaigns!'
     }
   },
   language: {
     class_type: LanguageParameters,
     correct_params: {
+      id: 1,
       language_code: 'en',
       language_name: 'English'
     }
@@ -52,23 +58,26 @@ parameter_classes_to_test = {
   member: {
     class_type: MemberParameters,
     correct_params: {
+      id: 1,
       email_address: 'notarealemail@notarealdomain.notarealtld',
       actionkit_member_id: '1234564sga'
-    }
-  },
-  widget_type: {
-    class_type: WidgetTypeParameters,
-    correct_params: {
-      widget_name: 'Awesome Widget',
-      specifications: 'Test',
-      active: false
     }
   },
   template: {
     class_type: TemplateParameters,
     correct_params: {
+      id: 1,
       template_name: 'Awesome Template',
-      active: false
+      active: false,
+      widgets_attributes: [{
+        content: {
+          my_arbitrary_made_up_key: {
+            nested: 'hell yeah'
+          }
+        },
+        id: 1,
+        type: 'TextBodyWidget'
+      }]
     }
   }
 }
