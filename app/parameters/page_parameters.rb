@@ -6,7 +6,11 @@ class PageParameters < ActionParameter::Base
   # unknown keys, we strip that part out and replace it after inspection
 
   def format_widget_attributes params, root_symbol
-    params[root_symbol][:widgets_attributes] = params[root_symbol][:widgets_attributes].values
+    if params[root_symbol][:widgets_attributes].present?
+      if params[root_symbol][:widgets_attributes].respond_to? :values
+        params[root_symbol][:widgets_attributes] = params[root_symbol][:widgets_attributes].values
+      end
+    end
   end
 
   def strip_json params, root_symbol

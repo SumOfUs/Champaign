@@ -78,7 +78,21 @@ describe CampaignPageParameters do
         @content = "don't get high on your own supply"
       end
     end
+  end
 
+  describe 'should reformat' do
+
+    it 'a widgets_attributes hash into a list' do
+      first = {id: 1, content: {a: 'b'}}
+      second = {id: 2, type: "TextBodyWidget", content: {'c' => {'d' => 'e'}}}
+      third = {id: 3}
+
+      @params[:widgets_attributes] = {'10234556' => first, b: second, c: third}
+      desired = @params.clone
+      desired[:widgets_attributes] = [first, second, third]
+      permitted = CampaignPageParameters.new(@all_params).permit
+      expect(permitted).to eq desired.with_indifferent_access
+    end
   end
 
   describe 'with disallowed' do
