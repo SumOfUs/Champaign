@@ -27,8 +27,7 @@ class TemplatesController < ApplicationController
   end
 
   def update
-    @template.update_attributes @template_params
-    if @template.save
+    if @template.update_attributes @template_params
       redirect_to @template, notice: 'Template updated!'
     else
       render :edit
