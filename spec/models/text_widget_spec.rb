@@ -29,9 +29,10 @@ describe TextBodyWidget do
       expect(widget).not_to be_valid
     end
 
-    it "should enforce string types" do
+    it "should coerce string types" do
       widget.text_body_html = 123
-      expect(widget).not_to be_valid
+      expect(widget).to be_valid
+      expect(widget.text_body_html).to eq "123"
     end
 
     it "should be invalid with a non-spec'd key" do

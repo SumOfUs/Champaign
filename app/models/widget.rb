@@ -8,6 +8,7 @@ class Widget < ActiveRecord::Base
   validates :type, presence: true, inclusion: TYPES
 
   validate :restrict_content_keys
+  before_validation :cast_json_types
 
   def restrict_content_keys
     if content.present?
@@ -15,6 +16,32 @@ class Widget < ActiveRecord::Base
       content.each_key do |key|
         unless acceptable_keys.include? key
           errors.add(:content, "has unknown key '#{key}'")
+        end
+      end
+    end
+  end
+
+  # all user submitted values come in as strings on params, so we have to cast
+  # them so that we can use all of PG's sweet json searching. on regular relational
+  # fields, rails takes care of this for you, but not in json fields.
+  def cast_json_types
+    if content.present?
+      schema = self.class.load_schema
+      content.each_key do |key|
+        next unless schema.has_key? key
+        case schema[key]['type']
+        when 'string'
+          self.content[key] = content[key].to_s
+        when 'integer'
+          self.content[key] = content[key].to_i
+        when 'float'
+          self.content[key] = content[key].to_f
+        when 'dictionary'
+          self.content[key] = content[key].to_h
+        when 'array'
+          self.content[key] = content[key].to_a
+        when 'boolean'
+          self.content[key] = ActiveRecord::Type::Boolean.new.type_cast_from_user(content[key])
         end
       end
     end
