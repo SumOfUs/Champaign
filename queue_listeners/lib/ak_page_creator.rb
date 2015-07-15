@@ -1,0 +1,3 @@
+class AkPageCreator
+
+end
