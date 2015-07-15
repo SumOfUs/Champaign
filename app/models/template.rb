@@ -4,7 +4,7 @@ class Template < ActiveRecord::Base
   validates_uniqueness_of :template_name
 
   has_many :widgets, as: :page, dependent: :destroy
-  accepts_nested_attributes_for :widgets
+  accepts_nested_attributes_for :widgets, allow_destroy: true
 
   scope :active, -> { where(active: true) }
 end
