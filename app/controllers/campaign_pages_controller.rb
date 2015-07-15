@@ -17,7 +17,7 @@ class CampaignPagesController < ApplicationController
     @campaign_page = CampaignPage.new(@page_params)
     @campaign_page.compile_html
     if @campaign_page.save
-      redirect_to @campaign_page
+      redirect_to @campaign_page, notice: 'Campaign page updated!'
     else
       @options = create_form_options(@page_params)
       render :new
@@ -37,7 +37,7 @@ class CampaignPagesController < ApplicationController
   def update
     if @campaign_page.update_attributes @page_params
       @campaign_page.compile_html
-      redirect_to @campaign_page, notice: 'Template updated!'
+      redirect_to @campaign_page, notice: 'Campaign page updated!'
     else
       @options = create_form_options(@page_params)
       render :edit
