@@ -1,36 +1,23 @@
 describe CampaignPagesController do
 
-  let(:user) { double(:user) }
+  let(:user) { instance_double('User') }
   let(:campaign_page) { instance_double('CampaignPage', active?: true, featured?: true) }
 
-  context 'logged in' do
+  before do
+    allow(request.env['warden']).to receive(:authenticate!) { user }
+    allow(controller).to receive(:current_user) { user }
+  end
 
+  describe 'GET index' do
+    it 'renders index' do
+      get :index
+      expect(response).to render_template('index')
+    end
+  end
+
+  context 'logged in' do
     before do
       pending("making collections and redirect work with doubles")
-      allow(request.env['warden']).to receive(:authenticate!) { user }
-      allow(controller).to receive(:current_user) { user }
-    end
-
-    describe 'GET index' do
-
-      before :each do
-        allow(CampaignPage).to receive(:where).and_return([campaign_page])
-      end
-
-      it 'gets active campaigns' do
-        expect(CampaignPage).to receive(:where).with({active: true})
-        get :index
-      end
-
-      it 'renders index' do
-        get :index
-        expect(response).to render_template('index')
-      end
-
-      it 'assigns @campaign_pages' do
-        get :index
-        expect(assigns(:campaign_pages)).to eq([campaign_page])
-      end
     end
 
     describe "POST create" do

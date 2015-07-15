@@ -1,20 +1,24 @@
-a href="/campaign_pages/new" class="btn btn-primary btn-sm" Create a new page
+
 .row
-  - if @featured_pages
-    .col-md-6.campaign-list-container
-      h3 Active Featured Campaign Pages
-      ul
-      - @featured_pages.each do |campaign_page|
-        li = link_to campaign_page.title, campaign_page
-  .col-md-6.pull-right
-    h3 All Active Campaign Pages
-    - if @disabled
-      = link_to 'View active campaigns', campaign_pages_url
-    - else
-      = link_to('View disabled campaigns', {action: 'index', controller: 'campaign_pages', disabled: 1})
-    ul
-    - @campaign_pages.each do |campaign_page|
-      - if @disabled
-        li = link_to campaign_page.title, edit_campaign_page_path(campaign_page)
-      - else
-        li = link_to campaign_page.title, campaign_page
+  .col-md-12
+    h3 = t('.title')
+
+    table.table-bordered.table-striped.table
+      thead
+        tr
+          th = t('.table.name')
+          th = t('.table.featured')
+          th = t('.table.active')
+          th
+      tbody
+        - CampaignPage.all.each do |page|
+          tr
+            td = page.title
+            td
+              span class=(page.featured? ? 'tick' : 'cross')
+            td
+              span class=(page.active? ? 'tick' : 'cross')
+            td = link_to t('edit'), edit_campaign_page_path(page)
+
+    = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
+
