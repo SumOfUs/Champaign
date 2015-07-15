@@ -13,7 +13,7 @@ class CampaignPageParameters < PageParameters
       :campaign_id,
       :language_id,
       {:tag_ids => []},
-      widgets_attributes: [:id, :type, :page_display_order]
+      widgets_attributes: [:id, :type, :page_display_order, :_destroy]
     ) 
     return restore_json(permitted, contents)
   end
