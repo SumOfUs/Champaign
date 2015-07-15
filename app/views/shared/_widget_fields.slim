@@ -1,9 +1,11 @@
 .widget-fields class=widget.snake_type
   fieldset
-    h4= widget.class.name.titleize
-    div.btn.btn-sm.delete-widget Remove Widget
-    = builder.label :page_display_order
-    = builder.text_field :page_display_order
+    h4
+      = widget.class.name.titleize
+      div.btn.btn-sm.delete-widget.pull-right Remove Widget
+    = builder.label :page_display_order, class: 'control-label col-lg-2'
+    .col-lg-2
+      = builder.text_field :page_display_order, class: 'form-control'
     = builder.hidden_field :type
     = builder.hidden_field :_destroy, value: false, class: 'destroy-field'
     = builder.fields_for :content do |content_builder|
