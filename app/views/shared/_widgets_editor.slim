@@ -11,8 +11,12 @@
         = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
 
     div.add-widget
-      = render 'shared/widget_type_selector'
-      div.btn.btn-sm.new-widget Add Widget
+      h4 Add new widget
+
+      .col-lg-10
+        = render 'shared/widget_type_selector'
+      .col-lg-10
+        div.btn.btn-sm.new-widget Add Widget
 
 coffee:
   window.editor = new WidgetEditor
