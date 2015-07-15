@@ -1,0 +1,8 @@
+span.tick::after { 
+  content: "\2714";
+}
+
+span.cross:after {
+  content: "\2716"
+}
+

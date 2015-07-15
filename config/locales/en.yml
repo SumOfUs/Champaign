@@ -20,5 +20,16 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  edit: edit
+
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
+
+  campaign_pages:
+    index:
+      new: "Create a new page"
+      title: "Campaign Pages"
+      table:
+        name: Name
+        featured: Featured
+        active: Active

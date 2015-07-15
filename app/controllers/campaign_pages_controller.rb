@@ -5,16 +5,6 @@ class CampaignPagesController < ApplicationController
   before_action :clean_params, only: [:create, :update]
 
   def index
-    if params['disabled']
-      @campaign_pages = CampaignPage.where active: false
-      @title = 'All Disabled Campaign Pages'
-      @disabled = true
-    else
-      @campaign_pages = CampaignPage.where(active: true).order(created_at: :desc).limit(25)
-      @title = 'All Active Campaign Pages'
-      @featured_pages = @campaign_pages.where featured: true
-      @disabled = false
-    end
   end
 
   def new
@@ -36,7 +26,7 @@ class CampaignPagesController < ApplicationController
   def show
     if @campaign_page.active == false
       redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
-    end  
+    end
   end
 
   def edit
