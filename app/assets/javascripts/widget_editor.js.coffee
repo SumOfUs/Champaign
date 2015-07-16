@@ -40,9 +40,9 @@ class WidgetEditor
     evt.target.submit()
 
   bind_events: ->
-    @$new_button.on 'click', @new_widget
-    @$editor.parents('form').on 'submit', @remove_library
-    @$editor.find(@delete_button).on 'click', @delete_widget
-    @$editor.find(@undelete_button).on 'click', @undelete_widget
+    @$new_button.off().on 'click', @new_widget
+    @$editor.parents('form').off().on 'submit', @remove_library
+    @$editor.find(@delete_button).off().on 'click', @delete_widget
+    @$editor.find(@undelete_button).off().on 'click', @undelete_widget
 
 window.WidgetEditor = WidgetEditor
