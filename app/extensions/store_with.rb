@@ -26,6 +26,18 @@ class StoreWith
       conversion_method = type_converter(type)
 
       @model.class_eval do
+        define_method "#{property}=" do |attr|
+          return super(attr) if attr.nil?
+
+          if conversion_method.is_a? Proc
+            super(
+              conversion_method.call( attr )
+            )
+          else
+            super(attr.send( conversion_method ) )
+          end
+        end
+
         define_method property do
           return super() if super().nil?
 

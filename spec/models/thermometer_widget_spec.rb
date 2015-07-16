@@ -1,25 +1,31 @@
 describe ThermometerWidget do
 
-  let(:params) { {
-    goal: 10000,
-    count: 500,
-    autoincrement: true,
-    page_display_order: 1
-  } }
+  let(:params) do
+    {
+      goal: "12345",
+      count: "45",
+      autoincrement: "0",
+      page_display_order: 1
+    }
+  end
 
-  subject(:widget) { ThermometerWidget.create!(params) }
+  before do
+    ThermometerWidget.create!(params)
+  end
+
+  subject { Widget.first }
 
   it { should be_valid }
 
-  describe 'validation' do
-    it 'requires a goal' do
-      subject.goal = nil
-      expect(subject).to_not be_valid
+  describe 'content types' do
+    it 'casts values to the correct type on create' do
+      expect(subject.content['count']).to eq(45)
+      expect(subject.content['autoincrement']).to be false
     end
 
-    it 'requires a count' do
-      subject.count = nil
-      expect(subject).to_not be_valid
+    it "casts values to the correct type on update" do
+      subject.update_attributes!(autoincrement: '1')
+      expect(subject.content['autoincrement']).to be true
     end
   end
 end
