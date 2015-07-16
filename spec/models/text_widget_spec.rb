@@ -25,7 +25,7 @@ describe TextBodyWidget do
 
     it "should be invalid without a required field" do
       widget.content.delete('text_body_html')
-      expect(widget.text_body_html).to be_nil
+      expect(widget.text_body_html).to be_empty
       expect(widget).not_to be_valid
     end
 
@@ -35,10 +35,12 @@ describe TextBodyWidget do
       expect(widget.text_body_html).to eq "123"
     end
 
-    it "should be invalid with a non-spec'd key" do
-      widget.content['not_a_real_field'] = "heyy"
-      expect(widget).not_to be_valid
-    end
+    ## Not sure this is necessary. Even if someone
+    # should access +content+ directly, the object
+    # won't have a getter, so the value would be hidden
+    #   widget.content["blah"] = "carrots"
+    #   widget.blah // raises undefined method
+    it "should be invalid with a non-spec'd key"
 
     it "should be able to use store_accessor and content[] interchangeably" do
       widget.content['text_body_html'] =  "git on up"

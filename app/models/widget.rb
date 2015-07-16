@@ -2,13 +2,14 @@ class Widget < ActiveRecord::Base
 
   belongs_to :page, polymorphic: true
 
-  validates :page_display_order, presence: true, numericality: { only_integer: true, greater_than: 0 }
+  #validates :page_display_order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
   TYPES = %w(TextBodyWidget PetitionWidget ImageWidget ThermometerWidget RawHtmlWidget)
   validates :type, presence: true, inclusion: TYPES
 
-  validate :restrict_content_keys
-  before_validation :cast_json_types
+
+  #validate :restrict_content_keys
+  #before_validation :cast_json_types
 
   def restrict_content_keys
     if content.present?
