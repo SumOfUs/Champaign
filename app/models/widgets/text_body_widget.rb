@@ -1,4 +1,10 @@
 class TextBodyWidget < Widget
-  store_accessor :content, [self.load_schema.keys.map(&:to_sym)]
-  validates :content, presence: true, json: { schema: self.json_schema, message: ->(errors) { errors } }
+  extend StoreWith.model
+
+  validates :text_body_html, presence: true
+
+  store_with :content do
+    text_body_html  :string
+  end
 end
+
