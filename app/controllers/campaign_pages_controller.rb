@@ -25,6 +25,7 @@ class CampaignPagesController < ApplicationController
 
   def create
     @campaign_page = CampaignPage.new(@page_params)
+    @campaign_page.compile_html
     if @campaign_page.save
       redirect_to @campaign_page
     else
@@ -34,7 +35,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def show
-    if @campaign_page.active == false
+    unless @campaign_page.active
       redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
     end  
   end
@@ -45,6 +46,7 @@ class CampaignPagesController < ApplicationController
 
   def update
     @campaign_page.update_attributes @page_params
+    @campaign_page.compile_hmtl
     if @campaign_page.save
       redirect_to @campaign_page, notice: 'Template updated!'
     else
