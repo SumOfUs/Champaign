@@ -45,8 +45,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    @campaign_page.update_attributes @page_params
-    @campaign_page.compile_hmtl
+    @campaign_page.update_attributes(@page_params).compile_html
     if @campaign_page.save
       redirect_to @campaign_page, notice: 'Template updated!'
     else

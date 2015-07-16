@@ -33,6 +33,6 @@ class CampaignPage < ActiveRecord::Base
 
   # Compiles the HTML for this CampaignPage so that it can be used by external display apps.
   def compile_html
-    self.compiled_html = render partial: 'campaign_pages/page_compile', layout: false, locals: {campaign_page: self}
+    CampaignPageRenderer.new(self).render_and_save
   end
 end
