@@ -46,6 +46,10 @@ gem 'action_parameter'
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
 
+# We need to use render inside a model in order to compile HTML for display
+# in champaign-flute.
+gem 'render_anywhere', :require => false
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'

@@ -9,6 +9,7 @@ describe CampaignPage do
   let(:page_params) { attributes_for :widgetless_page, language: english }
   let(:simple_page) { CampaignPage.new(page_params) }
   let(:existing_page) { create :widgetless_page, language: english, widgets_attributes: widget_params }
+  let(:expected_html) {'<div class="jumbotron"><h1>Test Page!</h1></div><div class="row"></div>'}
 
   subject { simple_page }
 
@@ -52,6 +53,12 @@ describe CampaignPage do
         expect{ page.save }.to change{ Widget.count }.by 0
         expect(page.errors.keys).to eq [:title]
       end
+    end
+
+    it 'should compile a simple HTML page with just the title' do
+      page = CampaignPage.new title: 'Test Page!'
+      page.compile_html
+      expect(page.compiled_html).to eq(expected_html)
     end
 
     describe 'destroy' do
