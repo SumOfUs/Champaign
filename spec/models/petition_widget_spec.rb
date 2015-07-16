@@ -41,7 +41,7 @@ describe PetitionWidget do
 
     it "should be invalid without a required field" do
       widget.content.delete('petition_text')
-      expect(widget.petition_text).to be_empty
+      expect(widget.petition_text).to be_nil
       expect(widget).not_to be_valid
     end
 
@@ -57,7 +57,7 @@ describe PetitionWidget do
 
     it "should be valid without a non-required field" do
       widget.content.delete('form_button_text')
-      expect(widget.form_button_text).to be_empty
+      expect(widget.form_button_text).to be_nil
       expect(widget).to be_valid
     end
 

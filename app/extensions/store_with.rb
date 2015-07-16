@@ -27,6 +27,8 @@ class StoreWith
 
       @model.class_eval do
         define_method property do
+          return super() if super().nil?
+
           if conversion_method.is_a? Proc
             conversion_method.call( super() )
           else

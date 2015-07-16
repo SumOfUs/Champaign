@@ -25,7 +25,7 @@ describe TextBodyWidget do
 
     it "should be invalid without a required field" do
       widget.content.delete('text_body_html')
-      expect(widget.text_body_html).to be_empty
+      expect(widget.text_body_html).to be_nil
       expect(widget).not_to be_valid
     end
 
