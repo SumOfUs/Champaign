@@ -27,7 +27,11 @@ class StoreWith
 
       @model.class_eval do
         define_method property do
-          super().send( conversion_method )
+          if conversion_method.is_a? Proc
+            conversion_method.call( super() )
+          else
+            super().send( conversion_method )
+          end
         end
       end
     end
@@ -39,6 +43,14 @@ class StoreWith
       :to_s
     when :integer
       :to_i
+    when :float
+      :to_f
+    when :array
+      :to_a
+    when :dictionary
+      :to_h
+    when :boolean
+       lambda { |attr| ActiveRecord::Type::Boolean.new.type_cast_from_user(attr) }
     end
   end
 
@@ -47,4 +59,3 @@ class StoreWith
     @raw[m] = args.first
   end
 end
-
