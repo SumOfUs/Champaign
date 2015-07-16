@@ -41,7 +41,7 @@ describe PetitionWidget do
 
     it "should be invalid without a required field" do
       widget.content.delete('petition_text')
-      expect(widget.petition_text).to be_nil
+      expect(widget.petition_text).to be_empty
       expect(widget).not_to be_valid
     end
 
@@ -57,20 +57,15 @@ describe PetitionWidget do
 
     it "should be valid without a non-required field" do
       widget.content.delete('form_button_text')
-      expect(widget.form_button_text).to be_nil
+      expect(widget.form_button_text).to be_empty
       expect(widget).to be_valid
     end
 
     it "should enforce string types" do
       widget.petition_text = 123
       expect(widget).not_to be_valid
-    end
-
-    it "should be invalid with a non-spec'd key" do
-      widget.content['not_a_real_field'] = "heyy"
-      expect(widget).not_to be_valid
-    end
   end
+    end
 
   describe 'actionkit_page' do
 
