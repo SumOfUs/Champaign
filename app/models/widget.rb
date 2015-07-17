@@ -6,8 +6,6 @@ class Widget < ActiveRecord::Base
   validates :page_display_order, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
 
-  # TODO: Remove these methods... what they do is of no concern to this model.
-
   # Why not access underscore directly?
   def snake_type
     type.underscore
@@ -18,7 +16,7 @@ class Widget < ActiveRecord::Base
   end
 
   def self.classes
-    TYPES.map(&:constantize)
+    [TextBodyWidget, PetitionWidget, ImageWidget, ThermometerWidget, RawHtmlWidget]
   end
 
   def self.title

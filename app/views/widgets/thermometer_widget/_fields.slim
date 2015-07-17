@@ -1,11 +1,11 @@
 = builder.label :goal, class: 'control-label col-lg-2'
 .col-lg-2
-  = builder.number_field :goal, value: try_content(widget, :goal), class: 'form-control'
+  = builder.number_field :goal, class: 'form-control'
 
 = builder.label :count, class: 'control-label col-lg-2'
 .col-lg-2
-  = builder.number_field :count, value: try_content(widget, :count), class: 'form-control'
+  = builder.number_field :count, class: 'form-control'
 
 = builder.label :autoincrement, class: 'control-label col-lg-2'
 .col-lg-2
-  = builder.check_box :autoincrement, {checked: try_content(widget, :autoincrement, true), class: 'form-control'}
+  = builder.check_box :autoincrement, class: 'form-control'
