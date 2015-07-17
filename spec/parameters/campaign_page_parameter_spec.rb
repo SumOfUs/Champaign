@@ -65,6 +65,14 @@ describe CampaignPageParameters do
                                       }]
     end
 
+    it 'setter params for a nested hash' do
+      @params[:widgets_attributes] = [{
+                                        checkboxes: ['merrily','merrily','merrily'],
+                                        select_box: { life_is_but: 'a dream'},
+                                        type: "PetitionWidget"
+                                      }]
+    end
+
     describe 'widgets content' do
 
       after :each do
