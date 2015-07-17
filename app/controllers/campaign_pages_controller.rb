@@ -14,13 +14,13 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    @campaign_page = CampaignPage.new(@page_params)
-    @campaign_page.compile_html
-    if @campaign_page.save
-      redirect_to @campaign_page, notice: 'Campaign page updated!'
-    else
+    page_builder = CampaignPageBuilder.new(CampaignPage.new, @page_params, params)
+    if page_builder.switched_template? or not page_builder.save
       @options = create_form_options(@page_params)
+      @campaign_page = page_builder.campaign_page
       render :new
+    else
+      redirect_to page_builder.campaign_page, notice: 'Campaign page created!'
     end
   end
 
@@ -35,12 +35,12 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    if @campaign_page.update_attributes @page_params
-      @campaign_page.compile_html
-      redirect_to @campaign_page, notice: 'Campaign page updated!'
-    else
+    page_builder = CampaignPageBuilder.new(@campaign_page, @page_params, params)
+    if page_builder.switched_template? or not page_builder.save
       @options = create_form_options(@page_params)
       render :edit
+    else
+      redirect_to page_builder.campaign_page, notice: 'Campaign page updated!'
     end
   end
 

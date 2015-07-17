@@ -1,0 +1,2 @@
+= select_tag :template, options_for_select(templates.map{|t| [t.template_name, t.id] })
+= builder.submit 'Apply template', name: 'switch_template'

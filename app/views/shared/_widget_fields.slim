@@ -1,5 +1,5 @@
 .widget-fields class=widget.snake_type
-  fieldset
+  fieldset class=(builder.object.marked_for_destruction? ? 'hidden-deleted' : '')
     h4
       = widget.class.name.titleize
       div.btn.btn-sm.delete-widget.pull-right Remove Widget
@@ -7,8 +7,9 @@
     .col-lg-2
       = builder.text_field :page_display_order, class: 'form-control'
     = builder.hidden_field :type
-    = builder.hidden_field :_destroy, value: false, class: 'destroy-field'
+    = builder.hidden_field :_destroy, class: 'destroy-field', value: builder.object.marked_for_destruction?
     = builder.fields_for :content do |content_builder|
       = render widget.class.fields, builder: content_builder, widget: widget
 
-  .deleted-info.hidden-irrelevant You have removed a #{widget.class.name.titleize}. This change will be saved when you submit this form. #{link_to 'Click here', '#', class: 'undelete-widget'} to restore the widget.
+  .deleted-info class=(builder.object.marked_for_destruction? ? '' : 'hidden-irrelevant')
+    | You have removed a #{widget.class.name.titleize}. This change will be saved when you submit this form. #{link_to 'Click here', '#', class: 'undelete-widget'} to restore the widget.
