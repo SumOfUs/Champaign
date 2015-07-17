@@ -1,6 +1,7 @@
 = form_for(@campaign_page, class: 'form-horizontal', html: {multipart: true}) do |f|
   = render 'shared/error_messages', target: @campaign_page
   fieldset
+    = render 'shared/template_picker', builder: f, templates: @options[:templates]
     legend Basic page information
     .form-group
       = f.label :featured, class: 'control-label col-lg-2'

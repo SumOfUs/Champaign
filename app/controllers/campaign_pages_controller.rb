@@ -15,8 +15,9 @@ class CampaignPagesController < ApplicationController
 
   def create
     @campaign_page = CampaignPage.new(@page_params)
-    @campaign_page.compile_html
+    return switch_template(@campaign_page, :new) if params[:switch_template]
     if @campaign_page.save
+      @campaign_page.compile_html
       redirect_to @campaign_page, notice: 'Campaign page updated!'
     else
       @options = create_form_options(@page_params)
@@ -35,7 +36,9 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    if @campaign_page.update_attributes @page_params
+    @campaign_page.attributes = @page_params
+    return switch_template(@campaign_page, :edit) if params[:switch_template]
+    if @campaign_page.save
       @campaign_page.compile_html
       redirect_to @campaign_page, notice: 'Campaign page updated!'
     else
@@ -50,6 +53,13 @@ class CampaignPagesController < ApplicationController
   end
 
   private
+
+  def switch_template page, view
+    templater = PageTemplater.new(params[:template])
+    templater.convert @campaign_page
+    @options = create_form_options(@page_params)
+    render view
+  end
 
   def get_campaign_page
     @campaign_page = CampaignPage.find(params[:id])
