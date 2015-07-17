@@ -37,6 +37,16 @@ describe Template do
     it "does not destroy the template when the widget is destroyed" do
       expect{ template.widgets.first.destroy }.to change{ Template.count }.by 0
     end
+
+    it 'can destroy associated widgets with updates_attributes' do
+      update_params = { widgets_attributes: [{id: template.widgets.first.id, _destroy: "true"}] }
+      expect{ template.update_attributes update_params }.to change{ Widget.count }.by -1
+    end
+
+    it "won't destroy associated widgets updates_attributes with 'false'" do
+      update_params = { widgets_attributes: [{id: template.widgets.first.id, _destroy: "false"}] }
+      expect{ template.update_attributes update_params }.to change{ Widget.count }.by 0
+    end
   end
 
 end

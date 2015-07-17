@@ -1,7 +1,14 @@
-fieldset class=widget.snake_type
-  h4= widget.class.name.titleize
-  = builder.label :page_display_order
-  = builder.text_field :page_display_order
-  = builder.hidden_field :type
-  = builder.fields_for :content do |content_builder|
-    = render widget.class.fields, builder: content_builder, widget: widget
+.widget-fields class=widget.snake_type
+  fieldset
+    h4
+      = widget.class.name.titleize
+      div.btn.btn-sm.delete-widget.pull-right Remove Widget
+    = builder.label :page_display_order, class: 'control-label col-lg-2'
+    .col-lg-2
+      = builder.text_field :page_display_order, class: 'form-control'
+    = builder.hidden_field :type
+    = builder.hidden_field :_destroy, value: false, class: 'destroy-field'
+    = builder.fields_for :content do |content_builder|
+      = render widget.class.fields, builder: content_builder, widget: widget
+
+  .deleted-info.hidden-irrelevant You have removed a #{widget.class.name.titleize}. This change will be saved when you submit this form. #{link_to 'Click here', '#', class: 'undelete-widget'} to restore the widget.

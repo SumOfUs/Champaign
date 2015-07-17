@@ -12,5 +12,5 @@
       "type": "integer"
     }
   },
-  "required": ["goal, count"]
+  "required": ["goal", "count"]
 }

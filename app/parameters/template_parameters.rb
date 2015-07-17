@@ -7,7 +7,7 @@ class TemplateParameters < PageParameters
       :id,
       :active,
       :template_name,
-      widgets_attributes: [:id, :type, :page_display_order]
+      widgets_attributes: [:id, :type, :page_display_order, :_destroy]
     )
     return restore_json(permitted, contents)
   end
