@@ -35,13 +35,6 @@ describe TextBodyWidget do
       expect(widget.text_body_html).to eq "123"
     end
 
-    ## Not sure this is necessary. Even if someone
-    # should access +content+ directly, the object
-    # won't have a getter, so the value would be hidden
-    #   widget.content["blah"] = "carrots"
-    #   widget.blah // raises undefined method
-    it "should be invalid with a non-spec'd key"
-
     it "should be able to use store_accessor and content[] interchangeably" do
       widget.content['text_body_html'] =  "git on up"
       expect(widget.text_body_html).to eq "git on up"
