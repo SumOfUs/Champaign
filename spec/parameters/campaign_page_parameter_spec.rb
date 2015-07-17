@@ -56,6 +56,16 @@ describe CampaignPageParameters do
       @params[:widgets_attributes] = [first, second, third]
     end
 
+    it 'parameters usable by a store_with setter' do
+      @params[:widgets_attributes] = [{
+                                        goal: "12345",
+                                        count: "45",
+                                        autoincrement: "0",
+                                        page_display_order: 1,
+                                        type: "ThermometerWidget"
+                                      }]
+    end
+
     describe 'widgets content' do
 
       after :each do
