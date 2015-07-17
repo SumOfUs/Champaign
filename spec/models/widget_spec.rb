@@ -33,9 +33,10 @@ describe Widget do
   end
 
   describe 'type' do
-    it "should be invalid when not in the allowed types" do
-      widget.type = "NotARealWidget"
-      expect(widget).not_to be_valid
+    it "raise if type is not a subclass" do
+      expect {
+        Widget.new(type: "XhEzS")
+      }.to raise_error(ActiveRecord::SubclassNotFound)
     end
   end
 

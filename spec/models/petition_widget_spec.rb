@@ -64,13 +64,8 @@ describe PetitionWidget do
     it "should enforce string types" do
       widget.petition_text = 123
       expect(widget).not_to be_valid
-    end
-
-    it "should be invalid with a non-spec'd key" do
-      widget.content['not_a_real_field'] = "heyy"
-      expect(widget).not_to be_valid
-    end
   end
+    end
 
   describe 'actionkit_page' do
 
