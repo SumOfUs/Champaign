@@ -37,7 +37,6 @@ class PageParameters < ActionParameter::Base
 
   def widget_nesting_fields
     [
-      :content,
       :checkboxes,
       :select_box,
       :comment_textarea,

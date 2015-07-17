@@ -49,8 +49,8 @@ describe CampaignPageParameters do
     end
 
     it 'a widget list with different content in order' do
-      first = {id: 1, content: {a: 'b'}}
-      second = {id: 2, type: "TextBodyWidget", content: {'c' => {'d' => 'e'}}}
+      first = {id: 1, checkboxes: {a: 'b'}}
+      second = {id: 2, type: "TextBodyWidget", image_attributes: {'c' => {'d' => 'e'}}}
       third = {id: 3}
       @params[:widgets_attributes] = [first, second, third]
     end
@@ -72,36 +72,13 @@ describe CampaignPageParameters do
                                         type: "PetitionWidget"
                                       }]
     end
-
-    describe 'widgets content' do
-
-      after :each do
-        @params[:widgets_attributes] = [{id: 1, type: "TextBodyWidget", page_display_order: 1, content: @content}]
-      end
-
-      it 'with empty content' do
-        @content = {}
-      end
-
-      it 'with absolutely any key' do
-        @content = {thank_goodness_im_not_debugging_strong_params_anymore: "seriously"}
-      end
-
-      it 'with deeply nested hashes' do
-        @content = {a: {b: {c: 1}, d: 2}}
-      end
-
-      it 'with a string value' do
-        @content = "don't get high on your own supply"
-      end
-    end
   end
 
   describe 'should reformat' do
 
     it 'a widgets_attributes hash into a list' do
-      first = {id: 1, content: {a: 'b'}}
-      second = {id: 2, type: "TextBodyWidget", content: {'c' => {'d' => 'e'}}}
+      first = {id: 1, image_attributes: {a: 'b'}}
+      second = {id: 2, type: "TextBodyWidget", image_attributes: {'c' => {'d' => 'e'}}}
       third = {id: 3}
 
       @params[:widgets_attributes] = {'10234556' => first, b: second, c: third}
@@ -136,5 +113,27 @@ describe CampaignPageParameters do
       @params[:widgets_attributes] = [ps]
     end
 
+    describe 'widgets content' do
+
+      after :each do
+        @params[:widgets_attributes] = [{id: 1, type: "TextBodyWidget", page_display_order: 1, content: @content}]
+      end
+
+      it 'with empty content' do
+        @content = {}
+      end
+
+      it 'with absolutely any key' do
+        @content = {thank_goodness_im_not_debugging_strong_params_anymore: "seriously"}
+      end
+
+      it 'with deeply nested hashes' do
+        @content = {a: {b: {c: 1}, d: 2}}
+      end
+
+      it 'with a string value' do
+        @content = "don't get high on your own supply"
+      end
+    end
   end
 end
