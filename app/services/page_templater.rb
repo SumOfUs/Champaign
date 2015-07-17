@@ -4,7 +4,7 @@ class PageTemplater
     @template = Template.find(template)
   end
 
-  def convert page
+  def convert(page)
     new_widgets = @template.widgets.map{ |w| w.dup }
     page.widgets = merge_widgets new_widgets, page.widgets
   end
@@ -21,8 +21,3 @@ class PageTemplater
   end
 
 end
-
-# use cases
-# - on new page, no template selected, empty widgetless form, select a template
-# - on new page, have some widgets (maybe from template), want to switch to a new template
-# - on edit page, have some widgets (maybe from template), want to switch to a new template
