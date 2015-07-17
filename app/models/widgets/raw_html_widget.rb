@@ -1,5 +1,5 @@
 class RawHtmlWidget < Widget
-  extend StoreWith.model
+  include StoreWith.model
 
   validates :html, presence: true
 

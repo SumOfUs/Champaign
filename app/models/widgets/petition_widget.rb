@@ -1,5 +1,5 @@
 class PetitionWidget < Widget
-  extend StoreWith.model
+  include StoreWith.model
   has_one :actionkit_page, foreign_key: :widget_id
 
   validates :petition_text, length: { minimum: 5 }
@@ -18,6 +18,7 @@ class PetitionWidget < Widget
     checkboxes            :array
     select_box            :dictionary
     comment_textarea      :dictionary
+    call_in_form          :dictionary
     letter_sent_form      :dictionary
   end
 end

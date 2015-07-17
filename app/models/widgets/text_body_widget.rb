@@ -1,5 +1,5 @@
 class TextBodyWidget < Widget
-  extend StoreWith.model
+  include StoreWith.model
 
   validates :text_body_html, presence: true
 

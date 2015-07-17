@@ -1,5 +1,5 @@
 class ThermometerWidget < Widget
-  extend StoreWith.model
+  include StoreWith.model
 
   validates :goal, :count, presence: true
 

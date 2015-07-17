@@ -4,21 +4,38 @@ class StoreWith
   class << self
     def model
       Module.new do
-        def store_with(attr, &block)
-          detail = StoreWith.new(self, &block)
-          self.store_accessor attr, detail.attrs
+        def self.included(base)
+          base.extend ClassMethods
         end
       end
     end
   end
 
-  def initialize(model, &block)
+  module ClassMethods
+    def store_with(attr, &block)
+      detail = StoreWith.new(self, attr, &block)
+      self.store_accessor attr, detail.attrs
+    end
+  end
+
+  def initialize(model, location, &block)
     @model = model
+    @@location = location
     @attrs = []
     @raw = {}
 
     instance_eval(&block)
     set_casts
+    override
+  end
+
+  def override
+    @model.class_eval do
+      define_method "#{@@location}=" do |attrs|
+        assign_attributes(attrs)
+        super(attrs) unless attrs.any?
+      end
+    end
   end
 
   def set_casts

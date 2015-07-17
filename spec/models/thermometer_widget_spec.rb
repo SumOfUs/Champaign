@@ -51,7 +51,6 @@ describe ThermometerWidget do
 
       it "casts values to the correct type on update" do
         subject.update_attributes!(nested_params)
-        subject.reload
         expect(subject.content['autoincrement']).to be true
         expect(subject.content['goal']).to eq 657
       end

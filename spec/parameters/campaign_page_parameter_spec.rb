@@ -12,7 +12,6 @@ describe CampaignPageParameters do
     @params = @all_params[:campaign_page]
   end
 
-  
   describe 'should pass' do
 
     after :each do
