@@ -4,6 +4,49 @@
 # wrong ones), we define a hash of all the different Parameter types
 # that we're going to test and then loop over each of them, plugging
 # in the relevant values.
+widgets_attributes = [{
+    id: 1,
+    type: 'TextBodyWidget',
+    _destroy: 'false',
+    text_body_html: 'string'
+  },{
+    id: 2,
+    type: 'RawHtmlWidget',
+    _destroy: 'true',
+    html: 'string'
+  },{
+    id: '3',
+    type: 'ThermometerWidget',
+    _destroy: 'false',
+    goal: '500',
+    count: '40',
+    autoincrement: 'false'
+  },{
+    id: '40',
+    type: 'PetitionWidget',
+    _destroy: 'false',
+    petition_text: "and so it was told",
+    form_button_text: "that the children of the town",
+    require_full_name: "false",
+    require_email_address: "false",
+    require_country: "false",
+    require_state: "false",
+    require_postal_code: "false",
+    require_address: "false",
+    require_city: "false",
+    require_phone: "false",
+    checkboxes: ["would", "live", "in", "nests"],
+    select_box:       { nested_key: "nested_value" },
+    comment_textarea: { nested_key: "nested_value" },
+    call_in_form:     { nested_key: "nested_value" },
+    letter_sent_form: { nested_key: "nested_value" }
+  },{
+    id: '3',
+    type: 'ImageWidget',
+    _destroy: 'false',
+    image_attributes: { content: "" }
+  }
+]
 
 parameter_classes_to_test = {
   actionkit_page_type: {
@@ -29,16 +72,7 @@ parameter_classes_to_test = {
       slug: '/page/awesome-campaigns-page',
       active: true,
       featured: false,
-      widgets_attributes: [{
-        content: {
-          my_arbitrary_made_up_key: {
-            nested: 'hell yeah'
-          }
-        },
-        id: 1,
-        type: 'TextBodyWidget',
-        _destroy: 'false'
-      }]
+      widgets_attributes: widgets_attributes
     }
   },
   campaign: {
@@ -70,16 +104,7 @@ parameter_classes_to_test = {
       id: 1,
       template_name: 'Awesome Template',
       active: false,
-      widgets_attributes: [{
-        content: {
-          my_arbitrary_made_up_key: {
-            nested: 'hell yeah'
-          }
-        },
-        id: 1,
-        type: 'TextBodyWidget',
-        _destroy: 'false'
-      }]
+      widgets_attributes: widgets_attributes
     }
   }
 }

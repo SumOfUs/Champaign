@@ -35,11 +35,6 @@ describe TextBodyWidget do
       expect(widget.text_body_html).to eq "123"
     end
 
-    it "should be invalid with a non-spec'd key" do
-      widget.content['not_a_real_field'] = "heyy"
-      expect(widget).not_to be_valid
-    end
-
     it "should be able to use store_accessor and content[] interchangeably" do
       widget.content['text_body_html'] =  "git on up"
       expect(widget.text_body_html).to eq "git on up"

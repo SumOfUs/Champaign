@@ -1,3 +1,5 @@
+/ this partial adds the fields common to every widget type and calls the partial
+/ for the specific type in question.
 .widget-fields class=widget.snake_type
   fieldset
     h4
@@ -8,7 +10,6 @@
       = builder.text_field :page_display_order, class: 'form-control'
     = builder.hidden_field :type
     = builder.hidden_field :_destroy, value: false, class: 'destroy-field'
-    = builder.fields_for :content do |content_builder|
-      = render widget.class.fields, builder: content_builder, widget: widget
+    = render widget.class.fields, builder: builder, widget: widget
 
   .deleted-info.hidden-irrelevant You have removed a #{widget.class.name.titleize}. This change will be saved when you submit this form. #{link_to 'Click here', '#', class: 'undelete-widget'} to restore the widget.

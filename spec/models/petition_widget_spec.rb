@@ -1,22 +1,25 @@
 describe PetitionWidget do
 
-  let(:content) { {
-    petition_text: "Stop rails developers writing tests!",
-    require_full_name: true,
-    require_email_address: true,
-    require_state: false,
-    require_country: false,
-    require_postal_code: false,
-    require_address: false,
-    require_city: false,
-    require_phone: false,
-    checkboxes: ['a', 'b', 'c'],
-    select_box: { a: 'b', c: 'd' },
-    comment_textarea: {},
-    call_in_form: {},
-    letter_sent_form: {},
-    form_button_text: "Stop 'em!"
-  } }
+  let(:content) do
+    {
+      petition_text: "Stop rails developers writing tests!",
+      require_full_name: true,
+      require_email_address: true,
+      require_state: false,
+      require_country: false,
+      require_postal_code: false,
+      require_address: false,
+      require_city: false,
+      require_phone: false,
+      checkboxes: ['a', 'b', 'c'],
+      select_box: { a: 'b', c: 'd' },
+      comment_textarea: {},
+      call_in_form: {},
+      letter_sent_form: {},
+      form_button_text: "Stop 'em!"
+    }
+  end
+
   let(:params) { { page_display_order: 1, content: content } }
   let(:widget) { PetitionWidget.create!(params) }
 
@@ -64,13 +67,8 @@ describe PetitionWidget do
     it "should enforce string types" do
       widget.petition_text = 123
       expect(widget).not_to be_valid
-    end
-
-    it "should be invalid with a non-spec'd key" do
-      widget.content['not_a_real_field'] = "heyy"
-      expect(widget).not_to be_valid
-    end
   end
+    end
 
   describe 'actionkit_page' do
 

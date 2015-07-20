@@ -1,41 +1,59 @@
 describe ThermometerWidget do
 
-  let(:content) { {
-    goal: 10000,
-    count: 500,
-    autoincrement: true
-  } }
-  let(:string_content) { {
-    goal: "12345",
-    count: "45",
-    autoincrement: "0"
-  } }
-  let(:desired_content) { {
-    goal: 12345,
-    count: 45,
-    autoincrement: false
-  } }
-  let(:params) { { page_display_order: 1, content: content } }
-  let(:widget) { ThermometerWidget.create!(params) }
+  let(:params) do
+    {
+      goal: "12345",
+      count: "45",
+      autoincrement: "0",
+      page_display_order: 1
+    }
+  end
+  let(:nested_params) do
+    {
+      page_display_order: 1,
+      content: {
+        goal: "657",
+        count: "89",
+        autoincrement: "1"
+      }
+    }
 
-  subject { widget }
+  end
+
+  before do
+    ThermometerWidget.create!(params)
+  end
+
+  subject { Widget.first }
+
   it { should be_valid }
 
   describe 'content types' do
 
-    before :each do
-      params[:content] = string_content
+    describe 'with setter methods' do
+      it 'casts values to the correct type on create' do
+        expect(subject.content['count']).to eq(45)
+        expect(subject.content['autoincrement']).to be false
+      end
+
+      it "casts values to the correct type on update" do
+        subject.update_attributes!(autoincrement: '1')
+        expect(subject.content['autoincrement']).to be true
+      end
     end
 
-    it "should be able to cast the values to the correct type on create" do
-      expect{ThermometerWidget.create!(params)}.to change{ Widget.count }.by 1
-      expect(ThermometerWidget.last.content).to eq desired_content.with_indifferent_access
-    end
+    describe 'with content hash' do
+      it 'casts values to the correct type on create' do
+        widget = ThermometerWidget.create!(nested_params)
+        expect(widget.content['count']).to eq(89)
+        expect(widget.content['autoincrement']).to be true
+      end
 
-    it "should be able to cast the values to the correct type on update" do
-      w = widget # reference widget so lazy let is called
-      expect{widget.update_attributes!(params)}.to change{ Widget.count }.by 0
-      expect(widget.reload.content).to eq desired_content.with_indifferent_access
+      it "casts values to the correct type on update" do
+        subject.update_attributes!(nested_params)
+        expect(subject.content['autoincrement']).to be true
+        expect(subject.content['goal']).to eq 657
+      end
     end
   end
 end

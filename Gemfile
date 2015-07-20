@@ -36,9 +36,6 @@ gem 'rails_admin'
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
 
-# Validate JSON stored in postgres db
-gem 'activerecord_json_validator'
-
 # Use ActionParameter as a way to extract model-based mass-assignment into
 # a class that Does One Thing (in this case, filter mass assignments) in the
 # Rails 4 style. https://github.com/edelpero/action_parameter

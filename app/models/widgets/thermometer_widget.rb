@@ -1,4 +1,12 @@
 class ThermometerWidget < Widget
-  store_accessor :content, [self.load_schema.keys.map(&:to_sym)]
-  validates :content, presence: true, json: { schema: self.json_schema, message: ->(errors) { errors } }
+  include StoreWith.model
+
+  validates :goal, :count, presence: true
+
+  store_with :content do
+    goal          :integer
+    count         :integer
+    autoincrement :boolean
+  end
 end
+
