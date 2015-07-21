@@ -8,23 +8,9 @@ describe CampaignsController do
   end
 
   describe 'GET index' do
-    before do
-      allow(ActiveQuery).to receive(:new).and_return([campaign])
-    end
-
-    it 'gets active campaigns' do
-      expect(ActiveQuery).to receive(:new).with(Campaign)
-      get :index
-    end
-
     it 'renders index' do
       get :index
       expect(response).to render_template('index')
-    end
-
-    it 'assigns @campaigns' do
-      get :index
-      expect(assigns(:campaigns)).to eq([campaign])
     end
   end
 

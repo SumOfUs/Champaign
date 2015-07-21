@@ -1,6 +1,20 @@
-h3 All templates
-= link_to 'Create New Template', new_template_path, class: 'btn btn-sm btn-primary'
-br
-- @templates.each do |template|
-  = link_to template.template_name, template
-  br
+.row
+  .col-md-12
+    h3 = t('.title')
+
+    table.table-bordered.table-striped.table
+      thead
+        tr
+          th = t('common.name')
+          th = t('common.active')
+          th
+      tbody
+        - ::Template.all.each do |template|
+          tr
+            td = template.template_name
+            td
+              span class=(template.active? ? 'tick' : 'cross')
+            td = link_to t('common.edit'), edit_template_path(template)
+
+    = link_to t('.new'), new_template_path, class: 'btn btn-primary btn-sm'
+
