@@ -41,6 +41,9 @@ GEM
       tzinfo (~> 1.1)
     amq-protocol (1.9.2)
     arel (6.0.2)
+    autoprefixer-rails (5.2.1.1)
+      execjs
+      json
     babel-source (5.8.0)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -48,6 +51,9 @@ GEM
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.5.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.3.0)
     builder (3.2.2)
     bunny (1.7.0)
       amq-protocol (>= 1.9.2)
@@ -284,6 +290,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_parameter
+  bootstrap-sass (~> 3.3.5)
   bunny
   byebug
   capybara
