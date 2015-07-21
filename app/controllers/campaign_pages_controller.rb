@@ -5,6 +5,9 @@ class CampaignPagesController < ApplicationController
   before_action :clean_params, only: [:create, :update]
 
   def index
+    puts 'params:' + params.inspect
+    # Find campaign pages where title is similar to search parameter passed.
+    @campaign_pages = CampaignPage.where("title LIKE :query", query: "%#{params[:search]}%")
   end
 
   def new
