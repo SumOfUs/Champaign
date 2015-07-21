@@ -7,7 +7,7 @@ class CampaignPagesController < ApplicationController
   def index
     puts 'params:' + params.inspect
     # Find campaign pages where title is similar to search parameter passed.
-    @campaign_pages = CampaignPage.where("title LIKE :query", query: "%#{params[:search]}%")
+    @campaign_pages = WidgetSearcher.new(params).search
   end
 
   def new

@@ -10,7 +10,7 @@
           th = t('common.active')
           th
       tbody
-        - CampaignPage.all.each do |page|
+        - @campaign_pages.each do |page|
           tr
             td = page.title
             td
