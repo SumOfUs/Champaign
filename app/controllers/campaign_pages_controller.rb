@@ -5,8 +5,8 @@ class CampaignPagesController < ApplicationController
   before_action :clean_params, only: [:create, :update]
 
   def index
-    puts 'params:' + params.inspect
-    # Find campaign pages where title is similar to search parameter passed.
+    # List campaign pages that match requested search parameters.
+    # If there are no search parameters, return all campaign pages.
     @campaign_pages = WidgetSearcher.new(params).search
   end
 
