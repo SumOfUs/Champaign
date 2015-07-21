@@ -6,9 +6,9 @@
     table.table-bordered.table-striped.table
       thead
         tr
-          th = t('.table.name')
-          th = t('.table.featured')
-          th = t('.table.active')
+          th = t('common.name')
+          th = t('common.featured')
+          th = t('common.active')
           th
       tbody
         - CampaignPage.all.each do |page|
@@ -18,7 +18,7 @@
               span class=(page.featured? ? 'tick' : 'cross')
             td
               span class=(page.active? ? 'tick' : 'cross')
-            td = link_to t('edit'), edit_campaign_page_path(page)
+            td = link_to t('common.edit'), edit_campaign_page_path(page)
 
     = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
 

@@ -20,7 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  edit: edit
+  common:
+    name: 'Name'
+    active: 'Active'
+    edit: 'Edit'
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -30,14 +33,14 @@ en:
       new: "Create a new page"
       title: "Campaign Pages"
       table:
-        name: Name
         featured: Featured
-        active: Active
 
   campaigns:
     index:
       new: "Create a new campaign"
       title: "Campaigns"
-      table:
-        name: Name
-        active: Active
+
+  templates:
+    index:
+      new: "Create a new template"
+      title: "Templates"

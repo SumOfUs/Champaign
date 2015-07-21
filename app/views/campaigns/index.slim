@@ -5,8 +5,8 @@
     table.table-bordered.table-striped.table
       thead
         tr
-          th = t('.table.name')
-          th = t('.table.active')
+          th = t('common.name')
+          th = t('common.active')
           th
       tbody
         - Campaign.all.each do |campaign|
@@ -14,7 +14,7 @@
             td = campaign.campaign_name
             td
               span class=(campaign.active? ? 'tick' : 'cross')
-            td = link_to t('edit'), edit_campaign_path(campaign)
+            td = link_to t('common.edit'), edit_campaign_path(campaign)
 
     = link_to t('.new'), new_campaign_path, class: 'btn btn-primary btn-sm'
 

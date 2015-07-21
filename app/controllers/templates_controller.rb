@@ -4,7 +4,6 @@ class TemplatesController < ApplicationController
   before_action :clean_params, only: [:update, :create]
 
   def index
-    @templates = Template.where active: true
   end
 
   def show
