@@ -2,7 +2,6 @@
 .row
   .col-md-12
     h3 = t('.title')
-
     table.table-bordered.table-striped.table
       thead
         tr
@@ -19,6 +18,12 @@
             td
               span class=(page.active? ? 'tick' : 'cross')
             td = link_to t('common.edit'), edit_campaign_page_path(page)
-
+  .col-md-6
+    form action='/campaign_pages' method='get'
+      .input-group
+        span.input-group-btn
+          = submit_tag 'Go!', class: 'btn btn-default', id: 'search_button'
+        input type='text' class='form-control' placeholder='Search for...' id='search' name='search'
+  .col-md-6
     = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
 
