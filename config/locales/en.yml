@@ -33,3 +33,11 @@ en:
         name: Name
         featured: Featured
         active: Active
+
+  campaigns:
+    index:
+      new: "Create a new campaign"
+      title: "Campaigns"
+      table:
+        name: Name
+        active: Active

@@ -1,6 +1,20 @@
-h3 All Active Campaigns
-a href="/campaigns/new" class="btn btn-primary btn-sm" Create a campaign
-br
-- @campaigns.each do |campaign|
-  = link_to campaign.campaign_name, campaign
-  br
+.row
+  .col-md-12
+    h3 = t('.title')
+
+    table.table-bordered.table-striped.table
+      thead
+        tr
+          th = t('.table.name')
+          th = t('.table.active')
+          th
+      tbody
+        - Campaign.all.each do |campaign|
+          tr
+            td = campaign.campaign_name
+            td
+              span class=(campaign.active? ? 'tick' : 'cross')
+            td = link_to t('edit'), edit_campaign_path(campaign)
+
+    = link_to t('.new'), new_campaign_path, class: 'btn btn-primary btn-sm'
+

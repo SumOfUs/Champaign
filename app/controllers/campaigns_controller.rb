@@ -3,7 +3,6 @@ class CampaignsController < ApplicationController
   before_action :find_campaign, only: [:show, :edit, :update, :destroy]
 
   def index
-    @campaigns = ActiveQuery.new(Campaign)
   end
 
   def new
