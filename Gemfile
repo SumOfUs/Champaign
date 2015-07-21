@@ -47,9 +47,6 @@ gem 'paperclip'
 # in champaign-flute.
 gem 'render_anywhere', :require => false
 
-# sunspot for Apache Solr search for Rails
-gem 'sunspot_rails'
-
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
@@ -58,7 +55,6 @@ group :development, :test do
   gem 'capybara' # Capybara for integration testing
   gem 'envyable'
   gem 'database_cleaner'
-  gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
 
 
   # data for tests
