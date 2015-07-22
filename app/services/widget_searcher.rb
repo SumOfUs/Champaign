@@ -14,24 +14,25 @@ class WidgetSearcher
     @collection = CampaignPage.all
   end
 
-  def full_text_search(collection, field, query)
-    collection.where("#{field} LIKE ?", "%#{query}%")
-    # TextBodyWidget.where("content ->> 'text_body_html' LIKE ?", "%la%")
-    # "column_data ->> 'array' LIKE ?"
-
+  def text_content_search(collection, query)
+    # return the union of campaign pages matched by title and by text body
+    (get_matches_by_title(collection, query) | get_matches_by_text_widget(query)).uniq
   end
 
-  def content_search(collection, query)
+  def get_matches_by_title(collection, query)
     # get matches by title
     self.full_text_search(collection, 'title', query)
+  end
 
+  def get_matches_by_text_widget(query)
     # get matches by text body widget's contents
     matching_widgets = self.full_text_search(TextBodyWidget.all, "content ->> 'text_body_html'", query)
+    CampaignPage.find(matching_widgets.pluck(:page_id))
+  end
 
-    # get the union of campaign pages matched by title and by text body
-    collection << CampaignPage.find(matching_widgets.pluck(:page_id))
-    collection.uniq
-
+  # matches content with a WHERE x LIKE query
+  def full_text_search(collection, field, query)
+    collection.where("#{field} LIKE ?", "%#{query}%")
   end
 
   def tag_search(options)
@@ -50,7 +51,7 @@ class WidgetSearcher
 
   # Could be updated to (recursively) go through all of the search conditions and return the collection that remains
   def search
-    self.content_search(@collection, @query)
+    self.text_content_search(@collection, @query)
   end
 
 end
