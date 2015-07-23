@@ -18,7 +18,6 @@ module Search
           when 'content_search'
             search_by_text(query)
           when 'tags'
-            puts 'query', query
             search_by_tags(query)
         end
       end
@@ -39,11 +38,10 @@ module Search
       # an AR collection with yet another DB call. If you have a better idea on how to do this,
       # please share!
       @collection = CampaignPage.where(id: arr.map(&:id))
-
     end
 
     def search_by_tags(query)
-      @collection.joins(:tags).where(tags: {tag_name: query})
+      @collection = @collection.joins(:tags).where(tags: {id: query})
     end
 
   end
