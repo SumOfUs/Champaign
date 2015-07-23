@@ -26,7 +26,7 @@ campaign_page = CampaignPage.create!({
 })
 
 # 7. create an actionkit page match for the campaign page widget
-campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
+# campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
 
 # 8. Create the tags and their associations to ActionKit
 
