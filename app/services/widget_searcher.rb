@@ -9,6 +9,7 @@ class WidgetSearcher
   #4. return what's left
 
   def initialize(params)
+    # {"search"=>{"content_search"=>"", "language_search"=>["1"], "tags"=>["3", "6"]}, "commit"=>"Search!", "controller"=>"campaign_pages", "action"=>"index"}
     @queries = params[:search]
     @collection = CampaignPage.all
     # Managing each search type could be handled by individual classes / modules
@@ -22,20 +23,20 @@ class WidgetSearcher
     # else, exclude campaign pages that do not match the search conditions from the collection
       # (right now only works with searching text content)
     else
-      self.search_text_content(@collection, @queries[:content_search])
+      self.search_by_text(@collection, @queries[:content_search])
     end
   end
 
-  def search_text_content(collection, query)
+  def search_by_text(collection, query)
     # return the union of campaign pages matched by title and by text body
-    (get_matches_by_title(collection, query) | get_matches_by_text_widget(query)).uniq
+    (search_by_title(collection, query) | text_widget_search(query)).uniq
   end
 
-  def get_matches_by_title(collection, query)
+  def search_by_title(collection, query)
     self.full_text_search(collection, 'title', query)
   end
 
-  def get_matches_by_text_widget(query)
+  def text_widget_search(query)
     # get matches by text body widget's contents
     matching_widgets = self.full_text_search(TextBodyWidget.all, "content ->> 'text_body_html'", query)
     CampaignPage.find(matching_widgets.pluck(:page_id))
@@ -47,12 +48,14 @@ class WidgetSearcher
     collection.where("#{field} LIKE ?", "%#{query}%")
   end
 
-  def tag_search(options)
-    # Set the initial return of an empty set
-    campaign_pages = []
 
-    # If we have a tag_name parameter, then search by it.
 
+  def search_by_tags(options)
+    # # Set the initial return of an empty set
+    # campaign_pages = []
+    #
+    # # If we have a tag_name parameter, then search by it.
+    #
     # TODO: Needs to integrate with other search options or we need to make a decision that
     # search options are distinct from one another.
     if options.has_key? :tag_name
