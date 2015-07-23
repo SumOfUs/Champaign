@@ -9,18 +9,29 @@ class WidgetSearcher
   #4. return what's left
 
   def initialize(params)
-    # could be initialized as a collection of queries (@queries) instead, for the next step
-    @query = params[:search]
+    @queries = params[:search]
     @collection = CampaignPage.all
+    # Managing each search type could be handled by individual classes / modules
   end
 
-  def text_content_search(collection, query)
+  # Could be updated to go through all of the search conditions and return the collection that remains
+  def search
+    # if queries haven't been specified (on initial page load), get all campaign pages
+    if @queries.nil?
+      return @collection
+    # else, exclude campaign pages that do not match the search conditions from the collection
+      # (right now only works with searching text content)
+    else
+      self.search_text_content(@collection, @queries[:content_search])
+    end
+  end
+
+  def search_text_content(collection, query)
     # return the union of campaign pages matched by title and by text body
     (get_matches_by_title(collection, query) | get_matches_by_text_widget(query)).uniq
   end
 
   def get_matches_by_title(collection, query)
-    # get matches by title
     self.full_text_search(collection, 'title', query)
   end
 
@@ -32,6 +43,7 @@ class WidgetSearcher
 
   # matches content with a WHERE x LIKE query
   def full_text_search(collection, field, query)
+    # TODO - make this case insensitive
     collection.where("#{field} LIKE ?", "%#{query}%")
   end
 
@@ -47,11 +59,6 @@ class WidgetSearcher
       campaign_pages = CampaignPage.joins(:tags).where(tags: {tag_name: options[:tag_name]})
     end
     campaign_pages
-  end
-
-  # Could be updated to (recursively) go through all of the search conditions and return the collection that remains
-  def search
-    self.text_content_search(@collection, @query)
   end
 
 end
