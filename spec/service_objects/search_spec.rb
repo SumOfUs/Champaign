@@ -25,7 +25,7 @@ describe 'Search ::' do
              widgets: [nonmatching_widget],
              language: language)
     }
-    let(:page_searcher) { Search::PageSearcher.new(params) }
+    let!(:page_searcher) { Search::PageSearcher.new(params) }
 
     context 'search by text content' do
       it 'gets pages that match by title or by text body if the text search method is called' do
@@ -40,10 +40,10 @@ describe 'Search ::' do
     context 'search by tag' do
       it 'searches for a page based on the tags on that page' do
         # pp 'tagid', tag.id, 'results', page_searcher.search_by_tags(tag.id).class
-        expect(page_searcher.search_by_tags(tag.id).to match_array([body_match_page]))
+        expect(page_searcher.search_by_tags(tag.id)).to match_array([body_match_page])
       end
       it 'returns an empty collection when no page with the existing tags exists' do
-        expect(page_searcher.search_by_tags(tag.id+1).to eq([]))
+        expect(page_searcher.search_by_tags(tag.id+1)).to eq([])
       end
     end
 
