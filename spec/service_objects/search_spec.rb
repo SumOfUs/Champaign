@@ -42,6 +42,7 @@ describe 'Search ::' do
         # pp 'tagid', tag.id, 'results', page_searcher.search_by_tags(tag.id).class
         expect(page_searcher.search_by_tags(tag.id)).to match_array([body_match_page])
       end
+
       it 'returns an empty collection when no page with the existing tags exists' do
         expect(page_searcher.search_by_tags(tag.id+1)).to eq([])
       end
@@ -50,13 +51,12 @@ describe 'Search ::' do
   end
 
   describe 'WidgetSearcher' do
-    let(:widget_searcher) { Search::WidgetSearcher.new() }
     xit 'identifies the correct text body widget based on a search string' do
 
     end
 
     it 'searches the text of a widget and returns the found page' do
-      expect(widget_searcher.text_widget_search(test_text)).to eq([matching_widget])
+      expect(Search::WidgetSearcher.text_widget_search(test_text)).to eq([matching_widget])
     end
 
   end
