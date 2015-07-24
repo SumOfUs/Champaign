@@ -2,6 +2,7 @@
 .row
   .col-md-12
     h3 = t('.title')
+    = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
     table.table-bordered.table-striped.table
       thead
         tr
@@ -45,6 +46,6 @@
 
         .col-md-12
           = submit_tag 'Search!', class: 'btn btn-info btn-sm', id: 'search_button'
-          = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
+
 
 

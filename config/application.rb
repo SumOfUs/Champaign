@@ -12,6 +12,9 @@ module Champaign
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+    config.autoload_paths += [
+        config.root.join('app')
+    ]
 
     # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
     config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113']
