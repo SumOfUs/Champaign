@@ -26,6 +26,13 @@ describe 'Search ::' do
              language: language)
     }
     let(:page_searcher) { Search::PageSearcher.new(params) }
+    subject { Search::PageSearcher }
+
+    describe '._search' do
+      it 'finds' do
+        expect(subject._search('test')).to match_array([title_match_page, body_match_page])
+      end
+    end
 
     context 'search by text content' do
       it 'gets pages that match by title or by text body if the text search method is called' do

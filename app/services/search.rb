@@ -6,6 +6,10 @@ module Search
   end
 
   class PageSearcher
+    def self._search(string)
+      CampaignPage.joins(:widgets).
+        where("campaign_pages.title ILIKE ? OR widgets.content #>> '{text_body_html}' ILIKE ?", "%#{string}%", "%#{string}%")
+    end
 
     def initialize(params)
       @queries = params[:search]
