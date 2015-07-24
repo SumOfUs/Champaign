@@ -19,6 +19,10 @@ module Search
             search_by_text(query)
           when 'tags'
             search_by_tags(query)
+          when 'language'
+            search_by_language(query)
+          when 'campaign'
+            search_by_campaign(query)
         end
       end
       @collection
@@ -42,6 +46,14 @@ module Search
 
     def search_by_tags(query)
       @collection = @collection.joins(:tags).where(tags: {id: query})
+    end
+
+    def search_by_language(query)
+      @collection = @collection.where(language_id: query)
+    end
+
+    def search_by_campaign(query)
+      @collection = @collection.where(campaign_id: query)
     end
 
   end
