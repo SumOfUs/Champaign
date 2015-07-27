@@ -5,6 +5,15 @@ class Search::PageSearcher
         where("campaign_pages.title ILIKE ? OR widgets.content #>> '{text_body_html}' ILIKE ?", "%#{string}%", "%#{string}%")
   end
 
+  def get_pages_by_widgets(pages_collection, widgets_collection)
+    # get campaign page ids from your collection of widgets
+    pages_matching_widgets = widgets_collection.pluck(:page_id)
+    # get a union of all of your pages and the pages that belong to the matching widgets
+    # (this returns an array instead of an AR collection, so it needs to be mapped back)
+    arr = (pages_collection | CampaignPage.find(pages_matching_widgets)).uniq
+    # map from array back to AR collection
+    @collection = CampaignPage.where(id: arr.map(&:id))
+  end
 
   def initialize(params)
     @queries = params[:search]
@@ -32,12 +41,7 @@ class Search::PageSearcher
   end
 
   def search_by_text(query)
-    # find text body widgets that match the query, and get their page IDs
-    matching_widgets = Search::WidgetSearcher.text_widget_search(query).pluck(:page_id)
-    # union of campaign pages matched by title and by text body
-    arr = (search_by_title(query) | CampaignPage.find(matching_widgets)).uniq
-    # map from array back to AR collection
-    @collection = CampaignPage.where(id: arr.map(&:id))
+    @collection = get_pages_by_widgets(@collection, Search::WidgetSearcher.text_widget_search(query))
   end
 
   def search_by_tags(query)
