@@ -31,7 +31,7 @@ CampaignPageForm = React.createClass({
     return(
       <div className="form-group">
         <label htmlFor="campaign_page_title" className="control-label">Title</label>
-        <input value={ this.props.title } type="text" id="campaign_page_title" className="form-control" name="campaign_page[title]" ref="title" />
+        <input defaultValue={ this.props.title } type="text" id="campaign_page_title" className="form-control" name="campaign_page[title]" ref="title" />
       </div>
     )
   }
