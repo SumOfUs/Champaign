@@ -37,23 +37,6 @@ CampaignPageForm = React.createClass({
   }
 })
 
-
-TextBodyWidget = React.createClass({
-  handleSubmit(e){
-    e.preventDefault()
-  },
-
-  render() {
-    return(
-      <form onSubmit={this.handleSubmit}>
-        <label>Body</label>
-        <textarea></textarea>
-      </form>
-    )
-  }
-})
-
-
 EditCampaignPage = React.createClass({
   getInitialState() {
     return {
