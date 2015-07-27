@@ -1,10 +1,13 @@
 class CampaignPagesController < ApplicationController
-
+  
   before_action :authenticate_user!, except: [:show, :create]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
   before_action :clean_params, only: [:create, :update]
 
   def index
+    # List campaign pages that match requested search parameters.
+    # If there are no search parameters, return all campaign pages.
+    @campaign_pages = Search::PageSearcher.new(params).search
   end
 
   def new
