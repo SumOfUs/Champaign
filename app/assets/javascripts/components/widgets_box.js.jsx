@@ -111,7 +111,7 @@ var WidgetTextForm = React.createClass({
          <form onSubmit={ this.handleSubmit }>
           <div className="form-group">
             <label htmlFor="">Text</label>
-            <textarea className='form-control' ref='body'>{this.props.children}</textarea>
+            <textarea className='form-control' ref='body' defaultValue={this.props.text_body_html}></textarea>
           </div>
           <button type="submit" className="btn btn-default">Submit</button>
         </form>
