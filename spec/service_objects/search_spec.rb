@@ -16,7 +16,7 @@ describe 'Search ::' do
       create(:page,
              title: 'a non-matching title',
              widgets: [matching_widget],
-             language: language,
+             language: build(:language, language_code: 'SWE', language_name: 'Swedish'),
              tags: [tag])
     }
     let!(:title_match_page) {
@@ -49,7 +49,6 @@ describe 'Search ::' do
 
     context 'search by tag' do
       it 'searches for a page based on the tags on that page' do
-        # pp 'tagid', tag.id, 'results', page_searcher.search_by_tags(tag.id).class
         expect(page_searcher.search_by_tags(tag.id)).to eq([body_match_page])
       end
 
@@ -65,6 +64,15 @@ describe 'Search ::' do
 
       it 'returns an empty collection when no pages belong to that campaign' do
         expect(page_searcher.search_by_campaign(campaign.id+1)).to eq([])
+      end
+    end
+
+    context 'search by language' do
+      it 'finds only the page that corresponds to the specified language' do
+        expect(page_searcher.search_by_language(language.id)).to eq([title_match_page])
+      end
+      it 'returns an empty collection when no pages correspond to the language' do
+        expect(page_searcher.search_by_language(language.id+2)).to eq([])
       end
     end
 
