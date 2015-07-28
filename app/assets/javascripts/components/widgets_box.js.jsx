@@ -10,9 +10,12 @@ var WidgetsBox = React.createClass({
   },
 
   handleWidgetSubmit(data) {
-    $.post( "/campaign_pages/" + this.props.campaign_page_id + "/widgets/html", data)
-    .done(function( data ) {
-      this.setState({data: this.state.data.concat([data])})
+    $.ajax({
+      type: "PUT",
+      url: "/campaign_pages/" + this.props.campaign_page_id + "/widgets/" + data.widget.id,
+      data: data
+    }).done(function( data ) {
+      this.setState({data: data})
     }.bind(this));
   },
 
@@ -58,6 +61,10 @@ var WidgetActions = React.createClass({
     toggleEditShow:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
+  },
+
+  getInitialState() {
+    return { edit: false };
   },
 
   handleEdit(e){
@@ -134,13 +141,14 @@ var TextWidgetForm = React.createClass({
   propTypes: {
     text_body_html:   React.PropTypes.string.isRequired,
     onWidgetSubmit:   React.PropTypes.func.isRequired,
-    campaign_page_id: React.PropTypes.number.isRequired
+    campaign_page_id: React.PropTypes.number.isRequired,
+    id:               React.PropTypes.number.isRequired
   },
 
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
-    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id }
+    var data = { widget: {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id } }
     this.props.onWidgetSubmit(data);
   },
 
