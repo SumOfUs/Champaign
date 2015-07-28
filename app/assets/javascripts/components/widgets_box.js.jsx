@@ -62,7 +62,7 @@ var WidgetActions = React.createClass({
       type: 'DELETE'
     })
 
-    var node = this.getDOMNode();
+    var node = React.findDOMNode(this.props.parentWidget);
     React.unmountComponentAtNode(node);
     $(node).remove();
   },
@@ -102,7 +102,7 @@ var TextBodyWidget = React.createClass({
     }
     return (
       <div className="text-body-widget widget">
-       <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow}>
+       <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
        </WidgetActions>
        { shown }
      </div>
