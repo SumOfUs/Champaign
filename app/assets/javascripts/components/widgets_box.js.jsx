@@ -54,6 +54,42 @@ var Widgets = React.createClass({
   }
 })
 
+var Widget = React.createClass({
+
+  propTypes: {
+    form:    React.PropTypes.func.isRequired,
+    display: React.PropTypes.func.isRequired,
+  },
+
+  getInitialState() {
+    return { edit: false };
+  },
+
+  toggleEditShow() {
+    this.setState( {edit: !this.state.edit} );
+  },
+
+  form() {
+    if(this.state.edit) { return this.props.form() }
+  },
+
+  display() {
+    if(!this.state.edit) { return this.props.display() }
+  },
+
+  render(){
+    var [form, display] = [this.form(), this.display()]
+    return (
+      <div className='widget'>
+        <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
+        </WidgetActions>
+        { form }
+        { display }
+      </div>
+    )
+  }
+})
+
 var WidgetActions = React.createClass({
 
   propTypes: {
@@ -107,36 +143,34 @@ var TextBodyWidget = React.createClass({
     id:               React.PropTypes.number.isRequired
   },
 
-  getInitialState() {
-    return { edit: false };
+  form() {
+    return (
+      <div className='widget-edit'>
+        <TextBodyWidgetForm {...this.props}>
+        </TextBodyWidgetForm>
+      </div>
+    )
   },
 
-  toggleEditShow() {
-    this.setState( {edit: !this.state.edit} );
-  },
-
-  render(){
-    if (this.state.edit) {
-      shown = <div className='widget-edit'>
-         <TextWidgetForm {...this.props}>
-         </TextWidgetForm>
-       </div>
-    } else {
-      shown = <div className='widget-show'>
+  display() {
+    return (
+      <div className='widget-show'>
         {this.props.text_body_html}
       </div>
-    }
+    )
+  },
+
+  render() {
     return (
-      <div className="text-body-widget widget">
-       <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
-       </WidgetActions>
-       { shown }
-     </div>
+      <div className="text-body-widget">
+        <Widget {...this.props} form={this.form} display={this.display}>
+        </Widget>
+      </div>
     )
   }
 })
 
-var TextWidgetForm = React.createClass({
+var TextBodyWidgetForm = React.createClass({
 
   propTypes: {
     text_body_html:   React.PropTypes.string.isRequired,
