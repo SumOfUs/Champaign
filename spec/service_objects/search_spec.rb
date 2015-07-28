@@ -109,7 +109,7 @@ describe 'Search ::' do
             content_search: test_text,
             tags: [tag.id],
             widget_type: ['PetitionWidget'],
-            language: language
+            language: language.id
           }
         }
       }

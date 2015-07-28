@@ -29,8 +29,8 @@ class Search::PageSearcher
   end
 
   def search
-    pp 'in search, queries are ', [*@queries].inspect
-    [*@queries].each do |search_type, query|
+    pp 'in search, queries are ', @queries.inspect, @queries.class
+    @queries.each do |search_type, query|
       case search_type
         when 'content_search'
           search_by_text(query)
@@ -42,6 +42,8 @@ class Search::PageSearcher
           search_by_campaign(query)
         when 'widget_type'
           search_by_widget_type(query)
+        else
+          pp 'did not match any case in switch'
       end
     end
     @collection
