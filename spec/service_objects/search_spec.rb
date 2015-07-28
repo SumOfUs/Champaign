@@ -2,9 +2,6 @@ require 'rails_helper'
 
 describe 'Search ::' do
 
-  #TODO TOMORROW: I think :params are not specified correctly, and when calling page_searcher.search,
-  #the switch doesn't work properly because it fails to match against the params hash.
-
   let(:test_text) { 'a spectacular test string' }
   let(:language) { build(:language) }
   let!(:matching_widget) { create(:text_body_widget, text_body_html: test_text) }
