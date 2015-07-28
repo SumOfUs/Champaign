@@ -29,6 +29,7 @@ class Search::PageSearcher
   end
 
   def search
+    pp 'in search, queries are ', [*@queries].inspect
     [*@queries].each do |search_type, query|
       case search_type
         when 'content_search'
@@ -52,6 +53,7 @@ class Search::PageSearcher
 
   def search_by_text(query)
     text_body_matches = get_pages_by_widgets(@collection, Search::WidgetSearcher.text_widget_search(query))
+    pp 'text body matches', text_body_matches.inspect, text_body_matches.class
     @collection = combine_collections(search_by_title(query), text_body_matches)
   end
 
