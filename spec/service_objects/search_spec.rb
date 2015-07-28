@@ -6,7 +6,6 @@ describe 'Search ::' do
   #the switch doesn't work properly because it fails to match against the params hash.
 
   let(:test_text) { 'a spectacular test string' }
-  let(:params) { {search: {content_search: test_text} } }
   let(:language) { build(:language) }
   let!(:matching_widget) { create(:text_body_widget, text_body_html: test_text) }
   let!(:nonmatching_widget) { create(:text_body_widget, text_body_html: 'a non-matching text body') }
@@ -39,8 +38,6 @@ describe 'Search ::' do
       )
     }
 
-    let(:page_searcher) { Search::PageSearcher.new(params) }
-
     subject { Search::PageSearcher }
 
     describe '._search' do
@@ -50,47 +47,37 @@ describe 'Search ::' do
     end
 
     context 'search by text content' do
+      let(:text_searcher) { Search::PageSearcher.new({search: {content_search: test_text} }) }
       it 'gets pages that match by title or by text body if the text search method is called' do
-        expect(page_searcher.search).to match_array([title_match_page, body_match_page])
-      end
-
-      it 'only gets pages that match by title if only title match method is called' do
-        expect(page_searcher.search_by_title(test_text)).to eq([title_match_page])
+        expect(text_searcher.search).to match_array([title_match_page, body_match_page])
       end
     end
 
     context 'search by tag' do
+      let(:tag_searcher) { Search::PageSearcher.new({search: {tags: [tag.id]} }) }
       it 'searches for a page based on the tags on that page' do
-        expect(page_searcher.search_by_tags(tag.id)).to eq([body_match_page])
-      end
-
-      it 'returns an empty collection when no page with the existing tags exists' do
-        expect(page_searcher.search_by_tags(tag.id+1)).to eq([])
+        expect(tag_searcher.search).to eq([body_match_page])
       end
     end
 
     context 'search by campaign' do
+      let(:search_by_campaign) { Search::PageSearcher.new({search: {campaign: [campaign.id]} }) }
       it 'searches for a page based on the campaign it belongs to' do
-        expect(page_searcher.search_by_campaign(campaign.id)).to eq([title_match_page])
-      end
-
-      it 'returns an empty collection when no pages belong to that campaign' do
-        expect(page_searcher.search_by_campaign(campaign.id+999)).to eq([])
+        expect(search_by_campaign.search).to eq([title_match_page])
       end
     end
 
     context 'search by language' do
+      let(:language_searcher) { Search::PageSearcher.new({search: {language: [language.id]} }) }
       it 'finds only the page that corresponds to the specified language' do
-        expect(page_searcher.search_by_language(language.id)).to eq([title_match_page])
-      end
-      it 'returns an empty collection when no pages correspond to the language' do
-        expect(page_searcher.search_by_language(language.id+999)).to eq([])
+        expect(language_searcher.search).to eq([title_match_page])
       end
     end
 
     context 'search by widget' do
+      let(:search_by_widget) { Search::PageSearcher.new({search: {widget_type: ['PetitionWidget']} }) }
       it 'finds the page that corresponds to the desired widget type' do
-        expect(page_searcher.search_by_widget_type(['PetitionWidget'])).to eq([petition_page])
+        expect(search_by_widget.search).to eq([petition_page])
       end
     end
 
