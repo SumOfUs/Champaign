@@ -29,9 +29,8 @@ class Search::PageSearcher
   end
 
   def search
-    pp 'in search, queries are ', @queries.inspect, @queries.class
-    @queries.each do |search_type, query|
-      case search_type
+    [*@queries].each do |search_type, query|
+      case search_type.to_s
         when 'content_search'
           search_by_text(query)
         when 'tags'
@@ -42,12 +41,12 @@ class Search::PageSearcher
           search_by_campaign(query)
         when 'widget_type'
           search_by_widget_type(query)
-        else
-          pp 'did not match any case in switch'
       end
     end
     @collection
   end
+
+  private
 
   def search_by_title(query)
     @collection = Search.full_text_search(@collection, 'title', query)
@@ -55,7 +54,6 @@ class Search::PageSearcher
 
   def search_by_text(query)
     text_body_matches = get_pages_by_widgets(@collection, Search::WidgetSearcher.text_widget_search(query))
-    pp 'text body matches', text_body_matches.inspect, text_body_matches.class
     @collection = combine_collections(search_by_title(query), text_body_matches)
   end
 
