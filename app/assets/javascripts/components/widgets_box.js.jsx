@@ -26,6 +26,13 @@ var WidgetsBox = React.createClass({
 })
 
 var Widgets = React.createClass({
+
+  propTypes: {
+    widgets:          React.PropTypes.array.isRequired,
+    onWidgetSubmit:   React.PropTypes.func.isRequired,
+    campaign_page_id: React.PropTypes.number.isRequired
+  },
+
   render(){
     var widgets = this.props.widgets.map(widget => {
       switch (widget.type) {
@@ -45,8 +52,12 @@ var Widgets = React.createClass({
 })
 
 var WidgetActions = React.createClass({
-  getInitialState() {
-    return { edit: false };
+
+  propTypes: {
+    parentWidget:     React.PropTypes.object.isRequired,
+    toggleEditShow:   React.PropTypes.func.isRequired,
+    campaign_page_id: React.PropTypes.number.isRequired,
+    id:               React.PropTypes.number.isRequired
   },
 
   handleEdit(e){
@@ -81,6 +92,14 @@ var WidgetActions = React.createClass({
 })
 
 var TextBodyWidget = React.createClass({
+
+  propTypes: {
+    text_body_html:   React.PropTypes.string.isRequired,
+    onWidgetSubmit:   React.PropTypes.func.isRequired,
+    campaign_page_id: React.PropTypes.number.isRequired,
+    id:               React.PropTypes.number.isRequired
+  },
+
   getInitialState() {
     return { edit: false };
   },
@@ -111,6 +130,12 @@ var TextBodyWidget = React.createClass({
 })
 
 var TextWidgetForm = React.createClass({
+
+  propTypes: {
+    text_body_html:   React.PropTypes.string.isRequired,
+    onWidgetSubmit:   React.PropTypes.func.isRequired,
+    campaign_page_id: React.PropTypes.number.isRequired
+  },
 
   handleSubmit(e) {
     e.preventDefault()
