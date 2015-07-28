@@ -34,6 +34,18 @@ FactoryGirl.define do
     type "PetitionWidget"
   end
 
+  factory :thermometer_widget do
+    content {
+      {
+        goal: 10000,
+        count: 100,
+        autoincrement: true
+      }
+    }
+    page_display_order
+    type "ThermometerWidget"
+  end
+
   factory :user do
     email
     password { Faker::Internet.password }
