@@ -47,6 +47,9 @@ gem 'paperclip'
 # in champaign-flute.
 gem 'render_anywhere', :require => false
 
+# AWS SDK for Ruby
+gem 'aws-sdk', '~> 2'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
