@@ -5,24 +5,6 @@ class Search::PageSearcher
         where("campaign_pages.title ILIKE ? OR widgets.content #>> '{text_body_html}' ILIKE ?", "%#{string}%", "%#{string}%")
   end
 
-  def get_pages_by_widgets(collection, widgets_collection)
-    # get campaign page ids from your collection of widgets
-    page_ids = widgets_collection.pluck(:page_id)
-    # get an intersection of page ids and original ids in the collection
-    array_to_relation(CampaignPage, collection.find(page_ids))
-  end
-
-  def combine_collections(collection1, collection2)
-    # get union of unique values in collection1 and collection2
-    arr = (collection1 | collection2).uniq
-    # map from array back to AR collection
-    array_to_relation(CampaignPage, arr)
-  end
-
-  def array_to_relation(model, arr)
-    model.where(id: arr.map(&:id))
-  end
-
   def initialize(params)
     @queries = params[:search]
     @collection = CampaignPage.all
@@ -47,6 +29,24 @@ class Search::PageSearcher
   end
 
   private
+
+  def get_pages_by_widgets(collection, widgets_collection)
+    # get campaign page ids from your collection of widgets
+    page_ids = widgets_collection.pluck(:page_id)
+    # get an intersection of page ids and original ids in the collection
+    array_to_relation(CampaignPage, collection.find(page_ids))
+  end
+
+  def combine_collections(collection1, collection2)
+    # get union of unique values in collection1 and collection2
+    arr = (collection1 | collection2).uniq
+    # map from array back to AR collection
+    array_to_relation(CampaignPage, arr)
+  end
+
+  def array_to_relation(model, arr)
+    model.where(id: arr.map(&:id))
+  end
 
   def search_by_title(query)
     @collection = Search.full_text_search(@collection, 'title', query)
