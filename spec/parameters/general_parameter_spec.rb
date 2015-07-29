@@ -106,6 +106,29 @@ parameter_classes_to_test = {
       active: false,
       widgets_attributes: widgets_attributes
     }
+  },
+  widget: {
+    class_type: WidgetParameters,
+    correct_params: {
+      id: '40',
+      type: 'PetitionWidget',
+      _destroy: 'false',
+      petition_text: "and so it was told",
+      form_button_text: "that the children of the town",
+      require_full_name: "false",
+      require_email_address: "false",
+      require_country: "false",
+      require_state: "false",
+      require_postal_code: "false",
+      require_address: "false",
+      require_city: "false",
+      require_phone: "false",
+      checkboxes: ["would", "live", "in", "nests"],
+      select_box:       { nested_key: "nested_value" },
+      comment_textarea: { nested_key: "nested_value" },
+      call_in_form:     { nested_key: "nested_value" },
+      letter_sent_form: { nested_key: "nested_value" }
+    }
   }
 }
 

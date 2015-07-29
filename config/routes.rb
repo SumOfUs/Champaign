@@ -24,13 +24,8 @@ Rails.application.routes.draw do
   resources :campaigns
 
   resources :campaign_pages do
-    namespace :widgets do
-      resources :html, only: [:create]
-    end
-    resources :widgets, only: [:index, :destroy]
+    resources :widgets, only: [:index, :destroy, :create, :update]
   end
-
-  #/campaign_pages/1/widgets/html
 
   resources :templates
 
