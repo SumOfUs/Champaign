@@ -1,7 +1,6 @@
+javascript:
+  var campaign_page_id = #{ @campaign_page.id };
 
-= react_component('EditCampaignPage', @campaign_page.to_json )
 
-= react_component('WidgetsBox', { campaign_page_id: @campaign_page.id })
-
-/= render 'form'
+#widgets
 
