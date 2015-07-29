@@ -2,7 +2,6 @@ var RawHtmlWidget = React.createClass({
 
   propTypes: {
     html:             React.PropTypes.string.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
@@ -38,16 +37,17 @@ var RawHtmlWidgetForm = React.createClass({
 
   propTypes: {
     html:             React.PropTypes.string.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
 
+  mixins: [FluxMixin],
+
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
-    var data = { widget: {html: text, text: text, type: 'RawHtmlWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id } }
-    this.props.onWidgetSubmit(data);
+    var data = {html: text, text: text, type: 'RawHtmlWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id }
+    this.getFlux().actions.updateWidget(data);
   },
 
   render() {
