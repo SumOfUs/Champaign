@@ -46,7 +46,7 @@ var actions = {
 
   destroyWidget: function(id){
     WidgetClient.destroy(id, function(resp) {
-      this.dispatch(constants.DESTROY_WIDGET(id));
+      this.dispatch(constants.DESTROY_WIDGET, id);
     }.bind(this));
   }
 };
