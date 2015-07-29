@@ -1,12 +1,67 @@
+var FluxMixin = Fluxxor.FluxMixin(React),
+    StoreWatchMixin = Fluxxor.StoreWatchMixin;
+
+var constants = {
+  LOAD_WIDGETS: "LOAD_WIDGETS"
+};
+
+var WidgetsClient = {
+  load: function(success) {
+    $.getJSON("/campaign_pages/" + window.campaign_page_id + "/widgets.json", function(data){
+      success(data);
+    })
+  }
+};
+
+var actions = {
+  loadWidgets: function(){
+
+    WidgetsClient.load( function(data){
+      this.dispatch(constants.LOAD_WIDGETS, {widgets: data});
+    }.bind(this))
+  }
+};
+
+var WidgetsStore = Fluxxor.createStore({
+  initialize: function(){
+    this.widgets = [];
+
+    this.bindActions(
+      constants.LOAD_WIDGETS, this.onLoadWidgets
+    );
+  },
+
+  onLoadWidgets: function(data) {
+    this.data = data.widgets;
+    console.log(data, 'just fetched');
+    this.emit("change");
+  }
+});
+
+var stores = {
+  WidgetsStore: new WidgetsStore()
+};
+
+var flux = new Fluxxor.Flux(stores, actions);
+
+
 var WidgetsBox = React.createClass({
+  mixins: [FluxMixin, StoreWatchMixin("WidgetsStore")],
+
   getInitialState() {
     return { data: [] };
   },
 
-  componentDidMount() {
-    $.getJSON("/campaign_pages/" + this.props.campaign_page_id + "/widgets.json", function(data){
-      this.setState({data: data});
-    }.bind(this))
+ getStateFromFlux: function() {
+    var store = this.getFlux().store("WidgetsStore");
+
+    return {
+      data: store.data
+    };
+  },
+
+  componentDidMount: function() {
+    this.getFlux().actions.loadWidgets();
   },
 
   handleWidgetSubmit(data) {
@@ -37,6 +92,7 @@ var Widgets = React.createClass({
   },
 
   render(){
+    console.log('widgets load', this.props.widgets);
     var widgets = this.props.widgets.map(widget => {
       switch (widget.type) {
         case "TextBodyWidget":
@@ -54,4 +110,9 @@ var Widgets = React.createClass({
       </div>
     )
   }
-})
+});
+
+$(function(){
+  React.render(<WidgetsBox flux={flux} campaign_page_id={window.campaign_page_id} />, document.getElementById("widgets"));
+});
+
