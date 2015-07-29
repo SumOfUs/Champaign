@@ -17,6 +17,7 @@
 //= require react
 //= require react_ujs
 //= require fluxxor.min
+//= require_tree ./flux
 //= require components
 //= require bootstrap-sprockets
 //= require select2
