@@ -68,7 +68,6 @@ var WidgetsStore = Fluxxor.createStore({
   },
 
   onUpdateWidget: function(data) {
-    console.log("data in onUpdateWidget",data)
     var pos = this.widgets.map(function(e) { return e.id; }).indexOf(data.id);
     window.widgets = this.widgets;
     this.widgets[pos] = data;
