@@ -43,6 +43,8 @@ var WidgetActions = React.createClass({
     id:               React.PropTypes.number.isRequired
   },
 
+  mixins: [FluxMixin],
+
   getInitialState() {
     return { edit: false };
   },
@@ -54,11 +56,7 @@ var WidgetActions = React.createClass({
 
   handleDelete(e){
     e.preventDefault();
-
-    $.ajax({
-      url: "/campaign_pages/" + this.props.campaign_page_id + "/widgets/" + this.props.id,
-      type: 'DELETE'
-    })
+    this.getFlux().actions.destroyWidget(this.props.id);
 
     var node = React.findDOMNode(this.props.parentWidget);
     React.unmountComponentAtNode(node);
