@@ -24,7 +24,7 @@ var WidgetsBox = React.createClass({
   render() {
     return (
       <div className='widgets'>
-        <Widgets onWidgetSubmit={this.handleWidgetSubmit} widgets={this.state.data} campaign_page_id={ this.props.campaign_page_id } />
+        <Widgets widgets={this.state.data} campaign_page_id={ this.props.campaign_page_id } />
       </div>
     )
   }
@@ -34,7 +34,6 @@ var Widgets = React.createClass({
 
   propTypes: {
     widgets:          React.PropTypes.array.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired
   },
 
@@ -42,9 +41,9 @@ var Widgets = React.createClass({
     var widgets = this.props.widgets.map(widget => {
       switch (widget.type) {
         case "TextBodyWidget":
-          return (<TextBodyWidget {...widget} onWidgetSubmit={this.props.onWidgetSubmit}></TextBodyWidget>)
+          return (<TextBodyWidget {...widget}></TextBodyWidget>)
         case "RawHtmlWidget":
-          return (<RawHtmlWidget {...widget} onWidgetSubmit={this.props.onWidgetSubmit}></RawHtmlWidget>)
+          return (<RawHtmlWidget {...widget}></RawHtmlWidget>)
         default:
           break;
       }

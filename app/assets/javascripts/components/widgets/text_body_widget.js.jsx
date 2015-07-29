@@ -2,7 +2,6 @@ var TextBodyWidget = React.createClass({
 
   propTypes: {
     text_body_html:   React.PropTypes.string.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
@@ -38,16 +37,17 @@ var TextBodyWidgetForm = React.createClass({
 
   propTypes: {
     text_body_html:   React.PropTypes.string.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
+
+  mixins: [FluxMixin],
 
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
     var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id }
-    this.props.onWidgetSubmit(data);
+    this.getFlux().actions.updateWidget(data);
   },
 
   render() {
