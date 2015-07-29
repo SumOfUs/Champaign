@@ -12,7 +12,7 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'react-rails'
-
+gem 'sprockets-es6'
 # Select2 does typeahead multi-select integrated within rails forms
 gem 'select2-rails'
 
