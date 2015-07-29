@@ -2,23 +2,52 @@ var FluxMixin = Fluxxor.FluxMixin(React),
     StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var constants = {
-  LOAD_WIDGETS: "LOAD_WIDGETS"
+  LOAD_WIDGETS:   "LOAD_WIDGETS",
+  UPDATE_WIDGET:  "UPDATE_WIDGET",
+  DESTROY_WIDGET: "DESTROY_WIDGET"
 };
 
-var WidgetsClient = {
+var WidgetClient = {
   load: function(success) {
     $.getJSON("/campaign_pages/" + window.campaign_page_id + "/widgets.json", function(data){
       success(data);
     })
+  },
+
+  update: function(data, success){
+    $.ajax({
+      type: "PUT",
+      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/" + data.id,
+      data: {widget: data }
+    }).done(success);
+  },
+
+  destroy: function(id, success){
+    $.ajax({
+      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/" + id,
+      type: 'DELETE'
+    }).done(success);
   }
 };
 
 var actions = {
   loadWidgets: function(){
 
-    WidgetsClient.load( function(data){
+    WidgetClient.load( function(data){
       this.dispatch(constants.LOAD_WIDGETS, {widgets: data});
     }.bind(this))
+  },
+
+  updateWidget: function(data) {
+    WidgetClient.update(data, function(resp) {
+      this.dispatch(constants.UPDATE_WIDGET, data);
+    }.bind(this));
+  },
+
+  destroyWidget: function(id){
+    WidgetClient.destroy(id, function(resp) {
+      this.dispatch(constants.DESTROY_WIDGET(id));
+    }.bind(this));
   }
 };
 
@@ -27,14 +56,26 @@ var WidgetsStore = Fluxxor.createStore({
     this.widgets = [];
 
     this.bindActions(
-      constants.LOAD_WIDGETS, this.onLoadWidgets
+      constants.LOAD_WIDGETS,   this.onLoadWidgets,
+      constants.UPDATE_WIDGET,  this.onUpdateWidget,
+      constants.DESTROY_WIDGET, this.onDestroyWidget
     );
   },
 
   onLoadWidgets: function(data) {
-    this.data = data.widgets;
-    console.log(data, 'just fetched');
+    this.widgets = data.widgets;
     this.emit("change");
+  },
+
+  onUpdateWidget: function(id) {
+    var pos = this.widgets.map(function(e) { return e.id; }).indexOf(data.id);
+    window.widgets = this.widgets;
+    this.widgets[pos] = data;
+    this.emit("change");
+  },
+
+  onDestroyWidget: function(id) {
+    console.log('destroyed', id);
   }
 });
 
@@ -49,14 +90,14 @@ var WidgetsBox = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("WidgetsStore")],
 
   getInitialState() {
-    return { data: [] };
+    return { widgets: [] };
   },
 
  getStateFromFlux: function() {
     var store = this.getFlux().store("WidgetsStore");
 
     return {
-      data: store.data
+      data: store.widgets
     };
   },
 
@@ -65,13 +106,7 @@ var WidgetsBox = React.createClass({
   },
 
   handleWidgetSubmit(data) {
-    $.ajax({
-      type: "PUT",
-      url: "/campaign_pages/" + this.props.campaign_page_id + "/widgets/" + data.widget.id,
-      data: data
-    }).done(function( data ) {
-      this.setState({data: data})
-    }.bind(this));
+    this.getFlux().actions.updateWidget(data);
   },
 
   render() {
@@ -92,7 +127,6 @@ var Widgets = React.createClass({
   },
 
   render(){
-    console.log('widgets load', this.props.widgets);
     var widgets = this.props.widgets.map(widget => {
       switch (widget.type) {
         case "TextBodyWidget":

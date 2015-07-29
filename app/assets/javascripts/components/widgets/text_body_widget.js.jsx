@@ -46,7 +46,7 @@ var TextBodyWidgetForm = React.createClass({
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
-    var data = { widget: {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id } }
+    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id }
     this.props.onWidgetSubmit(data);
   },
 
