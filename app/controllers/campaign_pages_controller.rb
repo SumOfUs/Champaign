@@ -1,4 +1,4 @@
-require 'sqs_pusher'
+require 'champaign_queue'
 
 class CampaignPagesController < ApplicationController
   
@@ -22,7 +22,7 @@ class CampaignPagesController < ApplicationController
     @campaign_page = CampaignPage.new(@page_params)
     @campaign_page.compile_html
     if @campaign_page.save
-      SqsPusher.push(@campaign_page.as_json)
+      ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
       redirect_to @campaign_page, notice: 'Campaign page created!'
 
     else
