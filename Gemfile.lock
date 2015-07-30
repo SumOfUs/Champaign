@@ -55,6 +55,9 @@ GEM
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    browserify-rails (1.2.0)
+      railties (>= 4.0.0, < 5.0)
+      sprockets (> 3.0.2)
     builder (3.2.2)
     bunny (1.7.0)
       amq-protocol (>= 1.9.2)
@@ -293,6 +296,7 @@ PLATFORMS
 DEPENDENCIES
   action_parameter
   bootstrap-sass (~> 3.3.5)
+  browserify-rails
   bunny
   byebug
   capybara
@@ -326,4 +330,4 @@ DEPENDENCIES
   web-console (~> 2.0)
 
 BUNDLED WITH
-   1.10.4
+   1.10.5
