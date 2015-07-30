@@ -1,38 +1,38 @@
-var Widget = React.createClass({
+// var Widget = React.createClass({
 
-  propTypes: {
-    form:    React.PropTypes.func.isRequired,
-    display: React.PropTypes.func.isRequired,
-  },
+//   propTypes: {
+//     form:    React.PropTypes.func.isRequired,
+//     display: React.PropTypes.func.isRequired,
+//   },
 
-  getInitialState() {
-    return { edit: false };
-  },
+//   getInitialState() {
+//     return { edit: false };
+//   },
 
-  toggleEditShow() {
-    this.setState( {edit: !this.state.edit} );
-  },
+//   toggleEditShow() {
+//     this.setState( {edit: !this.state.edit} );
+//   },
 
-  form() {
-    if(this.state.edit) { return this.props.form() }
-  },
+//   form() {
+//     if(this.state.edit) { return this.props.form() }
+//   },
 
-  display() {
-    if(!this.state.edit) { return this.props.display() }
-  },
+//   display() {
+//     if(!this.state.edit) { return this.props.display() }
+//   },
 
-  render(){
-    var [form, display] = [this.form(), this.display()]
-    return (
-      <div className='widget'>
-        <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
-        </WidgetActions>
-        { form }
-        { display }
-      </div>
-    )
-  }
-})
+//   render(){
+//     var [form, display] = [this.form(), this.display()]
+//     return (
+//       <div className='widget'>
+//         <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
+//         </WidgetActions>
+//         { form }
+//         { display }
+//       </div>
+//     )
+//   }
+// })
 
 var WidgetActions = React.createClass({
 
@@ -43,7 +43,7 @@ var WidgetActions = React.createClass({
     id:               React.PropTypes.number.isRequired
   },
 
-  mixins: [FluxMixin],
+  // mixins: [FluxMixin],
 
   getInitialState() {
     return { edit: false };
@@ -75,3 +75,5 @@ var WidgetActions = React.createClass({
     )
   }
 })
+
+module.exports = WidgetActions
