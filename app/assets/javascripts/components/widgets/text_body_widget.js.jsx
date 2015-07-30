@@ -46,8 +46,13 @@ var TextBodyWidgetForm = React.createClass({
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
-    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id }
-    this.getFlux().actions.updateWidget(data);
+    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id }
+    if ('id' in this.props) {
+      data.id = this.props.id;
+      this.getFlux().actions.updateWidget(data);
+    } else {
+      this.getFlux().actions.createWidget(data);
+    }
   },
 
   render() {

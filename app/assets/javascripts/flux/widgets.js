@@ -4,6 +4,7 @@ window.StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var constants = {
   LOAD_WIDGETS:   "LOAD_WIDGETS",
   UPDATE_WIDGET:  "UPDATE_WIDGET",
+  CREATE_WIDGET:  "CREATE_WIDGET",
   DESTROY_WIDGET: "DESTROY_WIDGET"
 };
 
@@ -22,10 +23,18 @@ var WidgetClient = {
     }).done(success);
   },
 
+  create: function(data, success){
+    $.ajax({
+      type: "POST",
+      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/",
+      data: {widget: data }
+    }).done(success);
+  },
+
   destroy: function(id, success){
     $.ajax({
-      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/" + id,
-      type: 'DELETE'
+      type: 'DELETE',
+      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/" + id
     }).done(success);
   }
 };
@@ -44,6 +53,13 @@ var actions = {
     }.bind(this));
   },
 
+  createWidget: function(data) {
+    WidgetClient.create(data, function(resp) {
+      data.id = resp.id
+      this.dispatch(constants.CREATE_WIDGET, data);
+    }.bind(this));
+  },
+
   destroyWidget: function(id){
     WidgetClient.destroy(id, function(resp) {
       this.dispatch(constants.DESTROY_WIDGET, id);
@@ -58,6 +74,7 @@ var WidgetsStore = Fluxxor.createStore({
     this.bindActions(
       constants.LOAD_WIDGETS,   this.onLoadWidgets,
       constants.UPDATE_WIDGET,  this.onUpdateWidget,
+      constants.CREATE_WIDGET,  this.onCreateWidget,
       constants.DESTROY_WIDGET, this.onDestroyWidget
     );
   },
@@ -71,6 +88,12 @@ var WidgetsStore = Fluxxor.createStore({
     var pos = this.widgets.map(function(e) { return e.id; }).indexOf(data.id);
     window.widgets = this.widgets;
     this.widgets[pos] = data;
+    this.emit("change");
+  },
+
+  onCreateWidget: function(data) {
+    window.widgets = this.widgets; // just copying this from above
+    this.widgets.push(data)
     this.emit("change");
   },
 
