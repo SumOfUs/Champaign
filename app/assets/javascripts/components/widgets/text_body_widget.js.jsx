@@ -36,9 +36,9 @@ var TextBodyWidget = React.createClass({
 var TextBodyWidgetForm = React.createClass({
 
   propTypes: {
-    text_body_html:   React.PropTypes.string.isRequired,
+    text_body_html:   React.PropTypes.string,
     campaign_page_id: React.PropTypes.number.isRequired,
-    id:               React.PropTypes.number.isRequired
+    id:               React.PropTypes.number
   },
 
   mixins: [FluxMixin],
