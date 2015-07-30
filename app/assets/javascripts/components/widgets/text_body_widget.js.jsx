@@ -2,7 +2,6 @@ var TextBodyWidget = React.createClass({
 
   propTypes: {
     text_body_html:   React.PropTypes.string.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
@@ -37,17 +36,23 @@ var TextBodyWidget = React.createClass({
 var TextBodyWidgetForm = React.createClass({
 
   propTypes: {
-    text_body_html:   React.PropTypes.string.isRequired,
-    onWidgetSubmit:   React.PropTypes.func.isRequired,
+    text_body_html:   React.PropTypes.string,
     campaign_page_id: React.PropTypes.number.isRequired,
-    id:               React.PropTypes.number.isRequired
+    id:               React.PropTypes.number
   },
+
+  mixins: [FluxMixin],
 
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
-    var data = { widget: {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id } }
-    this.props.onWidgetSubmit(data);
+    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id }
+    if ('id' in this.props) {
+      data.id = this.props.id;
+      this.getFlux().actions.updateWidget(data);
+    } else {
+      this.getFlux().actions.createWidget(data);
+    }
   },
 
   render() {
