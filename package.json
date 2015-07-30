@@ -1,0 +1,17 @@
+{
+  "name": "Champaign",
+  "description": "A web platform for online campaigning.",
+  "dependencies" : {
+    "browserify": "~> 10.2.4",
+    "browserify-incremental": "^3.0.1",
+    "reactify": "^1.1.1"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/SumOfUs/Champaign.git"
+  }
+}
