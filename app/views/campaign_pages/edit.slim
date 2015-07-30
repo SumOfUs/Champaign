@@ -1,4 +1,9 @@
-.jumbotron
-  h1 Edit your campaign page
+javascript:
+  var campaign_page_id = #{ @campaign_page.id };
 
-= render 'form'
+= react_component('EditCampaignPage', @campaign_page.to_json )
+
+
+#widgets
+
+
