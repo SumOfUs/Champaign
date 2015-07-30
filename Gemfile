@@ -12,7 +12,6 @@ gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'react-rails'
-gem 'sprockets-es6'
 # Select2 does typeahead multi-select integrated within rails forms
 gem 'select2-rails'
 
@@ -70,3 +69,7 @@ group :development, :test do
   gem 'faker'
 end
 
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-fluxxor', '~> 1.7'
+end
