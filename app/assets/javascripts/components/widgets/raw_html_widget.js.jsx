@@ -46,8 +46,13 @@ var RawHtmlWidgetForm = React.createClass({
   handleSubmit(e) {
     e.preventDefault()
     var text = React.findDOMNode(this.refs.body).value
-    var data = {html: text, text: text, type: 'RawHtmlWidget', campaign_page_id: this.props.campaign_page_id, id: this.props.id }
-    this.getFlux().actions.updateWidget(data);
+    var data = {html: text, text: text, type: 'RawHtmlWidget', campaign_page_id: this.props.campaign_page_id }
+    if ('id' in this.props) {
+      data.id = this.props.id;
+      this.getFlux().actions.updateWidget(data);
+    } else {
+      this.getFlux().actions.createWidget(data);
+    }
   },
 
   render() {
