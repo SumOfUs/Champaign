@@ -52,6 +52,8 @@ var Widgets = React.createClass({
     return (
       <div className="widgets">
         { widgets }
+        <NewWidget campaign_page_id={this.props.campaign_page_id}>
+        </NewWidget>
       </div>
     )
   }

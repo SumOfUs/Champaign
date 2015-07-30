@@ -36,9 +36,9 @@ var RawHtmlWidget = React.createClass({
 var RawHtmlWidgetForm = React.createClass({
 
   propTypes: {
-    html:             React.PropTypes.string.isRequired,
+    html:             React.PropTypes.string,
     campaign_page_id: React.PropTypes.number.isRequired,
-    id:               React.PropTypes.number.isRequired
+    id:               React.PropTypes.number
   },
 
   mixins: [FluxMixin],
@@ -55,7 +55,7 @@ var RawHtmlWidgetForm = React.createClass({
       <div className='widget-html-form'>
          <form onSubmit={ this.handleSubmit }>
           <div className="form-group">
-            <label htmlFor="">Text</label>
+            <label htmlFor="">HTML</label>
             <textarea className='form-control' ref='body' defaultValue={this.props.html}></textarea>
           </div>
           <button type="submit" className="btn btn-default">Submit</button>
