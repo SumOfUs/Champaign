@@ -1,32 +1,6 @@
-CheckBox = React.createClass({
-  getInitialState() {
-    return (
-      { checked: this.props.checked }
-    )
-  },
+var CheckBox = require('components/ui/check_box')
 
-  handleChange() {
-    checked = React.findDOMNode(this.refs.checkbox).checked
-
-    data = {}
-    data[this.props.name] = checked
-    this.props.onChange(data);
-    this.setState( {checked: !this.state.checked } )
-  },
-
-  render() {
-    return (
-      <div className="checkbox">
-        <label htmlFor="campaign_page_{this.props.label}" className="control-label">
-          <input type="checkbox" checked={this.state.checked } onChange={ this.handleChange } ref="checkbox" /> {this.props.label}
-        </label>
-      </div>
-    )
-  }
-})
-
-
-CampaignPageForm = React.createClass({
+var CampaignPageForm = React.createClass({
   render() {
     return(
       <div className="form-group">
@@ -37,7 +11,7 @@ CampaignPageForm = React.createClass({
   }
 })
 
-EditCampaignPage = React.createClass({
+var EditCampaignPage = React.createClass({
   getInitialState() {
     return {
       featured: this.props.featured,
@@ -46,7 +20,7 @@ EditCampaignPage = React.createClass({
   },
 
   handleSubmits(data) {
-    url = "/campaign_pages/" + this.props.id + ".json"
+    let url = "/campaign_pages/" + this.props.id + ".json"
     $.ajax({
       url: url,
       dataType: 'json',
@@ -72,6 +46,4 @@ EditCampaignPage = React.createClass({
   }
 })
 
-
-
-
+module.exports = EditCampaignPage;

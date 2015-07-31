@@ -15,6 +15,7 @@ var WidgetsEditor = React.createClass({
     // react-rails server-side react rendering. instead, do this
     // so that flux gets passed down through context
     this.props.flux = flux;
+    console.log("WE props",this.props);
     
     return { widgets: [] };
   },
@@ -38,7 +39,7 @@ var WidgetsEditor = React.createClass({
   render() {
     return (
       <div className='widgets'>
-        <Widgets widgets={this.state.data} campaign_page_id={ this.props.campaign_page_id } />
+        <Widgets widgets={this.state.data} campaign_page_id={ this.props.id } />
       </div>
     )
   }
