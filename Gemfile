@@ -50,6 +50,9 @@ gem 'render_anywhere', :require => false
 # AWS SDK for Ruby
 gem 'aws-sdk', '~> 2'
 
+# A fake SQS service to run a local look-a-like of Amazon SQS
+gem 'fake_sqs'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
