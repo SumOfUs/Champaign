@@ -1,3 +1,6 @@
+var TextBodyWidgetForm = require('components/widgets/text_body_widget_form')
+var RawHtmlWidgetForm  = require('components/widgets/raw_html_widget_form')
+
 var NewWidget = React.createClass({
 
   propTypes: {
@@ -48,3 +51,5 @@ var NewWidget = React.createClass({
     )
   }
 })
+
+module.exports = NewWidget;
