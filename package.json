@@ -8,8 +8,7 @@
     "jest-cli": "0.4.5",
     "browserify": "~> 10.2.4",
     "browserify-incremental": "^3.0.1",
-    "babelify": "^6.1.3",
-    "reactify": "1.1.1"
+    "babelify": "^6.1.3"
   },
   "license": "MIT",
   "engines": {
