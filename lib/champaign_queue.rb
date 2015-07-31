@@ -6,9 +6,16 @@ module ChampaignQueue
     @client ||= Aws::SQS::Client.new
   end
 
-  class SqsPusher
+  module QueueParameters
     QUEUE_NAME = 'post_test'
+    private
+    def queue_url
+      ChampaignQueue.client.get_queue_url({queue_name: QUEUE_NAME}).queue_url
+    end
+  end
 
+  class SqsPusher
+    include QueueParameters
     def initialize(params)
       @params = params
     end
@@ -23,13 +30,19 @@ module ChampaignQueue
           message_body: @params.to_json,
       })
     end
+  end
 
-    private
-
-    def queue_url
-      ChampaignQueue.client.get_queue_url({queue_name: QUEUE_NAME}).queue_url
+  class SqsPoller
+    include QueueParameters
+    #factory method needed to call private method queue_url in poll
+    def self.poll
+      new.poll
     end
-
+    def poll
+      ChampaignQueue.client.receive_message({
+          queue_url: queue_url
+      })
+    end
   end
 
 end
