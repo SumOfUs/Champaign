@@ -6,7 +6,6 @@ web:
     - "3000:3000"
   links:
     - db
-    - rabbitmq
   environment:
     PG_USERNAME: postgres
     PG_HOST: db
