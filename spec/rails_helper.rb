@@ -9,16 +9,6 @@ require 'support/helper_functions'
 require 'support/omni_auth_helper'
 require 'support/capybara'
 
-# Add additional requires below this line. Rails is not loaded until this point!
-
-require 'fake_sqs/test_integration'
-
-# AWS Config for local fake SQS
-Aws.config.update({
-    access_key_id:      "fake access key",
-    secret_access_key:  "fake secret key",
-})
-
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -39,14 +29,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  # RSpec config for fake SQS
-  config.before(:suite) { $fake_sqs = FakeSQS::TestIntegration.new(
-      database: ENV["SQS_DATABASE"] || ":memory:",
-      sqs_endpoint: "localhost",
-      sqs_port: 4568,
-  )}
-  config.before(:each, :sqs) { $fake_sqs.start }
-  config.after(:suite) { $fake_sqs.stop }
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
