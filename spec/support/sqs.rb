@@ -1,6 +1,3 @@
-# Add additional requires below this line. Rails is not loaded until this point!
-# require 'rspec-rails'
-# require 'rails_helper'
 require 'aws-sdk'
 require 'fake_sqs/test_integration'
 
