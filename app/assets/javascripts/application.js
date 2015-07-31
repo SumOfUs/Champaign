@@ -11,15 +11,11 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
 //= require react
 //= require react_ujs
 //= require fluxxor
-//= require_tree ./flux
 //= require components
 //= require bootstrap-sprockets
 //= require select2
 //= require marked.0.3.3
-//= require_tree .
