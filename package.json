@@ -2,6 +2,7 @@
   "name": "Champaign",
   "description": "A web platform for online campaigning.",
   "dependencies": {
+    "fluxxor": "~> 1.7.0",
     "react": "^0.13.3",
     "react-tools": "*",
     "jest-cli": "0.4.5",

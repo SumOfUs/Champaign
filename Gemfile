@@ -71,8 +71,3 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 end
-
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-fluxxor', '~> 1.7'
-end

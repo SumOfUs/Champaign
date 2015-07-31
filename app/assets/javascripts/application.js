@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require react
 //= require react_ujs
-//= require fluxxor
 //= require components
 //= require bootstrap-sprockets
 //= require select2
