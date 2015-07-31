@@ -5,7 +5,6 @@ class Search::PageSearcher
         where("campaign_pages.title ILIKE ? OR widgets.content #>> '{text_body_html}' ILIKE ?", "%#{string}%", "%#{string}%")
   end
 
-
   def initialize(params)
     @queries = params[:search]
     @collection = CampaignPage.all
@@ -13,7 +12,7 @@ class Search::PageSearcher
 
   def search
     [*@queries].each do |search_type, query|
-      case search_type
+      case search_type.to_s
         when 'content_search'
           search_by_text(query)
         when 'tags'
@@ -22,9 +21,31 @@ class Search::PageSearcher
           search_by_language(query)
         when 'campaign'
           search_by_campaign(query)
+        when 'widget_type'
+          search_by_widget_type(query)
       end
     end
     @collection
+  end
+
+  private
+
+  def get_pages_by_widgets(collection, widgets_collection)
+    # get campaign page ids from your collection of widgets
+    page_ids = widgets_collection.pluck(:page_id)
+    # get an intersection of page ids and original ids in the collection
+    array_to_relation(CampaignPage, collection.find(page_ids))
+  end
+
+  def combine_collections(collection1, collection2)
+    # get union of unique values in collection1 and collection2
+    arr = (collection1 | collection2).uniq
+    # map from array back to AR collection
+    array_to_relation(CampaignPage, arr)
+  end
+
+  def array_to_relation(model, arr)
+    model.where(id: arr.map(&:id))
   end
 
   def search_by_title(query)
@@ -32,12 +53,8 @@ class Search::PageSearcher
   end
 
   def search_by_text(query)
-    # find text body widgets that match the query, and get their page IDs
-    matching_widgets = Search::WidgetSearcher.text_widget_search(query).pluck(:page_id)
-    # union of campaign pages matched by title and by text body
-    arr = (search_by_title(query) | CampaignPage.find(matching_widgets)).uniq
-    # map from array back to AR collection
-    @collection = CampaignPage.where(id: arr.map(&:id))
+    text_body_matches = get_pages_by_widgets(@collection, Search::WidgetSearcher.text_widget_search(query))
+    @collection = combine_collections(search_by_title(query), text_body_matches)
   end
 
   def search_by_tags(query)
@@ -50,6 +67,13 @@ class Search::PageSearcher
 
   def search_by_campaign(query)
     @collection = @collection.where(campaign_id: query)
+  end
+
+  def search_by_widget_type(query)
+    # gets all widgets that match the query
+    widget_type_matches = Search::WidgetSearcher.widget_type_search(query)
+    # gets pages in the collection that match the page_ids in the widgets
+    @collection = get_pages_by_widgets(@collection, widget_type_matches)
   end
 
 end
