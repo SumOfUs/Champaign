@@ -6,7 +6,6 @@ web:
     - "3000:3000"
   links:
     - db
-    - rabbitmq
   environment:
     PG_USERNAME: postgres
     PG_HOST: db
@@ -19,10 +18,3 @@ db:
   image: postgres
   ports:
     - "5432"
-
-rabbitmq:
-  image: rabbitmq
-  ports:
-    - "5672"
-    - "15672"
-    - "8080"
