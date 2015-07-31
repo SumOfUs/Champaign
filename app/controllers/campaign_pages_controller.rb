@@ -1,3 +1,5 @@
+require 'champaign_queue'
+
 class CampaignPagesController < ApplicationController
   
   before_action :authenticate_user!, except: [:show, :create]
@@ -20,7 +22,9 @@ class CampaignPagesController < ApplicationController
     @campaign_page = CampaignPage.new(@page_params)
     @campaign_page.compile_html
     if @campaign_page.save
-      redirect_to @campaign_page, notice: 'Campaign page updated!'
+      ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
+      redirect_to @campaign_page, notice: 'Campaign page created!'
+
     else
       @options = create_form_options(@page_params)
       render :new
