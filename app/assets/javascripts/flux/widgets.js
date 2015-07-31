@@ -1,3 +1,5 @@
+var Fluxxor = require('fluxxor');
+
 var constants = {
   LOAD_WIDGETS:   "LOAD_WIDGETS",
   UPDATE_WIDGET:  "UPDATE_WIDGET",
