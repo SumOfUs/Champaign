@@ -19,10 +19,3 @@ db:
   image: postgres
   ports:
     - "5432"
-
-rabbitmq:
-  image: rabbitmq
-  ports:
-    - "5672"
-    - "15672"
-    - "8080"
