@@ -35,7 +35,7 @@ module Champaign
     config.web_console.whiny_requests = false
 
     # to get browserify to handle react JSX
-    config.browserify_rails.commandline_options = "--transform reactify --extension=\".js.jsx\""
+    config.browserify_rails.commandline_options = "--transform babelify --extension=\".js.jsx\""
 
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
