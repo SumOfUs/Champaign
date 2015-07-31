@@ -18,4 +18,3 @@
 //= require components
 //= require bootstrap-sprockets
 //= require select2
-//= require marked.0.3.3
