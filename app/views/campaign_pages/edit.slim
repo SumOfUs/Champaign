@@ -2,7 +2,9 @@ javascript:
   var campaign_page_id = #{ @campaign_page.id };
 
 / =# react_component('EditCampaignPage', @campaign_page.to_json )
-= react_component 'WidgetActions', {}
+
+/ we want to use react_component when possible so it renders react on the server
+= react_component 'WidgetsEditor', @campaign_page.to_json
 
 #widgets
 

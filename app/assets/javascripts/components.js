@@ -1,4 +1,4 @@
 //= require react
 //= require react_ujs
 
-WidgetActions = require('components/widgets/widget')
+window.WidgetsEditor = require('components/widgets_editor');

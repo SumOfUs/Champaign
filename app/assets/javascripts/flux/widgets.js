@@ -1,6 +1,3 @@
-window.FluxMixin = Fluxxor.FluxMixin(React);
-window.StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
 var constants = {
   LOAD_WIDGETS:   "LOAD_WIDGETS",
   UPDATE_WIDGET:  "UPDATE_WIDGET",
@@ -107,3 +104,5 @@ var stores = {
 };
 
 var flux = new Fluxxor.Flux(stores, actions);
+
+module.exports = flux;
