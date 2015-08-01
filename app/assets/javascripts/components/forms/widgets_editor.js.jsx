@@ -3,7 +3,7 @@ var mixins = require('flux/mixins');
 var Widgets = require('components/widgets/widgets');
 
 var WidgetsEditor = React.createClass({
-  mixins: [mixins.FluxMixin, mixins.StoreWatchMixin("WidgetsStore")],
+  mixins: [mixins.FluxMixin, mixins.StoreWatchMixin("WidgetStore")],
 
   getInitialState() {
     return { widgets: [] };
@@ -14,7 +14,7 @@ var WidgetsEditor = React.createClass({
   },
 
   getStateFromFlux() {
-    var store = flux.store("WidgetsStore");
+    var store = flux.store("WidgetStore");
 
     return {
       data: store.widgets
