@@ -1,4 +1,4 @@
-var flux   = require('flux/widgets');
+var flux   = require('flux/main');
 var mixins = require('flux/mixins');
 var Widgets = require('components/widgets/widgets');
 
