@@ -1,5 +1,6 @@
 var CheckBox = require('components/ui/check_box');
 var flux     = require('flux/main');
+var mixins   = require('flux/mixins');
 
 var CampaignPageForm = React.createClass({
   render() {
@@ -13,6 +14,8 @@ var CampaignPageForm = React.createClass({
 })
 
 var EditCampaignPage = React.createClass({
+  mixins: [mixins.FluxMixin],
+
   getInitialState() {
     return {
       featured: this.props.featured,
@@ -25,7 +28,7 @@ var EditCampaignPage = React.createClass({
   },
 
   handleSubmits(data) {
-    flux.actions.updateCampaignPage(data);
+    this.getFlux().actions.updateCampaignPage(data);
   },
 
   render() {
