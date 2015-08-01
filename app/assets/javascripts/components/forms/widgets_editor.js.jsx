@@ -14,7 +14,7 @@ var WidgetsEditor = React.createClass({
   },
 
   getStateFromFlux() {
-    var store = flux.store("WidgetStore");
+    var store = this.getFlux().store("WidgetStore");
 
     return {
       data: store.widgets
@@ -22,11 +22,11 @@ var WidgetsEditor = React.createClass({
   },
 
   componentDidMount() {
-    flux.actions.loadWidgets();
+    this.getFlux().actions.loadWidgets();
   },
 
   handleWidgetSubmit(data) {
-    flux.actions.updateWidget(data);
+    this.getFlux().actions.updateWidget(data);
   },
 
   render() {
