@@ -1,4 +1,5 @@
-var CheckBox = require('components/ui/check_box')
+var CheckBox = require('components/ui/check_box');
+var flux     = require('flux/main');
 
 var CampaignPageForm = React.createClass({
   render() {
@@ -19,17 +20,12 @@ var EditCampaignPage = React.createClass({
     }
   },
 
+  getDefaultProps() {
+    return { flux: flux };
+  },
+
   handleSubmits(data) {
-    let url = "/campaign_pages/" + this.props.id + ".json"
-    $.ajax({
-      url: url,
-      dataType: 'json',
-      type: 'PUT',
-      data: { campaign_page: data }
-    }).done( function(data) {
-      console.log(data);
-     }
-    )
+    flux.actions.updateCampaignPage(data);
   },
 
   render() {
