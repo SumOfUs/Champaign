@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     resources :widgets, only: [:index, :destroy, :create, :update]
   end
 
+  resources :templates do
+    resources :widgets, only: [:index, :destroy, :create, :update]
+  end
+
   resources :templates
 
 
