@@ -5,9 +5,9 @@ var CampaignPageStore  = require('flux/campaign_page_store');
 var CampaignPageClient = require('flux/campaign_page_client');
 
 var actions = {
-  loadWidgets: function(){
-    WidgetClient.load( function(data){
-      this.dispatch(WidgetStore.events.LOAD_WIDGETS, {widgets: data});
+  loadWidgets: function(data){
+    WidgetClient.load(data, function(resp){
+      this.dispatch(WidgetStore.events.LOAD_WIDGETS, {widgets: resp});
     }.bind(this))
   },
 
@@ -24,10 +24,14 @@ var actions = {
     }.bind(this));
   },
 
-  destroyWidget: function(id){
-    WidgetClient.destroy(id, function(resp) {
-      this.dispatch(WidgetStore.events.DESTROY_WIDGET, id);
+  destroyWidget: function(data){
+    WidgetClient.destroy(data, function(resp) {
+      this.dispatch(WidgetStore.events.DESTROY_WIDGET, data);
     }.bind(this));
+  },
+
+  setPageMetadata: function(data){
+    this.dispatch(WidgetStore.events.SET_PAGE_METADATA, data);
   },
 
   updateCampaignPage: function(data) {

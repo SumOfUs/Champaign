@@ -4,16 +4,16 @@ var TextBodyWidgetForm = React.createClass({
 
   propTypes: {
     text_body_html:   React.PropTypes.string,
-    campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number
   },
 
   mixins: [mixins.FluxMixin],
 
   handleSubmit(e) {
-    e.preventDefault()
-    var text = React.findDOMNode(this.refs.body).value
-    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', campaign_page_id: this.props.campaign_page_id }
+    e.preventDefault();
+    var store = this.getFlux().store("WidgetStore");
+    var text = React.findDOMNode(this.refs.body).value;
+    var data = {text_body_html: text, text: text, type: 'TextBodyWidget', page_id: store.page_id, page_type: store.page_type }
     if ('id' in this.props) {
       data.id = this.props.id;
       this.getFlux().actions.updateWidget(data);
