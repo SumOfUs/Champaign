@@ -5,7 +5,6 @@ var WidgetActions = React.createClass({
   propTypes: {
     parentWidget:     React.PropTypes.object.isRequired,
     toggleEditShow:   React.PropTypes.func.isRequired,
-    campaign_page_id: React.PropTypes.number.isRequired,
     title:            React.PropTypes.string,
     id:               React.PropTypes.number.isRequired
   },
@@ -23,7 +22,9 @@ var WidgetActions = React.createClass({
 
   handleDelete(e){
     e.preventDefault();
-    this.getFlux().actions.destroyWidget(this.props.id);
+
+    var store = this.getFlux().store("WidgetStore");
+    this.getFlux().actions.destroyWidget({id: this.props.id, page_id: store.page_id, page_type: store.page_type});
 
     var node = React.findDOMNode(this.props.parentWidget);
     React.unmountComponentAtNode(node);

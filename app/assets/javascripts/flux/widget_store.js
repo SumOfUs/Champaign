@@ -4,7 +4,8 @@ var events = {
   LOAD_WIDGETS:   "LOAD_WIDGETS",
   UPDATE_WIDGET:  "UPDATE_WIDGET",
   CREATE_WIDGET:  "CREATE_WIDGET",
-  DESTROY_WIDGET: "DESTROY_WIDGET"
+  DESTROY_WIDGET: "DESTROY_WIDGET",
+  SET_PAGE_METADATA:  "SET_PAGE_METADATA"
 }
 
 var WidgetStore = Fluxxor.createStore({
@@ -16,7 +17,8 @@ var WidgetStore = Fluxxor.createStore({
       events.LOAD_WIDGETS,   this.onLoadWidgets,
       events.UPDATE_WIDGET,  this.onUpdateWidget,
       events.CREATE_WIDGET,  this.onCreateWidget,
-      events.DESTROY_WIDGET, this.onDestroyWidget
+      events.DESTROY_WIDGET, this.onDestroyWidget,
+      events.SET_PAGE_METADATA,    this.onSetPageMetadata
     );
   },
 
@@ -40,6 +42,11 @@ var WidgetStore = Fluxxor.createStore({
 
   onDestroyWidget: function(id) {
     console.log('destroyed', id);
+  },
+
+  onSetPageMetadata: function(data){
+    this.page_id = data.page_id;
+    this.page_type = data.page_type;
   }
 });
 

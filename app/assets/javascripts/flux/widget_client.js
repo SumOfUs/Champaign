@@ -1,6 +1,6 @@
 var WidgetClient = {
-  load: function(success) {
-    $.getJSON("/campaign_pages/" + window.campaign_page_id + "/widgets.json", function(data){
+  load: function(data, success) {
+    $.getJSON("/"+ data.page_type + "s/" + data.page_id + "/widgets.json", function(data){
       success(data);
     })
   },
@@ -8,7 +8,7 @@ var WidgetClient = {
   update: function(data, success){
     $.ajax({
       type: "PUT",
-      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/" + data.id,
+      url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/" + data.id,
       data: {widget: data }
     }).done(success);
   },
@@ -16,15 +16,15 @@ var WidgetClient = {
   create: function(data, success){
     $.ajax({
       type: "POST",
-      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/",
+      url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/",
       data: {widget: data }
     }).done(success);
   },
 
-  destroy: function(id, success){
+  destroy: function(data, success){
     $.ajax({
       type: 'DELETE',
-      url: "/campaign_pages/" + window.campaign_page_id + "/widgets/" + id
+      url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/" + data.id
     }).done(success);
   }
 };
