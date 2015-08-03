@@ -45,8 +45,15 @@ var NewWidget = React.createClass({
   render(){
     return (
       <div className='widget'>
-        { this.picker() }
-        { this.form() }
+        <div className='widget-header'>
+          <div className="widget-title">
+            New Widget
+          </div>
+        </div>
+        <div className="widget-edit">
+          { this.picker() }
+          { this.form() }
+        </div>
       </div>
     )
   }
