@@ -8,10 +8,10 @@ var RawHtmlWidget = React.createClass({
     id:               React.PropTypes.number.isRequired
   },
 
-  form() {
+  form(submitData) {
     return (
       <div className='widget-edit'>
-        <RawHtmlWidgetForm {...this.props}>
+        <RawHtmlWidgetForm {...this.props} submitData={submitData}>
         </RawHtmlWidgetForm>
       </div>
     )

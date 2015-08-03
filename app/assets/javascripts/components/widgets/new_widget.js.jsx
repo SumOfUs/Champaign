@@ -1,10 +1,14 @@
 var TextBodyWidgetForm = require('components/widgets/text_body_widget_form')
 var RawHtmlWidgetForm  = require('components/widgets/raw_html_widget_form')
+var mixins             = require('flux/mixins')
+
 
 var NewWidget = React.createClass({
 
   propTypes: {
   },
+
+  mixins: [mixins.FluxMixin],
 
   getInitialState() {
     return { widgetType: "none" };
@@ -13,6 +17,17 @@ var NewWidget = React.createClass({
   showForm() {
     var widgetType = React.findDOMNode(this.refs.picker).value
     this.setState( {widgetType: widgetType} );
+  },
+
+  addMetadata(data) {
+    var store = this.getFlux().store("WidgetStore");
+    data.page_id = store.page_id;
+    data.page_type = store.page_type;
+  },
+
+  submitData(formProps, data) {
+    this.addMetadata(data);
+    this.getFlux().actions.createWidget(data);
   },
 
   picker() {
@@ -33,9 +48,9 @@ var NewWidget = React.createClass({
   form() {
     switch (this.state.widgetType) {
       case "TextBodyWidget":
-        return (<TextBodyWidgetForm></TextBodyWidgetForm>)
+        return (<TextBodyWidgetForm submitData={this.submitData}></TextBodyWidgetForm>)
       case "RawHtmlWidget":
-        return (<RawHtmlWidgetForm></RawHtmlWidgetForm>)
+        return (<RawHtmlWidgetForm submitData={this.submitData}></RawHtmlWidgetForm>)
       default:
         return "Pick a widget type to create a new widget!"
     }

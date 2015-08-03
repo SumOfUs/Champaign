@@ -9,17 +9,14 @@ var RawHtmlWidgetForm = React.createClass({
 
   mixins: [mixins.FluxMixin],
 
+  serialize() {
+    var text = React.findDOMNode(this.refs.body).value;
+    return {html: text, text: text, type: 'RawHtmlWidget' };
+  },
+
   handleSubmit(e) {
     e.preventDefault();
-    var store = this.getFlux().store("WidgetStore");
-    var text = React.findDOMNode(this.refs.body).value;
-    var data = {html: text, text: text, type: 'RawHtmlWidget', page_id: store.page_id, page_type: store.page_type };
-    if ('id' in this.props) {
-      data.id = this.props.id;
-      this.getFlux().actions.updateWidget(data);
-    } else {
-      this.getFlux().actions.createWidget(data);
-    }
+    this.props.submitData(this.props, this.serialize());
   },
 
   render() {
