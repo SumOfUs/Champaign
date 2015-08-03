@@ -10,6 +10,7 @@ class CampaignPageParameters < PageParameters
       :slug,
       :active,
       :content,
+      :thermometer,
       :featured,
       :template_id,
       :campaign_id,

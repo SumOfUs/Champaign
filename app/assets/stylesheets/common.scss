@@ -45,3 +45,61 @@ span.cross:after {
   margin-bottom: 20px;
 }
 
+
+form .settings {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.photo-upload {
+
+  img {
+    padding: 3px;
+    border: 1px solid #ddd;
+    background: white;
+  }
+
+  position: relative;
+
+  .notice {
+    position: absolute;
+    color: #999;
+    font-size: 30px;
+    right: 100px;
+    top: 55px;
+  }
+}
+
+
+.component {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 30px;
+}
+
+
+form.plugin-setting {
+  margin-bottom: 20px;
+}
+
+form.template-form {
+
+  textarea {
+    height: 400px;
+    font-family: monospace;
+  }
+
+}
+
+.field_with_errors {
+  @extend .has-error;
+}
+
+
+.component.title:hover {
+  background: #f3f3f3;
+  cursor: pointer;
+}

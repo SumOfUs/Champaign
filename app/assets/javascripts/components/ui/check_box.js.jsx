@@ -16,13 +16,12 @@ let CheckBox = React.createClass({
 
   render() {
     return (
-      <div className="checkbox">
-        <label htmlFor="campaign_page_{this.props.label}" className="control-label">
-          <input type="checkbox" checked={this.state.checked } onChange={ this.handleChange } ref="checkbox" /> {this.props.label}
-        </label>
-      </div>
+      <label htmlFor="campaign_page_{this.props.label}" className="checkbox-inline">
+        <input type="checkbox" checked={this.state.checked } onChange={ this.handleChange } ref="checkbox" /> {this.props.label}
+      </label>
     )
   }
 });
+
 
 module.exports = CheckBox;

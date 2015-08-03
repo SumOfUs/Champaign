@@ -1,1 +1,32 @@
-= @campaign_page.content.html_safe
+doctype html
+html
+  head
+    title Champaign
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    = stylesheet_link_tag "liquid"
+    = javascript_include_tag "liquid"
+    = csrf_meta_tags
+
+  body#page-top.index
+
+    = @template.render( @data ).html_safe
+
+
+    .layout-picker style="display:none;"
+      .container
+        .row
+          .col-md-1.col-md-offset-4
+            div.thumbnail class=('active' if params[:template_id] == '1')
+              = link_to image_tag('layout_1.png'), '?template_id=1'
+
+          .col-md-1
+            .thumbnail class=('active' if params[:template_id] == '2')
+              = link_to image_tag('layout_2.png'), '?template_id=2'
+
+          .col-md-1
+            .thumbnail
+              = link_to image_tag('layout_3.png')
+
+
+

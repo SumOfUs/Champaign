@@ -1,0 +1,18 @@
+.row
+  .col-md-12
+    h3 Templates
+    table.table-bordered.table-striped.table
+      thead
+        tr
+          th Title
+          th
+
+      tbody
+        - @liquid_layouts.each do |liquid_layout|
+          tr
+            td = liquid_layout.title
+            td = link_to 'Edit', edit_liquid_layout_path(liquid_layout)
+
+
+
+    = link_to 'New Template', new_liquid_layout_path

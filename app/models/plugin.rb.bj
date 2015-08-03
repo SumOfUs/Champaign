@@ -1,0 +1,45 @@
+module Plugin
+
+  # NOTE
+  # label and help should actually be declared in en.yml (local to componenet) for internationalisation, but
+  # this will suffice for demonstration purposes.
+  #
+
+  class << self
+    def registered
+      [
+        {
+          name: 'user_registration_form',
+          display_name: 'User Registration Form',
+          description: %{Please mark which form fields you'd like to appear},
+          attributes: [
+            {name: 'full_name', label:  'Full Name', data_type: 'boolean', field_type: 'checkbox', default: '1', help: 'Get full name'},
+            {name: 'email',     label:  'Email',     data_type: 'boolean', field_type: 'checkbox', default: '1', help: "Get user's email address" },
+            {name: 'post_code', label:  'Post Code', data_type: 'boolean', field_type: 'checkbox', default: '1', help: "Get user's post code" }
+          ]
+        },
+
+        {
+          name: 'thermometer',
+          display_name: 'Thermometer',
+          attributes: [
+            {name: 'offset', label:  'Offset', data_type: 'integer', field_type: 'text', default: '0',   help: 'Set the start value. Default is zero.'},
+            {name: 'total',  label:  'Total',  data_type: 'integer', field_type: 'text', default: '100', help: 'Set your thermometers total' }
+          ]
+        }
+      ]
+    end
+
+    def thermometer
+
+    end
+
+    def user_registration_form
+      index = registered.find_index {|item| item[:name] == 'user_registration_form' }
+
+      registered[index].deep_stringify_keys
+    end
+  end
+
+end
+

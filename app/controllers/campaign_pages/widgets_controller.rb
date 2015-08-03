@@ -4,12 +4,10 @@ class CampaignPages::WidgetsController < ApplicationController
     render json: page.widgets.map(&:to_json)
   end
 
+  def update
+  end
+
   def create
-    puts params
-    widget = TextBodyWidget.new(widget_params)
-    widget.page = page
-    widget.page_display_order = page.widgets.count + 1
-    p widget.save
     render json: widget
   end
 

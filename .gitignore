@@ -31,3 +31,4 @@ queue_listeners/config/env.yml
 
 # npm puts our JS deps in the repo directory, but don't commit em
 node_modules
+public/system

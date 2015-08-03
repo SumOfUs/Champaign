@@ -68,13 +68,15 @@ let Content = React.createClass({
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div dangerouslySetInnerHTML={{__html: this.form()}} />
-        <div className="form-footer clearfix">
-          <button className='btn btn-default'>Save</button>
-          <h3 className={feedbackClass} style={ styles }><span className="label label-success" >{feedback}</span></h3>
-        </div>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div dangerouslySetInnerHTML={{__html: this.form()}} />
+          <div className="form-footer clearfix">
+            <button className='btn btn-default'>Save</button>
+            <h3 className={feedbackClass} style={ styles }><span className="label label-success" >{feedback}</span></h3>
+          </div>
+        </form>
+      </div>
     );
   }
 });

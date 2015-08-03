@@ -17,15 +17,15 @@ class WidgetsController < ApplicationController
   end
 
   def update
-    widget.update_attributes(widget_params)
-    render json: widgets
+    puts widget_params
+    render json: {}
   end
 
 
   private
 
   def widget_params
-    WidgetParameters.new(params).permit
+    params.require(:widget).permit(:content)
   end
 
   def widgets

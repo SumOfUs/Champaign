@@ -23,7 +23,9 @@ html
             ul.nav.navbar-nav
               li= link_to "campaign pages", "/campaign_pages"
               li= link_to "campaigns", "/campaigns"
-              li= link_to "templates", "/templates"
+              li= link_to "templates", liquid_layouts_path
+              li= link_to 'partials', liquid_partials_path
+
             ul.nav.navbar-nav.pull-right
               - if user_signed_in?
                 li= link_to "Logout", destroy_user_session_path, :method => :delete

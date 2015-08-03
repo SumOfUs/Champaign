@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :liquid_partials
+  resources :liquid_layouts
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
@@ -24,10 +26,19 @@ Rails.application.routes.draw do
   resources :campaigns
 
   resources :campaign_pages do
-    resources :widgets, only: [:index, :destroy, :create, :update]
+    resources :images
   end
 
   resources :templates
+
+  resources :forms do
+    resources :form_elements
+  end
+
+  namespace :plugins do
+    resources :actions
+    resources :thermometers
+  end
 
 
   # Example of regular route:
@@ -71,6 +82,11 @@ Rails.application.routes.draw do
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
 
+  namespace :api do
+    resources :campaign_pages do
+      resources :actions
+    end
+  end
   # Example resource route within a namespace:
   #   namespace :admin do
   #     # Directs /admin/products/* to Admin::ProductsController

@@ -11,8 +11,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'react-rails'
 gem 'browserify-rails'
-# Select2 does typeahead multi-select integrated within rails forms
 gem 'select2-rails'
+gem 'dropzonejs-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -24,7 +24,9 @@ gem 'select2-rails'
 gem 'bunny'
 
 # Use Slim for Templating
-gem 'slim'
+gem "slim-rails"
+gem 'liquid'
+
 
 # Use Devise for Authentication
 gem 'devise'

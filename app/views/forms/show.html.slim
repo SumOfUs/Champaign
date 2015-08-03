@@ -1,0 +1,31 @@
+.row
+  .col-md-12
+    h3 Create Your Form
+
+.row
+  .col-md-4
+    ul.elements-list.list-group
+      - @form.form_elements.each do |el|
+        li.list-group-item
+          = render partial: 'form_elements/element', locals: { element: el }
+
+.row
+  .col-md-12
+
+    = form_for [@form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
+      .form-inline
+        .form-group
+          = f.text_field :label,  class: 'form-control', placeholder: 'Label'
+        .form-group
+          = f.text_field :name,  class: 'form-control', placeholder: 'Name'
+        .form-group
+          = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
+      .checkbox
+        label
+          = f.check_box :required
+          ' required
+
+      .form-group
+        button.btn.btn-default Save
+
+

@@ -12,6 +12,7 @@ var EditCampaignPage = React.createClass({
     return {
       featured: this.props.featured,
       active: this.props.active,
+      thermometer: this.props.thermometer,
       updating: false
     }
   },
@@ -58,13 +59,14 @@ var EditCampaignPage = React.createClass({
         <form onSubmit={this.handleSumit}>
           <div className='page-title'>
             <input onChange={ this.handleChange } defaultValue={ this.props.title } type="text" id="campaign_page_title" name="campaign_page[title]" ref="title" />
-            <span className='label label-success'>Saved</span>
           </div>
 
-          <CheckBox onChange={this.handleSubmits} name='featured' label='Featured' checked={this.state.featured}/>
-          <CheckBox onChange={this.handleSubmits} name='active' label='Active' checked={this.state.active}/>
+          <div className='settings form-group'>
+            <CheckBox onChange={this.handleSubmits} name='featured' label='Featured' checked={this.state.featured}/>
+            <CheckBox onChange={this.handleSubmits} name='active' label='Active' checked={this.state.active}/>
+            <CheckBox onChange={this.handleSubmits} name='thermometer' label='Thermomenter' checked={this.state.thermometer}/>
+          </div>
         </form>
-        <div id="new-widget"></div>
       </div>
     );
   }

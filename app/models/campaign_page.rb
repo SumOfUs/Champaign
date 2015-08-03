@@ -9,20 +9,11 @@ class CampaignPage < ActiveRecord::Base
 
   has_many :campaign_pages_tags, dependent: :destroy
   has_many :tags, through: :campaign_pages_tags
-  has_many :widgets, dependent: :destroy, as: :page
+  has_many :actions
+  has_many :images
 
   validates :title, :slug, presence: true, uniqueness: true
   validates :language, presence: true
-
-  # validating presence of a boolean fields
-  validates_inclusion_of :active, in: [true, false]
-  validates_inclusion_of :featured, in: [true, false]
-
-  # calls validations on the widgets associated to the campaign page:
-  validates_associated :widgets
-
-  # allows updating associated campaign page widgets
-  accepts_nested_attributes_for :widgets, allow_destroy: true
 
   before_validation :create_slug
 
@@ -35,4 +26,18 @@ class CampaignPage < ActiveRecord::Base
   def compile_html
     CampaignPageRenderer.new(self).render_and_save
   end
+
+  #
+  # TODO - Refactor
+  # Move to service class
+  #
+  def self.create_with_plugins(params)
+    page = create(params.merge(language: Language.first))
+
+    Plugins.registered.each do |plugin|
+      Plugins.create_for_page(plugin, page)
+    end
+  end
 end
+
+

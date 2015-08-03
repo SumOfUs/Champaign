@@ -1,0 +1,14 @@
+= form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
+
+  div.form-group
+    = f.label :form, "Choose a form"
+    = f.select :form_id, Form.all.map{ |form| [form.title, form.id] }, {include_blank: true}, {class: 'form-control'}
+
+
+  div.form-group
+    = f.label :description, "Description"
+    = f.text_area :description, class: 'form-control'
+
+  div.form-group
+    = f.submit 'Save', class: 'btn btn-default'
+
