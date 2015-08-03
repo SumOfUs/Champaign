@@ -30,7 +30,7 @@ class WidgetsController < ApplicationController
 
   def widgets
     page.widgets.map do |widget|
-      widget.content.merge(type: widget.type, id: widget.id, campaign_page_id: widget.page_id)
+      widget.content.merge(type: widget.type, id: widget.id, page_id: widget.page_id)
     end
   end
 
@@ -39,6 +39,11 @@ class WidgetsController < ApplicationController
   end
 
   def page
-    @page ||= CampaignPage.find params[:campaign_page_id]
+    if params.include? :campaign_page_id
+      @page ||= CampaignPage.find params[:campaign_page_id]
+    elsif params.include? :template_id
+      @page ||= Template.find params[:template_id]
+    end
   end
+
 end
