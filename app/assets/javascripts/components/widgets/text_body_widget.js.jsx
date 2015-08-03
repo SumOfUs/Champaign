@@ -29,7 +29,7 @@ var TextBodyWidget = React.createClass({
   render() {
     return (
       <div className="text-body-widget">
-        <Widget {...this.props} form={this.form} display={this.display}>
+        <Widget {...this.props} form={this.form} display={this.display} title="Text Body Widget">
         </Widget>
       </div>
     )

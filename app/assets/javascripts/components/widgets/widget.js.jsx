@@ -5,6 +5,7 @@ var Widget = React.createClass({
   propTypes: {
     form:    React.PropTypes.func.isRequired,
     display: React.PropTypes.func.isRequired,
+    title:   React.PropTypes.string
   },
 
   getInitialState() {
