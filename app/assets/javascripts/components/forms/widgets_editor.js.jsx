@@ -1,6 +1,7 @@
 var flux   = require('flux/main');
 var mixins = require('flux/mixins');
 var Widgets = require('components/widgets/widgets');
+let ContentForm = require('components/content');
 
 var WidgetsEditor = React.createClass({
   mixins: [mixins.FluxMixin, mixins.StoreWatchMixin("WidgetStore")],
@@ -32,7 +33,9 @@ var WidgetsEditor = React.createClass({
   render() {
     return (
       <div className='widgets'>
-        <Widgets widgets={this.state.data} campaign_page_id={ this.props.id } />
+        <div className='content-form'>
+          <ContentForm />
+        </div>
       </div>
     )
   }
@@ -40,3 +43,4 @@ var WidgetsEditor = React.createClass({
 
 module.exports = WidgetsEditor;
 
+//<Widgets widgets={this.state.data} campaign_page_id={ this.props.id } />

@@ -9,6 +9,7 @@ class CampaignPageParameters < PageParameters
       :title,
       :slug,
       :active,
+      :content,
       :featured,
       :template_id,
       :campaign_id,

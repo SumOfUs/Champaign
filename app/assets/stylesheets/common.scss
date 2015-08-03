@@ -1,8 +1,47 @@
+
+#editor {
+  border: 1px solid #ddd;
+  height: 300px;
+  margin-bottom: 10px;
+}
+
+#toolbar {
+  border: 1px solid #ddd;
+  border-bottom: none;
+}
+
 span.tick::after { 
   content: "\2714";
 }
 
 span.cross:after {
   content: "\2716"
+}
+
+.page-title input {
+  height: auto;
+  font-size: 28px;
+  width: 100%;
+  padding: 5px;
+  box-shadow: none;
+  color: #797878;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.feedback {
+  float: right;
+  display: inline-block;
+  margin: 0;
+};
+
+.just-saved {
+  visibility:hidden;
+  opacity:0;
+  transition:visibility 1s linear 1s, opacity 1s linear;
+}
+
+.form-footer {
+  margin-bottom: 20px;
 }
 

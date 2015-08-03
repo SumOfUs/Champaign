@@ -26,13 +26,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def show
-    unless @campaign_page.active
-      redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
-    end
-  end
-
-  def edit
-    @options = create_form_options(params)
+    render :show, layout: false
   end
 
   def update
@@ -80,7 +74,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def permitted_params
-    
+   
   end
 
 end

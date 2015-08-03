@@ -1,11 +1,1 @@
-- if user_signed_in?
-  = link_to 'Edit page', edit_campaign_page_path(@campaign_page), class: 'btn btn-sm btn-warning'
-
-.jumbotron
-  h1 = @campaign_page.title
-
-.row
-  - @campaign_page.widgets.each do |widget|
-    div.widget
-      h5= widget.type
-      p= widget.content
+= @campaign_page.content.html_safe

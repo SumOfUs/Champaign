@@ -4,6 +4,8 @@ var WidgetClient = require('flux/widget_client');
 var CampaignPageStore  = require('flux/campaign_page_store');
 var CampaignPageClient = require('flux/campaign_page_client');
 
+let flux = new Fluxxor.Flux();
+
 var actions = {
   loadWidgets: function(){
     WidgetClient.load( function(data){
@@ -28,20 +30,27 @@ var actions = {
     WidgetClient.destroy(id, function(resp) {
       this.dispatch(WidgetStore.events.DESTROY_WIDGET, id);
     }.bind(this));
-  },
-
-  updateCampaignPage: function(data) {
-    CampaignPageClient.update(data, function(resp) {
-      this.dispatch(CampaignPageStore.events.UPDATE_CAMPAIGN_PAGE, data);
-    }.bind(this));
   }
 };
+
+let pageActions = {
+
+  updateCampaignPage: function(data) {
+    this.dispatch(CampaignPageStore.events.UPDATE_CAMPAIGN_PAGE);
+
+    CampaignPageClient.update(data, function(resp) {
+      this.dispatch(CampaignPageStore.events.UPDATE_CAMPAIGN_PAGE_SUCCESS, data);
+    }.bind(this));
+  }
+}
 
 var stores = {
   WidgetStore: new WidgetStore.store(),
   CampaignPageStore: new CampaignPageStore.store()
 };
 
-var flux = new Fluxxor.Flux(stores, actions);
+flux.addStores(stores);
+flux.addActions(actions);
+flux.addActions(pageActions);
 
 module.exports = flux;
