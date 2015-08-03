@@ -1,0 +1,7 @@
+javascript:
+  var campaign_page_id = #{ page.id };
+
+fieldset
+  legend Page widgets
+  .form-group
+    = react_component 'WidgetsEditor', page.to_json
