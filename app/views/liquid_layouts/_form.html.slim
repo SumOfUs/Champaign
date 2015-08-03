@@ -1,0 +1,15 @@
+= form_for @liquid_layout do |f|
+  - if @liquid_layout.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@liquid_layout.errors.count, "error")} prohibited this liquid_layout from being saved:"
+      ul
+        - @liquid_layout.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :content
+    = f.text_area :content
+  .actions = f.submit

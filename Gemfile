@@ -25,7 +25,9 @@ gem 'select2-rails'
 gem 'bunny'
 
 # Use Slim for Templating
-gem 'slim'
+gem "slim-rails"
+gem 'liquid'
+
 
 # Use Devise for Authentication
 gem 'devise'
