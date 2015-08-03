@@ -125,6 +125,7 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    liquid (3.0.3)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -257,6 +258,12 @@ GEM
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
+    slim-rails (3.0.1)
+      actionmailer (>= 3.1, < 5.0)
+      actionpack (>= 3.1, < 5.0)
+      activesupport (>= 3.1, < 5.0)
+      railties (>= 3.1, < 5.0)
+      slim (~> 3.0)
     spring (1.3.6)
     sprockets (3.2.0)
       rack (~> 1.0)
@@ -301,6 +308,7 @@ DEPENDENCIES
   faker
   jbuilder (~> 2.0)
   jquery-rails
+  liquid
   omniauth-google-oauth2
   paper_trail
   paperclip
@@ -314,7 +322,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   select2-rails
-  slim
+  slim-rails
   spring
   uglifier (>= 1.3.0)
   web-console (~> 2.0)

@@ -1,0 +1,23 @@
+h1 Listing liquid_layouts
+
+table
+  thead
+    tr
+      th Title
+      th Content
+      th
+      th
+      th
+
+  tbody
+    - @liquid_layouts.each do |liquid_layout|
+      tr
+        td = liquid_layout.title
+        td = liquid_layout.content
+        td = link_to 'Show', liquid_layout
+        td = link_to 'Edit', edit_liquid_layout_path(liquid_layout)
+        td = link_to 'Destroy', liquid_layout, data: {:confirm => 'Are you sure?'}, :method => :delete
+
+br
+
+= link_to 'New Liquid layout', new_liquid_layout_path
