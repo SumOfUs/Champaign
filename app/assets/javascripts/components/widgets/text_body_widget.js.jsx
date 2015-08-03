@@ -8,10 +8,10 @@ var TextBodyWidget = React.createClass({
     id:               React.PropTypes.number.isRequired
   },
 
-  form() {
+  form(submitData) {
     return (
       <div className='widget-edit'>
-        <TextBodyWidgetForm {...this.props}>
+        <TextBodyWidgetForm {...this.props} submitData={submitData}>
         </TextBodyWidgetForm>
       </div>
     )
