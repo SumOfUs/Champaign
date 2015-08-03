@@ -4,7 +4,6 @@ var RawHtmlWidgetForm  = require('components/widgets/raw_html_widget_form')
 var NewWidget = React.createClass({
 
   propTypes: {
-    campaign_page_id: React.PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -34,9 +33,9 @@ var NewWidget = React.createClass({
   form() {
     switch (this.state.widgetType) {
       case "TextBodyWidget":
-        return (<TextBodyWidgetForm campaign_page_id={this.props.campaign_page_id}></TextBodyWidgetForm>)
+        return (<TextBodyWidgetForm></TextBodyWidgetForm>)
       case "RawHtmlWidget":
-        return (<RawHtmlWidgetForm campaign_page_id={this.props.campaign_page_id}></RawHtmlWidgetForm>)
+        return (<RawHtmlWidgetForm></RawHtmlWidgetForm>)
       default:
         return "Pick a widget type to create a new widget!"
     }

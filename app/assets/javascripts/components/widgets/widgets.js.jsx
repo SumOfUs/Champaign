@@ -5,8 +5,7 @@ var NewWidget      = require('components/widgets/new_widget');
 var Widgets = React.createClass({
 
   propTypes: {
-    widgets:          React.PropTypes.array.isRequired,
-    campaign_page_id: React.PropTypes.number.isRequired
+    widgets:          React.PropTypes.array.isRequired
   },
 
   render(){
@@ -24,7 +23,7 @@ var Widgets = React.createClass({
     return (
       <div className="widgets">
         { widgets }
-        <NewWidget campaign_page_id={this.props.campaign_page_id}>
+        <NewWidget>
         </NewWidget>
       </div>
     )

@@ -5,7 +5,6 @@ var RawHtmlWidget = React.createClass({
 
   propTypes: {
     html:             React.PropTypes.string.isRequired,
-    campaign_page_id: React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
 
