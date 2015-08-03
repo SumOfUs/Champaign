@@ -6,6 +6,7 @@ var WidgetActions = React.createClass({
     parentWidget:     React.PropTypes.object.isRequired,
     toggleEditShow:   React.PropTypes.func.isRequired,
     campaign_page_id: React.PropTypes.number.isRequired,
+    title:            React.PropTypes.string,
     id:               React.PropTypes.number.isRequired
   },
 
@@ -32,11 +33,13 @@ var WidgetActions = React.createClass({
   render(){
     return (
       <div className='widget-header'>
+        <div className="widget-title">
+          { this.props.title }
+        </div>
         <div className='widget-actions'>
           <a onClick={this.handleEdit   } href='#'><span className='glyphicon glyphicon-pencil' /></a>
           <a onClick={this.handleDelete } href='#'><span className='glyphicon glyphicon-trash' /></a>
         </div>
-        <div className='widget-title' />
       </div>
     )
   }
