@@ -43,19 +43,22 @@ class CampaignPagesController < ApplicationController
 
   def update
     respond_to do |format|
+      format.html do
+        if @campaign_page.update_attributes clean_params
+          @campaign_page.compile_html
+          redirect_to @campaign_page, notice: 'Campaign page updated!'
+        else
+          @options = create_form_options(clean_params)
+          render :edit
+        end
+      end
       format.json do
         @campaign_page.update_attributes( clean_params )
         render json: @campaign_page
+        # TODO: handle error case
       end
     end
 
-    #if @campaign_page.update_attributes @page_params
-      #@campaign_page.compile_html
-      #redirect_to @campaign_page, notice: 'Campaign page updated!'
-    #else
-      #@options = create_form_options(@page_params)
-      #render :edit
-    #end
   end
 
   def sign
