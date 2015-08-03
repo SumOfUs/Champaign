@@ -1,43 +1,7 @@
-/ form > widgets_editor > widget_fields > my_widget/fields
+javascript:
+  var campaign_page_id = #{ page.id };
 
-/ this partial is called with a parameter `builder` which is a form builder for
-/ something that has_many :widgets, such as a Template or a CampaignPage
-/ this partial does three things
-/   1. it calls widget_fields for each existing widget
-/   2. it renders an empty set of fields for every type of widget, creating a library of forms
-/   3. it instantiates a js object that can copy forms from the library to add widgets
-
-.widget-editor
-    div.widget-form-library
-      / for an html form to submit a array of hashes, each element in the list needs to have
-      / an index in the array. that field is called child_index. in order to avoid collisions
-      / with existing widgets when we create a new set of widget fields, the field creation
-      / javascript replaces the child_index with the current time from epoch
-      = builder.fields_for :widgets, Widget.classes.map(&:new), child_index: 'replace_with_unique_idx' do |widgets_builder|
-          = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
-
-    div.fieldsets
-      = builder.fields_for :widgets do |widgets_builder|
-        = render 'shared/widget_fields', widget: widgets_builder.object, builder: widgets_builder
-
-    div.add-widget
-      h4 Add new widget
-
-      .col-lg-10
-        = render 'shared/widget_type_selector'
-      .col-lg-10
-        div.btn.btn-sm.new-widget Add Widget
-
-/ instantiate a WidgetEditor from app/assets/javascripts/widget_editor.js.coffee
-coffee:
-  window.editor = new WidgetEditor
-    editor: '.widget-editor'
-    library: '.widget-form-library'
-    fieldsets: '.fieldsets'
-    new_button: '.new-widget'
-    type_selector: '#widget_type'
-    widget_fields: '.widget-fields'
-    destroy_field: '.destroy-field'
-    delete_button: '.delete-widget'
-    undelete_button: '.undelete-widget'
-    deleted_info: '.deleted-info'
+fieldset
+  legend Page widgets
+  .form-group
+    = react_component 'WidgetsEditor', page.to_json

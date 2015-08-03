@@ -1,3 +1,4 @@
 h3 = @template.template_name
 
-= render 'form'
+= render 'form', submit_text: "Save template info"
+= render 'shared/widgets_editor', page: @template
