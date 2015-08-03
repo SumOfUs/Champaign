@@ -26,15 +26,7 @@
       = f.label :tag_ids, 'Tags: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :tag_ids, options_from_collection_for_select(@options[:tags], 'id', 'tag_name'), {}, html_options= {class: 'form-control', multiple: true}
-    
-      / label for='template_id' class='control-label col-lg-2' Template: 
-      / .col-lg-10
-      /   = select_tag 'template_id', options_from_collection_for_select(@options[:templates], 'id', 'template_name', @options[:template]), class: 'form-control'
-      /     | data-no-turbolink="true"
-
-
-    = render 'shared/widgets_editor', builder: f
-
 
     .form-group
-      = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+      = f.submit 'Save Page Info', class: 'btn btn-sm btn-primary'
+
