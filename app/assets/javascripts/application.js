@@ -15,3 +15,4 @@
 //= require components
 //= require bootstrap-sprockets
 //= require select2
+//= require basic_ui
