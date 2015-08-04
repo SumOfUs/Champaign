@@ -1,5 +1,0 @@
-#html_form.form-group.widget-form
-  = label_tag 'widgets[raw_html][html]', 'HTML Contents:', class: 'control-label col-lg-2'
-  .col-lg-10
-    = text_field_tag 'widgets[raw_html][html]', '', placeholder: 'The HTML to include', class: 'form-control'
-    = hidden_field_tag 'widgets[raw_html][widget_type]', widget_type_id.to_s

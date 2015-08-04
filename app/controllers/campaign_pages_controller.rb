@@ -19,15 +19,15 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    @campaign_page = CampaignPage.new(@page_params)
-    @campaign_page.compile_html
-    if @campaign_page.save
-      ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
-      redirect_to @campaign_page, notice: 'Campaign page created!'
+    @campaign_page = CampaignPage.new( clean_params )
 
-    else
-      @options = create_form_options(@page_params)
-      render :new
+    respond_to do |format|
+      format.json do
+        #if @campaign_page.save
+        ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
+        render json: @campaign_page
+        #end
+      end
     end
   end
 
@@ -42,13 +42,23 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    if @campaign_page.update_attributes @page_params
-      @campaign_page.compile_html
-      redirect_to @campaign_page, notice: 'Campaign page updated!'
-    else
-      @options = create_form_options(@page_params)
-      render :edit
+    respond_to do |format|
+      format.html do
+        if @campaign_page.update_attributes clean_params
+          @campaign_page.compile_html
+          redirect_to @campaign_page, notice: 'Campaign page updated!'
+        else
+          @options = create_form_options(clean_params)
+          render :edit
+        end
+      end
+      format.json do
+        @campaign_page.update_attributes( clean_params )
+        render json: @campaign_page
+        # TODO: handle error case
+      end
     end
+
   end
 
   def sign
@@ -76,6 +86,10 @@ class CampaignPagesController < ApplicationController
       template: (params[:template].nil? ? Template.active.first : params[:template]),
       campaign: (params[:campaign].nil? ? Campaign.active.first : params[:campaign])
     }
+  end
+
+  def permitted_params
+    
   end
 
 end

@@ -7,3 +7,43 @@
     display: none;
   }
 }
+
+.widgets {
+  margin-top: 50px;
+}
+
+.widget {
+  border: 1px solid #ddd;
+  margin: 0 1% 20px;
+  width: 48%;
+  float: left;
+
+  .widget-edit, .widget-show {
+    padding: 15px 15px;
+  }
+
+  .widget-header {
+    padding: 10px 15px;
+    color: #767676;
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #eee;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    @include clearfix();
+
+    .widget-title {
+      max-width: 78%;
+      float: left;
+      line-height: 24px;
+    }
+
+    .widget-actions {
+      float: right;
+      span {
+        display: inline-block;
+        padding: 5px 5px;
+        opacity: 0.5;
+      }
+    }
+  }
+}
