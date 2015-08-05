@@ -34,6 +34,23 @@ FactoryGirl.define do
     type "PetitionWidget"
   end
 
+  factory :petition_signature do
+    params {
+      signature {
+        {
+            full_name: Faker::Name.name,
+            email_address: Faker::Internet.email,
+            state: Faker::Address.state,
+            country: Faker::Address.country,
+            postal_code: Faker::Address.postcode,
+            address: Faker::Address.street_address,
+            city: Faker::Address.city,
+            phone: Faker::PhoneNumber.phone_number,
+        }
+      }
+    }
+  end
+
   factory :thermometer_widget do
     content {
       {
