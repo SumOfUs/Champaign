@@ -53,6 +53,9 @@ gem 'aws-sdk', '~> 2'
 # A fake SQS service to run a local look-a-like of Amazon SQS
 gem 'fake_sqs'
 
+# Gem for user agent / browser detection
+gem 'browser'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
