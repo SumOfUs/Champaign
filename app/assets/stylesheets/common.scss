@@ -45,3 +45,31 @@ span.cross:after {
   margin-bottom: 20px;
 }
 
+
+form .settings {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.photo-upload {
+
+  img {
+    padding: 3px;
+    border: 1px solid #ddd;
+    background: white;
+  }
+
+  position: relative;
+
+  .notice {
+    position: absolute;
+    color: #999;
+    font-size: 30px;
+    right: 100px;
+    top: 55px;
+  }
+}
+
+

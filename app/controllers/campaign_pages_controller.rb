@@ -18,14 +18,16 @@ class CampaignPagesController < ApplicationController
 
     respond_to do |format|
       format.json do
-        #if @campaign_page.save
-        render json: @campaign_page
-        #end
+        if @campaign_page.save
+          render json: @campaign_page
+        end
       end
     end
   end
 
   def show
+    layout = LiquidLayout.find(params[:template_id] || 1).content
+    @template = Liquid::Template.parse(layout)
     render :show, layout: false
   end
 
@@ -36,14 +38,6 @@ class CampaignPagesController < ApplicationController
         render json: @campaign_page
       end
     end
-
-    #if @campaign_page.update_attributes @page_params
-      #@campaign_page.compile_html
-      #redirect_to @campaign_page, notice: 'Campaign page updated!'
-    #else
-      #@options = create_form_options(@page_params)
-      #render :edit
-    #end
   end
 
   def sign
@@ -66,7 +60,6 @@ class CampaignPagesController < ApplicationController
       campaigns: Campaign.active,
       languages: Language.all,
       templates: Template.active,
-      campaign: params[:campaign],
       tags: Tag.all,
       template: (params[:template].nil? ? Template.active.first : params[:template]),
       campaign: (params[:campaign].nil? ? Campaign.active.first : params[:campaign])
@@ -74,7 +67,6 @@ class CampaignPagesController < ApplicationController
   end
 
   def permitted_params
-   
   end
 
 end

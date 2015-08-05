@@ -68,13 +68,25 @@ let Content = React.createClass({
     }
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div dangerouslySetInnerHTML={{__html: this.form()}} />
-        <div className="form-footer clearfix">
-          <button className='btn btn-default'>Save</button>
-          <h3 className={feedbackClass} style={ styles }><span className="label label-success" >{feedback}</span></h3>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <div dangerouslySetInnerHTML={{__html: this.form()}} />
+          <div className="form-footer clearfix">
+            <button className='btn btn-default'>Save</button>
+            <h3 className={feedbackClass} style={ styles }><span className="label label-success" >{feedback}</span></h3>
+          </div>
+        </form>
+        <div className='photo-upload well clearfix'>
+          <div className='' >
+            <div className=''>
+              <img width='200' src='http://img1.ndsstatic.com/wallpapers/7b1d7791561595573b013c35fc0ce592_large.jpeg' />
+            </div>
+            <span className='notice'>
+              Drag photos here or click to upload.
+            </span>
+          </div>
         </div>
-      </form>
+      </div>
     );
   }
 });

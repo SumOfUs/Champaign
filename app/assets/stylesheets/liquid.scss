@@ -1,0 +1,111 @@
+h1.logo {
+  margin: 0;
+  padding: 0;
+  text-indent: -2000px;
+  position: absolute;
+  left: 20px;
+  top: 0px;
+  background-image: image-url("logo.png");
+  background-position: 5px 8px;
+  background-repeat: no-repeat;
+  background-color: white;
+  height: 115px;
+  width: 91px;
+  padding: 5px;
+  z-index: 10000;
+  border: 4px solid white;
+  box-shadow: 0 3px 6px #111;
+  border-radius: 0 0 7px 7px;
+}
+
+.banner {
+  margin-top: -280px;
+}
+
+blockquote {
+  margin-top: 30px;
+}
+
+.title {
+  font-size: 40px;
+  padding: 5px;
+}
+
+.main-photo {
+  border: 1px solid #ddd;
+  padding: 2px;
+  margin: 5px 0;
+}
+
+.text {
+  color: #222 !important;
+
+  b { color: #222; }
+
+  font-size: 22px;
+}
+
+.pet-form {
+  input, select {
+    margin-bottom: 10px;
+  }
+
+  button {
+    float: right;
+  }
+}
+
+.layout-picker {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: white;
+  padding-top: 20px;
+  border-top: 3px solid #333;
+  background: black;
+
+
+  img {
+    height: 70px;
+    opacity: 0.3;
+  }
+
+  img:hover {
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  .active img {
+    opacity: 1;
+  }
+}
+
+.petition-share-box .share {
+  button {
+   font-size: 20px;
+   display: block;
+
+   margin: 15px 0;
+  }
+
+  .fb {
+    color: #3b5998;
+  }
+  .twitter {
+    color: 	#55acee;
+  }
+
+  .email{
+    color: #333;
+  }
+
+ }
+  .donate {
+    button {
+      margin-right: 5px;
+    }
+
+
+}
+
