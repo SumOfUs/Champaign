@@ -11,7 +11,7 @@ var TextBodyWidgetForm = React.createClass({
 
   mixins: [mixins.FluxMixin],
 
-  getDefaultState() {
+  getInitialState() {
     return {
       text_body_html: this.props.text_body_html
     }
@@ -19,7 +19,8 @@ var TextBodyWidgetForm = React.createClass({
 
   serialize() {
     var text = this.state.text_body_html;
-    return {text_body_html: text, type: 'TextBodyWidget'};
+    var pdo = React.findDOMNode(this.refs.pdo).value;
+    return {text_body_html: text, type: 'TextBodyWidget', page_display_order: pdo};
   },
 
   handleSubmit(e) {
@@ -35,6 +36,10 @@ var TextBodyWidgetForm = React.createClass({
     return (
       <div className='widget-html-form'>
          <form onSubmit={ this.handleSubmit }>
+          <div className="form-group">
+            <label htmlFor="">Slot</label>
+            <input type='number' className='form-control' ref='pdo' defaultValue={this.props.page_display_order}></input>
+          </div>
           <div className="form-group">
             <ReactQuill theme="snow" defaultValue={this.props.text_body_html} onChange={this.textChanged} />
           </div>

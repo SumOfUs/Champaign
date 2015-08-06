@@ -5,6 +5,10 @@ class LiquidLayout < ActiveRecord::Base
   validate :ordered_slots
   before_validation :count_slots
 
+  def title_with_slots
+    "#{title} - #{slot_count} slots"
+  end
+
   private
 
   # needs a spec

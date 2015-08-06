@@ -19,7 +19,7 @@
       - puts options_from_collection_for_select(@options[:liquid_layouts], 'id', 'title', @campaign_page.liquid_layout_id)
       - @options[:liquid_layouts]
       .col-lg-10
-        = f.select :liquid_layout_id, options_from_collection_for_select(@options[:liquid_layouts], 'id', 'title', @campaign_page.liquid_layout_id), {}, html_options= {:class => 'form-control'}
+        = f.select :liquid_layout_id, options_from_collection_for_select(@options[:liquid_layouts], 'id', 'title_with_slots', @campaign_page.liquid_layout_id), {}, html_options= {:class => 'form-control'}
     
       = f.label :campaign_id, 'Campaign: ', class: 'control-label col-lg-2'
       .col-lg-10
