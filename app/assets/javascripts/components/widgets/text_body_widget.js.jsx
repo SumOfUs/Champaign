@@ -5,6 +5,7 @@ var TextBodyWidget = React.createClass({
 
   propTypes: {
     text_body_html:   React.PropTypes.string.isRequired,
+    page_display_order:React.PropTypes.number.isRequired,
     id:               React.PropTypes.number.isRequired
   },
 

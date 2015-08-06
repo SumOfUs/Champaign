@@ -30,7 +30,7 @@ class WidgetsController < ApplicationController
 
   def widgets
     page.widgets.sort_by(&:page_display_order).map do |widget|
-      widget.content.merge(type: widget.type, id: widget.id, page_id: widget.page_id)
+      widget.content.merge(type: widget.type, id: widget.id, page_id: widget.page_id, page_display_order: widget.page_display_order)
     end
   end
 
