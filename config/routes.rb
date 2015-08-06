@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :liquid_layouts
-  resources :liquid_layouts
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
@@ -33,6 +31,7 @@ Rails.application.routes.draw do
     resources :widgets, only: [:index, :destroy, :create, :update]
   end
 
+  resources :liquid_layouts
   resources :templates
 
 

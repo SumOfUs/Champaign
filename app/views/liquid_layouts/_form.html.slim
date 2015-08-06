@@ -7,9 +7,13 @@
           li = message
 
   .field
-    = f.label :title
-    = f.text_field :title
+    = f.label :title, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :title, class: 'form-control'
   .field
-    = f.label :content
-    = f.text_area :content
-  .actions = f.submit
+    = f.label :content, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_area :content, rows: 15, cols: 120, class: 'form-control'
+
+  .form-group
+    = f.submit "Save", class: 'btn btn-sm btn-primary'
