@@ -15,7 +15,7 @@
 .widget {
   border: 1px solid #ddd;
   margin: 0 1% 20px;
-  width: 48%;
+  width: 98%;
   float: left;
 
   .widget-edit, .widget-show {
@@ -44,6 +44,14 @@
         padding: 5px 5px;
         opacity: 0.5;
       }
+    }
+  }
+
+  .quill {
+    border: 1px solid #AAA;
+    border-radius: 5px;
+    .quill-toolbar {
+      border-bottom: 1px solid #AAA;
     }
   }
 }

@@ -1,3 +1,4 @@
+var ReactQuill = require('react-quill');
 var mixins = require('flux/mixins');
 
 var TextBodyWidgetForm = React.createClass({
@@ -10,8 +11,14 @@ var TextBodyWidgetForm = React.createClass({
 
   mixins: [mixins.FluxMixin],
 
+  getDefaultState() {
+    return {
+      text_body_html: this.props.text_body_html
+    }
+  },
+
   serialize() {
-    var text = React.findDOMNode(this.refs.body).value;
+    var text = this.state.text_body_html;
     return {text_body_html: text, type: 'TextBodyWidget'};
   },
 
@@ -20,13 +27,16 @@ var TextBodyWidgetForm = React.createClass({
     this.props.submitData(this.props, this.serialize());
   },
 
+  textChanged(value) {
+    this.setState({text_body_html: value});
+  },
+
   render() {
     return (
       <div className='widget-html-form'>
          <form onSubmit={ this.handleSubmit }>
           <div className="form-group">
-            <label htmlFor="">Text</label>
-            <textarea className='form-control' ref='body' defaultValue={this.props.text_body_html}></textarea>
+            <ReactQuill theme="snow" defaultValue={this.props.text_body_html} onChange={this.textChanged} />
           </div>
           <button type="submit" className="btn btn-default">Submit</button>
         </form>

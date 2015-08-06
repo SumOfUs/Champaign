@@ -19,8 +19,7 @@ var TextBodyWidget = React.createClass({
 
   display() {
     return (
-      <div className='widget-show'>
-        {this.props.text_body_html}
+      <div className='widget-show' dangerouslySetInnerHTML={{__html: this.props.text_body_html}}>
       </div>
     )
   },

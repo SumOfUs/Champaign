@@ -37,6 +37,7 @@ module Champaign
     # to get browserify to handle react JSX
     config.browserify_rails.commandline_options = "--transform babelify --extension=\".js.jsx\""
 
+    config.assets.paths << Rails.root.join('node_modules')
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.
