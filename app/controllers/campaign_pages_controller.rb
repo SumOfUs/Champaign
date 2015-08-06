@@ -36,6 +36,8 @@ class CampaignPagesController < ApplicationController
     unless @campaign_page.active
       redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
     end
+    @template = Liquid::Template.parse(@campaign_page.liquid_layout.content)
+    slot_widgets
   end
 
   def edit
@@ -89,8 +91,12 @@ class CampaignPagesController < ApplicationController
     }
   end
 
-  def permitted_params
-    
+  def slot_widgets
+    @slotted = {}
+    @campaign_page.widgets.each_with_index do |widget, ii|
+      rendered = render_to_string(partial: "widgets/#{widget.class.name.underscore}/display", layout: false, locals: {widget: widget})
+      @slotted["slot#{ii+1}"] = rendered
+    end
   end
 
 end

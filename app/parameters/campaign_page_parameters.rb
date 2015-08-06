@@ -10,6 +10,7 @@ class CampaignPageParameters < PageParameters
       :slug,
       :active,
       :featured,
+      :liquid_layout_id,
       :template_id,
       :campaign_id,
       :language_id,
