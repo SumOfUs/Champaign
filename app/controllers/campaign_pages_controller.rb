@@ -81,6 +81,7 @@ class CampaignPagesController < ApplicationController
       campaigns: Campaign.active,
       languages: Language.all,
       templates: Template.active,
+      liquid_layouts: LiquidLayout.all,
       campaign: params[:campaign],
       tags: Tag.all,
       template: (params[:template].nil? ? Template.active.first : params[:template]),

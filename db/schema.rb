@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150803185450) do
+ActiveRecord::Schema.define(version: 20150806211203) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,17 +27,20 @@ ActiveRecord::Schema.define(version: 20150803185450) do
   end
 
   create_table "campaign_pages", force: :cascade do |t|
-    t.integer  "language_id",                       null: false
+    t.integer  "language_id",                          null: false
     t.integer  "campaign_id"
-    t.string   "title",                             null: false
-    t.string   "slug",                              null: false
-    t.boolean  "active",                            null: false
-    t.boolean  "featured",                          null: false
+    t.string   "title",                                null: false
+    t.string   "slug",                                 null: false
+    t.boolean  "active",                               null: false
+    t.boolean  "featured",                             null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",        default: "pending"
+    t.string   "status",           default: "pending"
     t.text     "messages"
+    t.text     "content"
+    t.boolean  "thermometer",      default: false
+    t.integer  "liquid_layout_id"
   end
 
   create_table "campaign_pages_tags", force: :cascade do |t|

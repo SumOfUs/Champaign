@@ -15,6 +15,12 @@
       .col-lg-10
         = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
     
+      = f.label :liquid_layout_id, 'Template: ', class: 'control-label col-lg-2'
+      - puts options_from_collection_for_select(@options[:liquid_layouts], 'id', 'title', @campaign_page.liquid_layout_id)
+      - @options[:liquid_layouts]
+      .col-lg-10
+        = f.select :liquid_layout_id, options_from_collection_for_select(@options[:liquid_layouts], 'id', 'title', @campaign_page.liquid_layout_id), {}, html_options= {:class => 'form-control'}
+    
       = f.label :campaign_id, 'Campaign: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :campaign_id, options_from_collection_for_select(@options[:campaigns], 'id', 'campaign_name', @campaign_page.campaign_id), {}, html_options= {:class => 'form-control'}
