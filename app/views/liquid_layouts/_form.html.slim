@@ -1,10 +1,5 @@
 = form_for @liquid_layout do |f|
-  - if @liquid_layout.errors.any?
-    #error_explanation
-      h2 = "#{pluralize(@liquid_layout.errors.count, "error")} prohibited this liquid_layout from being saved:"
-      ul
-        - @liquid_layout.errors.full_messages.each do |message|
-          li = message
+  = render 'shared/error_messages', target: @liquid_layout
 
   .field
     = f.label :title, class: 'control-label col-lg-2'
