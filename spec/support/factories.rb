@@ -93,4 +93,24 @@ FactoryGirl.define do
     template_name { Faker::Commerce.color }
   end
 
+  factory :petition_signature_params, class: Hash do
+    signature {
+      {
+        name: Faker::Name.name,
+        email: Faker::Internet.email,
+        state: Faker::Address.state,
+        country: Faker::Address.country,
+        postal: Faker::Address.postcode,
+        address: Faker::Address.street_address,
+        state: Faker::Address.state,
+        city: Faker::Address.city,
+        phone: Faker::PhoneNumber.phone_number,
+        zip: Faker::Address.zip,
+        region: Faker::Config.locale,
+        lang: 'En'
+      }
+    }
+    initialize_with { attributes }
+  end
+
 end
