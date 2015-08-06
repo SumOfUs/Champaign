@@ -10,7 +10,6 @@ class CampaignPagesController < ApplicationController
   def index
     # List campaign pages that match requested search parameters.
     # If there are no search parameters, return all campaign pages.
-    pp 'your browser is', browser
     @campaign_pages = Search::PageSearcher.new(params).search
   end
 
@@ -44,7 +43,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    if @campaign_page.update_attributes @page_params
+    if @campaign_page.update_attributes(@page_params)
       @campaign_page.compile_html
       redirect_to @campaign_page, notice: 'Campaign page updated!'
     else
@@ -54,8 +53,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def sign
-    # Nothing here for the moment
-    render json: {success: true}, layout: false
+    ChampaignQueue::SqsPusher.push(params.as_json)
   end
 
   private
