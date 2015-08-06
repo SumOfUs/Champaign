@@ -1,4 +1,5 @@
 require 'champaign_queue'
+require 'browser'
 
 class CampaignPagesController < ApplicationController
   
@@ -9,6 +10,7 @@ class CampaignPagesController < ApplicationController
   def index
     # List campaign pages that match requested search parameters.
     # If there are no search parameters, return all campaign pages.
+    pp 'your browser is', browser
     @campaign_pages = Search::PageSearcher.new(params).search
   end
 
