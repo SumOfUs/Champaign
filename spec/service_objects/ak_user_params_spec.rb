@@ -1,11 +1,6 @@
-require 'browser'
-
 describe AkUserParams do
-  before :all do
-    $browser = Browser.new
-  end
 
-  let(:petition_signature) {{
+  let(:params) {{
     signature: {
       name: Faker::Name.name,
       email: Faker::Internet.email,
@@ -19,27 +14,20 @@ describe AkUserParams do
       zip: Faker::Address.zip,
       region: Faker::Config.locale,
       lang: 'En'
-      # email
-      # name
-      # name gets split to prefix, first name, middle name, last name and suffix automagically by AK ...
-      # address1
-      # address2
-      # city
-      # state
-      # zip
-      # postal
-      # country
-      # region
-      # phone
-      # mailing_id
-      # id
-      # plus4
-      # lang
-      # source
     }
   }}
+  let(:browser) { Browser.new }
+  let(:expected_object) {
+    (params[:signature].clone).merge({
+                                         user_agent: "",
+                                         browser_detected: false,
+                                         mobile: false,
+                                         tablet: false,
+                                         platform: :other
+                                     })
+  }
 
   it 'Builds an object containing data about the user and the action' do
-    expect(AkUserParams.create(petition_signature)).to eq(true)
+    expect(AkUserParams.create(params,browser)).to eq(expected_object)
   end
 end
