@@ -46,13 +46,12 @@ class AkUserParams
     # updated_at - DateTimeField
     # user - User
     @user_params = params[:signature]
-    @user_params.merge({
+    @user_params.merge!({
                            user_agent: browser.user_agent,
                            browser_detected: browser.known?,
                            mobile: browser.mobile?,
                            tablet: browser.tablet?,
                            platform: browser.platform
-
                        })
     @user_params
   end
