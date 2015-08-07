@@ -4,9 +4,10 @@ var TextBodyWidgetForm = require('components/widgets/text_body_widget_form')
 var TextBodyWidget = React.createClass({
 
   propTypes: {
-    text_body_html:   React.PropTypes.string.isRequired,
-    page_display_order:React.PropTypes.number.isRequired,
-    id:               React.PropTypes.number.isRequired
+    text_body_html:     React.PropTypes.string.isRequired,
+    page_display_order: React.PropTypes.number.isRequired,
+    errors:             React.PropTypes.object,
+    id:                 React.PropTypes.number.isRequired
   },
 
   form(submitData) {

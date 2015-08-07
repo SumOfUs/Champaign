@@ -11,14 +11,19 @@ class WidgetsController < ApplicationController
   def create
     widget = Widget.new(widget_params)
     widget.page = page
-    widget.page_display_order = page.widgets.count + 1
-    widget.save
-    render json: widget.content.merge({id: widget.id, type: widget.type})
+    if widget.save
+      render json: widget.content.merge({id: widget.id, type: widget.type})
+    else
+      render json: widget.errors, status: :unprocessable_entity
+    end
   end
 
   def update
-    widget.update_attributes(widget_params)
-    render json: widgets
+    if widget.update_attributes(widget_params)
+      render json: widgets
+    else
+      render json: widget.errors, status: :unprocessable_entity
+    end
   end
 
 

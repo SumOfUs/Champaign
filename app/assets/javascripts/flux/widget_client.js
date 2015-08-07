@@ -5,27 +5,33 @@ var WidgetClient = {
     })
   },
 
-  update: function(data, success){
+  update: function(data, success, failure){
     $.ajax({
       type: "PUT",
       url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/" + data.id,
-      data: {widget: data }
-    }).done(success);
+      data: {widget: data },
+      success: success,
+      error: failure
+    })
   },
 
-  create: function(data, success){
+  create: function(data, success, failure){
     $.ajax({
       type: "POST",
       url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/",
-      data: {widget: data }
-    }).done(success);
+      data: {widget: data },
+      success: success,
+      error: failure
+    });
   },
 
-  destroy: function(data, success){
+  destroy: function(data, success, failure){
     $.ajax({
       type: 'DELETE',
-      url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/" + data.id
-    }).done(success);
+      url: "/"+ data.page_type + "s/" + data.page_id + "/widgets/" + data.id,
+      success: success,
+      error: failure
+    });
   }
 };
 

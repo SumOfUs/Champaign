@@ -1,3 +1,4 @@
+var ThermometerWidget  = require('components/widgets/thermometer_widget');
 var TextBodyWidget = require('components/widgets/text_body_widget');
 var RawHtmlWidget  = require('components/widgets/raw_html_widget');
 var NewWidget      = require('components/widgets/new_widget');
@@ -15,6 +16,8 @@ var Widgets = React.createClass({
           return (<TextBodyWidget {...widget}></TextBodyWidget>)
         case "RawHtmlWidget":
           return (<RawHtmlWidget {...widget}></RawHtmlWidget>)
+        case "ThermometerWidget":
+          return (<ThermometerWidget {...widget}></ThermometerWidget>)
         default:
           break;
       }

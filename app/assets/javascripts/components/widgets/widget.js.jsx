@@ -6,6 +6,7 @@ var Widget = React.createClass({
   propTypes: {
     form:    React.PropTypes.func.isRequired,
     display: React.PropTypes.func.isRequired,
+    errors:  React.PropTypes.object,
     title:   React.PropTypes.string
   },
 
@@ -42,6 +43,10 @@ var Widget = React.createClass({
 
   display() {
     if(!this.state.edit) { return this.props.display() }
+  },
+
+  componentWillReceiveProps(nextProps){
+    this.setState({edit: (typeof nextProps.errors === "object")})
   },
 
   render(){

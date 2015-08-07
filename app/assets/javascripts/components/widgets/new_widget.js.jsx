@@ -11,7 +11,9 @@ var NewWidget = React.createClass({
   mixins: [mixins.FluxMixin],
 
   getInitialState() {
-    return { widgetType: "none" };
+    return {
+      widgetType: "none"
+    };
   },
 
   showForm() {
@@ -19,8 +21,12 @@ var NewWidget = React.createClass({
     this.setState( {widgetType: widgetType} );
   },
 
+  getStore() {
+    return this.getFlux().store("WidgetStore");
+  },
+
   addMetadata(data) {
-    var store = this.getFlux().store("WidgetStore");
+    var store = this.getStore();
     data.page_id = store.page_id;
     data.page_type = store.page_type;
   },

@@ -1,3 +1,4 @@
+var WidgetFormErrors = require('components/widgets/widget_form_errors');
 var ReactQuill = require('react-quill');
 var mixins = require('flux/mixins');
 
@@ -6,6 +7,7 @@ var TextBodyWidgetForm = React.createClass({
   propTypes: {
     text_body_html:   React.PropTypes.string,
     submitData:       React.PropTypes.func.isRequired,
+    errors:           React.PropTypes.object,
     id:               React.PropTypes.number
   },
 
@@ -36,6 +38,7 @@ var TextBodyWidgetForm = React.createClass({
     return (
       <div className='widget-html-form'>
          <form onSubmit={ this.handleSubmit }>
+          <WidgetFormErrors errors={this.props.errors} />
           <div className="form-group">
             <label htmlFor="">Slot</label>
             <input type='number' className='form-control' ref='pdo' defaultValue={this.props.page_display_order}></input>

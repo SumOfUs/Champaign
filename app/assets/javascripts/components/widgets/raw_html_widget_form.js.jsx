@@ -4,6 +4,7 @@ var RawHtmlWidgetForm = React.createClass({
 
   propTypes: {
     html:             React.PropTypes.string,
+    errors:           React.PropTypes.object,
     id:               React.PropTypes.number
   },
 
