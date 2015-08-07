@@ -1,5 +1,6 @@
-var TextBodyWidgetForm = require('components/widgets/text_body_widget_form')
-var RawHtmlWidgetForm  = require('components/widgets/raw_html_widget_form')
+var TextBodyWidgetForm     = require('components/widgets/text_body_widget_form')
+var RawHtmlWidgetForm      = require('components/widgets/raw_html_widget_form')
+var ThermometerWidgetForm  = require('components/widgets/thermometer_widget_form')
 var mixins             = require('flux/mixins')
 
 
@@ -52,11 +53,14 @@ var NewWidget = React.createClass({
   },
 
   form() {
+    var errors = this.getStore().creation_errors;
     switch (this.state.widgetType) {
       case "TextBodyWidget":
-        return (<TextBodyWidgetForm submitData={this.submitData}></TextBodyWidgetForm>)
+        return (<TextBodyWidgetForm submitData={this.submitData} errors={errors}></TextBodyWidgetForm>)
       case "RawHtmlWidget":
-        return (<RawHtmlWidgetForm submitData={this.submitData}></RawHtmlWidgetForm>)
+        return (<RawHtmlWidgetForm submitData={this.submitData} errors={errors}></RawHtmlWidgetForm>)
+      case "ThermometerWidget":
+        return (<ThermometerWidgetForm submitData={this.submitData} errors={errors}></ThermometerWidgetForm>)
       default:
         return "Pick a widget type to create a new widget!"
     }
