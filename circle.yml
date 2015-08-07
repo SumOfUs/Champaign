@@ -6,4 +6,22 @@ machine:
     OMNIAUTH_CLIENT_SECRET: 'omniauth_client_secret'
     OMNIAUTH_CLIENT_ID: 'omniauth_client_id'
     DEVISE_SECRET_KEY: 'devise_secret_key'
+  services:
+    - docker
 
+dependencies:
+  override:
+    - docker info
+    - docker build -t soutech/champaign_web .
+
+test:
+  override:
+    - docker run -d -p 3000:3000 soutceh/champaign_web; sleep 10
+    - curl --retry 10 --retry-delay 5 -v http://localhost:3000
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push soutceh/champaign_web
