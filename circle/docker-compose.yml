@@ -1,0 +1,15 @@
+web:
+  image: soutech/champaign_web
+  links:
+    - db
+  command: /myapp/circle/run-tests
+  env_file:
+      - test.env
+
+db:
+  image: postgres
+  ports:
+    - "5432"
+  environment:
+    POSTGRES_DB: champaign_test
+
