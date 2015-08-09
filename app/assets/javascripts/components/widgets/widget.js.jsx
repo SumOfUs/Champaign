@@ -4,8 +4,8 @@ var mixins = require('flux/mixins');
 var Widget = React.createClass({
 
   propTypes: {
-    form:    React.PropTypes.func.isRequired,
-    display: React.PropTypes.func.isRequired,
+    fields:    React.PropTypes.func.isRequired,
+    preview: React.PropTypes.func.isRequired,
     errors:  React.PropTypes.object,
     title:   React.PropTypes.string
   },
@@ -37,12 +37,12 @@ var Widget = React.createClass({
     this.toggleEditShow();
   },
 
-  form() {
-    if(this.state.edit) { return this.props.form(this.submitData) }
+  fields() {
+    if(this.state.edit) { return this.props.fields(this.submitData) }
   },
 
-  display() {
-    if(!this.state.edit) { return this.props.display() }
+  preview() {
+    if(!this.state.edit) { return this.props.preview() }
   },
 
   componentWillReceiveProps(nextProps){
@@ -50,13 +50,13 @@ var Widget = React.createClass({
   },
 
   render(){
-    var [form, display] = [this.form(), this.display()]
+    var [fields, preview] = [this.fields(), this.preview()]
     return (
       <div className='widget'>
         <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
         </WidgetActions>
-        { form }
-        { display }
+        { fields }
+        { preview }
       </div>
     )
   }

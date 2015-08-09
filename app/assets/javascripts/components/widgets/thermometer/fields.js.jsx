@@ -1,37 +1,26 @@
 var WidgetFormErrors = require('components/widgets/widget_form_errors');
-var ReactQuill = require('react-quill');
 var mixins = require('flux/mixins');
 
-var TextBodyWidgetForm = React.createClass({
+var ThermometerWidgetFields = React.createClass({
 
   propTypes: {
-    text_body_html:   React.PropTypes.string,
-    submitData:       React.PropTypes.func.isRequired,
-    errors:           React.PropTypes.object,
-    id:               React.PropTypes.number
+    goal:               React.PropTypes.string,
+    page_display_order: React.PropTypes.number,
+    errors:             React.PropTypes.object,
+    id:                 React.PropTypes.number
   },
 
   mixins: [mixins.FluxMixin],
 
-  getInitialState() {
-    return {
-      text_body_html: this.props.text_body_html
-    }
-  },
-
   serialize() {
-    var text = this.state.text_body_html;
-    var pdo = React.findDOMNode(this.refs.pdo).value;
-    return {text_body_html: text, type: 'TextBodyWidget', page_display_order: pdo};
+    var goal = React.findDOMNode(this.refs.goal).value;
+    var pdo  = React.findDOMNode(this.refs.pdo).value;
+    return {goal: goal, page_display_order: pdo, type: 'ThermometerWidget' };
   },
 
   handleSubmit(e) {
     e.preventDefault();
     this.props.submitData(this.props, this.serialize());
-  },
-
-  textChanged(value) {
-    this.setState({text_body_html: value});
   },
 
   render() {
@@ -44,7 +33,8 @@ var TextBodyWidgetForm = React.createClass({
             <input type='number' className='form-control' ref='pdo' defaultValue={this.props.page_display_order}></input>
           </div>
           <div className="form-group">
-            <ReactQuill theme="snow" defaultValue={this.props.text_body_html} onChange={this.textChanged} />
+            <label htmlFor="">Goal</label>
+            <input type='number' className='form-control' ref='goal' defaultValue={this.props.goal}></input>
           </div>
           <button type="submit" className="btn btn-default">Submit</button>
         </form>
@@ -53,4 +43,4 @@ var TextBodyWidgetForm = React.createClass({
   }
 })
 
-module.exports = TextBodyWidgetForm
+module.exports = ThermometerWidgetFields

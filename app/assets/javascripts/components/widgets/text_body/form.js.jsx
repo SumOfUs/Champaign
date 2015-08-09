@@ -1,7 +1,7 @@
 var Widget = require('components/widgets/widget')
-var TextBodyWidgetForm = require('components/widgets/text_body_widget_form')
+var TextBodyWidgetFields = require('components/widgets/text_body/fields')
 
-var TextBodyWidget = React.createClass({
+var TextBodyWidgetForm = React.createClass({
 
   propTypes: {
     text_body_html:     React.PropTypes.string.isRequired,
@@ -10,16 +10,15 @@ var TextBodyWidget = React.createClass({
     id:                 React.PropTypes.number.isRequired
   },
 
-  form(submitData) {
+  fields(submitData) {
     return (
       <div className='widget-edit'>
-        <TextBodyWidgetForm {...this.props} submitData={submitData}>
-        </TextBodyWidgetForm>
+        <TextBodyWidgetFields {...this.props} submitData={submitData} />
       </div>
     )
   },
 
-  display() {
+  preview() {
     return (
       <div className='widget-show' dangerouslySetInnerHTML={{__html: this.props.text_body_html}}>
       </div>
@@ -29,11 +28,11 @@ var TextBodyWidget = React.createClass({
   render() {
     return (
       <div className="text-body-widget">
-        <Widget {...this.props} form={this.form} display={this.display} title="Text Body Widget">
+        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Text Body Widget">
         </Widget>
       </div>
     )
   }
 });
 
-module.exports = TextBodyWidget;
+module.exports = TextBodyWidgetForm;

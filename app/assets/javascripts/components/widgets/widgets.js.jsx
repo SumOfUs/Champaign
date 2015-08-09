@@ -1,7 +1,7 @@
-var ThermometerWidget  = require('components/widgets/thermometer_widget');
-var TextBodyWidget = require('components/widgets/text_body_widget');
-var RawHtmlWidget  = require('components/widgets/raw_html_widget');
-var NewWidget      = require('components/widgets/new_widget');
+var ThermometerWidgetForm  = require('components/widgets/thermometer/form');
+var TextBodyWidgetForm     = require('components/widgets/text_body/form');
+var RawHtmlWidgetForm      = require('components/widgets/raw_html/form');
+var NewWidgetForm          = require('components/widgets/new_widget_form');
 
 var Widgets = React.createClass({
 
@@ -13,11 +13,11 @@ var Widgets = React.createClass({
     var widgets = this.props.widgets.map(widget => {
       switch (widget.type) {
         case "TextBodyWidget":
-          return (<TextBodyWidget {...widget}></TextBodyWidget>)
+          return (<TextBodyWidgetForm {...widget}></TextBodyWidgetForm>)
         case "RawHtmlWidget":
-          return (<RawHtmlWidget {...widget}></RawHtmlWidget>)
+          return (<RawHtmlWidgetForm {...widget}></RawHtmlWidgetForm>)
         case "ThermometerWidget":
-          return (<ThermometerWidget {...widget}></ThermometerWidget>)
+          return (<ThermometerWidgetForm {...widget}></ThermometerWidgetForm>)
         default:
           break;
       }
@@ -26,8 +26,8 @@ var Widgets = React.createClass({
     return (
       <div className="widgets">
         { widgets }
-        <NewWidget>
-        </NewWidget>
+        <NewWidgetForm>
+        </NewWidgetForm>
       </div>
     )
   }

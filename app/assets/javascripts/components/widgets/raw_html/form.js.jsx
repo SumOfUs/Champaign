@@ -1,7 +1,7 @@
 var Widget = require('components/widgets/widget')
-var RawHtmlWidgetForm = require('components/widgets/raw_html_widget_form')
+var RawHtmlWidgetFields = require('components/widgets/raw_html/fields')
 
-var RawHtmlWidget = React.createClass({
+var RawHtmlWidgetForm = React.createClass({
 
   propTypes: {
     html:             React.PropTypes.string.isRequired,
@@ -9,16 +9,15 @@ var RawHtmlWidget = React.createClass({
     id:               React.PropTypes.number.isRequired
   },
 
-  form(submitData) {
+  fields(submitData) {
     return (
       <div className='widget-edit'>
-        <RawHtmlWidgetForm {...this.props} submitData={submitData}>
-        </RawHtmlWidgetForm>
+        <RawHtmlWidgetFields {...this.props} submitData={submitData} />
       </div>
     )
   },
 
-  display() {
+  preview() {
     return (
       <div className='widget-show'>
         {this.props.html}
@@ -29,11 +28,11 @@ var RawHtmlWidget = React.createClass({
   render() {
     return (
       <div className="text-body-widget">
-        <Widget {...this.props} form={this.form} display={this.display} title="Raw HTML Widget">
+        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Raw HTML Widget">
         </Widget>
       </div>
     )
   }
 })
 
-module.exports = RawHtmlWidget;
+module.exports = RawHtmlWidgetForm;

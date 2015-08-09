@@ -1,10 +1,10 @@
-var TextBodyWidgetForm     = require('components/widgets/text_body_widget_form')
-var RawHtmlWidgetForm      = require('components/widgets/raw_html_widget_form')
-var ThermometerWidgetForm  = require('components/widgets/thermometer_widget_form')
-var mixins             = require('flux/mixins')
+var TextBodyWidgetFields     = require('components/widgets/text_body/fields')
+var RawHtmlWidgetFields      = require('components/widgets/raw_html/fields')
+var ThermometerWidgetFields  = require('components/widgets/thermometer/fields')
+var mixins                   = require('flux/mixins')
 
 
-var NewWidget = React.createClass({
+var NewWidgetForm = React.createClass({
 
   propTypes: {
   },
@@ -46,21 +46,21 @@ var NewWidget = React.createClass({
           <option value="PetitionWidget">Petition Widget</option>
           <option value="ImageWidget">Image Widget</option>
           <option value="ThermometerWidget">Thermometer Widget</option>
-          <option value="RawHtmlWidget">Raw Html Widget</option>
+          <option value="RawHtmlWidget">Raw HTML Widget</option>
         </select>
       </div>
     )
   },
 
-  form() {
+  fields() {
     var errors = this.getStore().creation_errors;
     switch (this.state.widgetType) {
       case "TextBodyWidget":
-        return (<TextBodyWidgetForm submitData={this.submitData} errors={errors}></TextBodyWidgetForm>)
+        return (<TextBodyWidgetFields submitData={this.submitData} errors={errors}></TextBodyWidgetFields>)
       case "RawHtmlWidget":
-        return (<RawHtmlWidgetForm submitData={this.submitData} errors={errors}></RawHtmlWidgetForm>)
+        return (<RawHtmlWidgetFields submitData={this.submitData} errors={errors}></RawHtmlWidgetFields>)
       case "ThermometerWidget":
-        return (<ThermometerWidgetForm submitData={this.submitData} errors={errors}></ThermometerWidgetForm>)
+        return (<ThermometerWidgetFields submitData={this.submitData} errors={errors}></ThermometerWidgetFields>)
       default:
         return "Pick a widget type to create a new widget!"
     }
@@ -76,11 +76,11 @@ var NewWidget = React.createClass({
         </div>
         <div className="widget-edit">
           { this.picker() }
-          { this.form() }
+          { this.fields() }
         </div>
       </div>
     )
   }
 })
 
-module.exports = NewWidget;
+module.exports = NewWidgetForm;

@@ -1,0 +1,88 @@
+                  Prefix Verb     URI Pattern                                             Controller#Action
+             rails_admin          /admin                                                  RailsAdmin::Engine
+        new_user_session GET      /users/sign_in(.:format)                                devise/sessions#new
+            user_session POST     /users/sign_in(.:format)                                devise/sessions#create
+    destroy_user_session DELETE   /users/sign_out(.:format)                               devise/sessions#destroy
+ user_omniauth_authorize GET|POST /users/auth/:provider(.:format)                         omniauth_callbacks#passthru {:provider=>/google_oauth2/}
+  user_omniauth_callback GET|POST /users/auth/:action/callback(.:format)                  omniauth_callbacks#(?-mix:google_oauth2)
+           user_password POST     /users/password(.:format)                               devise/passwords#create
+       new_user_password GET      /users/password/new(.:format)                           devise/passwords#new
+      edit_user_password GET      /users/password/edit(.:format)                          devise/passwords#edit
+                         PATCH    /users/password(.:format)                               devise/passwords#update
+                         PUT      /users/password(.:format)                               devise/passwords#update
+cancel_user_registration GET      /users/cancel(.:format)                                 devise/registrations#cancel
+       user_registration POST     /users(.:format)                                        devise/registrations#create
+   new_user_registration GET      /users/sign_up(.:format)                                devise/registrations#new
+  edit_user_registration GET      /users/edit(.:format)                                   devise/registrations#edit
+                         PATCH    /users(.:format)                                        devise/registrations#update
+                         PUT      /users(.:format)                                        devise/registrations#update
+                         DELETE   /users(.:format)                                        devise/registrations#destroy
+                    root GET      /                                                       home#index
+      campaign_pages_new POST     /campaign_pages/new(.:format)                           campaign_pages#new
+     campaign_pages_sign POST     /campaign_pages/sign(.:format)                          campaign_pages#sign
+                         GET      /templates/show_form/:id(.:format)                      templates#show_form
+                         GET      /tags/search/:search(.:format)                          tags#search
+                tags_add POST     /tags/add(.:format)                                     tags#add_tag_to_campaign_page
+             tags_remove DELETE   /tags/remove(.:format)                                  tags#remove_tag_from_campaign_page
+               campaigns GET      /campaigns(.:format)                                    campaigns#index
+                         POST     /campaigns(.:format)                                    campaigns#create
+            new_campaign GET      /campaigns/new(.:format)                                campaigns#new
+           edit_campaign GET      /campaigns/:id/edit(.:format)                           campaigns#edit
+                campaign GET      /campaigns/:id(.:format)                                campaigns#show
+                         PATCH    /campaigns/:id(.:format)                                campaigns#update
+                         PUT      /campaigns/:id(.:format)                                campaigns#update
+                         DELETE   /campaigns/:id(.:format)                                campaigns#destroy
+   campaign_page_widgets GET      /campaign_pages/:campaign_page_id/widgets(.:format)     widgets#index
+                         POST     /campaign_pages/:campaign_page_id/widgets(.:format)     widgets#create
+    campaign_page_widget PATCH    /campaign_pages/:campaign_page_id/widgets/:id(.:format) widgets#update
+                         PUT      /campaign_pages/:campaign_page_id/widgets/:id(.:format) widgets#update
+                         DELETE   /campaign_pages/:campaign_page_id/widgets/:id(.:format) widgets#destroy
+          campaign_pages GET      /campaign_pages(.:format)                               campaign_pages#index
+                         POST     /campaign_pages(.:format)                               campaign_pages#create
+       new_campaign_page GET      /campaign_pages/new(.:format)                           campaign_pages#new
+      edit_campaign_page GET      /campaign_pages/:id/edit(.:format)                      campaign_pages#edit
+           campaign_page GET      /campaign_pages/:id(.:format)                           campaign_pages#show
+                         PATCH    /campaign_pages/:id(.:format)                           campaign_pages#update
+                         PUT      /campaign_pages/:id(.:format)                           campaign_pages#update
+                         DELETE   /campaign_pages/:id(.:format)                           campaign_pages#destroy
+        template_widgets GET      /templates/:template_id/widgets(.:format)               widgets#index
+                         POST     /templates/:template_id/widgets(.:format)               widgets#create
+         template_widget PATCH    /templates/:template_id/widgets/:id(.:format)           widgets#update
+                         PUT      /templates/:template_id/widgets/:id(.:format)           widgets#update
+                         DELETE   /templates/:template_id/widgets/:id(.:format)           widgets#destroy
+               templates GET      /templates(.:format)                                    templates#index
+                         POST     /templates(.:format)                                    templates#create
+            new_template GET      /templates/new(.:format)                                templates#new
+           edit_template GET      /templates/:id/edit(.:format)                           templates#edit
+                template GET      /templates/:id(.:format)                                templates#show
+                         PATCH    /templates/:id(.:format)                                templates#update
+                         PUT      /templates/:id(.:format)                                templates#update
+                         DELETE   /templates/:id(.:format)                                templates#destroy
+          liquid_layouts GET      /liquid_layouts(.:format)                               liquid_layouts#index
+                         POST     /liquid_layouts(.:format)                               liquid_layouts#create
+       new_liquid_layout GET      /liquid_layouts/new(.:format)                           liquid_layouts#new
+      edit_liquid_layout GET      /liquid_layouts/:id/edit(.:format)                      liquid_layouts#edit
+           liquid_layout GET      /liquid_layouts/:id(.:format)                           liquid_layouts#show
+                         PATCH    /liquid_layouts/:id(.:format)                           liquid_layouts#update
+                         PUT      /liquid_layouts/:id(.:format)                           liquid_layouts#update
+                         DELETE   /liquid_layouts/:id(.:format)                           liquid_layouts#destroy
+                         GET      /templates(.:format)                                    templates#index
+                         POST     /templates(.:format)                                    templates#create
+                         GET      /templates/new(.:format)                                templates#new
+                         GET      /templates/:id/edit(.:format)                           templates#edit
+                         GET      /templates/:id(.:format)                                templates#show
+                         PATCH    /templates/:id(.:format)                                templates#update
+                         PUT      /templates/:id(.:format)                                templates#update
+                         DELETE   /templates/:id(.:format)                                templates#destroy
+
+Routes for RailsAdmin::Engine:
+  dashboard GET         /                                      rails_admin/main#dashboard
+      index GET|POST    /:model_name(.:format)                 rails_admin/main#index
+        new GET|POST    /:model_name/new(.:format)             rails_admin/main#new
+     export GET|POST    /:model_name/export(.:format)          rails_admin/main#export
+bulk_delete POST|DELETE /:model_name/bulk_delete(.:format)     rails_admin/main#bulk_delete
+bulk_action POST        /:model_name/bulk_action(.:format)     rails_admin/main#bulk_action
+       show GET         /:model_name/:id(.:format)             rails_admin/main#show
+       edit GET|PUT     /:model_name/:id/edit(.:format)        rails_admin/main#edit
+     delete GET|DELETE  /:model_name/:id/delete(.:format)      rails_admin/main#delete
+show_in_app GET         /:model_name/:id/show_in_app(.:format) rails_admin/main#show_in_app

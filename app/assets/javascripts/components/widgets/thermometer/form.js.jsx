@@ -1,7 +1,7 @@
 var Widget = require('components/widgets/widget')
-var ThermometerWidgetForm = require('components/widgets/thermometer_widget_form')
+var ThermometerWidgetFields = require('components/widgets/thermometer/fields')
 
-var ThermometerWidget = React.createClass({
+var ThermometerWidgetForm = React.createClass({
 
   propTypes: {
     goal:               React.PropTypes.string,
@@ -10,16 +10,15 @@ var ThermometerWidget = React.createClass({
     id:                 React.PropTypes.number
   },
 
-  form(submitData) {
+  fields(submitData) {
     return (
       <div className='widget-edit'>
-        <ThermometerWidgetForm {...this.props} submitData={submitData}>
-        </ThermometerWidgetForm>
+        <ThermometerWidgetFields {...this.props} submitData={submitData} />
       </div>
     )
   },
 
-  display() {
+  preview() {
     return (
       <div className='widget-show'>
         Goal: {this.props.goal} signatures
@@ -30,11 +29,11 @@ var ThermometerWidget = React.createClass({
   render() {
     return (
       <div className="thermometer-widget">
-        <Widget {...this.props} form={this.form} display={this.display} title="Thermometer Widget">
+        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Thermometer Widget">
         </Widget>
       </div>
     )
   }
 });
 
-module.exports = ThermometerWidget;
+module.exports = ThermometerWidgetForm;

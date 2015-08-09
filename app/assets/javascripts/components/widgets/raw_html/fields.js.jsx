@@ -1,6 +1,6 @@
 var mixins = require('flux/mixins');
 
-var RawHtmlWidgetForm = React.createClass({
+var RawHtmlWidgetFields = React.createClass({
 
   propTypes: {
     html:             React.PropTypes.string,
@@ -35,4 +35,4 @@ var RawHtmlWidgetForm = React.createClass({
   }
 })
 
-module.exports = RawHtmlWidgetForm
+module.exports = RawHtmlWidgetFields
