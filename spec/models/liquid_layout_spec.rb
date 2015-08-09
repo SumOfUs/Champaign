@@ -12,9 +12,40 @@ describe LiquidLayout do
     %Q{</div>
       </div>}
   }
+    
 
-  it "is valid with just template and content" do
-    expect(template).to be_valid
+  describe "is valid" do
+
+    after :each do
+      expect(template).to be_valid
+    end
+
+    it "with just template and content" do
+    end
+
+    describe "with slot tags" do
+
+      after :each do
+        template.content = "#{example_html_top}#{@example}#{example_html_bottom}"
+      end
+
+      it "that start with 1" do
+        @example = "{{ slot1 }}"
+      end
+
+      it "with numbers 1-3" do
+        @example = "{{ slot1 }}<div class='subarea'>{{slot 2}}</div>{{ slot 3 }}"
+      end
+
+      it "with ordered nubers in unordered tags" do
+        @example = "{{ slot3 }}<div class='subarea'>{{slot 1}}</div>{{ slot 2 }}"
+      end
+
+      it "with a slot tag that doesn't get recognized" do
+        @example = "{{ slot }}"
+      end
+    end
+
   end
 
   describe "is invalid" do
@@ -37,6 +68,21 @@ describe LiquidLayout do
 
     it "with nil content" do
       template.content = nil
+    end
+
+    describe "with bad slot tags" do
+
+      after :each do
+        template.content = "#{example_html_top}#{@example}#{example_html_bottom}"
+      end
+
+      it "if slot starts with 0" do
+        @example = "{{ slot0 }}"
+      end
+
+      it "if slots skip a number" do
+        @example = "{{ slot1 }}<div class='subarea'>{{slot 3}}</div>"
+      end
     end
   end
   
