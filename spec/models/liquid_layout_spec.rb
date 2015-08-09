@@ -182,7 +182,7 @@ describe LiquidLayout do
     describe "does not find slot label if it" do
 
       after :each do
-        @expected ||= [""]
+        @expected ||= ["slot 1"]
         template.content = "#{example_html_top}#{@example}#{example_html_bottom}"
         expect(template.slot_labels).to eq @expected
       end
