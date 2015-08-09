@@ -1,7 +1,7 @@
 var WidgetActions = require('components/widgets/widget_actions');
 var mixins = require('flux/mixins');
 
-var Widget = React.createClass({
+var WidgetForm = React.createClass({
 
   propTypes: {
     fields:    React.PropTypes.func.isRequired,
@@ -61,4 +61,4 @@ var Widget = React.createClass({
   }
 })
 
-module.exports = Widget
+module.exports = WidgetForm;

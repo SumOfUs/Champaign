@@ -3,7 +3,6 @@ var RawHtmlWidgetFields      = require('components/widgets/raw_html/fields')
 var ThermometerWidgetFields  = require('components/widgets/thermometer/fields')
 var mixins                   = require('flux/mixins')
 
-
 var NewWidgetForm = React.createClass({
 
   propTypes: {

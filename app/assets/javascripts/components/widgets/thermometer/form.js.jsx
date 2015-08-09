@@ -1,4 +1,4 @@
-var Widget = require('components/widgets/widget')
+var WidgetForm = require('components/widgets/widget_form')
 var ThermometerWidgetFields = require('components/widgets/thermometer/fields')
 
 var ThermometerWidgetForm = React.createClass({
@@ -29,7 +29,7 @@ var ThermometerWidgetForm = React.createClass({
   render() {
     return (
       <div className="thermometer-widget">
-        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Thermometer Widget" />
+        <WidgetForm {...this.props} fields={this.fields} preview={this.preview} title="Thermometer Widget" />
       </div>
     )
   }

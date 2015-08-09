@@ -1,4 +1,4 @@
-var Widget = require('components/widgets/widget')
+var WidgetForm = require('components/widgets/widget_form')
 var TextBodyWidgetFields = require('components/widgets/text_body/fields')
 
 var TextBodyWidgetForm = React.createClass({
@@ -28,7 +28,7 @@ var TextBodyWidgetForm = React.createClass({
   render() {
     return (
       <div className="text-body-widget">
-        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Text Body Widget" />
+        <WidgetForm {...this.props} fields={this.fields} preview={this.preview} title="Text Body Widget" />
       </div>
     )
   }
