@@ -56,11 +56,11 @@ var NewWidgetForm = React.createClass({
     var errors = this.getStore().creation_errors;
     switch (this.state.widgetType) {
       case "TextBodyWidget":
-        return (<TextBodyWidgetFields submitData={this.submitData} errors={errors}></TextBodyWidgetFields>)
+        return (<TextBodyWidgetFields submitData={this.submitData} errors={errors} />)
       case "RawHtmlWidget":
-        return (<RawHtmlWidgetFields submitData={this.submitData} errors={errors}></RawHtmlWidgetFields>)
+        return (<RawHtmlWidgetFields submitData={this.submitData} errors={errors} />)
       case "ThermometerWidget":
-        return (<ThermometerWidgetFields submitData={this.submitData} errors={errors}></ThermometerWidgetFields>)
+        return (<ThermometerWidgetFields submitData={this.submitData} errors={errors} />)
       default:
         return "Pick a widget type to create a new widget!"
     }

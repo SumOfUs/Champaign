@@ -28,8 +28,7 @@ var RawHtmlWidgetForm = React.createClass({
   render() {
     return (
       <div className="text-body-widget">
-        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Raw HTML Widget">
-        </Widget>
+        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Raw HTML Widget" />
       </div>
     )
   }

@@ -53,8 +53,7 @@ var Widget = React.createClass({
     var [fields, preview] = [this.fields(), this.preview()]
     return (
       <div className='widget'>
-        <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this}>
-        </WidgetActions>
+        <WidgetActions {...this.props} toggleEditShow={this.toggleEditShow} parentWidget={this} />
         { fields }
         { preview }
       </div>

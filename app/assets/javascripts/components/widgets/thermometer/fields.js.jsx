@@ -43,4 +43,4 @@ var ThermometerWidgetFields = React.createClass({
   }
 })
 
-module.exports = ThermometerWidgetFields
+module.exports = ThermometerWidgetFields;

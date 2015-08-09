@@ -53,4 +53,4 @@ var TextBodyWidgetFields = React.createClass({
   }
 })
 
-module.exports = TextBodyWidgetFields
+module.exports = TextBodyWidgetFields;

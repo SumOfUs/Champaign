@@ -35,4 +35,4 @@ var RawHtmlWidgetFields = React.createClass({
   }
 })
 
-module.exports = RawHtmlWidgetFields
+module.exports = RawHtmlWidgetFields;

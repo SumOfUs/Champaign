@@ -29,8 +29,7 @@ var ThermometerWidgetForm = React.createClass({
   render() {
     return (
       <div className="thermometer-widget">
-        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Thermometer Widget">
-        </Widget>
+        <Widget {...this.props} fields={this.fields} preview={this.preview} title="Thermometer Widget" />
       </div>
     )
   }

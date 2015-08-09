@@ -13,11 +13,11 @@ var Widgets = React.createClass({
     var widgets = this.props.widgets.map(widget => {
       switch (widget.type) {
         case "TextBodyWidget":
-          return (<TextBodyWidgetForm {...widget}></TextBodyWidgetForm>)
+          return (<TextBodyWidgetForm {...widget} />)
         case "RawHtmlWidget":
-          return (<RawHtmlWidgetForm {...widget}></RawHtmlWidgetForm>)
+          return (<RawHtmlWidgetForm {...widget} />)
         case "ThermometerWidget":
-          return (<ThermometerWidgetForm {...widget}></ThermometerWidgetForm>)
+          return (<ThermometerWidgetForm {...widget} />)
         default:
           break;
       }
@@ -26,8 +26,7 @@ var Widgets = React.createClass({
     return (
       <div className="widgets">
         { widgets }
-        <NewWidgetForm>
-        </NewWidgetForm>
+        <NewWidgetForm />
       </div>
     )
   }
