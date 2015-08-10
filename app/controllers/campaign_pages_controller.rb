@@ -38,6 +38,7 @@ class CampaignPagesController < ApplicationController
     end
     @template = Liquid::Template.parse(@campaign_page.liquid_layout.content)
     slot_widgets
+    render :show, layout: 'liquid'
   end
 
   def edit
@@ -93,7 +94,7 @@ class CampaignPagesController < ApplicationController
 
   def slot_widgets
     @slotted = {}
-    @campaign_page.widgets.each_with_index do |widget, ii|
+    @campaign_page.widgets.sort_by(&:page_display_order).each_with_index do |widget, ii|
       rendered = render_to_string(partial: "widgets/#{widget.class.name.underscore}/display", layout: false, locals: {widget: widget})
       @slotted["slot#{ii+1}"] = rendered
     end
