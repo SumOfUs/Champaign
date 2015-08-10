@@ -1,3 +1,7 @@
+- labels = page.try(:liquid_layout) ? page.liquid_layout.slot_labels : "[]"
+javascript:
+  window.slotNames = #{labels.to_s.html_safe};
+
 fieldset
   legend Page widgets
   .form-group

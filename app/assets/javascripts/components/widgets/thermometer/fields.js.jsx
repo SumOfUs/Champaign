@@ -15,8 +15,8 @@ var ThermometerWidgetFields = React.createClass({
 
   serialize() {
     var goal = React.findDOMNode(this.refs.goal).value;
-    var pdo  = React.findDOMNode(this.refs.pdo).value;
-    return {goal: goal, page_display_order: pdo, type: 'ThermometerWidget' };
+    var pdo = this.refs.slotSelector.serialize().page_display_order;
+    return {page_display_order: pdo, goal: goal, type: 'ThermometerWidget' };
   },
 
   handleSubmit(e) {
@@ -29,10 +29,7 @@ var ThermometerWidgetFields = React.createClass({
       <div className='widget-html-form'>
          <form onSubmit={ this.handleSubmit }>
           <WidgetFormErrors errors={this.props.errors} />
-          <div className="form-group">
-            <label htmlFor="">Slot</label>
-            <input type='number' className='form-control' ref='pdo' defaultValue={this.props.page_display_order}></input>
-          </div>
+          <SlotSelector ref="slotSelector" page_display_order={this.props.page_display_order} />
           <div className="form-group">
             <label htmlFor="">Goal</label>
             <input type='number' className='form-control' ref='goal' defaultValue={this.props.goal}></input>

@@ -1,4 +1,5 @@
 var WidgetFormErrors = require('components/widgets/widget_form_errors');
+var SlotSelector     = require('components/widgets/slot_selector');
 var ReactQuill = require('react-quill');
 var mixins = require('flux/mixins');
 
@@ -21,8 +22,8 @@ var TextBodyWidgetFields = React.createClass({
 
   serialize() {
     var text = this.state.text_body_html;
-    var pdo = React.findDOMNode(this.refs.pdo).value;
-    return {text_body_html: text, type: 'TextBodyWidget', page_display_order: pdo};
+    var pdo = this.refs.slotSelector.serialize().page_display_order;
+    return {page_display_order: pdo, text_body_html: text, type: 'TextBodyWidget'};
   },
 
   handleSubmit(e) {
@@ -39,10 +40,7 @@ var TextBodyWidgetFields = React.createClass({
       <div className='widget-html-form'>
          <form onSubmit={ this.handleSubmit }>
           <WidgetFormErrors errors={this.props.errors} />
-          <div className="form-group">
-            <label htmlFor="">Slot</label>
-            <input type='number' className='form-control' ref='pdo' defaultValue={this.props.page_display_order}></input>
-          </div>
+          <SlotSelector ref="slotSelector" page_display_order={this.props.page_display_order} />
           <div className="form-group">
             <ReactQuill theme="snow" defaultValue={this.props.text_body_html} onChange={this.textChanged} />
           </div>
