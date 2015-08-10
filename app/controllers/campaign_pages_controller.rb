@@ -50,7 +50,8 @@ class CampaignPagesController < ApplicationController
       format.html do
         if @campaign_page.update_attributes clean_params
           @campaign_page.compile_html
-          redirect_to @campaign_page, notice: 'Campaign page updated!'
+          @options = create_form_options(params)
+          render :edit, notice: 'Campaign page updated!'
         else
           @options = create_form_options(clean_params)
           render :edit
