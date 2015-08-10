@@ -14,7 +14,7 @@ class LiquidLayout < ActiveRecord::Base
 
   def slot_regex
     # see the spec to better understand what this matches
-    /\{\{ *slot *([0-9]+) *\}\}\s*(<!-- *(.*?) *-->){,1}/
+    /\{\{ *slot([0-9]+) *\}\}\s*(<!-- *(.*?) *-->){,1}/
   end
 
   def slot_ids

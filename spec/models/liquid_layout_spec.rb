@@ -34,11 +34,11 @@ describe LiquidLayout do
       end
 
       it "with numbers 1-3" do
-        @example = "{{ slot1 }}<div class='subarea'>{{slot 2}}</div>{{ slot 3 }}"
+        @example = "{{ slot1 }}<div class='subarea'>{{slot2}}</div>{{ slot3 }}"
       end
 
       it "with ordered nubers in unordered tags" do
-        @example = "{{ slot3 }}<div class='subarea'>{{slot 1}}</div>{{ slot 2 }}"
+        @example = "{{ slot3 }}<div class='subarea'>{{slot1}}</div>{{ slot2 }}"
       end
 
       it "with a slot tag that doesn't get recognized" do
@@ -81,7 +81,7 @@ describe LiquidLayout do
       end
 
       it "if slots skip a number" do
-        @example = "{{ slot1 }}<div class='subarea'>{{slot 3}}</div>"
+        @example = "{{ slot1 }}<div class='subarea'>{{slot3}}</div>"
       end
     end
   end
@@ -111,10 +111,6 @@ describe LiquidLayout do
         @example = '{{ slot1}}'
       end
 
-      it "has spaces between the word slot and the number" do
-        @example = '{{ slot 1 }}'
-      end
-
     end
 
     describe "does not find slot if it" do
@@ -134,6 +130,10 @@ describe LiquidLayout do
 
       it "has an empty tag" do
         @example = '{{ }}'
+      end
+
+      it "has spaces between the word slot and the number" do
+        @example = '{{ slot 1 }}'
       end
     end
 
