@@ -1,5 +1,6 @@
 var ThermometerWidgetForm  = require('components/widgets/thermometer/form');
 var TextBodyWidgetForm     = require('components/widgets/text_body/form');
+var PetitionWidgetForm     = require('components/widgets/petition/form');
 var RawHtmlWidgetForm      = require('components/widgets/raw_html/form');
 var NewWidgetForm          = require('components/widgets/new_widget_form');
 
@@ -18,6 +19,8 @@ var Widgets = React.createClass({
           return (<RawHtmlWidgetForm {...widget} />)
         case "ThermometerWidget":
           return (<ThermometerWidgetForm {...widget} />)
+        case "PetitionWidget":
+          return (<PetitionWidgetForm {...widget} />)
         default:
           break;
       }

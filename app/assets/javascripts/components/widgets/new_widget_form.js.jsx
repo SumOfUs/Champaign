@@ -1,6 +1,7 @@
 var TextBodyWidgetFields     = require('components/widgets/text_body/fields')
 var RawHtmlWidgetFields      = require('components/widgets/raw_html/fields')
 var ThermometerWidgetFields  = require('components/widgets/thermometer/fields')
+var PetitionWidgetFields     = require('components/widgets/petition/fields')
 var mixins                   = require('flux/mixins')
 
 var NewWidgetForm = React.createClass({
@@ -60,6 +61,8 @@ var NewWidgetForm = React.createClass({
         return (<RawHtmlWidgetFields submitData={this.submitData} errors={errors} />)
       case "ThermometerWidget":
         return (<ThermometerWidgetFields submitData={this.submitData} errors={errors} />)
+      case "PetitionWidget":
+        return (<PetitionWidgetFields submitData={this.submitData} errors={errors} />)
       default:
         return "Pick a widget type to create a new widget!"
     }
