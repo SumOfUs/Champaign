@@ -5,7 +5,6 @@ class CampaignPages::WidgetsController < ApplicationController
   end
 
   def create
-    puts params
     widget = TextBodyWidget.new(widget_params)
     widget.page = page
     widget.page_display_order = page.widgets.count + 1

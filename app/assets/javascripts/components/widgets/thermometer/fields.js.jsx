@@ -1,10 +1,11 @@
 var WidgetFormErrors = require('components/widgets/widget_form_errors');
+var SlotSelector     = require('components/widgets/slot_selector');
 var mixins = require('flux/mixins');
 
 var ThermometerWidgetFields = React.createClass({
 
   propTypes: {
-    goal:               React.PropTypes.string,
+    goal:               React.PropTypes.number,
     page_display_order: React.PropTypes.number,
     errors:             React.PropTypes.object,
     id:                 React.PropTypes.number

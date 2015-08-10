@@ -4,7 +4,7 @@ var ThermometerWidgetFields = require('components/widgets/thermometer/fields')
 var ThermometerWidgetForm = React.createClass({
 
   propTypes: {
-    goal:               React.PropTypes.string,
+    goal:               React.PropTypes.number,
     page_display_order: React.PropTypes.number,
     errors:             React.PropTypes.object,
     id:                 React.PropTypes.number
