@@ -28,3 +28,6 @@ config/env.yml
 queue_listeners/config/env.yml
 
 .DS_Store
+
+# Ignore node modules
+node_modules

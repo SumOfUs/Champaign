@@ -56,6 +56,7 @@ GEM
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    browser (0.9.1)
     builder (3.2.2)
     bunny (1.7.0)
       amq-protocol (>= 1.9.2)
@@ -297,6 +298,7 @@ DEPENDENCIES
   action_parameter
   aws-sdk (~> 2)
   bootstrap-sass (~> 3.3.5)
+  browser
   bunny
   byebug
   capybara
