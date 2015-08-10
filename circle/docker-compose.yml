@@ -12,4 +12,3 @@ db:
     - "5432"
   environment:
     POSTGRES_DB: champaign_test
-
