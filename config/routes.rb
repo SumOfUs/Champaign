@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  resources :liquid_partials
-  resources :liquid_layouts
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.
@@ -8,10 +6,6 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'home#index'
-
-  # Custom paths
-  post '/campaign_pages/new', to: 'campaign_pages#new'
-  post '/campaign_pages/sign', to: 'campaign_pages#sign'
 
   # Specifies routing to templates controller for when a new template layout is requested by 
   # a user toggling different templates when creating a campaign page
@@ -40,6 +34,8 @@ Rails.application.routes.draw do
     resources :thermometers
   end
 
+  resources :liquid_partials
+  resources :liquid_layouts
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
