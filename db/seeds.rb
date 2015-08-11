@@ -7,26 +7,31 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 # 1. make actionkit page types
-actionkit_page_type = ActionkitPageType.create!({actionkit_page_type: 'petition'})
+ActionkitPageType.create!({actionkit_page_type: 'petition'})
 
-# 2. make languages
-language = Language.create!({language_code: 'EN/US', language_name: 'English'})
+# 2. make some languages
+Language.create!(
+    [{language_code: 'EN/US', language_name: 'English'},
+    {language_code: 'FR', language_name: 'French'},
+    {language_code: 'GER', language_name: 'German'}])
 
-# 3  make campaigns
-campaign = Campaign.create!({campaign_name: 'Test campaign'})
+# 3  make some campaigns
+Campaign.create!(
+    [{campaign_name: 'Test campaign'},
+     {campaign_name: 'New campaign'},
+     {campaign_name: 'The coolest campaign'}])
 
 # 5. make a campaign page
-
-campaign_page = CampaignPage.create!({
+Campaign.first.campaign_page.create!({
   language_id: (Language.find_by language_code: 'EN/US').id,
-  title: 'Test page',
-  slug: 'test_name',
+  title: 'Testy page',
+  slug: 'testy_page',
   active: false,
   featured: false
 })
 
 # 7. create an actionkit page match for the campaign page widget
-campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
+# campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
 
 # 8. Create the tags and their associations to ActionKit
 

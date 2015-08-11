@@ -34,6 +34,18 @@ FactoryGirl.define do
     type "PetitionWidget"
   end
 
+  factory :thermometer_widget do
+    content {
+      {
+        goal: 10000,
+        count: 100,
+        autoincrement: true
+      }
+    }
+    page_display_order
+    type "ThermometerWidget"
+  end
+
   factory :user do
     email
     password { Faker::Internet.password }
@@ -79,6 +91,26 @@ FactoryGirl.define do
 
   factory :template do
     template_name { Faker::Commerce.color }
+  end
+
+  factory :petition_signature_params, class: Hash do
+    signature {
+      {
+        name: Faker::Name.name,
+        email: Faker::Internet.email,
+        state: Faker::Address.state,
+        country: Faker::Address.country,
+        postal: Faker::Address.postcode,
+        address: Faker::Address.street_address,
+        state: Faker::Address.state,
+        city: Faker::Address.city,
+        phone: Faker::PhoneNumber.phone_number,
+        zip: Faker::Address.zip,
+        region: Faker::Config.locale,
+        lang: 'En'
+      }
+    }
+    initialize_with { attributes }
   end
 
 end

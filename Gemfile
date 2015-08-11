@@ -49,6 +49,15 @@ gem 'paperclip'
 # in champaign-flute.
 gem 'render_anywhere', :require => false
 
+# AWS SDK for Ruby
+gem 'aws-sdk', '~> 2'
+
+# A fake SQS service to run a local look-a-like of Amazon SQS
+gem 'fake_sqs'
+
+# Gem for user agent / browser detection
+gem 'browser'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
@@ -57,6 +66,7 @@ group :development, :test do
   gem 'capybara' # Capybara for integration testing
   gem 'envyable'
   gem 'database_cleaner'
+
 
   # data for tests
   gem 'factory_girl_rails'

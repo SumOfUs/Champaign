@@ -1,9 +1,14 @@
-class CampaignPagesController < ApplicationController
+require 'champaign_queue'
+require 'browser'
 
+class CampaignPagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
 
   def index
+    # List campaign pages that match requested search parameters.
+    # If there are no search parameters, return all campaign pages.
+    @campaign_pages = Search::PageSearcher.new(params).search
   end
 
   def new
@@ -12,6 +17,7 @@ class CampaignPagesController < ApplicationController
 
   def create
     @campaign_page = CampaignPage.create_with_plugins( permitted_params )
+    ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
 
     respond_to do |format|
       format.json do
@@ -71,8 +77,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def sign
-    # Nothing here for the moment
-    render json: {success: true}, layout: false
+    ChampaignQueue::SqsPusher.push(params.as_json)
   end
 
   private
