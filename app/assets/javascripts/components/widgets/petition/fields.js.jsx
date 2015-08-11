@@ -29,7 +29,7 @@ var PetitionWidgetFields = React.createClass({
     serialized.require_full_name     = React.findDOMNode(this.refs.require_full_name).checked;
     serialized.require_email_address = React.findDOMNode(this.refs.require_email_address).checked;
     serialized.require_postal_code   = React.findDOMNode(this.refs.require_postal_code).checked;
-    serialized.pdo = this.refs.slotSelector.serialize().page_display_order;
+    serialized.page_display_order    = this.refs.slotSelector.serialize().page_display_order;
     return serialized;
   },
 

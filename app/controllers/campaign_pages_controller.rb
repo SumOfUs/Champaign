@@ -24,10 +24,20 @@ class CampaignPagesController < ApplicationController
 
     respond_to do |format|
       format.json do
-        #if @campaign_page.save
-        ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
-        render json: @campaign_page
-        #end
+        if @campaign_page.save
+          ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
+          render json: @campaign_page
+        else
+          render json: @campaign_page.errors, status: :unprocessable_entity
+        end
+      end
+      format.html do
+        if @campaign_page.save
+          redirect_to edit_campaign_page_path(@campaign_page)
+        else
+          @options = create_form_options(params)
+          render :new
+        end
       end
     end
   end
