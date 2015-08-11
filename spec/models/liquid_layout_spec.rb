@@ -205,6 +205,15 @@ describe LiquidLayout do
       end
     end
 
+    it "is correctly ordered even if the slots aren't in ordered" do
+      template.content = "#{example_html_top}
+        <div class='slot'> {{ slot2 }} <!-- header image --> </div>
+        <div class='slot'> {{ slot1 }} <!-- title --> </div>
+        <div class='slot'> {{ slot3 }} <!-- body1 --> </div>
+      #{example_html_bottom}"
+      expect(template.slot_labels).to eq (["title", "header image", "body1"])
+    end
+
   end
 
 end

@@ -24,7 +24,10 @@ class LiquidLayout < ActiveRecord::Base
 
   def slot_labels
     return [] unless content.present?
-    return content.scan(slot_regex).map{ |captured| captured[2] || "slot #{captured[0]}" }
+    matches = content.scan(slot_regex).sort_by(&:first)
+    return matches.map do |captured|
+      captured[2] || "slot #{captured[0]}"
+    end
   end
 
 
