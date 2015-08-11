@@ -4,10 +4,11 @@ var mixins = require('flux/mixins');
 var WidgetForm = React.createClass({
 
   propTypes: {
-    fields:    React.PropTypes.func.isRequired,
+    fields:  React.PropTypes.func.isRequired,
     preview: React.PropTypes.func.isRequired,
     errors:  React.PropTypes.object,
-    title:   React.PropTypes.string
+    title:   React.PropTypes.string,
+    page_display_order: React.PropTypes.number
   },
 
   mixins: [mixins.FluxMixin],

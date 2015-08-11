@@ -6,7 +6,8 @@ var WidgetActions = React.createClass({
     parentWidget:     React.PropTypes.object.isRequired,
     toggleEditShow:   React.PropTypes.func.isRequired,
     title:            React.PropTypes.string,
-    id:               React.PropTypes.number.isRequired
+    id:               React.PropTypes.number.isRequired,
+    page_display_order: React.PropTypes.number
   },
 
   mixins: [mixins.FluxMixin],
@@ -31,11 +32,19 @@ var WidgetActions = React.createClass({
     $(node).remove();
   },
 
+  slotLabel() {
+    if (window.slotNames && this.props.page_display_order) {
+      return window.slotNames[this.props.page_display_order-1]
+    } else {
+      return "";
+    }
+  },
+
   render(){
     return (
       <div className='widget-header'>
         <div className="widget-title">
-          { this.props.title }
+          { this.slotLabel() } - { this.props.title }
         </div>
         <div className='widget-actions'>
           <a onClick={this.handleEdit   } href='#'><span className='glyphicon glyphicon-pencil' /></a>
