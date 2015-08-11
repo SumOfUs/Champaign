@@ -106,9 +106,9 @@ class CampaignPagesController < ApplicationController
 
   def slot_widgets
     @slotted = {}
-    @campaign_page.widgets.sort_by(&:page_display_order).each_with_index do |widget, ii|
+    @campaign_page.widgets.each do |widget|
       rendered = render_to_string(partial: "widgets/#{widget.class.name.underscore}/display", layout: false, locals: {widget: widget})
-      @slotted["slot#{ii+1}"] = rendered
+      @slotted["slot#{widget.page_display_order}"] = rendered
     end
   end
 
