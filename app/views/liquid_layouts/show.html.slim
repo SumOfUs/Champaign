@@ -10,8 +10,8 @@ p
   strong Shows sitewide elements:
   = @liquid_layout.chromeless ? ' No' : ' Yes'
 p
-  strong Content:
-  = @liquid_layout.content
+  strong Slot labels:
+  = @liquid_layout.slot_labels.join(", ")
 
 = link_to 'Edit', edit_liquid_layout_path(@liquid_layout)
 '|
