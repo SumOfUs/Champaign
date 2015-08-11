@@ -15,7 +15,6 @@
 //= require components
 //= require bootstrap-sprockets
 //= require select2
-//= require plugin_settings
 //= require dropzone
 //= require dropzone_config
 //= require form_builder
