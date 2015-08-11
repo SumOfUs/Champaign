@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150811083418) do
+ActiveRecord::Schema.define(version: 20150811174841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,7 +37,6 @@ ActiveRecord::Schema.define(version: 20150811083418) do
   create_table "actionkit_pages", force: :cascade do |t|
     t.integer "actionkit_id",           null: false
     t.integer "actionkit_page_type_id", null: false
-    t.integer "widget_id",              null: false
   end
 
   create_table "actions", force: :cascade do |t|
@@ -225,17 +224,6 @@ ActiveRecord::Schema.define(version: 20150811083418) do
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
-
-  create_table "widgets", force: :cascade do |t|
-    t.jsonb    "content"
-    t.integer  "page_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string   "page_type"
-    t.string   "name"
-  end
-
-  add_index "widgets", ["page_id"], name: "index_widgets_on_page_id", using: :btree
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
   add_foreign_key "actions", "action_users"
