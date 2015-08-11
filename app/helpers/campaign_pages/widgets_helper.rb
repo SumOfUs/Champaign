@@ -1,2 +1,0 @@
-module CampaignPages::WidgetsHelper
-end
