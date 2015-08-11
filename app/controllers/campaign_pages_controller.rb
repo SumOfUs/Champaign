@@ -20,15 +20,25 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    @campaign_page = CampaignPage.new(@page_params)
-    @campaign_page.compile_html
-    if @campaign_page.save
-      ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
-      redirect_to @campaign_page, notice: 'Campaign page created!'
+    @campaign_page = CampaignPage.new( clean_params )
 
-    else
-      @options = create_form_options(@page_params)
-      render :new
+    respond_to do |format|
+      format.json do
+        if @campaign_page.save
+          ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
+          render json: @campaign_page
+        else
+          render json: @campaign_page.errors, status: :unprocessable_entity
+        end
+      end
+      format.html do
+        if @campaign_page.save
+          redirect_to edit_campaign_page_path(@campaign_page)
+        else
+          @options = create_form_options(params)
+          render :new
+        end
+      end
     end
   end
 
@@ -36,6 +46,10 @@ class CampaignPagesController < ApplicationController
     unless @campaign_page.active
       redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
     end
+    @template = Liquid::Template.parse(@campaign_page.liquid_layout.content)
+    slot_widgets
+    @chromeless = @campaign_page.liquid_layout.chromeless
+    render :show, layout: 'liquid'
   end
 
   def edit
@@ -43,13 +57,24 @@ class CampaignPagesController < ApplicationController
   end
 
   def update
-    if @campaign_page.update_attributes(@page_params)
-      @campaign_page.compile_html
-      redirect_to @campaign_page, notice: 'Campaign page updated!'
-    else
-      @options = create_form_options(@page_params)
-      render :edit
+    respond_to do |format|
+      format.html do
+        if @campaign_page.update_attributes clean_params
+          @campaign_page.compile_html
+          @options = create_form_options(params)
+          render :edit, notice: 'Campaign page updated!'
+        else
+          @options = create_form_options(clean_params)
+          render :edit
+        end
+      end
+      format.json do
+        @campaign_page.update_attributes( clean_params )
+        render json: @campaign_page
+        # TODO: handle error case
+      end
     end
+
   end
 
   def sign
@@ -71,11 +96,20 @@ class CampaignPagesController < ApplicationController
       campaigns: Campaign.active,
       languages: Language.all,
       templates: Template.active,
+      liquid_layouts: LiquidLayout.all,
       campaign: params[:campaign],
       tags: Tag.all,
       template: (params[:template].nil? ? Template.active.first : params[:template]),
       campaign: (params[:campaign].nil? ? Campaign.active.first : params[:campaign])
     }
+  end
+
+  def slot_widgets
+    @slotted = {}
+    @campaign_page.widgets.each do |widget|
+      rendered = render_to_string(partial: "widgets/#{widget.class.name.underscore}/display", layout: false, locals: {widget: widget})
+      @slotted["slot#{widget.page_display_order}"] = rendered
+    end
   end
 
 end

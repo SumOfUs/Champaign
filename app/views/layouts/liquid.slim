@@ -1,0 +1,9 @@
+doctype html
+html
+  = render "layouts/head"
+  body
+    - unless @chromeless
+      = render "layouts/topnav"
+    = yield
+    - unless @chromeless
+      = render "layouts/footer"

@@ -1,0 +1,20 @@
+= form_for @liquid_layout do |f|
+  = render 'shared/error_messages', target: @liquid_layout
+
+  .field
+    = f.label :title, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_field :title, class: 'form-control'
+  .field
+    = f.label :content, class: 'control-label col-lg-2'
+    .col-lg-10
+      = f.text_area :content, rows: 15, cols: 120, class: 'form-control'
+  .field
+    .col-lg-2
+    = f.label :chromeless, class: 'control-label .col-lg-10'
+      = f.check_box :chromeless
+      | Display without any headers, footers, or other site-wide visual elements
+
+
+  .form-group
+    = f.submit "Save", class: 'btn btn-sm btn-primary'

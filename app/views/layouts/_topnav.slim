@@ -1,0 +1,19 @@
+.navbar.navbar-default.navbar-static-top
+  .container
+    button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+      span.icon-bar
+      span.icon-bar
+      span.icon-bar
+    a.navbar-brand href="#"
+    .navbar-collapse.collapse.navbar-responsive-collapse
+      ul.nav.navbar-nav
+        li= link_to "campaign pages", campaign_pages_path
+        li= link_to "campaigns", campaigns_path
+        li= link_to "templates", liquid_layouts_path
+      ul.nav.navbar-nav.pull-right
+        - if user_signed_in?
+          li= link_to "Logout", destroy_user_session_path, :method => :delete
+        - else
+          li= link_to "Login", new_user_session_path
+          li= link_to "Sign up", new_user_registration_path
+          li= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)

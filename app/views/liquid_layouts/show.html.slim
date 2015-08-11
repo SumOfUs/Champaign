@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @liquid_layout.title
+p
+  strong Slots:
+  = @liquid_layout.slot_count
+p
+  strong Shows sitewide elements:
+  = @liquid_layout.chromeless ? ' No' : ' Yes'
+p
+  strong Slot labels:
+  = @liquid_layout.slot_labels.join(", ")
+
+= link_to 'Edit', edit_liquid_layout_path(@liquid_layout)
+'|
+= link_to 'Back', liquid_layouts_path

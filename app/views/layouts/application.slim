@@ -1,42 +1,8 @@
 doctype html
 html
-  head
-    title Champaign
-    meta name="viewport" content="width=device-width, initial-scale=1.0"
-    = stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag "application", 'data-turbolinks-track' => true
-    = csrf_meta_tags
- 
+  = render "layouts/head"
   body
-    .navbar.navbar-default.navbar-static-top
-        .container
-          button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand href="#"
-          .navbar-collapse.collapse.navbar-responsive-collapse
-            ul.nav.navbar-nav
-              li= link_to "campaign pages", "/campaign_pages"
-              li= link_to "campaigns", "/campaigns"
-              li= link_to "templates", "/templates"
-            ul.nav.navbar-nav.pull-right
-              - if user_signed_in?
-                li= link_to "Logout", destroy_user_session_path, :method => :delete
-              - else
-                li= link_to "Login", new_user_session_path
-                li= link_to "Sign up", new_user_registration_path
-                li= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
+    = render "layouts/topnav"
     .container
-      - if flash[:error]
-        div.alert.alert-dismissible.alert-error
-          button type='button' class='close' data-dismiss='alert' x
-          strong #{flash[:error]}
-      - if flash[:notice]
-        div.alert.alert-dismissible.alert-success
-          button type='button' class='close' data-dismiss='alert' x
-          strong #{flash[:notice]}
       = yield
-    footer
-      .container
-        p Made with love and compassion. And coffee.
+    = render "layouts/footer"

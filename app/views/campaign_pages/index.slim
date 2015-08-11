@@ -13,7 +13,7 @@
       tbody
         - @campaign_pages.each do |page|
           tr
-            td = page.title
+            td = link_to page.title, campaign_page_path(page)
             td
               span class=(page.featured? ? 'tick' : 'cross')
             td

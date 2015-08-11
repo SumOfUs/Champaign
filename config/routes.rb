@@ -22,7 +22,16 @@ Rails.application.routes.draw do
 
   # Standard resources
   resources :campaigns
-  resources :campaign_pages
+
+  resources :campaign_pages do
+    resources :widgets, only: [:index, :destroy, :create, :update]
+  end
+
+  resources :templates do
+    resources :widgets, only: [:index, :destroy, :create, :update]
+  end
+
+  resources :liquid_layouts
   resources :templates
 
 

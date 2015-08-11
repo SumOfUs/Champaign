@@ -15,6 +15,11 @@
       .col-lg-10
         = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
     
+      = f.label :liquid_layout_id, 'Template: ', class: 'control-label col-lg-2'
+      - @options[:liquid_layouts]
+      .col-lg-10
+        = f.select :liquid_layout_id, options_from_collection_for_select(@options[:liquid_layouts], 'id', 'title_with_slots', @campaign_page.liquid_layout_id), {}, html_options= {:class => 'form-control'}
+    
       = f.label :campaign_id, 'Campaign: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :campaign_id, options_from_collection_for_select(@options[:campaigns], 'id', 'campaign_name', @campaign_page.campaign_id), {}, html_options= {:class => 'form-control'}
@@ -26,15 +31,10 @@
       = f.label :tag_ids, 'Tags: ', class: 'control-label col-lg-2'
       .col-lg-10
         = f.select :tag_ids, options_from_collection_for_select(@options[:tags], 'id', 'tag_name'), {}, html_options= {class: 'form-control select2-container', multiple: true}
-    
-      / label for='template_id' class='control-label col-lg-2' Template:
-      / .col-lg-10
-      /   = select_tag 'template_id', options_from_collection_for_select(@options[:templates], 'id', 'template_name', @options[:template]), class: 'form-control'
-      /     | data-no-turbolink="true"
-
-
-    = render 'shared/widgets_editor', builder: f
-
 
     .form-group
-      = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+      = f.submit 'Save Page Info', class: 'btn btn-sm btn-primary'
+
+    .form-group
+      = link_to "View page", @campaign_page, class: 'btn btn-sm btn-secondary'
+

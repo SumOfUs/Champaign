@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row body main-content">
+    <div class="col-md-8">
+      <div class="banner img-responsive content-block">
+        {{ slot1 }} <!-- header image -->
+      </div>
+      <h2>
+        {{ slot2 }}<!-- title -->
+      </h2>
+      <div class="content-block">
+        {{ slot3 }}<!-- body 1 -->
+      </div>
+      <div class="content-block">
+        {{ slot4 }}<!-- body 2 -->
+      </div>
+      <div class="content-block">
+        {{ slot5 }}<!-- body 3 -->
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="content-block">
+        {{ slot6 }} <!-- sidebar -->
+      </div>
+    </div>
+  </div>
+</div>

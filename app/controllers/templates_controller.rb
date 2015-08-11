@@ -16,7 +16,7 @@ class TemplatesController < ApplicationController
   def create
     @template = Template.new @template_params
     if @template.save
-      redirect_to @template, notice: 'Template created!'
+      redirect_to edit_template_path(@template), notice: 'Template created!'
     else
       render :new
     end
