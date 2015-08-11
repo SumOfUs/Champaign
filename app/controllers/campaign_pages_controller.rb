@@ -23,7 +23,7 @@ class CampaignPagesController < ApplicationController
     @campaign_page = CampaignPage.new(@page_params)
     @campaign_page.compile_html
     if @campaign_page.save
-      ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
+      ChampaignQueue::SqsPusher.push({type: 'create', params: @campaign_page}.as_json)
       redirect_to @campaign_page, notice: 'Campaign page created!'
 
     else
@@ -53,7 +53,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def sign
-    ChampaignQueue::SqsPusher.push(params.as_json)
+    ChampaignQueue::SqsPusher.push({type: 'action', params: params}.as_json)
   end
 
   private
