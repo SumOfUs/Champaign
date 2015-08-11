@@ -1,6 +1,4 @@
-$(document).ready(function(){
-	//Dropzone.autoDiscover = false;
-
+$(function(){
   Dropzone.options.dropzone = {
 		maxFilesize: 2,
 		paramName: "image[content]",
@@ -18,18 +16,5 @@ $(document).ready(function(){
       });
     }
 	};
-
 });
-
-$(function(){
-
-  //var clip = new ZeroClipboard();
-
-  $('.campaign-images').on('click', 'img', function(e) {
-    var $img = $(this);
-		//clip.setText($img.attr('src'));
-    ZeroClipboard.setData( "text/plain", "Copy me!" );
-  });
-});
-
 
