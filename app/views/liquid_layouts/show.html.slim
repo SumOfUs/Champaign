@@ -7,6 +7,9 @@ p
   strong Slots:
   = @liquid_layout.slot_count
 p
+  strong Shows sitewide elements:
+  = @liquid_layout.chromeless ? ' No' : ' Yes'
+p
   strong Content:
   = @liquid_layout.content
 

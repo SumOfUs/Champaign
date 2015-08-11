@@ -38,6 +38,7 @@ class CampaignPagesController < ApplicationController
     end
     @template = Liquid::Template.parse(@campaign_page.liquid_layout.content)
     slot_widgets
+    @chromeless = @campaign_page.liquid_layout.chromeless
     render :show, layout: 'liquid'
   end
 
