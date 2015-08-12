@@ -6,7 +6,6 @@
 
 $(function(){
   $('.syntax-highlighting').each(function(idx, el){
-    console.log(el)
     CodeMirror.fromTextArea(el, {
       mode: 'htmlmixed',
       theme: '3024-night'
