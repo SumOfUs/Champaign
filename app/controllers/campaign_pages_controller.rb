@@ -26,15 +26,19 @@ class CampaignPagesController < ApplicationController
   end
 
   def show
+    # TODO
+    # Set this in an initialiser
+    #
     Liquid::Template.file_system = LiquidFileSystem.new
-    layout = if @campaign_page.id == 18
-               LiquidLayout.find(3).content
+
+
+    markup = if @campaign_page.liquid_layout
+               @campaign_page.liquid_layout.content
              else
-              LiquidLayout.first.content
+                File.read("#{Rails.root}/app/views/plugins/templates/main.liquid")
              end
 
-    @template = Liquid::Template.parse(layout)
-
+    @template = Liquid::Template.parse(markup)
 
     @data = Plugins.data_for_view(@campaign_page).
       merge( @campaign_page.attributes ).
