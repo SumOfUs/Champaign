@@ -72,9 +72,12 @@ class CampaignPagesController < ApplicationController
 
   def update
     respond_to do |format|
-      format.json do
-        @campaign_page.update( permitted_params )
-        render json: @campaign_page
+      if @campaign_page.update(permitted_params)
+        format.html { redirect_to edit_campaign_page_path(@campaign_page), notice: 'Page was successfully updated.' }
+        format.json { render json: @campaign_page, status: :ok }
+      else
+        format.html { render :edit }
+        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -100,6 +103,7 @@ class CampaignPagesController < ApplicationController
       :template_id,
       :campaign_id,
       :language_id,
+      :liquid_layout_id,
       {:tag_ids => []} )
   end
 end

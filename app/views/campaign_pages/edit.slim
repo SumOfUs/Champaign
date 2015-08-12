@@ -1,5 +1,7 @@
-= form_for @campaign_page, remote: true do |f|
+= form_for @campaign_page do |f|
   = f.hidden_field :content
+
+  = render 'shared/error_messages', target: @campaign_page
 
   .page-title.form-group
     = f.text_field :title
@@ -8,9 +10,16 @@
   .form-group
     = render 'shared/quill_editor'
 
+  .form-group
+    = f.label :liquid_layout_id, t('.layout_select')
+    = f.select :liquid_layout_id,
+      LiquidLayout.all.map{|ll| [ll.title, ll.id] },
+      {include_blank: 'Default'},
+      class: "space-left"
 
   .form-group
-    = submit_tag(t('common.save'), class: 'btn btn-default')
+    = submit_tag(t('common.save'), class: 'btn btn-default btn-primary')
+    = link_to t('.view'), @campaign_page, class: 'btn btn-default space-left'
 
 - if @campaign_page.images.any?
   .component.campaign-images

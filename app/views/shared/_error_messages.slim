@@ -1,6 +1,8 @@
 - if target.errors.any?
-  div.has-error.help-block
-    | We couldn't save your submission because of the following errors:
-    ul
-      - target.errors.full_messages.each do |msg|
-        li= msg
+  div.alert.alert-dismissible.alert-danger
+    button type='button' class='close' data-dismiss='alert' x
+    strong 
+      | We couldn't save your submission because of the following #{pluralize(target.errors.count, "error")}:
+      ul
+        - target.errors.full_messages.each do |msg|
+          li= msg
