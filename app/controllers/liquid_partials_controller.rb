@@ -2,28 +2,20 @@ class LiquidPartialsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
   before_action :set_liquid_partial, only: [:show, :edit, :update, :destroy]
 
-  # GET /liquid_partials
-  # GET /liquid_partials.json
   def index
     @liquid_partials = LiquidPartial.all
   end
 
-  # GET /liquid_partials/1
-  # GET /liquid_partials/1.json
   def show
   end
 
-  # GET /liquid_partials/new
   def new
     @liquid_partial = LiquidPartial.new
   end
 
-  # GET /liquid_partials/1/edit
   def edit
   end
 
-  # POST /liquid_partials
-  # POST /liquid_partials.json
   def create
     @liquid_partial = LiquidPartial.new(liquid_partial_params)
 
@@ -38,8 +30,6 @@ class LiquidPartialsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /liquid_partials/1
-  # PATCH/PUT /liquid_partials/1.json
   def update
     respond_to do |format|
       if @liquid_partial.update(liquid_partial_params)
@@ -52,8 +42,6 @@ class LiquidPartialsController < ApplicationController
     end
   end
 
-  # DELETE /liquid_partials/1
-  # DELETE /liquid_partials/1.json
   def destroy
     @liquid_partial.destroy
     respond_to do |format|
@@ -63,13 +51,12 @@ class LiquidPartialsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_liquid_partial
-      @liquid_partial = LiquidPartial.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def liquid_partial_params
-      params.require(:liquid_partial).permit(:title, :content)
-    end
+  def set_liquid_partial
+    @liquid_partial = LiquidPartial.find(params[:id])
+  end
+
+  def liquid_partial_params
+    params.require(:liquid_partial).permit(:title, :content)
+  end
 end
