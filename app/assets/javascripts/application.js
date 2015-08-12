@@ -12,11 +12,14 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require pub_sub
+
 //= require components
 //= require bootstrap-sprockets
 //= require select2
 //= require dropzone
-//= require dropzone_config
 //= require form_builder
 //= require_tree ./plugins
+
 //= require forms
+//= require campaign_page

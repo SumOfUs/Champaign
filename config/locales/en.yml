@@ -24,6 +24,7 @@ en:
     name: 'Name'
     active: 'Active'
     edit: 'Edit'
+    save: 'Save'
     lets_go: "Let's Go!"
 
   oauth:
