@@ -12,7 +12,8 @@
 
 
   .form-group
-    = submit_tag(t('common.save'), class: 'btn btn-default')
+    = submit_tag(t('common.save'), class: 'btn btn-default btn-primary')
+    = link_to t('.view'), @campaign_page, class: 'btn btn-default space-left'
 
 - if @campaign_page.images.any?
   .component.campaign-images

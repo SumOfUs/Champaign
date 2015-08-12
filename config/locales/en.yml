@@ -52,6 +52,9 @@ en:
     new:
       title: "Let's Get Started!"
       sub:   "First, give your Campaign Page a unique and catchy title"
+    edit:
+      layout_select: "Pick the Layout"
+      show: "View the page"
 
   campaigns:
     index:
