@@ -1,21 +1,21 @@
 <section class='action'>
-<p>{{ plugins.action.description }}</p>
+  <p>{{ plugins.action.description }}</p>
 
-<form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
-  {% for field in plugins.action.fields %}
-    <div class="form-group">
-      {% case field.data_type %}
+  <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
+    {% for field in plugins.action.fields %}
+      <div class="form-group">
+        {% case field.data_type %}
 
-      {% when 'text' %}
-        <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
-      {% when 'checkbox' %}
-        <label>
-          <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
-        </label>
-      {% endcase %}
-    </div>
-  {% endfor %}
-  <button type="submit" class="btn btn-default">Send</button>
-</form>
+        {% when 'text' %}
+          <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+        {% when 'checkbox' %}
+          <label>
+            <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
+          </label>
+        {% endcase %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-default">Send</button>
+  </form>
 </section>
 

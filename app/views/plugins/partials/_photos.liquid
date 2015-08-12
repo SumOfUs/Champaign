@@ -1,0 +1,12 @@
+<div class='image-gallery slider'>
+  {% for image in images %}
+      <img width='600' src='{{ image.urls.large }}' />
+  {% endfor %}
+</div>
+
+
+<script>
+ $(function(){
+   $('.slider').sss();
+ });
+</script>
