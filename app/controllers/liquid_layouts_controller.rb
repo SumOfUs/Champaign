@@ -1,4 +1,5 @@
 class LiquidLayoutsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :create]
   before_action :set_liquid_layout, only: [:show, :edit, :update, :destroy]
 
   # GET /liquid_layouts
