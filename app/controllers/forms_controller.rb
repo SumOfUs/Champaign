@@ -1,4 +1,6 @@
 class FormsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :create]
+
   def index
   end
 
