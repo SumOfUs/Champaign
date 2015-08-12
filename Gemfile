@@ -56,6 +56,9 @@ gem 'logger'
 # A fake SQS service to run a local look-a-like of Amazon SQS
 gem 'fake_sqs'
 
+# Required for production
+gem 'rack-cache'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
