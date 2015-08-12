@@ -19,6 +19,4 @@ EXPOSE 3000
 ADD . /myapp
 WORKDIR /myapp
 
-# Remove existing server.pid file that'll prevent the service from spinning up
-RUN rm -f /myapp/tmp/pids/server.pid
 CMD bundle exec rails s -b 0.0.0.0
