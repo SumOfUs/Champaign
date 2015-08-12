@@ -27,6 +27,18 @@ en:
     save: 'Save'
     lets_go: "Let's Go!"
 
+  menu:
+    campaign_pages: 'Campaign Pages'
+    campaigns: 'Campaigns'
+    forms: 'Forms'
+    templates: 'Templates'
+    partials: 'Partials'
+    actions: 'Actions'
+    logout: 'Logout'
+    login: 'Log in'
+    sign_up: 'Sign up'
+    sign_google: 'Sign in with Google'
+
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
