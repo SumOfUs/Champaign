@@ -1,12 +1,6 @@
 = form_for plugin, url: plugins_thermometer_path(plugin), remote: true, html: {class: 'plugin-settings'} do |f|
-  - if plugin.errors.any?
-    .errors-description
-      h3 = pluralize(plugin.errors.count, "error")
-         prohibited this plugin from being saved:
-
-      ul
-        - plugin.errors.full_messages.each do |message|
-          li = message
+  = render "shared/error_messages", target: plugin
+  = render "shared/success_message", success: (defined?(success) || false)
 
   div.form-group
     = f.label :title, "Title"

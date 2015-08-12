@@ -26,6 +26,7 @@ en:
     edit: 'Edit'
     save: 'Save'
     lets_go: "Let's Go!"
+    successful_update: "Your changes have been saved!"
 
   menu:
     campaign_pages: 'Campaign Pages'

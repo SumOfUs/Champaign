@@ -37,7 +37,7 @@ html
     .container
       #trum
       - if flash[:error]
-        div.alert.alert-dismissible.alert-error
+        div.alert.alert-dismissible.alert-danger
           button type='button' class='close' data-dismiss='alert' x
           strong #{flash[:error]}
       - if flash[:notice]
