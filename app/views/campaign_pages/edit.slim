@@ -1,29 +1,35 @@
-javascript:
-  var campaign_page_id = #{ @campaign_page.id };
+= form_for @campaign_page, remote: true do |f|
+  = f.hidden_field :content
 
-= react_component 'CampaignPageForm', @campaign_page.to_json
-= react_component 'Content', @campaign_page.to_json
+  .page-title.form-group
+    = f.text_field :title
 
-.campaign-images.component
-  - @campaign_page.images.each do |image|
-    = render partial: 'images/thumbnail', locals: { image: image }
+
+  .form-group
+    = render 'shared/quill_editor'
+
+
+  .form-group
+    = submit_tag(t('common.save'), class: 'btn btn-default')
+
+- if @campaign_page.images.any?
+  .component.campaign-images
+    - @campaign_page.images.each do |image|
+      = render partial: 'images/thumbnail', locals: { image: image }
 
 .component
   = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
 
 - Plugins.registered.each do |plugin|
   - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
-  - if plugin_record
-    div.component.title
-      h4 = plugin_record.name
 
-    div.component.main style="display:none;"
+  - if plugin_record
+    div.component.main
       h4 = plugin_record.name
       = render partial: "#{plugin.to_s.underscore.pluralize}/form", locals: { plugin: plugin_record, page: @campaign_page }
 
+
+
 javascript:
- $(function(){
-   $('.component.title').on('click', function(e) {
-     $(this).hide().next().show()
-   });
- });
+  $.publish("campaign_page:has_loaded");
+
