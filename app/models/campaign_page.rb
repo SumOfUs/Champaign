@@ -13,7 +13,6 @@ class CampaignPage < ActiveRecord::Base
   has_many :images
 
   validates :title, :slug, presence: true, uniqueness: true
-  validates :language, presence: true
 
   before_validation :create_slug
 
@@ -32,11 +31,18 @@ class CampaignPage < ActiveRecord::Base
   # Move to service class
   #
   def self.create_with_plugins(params)
-    page = create(params.merge(language: Language.first))
+    page = new(params)
+    page.language = Language.first
 
-    Plugins.registered.each do |plugin|
-      Plugins.create_for_page(plugin, page)
+    if page.save
+      Plugins.registered.each do |plugin|
+        Plugins.create_for_page(plugin, page)
+      end
+
+      ChampaignQueue::SqsPusher.push(@campaign_page.as_json) if Rails.env.production?
     end
+
+    page
   end
 end
 

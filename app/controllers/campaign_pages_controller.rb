@@ -17,12 +17,11 @@ class CampaignPagesController < ApplicationController
 
   def create
     @campaign_page = CampaignPage.create_with_plugins( permitted_params )
-    ChampaignQueue::SqsPusher.push(@campaign_page.as_json)
 
-    respond_to do |format|
-      format.json do
-        render json: @campaign_page
-      end
+    if @campaign_page.valid?
+      redirect_to edit_campaign_page_path(@campaign_page)
+    else
+      render :new
     end
   end
 
@@ -99,6 +98,4 @@ class CampaignPagesController < ApplicationController
       :language_id,
       {:tag_ids => []} )
   end
-
-
 end

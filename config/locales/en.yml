@@ -24,6 +24,7 @@ en:
     name: 'Name'
     active: 'Active'
     edit: 'Edit'
+    lets_go: "Let's Go!"
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -34,6 +35,9 @@ en:
       title: "Campaign Pages"
       table:
         featured: Featured
+    new:
+      title: "Let's Get Started!"
+      sub:   "First, give your Campaign Page a unique and catchy title"
 
   campaigns:
     index:
