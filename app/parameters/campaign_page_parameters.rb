@@ -1,4 +1,4 @@
-class CampaignPageParameters < PageParameters
+class CampaignPageParameters
 
   def permit
     super(campaign_page_fields, :campaign_page)
