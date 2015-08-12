@@ -5,9 +5,9 @@ class Plugins::ThermometersController < ApplicationController
 
     respond_to do |format|
       if plugin.update(permitted_params)
-        format.html { render partial: 'form', locals: {plugin: plugin, success: true } }
+        format.html { render partial: 'form', locals: { plugin: plugin, success: true } }
       else
-        format.html { render partial: 'form', locals: {plugin: plugin}, status: :unprocessable_entity  }
+        format.html { render partial: 'form', locals: { plugin: plugin}, status: :unprocessable_entity }
       end
     end
   end

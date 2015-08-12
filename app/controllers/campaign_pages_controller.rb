@@ -103,6 +103,7 @@ class CampaignPagesController < ApplicationController
       :template_id,
       :campaign_id,
       :language_id,
+      :liquid_layout_id,
       {:tag_ids => []} )
   end
 end

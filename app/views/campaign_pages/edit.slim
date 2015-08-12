@@ -10,6 +10,12 @@
   .form-group
     = render 'shared/quill_editor'
 
+  .form-group
+    = f.label :liquid_layout_id, t('.layout_select')
+    = f.select :liquid_layout_id,
+      LiquidLayout.all.map{|ll| [ll.title, ll.id] },
+      {include_blank: 'Default'},
+      class: "space-left"
 
   .form-group
     = submit_tag(t('common.save'), class: 'btn btn-default btn-primary')
