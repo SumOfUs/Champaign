@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150812131853) do
+ActiveRecord::Schema.define(version: 20150812172556) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150812131853) do
   add_index "actions", ["campaign_page_id"], name: "index_actions_on_campaign_page_id", using: :btree
 
   create_table "campaign_pages", force: :cascade do |t|
-    t.integer  "language_id",                          null: false
+    t.integer  "language_id"
     t.integer  "campaign_id"
     t.string   "title",                                null: false
     t.string   "slug",                                 null: false
