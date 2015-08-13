@@ -57,6 +57,8 @@ en:
       layout_select: "Choose a Layout"
       show: "View the page"
       tags: "Tags"
+      photos: 'Photos'
+      extras: 'Extras'
 
   campaigns:
     index:

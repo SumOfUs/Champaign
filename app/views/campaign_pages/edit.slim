@@ -24,22 +24,26 @@
     = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
     = link_to t('.view'), @campaign_page, class: 'btn btn-info', target: '_blank'
 
-h2 Photos
-- if @campaign_page.images.any?
-  .component.campaign-images
-    - @campaign_page.images.each do |image|
-      = render partial: 'images/thumbnail', locals: { image: image }
+section
+  h3 = t('.photos')
+  - if @campaign_page.images.any?
+    .component.campaign-images
+      - @campaign_page.images.each do |image|
+        = render partial: 'images/thumbnail', locals: { image: image }
 
-.component
-  = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
+  .component
+    = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
 
-- Plugins.registered.each do |plugin|
-  - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
+section
+  h3 = t('.extras')
 
-  - if plugin_record
-    div.component.main
-      h4 = plugin_record.name
-      = render partial: "#{plugin.to_s.underscore.pluralize}/form", locals: { plugin: plugin_record, page: @campaign_page }
+  - Plugins.registered.each do |plugin|
+    - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
+
+    - if plugin_record
+      div.component.main
+        h4 = plugin_record.name
+        = render partial: "#{plugin.to_s.underscore.pluralize}/form", locals: { plugin: plugin_record, page: @campaign_page }
 
 
 
