@@ -19,16 +19,17 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe LiquidPartialsController, type: :controller do
+  login_user
 
   # This should return the minimal set of attributes required to create a valid
   # LiquidPartial. As you add validations to LiquidPartial, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    attributes_for :liquid_partial
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    attributes_for :liquid_partial, title: ' '
   }
 
   # This should return the minimal set of values that should be in the session
@@ -81,9 +82,9 @@ RSpec.describe LiquidPartialsController, type: :controller do
         expect(assigns(:liquid_partial)).to be_persisted
       end
 
-      it "redirects to the created liquid_partial" do
+      it "redirects to the created liquid_partial's edit page" do
         post :create, {:liquid_partial => valid_attributes}, valid_session
-        expect(response).to redirect_to(LiquidPartial.last)
+        expect(response).to redirect_to(edit_liquid_partial_path(LiquidPartial.last))
       end
     end
 
@@ -103,14 +104,15 @@ RSpec.describe LiquidPartialsController, type: :controller do
   describe "PUT #update" do
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        attributes_for :liquid_partial
       }
 
       it "updates the requested liquid_partial" do
         liquid_partial = LiquidPartial.create! valid_attributes
         put :update, {:id => liquid_partial.to_param, :liquid_partial => new_attributes}, valid_session
         liquid_partial.reload
-        skip("Add assertions for updated state")
+        expect(liquid_partial.title).not_to eq valid_attributes[:title]
+        expect(liquid_partial.title).to eq new_attributes[:title]
       end
 
       it "assigns the requested liquid_partial as @liquid_partial" do
@@ -119,10 +121,10 @@ RSpec.describe LiquidPartialsController, type: :controller do
         expect(assigns(:liquid_partial)).to eq(liquid_partial)
       end
 
-      it "redirects to the liquid_partial" do
+      it "redirects to the liquid_partial's edit page" do
         liquid_partial = LiquidPartial.create! valid_attributes
         put :update, {:id => liquid_partial.to_param, :liquid_partial => valid_attributes}, valid_session
-        expect(response).to redirect_to(liquid_partial)
+        expect(response).to redirect_to(edit_liquid_partial_path(liquid_partial))
       end
     end
 
