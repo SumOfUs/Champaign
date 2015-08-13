@@ -17,8 +17,8 @@ class CampaignPagesController < ApplicationController
 
   def create
     @campaign_page = CampaignPage.create_with_plugins( permitted_params )
-
-    if @campaign_page.valid?
+    if @campaign_page.save
+      ChampaignQueue::SqsPusher.push({type: 'create', params: @campaign_page}.as_json)
       redirect_to edit_campaign_page_path(@campaign_page)
     else
       render :new
@@ -77,7 +77,7 @@ class CampaignPagesController < ApplicationController
   end
 
   def sign
-    ChampaignQueue::SqsPusher.push(params.as_json)
+    ChampaignQueue::SqsPusher.push({type: 'action', params: params}.as_json)
   end
 
   private
