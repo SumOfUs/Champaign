@@ -2,10 +2,8 @@ require 'champaign_queue'
 require 'browser'
 
 class CampaignPagesController < ApplicationController
-  
   before_action :authenticate_user!, except: [:show, :create]
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
-  before_action :clean_params, only: [:create, :update]
 
   def index
     # List campaign pages that match requested search parameters.
@@ -15,40 +13,66 @@ class CampaignPagesController < ApplicationController
 
   def new
     @campaign_page = CampaignPage.new
-    @campaign_page.campaign_id = params[:campaign] if params[:campaign].present?
-    @options = create_form_options(params)
   end
 
   def create
-    @campaign_page = CampaignPage.new(@page_params)
-    @campaign_page.compile_html
+    @campaign_page = CampaignPage.create_with_plugins( permitted_params )
     if @campaign_page.save
       ChampaignQueue::SqsPusher.push({type: 'create', params: @campaign_page}.as_json)
-      redirect_to @campaign_page, notice: 'Campaign page created!'
-
+      redirect_to edit_campaign_page_path(@campaign_page)
     else
-      @options = create_form_options(@page_params)
       render :new
     end
   end
 
   def show
-    unless @campaign_page.active
-      redirect_to :campaign_pages, notice: "The page you wanted to view has been deactivated."
+    markup = if @campaign_page.liquid_layout
+               @campaign_page.liquid_layout.content
+             else
+                File.read("#{Rails.root}/app/views/plugins/templates/main.liquid")
+             end
+
+    @template = Liquid::Template.parse(markup)
+
+    @data = Plugins.data_for_view(@campaign_page).
+      merge( @campaign_page.attributes ).
+      merge( 'images' => images )
+
+    render :show, layout: false
+  end
+
+  #
+  # NOTE
+  # This is a hack. Plugin data will be dynamically built, according to what
+  # plugins have been installed/enabled.
+  #
+  #
+  def images
+    @campaign_page.images.map do |img|
+      { 'urls' => { 'large' => img.content.url(:medium_square), 'small' => img.content.url(:thumb) } }
     end
   end
 
-  def edit
-    @options = create_form_options(params)
+  def data
+    plugins_data = Plugin.registered.inject({}) do |memo, plugin|
+      config = Plugins.const_get(plugin[:name].classify).new(@campaign_page)
+      memo[plugin[:name]] = config.data_for_view
+      memo
+    end
+
+
+    { 'plugins' => plugins_data }
   end
 
   def update
-    if @campaign_page.update_attributes(@page_params)
-      @campaign_page.compile_html
-      redirect_to @campaign_page, notice: 'Campaign page updated!'
-    else
-      @options = create_form_options(@page_params)
-      render :edit
+    respond_to do |format|
+      if @campaign_page.update(permitted_params)
+        format.html { redirect_to edit_campaign_page_path(@campaign_page), notice: 'Page was successfully updated.' }
+        format.json { render json: @campaign_page, status: :ok }
+      else
+        format.html { render :edit }
+        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -62,20 +86,18 @@ class CampaignPagesController < ApplicationController
     @campaign_page = CampaignPage.find(params[:id])
   end
 
-  def clean_params
-    @page_params = CampaignPageParameters.new(params).permit
+  def permitted_params
+    params.require(:campaign_page).
+      permit( :id,
+      :title,
+      :slug,
+      :active,
+      :content,
+      :featured,
+      :template_id,
+      :campaign_id,
+      :language_id,
+      :liquid_layout_id,
+      {:tag_ids => []} )
   end
-
-  def create_form_options(params)
-    @form_options = {
-      campaigns: Campaign.active,
-      languages: Language.all,
-      templates: Template.active,
-      campaign: params[:campaign],
-      tags: Tag.all,
-      template: (params[:template].nil? ? Template.active.first : params[:template]),
-      campaign: (params[:campaign].nil? ? Campaign.active.first : params[:campaign])
-    }
-  end
-
 end

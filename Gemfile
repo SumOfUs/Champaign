@@ -6,13 +6,14 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'bootstrap-sass', '~> 3.3.5'
-gem 'jquery-turbolinks'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-# Select2 does typeahead multi-select integrated within rails forms
+gem 'react-rails'
+gem 'browserify-rails'
 gem 'select2-rails'
+gem 'dropzonejs-rails'
+gem 'codemirror-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -24,7 +25,9 @@ gem 'select2-rails'
 gem 'bunny'
 
 # Use Slim for Templating
-gem 'slim'
+gem "slim-rails"
+gem 'liquid'
+
 
 # Use Devise for Authentication
 gem 'devise'
@@ -70,4 +73,3 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
 end
-

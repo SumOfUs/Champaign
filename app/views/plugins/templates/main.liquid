@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h2 class="title">
+        {{title}}
+      </h2>
+
+      <div class="text">
+        <!-- INSERT COMPONENTS BENEATH HERE -->
+
+        <div class='gallery'>
+         {% include 'photos' %}
+        </div>
+
+        {% include 'thermometer' %}
+
+        <!-- DO NOT INSERT COMPONENTS BEYOND HERE -->
+        <!-- MAIN CONTENT HERE -->
+
+        {{content}}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+        {% include 'action' %}
+    </div>
+  </div>
+</div>

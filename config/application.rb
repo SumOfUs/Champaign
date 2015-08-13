@@ -11,7 +11,7 @@ module Champaign
 
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+    #config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
 
     # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
     config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113', '10.5.50.113']
@@ -33,6 +33,9 @@ module Champaign
     # Disable the web console gem from complaining about being unable to render
     # a console while you're accessing the site from a host on Docker.
     config.web_console.whiny_requests = false
+
+    # to get browserify to handle react JSX
+    config.browserify_rails.commandline_options = "--transform babelify --extension=\".js.jsx\""
 
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker

@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @liquid_partial.title
+p
+  strong Content:
+  = @liquid_partial.content
+
+= link_to 'Edit', edit_liquid_partial_path(@liquid_partial)
+'|
+= link_to 'Back', liquid_partials_path

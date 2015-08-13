@@ -1,0 +1,18 @@
+
+.row
+  .col-md-12
+
+    table.table-bordered.table-striped.table
+      thead
+        tr
+          th title
+          th
+      tbody
+        - Form.all.each do |form|
+          tr
+            td = form.title
+            td = link_to t('common.edit'), form
+
+    = link_to t('.new'), new_form_path, class: 'btn btn-primary btn-sm'
+
+

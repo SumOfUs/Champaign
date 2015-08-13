@@ -1,4 +1,13 @@
-.jumbotron
-  h1 Create a new page
+h2 = t('.title')
 
-= render 'form'
+h4 = t('.sub')
+
+= form_for @campaign_page, class: '' do |f|
+  = render 'shared/error_messages', target: @campaign_page
+
+  .form-group
+    = f.text_field :title, class: 'form-control'
+
+  .form-group
+    = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary'
+
