@@ -11,7 +11,6 @@ describe ChampaignQueue, :sqs do
 
   let!(:campaign_page) {
     create(:page,
-           widgets: [build(:text_body_widget)],
            language: build(:language),
            campaign: build(:campaign)
     )

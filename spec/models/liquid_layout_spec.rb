@@ -1,5 +1,26 @@
 require 'rails_helper'
 
-RSpec.describe LiquidLayout, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe LiquidLayout do
+  
+  let(:layout) { create(:liquid_layout) }
+
+  it "is valid" do
+    expect(layout).to be_valid
+  end
+
+  describe "is invalid" do
+
+    after :each do
+      expect(layout).to be_invalid
+    end
+
+    it "with a blank title" do
+      layout.title = " "
+    end
+
+    it "with a blank content" do
+      layout.content = " "
+    end
+  end
+
 end

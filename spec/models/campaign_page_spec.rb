@@ -1,8 +1,11 @@
+require 'rails_helper'
+
 describe CampaignPage do
 
   let(:english) { create :language }
-  let(:simple_page) { CampaignPage.new(page_params) }
-  let(:existing_page) { create :widgetless_page, language: english, widgets_attributes: widget_params }
+  let(:simple_page) { create :campaign_page }
+  let(:existing_page) { create :campaign_page }
+  let(:page_params) { attributes_for :campaign_page }
 
   subject { simple_page }
 
@@ -11,75 +14,12 @@ describe CampaignPage do
   it { should respond_to :slug }
   it { should respond_to :active }
   it { should respond_to :featured }
-  it { should respond_to :widgets }
   it { should respond_to :tags }
   it { should respond_to :campaign_pages_tags }
   it { should respond_to :campaign }
+  it { should respond_to :liquid_layout }
 
-  describe 'widgets' do
-
-    describe 'create' do
-      
-      it "should create widgets with good params" do
-        old_widget_count = Widget.count
-        page = CampaignPage.new(page_params.merge({widgets_attributes: widget_params}))
-        expect{ page.save }.to change{ CampaignPage.count }.by 1
-        expect(page.errors.keys).to eq []
-        expect(Widget.count).to eq (old_widget_count + 3)
-        expect(PetitionWidget.last.petition_text).to eq petition_widget_params[:content][:petition_text]
-      end
-
-      it "should not create page if one widget has errors" do
-        page = CampaignPage.new page_params.merge({widgets_attributes: widget_params.append(bad_widget_params)})
-        expect{ page.save }.to change{ CampaignPage.count }.by 0
-        expect(page.errors.keys).to include :widgets
-      end
-
-      it "should not create any widgets if one widget has errors" do
-        page = CampaignPage.new page_params.merge({widgets_attributes: widget_params.append(bad_widget_params)})
-        expect{ page.save }.to change{ Widget.count }.by 0
-        expect(page.errors.keys).to include :widgets
-      end
-
-      it "should not create any widgets if the page has errors" do
-        page = CampaignPage.new page_params.merge({widgets_attributes: widget_params, title: nil})
-        expect{ page.save }.to change{ Widget.count }.by 0
-        expect(page.errors.keys).to eq [:title]
-      end
-    end
-
-    it 'should compile a simple HTML page with just the title' do
-      page = CampaignPage.new title: 'Test Page!'
-      page.compile_html
-      expect(page.compiled_html).to eq(expected_html)
-    end
-
-    describe 'destroy' do
-      it 'should destroy the widgets when the page is destroyed' do
-        page = existing_page # until existing page is called, it doesn't exist cause let() is lazy
-        expect{ page.destroy }.to change{ Widget.count }.by -3
-      end
-
-      it 'can destroy associated widgets with updates_attributes' do
-        update_params = { widgets_attributes: [{id: existing_page.widgets.first.id, _destroy: "true"}] }
-        expect{ existing_page.update_attributes update_params }.to change{ Widget.count }.by -1
-      end
-
-      it "won't destroy associated widgets updates_attributes with 'false'" do
-        update_params = { widgets_attributes: [{id: existing_page.widgets.first.id, _destroy: "false"}] }
-        expect{ existing_page.update_attributes update_params }.to change{ Widget.count }.by 0
-      end
-    end
-
-    describe 'show' do
-      it 'should be able to iterate over the widgets' do
-        expect(existing_page.widgets.size).to eq 3
-        existing_page.widgets.each do |widget|
-          expect(widget.content.keys.size).to be >= 1
-        end
-      end
-    end
-  end
+  it { should_not respond_to :widgets }
 
   describe 'tags' do
 
@@ -186,9 +126,9 @@ describe CampaignPage do
   end
 
   describe 'language' do
-    it 'should be required' do
+    it 'should not be required' do
       simple_page.language = nil
-      expect(simple_page).not_to be_valid
+      expect(simple_page).to be_valid
     end
   end
 
