@@ -5,7 +5,7 @@ class Plugins::Action < ActiveRecord::Base
   DEFAULTS = {}
 
   def liquid_data
-    attributes.merge('fields' => form_fields)
+    attributes.merge('form_id' => form.try(:id),  'fields' => form_fields)
   end
 
   def form_fields

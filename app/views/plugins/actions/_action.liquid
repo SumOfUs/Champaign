@@ -2,6 +2,7 @@
   <p>{{ plugins.action.description }}</p>
 
   <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
+    <input type='hidden' name='form_id' value='{{ plugins.action.form_id }}' />
     {% for field in plugins.action.fields %}
       <div class="form-group">
         {% case field.data_type %}
