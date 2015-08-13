@@ -25,6 +25,7 @@ en:
     active: 'Active'
     edit: 'Edit'
     save: 'Save'
+    saving: 'Saving...'
     lets_go: "Let's Go!"
     successful_update: "Your changes have been saved!"
 
@@ -53,7 +54,7 @@ en:
       title: "Let's Get Started!"
       sub:   "First, give your Campaign Page a unique and catchy title"
     edit:
-      layout_select: "Pick the Layout"
+      layout_select: "Choose a Layout"
       show: "View the page"
       tags: "Tags"
 

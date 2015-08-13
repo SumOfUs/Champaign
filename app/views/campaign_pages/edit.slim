@@ -1,11 +1,10 @@
-= form_for @campaign_page do |f|
+= form_for @campaign_page, remote: true do |f|
   = f.hidden_field :content
 
   = render 'shared/error_messages', target: @campaign_page
 
   .page-title.form-group
     = f.text_field :title
-
 
   .form-group
     = render 'shared/quill_editor'
@@ -14,17 +13,18 @@
     = f.label :liquid_layout_id, t('.layout_select')
     = f.select :liquid_layout_id,
       LiquidLayout.all.map{|ll| [ll.title, ll.id] },
-      {include_blank: 'Default'},
-      class: "space-left"
+        { include_blank: 'Default' },
+        class: "space-left form-control"
 
   .form-group
-    = f.label :tag_ids, t('.tags')
+    = f.label  :tag_ids, t('.tags')
     = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
 
-  .form-group
-    = submit_tag(t('common.save'), class: 'btn btn-default btn-primary')
-    = link_to t('.view'), @campaign_page, class: 'btn btn-default space-left'
+  .btn-toolbar
+    = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+    = link_to t('.view'), @campaign_page, class: 'btn btn-info', target: '_blank'
 
+h2 Photos
 - if @campaign_page.images.any?
   .component.campaign-images
     - @campaign_page.images.each do |image|
