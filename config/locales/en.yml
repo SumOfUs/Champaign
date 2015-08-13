@@ -55,6 +55,7 @@ en:
     edit:
       layout_select: "Pick the Layout"
       show: "View the page"
+      tags: "Tags"
 
   campaigns:
     index:
