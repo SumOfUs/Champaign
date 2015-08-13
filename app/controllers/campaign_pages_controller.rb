@@ -26,12 +26,6 @@ class CampaignPagesController < ApplicationController
   end
 
   def show
-    # TODO
-    # Set this in an initialiser
-    #
-    Liquid::Template.file_system = LiquidFileSystem.new
-
-
     markup = if @campaign_page.liquid_layout
                @campaign_page.liquid_layout.content
              else
