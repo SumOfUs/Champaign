@@ -42,9 +42,14 @@
     $('form.edit_campaign_page').on('ajax:before', updateContentBeforeSave);
   }
 
+  var configureSelect2 = function(){
+    $('.select2-container').select2({});
+  }
+
   var initialize = function() {
     configureDropZone();
     configureQuillEditor();
+    configureSelect2();
   };
 
   $.subscribe("campaign_page:has_loaded", initialize);
