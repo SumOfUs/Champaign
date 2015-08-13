@@ -19,7 +19,6 @@
 //= require select2
 //= require dropzone
 //= require liquid/syntax-highlighting
-//= require form_builder
 //= require_tree ./plugins
 
 //= require forms
