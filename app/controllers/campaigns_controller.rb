@@ -18,7 +18,6 @@ class CampaignsController < ApplicationController
     unless @campaign.active?
       raise ActionController::RoutingError.new('The campaign you requested has been deactivated.')
     end
-    @templates = ActiveQuery.new(Template)
   end
 
   def edit
