@@ -7,45 +7,6 @@ FactoryGirl.define do
   sequence :actionkit_uri do |n| "/rest/v1/tag/#{n}/" end
   sequence :tag_name do |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" end
 
-  factory :text_body_widget, aliases: [:widget] do
-    content { { text_body_html: Faker::Lorem.paragraph(2) } }
-    page_display_order
-    type "TextBodyWidget"
-  end
-
-  factory :petition_widget do
-    content {
-      {
-        petition_text: Faker::Lorem.paragraph(2),
-        require_full_name: true,
-        require_email_address: true,
-        require_state: false,
-        require_country: true,
-        require_postal_code: false,
-        require_address: false,
-        require_city: false,
-        require_phone: false,
-        checkboxes: [],
-        select_box: {},
-        form_button_text: "Stop 'em!"
-      }
-    }
-    page_display_order
-    type "PetitionWidget"
-  end
-
-  factory :thermometer_widget do
-    content {
-      {
-        goal: 10000,
-        count: 100,
-        autoincrement: true
-      }
-    }
-    page_display_order
-    type "ThermometerWidget"
-  end
-
   factory :user do
     email
     password { Faker::Internet.password }
