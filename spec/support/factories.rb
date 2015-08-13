@@ -63,7 +63,7 @@ FactoryGirl.define do
     language_name 'English'
   end
 
-  factory :campaign_page, aliases: [:page, :widgetless_page] do
+  factory :campaign_page, aliases: [:page] do
     title { Faker::Company.bs }
     slug
     active true
