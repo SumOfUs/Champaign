@@ -10,5 +10,6 @@
     = f.text_area :description, class: 'form-control'
 
   div.form-group
-    = f.submit 'Save', class: 'btn btn-default'
+    = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+
 
