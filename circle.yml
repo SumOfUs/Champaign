@@ -21,7 +21,13 @@ database:
 deployment:
   hub:
   # change back to master!
-    branch: aws-deploy
+    branch: aws-update-branch
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
+  # deploy to elastic beanstalk
+#  elasticbeanstalk:
+#    branch: master
+#    commands:
+#      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+#      - ./deploy.sh $CIRCLE_SHA1
