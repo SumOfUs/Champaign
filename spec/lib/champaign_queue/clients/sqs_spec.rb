@@ -6,7 +6,7 @@ describe ChampaignQueue::Clients::Sqs do
     it "delivers payload to AWS SQS Queue" do
 
       expected_arguments = {
-        queue_url: "http://example.com/1234",
+        queue_url: "http://example.com",
         message_body: {foo: :bar}.to_json
       }
 

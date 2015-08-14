@@ -68,9 +68,6 @@ group :development, :test do
   gem 'capybara' # Capybara for integration testing
   gem 'envyable'
   gem 'database_cleaner'
-  gem 'timecop'
-
-  # data for tests
   gem 'factory_girl_rails'
   gem 'faker'
 end
