@@ -10,4 +10,11 @@ class LiquidLayout < ActiveRecord::Base
     return includes.map{ |li| li.instance_values['template_name'].gsub(/\A["']|["']\Z/, '') }
   end
 
+  def real_partials
+    partial_names.each do |name|
+      partial = LiquidPartial.find_by(title: name)
+      errors.add :content, "includes unknown partial '#{name}'" if partial.nil?
+    end
+  end
+
 end
