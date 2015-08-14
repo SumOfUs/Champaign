@@ -2,10 +2,6 @@ require 'rails_helper'
 
 describe 'Search ::' do
 
-  before :each do
-    skip('Get working with liquid pardigm')
-  end
-
   let(:test_text) { 'a spectacular test string' }
   let(:language) { build(:language) }
   let!(:matching_widget) { create(:text_body_widget, text_body_html: test_text) }
