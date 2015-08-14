@@ -1,5 +1,4 @@
 require 'rails_helper'
-require './lib/champaign_queue/clients/sqs'
 
 describe ChampaignQueue::Clients::Sqs do
   context "with SQS_QUEUE_URL" do

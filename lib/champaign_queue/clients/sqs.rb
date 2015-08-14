@@ -15,7 +15,7 @@ module ChampaignQueue
       end
 
       def push
-        return false unless queue_url
+        return false if queue_url.blank?
 
         client.send_message({
           queue_url:    queue_url,
