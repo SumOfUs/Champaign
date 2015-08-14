@@ -23,4 +23,35 @@ describe LiquidLayout do
     end
   end
 
+  describe "partials" do
+
+    it 'identifies a single include tag that uses single quotes' do
+      layout.content = "<div class='foo'>{% include 'example' %}</div>"
+      expect(layout.partial_names).to eq ["example"]
+    end
+
+    it 'identifies a single include tag that uses double quotes' do
+      layout.content = '<div class="foo">{% include "example" %}</div>'
+      expect(layout.partial_names).to eq ["example"]
+    end
+
+    it 'identifies a single include tag that passes a parameter' do
+      layout.content = '<div class="foo">{% include "my-template", color: "#f3a900" %}</div>'
+      expect(layout.partial_names).to eq ["my-template"]
+    end
+
+    it 'identifies two tags without matching a variable' do
+      layout.content = %Q{<section class="wrapper">
+                            <div class="foo">
+                              {% include "example" %}
+                            </div>
+                            <h2>{{ title }}</h2>
+                            <div class='bar'>
+                              {% include 'swell' %}
+                            </div>
+                          </section>}
+      expect(layout.partial_names).to eq ["example", "swell"]
+    end
+  end
+
 end
