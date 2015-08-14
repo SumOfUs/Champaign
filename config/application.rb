@@ -11,7 +11,7 @@ module Champaign
 
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+    #config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -28,6 +28,8 @@ module Champaign
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    # to get browserify to handle react JSX
+    config.browserify_rails.commandline_options = "--transform babelify --extension=\".js.jsx\""
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.

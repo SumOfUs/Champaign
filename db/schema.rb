@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150731143047) do
+ActiveRecord::Schema.define(version: 20150813140155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "action_users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "country"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "city"
+    t.string   "postal_code"
+    t.string   "title"
+    t.string   "address1"
+    t.string   "address2"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "actionkit_page_types", force: :cascade do |t|
     t.string "actionkit_page_type", null: false
@@ -23,21 +37,37 @@ ActiveRecord::Schema.define(version: 20150731143047) do
   create_table "actionkit_pages", force: :cascade do |t|
     t.integer "actionkit_id",           null: false
     t.integer "actionkit_page_type_id", null: false
-    t.integer "widget_id",              null: false
   end
 
+  create_table "actions", force: :cascade do |t|
+    t.integer  "campaign_page_id"
+    t.integer  "action_user_id"
+    t.string   "link"
+    t.boolean  "created_user"
+    t.boolean  "subscribed_user"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.jsonb    "form_data"
+  end
+
+  add_index "actions", ["action_user_id"], name: "index_actions_on_action_user_id", using: :btree
+  add_index "actions", ["campaign_page_id"], name: "index_actions_on_campaign_page_id", using: :btree
+
   create_table "campaign_pages", force: :cascade do |t|
-    t.integer  "language_id",                       null: false
+    t.integer  "language_id"
     t.integer  "campaign_id"
-    t.string   "title",                             null: false
-    t.string   "slug",                              null: false
-    t.boolean  "active",                            null: false
-    t.boolean  "featured",                          null: false
+    t.string   "title",                                null: false
+    t.string   "slug",                                 null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",        default: "pending"
+    t.text     "content",          default: ""
+    t.boolean  "thermometer",      default: false
+    t.boolean  "featured",         default: false
+    t.boolean  "active",           default: false
+    t.string   "status",           default: "pending"
     t.text     "messages"
+    t.integer  "liquid_layout_id"
   end
 
   create_table "campaign_pages_tags", force: :cascade do |t|
@@ -52,13 +82,39 @@ ActiveRecord::Schema.define(version: 20150731143047) do
     t.boolean  "active",        default: true
   end
 
+  create_table "form_elements", force: :cascade do |t|
+    t.integer  "form_id"
+    t.string   "label"
+    t.string   "data_type"
+    t.string   "field_type"
+    t.string   "default_value"
+    t.boolean  "required"
+    t.boolean  "visible"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "name"
+  end
+
+  add_index "form_elements", ["form_id"], name: "index_form_elements_on_form_id", using: :btree
+
+  create_table "forms", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "images", force: :cascade do |t|
     t.string   "content_file_name"
     t.string   "content_content_type"
     t.integer  "content_file_size"
     t.datetime "content_updated_at"
-    t.integer  "widget_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "campaign_page_id"
   end
+
+  add_index "images", ["campaign_page_id"], name: "index_images_on_campaign_page_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
     t.string   "language_code", null: false
@@ -67,21 +123,70 @@ ActiveRecord::Schema.define(version: 20150731143047) do
     t.datetime "updated_at"
   end
 
+  create_table "liquid_layouts", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "slot_count"
+  end
+
+  create_table "liquid_partials", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "members", force: :cascade do |t|
     t.string "email_address",       null: false
     t.string "actionkit_member_id", null: false
   end
+
+  create_table "plugin_settings", force: :cascade do |t|
+    t.string   "plugin_name"
+    t.integer  "campaign_page_id"
+    t.string   "name"
+    t.string   "value"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "data_type"
+    t.string   "label"
+    t.string   "field_type"
+    t.string   "help"
+  end
+
+  add_index "plugin_settings", ["campaign_page_id"], name: "index_plugin_settings_on_campaign_page_id", using: :btree
+
+  create_table "plugins_actions", force: :cascade do |t|
+    t.integer  "campaign_page_id"
+    t.boolean  "active",           default: false
+    t.integer  "form_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "description"
+  end
+
+  add_index "plugins_actions", ["campaign_page_id"], name: "index_plugins_actions_on_campaign_page_id", using: :btree
+  add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
+
+  create_table "plugins_thermometers", force: :cascade do |t|
+    t.string   "title"
+    t.integer  "offset"
+    t.integer  "goal"
+    t.integer  "campaign_page_id"
+    t.boolean  "active",           default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "plugins_thermometers", ["campaign_page_id"], name: "index_plugins_thermometers_on_campaign_page_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string   "tag_name"
     t.string   "actionkit_uri"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-  end
-
-  create_table "templates", force: :cascade do |t|
-    t.string  "template_name"
-    t.boolean "active"
   end
 
   create_table "users", force: :cascade do |t|
@@ -116,19 +221,14 @@ ActiveRecord::Schema.define(version: 20150731143047) do
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
-  create_table "widgets", force: :cascade do |t|
-    t.jsonb    "content"
-    t.string   "type"
-    t.integer  "page_display_order"
-    t.integer  "page_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "page_type"
-  end
-
-  add_index "widgets", ["page_id"], name: "index_widgets_on_page_id", using: :btree
-
   add_foreign_key "actionkit_pages", "actionkit_page_types"
+  add_foreign_key "actions", "action_users"
+  add_foreign_key "actions", "campaign_pages"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
+  add_foreign_key "form_elements", "forms"
+  add_foreign_key "plugin_settings", "campaign_pages"
+  add_foreign_key "plugins_actions", "campaign_pages"
+  add_foreign_key "plugins_actions", "forms"
+  add_foreign_key "plugins_thermometers", "campaign_pages"
 end

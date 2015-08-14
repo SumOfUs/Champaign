@@ -50,12 +50,20 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.1.8)
       aws-sdk-core (= 2.1.8)
+    babel-source (5.8.0)
+    babel-transpiler (0.7.0)
+      babel-source (>= 4.0, < 6)
+      execjs (~> 2.0)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    browser (0.9.1)
+    browserify-rails (1.2.0)
+      railties (>= 4.0.0, < 5.0)
+      sprockets (> 3.0.2)
     builder (3.2.2)
     bunny (1.7.0)
       amq-protocol (>= 1.9.2)
@@ -71,6 +79,8 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.7)
       climate_control (>= 0.0.3, < 1.0)
+    codemirror-rails (5.5)
+      railties (>= 3.0, < 5)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -79,6 +89,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
+    connection_pool (2.2.0)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.5.1)
@@ -89,6 +100,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    dropzonejs-rails (0.7.1)
+      rails (> 3.1)
     envyable (0.2.0)
     erubis (2.7.0)
     execjs (2.5.2)
@@ -121,9 +134,6 @@ GEM
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    jquery-turbolinks (2.1.0)
-      railties (>= 3.1.0)
-      turbolinks
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
     json (1.8.3)
@@ -132,6 +142,7 @@ GEM
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     logger (1.2.8)
+    liquid (3.0.3)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -220,6 +231,13 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
+    react-rails (1.1.0)
+      babel-transpiler (>= 0.7.0)
+      coffee-script-source (~> 1.8)
+      connection_pool
+      execjs
+      rails (>= 3.2)
+      tilt
     remotipart (1.2.1)
     render_anywhere (0.0.11)
       rails (>= 3.0.7)
@@ -263,6 +281,12 @@ GEM
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
+    slim-rails (3.0.1)
+      actionmailer (>= 3.1, < 5.0)
+      actionpack (>= 3.1, < 5.0)
+      activesupport (>= 3.1, < 5.0)
+      railties (>= 3.1, < 5.0)
+      slim (~> 3.0)
     spring (1.3.6)
     sprockets (3.2.0)
       rack (~> 1.0)
@@ -274,8 +298,6 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (1.4.1)
-    turbolinks (2.5.3)
-      coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     uglifier (2.7.1)
@@ -298,34 +320,41 @@ DEPENDENCIES
   action_parameter
   aws-sdk (~> 2)
   bootstrap-sass (~> 3.3.5)
+  browser
+  browserify-rails
   bunny
   byebug
   capybara
+  codemirror-rails
   coffee-rails (~> 4.1.0)
   database_cleaner
   devise
+  dropzonejs-rails
   envyable
   factory_girl_rails
   fake_sqs
   faker
   jbuilder (~> 2.0)
   jquery-rails
-  jquery-turbolinks
   logger
+  liquid
   omniauth-google-oauth2
   paper_trail
   paperclip
   pg
   rails (= 4.2.3)
   rails_admin
+  react-rails
   render_anywhere
   rmagick
   rspec-rails (~> 3.3)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   select2-rails
-  slim
+  slim-rails
   spring
-  turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
+
+BUNDLED WITH
+   1.10.6

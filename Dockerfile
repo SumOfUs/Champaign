@@ -11,8 +11,8 @@ RUN mkdir /myapp
 WORKDIR /tmp
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-
-# Install gems
+COPY package.json package.json
+RUN npm install
 RUN bundle install
 
 EXPOSE 3000

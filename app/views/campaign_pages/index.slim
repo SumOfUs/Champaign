@@ -2,7 +2,6 @@
 .row
   .col-md-12
     h3 = t('.title')
-    = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
     table.table-bordered.table-striped.table
       thead
         tr
@@ -13,44 +12,47 @@
       tbody
         - @campaign_pages.each do |page|
           tr
-            td = page.title
+            td = link_to page.title, page
             td
               span class=(page.featured? ? 'tick' : 'cross')
             td
               span class=(page.active? ? 'tick' : 'cross')
             td = link_to t('common.edit'), edit_campaign_page_path(page)
-  .col-md-12
-    form action='/campaign_pages' method='get'
-      legend Don't want to see all this? Filter your search.
-      .form-group
 
-        / pass params[:search] that contains all search options for filtering.
-        = label_tag 'search[content_search]', 'Search by text: ', class: 'control-label col-lg-2'
-        .col-lg-10
-          input type='text' class='form-control' placeholder='Search for pages that match...' id='search[content_search]' name='search[content_search]'
+    = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
 
-        = label_tag 'search[campaign]', 'Search by campaigns:', class: 'control-label col-lg-2'
-        .col-lg-10
-          = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'campaign_name'),
-                       html_options= {class: 'form-control select2-container', multiple: true}
+  /.col-md-12
+    /form action='/campaign_pages' method='get'
+      /legend Don't want to see all this? Filter your search.
+      /.form-group
 
-        = label_tag 'search[language]', 'Search by language: ', class: 'control-label col-lg-2'
-        .col-lg-10
-          = select_tag 'search[language]', options_from_collection_for_select(Language.all, 'id', 'language_name'),
-                       html_options= {:class => 'form-control select2-container', multiple: true}
+        // pass params[:search] that contains all search options for filtering.
+        /= label_tag 'search[content_search]', 'Search by text: ', class: 'control-label col-lg-2'
+        /.col-lg-10
+          /input type='text' class='form-control' placeholder='Search for pages that match...' id='search[content_search]' name='search[content_search]'
 
-        = label_tag 'search[tags]', 'Search by tags:', class: 'control-label col-lg-2'
-        .col-lg-10
-          = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'tag_name'),
-                       html_options= {class: 'form-control select2-container', multiple: true}
+        /= label_tag 'search[campaign]', 'Search by campaigns:', class: 'control-label col-lg-2'
+        /.col-lg-10
+          /= select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'campaign_name'),
+                       /html_options= {class: 'form-control select2-container', multiple: true}
 
-        = label_tag 'search[widget_type]', 'Contains widget types:', class: 'control-label col-lg-2'
-        .col-lg-10
-          = select_tag 'search[widget_type]', options_for_select(Widget.classes.map{ |wc| [wc.title, wc.name] }),
-                       html_options= {class: 'form-control select2-container', multiple: true}
+        /= label_tag 'search[language]', 'Search by language: ', class: 'control-label col-lg-2'
+        /.col-lg-10
+          /= select_tag 'search[language]', options_from_collection_for_select(Language.all, 'id', 'language_name'),
+                       /html_options= {:class => 'form-control select2-container', multiple: true}
 
-        .col-md-12
-          = submit_tag 'Search!', class: 'btn btn-info btn-sm', id: 'search_button'
+        /= label_tag 'search[tags]', 'Search by tags:', class: 'control-label col-lg-2'
+        /.col-lg-10
+          /= select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'tag_name'),
+                       /html_options= {class: 'form-control select2-container', multiple: true}
+
+        /= label_tag 'search[widget_type]', 'Contains widget types:', class: 'control-label col-lg-2'
+        /.col-lg-10
+          /= select_tag 'search[widget_type]', options_for_select(Widget.classes.map{ |wc| [wc.title, wc.name] }),
+                       /html_options= {class: 'form-control select2-container', multiple: true}
+
+        /.col-md-12
+          /= submit_tag 'Search!', class: 'btn btn-info btn-sm', id: 'search_button'
 
 
 

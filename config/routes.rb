@@ -7,13 +7,8 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'home#index'
 
-  # Custom paths
-  post '/campaign_pages/new', to: 'campaign_pages#new'
-  post '/campaign_pages/sign', to: 'campaign_pages#sign'
-
   # Specifies routing to templates controller for when a new template layout is requested by 
   # a user toggling different templates when creating a campaign page
-  get '/templates/show_form/:id', to: 'templates#show_form'
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
@@ -22,9 +17,22 @@ Rails.application.routes.draw do
 
   # Standard resources
   resources :campaigns
-  resources :campaign_pages
-  resources :templates
 
+  resources :campaign_pages do
+    resources :images
+  end
+
+  resources :forms do
+    resources :form_elements
+  end
+
+  namespace :plugins do
+    resources :actions
+    resources :thermometers
+  end
+
+  resources :liquid_partials
+  resources :liquid_layouts
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -67,6 +75,11 @@ Rails.application.routes.draw do
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
 
+  namespace :api do
+    resources :campaign_pages do
+      resources :actions
+    end
+  end
   # Example resource route within a namespace:
   #   namespace :admin do
   #     # Directs /admin/products/* to Admin::ProductsController

@@ -1,4 +1,4 @@
-class CampaignPageParameters < PageParameters
+class CampaignPageParameters
 
   def permit
     super(campaign_page_fields, :campaign_page)
@@ -9,6 +9,8 @@ class CampaignPageParameters < PageParameters
       :title,
       :slug,
       :active,
+      :content,
+      :thermometer,
       :featured,
       :template_id,
       :campaign_id,

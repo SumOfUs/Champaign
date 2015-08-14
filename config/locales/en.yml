@@ -24,6 +24,22 @@ en:
     name: 'Name'
     active: 'Active'
     edit: 'Edit'
+    save: 'Save'
+    saving: 'Saving...'
+    lets_go: "Let's Go!"
+    successful_update: "Your changes have been saved!"
+
+  menu:
+    campaign_pages: 'Campaign Pages'
+    campaigns: 'Campaigns'
+    forms: 'Forms'
+    templates: 'Templates'
+    partials: 'Partials'
+    actions: 'Actions'
+    logout: 'Logout'
+    login: 'Log in'
+    sign_up: 'Sign up'
+    sign_google: 'Sign in with Google'
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -34,13 +50,22 @@ en:
       title: "Campaign Pages"
       table:
         featured: Featured
+    new:
+      title: "Let's Get Started!"
+      sub:   "First, give your Campaign Page a unique and catchy title"
+    edit:
+      layout_select: "Choose a Layout"
+      show: "View the page"
+      tags: "Tags"
+      photos: 'Photos'
+      extras: 'Extras'
 
   campaigns:
     index:
       new: "Create a new campaign"
       title: "Campaigns"
 
-  templates:
-    index:
-      new: "Create a new template"
-      title: "Templates"
+  forms:
+    show:
+      title: "Create Your Form"
+      preview: "Preview"

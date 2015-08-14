@@ -1,0 +1,2 @@
+module Plugins::ThermometersHelper
+end
