@@ -25,6 +25,8 @@ describe LiquidPartial do
 
   describe "plugin_names" do
 
+    it "finds a plugin in deeply nested nodes (should work but needs spec)"
+
     it "finds a plugin in a basic variable tag" do
       partial.content = "<div>{{ plugins.example.content }}</div>"
       expect(partial.plugin_names).to eq ['example']
