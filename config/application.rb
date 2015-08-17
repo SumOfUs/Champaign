@@ -11,7 +11,7 @@ module Champaign
 
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
-    #config.autoload_paths += Dir[Rails.root.join('app', 'models', '{**}')]
+    config.autoload_paths << Rails.root.join('lib')
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

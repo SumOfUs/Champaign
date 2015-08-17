@@ -6,8 +6,6 @@ class CampaignPagesController < ApplicationController
   before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
 
   def index
-    # List campaign pages that match requested search parameters.
-    # If there are no search parameters, return all campaign pages.
     @campaign_pages = Search::PageSearcher.new(params).search
   end
 
@@ -16,9 +14,9 @@ class CampaignPagesController < ApplicationController
   end
 
   def create
-    @campaign_page = CampaignPage.create_with_plugins( permitted_params )
-    if @campaign_page.save
-      ChampaignQueue::SqsPusher.push({type: 'create', params: @campaign_page}.as_json)
+    @campaign_page = CampaignPageBuilder.create_with_plugins( campaign_page_params )
+
+    if @campaign_page.valid?
       redirect_to edit_campaign_page_path(@campaign_page)
     else
       render :new
@@ -66,7 +64,7 @@ class CampaignPagesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @campaign_page.update(permitted_params)
+      if @campaign_page.update(campaign_page_params)
         format.html { redirect_to edit_campaign_page_path(@campaign_page), notice: 'Page was successfully updated.' }
         format.json { render json: @campaign_page, status: :ok }
       else
@@ -76,17 +74,13 @@ class CampaignPagesController < ApplicationController
     end
   end
 
-  def sign
-    ChampaignQueue::SqsPusher.push({type: 'action', params: params}.as_json)
-  end
-
   private
 
   def get_campaign_page
     @campaign_page = CampaignPage.find(params[:id])
   end
 
-  def permitted_params
+  def campaign_page_params
     params.require(:campaign_page).
       permit( :id,
       :title,
