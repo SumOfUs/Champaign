@@ -6,4 +6,9 @@ machine:
     OMNIAUTH_CLIENT_SECRET: 'omniauth_client_secret'
     OMNIAUTH_CLIENT_ID: 'omniauth_client_id'
     DEVISE_SECRET_KEY: 'devise_secret_key'
+    AWS_ACCESS_KEY_ID: 'aws_key'
+    AWS_SECRET_ACCESS_KEY: 'aws_secret'
+    AWS_REGION: 'us-east-1'
+    SQS_QUEUE_URL: 'http://example.com'
+
 
