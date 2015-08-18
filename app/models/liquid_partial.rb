@@ -14,4 +14,9 @@ class LiquidPartial < ActiveRecord::Base
     end
   end
 
+  # Filters array of partial names to those absent from the database. (returns new array)
+  def self.missing_partials(names)
+    names.reject{|name| LiquidPartial.exists?(title: name) }
+  end
+
 end
