@@ -2,26 +2,19 @@ machine:
   services:
     - docker
 
-  environment:
-    SECRET_KEY_BASE: 'secret_key_base'
-    OMNIAUTH_CLIENT_SECRET: 'omniauth_client_secret'
-    OMNIAUTH_CLIENT_ID: 'omniauth_client_id'
-    DEVISE_SECRET_KEY: 'devise_secret_key'
-    AWS_ACCESS_KEY_ID: 'aws_key'
-    AWS_SECRET_ACCESS_KEY: 'aws_secret'
-    AWS_REGION: 'us-east-1'
-    SQS_QUEUE_URL: 'http://example.com'
-
 dependencies:
   override:
     - docker info
+    # our circle setup uses compose - install it
     - sudo pip install --upgrade docker-compose==1.2.0
-    # builds the image as a dependency
+    # install AWS CLI
+    - sudo pip install awscli
+    # build the image
     - docker build -t soutech/champaign_web .
 
 test:
   override:
-    # tests the built image through docker-compose
+    # tests the built image
     - annotate-output docker-compose -f circle/docker-compose.yml run web
 
 database:
@@ -36,8 +29,8 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
   # deploy to elastic beanstalk
-#  elasticbeanstalk:
-#    branch: master
-#    commands:
-#      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-#      - ./deploy.sh $CIRCLE_SHA1
+  elasticbeanstalk:
+    branch: aws-update-branch
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - ./deploy.sh $CIRCLE_SHA1
