@@ -1,7 +1,7 @@
 class Api::ActionsController < ApplicationController
   def create
-    Action.create_action(action_params)
-    render json: { success: true }
+    action = Action.create_action(action_params)
+    render json: action
   end
 
   private
