@@ -14,6 +14,7 @@ class CampaignPage < ActiveRecord::Base
   has_many :images
 
   validates :title, :slug, presence: true, uniqueness: true
+  validates :liquid_layout, presence: true
 
   before_validation :create_slug
 
