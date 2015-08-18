@@ -58,7 +58,6 @@ class CampaignPagesController < ApplicationController
       memo
     end
 
-
     { 'plugins' => plugins_data }
   end
 
