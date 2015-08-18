@@ -66,6 +66,8 @@ en:
       title: "Campaigns"
 
   forms:
+    index:
+      title: 'Forms'
     show:
       title: "Create Your Form"
       preview: "Preview"
