@@ -8,14 +8,6 @@ class LiquidTagFinder
     @template ||= Liquid::Template.parse(@content)
   end
 
-  def all_liquid_tags
-    return tree_liquid_tags(template.root.nodelist)
-  end
-
-  def all_include_tags
-    return all_liquid_tags.select{|node| node.class == Liquid::Include}
-  end
-
   def plugin_names
     markups = all_liquid_tags.map{ |li| li.instance_values['markup'] }
     plugins = markups.map{|markup| markup.match(/plugins\.([a-zA-Z0-9_]+)/) }
@@ -32,6 +24,14 @@ class LiquidTagFinder
   end
 
   private
+
+  def all_liquid_tags
+    return tree_liquid_tags(template.root.nodelist)
+  end
+
+  def all_include_tags
+    return all_liquid_tags.select{|node| node.class == Liquid::Include}
+  end
 
   def partial_name_from_include(incl)
     return strip_quotes(incl.instance_values['template_name'])
