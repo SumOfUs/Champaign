@@ -12,7 +12,7 @@ export PG_PORT="$port"
 
 echo -n "waiting for TCP connection to $host:$port"
 
-# Tries to connect on to the DB and sleeps until it can
+# Tries to connect to the DB and sleeps until it can
 while ! nc -w 1 $host $port 2>/dev/null
 do
     echo -n "."
