@@ -5,7 +5,8 @@ describe CampaignPageBuilder do
     allow(ChampaignQueue).to receive(:push)
   end
 
-  let(:params) {{ title: "Foo Bar" }}
+  let(:template) { create :liquid_layout }
+  let(:params) {{ title: "Foo Bar", liquid_layout_id: template.id }}
   subject { CampaignPageBuilder.create_with_plugins(params) }
 
   it 'creates a campaign page' do
@@ -26,9 +27,8 @@ describe CampaignPageBuilder do
     it "creates #{plugin.name}" do
       expect {
         subject
-      }.to change{ plugin.count }.from(0).to(1)
-
-      expect(plugin.first.campaign_page).to eq(CampaignPage.first)
+      }.to change{ plugin.count }.by 0
     end
   end
+
 end
