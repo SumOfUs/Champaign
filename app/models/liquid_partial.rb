@@ -2,8 +2,11 @@ class LiquidPartial < ActiveRecord::Base
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false
 
-  def plugin_names
-    tag_finder = LiquidTagFinder.new(content)
-    return tag_finder.plugin_names
+  # here we assume there's only one plugin per partial,
+  # but that needs a validation still
+  def plugin_name
+    return LiquidTagFinder.new(content).plugin_names[0]
   end
+
+
 end

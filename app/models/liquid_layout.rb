@@ -5,8 +5,11 @@ class LiquidLayout < ActiveRecord::Base
   validate :real_partials
 
   def partial_names
-    tag_finder = LiquidTagFinder.new(content)
-    return tag_finder.partial_names
+    LiquidTagFinder.new(content).partial_names
+  end
+
+  def partial_refs
+    LiquidTagFinder.new(content).partial_refs
   end
 
   def real_partials
