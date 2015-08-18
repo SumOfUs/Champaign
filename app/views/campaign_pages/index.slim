@@ -8,6 +8,7 @@
           th = t('common.name')
           th = t('common.featured')
           th = t('common.active')
+          th Actions
           th
       tbody
         - @campaign_pages.each do |page|
@@ -17,7 +18,10 @@
               span class=(page.featured? ? 'tick' : 'cross')
             td
               span class=(page.active? ? 'tick' : 'cross')
+            td = page.actions.count
+
             td = link_to t('common.edit'), edit_campaign_page_path(page)
+
 
     = link_to t('.new'), new_campaign_page_path, class: 'btn btn-primary btn-sm'
 
