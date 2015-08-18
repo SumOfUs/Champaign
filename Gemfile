@@ -69,7 +69,6 @@ gem 'browser'
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
-  gem 'webmock'
   gem 'spring'
   gem 'rspec-rails', '~> 3.3'
   gem 'capybara' # Capybara for integration testing
