@@ -30,13 +30,11 @@ section
 section
   h3 = t('.extras')
 
-  - Plugins.registered.each do |plugin|
-    - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
-
-    - if plugin_record
-      div.component.main
-        h4 = plugin_record.name
-        = render partial: "#{plugin.to_s.underscore.pluralize}/form", locals: { plugin: plugin_record, page: @campaign_page }
+  - @campaign_page.plugins.each do |plugin|
+    div.component.main
+      h4
+        = "#{plugin.name} #{plugin.ref.present? ? plugin.ref : ''}"
+      = render partial: "#{plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: plugin, page: @campaign_page }
 
 
 

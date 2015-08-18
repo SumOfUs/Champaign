@@ -27,6 +27,11 @@ class CampaignPage < ActiveRecord::Base
     CampaignPageRenderer.new(self).render_and_save
   end
 
+  def plugins
+    Plugins.registered.map do |plugin_class|
+      plugin_class.where(campaign_page_id: id).to_a
+    end.flatten
+  end
 
 end
 

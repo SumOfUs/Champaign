@@ -13,10 +13,9 @@ class CampaignPageBuilder
 
   def create_with_plugins
     if page.save
-      create_plugins
+      create_plugins(page)
       push_to_queue
     end
-
     page
   end
 
@@ -26,9 +25,10 @@ class CampaignPageBuilder
     @page ||= CampaignPage.new(params)
   end
 
-  def create_plugins
-    Plugins.registered.each do |plugin|
-      Plugins.create_for_page(plugin, page)
+  def create_plugins(page)
+    page.liquid_layout.partial_refs.each do |partial, ref|
+      plugin_name = LiquidPartial.find_by(title: partial).plugin_name
+      Plugins.create_for_page(plugin_name, page, ref)
     end
   end
 
