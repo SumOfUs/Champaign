@@ -6,4 +6,11 @@ module CampaignPagesHelper
       link_to text, path
     end
   end
+
+  def toggle_switch(state, active, label)
+    klass = (active == state ? 'btn-success' : '')
+    klass += " btn toggle-button btn-default"
+
+    content_tag :a, label, class: klass
+  end
 end
