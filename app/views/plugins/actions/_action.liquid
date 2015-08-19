@@ -1,26 +1,28 @@
-<section class='action'>
-  <p>{{ plugins.action[ref].description }}</p>
+{% if plugins.action[ref].active %}
+  <section class='action'>
+    <p>{{ plugins.action[ref].description }}</p>
 
-  <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
-    <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
-    {% for field in plugins.action[ref].fields %}
-      <div class="form-group">
-        {% case field.data_type %}
+    <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
+      <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
+      {% for field in plugins.action[ref].fields %}
+        <div class="form-group">
+          {% case field.data_type %}
 
-        {% when 'text' %}
-          <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
-        {% when 'checkbox' %}
-          <label>
-            <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
-          </label>
-        {% endcase %}
-      </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-default">Send</button>
-  </form>
-</section>
+          {% when 'text' %}
+            <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+          {% when 'checkbox' %}
+            <label>
+              <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
+            </label>
+          {% endcase %}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-default">Send</button>
+    </form>
+  </section>
 
-<section class='post-action' style='display:none;'>
-  <h3>Thank you <span class='name'></span> for taking action</h3>
-  <h4>Share on Facebook / Twitter</h4>
-</section>
+  <section class='post-action' style='display:none;'>
+    <h3>Thank you <span class='name'></span> for taking action</h3>
+    <h4>Share on Facebook / Twitter</h4>
+  </section>
+{% endif %}

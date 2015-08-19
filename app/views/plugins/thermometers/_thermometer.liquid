@@ -1,12 +1,13 @@
-<h5>{{plugins.thermometer[ref].title}}</h5>
-<div class="progress">
-  <div class="progress-bar"
-       role="progressbar"
-       data-campaign-page-id="{{id}}"
-       aria-valuenow="{{plugins.thermometer[ref].offset}}"
-       aria-valuemin="0"
-       aria-valuemax="{{ plugins.thermometer[ref].goal }}"
-       style="width: '0%'">
+{% if plugins.thermometer[ref].active %}
+  <h5>{{plugins.thermometer[ref].title}}</h5>
+  <div class="progress">
+    <div class="progress-bar"
+         role="progressbar"
+         data-campaign-page-id="{{id}}"
+         aria-valuenow="{{plugins.thermometer[ref].offset}}"
+         aria-valuemin="0"
+         aria-valuemax="{{ plugins.thermometer[ref].goal }}"
+         style="width: '0%'">
+    </div>
   </div>
-</div>
-
+{% endif %}
