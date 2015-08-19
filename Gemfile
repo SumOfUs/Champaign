@@ -9,8 +9,6 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'react-rails'
-gem 'browserify-rails'
 gem 'select2-rails'
 gem 'dropzonejs-rails'
 gem 'codemirror-rails'

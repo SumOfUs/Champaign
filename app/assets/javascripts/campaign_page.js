@@ -42,6 +42,11 @@
     $('form.edit_campaign_page').on('ajax:before', updateContentBeforeSave);
   }
 
+  var configureToggle = function() {
+    console.log("toggle");
+
+  }
+
   var configureSelect2 = function(){
     $('.select2-container').select2({});
   }
@@ -50,6 +55,7 @@
     configureDropZone();
     configureQuillEditor();
     configureSelect2();
+    configureToggle();
   };
 
   $.subscribe("campaign_page:has_loaded", initialize);
