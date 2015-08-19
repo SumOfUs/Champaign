@@ -3,21 +3,16 @@
   - case element.data_type
   - when 'text'
     input.form-control placeholder=element.label
-    .control-bar
-      = link_to edit_form_form_element_path(form, element), remote: true do
-        small
-          span.glyphicon.glyphicon-edit
-      = link_to form_form_element_path(form, element),
-        { method: :delete,
-          remote: true,
-          data: { confirm: t('common.confirm') } } do
-        small
-          span.glyphicon.glyphicon-remove
-
 
   - when 'checkbox'
     = check_box_tag element.name
     '&nbsp;
     = element.label
 
-
+  .control-bar
+    = link_to form_form_element_path(form, element),
+      { method: :delete,
+        remote: true,
+        data: { confirm: t('common.confirm') } } do
+      small
+        span.glyphicon.glyphicon-remove
