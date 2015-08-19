@@ -16,6 +16,6 @@ class Plugins::ThermometersController < ApplicationController
 
   def permitted_params
     params.require(:plugins_thermometer).
-      permit(:title, :offset, :goal)
+      permit(:title, :offset, :goal, :active)
   end
 end

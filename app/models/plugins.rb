@@ -31,5 +31,13 @@ module Plugins
       end
       page.attributes.merge({'plugins' => plugins_data, 'ref' => default_ref})
     end
+
+    def names
+      registered.map{|plugin| plugin.to_s.underscore.split('/').last }
+    end
+
+    def find_for(campaign_page_id, plugin_name)
+      Plugins.const_get(plugin_name.camelize).find_by(campaign_page_id: campaign_page_id)
+    end
   end
 end
