@@ -11,8 +11,6 @@ describe LiquidTagFinder do
       expect(actual).to match_array @expected
     end
 
-    it "finds a plugin in deeply nested nodes (should work but needs spec)"
-
     it "finds a plugin in a basic variable tag" do
       @content  = "<div>{{ plugins.example.content }}</div>"
       @expected = ['example']
@@ -133,6 +131,11 @@ describe LiquidTagFinder do
 
         it "finds a single tag with a ref" do
           @content  = "<div class='foo'>{% include 'example', ref: 'juiz' %}</div>"
+          @expected = [['example', 'juiz']]
+        end
+
+        it "finds a single tag with another parameter and a ref" do
+          @content  = "<div class='foo'>{% include 'example', color: '#43ab05', ref: 'juiz' %}</div>"
           @expected = [['example', 'juiz']]
         end
 
