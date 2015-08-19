@@ -2,9 +2,9 @@
 
 .row
   .col-md-2
-    ul.nav.nav-stacked
+    ul.nav.nav-pills.nav-stacked
       - Plugins.names.each do |plugin|
-        li = link_to plugin.capitalize, campaign_page_plugin_path(@campaign_page, plugin)
+        = campaign_page_nav_item(plugin.capitalize,  campaign_page_plugin_path(@campaign_page, plugin))
 
 
   .col-md-10
