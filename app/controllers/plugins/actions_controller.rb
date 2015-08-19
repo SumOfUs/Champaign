@@ -15,6 +15,6 @@ class Plugins::ActionsController < ApplicationController
 
   def permitted_params
     params.require(:plugins_action).
-      permit(:form_id, :description)
+      permit(:form_id, :description, :active)
   end
 end
