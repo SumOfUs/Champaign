@@ -2,10 +2,10 @@ require 'rails_helper'
 
 describe ChampaignQueue::Clients::Sqs do
   context "with SQS_QUEUE_URL" do
-    xit "delivers payload to AWS SQS Queue" do
+    it "delivers payload to AWS SQS Queue" do
 
       expected_arguments = {
-        queue_url: "http://example.com",
+        queue_url: ENV['SQS_QUEUE_URL'],
         message_body: {foo: :bar}.to_json
       }
 
