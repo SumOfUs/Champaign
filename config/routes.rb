@@ -20,7 +20,8 @@ Rails.application.routes.draw do
 
   resources :campaign_pages do
     resources :images
-    resources :plugins
+    get 'plugins', to: 'plugins#index'
+    get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
   end
 
   resources :forms do
