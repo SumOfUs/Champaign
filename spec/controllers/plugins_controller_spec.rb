@@ -7,7 +7,7 @@ describe PluginsController do
   before do
     allow(Plugins).to receive(:find_for){ plugin }
     allow(CampaignPage).to receive(:find){ page }
-    get :show, id: '1', campaign_page_id: '2'
+    get :show, id: '1', campaign_page_id: '2', type: 'example'
   end
 
   describe 'GET #show' do
@@ -20,7 +20,7 @@ describe PluginsController do
     end
 
     it 'finds plugin' do
-      expect(Plugins).to have_received(:find_for).with(5, '1')
+      expect(Plugins).to have_received(:find_for).with(5, 'example')
     end
   end
 end
