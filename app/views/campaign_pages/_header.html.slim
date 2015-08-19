@@ -3,7 +3,7 @@
     .container
       .row
         .col-md-12
-          h2 #{link_to 'Campaign Pages', campaign_pages_path} / #{ link_to('foo', '#')}
+          h2 #{link_to 'Campaign Pages', campaign_pages_path} / #{ link_to(@campaign_page.title, '#')}
 
 .row.campaign-pages
   .col-md-12

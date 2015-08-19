@@ -38,29 +38,6 @@
       .component
         = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
 
-    h3 = t('.extras')
-
-.row
-  .col-md-3
-    .navbar-default.sidebar
-    ul.nav.nav-stacked
-      - Plugins.registered.each do |plugin|
-        - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
-        li = link_to plugin_record.name, '#'
-
-
-
-  .col-md-9
-    - Plugins.registered.each do |plugin|
-      - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
-
-      - if plugin_record
-        div.component.main style="display:nones;"
-          h4 Settings for #{plugin_record.name}
-          = render partial: "#{plugin.to_s.underscore.pluralize}/form", locals: { plugin: plugin_record, page: @campaign_page }
-
-
-
 javascript:
   $.publish("campaign_page:has_loaded");
 
