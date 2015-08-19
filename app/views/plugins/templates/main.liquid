@@ -12,7 +12,9 @@
          {% include 'photos' %}
         </div>
 
-        {% include 'thermometer' %}
+        {% if plugins.thermometer.active %}
+          {% include 'thermometer' %}
+        {% endif %}
 
         <!-- DO NOT INSERT COMPONENTS BEYOND HERE -->
         <!-- MAIN CONTENT HERE -->
@@ -22,7 +24,10 @@
     </div>
 
     <div class="col-md-4">
+      {% if plugins.action.active %}
         {% include 'action' %}
+      {% endif %}
     </div>
   </div>
 </div>
+
