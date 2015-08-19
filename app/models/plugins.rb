@@ -36,8 +36,8 @@ module Plugins
       registered.map{|plugin| plugin.to_s.underscore.split('/').last }
     end
 
-    def find_for(campaign_page_id, plugin_name)
-      Plugins.const_get(plugin_name.camelize).find_by(campaign_page_id: campaign_page_id)
+    def find_for(plugin_class, plugin_id)
+      Plugins.const_get(plugin_class.camelize).find(plugin_id)
     end
   end
 end

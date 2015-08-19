@@ -11,7 +11,7 @@ class PluginsController < ApplicationController
   end
 
   def show
-    @plugin = Plugins.find_for(@campaign_page.id, params[:type])
+    @plugin = Plugins.find_for(params[:type], params[:id])
   end
 
   private

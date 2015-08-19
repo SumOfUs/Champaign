@@ -20,7 +20,7 @@ describe PluginsController do
     end
 
     it 'finds plugin' do
-      expect(Plugins).to have_received(:find_for).with(5, 'example')
+      expect(Plugins).to have_received(:find_for).with('example', '1')
     end
   end
 end
