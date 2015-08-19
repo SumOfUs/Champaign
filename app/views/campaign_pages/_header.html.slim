@@ -1,0 +1,17 @@
+- content_for :page_header do
+  .page-header.campaign-pages
+    .container
+      .row
+        .col-md-12
+          h2 #{link_to 'Campaign Pages', campaign_pages_path} / #{ link_to('foo', '#')}
+
+.row.campaign-pages
+  .col-md-12
+
+    ul.nav.nav-tabs
+      = campaign_page_nav_item('Content', edit_campaign_page_path(@campaign_page) )
+      = campaign_page_nav_item('Plugins', campaign_page_plugin_path(@campaign_page, 'action') )
+      li = link_to 'Actions', '#'
+      li = link_to 'Stats', '#'
+
+
