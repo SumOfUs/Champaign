@@ -1,9 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    action_parameter (0.0.3)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     actionmailer (4.2.3)
       actionpack (= 4.2.3)
       actionview (= 4.2.3)
@@ -301,7 +298,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  action_parameter
   aws-sdk (~> 2)
   bootstrap-sass (~> 3.3.5)
   browser
