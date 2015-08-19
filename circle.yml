@@ -22,15 +22,10 @@ database:
     - echo "look in circle/run-tests for database setup for testing environment"
 
 deployment:
-  hub:
-  # change back to master!
+  production:
+  # push to Docker Hub and deploy new version on AWS
     branch: aws-update-branch
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-  # deploy to elastic beanstalk
-  elasticbeanstalk:
-    branch: aws-update-branch
-    commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - ./deploy.sh $CIRCLE_SHA1
