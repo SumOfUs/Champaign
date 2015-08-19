@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ChampaignQueue::Clients::Sqs do
+describe ChampaignQueue::Clients::Sqs, :sqs do
   context "with SQS_QUEUE_URL" do
     it "delivers payload to AWS SQS Queue" do
 
