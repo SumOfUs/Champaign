@@ -1,20 +1,21 @@
 require 'rails_helper'
+require './lib/champaign_queue/clients/sqs'
 
-describe ChampaignQueue::Clients::Sqs, :sqs do
-  context "with SQS_QUEUE_URL" do
-    it "delivers payload to AWS SQS Queue" do
+describe ChampaignQueue::Clients::Sqs do
+    context "with SQS_QUEUE_URL" do
+      it "delivers payload to AWS SQS Queue" do
 
-      expected_arguments = {
-        queue_url: ENV['SQS_QUEUE_URL'],
-        message_body: {foo: :bar}.to_json
-      }
+        expected_arguments = {
+              queue_url: ENV['SQS_QUEUE_URL'],
+              message_body: {foo: :bar}.to_json
+        }
 
-      expect_any_instance_of(Aws::SQS::Client).to(
-        receive(:send_message).with( expected_arguments )
-      )
+        expect_any_instance_of(Aws::SQS::Client).to(
+              receive(:send_message).with( expected_arguments )
+        )
 
-      ChampaignQueue::Clients::Sqs.push({foo: :bar})
-    end
+        ChampaignQueue::Clients::Sqs.push({foo: :bar})
+      end
   end
 
   context "without SQS_QUEUE_URL" do
