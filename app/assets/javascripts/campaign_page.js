@@ -21,6 +21,10 @@
   }
 
   var configureQuillEditor = function() {
+    if($('#editor').length === 0){
+      return false;
+    }
+
     var quillConfig = {
       theme: 'snow',
       modules: {
