@@ -1,5 +1,5 @@
 
-= form_for plugin, url: plugins_action_page(plugin), remote: true, html: { class: 'plugin-toggle }  do |f|
+= form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'plugin-toggle' }  do |f|
   .form-group.plugin-toggle
     .btn-group
       a.toggle-button.btn.btn-default data-state=1 On
