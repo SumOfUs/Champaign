@@ -5,7 +5,7 @@ module Plugins
     end
 
     def create_for_page(plugin_name, page, ref)
-      return true if plugin_name.blank?
+      return true if plugin_name.blank? || page.blank?
       plugin_class = "Plugins::#{plugin_name.camelcase}".constantize
       plugin = plugin_class.new(plugin_class.const_get(:DEFAULTS))
       plugin.campaign_page = page
