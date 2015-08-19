@@ -1,18 +1,20 @@
 class FormElementsController < ApplicationController
-  before_filter :find_form, only: [:create, :destroy]
+  before_filter :find_form, only: [:create]
 
   def create
-    @element = @form.form_elements.create(permitted_params)
+    @element = FormElementBuilder.create(@form, permitted_params)
 
     respond_to do |format|
-      format.html do
-        render partial: 'element', locals: { form: @form, element: @element }, status: :ok
+      if @element.valid?
+        format.html  { render partial: 'element', locals: { form: @form, element: @element }, status: :ok }
+      else
+        format.json { render json: @element.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    element = @form.form_elements.find(params[:id])
+    element = FormElement.find(params[:id])
     element.destroy
 
     respond_to do |format|
