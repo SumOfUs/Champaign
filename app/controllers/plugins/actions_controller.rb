@@ -4,17 +4,22 @@ class Plugins::ActionsController < ApplicationController
   def update
     action = Plugins::Action.find(params[:id])
     action.update_attributes(permitted_params)
-    render json: 'ok'
+
+    respond_to do |format|
+      format.json { render json: action, status: :ok }
+    end
   end
 
   private
 
   def find_form
-    @form ||= Form.find params[:plugins_action][:form_id]
+    if params[:plugins_action][:form_id]
+      Form.find params[:plugins_action][:form_id]
+    end
   end
 
   def permitted_params
     params.require(:plugins_action).
-      permit(:form_id, :description)
+      permit(:form_id, :description, :active)
   end
 end

@@ -1,15 +1,15 @@
-= form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
+= render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
-  div.form-group
+= form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
+  .form-group
     = f.label :form, "Choose a form"
     = f.select :form_id, Form.all.map{ |form| [form.title, form.id] }, {include_blank: true}, {class: 'form-control'}
 
 
-  div.form-group
+  .form-group
     = f.label :description, "Description"
     = f.text_area :description, class: 'form-control'
 
-  div.form-group
+  .form-group
     = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
-
 

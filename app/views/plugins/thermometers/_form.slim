@@ -1,19 +1,20 @@
+= render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_thermometer_path(plugin) }
+
 = form_for plugin, url: plugins_thermometer_path(plugin), remote: true, html: {class: 'plugin-settings'} do |f|
   = render "shared/error_messages", target: plugin
   = render "shared/success_message", success: (defined?(success) || false)
 
-  div.form-group
+  .form-group
     = f.label :title, "Title"
     = f.text_field :title, class: 'form-control'
-  div.form-group
+  .form-group
     = f.label :offset, "Offset"
     = f.text_field(:offset, class: 'form-control')
-  div.form-group
+  .form-group
     = f.label :goal, "Goal"
     = f.text_field(:goal, class: 'form-control')
 
 
-  div.form-group
+  .form-group
     = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
-
 

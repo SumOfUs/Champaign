@@ -9,8 +9,6 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'react-rails'
-gem 'browserify-rails'
 gem 'select2-rails'
 gem 'dropzonejs-rails'
 gem 'codemirror-rails'
@@ -39,13 +37,9 @@ gem 'rails_admin'
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
 
-# Use ActionParameter as a way to extract model-based mass-assignment into
-# a class that Does One Thing (in this case, filter mass assignments) in the
-# Rails 4 style. https://github.com/edelpero/action_parameter
-gem 'action_parameter'
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
-
+gem 'action_parameter'
 # We need to use render inside a model in order to compile HTML for display
 # in champaign-flute.
 gem 'render_anywhere', :require => false
