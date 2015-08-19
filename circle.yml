@@ -10,7 +10,7 @@ dependencies:
     # install AWS CLI
     - sudo pip install awscli
     # build the image
-    - docker build -t soutech/champaign_web .
+    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
 
 test:
   override:

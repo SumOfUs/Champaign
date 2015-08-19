@@ -1,5 +1,4 @@
-# deploy.sh
-#! /bin/bash
+#!/bin/bash
 
 SHA1=$1
 

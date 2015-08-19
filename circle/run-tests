@@ -22,4 +22,4 @@ done
 echo "OK"
 
 # Once it succeeds, it runs tests
-bundle exec rspec --color spec --format progress
+rspec spec
