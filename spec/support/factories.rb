@@ -29,6 +29,7 @@ FactoryGirl.define do
     slug
     active true
     featured false
+    liquid_layout
   end
 
   factory :campaign do

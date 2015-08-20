@@ -4,9 +4,12 @@ module Plugins
       'plugins_'
     end
 
-    def create_for_page(plugin, page)
-      plugin = plugin.new(plugin.const_get(:DEFAULTS))
+    def create_for_page(plugin_name, page, ref)
+      return true if plugin_name.blank? || page.blank?
+      plugin_class = "Plugins::#{plugin_name.camelcase}".constantize
+      plugin = plugin_class.new(plugin_class.const_get(:DEFAULTS))
       plugin.campaign_page = page
+      plugin.ref = ref if ref.present?
       plugin.save
     end
 
@@ -16,24 +19,25 @@ module Plugins
     end
 
     def data_for_view(page)
-      plugins_data = Plugins.registered.inject({}) do |memo, plugin|
-        record = plugin.find_by_campaign_page_id(page.id)
-
-        if record
-          memo[plugin.name.split('::').last.underscore] = record.liquid_data
-          memo
+      default_ref = 'default'
+      plugins_data = page.plugins.inject({}) do |memo, plugin|
+        if plugin
+          plugin_name = plugin.name.underscore
+          memo[plugin_name] = {} unless memo.include? plugin_name
+          ref = plugin.ref.present? ? plugin.ref : default_ref
+          memo[plugin_name][ref] = plugin.liquid_data
         end
+        memo
       end
-
-      { 'plugins' => plugins_data }
+      page.attributes.merge({'plugins' => plugins_data, 'ref' => default_ref})
     end
 
     def names
       registered.map{|plugin| plugin.to_s.underscore.split('/').last }
     end
 
-    def find_for(campaign_page_id, plugin_name)
-      Plugins.const_get(plugin_name.camelize).find_by(campaign_page_id: campaign_page_id)
+    def find_for(plugin_class, plugin_id)
+      Plugins.const_get(plugin_class.camelize).find(plugin_id)
     end
   end
 end

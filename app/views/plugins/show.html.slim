@@ -3,12 +3,12 @@
 .row
   .col-md-2
     ul.nav.nav-pills.nav-stacked
-      - Plugins.names.each do |plugin|
-        = campaign_page_nav_item(plugin.capitalize,  campaign_page_plugin_path(@campaign_page, plugin))
-
+      - @campaign_page.plugins.each do |plugin|
+        - path = campaign_page_plugin_path(@campaign_page, plugin.name, plugin.id)
+        = campaign_page_nav_item(plugin_title(plugin), path)
 
   .col-md-10
-    h4 Settings for #{@plugin.name}
+    h4 Settings for #{plugin_title(@plugin)}
     = render partial: "#{@plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: @plugin, page: @campaign_page }
 
 javascript:

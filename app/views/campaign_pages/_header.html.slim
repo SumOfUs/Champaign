@@ -10,8 +10,7 @@
 
     ul.nav.nav-tabs
       = campaign_page_nav_item('Content', edit_campaign_page_path(@campaign_page) )
-      = campaign_page_nav_item('Plugins', campaign_page_plugin_path(@campaign_page, 'action') )
-      li = link_to 'Actions', '#'
-      li = link_to 'Stats', '#'
+      = campaign_page_nav_item('Plugins', campaign_page_plugins_path(@campaign_page), false )
+      = campaign_page_nav_item('View', campaign_page_path(@campaign_page) )
 
 
