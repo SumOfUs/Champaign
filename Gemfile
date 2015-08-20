@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.2.2'
 
 gem 'rails', '4.2.3'
 gem 'pg'
@@ -19,10 +20,6 @@ gem 'codemirror-rails'
 # Use Unicorn as the app server
 # gem 'unicorn'
 
-# Using RabbitMQ for Message Queuing - Bunny is our interface gem
-gem 'bunny'
-
-# Use Slim for Templating
 gem "slim-rails"
 gem 'liquid'
 
