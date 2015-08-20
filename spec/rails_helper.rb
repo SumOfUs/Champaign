@@ -8,6 +8,7 @@ require 'devise'
 require 'support/helper_functions'
 require 'support/omni_auth_helper'
 require 'support/capybara'
+require 'webmock/rspec'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -44,7 +45,7 @@ RSpec.configure do |config|
   config.include OmniAuthHelper
 
   config.include Devise::TestHelpers, type: :controller
-  config.extend ControllerMacros, :type => :controller
+  config.extend ControllerMacros,     type: :controller
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
