@@ -28,6 +28,7 @@ en:
     saving: 'Saving...'
     lets_go: "Let's Go!"
     successful_update: "Your changes have been saved!"
+    confirm: 'Are you sure?'
 
   menu:
     campaign_pages: 'Campaign Pages'
@@ -66,6 +67,8 @@ en:
       title: "Campaigns"
 
   forms:
-    show:
+    index:
+      title: 'Forms'
+    edit:
       title: "Create Your Form"
       preview: "Preview"
