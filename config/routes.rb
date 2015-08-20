@@ -20,6 +20,8 @@ Rails.application.routes.draw do
 
   resources :campaign_pages do
     resources :images
+    get 'plugins', to: 'plugins#index'
+    get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
   end
 
   resources :forms do
@@ -30,6 +32,7 @@ Rails.application.routes.draw do
     resources :actions
     resources :thermometers
   end
+
 
   resources :liquid_partials
   resources :liquid_layouts

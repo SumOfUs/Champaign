@@ -1,12 +1,10 @@
 FactoryGirl.define do
   factory :form_element do
+    label     "Name"
+    name      "name"
+    required  false
+    data_type 'text'
     form nil
-label "MyString"
-data_type "MyString"
-field_type "MyString"
-default_value "MyString"
-required false
-visible false
+    visible true
   end
-
 end

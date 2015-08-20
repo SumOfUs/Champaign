@@ -3,9 +3,10 @@ require 'rails_helper'
 describe CampaignPage do
 
   let(:english) { create :language }
+  let(:liquid_layout) { create :liquid_layout }
   let(:simple_page) { create :campaign_page }
   let(:existing_page) { create :campaign_page }
-  let(:page_params) { attributes_for :campaign_page }
+  let(:page_params) { attributes_for :campaign_page, liquid_layout_id: liquid_layout.id }
 
   subject { simple_page }
 
@@ -18,6 +19,7 @@ describe CampaignPage do
   it { should respond_to :campaign_pages_tags }
   it { should respond_to :campaign }
   it { should respond_to :liquid_layout }
+  it { should respond_to :plugins }
 
   it { should_not respond_to :widgets }
 

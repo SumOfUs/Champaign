@@ -28,8 +28,10 @@ module Champaign
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    # to get browserify to handle react JSX
-    config.browserify_rails.commandline_options = "--transform babelify --extension=\".js.jsx\""
+    # Disable the web console gem from complaining about being unable to render
+    # a console while you're accessing the site from a host on Docker.
+    config.web_console.whiny_requests = false
+
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.

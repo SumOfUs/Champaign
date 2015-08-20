@@ -1,51 +1,35 @@
-= form_for @campaign_page, remote: true do |f|
-  = f.hidden_field :content
+= render 'campaign_pages/header'
 
-  = render 'shared/error_messages', target: @campaign_page
+.row
+  .col-md-12
+    = form_for @campaign_page, remote: true do |f|
+      = f.hidden_field :content
 
-  .page-title.form-group
-    = f.text_field :title
+      = render 'shared/error_messages', target: @campaign_page
 
-  .form-group
-    = render 'shared/quill_editor'
+      .page-title.form-group
+        = f.text_field :title
 
-  .form-group
-    = f.label :liquid_layout_id, t('.layout_select')
-    = f.select :liquid_layout_id,
-      LiquidLayout.all.map{|ll| [ll.title, ll.id] },
-        { include_blank: 'Default' },
-        class: "space-left form-control"
+      .form-group
+        = render 'shared/quill_editor'
 
-  .form-group
-    = f.label  :tag_ids, t('.tags')
-    = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
+      .form-group
+        = f.label  :tag_ids, t('.tags')
+        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
 
-  .btn-toolbar
-    = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
-    = link_to t('.view'), @campaign_page, class: 'btn btn-info', target: '_blank'
+      .btn-toolbar
+        = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+        = link_to t('.view'), @campaign_page, class: 'btn btn-info', target: '_blank'
 
-section
-  h3 = t('.photos')
-  - if @campaign_page.images.any?
-    .component.campaign-images
-      - @campaign_page.images.each do |image|
-        = render partial: 'images/thumbnail', locals: { image: image }
+    section
+      h3 = t('.photos')
+      - if @campaign_page.images.any?
+        .component.campaign-images
+          - @campaign_page.images.each do |image|
+            = render partial: 'images/thumbnail', locals: { image: image }
 
-  .component
-    = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
-
-section
-  h3 = t('.extras')
-
-  - Plugins.registered.each do |plugin|
-    - plugin_record = plugin.find_by_campaign_page_id(@campaign_page.id)
-
-    - if plugin_record
-      div.component.main
-        h4 = plugin_record.name
-        = render partial: "#{plugin.to_s.underscore.pluralize}/form", locals: { plugin: plugin_record, page: @campaign_page }
-
-
+      .component
+        = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
 
 javascript:
   $.publish("campaign_page:has_loaded");

@@ -6,16 +6,12 @@
       </h2>
 
       <div class="text">
-        <!-- INSERT COMPONENTS BENEATH HERE -->
 
         <div class='gallery'>
          {% include 'photos' %}
         </div>
 
-        {% include 'thermometer' %}
-
-        <!-- DO NOT INSERT COMPONENTS BEYOND HERE -->
-        <!-- MAIN CONTENT HERE -->
+        <!-- no thermometer -->
 
         {{content}}
       </div>
@@ -27,3 +23,8 @@
   </div>
 </div>
 
+<div class="modal-overlay">
+  <div class="modal-content">
+    {% include 'action', ref: 'modal' %}
+  </div>
+</div>

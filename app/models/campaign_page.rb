@@ -14,6 +14,7 @@ class CampaignPage < ActiveRecord::Base
   has_many :images
 
   validates :title, :slug, presence: true, uniqueness: true
+  validates :liquid_layout, presence: true
 
   before_validation :create_slug
 
@@ -27,24 +28,12 @@ class CampaignPage < ActiveRecord::Base
     CampaignPageRenderer.new(self).render_and_save
   end
 
-  #
-  # TODO - Refactor
-  # Move to service class
-  #
-  def self.create_with_plugins(params)
-    page = new(params)
-    page.language = Language.first
-
-    if page.save
-      Plugins.registered.each do |plugin|
-        Plugins.create_for_page(plugin, page)
-      end
-
-      ChampaignQueue::SqsPusher.push(@campaign_page.as_json) if Rails.env.production?
-    end
-
-    page
+  def plugins
+    Plugins.registered.map do |plugin_class|
+      plugin_class.where(campaign_page_id: id).to_a
+    end.flatten
   end
+
 end
 
 

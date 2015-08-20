@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require pub_sub
 
-//= require components
 //= require bootstrap-sprockets
 //= require select2
 //= require dropzone

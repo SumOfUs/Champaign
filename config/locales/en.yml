@@ -28,6 +28,7 @@ en:
     saving: 'Saving...'
     lets_go: "Let's Go!"
     successful_update: "Your changes have been saved!"
+    confirm: 'Are you sure?'
 
   menu:
     campaign_pages: 'Campaign Pages'
@@ -53,8 +54,8 @@ en:
     new:
       title: "Let's Get Started!"
       sub:   "First, give your Campaign Page a unique and catchy title"
-    edit:
       layout_select: "Choose a Layout"
+    edit:
       show: "View the page"
       tags: "Tags"
       photos: 'Photos'
@@ -66,6 +67,8 @@ en:
       title: "Campaigns"
 
   forms:
-    show:
+    index:
+      title: 'Forms'
+    edit:
       title: "Create Your Form"
       preview: "Preview"
