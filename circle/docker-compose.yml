@@ -4,7 +4,7 @@ web:
     - db
   command: /myapp/circle/run-tests
   env_file:
-      - test.env
+    - test.env
 
 db:
   image: postgres
