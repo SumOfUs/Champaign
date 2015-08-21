@@ -1,5 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Form, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Form do
+  describe 'validations' do
+    it "requires a title" do
+      expect(Form.new).to_not be_valid
+    end
+  end
 end
