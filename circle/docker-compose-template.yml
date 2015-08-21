@@ -1,5 +1,5 @@
 web:
-  image: soutech/champaign_web
+  image: soutech/champaign_web:$CIRCLE_SHA1
   links:
     - db
   command: /myapp/circle/run-tests

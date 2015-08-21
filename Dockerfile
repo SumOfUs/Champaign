@@ -1,11 +1,7 @@
-# --- RAILS APPLICATION SETUP
-
 FROM ruby:2.2.2
-
 # Install system dependencies
 RUN apt-get update -qq && apt-get install -y nodejs imagemagick netcat
 
-# Create the application directory
 RUN mkdir /myapp
 WORKDIR /myapp
 ADD Gemfile* /myapp/
