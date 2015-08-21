@@ -1,15 +1,29 @@
-= render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
+.row
+  .col-md-7
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
-= form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
-  .form-group
-    = f.label :form, "Choose a form"
-    = f.select :form_id, Form.all.map{ |form| [form.title, form.id] }, {include_blank: true}, {class: 'form-control'}
+    = form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
+      .form-group
+        = f.label :form, "Choose a form template"
+        = f.select :form_id, Form.all.map{ |form| [form.title, form.id] }, {include_blank: true}, {class: 'form-control'}
 
 
-  .form-group
-    = f.label :description, "Description"
-    = f.text_area :description, class: 'form-control'
+    = form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
+      .form-group
+        = f.label :description, "Provide a description for your action"
+        = f.text_area :description, class: 'form-control'
 
-  .form-group
-    = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+      .form-group
+        = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
 
+  .col-md-5
+    .plugin-action-preview
+      h4 Preview
+      p.plugin-action-description
+        = plugin.description
+
+    - if plugin.form
+      form
+        = render partial: 'forms/show', locals: { form: plugin.form }
+
+        button.btn.btn-default Sign
