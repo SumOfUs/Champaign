@@ -3,7 +3,7 @@
   "Authentication": {
   },
   "Image": {
-    "Name": "soutech/champaign_web"
+    "Name": "soutech/champaign_web:$CIRCLE_SHA1"
   },
   "Ports": [
     {
