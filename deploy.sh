@@ -1,9 +1,7 @@
 #!/bin/bash
+set -eu -o pipefail
 
 SHA1=$1
-echo -n "Sha in deploy script is"
-echo $SHA1
-
 # Deploy image to Docker Hub
 docker push soutech/champaign_web:$SHA1
 
