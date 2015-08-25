@@ -11,8 +11,6 @@ dependencies:
     - sudo pip install awscli
     # build the image
     - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
-    - echo -n "Circle Sha in circle.yml is"
-    - echo $CIRCLE_SHA1
 
 test:
   override:
@@ -28,7 +26,7 @@ database:
 deployment:
   production:
   # push to Docker Hub and deploy new version on AWS
-    branch: aws-deploy
+    branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
