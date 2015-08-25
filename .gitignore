@@ -28,7 +28,9 @@ config/env.yml
 queue_listeners/config/env.yml
 
 .DS_Store
-
-# npm puts our JS deps in the repo directory, but don't commit em
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
 node_modules
 public/system

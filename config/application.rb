@@ -13,8 +13,6 @@ module Champaign
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
     config.autoload_paths << Rails.root.join('lib')
 
-    # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
-    config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113', '10.5.50.113']
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -29,10 +27,6 @@ module Champaign
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-
-    # Disable the web console gem from complaining about being unable to render
-    # a console while you're accessing the site from a host on Docker.
-    config.web_console.whiny_requests = false
 
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker

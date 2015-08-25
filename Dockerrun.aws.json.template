@@ -1,0 +1,15 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Authentication": {
+  },
+  "Image": {
+    "Name": "soutech/champaign_web:$CIRCLE_SHA1"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "3000"
+    }
+  ],
+  "Volumes": [],
+  "Logging": "/myapp/log"
+}

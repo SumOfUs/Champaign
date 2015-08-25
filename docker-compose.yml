@@ -18,3 +18,5 @@ db:
   image: postgres
   ports:
     - "5432"
+  environment:
+      POSTGRES_DB: champaign

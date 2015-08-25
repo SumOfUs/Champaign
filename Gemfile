@@ -44,8 +44,15 @@ gem 'render_anywhere', :require => false
 # AWS SDK for Ruby
 gem 'aws-sdk', '~> 2'
 
+# logger for debugging AWS
+gem 'logger'
+
 # A fake SQS service to run a local look-a-like of Amazon SQS
 gem 'fake_sqs'
+
+# # Caching for production
+# gem 'rack-cache'
+# gem 'redis-rack-cache'
 
 # Gem for user agent / browser detection
 gem 'browser'

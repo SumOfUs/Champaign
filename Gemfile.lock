@@ -131,8 +131,9 @@ GEM
     kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    liquid (3.0.6)
-    loofah (2.0.3)
+    liquid (3.0.3)
+    logger (1.2.8)
+    loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
@@ -323,6 +324,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   liquid
+  logger
   omniauth-google-oauth2
   paper_trail
   paperclip
