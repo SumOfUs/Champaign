@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe CampaignsController do
-  let(:user) { double(:user) }
+  let(:user) { instance_double('User', id: '1') }
   let(:campaign) { instance_double('Campaign', active?: true) }
 
   before do

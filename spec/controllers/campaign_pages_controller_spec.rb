@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe CampaignPagesController do
-  let(:user) { instance_double('User') }
-  let(:campaign_page) { instance_double('CampaignPage', active?: true, featured?: true) }
+  let(:user) { instance_double('User', id: '1') }
+  let(:campaign_page) { instance_double('CampaignPage', active?: true, featured?: true, id: '1') }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
