@@ -10,13 +10,9 @@ web:
     PG_USERNAME: postgres
     PG_HOST: db
 
-  env_file:
-    - '.env.web'
-  command: bundle exec rails s -b 0.0.0.0
-
 db:
   image: postgres
   ports:
     - "5432"
   environment:
-      POSTGRES_DB: champaign
+    POSTGRES_DB: champaign
