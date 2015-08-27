@@ -42,5 +42,10 @@ $(function(){
   $('.plugin.action').on('ajax:success', function(){
     $.publish('plugin:action:preview:update');
   });
+
+  $('.plugin.action').on('ajax:error', function(e, xhr,resp){
+    //for debugging
+    console.log(xhr, resp);
+  });
 });
 

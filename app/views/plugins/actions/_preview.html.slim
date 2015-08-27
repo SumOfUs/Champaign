@@ -1,6 +1,6 @@
-= plugin.description
+.well.well-sm = simple_format(plugin.description)
 
 - if plugin.form
-  = render partial: 'forms/preview', locals: { form: plugin.form }
+  == render partial: 'forms/preview', locals: { form: plugin.form }
 
   button.btn.btn-default Sign

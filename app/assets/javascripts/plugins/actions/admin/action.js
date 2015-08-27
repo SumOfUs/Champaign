@@ -1,4 +1,8 @@
 $(function(){
+  var makeSortable = function(){
+    $( ".plugin.action .list-group.sortable" ).sortable();
+
+  };
   $('.plugin.action #new_form_element').on('ajax:success', function(e, resp, c){
     $('.list-group').append(resp);
   });
@@ -9,7 +13,6 @@ $(function(){
     $(this).parents('.list-group-item').fadeOut();
   });
 
-  $( ".plugin.action .list-group.sortable" ).sortable();
 
   $( ".plugin.action" ).on( "sortupdate", function( event, ui, a, b ) {
     var ids = ui.item.parent().
@@ -22,9 +25,19 @@ $(function(){
     $('form#sort-form-elements').submit();
   });
 
-  $('#sort-form-elements').on('ajax:success', function(e,resp) {});
+  $('#change-form-template').on('ajax:success', function(e, resp) {
+    $('.form-edit').html(resp.html);
 
-  $('#change-form-template').on('ajax:success', function(e, resp) {});
+    var action = $('#sort-form-elements').
+      attr('action').
+      replace(/\d+/, resp.form_id);
 
+    $('#sort-form-elements').attr('action', action);
+
+
+    makeSortable();
+  });
+
+  makeSortable();
 });
 

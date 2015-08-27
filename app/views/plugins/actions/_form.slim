@@ -9,13 +9,11 @@
         .form-group
           = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
 
-
     .well
       h4 Choose Another Form Template
-      = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action'  do
+      = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action', id: 'change-form-template'  do
         .form-group
           = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
-
 
         .form-group
           = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
@@ -25,10 +23,8 @@
       = form_tag sort_form_form_elements_path(plugin.form), remote: true, id: 'sort-form-elements', style: 'hidden: true' do
         = hidden_field_tag 'form_element_ids'
 
-      ul.list-group.sortable
-        - plugin.form.form_elements.each do |element|
-          = render partial: 'form_elements/element', locals: { form: plugin.form, element: element }
-
+      .form-edit
+        = render partial: 'forms/edit', locals: {form: plugin.form }
 
       - if plugin.form
         h5 Add a new field
