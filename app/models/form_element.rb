@@ -6,7 +6,6 @@ class FormElement < ActiveRecord::Base
   before_validation :set_name
   before_validation :set_position, on: :create
 
-  scope :masters, -> { where(master: true) }
 
   private
 
