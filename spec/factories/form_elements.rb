@@ -5,6 +5,5 @@ FactoryGirl.define do
     required  false
     data_type 'text'
     visible   true
-    master    true
   end
 end
