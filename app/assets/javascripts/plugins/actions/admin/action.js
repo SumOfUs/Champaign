@@ -10,6 +10,7 @@ $(function(){
   });
 
   $( ".plugin.action .list-group.sortable" ).sortable();
+
   $( ".plugin.action" ).on( "sortupdate", function( event, ui, a, b ) {
     var ids = ui.item.parent().
       children().
@@ -22,4 +23,8 @@ $(function(){
   });
 
   $('#sort-form-elements').on('ajax:success', function(e,resp) {});
+
+  $('#change-form-template').on('ajax:success', function(e, resp) {});
+
 });
+

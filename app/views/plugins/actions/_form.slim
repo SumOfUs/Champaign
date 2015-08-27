@@ -14,7 +14,7 @@
       h4 Choose Another Form Template
       = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action'  do
         .form-group
-          = select_tag :form_id, options_from_collection_for_select(Form.visible.all, 'id', 'name'), {class: 'form-control form-select'}
+          = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
 
 
         .form-group
@@ -31,7 +31,7 @@
 
 
       - if plugin.form
-
+        h5 Add a new field
         .well
           = form_for [plugin.form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
 
