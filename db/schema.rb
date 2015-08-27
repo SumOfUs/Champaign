@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150821125817) do
+ActiveRecord::Schema.define(version: 20150827085930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,9 +92,11 @@ ActiveRecord::Schema.define(version: 20150821125817) do
     t.string   "default_value"
     t.boolean  "required"
     t.boolean  "visible"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "name"
+    t.boolean  "master",        default: false
+    t.integer  "position",      default: 0,     null: false
   end
 
   add_index "form_elements", ["form_id"], name: "index_form_elements_on_form_id", using: :btree
