@@ -92,11 +92,10 @@ ActiveRecord::Schema.define(version: 20150827085930) do
     t.string   "default_value"
     t.boolean  "required"
     t.boolean  "visible"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "name"
-    t.boolean  "master",        default: false
-    t.integer  "position",      default: 0,     null: false
+    t.integer  "position",      default: 0, null: false
   end
 
   add_index "form_elements", ["form_id"], name: "index_form_elements_on_form_id", using: :btree
@@ -107,6 +106,7 @@ ActiveRecord::Schema.define(version: 20150827085930) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.boolean  "visible",     default: false
+    t.boolean  "master",      default: false
   end
 
   create_table "images", force: :cascade do |t|
