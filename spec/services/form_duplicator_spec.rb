@@ -15,6 +15,10 @@ describe FormDuplicator do
         copy.form_elements.map(&:name)
       ).to eq(form.form_elements.map(&:name))
     end
+
+    it 'sets master to false on new form' do
+      expect(copy.master?).to be false
+    end
   end
 end
 
