@@ -1,5 +1,5 @@
 class FormElementsController < ApplicationController
-  before_filter :find_form, only: [:create]
+  before_filter :find_form, only: [:create, :sort]
 
   def create
     @element = FormElementBuilder.create(@form, permitted_params)
@@ -22,6 +22,15 @@ class FormElementsController < ApplicationController
         render json: {status: :ok}, status: :ok
       end
     end
+  end
+
+  def sort
+    ids = params[:form_element_ids].split(',')
+    ids.each_with_index do |id, index|
+      FormElement.where(id: id, form_id: @form.id).update_all(position: index)
+    end
+
+    render json: @form.form_elements.map(&:position)
   end
 
 

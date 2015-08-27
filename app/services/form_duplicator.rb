@@ -16,6 +16,7 @@ class FormDuplicator
         clone
       end.each(&:save)
 
+    new_form.update visible: false
     new_form
   end
 

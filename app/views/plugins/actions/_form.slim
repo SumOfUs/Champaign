@@ -1,28 +1,54 @@
-.row
+.row.plugin.action data-plugin-id=plugin.id
   .col-md-7
+    .well
+      h4  Provide a description for your action
+      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
+        .form-group
+          = f.text_area :description, class: 'form-control'
+
+        .form-group
+          = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+
+
+    .well
+      h4 Choose Another Form Template
+      = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action'  do
+        .form-group
+          = select_tag :form_id, options_from_collection_for_select(Form.visible.all, 'id', 'name'), {class: 'form-control form-select'}
+
+
+        .form-group
+          = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+
+    .well
+      h4 Customise Your Petition Form
+      = form_tag sort_form_form_elements_path(plugin.form), remote: true, id: 'sort-form-elements', style: 'hidden: true' do
+        = hidden_field_tag 'form_element_ids'
+
+      ul.list-group.sortable
+        - plugin.form.form_elements.each do |element|
+          = render partial: 'form_elements/element', locals: { form: plugin.form, element: element }
+
+
+      - if plugin.form
+
+        .well
+          = form_for [plugin.form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
+
+            .form-group
+              = f.text_field :label,  class: 'form-control', placeholder: 'Label'
+            .form-group
+              = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
+
+            .form-group
+              button.btn.btn-default = t('common.save')
+
+
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
-
-    = form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
-      .form-group
-        = f.label :form, "Choose a form template"
-        = f.select :form_id, Form.all.map{ |form| [form.name, form.id] }, {include_blank: true}, {class: 'form-control'}
-
-
-      .form-group
-        = f.label :description, "Provide a description for your action"
-        = f.text_area :description, class: 'form-control'
-
-      .form-group
-        = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
 
   .col-md-5
     .plugin-action-preview
       h4 Preview
-      p.plugin-action-description
-        = plugin.description
+      .content
+        = render partial: 'plugins/actions/preview', locals: {plugin: plugin }
 
-    - if plugin.form
-      form
-        = render partial: 'forms/show', locals: { form: plugin.form }
-
-        button.btn.btn-default Sign

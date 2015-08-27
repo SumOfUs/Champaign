@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require pub_sub
+//= require jquery-ui/sortable
 
 //= require bootstrap-sprockets
 //= require select2
@@ -21,3 +22,5 @@
 
 //= require forms
 //= require campaign_page
+//= require action
+//= require_tree ./plugins/actions/admin/

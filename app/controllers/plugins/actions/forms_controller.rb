@@ -1,5 +1,19 @@
-class Plugins::ActionsController < ApplicationController
-  before_filter :find_form
+class NewFormTemplateForPlugin
+  def self.create(form, plugin)
+    plugin.update form: FormDuplicator.duplicate(form)
+  end
+end
+
+class Plugins::Actions::FormsController < ApplicationController
+
+  def create
+    form = Form.find params[:form_id]
+    action = Plugins::Action.find params[:action_id]
+    NewFormTemplateForPlugin.create(form, action)
+
+    render json: {'yes' => :foo}
+  end
+
 
   def update
     @plugin = Plugins::Action.find(params[:id])
@@ -21,7 +35,8 @@ class Plugins::ActionsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:plugins_action).
-      permit(:description, :active)
+    params.require(:form).
+      permit(:form_id, :active)
   end
 end
+
