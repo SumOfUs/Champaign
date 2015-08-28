@@ -1,7 +1,5 @@
 $(function(){
   $('form.action').on('ajax:error', function(e, data){
-    // TODO
-    // Handle errors
     console.log("Error");
   });
 
@@ -13,3 +11,5 @@ $(function(){
     });
   });
 });
+
+

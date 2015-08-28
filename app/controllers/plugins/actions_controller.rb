@@ -2,10 +2,12 @@ class Plugins::ActionsController < ApplicationController
   before_filter :find_form
 
   def update
-    action = Plugins::Action.find(params[:id])
-    action.update_attributes(permitted_params)
+    @plugin = Plugins::Action.find(params[:id])
+    @plugin.update_attributes(permitted_params)
+    @campaign_page = @plugin.campaign_page
 
     respond_to do |format|
+      format.html { render 'plugins/show' }
       format.json { render json: action, status: :ok }
     end
   end
@@ -20,6 +22,6 @@ class Plugins::ActionsController < ApplicationController
 
   def permitted_params
     params.require(:plugins_action).
-      permit(:form_id, :description, :active)
+      permit(:description, :active)
   end
 end

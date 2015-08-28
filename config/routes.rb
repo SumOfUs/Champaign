@@ -25,11 +25,16 @@ Rails.application.routes.draw do
   end
 
   resources :forms do
-    resources :form_elements
+    resources :form_elements do
+      post :sort, on: :collection
+    end
   end
 
   namespace :plugins do
-    resources :actions
+    resources :actions do
+      resources :forms, module: :actions
+      resource :preview, module: :actions
+    end
     resources :thermometers
   end
 

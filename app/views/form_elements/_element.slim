@@ -1,18 +1,15 @@
-
-.form-element.form-group.clearfix
-  - case element.data_type
-  - when 'text'
-    input.form-control placeholder=element.label
-
-  - when 'checkbox'
-    = check_box_tag element.name
-    '&nbsp;
-    = element.label
+li.list-group-item data-id=element.id
+  span.sort
+    i.glyphicon.glyphicon-sort
+  = element.label
 
   .control-bar
+    span.label.label-info = element.data_type
+
     = link_to form_form_element_path(form, element),
       { method: :delete,
         remote: true,
         data: { confirm: t('common.confirm') } } do
       small
         span.glyphicon.glyphicon-remove
+
