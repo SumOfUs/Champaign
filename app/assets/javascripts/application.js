@@ -22,5 +22,4 @@
 
 //= require forms
 //= require campaign_page
-//= require action
 //= require_tree ./plugins/actions/admin/
