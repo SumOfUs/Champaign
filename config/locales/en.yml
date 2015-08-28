@@ -72,3 +72,16 @@ en:
     edit:
       title: "Create Your Form"
       preview: "Preview"
+
+  form_elements:
+    shared:
+      label: 'Label'
+      data_type: 'Field type'
+
+  plugins:
+    action:
+      action_description: "Provide a description for your petition"
+      choose_form_template: "Choose another form template"
+      customise_form: "Customise your petition form"
+      add_new_field: "Add a new field"
+

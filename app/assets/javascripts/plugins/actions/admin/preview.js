@@ -38,7 +38,6 @@ $(function(){
 
   $.subscribe('plugin:action:preview:update', updatePreview);
 
-
   $('.plugin.action').on('ajax:success', function(){
     $.publish('plugin:action:preview:update');
   });
