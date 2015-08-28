@@ -70,7 +70,7 @@ en:
     index:
       title: 'Forms'
     edit:
-      title: "Create Your Form"
+      title: "Add a Field"
       preview: "Preview"
 
   form_elements:
