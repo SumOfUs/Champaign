@@ -76,16 +76,10 @@
     $('form.plugin-toggle').on('ajax:error', handleError);
   };
 
-  var configureSelect2 = function(){
-    $('.select2-container').select2({});
-  }
-
   var initialize = function() {
     configureDropZone();
     configureQuillEditor();
-    configureSelect2();
     configureToggle();
-    $('.select2-container').select2({});
   };
 
   $.subscribe("campaign_page:has_loaded", initialize);

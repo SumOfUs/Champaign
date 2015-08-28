@@ -21,3 +21,4 @@
 
 //= require forms
 //= require campaign_page
+//= require select2_config.js
