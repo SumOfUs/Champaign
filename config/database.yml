@@ -17,7 +17,7 @@
 development: &default
   adapter: postgresql
   encoding: unicode
-  database: champaign_test
+  database: champaign
   pool: 5
   username: <%= ENV['PG_USERNAME'] %>
   host: <%= ENV['PG_HOST'] %>
