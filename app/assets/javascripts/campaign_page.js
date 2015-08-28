@@ -85,9 +85,8 @@
     configureQuillEditor();
     configureSelect2();
     configureToggle();
+    $('.select2-container').select2({});
   };
 
   $.subscribe("campaign_page:has_loaded", initialize);
-
 }());
-
