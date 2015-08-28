@@ -20,4 +20,20 @@ namespace :champaign do
 
     puts "Seeding is done."
   end
+
+  desc "Seed database with languages"
+  task seed_languages: :environment do
+    #
+    # Presently only seeds with English. Move to a dedicated class
+    # when list of languages grows.
+    #
+    languages = [{code: 'EN', name: 'English'}]
+
+    languages.each do |lang|
+      unless Language.exists?(lang)
+        puts "Creating #{lang[:name]}"
+        Language.create!(lang)
+      end
+    end
+  end
 end
