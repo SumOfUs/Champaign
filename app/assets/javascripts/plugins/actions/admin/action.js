@@ -28,12 +28,11 @@ $(function(){
   $('#change-form-template').on('ajax:success', function(e, resp) {
     $('.form-edit').html(resp.html);
 
-    var action = $('#sort-form-elements').
-      attr('action').
-      replace(/\d+/, resp.form_id);
-
-    $('#sort-form-elements').attr('action', action);
-
+    $('#sort-form-elements, #new_form_element').each(function(i, el){
+      console.log(el);
+      var action = $(el).attr('action').replace(/\d+/, resp.form_id);
+      $(el).attr('action', action);
+    });
 
     makeSortable();
   });
