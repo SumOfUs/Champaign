@@ -22,5 +22,10 @@
           = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'tag_name'),
                        html_options= {class: 'form-control select2-container', multiple: true}
 
+        = label_tag 'search[plugin_type]', 'Search by plugin type:', class: 'control-label col-lg-2'
+        .col-lg-10
+          = select_tag 'search[plugin_type]', options_from_collection_for_select(Plugins.registered, 'new',  lambda { |plugin| plugin.name.demodulize}),
+                         html_options= {class: 'form-control select2-container', multiple: true}
+
         .col-md-12
           = submit_tag 'Search!', class: 'btn btn-info btn-sm', id: 'search_button'
