@@ -12,7 +12,7 @@ describe CampaignPagesHelper do
     it "returns link when active" do
       actual = helper.toggle_switch(true, true, 'foo')
       expect(actual).to eq(
-        "<a class=\"btn-success btn toggle-button btn-default\">foo</a>"
+        "<a class=\"btn-primary btn toggle-button btn-default\">foo</a>"
       )
     end
 

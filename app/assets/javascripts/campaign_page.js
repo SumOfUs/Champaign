@@ -52,8 +52,8 @@
     var handleClick = function(e){
       e.preventDefault();
       $('form.plugin-toggle').submit();
-      $('.toggle-button').removeClass('btn-success');
-      $(this).addClass('btn-success');
+      $('.toggle-button').removeClass('btn-primary');
+      $(this).addClass('btn-primary');
     };
 
     var handleSuccess = function(e,data){

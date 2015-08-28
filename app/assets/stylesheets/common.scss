@@ -107,3 +107,41 @@ form.template-form {
 section {
   margin-top: 40px;
 }
+
+li.list-group-item {
+  position: relative;
+  cursor: move;
+  .sort {
+    margin-right: 5px;
+    .glyphicon {
+      color: #ddd;
+      &:active {
+        color: #000;
+      }
+    }
+  }
+
+  .control-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: $padding-base-vertical $padding-base-horizontal;
+
+    a {
+      padding-left: $padding-small-horizontal;
+    }
+  }
+}
+
+.action-form-item-control {
+  margin-left: 5px;
+}
+
+.well {
+  background: none;
+}
+
+.list-group-item span.label {
+  margin-left: 5px;
+}
