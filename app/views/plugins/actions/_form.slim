@@ -1,5 +1,7 @@
 .row.plugin.action data-plugin-id=plugin.id
   .col-md-7
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
+
     .well
       h4  Provide a description for your action
       = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
@@ -40,7 +42,6 @@
               button.btn.btn-default = t('common.save')
 
 
-    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
   .col-md-5
     .plugin-action-preview
