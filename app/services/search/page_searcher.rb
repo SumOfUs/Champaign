@@ -1,10 +1,5 @@
 class Search::PageSearcher
 
-  def self._search(string)
-    CampaignPage.joins(:widgets).
-        where("campaign_pages.title ILIKE ? OR widgets.content #>> '{text_body_html}' ILIKE ?", "%#{string}%", "%#{string}%")
-  end
-
   def initialize(params)
     @queries = params[:search]
     @collection = CampaignPage.all
@@ -21,21 +16,14 @@ class Search::PageSearcher
           search_by_language(query)
         when 'campaign'
           search_by_campaign(query)
-        when 'widget_type'
-          search_by_widget_type(query)
+        when 'plugin_type'
+          search_by_plugin_type(query)
       end
     end
     @collection
   end
 
   private
-
-  def get_pages_by_widgets(collection, widgets_collection)
-    # get campaign page ids from your collection of widgets
-    page_ids = widgets_collection.pluck(:page_id)
-    # get an intersection of page ids and original ids in the collection
-    array_to_relation(CampaignPage, collection.find(page_ids))
-  end
 
   def combine_collections(collection1, collection2)
     # get union of unique values in collection1 and collection2
@@ -53,8 +41,8 @@ class Search::PageSearcher
   end
 
   def search_by_text(query)
-    text_body_matches = get_pages_by_widgets(@collection, Search::WidgetSearcher.text_widget_search(query))
-    @collection = combine_collections(search_by_title(query), text_body_matches)
+    matches_by_content = Search.full_text_search(@collection, 'content', query)
+    @collection = combine_collections(search_by_title(query), matches_by_content)
   end
 
   def search_by_tags(query)
@@ -69,11 +57,12 @@ class Search::PageSearcher
     @collection = @collection.where(campaign_id: query)
   end
 
-  def search_by_widget_type(query)
-    # gets all widgets that match the query
-    widget_type_matches = Search::WidgetSearcher.widget_type_search(query)
-    # gets pages in the collection that match the page_ids in the widgets
-    @collection = get_pages_by_widgets(@collection, widget_type_matches)
+  def search_by_plugin_type(plugins)
+    matches_by_plugins = []
+    plugins.each do |plugin|
+      matches_by_plugins.push(@campaign_pages.find(plugin.page.id))
+    end
+    array_to_relation(CampaignPage, matches_by_plugins)
   end
 
 end
