@@ -8,6 +8,7 @@ describe CampaignPageBuilder do
   let(:params) {{ title: "Foo Bar", liquid_layout_id: template.id }}
   subject { CampaignPageBuilder.create_with_plugins(params) }
 
+
   describe "with empty template" do
 
     let(:template) { create :liquid_layout, content: '<div class="foo"></div>' }
@@ -26,6 +27,10 @@ describe CampaignPageBuilder do
       it "does not create a #{plugin.name}" do
         expect { subject }.to change{ plugin.count }.by 0
       end
+    end
+
+    it 'assigns default (English) language' do
+      expect(subject.language.code).to eq('EN')
     end
   end
 

@@ -38,5 +38,15 @@ class CampaignPageBuilder
       params: page.attributes
     }.as_json )
   end
+
+  def params
+    @params.merge(language: default_language)
+  end
+
+  def default_language
+    @default_language ||= Language.find_or_create_by(code: 'EN') do |lang|
+      lang.name = 'English'
+    end
+  end
 end
 
