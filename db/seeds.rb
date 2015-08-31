@@ -21,14 +21,14 @@ Campaign.create!(
      {campaign_name: 'New campaign'},
      {campaign_name: 'The coolest campaign'}])
 
-# 5. make a campaign page
-Campaign.first.campaign_page.create!({
-  language_id: (Language.find_by language_code: 'EN/US').id,
-  title: 'Testy page',
-  slug: 'testy_page',
-  active: false,
-  featured: false
-})
+# # 5. make a campaign page
+# Campaign.first.campaign_page.create!({
+#   language_id: (Language.find_by language_code: 'EN/US').id,
+#   title: 'Testy page',
+#   slug: 'testy_page',
+#   active: false,
+#   featured: false
+# })
 
 # 7. create an actionkit page match for the campaign page widget
 # campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
