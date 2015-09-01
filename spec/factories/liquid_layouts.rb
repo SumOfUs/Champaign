@@ -6,6 +6,7 @@ FactoryGirl.define do
 
     trait :master do
       title 'master'
+      content %{ {% include 'action' %} {% include 'thermometer' %}" }
     end
   end
 
