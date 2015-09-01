@@ -1,9 +1,33 @@
 machine:
-  ruby:
-    version: 2.2.0
-  environment:
-    SECRET_KEY_BASE: 'secret_key_base'
-    OMNIAUTH_CLIENT_SECRET: 'omniauth_client_secret'
-    OMNIAUTH_CLIENT_ID: 'omniauth_client_id'
-    DEVISE_SECRET_KEY: 'devise_secret_key'
+  services:
+    - docker
 
+dependencies:
+  override:
+    - docker info
+    # our circle setup uses compose - install it
+    - sudo pip install --upgrade docker-compose==1.2.0
+    # install AWS CLI
+    - sudo pip install awscli
+    # build the image
+    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
+
+test:
+  override:
+    # tests the built image
+    - cat circle/docker-compose-template.yml | envsubst > circle/docker-compose.yml
+    - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
+    - annotate-output docker-compose -f circle/docker-compose.yml run web
+
+database:
+  override:
+    - echo "look in circle/run-tests for database setup for testing environment"
+
+deployment:
+  production:
+  # push to Docker Hub and deploy new version on AWS
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push soutech/champaign_web
+      - ./deploy.sh $CIRCLE_SHA1

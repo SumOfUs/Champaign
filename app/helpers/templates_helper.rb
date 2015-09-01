@@ -5,6 +5,8 @@
 module TemplatesHelper
 
   def build_options_hash(widget)
+    # TODO: Once widgets belong to templates, remove first condition
+
     # if widget is in a template creation page
     if widget.class == WidgetType
       default_params(widget.widget_name)
@@ -51,7 +53,7 @@ module TemplatesHelper
         'form_button_text' => 'Add your voice!'
       },
       raw_html: {
-        'content' => '<span>This is some raw HTML</span>'
+        'html' => '<span>This is some raw HTML</span>'
       }
     }
     

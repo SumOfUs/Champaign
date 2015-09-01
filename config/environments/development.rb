@@ -1,4 +1,11 @@
 Rails.application.configure do
+
+  # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
+  config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113', '10.5.50.113']
+  # Disable the web console gem from complaining about being unable to render
+  # a console while you're accessing the site from a host on Docker.
+  config.web_console.whiny_requests = false
+
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
@@ -38,4 +45,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # sets location of ImageMagick for Paperclip. Get it by the terminal command 'which convert'.
+  Paperclip.options[:command_path] = '/usr/bin/'
 end

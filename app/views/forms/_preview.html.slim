@@ -1,0 +1,12 @@
+form
+  - form.form_elements.each do |element|
+    .form-element.form-group.clearfix
+      - case element.data_type
+      - when 'text'
+        input.form-control placeholder=element.label
+
+      - when 'checkbox'
+        = check_box_tag element.name
+        '&nbsp;
+        = element.label
+

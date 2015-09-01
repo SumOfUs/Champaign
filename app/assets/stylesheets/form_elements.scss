@@ -1,0 +1,15 @@
+.form-element {
+  position: relative;
+
+  .control-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: $padding-base-vertical $padding-base-horizontal;
+
+    a {
+      padding-left: $padding-small-horizontal;
+    }
+  }
+}

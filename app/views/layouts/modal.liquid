@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <h2 class="title">
+        {{title}}
+      </h2>
+
+      <div class="text">
+
+        <div class='gallery'>
+         {% include 'photos' %}
+        </div>
+
+        <!-- no thermometer -->
+
+        {{content}}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      {% include 'action' %}
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay">
+  <div class="modal-content">
+    {% include 'action', ref: 'modal' %}
+  </div>
+</div>

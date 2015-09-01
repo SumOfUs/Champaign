@@ -1,0 +1,147 @@
+
+#editor {
+  border: 1px solid #ddd;
+  height: 300px;
+  margin-bottom: 10px;
+}
+
+#toolbar {
+  border: 1px solid #ddd;
+  border-bottom: none;
+}
+
+span.tick::after { 
+  content: "\2714";
+}
+
+span.cross:after {
+  content: "\2716"
+}
+
+.page-title input {
+  height: auto;
+  font-size: 28px;
+  width: 100%;
+  padding: 5px;
+  box-shadow: none;
+  color: #797878;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.feedback {
+  float: right;
+  display: inline-block;
+  margin: 0;
+};
+
+.just-saved {
+  visibility:hidden;
+  opacity:0;
+  transition:visibility 1s linear 1s, opacity 1s linear;
+}
+
+.form-footer {
+  margin-bottom: 20px;
+}
+
+
+form .settings {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.photo-upload {
+
+  img {
+    padding: 3px;
+    border: 1px solid #ddd;
+    background: white;
+  }
+
+  position: relative;
+
+  .notice {
+    position: absolute;
+    color: #999;
+    font-size: 30px;
+    right: 100px;
+    top: 55px;
+  }
+}
+
+
+.component {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 0 20px 0;
+}
+
+
+form.plugin-setting {
+  margin-bottom: 20px;
+}
+
+form.template-form {
+
+  textarea {
+    height: 400px;
+    font-family: monospace;
+  }
+
+}
+
+.field_with_errors {
+  @extend .has-error;
+}
+
+.component.title:hover {
+  background: #f3f3f3;
+  cursor: pointer;
+}
+
+
+section {
+  margin-top: 40px;
+}
+
+li.list-group-item {
+  position: relative;
+  cursor: move;
+  .sort {
+    margin-right: 5px;
+    .glyphicon {
+      color: #ddd;
+      &:active {
+        color: #000;
+      }
+    }
+  }
+
+  .control-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: $padding-base-vertical $padding-base-horizontal;
+
+    a {
+      padding-left: $padding-small-horizontal;
+    }
+  }
+}
+
+.action-form-item-control {
+  margin-left: 5px;
+}
+
+.well {
+  background: none;
+}
+
+.list-group-item span.label {
+  margin-left: 5px;
+}

@@ -1,4 +1,15 @@
-.jumbotron
-  h1 Create a new page
+h2 = t('.title')
 
-= render 'form'
+= form_for @campaign_page, class: '' do |f|
+  = render 'shared/error_messages', target: @campaign_page
+
+  .form-group
+    = f.text_field :title, class: 'form-control', placeholder: t('.title_label')
+
+  .form-group
+    = f.label :language_id, t('.language_label')
+    = f.select :language_id, Language.all.map{|lang| [lang.name, lang.id] }, {}, class: "form-control"
+
+  .form-group
+    = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary'
+

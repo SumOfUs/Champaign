@@ -26,3 +26,11 @@ app/assets/images
 config/env.yml
 
 queue_listeners/config/env.yml
+
+.DS_Store
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+node_modules
+public/system

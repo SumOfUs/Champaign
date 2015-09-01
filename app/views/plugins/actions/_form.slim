@@ -1,0 +1,49 @@
+.row.plugin.action data-plugin-id=plugin.id
+  .col-md-7
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
+
+    .well
+      h4  = t('plugins.action.action_description')
+      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
+        .form-group
+          = f.text_area :description, class: 'form-control'
+
+        .form-group
+          = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+
+    .well
+      h4 = t('plugins.action.choose_form_template')
+      = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action', id: 'change-form-template'  do
+        .form-group
+          = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
+
+        .form-group
+          = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+
+    .well
+      h4 = t('plugins.action.customise_form')
+      = form_tag sort_form_form_elements_path(plugin.form), remote: true, id: 'sort-form-elements', style: 'hidden: true' do
+        = hidden_field_tag 'form_element_ids'
+
+      .form-edit
+        = render partial: 'forms/edit', locals: {form: plugin.form }
+
+      - if plugin.form
+        h5 = t('plugins.action.add_new_field')
+        .well
+          = form_for [plugin.form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
+
+            .form-group
+              = f.text_field :label,  class: 'form-control', placeholder: t('form_elements.shared.label')
+            .form-group
+              = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
+
+            .form-group
+              button.btn.btn-default = t('common.save')
+
+  .col-md-5
+    .plugin-action-preview
+      h4 Preview
+      .content
+        = render partial: 'plugins/actions/preview', locals: {plugin: plugin }
+

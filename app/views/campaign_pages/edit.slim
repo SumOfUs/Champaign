@@ -1,29 +1,36 @@
-= form_for(@campaign_page, class: 'form-horizontal') do |f|
-  .jumbotron
-    h1 Edit your campaign page
+= render 'campaign_pages/header'
 
-  fieldset
-    .form-group
-      legend Basic page information
-      = f.label :title, class: 'control-label col-lg-2'
-      .col-lg-10
-        = f.text_field :title, placeholder: 'Unique and really catchy page title!', class: 'form-control'
-      .form-group
-        = f.label :active, class: 'control-label col-lg-2'
-        = f.check_box :active
-      .form-group
-        = f.label :featured, class: 'control-label col-lg-2'
-        = f.check_box :featured
-      .form-group
-        = f.label :tags, class: 'control-label col-lg-2'
-        = f.select :tags, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tags.ids), {}, html_options= {class: 'form-control', multiple: true}
+.row
+  .col-md-12
+    = form_for @campaign_page, remote: true do |f|
+      = f.hidden_field :content
 
-      - @campaign_page.campaign_pages_widgets.each do |widget|
-        /this could be replaced with a call to templates/show_form, where a change would need to be made to
-        /call build_options_hash on the widgets if creating a new page, and to pass widget.content
-        /as options if editing an existing page
-        legend = widget.widget_type.widget_name.titleize
-        = render widget.widget_type.form_partial_path, {options: widget.content}
+      = render 'shared/error_messages', target: @campaign_page
 
-      div.form-group
-       = f.submit 'Save Page', class: 'btn btn-sm btn-primary'
+      .page-title.form-group
+        = f.text_field :title
+
+      .form-group
+        = render 'shared/quill_editor'
+
+      .form-group
+        = f.label  :tag_ids, t('.tags')
+        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
+
+      .btn-toolbar
+        = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+        = link_to t('.view'), @campaign_page, class: 'btn btn-info', target: '_blank'
+
+    section
+      h3 = t('.photos')
+      - if @campaign_page.images.any?
+        .component.campaign-images
+          - @campaign_page.images.each do |image|
+            = render partial: 'images/thumbnail', locals: { image: image }
+
+      .component
+        = form_tag campaign_page_images_url(@campaign_page), id: 'dropzone', class: 'dropzone' do
+
+javascript:
+  $.publish("campaign_page:has_loaded");
+

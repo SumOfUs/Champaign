@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Title:
+  = @liquid_layout.title
+p
+  strong Content:
+  = @liquid_layout.content
+
+= link_to 'Edit', edit_liquid_layout_path(@liquid_layout)
+'|
+= link_to 'Back', liquid_layouts_path

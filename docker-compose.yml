@@ -6,33 +6,13 @@ web:
     - "3000:3000"
   links:
     - db
-    - rabbitmq
   environment:
     PG_USERNAME: postgres
     PG_HOST: db
-
-  env_file:
-    - '.env.web'
-  command: bundle exec rails s -b 0.0.0.0
 
 db:
   image: postgres
   ports:
     - "5432"
-
-rabbitmq:
-  image: rabbitmq
-  ports:
-    - "5672"
-    - "15672"
-    - "8080"
-
-listeners:
-  build: ./queue_listeners
-  volumes:
-    - ./queue_listeners:/queue_listeners
-    - .:/app_files
-  links:
-    - db
-    - rabbitmq
-  command: sh /queue_listeners/start_listeners.sh
+  environment:
+    POSTGRES_DB: champaign

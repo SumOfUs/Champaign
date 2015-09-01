@@ -3,10 +3,14 @@ html
   head
     title Champaign
     meta name="viewport" content="width=device-width, initial-scale=1.0"
-    = stylesheet_link_tag    "application", media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag "application", 'data-turbolinks-track' => true
+    = stylesheet_link_tag    "application", media: 'all'
+    = stylesheet_link_tag    "//cdn.quilljs.com/0.19.10/quill.snow.css", media: 'all'
+
+    = javascript_include_tag "application"
+    = javascript_include_tag "http://cdn.quilljs.com/latest/quill.js"
+
     = csrf_meta_tags
- 
+
   body
     .navbar.navbar-default.navbar-static-top
         .container
@@ -17,19 +21,26 @@ html
           a.navbar-brand href="#"
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
-              li= link_to "campaign pages", "/campaign_pages"
-              li= link_to "campaigns", "/campaigns"
-              li= link_to "templates", "/templates"
+              li= link_to t('menu.campaign_pages'), campaign_pages_path
+              li= link_to t('menu.campaigns'), campaigns_path
+              li= link_to t('menu.forms'), forms_path
+              li= link_to t('menus.templates'), liquid_layouts_path
+              li= link_to t('menu.partials'), liquid_partials_path
+
             ul.nav.navbar-nav.pull-right
               - if user_signed_in?
-                li= link_to "Logout", destroy_user_session_path, :method => :delete
+                li= link_to t('menu.logout'), destroy_user_session_path, method: :delete
               - else
-                li= link_to "Login", new_user_session_path
-                li= link_to "Sign up", new_user_registration_path
-                li= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2)
+                li= link_to t('menu.login'), new_user_session_path
+                li= link_to t('menu.sign_up'), new_user_registration_path
+                li= link_to t('menu.sign_google'), user_omniauth_authorize_path(:google_oauth2)
+
+    = yield :page_header
+
     .container
+      #trum
       - if flash[:error]
-        div.alert.alert-dismissible.alert-error
+        div.alert.alert-dismissible.alert-danger
           button type='button' class='close' data-dismiss='alert' x
           strong #{flash[:error]}
       - if flash[:notice]
@@ -40,3 +51,4 @@ html
     footer
       .container
         p Made with love and compassion. And coffee.
+

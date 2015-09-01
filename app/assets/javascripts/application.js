@@ -11,8 +11,15 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.turbolinks
 //= require jquery_ujs
-//= require turbolinks
+//= require pub_sub
+//= require jquery-ui/sortable
+
+//= require bootstrap-sprockets
 //= require select2
-//= require_tree .
+//= require dropzone
+//= require liquid/syntax-highlighting
+
+//= require forms
+//= require campaign_page
+//= require_tree ./plugins/actions/admin/
