@@ -1,40 +1,17 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+# Languages
+languages =  [
+    {code: 'en', name: 'English'},
+    {code: 'fr', name: 'French'},
+    {code: 'de', name: 'German'}
+]
 
-# 1. make actionkit page types
-ActionkitPageType.create!({actionkit_page_type: 'petition'})
+Language.create!(languages)
 
-# 2. make some languages
-Language.create!(
-    [{language_code: 'EN/US', language_name: 'English'},
-    {language_code: 'FR', language_name: 'French'},
-    {language_code: 'GER', language_name: 'German'}])
+# Liquid Markup
+LiquidMarkupSeeder.seed
 
-# 3  make some campaigns
-Campaign.create!(
-    [{campaign_name: 'Test campaign'},
-     {campaign_name: 'New campaign'},
-     {campaign_name: 'The coolest campaign'}])
 
-# 5. make a campaign page
-Campaign.first.campaign_page.create!({
-  language_id: (Language.find_by language_code: 'EN/US').id,
-  title: 'Testy page',
-  slug: 'testy_page',
-  active: false,
-  featured: false
-})
-
-# 7. create an actionkit page match for the campaign page widget
-# campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
-
-# 8. Create the tags and their associations to ActionKit
-
+# Create tags and their associations to ActionKit
 Tag.create!([
   {tag_name: '*Welcome_Sequence', actionkit_uri: '/rest/v1/tag/1000/'},
   {tag_name: '#Animal_Rights', actionkit_uri: '/rest/v1/tag/944/'},
@@ -85,4 +62,3 @@ Tag.create!([
   {tag_name: '@USA', actionkit_uri: '/rest/v1/tag/966/'}
 ])
 
-# 8. make members 
