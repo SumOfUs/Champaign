@@ -40,13 +40,11 @@ class CampaignPageBuilder
   end
 
   def params
-    @params.merge(language: default_language)
+    @params.merge(liquid_layout: default_layout)
   end
 
-  def default_language
-    @default_language ||= Language.find_or_create_by(code: 'EN') do |lang|
-      lang.name = 'English'
-    end
+  def default_layout
+    @default_layout ||= LiquidLayout.master
   end
 end
 

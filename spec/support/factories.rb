@@ -20,8 +20,8 @@ FactoryGirl.define do
   end
 
   factory :language do
-    language_code 'en'
-    language_name 'English'
+    code 'en'
+    name 'English'
   end
 
   factory :campaign_page, aliases: [:page] do

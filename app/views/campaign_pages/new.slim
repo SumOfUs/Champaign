@@ -1,19 +1,14 @@
 h2 = t('.title')
 
-h4 = t('.sub')
-
 = form_for @campaign_page, class: '' do |f|
   = render 'shared/error_messages', target: @campaign_page
 
   .form-group
-    = f.text_field :title, class: 'form-control'
+    = f.text_field :title, class: 'form-control', placeholder: t('.title_label')
 
   .form-group
-    = f.label :liquid_layout_id, t('.layout_select')
-    = f.select :liquid_layout_id,
-      LiquidLayout.all.map{|ll| [ll.title, ll.id] },
-        { include_blank: 'Default' },
-        class: "space-left form-control"
+    = f.label :language_id, t('.language_label')
+    = f.select :language_id, Language.all.map{|lang| [lang.name, lang.id] }, {}, class: "form-control"
 
   .form-group
     = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary'
