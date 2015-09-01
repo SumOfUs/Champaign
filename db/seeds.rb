@@ -11,6 +11,18 @@ Language.create!(languages)
 LiquidMarkupSeeder.seed
 
 
+# Forms
+
+basic_form = Form.create name: "Basic", master: true
+
+basic_form_fields = [
+  {label: 'Email Address', required: true,  data_type: 'text', form: basic_form},
+  {label: 'Full Name',     required: true,  data_type: 'text', form: basic_form},
+  {label: 'Postal Code',   required: true,  data_type: 'text', form: basic_form}
+]
+
+FormElement.create!(basic_form_fields)
+
 # Create tags and their associations to ActionKit
 Tag.create!([
   {tag_name: '*Welcome_Sequence', actionkit_uri: '/rest/v1/tag/1000/'},
