@@ -20,7 +20,7 @@ module LiquidMarkupSeeder
   end
 
   def files
-    Dir.glob("#{Rails.root}/app/views/plugins/**/*.liquid")
+    Dir.glob(["#{Rails.root}/app/views/plugins/**/*.liquid", "#{Rails.root}/app/views/layouts/*.liquid"])
   end
 
   def meta(file)
