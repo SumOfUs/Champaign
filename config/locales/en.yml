@@ -53,8 +53,8 @@ en:
         featured: "Featured"
     new:
       title: "Let's Get Started!"
-      sub:   "First, give your Campaign Page a unique and catchy title"
-      layout_select: "Choose a Layout"
+      title_label: "Campaign Title"
+      language_label: "Language"
     edit:
       show: "View the page"
       tags: "Tags"
