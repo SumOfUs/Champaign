@@ -65,7 +65,7 @@ class CampaignPagesController < ApplicationController
     respond_to do |format|
       if @campaign_page.update(campaign_page_params)
         format.html { redirect_to edit_campaign_page_path(@campaign_page), notice: 'Page was successfully updated.' }
-        format.json { render json: @campaign_page, status: :ok }
+        format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
         format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }

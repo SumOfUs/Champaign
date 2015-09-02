@@ -9,7 +9,7 @@
           = f.text_area :description, class: 'form-control'
 
         .form-group
-          = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     .well
       h4 = t('plugins.action.choose_form_template')
@@ -18,7 +18,7 @@
           = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
 
         .form-group
-          = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     .well
       h4 = t('plugins.action.customise_form')
@@ -39,7 +39,7 @@
               = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
 
             .form-group
-              button.btn.btn-default = t('common.save')
+              button.btn.btn-default.xhr-feedback = t('common.save')
 
   .col-md-5
     .plugin-action-preview
