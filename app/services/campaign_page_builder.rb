@@ -26,9 +26,15 @@ class CampaignPageBuilder
   end
 
   def create_plugins
-    page.liquid_layout.partial_refs.each do |partial, ref|
-      plugin_name = LiquidPartial.find_by(title: partial).plugin_name
-      Plugins.create_for_page(plugin_name, page, ref)
+    if basic
+      Plugins.registered.each do |plugin|
+        Plugins.basic_create_for_page(plugin, page)
+      end
+    else
+      page.liquid_layout.partial_refs.each do |partial, ref|
+        plugin_name = LiquidPartial.find_by(title: partial).plugin_name
+        Plugins.create_for_page(plugin_name, page, ref)
+     end
     end
   end
 
@@ -45,6 +51,10 @@ class CampaignPageBuilder
 
   def default_layout
     @default_layout ||= LiquidLayout.master
+  end
+
+  def basic
+    true
   end
 end
 

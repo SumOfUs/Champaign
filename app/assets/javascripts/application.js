@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require pub_sub
 //= require jquery-ui/sortable
+//= require jquery.remotipart
 
 //= require bootstrap-sprockets
 //= require select2
@@ -24,4 +25,6 @@
 //= require forms
 //= require campaign_page
 //= require ajax
+//
+//= require share_progress/facebook
 //= require_tree ./plugins/actions/admin/

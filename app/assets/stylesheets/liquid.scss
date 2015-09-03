@@ -1,6 +1,8 @@
 //= require sss
 //= require plugins/actions
 
+
+
 h1.logo {
   margin: 0;
   padding: 0;
@@ -32,6 +34,9 @@ blockquote {
 .title {
   font-size: 40px;
   padding: 5px;
+  margin-bottom: 50px;
+  text-align: center;
+  font-family: "Change Din","Helvetica Neue",Helvetica,Arial,Tahoma,sans-serif;
 }
 
 .main-photo {
@@ -108,10 +113,5 @@ blockquote {
     button {
       margin-right: 5px;
     }
-
-
 }
 
-.action {
-  margin-top: 25px;
-}

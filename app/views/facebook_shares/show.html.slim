@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta property='og:site_name' content='SumOfUs'
+    meta property='og:title' content="#{@share.title}"
+    meta property='og:image' content="#{ENV['TEMP_HOST']}#{@share.image(:facebook)}"
+    meta property='og:description' content="#{@share.description}"
+    meta property='og:type' content='article'
+    meta property='og:url' content="#{ENV['TEMP_HOST']}#{facebook_share_path(@share, ref: 'omar' )}"
+    meta property='fb:app_id' content='10154315240141808'
+
+body
+
+  javascript:
+    window.location.href = "#{campaign_page_url(@share.campaign_page)}";
+

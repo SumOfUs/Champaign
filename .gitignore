@@ -34,3 +34,4 @@ queue_listeners/config/env.yml
 !.elasticbeanstalk/*.global.yml
 node_modules
 public/system
+config/unicorn.rb

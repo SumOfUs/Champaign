@@ -7,6 +7,8 @@ $(function(){
     $(this).fadeOut(function(){
       $('.post-action').fadeIn('fast');
     });
+
+    $('#share-modal').modal('show');
   });
 });
 

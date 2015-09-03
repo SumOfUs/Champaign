@@ -97,6 +97,28 @@ en:
       label: 'Label'
       data_type: 'Field type'
 
+  share:
+    get_started: "Click 'new variation' below to get started"
+    form:
+      new_variation: 'New Variation'
+
+    facebook:
+      title: 'Facebook Share Variant'
+      form:
+        title: 'Facebook Share title'
+        description: 'Facebook Share text'
+
+    twitter:
+      title: 'Twitter Retweet Variant'
+      form:
+        description: "Tweet text"
+
+    email:
+      title: 'Email Variant'
+      form:
+        subject: "Email subject"
+        body: "Email body"
+
   plugins:
     action:
       action_description: "Provide a description for your petition"

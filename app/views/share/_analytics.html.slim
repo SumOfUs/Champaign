@@ -1,0 +1,17 @@
+- analytics = ShareAnalytics.(@campaign_page, 'facebook', variation )[0]
+- if analytics
+  table.table.table-condensed
+    thead
+      th Weight
+      th Shares
+      th Successful Shares
+      th Conversions
+      th Winner
+    tbody
+      td = analytics['weight']
+      td = analytics['shares']
+      td = analytics['successful_shares']
+      td = analytics['conversion']
+      td = analytics['winner']
+- else
+  p We haven't any data, yet!

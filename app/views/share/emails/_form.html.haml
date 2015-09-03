@@ -1,0 +1,10 @@
+= form_for [@campaign_page, @email], html: { class: 'share' }  do |f|
+  .form-group
+    = f.text_field :subject, class: 'form-control', placeholder: t('share.email.form.subject')
+
+  .form-group
+    = f.label :body, t('share.email.form.body')
+    = f.text_area :body, class: 'form-control'
+
+  .form-group
+    = submit_tag t('common.save'), class: 'btn btn-default'
