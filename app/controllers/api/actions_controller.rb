@@ -1,7 +1,12 @@
 class Api::ActionsController < ApplicationController
   def create
-    action = Action.create_action(action_params)
-    render json: action
+    validation = ActionValidator.new(action_params)
+    if validator.valid?
+      action = Action.create_action(action_params)
+      render json: action
+    else
+      render json: validator.errors
+    end
   end
 
   private
