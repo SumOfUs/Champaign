@@ -38,5 +38,13 @@ class CampaignPageBuilder
       params: page.attributes
     }.as_json )
   end
+
+  def params
+    @params.merge(liquid_layout: default_layout)
+  end
+
+  def default_layout
+    @default_layout ||= LiquidLayout.master
+  end
 end
 

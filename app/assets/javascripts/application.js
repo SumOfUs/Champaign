@@ -23,4 +23,5 @@
 //= require forms
 //= require campaign_page
 //= require select2_config.js
+//= require ajax
 //= require_tree ./plugins/actions/admin/

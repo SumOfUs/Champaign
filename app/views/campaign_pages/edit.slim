@@ -17,9 +17,8 @@
         = f.label  :tag_ids, t('.tags')
         = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
 
-      .btn-toolbar
-        = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
-        = link_to t('.view'), @campaign_page, class: 'btn btn-info', target: '_blank'
+      .form-group
+        = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     section
       h3 = t('.photos')

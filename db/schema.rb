@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150827085930) do
+ActiveRecord::Schema.define(version: 20150828163518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,16 +61,14 @@ ActiveRecord::Schema.define(version: 20150827085930) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",           default: "pending"
-    t.text     "messages"
     t.text     "content",          default: ""
     t.boolean  "thermometer",      default: false
     t.boolean  "featured",         default: false
     t.boolean  "active",           default: false
+    t.string   "status",           default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
   end
-
-  add_index "campaign_pages", ["liquid_layout_id"], name: "index_campaign_pages_on_liquid_layout_id", using: :btree
 
   create_table "campaign_pages_tags", force: :cascade do |t|
     t.integer "campaign_page_id"
@@ -122,8 +120,8 @@ ActiveRecord::Schema.define(version: 20150827085930) do
   add_index "images", ["campaign_page_id"], name: "index_images_on_campaign_page_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
-    t.string   "language_code", null: false
-    t.string   "language_name", null: false
+    t.string   "code",       null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -133,6 +131,7 @@ ActiveRecord::Schema.define(version: 20150827085930) do
     t.text     "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "slot_count"
   end
 
   create_table "liquid_partials", force: :cascade do |t|
@@ -232,7 +231,6 @@ ActiveRecord::Schema.define(version: 20150827085930) do
   add_foreign_key "actions", "campaign_pages"
   add_foreign_key "campaign_pages", "campaigns"
   add_foreign_key "campaign_pages", "languages"
-  add_foreign_key "campaign_pages", "liquid_layouts"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "plugin_settings", "campaign_pages"
   add_foreign_key "plugins_actions", "campaign_pages"

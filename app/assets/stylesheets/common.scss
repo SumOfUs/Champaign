@@ -145,3 +145,7 @@ li.list-group-item {
 .list-group-item span.label {
   margin-left: 5px;
 }
+
+.xhr-feedback + .label-success {
+  margin-left: 10px;
+}
