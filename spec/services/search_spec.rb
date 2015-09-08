@@ -9,7 +9,7 @@ describe 'Search ::' do
 
   describe 'PageSearcher' do
 
-    let!(:content_tag_match) {
+    let!(:content_tag_plugin_match) {
       create(:page,
              title: 'a non-matching title',
              language: build(:language, language_code: 'SWE', language_name: 'Swedish'),
@@ -24,17 +24,19 @@ describe 'Search ::' do
              campaign: campaign)
     }
 
+    let!(:plugin) { create(:plugins_action, campaign_page: content_tag_plugin_match, active:true)}
+
     context 'search by text content' do
       let(:text_searcher) { Search::PageSearcher.new({search: {content_search: test_text} }) }
       it 'gets pages that match by title or by text body if the text search method is called' do
-        expect(text_searcher.search).to match_array([content_tag_match, title_language_campaign_match])
+        expect(text_searcher.search).to match_array([content_tag_plugin_match, title_language_campaign_match])
       end
     end
 
     context 'search by tag' do
       let(:tag_searcher) { Search::PageSearcher.new({search: {tags: [tag.id]} }) }
       it 'searches for a page based on the tags on that page' do
-        expect(tag_searcher.search).to eq([content_tag_match])
+        expect(tag_searcher.search).to eq([content_tag_plugin_match])
       end
     end
 
@@ -53,8 +55,9 @@ describe 'Search ::' do
     end
 
     context 'search by plugin' do
-      xit 'finds the page that is associated with that plugin type' do
-
+      let(:plugin_searcher) { Search::PageSearcher.new({search: {plugin_type: ['Plugins::Action']}})}
+      it 'finds the page that is associated with that plugin type' do
+        expect(plugin_searcher.search).to eq(content_tag_plugin_match)
       end
     end
 
