@@ -41,6 +41,7 @@ class Search::PageSearcher
   end
 
   def search_by_text(query)
+    # is 'content' a field in CampaignPages, or is it accessed through @campaign_page.liquid_layout?
     matches_by_content = Search.full_text_search(@collection, 'content', query)
     @collection = combine_collections(search_by_title(query), matches_by_content)
   end
@@ -59,10 +60,17 @@ class Search::PageSearcher
 
   def search_by_plugin_type(plugins)
     matches_by_plugins = []
-    plugins.each do |plugin|
-      matches_by_plugins.push(@campaign_pages.find(plugin.page.id))
+    plugins.each do |plugin_type|
+      plugin_type.constantize.page.each do |plugin|
+        # push into the array all records of pages that contain that plugin type
+        if plugin.active?
+          matches_by_plugins.push(plugin.campaign_page_id)
+        end
+      end
     end
-    array_to_relation(CampaignPage, matches_by_plugins)
+    # get pages that match ids of pages that contain the plugin type from the collection
+    pp matches_by_plugins
+    @collection = @collection.find_by(id: matches_by_plugins)
   end
 
 end
