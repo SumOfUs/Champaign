@@ -69,7 +69,7 @@ class Search::PageSearcher
       end
     end
     # get pages that match ids of pages that contain the plugin type from the collection
-    @collection = @collection.find_by(id: matches_by_plugins)
+    @collection = @collection.where(id: matches_by_plugins)
   end
 
 end
