@@ -24,7 +24,7 @@
 
         = label_tag 'search[plugin_type]', 'Search by plugin type:', class: 'control-label col-lg-2'
         .col-lg-10
-          = select_tag 'search[plugin_type]', options_from_collection_for_select(Plugins.registered, 'new',  lambda { |plugin| plugin.name.demodulize}),
+          = select_tag 'search[plugin_type]', options_from_collection_for_select(Plugins.registered, 'to_s',  lambda { |plugin| plugin.name.demodulize}),
                          html_options= {class: 'form-control select2-container', multiple: true}
 
         .col-md-12
