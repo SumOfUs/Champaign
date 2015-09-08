@@ -1,4 +1,3 @@
-
 .row
   .col-md-12
     h3 = t('.title')
@@ -11,7 +10,7 @@
           th Actions
           th
       tbody
-        - @campaign_pages.each do |page|
+        - [*@campaign_pages].each do |page|
           tr
             td = link_to page.title, page
             td
