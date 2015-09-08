@@ -33,20 +33,32 @@ describe ActionValidator do
         end
 
         it "is nil" do
-          @params.merge!({test: nil})
+          @params.merge!(test: nil)
         end
 
         it "is false" do
-          @params.merge!({test: false})
+          @params.merge!(test: false)
         end
 
         it "is empty string" do
-          @params.merge!({test: ""})
+          @params.merge!(test: "")
         end
       end
 
       describe "email field" do
-        it "is not a valid email"
+
+        before :each do
+          element.update_attributes({data_type: "email"})
+        end
+
+        after :each do
+          @validator = ActionValidator.new(@params)
+          expect(@validator.errors).to eq [['test', 'must be a valid email']]
+        end
+
+        it "is not a valid email" do
+          @params.merge!(test: "I'm not an email!")
+        end
       end
 
     end
@@ -66,17 +78,27 @@ describe ActionValidator do
         end
 
         it "is zero" do
-          @params.merge!({test: 0})
+          @params.merge!(test: 0)
         end
 
         it "is a string" do
-          @params.merge!({test: ";) hey there"})
+          @params.merge!(test: ";) hey there")
         end
       end
 
       describe "email" do
-        it "is a valid email"
-        it "is empty and not required"
+
+        before :each do
+          element.update_attributes({data_type: "email"})
+        end
+
+        it "is a valid email" do
+          @params.merge!(test: "neal@sumofus.org")
+        end
+
+        it "is empty and not required" do
+          @params.merge!({})
+        end
       end
     end
 
