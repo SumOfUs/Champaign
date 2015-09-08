@@ -1,6 +1,6 @@
 class Api::ActionsController < ApplicationController
   def create
-    validation = ActionValidator.new(action_params)
+    validator = ActionValidator.new(action_params)
     if validator.valid?
       action = Action.create_action(action_params)
       render json: action

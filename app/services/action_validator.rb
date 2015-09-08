@@ -5,7 +5,7 @@ class ActionValidator
   end
 
   def form
-    @form ||= Form.find(@params[:form_id]).includes(:form_elements)
+    @form ||= Form.includes(:form_elements).find(@params[:form_id])
   end
 
   def valid?
@@ -23,7 +23,7 @@ class ActionValidator
 
   def validate_field(form_element)
     if form_element.required == true
-      if !@params.has_key(form_element.name.to_sym) || @params[form_element.name.to_sym].blank?
+      if !@params.has_key?(form_element.name.to_sym) || @params[form_element.name.to_sym].blank?
         return [form_element.name, "is required"]
       end
     end
@@ -32,7 +32,7 @@ class ActionValidator
     end
   end
 
-  def is_email
-    true
+  def is_email(candidate)
+    (/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate).present?
   end
 end
