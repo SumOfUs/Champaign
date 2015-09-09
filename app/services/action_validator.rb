@@ -9,28 +9,30 @@ class ActionValidator
   end
 
   def valid?
-    errors.size == 0
+    errors.empty?
   end
 
   def errors
-    errors = []
-    form.form_elements.each do |element|
+    form.form_elements.inject([]) do |errors, element|
       error = validate_field(element)
-      errors.push(error) unless error.nil?
+      error.nil? ? errors : errors << error
     end
-    errors
   end
 
   def validate_field(form_element)
     key = form_element.name.to_sym
-    if form_element.required == true
-      if !@params.has_key?(key) || @params[key].blank?
-        return [form_element.name, "is required"]
-      end
+    if form_element.required? && @params[key].blank?
+      return [form_element.name, "is required"]
     end
-    if form_element.data_type == "email" && @params[key].present? && !is_email(@params[key])
+    if is_invalid_email(form_element, @params[key])
       return [form_element.name, "must be a valid email"]
     end
+  end
+
+  private
+
+  def is_invalid_email(element, email)
+    element.data_type == "email" && email.present? && !is_email(email)
   end
 
   def is_email(candidate)
