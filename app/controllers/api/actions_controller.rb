@@ -5,7 +5,7 @@ class Api::ActionsController < ApplicationController
       action = Action.create_action(action_params)
       render json: action
     else
-      render json: validator.errors
+      render json: validator.errors, status: 422
     end
   end
 

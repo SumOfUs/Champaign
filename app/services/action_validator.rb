@@ -13,20 +13,22 @@ class ActionValidator
   end
 
   def errors
-    form.form_elements.inject([]) do |errors, element|
-      error = validate_field(element)
-      error.nil? ? errors : errors << error
+    form.form_elements.inject({}) do |errors, element|
+      validate_field(element, errors)
     end
   end
 
-  def validate_field(form_element)
+  def validate_field(form_element, errors)
     key = form_element.name.to_sym
     if form_element.required? && @params[key].blank?
-      return [form_element.label, I18n.t("validation.is_required")]
+      errors[form_element.name] ||= []
+      errors[form_element.name] << I18n.t("validation.is_required")
     end
     if is_invalid_email(form_element, @params[key])
-      return [form_element.label, I18n.t("validation.is_invalid_email")]
+      errors[form_element.name] ||= []
+      errors[form_element.name] << I18n.t("validation.is_invalid_email")
     end
+    errors
   end
 
   private
