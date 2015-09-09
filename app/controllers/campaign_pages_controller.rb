@@ -36,7 +36,7 @@ class CampaignPagesController < ApplicationController
       merge( @campaign_page.attributes ).
       merge( 'images' => images )
 
-    render :show, layout: false
+    render :show, layout: 'liquid'
   end
 
   #
