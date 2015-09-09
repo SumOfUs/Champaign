@@ -6,15 +6,17 @@ describe 'Search ::' do
   let(:language) { build(:language) }
   let!(:tag) { create(:tag, tag_name: test_text, actionkit_uri: '/foo/bar') }
   let!(:campaign) { create(:campaign, campaign_name: test_text) }
+  let!(:layout) { create(:liquid_layout) }
 
   describe 'PageSearcher' do
 
-    let!(:content_tag_plugin_match) {
+    let!(:content_tag_plugin_layout_match) {
       create(:page,
              title: 'a non-matching title',
              language: build(:language, code: 'SWE', name: 'Swedish'),
              tags: [tag],
-             content: test_text
+             content: test_text,
+             liquid_layout: layout
       )
     }
     let!(:title_language_campaign_match) {
@@ -24,19 +26,19 @@ describe 'Search ::' do
              campaign: campaign)
     }
 
-    let!(:plugin) { create(:plugins_action, campaign_page: content_tag_plugin_match, active:true)}
+    let!(:plugin) { create(:plugins_action, campaign_page: content_tag_plugin_layout_match, active:true)}
 
     context 'search by text content' do
       let(:text_searcher) { Search::PageSearcher.new({search: {content_search: test_text} }) }
       it 'gets pages that match by title or by text body if the text search method is called' do
-        expect(text_searcher.search).to match_array([content_tag_plugin_match, title_language_campaign_match])
+        expect(text_searcher.search).to match_array([content_tag_plugin_layout_match, title_language_campaign_match])
       end
     end
 
     context 'search by tag' do
       let(:tag_searcher) { Search::PageSearcher.new({search: {tags: [tag.id]} }) }
       it 'searches for a page based on the tags on that page' do
-        expect(tag_searcher.search).to eq([content_tag_plugin_match])
+        expect(tag_searcher.search).to eq([content_tag_plugin_layout_match])
       end
     end
 
@@ -44,6 +46,13 @@ describe 'Search ::' do
       let(:search_by_campaign) { Search::PageSearcher.new({search: {campaign: [campaign.id]} }) }
       it 'searches for a page based on the campaign it belongs to' do
         expect(search_by_campaign.search).to eq([title_language_campaign_match])
+      end
+    end
+
+    context 'search by layout' do
+      let(:layout_searcher) { Search::PageSearcher.new({search: {layout: [layout.id]} }) }
+      it 'finds a page that contains the specified liquid layout' do
+        expect(layout_searcher.search).to eq([content_tag_plugin_layout_match])
       end
     end
 
@@ -57,7 +66,7 @@ describe 'Search ::' do
     context 'search by plugin' do
       let(:plugin_searcher) { Search::PageSearcher.new({search: {plugin_type: ['Plugins::Action']}})}
       it 'finds the page that is associated with that plugin type' do
-        expect(plugin_searcher.search).to match_array([content_tag_plugin_match])
+        expect(plugin_searcher.search).to match_array([content_tag_plugin_layout_match])
       end
     end
 

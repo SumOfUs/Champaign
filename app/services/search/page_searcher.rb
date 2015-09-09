@@ -14,6 +14,8 @@ class Search::PageSearcher
           search_by_tags(query)
         when 'language'
           search_by_language(query)
+        when 'layout'
+          search_by_layout(query)
         when 'campaign'
           search_by_campaign(query)
         when 'plugin_type'
@@ -56,6 +58,10 @@ class Search::PageSearcher
 
   def search_by_campaign(query)
     @collection = @collection.where(campaign_id: query)
+  end
+
+  def search_by_layout(query)
+    @collection = @collection.where(liquid_layout: query)
   end
 
   def search_by_plugin_type(plugins)
