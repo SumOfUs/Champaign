@@ -68,7 +68,7 @@ class CampaignPagesController < ApplicationController
         format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
+        format.js { render json: { errors: @campaign_page.errors, name: :campaign_page }, status: :unprocessable_entity }
       end
     end
   end

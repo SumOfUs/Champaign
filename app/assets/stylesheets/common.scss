@@ -146,7 +146,15 @@ li.list-group-item {
   margin-left: 5px;
 }
 
-.xhr-feedback + .label-success {
+.xhr-feedback + .label {
   margin-left: 10px;
 }
 
+.error-msg {
+  color: #a94442;
+  font-size: 12px;
+}
+
+input.has-error {
+  border-color: #a94442;
+}
