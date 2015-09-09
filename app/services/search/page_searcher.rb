@@ -43,7 +43,6 @@ class Search::PageSearcher
   end
 
   def search_by_text(query)
-    # is 'content' a field in CampaignPages, or is it accessed through @campaign_page.liquid_layout?
     matches_by_content = Search.full_text_search(@collection, 'content', query)
     @collection = combine_collections(search_by_title(query), matches_by_content)
   end
