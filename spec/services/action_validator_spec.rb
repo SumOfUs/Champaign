@@ -53,7 +53,7 @@ describe ActionValidator do
 
         after :each do
           @validator = ActionValidator.new(@params)
-          expect(@validator.errors).to eq [['test', 'must be a valid email']]
+          expect(@validator.errors).to eq [['test', 'is not a valid email address']]
         end
 
         it "is not a valid email" do

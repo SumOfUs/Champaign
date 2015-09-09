@@ -22,10 +22,10 @@ class ActionValidator
   def validate_field(form_element)
     key = form_element.name.to_sym
     if form_element.required? && @params[key].blank?
-      return [form_element.name, "is required"]
+      return [form_element.label, I18n.t("validation.is_required")]
     end
     if is_invalid_email(form_element, @params[key])
-      return [form_element.name, "must be a valid email"]
+      return [form_element.label, I18n.t("validation.is_invalid_email")]
     end
   end
 
