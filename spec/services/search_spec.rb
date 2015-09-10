@@ -5,6 +5,18 @@ describe 'Search ::' do
   let(:test_text) { 'a spectacular test string' }
   let(:language) { build(:language) }
   let!(:tag) { create(:tag, tag_name: test_text, actionkit_uri: '/foo/bar') }
+  let!(:alternative_tag) { create(:tag, tag_name: 'alternative tag', actionkit_uri: '/alternative_tag/') }
+  let!(:the_best_tag) { create(:tag, tag_name: 'best tag ever', actionkit_uri: '/secretly_insecure/') }
+  let!(:unused_tag) { create(:tag, tag_name: 'such a lonely tag', actionkit_uri: '/foreveralone') }
+  let!(:hipster_tag) { create(:tag, tag_name: 'tag with moustache', actionkit_uri: '/coffee_with_that') }
+  let!(:tag1) { create(:tag, tag_name: 'tag1', actionkit_uri: '/tag1') }
+  let!(:tag2) { create(:tag, tag_name: 'tag2', actionkit_uri: '/tag2') }
+  let!(:tag3) { create(:tag, tag_name: 'tag3', actionkit_uri: '/tag3') }
+  let!(:tag4) { create(:tag, tag_name: 'tag4', actionkit_uri: '/tag4') }
+  let!(:tag5) { create(:tag, tag_name: 'tag5', actionkit_uri: '/tag5') }
+  let!(:tag6) { create(:tag, tag_name: 'tag6', actionkit_uri: '/tag6') }
+  let!(:unpopular_tag) { create(:tag, tag_name: 'belongs to just one page', actionkit_uri: '/meh') }
+  let!(:only_tag) { create(:tag, tag_name: 'only tag on a page', actionkit_uri: '/entitled/tag') }
   let!(:campaign) { create(:campaign, campaign_name: test_text) }
   let!(:campaign2) { create(:campaign, campaign_name: 'Why not Zoidberg?') }
   let!(:layout) { create(:liquid_layout) }
@@ -25,7 +37,65 @@ describe 'Search ::' do
       create(:page,
              title: test_text + ' title!',
              language: language,
-             campaign: campaign)
+             campaign: campaign,
+             tags: [alternative_tag]
+      )
+    }
+
+    let!(:has_many_tags) {
+      create(:page,
+             title: 'a very taggy page',
+             tags: [alternative_tag, the_best_tag]
+      )
+    }
+
+    let!(:has_many_unique_tags) {
+      create(:page,
+             title: 'a special snowflake',
+             tags: [hipster_tag, unpopular_tag]
+      )
+    }
+
+
+    let!(:twin_page_1) {
+      create(:page,
+             title: 'has same tag as twin page 2',
+             tags: [only_tag]
+      )
+    }
+
+    let!(:twin_page_2) {
+      create(:page,
+             title: 'has same tag as twin page 1',
+             tags: [only_tag]
+      )
+    }
+
+    let!(:intersection_page_1) {
+      create(:page,
+             title: 'has one same tag as intersection page 2',
+             tags: [tag1, tag2, tag3, tag4]
+      )
+    }
+
+    let!(:intersection_page_2) {
+      create(:page,
+             title: 'has one same tag as intersection page 1',
+             tags: [tag3, tag4, tag5]
+      )
+    }
+
+    let!(:page_that_doesnt_match_anything) {
+      create(:page,
+         title: 'Not a good match',
+         language: build(:language, code: 'PIG', name: 'Pig latin'),
+         tags: [
+             create(:tag, tag_name: 'tag not found', actionkit_uri: '/foo/404'),
+             create(:tag, tag_name: 'tag erroror', actionkit_uri: '/foo/500')
+         ],
+         content: 'totally arbitrary content',
+         campaign: create(:campaign, campaign_name: 'a not very impactful test campaign')
+      )
     }
 
     let!(:plugin) { create(:plugins_action, campaign_page: content_tag_plugin_layout_match, active:true)}
@@ -45,35 +115,59 @@ describe 'Search ::' do
           expect(tag_searcher.search).to match_array([content_tag_plugin_layout_match])
         end
 
-        # for these blocks, I think it's better to make the pages at the global scope,
-        # (in a before block since let is lazy evaluated and wont create them unless referenced)
-        # and then when it returns less than all of them, you know it's actually successfully
-        # not returning some of them. for that reason, create one you know should never
-        # be returned.
+        describe 'does not filter by tag when searching' do
+          it 'with an empty tag array' do
+            expect((Search::PageSearcher.new({search: {tags: []}})).search).to match_array(CampaignPage.all)
+          end
+          it 'with tag array set to nil' do
+            expect((Search::PageSearcher.new({search: {tags: nil}})).search).to match_array(CampaignPage.all)
+          end
+          it 'with an empty string' do
+            expect((Search::PageSearcher.new({search: {tags: ''}})).search).to match_array(CampaignPage.all)
+          end
+        end
+        describe 'does not return any pages when searching' do
+          it 'with a non-existent tag id' do
+            expect((Search::PageSearcher.new({search: {tags: [Tag.last.id+1]}})).search).to match_array([])
+          end
+          it 'with an unused tag' do
+            expect((Search::PageSearcher.new({search: {tags: [unused_tag.id]}})).search).to match_array([])
+          end
+          it 'with a used tag and an unused tag' do
+            expect((Search::PageSearcher.new({search: {tags: [unused_tag.id, tag.id]}})).search).to match_array([])
+          end
 
-        describe 'returns nothing when searching' do
-          it 'with an empty array'
-          it 'with nil'
-          it 'with a non-existent tag id'
-          it 'with mutiple tag ids'
-          it 'with an empty string'
-
-          it 'with an unused tag'
-          it 'with a used tag and an unused tag'
-          it 'with two used tags never used on the same page'
+          it 'with two used tags never used on the same page' do
+            expect((Search::PageSearcher.new({search: {tags: [tag.id, alternative_tag.id]}})).search).to match_array([])
+          end
         end
 
         describe 'returns one page when searching' do
-          it "with that page's only tag"
-          it "with one of that page's several tags"
-          it "with multiple of that page's tags"
-          it "with a tag that matches two pages and a tag that matches one page"
+          it "with a tag that's only assigned to that page" do
+            expect((Search::PageSearcher.new({search: {tags: [tag.id]}})).search).to match_array([content_tag_plugin_layout_match])
+          end
+          it "with one of that page's several tags" do
+            expect((Search::PageSearcher.new({search: {tags: [the_best_tag.id]}})).search).to match_array([has_many_tags])
+          end
+          it "with multiple of that page's tags in any order" do
+            expect((Search::PageSearcher.new({search: {tags: [hipster_tag.id, unpopular_tag.id]}})).search).to match_array([has_many_unique_tags])
+            expect((Search::PageSearcher.new({search: {tags: [unpopular_tag.id, hipster_tag.id]}})).search).to match_array([has_many_unique_tags])
+          end
+          it "with a tag that matches two pages and a tag that matches one page" do
+            expect((Search::PageSearcher.new({search: {tags: [alternative_tag.id, the_best_tag.id]}})).search).to match_array([has_many_tags])
+          end
         end
 
         describe 'returns multiple pages when searching' do
-          it "with a tag as the only tag of both pages"
-          it "with a tag used as one of several on both pages"
-          it "with multiple tags used as one of several on both pages"
+          it "with a tag as the only tag of both pages" do
+            expect((Search::PageSearcher.new({search: {tags: [alternative_tag.id, the_best_tag.id]}})).search).to match_array([has_many_tags])
+          end
+          it "with a tag used as one of several on both pages" do
+            expect((Search::PageSearcher.new({search: {tags: [tag3.id]}})).search).to match_array([intersection_page_1,intersection_page_2])
+          end
+          it "with multiple tags used as one of several on both pages" do
+            expect((Search::PageSearcher.new({search: {tags: [tag3.id, tag4.id]}})).search).to match_array([intersection_page_1,intersection_page_2])
+          end
         end
 
       end
