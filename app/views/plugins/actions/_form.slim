@@ -1,4 +1,4 @@
-.row.plugin.action data-plugin-id=plugin.id
+.row.plugin.action.form-editor data-plugin-id=plugin.id
   .col-md-7
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
@@ -22,9 +22,6 @@
 
     .well
       h4 = t('plugins.action.customise_form')
-      = form_tag sort_form_form_elements_path(plugin.form), remote: true, id: 'sort-form-elements', style: 'hidden: true' do
-        = hidden_field_tag 'form_element_ids'
-
       .form-edit
         = render partial: 'forms/edit', locals: {form: plugin.form }
 

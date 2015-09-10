@@ -1,4 +1,4 @@
-.row
+.row.form-editor
   .col-md-12
     h3 #{  @form.name }
   .col-md-6
@@ -21,9 +21,7 @@
   .col-md-6
     h4 = t('.preview')
 
-    .form-preview
-      - @form.form_elements.each do |el|
-        = render partial: 'form_elements/element', locals: { form: @form, element: el }
+    = render partial: 'edit', locals: {form: @form }
 
 javascript:
   $.publish("form:has_loaded");
