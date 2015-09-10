@@ -22,7 +22,7 @@ class Search::PageSearcher
           search_by_plugin_type(query)
       end
     end
-    @collection
+    @collection | []
   end
 
   private
@@ -47,8 +47,15 @@ class Search::PageSearcher
     @collection = combine_collections(search_by_title(query), matches_by_content)
   end
 
-  def search_by_tags(query)
-    @collection = @collection.joins(:tags).where(tags: {id: query})
+  def search_by_tags(tags)
+    matches_by_tags = []
+    @collection.each do |page|
+      # if the page has tags and if the queried tags are a subset of the page's tags
+      if page.tags.any? and (tags.map(&:to_i) - page.tags.pluck('id')).empty?
+        matches_by_tags.push(page)
+      end
+    end
+    @collection = array_to_relation(CampaignPage, matches_by_tags)
   end
 
   def search_by_language(query)
