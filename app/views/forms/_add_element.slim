@@ -1,8 +1,9 @@
 - if form
   = form_for [form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
 
+    - types = ['text', 'checkbox', 'email', 'phone'].map{|t| [t, t] }
     .form-group
-      = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox'], ['email', 'email']]), {}, class: 'form-control'
+      = f.select :data_type, options_for_select(types), {}, class: 'form-control'
     .form-group
       = f.text_field :label,  class: 'form-control', placeholder: 'Label'
     .checkbox
