@@ -12,7 +12,7 @@ window.Champaign.showErrors = function(e, data) {
   response = $.parseJSON(data.responseText);
 
   var errorMsg = function(field_name, msgs) {
-    var name = field_name.replace('_', ' ')
+    var name = field_name.replace(/_/g, ' ')
     return `<div class="error-msg">${name} ${msgs[0]}</div>`
   }
 
@@ -36,7 +36,7 @@ window.Champaign.showErrors = function(e, data) {
   var showError = function(field_name, msgs) {
     field = findField(field_name)
     field.addClass('has-error').parent().addClass('has-error');
-    field.after(errorMsg(field_name, msgs));
+    field.parent().append(errorMsg(field_name, msgs));
     field.on('focus', hideError)
   }
 
