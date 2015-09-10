@@ -53,11 +53,39 @@ describe ActionValidator do
 
         after :each do
           @validator = ActionValidator.new(@params)
-          expect(@validator.errors).to eq ({test: ['is not a valid email address']})
+          expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_email")]})
         end
 
-        it "is not a valid email" do
+        it "is a basic sentence" do
           @params.merge!(test: "I'm not an email!")
+        end
+
+        it "is missing the TLD" do
+          @params.merge!(test: "neal@sumofus")
+        end
+
+        it "has two @ symbols" do
+          @params.merge!(test: "this@that@other.com")
+        end
+      end
+
+      describe "phone" do
+
+        before :each do
+          element.update_attributes({data_type: "phone"})
+        end
+
+        after :each do
+          @validator = ActionValidator.new(@params)
+          expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_phone")]})
+        end
+
+        it "is too short" do
+          @params.merge!(test: "12345")
+        end
+
+        it "is only valid special characters" do
+          @params.merge!(test: "(+) -- (+)")
         end
       end
 
@@ -96,10 +124,34 @@ describe ActionValidator do
           @params.merge!(test: "neal@sumofus.org")
         end
 
+        it "is a valid email with multiple dots" do
+          @params.merge!(test: "neal.donnelly@cycles.cs.princeton.edu")
+        end
+
         it "is empty and not required" do
           @params.merge!({})
         end
       end
+
+      describe "phone" do
+
+        before :each do
+          element.update_attributes({data_type: "phone"})
+        end
+
+        it "is all numbers" do
+          @params.merge!(test: "123456790")
+        end
+
+        it "has spaces, dashes, pluses, and parentheses" do
+          @params.merge!(test: "+1 (413)-555-1234")
+        end
+
+        it "is empty and not required" do
+          @params.merge!({})
+        end
+      end
+
     end
 
   end

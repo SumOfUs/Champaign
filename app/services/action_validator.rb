@@ -21,23 +21,45 @@ class ActionValidator
   def validate_field(form_element, errors)
     el_name = form_element.name.to_sym
     errors[el_name] ||= []
-    if form_element.required? && @params[el_name].blank?
-      errors[el_name] << I18n.t("validation.is_required")
-    end
-    if is_invalid_email(form_element, @params[el_name])
-      errors[el_name] << I18n.t("validation.is_invalid_email")
-    end
+
+    validate_required(form_element, el_name, errors)
+    validate_email(form_element, el_name, errors)
+    validate_phone(form_element, el_name, errors)
+
     errors.delete(el_name) if errors[el_name].empty?
     errors
   end
 
   private
 
-  def is_invalid_email(element, email)
-    element.data_type == "email" && email.present? && !is_email(email)
+  def validate_required(form_element, el_name, errors)
+    if form_element.required? && @params[el_name].blank?
+      errors[el_name] << I18n.t("validation.is_required")
+    end
+  end
+
+  def validate_phone(form_element, el_name, errors)
+    phone_number = @params[el_name]
+    if form_element.data_type == "phone" && phone_number.present? && !is_phone(phone_number)
+      errors[el_name] << I18n.t("validation.is_invalid_phone")
+    end
+  end
+
+  def validate_email(form_element, el_name, errors)
+    email = @params[el_name]
+    if form_element.data_type == "email" && email.present? && !is_email(email)
+      errors[el_name] << I18n.t("validation.is_invalid_email")
+    end
   end
 
   def is_email(candidate)
     (/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate).present?
   end
+
+  def is_phone(candidate)
+    no_extra_characters = (/\A[0-9\-\+\(\) ]+\z/i =~ candidate).present?
+    has_six_numbers = (candidate.scan(/[0-9]/).size > 5)
+    no_extra_characters && has_six_numbers
+  end
+
 end
