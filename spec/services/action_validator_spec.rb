@@ -25,7 +25,7 @@ describe ActionValidator do
 
         after :each do
           @validator = ActionValidator.new(@params)
-          expect(@validator.errors).to eq [['test', 'is required']]
+          expect(@validator.errors).to eq ({test: ['is required']})
         end
 
         it "does not appear" do
@@ -53,7 +53,7 @@ describe ActionValidator do
 
         after :each do
           @validator = ActionValidator.new(@params)
-          expect(@validator.errors).to eq [['test', 'is not a valid email address']]
+          expect(@validator.errors).to eq ({test: ['is not a valid email address']})
         end
 
         it "is not a valid email" do
@@ -67,7 +67,7 @@ describe ActionValidator do
 
       after :each do
         @validator = ActionValidator.new(@params)
-        expect(@validator.errors).to eq []
+        expect(@validator.errors).to eq Hash.new
         expect(@validator.valid?).to eq true
       end
 

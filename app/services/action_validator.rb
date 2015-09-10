@@ -19,15 +19,15 @@ class ActionValidator
   end
 
   def validate_field(form_element, errors)
-    key = form_element.name.to_sym
-    if form_element.required? && @params[key].blank?
-      errors[form_element.name] ||= []
-      errors[form_element.name] << I18n.t("validation.is_required")
+    el_name = form_element.name.to_sym
+    errors[el_name] ||= []
+    if form_element.required? && @params[el_name].blank?
+      errors[el_name] << I18n.t("validation.is_required")
     end
-    if is_invalid_email(form_element, @params[key])
-      errors[form_element.name] ||= []
-      errors[form_element.name] << I18n.t("validation.is_invalid_email")
+    if is_invalid_email(form_element, @params[el_name])
+      errors[el_name] << I18n.t("validation.is_invalid_email")
     end
+    errors.delete(el_name) if errors[el_name].empty?
     errors
   end
 
