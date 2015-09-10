@@ -44,6 +44,38 @@ describe 'Search ::' do
         it 'searches for a page based on the tags on that page' do
           expect(tag_searcher.search).to match_array([content_tag_plugin_layout_match])
         end
+
+        # for these blocks, I think it's better to make the pages at the global scope,
+        # (in a before block since let is lazy evaluated and wont create them unless referenced)
+        # and then when it returns less than all of them, you know it's actually successfully
+        # not returning some of them. for that reason, create one you know should never
+        # be returned.
+
+        describe 'returns nothing when searching' do
+          it 'with an empty array'
+          it 'with nil'
+          it 'with a non-existent tag id'
+          it 'with mutiple tag ids'
+          it 'with an empty string'
+
+          it 'with an unused tag'
+          it 'with a used tag and an unused tag'
+          it 'with two used tags never used on the same page'
+        end
+
+        describe 'returns one page when searching' do
+          it "with that page's only tag"
+          it "with one of that page's several tags"
+          it "with multiple of that page's tags"
+          it "with a tag that matches two pages and a tag that matches one page"
+        end
+
+        describe 'returns multiple pages when searching' do
+          it "with a tag as the only tag of both pages"
+          it "with a tag used as one of several on both pages"
+          it "with multiple tags used as one of several on both pages"
+        end
+
       end
 
       context 'search by campaign' do
