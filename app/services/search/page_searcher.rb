@@ -7,25 +7,34 @@ class Search::PageSearcher
 
   def search
     [*@queries].each do |search_type, query|
-      case search_type.to_s
-        when 'content_search'
-          search_by_text(query)
-        when 'tags'
-          search_by_tags(query)
-        when 'language'
-          search_by_language(query)
-        when 'layout'
-          search_by_layout(query)
-        when 'campaign'
-          search_by_campaign(query)
-        when 'plugin_type'
-          search_by_plugin_type(query)
+      if not validate_query(query)
+        next
+      else
+        case search_type.to_s
+          when 'content_search'
+            search_by_text(query)
+          when 'tags'
+            search_by_tags(query)
+          when 'language'
+            search_by_language(query)
+          when 'layout'
+            search_by_layout(query)
+          when 'campaign'
+            search_by_campaign(query)
+          when 'plugin_type'
+            search_by_plugin_type(query)
+        end
       end
     end
     @collection | []
   end
 
   private
+
+  def validate_query(query)
+    # if query is an empty array, nil or an empty string, skip filtering for that query
+    ( [[], nil, ''].include? query ) ? false : true
+  end
 
   def combine_collections(collection1, collection2)
     # get union of unique values in collection1 and collection2
