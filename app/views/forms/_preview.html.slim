@@ -2,7 +2,7 @@ form
   - form.form_elements.each do |element|
     .form-element.form-group.clearfix
       - case element.data_type
-      - when 'text'
+      - when 'text', 'email'
         input.form-control placeholder=element.label
 
       - when 'checkbox'

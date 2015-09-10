@@ -7,9 +7,9 @@
     = form_for [@form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
 
       .form-group
-        = f.text_field :label,  class: 'form-control', placeholder: 'Label'
+        = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox'], ['email', 'email']]), {}, class: 'form-control'
       .form-group
-        = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
+        = f.text_field :label,  class: 'form-control', placeholder: 'Label'
       .checkbox
         label
           = f.check_box :required
