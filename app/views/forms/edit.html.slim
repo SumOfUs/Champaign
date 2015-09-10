@@ -3,24 +3,10 @@
     h3 #{  @form.name }
   .col-md-6
     h4 = t('.title')
-
-    = form_for [@form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
-
-      .form-group
-        = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox'], ['email', 'email']]), {}, class: 'form-control'
-      .form-group
-        = f.text_field :label,  class: 'form-control', placeholder: 'Label'
-      .checkbox
-        label
-          = f.check_box :required
-          ' required
-
-      .form-group
-        button.btn.btn-default = t('common.save')
+    = render partial: 'add_element', locals: {form: @form}
 
   .col-md-6
     h4 = t('.preview')
-
     = render partial: 'edit', locals: {form: @form }
 
 javascript:

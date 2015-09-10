@@ -27,16 +27,7 @@
 
       - if plugin.form
         h5 = t('plugins.action.add_new_field')
-        .well
-          = form_for [plugin.form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
-
-            .form-group
-              = f.text_field :label,  class: 'form-control', placeholder: t('form_elements.shared.label')
-            .form-group
-              = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
-
-            .form-group
-              button.btn.btn-default.xhr-feedback = t('common.save')
+        = render partial: 'forms/add_element', locals: {form: plugin.form}
 
   .col-md-5
     .plugin-action-preview
