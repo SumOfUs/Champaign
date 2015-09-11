@@ -22,9 +22,10 @@ class ActionValidator
     el_name = form_element.name.to_sym
     errors[el_name] ||= []
 
-    validate_required(form_element, el_name, errors)
-    validate_email(form_element, el_name, errors)
-    validate_phone(form_element, el_name, errors)
+    validate_required( form_element, el_name, errors)
+    validate_country(  form_element, el_name, errors)
+    validate_phone(    form_element, el_name, errors)
+    validate_email(    form_element, el_name, errors)
 
     errors.delete(el_name) if errors[el_name].empty?
     errors
@@ -52,6 +53,13 @@ class ActionValidator
     end
   end
 
+  def validate_country(form_element, el_name, errors)
+    country = @params[el_name]
+    if form_element.data_type == "country" && country.present? && !is_country_code(country)
+      errors[el_name] << I18n.t("validation.is_invalid_country")
+    end
+  end
+
   def is_email(candidate)
     (/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate).present?
   end
@@ -62,4 +70,7 @@ class ActionValidator
     no_extra_characters && has_six_numbers
   end
 
+  def is_country_code(candidate)
+    ISO3166::Country.all_names_with_codes.map(&:last).include?(candidate)
+  end
 end

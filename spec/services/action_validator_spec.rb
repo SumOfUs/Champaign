@@ -89,6 +89,30 @@ describe ActionValidator do
         end
       end
 
+      describe "country" do
+
+        before :each do
+          element.update_attributes({data_type: "country"})
+        end
+
+        after :each do
+          @validator = ActionValidator.new(@params)
+          expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_country")]})
+        end
+
+        it "is a full country name" do
+          @params.merge!(test: "Afghanistan")
+        end
+
+        it "is numbers" do
+          @params.merge!(test: "33")
+        end
+
+        it "is lowercase" do
+          @params.merge!(test: "gb")
+        end
+      end
+
     end
 
     describe "does not add an error if" do
@@ -145,6 +169,21 @@ describe ActionValidator do
 
         it "has spaces, dashes, pluses, and parentheses" do
           @params.merge!(test: "+1 (413)-555-1234")
+        end
+
+        it "is empty and not required" do
+          @params.merge!({})
+        end
+      end
+
+      describe "country" do
+
+        before :each do
+          element.update_attributes({data_type: "country"})
+        end
+
+        it "is all a known country code" do
+          @params.merge!(test: "GB")
         end
 
         it "is empty and not required" do
