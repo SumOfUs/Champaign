@@ -84,7 +84,6 @@ en:
     destroy:
       notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
 
-
   forms:
     index:
       title: 'Forms'
@@ -98,6 +97,14 @@ en:
       data_type: 'Field type'
 
   share:
+    analytics:
+      weight: 'Weight'
+      shares: 'Shares'
+      successful_shares: 'Successful Shares'
+      conversions: 'Conversions'
+      winner: 'Winner'
+      no_data: "We haven't any data, yet!"
+
     get_started: "Click 'new variation' below to get started"
     form:
       new_variation: 'New Variation'
