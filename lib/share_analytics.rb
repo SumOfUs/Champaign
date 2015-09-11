@@ -10,6 +10,7 @@ class ShareAnalytics
   end
 
   def data
+    puts raw_data
     raw_data.select{|share| share['id'] == share.sp_id}
   end
 
@@ -17,7 +18,7 @@ class ShareAnalytics
     if button.analytics
       JSON.parse(analytics)['response'][0]['share_tests'][@type]
     else
-      { shares: 0, viral_visits: 0}.stringify_keys
+      []
     end
   end
 
@@ -28,8 +29,3 @@ class ShareAnalytics
   end
 end
 
-
-#x['response'][0]['share_tests']['facebook']
-
-#{"shares"=>0, "successful_shares"=>0, "conversion"=>0.0, "ci"=>0.0, "confidence"=>"--", "improvement"=>"--", "winner"=>false, "id"=>65166, "weight"=>"50.0%"}, 
-#{"shares"=>1, "successful_shares"=>0, "conversion"=>0.0, "ci"=>0.0, "confidence"=>"0.0%", "improvement"=>"&#8734;", "winner"=>false, "id"=>65169, "weight"=>"50.0%"}]
