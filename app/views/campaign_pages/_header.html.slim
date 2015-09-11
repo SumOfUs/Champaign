@@ -5,13 +5,13 @@
         .col-md-12
           h2 #{link_to 'Campaign Pages', campaign_pages_path} / #{ link_to(@campaign_page.title, [:edit, @campaign_page])}
 
-/.row.campaign-pages
-  /.col-md-12
+.row.campaign-pages
+  .col-md-12
 
-    /ul.nav.nav-tabs
-      /= campaign_page_nav_item('Content', edit_campaign_page_path(@campaign_page) )
-      /= campaign_page_nav_item('Plugins', campaign_page_plugins_path(@campaign_page), false )
-      /= campaign_page_nav_item('Share',   campaign_page_share_facebooks_path(@campaign_page), false )
-      /= campaign_page_nav_item('View', campaign_page_path(@campaign_page) )
+    ul.nav.nav-tabs
+      = campaign_page_nav_item('Content', edit_campaign_page_path(@campaign_page) )
+      = campaign_page_nav_item('Plugins', campaign_page_plugins_path(@campaign_page), false )
+      = campaign_page_nav_item('Share',   campaign_page_share_facebooks_path(@campaign_page), false )
+      = campaign_page_nav_item('View', campaign_page_path(@campaign_page) )
 
 
