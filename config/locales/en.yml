@@ -62,9 +62,22 @@ en:
       extras: 'Extras'
 
   campaigns:
+    new:
+      title: "Create a new campaign"
+      forms:
+        name: "Name your campaign"
     index:
       new: "Create a new campaign"
       title: "Campaigns"
+    show:
+      deactivated_notice: "The campaign you requested has been deactivated."
+    create:
+      notice: "Campaign has been created."
+    update:
+      notice: "Campaign has been updated."
+    destroy:
+      notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
+
 
   forms:
     index:

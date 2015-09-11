@@ -11,12 +11,12 @@ class CampaignsController < ApplicationController
 
   def create
     @campaign = Campaign.create permitted_params
-    redirect_to :campaigns, notice: 'Campaign Created'
+    redirect_to :campaigns, notice: t('campaigns.create.notice')
   end
 
   def show
     unless @campaign.active?
-      raise ActionController::RoutingError.new('The campaign you requested has been deactivated.')
+      raise ActionController::RoutingError.new( t('campaigns.show.deactivated_notice') )
     end
   end
 
@@ -25,21 +25,21 @@ class CampaignsController < ApplicationController
 
   def update
     @campaign.update permitted_params
-    redirect_to :campaigns, notice: 'Campaign Updated'
+    redirect_to :campaigns, notice: t('campaigns.update.notice')
   end
 
+  # Deactives campaign and its associated campaign pages
   def destroy
-    # deactivates campaign pages associated with that campaign
-    @campaign.campaign_page.update_all(:active =>false)
-    # deactivates the campaign itself
-    @campaign.update(:active => false)
-    redirect_to :campaigns, notice: "The campaign '" + @campaign.campaign_name + "' was deactivated. Contact an admin if you'd like to reactivate it."
+    @campaign.campaign_page.update_all(active: false)
+    @campaign.update(active: false)
+
+    redirect_to :campaigns, notice: t('campaigns.destroy.notice', name: @campaign.name)
   end
 
   private
 
   def permitted_params
-    CampaignParameters.new(params).permit
+    params.require(:campaign).permit(:id, :name)
   end
 
   def find_campaign
