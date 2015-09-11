@@ -15,7 +15,7 @@
 
       .form-group
         = f.label  :tag_ids, t('.tags')
-        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'tag_name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
+        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', @campaign_page.tag_ids), {}, html_options= {class: 'form-control select2-container', multiple: true}
 
       .form-group
         = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
