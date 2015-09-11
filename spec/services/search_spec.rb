@@ -8,6 +8,7 @@ describe 'Search ::' do
   let!(:the_best_tag) { create(:tag, name: 'best tag ever', actionkit_uri: '/secretly_insecure/') }
   let!(:unused_tag) { create(:tag, name: 'such a lonely tag', actionkit_uri: '/foreveralone') }
   let!(:hipster_tag) { create(:tag, name: 'tag with moustache', actionkit_uri: '/coffee_with_that') }
+  let!(:only_tag) { create(:tag, name: 'only tag on a page', actionkit_uri: '/entitled/tag') }
   let!(:tag1) { create(:tag, name: 'tag1', actionkit_uri: '/tag1') }
   let!(:tag2) { create(:tag, name: 'tag2', actionkit_uri: '/tag2') }
   let!(:tag3) { create(:tag, name: 'tag3', actionkit_uri: '/tag3') }
@@ -15,7 +16,6 @@ describe 'Search ::' do
   let!(:tag5) { create(:tag, name: 'tag5', actionkit_uri: '/tag5') }
   let!(:tag6) { create(:tag, name: 'tag6', actionkit_uri: '/tag6') }
   let!(:unpopular_tag) { create(:tag, name: 'belongs to just one page', actionkit_uri: '/meh') }
-  let!(:only_tag) { create(:tag, name: 'only tag on a page', actionkit_uri: '/entitled/tag') }
   let!(:campaign) { create(:campaign, name: test_text) }
   let!(:campaign2) { create(:campaign, name: 'Why not Zoidberg?') }
   let!(:twin_campaign) { create(:campaign, name: 'Campaign that contains two pages') }
@@ -50,13 +50,6 @@ describe 'Search ::' do
       )
     }
 
-    let!(:has_many_tags) {
-      create(:page,
-             title: 'a very taggy page',
-             tags: [alternative_tag, the_best_tag],
-      )
-    }
-
     let!(:single_return_page) {
       create(:page,
              title: 'a special snowflake',
@@ -85,20 +78,6 @@ describe 'Search ::' do
              language: klingon,
              campaign: twin_campaign,
              liquid_layout: twin_layout
-      )
-    }
-
-    let!(:intersection_page_1) {
-      create(:page,
-             title: 'has one same tag as intersection page 2',
-             tags: [tag1, tag2, tag3, tag4],
-      )
-    }
-
-    let!(:intersection_page_2) {
-      create(:page,
-             title: 'has one same tag as intersection page 1',
-             tags: [tag3, tag4, tag5],
       )
     }
 
@@ -147,6 +126,25 @@ describe 'Search ::' do
       end
 
       context 'search by tag' do
+        let!(:has_many_tags) {
+          create(:page,
+                 title: 'a very taggy page',
+                 tags: [alternative_tag, the_best_tag],
+          )
+        }
+        let!(:intersection_page_1) {
+          create(:page,
+                 title: 'has one same tag as intersection page 2',
+                 tags: [tag1, tag2, tag3, tag4],
+          )
+        }
+
+        let!(:intersection_page_2) {
+          create(:page,
+                 title: 'has one same tag as intersection page 1',
+                 tags: [tag3, tag4, tag5],
+          )
+        }
         let(:tag_searcher) { Search::PageSearcher.new({search: {tags: [tag.id]} }) }
         it 'searches for a page based on the tags on that page' do
           expect(tag_searcher.search).to match_array([content_tag_plugin_layout_match])
@@ -386,6 +384,8 @@ describe 'Search ::' do
         end
         describe 'returns no pages when searching' do
           it 'if searching with a layout that does not contain the plugin' do
+
+          end
           it 'if searching with a layout that does contain the plugin but if all of the matching pages have that plugin turned off'
           it 'if searching with a plugin that does not exist'
           it 'if searching with several plugins where a page matches one but not the rest of them'
