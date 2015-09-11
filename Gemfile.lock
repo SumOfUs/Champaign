@@ -78,8 +78,12 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    countries (1.0.0)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.7.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    currencies (0.4.2)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
@@ -112,6 +116,7 @@ GEM
       tilt
     hashie (3.4.2)
     i18n (0.7.0)
+    i18n_data (0.7.0)
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -305,6 +310,7 @@ DEPENDENCIES
   capybara
   codemirror-rails
   coffee-rails (~> 4.1.0)
+  countries
   database_cleaner
   devise
   dropzonejs-rails

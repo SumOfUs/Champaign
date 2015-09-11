@@ -34,7 +34,8 @@ class CampaignPagesController < ApplicationController
 
     @data = Plugins.data_for_view(@campaign_page).
       merge( @campaign_page.attributes ).
-      merge( 'images' => images )
+      merge( 'images' => images ).
+      merge( LiquidHelper.globals )
 
     render :show, layout: 'liquid'
   end

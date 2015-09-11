@@ -18,6 +18,11 @@
             <label>
               <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
             </label>
+          {% when 'country' %}
+            <select name="{{field.name}}">
+              <option selected disabled hidden value=''>{{field.label}}</option>
+              {{ country_option_tags }}
+            </select>
           {% endcase %}
         </div>
       {% endfor %}
