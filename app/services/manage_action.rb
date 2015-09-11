@@ -5,7 +5,7 @@ class ManageAction
   end
 
   def create
-    return if user_has_already_taken_action
+    return previous_action if user_has_already_taken_action
 
     Action.create({
       action_user: action_user,
