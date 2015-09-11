@@ -4,3 +4,4 @@
 //= require show_errors
 //= require plugins/actions
 //= require plugins/thermometers
+//= require mailcheck

@@ -24,5 +24,4 @@
 //= require forms
 //= require campaign_page
 //= require ajax
-//= require mailcheck
 //= require_tree ./plugins/actions/admin/
