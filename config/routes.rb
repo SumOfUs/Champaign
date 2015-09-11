@@ -1,14 +1,4 @@
 Rails.application.routes.draw do
-
-  get 'facebook_shares/show'
-
-  resources :facebook_shares, only: [:show] do
-    member do
-      put 'increment'
-    end
-  end
-
-
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
   # The priority is based upon order of creation: first created -> highest priority.

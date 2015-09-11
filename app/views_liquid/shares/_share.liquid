@@ -6,20 +6,11 @@
         <h4 class="modal-title">Share this petition</h4>
       </div>
       <div class="modal-body">
-        {% if shares.facebook %}
-          {{ shares.facebook }}
-        {% endif %}
-
-        {% if shares.twitter %}
-          {{ shares.twitter }}
-        {% endif %}
-
-        {% if shares.email %}
-          {{ shares.email }}
-        {% endif %}
+        {% for share in shares %}
+          {{ share[1] }}
+        {% endfor %}
       </div>
     </div>
   </div>
 </div>
-
 

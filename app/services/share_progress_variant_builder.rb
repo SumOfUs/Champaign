@@ -1,3 +1,5 @@
+require 'share_progress'
+
 class ShareProgressVariantBuilder
   def self.create(params, variant_type:, campaign_page:, url:)
     new(params, variant_type, campaign_page, url).create
