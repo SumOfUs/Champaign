@@ -4,21 +4,21 @@ describe 'Search ::' do
 
   let(:test_text) { 'a spectacular test string' }
   let(:language) { build(:language) }
-  let!(:tag) { create(:tag, tag_name: test_text, actionkit_uri: '/foo/bar') }
-  let!(:alternative_tag) { create(:tag, tag_name: 'alternative tag', actionkit_uri: '/alternative_tag/') }
-  let!(:the_best_tag) { create(:tag, tag_name: 'best tag ever', actionkit_uri: '/secretly_insecure/') }
-  let!(:unused_tag) { create(:tag, tag_name: 'such a lonely tag', actionkit_uri: '/foreveralone') }
-  let!(:hipster_tag) { create(:tag, tag_name: 'tag with moustache', actionkit_uri: '/coffee_with_that') }
-  let!(:tag1) { create(:tag, tag_name: 'tag1', actionkit_uri: '/tag1') }
-  let!(:tag2) { create(:tag, tag_name: 'tag2', actionkit_uri: '/tag2') }
-  let!(:tag3) { create(:tag, tag_name: 'tag3', actionkit_uri: '/tag3') }
-  let!(:tag4) { create(:tag, tag_name: 'tag4', actionkit_uri: '/tag4') }
-  let!(:tag5) { create(:tag, tag_name: 'tag5', actionkit_uri: '/tag5') }
-  let!(:tag6) { create(:tag, tag_name: 'tag6', actionkit_uri: '/tag6') }
-  let!(:unpopular_tag) { create(:tag, tag_name: 'belongs to just one page', actionkit_uri: '/meh') }
-  let!(:only_tag) { create(:tag, tag_name: 'only tag on a page', actionkit_uri: '/entitled/tag') }
-  let!(:campaign) { create(:campaign, campaign_name: test_text) }
-  let!(:campaign2) { create(:campaign, campaign_name: 'Why not Zoidberg?') }
+  let!(:tag) { create(:tag, name: test_text, actionkit_uri: '/foo/bar') }
+  let!(:alternative_tag) { create(:tag, name: 'alternative tag', actionkit_uri: '/alternative_tag/') }
+  let!(:the_best_tag) { create(:tag, name: 'best tag ever', actionkit_uri: '/secretly_insecure/') }
+  let!(:unused_tag) { create(:tag, name: 'such a lonely tag', actionkit_uri: '/foreveralone') }
+  let!(:hipster_tag) { create(:tag, name: 'tag with moustache', actionkit_uri: '/coffee_with_that') }
+  let!(:tag1) { create(:tag, name: 'tag1', actionkit_uri: '/tag1') }
+  let!(:tag2) { create(:tag, name: 'tag2', actionkit_uri: '/tag2') }
+  let!(:tag3) { create(:tag, name: 'tag3', actionkit_uri: '/tag3') }
+  let!(:tag4) { create(:tag, name: 'tag4', actionkit_uri: '/tag4') }
+  let!(:tag5) { create(:tag, name: 'tag5', actionkit_uri: '/tag5') }
+  let!(:tag6) { create(:tag, name: 'tag6', actionkit_uri: '/tag6') }
+  let!(:unpopular_tag) { create(:tag, name: 'belongs to just one page', actionkit_uri: '/meh') }
+  let!(:only_tag) { create(:tag, name: 'only tag on a page', actionkit_uri: '/entitled/tag') }
+  let!(:campaign) { create(:campaign, name: test_text) }
+  let!(:campaign2) { create(:campaign, name: 'Why not Zoidberg?') }
   let!(:layout) { create(:liquid_layout) }
 
   describe 'PageSearcher' do
@@ -90,15 +90,35 @@ describe 'Search ::' do
          title: 'Not a good match',
          language: build(:language, code: 'PIG', name: 'Pig latin'),
          tags: [
-             create(:tag, tag_name: 'tag not found', actionkit_uri: '/foo/404'),
-             create(:tag, tag_name: 'tag erroror', actionkit_uri: '/foo/500')
+             create(:tag, name: 'tag not found', actionkit_uri: '/foo/404'),
+             create(:tag, name: 'tag erroror', actionkit_uri: '/foo/500')
          ],
          content: 'totally arbitrary content',
-         campaign: create(:campaign, campaign_name: 'a not very impactful test campaign')
+         campaign: create(:campaign, name: 'a not very impactful test campaign')
       )
     }
 
     let!(:plugin) { create(:plugins_action, campaign_page: content_tag_plugin_layout_match, active:true)}
+
+    context 'validates search parameters' do
+      describe 'returns all campaign pages when searching' do
+        it 'with an empty array' do
+          expect(Search::PageSearcher.new({search: [] }).search).to match_array(CampaignPage.all)
+        end
+        it 'with nil' do
+          expect(Search::PageSearcher.new({search: nil }).search).to match_array(CampaignPage.all)
+        end
+        it 'with a non-existent search type' do
+          expect(Search::PageSearcher.new({search: {inject_some_sql: "MaliciousCampaign');DROP TABLE Campaigns;--"} }).search).to match_array(CampaignPage.all)
+        end
+        it 'with an empty string' do
+          expect(Search::PageSearcher.new({search: '' }).search).to match_array(CampaignPage.all)
+        end
+        it 'with no search parameters' do
+          expect(Search::PageSearcher.new({}).search).to match_array(CampaignPage.all)
+        end
+      end
+    end
 
     context 'searches through a single criterion' do
 
@@ -177,6 +197,28 @@ describe 'Search ::' do
         it 'searches for a page based on the campaign it belongs to' do
           expect(search_by_campaign.search).to match_array([title_language_campaign_match])
         end
+
+        describe 'returns nothing when searching' do
+          it 'with an empty array'
+          it 'with nil'
+          it 'with a non-existent campaign id'
+          it 'with an empty string'
+          it 'with an unused campaign id'
+        end
+
+        describe 'returns one page when searching' do
+          it 'with a campaign that only contains one page'
+        end
+
+        describe 'returns some pages when searching' do
+          it 'with a used campaign id and an unused campaign id'
+        end
+
+        describe 'returns multiple pages when searching' do
+          it 'with mutiple campaign ids that different pages belong to'
+          it 'with a campaign id that several pages belong to'
+        end
+
       end
 
       context 'search by layout' do
@@ -184,6 +226,28 @@ describe 'Search ::' do
         it 'finds a page that contains the specified liquid layout' do
           expect(layout_searcher.search).to match_array([content_tag_plugin_layout_match])
         end
+
+        describe 'returns nothing when searching' do
+          it 'with an empty array'
+          it 'with nil'
+          it 'with an empty string'
+          it 'with a non-existent layout'
+          it 'with an unused layout'
+        end
+
+        describe 'returns one page when searching' do
+          it 'with a layout that only one page belongs to'
+        end
+
+        describe 'returns some pages when searching' do
+          it 'with a used layout and an unused layout'
+        end
+
+        describe 'returns multiple pages when searching' do
+          it 'with mutiple layouts that different pages belong to'
+          it 'with a layout that several pages belong to'
+        end
+
       end
 
       context 'search by language' do
@@ -217,7 +281,7 @@ describe 'Search ::' do
                title: 'multimatch page 1',
                language: language,
                campaign: campaign,
-               tags: [create(:tag, tag_name: 'ninja tag', actionkit_uri: '/foo/bar2')],
+               tags: [create(:tag, name: 'ninja tag', actionkit_uri: '/foo/bar2')],
                liquid_layout: create(:liquid_layout))
       }
 
