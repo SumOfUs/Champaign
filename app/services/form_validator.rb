@@ -1,4 +1,4 @@
-class ActionValidator
+class FormValidator
 
   def initialize(params)
     @params = params

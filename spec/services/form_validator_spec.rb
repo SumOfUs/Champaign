@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ActionValidator do
+describe FormValidator do
 
   let(:form) { create :form }
   let(:element) { create :form_element, form: form, label: 'test' }
@@ -24,7 +24,7 @@ describe ActionValidator do
         end
 
         after :each do
-          @validator = ActionValidator.new(@params)
+          @validator = FormValidator.new(@params)
           expect(@validator.errors).to eq ({test: ['is required']})
         end
 
@@ -52,7 +52,7 @@ describe ActionValidator do
         end
 
         after :each do
-          @validator = ActionValidator.new(@params)
+          @validator = FormValidator.new(@params)
           expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_email")]})
         end
 
@@ -76,7 +76,7 @@ describe ActionValidator do
         end
 
         after :each do
-          @validator = ActionValidator.new(@params)
+          @validator = FormValidator.new(@params)
           expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_phone")]})
         end
 
@@ -96,7 +96,7 @@ describe ActionValidator do
         end
 
         after :each do
-          @validator = ActionValidator.new(@params)
+          @validator = FormValidator.new(@params)
           expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_country")]})
         end
 
@@ -118,7 +118,7 @@ describe ActionValidator do
     describe "does not add an error if" do
 
       after :each do
-        @validator = ActionValidator.new(@params)
+        @validator = FormValidator.new(@params)
         expect(@validator.errors).to eq Hash.new
         expect(@validator.valid?).to eq true
       end

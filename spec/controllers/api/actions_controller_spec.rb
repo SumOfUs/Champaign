@@ -12,10 +12,10 @@ describe Api::ActionsController do
 
     describe "successful" do
 
-      let(:validator) { instance_double('ActionValidator', valid?: true, errors: []) }
+      let(:validator) { instance_double('FormValidator', valid?: true, errors: []) }
 
       before do
-        allow(ActionValidator).to receive(:new){ validator }
+        allow(FormValidator).to receive(:new){ validator }
         post :create, { campaign_page_id: 2, form_id: 3, foo: 'bar' }
       end
 
@@ -43,10 +43,10 @@ describe Api::ActionsController do
 
     describe "unsuccessful" do
 
-      let(:validator) { instance_double('ActionValidator', valid?: false, errors: [["my field", "my error"]]) }
+      let(:validator) { instance_double('FormValidator', valid?: false, errors: [["my field", "my error"]]) }
 
       before :each do
-        allow(ActionValidator).to receive(:new){ validator }
+        allow(FormValidator).to receive(:new){ validator }
         post :create, { campaign_page_id: 2, form_id: 3, foo: 'bar' }
       end
 
