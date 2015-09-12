@@ -5,7 +5,7 @@ form
       - when 'text', 'email', 'phone'
         input.form-control placeholder=element.label
       - when 'country'
-        = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes)
+        = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes), class: "form-control"
       - when 'checkbox'
         = check_box_tag element.name
         '&nbsp;
