@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150817195310) do
+ActiveRecord::Schema.define(version: 20150828163518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,18 +92,21 @@ ActiveRecord::Schema.define(version: 20150817195310) do
     t.string   "default_value"
     t.boolean  "required"
     t.boolean  "visible"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
     t.string   "name"
+    t.integer  "position",      default: 0, null: false
   end
 
   add_index "form_elements", ["form_id"], name: "index_form_elements_on_form_id", using: :btree
 
   create_table "forms", force: :cascade do |t|
-    t.string   "title"
+    t.string   "name"
     t.string   "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "visible",     default: false
+    t.boolean  "master",      default: false
   end
 
   create_table "images", force: :cascade do |t|
@@ -119,8 +122,8 @@ ActiveRecord::Schema.define(version: 20150817195310) do
   add_index "images", ["campaign_page_id"], name: "index_images_on_campaign_page_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
-    t.string   "language_code", null: false
-    t.string   "language_name", null: false
+    t.string   "code",       null: false
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
