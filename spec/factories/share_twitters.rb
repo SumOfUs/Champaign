@@ -3,7 +3,7 @@ FactoryGirl.define do
     sp_id 1
     campaign_page nil
     title "MyString"
-    description "MyString"
+    description "MyString {LINK}"
     button_id 1
   end
 end

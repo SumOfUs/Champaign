@@ -1,5 +1,21 @@
 require 'rails_helper'
 
-RSpec.describe Share::Twitter, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Share::Twitter do
+  describe 'validation' do
+    subject { build(:share_twitter) }
+
+    it 'is valid' do
+      expect(subject).to be_valid
+    end
+
+    it 'description must be present' do
+      subject.description = nil
+      expect(subject).to_not be_valid
+    end
+
+    it 'must have {LINK} in description' do
+      subject.description = "Foo"
+      expect(subject).to_not be_valid
+    end
+  end
 end
