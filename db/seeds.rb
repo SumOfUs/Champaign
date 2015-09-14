@@ -16,7 +16,7 @@ LiquidMarkupSeeder.seed
 basic_form = Form.create name: "Basic", master: true
 
 basic_form_fields = [
-  {label: 'Email Address', required: true,  data_type: 'text', form: basic_form},
+  {label: 'Email Address', required: true,  data_type: 'email', form: basic_form},
   {label: 'Full Name',     required: true,  data_type: 'text', form: basic_form},
   {label: 'Postal Code',   required: true,  data_type: 'text', form: basic_form}
 ]
