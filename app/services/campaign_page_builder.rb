@@ -26,7 +26,7 @@ class CampaignPageBuilder
   end
 
   def create_plugins
-    if basic
+    if default
       Plugins.registered.each do |plugin|
         Plugins.basic_create_for_page(plugin, page)
       end
@@ -53,8 +53,8 @@ class CampaignPageBuilder
     @default_layout ||= LiquidLayout.master
   end
 
-  def basic
-    true
+  def default
+    ENV['DEFAULT_PLUGIN_REGISTRATION'] || true
   end
 end
 
