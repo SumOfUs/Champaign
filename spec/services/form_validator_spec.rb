@@ -53,7 +53,7 @@ describe FormValidator do
 
         after :each do
           @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_email")]})
+          expect(@validator.errors).to eq ({test: ['is not a valid email address']})
         end
 
         it "is a basic sentence" do
@@ -77,7 +77,7 @@ describe FormValidator do
 
         after :each do
           @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_phone")]})
+          expect(@validator.errors).to eq ({test: ['can only have numbers, dash, plus, and parentheses']})
         end
 
         it "is too short" do
@@ -97,7 +97,7 @@ describe FormValidator do
 
         after :each do
           @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: [I18n.t("validation.is_invalid_country")]})
+          expect(@validator.errors).to eq ({test: ['must be a two letter country code']})
         end
 
         it "is a full country name" do
