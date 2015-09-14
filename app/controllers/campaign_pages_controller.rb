@@ -41,7 +41,7 @@ class CampaignPagesController < ApplicationController
       merge( 'shares' => Shares.get_all(@campaign_page) ).
       deep_stringify_keys
 
-    render :show, layout: 'liquid'
+    render :show, layout: 'sumofus'
   end
 
   #
