@@ -11,8 +11,7 @@
           {% when 'text' %}
             <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
           {% when 'email' %}
-            <input type="email" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
-            <div id="mailcheck_message" class="hidden"></div>
+            <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" />
           {% when 'phone' %}
             <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
           {% when 'checkbox' %}
