@@ -44,8 +44,8 @@ class Share::FacebooksController < Share::SharesController
   end
 
   def index
-    @variations = @campaign_page.facebook_shares
-    @resource = 'facebook'
+    @variations = Share::Facebook.where(campaign_page_id: @campaign_page.id)
+
     render 'share/index'
   end
 
