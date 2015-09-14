@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe Share::Twitter do
+describe Share::Facebook do
   describe 'validation' do
-    subject { build(:share_twitter) }
+    subject { build(:share_facebook) }
 
     it 'is valid' do
       expect(subject).to be_valid
@@ -13,10 +13,11 @@ describe Share::Twitter do
       expect(subject).to_not be_valid
     end
 
-    it 'must have {LINK} in description' do
-      subject.description = "Foo"
+    it 'title must be present' do
+      subject.title = nil
       expect(subject).to_not be_valid
     end
   end
 end
+
 
