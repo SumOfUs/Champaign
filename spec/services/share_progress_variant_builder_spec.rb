@@ -2,13 +2,24 @@ require 'rails_helper'
 
 describe ShareProgressVariantBuilder do
   let(:params) {     {title: 'foo', description: 'bar'} }
+
   let(:sp_variants)   { [{id: 123}] }
+
   let(:campaign_page){ create(:campaign_page) }
+
   let(:sp_button) do
-    double(:button, save: true, id: '1', share_button_html: '<div />', variants: {'facebook' => sp_variants})
+    double(:button,
+           save: true,
+           id: '1',
+           share_button_html: '<div />',
+           variants: {facebook:  sp_variants})
   end
 
-  describe '#create' do
+  describe '.create' do
+    before do
+      allow(ShareProgress::Button).to receive(:new){ sp_button }
+    end
+
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(params, {
         variant_type: 'facebook',
@@ -17,9 +28,63 @@ describe ShareProgressVariantBuilder do
       })
     end
 
-    it 'creates a variant' do
-      expect(ShareProgress::Button).to receive(:new){ sp_button }
+    it 'creates a share progress variant' do
+      expected_arguments = {
+        page_url: 'http://example.com/foo',
+        page_title: "#{campaign_page.title} [facebook]",
+        button_template: 'sp_fb_large'
+      }
+      expect(ShareProgress::Button).to receive(:new).with( hash_including(expected_arguments) ){ sp_button }
       create_variant
+    end
+
+    it 'persists variant locally' do
+      create_variant
+      variant = Share::Facebook.first
+
+      expect(variant.title).to eq("foo")
+      expect(variant.sp_id).to eq("123")
+    end
+
+
+    it 'persists button locally' do
+      create_variant
+
+      button = Share::Button.first
+      expect(button.sp_id).to eq("1")
+      expect(button.sp_button_html).to eq("<div />")
+    end
+  end
+
+  describe '.update', :focus do
+    let!(:share) { create(:share_facebook, title: 'Foo') }
+    let!(:button){ create(:share_button, sp_type: 'facebook', campaign_page: campaign_page) }
+    let(:params) { {title: 'Bar' } }
+
+    before do
+      allow(ShareProgress::Button).to receive(:new){ sp_button }
+    end
+
+    subject(:update_variant) do
+      ShareProgressVariantBuilder.update(params, {
+        variant_type: 'facebook',
+        campaign_page: campaign_page,
+        url: 'http://example.com/foo',
+        id: share.id
+      })
+    end
+
+    it 'updates variant' do
+      expect{ update_variant }.to(
+        change{ share.reload.title }.from('Foo').to('Bar')
+      )
+    end
+
+    it 'updates variant on share progress' do
+      expect(ShareProgress::Button).to receive(:new)
+      expect(sp_button).to receive(:save)
+      update_variant
     end
   end
 end
+
