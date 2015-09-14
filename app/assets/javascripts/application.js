@@ -26,5 +26,4 @@
 //= require campaign_page
 //= require ajax
 //
-//= require share_progress/facebook
 //= require_tree ./plugins/actions/admin/
