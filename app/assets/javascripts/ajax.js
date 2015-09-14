@@ -13,17 +13,23 @@ $(function(){
      button.after(feedback);
   };
 
-  var handleError = function(a,b,c) {
-    console.log(a,b,c);
+  var enableButton = function(e) {
+    var button = $(e.target).find('.xhr-feedback');
+    button.prop('disabled', false);
+  }
+
+  var handleError = function(e, data) {
+    enableButton(e);
+    var feedback = $(".xhr-feedback-saving").
+      removeClass('label-success').
+      addClass('label-danger').
+      text('Save failed.');
+    window.Champaign.showErrors(e, data);
   };
 
   var handleSuccess = function(e){
-    var button = $(e.target).find('.xhr-feedback');
-    button.prop('disabled', false);
-
-
-    var feedback = $(".xhr-feedback-saving").
-      text('Saved!')
+    enableButton(e);
+    var feedback = $(".xhr-feedback-saving").text('Saved!')
 
     window.setTimeout( function(){
       feedback.fadeOut();
