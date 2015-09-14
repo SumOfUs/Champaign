@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'select2-rails'
 gem 'dropzonejs-rails'
 gem 'codemirror-rails'
+gem 'countries'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -46,13 +47,6 @@ gem 'aws-sdk', '~> 2'
 
 # logger for debugging AWS
 gem 'logger'
-
-# A fake SQS service to run a local look-a-like of Amazon SQS
-gem 'fake_sqs'
-
-# # Caching for production
-# gem 'rack-cache'
-# gem 'redis-rack-cache'
 
 # Gem for user agent / browser detection
 gem 'browser'

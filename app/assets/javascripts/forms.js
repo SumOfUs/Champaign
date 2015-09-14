@@ -1,42 +1,46 @@
-(function() {
-
-  var initialize = function() {
-    var handleSuccess = function(e, data, status, xhr){
-      $(this).find('input').val('');
-      $(this).find('input.form-control:first').focus();
-      $('.form-preview').append(data);
-    };
-
-    var handleDelete = function(e, data, status, xhr){
-      $(this).parents('.form-element').fadeOut();
-    };
-
-    var handleError = function(xhr, status, error) {
-      console.log(error);
-      $(this).find('input').val('').first().focus()
-    };
-
-    var suggestName = function() {
-
-      var label = $(this).val().trim(),
-          name;
-
-      name = label.
-              replace(/([a-z\d])([A-Z]+)/g, '$1_$2').
-              replace(/[-\s]+/g, '_').
-              toLowerCase();
-
-      $('#form_element_name').val(name);
-    };
-
-    $('#form_element_label').on('keyup', suggestName);
-    $('.form-element').on('ajax:success', handleSuccess);
-    $('.form-element').on('ajax:error',   handleError);
-
-    $('body').on('ajax:success', "a[data-method=delete]", handleDelete);
+(function(){
+  var initialize = function(){
+    makeSortable();
+    bindHandlers();
   };
 
+  var makeSortable = function(){
+    $( ".list-group.sortable" ).sortable();
+  };
 
-  $.subscribe("form:has_loaded", initialize);
+  var bindHandlers = function(){
+    $('.form-editor #new_form_element').on('ajax:success', function(e, resp, c){
+      $('.list-group').append(resp);
+    });
+
+    $('.form-editor #new_form_element').on('ajax:error', function(a,b,c){});
+
+    $('.form-editor').on('ajax:success', "a[data-method=delete]", function(){
+      $(this).parents('.list-group-item').fadeOut();
+    });
+
+
+    $( ".form-editor" ).on( "sortupdate", function( event, ui, a, b ) {
+      var ids = ui.item.parent().
+        children().
+          map(function(i, el){
+            return $(el).data('id');
+          }).get().join();
+
+      $('#form_element_ids').val(ids);
+      $('form#sort-form-elements').submit();
+    });
+
+    $('#change-form-template').on('ajax:success', function(e, resp) {
+      $('.form-edit').html(resp.html);
+
+      $('#sort-form-elements, #new_form_element').each(function(i, el){
+        var action = $(el).attr('action').replace(/\d+/, resp.form_id);
+        $(el).attr('action', action);
+      });
+    });
+  };
+
+  $.subscribe("forms:edit:loaded", initialize);
 }());
 

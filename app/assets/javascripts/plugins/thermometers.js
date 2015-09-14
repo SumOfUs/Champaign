@@ -21,7 +21,7 @@ $(function(){
 
   if($bar.length > 0) {
     getCount();
-    setInterval(getCount, 3000);
+    setInterval(getCount, 90000);
   };
 });
 

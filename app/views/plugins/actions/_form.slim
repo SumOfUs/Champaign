@@ -1,15 +1,37 @@
-= render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
+.row.plugin.action.form-editor data-plugin-id=plugin.id
+  .col-md-7
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
-= form_for plugin, url: plugins_action_path(plugin), remote: true  do |f|
-  .form-group
-    = f.label :form, "Choose a form"
-    = f.select :form_id, Form.all.map{ |form| [form.title, form.id] }, {include_blank: true}, {class: 'form-control'}
+    .well
+      h4  = t('plugins.action.action_description')
+      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
+        .form-group
+          = f.text_area :description, class: 'form-control'
 
+        .form-group
+          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
-  .form-group
-    = f.label :description, "Description"
-    = f.text_area :description, class: 'form-control'
+    .well
+      h4 = t('plugins.action.choose_form_template')
+      = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action', id: 'change-form-template'  do
+        .form-group
+          = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
 
-  .form-group
-    = submit_tag t('common.save'), class: 'btn btn-default', 'data-disable-with' => t('common.saving')
+        .form-group
+          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
+
+    .well
+      h4 = t('plugins.action.customise_form')
+      .form-edit
+        = render partial: 'forms/edit', locals: {form: plugin.form }
+
+      - if plugin.form
+        h5 = t('plugins.action.add_new_field')
+        = render partial: 'forms/add_element', locals: {form: plugin.form}
+
+  .col-md-5
+    .plugin-action-preview
+      h4 Preview
+      .content
+        = render partial: 'plugins/actions/preview', locals: {plugin: plugin }
 

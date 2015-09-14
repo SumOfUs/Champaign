@@ -30,6 +30,12 @@ en:
     successful_update: "Your changes have been saved!"
     confirm: 'Are you sure?'
 
+  validation:
+    is_required: 'is required'
+    is_invalid_email: 'is not a valid email address'
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: 'must be a two letter country code'
+
   menu:
     campaign_pages: 'Campaign Pages'
     campaigns: 'Campaigns'
@@ -50,11 +56,11 @@ en:
       new: "Create a new page"
       title: "Campaign Pages"
       table:
-        featured: Featured
+        featured: "Featured"
     new:
       title: "Let's Get Started!"
-      sub:   "First, give your Campaign Page a unique and catchy title"
-      layout_select: "Choose a Layout"
+      title_label: "Campaign Title"
+      language_label: "Language"
     edit:
       show: "View the page"
       tags: "Tags"
@@ -62,13 +68,39 @@ en:
       extras: 'Extras'
 
   campaigns:
+    new:
+      title: "Create a new campaign"
+      forms:
+        name: "Name your campaign"
     index:
       new: "Create a new campaign"
       title: "Campaigns"
+    show:
+      deactivated_notice: "The campaign you requested has been deactivated."
+    create:
+      notice: "Campaign has been created."
+    update:
+      notice: "Campaign has been updated."
+    destroy:
+      notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
+
 
   forms:
     index:
       title: 'Forms'
     edit:
-      title: "Create Your Form"
+      title: "Add a Field"
       preview: "Preview"
+
+  form_elements:
+    shared:
+      label: 'Label'
+      data_type: 'Field type'
+
+  plugins:
+    action:
+      action_description: "Provide a description for your petition"
+      choose_form_template: "Choose a form template"
+      customise_form: "Customise your petition form"
+      add_new_field: "Add a new field"
+

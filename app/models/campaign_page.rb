@@ -33,7 +33,5 @@ class CampaignPage < ActiveRecord::Base
       plugin_class.where(campaign_page_id: id).to_a
     end.flatten
   end
-
 end
-
 

@@ -10,18 +10,16 @@ describe CampaignPage do
 
   subject { simple_page }
 
-  it { should be_valid }
-  it { should respond_to :title }
-  it { should respond_to :slug }
-  it { should respond_to :active }
-  it { should respond_to :featured }
-  it { should respond_to :tags }
-  it { should respond_to :campaign_pages_tags }
-  it { should respond_to :campaign }
-  it { should respond_to :liquid_layout }
-  it { should respond_to :plugins }
-
-  it { should_not respond_to :widgets }
+  it { is_expected.to be_valid }
+  it { is_expected.to respond_to :title }
+  it { is_expected.to respond_to :slug }
+  it { is_expected.to respond_to :active }
+  it { is_expected.to respond_to :featured }
+  it { is_expected.to respond_to :tags }
+  it { is_expected.to respond_to :campaign_pages_tags }
+  it { is_expected.to respond_to :campaign }
+  it { is_expected.to respond_to :liquid_layout }
+  it { is_expected.to respond_to :plugins }
 
   describe 'tags' do
 

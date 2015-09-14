@@ -1,10 +1,9 @@
 FactoryGirl.define do
   factory :form_element do
-    label     "Name"
-    name      "name"
+    form
+    label     { Faker::Lorem.word }
     required  false
     data_type 'text'
-    form nil
-    visible true
+    visible   true
   end
 end
