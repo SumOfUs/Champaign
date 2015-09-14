@@ -11,7 +11,7 @@
       tbody
         - Campaign.all.each do |campaign|
           tr
-            td = campaign.campaign_name
+            td = campaign.name
             td
               span class=(campaign.active? ? 'tick' : 'cross')
             td = link_to t('common.edit'), edit_campaign_path(campaign)

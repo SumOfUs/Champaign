@@ -34,9 +34,10 @@ class CampaignPagesController < ApplicationController
 
     @data = Plugins.data_for_view(@campaign_page).
       merge( @campaign_page.attributes ).
-      merge( 'images' => images )
+      merge( 'images' => images ).
+      merge( LiquidHelper.globals )
 
-    render :show, layout: false
+    render :show, layout: 'liquid'
   end
 
   #
@@ -65,10 +66,10 @@ class CampaignPagesController < ApplicationController
     respond_to do |format|
       if @campaign_page.update(campaign_page_params)
         format.html { redirect_to edit_campaign_page_path(@campaign_page), notice: 'Page was successfully updated.' }
-        format.json { render json: @campaign_page, status: :ok }
+        format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
+        format.js { render json: { errors: @campaign_page.errors, name: :campaign_page }, status: :unprocessable_entity }
       end
     end
   end

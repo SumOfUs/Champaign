@@ -20,6 +20,8 @@
 //= require dropzone
 //= require liquid/syntax-highlighting
 
+//= require show_errors
 //= require forms
 //= require campaign_page
+//= require ajax
 //= require_tree ./plugins/actions/admin/

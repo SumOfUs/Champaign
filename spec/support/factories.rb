@@ -5,7 +5,6 @@ FactoryGirl.define do
   sequence :page_display_order do |n| n end
   sequence :actionkit_id do |n| n end
   sequence :actionkit_uri do |n| "/rest/v1/tag/#{n}/" end
-  sequence :tag_name do |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" end
 
   factory :user do
     email
@@ -33,12 +32,12 @@ FactoryGirl.define do
   end
 
   factory :campaign do
-    campaign_name { Faker::Company.bs }
+    name { Faker::Company.bs }
     active true
   end
 
   factory :tag do
-    tag_name
+    sequence(:name) { |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" }
     actionkit_uri
   end
 

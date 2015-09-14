@@ -30,6 +30,12 @@ en:
     successful_update: "Your changes have been saved!"
     confirm: 'Are you sure?'
 
+  validation:
+    is_required: 'is required'
+    is_invalid_email: 'is not a valid email address'
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: 'must be a two letter country code'
+
   menu:
     campaign_pages: 'Campaign Pages'
     campaigns: 'Campaigns'
@@ -62,9 +68,22 @@ en:
       extras: 'Extras'
 
   campaigns:
+    new:
+      title: "Create a new campaign"
+      forms:
+        name: "Name your campaign"
     index:
       new: "Create a new campaign"
       title: "Campaigns"
+    show:
+      deactivated_notice: "The campaign you requested has been deactivated."
+    create:
+      notice: "Campaign has been created."
+    update:
+      notice: "Campaign has been updated."
+    destroy:
+      notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
+
 
   forms:
     index:
