@@ -56,7 +56,7 @@ describe ShareProgressVariantBuilder do
     end
   end
 
-  describe '.update', :focus do
+  describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
     let!(:button){ create(:share_button, sp_type: 'facebook', campaign_page: campaign_page) }
     let(:params) { {title: 'Bar' } }
