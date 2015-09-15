@@ -1,0 +1,7 @@
+option_settings:
+  - namespace:  aws:elasticbeanstalk:Champaign core application:champaign
+    option_name: RSA_PRIVATE
+    value: $RSA_PRIVATE
+  - namespace:  aws:elasticbeanstalk:Champaign core application:champaign
+    option_name: SSL_CERTIFICATE
+    value: $SSL_CERTIFICATE
