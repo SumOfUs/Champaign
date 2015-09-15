@@ -9,8 +9,8 @@ describe 'Search ::' do
   let(:language) { build(:language) }
   let!(:matching_widget) { create(:text_body_widget, text_body_html: test_text) }
   let!(:nonmatching_widget) { create(:text_body_widget, text_body_html: 'a non-matching text body') }
-  let!(:tag) { create(:tag, tag_name: test_text, actionkit_uri: '/foo/bar') }
-  let!(:campaign) { create(:campaign, campaign_name: test_text) }
+  let!(:tag) { create(:tag, name: test_text, actionkit_uri: '/foo/bar') }
+  let!(:campaign) { create(:campaign, name: test_text) }
   let!(:petition_widget) {create :petition_widget}
 
   describe 'PageSearcher' do
@@ -19,7 +19,7 @@ describe 'Search ::' do
       create(:page,
              title: 'a non-matching title',
              widgets: [matching_widget],
-             language: build(:language, language_code: 'SWE', language_name: 'Swedish'),
+             language: build(:language, code: 'SWE', name: 'Swedish'),
              tags: [tag])
     }
     let!(:title_match_page) {
@@ -33,8 +33,8 @@ describe 'Search ::' do
       create(:page,
              title: 'not a match for anything',
              widgets: [petition_widget],
-             language: build(:language, language_code: 'FIN', language_name: 'Finnish'),
-             campaign: create(:campaign, campaign_name: 'herpaderpa campaign')
+             language: build(:language, code: 'FIN', name: 'Finnish'),
+             campaign: create(:campaign, name: 'herpaderpa campaign')
       )
     }
 
