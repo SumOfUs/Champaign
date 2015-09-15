@@ -173,64 +173,6 @@ ActiveRecord::Schema.define(version: 20150911085150) do
 
   add_index "plugins_thermometers", ["campaign_page_id"], name: "index_plugins_thermometers_on_campaign_page_id", using: :btree
 
-  create_table "share_buttons", force: :cascade do |t|
-    t.string   "title"
-    t.string   "url"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.string   "sp_id"
-    t.integer  "campaign_page_id"
-    t.string   "sp_type"
-    t.string   "sp_button_html"
-    t.text     "analytics"
-  end
-
-  add_index "share_buttons", ["campaign_page_id"], name: "index_share_buttons_on_campaign_page_id", using: :btree
-
-  create_table "share_emails", force: :cascade do |t|
-    t.string   "subject"
-    t.text     "body"
-    t.integer  "campaign_page_id"
-    t.string   "sp_id"
-    t.integer  "button_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "share_emails", ["campaign_page_id"], name: "index_share_emails_on_campaign_page_id", using: :btree
-
-  create_table "share_facebooks", force: :cascade do |t|
-    t.string   "title"
-    t.text     "description"
-    t.string   "image"
-    t.integer  "button_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
-    t.integer  "campaign_page_id"
-    t.integer  "share_count"
-    t.integer  "click_count"
-    t.string   "sp_id"
-  end
-
-  add_index "share_facebooks", ["button_id"], name: "index_share_facebooks_on_button_id", using: :btree
-  add_index "share_facebooks", ["campaign_page_id"], name: "index_share_facebooks_on_campaign_page_id", using: :btree
-
-  create_table "share_twitters", force: :cascade do |t|
-    t.integer  "sp_id"
-    t.integer  "campaign_page_id"
-    t.string   "title"
-    t.string   "description"
-    t.integer  "button_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-  end
-
-  add_index "share_twitters", ["campaign_page_id"], name: "index_share_twitters_on_campaign_page_id", using: :btree
-
   create_table "tags", force: :cascade do |t|
     t.string   "name"
     t.string   "actionkit_uri"
@@ -280,6 +222,4 @@ ActiveRecord::Schema.define(version: 20150911085150) do
   add_foreign_key "plugins_actions", "campaign_pages"
   add_foreign_key "plugins_actions", "forms"
   add_foreign_key "plugins_thermometers", "campaign_pages"
-  add_foreign_key "share_emails", "campaign_pages"
-  add_foreign_key "share_twitters", "campaign_pages"
 end
