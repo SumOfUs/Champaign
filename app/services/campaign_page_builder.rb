@@ -54,7 +54,7 @@ class CampaignPageBuilder
   end
 
   def default
-    ENV['DEFAULT_PLUGIN_REGISTRATION'] || true
+    ENV['DEFAULT_PLUGIN_REGISTRATION'] || false
   end
 end
 
