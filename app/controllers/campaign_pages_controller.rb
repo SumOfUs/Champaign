@@ -52,7 +52,7 @@ class CampaignPagesController < ApplicationController
   #
   def images
     @campaign_page.images.map do |img|
-      { 'urls' => { 'large' => img.content.url(:medium_square), 'small' => img.content.url(:thumb) } }
+      { 'urls' => { 'large' => img.content.url(:large), 'small' => img.content.url(:thumb) } }
     end
   end
 

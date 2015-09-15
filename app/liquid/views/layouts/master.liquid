@@ -1,3 +1,25 @@
+<div class="cover-photo">
+  <div class="cover-photo__img">
+    {% include 'photos' %}
+  </div>
+  <div class="cover-photo__shading"></div>
+
+  <div class="header-logo header-logo--simple">
+    <div class="header-logo__logo"></div>
+    <div class="header-logo__tagline">Fighting for people over profits</div>
+  </div>
+
+  <h3 class="typography--dark-highlight">
+    Ace Hardware &amp; True Value
+  </h3>
+  <h1 class="typography--highlight">
+    {{ title }}
+  </h1>
+
+</div>
+
+
+
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -11,7 +33,6 @@
         <!-- INSERT COMPONENTS BENEATH HERE -->
 
         <div class='gallery'>
-         {% include 'photos' %}
         </div>
 
         {% include 'thermometer' %}

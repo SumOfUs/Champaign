@@ -1,0 +1,10 @@
+
+.cover-photo {
+  height: 390px;
+  width: 100%;
+  overflow: hidden;
+  &__img img {
+    width: 100%;
+    height: auto;
+  }
+}
