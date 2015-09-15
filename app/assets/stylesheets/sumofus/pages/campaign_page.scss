@@ -3,8 +3,27 @@
   height: 390px;
   width: 100%;
   overflow: hidden;
+  position: relative;
+
   &__img img {
     width: 100%;
     height: auto;
+    position: absolute;
+    z-index: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__titles {
+    position: absolute;
+    left: 10%;
+    bottom: 40px;
   }
 }

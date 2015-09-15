@@ -2,20 +2,24 @@
   <div class="cover-photo__img">
     {% include 'photos' %}
   </div>
-  <div class="cover-photo__shading"></div>
 
-  <div class="header-logo header-logo--simple">
-    <div class="header-logo__logo"></div>
-    <div class="header-logo__tagline">Fighting for people over profits</div>
+  <div class="cover-photo__overlay">
+    <div class="cover-photo__shading"></div>
+
+    <div class="header-logo header-logo--simple">
+      <div class="header-logo__logo"></div>
+      <div class="header-logo__tagline">Fighting for people over profits</div>
+    </div>
+
+    <div class="cover-photo__titles">
+      <h3 class="cover-photo__target typography__dark-highlight">
+        Ace Hardware &amp; True Value
+      </h3>
+      <h1 class="cover-photo__title typography__highlight">
+        {{ title }}
+      </h1>
+    </div>
   </div>
-
-  <h3 class="typography--dark-highlight">
-    Ace Hardware &amp; True Value
-  </h3>
-  <h1 class="typography--highlight">
-    {{ title }}
-  </h1>
-
 </div>
 
 
