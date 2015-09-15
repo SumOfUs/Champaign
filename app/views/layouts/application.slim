@@ -34,7 +34,9 @@ html
               - else
                 div.btn-group.navbar-btn
                   = link_to t('menu.login'), user_omniauth_authorize_path(:google_oauth2), class: 'btn btn-primary'
-                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                  button.btn.btn-primary.dropdown-toggle data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'
+                    span.caret
+                    span.sr-only Toggle Dropdown
                   ul.dropdown-menu
                     li= link_to t('menu.sign_google'), user_omniauth_authorize_path(:google_oauth2)
                     li= link_to t('menu.login'), new_user_session_path
