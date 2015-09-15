@@ -29,11 +29,17 @@ html
 
             ul.nav.navbar-nav.pull-right
               - if user_signed_in?
-                li= link_to t('menu.logout'), destroy_user_session_path, method: :delete
+                div.btn-group.navbar-btn
+                  li= link_to t('menu.logout'), destroy_user_session_path, method: :delete, class: 'btn btn-primary'
               - else
-                li= link_to t('menu.login'), new_user_session_path
-                li= link_to t('menu.sign_up'), new_user_registration_path
-                li= link_to t('menu.sign_google'), user_omniauth_authorize_path(:google_oauth2)
+                div.btn-group.navbar-btn
+                  = link_to t('menu.login'), user_omniauth_authorize_path(:google_oauth2), class: 'btn btn-primary'
+                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>
+                  ul.dropdown-menu
+                    li= link_to t('menu.sign_google'), user_omniauth_authorize_path(:google_oauth2)
+                    li= link_to t('menu.login'), new_user_session_path
+                    li= link_to t('menu.sign_up'), new_user_registration_path
+
 
     = yield :page_header
 
