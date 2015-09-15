@@ -4,6 +4,12 @@ module Plugins
       'plugins_'
     end
 
+    def basic_create_for_page(plugin, page)
+      plugin = plugin.new(plugin.const_get(:DEFAULTS))
+      plugin.campaign_page = page
+      plugin.save
+    end
+
     def create_for_page(plugin_name, page, ref)
       return true if plugin_name.blank? || page.blank?
       plugin_class = "Plugins::#{plugin_name.camelcase}".constantize

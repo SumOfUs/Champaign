@@ -33,7 +33,9 @@
 
     $('#change-form-template').on('ajax:success', function(e, resp) {
       $('.form-edit').html(resp.html);
+      makeSortable();
 
+      // Updates the inline form's action URL with the new form ID.
       $('#sort-form-elements, #new_form_element').each(function(i, el){
         var action = $(el).attr('action').replace(/\d+/, resp.form_id);
         $(el).attr('action', action);

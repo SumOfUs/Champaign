@@ -19,6 +19,12 @@ Rails.application.routes.draw do
   resources :campaigns
 
   resources :campaign_pages do
+    namespace :share do
+      resources :facebooks
+      resources :twitters
+      resources :emails
+    end
+
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
