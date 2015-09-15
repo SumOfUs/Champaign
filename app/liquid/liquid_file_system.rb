@@ -3,17 +3,17 @@ class LiquidFileSystem
     def partials(title)
       @partials ||= Dir.glob(["#{Rails.root}/app/views/plugins/**/_#{title}.liquid", "#{Rails.root}/app/views_liquid/**/_#{title}.liquid"])
     end
-  end
 
-  def read_template_file(title)
-    view = LiquidPartial.find_by(title: title)
-    if view
-      return view.content
-    else
-      if LiquidFileSystem.partials(title).any?
-        File.read LiquidFileSystem.partials(title).first
+    def read_template_file(title)
+      view = LiquidPartial.find_by(title: title)
+      if view
+        return view.content
       else
-        "Partial #{title} was not found"
+        if LiquidFileSystem.partials(title).any?
+          File.read LiquidFileSystem.partials(title).first
+        else
+          "Partial #{title} was not found"
+        end
       end
     end
   end
