@@ -32,5 +32,6 @@ queue_listeners/config/env.yml
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+.ebextensions/ssl_env.config
 node_modules
 public/system
