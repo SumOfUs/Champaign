@@ -17,7 +17,6 @@ test:
     # tests the built image
     - cat circle/docker-compose-template.yml | envsubst > circle/docker-compose.yml
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
-    - cat .ebextensions/01_ssl_env.config-template.yml | envsubst > .ebextensions/01_ssl_env.config
     - annotate-output docker-compose -f circle/docker-compose.yml run web
 
 database:
