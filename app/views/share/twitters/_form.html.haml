@@ -1,7 +1,0 @@
-= form_for [@campaign_page, @twitter], html: { class: 'share' }  do |f|
-  .form-group
-    = f.label :description, t('share.twitter.form.description')
-    = f.text_area :description, class: 'form-control'
-
-  .form-group
-    = submit_tag t('common.save'), class: 'btn btn-default'

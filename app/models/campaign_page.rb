@@ -13,8 +13,6 @@ class CampaignPage < ActiveRecord::Base
   has_many :actions
   has_many :images
 
-  has_many :facebook_shares, class_name: 'Share::Facebook'
-
   validates :title, :slug, presence: true, uniqueness: true
   validates :liquid_layout, presence: true
 

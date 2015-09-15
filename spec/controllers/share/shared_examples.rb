@@ -1,4 +1,5 @@
 shared_examples "shares" do |share_class, service|
+  let(:share){ instance_double(share_class, valid?: true) }
   let(:page)  { instance_double('CampaignPage', title: 'Foo', content: 'Bar', id: '1', to_param: '1' ) }
 
   before do
@@ -46,7 +47,7 @@ shared_examples "shares" do |share_class, service|
     end
 
     it "assigns #{service}" do
-      expect( assigns(service) ).to eq(share)
+      expect( assigns(:share) ).to eq(share)
     end
 
     it 'renders share/new' do
@@ -65,7 +66,7 @@ shared_examples "shares" do |share_class, service|
     end
 
     it 'assigns share' do
-      expect( assigns(service) ).to eq(share)
+      expect( assigns(:share) ).to eq(share)
     end
 
     it 'renders share/edit' do
@@ -75,7 +76,7 @@ shared_examples "shares" do |share_class, service|
 
   describe 'PUT#update' do
     before do
-      allow(ShareProgressVariantBuilder).to receive(:update)
+      allow(ShareProgressVariantBuilder).to receive(:update){ share }
 
       put :update, campaign_page_id: 1, id: 2, "share_#{service}": params
     end
@@ -101,7 +102,7 @@ shared_examples "shares" do |share_class, service|
 
   describe 'POST#create' do
     before do
-      allow(ShareProgressVariantBuilder).to receive(:create)
+      allow(ShareProgressVariantBuilder).to receive(:create){ share }
 
       post :create, campaign_page_id: 1, "share_#{service}": params
     end

@@ -1,0 +1,7 @@
+.form-group
+  = form.text_field :subject, class: 'form-control', placeholder: t('share.email.form.subject')
+
+.form-group
+  = form.label :body, t('share.email.form.body')
+  = form.text_area :body, class: 'form-control'
+

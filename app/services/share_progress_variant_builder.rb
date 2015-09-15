@@ -21,14 +21,20 @@ class ShareProgressVariantBuilder
     variant = variant_class.find(@id)
     variant.update(@params)
 
+    return variant unless variant.valid?
+
     button = Share::Button.find_by(sp_type: @variant_type, campaign_page_id: @campaign_page.id)
     ShareProgress::Button.new( share_progress_button_params(variant, button) ).save
+
+    variant
   end
 
   def create
     variant = variant_class.new(@params)
     variant.campaign_page = @campaign_page
     variant.save
+
+    return variant unless variant.valid?
 
     button = Share::Button.find_or_create_by(sp_type: @variant_type, campaign_page_id: @campaign_page.id)
 
@@ -37,6 +43,8 @@ class ShareProgressVariantBuilder
 
     button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html) unless button.sp_id
     variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
+
+    variant
   end
 
   private
