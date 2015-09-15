@@ -9,3 +9,4 @@ class Action < ActiveRecord::Base
     end
   end
 end
+

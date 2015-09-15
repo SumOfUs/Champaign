@@ -18,11 +18,9 @@ gem 'countries'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
-
-gem "slim-rails"
+gem 'slim-rails'
 gem 'liquid'
+gem 'remotipart', '~> 1.2'
 
 
 # Use Devise for Authentication
@@ -38,9 +36,10 @@ gem 'paper_trail'
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
 gem 'action_parameter'
+
 # We need to use render inside a model in order to compile HTML for display
 # in champaign-flute.
-gem 'render_anywhere', :require => false
+gem 'render_anywhere', require: false
 
 # AWS SDK for Ruby
 gem 'aws-sdk', '~> 2'
@@ -50,6 +49,8 @@ gem 'logger'
 
 # Gem for user agent / browser detection
 gem 'browser'
+
+gem 'share_progress', require: false
 
 group :development, :test do
   gem 'byebug'
