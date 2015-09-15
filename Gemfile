@@ -15,6 +15,9 @@ gem 'dropzonejs-rails'
 gem 'codemirror-rails'
 gem 'countries'
 
+# they still haven't merged the PR to support sprockets 3, but will in the next few weeks
+gem "compass-rails", git: 'https://github.com/robkilby/compass-rails', branch: 'sprockets-3'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
