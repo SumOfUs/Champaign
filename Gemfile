@@ -43,6 +43,7 @@ gem 'render_anywhere', require: false
 
 # AWS SDK for Ruby
 gem 'aws-sdk', '~> 2'
+gem 'aws-sdk-v1'
 
 # logger for debugging AWS
 gem 'logger'
