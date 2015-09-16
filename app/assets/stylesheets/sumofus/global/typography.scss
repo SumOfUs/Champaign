@@ -1,11 +1,11 @@
 $default-fonts: 'Helvetica Nueue', Helvetica, Arial, sans;
 
-body {
-  font-family: $default-fonts;  
+html {
   font-size: 16px;
 }
-* {
-  font-size: 1rem;
+
+body {
+  font-family: $default-fonts;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -13,8 +13,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 36px;
-  // font-size: 2.4rem;
+  @include rem(font-size, 2.2rem, true)
 }
 
 .typography {
