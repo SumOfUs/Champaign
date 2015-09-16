@@ -10,10 +10,10 @@
   </div>
   <div class="petition-bar__main">
 
-    <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
+    <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
       <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
       {% for field in plugins.action[ref].fields %}
-        <div class="form-group">
+        <div class="form__group">
           {% case field.data_type %}
 
           {% when 'text' %}

@@ -1,0 +1,22 @@
+.form {
+  &__group {
+    float: left;
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  &--big {
+    input {
+      @include rem(font-size, 1rem, true);
+      border: 1px solid white;
+      background: white;
+      border-radius: 3px;
+      padding: 18px;
+      width: 220px;
+      outline: none;
+
+      &:focus {
+        border-color: $teal;
+      }
+    }
+  }
+}
