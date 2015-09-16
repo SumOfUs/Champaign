@@ -1,6 +1,14 @@
 {% if plugins.action[ref].active %}
-  <section class='action'>
-    <p>{{ plugins.action[ref].description }}</p>
+  <div class="petition-bar__top">
+    <h2>Sign the petition</h2>
+    <div class="petition-bar__target">
+      TO: True Value &amp; Ace Hardware
+    </div>
+    <p class="petition-bar__petition-text">
+      {{ plugins.action[ref].description }}
+    </p>
+  </div>
+  <div class="petition-bar__main">
 
     <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
       <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
@@ -28,10 +36,5 @@
       {% endfor %}
       <button type="submit" class="button button--main">Sign the petition</button>
     </form>
-  </section>
-
-  <section class='post-action' style='display:none;'>
-    <h3>Thank you <span class='name'></span> for taking action</h3>
-    <h4>Share on Facebook / Twitter</h4>
-  </section>
+  </div>
 {% endif %}

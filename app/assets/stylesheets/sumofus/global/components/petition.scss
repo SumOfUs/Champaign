@@ -1,0 +1,30 @@
+.petition-bar {
+
+  color: $navy;
+
+  $petition-top-height: 120px;
+  $padding: 26px;
+
+  &--elevated {
+    margin-top: -1 * $petition-top-height;
+    position: relative;
+  }
+  &__top {
+    background: $dingy-gray;
+    height: $petition-top-height - $padding;
+    padding: $padding $padding 0 $padding;
+    overflow: hidden;
+
+    .petition-bar__target {
+      margin: 20px 0 8px;
+      @include rem(font-size, 1rem, true);
+    }
+    .petition-bar__petition-text {
+      @include rem(font-size, 0.8rem, true);
+    }
+  }
+  &__main {
+    background: $chalk-gray;
+    padding: $padding;
+  }
+}

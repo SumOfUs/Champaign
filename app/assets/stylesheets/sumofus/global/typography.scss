@@ -15,6 +15,9 @@ h1, h2, h3, h4, h5, h6, b {
 h1 {
   @include rem(font-size, 2.2rem, true)
 }
+h2 {
+  @include rem(font-size, 1.5em, true)
+}
 
 .typography {
   &__highlight {
