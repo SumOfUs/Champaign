@@ -26,4 +26,14 @@
     bottom: 40px;
     width: 100%;
   }
+
+  &__shading {
+    @include background-image(linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0)));
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
 }
