@@ -1,0 +1,13 @@
+.center-content {
+  @include centered-to-full(960px);
+
+  &__big-column {
+    width: 62.5%;
+    float: left;
+  }
+  &__small-column {
+    width: 31.5%;
+    margin-left: 6%;
+    float: left;
+  }
+}

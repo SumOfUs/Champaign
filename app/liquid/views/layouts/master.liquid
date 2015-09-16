@@ -12,46 +12,29 @@
     </div>
 
     <div class="cover-photo__titles">
-      <h3 class="cover-photo__target typography__dark-highlight">
-        Ace Hardware &amp; True Value
-      </h3>
-      <h1 class="cover-photo__title typography__highlight">
-        {{ title }}
-      </h1>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h2 class="title">{{title}}</h2>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-8">
-
-      <div class="text">
-        <!-- INSERT COMPONENTS BENEATH HERE -->
-
-        <div class='gallery'>
+      <div class="center-content">
+        <div class="center-content__big-column">
+          <h3 class="cover-photo__target typography__dark-highlight">
+            Ace Hardware &amp; True Value
+          </h3>
+          <h1 class="cover-photo__title typography__highlight">
+            {{ title }}
+          </h1>
         </div>
-
-        {% include 'thermometer' %}
-
-        <!-- DO NOT INSERT COMPONENTS BEYOND HERE -->
-        <!-- MAIN CONTENT HERE -->
-
-        {{content}}
       </div>
     </div>
-
-    <div class="col-md-4">
-      {% include 'action' %}
-      {% include 'share' %}
-    </div>
   </div>
 </div>
 
+
+<div class="center-content">
+  <div class="center-content__big-column">
+    {% include 'thermometer' %}
+
+    {{content}}
+  </div>
+  <div class="center-content__small-column">
+    {% include 'action' %}
+    {% include 'share' %}
+  </div>
+</div>
