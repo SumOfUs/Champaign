@@ -1,5 +1,6 @@
 .button {
-  width: 260px;
+  width: 100%;
+  max-width: 260px;
   height: 60px;
   border: none;
   color: white;
@@ -8,7 +9,17 @@
   font-weight: bold;
   border-radius: 3px;
   cursor: pointer;
+  outline: none;
+
   &--main {
     background-color: $orange;
+
+    &:hover, &:active {
+      background-color: darken($orange, 5%);
+    }
+    &:active {
+      outline: none;
+      @include box-shadow(inset darken($orange, 15%) 0 3px 10px);
+    }
   }
 }

@@ -5,18 +5,40 @@
     margin-bottom: 5px;
   }
   &--big {
-    input {
+    input, select{
       @include rem(font-size, 1rem, true);
-      border: 1px solid white;
+      border: 2px solid white;
       background: white;
       border-radius: 3px;
       padding: 18px;
-      width: 220px;
+      width: 100%;
       outline: none;
+      box-sizing: border-box;
+      max-width: 300px;
 
       &:focus {
         border-color: $teal;
       }
     }
+
+    label.checkbox-label {
+      margin: 10px 0;
+    }
+  }
+}
+
+label.checkbox-label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  input[type='checkbox'] {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
   }
 }

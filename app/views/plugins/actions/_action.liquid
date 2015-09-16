@@ -23,7 +23,7 @@
           {% when 'phone' %}
             <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
           {% when 'checkbox' %}
-            <label>
+            <label class="checkbox-label">
               <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
             </label>
           {% when 'country' %}
