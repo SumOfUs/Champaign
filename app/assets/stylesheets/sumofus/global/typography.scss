@@ -6,6 +6,7 @@ html {
 
 body {
   font-family: $default-fonts;
+  color: $chalkboard;
 }
 
 h1, h2, h3, h4, h5, h6, b {
@@ -64,13 +65,8 @@ h2 {
     padding: 8px 0;
     margin: 0;
   }
-  .title,
-  .title:after{
-    background-color: #333;
-  }
-  .title {
-  }
-  .title > span {
-  }
+}
 
+.body-text {
+  line-height: 1.6em;
 }
