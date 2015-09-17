@@ -11,15 +11,14 @@
   cursor: pointer;
   outline: none;
 
-  &--main {
-    background-color: $orange;
+  // main color scheme
+  background-color: $orange;
 
-    &:hover, &:active {
-      background-color: darken($orange, 5%);
-    }
-    &:active {
-      outline: none;
-      @include box-shadow(inset darken($orange, 15%) 0 3px 10px);
-    }
+  &:hover, &:active {
+    background-color: darken($orange, 5%);
+  }
+  &:active {
+    outline: none;
+    @include box-shadow(inset darken($orange, 15%) 0 3px 10px);
   }
 }

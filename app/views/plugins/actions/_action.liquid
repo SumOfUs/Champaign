@@ -7,6 +7,7 @@
     <p class="petition-bar__petition-text">
       {{ plugins.action[ref].description }}
     </p>
+    <div class="petition-bar__shading"></div>
   </div>
   <div class="petition-bar__main">
 
@@ -34,7 +35,7 @@
           {% endcase %}
         </div>
       {% endfor %}
-      <button type="submit" class="button button--main">Sign the petition</button>
+      <button type="submit" class="button petition-bar__submit-button">Sign the petition</button>
     </form>
   </div>
 {% endif %}

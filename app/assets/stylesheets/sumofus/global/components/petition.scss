@@ -14,17 +14,32 @@
     height: $petition-top-height - $padding;
     padding: $padding $padding 0 $padding;
     overflow: hidden;
-
-    .petition-bar__target {
-      margin: 20px 0 8px;
-      @include rem(font-size, 1rem, true);
-    }
-    .petition-bar__petition-text {
-      @include rem(font-size, 0.8rem, true);
-    }
+    position: relative;
   }
   &__main {
     background: $chalk-gray;
     padding: $padding;
+  }
+
+  &__submit-button {
+    margin-top: 15px;
+  }
+
+  &__target {
+    margin: 20px 0 8px;
+    @include rem(font-size, 1rem, true);
+  }
+
+  &__petition-text {
+    @include rem(font-size, 0.8rem, true);
+  }
+
+  &__shading {
+    @include background-image(linear-gradient(rgba(0,0,0,0), $dingy-gray));
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: $petition-top-height / 3;
+    width: 100%;
   }
 }
