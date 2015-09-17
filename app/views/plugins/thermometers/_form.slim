@@ -2,7 +2,6 @@
 
 = form_for plugin, url: plugins_thermometer_path(plugin), remote: true, html: {class: 'plugin-settings'} do |f|
   = render "shared/error_messages", target: plugin
-  = render "shared/success_message", success: (defined?(success) || false)
 
   .form-group
     = f.label :title, "Title"
