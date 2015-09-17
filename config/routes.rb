@@ -42,6 +42,8 @@ Rails.application.routes.draw do
       resource :preview, module: :actions
     end
     resources :thermometers
+    resources :links, only: [:create, :destroy]
+    resources :linksets, only: :update
   end
 
 

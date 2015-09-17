@@ -1,0 +1,26 @@
+= render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_linkset_path(plugin) }
+
+- plugin.links.each do |link|
+  = link_to link.title, link.url
+  = link.source
+  = link.date
+
+= form_for Plugins::Link.new, remote: true, html: {class: 'form-element'}  do |f|
+
+  = f.hidden_field :plugins_linkset_id, value: plugin.id
+
+  .form-group
+    = f.label :url, "URL"
+    = f.text_field :url, class: 'form-control'
+  .form-group
+    = f.label :title, "Title"
+    = f.text_field :title, class: 'form-control'
+  .form-group
+    = f.label :source, "Source"
+    = f.text_field :source, class: 'form-control'
+  .form-group
+    = f.label :date, "Date published"
+    = f.text_field :date, class: 'form-control'
+
+  .form-group
+    = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback', 'data-disable-with' => t('common.saving')

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150917192402) do
+ActiveRecord::Schema.define(version: 20150917215450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(version: 20150917192402) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",           default: "pending"
-    t.text     "messages"
     t.text     "content",          default: ""
     t.boolean  "thermometer",      default: false
     t.boolean  "featured",         default: false
     t.boolean  "active",           default: false
+    t.string   "status",           default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
   end
 
@@ -160,6 +160,26 @@ ActiveRecord::Schema.define(version: 20150917192402) do
 
   add_index "plugins_actions", ["campaign_page_id"], name: "index_plugins_actions_on_campaign_page_id", using: :btree
   add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
+
+  create_table "plugins_links", force: :cascade do |t|
+    t.string  "url"
+    t.string  "title"
+    t.string  "date"
+    t.string  "source"
+    t.integer "plugins_linkset_id"
+  end
+
+  add_index "plugins_links", ["plugins_linkset_id"], name: "index_plugins_links_on_plugins_linkset_id", using: :btree
+
+  create_table "plugins_linksets", force: :cascade do |t|
+    t.integer  "campaign_page_id"
+    t.string   "ref"
+    t.boolean  "active",           default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "plugins_linksets", ["campaign_page_id"], name: "index_plugins_linksets_on_campaign_page_id", using: :btree
 
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
@@ -280,6 +300,8 @@ ActiveRecord::Schema.define(version: 20150917192402) do
   add_foreign_key "form_elements", "forms"
   add_foreign_key "plugins_actions", "campaign_pages"
   add_foreign_key "plugins_actions", "forms"
+  add_foreign_key "plugins_links", "plugins_linksets"
+  add_foreign_key "plugins_linksets", "campaign_pages"
   add_foreign_key "plugins_thermometers", "campaign_pages"
   add_foreign_key "share_emails", "campaign_pages"
   add_foreign_key "share_twitters", "campaign_pages"

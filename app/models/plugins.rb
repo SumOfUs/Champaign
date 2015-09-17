@@ -21,7 +21,8 @@ module Plugins
 
     def registered
       [ Plugins::Action,
-        Plugins::Thermometer ]
+        Plugins::Thermometer,
+        Plugins::Linkset ]
     end
 
     def data_for_view(page)
