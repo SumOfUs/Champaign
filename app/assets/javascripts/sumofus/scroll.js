@@ -14,4 +14,7 @@ $(document).ready(function(){
     });
   });
 
+
+  $(".stickem").sticky({topSpacing:0});
+
 });

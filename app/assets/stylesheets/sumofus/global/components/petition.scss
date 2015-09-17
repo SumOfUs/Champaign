@@ -6,8 +6,9 @@
   $padding: 26px;
 
   &--elevated {
-    margin-top: -1 * $petition-top-height;
+    top: -1 * $petition-top-height;
     position: relative;
+    z-index: 200;
   }
   &__top {
     background: $dingy-gray;
@@ -41,5 +42,13 @@
     left: 0;
     height: $petition-top-height / 3;
     width: 100%;
+  }
+}
+
+.sticky-wrapper {
+  position: relative;
+  top: -120px;
+  .petition-bar--elevated {
+    top: 0
   }
 }
