@@ -51,7 +51,7 @@ gem 'logger'
 # Gem for user agent / browser detection
 gem 'browser'
 
-gem 'share_progress', require: false
+gem 'share_progress', '>=0.1.1', require: false
 
 group :development, :test do
   gem 'byebug'
