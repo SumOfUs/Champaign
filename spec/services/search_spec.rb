@@ -367,7 +367,16 @@ describe 'Search ::' do
       end
 
       context 'search by plugin' do
-        let(:plugin_searcher) { Search::PageSearcher.new({search: {plugin_type: ['Plugins::Action']}})}
+        let(:plugin_searcher) { Search::PageSearcher.new({search: {plugin: ['Plugins::Action']}})}
+        let!(:action_partial) { create(:liquid_partial, title: 'action') }
+        let!(:thermometer_partial) { create(:liquid_partial, title: 'thermometer') }
+        let!(:unused_plugin_partial) { create(:liquid_partial, title: 'unused_plugin') }
+
+        let!(:master_layout) { create(:liquid_layout, :master, title: 'contains action and thermometer plugin') }
+        let!(:action_layout) { create(:liquid_layout, :action, title: 'contains action plugin') }
+        let!(:action_page) { create(:campaign_page, liquid_layout: action_layout)}
+        let!(:thermometer_page) {create(:campaign_page, liquid_layout: action_layout)}
+
         it 'finds the page that is associated with that plugin type' do
           expect(plugin_searcher.search).to match_array([content_tag_plugin_layout_match])
         end
@@ -384,15 +393,19 @@ describe 'Search ::' do
         end
         describe 'returns no pages when searching' do
           it 'if searching with a layout that does not contain the plugin' do
-
+            expect(Search::PageSearcher.new({search: {plugin: 'unused_plugin'}}).search).to match_array([])
           end
-          it 'if searching with a layout that does contain the plugin but if all of the matching pages have that plugin turned off'
+          it 'if searching with a layout that does contain the plugin but if all of the matching pages have that plugin turned off' do
+            thermometer_page.action
+          end
           it 'if searching with a plugin that does not exist'
           it 'if searching with several plugins where a page matches one but not the rest of them'
           it 'if searching with several plugins where a page matches by criteria but the requested plugins are deactivated'
         end
         describe 'returns some pages when searching' do
-          it 'finds a page that belongs to a layout that contains the plugin and the plugin is activated'
+          it 'finds a page that belongs to a layout that contains the plugin and the plugin is activated' do
+            expect(Search::PageSearcher.new({search: {plugin: 'action'}}).search).to match_array([action_page])
+          end
         end
       end
     end
