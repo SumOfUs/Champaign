@@ -5,7 +5,7 @@
     margin-bottom: 5px;
   }
   &--big {
-    input, select{
+    input, select, .select2-choice {
       @include rem(font-size, 1rem, true);
       border: 2px solid white;
       background: white;
@@ -24,6 +24,30 @@
     label.checkbox-label {
       margin: 10px 0;
     }
+
+    .select2-container {
+      width: 100%;
+      .select2-choice {
+        padding: 14px 18px;
+        height: 54px;
+      }
+      &.select2-container-active .select2-choice{
+        border-color: $teal;
+      }
+      &.select2-dropdown-open .select2-choice {
+        border-bottom-width: 0;
+      }
+    }
+  }
+}
+
+.select2-drop {
+  &.select2-drop-active {
+    border-color: $teal;
+    border-width: 2px;
+  }
+  .select2-results .select2-highlighted {
+    background: $teal;
   }
 }
 
