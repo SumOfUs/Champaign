@@ -9,7 +9,7 @@
 
         = label_tag 'search[campaign]', 'Belong to one of these campaigns:', class: 'control-label col-lg-3'
         .col-lg-9
-          = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'campaign_name'),
+          = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'name'),
                        html_options= {class: 'form-control select2-container', multiple: true}
 
         = label_tag 'search[layout]', 'Use one of these layouts:', class: 'control-label col-lg-3'
@@ -24,7 +24,7 @@
 
         = label_tag 'search[tags]', 'Contain all of these tags:', class: 'control-label col-lg-3'
         .col-lg-9
-          = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'tag_name'),
+          = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'name'),
                        html_options= {class: 'form-control select2-container', multiple: true}
 
         = label_tag 'search[plugin_type]', 'Contain all of these plugins:', class: 'control-label col-lg-3'
