@@ -2,7 +2,9 @@
   <div class="petition-bar__top">
     <h2>Sign the petition</h2>
     <div class="petition-bar__target">
-      TO: True Value &amp; Ace Hardware
+      {% unless plugins.action[ref].target == blank %}
+        TO: {{ plugins.action[ref].target }}
+      {% endunless %}
     </div>
     <p class="petition-bar__petition-text">
       {{ plugins.action[ref].description }}

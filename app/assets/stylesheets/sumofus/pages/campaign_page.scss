@@ -26,6 +26,11 @@
     bottom: 40px;
     width: 100%;
   }
+  &__target {
+    &:empty {
+      display: none;
+    }
+  }
 }
 
 .main-feature {

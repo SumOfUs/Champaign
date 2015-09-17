@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911085150) do
+ActiveRecord::Schema.define(version: 20150917192402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20150911085150) do
     t.datetime "updated_at",                       null: false
     t.text     "description"
     t.string   "ref"
+    t.string   "target"
   end
 
   add_index "plugins_actions", ["campaign_page_id"], name: "index_plugins_actions_on_campaign_page_id", using: :btree

@@ -9,6 +9,10 @@
           = f.text_area :description, class: 'form-control'
 
         .form-group
+          = f.label :target, "Petition target (optional)"
+          = f.text_field :target, class: 'form-control'
+
+        .form-group
           = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     .well
