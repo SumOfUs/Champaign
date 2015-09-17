@@ -95,7 +95,15 @@ en:
     shared:
       label: 'Label'
       data_type: 'Field type'
-
+      name: 'Name'
+      required: 'Required'
+    forms:
+      name:
+        help:
+          title: "ActionKit Name Processing"
+          body: |
+            <p>The <strong>name</strong> value will dictate how your action content is handled by <strong>ActionKit</strong>.</p>
+            <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
   share:
     analytics:
       weight: 'Weight'
