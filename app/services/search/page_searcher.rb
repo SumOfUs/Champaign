@@ -21,7 +21,7 @@ class Search::PageSearcher
             search_by_layout(query)
           when 'campaign'
             search_by_campaign(query)
-          when 'plugin_type'
+          when 'plugin'
             search_by_plugin_type(query)
         end
       end
@@ -82,15 +82,18 @@ class Search::PageSearcher
   def search_by_plugin_type(plugins)
     matches_by_plugins = []
     plugins.each do |plugin_type|
-      plugin_type.constantize.page.each do |plugin|
-        # push into the array all records of pages that contain that plugin type
-        if plugin.active?
-          matches_by_plugins.push(plugin.campaign_page_id)
+      begin
+        plugin_type.constantize.page.each do |plugin|
+          # push into the array all records of pages that contain that plugin type
+          if plugin.active?
+            matches_by_plugins.push(plugin.campaign_page_id)
+          end
         end
+      rescue
+        next
       end
     end
     # get pages that match ids of pages that contain the plugin type from the collection
     @collection = @collection.where(id: matches_by_plugins)
   end
-
 end
