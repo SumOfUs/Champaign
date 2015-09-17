@@ -30,6 +30,12 @@ en:
     successful_update: "Your changes have been saved!"
     confirm: 'Are you sure?'
 
+  validation:
+    is_required: 'is required'
+    is_invalid_email: 'is not a valid email address'
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: 'must be a two letter country code'
+
   menu:
     campaign_pages: 'Campaign Pages'
     campaigns: 'Campaigns'
@@ -78,7 +84,6 @@ en:
     destroy:
       notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
 
-
   forms:
     index:
       title: 'Forms'
@@ -90,6 +95,36 @@ en:
     shared:
       label: 'Label'
       data_type: 'Field type'
+
+  share:
+    analytics:
+      weight: 'Weight'
+      shares: 'Shares'
+      successful_shares: 'Successful Shares'
+      conversions: 'Conversions'
+      winner: 'Winner'
+      no_data: "We haven't any data, yet!"
+
+    get_started: "Click 'new variation' below to get started"
+    form:
+      new_variation: 'New Variation'
+
+    facebook:
+      title: 'Facebook Share Variant'
+      form:
+        title: 'Facebook Share title'
+        description: 'Facebook Share text'
+
+    twitter:
+      title: 'Twitter Retweet Variant'
+      form:
+        description: "Tweet text"
+
+    email:
+      title: 'Email Variant'
+      form:
+        subject: "Email subject"
+        body: "Email body"
 
   plugins:
     action:

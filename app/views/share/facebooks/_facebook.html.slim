@@ -1,0 +1,7 @@
+.row
+  .col-md-3
+    = image_tag facebook.image(:thumb), class: 'img-responsive img-rounded'
+  .col-md-9
+    h4 = facebook.title
+    = simple_format facebook.description
+

@@ -50,6 +50,9 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.1.14)
       aws-sdk-core (= 2.1.14)
+    aws-sdk-v1 (1.64.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -78,8 +81,12 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    countries (1.0.0)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.7.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    currencies (0.4.2)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
@@ -111,7 +118,11 @@ GEM
     haml (4.0.7)
       tilt
     hashie (3.4.2)
+    httparty (0.13.5)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
+    i18n_data (0.7.0)
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -254,6 +265,8 @@ GEM
       rdoc (~> 4.0)
     select2-rails (3.5.9.3)
       thor (~> 0.14)
+    share_progress (0.1.0)
+      httparty
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -299,12 +312,14 @@ PLATFORMS
 DEPENDENCIES
   action_parameter
   aws-sdk (~> 2)
+  aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
   browser
   byebug
   capybara
   codemirror-rails
   coffee-rails (~> 4.1.0)
+  countries
   database_cleaner
   devise
   dropzonejs-rails
@@ -321,12 +336,14 @@ DEPENDENCIES
   pg
   rails (= 4.2.3)
   rails_admin
+  remotipart (~> 1.2)
   render_anywhere
   rmagick
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   select2-rails
+  share_progress
   slim-rails
   spring
   timecop

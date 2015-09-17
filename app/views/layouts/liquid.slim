@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title Champaign
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    meta property='fb:app_id' content="#{ENV['FACEBOOK_APP_ID']}"
+
+    = stylesheet_link_tag "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    = stylesheet_link_tag "liquid"
+    = javascript_include_tag "liquid"
+    = csrf_meta_tags
+
+  body#page-top.index
+    = yield
+
+    /ShareProgress javascript for enabling button rendering.
+    script type="text/javascript" charset="utf-8" src="//c.shpg.org/99/sp.js"
+

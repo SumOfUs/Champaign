@@ -10,10 +10,19 @@
 
           {% when 'text' %}
             <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+          {% when 'email' %}
+            <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" />
+          {% when 'phone' %}
+            <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
           {% when 'checkbox' %}
             <label>
               <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
             </label>
+          {% when 'country' %}
+            <select name="{{field.name}}" class="form-control">
+              <option selected disabled hidden value=''>{{field.label}}</option>
+              {{ country_option_tags }}
+            </select>
           {% endcase %}
         </div>
       {% endfor %}

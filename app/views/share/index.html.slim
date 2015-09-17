@@ -1,0 +1,25 @@
+= render 'campaign_pages/header'
+.row
+  .col-md-12
+    .sub-menu
+      = render 'share/menu'
+.row
+  .col-md-12
+    - if @variations.empty?
+      div.well
+        p.note = t('share.get_started')
+
+    - @variations.each do |variation|
+      .panel.panel-default
+        .panel-heading
+          .btn-toolbar
+            = link_to t('common.edit'), [:edit, @campaign_page, variation], class: 'btn btn-default'
+        .panel-body
+          = render variation
+
+        .panel-footer
+          = render partial: 'share/analytics', locals: { variation: variation }
+
+    = link_to t('share.form.new_variation'), [:new, @campaign_page, :share, @resource], class: 'btn btn-default'
+
+
