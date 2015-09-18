@@ -5,9 +5,9 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       if link.save
-        format.json { render json: {status: :created}, status: :created }
+        format.html  { render partial: 'campaign_pages/link', locals: { link: link }, status: :ok }
       else
-        format.json { render json: link.errors, status: :unprocessable_entity }
+        format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
       end
     end
   end

@@ -1,23 +1,28 @@
-ul.list-group
-  - page.links.each do |link|
-    = render 'link', link: link
+.collection-editor
+  ul.list-group
+    - page.links.each do |link|
+      = render 'link', link: link
 
-= form_for Link.new, remote: true, html: {class: 'form-element'}  do |f|
+  = form_for Link.new, remote: true, html: {class: 'form-element', id: 'new_collection_element'}  do |f|
 
-  = f.hidden_field :campaign_page_id, value: page.id
+    = f.hidden_field :campaign_page_id, value: page.id
 
-  .form-group.col-md-3
-    = f.label :url, "URL"
-    = f.text_field :url, class: 'form-control'
-  .form-group.col-md-3
-    = f.label :title, "Title"
-    = f.text_field :title, class: 'form-control'
-  .form-group.col-md-3
-    = f.label :source, "Source"
-    = f.text_field :source, class: 'form-control', placeholder: "e.g. Nature Magazine"
-  .form-group.col-md-3
-    = f.label :date, "Date published"
-    = f.date_field :date, class: 'form-control'
+    .col-md-12
+      .form-group.col-md-3
+        = f.label :url, "URL"
+        = f.text_field :url, class: 'form-control'
+      .form-group.col-md-3
+        = f.label :title, "Title"
+        = f.text_field :title, class: 'form-control'
+      .form-group.col-md-3
+        = f.label :source, "Source"
+        = f.text_field :source, class: 'form-control', placeholder: "e.g. Nature Magazine"
+      .form-group.col-md-3
+        = f.label :date, "Date published"
+        = f.date_field :date, class: 'form-control'
 
-  .form-group
-    = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback', 'data-disable-with' => t('common.saving')
+    .form-group
+      = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback', 'data-disable-with' => t('common.saving')
+
+javascript:
+  $.publish("collection:edit:loaded");

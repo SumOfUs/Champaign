@@ -1,3 +1,8 @@
+// This file adds error messages inline to forms.
+// For it to work properly, you need to pass data from the controller like:
+//   format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
+// The name field is for if the form element names are prefixed, eg 'link[title]'
+
 window.Champaign = window.Champaign || {};
 window.Champaign.showErrors = function(e, data) {
 
@@ -34,7 +39,7 @@ window.Champaign.showErrors = function(e, data) {
   }
 
   var showError = function(field_name, msgs) {
-    field = findField(field_name)
+    field = findField(field_name);
     field.addClass('has-error').parent().addClass('has-error');
     field.parent().append(errorMsg(field_name, msgs));
     field.on('focus', hideError)
