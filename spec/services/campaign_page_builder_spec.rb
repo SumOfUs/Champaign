@@ -28,11 +28,6 @@ describe CampaignPageBuilder do
 
   it 'uses the correct liquid layout' do
     subject
-    puts LiquidLayout.last.attributes
-    puts CampaignPage.last.attributes
-    puts CampaignPage.last.liquid_layout
-    puts CampaignPage.last.liquid_layout.content
-    puts CampaignPage.last.liquid_layout.partial_refs
     expect(CampaignPage.last.liquid_layout_id).to eq template.id
     expect(CampaignPage.last.liquid_layout).not_to eq LiquidLayout.master
   end
