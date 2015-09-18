@@ -1,0 +1,25 @@
+.simple-footer {
+  color: white;
+  background: $navy;
+  width: 100%;
+  height: 100px;
+  box-sizing: border-box;
+  padding: 38px 0;
+  overflow: hidden;
+  border-top: 2px solid $dingy-gray;
+
+  &__logo {
+    float: left;
+  }
+
+  &__tagline {
+    float: left;
+  }
+
+  &__license {
+    color: $dingy-gray;
+    float: right;
+    font-size: 10px;
+    padding-top: 10px;
+  }
+}

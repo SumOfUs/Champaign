@@ -16,19 +16,11 @@
   @include background-image(linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0)));
 
   &__logo {
-    background-image: url(asset-path('sumofus/logo-white.png'));
-    width: 150px;
-    height: 30px;
-    background-size: 100%;
-    background-repeat: no-repeat;
     float: left;
   }
 
   &__tagline {
     float: left;
-    font-size: 20px;
-    line-height: 32px;
-    margin-left: 15px;
   }
 
   &.checks-top--at-top {

@@ -11,7 +11,7 @@
     z-index: 200;
   }
   &__top {
-    background: $dingy-gray;
+    background: $overcast-gray;
     height: $petition-top-height - $padding;
     padding: $padding $padding 0 $padding;
     overflow: hidden;
@@ -36,7 +36,7 @@
   }
 
   &__shading {
-    @include background-image(linear-gradient(rgba(0,0,0,0), $dingy-gray));
+    @include background-image(linear-gradient(rgba(0,0,0,0), $overcast-gray));
     position: absolute;
     bottom: 0;
     left: 0;

@@ -11,4 +11,13 @@
     margin-left: 4%;
     float: left;
   }
+  &__one-column {
+    width: 92%;
+    margin-left: 4%;
+    float: left;
+  }
+}
+
+.clearfix {
+  @include clearfix();
 }
