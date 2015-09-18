@@ -47,6 +47,7 @@ Rails.application.routes.draw do
 
   resources :liquid_partials
   resources :liquid_layouts
+  resources :links, only: [:create, :destroy]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

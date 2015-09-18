@@ -21,6 +21,10 @@
         = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     section
+      h3 = t('.links')
+      = render 'link_form', page: @campaign_page
+
+    section
       h3 = t('.photos')
       - if @campaign_page.images.any?
         .component.campaign-images

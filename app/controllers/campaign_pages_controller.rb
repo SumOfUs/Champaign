@@ -35,7 +35,7 @@ class CampaignPagesController < ApplicationController
     @template = Liquid::Template.parse(markup)
 
     @data = Plugins.data_for_view(@campaign_page).
-      merge( @campaign_page.attributes ).
+      merge( @campaign_page.liquid_data ).
       merge( 'images' => images ).
       merge( LiquidHelper.globals ).
       merge( 'shares' => Shares.get_all(@campaign_page) ).

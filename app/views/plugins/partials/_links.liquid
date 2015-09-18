@@ -1,0 +1,12 @@
+{% for link in link_list %}
+  <div class="campaign-page-link">
+    <a href="{{ link.url }}">{{ link.title }}</a>
+    {% unless link.source == blank %}
+      {{ link.source }}.
+    {% endunless %}
+
+    {% unless link.date == blank %}
+      {{ link.date }}.
+    {% endunless %}
+  </div>
+{% endfor %}  
