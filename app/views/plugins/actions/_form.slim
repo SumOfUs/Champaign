@@ -1,4 +1,4 @@
-.row.plugin.action.form-editor data-plugin-id=plugin.id
+.row.plugin.action.collection-editor data-plugin-id=plugin.id
   .col-md-7
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
@@ -40,4 +40,4 @@
         = render partial: 'plugins/actions/preview', locals: {plugin: plugin }
 
 javascript:
-  $.publish("forms:edit:loaded");
+  $.publish("collection:edit:loaded");

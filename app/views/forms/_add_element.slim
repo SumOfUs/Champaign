@@ -1,5 +1,5 @@
 - if form
-  = form_for [form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
+  = form_for [form, FormElement.new], remote: true, html: {class: 'form-element', id: 'new_collection_element'}  do |f|
 
     - types = ['text', 'checkbox', 'email', 'phone', 'country'].map{|t| [t, t] }
     .form-group

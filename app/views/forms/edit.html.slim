@@ -1,4 +1,4 @@
-.row.form-editor
+.row.collection-editor
   .col-md-12
     h3 #{  @form.name }
   .col-md-6
@@ -10,5 +10,5 @@
     = render partial: 'edit', locals: {form: @form }
 
 javascript:
-  $.publish("forms:edit:loaded");
+  $.publish("collection:edit:loaded");
 
