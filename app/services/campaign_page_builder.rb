@@ -46,7 +46,7 @@ class CampaignPageBuilder
   end
 
   def params
-    @params.merge(liquid_layout: default_layout)
+    {liquid_layout_id: default_layout.id}.merge(@params)
   end
 
   def default_layout
