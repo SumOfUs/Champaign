@@ -36,3 +36,18 @@
 .main-feature {
   padding: 55px 0;
 }
+
+.campaign-page-link {
+  @include rem(font-size, 0.9rem);
+  @include rem(line-height, 1.0rem);
+  margin-top: 20px;
+}
+
+.stubby-hr {
+  background-color: $dingy-gray;
+  border-color: $dingy-gray;
+  color: $dingy-gray;
+  border-style: solid;
+  width: 70px;
+  margin: 70px 0;
+}

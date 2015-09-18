@@ -35,7 +35,11 @@
     <div class="body-text main-feature">
       {{ content }}
 
-      {% include 'links' %}
+      {% unless link_list.blank? %}
+        <hr class="stubby-hr" />
+        <h3>More information</h3>
+        {% include 'links' %}
+      {% endunless %}
     </div>
   </div>
   <div class="center-content__small-column">

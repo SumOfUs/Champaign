@@ -19,6 +19,13 @@ h1 {
 h2 {
   @include rem(font-size, 1.5em, true)
 }
+a {
+  color: $teal;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
 .typography {
   &__highlight {
