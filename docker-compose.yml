@@ -9,7 +9,6 @@ web:
   environment:
     PG_USERNAME: postgres
     PG_HOST: db
-  command: bundle exec unicorn -l 0.0.0.0:3000
 
 db:
   image: postgres
