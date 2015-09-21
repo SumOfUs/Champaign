@@ -51,7 +51,10 @@ gem 'logger'
 # Gem for user agent / browser detection
 gem 'browser'
 
-gem 'share_progress', '>=0.1.1', require: false
+gem 'share_progress', '>=0.1.2', require: false
+
+gem 'newrelic_rpm'
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug'
