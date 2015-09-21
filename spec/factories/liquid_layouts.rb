@@ -18,6 +18,11 @@ FactoryGirl.define do
       title 'thermometer template'
       content %{ {% include 'thermometer' %} }
     end
+
+    trait :no_plugins do
+      title 'layout with no plugins'
+      content %{ whatever }
+    end
   end
 
 end
