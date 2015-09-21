@@ -21,7 +21,7 @@ class Search::PageSearcher
             search_by_layout(query)
           when 'campaign'
             search_by_campaign(query)
-          when 'plugin'
+          when 'plugin_type'
             search_by_plugin_type(query)
         end
       end
@@ -79,18 +79,28 @@ class Search::PageSearcher
     @collection = @collection.where(liquid_layout: query)
   end
 
-  def search_by_plugin_type(plugins)
+  def search_by_plugin_type(query)
     matches_by_plugins = []
-    plugins.each do |plugin_type|
+    filtered_pages = @collection.pluck(:id)
+    query.each do |plugin_type|
       begin
-        plugin_type.constantize.page.each do |plugin|
-          # push into the array all records of pages that contain that plugin type
-          if plugin.active?
-            matches_by_plugins.push(plugin.campaign_page_id)
-          end
-        end
+        plugin_class = plugin_type.constantize
+      # Rescue for invalid plugin name - constantize throws name error if a constant with the name hasn't been initialized.
       rescue
         next
+      end
+      plugin_class.page.each do |page_plugin|
+        # If the page hasn't determined to be filtered from the collection yet
+        if filtered_pages.include?(page_plugin.campaign_page_id)
+          # If the plugin is active, add its page to matches
+          if page_plugin.active?
+            matches_by_plugins.push(page_plugin.campaign_page_id)
+          else
+            # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
+            filtered_pages.delete(page_plugin.campaign_page_id)
+            matches_by_plugins.delete(page_plugin.campaign_page_id)
+          end
+        end
       end
     end
     # get pages that match ids of pages that contain the plugin type from the collection
