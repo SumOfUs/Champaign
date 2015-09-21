@@ -44,7 +44,7 @@
     width: 100%;
   }
 
-  &--mobile-view {
+  @media(max-width: $mobile-width) {
     position: fixed;
     @include transition(top 0.40s ease-in-out);
     width: 100%;
@@ -56,10 +56,10 @@
     overflow-y: visible;
     background: $chalk-gray;
 
-    &--closed {
+    &.action-bar--mobile-view--closed {
       top: 2000px;
     }
-    &--open {
+    &.action-bar--mobile-view--open {
       top: 0;
 
       .action-bar__mobile-ui__bottom-bar {
@@ -75,9 +75,8 @@
   }
 
   &__mobile-ui {
-    display: block;
 
-    &--hidden {
+    @media(min-width: $mobile-width) {
       display: none;
     }
 

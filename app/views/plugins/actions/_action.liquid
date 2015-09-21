@@ -1,7 +1,7 @@
 {% if plugins.action[ref].active %}
   <div class="action-bar__content">
     <div class="action-bar__top">
-      <div class="action-bar__mobile-ui action-bar__mobile-ui--hidden">
+      <div class="action-bar__mobile-ui">
         <a class="action-bar__close-button">&#x2715;</a>
       </div>
       <h2>Sign the petition</h2>
@@ -46,13 +46,15 @@
     </div>
   </div>
 
-  <div class="action-bar__mobile-ui action-bar__mobile-ui--hidden">
+  <div class="action-bar__mobile-ui">
     <div class="action-bar__mobile-ui__bottom-bar">
       <button class="button action-bar__open-button">Sign the petition</button>
     </div>
   </div>
 
   <script type="text/javascript">
-    var myActionBar = new window.ActionBar();
+    $(document).ready(function(){
+      var myActionBar = new window.ActionBar();
+    });
   </script>
 {% endif %}

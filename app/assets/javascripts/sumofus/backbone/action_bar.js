@@ -10,23 +10,13 @@ window.ActionBar = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.mobileWidth = 500;
-
-    if (this.isMobile()) {
-      this.initMobile();
-    } else {
+    if (!this.isMobile()) {
       this.makeSticky();
     }
   },
 
-  initMobile: function() {
-    this.$el.addClass('action-bar--mobile-view').addClass('action-bar--mobile-view--closed');
-    this.$el.removeClass('action-bar--elevated');
-    this.$('.action-bar__mobile-ui').removeClass('action-bar__mobile-ui--hidden');
-  },
-
   isMobile: function() {
-    return $(window).width() < this.mobileWidth;
+    return $('.mobile-indicator').is(':visible');
   },
 
   hide: function() {
@@ -34,7 +24,6 @@ window.ActionBar = Backbone.View.extend({
   },
 
   reveal: function() {
-    console.log("revealing", $el);
     this.$el.removeClass('action-bar--mobile-view--closed').addClass('action-bar--mobile-view--open');
   },
 

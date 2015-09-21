@@ -1,6 +1,7 @@
+$mobile-width: 700px;
+
 .center-content {
   @include centered-to-full(1080px);
-  $reflow-columns: 400px;
 
   &__big-column {
     width: 59%;
@@ -13,7 +14,7 @@
     float: left;
   }
   &__small-column, &__big-column {
-    @media(max-width: $reflow-columns) {
+    @media(max-width: $mobile-width) {
       width: 92%;
     }
   }
@@ -26,4 +27,12 @@
 
 .clearfix {
   @include clearfix();
+}
+
+// to use: $('.mobile-indicator').is(':visible');
+.mobile-indicator {
+  display: none;
+  @media(max-width: $mobile-width) {
+    display: block;
+  }
 }
