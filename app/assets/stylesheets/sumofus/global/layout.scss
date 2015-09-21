@@ -1,5 +1,6 @@
 .center-content {
   @include centered-to-full(1080px);
+  $reflow-columns: 400px;
 
   &__big-column {
     width: 59%;
@@ -10,6 +11,11 @@
     width: 29%;
     margin-left: 4%;
     float: left;
+  }
+  &__small-column, &__big-column {
+    @media(max-width: $reflow-columns) {
+      width: 92%;
+    }
   }
   &__one-column {
     width: 92%;

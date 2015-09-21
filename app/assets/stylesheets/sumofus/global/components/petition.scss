@@ -1,18 +1,18 @@
-.petition-bar {
+.action-bar {
 
   color: $navy;
 
-  $petition-top-height: 120px;
+  $action-top-height: 120px;
   $padding: 26px;
 
   &--elevated {
-    top: -1 * $petition-top-height;
+    top: -1 * $action-top-height;
     position: relative;
     z-index: 200;
   }
   &__top {
     background: $overcast-gray;
-    height: $petition-top-height - $padding;
+    height: $action-top-height - $padding;
     padding: $padding $padding 0 $padding;
     overflow: hidden;
     position: relative;
@@ -40,15 +40,75 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    height: $petition-top-height / 3;
+    height: $action-top-height / 3;
     width: 100%;
+  }
+
+  &--mobile-view {
+    position: fixed;
+    @include transition(top 0.40s ease-in-out);
+    width: 100%;
+    padding: 0 4%;
+    left: -4%;
+    z-index: 400;
+    margin: 0;
+    height: 100%;
+    overflow-y: visible;
+    background: $chalk-gray;
+
+    &--closed {
+      top: 2000px;
+    }
+    &--open {
+      top: 0;
+
+      .action-bar__mobile-ui__bottom-bar {
+        bottom: -100px;
+      }
+    }
+
+    .action-bar__content {
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+  }
+
+  &__mobile-ui {
+    display: block;
+
+    &--hidden {
+      display: none;
+    }
+
+    &__bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: -4%;
+
+      padding: 20px 8%;
+      height: 60px;
+      width: 92%;
+
+      text-align: center;
+      background-color: $overcast-gray;
+      @include transition(bottom 0.20s ease-in-out);
+    }
+  }
+
+  &__close-button {
+    color: $navy;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
   }
 }
 
 .sticky-wrapper {
   position: relative;
   top: -120px;
-  .petition-bar--elevated {
+  .action-bar--elevated {
     top: 0
   }
 }
