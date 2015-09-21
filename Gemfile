@@ -53,6 +53,9 @@ gem 'browser'
 
 gem 'share_progress', '>=0.1.1', require: false
 
+gem 'newrelic_rpm'
+gem 'unicorn'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
