@@ -10,15 +10,23 @@ Language.create!(languages)
 # Liquid Markup
 LiquidMarkupSeeder.seed
 
+# # 5. make a campaign page
+# Campaign.first.campaign_page.create!({
+#   language_id: (Language.find_by language_code: 'EN/US').id,
+#   title: 'Testy page',
+#   slug: 'testy_page',
+#   active: false,
+#   featured: false
+# })
 
 # Forms
 
 basic_form = Form.create name: "Basic", master: true
 
 basic_form_fields = [
-  {label: 'Email Address', required: true,  data_type: 'email', form: basic_form},
-  {label: 'Full Name',     required: true,  data_type: 'text', form: basic_form},
-  {label: 'Postal Code',   required: true,  data_type: 'text', form: basic_form}
+  {label: 'Email Address', name: 'email',  required: true,  data_type: 'email', form: basic_form},
+  {label: 'Full Name',     name: 'name',   required: true,  data_type: 'text', form: basic_form},
+  {label: 'Postal Code',   name: 'postal', required: true,  data_type: 'text', form: basic_form}
 ]
 
 FormElement.create!(basic_form_fields)

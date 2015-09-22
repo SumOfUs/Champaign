@@ -1,15 +1,30 @@
-- if form
-  = form_for [form, FormElement.new], remote: true, html: {class: 'form-element', id: 'new_collection_element'}  do |f|
+= render partial: 'shared/error_messages', locals: {target: form_element }
 
-    - types = ['text', 'checkbox', 'email', 'phone', 'country'].map{|t| [t, t] }
-    .form-group
-      = f.select :data_type, options_for_select(types), {}, class: 'form-control'
-    .form-group
-      = f.text_field :label,  class: 'form-control', placeholder: 'Label'
-    .checkbox
-      label
-        = f.check_box :required
-        ' required
+= form_for [form, form_element], remote: true, html: {class: 'form-element', id: 'new_collection_element'}  do |f|
+  .form-group
+    = f.select :data_type, options_for_select(FormElement::VALID_TYPES), {}, class: 'form-control'
+  .form-group
+    = f.text_field :label,  class: 'form-control', placeholder: t('form_elements.shared.label')
+  .form-group
+    .input-group
+      = f.text_field :name,  class: 'form-control typeahead', placeholder: t('form_elements.shared.name')
+      .input-group-addon
+        = link_to '#', class: 'modal-open'
+          span.glyphicon.glyphicon-question-sign
+  .checkbox
+    = f.label :require do
+      = f.check_box :required
+      = t('form_elements.shared.required')
 
-    .form-group
-      button.btn.btn-default.xhr-feedback = t('common.save')
+  .form-group
+    button.btn.btn-default.xhr-feedback = t('common.save')
+
+
+javascript:
+  $('.modal-open').on('click', function(e){
+    e.preventDefault();
+    $('#form-elements-field-name-help').modal();
+  })
+
+- content_for :modals do
+  = render partial: 'share/modal', locals: { id: 'form-elements-field-name-help', title: t('form_elements.forms.name.help.title'), body: t('form_elements.forms.name.help.body')}

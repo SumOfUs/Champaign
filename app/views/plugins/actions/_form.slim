@@ -26,12 +26,13 @@
 
     .well
       h4 = t('plugins.action.customise_form')
-      .form-edit
+      .forms-edit
         = render partial: 'forms/edit', locals: {form: plugin.form }
 
       - if plugin.form
         h5 = t('plugins.action.add_new_field')
-        = render partial: 'forms/add_element', locals: {form: plugin.form}
+        .forms-add-element
+          = render partial: 'forms/add_element', locals: {form: plugin.form, form_element: FormElement.new}
 
   .col-md-5
     .plugin-action-preview

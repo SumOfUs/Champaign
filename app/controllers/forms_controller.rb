@@ -9,6 +9,7 @@ class FormsController < ApplicationController
   end
 
   def edit
+    @form_element = FormElement.new
   end
 
   def create

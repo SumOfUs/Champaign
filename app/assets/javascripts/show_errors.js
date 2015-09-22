@@ -18,7 +18,7 @@ window.Champaign.showErrors = function(e, data) {
 
   var errorMsg = function(field_name, msgs) {
     var name = field_name.replace(/_/g, ' ')
-    return `<div class="error-msg">${name} ${msgs[0]}</div>`
+    return ["<div class='error-msg'>", name, ' ', msgs[0], "</div>"].join('');
   }
 
   var clearErrors = function() {
@@ -33,9 +33,9 @@ window.Champaign.showErrors = function(e, data) {
 
   var findField = function(field_name) {
     if (response.name) {
-      field_name = `${response.name}[${field_name}]`
+      field_name = [response.name, '[', field_name, ']'].join('');
     }
-    return $form.find(`[name="${field_name}"]`);
+    return $form.find("[name='" + field_name + "']");
   }
 
   var showError = function(field_name, msgs) {

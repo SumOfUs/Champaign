@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+
+  # We remove the sign_up path name so as not to allow users to sign in with username and password.
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

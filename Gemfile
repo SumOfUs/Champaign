@@ -51,10 +51,17 @@ gem 'aws-sdk-v1'
 # logger for debugging AWS
 gem 'logger'
 
+# # Caching for production
+# gem 'rack-cache'
+# gem 'redis-rack-cache'
+
 # Gem for user agent / browser detection
 gem 'browser'
 
-gem 'share_progress', require: false
+gem 'share_progress', '>=0.1.2', require: false
+
+gem 'newrelic_rpm'
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug'

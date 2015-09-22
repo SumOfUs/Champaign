@@ -41,7 +41,6 @@ html
                   ul.dropdown-menu
                     li= link_to t('menu.sign_google'), user_omniauth_authorize_path(:google_oauth2)
                     li= link_to t('menu.login'), new_user_session_path
-                    li= link_to t('menu.sign_up'), new_user_registration_path
 
 
     = yield :page_header
@@ -61,3 +60,4 @@ html
       .container
         p Made with love and compassion. And coffee.
 
+    = yield :modals
