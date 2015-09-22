@@ -137,6 +137,8 @@ $action-top-height: 120px;
   top: $action-top-height * -1;
   @include transition(top 0.4s ease-in-out);
   .action-bar--elevated {
-    top: 0
+    @media(min-width: $mobile-width) {
+      top: 0;
+    }
   }
 }
