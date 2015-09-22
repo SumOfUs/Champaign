@@ -3,196 +3,125 @@ require 'rails_helper'
 describe FormValidator do
 
   let(:form) { create :form }
-  let(:element) { create :form_element, form: form, label: 'test' }
 
-  before :each do
-    @params = {form_id: element.form_id}
-  end
+  subject { FormValidator.new(params) }
 
-  describe "errors and save" do
+  context "with required as true" do
+    let(:element) { create :form_element, form: form, required: true, label: 'Address', name: 'address1' }
+    let(:params){ {form_id: element.form_id} }
 
-    describe "adds an error if" do
-
-      after :each do
-        expect(@validator.valid?).to eq false
-      end
-      
-      describe "required field" do
-
-        before :each do
-          element.update_attributes({required: true})
-        end
-
-        after :each do
-          @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: ['is required']})
-        end
-
-        it "does not appear" do
-          @params.merge!({})
-        end
-
-        it "is nil" do
-          @params.merge!(test: nil)
-        end
-
-        it "is false" do
-          @params.merge!(test: false)
-        end
-
-        it "is empty string" do
-          @params.merge!(test: "")
-        end
-      end
-
-      describe "email field" do
-
-        before :each do
-          element.update_attributes({data_type: "email"})
-        end
-
-        after :each do
-          @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: ['is not a valid email address']})
-        end
-
-        it "is a basic sentence" do
-          @params.merge!(test: "I'm not an email!")
-        end
-
-        it "is missing the TLD" do
-          @params.merge!(test: "neal@sumofus")
-        end
-
-        it "has two @ symbols" do
-          @params.merge!(test: "this@that@other.com")
-        end
-      end
-
-      describe "phone" do
-
-        before :each do
-          element.update_attributes({data_type: "phone"})
-        end
-
-        after :each do
-          @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: ['can only have numbers, dash, plus, and parentheses']})
-        end
-
-        it "is too short" do
-          @params.merge!(test: "12345")
-        end
-
-        it "is only valid special characters" do
-          @params.merge!(test: "(+) -- (+)")
-        end
-      end
-
-      describe "country" do
-
-        before :each do
-          element.update_attributes({data_type: "country"})
-        end
-
-        after :each do
-          @validator = FormValidator.new(@params)
-          expect(@validator.errors).to eq ({test: ['must be a two letter country code']})
-        end
-
-        it "is a full country name" do
-          @params.merge!(test: "Afghanistan")
-        end
-
-        it "is numbers" do
-          @params.merge!(test: "33")
-        end
-
-        it "is lowercase" do
-          @params.merge!(test: "gb")
-        end
-      end
-
+    it "is valid with value" do
+      params.merge!(address1: 'foo')
+      expect(subject).to be_valid
     end
 
-    describe "does not add an error if" do
-
-      after :each do
-        @validator = FormValidator.new(@params)
-        expect(@validator.errors).to eq Hash.new
-        expect(@validator.valid?).to eq true
+    context "is invalid" do
+      it "without value" do
+        expect(subject).to_not be_valid
       end
 
-      describe "required field" do
-
-        before :each do
-          element.update_attributes({required: true})
-        end
-
-        it "is zero" do
-          @params.merge!(test: 0)
-        end
-
-        it "is a string" do
-          @params.merge!(test: ";) hey there")
-        end
+      it "with nil" do
+        params.merge!(address: nil)
+        expect(subject).to_not be_valid
       end
 
-      describe "email" do
-
-        before :each do
-          element.update_attributes({data_type: "email"})
-        end
-
-        it "is a valid email" do
-          @params.merge!(test: "neal@sumofus.org")
-        end
-
-        it "is a valid email with multiple dots" do
-          @params.merge!(test: "neal.donnelly@cycles.cs.princeton.edu")
-        end
-
-        it "is empty and not required" do
-          @params.merge!({})
-        end
+      it "with false" do
+        params.merge!(address: false)
+        expect(subject).to_not be_valid
       end
 
-      describe "phone" do
-
-        before :each do
-          element.update_attributes({data_type: "phone"})
-        end
-
-        it "is all numbers" do
-          @params.merge!(test: "123456790")
-        end
-
-        it "has spaces, dashes, pluses, and parentheses" do
-          @params.merge!(test: "+1 (413)-555-1234")
-        end
-
-        it "is empty and not required" do
-          @params.merge!({})
-        end
+      it "with empty string" do
+        params.merge!(address: "")
+        expect(subject).to_not be_valid
       end
-
-      describe "country" do
-
-        before :each do
-          element.update_attributes({data_type: "country"})
-        end
-
-        it "is all a known country code" do
-          @params.merge!(test: "GB")
-        end
-
-        it "is empty and not required" do
-          @params.merge!({})
-        end
-      end
-
     end
-
   end
 
+  context "with email as data_type" do
+    let(:element) { create :form_element, :email, form: form }
+    let(:params){ {form_id: element.form_id, email: 'foo@example.com' } }
+
+    context "is valid" do
+      it "with regular address" do
+        expect(subject).to be_valid
+      end
+
+      it "with multiple dots" do
+        params.merge!(email: "neal.donnelly@cycles.cs.princeton.edu")
+        expect(subject).to be_valid
+      end
+    end
+
+    context "is invalid" do
+      it "with a basic sentence" do
+        params.merge!(email: "I'm not an email!")
+        expect(subject).to_not be_valid
+      end
+
+      it "with missing the TLD" do
+        params.merge!(email: "neal@sumofus")
+        expect(subject).to_not be_valid
+      end
+
+      it "with two @ symbols" do
+        params.merge!(email: "this@that@other.com")
+        expect(subject).to_not be_valid
+      end
+    end
+  end
+
+  context "with phone as data_type" do
+    let(:element) { create :form_element, :phone, form: form }
+    let(:params){ {form_id: element.form_id, phone: '00 2323 12345' } }
+
+    context "is valid" do
+      it "with regular numbers" do
+        expect(subject).to be_valid
+      end
+
+      it "has spaces, dashes, pluses, and parentheses" do
+        params.merge!(phone: "+1 (413)-555-1234")
+        expect(subject).to be_valid
+      end
+    end
+
+    context "is invalid" do
+      it "if too short" do
+        params.merge!(phone: "12345")
+        expect(subject).to_not be_valid
+      end
+
+      it "with invalid special characters" do
+        params.merge!(phone: "(+) -- (+)")
+        expect(subject).to_not be_valid
+      end
+    end
+  end
+
+  context "with country as data_type" do
+    let(:element) { create :form_element, :country, form: form }
+    let(:params){ { form_id: element.form_id, country: 'FR' } }
+
+    it "is valid" do
+      expect(subject).to be_valid
+    end
+
+    context "is invalid" do
+      it "with full country name" do
+        params.merge!(country: "France")
+        expect(subject).to_not be_valid
+      end
+
+      it "with a number" do
+        params.merge!(country: "33")
+        expect(subject).to_not be_valid
+      end
+
+      it "as lowercase" do
+        params.merge!(country: "fr")
+        expect(subject).to_not be_valid
+      end
+    end
+  end
 end
+
