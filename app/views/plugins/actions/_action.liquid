@@ -13,9 +13,10 @@
       <p class="action-bar__petition-text">
         {{ plugins.action[ref].description }}
       </p>
-      <div class="action-bar__shading"></div>
     </div>
     <div class="action-bar__main">
+      <div class="action-bar__expand-arrow"></div>
+      <div class="action-bar__shading"></div>
 
       <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
         <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />

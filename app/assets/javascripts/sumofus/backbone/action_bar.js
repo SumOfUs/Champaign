@@ -5,8 +5,8 @@ window.ActionBar = Backbone.View.extend({
   events: {
     'click .action-bar__open-button': 'reveal',
     'click .action-bar__close-button': 'hide',
-    'click .action-bar__expand-blurb': 'expandBlurb',
-    'click .action-bar__collapse-blurb': 'collapseBlurb'
+    'click .action-bar__expand-arrow': 'toggleBlurb',
+    'click .action-bar__top': 'toggleBlurb'
   },
 
   initialize: function() {
@@ -27,12 +27,16 @@ window.ActionBar = Backbone.View.extend({
     this.$el.removeClass('action-bar--mobile-view--closed').addClass('action-bar--mobile-view--open');
   },
 
-  expandBlurb: function() {
-
-  },
-
-  collapseBlurb: function() {
-
+  toggleBlurb: function() {
+    if (this.$('.action-bar__expand-arrow').hasClass('action-bar__expand-arrow--expanded')) {
+      this.$('.action-bar__main').css('top', '');
+      this.$el.parent('.sticky-wrapper').css('top', '');
+    } else {
+      var height = this.$('.action-bar__top').outerHeight();
+      this.$('.action-bar__main').css('top', height+'px');
+      this.$el.parent('.sticky-wrapper').css('top', '-'+height+'px');
+    }
+    this.$('.action-bar__expand-arrow').toggleClass('action-bar__expand-arrow--expanded');
   },
 
   makeSticky: function() {
