@@ -1,5 +1,3 @@
-require 'share_progress'
-
 class Share::SharesController < ApplicationController
   before_filter :set_resource
   before_filter :find_campaign_page

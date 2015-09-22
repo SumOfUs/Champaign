@@ -1,5 +1,3 @@
-require 'share_progress'
-
 class ShareProgressVariantBuilder
   def self.create(params, variant_type:, campaign_page:, url:)
     new(params, variant_type, campaign_page, url).create
@@ -12,7 +10,7 @@ class ShareProgressVariantBuilder
   def initialize(params, variant_type, campaign_page, url, id = nil)
     @params = params
     @campaign_page = campaign_page
-    @variant_type = variant_type.to_sym
+    @variant_type = variant_type.to_s
     @url = url
     @id = id
   end
@@ -25,7 +23,6 @@ class ShareProgressVariantBuilder
 
     button = Share::Button.find_by(sp_type: @variant_type, campaign_page_id: @campaign_page.id)
     ShareProgress::Button.new( share_progress_button_params(variant, button) ).save
-
     variant
   end
 
@@ -37,12 +34,14 @@ class ShareProgressVariantBuilder
     return variant unless variant.valid?
 
     button = Share::Button.find_or_create_by(sp_type: @variant_type, campaign_page_id: @campaign_page.id)
-
-    sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
-    sp_button.save
-
+    opts = share_progress_button_params(variant, button)
+    pp opts
+    pp "OPTS ABOVE"
+    sp_button = ShareProgress::Button.new( opts ).save
     button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html) unless button.sp_id
-    variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
+    pp sp_button.variants[@variant_type].last['id']
+    pp "ID ABOVE"
+    variant.update(sp_id:  sp_button.variants[@variant_type].last['id'])
 
     variant
   end
@@ -105,7 +104,7 @@ class ShareProgressVariantBuilder
       facebook: 'fb',
       twitter:  'tw',
       email:    'em'
-    }[@variant_type]
+    }[@variant_type.to_sym]
   end
 end
 

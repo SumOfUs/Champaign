@@ -14,8 +14,9 @@ gem 'select2-rails'
 gem 'dropzonejs-rails'
 gem 'codemirror-rails'
 gem 'countries'
-
+gem 'typhoeus'
 # Use ActiveModel has_secure_password
+# 
 # gem 'bcrypt', '~> 3.1.7'
 
 gem 'slim-rails'
@@ -51,7 +52,7 @@ gem 'logger'
 # Gem for user agent / browser detection
 gem 'browser'
 
-gem 'share_progress', '>=0.1.2', require: false
+#gem 'share_progress', '>=0.1.2', require: false
 
 gem 'newrelic_rpm'
 gem 'unicorn'
@@ -73,3 +74,4 @@ group :test do
   gem 'webmock'
   gem 'timecop'
 end
+
