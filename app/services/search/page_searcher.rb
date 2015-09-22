@@ -1,10 +1,5 @@
 class Search::PageSearcher
 
-  def self._search(string)
-    CampaignPage.joins(:widgets).
-        where("campaign_pages.title ILIKE ? OR widgets.content #>> '{text_body_html}' ILIKE ?", "%#{string}%", "%#{string}%")
-  end
-
   def initialize(params)
     @queries = params[:search]
     @collection = CampaignPage.all
@@ -12,29 +7,33 @@ class Search::PageSearcher
 
   def search
     [*@queries].each do |search_type, query|
-      case search_type.to_s
-        when 'content_search'
-          search_by_text(query)
-        when 'tags'
-          search_by_tags(query)
-        when 'language'
-          search_by_language(query)
-        when 'campaign'
-          search_by_campaign(query)
-        when 'widget_type'
-          search_by_widget_type(query)
+      if not validate_query(query)
+        next
+      else
+        case search_type.to_s
+          when 'content_search'
+            search_by_text(query)
+          when 'tags'
+            search_by_tags(query)
+          when 'language'
+            search_by_language(query)
+          when 'layout'
+            search_by_layout(query)
+          when 'campaign'
+            search_by_campaign(query)
+          when 'plugin_type'
+            search_by_plugin_type(query)
+        end
       end
     end
-    @collection
+    @collection | []
   end
 
   private
 
-  def get_pages_by_widgets(collection, widgets_collection)
-    # get campaign page ids from your collection of widgets
-    page_ids = widgets_collection.pluck(:page_id)
-    # get an intersection of page ids and original ids in the collection
-    array_to_relation(CampaignPage, collection.find(page_ids))
+  def validate_query(query)
+    # if query is an empty array, nil or an empty string, skip filtering for that query
+    ( [[], nil, ''].include? query ) ? false : true
   end
 
   def combine_collections(collection1, collection2)
@@ -53,12 +52,19 @@ class Search::PageSearcher
   end
 
   def search_by_text(query)
-    text_body_matches = get_pages_by_widgets(@collection, Search::WidgetSearcher.text_widget_search(query))
-    @collection = combine_collections(search_by_title(query), text_body_matches)
+    matches_by_content = Search.full_text_search(@collection, 'content', query)
+    @collection = combine_collections(search_by_title(query), matches_by_content)
   end
 
-  def search_by_tags(query)
-    @collection = @collection.joins(:tags).where(tags: {id: query})
+  def search_by_tags(tags)
+    matches_by_tags = []
+    @collection.each do |page|
+      # if the page has tags and if the queried tags are a subset of the page's tags
+      if page.tags.any? and (tags.map(&:to_i) - page.tags.pluck('id')).empty?
+        matches_by_tags.push(page)
+      end
+    end
+    @collection = array_to_relation(CampaignPage, matches_by_tags)
   end
 
   def search_by_language(query)
@@ -69,11 +75,35 @@ class Search::PageSearcher
     @collection = @collection.where(campaign_id: query)
   end
 
-  def search_by_widget_type(query)
-    # gets all widgets that match the query
-    widget_type_matches = Search::WidgetSearcher.widget_type_search(query)
-    # gets pages in the collection that match the page_ids in the widgets
-    @collection = get_pages_by_widgets(@collection, widget_type_matches)
+  def search_by_layout(query)
+    @collection = @collection.where(liquid_layout: query)
   end
 
+  def search_by_plugin_type(query)
+    matches_by_plugins = []
+    filtered_pages = @collection.pluck(:id)
+    query.each do |plugin_type|
+      begin
+        plugin_class = plugin_type.constantize
+      # Rescue for invalid plugin name - constantize throws name error if a constant with the name hasn't been initialized.
+      rescue
+        next
+      end
+      plugin_class.page.each do |page_plugin|
+        # If the page hasn't determined to be filtered from the collection yet
+        if filtered_pages.include?(page_plugin.campaign_page_id)
+          # If the plugin is active, add its page to matches
+          if page_plugin.active?
+            matches_by_plugins.push(page_plugin.campaign_page_id)
+          else
+            # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
+            filtered_pages.delete(page_plugin.campaign_page_id)
+            matches_by_plugins.delete(page_plugin.campaign_page_id)
+          end
+        end
+      end
+    end
+    # get pages that match ids of pages that contain the plugin type from the collection
+    @collection = @collection.where(id: matches_by_plugins)
+  end
 end

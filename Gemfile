@@ -48,6 +48,10 @@ gem 'aws-sdk-v1'
 # logger for debugging AWS
 gem 'logger'
 
+# # Caching for production
+# gem 'rack-cache'
+# gem 'redis-rack-cache'
+
 # Gem for user agent / browser detection
 gem 'browser'
 

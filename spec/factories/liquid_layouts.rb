@@ -6,7 +6,22 @@ FactoryGirl.define do
 
     trait :master do
       title 'master'
-      content %{ {% include 'action' %} {% include 'thermometer' %}" }
+      content %{ {% include 'action' %} {% include 'thermometer' %} }
+    end
+
+    trait :action do
+      title 'action template'
+      content %{ {% include 'action' %} }
+    end
+
+    trait :thermometer do
+      title 'thermometer template'
+      content %{ {% include 'thermometer' %} }
+    end
+
+    trait :no_plugins do
+      title 'layout with no plugins'
+      content %{ whatever }
     end
   end
 
