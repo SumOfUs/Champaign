@@ -14,11 +14,8 @@ class Plugins::Action < ActiveRecord::Base
     form ? form.form_elements.map(&:attributes) : []
   end
 
-
-  # FIXME - this was rushed. There's a nicer way to do this, I'm sure.
-  #
   def name
-    'Action'
+    self.class.name.demodulize
   end
 
   private

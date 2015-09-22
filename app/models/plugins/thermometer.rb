@@ -16,6 +16,6 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   def name
-    'Thermometer'
+    self.class.name.demodulize
   end
 end

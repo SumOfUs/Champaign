@@ -18,8 +18,24 @@ describe FormElement do
       expect(element_1.position).to eq(1)
     end
 
-    it 'sets name' do
-      expect( create(:form_element, label: 'Email').name ).to eq('email')
+    describe 'name fixing' do
+      it 'keeps name if whitelisted' do
+        expect(
+          create(:form_element, form: form, name: 'address1').name
+        ).to eq('address1')
+      end
+
+      it 'prefixes custom names' do
+        expect(
+          create(:form_element, form: form, name: 'foo_bar').name
+        ).to eq('action_foo_bar')
+      end
+
+      it 'does nothing when prefix is present' do
+        expect(
+          create(:form_element, form: form, name: 'action_foo_bar').name
+        ).to eq('action_foo_bar')
+      end
     end
   end
 
@@ -28,14 +44,6 @@ describe FormElement do
       expect{
         element.update(label: "Surname")
       }.to_not change{ element.reload.position}
-    end
-
-    it 'updates name' do
-      element = create(:form_element, label: "Hello")
-
-      expect{
-        element.update(label: "Goodbye")
-      }.to change{ element.reload.name }.from('hello').to('goodbye')
     end
   end
 end

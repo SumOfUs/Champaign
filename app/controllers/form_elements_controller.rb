@@ -2,20 +2,23 @@ class FormElementsController < ApplicationController
   before_filter :find_form, only: [:create, :sort]
 
   def create
-    @element = FormElementBuilder.create(@form, permitted_params)
+    @form_element = FormElementBuilder.create(@form, permitted_params)
 
     respond_to do |format|
-      if @element.valid?
+      if @form_element.valid?
+        format.js
         format.html  { render partial: 'element', locals: { form: @form, element: @element }, status: :ok }
       else
-        format.json { render json: @element.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        format.js { render 'errors' }
+        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    element = FormElement.find(params[:id])
-    element.destroy
+    @form_element = FormElement.find(params[:id])
+    @form_element.destroy
 
     respond_to do |format|
       format.json do
@@ -37,7 +40,7 @@ class FormElementsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:form_element).permit(:label, :data_type, :required)
+    params.require(:form_element).permit(:label, :name, :data_type, :required)
   end
 
   def find_form

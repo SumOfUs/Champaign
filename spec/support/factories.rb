@@ -59,7 +59,6 @@ FactoryGirl.define do
       {
         name: Faker::Name.name,
         email: Faker::Internet.email,
-        state: Faker::Address.state,
         country: Faker::Address.country,
         postal: Faker::Address.postcode,
         address: Faker::Address.street_address,

@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+
 //= require pub_sub
 //= require jquery-ui/sortable
 //= require jquery.remotipart
@@ -20,10 +21,12 @@
 //= require select2
 //= require dropzone
 //= require liquid/syntax-highlighting
+//= require typeahead.jquery
 
 //= require show_errors
 //= require forms
 //= require campaign_page
+//= require select2_config.js
 //= require ajax
 //
 //= require_tree ./plugins/actions/admin/
