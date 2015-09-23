@@ -16,39 +16,37 @@ describe Link do
 
     describe 'should be valid' do
 
-      after :each do
+      it 'with nil source' do
+        link.source = nil
         expect(link).to be_valid
       end
 
-      it 'with nil source' do
-        link.source = nil
-      end
-
       it 'with nil date' do
-        link.source = nil
+        link.date = nil
+        expect(link).to be_valid
       end
     end
 
     describe 'should be invalid' do
 
-      after :each do
-        expect(link).to be_invalid
-      end
-
       it 'with nil title' do
         link.title = nil
+        expect(link).to be_invalid
       end
 
       it 'with nil url' do
         link.url = nil
+        expect(link).to be_invalid
       end
 
       it 'with space string title' do
         link.title = "  "
+        expect(link).to be_invalid
       end
 
       it 'with space string url' do
         link.url = "   "
+        expect(link).to be_invalid
       end
     end
   end
