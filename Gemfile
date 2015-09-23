@@ -14,6 +14,7 @@ gem 'select2-rails'
 gem 'dropzonejs-rails'
 gem 'codemirror-rails'
 gem 'countries'
+gem 'browserify-rails'
 
 # they still haven't merged the PR to support sprockets 3, but will in the next few weeks
 gem "compass-rails", git: 'https://github.com/robkilby/compass-rails', branch: 'sprockets-3'

@@ -1,4 +1,4 @@
-window.ActionBar = Backbone.View.extend({
+const ActionBar = Backbone.View.extend({
 
   el: '.action-bar',
 
@@ -33,8 +33,8 @@ window.ActionBar = Backbone.View.extend({
       this.$el.parent('.sticky-wrapper').css('top', '');
     } else {
       var height = this.$('.action-bar__top').outerHeight();
-      this.$('.action-bar__main').css('top', height+'px');
-      this.$el.parent('.sticky-wrapper').css('top', '-'+height+'px');
+      this.$('.action-bar__main').css('top', `${height}px`);
+      this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
     }
     this.$('.action-bar__expand-arrow').toggleClass('action-bar__expand-arrow--expanded');
   },
@@ -44,3 +44,5 @@ window.ActionBar = Backbone.View.extend({
   }
 
 });
+
+module.exports = ActionBar;

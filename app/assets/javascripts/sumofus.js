@@ -7,5 +7,6 @@
 //= require sticky
 //= require underscore
 //= require backbone
-//= require_tree ./sumofus
 //= require_directory ./plugins
+
+window.ActionBar = require('sumofus/backbone/action_bar');

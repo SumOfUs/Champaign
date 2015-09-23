@@ -6,6 +6,7 @@ RUN mkdir /myapp
 WORKDIR /myapp
 ADD Gemfile* /myapp/
 RUN bundle install --jobs 4
+RUN npm install
 
 EXPOSE 3000
 ADD . /myapp
