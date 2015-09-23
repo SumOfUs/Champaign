@@ -1,37 +1,61 @@
 {% if plugins.action[ref].active %}
-  <section class='action'>
-    <p>{{ plugins.action[ref].description }}</p>
+  <div class="action-bar__content">
+    <div class="action-bar__top">
+      <div class="action-bar__mobile-ui">
+        <a class="action-bar__close-button">&#x2715;</a>
+      </div>
+      <h2>Sign the petition</h2>
+      <div class="action-bar__target">
+        {% unless plugins.action[ref].target == blank %}
+          TO: {{ plugins.action[ref].target }}
+        {% endunless %}
+      </div>
+      <p class="action-bar__petition-text">
+        {{ plugins.action[ref].description }}
+      </p>
+    </div>
+    <div class="action-bar__main">
+      <div class="action-bar__expand-arrow"></div>
+      <div class="action-bar__shading"></div>
 
-    <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='action'>
-      <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
-      {% for field in plugins.action[ref].fields %}
-        <div class="form-group">
-          {% case field.data_type %}
+      <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
+        <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
+        {% for field in plugins.action[ref].fields %}
+          <div class="form__group">
+            {% case field.data_type %}
 
-          {% when 'text' %}
-            <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
-          {% when 'email' %}
-            <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" />
-          {% when 'phone' %}
-            <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
-          {% when 'checkbox' %}
-            <label>
-              <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
-            </label>
-          {% when 'country' %}
-            <select name="{{field.name}}" class="form-control">
-              <option selected disabled hidden value=''>{{field.label}}</option>
-              {{ country_option_tags }}
-            </select>
-          {% endcase %}
-        </div>
-      {% endfor %}
-      <button type="submit" class="btn btn-default">Send</button>
-    </form>
-  </section>
+            {% when 'text' %}
+              <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+            {% when 'email' %}
+              <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" />
+            {% when 'phone' %}
+              <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+            {% when 'checkbox' %}
+              <label class="checkbox-label">
+                <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
+              </label>
+            {% when 'country' %}
+              <select name="{{field.name}}" class="select2" placeholder="{{field.label}}">
+                <option></option>
+                {{ country_option_tags }}
+              </select>
+            {% endcase %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="button action-bar__submit-button">Sign the petition</button>
+      </form>
+    </div>
+  </div>
 
-  <section class='post-action' style='display:none;'>
-    <h3>Thank you <span class='name'></span> for taking action</h3>
-    <h4>Share on Facebook / Twitter</h4>
-  </section>
+  <div class="action-bar__mobile-ui">
+    <div class="action-bar__mobile-ui__bottom-bar">
+      <button class="button action-bar__open-button">Sign the petition</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var myActionBar = new window.ActionBar();
+    });
+  </script>
 {% endif %}

@@ -29,19 +29,19 @@ class CampaignPagesController < ApplicationController
     markup = if @campaign_page.liquid_layout
                @campaign_page.liquid_layout.content
              else
-                File.read("#{Rails.root}/app/views/plugins/templates/main.liquid")
+                File.read("#{Rails.root}/app/liquid/views/layouts/default.liquid")
              end
 
     @template = Liquid::Template.parse(markup)
 
     @data = Plugins.data_for_view(@campaign_page).
-      merge( @campaign_page.attributes ).
+      merge( @campaign_page.liquid_data ).
       merge( 'images' => images ).
       merge( LiquidHelper.globals ).
       merge( 'shares' => Shares.get_all(@campaign_page) ).
       deep_stringify_keys
 
-    render :show, layout: 'liquid'
+    render :show, layout: 'sumofus'
   end
 
   #
@@ -52,7 +52,7 @@ class CampaignPagesController < ApplicationController
   #
   def images
     @campaign_page.images.map do |img|
-      { 'urls' => { 'large' => img.content.url(:medium_square), 'small' => img.content.url(:thumb) } }
+      { 'urls' => { 'large' => img.content.url(:large), 'small' => img.content.url(:thumb) } }
     end
   end
 

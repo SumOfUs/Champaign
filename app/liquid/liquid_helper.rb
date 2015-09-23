@@ -13,7 +13,7 @@ class LiquidHelper
     def country_option_tags
       options = []
       names_with_codes = ISO3166::Country.all_names_with_codes(I18n.locale.to_s)
-      preferred(names_with_codes).each do |name, code|
+      names_with_codes.each do |name, code|
         options << "<option value='#{code}'>#{name}</option>"
       end
       options.join("\n")
@@ -22,9 +22,9 @@ class LiquidHelper
     private
 
     def preferred(names_with_codes)
+      # currently unused
       codes = ['US', 'GB', 'CA', 'FR', 'DE']
       preferred = names_with_codes.select{|name, code| codes.include? code }
-      preferred << ['--------', '']
       preferred + names_with_codes # better ux to have it twice than hard to find
     end
   end

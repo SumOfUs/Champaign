@@ -34,7 +34,7 @@ class CampaignPageBuilder
       page.liquid_layout.partial_refs.each do |partial, ref|
         plugin_name = LiquidPartial.find_by(title: partial).plugin_name
         Plugins.create_for_page(plugin_name, page, ref)
-     end
+      end
     end
   end
 
@@ -46,11 +46,11 @@ class CampaignPageBuilder
   end
 
   def params
-    @params.merge(liquid_layout: default_layout)
+    {liquid_layout_id: default_layout.id}.merge(@params)
   end
 
   def default_layout
-    @default_layout ||= LiquidLayout.master
+    @default_layout ||= LiquidLayout.default
   end
 
   def default

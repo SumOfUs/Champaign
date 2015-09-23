@@ -1,4 +1,4 @@
-.row.plugin.action.form-editor data-plugin-id=plugin.id
+.row.plugin.action.collection-editor data-plugin-id=plugin.id
   .col-md-7
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
 
@@ -7,6 +7,10 @@
       = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
         .form-group
           = f.text_area :description, class: 'form-control'
+
+        .form-group
+          = f.label :target, "Petition target (optional)"
+          = f.text_field :target, class: 'form-control'
 
         .form-group
           = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
@@ -37,4 +41,4 @@
         = render partial: 'plugins/actions/preview', locals: {plugin: plugin }
 
 javascript:
-  $.publish("forms:edit:loaded");
+  $.publish("collection:edit:loaded");

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150911085150) do
+ActiveRecord::Schema.define(version: 20150918165527) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,12 +61,12 @@ ActiveRecord::Schema.define(version: 20150911085150) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",           default: "pending"
-    t.text     "messages"
     t.text     "content",          default: ""
     t.boolean  "thermometer",      default: false
     t.boolean  "featured",         default: false
     t.boolean  "active",           default: false
+    t.string   "status",           default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
   end
 
@@ -128,6 +128,18 @@ ActiveRecord::Schema.define(version: 20150911085150) do
     t.datetime "updated_at"
   end
 
+  create_table "links", force: :cascade do |t|
+    t.string   "url"
+    t.string   "title"
+    t.string   "date"
+    t.string   "source"
+    t.integer  "campaign_page_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "links", ["campaign_page_id"], name: "index_links_on_campaign_page_id", using: :btree
+
   create_table "liquid_layouts", force: :cascade do |t|
     t.string   "title"
     t.text     "content"
@@ -155,6 +167,7 @@ ActiveRecord::Schema.define(version: 20150911085150) do
     t.datetime "updated_at",                       null: false
     t.text     "description"
     t.string   "ref"
+    t.string   "target"
   end
 
   add_index "plugins_actions", ["campaign_page_id"], name: "index_plugins_actions_on_campaign_page_id", using: :btree
@@ -277,6 +290,7 @@ ActiveRecord::Schema.define(version: 20150911085150) do
   add_foreign_key "campaign_pages", "languages"
   add_foreign_key "campaign_pages", "liquid_layouts"
   add_foreign_key "form_elements", "forms"
+  add_foreign_key "links", "campaign_pages"
   add_foreign_key "plugins_actions", "campaign_pages"
   add_foreign_key "plugins_actions", "forms"
   add_foreign_key "plugins_thermometers", "campaign_pages"

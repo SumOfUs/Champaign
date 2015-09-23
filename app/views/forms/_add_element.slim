@@ -1,6 +1,6 @@
 = render partial: 'shared/error_messages', locals: {target: form_element }
 
-= form_for [form, form_element], remote: true, html: {class: 'form-element'}  do |f|
+= form_for [form, form_element], remote: true, html: {class: 'form-element', id: 'new_collection_element'}  do |f|
   .form-group
     = f.select :data_type, options_for_select(FormElement::VALID_TYPES), {}, class: 'form-control'
   .form-group

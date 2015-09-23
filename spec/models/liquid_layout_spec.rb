@@ -32,13 +32,13 @@ describe LiquidLayout do
     end
   end
 
-  describe '.master' do
+  describe '.default' do
     before do
-      create(:liquid_layout, title: 'master')
+      create(:liquid_layout, title: 'default')
     end
 
-    it 'returns master layout' do
-      expect(LiquidLayout.master.title).to eq('master')
+    it 'returns default layout' do
+      expect(LiquidLayout.default.title).to eq('default')
     end
   end
 end

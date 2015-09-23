@@ -16,6 +16,11 @@ describe Plugins do
       expect{ Plugins.create_for_page('action', nil, 'my-ref') }.to change{ Plugins::Action.count }.by 0
     end
 
+    it "create no plugin if one already exists for that page and ref" do
+      expect{ Plugins.create_for_page('thermometer', page, 'my-ref') }.to change{ Plugins::Thermometer.count }.by 1
+      expect{ Plugins.create_for_page('thermometer', page, 'my-ref') }.to change{ Plugins::Thermometer.count }.by 0
+    end
+
     it "creates a thermometer plugin" do
       expect{ Plugins.create_for_page('thermometer', page, nil) }.to change{ Plugins::Thermometer.count }.by 1
     end

@@ -108,8 +108,7 @@ section {
   margin-top: 40px;
 }
 
-li.list-group-item {
-  position: relative;
+.sortable li.list-group-item {
   cursor: move;
   .sort {
     margin-right: 5px;
@@ -120,7 +119,10 @@ li.list-group-item {
       }
     }
   }
+}
 
+li.list-group-item {
+  position: relative;
   .control-bar {
     position: absolute;
     top: 0;

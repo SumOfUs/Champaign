@@ -24,7 +24,7 @@
 //= require typeahead.jquery
 
 //= require show_errors
-//= require forms
+//= require collection_editor
 //= require campaign_page
 //= require select2_config.js
 //= require ajax
