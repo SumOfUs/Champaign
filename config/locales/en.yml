@@ -68,6 +68,7 @@ en:
       links: 'Links'
       extras: 'Extras'
 
+
   campaigns:
     new:
       title: "Create a new campaign"
@@ -105,6 +106,13 @@ en:
           body: |
             <p>The <strong>name</strong> value will dictate how your action content is handled by <strong>ActionKit</strong>.</p>
             <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
+
+  links:
+    url: 'URL'
+    title: 'Title'
+    source: 'Source'
+    date: 'Date published'
+
   share:
     analytics:
       weight: 'Weight'

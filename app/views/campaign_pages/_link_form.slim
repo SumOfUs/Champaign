@@ -9,16 +9,16 @@
 
     .col-md-12
       .form-group.col-md-3
-        = f.label :url, "URL"
+        = f.label :url, t('.url')
         = f.text_field :url, class: 'form-control'
       .form-group.col-md-3
-        = f.label :title, "Title"
+        = f.label :title, t('.title')
         = f.text_field :title, class: 'form-control'
       .form-group.col-md-3
-        = f.label :source, "Source"
+        = f.label :source, t('.source')
         = f.text_field :source, class: 'form-control', placeholder: "e.g. Nature Magazine"
       .form-group.col-md-3
-        = f.label :date, "Date published"
+        = f.label :date, t('.date')
         = f.date_field :date, class: 'form-control'
 
     .form-group
