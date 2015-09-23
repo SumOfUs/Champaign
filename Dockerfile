@@ -5,9 +5,9 @@ RUN apt-get update -qq && apt-get install -y nodejs imagemagick netcat
 RUN mkdir /myapp
 WORKDIR /myapp
 ADD Gemfile* /myapp/
-RUN bundle install
+RUN bundle install --jobs 4
 
 EXPOSE 3000
 ADD . /myapp
 
-CMD bundle exec unicorn -l 0.0.0.0:3000
+CMD bundle exec puma -b tcp://0.0.0.0 -p 3000 -t 5:16
