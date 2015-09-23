@@ -1,0 +1,19 @@
+.sumofus-logo {
+  &--negative {
+    background-image: url(asset-path('sumofus/logo-white.png'));
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 150px;
+    height: 30px;
+  }
+  &--tagline {
+    font-size: 20px;
+    line-height: 32px;
+    margin-left: 15px;
+
+    @media(max-width: $mobile-width) {
+      display: none;
+    }
+  }
+}
+    

@@ -8,10 +8,11 @@
 @import "common";
 @import "campaign_pages";
 @import "form_elements";
+@import "forms";
 @import "dropzone";
 @import "codemirror";
 @import "codemirror/themes/3024-night";
-
+@import "typeahead";
 /* Decide what's needed below, and organise with files */
 #petition_form {
     float: right;
@@ -94,7 +95,7 @@ html {
     min-height: 100%;
 }
 body {
-    margin: 0 0 100px; /* bottom = footer height */
+    margin: 0 0 200px; /* bottom = footer height */
 }
 footer {
     position: absolute;
@@ -115,3 +116,4 @@ footer .container {
 legend {
   padding-top: 30px;
 }
+

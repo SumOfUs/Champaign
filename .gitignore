@@ -20,9 +20,6 @@ out/*
 # Ignore uploads
 public/uploads*
 
-# Ignore images
-app/assets/images
-
 config/env.yml
 
 queue_listeners/config/env.yml

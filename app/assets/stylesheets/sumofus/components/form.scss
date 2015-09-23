@@ -1,0 +1,79 @@
+.form {
+  &__group {
+    float: left;
+    width: 100%;
+    margin-bottom: 5px;
+
+    input {
+      &.has-error {
+        border-color: $orange;
+      }
+    }
+    .error-msg {
+      color: $orange;
+      font-size: 14px;
+      float: right;
+    }
+  }
+  &--big {
+    input, select, .select2-choice {
+      @include rem(font-size, 1rem, true);
+      border: 2px solid white;
+      background: white;
+      border-radius: 3px;
+      padding: 18px;
+      width: 100%;
+      outline: none;
+      box-sizing: border-box;
+
+      &:focus {
+        border-color: $teal;
+      }
+    }
+
+    label.checkbox-label {
+      margin: 10px 0 4px;
+      font-size: 14px;
+    }
+
+    .select2-container {
+      width: 100%;
+      .select2-choice {
+        padding: 14px 18px;
+        height: 54px;
+      }
+      &.select2-container-active .select2-choice{
+        border-color: $teal;
+      }
+      &.select2-dropdown-open .select2-choice {
+        border-bottom-width: 0;
+      }
+    }
+  }
+}
+
+.select2-drop {
+  &.select2-drop-active {
+    border-color: $teal;
+    border-width: 2px;
+  }
+  .select2-results .select2-highlighted {
+    background: $teal;
+  }
+}
+
+label.checkbox-label {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  input[type='checkbox'] {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+  }
+}

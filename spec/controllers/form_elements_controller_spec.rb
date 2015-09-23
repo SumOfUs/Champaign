@@ -5,7 +5,7 @@ describe FormElementsController do
 
   describe 'POST #create' do
     let(:form) { instance_double('Form') }
-    let(:params) { { label: "Label", name: 'label', data_type: 'text', required: true } }
+    let(:params) { { label: "Label", data_type: 'text', required: true } }
 
     before do
       allow(Form).to receive(:find){ form }

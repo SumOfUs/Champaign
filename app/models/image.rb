@@ -3,7 +3,8 @@ class Image < ActiveRecord::Base
   has_attached_file :content, styles: {
     medium: "300x300>",
     thumb: "100x100#",
-    medium_square: "700x500#"
+    medium_square: "700x500#",
+    large: "1920x"
   }, default_url: "/images/:style/missing.png"
 
   validates_attachment_presence :content
@@ -12,3 +13,4 @@ class Image < ActiveRecord::Base
 
   belongs_to :campaign_page
 end
+

@@ -1,0 +1,30 @@
+.header-logo {
+  color: white;
+  padding: 20px 15px 15px;
+
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  @include clearfix();
+
+  // when the element is not --at-top, the gradient is moved up and out of the way
+  // and a background color is applied.
+  background-color: rgba(0,0,0,0.35);
+  background-position-y: -80px;
+  background-repeat: no-repeat;
+  @include transition(background-color 0.40s ease-in-out, background-position 0.20s ease-out);
+  @include background-image(linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0)));
+
+  &__logo {
+    float: left;
+  }
+
+  &__tagline {
+    float: left;
+  }
+
+  &.checks-top--at-top {
+    background-color: rgba(0,0,0,0);
+    background-position-y: 0;
+  }
+}

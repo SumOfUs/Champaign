@@ -1,0 +1,15 @@
+li.list-group-item data-id=link.id
+  = link.title
+  = " <#{link_to link.url, link.url}>. ".html_safe
+  - unless link.source.blank?
+    = " #{link.source}. "
+  = link.date
+
+  .control-bar
+    = link_to link,
+      { method: :delete,
+        remote: true,
+        data: { confirm: t('common.confirm') } } do
+      small
+        span.glyphicon.glyphicon-remove
+

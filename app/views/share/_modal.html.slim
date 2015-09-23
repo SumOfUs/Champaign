@@ -1,0 +1,9 @@
+.modal.fade id=id
+  .modal-dialog
+    .modal-content
+      .modal-body
+        button.close data-dismiss='modal'
+          span aria-hidden='true' &times;
+        h3 = title
+        = body.html_safe
+      .modal-footer

@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/robkilby/compass-rails
+  revision: d42ec065ae21aaed15bb5edb7345fd62d403dc67
+  branch: sprockets-3
+  specs:
+    compass-rails (3.0.0)
+      compass (~> 1.0.0)
+      sass-rails (< 5.1)
+      sprockets (< 4.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -50,6 +60,9 @@ GEM
       jmespath (~> 1.0)
     aws-sdk-resources (2.1.14)
       aws-sdk-core (= 2.1.14)
+    aws-sdk-v1 (1.64.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -65,6 +78,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    chunky_png (1.3.4)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.7)
@@ -78,8 +92,24 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    compass (1.0.3)
+      chunky_png (~> 1.2)
+      compass-core (~> 1.0.2)
+      compass-import-once (~> 1.0.5)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      sass (>= 3.3.13, < 3.5)
+    compass-core (1.0.3)
+      multi_json (~> 1.0)
+      sass (>= 3.3.0, < 3.5)
+    compass-import-once (1.0.5)
+      sass (>= 3.2, < 3.5)
+    countries (1.0.0)
+      currencies (~> 0.4.2)
+      i18n_data (~> 0.7.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
+    currencies (0.4.2)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
@@ -100,13 +130,11 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    fake_sqs (0.3.0)
-      builder
-      sinatra
     faker (1.5.0)
       i18n (~> 0.5)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.10)
     font-awesome-rails (4.4.0.0)
       railties (>= 3.2, < 5.0)
     globalid (0.3.6)
@@ -114,7 +142,11 @@ GEM
     haml (4.0.7)
       tilt
     hashie (3.4.2)
+    httparty (0.13.6)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     i18n (0.7.0)
+    i18n_data (0.7.0)
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -145,6 +177,7 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nested_form (0.3.2)
+    newrelic_rpm (3.13.0.299)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     oauth2 (1.0.0)
@@ -174,12 +207,11 @@ GEM
       mime-types
       mimemagic (= 0.3.0)
     pg (0.18.2)
+    puma (2.12.2)
     rack (1.6.4)
     rack-pjax (0.8.0)
       nokogiri (~> 1.5)
       rack (~> 1.1)
-    rack-protection (1.5.3)
-      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.3)
@@ -221,6 +253,9 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
+    rb-fsevent (0.9.6)
+    rb-inotify (0.9.5)
+      ffi (>= 0.5.0)
     rdoc (4.2.0)
     remotipart (1.2.1)
     render_anywhere (0.0.11)
@@ -247,7 +282,7 @@ GEM
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
     safe_yaml (1.0.4)
-    sass (3.4.16)
+    sass (3.4.18)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -259,10 +294,8 @@ GEM
       rdoc (~> 4.0)
     select2-rails (3.5.9.3)
       thor (~> 0.14)
-    sinatra (1.4.6)
-      rack (~> 1.4)
-      rack-protection (~> 1.4)
-      tilt (>= 1.3, < 3)
+    share_progress (0.1.2)
+      httparty (>= 0.13)
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -308,35 +341,41 @@ PLATFORMS
 DEPENDENCIES
   action_parameter
   aws-sdk (~> 2)
+  aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
   browser
   byebug
   capybara
   codemirror-rails
   coffee-rails (~> 4.1.0)
+  compass-rails!
+  countries
   database_cleaner
   devise
   dropzonejs-rails
   envyable
   factory_girl_rails
-  fake_sqs
   faker
   jbuilder (~> 2.0)
   jquery-rails
   liquid
   logger
+  newrelic_rpm
   omniauth-google-oauth2
   paper_trail
   paperclip
   pg
+  puma
   rails (= 4.2.3)
   rails_admin
+  remotipart (~> 1.2)
   render_anywhere
   rmagick
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   select2-rails
+  share_progress (>= 0.1.2)
   slim-rails
   spring
   timecop

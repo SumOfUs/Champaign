@@ -1,0 +1,79 @@
+$default-fonts: 'Helvetica Nueue', Helvetica, Arial, sans;
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: $default-fonts;
+  color: $chalkboard;
+}
+
+h1, h2, h3, h4, h5, h6, b {
+  font-weight: bold;
+}
+
+h1 {
+  @include rem(font-size, 2.6rem, true)
+}
+h2 {
+  @include rem(font-size, 1.5em, true)
+}
+a {
+  color: $teal;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.typography {
+  &__highlight {
+  }
+
+  &__dark-highlight {
+  }
+  &__highlight {
+    display: inline;
+    border-style: solid;
+    border-width: 0.25em 0;
+    position: relative;
+    line-height: 1.1em;
+    // can't get the box shadow working on this :/
+
+    background: $teal;
+    border-color: $teal;
+    color: white;
+
+    span {
+      position: relative;
+      z-index: 1;
+      white-space: pre-wrap;
+      padding-right: 0.25em;
+    }
+
+    &--simple {
+      display: block;
+      padding: 0.45em 15px;
+      border: none;
+      display: inline-block;
+      font-weight: normal;
+    }
+
+    &--dark {
+      background: $navy;
+      border-color: $navy;
+      color: white;
+    }
+  }
+  &__highlight-wrapper {
+    border-left: 15px solid $teal;
+    overflow: hidden;
+    padding: 8px 0;
+    margin: 0;
+  }
+}
+
+.body-text {
+  line-height: 1.6em;
+}

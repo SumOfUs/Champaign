@@ -8,8 +8,16 @@ module CampaignPagesHelper
     end
   end
 
+  def button_group_item(text, path)
+    selected = current_page?(path)
+    klass = selected ? 'btn-primary' : 'btn-default'
+    klass << ' btn'
+
+    link_to text, path, class: klass
+  end
+
   def toggle_switch(state, active, label)
-    klass = (active == state ? 'btn-success' : '')
+    klass = (active == state ? 'btn-primary' : '')
     klass += " btn toggle-button btn-default"
 
     content_tag :a, label, class: klass

@@ -107,3 +107,64 @@ form.template-form {
 section {
   margin-top: 40px;
 }
+
+.sortable li.list-group-item {
+  cursor: move;
+  .sort {
+    margin-right: 5px;
+    .glyphicon {
+      color: #ddd;
+      &:active {
+        color: #000;
+      }
+    }
+  }
+}
+
+li.list-group-item {
+  position: relative;
+  .control-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    padding: $padding-base-vertical $padding-base-horizontal;
+
+    a {
+      padding-left: $padding-small-horizontal;
+    }
+  }
+}
+
+.action-form-item-control {
+  margin-left: 5px;
+}
+
+.list-group-item span.label {
+  margin-left: 5px;
+}
+
+.xhr-feedback + .label {
+  margin-left: 10px;
+}
+
+.error-msg {
+  color: #a94442;
+  font-size: 12px;
+}
+
+input.has-error {
+  border-color: #a94442;
+}
+
+.panel-footer {
+  background: white;
+}
+
+.sub-menu {
+  margin-bottom: 20px;
+}
+
+.submenu-horizontal {
+  margin-bottom: 20px;
+}

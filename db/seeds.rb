@@ -1,88 +1,84 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+# Languages
+languages =  [
+    {code: 'en', name: 'English'},
+    {code: 'fr', name: 'French'},
+    {code: 'de', name: 'German'}
+]
 
-# 1. make actionkit page types
-ActionkitPageType.create!({actionkit_page_type: 'petition'})
+Language.create!(languages)
 
-# 2. make some languages
-Language.create!(
-    [{language_code: 'EN/US', language_name: 'English'},
-    {language_code: 'FR', language_name: 'French'},
-    {language_code: 'GER', language_name: 'German'}])
+# Liquid Markup
+LiquidMarkupSeeder.seed
 
-# 3  make some campaigns
-Campaign.create!(
-    [{campaign_name: 'Test campaign'},
-     {campaign_name: 'New campaign'},
-     {campaign_name: 'The coolest campaign'}])
+# # 5. make a campaign page
+# Campaign.first.campaign_page.create!({
+#   language_id: (Language.find_by language_code: 'EN/US').id,
+#   title: 'Testy page',
+#   slug: 'testy_page',
+#   active: false,
+#   featured: false
+# })
 
-# 5. make a campaign page
-Campaign.first.campaign_page.create!({
-  language_id: (Language.find_by language_code: 'EN/US').id,
-  title: 'Testy page',
-  slug: 'testy_page',
-  active: false,
-  featured: false
-})
+# Forms
 
-# 7. create an actionkit page match for the campaign page widget
-# campaign_page_widget.create_actionkit_page({actionkit_id: 123, actionkit_page_type_id: (ActionkitPageType.find_by actionkit_page_type: 'petition').id})
+basic_form = Form.create name: "Basic", master: true
 
-# 8. Create the tags and their associations to ActionKit
+basic_form_fields = [
+  {label: 'Email Address', name: 'email',  required: true,  data_type: 'email', form: basic_form},
+  {label: 'Full Name',     name: 'name',   required: true,  data_type: 'text', form: basic_form},
+  {label: 'Postal Code',   name: 'postal', required: true,  data_type: 'text', form: basic_form}
+]
 
+FormElement.create!(basic_form_fields)
+
+# Create tags and their associations to ActionKit
 Tag.create!([
-  {tag_name: '*Welcome_Sequence', actionkit_uri: '/rest/v1/tag/1000/'},
-  {tag_name: '#Animal_Rights', actionkit_uri: '/rest/v1/tag/944/'},
-  {tag_name: '!French', actionkit_uri: '/rest/v1/tag/1130/'},
-  {tag_name: '!German', actionkit_uri: '/rest/v1/tag/1132/'},
-  {tag_name: '#Net_Neutrality', actionkit_uri: '/rest/v1/tag/1078/'},
-  {tag_name: '*FYI_and_VIP', actionkit_uri: '/rest/v1/tag/980/'},
-  {tag_name: '@Germany', actionkit_uri: '/rest/v1/tag/1036/'},
-  {tag_name: '!English', actionkit_uri: '/rest/v1/tag/1282/'},
-  {tag_name: '@NewZealand', actionkit_uri: '/rest/v1/tag/1140/'},
-  {tag_name: '@France', actionkit_uri: '/rest/v1/tag/1128/'},
-  {tag_name: '#Sexism', actionkit_uri: '/rest/v1/tag/1208/'},
-  {tag_name: '#Disability_Rights', actionkit_uri: '/rest/v1/tag/1040/'},
-  {tag_name: '@Austria', actionkit_uri: '/rest/v1/tag/1042/'},
-  {tag_name: '@Switzerland', actionkit_uri: '/rest/v1/tag/1043/'},
-  {tag_name: '#Anti_Racism', actionkit_uri: '/rest/v1/tag/945/'},
-  {tag_name: '#Consumer_Protection', actionkit_uri: '/rest/v1/tag/946/'},
-  {tag_name: '#Economic_Justice', actionkit_uri: '/rest/v1/tag/941/'},
-  {tag_name: '#Environment', actionkit_uri: '/rest/v1/tag/942/'},
-  {tag_name: '#Food_and_GMOs', actionkit_uri: '/rest/v1/tag/940/'},
-  {tag_name: '#Human_Rights_and_Civil_Liberties', actionkit_uri: '/rest/v1/tag/574/'},
-  {tag_name: '#LGBT_Rights', actionkit_uri: '/rest/v1/tag/938/'},
-  {tag_name: '#Media_Accountability', actionkit_uri: '/rest/v1/tag/937/'},
-  {tag_name: '#Privatization_and_Political_Meddling', actionkit_uri: '/rest/v1/tag/947/'},
-  {tag_name: '#Shareholder_Activism', actionkit_uri: '/rest/v1/tag/943/'},
-  {tag_name: '#Womens_Rights', actionkit_uri: '/rest/v1/tag/934/'},
-  {tag_name: '#Workers_Rights', actionkit_uri: '/rest/v1/tag/933/'},
-  {tag_name: '*Petition', actionkit_uri: '/rest/v1/tag/971/'},
-  {tag_name: '*Call-in', actionkit_uri: '/rest/v1/tag/973/'},
-  {tag_name: '*Event', actionkit_uri: '/rest/v1/tag/976/'},
-  {tag_name: '*Fundraiser', actionkit_uri: '/rest/v1/tag/972/'},
-  {tag_name: '*Letters_or_Comments', actionkit_uri: '/rest/v1/tag/975/'},
-  {tag_name: '*Other_High_Bar_Action', actionkit_uri: '/rest/v1/tag/977/'},
-  {tag_name: '*Social_Media', actionkit_uri: '/rest/v1/tag/974/'},
-  {tag_name: '+MVP', actionkit_uri: '/rest/v1/tag/948/'},
-  {tag_name: '+Test', actionkit_uri: '/rest/v1/tag/949/'},
-  {tag_name: '+Full_Universe', actionkit_uri: '/rest/v1/tag/951/'},
-  {tag_name: '+Special_Universe', actionkit_uri: '/rest/v1/tag/964/'},
-  {tag_name: '+Kicker', actionkit_uri: '/rest/v1/tag/952/'},
-  {tag_name: '@Australia', actionkit_uri: '/rest/v1/tag/969/'},
-  {tag_name: '@Canada', actionkit_uri: '/rest/v1/tag/967/'},
-  {tag_name: '@Europe', actionkit_uri: '/rest/v1/tag/954/'},
-  {tag_name: '@Global', actionkit_uri: '/rest/v1/tag/953/'},
-  {tag_name: '@Multi_Country', actionkit_uri: '/rest/v1/tag/956/'},
-  {tag_name: '@NorthAmerica', actionkit_uri: '/rest/v1/tag/955/'},
-  {tag_name: '@Other_National', actionkit_uri: '/rest/v1/tag/970/'},
-  {tag_name: '@UK', actionkit_uri: '/rest/v1/tag/968/'},
-  {tag_name: '@USA', actionkit_uri: '/rest/v1/tag/966/'}
+  {name: '*Welcome_Sequence', actionkit_uri: '/rest/v1/tag/1000/'},
+  {name: '#Animal_Rights', actionkit_uri: '/rest/v1/tag/944/'},
+  {name: '!French', actionkit_uri: '/rest/v1/tag/1130/'},
+  {name: '!German', actionkit_uri: '/rest/v1/tag/1132/'},
+  {name: '#Net_Neutrality', actionkit_uri: '/rest/v1/tag/1078/'},
+  {name: '*FYI_and_VIP', actionkit_uri: '/rest/v1/tag/980/'},
+  {name: '@Germany', actionkit_uri: '/rest/v1/tag/1036/'},
+  {name: '!English', actionkit_uri: '/rest/v1/tag/1282/'},
+  {name: '@NewZealand', actionkit_uri: '/rest/v1/tag/1140/'},
+  {name: '@France', actionkit_uri: '/rest/v1/tag/1128/'},
+  {name: '#Sexism', actionkit_uri: '/rest/v1/tag/1208/'},
+  {name: '#Disability_Rights', actionkit_uri: '/rest/v1/tag/1040/'},
+  {name: '@Austria', actionkit_uri: '/rest/v1/tag/1042/'},
+  {name: '@Switzerland', actionkit_uri: '/rest/v1/tag/1043/'},
+  {name: '#Anti_Racism', actionkit_uri: '/rest/v1/tag/945/'},
+  {name: '#Consumer_Protection', actionkit_uri: '/rest/v1/tag/946/'},
+  {name: '#Economic_Justice', actionkit_uri: '/rest/v1/tag/941/'},
+  {name: '#Environment', actionkit_uri: '/rest/v1/tag/942/'},
+  {name: '#Food_and_GMOs', actionkit_uri: '/rest/v1/tag/940/'},
+  {name: '#Human_Rights_and_Civil_Liberties', actionkit_uri: '/rest/v1/tag/574/'},
+  {name: '#LGBT_Rights', actionkit_uri: '/rest/v1/tag/938/'},
+  {name: '#Media_Accountability', actionkit_uri: '/rest/v1/tag/937/'},
+  {name: '#Privatization_and_Political_Meddling', actionkit_uri: '/rest/v1/tag/947/'},
+  {name: '#Shareholder_Activism', actionkit_uri: '/rest/v1/tag/943/'},
+  {name: '#Womens_Rights', actionkit_uri: '/rest/v1/tag/934/'},
+  {name: '#Workers_Rights', actionkit_uri: '/rest/v1/tag/933/'},
+  {name: '*Petition', actionkit_uri: '/rest/v1/tag/971/'},
+  {name: '*Call-in', actionkit_uri: '/rest/v1/tag/973/'},
+  {name: '*Event', actionkit_uri: '/rest/v1/tag/976/'},
+  {name: '*Fundraiser', actionkit_uri: '/rest/v1/tag/972/'},
+  {name: '*Letters_or_Comments', actionkit_uri: '/rest/v1/tag/975/'},
+  {name: '*Other_High_Bar_Action', actionkit_uri: '/rest/v1/tag/977/'},
+  {name: '*Social_Media', actionkit_uri: '/rest/v1/tag/974/'},
+  {name: '+MVP', actionkit_uri: '/rest/v1/tag/948/'},
+  {name: '+Test', actionkit_uri: '/rest/v1/tag/949/'},
+  {name: '+Full_Universe', actionkit_uri: '/rest/v1/tag/951/'},
+  {name: '+Special_Universe', actionkit_uri: '/rest/v1/tag/964/'},
+  {name: '+Kicker', actionkit_uri: '/rest/v1/tag/952/'},
+  {name: '@Australia', actionkit_uri: '/rest/v1/tag/969/'},
+  {name: '@Canada', actionkit_uri: '/rest/v1/tag/967/'},
+  {name: '@Europe', actionkit_uri: '/rest/v1/tag/954/'},
+  {name: '@Global', actionkit_uri: '/rest/v1/tag/953/'},
+  {name: '@Multi_Country', actionkit_uri: '/rest/v1/tag/956/'},
+  {name: '@NorthAmerica', actionkit_uri: '/rest/v1/tag/955/'},
+  {name: '@Other_National', actionkit_uri: '/rest/v1/tag/970/'},
+  {name: '@UK', actionkit_uri: '/rest/v1/tag/968/'},
+  {name: '@USA', actionkit_uri: '/rest/v1/tag/966/'}
 ])
 
-# 8. make members 

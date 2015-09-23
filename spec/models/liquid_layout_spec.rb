@@ -1,16 +1,11 @@
 require 'rails_helper'
 
 describe LiquidLayout do
-  
   let(:layout) { create(:liquid_layout) }
 
   describe "is valid" do
-
     after :each do
       expect(layout).to be_valid
-    end
-
-    it "with factory settings" do
     end
 
     it "with a reference to a partial that does exist" do
@@ -20,7 +15,6 @@ describe LiquidLayout do
   end
 
   describe "is invalid" do
-
     after :each do
       expect(layout).to be_invalid
     end
@@ -36,7 +30,16 @@ describe LiquidLayout do
     it "with a reference to a partial that doesn't exist" do
       layout.content = "<div>{% include 'nonexistent' %}</div>"
     end
-
   end
 
+  describe '.default' do
+    before do
+      create(:liquid_layout, title: 'default')
+    end
+
+    it 'returns default layout' do
+      expect(LiquidLayout.default.title).to eq('default')
+    end
+  end
 end
+

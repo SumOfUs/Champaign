@@ -12,6 +12,7 @@ class CampaignPage < ActiveRecord::Base
   has_many :tags, through: :campaign_pages_tags
   has_many :actions
   has_many :images
+  has_many :links
 
   validates :title, :slug, presence: true, uniqueness: true
   validates :liquid_layout, presence: true
@@ -28,12 +29,14 @@ class CampaignPage < ActiveRecord::Base
     CampaignPageRenderer.new(self).render_and_save
   end
 
+  def liquid_data
+    attributes.merge(link_list: links.map(&:attributes))
+  end
+
   def plugins
     Plugins.registered.map do |plugin_class|
       plugin_class.where(campaign_page_id: id).to_a
     end.flatten
   end
-
 end
-
 

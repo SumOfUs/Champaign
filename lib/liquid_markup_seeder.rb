@@ -5,13 +5,8 @@ module LiquidMarkupSeeder
     files.each do |path|
       title, model = meta(path)
       content = read(path)
-      existing = model.constantize.find_by_title(title)
-
-      if existing
-        existing.update content: content
-      else
-        model.constantize.create( title: title, content: content)
-      end
+      model.constantize.find_or_initialize_by(title: title).
+        update(content: content)
     end
   end
 
@@ -20,7 +15,7 @@ module LiquidMarkupSeeder
   end
 
   def files
-    Dir.glob("#{Rails.root}/app/views/plugins/**/*.liquid")
+    Dir.glob(["#{Rails.root}/app/views/plugins/**/*.liquid", "#{Rails.root}/app/liquid/views/**/*.liquid"])
   end
 
   def meta(file)
@@ -37,3 +32,4 @@ module LiquidMarkupSeeder
     file =~ /\_\w+\.liquid$/ ? 'LiquidPartial' : 'LiquidLayout'
   end
 end
+

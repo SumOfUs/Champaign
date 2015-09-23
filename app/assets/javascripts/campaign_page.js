@@ -52,8 +52,8 @@
     var handleClick = function(e){
       e.preventDefault();
       $('form.plugin-toggle').submit();
-      $('.toggle-button').removeClass('btn-success');
-      $(this).addClass('btn-success');
+      $('.toggle-button').removeClass('btn-primary');
+      $(this).addClass('btn-primary');
     };
 
     var handleSuccess = function(e,data){
@@ -76,18 +76,11 @@
     $('form.plugin-toggle').on('ajax:error', handleError);
   };
 
-  var configureSelect2 = function(){
-    $('.select2-container').select2({});
-  }
-
   var initialize = function() {
     configureDropZone();
     configureQuillEditor();
-    configureSelect2();
     configureToggle();
   };
 
   $.subscribe("campaign_page:has_loaded", initialize);
-
 }());
-

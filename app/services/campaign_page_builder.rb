@@ -26,9 +26,15 @@ class CampaignPageBuilder
   end
 
   def create_plugins
-    page.liquid_layout.partial_refs.each do |partial, ref|
-      plugin_name = LiquidPartial.find_by(title: partial).plugin_name
-      Plugins.create_for_page(plugin_name, page, ref)
+    if default
+      Plugins.registered.each do |plugin|
+        Plugins.basic_create_for_page(plugin, page)
+      end
+    else
+      page.liquid_layout.partial_refs.each do |partial, ref|
+        plugin_name = LiquidPartial.find_by(title: partial).plugin_name
+        Plugins.create_for_page(plugin_name, page, ref)
+      end
     end
   end
 
@@ -37,6 +43,18 @@ class CampaignPageBuilder
       type: 'create',
       params: page.attributes
     }.as_json )
+  end
+
+  def params
+    {liquid_layout_id: default_layout.id}.merge(@params)
+  end
+
+  def default_layout
+    @default_layout ||= LiquidLayout.default
+  end
+
+  def default
+    ENV['DEFAULT_PLUGIN_REGISTRATION'] || false
   end
 end
 

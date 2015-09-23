@@ -1,27 +1,38 @@
 class FormElementsController < ApplicationController
-  before_filter :find_form, only: [:create]
+  before_filter :find_form, only: [:create, :sort]
 
   def create
-    @element = FormElementBuilder.create(@form, permitted_params)
+    @form_element = FormElementBuilder.create(@form, permitted_params)
 
     respond_to do |format|
-      if @element.valid?
-        format.html  { render partial: 'element', locals: { form: @form, element: @element }, status: :ok }
+      if @form_element.valid?
+        format.html { render partial: 'element', locals: { form: @form, element: @form_element }, status: :ok }
       else
-        format.json { render json: @element.errors, status: :unprocessable_entity }
+        format.html { render :new }
+        format.js { render 'errors' }
+        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def destroy
-    element = FormElement.find(params[:id])
-    element.destroy
+    @form_element = FormElement.find(params[:id])
+    @form_element.destroy
 
     respond_to do |format|
       format.json do
         render json: {status: :ok}, status: :ok
       end
     end
+  end
+
+  def sort
+    ids = params[:form_element_ids].split(',')
+    ids.each_with_index do |id, index|
+      FormElement.where(id: id, form_id: @form.id).update_all(position: index)
+    end
+
+    render json: @form.form_elements.map(&:position)
   end
 
 
