@@ -4,8 +4,8 @@ FactoryGirl.define do
     title { Faker::Company.bs }
     content "<div class='fun'></div>"
 
-    trait :master do
-      title 'master'
+    trait :default do
+      title 'default'
       content %{ {% include 'action' %} {% include 'thermometer' %} }
     end
 

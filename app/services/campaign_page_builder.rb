@@ -50,7 +50,7 @@ class CampaignPageBuilder
   end
 
   def default_layout
-    @default_layout ||= LiquidLayout.master
+    @default_layout ||= LiquidLayout.default
   end
 
   def default

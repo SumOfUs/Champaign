@@ -29,7 +29,7 @@ class CampaignPagesController < ApplicationController
     markup = if @campaign_page.liquid_layout
                @campaign_page.liquid_layout.content
              else
-                File.read("#{Rails.root}/app/views/plugins/templates/main.liquid")
+                File.read("#{Rails.root}/app/liquid/views/layouts/default.liquid")
              end
 
     @template = Liquid::Template.parse(markup)

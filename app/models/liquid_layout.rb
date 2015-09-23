@@ -19,8 +19,8 @@ class LiquidLayout < ActiveRecord::Base
   end
 
   class << self
-    def master
-      find_by(title: 'master')
+    def default
+      find_by(title: 'default')
     end
   end
 end
