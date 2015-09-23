@@ -77,7 +77,6 @@
   };
 
   var makeSortable = function(){
-    console.log('make sortable called')
     $( ".list-group.sortable" ).sortable();
   };
 
@@ -95,7 +94,6 @@
   var bindHandlers = function(){
     $('.collection-editor #new_collection_element').on('ajax:success', function(e, resp, c){
       $('.list-group').append(resp);
-      console.log('now?')
       makeSortable();
     });
 
