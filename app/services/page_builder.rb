@@ -1,4 +1,4 @@
-class CampaignPageBuilder
+class PageBuilder
   attr_reader :params
 
   class << self
@@ -22,7 +22,7 @@ class CampaignPageBuilder
   private
 
   def page
-    @page ||= CampaignPage.new(params)
+    @page ||= Page.new(params)
   end
 
   def create_plugins

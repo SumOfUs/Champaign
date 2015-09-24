@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe CampaignPageBuilder do
+describe PageBuilder do
 
-  subject { CampaignPageBuilder.create_with_plugins(params) }
+  subject { PageBuilder.create_with_plugins(params) }
 
   let(:params) {{ title: "Foo Bar", liquid_layout_id: template.id }}
   let(:content) { "{% include 'action' %}<div class='foo'>{% include 'thermometer' %}</div>"}
@@ -17,8 +17,8 @@ describe CampaignPageBuilder do
   end
 
   it 'creates a campaign page' do
-    expect { subject }.to change{ CampaignPage.count }.from(0).to(1)
-    expect(CampaignPage.first.title).to eq("Foo Bar")
+    expect { subject }.to change{ Page.count }.from(0).to(1)
+    expect(Page.first.title).to eq("Foo Bar")
   end
 
   it "pushes page to queue" do
@@ -28,14 +28,14 @@ describe CampaignPageBuilder do
 
   it 'uses the correct liquid layout' do
     subject
-    expect(CampaignPage.last.liquid_layout_id).to eq template.id
-    expect(CampaignPage.last.liquid_layout).not_to eq LiquidLayout.default
+    expect(Page.last.liquid_layout_id).to eq template.id
+    expect(Page.last.liquid_layout).not_to eq LiquidLayout.default
   end
 
   it 'uses the default template if none specified' do
     params.delete :liquid_layout_id
-    expect { subject }.to change{ CampaignPage.count }.from(0).to(1)
-    expect(CampaignPage.last.liquid_layout).to eq LiquidLayout.default
+    expect { subject }.to change{ Page.count }.from(0).to(1)
+    expect(Page.last.liquid_layout).to eq LiquidLayout.default
   end
 
   [Plugins::Thermometer, Plugins::Action].each do |plugin|

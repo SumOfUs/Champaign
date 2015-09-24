@@ -4,8 +4,8 @@ class Share::EmailsController < Share::SharesController
 
   def new_defaults
     {
-      subject: @campaign_page.title,
-      body: "#{ActionView::Base.full_sanitizer.sanitize(@campaign_page.content).split('.')[0]} {LINK}"
+      subject: @page.title,
+      body: "#{ActionView::Base.full_sanitizer.sanitize(@page.content).split('.')[0]} {LINK}"
     }
   end
 

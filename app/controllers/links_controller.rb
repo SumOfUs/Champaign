@@ -5,7 +5,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       if link.save
-        format.html  { render partial: 'campaign_pages/link', locals: { link: link }, status: :ok }
+        format.html  { render partial: 'pages/link', locals: { link: link }, status: :ok }
       else
         format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
       end
@@ -26,7 +26,7 @@ class LinksController < ApplicationController
   private
 
   def permitted_params
-    params.require(:link).permit(:url, :title, :source, :date, :campaign_page_id)
+    params.require(:link).permit(:url, :title, :source, :date, :page_id)
   end
 
 end

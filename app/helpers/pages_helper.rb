@@ -1,5 +1,5 @@
-module CampaignPagesHelper
-  def campaign_page_nav_item(text, path, strict=true)
+module PagesHelper
+  def page_nav_item(text, path, strict=true)
     selected = current_page?(path) || (!strict && request.path.include?(path))
     klass = selected ? 'active' : nil
 

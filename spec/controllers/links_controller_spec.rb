@@ -4,18 +4,18 @@ describe LinksController do
   let(:link) { instance_double('Link', save: true) }
 
   describe 'POST #create' do
-    let(:campaign_page) { instance_double('CampaignPage') }
+    let(:page) { instance_double('Page') }
     let(:params) { { url: "http://google.com", title: 'Google.com' } }
 
     before do
-      allow(CampaignPage).to receive(:find){ campaign_page }
+      allow(Page).to receive(:find){ page }
       allow(Link).to receive(:new) { link }
 
-      post :create, campaign_page_id: '1', link: params
+      post :create, page_id: '1', link: params
     end
 
-    it 'does not bother to find campaign_page' do
-      expect(CampaignPage).not_to have_received(:find)
+    it 'does not bother to find page' do
+      expect(Page).not_to have_received(:find)
     end
 
     it 'creates link' do
@@ -28,7 +28,7 @@ describe LinksController do
 
     context "successfully created" do
       it 'renders link partial' do
-        expect(response).to render_template('campaign_pages/_link')
+        expect(response).to render_template('pages/_link')
       end
     end
   end
@@ -38,7 +38,7 @@ describe LinksController do
       allow(Link).to receive(:find){ link }
       allow(link).to receive(:destroy)
 
-      delete :destroy, campaign_page_id: '1', id: '2', format: :json
+      delete :destroy, page_id: '1', id: '2', format: :json
     end
 
     it 'finds link' do

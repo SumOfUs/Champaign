@@ -1,6 +1,6 @@
 $(function(){
   var $bar = $('.progress-bar'),
-      page_id = $bar.data('campaign-page-id');
+      page_id = $bar.data('page-id');
 
 
   var updateBar = function(data){
@@ -13,7 +13,7 @@ $(function(){
   };
 
   var getCount = function(){
-    var endpoint = "/api/campaign_pages/" + page_id + ".json";
+    var endpoint = "/api/pages/" + page_id + ".json";
     $.get(endpoint, function(data){
       updateBar(data);
     });

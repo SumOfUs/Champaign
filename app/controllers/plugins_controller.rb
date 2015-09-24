@@ -1,12 +1,12 @@
 class PluginsController < ApplicationController
-  before_filter :find_campaign_page
+  before_filter :find_page
 
   def index
-    plugins = @campaign_page.plugins
+    plugins = @page.plugins
     if plugins.size > 0
-      redirect_to campaign_page_plugin_path(@campaign_page, plugins.first.name, plugins.first.id)
+      redirect_to page_plugin_path(@page, plugins.first.name, plugins.first.id)
     else
-      redirect_to edit_campaign_page_path(@campaign_page)
+      redirect_to edit_page_path(@page)
     end
   end
 
@@ -16,7 +16,7 @@ class PluginsController < ApplicationController
 
   private
 
-  def find_campaign_page
-    @campaign_page = CampaignPage.find params[:campaign_page_id]
+  def find_page
+    @page = Page.find params[:page_id]
   end
 end

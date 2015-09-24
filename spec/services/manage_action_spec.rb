@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe ManageAction do
-  let(:campaign) { create(:campaign_page) }
-  let(:data) { { email: 'bob@example.com', campaign_page_id: campaign.id } }
+  let(:page) { create(:page) }
+  let(:data) { { email: 'bob@example.com', page_id: page.id } }
 
   describe '#create' do
     subject { ManageAction.new(data).create }

@@ -16,7 +16,7 @@ describe Api::ActionsController do
 
       before do
         allow(FormValidator).to receive(:new){ validator }
-        post :create, { campaign_page_id: 2, form_id: 3, foo: 'bar' }
+        post :create, { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
       it "finds form" do
@@ -25,7 +25,7 @@ describe Api::ActionsController do
       end
 
       it "delegates to Action with params" do
-        expected_params = { campaign_page_id: '2', form_id: '3', foo: 'bar'}.stringify_keys
+        expected_params = { page_id: '2', form_id: '3', foo: 'bar'}.stringify_keys
 
         expect(Action).to have_received(:create_action).
           with(expected_params)
@@ -33,7 +33,7 @@ describe Api::ActionsController do
 
       it "filters params by those present in the form" do
         expect {
-          post :create, { campaign_page_id: 2, form_id: 3, not_permitted: 'no, no!' }
+          post :create, { page_id: 2, form_id: 3, not_permitted: 'no, no!' }
         }.to raise_error(
           ActionController::UnpermittedParameters,
           "found unpermitted parameter: not_permitted"
@@ -47,7 +47,7 @@ describe Api::ActionsController do
 
       before :each do
         allow(FormValidator).to receive(:new){ validator }
-        post :create, { campaign_page_id: 2, form_id: 3, foo: 'bar' }
+        post :create, { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
       it "does not create an action" do

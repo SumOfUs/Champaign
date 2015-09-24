@@ -18,7 +18,7 @@
       <div class="action-bar__expand-arrow"></div>
       <div class="action-bar__shading"></div>
 
-      <form action='/api/campaign_pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
+      <form action='/api/pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
         <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
         {% for field in plugins.action[ref].fields %}
           <div class="form__group">

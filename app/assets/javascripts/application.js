@@ -25,7 +25,7 @@
 
 //= require show_errors
 //= require collection_editor
-//= require campaign_page
+//= require edit_page
 //= require selectize_config.js
 //= require ajax
 //

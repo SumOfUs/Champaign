@@ -1,17 +1,17 @@
 require 'share_progress'
 
 class ShareProgressVariantBuilder
-  def self.create(params, variant_type:, campaign_page:, url:)
-    new(params, variant_type, campaign_page, url).create
+  def self.create(params, variant_type:, page:, url:)
+    new(params, variant_type, page, url).create
   end
 
-  def self.update(params, variant_type:, campaign_page:, url:, id:)
-    new(params, variant_type, campaign_page, url, id).update
+  def self.update(params, variant_type:, page:, url:, id:)
+    new(params, variant_type, page, url, id).update
   end
 
-  def initialize(params, variant_type, campaign_page, url, id = nil)
+  def initialize(params, variant_type, page, url, id = nil)
     @params = params
-    @campaign_page = campaign_page
+    @page = page
     @variant_type = variant_type.to_sym
     @url = url
     @id = id
@@ -23,7 +23,7 @@ class ShareProgressVariantBuilder
 
     return variant unless variant.valid?
 
-    button = Share::Button.find_by(sp_type: @variant_type, campaign_page_id: @campaign_page.id)
+    button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
     ShareProgress::Button.new( share_progress_button_params(variant, button) ).save
 
     variant
@@ -31,12 +31,12 @@ class ShareProgressVariantBuilder
 
   def create
     variant = variant_class.new(@params)
-    variant.campaign_page = @campaign_page
+    variant.page = @page
     variant.save
 
     return variant unless variant.valid?
 
-    button = Share::Button.find_or_create_by(sp_type: @variant_type, campaign_page_id: @campaign_page.id)
+    button = Share::Button.find_or_create_by(sp_type: @variant_type, page_id: @page.id)
 
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
     sp_button.save
@@ -53,7 +53,7 @@ class ShareProgressVariantBuilder
     {
       page_url: @url,
       button_template: "sp_#{variant_initials}_large",
-      page_title: "#{@campaign_page.title} [#{@variant_type}]",
+      page_title: "#{@page.title} [#{@variant_type}]",
       variants: send("#{@variant_type}_variants", variant),
       id: button.sp_id
     }

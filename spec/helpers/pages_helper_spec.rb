@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-describe CampaignPagesHelper do
-  describe "#campaign_page_nav_item" do
+describe PagesHelper do
+  describe "#page_nav_item" do
     it "returns li element with link" do
-      actual = helper.campaign_page_nav_item('foo', '/bar')
+      actual = helper.page_nav_item('foo', '/bar')
       expect(actual).to eq("<li><a href=\"/bar\">foo</a></li>")
     end
   end

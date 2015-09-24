@@ -2,12 +2,12 @@ require 'rails_helper'
 
 describe PluginsController do
   let(:plugin) { instance_double('Plugins::Action') }
-  let(:page)   { instance_double('CampaignPage', id: 5) }
+  let(:page)   { instance_double('Page', id: 5) }
 
   before do
     allow(Plugins).to receive(:find_for){ plugin }
-    allow(CampaignPage).to receive(:find){ page }
-    get :show, id: '1', campaign_page_id: '2', type: 'example'
+    allow(Page).to receive(:find){ page }
+    get :show, id: '1', page_id: '2', type: 'example'
   end
 
   describe 'GET #show' do
@@ -16,7 +16,7 @@ describe PluginsController do
     end
 
     it 'finds campaign page' do
-      expect(CampaignPage).to have_received(:find).with('2')
+      expect(Page).to have_received(:find).with('2')
     end
 
     it 'finds plugin' do

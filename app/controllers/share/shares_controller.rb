@@ -2,7 +2,7 @@ require 'share_progress'
 
 class Share::SharesController < ApplicationController
   before_filter :set_resource
-  before_filter :find_campaign_page
+  before_filter :find_page
 
   def new
     @share = share_class.new(new_defaults)
@@ -15,15 +15,15 @@ class Share::SharesController < ApplicationController
   end
 
   def index
-    @variations = share_class.where(campaign_page_id: @campaign_page.id)
+    @variations = share_class.where(page_id: @page.id)
     render 'share/index'
   end
 
   def update
     @share = ShareProgressVariantBuilder.update(permitted_params, {
       variant_type: @resource.to_sym,
-      campaign_page: @campaign_page,
-      url: campaign_page_url(@campaign_page),
+      page: @page,
+      url: page_url(@page),
       id: params[:id]
     })
 
@@ -39,8 +39,8 @@ class Share::SharesController < ApplicationController
   def create
     @share = ShareProgressVariantBuilder.create(permitted_params, {
       variant_type: @resource.to_sym,
-      campaign_page: @campaign_page,
-      url: campaign_page_url(@campaign_page)
+      page: @page,
+      url: page_url(@page)
     })
 
     respond_to do |format|
@@ -62,11 +62,11 @@ class Share::SharesController < ApplicationController
     @resource = self.class.name.demodulize.gsub('Controller', '').downcase.singularize
   end
 
-  def find_campaign_page
-    @campaign_page = CampaignPage.find params[:campaign_page_id]
+  def find_page
+    @page = Page.find params[:page_id]
   end
 
   def index_path
-    send("campaign_page_share_#{@resource.pluralize}_path", @campaign_page)
+    send("page_share_#{@resource.pluralize}_path", @page)
   end
 end
