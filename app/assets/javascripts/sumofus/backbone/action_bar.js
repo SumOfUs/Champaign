@@ -1,4 +1,3 @@
-
 const ActionBar = Backbone.View.extend({
 
   el: '.action-bar',

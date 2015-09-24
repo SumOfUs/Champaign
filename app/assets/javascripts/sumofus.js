@@ -9,4 +9,5 @@
 //= require selectize
 //= require_directory ./plugins
 
+require("sumofus/scroll");
 window.ActionBar = require('sumofus/backbone/action_bar');
