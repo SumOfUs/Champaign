@@ -9,17 +9,19 @@
       div.well
         p.note = t('share.get_started')
 
+  .col-md-8
     - @variations.each do |variation|
       .panel.panel-default
         .panel-heading
           .btn-toolbar
-            = link_to t('common.edit'), [:edit, @campaign_page, variation], class: 'btn btn-default'
+            .pull-right
+              = link_to t('common.edit'), [:edit, @campaign_page, variation], class: 'btn btn-success'
         .panel-body
           = render variation
 
         .panel-footer
           = render partial: 'share/analytics', locals: { variation: variation }
 
-    = link_to t('share.form.new_variation'), [:new, @campaign_page, :share, @resource], class: 'btn btn-default'
+    = link_to t('share.form.new_variation'), [:new, @campaign_page, :share, @resource], class: 'btn btn-info'
 
 
