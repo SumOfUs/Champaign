@@ -20,7 +20,7 @@
 //= require bootstrap-sprockets
 //= require selectize
 //= require dropzone
-//= require liquid/syntax-highlighting
+//= require syntax-highlighting
 //= require typeahead.jquery
 
 //= require show_errors
