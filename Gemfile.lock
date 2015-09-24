@@ -70,6 +70,10 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
     browser (0.9.1)
+    browserify-rails (1.4.0)
+      railties (>= 4.0.0, < 5.0)
+      sprockets (> 3.0.2)
+      tilt (>= 1.1, < 3)
     builder (3.2.2)
     byebug (6.0.2)
     capybara (2.4.4)
@@ -292,8 +296,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    select2-rails (3.5.9.3)
-      thor (~> 0.14)
+    selectize-rails (0.12.1)
     share_progress (0.1.2)
       httparty (>= 0.13)
     slim (3.0.6)
@@ -344,6 +347,7 @@ DEPENDENCIES
   aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
   browser
+  browserify-rails
   byebug
   capybara
   codemirror-rails
@@ -374,7 +378,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
-  select2-rails
+  selectize-rails
   share_progress (>= 0.1.2)
   slim-rails
   spring

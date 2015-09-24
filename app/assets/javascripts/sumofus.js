@@ -1,11 +1,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require pub_sub
-
-//= require show_errors
-//= require select2
 //= require sticky
 //= require underscore
 //= require backbone
-//= require_tree ./sumofus
+
+//= require show_errors
+//= require selectize
 //= require_directory ./plugins
+
+require("sumofus/scroll");
+window.ActionBar = require('sumofus/backbone/action_bar');

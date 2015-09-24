@@ -35,7 +35,7 @@
                 <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
               </label>
             {% when 'country' %}
-              <select name="{{field.name}}" class="select2" placeholder="{{field.label}}">
+              <select name="{{field.name}}" class="action-bar__country-selector" placeholder="{{field.label}}">
                 <option></option>
                 {{ country_option_tags }}
               </select>
