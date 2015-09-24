@@ -1,3 +1,4 @@
+
 const ActionBar = Backbone.View.extend({
 
   el: '.action-bar',
@@ -13,6 +14,7 @@ const ActionBar = Backbone.View.extend({
     this.isSticky = false;
     if (!this.isMobile()) {
       this.makeSticky();
+      this.selectizeCountry();
     }
     // can't use events hash cause scoped to window
     $(window).on('resize', () => this.questionSticky());
@@ -71,6 +73,10 @@ const ActionBar = Backbone.View.extend({
       this.makeSticky();
     }
   },
+
+  selectizeCountry: function() {
+    $('.action-bar__country-selector').selectize();
+  }
 
 });
 

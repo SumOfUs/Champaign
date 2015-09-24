@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'select2-rails'
 gem 'dropzonejs-rails'
 gem 'codemirror-rails'
+gem 'selectize-rails'
 gem 'countries'
 gem 'browserify-rails'
 
