@@ -4,7 +4,10 @@ RUN apt-get update -qq && apt-get install -y nodejs npm imagemagick netcat
 
 RUN mkdir /myapp
 WORKDIR /myapp
+
 ADD Gemfile* /myapp/
+ADD package.json /myapp/
+
 RUN bundle install --jobs 4
 RUN npm install
 
