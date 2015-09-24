@@ -31,8 +31,8 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production'
-    branch: create-staging-environment
+    branch: development
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging'
