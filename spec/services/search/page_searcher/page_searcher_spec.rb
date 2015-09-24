@@ -6,7 +6,7 @@ describe 'Search ::' do
     include_context 'page_searcher_spec_data'
 
     context 'validates search parameters' do
-      describe 'returns all campaign pages when searching' do
+      describe 'returns all pages when searching' do
         it 'with an empty array' do
           expect(Search::PageSearcher.new({search: [] }).search).to match_array(Page.all)
         end

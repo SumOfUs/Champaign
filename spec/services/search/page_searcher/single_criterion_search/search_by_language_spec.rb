@@ -10,7 +10,7 @@ describe 'Search ::' do
         it 'finds only the page that corresponds to the specified language' do
           expect(language_searcher.search).to match_array([title_language_campaign_match])
         end
-        describe 'returns all campaign pages unfiltered when searching' do
+        describe 'returns all pages unfiltered when searching' do
           describe 'returns all pages when searching' do
             it 'with an empty array' do
               expect(Search::PageSearcher.new({search: {language: []} }).search).to match_array(Page.all)

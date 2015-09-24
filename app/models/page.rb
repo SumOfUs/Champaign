@@ -5,7 +5,7 @@ class Page < ActiveRecord::Base
   has_paper_trail
 
   belongs_to :language
-  belongs_to :campaign # Note that some campaign pages do not necessarily belong to campaigns
+  belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
   belongs_to :liquid_layout
 
   has_many :pages_tags, dependent: :destroy
