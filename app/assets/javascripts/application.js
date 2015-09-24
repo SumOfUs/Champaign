@@ -18,7 +18,7 @@
 //= require jquery.remotipart
 
 //= require bootstrap-sprockets
-//= require select2
+//= require selectize
 //= require dropzone
 //= require liquid/syntax-highlighting
 //= require typeahead.jquery
@@ -26,7 +26,7 @@
 //= require show_errors
 //= require collection_editor
 //= require campaign_page
-//= require select2_config.js
+//= require selectize_config.js
 //= require ajax
 //
 //= require_tree ./plugins/actions/admin/

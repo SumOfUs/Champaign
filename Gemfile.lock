@@ -296,8 +296,6 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    select2-rails (3.5.9.3)
-      thor (~> 0.14)
     selectize-rails (0.12.1)
     share_progress (0.1.2)
       httparty (>= 0.13)
@@ -380,7 +378,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
-  select2-rails
   selectize-rails
   share_progress (>= 0.1.2)
   slim-rails
