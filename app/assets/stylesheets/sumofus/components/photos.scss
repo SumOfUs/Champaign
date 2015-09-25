@@ -1,0 +1,39 @@
+.medium-photo {
+  height: 250px;
+  max-width: 475px;
+  width: 100%;
+  background-size: cover;
+  overflow: hidden;
+
+  &--translucent {
+    opacity: 0.15;
+  }     
+}
+
+.cover-photo {
+  height: 390px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+
+  &__overlay {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__titles {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+  }
+  &__target {
+    &:empty {
+      display: none;
+    }
+  }
+}

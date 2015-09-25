@@ -23,6 +23,18 @@ $mobile-width: 700px;
     margin-left: 4%;
     float: left;
   }
+  &__central-square {
+    text-align: center;
+    max-width: 700px;
+    margin: 120px auto;
+    @media(max-width: $mobile-width) {
+      margin: 80px auto;
+    }
+  }
+  &__centered-element {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
 .clearfix {
