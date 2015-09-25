@@ -145,7 +145,7 @@ en:
 
   plugins:
     action:
-      action_description: "Provide a description for your petition"
+      action_description: "Petition Text"
       choose_form_template: "Choose a form template"
       customise_form: "Customise your petition form"
       add_new_field: "Add a new field"
