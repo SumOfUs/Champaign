@@ -1,0 +1,14 @@
+
+@mixin centered-to-full($width, $padding: 0%) {
+  width: $width;
+  margin: 0 auto;
+  @include full-width-after($width, $padding);
+}
+
+@mixin full-width-after($maxWidth, $padding: 0%) {
+  @media(max-width: $maxWidth) {
+    width: 100%;
+    padding-left: $padding;
+    padding-right: $padding;
+  }
+}

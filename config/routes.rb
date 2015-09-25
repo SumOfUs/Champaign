@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+
+  # We remove the sign_up path name so as not to allow users to sign in with username and password.
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -12,30 +15,42 @@ Rails.application.routes.draw do
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
-  post '/tags/add', to: 'tags#add_tag_to_campaign_page'
-  delete '/tags/remove', to: 'tags#remove_tag_from_campaign_page'
+  post '/tags/add', to: 'tags#add_tag_to_page'
+  delete '/tags/remove', to: 'tags#remove_tag_from_page'
 
   # Standard resources
   resources :campaigns
 
-  resources :campaign_pages do
+  resources :pages do
+    namespace :share do
+      resources :facebooks
+      resources :twitters
+      resources :emails
+    end
+
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
   end
 
   resources :forms do
-    resources :form_elements
+    resources :form_elements do
+      post :sort, on: :collection
+    end
   end
 
   namespace :plugins do
-    resources :actions
+    resources :actions do
+      resources :forms, module: :actions
+      resource :preview, module: :actions
+    end
     resources :thermometers
   end
 
 
   resources :liquid_partials
   resources :liquid_layouts
+  resources :links, only: [:create, :destroy]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -79,7 +94,7 @@ Rails.application.routes.draw do
   #   resources :photos, concerns: :toggleable
 
   namespace :api do
-    resources :campaign_pages do
+    resources :pages do
       resources :actions
     end
   end

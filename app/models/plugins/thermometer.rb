@@ -1,5 +1,5 @@
 class Plugins::Thermometer < ActiveRecord::Base
-  belongs_to :campaign_page
+  belongs_to :page
 
   DEFAULTS = { offset: 0, goal: 1000 }
 
@@ -7,7 +7,7 @@ class Plugins::Thermometer < ActiveRecord::Base
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
 
   def get_current
-    count = campaign_page.actions.count
+    count = page.actions.count
     ( offset + count ) / goal * 100
   end
 
@@ -16,6 +16,6 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   def name
-    'Thermometer'
+    self.class.name.demodulize
   end
 end

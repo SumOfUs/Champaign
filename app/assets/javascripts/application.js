@@ -12,12 +12,21 @@
 //
 //= require jquery
 //= require jquery_ujs
+
 //= require pub_sub
+//= require jquery-ui/sortable
+//= require jquery.remotipart
 
 //= require bootstrap-sprockets
-//= require select2
+//= require selectize
 //= require dropzone
-//= require liquid/syntax-highlighting
+//= require syntax-highlighting
+//= require typeahead.jquery
 
-//= require forms
-//= require campaign_page
+//= require show_errors
+//= require collection_editor
+//= require edit_page
+//= require selectize_config.js
+//= require ajax
+//
+//= require_tree ./plugins/actions/admin/

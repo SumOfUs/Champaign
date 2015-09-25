@@ -1,31 +1,16 @@
-.row
+.row.collection-editor
+  .col-md-12
+    h3 #{  @form.name }
   .col-md-6
-    h3 = t('.title')
-
-    = form_for [@form, FormElement.new], remote: true, html: {class: 'form-element'}  do |f|
-
-      .form-group
-        = f.text_field :label,  class: 'form-control', placeholder: 'Label'
-      .form-group
-        = f.text_field :name,  class: 'form-control', placeholder: 'Name'
-      .form-group
-        = f.select :data_type, options_for_select([['text', 'text'],['checkbox', 'checkbox']]), {}, class: 'form-control'
-      .checkbox
-        label
-          = f.check_box :required
-          ' required
-
-      .form-group
-        button.btn.btn-default = t('common.save')
+    h4 = t('.title')
+    .forms-add-element
+      = render partial: 'add_element', locals: {form: @form, form_element: @form_element}
 
   .col-md-6
-    h3 = t('.preview')
-
-    .form-preview
-      - @form.form_elements.each do |el|
-        = render partial: 'form_elements/element', locals: { form: @form, element: el }
-
+    h4 = t('.preview')
+    .forms-edit
+      = render partial: 'edit', locals: {form: @form }
 
 javascript:
-  $.publish("form:has_loaded");
+  $.publish("collection:edit:loaded");
 

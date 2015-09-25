@@ -93,21 +93,24 @@ describe CampaignsController do
     let(:fake_params) { { 'name' => 'Foo'} }
 
     before do
-      allow(CampaignParameters).to receive_message_chain('new.permit'){ fake_params }
       allow(Campaign).to receive(:create) { campaign }
       post :create, campaign: fake_params
-    end
-
-    it 'filters params' do
-      expect(CampaignParameters).to have_received(:new).with(hash_including({ 'campaign' => fake_params}))
     end
 
     it 'creates new campaign' do
       expect(Campaign).to have_received(:create).with(fake_params)
     end
 
+    it 'responds with notice' do
+      expect(flash[:notice]).to eq("Campaign has been created.")
+    end
+
     it 'assigns campaign' do
       expect(assigns(:campaign)).to eq(campaign)
+    end
+
+    it 'redirects to campaign' do
+      expect(response).to redirect_to(campaigns_path)
     end
   end
 end

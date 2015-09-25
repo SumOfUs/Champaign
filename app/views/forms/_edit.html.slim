@@ -1,0 +1,7 @@
+= form_tag sort_form_form_elements_path(form), remote: true, id: 'sort-collection-elements', style: 'hidden: true' do
+  = hidden_field_tag 'form_element_ids'
+
+ul.list-group.sortable
+  - form.form_elements.each do |element|
+    = render partial: 'form_elements/element', locals: { form: form, element: element }
+

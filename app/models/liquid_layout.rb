@@ -1,5 +1,5 @@
 class LiquidLayout < ActiveRecord::Base
-  has_many :campaign_pages
+  has_many :pages
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false
   validate :no_unknown_partials
@@ -18,4 +18,9 @@ class LiquidLayout < ActiveRecord::Base
     end
   end
 
+  class << self
+    def default
+      find_by(title: 'default')
+    end
+  end
 end

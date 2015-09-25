@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe ChampaignQueue::Clients::Sqs do
+  before do
+    @existing_sqs_url = ENV['SQS_QUEUE_URL']
+  end
+
+  after { ENV['SQS_QUEUE_URL'] = @existing_sqs_url }
+
   context "with SQS_QUEUE_URL" do
     let(:resp_body) do
       %{<?xml version="1.0"?>
@@ -19,7 +25,6 @@ describe ChampaignQueue::Clients::Sqs do
     let(:request_uri)  { "https://sqs.us-east-1.amazonaws.com/679051310897/demo" }
 
     before do
-      @existing_sqs_url = ENV['SQS_QUEUE_URL']
       ENV['SQS_QUEUE_URL'] = 'https://sqs.us-east-1.amazonaws.com/679051310897/demo'
 
       stub_request(:post, request_uri).
@@ -27,7 +32,6 @@ describe ChampaignQueue::Clients::Sqs do
         to_return(status: 200, body: resp_body)
     end
 
-    after { ENV['SQS_QUEUE_URL'] = @existing_sqs_url }
 
     it "delivers payload to AWS SQS Queue" do
 
@@ -41,7 +45,7 @@ describe ChampaignQueue::Clients::Sqs do
 
   context "without SQS_QUEUE_URL" do
     before do
-      allow(ENV).to receive(:[]).with("SQS_QUEUE_URL"){ nil }
+      ENV['SQS_QUEUE_URL'] = nil
     end
 
     it "does not deliver payload to AWS SQS Queue" do

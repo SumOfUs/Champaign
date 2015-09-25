@@ -1,0 +1,60 @@
+class PageBuilder
+  attr_reader :params
+
+  class << self
+    def create_with_plugins(params)
+      new(params).create_with_plugins
+    end
+  end
+
+  def initialize(params)
+    @params = params
+  end
+
+  def create_with_plugins
+    if page.save
+      create_plugins
+      push_to_queue
+    end
+    page
+  end
+
+  private
+
+  def page
+    @page ||= Page.new(params)
+  end
+
+  def create_plugins
+    if default
+      Plugins.registered.each do |plugin|
+        Plugins.basic_create_for_page(plugin, page)
+      end
+    else
+      page.liquid_layout.partial_refs.each do |partial, ref|
+        plugin_name = LiquidPartial.find_by(title: partial).plugin_name
+        Plugins.create_for_page(plugin_name, page, ref)
+      end
+    end
+  end
+
+  def push_to_queue
+    ChampaignQueue.push({
+      type: 'create',
+      params: page.attributes
+    }.as_json )
+  end
+
+  def params
+    {liquid_layout_id: default_layout.id}.merge(@params)
+  end
+
+  def default_layout
+    @default_layout ||= LiquidLayout.default
+  end
+
+  def default
+    ENV['DEFAULT_PLUGIN_REGISTRATION'] || false
+  end
+end
+

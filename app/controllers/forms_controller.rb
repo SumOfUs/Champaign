@@ -9,10 +9,11 @@ class FormsController < ApplicationController
   end
 
   def edit
+    @form_element = FormElement.new
   end
 
   def create
-    @form = Form.create(title: params[:form][:title])
+    @form = Form.create(name: params[:form][:name], master: true)
     redirect_to [:edit, @form]
   end
 

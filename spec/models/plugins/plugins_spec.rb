@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Plugins do
 
-  let(:page){ create :campaign_page }
+  let(:page){ create :page }
 
   describe "create_for_page" do
 
@@ -16,6 +16,11 @@ describe Plugins do
       expect{ Plugins.create_for_page('action', nil, 'my-ref') }.to change{ Plugins::Action.count }.by 0
     end
 
+    it "create no plugin if one already exists for that page and ref" do
+      expect{ Plugins.create_for_page('thermometer', page, 'my-ref') }.to change{ Plugins::Thermometer.count }.by 1
+      expect{ Plugins.create_for_page('thermometer', page, 'my-ref') }.to change{ Plugins::Thermometer.count }.by 0
+    end
+
     it "creates a thermometer plugin" do
       expect{ Plugins.create_for_page('thermometer', page, nil) }.to change{ Plugins::Thermometer.count }.by 1
     end
@@ -26,7 +31,7 @@ describe Plugins do
 
     it "attaches the page to the plugin" do
       Plugins.create_for_page('action', page, nil)
-      expect(Plugins::Action.last.campaign_page).to eq page
+      expect(Plugins::Action.last.page).to eq page
     end
 
     it "attaches the ref to plugin" do
