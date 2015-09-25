@@ -23,47 +23,10 @@ class PagesController < ApplicationController
     end
   end
 
-
-
   def show
-    markup = if @page.liquid_layout
-               @page.liquid_layout.content
-             else
-                File.read("#{Rails.root}/app/liquid/views/layouts/default.liquid")
-             end
-
-    @template = Liquid::Template.parse(markup)
-
-    @data = Plugins.data_for_view(@page).
-      merge( @page.liquid_data ).
-      merge( 'images' => images ).
-      merge( LiquidHelper.globals ).
-      merge( 'shares' => Shares.get_all(@page) ).
-      deep_stringify_keys
-
+    renderer = LiquidRenderer.new(@page)
+    @rendered = renderer.render
     render :show, layout: 'sumofus'
-  end
-
-  #
-  # NOTE
-  # This is a hack. Plugin data will be dynamically built, according to what
-  # plugins have been installed/enabled.
-  #
-  #
-  def images
-    @page.images.map do |img|
-      { 'urls' => { 'large' => img.content.url(:large), 'small' => img.content.url(:thumb) } }
-    end
-  end
-
-  def data
-    plugins_data = Plugin.registered.inject({}) do |memo, plugin|
-      config = Plugins.const_get(plugin[:name].classify).new(@page)
-      memo[plugin[:name]] = config.data_for_view
-      memo
-    end
-
-    { 'plugins' => plugins_data }
   end
 
   def update
