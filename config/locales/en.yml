@@ -127,7 +127,7 @@ en:
       new_variation: 'New Variation'
 
     facebook:
-      title: 'Facebook Share Variant'
+      title: 'Facebook Share Headline'
       form:
         title: 'Facebook Share title'
         description: 'Facebook Share text'
