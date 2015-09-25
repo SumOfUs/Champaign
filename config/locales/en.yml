@@ -37,7 +37,7 @@ en:
     is_invalid_country: 'must be a two letter country code'
 
   menu:
-    campaign_pages: 'Campaign Pages'
+    pages: 'Pages'
     campaigns: 'Campaigns'
     forms: 'Forms'
     templates: 'Templates'
@@ -51,10 +51,10 @@ en:
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
-  campaign_pages:
+  pages:
     index:
       new: "Create a new page"
-      title: "Campaign Pages"
+      title: "Pages"
       table:
         featured: "Featured"
     new:

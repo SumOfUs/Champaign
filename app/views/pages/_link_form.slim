@@ -5,7 +5,7 @@
 
   = form_for Link.new, remote: true, html: {class: 'form-element', id: 'new_collection_element'}  do |f|
 
-    = f.hidden_field :campaign_page_id, value: page.id
+    = f.hidden_field :page_id, value: page.id
 
     .col-md-12
       .form-group.col-md-3

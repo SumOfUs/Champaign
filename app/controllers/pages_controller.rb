@@ -1,23 +1,23 @@
 require 'champaign_queue'
 require 'browser'
 
-class CampaignPagesController < ApplicationController
+class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
-  before_action :get_campaign_page, only: [:show, :edit, :update, :destroy]
+  before_action :get_page, only: [:show, :edit, :update, :destroy]
 
   def index
-    @campaign_pages = Search::PageSearcher.new(params).search
+    @pages = Search::PageSearcher.new(params).search
   end
 
   def new
-    @campaign_page = CampaignPage.new
+    @page = Page.new
   end
 
   def create
-    @campaign_page = CampaignPageBuilder.create_with_plugins( campaign_page_params )
+    @page = PageBuilder.create_with_plugins( page_params )
 
-    if @campaign_page.valid?
-      redirect_to edit_campaign_page_path(@campaign_page)
+    if @page.valid?
+      redirect_to edit_page_path(@page)
     else
       render :new
     end
@@ -26,19 +26,19 @@ class CampaignPagesController < ApplicationController
 
 
   def show
-    markup = if @campaign_page.liquid_layout
-               @campaign_page.liquid_layout.content
+    markup = if @page.liquid_layout
+               @page.liquid_layout.content
              else
                 File.read("#{Rails.root}/app/liquid/views/layouts/default.liquid")
              end
 
     @template = Liquid::Template.parse(markup)
 
-    @data = Plugins.data_for_view(@campaign_page).
-      merge( @campaign_page.liquid_data ).
+    @data = Plugins.data_for_view(@page).
+      merge( @page.liquid_data ).
       merge( 'images' => images ).
       merge( LiquidHelper.globals ).
-      merge( 'shares' => Shares.get_all(@campaign_page) ).
+      merge( 'shares' => Shares.get_all(@page) ).
       deep_stringify_keys
 
     render :show, layout: 'sumofus'
@@ -51,14 +51,14 @@ class CampaignPagesController < ApplicationController
   #
   #
   def images
-    @campaign_page.images.map do |img|
+    @page.images.map do |img|
       { 'urls' => { 'large' => img.content.url(:large), 'small' => img.content.url(:thumb) } }
     end
   end
 
   def data
     plugins_data = Plugin.registered.inject({}) do |memo, plugin|
-      config = Plugins.const_get(plugin[:name].classify).new(@campaign_page)
+      config = Plugins.const_get(plugin[:name].classify).new(@page)
       memo[plugin[:name]] = config.data_for_view
       memo
     end
@@ -68,24 +68,24 @@ class CampaignPagesController < ApplicationController
 
   def update
     respond_to do |format|
-      if @campaign_page.update(campaign_page_params)
-        format.html { redirect_to edit_campaign_page_path(@campaign_page), notice: 'Page was successfully updated.' }
+      if @page.update(page_params)
+        format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.js { render json: { errors: @campaign_page.errors, name: :campaign_page }, status: :unprocessable_entity }
+        format.js { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
       end
     end
   end
 
   private
 
-  def get_campaign_page
-    @campaign_page = CampaignPage.find(params[:id])
+  def get_page
+    @page = Page.find(params[:id])
   end
 
-  def campaign_page_params
-    params.require(:campaign_page).
+  def page_params
+    params.require(:page).
       permit( :id,
       :title,
       :slug,

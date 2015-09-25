@@ -2,6 +2,6 @@
 class ActionkitPageParameters < ActionParameter::Base
 
   def permit
-    params.require(:actionkit_page).permit(:id, :campaign_page_id, :actionkit_page_type_id)
+    params.require(:actionkit_page).permit(:id, :page_id, :actionkit_page_type_id)
   end
 end

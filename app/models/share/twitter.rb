@@ -1,5 +1,5 @@
 class Share::Twitter < ActiveRecord::Base
-  belongs_to :campaign_page
+  belongs_to :page
   validates :description, presence: true
   validate :has_link
 

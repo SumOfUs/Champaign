@@ -1,15 +1,15 @@
 require 'render_anywhere'
 
-class CampaignPage < ActiveRecord::Base
+class Page < ActiveRecord::Base
   include RenderAnywhere
   has_paper_trail
 
   belongs_to :language
-  belongs_to :campaign # Note that some campaign pages do not necessarily belong to campaigns
+  belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
   belongs_to :liquid_layout
 
-  has_many :campaign_pages_tags, dependent: :destroy
-  has_many :tags, through: :campaign_pages_tags
+  has_many :pages_tags, dependent: :destroy
+  has_many :tags, through: :pages_tags
   has_many :actions
   has_many :images
   has_many :links
@@ -24,9 +24,9 @@ class CampaignPage < ActiveRecord::Base
     self.slug = title.parameterize if slug.nil? and not title.nil?
   end
 
-  # Compiles the HTML for this CampaignPage so that it can be used by external display apps.
+  # Compiles the HTML for this Page so that it can be used by external display apps.
   def compile_html
-    CampaignPageRenderer.new(self).render_and_save
+    PageRenderer.new(self).render_and_save
   end
 
   def liquid_data
@@ -35,7 +35,7 @@ class CampaignPage < ActiveRecord::Base
 
   def plugins
     Plugins.registered.map do |plugin_class|
-      plugin_class.where(campaign_page_id: id).to_a
+      plugin_class.where(page_id: id).to_a
     end.flatten
   end
 end

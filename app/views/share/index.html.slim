@@ -1,4 +1,4 @@
-= render 'campaign_pages/header'
+= render 'pages/header'
 .row
   .col-md-12
     .sub-menu
@@ -15,13 +15,12 @@
         .panel-heading
           .btn-toolbar
             .pull-right
-              = link_to t('common.edit'), [:edit, @campaign_page, variation], class: 'btn btn-success'
+              = link_to t('common.edit'), [:edit, @page, variation], class: 'btn btn-success'
         .panel-body
           = render variation
 
         .panel-footer
           = render partial: 'share/analytics', locals: { variation: variation }
 
-    = link_to t('share.form.new_variation'), [:new, @campaign_page, :share, @resource], class: 'btn btn-info'
-
+    = link_to t('share.form.new_variation'), [:new, @page, :share, @resource], class: 'btn btn-info'
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Plugins do
 
-  let(:page){ create :campaign_page }
+  let(:page){ create :page }
 
   describe "create_for_page" do
 
@@ -31,7 +31,7 @@ describe Plugins do
 
     it "attaches the page to the plugin" do
       Plugins.create_for_page('action', page, nil)
-      expect(Plugins::Action.last.campaign_page).to eq page
+      expect(Plugins::Action.last.page).to eq page
     end
 
     it "attaches the ref to plugin" do

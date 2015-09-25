@@ -14,20 +14,20 @@ describe 'Search ::' do
 
         describe 'returns all pages when searching' do
           it 'with an empty array' do
-            expect(Search::PageSearcher.new({search: {campaign: []} }).search).to match_array(CampaignPage.all)
+            expect(Search::PageSearcher.new({search: {campaign: []} }).search).to match_array(Page.all)
           end
           it 'with nil' do
-            expect(Search::PageSearcher.new({search: {campaign: nil} }).search).to match_array(CampaignPage.all)
+            expect(Search::PageSearcher.new({search: {campaign: nil} }).search).to match_array(Page.all)
           end
 
           it 'with an empty string' do
-            expect(Search::PageSearcher.new({search: {campaign: ''} }).search).to match_array(CampaignPage.all)
+            expect(Search::PageSearcher.new({search: {campaign: ''} }).search).to match_array(Page.all)
           end
         end
 
         describe 'returns no pages when searching' do
           it 'with a non-existent campaign id' do
-            expect(Search::PageSearcher.new({search: {campaign: [CampaignPage.last.id+1]} }).search).to match_array([])
+            expect(Search::PageSearcher.new({search: {campaign: [Page.last.id+1]} }).search).to match_array([])
           end
           it 'with an unused campaign id' do
             expect(Search::PageSearcher.new({search: {campaign: [unused_campaign.id]} }).search).to match_array([])

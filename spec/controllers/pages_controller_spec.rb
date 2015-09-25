@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe CampaignPagesController do
+describe PagesController do
   let(:user) { instance_double('User', id: '1') }
-  let(:campaign_page) { instance_double('CampaignPage', active?: true, featured?: true, id: '1') }
+  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1') }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
@@ -17,46 +17,46 @@ describe CampaignPagesController do
   end
 
   describe 'POST #create' do
-    let(:page) { instance_double(CampaignPage, valid?: true) }
+    let(:page) { instance_double(Page, valid?: true) }
 
     before do
-      allow(CampaignPageBuilder).to receive(:create_with_plugins) { page }
-      post :create, { campaign_page: { title: "Foo Bar" }}
+      allow(PageBuilder).to receive(:create_with_plugins) { page }
+      post :create, { page: { title: "Foo Bar" }}
     end
 
     it 'creates page' do
       expected_params = { title: "Foo Bar" }
 
-      expect(CampaignPageBuilder).to have_received(:create_with_plugins).
+      expect(PageBuilder).to have_received(:create_with_plugins).
         with(expected_params)
     end
 
     context "successfully created" do
-      it 'redirects to edit_campaign_page' do
-        expect(response).to redirect_to(edit_campaign_page_path(page))
+      it 'redirects to edit_page' do
+        expect(response).to redirect_to(edit_page_path(page))
       end
     end
 
     context "successfully created" do
-      let(:page) { instance_double(CampaignPage, valid?: false) }
+      let(:page) { instance_double(Page, valid?: false) }
 
-      it 'redirects to edit_campaign_page' do
+      it 'redirects to edit_page' do
         expect(response).to render_template :new
       end
     end
   end
 
   describe 'PUT #update' do
-    let(:page) { instance_double(CampaignPage) }
+    let(:page) { instance_double(Page) }
 
     before do
-      allow(CampaignPage).to receive(:find){ page }
+      allow(Page).to receive(:find){ page }
       allow(page).to receive(:update)
-      put :update, id: '1', campaign_page: { title: 'bar' }
+      put :update, id: '1', page: { title: 'bar' }
     end
 
     it 'finds the campaign page' do
-      expect(CampaignPage).to have_received(:find).with('1')
+      expect(Page).to have_received(:find).with('1')
     end
 
     it 'udpates the campaign page' do

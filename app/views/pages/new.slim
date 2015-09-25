@@ -1,7 +1,7 @@
 h2 = t('.title')
 
-= form_for @campaign_page, class: '' do |f|
-  = render 'shared/error_messages', target: @campaign_page
+= form_for @page, class: '' do |f|
+  = render 'shared/error_messages', target: @page
 
   .form-group
     = f.text_field :title, class: 'form-control', placeholder: t('.title_label')

@@ -1,7 +1,7 @@
 class Link < ActiveRecord::Base
-  belongs_to :campaign_page
+  belongs_to :page
 
   validates :url, :title, presence: true, allow_blank: false
-  validates_associated :campaign_page
+  validates_associated :page
 
 end

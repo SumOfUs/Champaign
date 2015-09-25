@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe CampaignPage do
+describe Page do
 
   let(:english) { create :language }
   let(:liquid_layout) { create :liquid_layout }
-  let(:simple_page) { create :campaign_page }
-  let(:existing_page) { create :campaign_page }
-  let(:page_params) { attributes_for :campaign_page, liquid_layout_id: liquid_layout.id }
+  let(:simple_page) { create :page }
+  let(:existing_page) { create :page }
+  let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
 
   subject { simple_page }
 
@@ -16,7 +16,7 @@ describe CampaignPage do
   it { is_expected.to respond_to :active }
   it { is_expected.to respond_to :featured }
   it { is_expected.to respond_to :tags }
-  it { is_expected.to respond_to :campaign_pages_tags }
+  it { is_expected.to respond_to :pages_tags }
   it { is_expected.to respond_to :campaign }
   it { is_expected.to respond_to :liquid_layout }
   it { is_expected.to respond_to :plugins }
@@ -28,17 +28,17 @@ describe CampaignPage do
     end
 
     it 'should be a reciprocal many-to-many relationship' do
-      page = CampaignPage.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+      page = Page.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
       expect(page.tags).to match_array Tag.last(2)
-      expect(Tag.last.campaign_pages).to match_array [page]
-      expect(Tag.first.campaign_pages).to match_array []
+      expect(Tag.last.pages).to match_array [page]
+      expect(Tag.first.pages).to match_array []
     end
 
     describe 'create' do
 
       after :each do
-        page = CampaignPage.new page_params
-        expect{ page.save! }.to change{ CampaignPagesTag.count }.by 2
+        page = Page.new page_params
+        expect{ page.save! }.to change{ PagesTag.count }.by 2
         expect(page.tags).to match_array(Tag.last(2))
       end
 
@@ -54,15 +54,15 @@ describe CampaignPage do
     describe 'destroy' do
 
       before :each do
-        @page = create :campaign_page, language: english, tag_ids: Tag.last(2).map(&:id)
+        @page = create :page, language: english, tag_ids: Tag.last(2).map(&:id)
       end
 
       it 'should destroy the page' do
-        expect{ @page.destroy }.to change{ CampaignPage.count }.by -1
+        expect{ @page.destroy }.to change{ Page.count }.by -1
       end
 
       it 'should destroy the join table records' do
-        expect{ @page.destroy }.to change{ CampaignPagesTag.count }.by -2
+        expect{ @page.destroy }.to change{ PagesTag.count }.by -2
       end
 
       it 'should not destroy the tag' do
@@ -73,19 +73,19 @@ describe CampaignPage do
     describe 'update' do
 
       before :each do
-        @page = create :campaign_page, language: english, tag_ids: Tag.last(2).map(&:id)
+        @page = create :page, language: english, tag_ids: Tag.last(2).map(&:id)
         @new_ids = Tag.first.id
       end
 
       it 'should update both sides of the relationship' do
         @page.update! tag_ids: @new_ids
         expect(@page.tags).to eq [Tag.first]
-        expect(Tag.first.campaign_pages).to eq [@page]
-        expect(Tag.last.campaign_pages).to eq []
+        expect(Tag.first.pages).to eq [@page]
+        expect(Tag.last.pages).to eq []
       end
 
       it 'should destroy the old join table records and make a new one' do
-        expect{ @page.update! tag_ids: @new_ids }.to change{ CampaignPagesTag.count }.by -1
+        expect{ @page.update! tag_ids: @new_ids }.to change{ PagesTag.count }.by -1
       end
     end
   end
@@ -99,7 +99,7 @@ describe CampaignPage do
     describe 'create' do
 
       after :each do
-        page = CampaignPage.new page_params
+        page = Page.new page_params
         expect{ page.save! }.to change{ Campaign.count }.by 0
         expect(page.campaign).to eq Campaign.last
       end

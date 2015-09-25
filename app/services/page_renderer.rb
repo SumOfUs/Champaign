@@ -1,6 +1,6 @@
 require 'render_anywhere'
 
-class CampaignPageRenderer
+class PageRenderer
   include RenderAnywhere
 
   def initialize(page)
@@ -14,6 +14,6 @@ class CampaignPageRenderer
   private
 
   def html
-    render partial: 'campaign_pages/page_compile', layout: false, locals: {campaign_page: @page}
+    render partial: 'pages/page_compile', layout: false, locals: {page: @page}
   end
 end

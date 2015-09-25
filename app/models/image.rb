@@ -11,6 +11,6 @@ class Image < ActiveRecord::Base
   validates_attachment_size :content, less_than: 20.megabytes
   validates_attachment_content_type :content, :content_type => ["image/tiff", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/gif"]
 
-  belongs_to :campaign_page
+  belongs_to :page
 end
 

@@ -23,7 +23,7 @@ FactoryGirl.define do
     name 'English'
   end
 
-  factory :campaign_page, aliases: [:page] do
+  factory :page do
     title { Faker::Company.bs }
     slug
     active true

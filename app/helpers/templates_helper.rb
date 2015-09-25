@@ -11,7 +11,7 @@ module TemplatesHelper
     if widget.class == WidgetType
       default_params(widget.widget_name)
     # if widget belongs to a campaign page that hasn't been saved yet
-    elsif widget.campaign_page_id.nil?
+    elsif widget.page_id.nil?
       default_params(widget.widget_type.widget_name)
     # if widget belongs to a saved campaign page
     else

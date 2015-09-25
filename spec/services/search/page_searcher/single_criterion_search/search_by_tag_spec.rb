@@ -32,13 +32,13 @@ describe 'Search ::' do
 
         describe 'does not filter by tag when searching' do
           it 'with an empty tag array' do
-            expect((Search::PageSearcher.new({search: {tags: []}})).search).to match_array(CampaignPage.all)
+            expect((Search::PageSearcher.new({search: {tags: []}})).search).to match_array(Page.all)
           end
           it 'with tag array set to nil' do
-            expect((Search::PageSearcher.new({search: {tags: nil}})).search).to match_array(CampaignPage.all)
+            expect((Search::PageSearcher.new({search: {tags: nil}})).search).to match_array(Page.all)
           end
           it 'with an empty string' do
-            expect((Search::PageSearcher.new({search: {tags: ''}})).search).to match_array(CampaignPage.all)
+            expect((Search::PageSearcher.new({search: {tags: ''}})).search).to match_array(Page.all)
           end
         end
         describe 'does not return any pages when searching' do

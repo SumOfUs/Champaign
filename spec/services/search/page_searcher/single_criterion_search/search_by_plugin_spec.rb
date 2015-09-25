@@ -10,27 +10,27 @@ describe 'Search ::' do
         let!(:default_layout) { create(:liquid_layout, :default, title: 'contains action and thermometer plugin') }
         let!(:action_layout) { create(:liquid_layout, :action, title: 'contains action plugin') }
 
-        let!(:action_page) { create(:campaign_page, liquid_layout: action_layout, title: 'action page - with action layout')}
-        let!(:thermometer_page) {create(:campaign_page, liquid_layout: default_layout, title: 'thermometer page - with default layout, action toggled off')}
-        let!(:default_page) {create(:campaign_page, liquid_layout: default_layout, title: 'default page - with active thermometer and action plugins')}
+        let!(:action_page) { create(:page, liquid_layout: action_layout, title: 'action page - with action layout')}
+        let!(:thermometer_page) {create(:page, liquid_layout: default_layout, title: 'thermometer page - with default layout, action toggled off')}
+        let!(:default_page) {create(:page, liquid_layout: default_layout, title: 'default page - with active thermometer and action plugins')}
 
-        let!(:thermometer_page_thermometer) { create(:plugins_thermometer, campaign_page: thermometer_page) }
-        let!(:default_page_thermometer) { create(:plugins_thermometer, campaign_page: default_page) }
-        let!(:action_page_thermometer) { create(:plugins_thermometer, campaign_page: action_page, active: false) }
+        let!(:thermometer_page_thermometer) { create(:plugins_thermometer, page: thermometer_page) }
+        let!(:default_page_thermometer) { create(:plugins_thermometer, page: default_page) }
+        let!(:action_page_thermometer) { create(:plugins_thermometer, page: action_page, active: false) }
 
-        let!(:action_page_action) { create(:plugins_action, campaign_page: action_page, active: true) }
-        let!(:default_page_action) { create(:plugins_action, campaign_page: default_page, active: true) }
-        let!(:thermometer_page_action) { create(:plugins_action, campaign_page: thermometer_page, active: false) }
+        let!(:action_page_action) { create(:plugins_action, page: action_page, active: true) }
+        let!(:default_page_action) { create(:plugins_action, page: default_page, active: true) }
+        let!(:thermometer_page_action) { create(:plugins_action, page: thermometer_page, active: false) }
 
         describe 'returns all pages when searching' do
           it 'with an empty array' do
-            expect(Search::PageSearcher.new({search: {plugin_type: []}}).search).to match_array(CampaignPage.all)
+            expect(Search::PageSearcher.new({search: {plugin_type: []}}).search).to match_array(Page.all)
           end
           it 'with nil' do
-            expect(Search::PageSearcher.new({search: {plugin_type: nil}}).search).to match_array(CampaignPage.all)
+            expect(Search::PageSearcher.new({search: {plugin_type: nil}}).search).to match_array(Page.all)
           end
           it 'with empty string' do
-            expect(Search::PageSearcher.new({search: {plugin_type: ""}}).search).to match_array(CampaignPage.all)
+            expect(Search::PageSearcher.new({search: {plugin_type: ""}}).search).to match_array(Page.all)
           end
         end
 
@@ -53,14 +53,14 @@ describe 'Search ::' do
 
         describe 'returns some pages when searching' do
           it 'with a plugin that is active on several pages' do
-            expect(default_page_thermometer.campaign_page).to eq(default_page)
+            expect(default_page_thermometer.page).to eq(default_page)
 
             default_page_thermometer.update(active: true)
             thermometer_page_thermometer.update(active:true)
 
             expect(default_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.active).to eq(true)
-            expect(thermometer_page_thermometer.campaign_page).to eq(thermometer_page)
+            expect(thermometer_page_thermometer.page).to eq(thermometer_page)
             expect((Search::PageSearcher.new({search: {plugin_type: ['Plugins::Thermometer']}})).search).to match_array([default_page, thermometer_page])
           end
 

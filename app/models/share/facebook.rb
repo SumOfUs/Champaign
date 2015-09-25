@@ -1,6 +1,6 @@
 class Share::Facebook < ActiveRecord::Base
   belongs_to :button
-  belongs_to :campaign_page
+  belongs_to :page
 
   validates :description, :title, presence: true
 

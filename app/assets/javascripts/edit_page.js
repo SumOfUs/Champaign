@@ -34,7 +34,7 @@
     },
 
     quill = new Quill('#editor', quillConfig),
-    $contentField = $('#campaign_page_content'),
+    $contentField = $('#page_content'),
 
     updateContentBeforeSave = function(){
       var content = quill.getHTML();
@@ -43,7 +43,7 @@
 
     quill.setHTML( $contentField.val() );
 
-    $('form.edit_campaign_page').on('ajax:before', updateContentBeforeSave);
+    $('form.edit_page').on('ajax:before', updateContentBeforeSave);
   }
 
   var configureToggle = function() {
@@ -82,5 +82,5 @@
     configureToggle();
   };
 
-  $.subscribe("campaign_page:has_loaded", initialize);
+  $.subscribe("page:has_loaded", initialize);
 }());

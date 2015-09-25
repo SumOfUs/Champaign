@@ -25,7 +25,7 @@ class ShareAnalytics
   private
 
   def button
-    @button ||= Share::Button.find_by(campaign_page_id: @page.id, sp_type: @type)
+    @button ||= Share::Button.find_by(page_id: @page.id, sp_type: @type)
   end
 end
 
