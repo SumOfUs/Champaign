@@ -10,3 +10,5 @@ html
   body
     = yield
     .mobile-indicator
+    - if current_user
+      = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
