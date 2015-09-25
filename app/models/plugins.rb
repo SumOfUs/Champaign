@@ -37,7 +37,7 @@ module Plugins
         end
         memo
       end
-      page.attributes.merge({'plugins' => plugins_data, 'ref' => default_ref})
+      {plugins: plugins_data, ref: default_ref}
     end
 
     def names
