@@ -21,10 +21,6 @@
         = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     section
-      h3 = t('.links')
-      = render 'link_form', page: @page
-
-    section
       h3 = t('.photos')
       - if @page.images.any?
         .component.campaign-images
@@ -33,6 +29,14 @@
 
       .component
         = form_tag page_images_url(@page), id: 'dropzone', class: 'dropzone' do
+
+    section
+      h3 = t('.links')
+      = render 'link_form', page: @page
+
+    section
+      h3 = t('.follow-up')
+      = render 'post_action_form', page: @page
 
 javascript:
   $.publish("page:has_loaded");

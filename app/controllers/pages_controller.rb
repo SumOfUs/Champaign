@@ -3,7 +3,7 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
-  before_action :get_page, only: [:show, :edit, :update, :destroy]
+  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up]
 
   def index
     @pages = Search::PageSearcher.new(params).search
@@ -41,6 +41,12 @@ class PagesController < ApplicationController
     end
   end
 
+  def follow_up
+    renderer = LiquidRenderer.new(@page, @page.secondary_liquid_layout)
+    @rendered = renderer.render
+    render :show, layout: 'sumofus'
+  end
+
   private
 
   def get_page
@@ -59,6 +65,7 @@ class PagesController < ApplicationController
       :campaign_id,
       :language_id,
       :liquid_layout_id,
+      :secondary_liquid_layout_id,
       {:tag_ids => []} )
   end
 end

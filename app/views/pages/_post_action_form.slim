@@ -1,0 +1,9 @@
+= form_for @page do |f|
+  = render 'shared/error_messages', target: @page
+
+  .form-group
+    = f.label :secondary_liquid_layout_id, t('.layout_select')
+    = f.select :secondary_liquid_layout_id, LiquidLayout.all.map{|ll| [ll.title, ll.id] }, {}, class: "form-control"
+
+  .form-group
+    = f.submit

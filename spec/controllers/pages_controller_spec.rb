@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe PagesController do
   let(:user) { instance_double('User', id: '1') }
-  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1') }
+  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', secondary_liquid_layout: '4') }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html') }
 
   before do
@@ -81,6 +81,33 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       expect(LiquidRenderer).to have_received(:new).with(page)
+      expect(renderer).to have_received(:render)
+    end
+
+    it 'renders show template' do
+      expect(response).to render_template :show
+    end
+
+    it 'assigns campaign' do
+      expect(assigns(:rendered)).to eq(renderer.render)
+    end
+  end
+
+  describe 'GET #follow-up' do
+
+    before do
+      allow(Page).to receive(:find){ page }
+      allow(page).to receive(:update)
+      allow(LiquidRenderer).to receive(:new){ renderer }
+      get :follow_up, id: '1'
+    end
+
+    it 'finds campaign page' do
+      expect(Page).to have_received(:find).with('1')
+    end
+
+    it 'instantiates a LiquidRenderer and calls render' do
+      expect(LiquidRenderer).to have_received(:new).with(page, page.secondary_liquid_layout)
       expect(renderer).to have_received(:render)
     end
 

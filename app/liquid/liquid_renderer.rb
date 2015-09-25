@@ -1,7 +1,8 @@
 class LiquidRenderer
 
-  def initialize(page)
+  def initialize(page, layout=nil)
     @page = page
+    @markup = layout.content unless layout.blank?
   end
 
   def render
@@ -13,7 +14,7 @@ class LiquidRenderer
   end
 
   def markup
-    @page.liquid_layout ? @page.liquid_layout.content : default_markup
+    @markup ||= @page.liquid_layout ? @page.liquid_layout.content : default_markup
   end
 
   def default_markup

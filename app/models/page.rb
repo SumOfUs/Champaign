@@ -7,6 +7,7 @@ class Page < ActiveRecord::Base
   belongs_to :language
   belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
   belongs_to :liquid_layout
+  belongs_to :secondary_liquid_layout, class_name: 'LiquidLayout'
 
   has_many :pages_tags, dependent: :destroy
   has_many :tags, through: :pages_tags
