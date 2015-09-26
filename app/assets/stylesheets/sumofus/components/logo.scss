@@ -12,15 +12,10 @@
     height: 30px;
   }
 
-
   &--tagline {
     font-size: 20px;
     line-height: 32px;
     margin-left: 15px;
-
-    @media(max-width: $mobile-width) {
-      display: none;
-    }
   }
 }
     

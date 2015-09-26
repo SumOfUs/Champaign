@@ -4,6 +4,12 @@
   width: 100%;
   z-index: 100;
   @include clearfix();
+  top: 0;
+  box-sizing: border-box;
+
+  @media(max-width: $mobile-width) {
+    position: absolute;
+  }
 
   &--dark {
     color: white;
@@ -32,5 +38,9 @@
 
   &__tagline {
     float: left;
+
+    @media(max-width: $mobile-width) {
+      display: none;
+    }
   }
 }
