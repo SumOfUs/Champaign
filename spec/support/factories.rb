@@ -18,11 +18,6 @@ FactoryGirl.define do
     admin true
   end
 
-  factory :language do
-    code 'en'
-    name 'English'
-  end
-
   factory :page do
     title { Faker::Company.bs }
     slug

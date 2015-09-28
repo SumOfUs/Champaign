@@ -35,3 +35,4 @@ module ChampaignQueue
     end
   end
 end
+
