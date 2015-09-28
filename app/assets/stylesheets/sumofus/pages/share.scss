@@ -19,3 +19,13 @@
     }
   }
 }
+
+.share-buttons {
+  width: 100%;
+  max-width: 300px;
+  margin: 90px auto 0;
+
+  &__button:first-of-type {
+    margin-right: 10px;
+  }
+}

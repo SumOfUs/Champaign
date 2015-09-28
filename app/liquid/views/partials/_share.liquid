@@ -1,5 +1,9 @@
-{% for share in shares %}
-  {% unless share[1] == blank %}
-    {{ share[1] }}
+<div class="share-buttons">
+  {% unless shares['facebook'] == blank %}
+    <div class="share-buttons__button button--facebook {{ shares['facebook'] }}"></div>
   {% endunless %}
-{% endfor %}
+
+  {% unless shares['twitter'] == blank %}
+    <div class="share-buttons__button button--twitter {{ shares['twitter']] }}"></div>
+  {% endunless %}
+</div>

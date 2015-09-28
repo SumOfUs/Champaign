@@ -37,4 +37,33 @@ button.button {
 
 .button {
   @include button($orange);
+
+  // shareprogress isn't super customization friendly, so we do
+  // what we can.
+  &--facebook, &--twitter {
+    float: left;
+    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large, {
+      a {
+        width: 100%;
+        max-width: 145px;
+        padding: 0;
+        margin: 0;
+        visibility: hidden;
+      }
+    }
+
+    a::before {
+      @include button($facebook);
+      content: 'Share';
+      visibility: visible;
+    }
+  }
+  &--facebook a::before {
+    @include button($facebook);
+    content: 'Share';
+  }
+  &--twitter a::before {
+    @include button($twitter);
+    content: 'Tweet';
+  }
 }
