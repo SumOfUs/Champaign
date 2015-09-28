@@ -4,10 +4,21 @@
   width: 100%;
   background-size: cover;
   overflow: hidden;
+  position: relative;
 
   &--translucent {
-    opacity: 0.15;
-  }     
+    &::after {
+      opacity: 0.15;
+      content: "";
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;
+      background-size: cover;
+    }
+  }
 }
 
 .cover-photo {

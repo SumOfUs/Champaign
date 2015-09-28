@@ -15,7 +15,6 @@
   text-decoration: none;
 
   @if is-superselector(button, &) {
-    background-image: url('uhhh');
     padding-top: 0;
   }
 

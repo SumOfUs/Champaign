@@ -13,7 +13,12 @@
       <h1 class="thank-you__thanks">Thanks for adding your name to '{{ title }}'!</h1>
       <div class="thank-you__cta">Share the campaign with your friends to <strong>triple your impact!</strong></div>
 
-      <div class="medium-photo medium-photo--translucent center-content__centered-element" style="background-image: url({{ images[0].urls.large }})">
+      <style type="text/css">
+        .medium-photo--translucent::after {
+          background-image: url({{ images[0].urls.large }})
+        }
+      </style>
+      <div class="medium-photo medium-photo--translucent center-content__centered-element">
         {% include 'share' %}
       </div>
     </div>
