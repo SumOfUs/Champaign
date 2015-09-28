@@ -1,5 +1,4 @@
-require 'spec_helper'
-require './lib/champaign_queue'
+require 'rails_helper'
 
 describe ChampaignQueue do
   describe '.push' do
@@ -23,6 +22,20 @@ describe ChampaignQueue do
 
         ChampaignQueue.push(foo: 'bar')
       end
+
+      context 'in production' do
+        before do
+          allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+        end
+
+        it 'always delegates to Client::Sqs' do
+          expect(ChampaignQueue::Clients::Sqs).
+            to receive(:push).with(foo: 'bar')
+
+          ChampaignQueue.push(foo: 'bar')
+        end
+      end
     end
   end
 end
+

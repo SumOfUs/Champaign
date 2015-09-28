@@ -9,6 +9,7 @@ module ChampaignQueue
   end
 
   def client
+    return  Clients::Sqs if Rails.env.production?
     ENV['AK_PROCESSOR_URL'].nil? ? Clients::Sqs : Clients::Direct
   end
 end
