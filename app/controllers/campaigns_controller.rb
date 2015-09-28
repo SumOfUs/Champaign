@@ -28,9 +28,9 @@ class CampaignsController < ApplicationController
     redirect_to :campaigns, notice: t('campaigns.update.notice')
   end
 
-  # Deactives campaign and its associated campaign pages
+  # Deactives campaign and its associated pages
   def destroy
-    @campaign.campaign_page.update_all(active: false)
+    @campaign.page.update_all(active: false)
     @campaign.update(active: false)
 
     redirect_to :campaigns, notice: t('campaigns.destroy.notice', name: @campaign.name)

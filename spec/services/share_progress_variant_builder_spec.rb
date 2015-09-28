@@ -5,7 +5,7 @@ describe ShareProgressVariantBuilder do
 
   let(:sp_variants)   { [{id: 123}] }
 
-  let(:campaign_page){ create(:campaign_page) }
+  let(:page){ create(:page) }
 
   let(:sp_button) do
     double(:button,
@@ -23,7 +23,7 @@ describe ShareProgressVariantBuilder do
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(params, {
         variant_type: 'facebook',
-        campaign_page: campaign_page,
+        page: page,
         url: 'http://example.com/foo'
       })
     end
@@ -31,7 +31,7 @@ describe ShareProgressVariantBuilder do
     it 'creates a share progress variant' do
       expected_arguments = {
         page_url: 'http://example.com/foo',
-        page_title: "#{campaign_page.title} [facebook]",
+        page_title: "#{page.title} [facebook]",
         button_template: 'sp_fb_large'
       }
       expect(ShareProgress::Button).to receive(:new).with( hash_including(expected_arguments) ){ sp_button }
@@ -58,7 +58,7 @@ describe ShareProgressVariantBuilder do
 
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
-    let!(:button){ create(:share_button, sp_type: 'facebook', campaign_page: campaign_page) }
+    let!(:button){ create(:share_button, sp_type: 'facebook', page: page) }
     let(:params) { {title: 'Bar' } }
 
     before do
@@ -68,7 +68,7 @@ describe ShareProgressVariantBuilder do
     subject(:update_variant) do
       ShareProgressVariantBuilder.update(params, {
         variant_type: 'facebook',
-        campaign_page: campaign_page,
+        page: page,
         url: 'http://example.com/foo',
         id: share.id
       })

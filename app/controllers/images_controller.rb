@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
 
   def create
-    page = CampaignPage.find(params[:campaign_page_id])
+    page = Page.find(params[:page_id])
     @image = page.images.create( image_params )
     respond_to do |format|
       format.json do

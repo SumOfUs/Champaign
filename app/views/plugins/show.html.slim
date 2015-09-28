@@ -1,16 +1,16 @@
-= render 'campaign_pages/header'
+= render 'pages/header'
 
 .row
   .col-md-2
     ul.nav.nav-pills.nav-stacked
-      - @campaign_page.plugins.each do |plugin|
-        - path = campaign_page_plugin_path(@campaign_page, plugin.name, plugin.id)
-        = campaign_page_nav_item(plugin_title(plugin), path)
+      - @page.plugins.each do |plugin|
+        - path = page_plugin_path(@page, plugin.name, plugin.id)
+        = page_nav_item(plugin_title(plugin), path)
 
   .col-md-10
-    = render partial: "#{@plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: @plugin, page: @campaign_page }
+    = render partial: "#{@plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: @plugin, page: @page }
 
 javascript:
-  $.publish("campaign_page:has_loaded");
+  $.publish("page:has_loaded");
 
 

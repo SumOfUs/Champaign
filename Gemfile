@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 ruby '2.2.2'
 
+# Synchronises Assets between Rails and S3.
+gem 'fog-aws'
+gem 'asset_sync'
+
 gem 'rails', '4.2.3'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -10,10 +14,13 @@ gem 'jquery-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'select2-rails'
-gem 'dropzonejs-rails'
 gem 'codemirror-rails'
+gem 'selectize-rails'
 gem 'countries'
+gem 'browserify-rails'
+
+# they still haven't merged the PR to support sprockets 3, but will in the next few weeks
+gem "compass-rails", git: 'https://github.com/robkilby/compass-rails', branch: 'sprockets-3'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -77,3 +84,22 @@ group :test do
   gem 'webmock'
   gem 'timecop'
 end
+
+# Rails Assets - reference any Bower components that you need as gems.
+# https://rails-assets.org/
+#
+source 'https://rails-assets.org' do
+
+  # Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
+  gem 'rails-assets-backbone'
+
+  # JavaScript's utility _ belt http://underscorejs.org
+  gem 'rails-assets-underscore'
+
+  # Reduce user-misspelled email addresses in your forms.
+  gem 'rails-assets-mailcheck'
+
+  #Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
+  gem 'rails-assets-dropzone'
+end
+

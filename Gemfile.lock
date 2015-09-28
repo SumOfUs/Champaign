@@ -1,6 +1,18 @@
+GIT
+  remote: https://github.com/robkilby/compass-rails
+  revision: d42ec065ae21aaed15bb5edb7345fd62d403dc67
+  branch: sprockets-3
+  specs:
+    compass-rails (3.0.0)
+      compass (~> 1.0.0)
+      sass-rails (< 5.1)
+      sprockets (< 4.0)
+
 GEM
   remote: https://rubygems.org/
+  remote: https://rails-assets.org/
   specs:
+    CFPropertyList (2.3.1)
     action_parameter (0.0.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -41,6 +53,10 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (6.0.3)
+    asset_sync (1.1.0)
+      activemodel
+      fog (>= 1.8.0)
+      unf
     autoprefixer-rails (5.2.1.2)
       execjs
       json
@@ -60,6 +76,10 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
     browser (0.9.1)
+    browserify-rails (1.4.0)
+      railties (>= 4.0.0, < 5.0)
+      sprockets (> 3.0.2)
+      tilt (>= 1.1, < 3)
     builder (3.2.2)
     byebug (6.0.2)
     capybara (2.4.4)
@@ -68,6 +88,7 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    chunky_png (1.3.4)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.7)
@@ -81,6 +102,18 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    compass (1.0.3)
+      chunky_png (~> 1.2)
+      compass-core (~> 1.0.2)
+      compass-import-once (~> 1.0.5)
+      rb-fsevent (>= 0.9.3)
+      rb-inotify (>= 0.9)
+      sass (>= 3.3.13, < 3.5)
+    compass-core (1.0.3)
+      multi_json (~> 1.0)
+      sass (>= 3.3.0, < 3.5)
+    compass-import-once (1.0.5)
+      sass (>= 3.2, < 3.5)
     countries (1.0.0)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
@@ -97,10 +130,9 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    dropzonejs-rails (0.7.1)
-      rails (> 3.1)
     envyable (0.2.0)
     erubis (2.7.0)
+    excon (0.45.4)
     execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -111,8 +143,106 @@ GEM
       i18n (~> 0.5)
     faraday (0.9.1)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.10)
+    fission (0.5.0)
+      CFPropertyList (~> 2.2)
+    fog (1.32.0)
+      fog-atmos
+      fog-aws (>= 0.6.0)
+      fog-brightbox (~> 0.4)
+      fog-core (~> 1.32)
+      fog-ecloud (= 0.1.1)
+      fog-google (>= 0.0.2)
+      fog-json
+      fog-local
+      fog-powerdns (>= 0.1.1)
+      fog-profitbricks
+      fog-radosgw (>= 0.0.2)
+      fog-riakcs
+      fog-sakuracloud (>= 0.0.4)
+      fog-serverlove
+      fog-softlayer
+      fog-storm_on_demand
+      fog-terremark
+      fog-vmfusion
+      fog-voxel
+      fog-xml (~> 0.1.1)
+      ipaddress (~> 0.5)
+      nokogiri (~> 1.5, >= 1.5.11)
+    fog-atmos (0.1.0)
+      fog-core
+      fog-xml
+    fog-aws (0.7.4)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-brightbox (0.8.0)
+      fog-core (~> 1.22)
+      fog-json
+      inflecto (~> 0.0.2)
+    fog-core (1.32.1)
+      builder
+      excon (~> 0.45)
+      formatador (~> 0.2)
+      mime-types
+      net-scp (~> 1.1)
+      net-ssh (>= 2.1.3)
+    fog-ecloud (0.1.1)
+      fog-core
+      fog-xml
+    fog-google (0.0.7)
+      fog-core
+      fog-json
+      fog-xml
+    fog-json (1.0.2)
+      fog-core (~> 1.0)
+      multi_json (~> 1.10)
+    fog-local (0.2.1)
+      fog-core (~> 1.27)
+    fog-powerdns (0.1.1)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+    fog-profitbricks (0.0.3)
+      fog-core
+      fog-xml
+      nokogiri
+    fog-radosgw (0.0.4)
+      fog-core (>= 1.21.0)
+      fog-json
+      fog-xml (>= 0.0.1)
+    fog-riakcs (0.1.0)
+      fog-core
+      fog-json
+      fog-xml
+    fog-sakuracloud (1.0.1)
+      fog-core
+      fog-json
+    fog-serverlove (0.1.2)
+      fog-core
+      fog-json
+    fog-softlayer (0.4.7)
+      fog-core
+      fog-json
+    fog-storm_on_demand (0.1.1)
+      fog-core
+      fog-json
+    fog-terremark (0.1.0)
+      fog-core
+      fog-xml
+    fog-vmfusion (0.1.0)
+      fission
+      fog-core
+    fog-voxel (0.1.0)
+      fog-core
+      fog-xml
+    fog-xml (0.1.2)
+      fog-core
+      nokogiri (~> 1.5, >= 1.5.11)
     font-awesome-rails (4.4.0.0)
       railties (>= 3.2, < 5.0)
+    formatador (0.2.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -123,6 +253,8 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     i18n_data (0.7.0)
+    inflecto (0.0.2)
+    ipaddress (0.8.0)
     jbuilder (2.3.1)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
@@ -153,6 +285,9 @@ GEM
     multi_xml (0.5.5)
     multipart-post (2.0.0)
     nested_form (0.3.2)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.2)
     newrelic_rpm (3.13.0.299)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
@@ -201,6 +336,11 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.2.3)
       sprockets-rails
+    rails-assets-backbone (1.1.2)
+      rails-assets-underscore (>= 1.5.0)
+    rails-assets-dropzone (4.0.1)
+    rails-assets-mailcheck (1.1.1)
+    rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
     rails-dom-testing (1.0.7)
@@ -229,6 +369,9 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
+    rb-fsevent (0.9.6)
+    rb-inotify (0.9.5)
+      ffi (>= 0.5.0)
     rdoc (4.2.0)
     remotipart (1.2.1)
     render_anywhere (0.0.11)
@@ -255,7 +398,7 @@ GEM
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
     safe_yaml (1.0.4)
-    sass (3.4.16)
+    sass (3.4.18)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -265,8 +408,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    select2-rails (3.5.9.3)
-      thor (~> 0.14)
+    selectize-rails (0.12.1)
     share_progress (0.1.2)
       httparty (>= 0.13)
     slim (3.0.6)
@@ -295,6 +437,9 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
     warden (1.2.3)
       rack (>= 1.0)
     web-console (2.2.1)
@@ -313,21 +458,24 @@ PLATFORMS
 
 DEPENDENCIES
   action_parameter
+  asset_sync
   aws-sdk (~> 2)
   aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
   browser
+  browserify-rails
   byebug
   capybara
   codemirror-rails
   coffee-rails (~> 4.1.0)
+  compass-rails!
   countries
   database_cleaner
   devise
-  dropzonejs-rails
   envyable
   factory_girl_rails
   faker
+  fog-aws
   jbuilder (~> 2.0)
   jquery-rails
   liquid
@@ -339,6 +487,10 @@ DEPENDENCIES
   pg
   puma
   rails (= 4.2.3)
+  rails-assets-backbone!
+  rails-assets-dropzone!
+  rails-assets-mailcheck!
+  rails-assets-underscore!
   rails_admin
   remotipart (~> 1.2)
   render_anywhere
@@ -346,7 +498,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
-  select2-rails
+  selectize-rails
   share_progress (>= 0.1.2)
   slim-rails
   spring

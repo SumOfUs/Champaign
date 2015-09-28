@@ -11,23 +11,23 @@ describe Tag do
   it { is_expected.to be_valid }
   it { is_expected.to respond_to :actionkit_uri }
   it { is_expected.to respond_to :name }
-  it { is_expected.to respond_to :campaign_pages_tags }
-  it { is_expected.to respond_to :campaign_pages }
+  it { is_expected.to respond_to :pages_tags }
+  it { is_expected.to respond_to :pages }
 
-  describe 'campaign_pages' do
+  describe 'pages' do
     before do
-      3.times do create :campaign_page, language: english end
+      3.times do create :page, language: english end
     end
 
     describe '.destroy' do
-      let!(:tag) { create :tag, campaign_page_ids: CampaignPage.last(2).map(&:id) }
+      let!(:tag) { create :tag, page_ids: Page.last(2).map(&:id) }
 
       it 'does not destroy page' do
-        expect{ tag.destroy }.to change{ CampaignPage.count }.by 0
+        expect{ tag.destroy }.to change{ Page.count }.by 0
       end
 
       it 'destroys table joins' do
-        expect{ tag.destroy }.to change{ CampaignPagesTag.count }.by -2
+        expect{ tag.destroy }.to change{ PagesTag.count }.by -2
       end
 
       it 'destroys tag' do

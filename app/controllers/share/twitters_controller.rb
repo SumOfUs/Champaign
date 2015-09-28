@@ -3,7 +3,7 @@ class Share::TwittersController < Share::SharesController
   private
 
   def new_defaults
-    { description: "#{@campaign_page.title} {LINK}" }
+    { description: "#{@page.title} {LINK}" }
   end
 
   def permitted_params

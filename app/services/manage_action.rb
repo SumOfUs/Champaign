@@ -4,7 +4,7 @@ class ManageAction
   end
 
   def create
-    Action.find_or_create_by( action_user: action_user, campaign_page: page ) do |action|
+    Action.find_or_create_by( action_user: action_user, page: page ) do |action|
       action.form_data = @params
     end
   end
@@ -12,7 +12,7 @@ class ManageAction
   private
 
   def previous_action
-    Action.where(action_user: action_user, campaign_page_id: page).first
+    Action.where(action_user: action_user, page_id: page).first
   end
 
   def action_user
@@ -20,7 +20,7 @@ class ManageAction
   end
 
   def page
-    @campaign_page ||= CampaignPage.find(@params[:campaign_page_id])
+    @page ||= Page.find(@params[:page_id])
   end
 end
 

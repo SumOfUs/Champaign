@@ -1,5 +1,5 @@
 class Share::Button < ActiveRecord::Base
-  belongs_to :campaign_page
+  belongs_to :page
 
 end
 

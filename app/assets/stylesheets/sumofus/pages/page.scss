@@ -1,0 +1,54 @@
+
+.cover-photo {
+  height: 390px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+
+  &__img img {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  &__titles {
+    position: absolute;
+    bottom: 40px;
+    width: 100%;
+  }
+  &__target {
+    &:empty {
+      display: none;
+    }
+  }
+}
+
+.main-feature {
+  padding: 55px 0;
+}
+
+.page-link {
+  @include rem(font-size, 0.9rem);
+  @include rem(line-height, 1.0rem);
+  margin-top: 20px;
+}
+
+.stubby-hr {
+  background-color: $dingy-gray;
+  border-color: $dingy-gray;
+  color: $dingy-gray;
+  border-style: solid;
+  width: 70px;
+  margin: 70px 0;
+}

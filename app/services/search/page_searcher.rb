@@ -2,7 +2,7 @@ class Search::PageSearcher
 
   def initialize(params)
     @queries = params[:search]
-    @collection = CampaignPage.all
+    @collection = Page.all
   end
 
   def search
@@ -40,7 +40,7 @@ class Search::PageSearcher
     # get union of unique values in collection1 and collection2
     arr = (collection1 | collection2).uniq
     # map from array back to AR collection
-    array_to_relation(CampaignPage, arr)
+    array_to_relation(Page, arr)
   end
 
   def array_to_relation(model, arr)
@@ -64,7 +64,7 @@ class Search::PageSearcher
         matches_by_tags.push(page)
       end
     end
-    @collection = array_to_relation(CampaignPage, matches_by_tags)
+    @collection = array_to_relation(Page, matches_by_tags)
   end
 
   def search_by_language(query)
@@ -91,14 +91,14 @@ class Search::PageSearcher
       end
       plugin_class.page.each do |page_plugin|
         # If the page hasn't determined to be filtered from the collection yet
-        if filtered_pages.include?(page_plugin.campaign_page_id)
+        if filtered_pages.include?(page_plugin.page_id)
           # If the plugin is active, add its page to matches
           if page_plugin.active?
-            matches_by_plugins.push(page_plugin.campaign_page_id)
+            matches_by_plugins.push(page_plugin.page_id)
           else
             # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
-            filtered_pages.delete(page_plugin.campaign_page_id)
-            matches_by_plugins.delete(page_plugin.campaign_page_id)
+            filtered_pages.delete(page_plugin.page_id)
+            matches_by_plugins.delete(page_plugin.page_id)
           end
         end
       end

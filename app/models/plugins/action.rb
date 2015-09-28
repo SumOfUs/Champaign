@@ -1,5 +1,5 @@
 class Plugins::Action < ActiveRecord::Base
-  belongs_to :campaign_page
+  belongs_to :page
   belongs_to :form
 
   after_create :create_form

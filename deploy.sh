@@ -2,6 +2,9 @@
 set -eu -o pipefail
 
 SHA1=$1
+AWS_APPLICATION_NAME=$2
+AWS_ENVIRONMENT_NAME=$3
+
 # Update Elastic Beanstalk
 echo 'Shipping source bundle to S3...'
 zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/

@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    title SumOfUs.org
+    meta name="viewport" content="width=device-width, initial-scale=1.0"
+    = stylesheet_link_tag "sumofus"
+    = javascript_include_tag "sumofus"
+    = csrf_meta_tags
+
+  body
+    = yield
+    .mobile-indicator
+    - if current_user
+      = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'

@@ -1,25 +1,25 @@
 shared_examples "shares" do |share_class, service|
   let(:share){ instance_double(share_class, valid?: true) }
-  let(:page)  { instance_double('CampaignPage', title: 'Foo', content: 'Bar', id: '1', to_param: '1' ) }
+  let(:page)  { instance_double('Page', title: 'Foo', content: 'Bar', id: '1', to_param: '1' ) }
 
   before do
-    allow(CampaignPage).to receive(:find).with('1'){ page }
+    allow(Page).to receive(:find).with('1'){ page }
   end
 
   describe 'GET#index' do
     before do
       allow(share_class).to receive(:where){ [share] }
 
-      get :index, campaign_page_id: '1'
+      get :index, page_id: '1'
     end
 
     it 'finds campaign page' do
-      expect(CampaignPage).to have_received(:find).with('1')
+      expect(Page).to have_received(:find).with('1')
     end
 
     it 'gets shares' do
       expect(share_class).to have_received(:where).
-        with(campaign_page_id: '1')
+        with(page_id: '1')
     end
 
     it 'assigns shares' do
@@ -35,11 +35,11 @@ shared_examples "shares" do |share_class, service|
     before do
       allow(share_class).to receive(:new){ share }
 
-      get :new, campaign_page_id: '1'
+      get :new, page_id: '1'
     end
 
     it 'finds campaign page' do
-      expect(CampaignPage).to have_received(:find).with('1')
+      expect(Page).to have_received(:find).with('1')
     end
 
     it "instantiates instance of #{share_class} with default values" do
@@ -58,11 +58,11 @@ shared_examples "shares" do |share_class, service|
   describe 'GET#edit' do
     before do
       allow(share_class).to receive(:find){ share }
-      get :edit, campaign_page_id: '1', id: '2'
+      get :edit, page_id: '1', id: '2'
     end
 
     it 'finds campaign page' do
-      expect(CampaignPage).to have_received(:find).with('1')
+      expect(Page).to have_received(:find).with('1')
     end
 
     it 'assigns share' do
@@ -78,25 +78,25 @@ shared_examples "shares" do |share_class, service|
     before do
       allow(ShareProgressVariantBuilder).to receive(:update){ share }
 
-      put :update, campaign_page_id: 1, id: 2, "share_#{service}": params
+      put :update, page_id: 1, id: 2, "share_#{service}": params
     end
 
     it 'finds campaign page' do
-      expect(CampaignPage).to have_received(:find).with('1')
+      expect(Page).to have_received(:find).with('1')
     end
 
     it 'updates' do
       expect(ShareProgressVariantBuilder).to have_received(:update).
         with(params, {
         variant_type: service.to_sym,
-        campaign_page: page,
-        url: "http://test.host/campaign_pages/1",
+        page: page,
+        url: "http://test.host/pages/1",
         id: '2'
       })
     end
 
     it 'redirects to share index path' do
-      expect( response ).to redirect_to("/campaign_pages/1/share/#{service.to_s.pluralize}")
+      expect( response ).to redirect_to("/pages/1/share/#{service.to_s.pluralize}")
     end
   end
 
@@ -104,24 +104,24 @@ shared_examples "shares" do |share_class, service|
     before do
       allow(ShareProgressVariantBuilder).to receive(:create){ share }
 
-      post :create, campaign_page_id: 1, "share_#{service}": params
+      post :create, page_id: 1, "share_#{service}": params
     end
 
     it 'finds campaign page' do
-      expect(CampaignPage).to have_received(:find).with('1')
+      expect(Page).to have_received(:find).with('1')
     end
 
     it 'creates' do
       expect(ShareProgressVariantBuilder).to have_received(:create).
         with(params, {
         variant_type: service.to_sym,
-        campaign_page: page,
-        url: "http://test.host/campaign_pages/1"
+        page: page,
+        url: "http://test.host/pages/1"
       })
     end
 
     it 'redirects to share index path' do
-      expect( response ).to redirect_to("/campaign_pages/1/share/#{service.pluralize}")
+      expect( response ).to redirect_to("/pages/1/share/#{service.pluralize}")
     end
   end
 end

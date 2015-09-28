@@ -3,7 +3,7 @@ FactoryGirl.define do
     title "MyString"
     offset 1
     goal 1
-    campaign_page nil
+    page nil
     active false
   end
 end

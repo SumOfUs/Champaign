@@ -1,4 +1,4 @@
-= form_for [@campaign_page, @share], html: { class: 'share' }  do |f|
+= form_for [@page, @share], html: { class: 'share' }  do |f|
 
   = render partial: 'shared/error_messages', locals: {target: @share }
   = render partial: 'share_fields', locals: { form: f }

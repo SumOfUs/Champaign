@@ -1,0 +1,38 @@
+$mobile-width: 700px;
+
+.center-content {
+  @include centered-to-full(1080px);
+
+  &__big-column {
+    width: 59%;
+    margin-left: 4%;
+    float: left;
+  }
+  &__small-column {
+    width: 29%;
+    margin-left: 4%;
+    float: left;
+  }
+  &__small-column, &__big-column {
+    @media(max-width: $mobile-width) {
+      width: 92%;
+    }
+  }
+  &__one-column {
+    width: 92%;
+    margin-left: 4%;
+    float: left;
+  }
+}
+
+.clearfix {
+  @include clearfix();
+}
+
+// to use: $('.mobile-indicator').is(':visible');
+.mobile-indicator {
+  display: none;
+  @media(max-width: $mobile-width) {
+    display: block;
+  }
+}

@@ -15,13 +15,13 @@ Rails.application.routes.draw do
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
-  post '/tags/add', to: 'tags#add_tag_to_campaign_page'
-  delete '/tags/remove', to: 'tags#remove_tag_from_campaign_page'
+  post '/tags/add', to: 'tags#add_tag_to_page'
+  delete '/tags/remove', to: 'tags#remove_tag_from_page'
 
   # Standard resources
   resources :campaigns
 
-  resources :campaign_pages do
+  resources :pages do
     namespace :share do
       resources :facebooks
       resources :twitters
@@ -50,6 +50,7 @@ Rails.application.routes.draw do
 
   resources :liquid_partials
   resources :liquid_layouts
+  resources :links, only: [:create, :destroy]
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
@@ -93,7 +94,7 @@ Rails.application.routes.draw do
   #   resources :photos, concerns: :toggleable
 
   namespace :api do
-    resources :campaign_pages do
+    resources :pages do
       resources :actions
     end
   end

@@ -10,15 +10,6 @@ Language.create!(languages)
 # Liquid Markup
 LiquidMarkupSeeder.seed
 
-# # 5. make a campaign page
-# Campaign.first.campaign_page.create!({
-#   language_id: (Language.find_by language_code: 'EN/US').id,
-#   title: 'Testy page',
-#   slug: 'testy_page',
-#   active: false,
-#   featured: false
-# })
-
 # Forms
 
 basic_form = Form.create name: "Basic", master: true

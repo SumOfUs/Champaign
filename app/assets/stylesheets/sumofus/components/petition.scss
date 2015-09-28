@@ -1,0 +1,144 @@
+$action-top-height: 120px;
+
+.action-bar {
+
+  color: $navy;
+
+  $padding: 26px;
+  position: relative;
+  z-index: 600;
+
+  &--elevated {
+    top: -1 * $action-top-height;
+  }
+  &__top {
+    background: $overcast-gray;
+    padding: $padding;
+    overflow: visible;
+    position: relative;
+  }
+  &__main {
+    background: $chalk-gray;
+    padding: $padding;
+
+    position: absolute;
+    top: $action-top-height;
+    @include transition(top 0.4s ease-in-out);
+  }
+
+  &__content {
+    position: relative;
+  }
+
+  &__submit-button {
+    margin-top: 15px;
+  }
+
+  &__target {
+    margin: 20px 0 8px;
+    @include rem(font-size, 1rem, true);
+  }
+
+  &__petition-text {
+    @include rem(font-size, 0.8rem, true);
+  }
+
+  &__shading {
+    @include background-image(linear-gradient(rgba(0,0,0,0), $overcast-gray));
+    position: absolute;
+    top: $padding * -1;
+    left: 0;
+    height: $padding;
+    width: 100%;
+
+    z-index: 20;
+  }
+  &__expand-arrow {
+    background-image: url(asset-path('sumofus/circled-arrow.png'));
+    background-size: 100% 100%;
+    width: 21px;
+    height: 21px;
+
+    position: absolute;
+    top: -10px;
+    right: $padding;
+    z-index: 30;
+
+    cursor: pointer;
+
+    @include transition(transform 0.4s linear);
+    &--expanded {
+      @include transform(rotate(180deg))
+    }
+  }
+
+  @media(max-width: $mobile-width) {
+    position: fixed;
+    @include transition(top 0.40s ease-in-out);
+    width: 100%;
+    padding: 0 4%;
+    left: -4%;
+    z-index: 400;
+    margin: 0;
+    height: 100%;
+    overflow-y: visible;
+    background: $chalk-gray;
+
+    &.action-bar--mobile-view--closed {
+      top: 2000px;
+    }
+    &.action-bar--mobile-view--open {
+      top: 0;
+
+      .action-bar__mobile-ui__bottom-bar {
+        bottom: -100px;
+      }
+    }
+
+    .action-bar__content {
+      height: 100%;
+      width: 100%;
+      overflow-y: scroll;
+    }
+  }
+
+  &__mobile-ui {
+
+    @media(min-width: $mobile-width) {
+      display: none;
+    }
+
+    &__bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: -4%;
+
+      padding: 20px 8%;
+      height: 60px;
+      width: 92%;
+
+      text-align: center;
+      background-color: $overcast-gray;
+      @include transition(bottom 0.20s ease-in-out);
+    }
+  }
+
+  &__close-button {
+    color: $navy;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+  }
+}
+
+.sticky-wrapper {
+  position: relative;
+  top: $action-top-height * -1;
+  @include transition(top 0.4s ease-in-out);
+  .action-bar--elevated {
+    @media(min-width: $mobile-width) {
+      top: 0;
+    }
+  }
+}

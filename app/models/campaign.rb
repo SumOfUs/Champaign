@@ -1,6 +1,6 @@
 class Campaign < ActiveRecord::Base
   has_paper_trail
-  has_many :campaign_pages
+  has_many :pages
 
   validates :name, presence: true, uniqueness: true
 

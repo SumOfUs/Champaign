@@ -4,7 +4,7 @@ class Plugins::ActionsController < ApplicationController
   def update
     @plugin = Plugins::Action.find(params[:id])
     @plugin.update_attributes(permitted_params)
-    @campaign_page = @plugin.campaign_page
+    @page = @plugin.page
 
     respond_to do |format|
       format.html { render 'plugins/show' }
@@ -22,6 +22,6 @@ class Plugins::ActionsController < ApplicationController
 
   def permitted_params
     params.require(:plugins_action).
-      permit(:description, :active)
+      permit(:description, :active, :target)
   end
 end

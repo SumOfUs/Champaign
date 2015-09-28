@@ -12,17 +12,17 @@ describe 'Search ::' do
           expect(layout_searcher.search).to match_array([content_tag_plugin_layout_match])
         end
 
-        describe 'returns all campaign pages unfiltered when searching' do
+        describe 'returns all pages unfiltered when searching' do
           describe 'returns all pages when searching' do
             it 'with an empty array' do
-              expect(Search::PageSearcher.new({search: {layout: []} }).search).to match_array(CampaignPage.all)
+              expect(Search::PageSearcher.new({search: {layout: []} }).search).to match_array(Page.all)
             end
             it 'with nil' do
-              expect(Search::PageSearcher.new({search: {layout: nil} }).search).to match_array(CampaignPage.all)
+              expect(Search::PageSearcher.new({search: {layout: nil} }).search).to match_array(Page.all)
             end
 
             it 'with an empty string' do
-              expect(Search::PageSearcher.new({search: {layout: ''} }).search).to match_array(CampaignPage.all)
+              expect(Search::PageSearcher.new({search: {layout: ''} }).search).to match_array(Page.all)
             end
           end
         end

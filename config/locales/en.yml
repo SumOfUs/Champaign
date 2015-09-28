@@ -37,7 +37,7 @@ en:
     is_invalid_country: 'must be a two letter country code'
 
   menu:
-    campaign_pages: 'Campaign Pages'
+    pages: 'Pages'
     campaigns: 'Campaigns'
     forms: 'Forms'
     templates: 'Templates'
@@ -51,10 +51,10 @@ en:
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
-  campaign_pages:
+  pages:
     index:
       new: "Create a new page"
-      title: "Campaign Pages"
+      title: "Pages"
       table:
         featured: "Featured"
     new:
@@ -65,7 +65,9 @@ en:
       show: "View the page"
       tags: "Tags"
       photos: 'Photos'
+      links: 'Links'
       extras: 'Extras'
+
 
   campaigns:
     new:
@@ -104,6 +106,13 @@ en:
           body: |
             <p>The <strong>name</strong> value will dictate how your action content is handled by <strong>ActionKit</strong>.</p>
             <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
+
+  links:
+    url: 'URL'
+    title: 'Title'
+    source: 'Source'
+    date: 'Date published'
+
   share:
     analytics:
       weight: 'Weight'
@@ -118,7 +127,7 @@ en:
       new_variation: 'New Variation'
 
     facebook:
-      title: 'Facebook Share Variant'
+      title: 'Facebook Share Headline'
       form:
         title: 'Facebook Share title'
         description: 'Facebook Share text'
@@ -136,7 +145,7 @@ en:
 
   plugins:
     action:
-      action_description: "Provide a description for your petition"
+      action_description: "Petition Text"
       choose_form_template: "Choose a form template"
       customise_form: "Customise your petition form"
       add_new_field: "Add a new field"

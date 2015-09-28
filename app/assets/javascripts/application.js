@@ -18,15 +18,15 @@
 //= require jquery.remotipart
 
 //= require bootstrap-sprockets
-//= require select2
+//= require selectize
 //= require dropzone
-//= require liquid/syntax-highlighting
+//= require syntax-highlighting
 //= require typeahead.jquery
 
 //= require show_errors
-//= require forms
-//= require campaign_page
-//= require select2_config.js
+//= require collection_editor
+//= require edit_page
+//= require selectize_config.js
 //= require ajax
 //
 //= require_tree ./plugins/actions/admin/

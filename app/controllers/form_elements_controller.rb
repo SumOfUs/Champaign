@@ -6,8 +6,7 @@ class FormElementsController < ApplicationController
 
     respond_to do |format|
       if @form_element.valid?
-        format.js
-        format.html  { render partial: 'element', locals: { form: @form, element: @element }, status: :ok }
+        format.html { render partial: 'element', locals: { form: @form, element: @form_element }, status: :ok }
       else
         format.html { render :new }
         format.js { render 'errors' }
