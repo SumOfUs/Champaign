@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 describe PageBuilder do
-
-  subject { PageBuilder.create_with_plugins(params) }
-
-  let(:params) {{ title: "Foo Bar", liquid_layout_id: template.id }}
+  let(:language) { create(:language) }
+  let(:params) {{ title: "Foo Bar", liquid_layout_id: template.id, language_id: language.id }}
   let(:content) { "{% include 'action' %}<div class='foo'>{% include 'thermometer' %}</div>"}
   let(:template) { create :liquid_layout, content: content }
 
@@ -16,14 +14,27 @@ describe PageBuilder do
     allow(ChampaignQueue).to receive(:push)
   end
 
+  subject { PageBuilder.create_with_plugins(params) }
+
   it 'creates a campaign page' do
     expect { subject }.to change{ Page.count }.from(0).to(1)
     expect(Page.first.title).to eq("Foo Bar")
   end
 
   it "pushes page to queue" do
-    expect( ChampaignQueue ).to receive(:push)
     subject
+
+    expected_params = {
+      type: 'create',
+      params: {
+        slug: "foo-bar",
+        id: Page.first.id,
+        title: "Foo Bar",
+        language_code: 'en'
+      }
+    }
+
+    expect( ChampaignQueue ).to have_received(:push).with(expected_params)
   end
 
   it 'uses the correct liquid layout' do
