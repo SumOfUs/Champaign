@@ -23,9 +23,36 @@
 .share-buttons {
   width: 100%;
   max-width: 300px;
-  margin: 90px auto 0;
+  margin: 80px auto 0;
 
   &__button:first-of-type {
     margin-right: 10px;
+  }
+  &__alternative {
+    margin: 0 auto;
+    width: 100%;
+    color: $chalkboard;
+    text-transform: lowercase;
+    line-height: 50px; // instead of margin, cause box model
+  }
+  &__simple-email-link {
+    display: inline;
+    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
+      a {
+        visibility: hidden;
+        font-size: 1px;
+        font-size: 0;
+        display: inline;
+        &::before {
+          visibility: visible;
+          content: "Send Email";
+          font-weight: bold;
+          color: $chalkboard;
+          font-size: 15px;
+          text-transform: uppercase;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
