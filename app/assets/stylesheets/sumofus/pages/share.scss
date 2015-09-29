@@ -24,16 +24,22 @@
   width: 100%;
   max-width: 300px;
   margin: 80px auto 0;
+  @media(max-width: 400px) {
+    width: 148px;
+    margin-top: 55px;
+  }
 
   &__button:first-of-type {
     margin-right: 10px;
+    margin-bottom: 10px;
   }
   &__alternative {
     margin: 0 auto;
     width: 100%;
     color: $chalkboard;
     text-transform: lowercase;
-    line-height: 50px; // instead of margin, cause box model
+    overflow: hidden;
+    line-height: 40px; // instead of margin, cause box model
   }
   &__simple-email-link {
     display: inline;
