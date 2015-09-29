@@ -25,6 +25,7 @@
 
 //= require show_errors
 //= require collection_editor
+//= require dropzone_image_upload
 //= require edit_page
 //= require selectize_config.js
 //= require ajax

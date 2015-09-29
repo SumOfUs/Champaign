@@ -26,14 +26,16 @@
 
     section
       h3 = t('.photos')
-      - if @page.images.any?
-        .component.campaign-images
-          - @page.images.each do |image|
-            = render partial: 'images/thumbnail', locals: { image: image }
+      .component.campaign-images
+        - if @page.images.empty?
+          p.notice =t('pages.edit.no_images_notice')
+
+        - @page.images.each do |image|
+          = render partial: 'images/thumbnail', locals: { image: image }
 
       .component
-        = form_tag page_images_url(@page), id: 'dropzone', class: 'dropzone' do
+        = form_tag page_images_url(@page, format: :js), id: 'dropzone', class: 'dropzone' do
 
 javascript:
-  $.publish("page:has_loaded");
+  $.publish("page:edit:loaded");
 

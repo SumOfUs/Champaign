@@ -67,6 +67,7 @@ en:
       photos: 'Photos'
       links: 'Links'
       extras: 'Extras'
+      no_images_notice: "You haven't any photos. Drag your pics into the box below."
 
 
   campaigns:
