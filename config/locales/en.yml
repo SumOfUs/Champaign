@@ -65,9 +65,10 @@ en:
       show: "View the page"
       tags: "Tags"
       photos: 'Photos'
-      links: 'Links'
       follow_up: 'Post action'
+      sources: 'Sources'
       extras: 'Extras'
+      no_images_notice: "You haven't any photos. Drag your pics into the box below."
 
 
   campaigns:
@@ -109,10 +110,11 @@ en:
             <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
 
   links:
-    url: 'URL'
-    title: 'Title'
-    source: 'Source'
-    date: 'Date published'
+    forms:
+      url: 'URL'
+      title: 'Title'
+      source: 'Source e.g. BBC'
+      date: 'Date published'
 
   share:
     analytics:
@@ -128,7 +130,7 @@ en:
       new_variation: 'New Variation'
 
     facebook:
-      title: 'Facebook Share Variant'
+      title: 'Facebook Share Headline'
       form:
         title: 'Facebook Share title'
         description: 'Facebook Share text'
@@ -146,7 +148,7 @@ en:
 
   plugins:
     action:
-      action_description: "Provide a description for your petition"
+      action_description: "Petition Text"
       choose_form_template: "Choose a form template"
       customise_form: "Customise your petition form"
       add_new_field: "Add a new field"

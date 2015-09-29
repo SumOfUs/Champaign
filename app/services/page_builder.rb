@@ -39,10 +39,7 @@ class PageBuilder
   end
 
   def push_to_queue
-    ChampaignQueue.push({
-      type: 'create',
-      params: page.attributes
-    }.as_json )
+    ChampaignQueue.push(data_for_queue)
   end
 
   def params
@@ -55,6 +52,18 @@ class PageBuilder
 
   def default
     ENV['DEFAULT_PLUGIN_REGISTRATION'] || false
+  end
+
+  def data_for_queue
+    {
+      type: 'create',
+      params: {
+        slug: page.slug,
+        id: page.id,
+        title: page.title,
+        language_code: page.language.code
+      }
+    }
   end
 end
 
