@@ -2,6 +2,7 @@ class LiquidLayout < ActiveRecord::Base
   has_many :pages
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false
+
   validate :no_unknown_partials
 
   def partial_names
