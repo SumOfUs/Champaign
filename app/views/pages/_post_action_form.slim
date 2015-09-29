@@ -6,4 +6,4 @@
     = f.select :secondary_liquid_layout_id, LiquidLayout.all.map{|ll| [ll.title, ll.id] }, {}, class: "form-control"
 
   .form-group
-    = f.submit
+    = f.submit class: "btn btn-default"
