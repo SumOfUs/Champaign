@@ -3,7 +3,7 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
-  before_action :get_page, only: [:show, :edit, :update, :destroy]
+  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up]
 
   def index
     @pages = Search::PageSearcher.new(params).search
@@ -23,47 +23,10 @@ class PagesController < ApplicationController
     end
   end
 
-
-
   def show
-    markup = if @page.liquid_layout
-               @page.liquid_layout.content
-             else
-                File.read("#{Rails.root}/app/liquid/views/layouts/default.liquid")
-             end
-
-    @template = Liquid::Template.parse(markup)
-
-    @data = Plugins.data_for_view(@page).
-      merge( @page.liquid_data ).
-      merge( 'images' => images ).
-      merge( LiquidHelper.globals ).
-      merge( 'shares' => Shares.get_all(@page) ).
-      deep_stringify_keys
-
+    renderer = LiquidRenderer.new(@page)
+    @rendered = renderer.render
     render :show, layout: 'sumofus'
-  end
-
-  #
-  # NOTE
-  # This is a hack. Plugin data will be dynamically built, according to what
-  # plugins have been installed/enabled.
-  #
-  #
-  def images
-    @page.images.map do |img|
-      { 'urls' => { 'large' => img.content.url(:large), 'small' => img.content.url(:thumb) } }
-    end
-  end
-
-  def data
-    plugins_data = Plugin.registered.inject({}) do |memo, plugin|
-      config = Plugins.const_get(plugin[:name].classify).new(@page)
-      memo[plugin[:name]] = config.data_for_view
-      memo
-    end
-
-    { 'plugins' => plugins_data }
   end
 
   def update
@@ -76,6 +39,12 @@ class PagesController < ApplicationController
         format.js { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
       end
     end
+  end
+
+  def follow_up
+    renderer = LiquidRenderer.new(@page, @page.secondary_liquid_layout)
+    @rendered = renderer.render
+    render :show, layout: 'sumofus'
   end
 
   private
@@ -96,6 +65,7 @@ class PagesController < ApplicationController
       :campaign_id,
       :language_id,
       :liquid_layout_id,
+      :secondary_liquid_layout_id,
       {:tag_ids => []} )
   end
 end

@@ -65,6 +65,7 @@ en:
       show: "View the page"
       tags: "Tags"
       photos: 'Photos'
+      follow_up: 'Post action'
       sources: 'Sources'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."

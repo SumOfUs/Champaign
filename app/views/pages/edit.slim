@@ -36,6 +36,10 @@
       .component
         = form_tag page_images_url(@page, format: :js), id: 'dropzone', class: 'dropzone' do
 
+    section
+      h3 = t('.follow-up')
+      = render 'post_action_form', page: @page
+
 javascript:
   $.publish("page:edit:loaded");
 

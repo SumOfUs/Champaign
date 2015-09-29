@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       resources :emails
     end
 
+    get 'follow-up', on: :member, action: 'follow_up'
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'

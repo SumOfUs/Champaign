@@ -1,5 +1,10 @@
 $mobile-width: 700px;
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 .center-content {
   @include centered-to-full(1080px);
 
@@ -22,6 +27,18 @@ $mobile-width: 700px;
     width: 92%;
     margin-left: 4%;
     float: left;
+  }
+  &__central-square {
+    text-align: center;
+    max-width: 700px;
+    margin: 100px auto 140px;
+    @media(max-width: $mobile-width) {
+      margin-top: 80px;
+    }
+  }
+  &__centered-element {
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 

@@ -6,7 +6,7 @@ class LiquidHelper
     # https://docs.shopify.com/themes/liquid-documentation/objects
     def globals
       {
-        'country_option_tags' => country_option_tags
+        country_option_tags: country_option_tags
       }
     end
 

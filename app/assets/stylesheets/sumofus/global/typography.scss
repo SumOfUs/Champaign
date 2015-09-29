@@ -9,15 +9,16 @@ body {
   color: $chalkboard;
 }
 
-h1, h2, h3, h4, h5, h6, b {
+h1, h2, h3, h4, h5, h6, strong {
   font-weight: bold;
 }
 
 h1 {
-  @include rem(font-size, 2.6rem, true)
+  @include rem(font-size, 2.6rem, true);
+  @include rem(line-height, 3.2rem, true);
 }
 h2 {
-  @include rem(font-size, 1.5em, true)
+  @include rem(font-size, 1.5em, true);
 }
 a {
   color: $teal;
