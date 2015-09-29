@@ -3,10 +3,12 @@ module LiquidMarkupSeeder
 
   def seed
     files.each do |path|
-      title, model = meta(path)
+      title, klass = title_and_class(path)
       content = read(path)
-      model.constantize.find_or_initialize_by(title: title).
-        update(content: content)
+
+      memo = klass.constantize.find_or_create_by(title: title) do |view|
+        view.content = content
+      end
     end
   end
 
@@ -15,10 +17,15 @@ module LiquidMarkupSeeder
   end
 
   def files
-    Dir.glob(["#{Rails.root}/app/views/plugins/**/*.liquid", "#{Rails.root}/app/liquid/views/**/*.liquid"])
+    Dir.glob(
+      [
+       "#{Rails.root}/app/views/plugins/**/*.liquid",
+       "#{Rails.root}/app/liquid/views/**/*.liquid"
+      ]
+    )
   end
 
-  def meta(file)
+  def title_and_class(file)
     [parse_name(file), klass(file)]
   end
 

@@ -1,3 +1,6 @@
+puts "Seeding..."
+
+
 # Languages
 languages =  [
     {code: 'en', name: 'English'},
@@ -6,9 +9,6 @@ languages =  [
 ]
 
 Language.create!(languages)
-
-# Liquid Markup
-LiquidMarkupSeeder.seed
 
 # Forms
 
@@ -72,4 +72,8 @@ Tag.create!([
   {name: '@UK', actionkit_uri: '/rest/v1/tag/968/'},
   {name: '@USA', actionkit_uri: '/rest/v1/tag/966/'}
 ])
+
+# Liquid Markup
+LiquidMarkupSeeder.seed
+
 
