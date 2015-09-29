@@ -5,10 +5,12 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     = stylesheet_link_tag "sumofus"
     = javascript_include_tag "sumofus"
+    script type="text/javascript" charset="utf-8" src="//c.shpg.org/99/sp.js"
     = csrf_meta_tags
 
   body
     = yield
+
     .mobile-indicator
-    - if current_user
+    - if current_user && @page.present?
       = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'

@@ -1,16 +1,15 @@
-<div class="modal fade" id='share-modal'>
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Share this petition</h4>
-      </div>
-      <div class="modal-body">
-        {% for share in shares %}
-          {{ share[1] }}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
+<div class="share-buttons">
+  {% unless shares['facebook'] == blank %}
+    <div class="share-buttons__button button--facebook {{ shares['facebook'] }}"></div>
+  {% endunless %}
 
+  {% unless shares['twitter'] == blank %}
+    <div class="share-buttons__button button--twitter {{ shares['twitter']] }}"></div>
+  {% endunless %}
+
+  {% unless shares['email'] == blank %}
+    <div class="share-buttons__alternative">
+      Or <div class="share-buttons__simple-email-link {{ shares['email']] }}"></div>
+    </div>
+  {% endunless %}
+</div>

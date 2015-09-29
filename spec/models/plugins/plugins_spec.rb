@@ -42,13 +42,6 @@ describe Plugins do
 
   describe "data_for_view" do
 
-    it "returns a hash including all of the page's attributes" do
-      data_for_view = Plugins.data_for_view(page)
-      page.attributes.each_pair do |key, value|
-        expect(data_for_view[key]).to eq value
-      end
-    end
-
     describe 'with plugins' do
     
       before :each do
@@ -61,17 +54,17 @@ describe Plugins do
 
       it "namespaces all the plugins according to their ref" do
         data_for_view = Plugins.data_for_view(page)
-        expect(data_for_view['plugins']['action']).to have_key 'swiper'
-        expect(data_for_view['plugins']['action']['swiper']).to eq @action.liquid_data
-        expect(data_for_view['plugins']['thermometer']).to have_key 'stripey'
-        expect(data_for_view['plugins']['thermometer']['stripey']).to eq @thermometer.liquid_data
+        expect(data_for_view[:plugins]['action']).to have_key 'swiper'
+        expect(data_for_view[:plugins]['action']['swiper']).to eq @action.liquid_data
+        expect(data_for_view[:plugins]['thermometer']).to have_key 'stripey'
+        expect(data_for_view[:plugins]['thermometer']['stripey']).to eq @thermometer.liquid_data
       end
 
       it "namespaces refless plugins under the default ref returned in top level hash" do
         @action.ref = nil
         @action.save!
         data_for_view = Plugins.data_for_view(page)
-        expect(data_for_view['plugins']['action'].keys[0]).to eq data_for_view['ref']
+        expect(data_for_view[:plugins]['action'].keys[0]).to eq data_for_view[:ref]
       end
 
     end

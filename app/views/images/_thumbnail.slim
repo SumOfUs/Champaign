@@ -1,1 +1,6 @@
-= image_tag image.content.url(:thumb), class: 'img-thumbnail'
+span.image-thumb
+  = image_tag image.content.url(:thumb), class: 'img-thumbnail'
+  span.thumb-remove
+    = link_to page_image_url(@page, image), method: :delete,  data: { confirm: t('common.confirm') }, remote: true do
+      span.glyphicon.glyphicon-remove
+

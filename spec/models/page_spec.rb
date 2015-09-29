@@ -19,6 +19,7 @@ describe Page do
   it { is_expected.to respond_to :pages_tags }
   it { is_expected.to respond_to :campaign }
   it { is_expected.to respond_to :liquid_layout }
+  it { is_expected.to respond_to :secondary_liquid_layout }
   it { is_expected.to respond_to :plugins }
 
   describe 'tags' do

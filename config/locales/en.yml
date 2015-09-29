@@ -65,8 +65,10 @@ en:
       show: "View the page"
       tags: "Tags"
       photos: 'Photos'
-      links: 'Links'
+      follow_up: 'Post action'
+      sources: 'Sources'
       extras: 'Extras'
+      no_images_notice: "You haven't any photos. Drag your pics into the box below."
 
 
   campaigns:
@@ -108,10 +110,11 @@ en:
             <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
 
   links:
-    url: 'URL'
-    title: 'Title'
-    source: 'Source'
-    date: 'Date published'
+    forms:
+      url: 'URL'
+      title: 'Title'
+      source: 'Source e.g. BBC'
+      date: 'Date published'
 
   share:
     analytics:

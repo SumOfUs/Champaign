@@ -8,6 +8,11 @@
   overflow: hidden;
   border-top: 2px solid $dingy-gray;
 
+  &--stuck-to-bottom {
+    position: absolute;
+    bottom: 0;
+  }
+
   &__logo {
     float: left;
   }
@@ -21,5 +26,11 @@
     float: right;
     font-size: 10px;
     padding-top: 10px;
+  }
+
+  &__license, &__tagline {
+    @media(max-width: $mobile-width) {
+      display: none;
+    }
   }
 }
