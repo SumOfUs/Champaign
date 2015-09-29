@@ -26,6 +26,10 @@ describe LiquidLayout do
     it "with a blank content" do
       layout.content = " "
     end
+
+    it "with a reference to a partial that doesn't exist" do
+      layout.content = "<div>{% include 'nonexistent' %}</div>"
+    end
   end
 
   describe '.default' do

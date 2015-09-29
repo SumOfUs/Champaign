@@ -76,4 +76,3 @@ Tag.create!([
 # Liquid Markup
 LiquidMarkupSeeder.seed
 
-

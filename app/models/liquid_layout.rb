@@ -3,14 +3,7 @@ class LiquidLayout < ActiveRecord::Base
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false
 
-  # Removing this validation... causing more trouble than it's worth.
-  # There are no hard consequences if an unkown partial is added
-  # to a liquid layout.
-  #
-  # A possible alternative is to provide a warning message when
-  # a partial name is unknown.
-  # 
-  # validate :no_unknown_partials
+  validate :no_unknown_partials
 
   def partial_names
     LiquidTagFinder.new(content).partial_names
