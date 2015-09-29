@@ -1,14 +1,18 @@
 .row
   .col-md-12
-    h3 = t('.title')
+    h3
+      = t('.title')
+      = link_to '<i class="glyphicon glyphicon-search"></i> Filter Pages'.html_safe, '#search-filter', 'data-toggle' => 'collapse', 'class' => 'pull-right'
+    #search-filter.collapse
+      = render partial: 'search'
     table.table-striped.table
       thead
         tr
-          th = t('common.name')
-          th = t('common.featured')
-          th = t('common.active')
-          th = t('common.created')
-          th = t('common.modified')
+          th = link_to t('common.name'), controller: 'pages', search: {order_by: ['title', @ascending] }
+          th = link_to t('common.featured'), controller: 'pages', search: {order_by: ['featured', @ascending] }
+          th = link_to t('common.active'), controller: 'pages', search: {order_by: ['active', @ascending] }
+          th = link_to t('common.created'), controller: 'pages', search: {order_by: ['created_at', @ascending] }
+          th = link_to t('common.modified'), controller: 'pages', search: {order_by: ['updated_at', @ascending] }
           th Actions
           th
       tbody
@@ -19,13 +23,11 @@
               span class=(page.featured? ? 'tick' : 'cross')
             td
               span class=(page.active? ? 'tick' : 'cross')
-            td = page.created_at
-            td = page.updated_at
+            td = page.created_at.strftime('%Y-%b-%d')
+            td = page.updated_at.strftime('%Y-%b-%d')
             td = page.actions.count
 
             td = link_to t('common.edit'), edit_page_path(page)
 
 
     = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
-
-    = render partial: 'search'

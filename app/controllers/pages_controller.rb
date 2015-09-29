@@ -7,6 +7,7 @@ class PagesController < ApplicationController
 
   def index
     @pages = Search::PageSearcher.new(params).search
+    @ascending = determine_ascending(params)
   end
 
   def new
@@ -96,7 +97,18 @@ class PagesController < ApplicationController
       :campaign_id,
       :language_id,
       :liquid_layout_id,
-      :order_by,
       {:tag_ids => []} )
+  end
+
+  def determine_ascending(params)
+    if params[:search].nil?
+      'asc'
+    elsif params[:search][:order_by].nil?
+      'asc'
+    elsif params[:search][:order_by][1] == 'desc'
+      'asc'
+    else
+      'desc'
+    end
   end
 end
