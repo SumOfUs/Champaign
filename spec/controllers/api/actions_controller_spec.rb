@@ -20,8 +20,7 @@ describe Api::ActionsController do
       end
 
       it "finds form" do
-        # once for each call to action_params, once for validator
-        expect(Form).to have_received(:find).twice.with('3')
+        expect(Form).to have_received(:find).with('3')
       end
 
       it "delegates to Action with params" do
@@ -38,6 +37,10 @@ describe Api::ActionsController do
           ActionController::UnpermittedParameters,
           "found unpermitted parameter: not_permitted"
         )
+      end
+
+      it "responds with the follow-up url" do
+        expect(response.body).to eq({ follow_up_url: follow_up_page_path(2) }.to_json)
       end
     end
 
