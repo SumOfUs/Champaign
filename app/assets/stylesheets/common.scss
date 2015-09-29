@@ -168,3 +168,18 @@ input.has-error {
 .submenu-horizontal {
   margin-bottom: 20px;
 }
+
+.image-thumb {
+  position: relative;
+  display: inline-block;
+  margin-right: 5px;
+  .thumb-remove {
+    background: white;
+    padding: 1px;
+    border-radius: 0 4px 0 0;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+  }
+}
+
