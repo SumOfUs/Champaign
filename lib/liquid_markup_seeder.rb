@@ -13,9 +13,9 @@ module LiquidMarkupSeeder
   def create(path)
     title, klass = title_and_class(path)
 
-    klass.constantize.find_or_create_by(title: title) do |view|
-      view.content = read(path)
-    end
+    view = klass.constantize.find_or_create_by(title: title)
+    view.content = read(path)
+    view.save
   end
 
   def partials
