@@ -7,6 +7,8 @@
           th = t('common.name')
           th = t('common.featured')
           th = t('common.active')
+          th = t('common.created')
+          th = t('common.modified')
           th Actions
           th
       tbody
@@ -17,6 +19,8 @@
               span class=(page.featured? ? 'tick' : 'cross')
             td
               span class=(page.active? ? 'tick' : 'cross')
+            td = page.created_at
+            td = page.updated_at
             td = page.actions.count
 
             td = link_to t('common.edit'), edit_page_path(page)

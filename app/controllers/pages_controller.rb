@@ -96,6 +96,7 @@ class PagesController < ApplicationController
       :campaign_id,
       :language_id,
       :liquid_layout_id,
+      :order_by,
       {:tag_ids => []} )
   end
 end
