@@ -3,10 +3,10 @@
   background: $navy;
   width: 100%;
   height: 100px;
-  box-sizing: border-box;
   padding: 38px 0;
   overflow: hidden;
   border-top: 2px solid $dingy-gray;
+  @include box-sizing(border-box);
 
   &--stuck-to-bottom {
     position: absolute;

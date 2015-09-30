@@ -3,9 +3,9 @@
   position: fixed;
   width: 100%;
   z-index: 100;
-  @include clearfix();
   top: 0;
-  box-sizing: border-box;
+  @include clearfix();
+  @include box-sizing(border-box);
 
   @media(max-width: $mobile-width) {
     position: absolute;
