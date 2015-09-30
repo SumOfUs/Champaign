@@ -26,8 +26,8 @@
 //= require show_errors
 //= require collection_editor
 //= require dropzone_image_upload
-//= require edit_page
 //= require selectize_config.js
 //= require ajax
-//
+//= require configure_quill_editor
+//= require plugins_toggle
 //= require_tree ./plugins/actions/admin/

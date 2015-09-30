@@ -38,3 +38,5 @@ Champaign is a digital campaigning platform built by SumOfUs. It is under develo
 
 8. Run the tests
   * `docker-compose run web rspec spec`
+
+
