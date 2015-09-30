@@ -45,7 +45,7 @@ $action-top-height: 120px;
   }
 
   &__shading {
-    @include background-image(linear-gradient(rgba(0,0,0,0), $overcast-gray));
+    @include background-image(linear-gradient(rgba($overcast-gray, 0), $overcast-gray));
     position: absolute;
     top: $padding * -1;
     left: 0;
