@@ -18,13 +18,13 @@
   &--big {
     input, select, .selectize-control.single .selectize-input {
       @include rem(font-size, 1rem, true);
+      @include box-sizing(border-box);
       border: 2px solid white;
       background: white;
       border-radius: 3px;
       padding: 18px;
       width: 100%;
       outline: none;
-      box-sizing: border-box;
       box-shadow: none;
 
       &:focus, &.focus {

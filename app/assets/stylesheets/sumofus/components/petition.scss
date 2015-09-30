@@ -32,6 +32,7 @@ $action-top-height: 120px;
 
   &__submit-button {
     margin-top: 15px;
+    float: left;
   }
 
   &__target {
@@ -44,7 +45,7 @@ $action-top-height: 120px;
   }
 
   &__shading {
-    @include background-image(linear-gradient(rgba(0,0,0,0), $overcast-gray));
+    @include background-image(linear-gradient(rgba($overcast-gray, 0), $overcast-gray));
     position: absolute;
     top: $padding * -1;
     left: 0;
@@ -99,6 +100,7 @@ $action-top-height: 120px;
       height: 100%;
       width: 100%;
       overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
     }
   }
 
