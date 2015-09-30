@@ -8,6 +8,8 @@ class PagesController < ApplicationController
   def index
     @pages = Search::PageSearcher.new(params).search
     @ascending = determine_ascending(params)
+    @icon_header = determine_icon_header
+    @icon_location = determine_icon_location(params)
   end
 
   def new
@@ -109,6 +111,25 @@ class PagesController < ApplicationController
       'asc'
     else
       'desc'
+    end
+  end
+
+  def determine_icon_location(params)
+    if params[:search].nil? or params[:search][:order_by].nil?
+      return ''
+    end
+    if params[:search][:order_by].is_a? Array
+      params[:search][:order_by][0]
+    else
+      params[:search][:order_by]
+    end
+  end
+
+  def determine_icon_header
+    if @ascending == 'asc'
+      'glyphicon-menu-up'
+    else
+      'glyphicon-menu-down'
     end
   end
 end
