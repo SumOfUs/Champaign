@@ -11,6 +11,8 @@
   &--stuck-to-bottom {
     position: absolute;
     bottom: 0;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   &__logo {
