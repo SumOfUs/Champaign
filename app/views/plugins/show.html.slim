@@ -11,6 +11,6 @@
     = render partial: "#{@plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: @plugin, page: @page }
 
 javascript:
-  $.publish("page:has_loaded");
+  $.publish("plugins:toggle");
 
 
