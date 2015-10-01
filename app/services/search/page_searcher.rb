@@ -23,6 +23,8 @@ class Search::PageSearcher
             search_by_campaign(query)
           when 'plugin_type'
             search_by_plugin_type(query)
+          when 'order_by'
+            order_by(query)
         end
       end
     end
@@ -105,5 +107,24 @@ class Search::PageSearcher
     end
     # get pages that match ids of pages that contain the plugin type from the collection
     @collection = @collection.where(id: matches_by_plugins)
+  end
+
+  def order_by(query)
+    if validate_order_by(query)
+      if query.is_a? Array
+        @collection = @collection.order("#{query[0].to_s} #{query[1].to_s}")
+      else
+        @collection = @collection.order(query)
+      end
+    end
+  end
+
+  def validate_order_by(query)
+    acceptable = [:created_at, :updated_at, :title, :featured, :active]
+    if query.is_a? Array
+      acceptable.include? query[0].to_sym
+    else
+      acceptable.include? query.to_sym
+    end
   end
 end
