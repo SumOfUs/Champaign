@@ -1,6 +1,5 @@
 class Share::Facebook < ActiveRecord::Base
-  belongs_to :button
-  belongs_to :page
+  include Share::Variant
 
   validates :description, :title, presence: true
 
