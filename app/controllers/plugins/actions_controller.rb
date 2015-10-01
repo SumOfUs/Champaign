@@ -7,8 +7,9 @@ class Plugins::ActionsController < ApplicationController
     @page = @plugin.page
 
     respond_to do |format|
+      format.js   { render nothing: true }
       format.html { render 'plugins/show' }
-      format.json { render json: action, status: :ok }
+      format.json { render json: @plugin, status: :ok }
     end
   end
 

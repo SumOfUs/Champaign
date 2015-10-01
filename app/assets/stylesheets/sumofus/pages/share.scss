@@ -24,6 +24,8 @@
   width: 100%;
   max-width: 300px;
   margin: 80px auto 0;
+  overflow: hidden;
+
   @media(max-width: 400px) {
     width: 148px;
     margin-top: 55px;
@@ -32,6 +34,11 @@
   &__button:first-of-type {
     margin-right: 10px;
     margin-bottom: 10px;
+    &:last-of-type {
+      // when you're the first and the last, you're the only
+      margin: 0 auto;
+      float: none;
+    }
   }
   &__alternative {
     margin: 0 auto;
@@ -39,18 +46,17 @@
     color: $chalkboard;
     text-transform: lowercase;
     overflow: hidden;
-    line-height: 40px; // instead of margin, cause box model
+    line-height: 30px;
   }
   &__simple-email-link {
     display: inline;
     &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
       a {
-        visibility: hidden;
         font-size: 1px;
         font-size: 0;
         display: inline;
+        background: transparent;
         &::before {
-          visibility: visible;
           content: "Send Email";
           font-weight: bold;
           color: $chalkboard;

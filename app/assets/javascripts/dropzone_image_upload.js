@@ -37,6 +37,6 @@
     bindHandlers();
   };
 
-  $.subscribe("page:edit:loaded", initialize);
+  $.subscribe("dropzone:setup", initialize);
 }());
 

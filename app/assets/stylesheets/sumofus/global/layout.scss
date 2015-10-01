@@ -6,6 +6,7 @@ html {
 }
 
 .center-content {
+  @include legacy-pie-clearfix();
   @include centered-to-full(1080px);
 
   &__big-column {

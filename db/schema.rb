@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925184750) do
+ActiveRecord::Schema.define(version: 20150930130924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 20150925184750) do
 
   add_index "actions", ["action_user_id"], name: "index_actions_on_action_user_id", using: :btree
   add_index "actions", ["page_id"], name: "index_actions_on_page_id", using: :btree
+
+  create_table "ak_logs", force: :cascade do |t|
+    t.text     "request_body"
+    t.text     "response_body"
+    t.string   "response_status"
+    t.string   "resource"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "campaigns", force: :cascade do |t|
     t.string   "name"
@@ -143,12 +152,12 @@ ActiveRecord::Schema.define(version: 20150925184750) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",           default: "pending"
+    t.string   "status",                     default: "pending"
     t.text     "messages"
-    t.text     "content",          default: ""
-    t.boolean  "thermometer",      default: false
-    t.boolean  "featured",         default: false
-    t.boolean  "active",           default: false
+    t.text     "content",                    default: ""
+    t.boolean  "thermometer",                default: false
+    t.boolean  "featured",                   default: false
+    t.boolean  "active",                     default: false
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
   end
