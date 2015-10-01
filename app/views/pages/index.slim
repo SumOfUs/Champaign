@@ -9,20 +9,20 @@
       thead
         tr
           th
-            = link_to t('common.name'), controller: 'pages', search: {order_by: ['title', @ascending] }
-            = "<i class='glyphicon #{@icon_header}'></i>".html_safe if @icon_location == 'title'
+            = link_to t('common.name'), controller: 'pages', search: {order_by: ['title', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'title'
           th
-            = link_to t('common.featured'), controller: 'pages', search: {order_by: ['featured', @ascending] }
-            = "<i class='glyphicon #{@icon_header}'></i>".html_safe if @icon_location == 'featured'
+            = link_to t('common.featured'), controller: 'pages', search: {order_by: ['featured', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'featured'
           th
-            = link_to t('common.active'), controller: 'pages', search: {order_by: ['active', @ascending] }
-            = "<i class='glyphicon #{@icon_header}'></i>".html_safe if @icon_location == 'active'
+            = link_to t('common.active'), controller: 'pages', search: {order_by: ['active', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'active'
           th
-            = link_to t('common.created'), controller: 'pages', search: {order_by: ['created_at', @ascending] }
-            = "<i class='glyphicon #{@icon_header}'></i>".html_safe if @icon_location == 'created_at'
+            = link_to t('common.created'), controller: 'pages', search: {order_by: ['created_at', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'created_at'
           th
-            = link_to t('common.modified'), controller: 'pages', search: {order_by: ['updated_at', @ascending] }
-            = "<i class='glyphicon #{@icon_header}'></i>".html_safe if @icon_location == 'updated_at'
+            = link_to t('common.modified'), controller: 'pages', search: {order_by: ['updated_at', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'updated_at'
           th Actions
           th
       tbody
