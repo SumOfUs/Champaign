@@ -2,7 +2,9 @@
   .col-md-12
     h3
       = t('.title')
-      = link_to '<i class="glyphicon glyphicon-search"></i> Filter Pages'.html_safe, '#search-filter', 'data-toggle' => 'collapse', 'class' => 'pull-right'
+      = link_to '#search-filter', data: {toggle: 'collapse'}, 'class' => 'pull-right' do
+        i.glyphicon.glyphicon-search
+        = t('pages.index.filter')
     #search-filter.collapse
       = render partial: 'search'
     table.table-striped.table
