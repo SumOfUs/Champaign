@@ -1,5 +1,5 @@
 shared_examples "shares" do |share_class, service|
-  let(:share){ instance_double(share_class, valid?: true) }
+  let(:share){ instance_double(share_class, valid?: true, errors: {}) }
   let(:page)  { instance_double('Page', title: 'Foo', content: 'Bar', id: '1', to_param: '1' ) }
 
   before do
