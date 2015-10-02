@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/SumOfUs/share_progress
+  revision: 0c48b479ac4b90b90baa0b0f4edb2fa907fd0e72
+  branch: master
+  specs:
+    share_progress (0.1.2)
+      httparty (>= 0.13)
+
+GIT
   remote: https://github.com/robkilby/compass-rails
   revision: d42ec065ae21aaed15bb5edb7345fd62d403dc67
   branch: sprockets-3
@@ -250,7 +258,7 @@ GEM
     haml (4.0.7)
       tilt
     hashie (3.4.2)
-    httparty (0.13.6)
+    httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
@@ -411,8 +419,6 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     selectize-rails (0.12.1)
-    share_progress (0.1.2)
-      httparty (>= 0.13)
     slim (3.0.6)
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
@@ -502,7 +508,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   selectize-rails
-  share_progress (>= 0.1.2)
+  share_progress!
   slim-rails
   spring
   timecop
