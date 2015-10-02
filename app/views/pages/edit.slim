@@ -5,6 +5,8 @@
     = form_for @page, remote: true do |f|
       = f.hidden_field :content
 
+      .alert.alert-warning This page has been successfully created on ActionKit
+
       = render 'shared/error_messages', target: @page
 
       .page-title.form-group
@@ -47,4 +49,4 @@
 javascript:
   $.publish("quill_editor:setup");
   $.publish("dropzone:setup");
-
+  $.publish("pages:edit", #{@page.id});

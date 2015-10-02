@@ -7,6 +7,16 @@ h2 = t('.title')
     = f.text_field :title, class: 'form-control', placeholder: t('.title_label')
 
   .form-group
+    .form-inline
+      .form-group.slug
+        = f.text_field :slug, class: 'form-control', placeholder: t('.slug_label')
+        span.glyphicon.glyphicon-ok.form-control-feedback
+        span.glyphicon.glyphicon-remove.form-control-feedback
+
+      .form-group
+        = link_to 'Check if name is available', '#', class: 'btn btn-default', id: 'check_slug_available'
+
+  .form-group
     = f.label :liquid_layout_id, t('.layout_select')
     = f.select :liquid_layout_id, LiquidLayout.all.map{|ll| [ll.title, ll.id] }, {}, class: "form-control"
 
@@ -15,5 +25,9 @@ h2 = t('.title')
     = f.select :language_id, Language.all.map{|lang| [lang.name, lang.id] }, {}, class: "form-control"
 
   .form-group
-    = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary'
+    = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary submit-new-page'
+
+javascript:
+  $.publish("pages:new");
+
 

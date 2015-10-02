@@ -65,6 +65,7 @@ en:
       title: "Let's Get Started!"
       title_label: "Campaign Title"
       language_label: "Language"
+      slug_label: "Slug"
     edit:
       show: "View the page"
       tags: "Tags"

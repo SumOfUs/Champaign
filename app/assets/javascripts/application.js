@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-
+//= require underscore
+//= require backbone
 //= require pub_sub
 //= require jquery-ui/sortable
 //= require jquery.remotipart
@@ -22,6 +23,7 @@
 //= require dropzone
 //= require syntax-highlighting
 //= require typeahead.jquery
+//= require speakingurl
 
 //= require show_errors
 //= require collection_editor
@@ -30,4 +32,7 @@
 //= require ajax
 //= require configure_quill_editor
 //= require plugins_toggle
+
+//= require 'page'
+
 //= require_tree ./plugins/actions/admin/
