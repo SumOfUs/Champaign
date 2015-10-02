@@ -132,10 +132,6 @@ describe ShareProgressVariantBuilder do
     let!(:button){ create(:share_button, sp_type: 'facebook', page: page) }
     let(:params) { {title: 'Bar' } }
 
-    before do
-      allow(ShareProgress::Button).to receive(:new){ sp_button }
-    end
-
     subject(:update_variant) do
       ShareProgressVariantBuilder.update(params, {
         variant_type: 'facebook',
@@ -145,20 +141,38 @@ describe ShareProgressVariantBuilder do
       })
     end
 
-    it 'updates variant' do
-      expect{ update_variant }.to(
-        change{ share.reload.title }.from('Foo').to('Bar')
-      )
+    describe 'success' do
+
+      before do
+        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+      end
+
+      it 'updates variant' do
+        expect{ update_variant }.to(
+          change{ share.reload.title }.from('Foo').to('Bar')
+        )
+      end
+
+      it 'updates variant on share progress' do
+        expect(ShareProgress::Button).to receive(:new)
+        expect(success_sp_button).to receive(:save)
+        update_variant
+      end
     end
 
-    it 'updates variant on share progress' do
-      expect(ShareProgress::Button).to receive(:new)
-      expect(sp_button).to receive(:save)
-      update_variant
-    end
+    describe 'failure' do
 
-    it 'needs validation test cases' do
-      expect(false).to equal true
+      before do
+        allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
+      end
+      it 'does not update variant locally' do
+        expect{ update_variant }.not_to change{ share.reload.title }
+      end
+
+      it 'adds the errors to the variant' do
+        variant = update_variant
+        expect( variant.errors[:base]).to eq ['email_body needs {LINK}']
+      end
     end
   end
 end
