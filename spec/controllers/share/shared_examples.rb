@@ -98,6 +98,10 @@ shared_examples "shares" do |share_class, service|
     it 'redirects to share index path' do
       expect( response ).to redirect_to("/pages/1/share/#{service.to_s.pluralize}")
     end
+
+    it 'needs negative test cases' do
+      expect(false).to equal true
+    end
   end
 
   describe 'POST#create' do
@@ -123,6 +127,11 @@ shared_examples "shares" do |share_class, service|
     it 'redirects to share index path' do
       expect( response ).to redirect_to("/pages/1/share/#{service.pluralize}")
     end
+
+    it 'needs negative test cases' do
+      expect(false).to equal true
+    end
+
   end
 end
 

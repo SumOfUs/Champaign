@@ -54,6 +54,10 @@ describe ShareProgressVariantBuilder do
       expect(button.sp_id).to eq("1")
       expect(button.sp_button_html).to eq("<div />")
     end
+
+    it 'needs validation test cases' do
+      expect(false).to equal true
+    end
   end
 
   describe '.update' do
@@ -84,6 +88,10 @@ describe ShareProgressVariantBuilder do
       expect(ShareProgress::Button).to receive(:new)
       expect(sp_button).to receive(:save)
       update_variant
+    end
+
+    it 'needs validation test cases' do
+      expect(false).to equal true
     end
   end
 end
