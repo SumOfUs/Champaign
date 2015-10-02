@@ -85,17 +85,45 @@ describe ShareProgressVariantBuilder do
       end
     end
 
+    describe 'reporting unexpected error messages' do
+      before do
+        allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
+      end
 
-    it 'persists button locally' do
-      create_variant
+      it 'reports with a string error' do
+        allow(failure_sp_button).to receive(:errors){ "Something went wrong" }
+        variant = create_variant # if it raises an error, it'll fail here
+        expect(variant.errors.size).to eq 1
+        expect(variant.errors[:base]).to eq ['Something went wrong']
+      end
 
-      button = Share::Button.first
-      expect(button.sp_id).to eq("1")
-      expect(button.sp_button_html).to eq("<div />")
-    end
+      it 'reports with an array error' do
+        allow(failure_sp_button).to receive(:errors){ ["Dude wheres my car?"] }
+        variant = create_variant # if it raises an error, it'll fail here
+        expect(variant.errors.size).to eq 1
+        expect(variant.errors[:base]).to eq ['["Dude wheres my car?"]']
+      end
 
-    it 'needs validation test cases' do
-      expect(false).to equal true
+      it 'reports with a singly nested error' do
+        allow(failure_sp_button).to receive(:errors){ {'variants' => ['the body needs {LINK}']} }
+        variant = create_variant # if it raises an error, it'll fail here
+        expect(variant.errors.size).to eq 1
+        expect(variant.errors[:base]).to eq ['{"variants"=>["the body needs {LINK}"]}']
+      end
+
+      it 'reports with an unnested error' do
+        allow(failure_sp_button).to receive(:errors){ {'variants' => 'your body needs {LINK}'} }
+        variant = create_variant # if it raises an error, it'll fail here
+        expect(variant.errors.size).to eq 1
+        expect(variant.errors[:base]).to eq ['{"variants"=>"your body needs {LINK}"}']
+      end
+
+      it 'reports with an unknown key' do
+        allow(failure_sp_button).to receive(:errors){ {'some_error' => [['your body wants {LINK}']]} }
+        variant = create_variant # if it raises an error, it'll fail here
+        expect(variant.errors.size).to eq 1
+        expect(variant.errors[:base]).to eq ['your body wants {LINK}']
+      end
     end
   end
 

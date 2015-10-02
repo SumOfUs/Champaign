@@ -59,12 +59,17 @@ class ShareProgressVariantBuilder
   private
 
   def add_sp_errors_to_variant(sp_button, variant)
-    if sp_button.errors.has_key? "variants"
-      variant.add_errors(sp_button.errors['variants'][0])
-    else
-      sp_button.errors.each_value do |val|
-        variant.add_errors(val[0])
+    begin
+      if sp_button.errors.has_key? 'variants'
+        variant.add_errors(sp_button.errors['variants'][0])
+      else
+        sp_button.errors.each_value do |val|
+          variant.add_errors(val[0])
+        end
       end
+    rescue NoMethodError
+      # in case SP just starts returning something wonky and the array access raises NoMethodError
+      variant.add_errors([sp_button.errors.to_s])
     end
   end
 
