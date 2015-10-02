@@ -7,7 +7,7 @@ describe ShareProgressVariantBuilder do
 
   let(:page){ create(:page) }
 
-  let(:sp_button) do
+  let(:success_sp_button) do
     double(:button,
            save: true,
            id: '1',
@@ -15,10 +15,13 @@ describe ShareProgressVariantBuilder do
            variants: {facebook:  sp_variants})
   end
 
+  let(:failure_sp_button) do
+    double(:button,
+           save: false,
+           errors: {'variants' => [['email_body needs {LINK}']]})
+  end
+
   describe '.create' do
-    before do
-      allow(ShareProgress::Button).to receive(:new){ sp_button }
-    end
 
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(params, {
@@ -28,22 +31,58 @@ describe ShareProgressVariantBuilder do
       })
     end
 
-    it 'creates a share progress variant' do
-      expected_arguments = {
-        page_url: 'http://example.com/foo',
-        page_title: "#{page.title} [facebook]",
-        button_template: 'sp_fb_large'
-      }
-      expect(ShareProgress::Button).to receive(:new).with( hash_including(expected_arguments) ){ sp_button }
-      create_variant
+    describe 'success' do
+      before do
+        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+      end
+
+      it 'creates a share progress variant' do
+        expected_arguments = {
+          page_url: 'http://example.com/foo',
+          page_title: "#{page.title} [facebook]",
+          button_template: 'sp_fb_large'
+        }
+        expect(ShareProgress::Button).to receive(:new).with( hash_including(expected_arguments) ){ success_sp_button }
+        create_variant
+      end
+
+      it 'persists variant locally' do
+        create_variant
+        variant = Share::Facebook.first
+
+        expect(variant.title).to eq("foo")
+        expect(variant.sp_id).to eq("123")
+      end
+
+      it 'persists button locally' do
+        create_variant
+
+        button = Share::Button.first
+        expect(button.sp_id).to eq("1")
+        expect(button.sp_button_html).to eq("<div />")
+      end
     end
 
-    it 'persists variant locally' do
-      create_variant
-      variant = Share::Facebook.first
+    describe 'failure' do
+      before do
+        allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
+      end
 
-      expect(variant.title).to eq("foo")
-      expect(variant.sp_id).to eq("123")
+      it 'does not persist variant locally' do
+        expect{ create_variant }.not_to change{ Share::Facebook.count }
+        expect( Share::Facebook.first ).to eq nil
+      end
+
+      it 'does not persist button locally' do
+        expect{ create_variant }.not_to change{ Share::Button.count }
+        expect( Share::Button.first ).to eq nil
+      end
+
+      it 'adds the errors to the variant' do
+        variant = create_variant
+        expect(variant.errors.size).to eq 1
+        expect(variant.errors[:base]).to eq ['email_body needs {LINK}']
+      end
     end
 
 

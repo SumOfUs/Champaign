@@ -7,7 +7,6 @@ module Share::Variant
   end
 
   def add_errors(errors_to_add)
-    puts "got errors_to_add #{errors_to_add}"
     errors_to_add.each do |error|
       errors.add(:base, error)
     end
