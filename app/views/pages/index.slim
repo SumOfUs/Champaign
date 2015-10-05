@@ -1,12 +1,30 @@
 .row
   .col-md-12
-    h3 = t('.title')
+    h3
+      = t('.title')
+      = link_to '#search-filter', data: {toggle: 'collapse'}, 'class' => 'pull-right' do
+        i.glyphicon.glyphicon-search
+        = t('pages.index.filter')
+    #search-filter.collapse
+      = render partial: 'search'
     table.table-striped.table
       thead
         tr
-          th = t('common.name')
-          th = t('common.featured')
-          th = t('common.active')
+          th
+            = link_to t('common.name'), controller: 'pages', search: {order_by: ['title', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'title'
+          th
+            = link_to t('common.featured'), controller: 'pages', search: {order_by: ['featured', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'featured'
+          th
+            = link_to t('common.active'), controller: 'pages', search: {order_by: ['active', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'active'
+          th
+            = link_to t('common.created'), controller: 'pages', search: {order_by: ['created_at', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'created_at'
+          th
+            = link_to t('common.modified'), controller: 'pages', search: {order_by: ['updated_at', determine_ascending] }
+            = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'updated_at'
           th Actions
           th
       tbody
@@ -17,11 +35,11 @@
               span class=(page.featured? ? 'tick' : 'cross')
             td
               span class=(page.active? ? 'tick' : 'cross')
+            td = page.created_at.strftime('%Y-%b-%d')
+            td = page.updated_at.strftime('%Y-%b-%d')
             td = page.actions.count
 
             td = link_to t('common.edit'), edit_page_path(page)
 
 
     = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
-
-    = render partial: 'search'

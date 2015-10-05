@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 ruby '2.2.2'
 
 # Synchronises Assets between Rails and S3.
@@ -63,7 +63,7 @@ gem 'logger'
 # Gem for user agent / browser detection
 gem 'browser'
 
-gem 'share_progress', '>=0.1.2', require: false
+gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
 gem 'newrelic_rpm'
 gem 'puma'

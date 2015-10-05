@@ -29,6 +29,9 @@ en:
     lets_go: "Let's Go!"
     successful_update: "Your changes have been saved!"
     confirm: 'Are you sure?'
+    featured: 'Featured'
+    created: 'Date Created'
+    modified: 'Date Modified'
 
   validation:
     is_required: 'is required'
@@ -55,6 +58,7 @@ en:
     index:
       new: "Create a new page"
       title: "Pages"
+      filter: "Filter Pages"
       table:
         featured: "Featured"
     new:
