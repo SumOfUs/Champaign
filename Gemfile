@@ -17,6 +17,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'codemirror-rails'
 gem 'selectize-rails'
 gem 'countries'
+gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
 

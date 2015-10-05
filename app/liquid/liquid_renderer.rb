@@ -1,8 +1,9 @@
 class LiquidRenderer
 
-  def initialize(page, layout=nil)
+  def initialize(page, layout: nil, country: nil)
     @page = page
     @markup = layout.content unless layout.blank?
+    @country = country
   end
 
   def render
@@ -25,7 +26,7 @@ class LiquidRenderer
     @data ||= Plugins.data_for_view(@page).
                 merge( @page.liquid_data ).
                 merge( images: images ).
-                merge( LiquidHelper.globals ).
+                merge( LiquidHelper.globals(country: @country) ).
                 merge( shares: Shares.get_all(@page) ).
                 deep_stringify_keys
   end

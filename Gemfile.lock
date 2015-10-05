@@ -253,6 +253,7 @@ GEM
     font-awesome-sass (4.4.0)
       sass (>= 3.2)
     formatador (0.2.5)
+    geocoder (1.2.11)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
     haml (4.0.7)
@@ -485,6 +486,7 @@ DEPENDENCIES
   faker
   fog-aws
   font-awesome-sass
+  geocoder
   jbuilder (~> 2.0)
   jquery-rails
   liquid
