@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150930130924) do
+ActiveRecord::Schema.define(version: 20151002221626) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,12 +152,12 @@ ActiveRecord::Schema.define(version: 20150930130924) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "thermometer",                default: false
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
   end
@@ -179,6 +179,7 @@ ActiveRecord::Schema.define(version: 20150930130924) do
     t.text     "description"
     t.string   "ref"
     t.string   "target"
+    t.string   "cta"
   end
 
   add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
