@@ -26,15 +26,10 @@ class PageBuilder
   end
 
   def create_plugins
-    if default
-      Plugins.registered.each do |plugin|
-        Plugins.basic_create_for_page(plugin, page)
-      end
-    else
-      page.liquid_layout.partial_refs.each do |partial, ref|
-        plugin_name = LiquidPartial.find_by(title: partial).plugin_name
-        Plugins.create_for_page(plugin_name, page, ref)
-      end
+    page.liquid_layout.partial_refs.map do |partial, ref|
+      plugin_name = LiquidPartial.find_by(title: partial).plugin_refs
+    end.flatten.uniq.each do |plugin_name, ref|
+      Plugins.create_for_page(plugin_name, page, ref)
     end
   end
 
@@ -48,10 +43,6 @@ class PageBuilder
 
   def default_layout
     @default_layout ||= LiquidLayout.default
-  end
-
-  def default
-    ENV['DEFAULT_PLUGIN_REGISTRATION'] || false
   end
 
   def data_for_queue
