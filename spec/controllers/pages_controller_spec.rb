@@ -80,7 +80,7 @@ describe PagesController do
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
-      expect(LiquidRenderer).to have_received(:new).with(page)
+      expect(LiquidRenderer).to have_received(:new).with(page, country: "RD")
       expect(renderer).to have_received(:render)
     end
 
@@ -107,7 +107,7 @@ describe PagesController do
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
-      expect(LiquidRenderer).to have_received(:new).with(page, page.secondary_liquid_layout)
+      expect(LiquidRenderer).to have_received(:new).with(page, layout: page.secondary_liquid_layout)
       expect(renderer).to have_received(:render)
     end
 
