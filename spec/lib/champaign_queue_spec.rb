@@ -15,6 +15,7 @@ describe ChampaignQueue do
 
     context 'with Direct' do
       before { ENV['AK_PROCESSOR_URL'] = "http://example.com" }
+      after  { ENV['AK_PROCESSOR_URL'] = nil }
 
       it 'delegates to Client::Direct' do
         expect(ChampaignQueue::Clients::Direct).
