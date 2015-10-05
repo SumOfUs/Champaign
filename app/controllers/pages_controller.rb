@@ -24,7 +24,8 @@ class PagesController < ApplicationController
   end
 
   def show
-    renderer = LiquidRenderer.new(@page)
+    country = request.location.country_code
+    renderer = LiquidRenderer.new(@page, country: country)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
@@ -42,7 +43,7 @@ class PagesController < ApplicationController
   end
 
   def follow_up
-    renderer = LiquidRenderer.new(@page, @page.secondary_liquid_layout)
+    renderer = LiquidRenderer.new(@page, layout: @page.secondary_liquid_layout)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
