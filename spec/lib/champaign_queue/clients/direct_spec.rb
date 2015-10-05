@@ -5,6 +5,11 @@ describe ChampaignQueue::Clients::Direct do
     ENV['AK_PROCESSOR_URL'] = "http://example.com/message"
   end
 
+  after do
+    # If this sticks around, it breaks some other tests in other files.
+    ENV['AK_PROCESSOR_URL'] = nil
+  end
+
   before do
     @stub = stub_request(:post, "http://example.com/message").
      with(:body => "foo=bar")
