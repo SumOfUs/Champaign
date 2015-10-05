@@ -13,6 +13,10 @@
           = f.text_field :target, class: 'form-control'
 
         .form-group
+          = f.label :cta, "Call to Action"
+          = f.text_field :cta, class: 'form-control', placeholder: 'Sign the Petition'
+
+        .form-group
           = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     .well

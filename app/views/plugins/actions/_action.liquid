@@ -42,14 +42,14 @@
             {% endcase %}
           </div>
         {% endfor %}
-        <button type="submit" class="button action-bar__submit-button">Sign the petition</button>
+        <button type="submit" class="button action-bar__submit-button">{{ plugins.action[ref].cta }}</button>
       </form>
     </div>
   </div>
 
   <div class="action-bar__mobile-ui">
     <div class="action-bar__mobile-ui__bottom-bar">
-      <button class="button action-bar__open-button">Sign the petition</button>
+      <button class="button action-bar__open-button">{{ plugins.action[ref].cta }}</button>
     </div>
   </div>
 
