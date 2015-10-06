@@ -4,6 +4,16 @@ describe LiquidPartial do
   
   let(:partial) { create(:liquid_partial) }
 
+  subject{ partial }
+
+  it { is_expected.to respond_to :title }
+  it { is_expected.to respond_to :content }
+  it { is_expected.to respond_to :plugin_name }
+  it { is_expected.to respond_to :partial_names }
+  it { is_expected.to respond_to :partial_refs }
+
+  it { is_expected.not_to respond_to :one_plugin }
+
   describe "is valid" do
 
     after :each do
@@ -16,6 +26,11 @@ describe LiquidPartial do
     it "with multiple references to the same plugin" do
       partial.content = "<div>{{ plugins.actions[ref].text }}</div>
                          <div>{{ plugins.actions[ref].wink }}</div>"
+    end
+
+    it "with a reference to a partial that does exist" do
+      create :liquid_partial, title: 'existent'
+      partial.content = "<div>{% include 'existent' %}</div>"
     end
   end
 
@@ -37,6 +52,14 @@ describe LiquidPartial do
       partial.content = "<div>{{ plugins.actions[ref].text }}</div>
                          <div>{{ plugins.thermometer[ref].wink }}</div>"
     end
+
+    it "with a reference to a partial that doesn't exist" do
+      partial.content = "<div>{% include 'nonexistent' %}</div>"
+    end
+  end
+
+  describe "plugin refs" do
+
   end
 
   describe "missing_partials" do

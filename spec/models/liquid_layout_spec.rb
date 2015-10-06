@@ -3,6 +3,14 @@ require 'rails_helper'
 describe LiquidLayout do
   let(:layout) { create(:liquid_layout) }
 
+  subject{ layout }
+
+  it { is_expected.to respond_to :title }
+  it { is_expected.to respond_to :content }
+  it { is_expected.to respond_to :pages }
+  it { is_expected.to respond_to :partial_names }
+  it { is_expected.to respond_to :partial_refs }
+
   describe "is valid" do
     after :each do
       expect(layout).to be_valid
