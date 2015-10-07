@@ -5,7 +5,7 @@ class LiquidLayoutSwitcher
   end
 
   def switch(new_layout)
-    keepers, quitters, starters = find_overlap(@page.liquid_layout.plugin_refs, new_layout.plugin_refs)
+    keepers, quitters, starters = find_overlap(plugin_refs_from_plugins(@page.plugins), new_layout.plugin_refs)
     delete_quitters(quitters)
     create_starters(starters)
     @page.liquid_layout = new_layout
@@ -33,6 +33,10 @@ class LiquidLayoutSwitcher
     quitters = old_plugin_refs - keepers
     starters = new_plugin_refs - keepers
     [keepers, quitters, starters]
+  end
+
+  def plugin_refs_from_plugins(plugins)
+    plugins.map { |p| [p.name.underscore, p.ref] }
   end
 
 end

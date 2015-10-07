@@ -41,7 +41,6 @@ describe LiquidLayoutSwitcher do
       end
 
       it 'creates new plugins when switching to a template with more plugins' do
-        puts "both_refless_layout.plugin_refs #{both_refless_layout.plugin_refs}"
         expect{ switcher.switch(blank_layout) }.to change{ Plugins::Action.count }.by 0
         expect( page.plugins.size ).to eq 0
         expect{ switcher.switch( both_refless_layout )}.to change{ Plugins::Action.count }.by 1
@@ -49,7 +48,6 @@ describe LiquidLayoutSwitcher do
       end
 
       it 'creates with a ref if present' do
-        puts "action_ref_layout.plugin_refs #{action_ref_layout.plugin_refs}"
         expect{ switcher.switch( action_ref_layout )}.to change{ Plugins::Action.count }.by 1
         created = Plugins::Action.last
         expect( created.page ).to eq page
