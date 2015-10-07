@@ -4,12 +4,6 @@ module Plugins
       'plugins_'
     end
 
-    def basic_create_for_page(plugin, page)
-      plugin = plugin.new(plugin.const_get(:DEFAULTS))
-      plugin.page = page
-      plugin.save
-    end
-
     def class_from_name(plugin_name)
       "Plugins::#{plugin_name.camelcase}".constantize
     end
