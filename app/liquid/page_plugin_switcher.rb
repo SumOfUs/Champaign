@@ -1,4 +1,4 @@
-class LiquidLayoutSwitcher
+class PagePluginSwitcher
 
   def initialize(page)
     @page = page

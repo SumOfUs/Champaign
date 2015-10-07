@@ -45,7 +45,7 @@ class Page < ActiveRecord::Base
 
   def switch_layouts
     if changed.include?("liquid_layout_id") || changed.include?("liquid_layout")
-      LiquidLayoutSwitcher.new(self).switch(liquid_layout)
+      PagePluginSwitcher.new(self).switch(liquid_layout)
     end
   end
 end

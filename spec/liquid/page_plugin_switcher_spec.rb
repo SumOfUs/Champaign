@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe LiquidLayoutSwitcher do
+describe PagePluginSwitcher do
 
   let!(:action_partial) { create :liquid_partial, title: 'action', content: '{{ plugins.action[ref] }}' }
   let!(:thermo_partial) { create :liquid_partial, title: 'thermo', content: '{{ plugins.thermometer[ref] }}' }
@@ -16,7 +16,7 @@ describe LiquidLayoutSwitcher do
   let(:nested_refless_layout) { create :liquid_layout, title: 'nested_refless', content: '{% include "action_nested_thermo" %}' }
 
   let!(:page) { create :page, liquid_layout: both_refless_layout }
-  let!(:switcher) { LiquidLayoutSwitcher.new(page) }
+  let!(:switcher) { PagePluginSwitcher.new(page) }
 
   describe ".switch" do
 

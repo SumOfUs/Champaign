@@ -135,11 +135,11 @@ describe Page do
 
   describe 'liquid_layout' do
 
-    let(:switcher) { instance_double(LiquidLayoutSwitcher, switch: nil)}
+    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
     let(:other_liquid_layout) { create :liquid_layout }
 
     before :each do
-      allow(LiquidLayoutSwitcher).to receive(:new).and_return(switcher)
+      allow(PagePluginSwitcher).to receive(:new).and_return(switcher)
     end
 
     describe 'valid' do
@@ -151,7 +151,7 @@ describe Page do
 
       it 'switches the layout plugins if layout changed' do
         simple_page.liquid_layout = other_liquid_layout
-        expect(LiquidLayoutSwitcher).to receive(:new)
+        expect(PagePluginSwitcher).to receive(:new)
         expect(switcher).to receive(:switch).with(other_liquid_layout)
         expect(simple_page.save).to eq true
       end
