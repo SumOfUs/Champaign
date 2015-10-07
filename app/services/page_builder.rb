@@ -26,9 +26,7 @@ class PageBuilder
   end
 
   def create_plugins
-    page.liquid_layout.partial_refs.map do |partial, ref|
-      plugin_name = LiquidPartial.find_by(title: partial).plugin_refs
-    end.flatten.uniq.each do |plugin_name, ref|
+    page.liquid_layout.plugin_refs.each do |plugin_name, ref|
       Plugins.create_for_page(plugin_name, page, ref)
     end
   end

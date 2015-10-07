@@ -49,5 +49,10 @@ describe LiquidLayout do
       expect(LiquidLayout.default.title).to eq('default')
     end
   end
+
+  describe 'plugin_refs' do
+    it 'returns a list of length two arrays'
+    it 'has all the plugins from its partials'
+  end
 end
 
