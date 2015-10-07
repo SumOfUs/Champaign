@@ -73,6 +73,8 @@ en:
       sources: 'Sources'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
+      layout_select: 'Page layout'
+      secondary_layout_select: 'Page layout for post-action page'
 
 
   campaigns:

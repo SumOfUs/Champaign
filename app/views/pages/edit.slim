@@ -18,6 +18,14 @@
         = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', @page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
 
       .form-group
+        = f.label :liquid_layout_id, t('.layout_select')
+        = f.select :liquid_layout_id, liquid_layout_options, {}, class: "form-control"
+
+      .form-group
+        = f.label :secondary_liquid_layout_id, t('.secondary_layout_select')
+        = f.select :secondary_liquid_layout_id, liquid_layout_options, {}, class: "form-control"
+
+      .form-group
         = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     section
@@ -35,10 +43,6 @@
 
       .component
         = form_tag page_images_url(@page, format: :js), id: 'dropzone', class: 'dropzone' do
-
-    section
-      h3 = t('.follow-up')
-      = render 'post_action_form', page: @page
 
 javascript:
   $.publish("quill_editor:setup");
