@@ -9,7 +9,6 @@ class LiquidLayoutSwitcher
     delete_quitters(quitters)
     create_starters(starters)
     @page.liquid_layout = new_layout
-    @page.save
   end
 
   private
