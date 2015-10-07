@@ -51,8 +51,22 @@ describe LiquidLayout do
   end
 
   describe 'plugin_refs' do
-    it 'returns a list of length two arrays'
-    it 'has all the plugins from its partials'
+
+    it 'has all the plugins from its partials as length two arrays' do
+      pe = create :liquid_partial, title: 'e', content: '<p>{{ plugins.e[ref] }}</p>'
+      pd = create :liquid_partial, title: 'd', content: '<p>{{ plugins.d[ref] }}</p>'
+      pc = create :liquid_partial, title: 'c', content: '<p>{% include "e" %} {{ plugins.c[ref] }}</p>'
+      pb = create :liquid_partial, title: 'b', content: '<p>{% include "e", ref: "lol" %} {{ plugins.b[ref] }}</p>'
+      pa = create :liquid_partial, title: 'a', content: '<p>{% include "b", ref: "heyy" %}</p>{% include "c" %} {{ plugins.a[ref] }}'
+      layout.content = '{% include "a" %} {% include "d", ref: "wink" %}'
+      expect(layout.plugin_refs).to match_array [['a', nil], ['b', 'heyy'], ['c', nil], ['d', "wink"], ['e', nil], ['e', 'lol']]
+    end
+
+    it 'captures plugins from its own content' do
+      pd = create :liquid_partial, title: 'd', content: '<p>{{ plugins.d[ref] }}</p>'
+      layout.content = "<p>{{ plugins.thermometer[ref] }}</p>{% include 'd', ref: 'modal' %}"
+      expect(layout.plugin_refs).to match_array [['thermometer', nil], ['d', "modal"]]
+    end
   end
 end
 
