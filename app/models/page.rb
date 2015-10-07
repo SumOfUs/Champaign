@@ -19,7 +19,7 @@ class Page < ActiveRecord::Base
   validates :liquid_layout, presence: true
 
   before_validation :create_slug
-  after_save :switch_layouts
+  after_save :switch_plugins
 
   # have we thought about using friendly id? probably better
   def create_slug
@@ -43,7 +43,7 @@ class Page < ActiveRecord::Base
 
   private
 
-  def switch_layouts
+  def switch_plugins
     if changed.include?("liquid_layout_id") || changed.include?("liquid_layout")
       PagePluginSwitcher.new(self).switch(liquid_layout)
     end
