@@ -13,14 +13,25 @@
   var slugView = Backbone.View.extend({
     el: '#new_page',
 
+    events: {
+      'keyup #page_title' : 'generateSlug',
+      'keyup #page_slug'  : 'resetFeedback',
+      'click #check_slug_available' : 'checkSlugAvailable',
+      'submit' : 'submit'
+    },
+
     initialize() {
       this.slugChecker = new slugChecker();
       this.slugChecker.on("change:valid", _.bind(this.updateViewWithValid, this));
-      this.$title = this.$el.find('#page_title');
-      this.$slug  = this.$el.find('#page_slug');
-      this.$feedback = this.$el.find('.form-group.slug');
-      this.$checkButton = this.$el.find('#check_slug_available');
+      this.cacheDomElements();
       this.checking = false;
+    },
+
+    cacheDomElements() {
+      this.$title = this.$('#page_title');
+      this.$slug  = this.$('#page_slug');
+      this.$feedback = this.$('.form-group.slug');
+      this.$checkButton = this.$('#check_slug_available');
     },
 
     updateViewWithValid() {
@@ -32,11 +43,11 @@
       this.$el.find('.form-group.slug .glyphicon').hide();
 
       if(valid) {
-        this.$el.find('.form-group.slug').addClass('has-success has-feedback');
-        this.$el.find('.form-group.slug .glyphicon-ok').show();
+        this.$('.form-group.slug').addClass('has-success has-feedback');
+        this.$('.form-group.slug .glyphicon-ok').show();
       } else {
-        this.$el.find('.form-group.slug').addClass('has-error has-feedback');
-        this.$el.find('.form-group.slug .glyphicon-remove').show();
+        this.$('.form-group.slug').addClass('has-error has-feedback');
+        this.$('.form-group.slug .glyphicon-remove').show();
       }
     },
 
@@ -86,6 +97,7 @@
 
     submit(e) {
       e.preventDefault();
+
       if( !this.slugChecker.get('valid') ) {
 
         this.checkSlugAvailable(e, () => {
@@ -98,13 +110,6 @@
         this.$el.unbind();
         this.$el.submit();
       }
-    },
-
-    events: {
-      'keyup #page_title' : 'generateSlug',
-      'keyup #page_slug'  : 'resetFeedback',
-      'click #check_slug_available' : 'checkSlugAvailable',
-      'submit' : 'submit'
     }
   });
 
@@ -113,47 +118,5 @@
   };
 
   $.subscribe("pages:new", initialize);
-}();
-
-
-() => {
-  var pageStatus = Backbone.Model.extend({
-    initialize(id) {
-      this.id = id;
-      this.url = `/action_kit/check_petition_page_status?id=${id}`
-    }
-  });
-
-  var page = Backbone.Model.extend({
-
-    initialize(id) {
-      this.url = `/action_kit/create_petition_page?id=${id}`;
-    }
-  });
-
-
-  var petitionPageView = Backbone.View.extend({
-    initialize(id) {
-      this.pageId = id;
-      this.pageStatus = new pageStatus(id);
-      this.checkStatus();
-    },
-
-    checkStatus() {
-      this.pageStatus.fetch().done( () => {
-        if(this.pageStatus.get('status') == 'pending') {
-          new page(this.pageId).save();
-          //window.setTimeout( _.bind(this.checkStatus, this), 3000);
-        }
-      });
-    }
-  });
-
-  var initialize = (e, page_id) => {
-    console.log(page_id);
-    new petitionPageView(page_id);
-  };
-
-  $.subscribe("pages:edit", initialize);
 }();
 

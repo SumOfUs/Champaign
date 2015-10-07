@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe ManageAction do
+  before do
+    allow(ChampaignQueue).to receive(:push)
+  end
+
   let(:page) { create(:page) }
   let(:data) { { email: 'bob@example.com', page_id: page.id } }
 
@@ -54,3 +58,4 @@ describe ManageAction do
     end
   end
 end
+

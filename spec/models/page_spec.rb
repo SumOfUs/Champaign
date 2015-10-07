@@ -115,17 +115,6 @@ describe Page do
     end
   end
 
-  describe 'slug' do
-
-    it 'should auto-fill slug' do
-      existing_page.slug = nil
-      existing_page.valid?
-      expect(existing_page).to be_valid
-      expect(existing_page.slug).not_to be_nil
-    end
-
-  end
-
   describe 'language' do
     it 'should not be required' do
       simple_page.language = nil
@@ -173,5 +162,5 @@ describe Page do
     end
 
   end
-
 end
+

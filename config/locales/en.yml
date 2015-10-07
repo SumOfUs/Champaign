@@ -69,6 +69,9 @@ en:
     edit:
       show: "View the page"
       tags: "Tags"
+      short_name: "Short Name (no spaces allowed)"
+      action_kit_problem: "Whoops! We've had a problem creating your page on ActionKit. Here's what they're saying..."
+      action_kit_page_status: "Status Code: %{status}"
       photos: 'Photos'
       follow_up: 'Post action'
       sources: 'Sources'
