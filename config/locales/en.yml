@@ -138,6 +138,7 @@ en:
       form:
         title: 'Facebook Share title'
         description: 'Facebook Share text'
+        image: "Add an image. Leave blank to use the page's default"
 
     twitter:
       title: 'Twitter Retweet Variant'
