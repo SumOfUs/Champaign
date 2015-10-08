@@ -2,8 +2,9 @@ class Api::ActionsController < ApplicationController
   def create
     @action_params = action_params
     validator = FormValidator.new(@action_params)
+
     if validator.valid?
-      action = Action.create_action(@action_params)
+      ManageAction.create(@action_params)
       render json: { follow_up_url: follow_up_page_path(@action_params[:page_id]) }
     else
       render json: {errors: validator.errors}, status: 422
