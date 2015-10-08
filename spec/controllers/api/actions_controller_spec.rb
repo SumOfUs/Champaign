@@ -7,7 +7,7 @@ describe Api::ActionsController do
 
     before :each do
       allow(Form).to receive(:find){ form }
-      allow(Action).to receive(:create_action)
+      allow(ManageAction).to receive(:create)
     end
 
     describe "successful" do
@@ -26,7 +26,7 @@ describe Api::ActionsController do
       it "delegates to Action with params" do
         expected_params = { page_id: '2', form_id: '3', foo: 'bar'}.stringify_keys
 
-        expect(Action).to have_received(:create_action).
+        expect(ManageAction).to have_received(:create).
           with(expected_params)
       end
 
@@ -54,7 +54,7 @@ describe Api::ActionsController do
       end
 
       it "does not create an action" do
-        expect(Action).not_to have_received(:create_action)
+        expect(ManageAction).not_to have_received(:create)
       end
 
       it "displays the errors" do
