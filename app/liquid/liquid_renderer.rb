@@ -1,9 +1,10 @@
 class LiquidRenderer
 
-  def initialize(page, layout: nil, country: nil)
+  def initialize(page, layout: nil, country: nil, member: nil)
     @page = page
     @markup = layout.content unless layout.blank?
     @country = country
+    @member = member
   end
 
   def render

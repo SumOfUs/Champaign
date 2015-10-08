@@ -24,8 +24,9 @@ class PagesController < ApplicationController
   end
 
   def show
+    recognized_member = ActionUser.find_action_user_from_request(params[:akid], cookies.signed[:action_user_id])
     country = request.location.country_code
-    renderer = LiquidRenderer.new(@page, country: country)
+    renderer = LiquidRenderer.new(@page, country: country, member: recognized_member)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end

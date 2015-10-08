@@ -80,7 +80,7 @@ describe PagesController do
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
-      expect(LiquidRenderer).to have_received(:new).with(page, country: "RD")
+      expect(LiquidRenderer).to have_received(:new).with(page, country: "RD", member: nil)
       expect(renderer).to have_received(:render)
     end
 
