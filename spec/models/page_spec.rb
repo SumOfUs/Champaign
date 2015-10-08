@@ -4,7 +4,7 @@ describe Page do
 
   let(:english) { create :language }
   let(:liquid_layout) { create :liquid_layout }
-  let(:simple_page) { create :page }
+  let(:simple_page) { create :page, liquid_layout: liquid_layout }
   let(:existing_page) { create :page }
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
 
@@ -133,5 +133,45 @@ describe Page do
     end
   end
 
+  describe 'liquid_layout' do
+
+    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
+    let(:other_liquid_layout) { create :liquid_layout }
+
+    before :each do
+      allow(PagePluginSwitcher).to receive(:new).and_return(switcher)
+    end
+
+    describe 'valid' do
+
+      before :each do
+        expect(simple_page).to be_valid
+        expect(simple_page).to be_persisted
+      end
+
+      it 'switches the layout plugins if layout changed' do
+        simple_page.liquid_layout = other_liquid_layout
+        expect(PagePluginSwitcher).to receive(:new)
+        expect(switcher).to receive(:switch).with(other_liquid_layout)
+        expect(simple_page.save).to eq true
+      end
+
+      it 'does not switch the layout plugins if layout unchanged' do
+        simple_page.title = "just changin the title here"
+        expect(switcher).not_to receive(:switch)
+        expect(simple_page.save).to eq true
+      end
+    end
+
+    describe 'invalid' do
+      it 'does not switch the layout plugins even if layout is changed' do
+        simple_page.title = nil
+        simple_page.liquid_layout = other_liquid_layout
+        expect(switcher).not_to receive(:switch)
+        expect(simple_page.save).to eq false
+      end
+    end
+
+  end
 
 end
