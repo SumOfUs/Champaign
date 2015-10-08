@@ -2,7 +2,7 @@
   height: 250px;
   max-width: 475px;
   width: 100%;
-  background-size: cover;
+  @include background-size(cover);
   overflow: hidden;
   position: relative;
 
@@ -16,7 +16,7 @@
       right: 0;
       position: absolute;
       z-index: -1;
-      background-size: cover;
+      @include background-size(cover);
     }
   }
 }
@@ -26,7 +26,7 @@
   width: 100%;
   overflow: hidden;
   position: relative;
-  background-size: cover;
+  @include background-size(cover);
   background-position: center;
 
   &__overlay {

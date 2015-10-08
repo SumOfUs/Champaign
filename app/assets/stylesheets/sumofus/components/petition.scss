@@ -56,7 +56,7 @@ $action-top-height: 120px;
   }
   &__expand-arrow {
     background-image: url(asset-path('sumofus/circled-arrow.png'));
-    background-size: 100% 100%;
+    @include background-size(100% 100%);
     width: 21px;
     height: 21px;
 
