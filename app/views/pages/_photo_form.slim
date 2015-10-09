@@ -1,0 +1,10 @@
+h3 = t('.photos')
+.component.campaign-images
+  - if page.images.empty?
+    p.notice =t('pages.edit.no_images_notice')
+
+  - page.images.each do |image|
+    = render partial: 'images/thumbnail', locals: { image: image }
+
+.component
+  = form_tag page_images_url(page, format: :js), id: 'dropzone', class: 'dropzone' do

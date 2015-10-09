@@ -1,0 +1,8 @@
+= form_for page, remote: true do |f|
+  .form-group
+    = f.label :liquid_layout_id, t('.layout_select')
+    = f.select :liquid_layout_id, liquid_layout_options, {}, class: "form-control"
+
+  .form-group
+    = f.label :secondary_liquid_layout_id, t('.secondary_layout_select')
+    = f.select :secondary_liquid_layout_id, liquid_layout_options, {}, class: "form-control"

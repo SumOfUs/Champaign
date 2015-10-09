@@ -1,0 +1,25 @@
+.row
+  .col-md-12
+    = form_for page, remote: true do |f|
+      = f.hidden_field :content
+
+      = render 'shared/error_messages', target: page
+
+      .page-title.form-group
+        = f.text_field :title
+
+      .form-group
+        = render 'shared/quill_editor'
+
+      .form-group
+        = f.label  :tag_ids, t('.tags')
+        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
+
+      / .form-group
+        / = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
+
+
+javascript:
+  $.publish("quill_editor:setup");
+  $.publish("dropzone:setup");
+

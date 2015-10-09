@@ -1,50 +1,26 @@
 = render 'pages/header'
 
-.row
-  .col-md-12
-    = form_for @page, remote: true do |f|
-      = f.hidden_field :content
+section.page-edit-step#layout
+  h1.page-edit-step__title Layout
+  = render 'layout_form', page: @page
 
-      = render 'shared/error_messages', target: @page
+section.page-edit-step#basics
+  h1.page-edit-step__title Basics
+  = render 'form', page: @page
 
-      .page-title.form-group
-        = f.text_field :title
+section.page-edit-step#sources
+  h1.page-edit-step__title Sources
+  = render 'link_form', page: @page
 
-      .form-group
-        = render 'shared/quill_editor'
+section.page-edit-step#pictures
+  h1.page-edit-step__title Pictures
+  = render 'photo_form', page: @page
 
-      .form-group
-        = f.label  :tag_ids, t('.tags')
-        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', @page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
-
-      .form-group
-        = f.label :liquid_layout_id, t('.layout_select')
-        = f.select :liquid_layout_id, liquid_layout_options, {}, class: "form-control"
-
-      .form-group
-        = f.label :secondary_liquid_layout_id, t('.secondary_layout_select')
-        = f.select :secondary_liquid_layout_id, liquid_layout_options, {}, class: "form-control"
-
-      .form-group
-        = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
-
-    section
-      h3 = t('.sources')
-      = render 'link_form', page: @page
-
-    section
-      h3 = t('.photos')
-      .component.campaign-images
-        - if @page.images.empty?
-          p.notice =t('pages.edit.no_images_notice')
-
-        - @page.images.each do |image|
-          = render partial: 'images/thumbnail', locals: { image: image }
-
-      .component
-        = form_tag page_images_url(@page, format: :js), id: 'dropzone', class: 'dropzone' do
+- @page.plugins.each do |plugin|
+  section.page-edit-step id=plugin_title(plugin)
+    h1.page-edit-step__title= plugin_title(plugin)
+    = render "#{plugin.class.to_s.underscore.pluralize}/form", plugin: plugin, page: @page
 
 javascript:
-  $.publish("quill_editor:setup");
-  $.publish("dropzone:setup");
+  $.publish("pages:edit");
 
