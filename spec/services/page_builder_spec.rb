@@ -14,7 +14,7 @@ describe PageBuilder do
     allow(ChampaignQueue).to receive(:push)
   end
 
-  subject { PageBuilder.create_with_plugins(params) }
+  subject { PageBuilder.create(params) }
 
   it 'creates a campaign page' do
     expect { subject }.to change{ Page.count }.from(0).to(1)

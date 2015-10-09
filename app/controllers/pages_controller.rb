@@ -14,7 +14,7 @@ class PagesController < ApplicationController
   end
 
   def create
-    @page = PageBuilder.create_with_plugins( page_params )
+    @page = PageBuilder.create( page_params )
 
     if @page.valid?
       redirect_to edit_page_path(@page)

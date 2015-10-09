@@ -21,14 +21,14 @@ describe PagesController do
     let(:page) { instance_double(Page, valid?: true) }
 
     before do
-      allow(PageBuilder).to receive(:create_with_plugins) { page }
+      allow(PageBuilder).to receive(:create) { page }
       post :create, { page: { title: "Foo Bar" }}
     end
 
     it 'creates page' do
       expected_params = { title: "Foo Bar" }
 
-      expect(PageBuilder).to have_received(:create_with_plugins).
+      expect(PageBuilder).to have_received(:create).
         with(expected_params)
     end
 

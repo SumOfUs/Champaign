@@ -1,6 +1,5 @@
 class Share::Email < ActiveRecord::Base
-  belongs_to :page
-  belongs_to :button
+  include Share::Variant
 
   validates :subject, :body, presence: true
   validate :has_link

@@ -4,11 +4,27 @@ describe ManageAction do
   let(:page) { create(:page) }
   let(:data) { { email: 'bob@example.com', page_id: page.id } }
 
+  before do
+    allow(ChampaignQueue).to receive(:push)
+  end
+
   describe '#create' do
-    subject { ManageAction.new(data).create }
+    subject { ManageAction.create(data) }
 
     it 'creates an action' do
       expect(subject).to be_a Action
+    end
+
+    it 'posts action to queue' do
+      expect(ChampaignQueue).to receive(:push).
+        with({
+        type: "action", params: {
+          slug: page.slug,
+          email: "bob@example.com",
+          page_id: page.id }
+      })
+
+      subject
     end
 
     it 'creates an action user' do
@@ -21,10 +37,20 @@ describe ManageAction do
       expect{ subject }.to_not change{ ActionUser.count }.from(1)
     end
 
-    it 'returns existing action if present' do
-       action = ManageAction.new(data).create
+    context "action already exists" do
+      before do
+        @action = ManageAction.create(data)
+      end
 
-       expect(subject.id).to eq(action.id)
+      it 'returns false' do
+        expect(subject).to be false
+      end
+
+      it 'does not post to queue' do
+        expect(ChampaignQueue).to_not receive(:push)
+
+        subject
+      end
     end
   end
 end

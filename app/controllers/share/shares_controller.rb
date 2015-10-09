@@ -28,7 +28,7 @@ class Share::SharesController < ApplicationController
     })
 
     respond_to do |format|
-      if @share.valid?
+      if @share.errors.empty?
         format.html { redirect_to index_path }
       else
         format.html { render 'share/edit' }
@@ -44,7 +44,7 @@ class Share::SharesController < ApplicationController
     })
 
     respond_to do |format|
-      if @share.valid?
+      if @share.errors.empty?
         format.html { redirect_to index_path }
       else
         format.html { render 'share/new' }

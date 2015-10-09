@@ -19,35 +19,55 @@ class ShareProgressVariantBuilder
 
   def update
     variant = variant_class.find(@id)
-    variant.update(@params)
+    variant.assign_attributes(@params)
 
     return variant unless variant.valid?
 
     button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
-    ShareProgress::Button.new( share_progress_button_params(variant, button) ).save
+    sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
 
+    if sp_button.save
+      variant.save
+    else
+      add_sp_errors_to_variant(sp_button, variant)
+    end
     variant
   end
 
   def create
     variant = variant_class.new(@params)
     variant.page = @page
-    variant.save
 
     return variant unless variant.valid?
 
-    button = Share::Button.find_or_create_by(sp_type: @variant_type, page_id: @page.id)
-
+    button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
-    sp_button.save
 
-    button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html) unless button.sp_id
-    variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
-
+    if sp_button.save
+      button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html) unless button.sp_id
+      variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
+    else
+      add_sp_errors_to_variant(sp_button, variant)
+    end
     variant
   end
 
   private
+
+  def add_sp_errors_to_variant(sp_button, variant)
+    begin
+      if sp_button.errors.has_key? 'variants'
+        variant.add_errors(sp_button.errors['variants'][0])
+      else
+        sp_button.errors.each_value do |val|
+          variant.add_errors(val[0])
+        end
+      end
+    rescue NoMethodError
+      # in case SP just starts returning something wonky and the array access raises NoMethodError
+      variant.add_errors([sp_button.errors.to_s])
+    end
+  end
 
   def share_progress_button_params(variant, button)
     {

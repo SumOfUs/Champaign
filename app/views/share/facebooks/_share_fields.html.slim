@@ -5,6 +5,12 @@
   = form.label :description, t('share.facebook.form.description')
   = form.text_area :description, class: 'form-control'
 
+- if @share.image.exists?
+  .form-group
+    = image_tag @share.image(:thumb)
+
 .form-group
+  = form.label :image, ( @share.new_record? ? t('share.facebook.form.image') : t('share.facebook.form.update_image')  )
   = form.file_field :image
+
 

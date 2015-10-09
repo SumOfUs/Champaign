@@ -73,6 +73,8 @@ en:
       sources: 'Sources'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
+      layout_select: 'Page layout'
+      secondary_layout_select: 'Page layout for post-action page'
 
 
   campaigns:
@@ -135,9 +137,12 @@ en:
 
     facebook:
       title: 'Facebook Share Headline'
+      no_image: 'No Image'
       form:
         title: 'Facebook Share title'
         description: 'Facebook Share text'
+        image: "Add an image. Leave blank to use the page's default."
+        update_image: "Click to replace image."
 
     twitter:
       title: 'Twitter Retweet Variant'

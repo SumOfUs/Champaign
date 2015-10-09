@@ -18,6 +18,18 @@ describe Share::Facebook do
       expect(subject).to_not be_valid
     end
   end
-end
 
+  describe 'before_create' do
+    let(:image) { Image.create(content: File.new("spec/fixtures/test-image.png")) }
+    let(:page) { create(:page, images: [image]) }
+
+    subject { create(:share_facebook, page: page) }
+
+    context 'without image' do
+      it "takes page's first image" do
+        expect(subject.image.url).to match('test-image.png')
+      end
+    end
+  end
+end
 
