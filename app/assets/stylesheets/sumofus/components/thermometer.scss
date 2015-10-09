@@ -1,0 +1,38 @@
+.thermometer {
+
+  $graphic-height: 12px;
+  $graphic-border-radius: 4px;
+  &__bg {
+    width: 100%;
+    height: $graphic-height;
+    border-radius: $graphic-border-radius;
+    background-color: white;
+    margin: 5px 0 25px;
+    float: left;
+  }
+  &__mercury {
+    height: $graphic-height;
+    border-radius: $graphic-border-radius;
+    background-color: $teal;
+    float: left;
+    margin: 0;
+  }
+
+  &__stats {
+    width: 100%;
+  }
+  &__signatures {
+    float: left;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+  }
+  &__remaining {
+    float: right;
+    color: rgba($navy, 0.5);
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}

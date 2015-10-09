@@ -6,7 +6,7 @@
     background-image: url(asset-path('sumofus/logo-positive.png'));
   }
   &--positive, &--negative {
-    background-size: 100%;
+    @include background-size(100%);
     background-repeat: no-repeat;
     width: 150px;
     height: 30px;
