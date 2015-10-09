@@ -19,17 +19,21 @@
       <div class="action-bar__shading"></div>
 
       <form action='/api/pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
+        {% if member %}
+            Welcome back {{member.first_name}} {{member.last_name}}!
+            <a href="javascript:;" id="form-action-clear">Is that not you? Click here to enter your details.</a>
+        {% endif %}
         <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
         {% for field in plugins.action[ref].fields %}
           <div class="form__group">
             {% case field.data_type %}
 
             {% when 'text' %}
-              <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+              <input type="text" name="{{field.name}}" class="form-control {% if member %}hidden-irrelevant{% endif %}" id="" placeholder="{{ field.label }}"/>
             {% when 'email' %}
-              <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" />
+              <input type="email" name="{{field.name}}" class="form-control mailcheck {% if member %}hidden-irrelevant{% endif %}" id="" placeholder="{{ field.label }}" {% if member and member.email %} value="{{member.email}}" {% endif %} />
             {% when 'phone' %}
-              <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+              <input type="tel" name="{{field.name}}" class="form-control {% if member %}hidden-irrelevant{% endif %}" id="" placeholder="{{ field.label }}" />
             {% when 'checkbox' %}
               <label class="checkbox-label">
                 <input type="checkbox" name="{{field.name}}" /> {{ field.label }}

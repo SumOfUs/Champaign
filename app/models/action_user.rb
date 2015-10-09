@@ -1,7 +1,7 @@
 class ActionUser < ActiveRecord::Base
 
   def self.find_action_user_from_request(akid, cookie_id)
-    action_user = self.find_by_actionkit_user_id(akid)
+    action_user = self.find_by_actionkit_user_id(AkidParser.parse(akid)[:akid])
     if action_user and akid
       # We don't allow returns when there's no AKID because
       # that field isn't required, so a nil AKID would return

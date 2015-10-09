@@ -24,11 +24,12 @@ class LiquidRenderer
   end
 
   def data
+    member_hash = @member.attributes if @member else nil
     @data ||= Plugins.data_for_view(@page).
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( LiquidHelper.globals(country: @country) ).
-                merge( LiquidHelper.globals(member: @member) ).
+                merge( LiquidHelper.globals(member: member_hash) ).
                 merge( shares: Shares.get_all(@page) ).
                 deep_stringify_keys
   end
