@@ -17,6 +17,8 @@
 //= require jquery-ui/sortable
 //= require jquery.remotipart
 
+//= require underscore
+//= require backbone
 //= require bootstrap-sprockets
 //= require selectize
 //= require dropzone
@@ -31,3 +33,5 @@
 //= require configure_quill_editor
 //= require plugins_toggle
 //= require_tree ./plugins/actions/admin/
+
+window.PageEditBar = require("page_edit_bar");

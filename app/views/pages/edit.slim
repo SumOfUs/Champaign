@@ -1,4 +1,4 @@
-= render 'pages/header'
+= render 'sidebar'
 
 section.page-edit-step#layout
   h1.page-edit-step__title Layout
@@ -24,3 +24,6 @@ section.page-edit-step#pictures
 javascript:
   $.publish("pages:edit");
 
+  $(document).ready(function(){
+    new PageEditBar();
+  });

@@ -13,6 +13,10 @@ class PagesController < ApplicationController
     @page = Page.new
   end
 
+  def edit
+    render :edit, layout: 'page_edit'
+  end
+
   def create
     @page = PageBuilder.create( page_params )
 
