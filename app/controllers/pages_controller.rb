@@ -55,6 +55,11 @@ class PagesController < ApplicationController
     @page = Page.find(params[:id])
   end
 
+  def request_country
+    # when location API times out, window.location is blank
+    request.location.blank? ? nil : request.location.country_code
+  end
+
   def page_params
     params.require(:page).
       permit( :id,
