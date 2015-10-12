@@ -4,7 +4,7 @@
 
     .well
       h4  = t('plugins.action.action_description')
-      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
+      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action one-form' }  do |f|
         .form-group
           = f.text_area :description, class: 'form-control'
 
@@ -16,8 +16,6 @@
           = f.label :cta, "Call to Action"
           = f.text_field :cta, class: 'form-control', placeholder: 'Sign the Petition'
 
-        .form-group
-          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
     .well
       h4 = t('plugins.action.choose_form_template')

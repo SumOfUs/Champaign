@@ -1,15 +1,23 @@
+// window.PageModel = require('page_model');
+
+let PageModel = Backbone.Model.extend({
+  urlRoot: '/api/pages',
+});
+
+
 let PageEditBar = Backbone.View.extend({
 
   el: '.page-edit-bar',
 
   events: {
-    'click .action-bar__open-button': 'reveal',
+    'click .page-edit-bar__save-button': 'save'
   },
 
   initialize: function() {
     $('.page-edit-step').each((ii, step) => {
       this.addStepToSidebar($(step));
-    })
+    });
+    this.model = new PageModel();
   },
 
   isMobile: function() {
@@ -21,9 +29,32 @@ let PageEditBar = Backbone.View.extend({
     const title = $step.find('.page-edit-step__title').text();
     const id = $step.attr('id');
     const li = `<a href="#${id}"><li>${title}</li></a>`;
-    console.log(li, $ul.length)
     $ul.append(li);
-  }
+  },
+
+  readData: function(){
+    let data = {}
+    $('form.one-form').each(function(ii, form){
+      _.each($(form).serializeArray(), function(pair) {
+        data[pair.name] = pair.value;
+      });
+    });
+    data.id = data['page[id]'];
+    console.log(data);
+    return data;
+  },
+
+  save: function() {
+    this.model.save(this.readData(), {success: this.saved, error: this.saveFailed});
+  },
+
+  saved: function() {
+    console.log("saved successfully!");
+  },
+
+  saveFailed: function(a, err) {
+    console.log("save failed with", a, err);
+  },
 
 });
 

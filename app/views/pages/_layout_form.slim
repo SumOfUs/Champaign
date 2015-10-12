@@ -1,4 +1,4 @@
-= form_for page, remote: true do |f|
+= form_for page, remote: true, html: {class: 'one-form'} do |f|
   .form-group
     = f.label :liquid_layout_id, t('.layout_select')
     = f.select :liquid_layout_id, liquid_layout_options, {}, class: "form-control"
