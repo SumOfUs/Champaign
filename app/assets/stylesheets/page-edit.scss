@@ -1,31 +1,48 @@
+body {
+  position: relative;
+}
+
 .page-edit-bar {
+  $bg-color: #222;
   width: 20vw;
   height: 100%;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  background: #444;
+  background: $bg-color;
 
   &__step-list {
     margin: 0;
-    padding: 8px;
+    padding: 0;
 
     li {
-      width: 100%;
-      display: block;
-      list-style: none;
-      background-color: rgba(black, 0.1);
-      padding: 8px 12px;
-      box-sizing: border-box;
-      margin-bottom: 8px;
-      color: whitesmoke;
-      transition: background-color 0.1s linear;
+      a {
+        width: 100%;
+        display: block;
+        list-style: none;
+        padding: 15px 15px;
+        margin: 0;
+        box-sizing: border-box;
+        color: #ccc;
+        @include transition(background-color 0.1s linear, color 0.1s linear);
 
-      &:hover {
-        background-color: rgba(white, 0.1);
+        &:hover {
+          background-color: rgba(black, 0.9);
+          text-decoration: none;
+          color: #eee;
+        }
+
+        .fa {
+          margin-right: 5px;
+        }
+      }
+      &.active a {
+        background-color: rgba(black, 0.9);
+        color: #eee;
       }
     }
+
   }
 }
 

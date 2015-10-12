@@ -33,6 +33,15 @@ module PagesHelper
     "#{plugin.name}#{detail}"
   end
 
+  def plugin_icon(plugin)
+    registered = {
+      action: 'hand-rock-o',
+      thermometer: 'neuter'
+    }
+    name = plugin.name.underscore.to_sym
+    registered.has_key?(name) ? registered[name] : 'cubes'
+  end
+
   def determine_ascending
     if params[:search].nil?
       'asc'

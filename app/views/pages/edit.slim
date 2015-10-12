@@ -1,23 +1,23 @@
 = render 'sidebar'
 
-section.page-edit-step#layout
+section.page-edit-step#layout data-icon='newspaper-o'
   h1.page-edit-step__title Layout
   = render 'layout_form', page: @page
 
-section.page-edit-step#basics
+section.page-edit-step#basics data-icon='pencil'
   h1.page-edit-step__title Basics
   = render 'form', page: @page
 
-section.page-edit-step#sources
+section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title Sources
   = render 'link_form', page: @page
 
-section.page-edit-step#pictures
+section.page-edit-step#pictures data-icon='camera-retro'
   h1.page-edit-step__title Pictures
   = render 'photo_form', page: @page
 
 - @page.plugins.each do |plugin|
-  section.page-edit-step id=plugin_title(plugin)
+  section.page-edit-step id=plugin_title(plugin) data-icon=plugin_icon(plugin)
     h1.page-edit-step__title= plugin_title(plugin)
     = render "#{plugin.class.to_s.underscore.pluralize}/form", plugin: plugin, page: @page
 

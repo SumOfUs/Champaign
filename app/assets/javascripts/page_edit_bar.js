@@ -18,6 +18,7 @@ let PageEditBar = Backbone.View.extend({
       this.addStepToSidebar($(step));
     });
     this.model = new PageModel();
+    $('body').scrollspy({ target: '.scrollspy', offset: 150});
   },
 
   isMobile: function() {
@@ -28,7 +29,8 @@ let PageEditBar = Backbone.View.extend({
     let $ul = this.$('ul.page-edit-bar__step-list');
     const title = $step.find('.page-edit-step__title').text();
     const id = $step.attr('id');
-    const li = `<a href="#${id}"><li>${title}</li></a>`;
+    const icon = $step.data('icon') || 'cubes'
+    const li = `<li><a href="#${id}"><i class="fa fa-${icon}"></i>${title}</a></li>`;
     $ul.append(li);
   },
 
