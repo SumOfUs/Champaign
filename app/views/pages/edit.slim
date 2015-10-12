@@ -5,13 +5,6 @@
     = form_for @page, remote: true do |f|
       = f.hidden_field :content
 
-      - if @page.status.present? and @page.status.to_i != 201
-        p.alert.alert-warning
-          = t('.action_kit_problem')
-          br
-          = t('.action_kit_page_status', status: @page.status)
-          = @page.messages
-
       = render 'shared/error_messages', target: @page
 
       .page-title.form-group

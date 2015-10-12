@@ -6,6 +6,11 @@ describe ActionKit::Helper do
     ENV['AK_USERNAME'] = 'ak_username'
   end
 
+  after do
+    ENV['AK_PASSWORD'] = nil
+    ENV['AK_USERNAME'] = nil
+  end
+
   describe "#check_petition_name_is_available" do
     before do
       response_body_happy = { meta: { total_count: 0 } }

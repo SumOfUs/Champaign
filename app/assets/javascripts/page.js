@@ -32,20 +32,29 @@
       this.$slug  = this.$('#page_slug');
       this.$feedback = this.$('.form-group.slug');
       this.$checkButton = this.$('#check_slug_available');
+      this.$submit = this.$('.submit-new-page');
     },
 
     updateViewWithValid() {
       var valid = this.slugChecker.get('valid');
 
-      this.$el.find('.form-group.slug').
+      this.$submit.
+        removeClass('disabled');
+
+      this.$('.loading').hide();
+
+
+      this.$('.form-group.slug').
         removeClass('has-error has-success has-feedback');
 
-      this.$el.find('.form-group.slug .glyphicon').hide();
+      this.$('.form-group.slug .glyphicon').hide();
 
       if(valid) {
         this.$('.form-group.slug').addClass('has-success has-feedback');
         this.$('.form-group.slug .glyphicon-ok').show();
       } else {
+        this.$('.slug-field').show();
+
         this.$('.form-group.slug').addClass('has-error has-feedback');
         this.$('.form-group.slug .glyphicon-remove').show();
       }
@@ -66,9 +75,11 @@
 
       this.checking = true;
 
-      this.$checkButton.
-        text('Checking...').
+      this.$submit.
         addClass('disabled');
+
+      this.$('.loading').show();
+
 
       this.slugChecker.set('slug', slug);
 
@@ -97,6 +108,11 @@
 
     submit(e) {
       e.preventDefault();
+
+      this.$checkButton.
+        text('Checking...').
+        addClass('disabled');
+
 
       if( !this.slugChecker.get('valid') ) {
 

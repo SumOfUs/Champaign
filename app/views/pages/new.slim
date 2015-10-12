@@ -6,7 +6,12 @@ h2 = t('.title')
   .form-group
     = f.text_field :title, class: 'form-control', placeholder: t('.title_label')
 
-  .form-group
+  .form-group.slug-field style='display:none;'
+    .form-group
+      .alert.alert-warning
+        strong Whoops!
+        |  Your slug isn't available. Please pick another.
+
     .form-inline
       .form-group.slug
         = f.text_field :slug, class: 'form-control', placeholder: t('.slug_label')
@@ -26,6 +31,8 @@ h2 = t('.title')
 
   .form-group
     = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary submit-new-page'
+    span.loading style='display:none;'
+      span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
 
 javascript:
   $.publish("pages:new");
