@@ -24,7 +24,7 @@ class Api::PagesController < ApplicationController
   def all_params
     # not going to spend a long time on tricky strong params
     # until we have the UX worked out better.
-    Rack::Utils.parse_nested_query(params.to_query)
+    Rack::Utils.parse_nested_query(params.to_query).with_indifferent_access
   end
 
   def get_page

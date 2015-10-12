@@ -1,22 +1,33 @@
 class PageUpdater
 
-  def initialize(page)
+  def initialize(page, params={})
     @page = page
+    @params = params
   end
 
   def update(params)
+    puts "got params #{params}"
     @params = params
-    @page.update(page_params)
-    @errors = @page.errors
+    @page.update(@params['page'])
+    @errors = @page.errors.to_h
     update_plugins()
-    update_shares()
+    # update_shares()
+    @errors.empty?
+  end
 
+  def errors
+    @errors
+  end
+
+  def refresh?
+    false
   end
 
   private
 
   def update_plugin(plugin_params)
-    plugin = Plugins::Action.find(plugin_params[:id])
+    puts "got plugin_params #{plugin_params}"
+    plugin = plugins.select{|p| p.id == plugin_params[:id].to_i }.first
     plugin.update_attributes(plugin_params)
     plugin.errors
   end
@@ -31,8 +42,9 @@ class PageUpdater
   end
 
   def update_plugins
-    all_plugin_params.each do |plugin_params|
-      @errors += update_plugin(plugin_params)
+    all_plugin_params.each_pair do |name, plugin_params|
+      errors = update_plugin(plugin_params)
+      @errors[name] = errors unless errors.blank?
     end
   end
 
@@ -41,7 +53,14 @@ class PageUpdater
     end
   end
 
-  def page_params
+  def all_plugin_params
+    @params.select do |key, value|
+      key.to_s =~ /.*plugins.*/i
+    end
+  end
+
+  def plugins
+    @page.plugins
   end
 
 end
