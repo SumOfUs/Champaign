@@ -3,8 +3,8 @@
 = form_for plugin, url: plugins_thermometer_path(plugin), remote: true, html: {class: 'plugin-settings one-form'} do |f|
   = render "shared/error_messages", target: plugin
   = render "shared/success_message", success: (defined?(success) || false)
+  = render 'plugins/shared/plugin_metadata', f: f
 
-  = f.hidden_field :id
   .form-group
     = f.label :title, "Title"
     = f.text_field :title, class: 'form-control'
