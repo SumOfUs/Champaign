@@ -26,7 +26,6 @@
 //= require typeahead.jquery
 
 //= require show_errors
-//= require collection_editor
 //= require dropzone_image_upload
 //= require selectize_config.js
 //= require ajax
@@ -34,4 +33,5 @@
 //= require_tree ./plugins/actions/admin/
 
 require("plugins_toggle");
+require("collection_editor");
 window.PageEditBar = require("page_edit_bar");
