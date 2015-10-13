@@ -34,7 +34,11 @@
 
   const configureToggle = function() {
     $('form.plugin-toggle').each(function(ii, el){
-      let toggle = new PluginToggle({ el: $(el) });
+      let $el = $(el);
+      if( $el.data('js-inited') != true) {
+        let toggle = new PluginToggle({ el: $el });
+        $el.data('js-inited', true)
+      }
     });
   }
 

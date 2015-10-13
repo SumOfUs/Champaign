@@ -114,7 +114,11 @@
 
   const configureCollections = function() {
     $('.collection-editor').each(function(ii, el){
-      let editor = new CollectionEditor({ el: $(el) });
+      let $el = $(el);
+      if( $el.data('js-inited') != true) {
+        let editor = new CollectionEditor({ el: $el });
+        $el.data('js-inited', true)
+      }
     });
   }
 
