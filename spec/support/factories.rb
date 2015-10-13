@@ -18,14 +18,6 @@ FactoryGirl.define do
     admin true
   end
 
-  factory :page do
-    title { Faker::Company.bs }
-    slug
-    active true
-    featured false
-    liquid_layout
-  end
-
   factory :campaign do
     name { Faker::Company.bs }
     active true

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Plugins::Action do
-  
   let(:action) { create :plugins_action }
 
   subject{ action }
