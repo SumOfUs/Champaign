@@ -11,7 +11,7 @@ let PageEditBar = Backbone.View.extend({
 
   events: {
     'click .page-edit-bar__save-button': 'save',
-    'click .page-edit-bar__message': 'findError',
+    'click .page-edit-bar__error-message': 'findError',
     'click .toggle-button': 'toggleAutosave',
   },
 
@@ -64,13 +64,10 @@ let PageEditBar = Backbone.View.extend({
   },
 
   saved: function() {
+    let now = new Date();
     $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
-    $('.page-edit-bar__message').text('Saved successfully!');
-    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--success');
-    window.setTimeout(function(){
-      $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--success');
-      $('.page-edit-bar__message').text('');
-    }, 1200)
+    $('.page-edit-bar__error-message').text('');
+    $('.page-edit-bar__last-saved').text(`Last saved at ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
   },
 
   saveFailed: function(e, data) {
@@ -78,9 +75,9 @@ let PageEditBar = Backbone.View.extend({
     $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
     if(data.status == 422) {
       Champaign.showErrors(e, data);
-      $('.page-edit-bar__message').text("The server didn't like something you entered. Click here to see the error.");
+      $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
     } else {
-      $('.page-edit-bar__message').text("The server unexpectedly messed up saving your work.");
+      $('.page-edit-bar__error-message').text("The server unexpectedly messed up saving your work.");
     }
   },
 
@@ -99,9 +96,9 @@ let PageEditBar = Backbone.View.extend({
     this.autosave = !this.autosave;
     this.$('.toggle-button').toggleClass('btn-primary');
     if(this.autosave) {
-      this.$('.page-edit-bar__save-button').addClass('hidden-irrelevant');
+      this.$('.page-edit-bar__btn-holder').addClass('page-edit-bar__btn-holder--hidden');
     } else {
-      this.$('.page-edit-bar__save-button').removeClass('hidden-irrelevant');
+      this.$('.page-edit-bar__btn-holder').removeClass('page-edit-bar__btn-holder--hidden');
     }
   },
 

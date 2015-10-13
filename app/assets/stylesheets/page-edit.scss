@@ -46,41 +46,53 @@ body.page-edit-body {
     }
   }
 
+  $save-box-color: lighten($page-edit-bg-color, 10%);
   &__save-box {
-    $save-box-color: lighten($page-edit-bg-color, 10%);
     position: absolute;
     bottom: 0;
     @include box-sizing(border-box);
     width: 100%;
-    min-height: 100px;
-    padding: 15px;
+    padding: 5px 15px;
     background: $save-box-color;
     text-align: center;
 
-    @include transition(background 1s ease-out);
     &--has-error {
-      @include transition(background 0s ease-out);
       background: maroon;
-      .page-edit-bar__message {
+      .page-edit-bar__error-message {
         cursor: pointer;
+      }
+      .page-edit-bar__btn-holder {
+        background: maroon;
       }
     }
     &--success {
-      @include transition(background 0s ease-out);
       background: darkgreen;
     }
   }
 
+  &__btn-holder {
+    width: 100%;
+    position: absolute;
+    top: -45px;
+    left: 0;
+    @include transition(top 0.1s ease-in-out);
+    z-index: -1;
+    padding-top: 10px;
+    background-color: $save-box-color;
+    &--hidden {
+      top: 0;
+    }
+  }
   &__save-button {
     margin-bottom: 10px;
   }
 
-  &__message {
+  &__error-message {
     color: white;
     padding: 0 14px;
   }
   &__autosave-toggle {
-    margin: 0 20px 10px;
+    margin: 0 20px 6px;
 
     .btn-default {
       color: #666;
@@ -90,10 +102,17 @@ body.page-edit-body {
       color: black;
       background-color: white;
       border-color: white;
+      &:active {
+        background-color: white;
+      }
     }
   }
   &__autosave-title {
     color: #ccc;
+  }
+  &__last-saved {
+    color: #ccc;
+    font-size: 12px;
   }
 }
 
