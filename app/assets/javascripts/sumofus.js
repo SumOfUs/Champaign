@@ -10,4 +10,5 @@
 //= require_directory ./plugins
 
 require("sumofus/scroll");
+require("sumofus/recognize");
 window.ActionBar = require('sumofus/backbone/action_bar');
