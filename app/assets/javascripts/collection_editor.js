@@ -9,10 +9,15 @@
 //   - Use for autocompleting for setting the field's name value
 
 (function(){
+  var initialized = initialized || false;
+
   var initialize = function(){
-    makeSortable();
-    bindHandlers();
-    autoComplete()
+    if (!initialized) {
+      makeSortable();
+      bindHandlers();
+      autoComplete();
+      initialized = true;
+    }
   };
 
   var whitelist = [
