@@ -29,7 +29,7 @@
             {% case field.data_type %}
 
             {% when 'text' %}
-              <input type="text" name="{{field.name}}" class="form-control {% if member %}hidden-irrelevant{% endif %}" id="" placeholder="{{ field.label }}"/>
+              <input type="text" name="{{field.name}}" class="form-control {% if member[field.name] %}hidden-irrelevant{% endif %}" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}"/>
             {% when 'email' %}
               <input type="email" name="{{field.name}}" class="form-control mailcheck {% if member %}hidden-irrelevant{% endif %}" id="" placeholder="{{ field.label }}" {% if member and member.email %} value="{{member.email}}" {% endif %} />
             {% when 'phone' %}

@@ -24,7 +24,6 @@ class LiquidRenderer
   end
 
   def data
-    member_hash = @member.attributes if @member else nil
     @data ||= Plugins.data_for_view(@page).
                 merge( @page.liquid_data ).
                 merge( images: images ).
@@ -37,6 +36,17 @@ class LiquidRenderer
   def images
     @page.images.map do |img|
       { urls: { large: img.content.url(:large), small: img.content.url(:thumb) } }
+    end
+  end
+
+  def member_hash
+    if @member
+      values = @member.attributes.symbolize_keys
+      values[:name] = [values[:first_name], values[:last_name]].join(' ')
+      values[:postal] = values[:postal_code]
+      values
+    else
+      nil
     end
   end
 end
