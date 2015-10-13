@@ -1,16 +1,18 @@
-body {
+$page-edit-bg-color: #222;
+
+body.page-edit-body {
   position: relative;
+  background-color: $page-edit-bg-color;
 }
 
 .page-edit-bar {
-  $bg-color: #222;
-  width: 20vw;
+  width: 20%;
   height: 100%;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  background: $bg-color;
+  background: $page-edit-bg-color;
 
   &__step-list {
     margin: 0;
@@ -28,7 +30,7 @@ body {
         @include transition(background-color 0.1s linear, color 0.1s linear);
 
         &:hover {
-          background-color: rgba(black, 0.9);
+          background-color: black;
           text-decoration: none;
           color: #eee;
         }
@@ -38,14 +40,14 @@ body {
         }
       }
       &.active a {
-        background-color: rgba(black, 0.9);
+        background-color: black;
         color: #eee;
       }
     }
   }
 
   &__save-box {
-    $save-box-color: lighten($bg-color, 10%);
+    $save-box-color: lighten($page-edit-bg-color, 10%);
     position: absolute;
     bottom: 0;
     @include box-sizing(border-box);
@@ -70,22 +72,40 @@ body {
   }
 
   &__save-button {
+    margin-bottom: 10px;
   }
 
   &__message {
     color: white;
-    padding: 10px 14px 0;
+    padding: 0 14px;
+  }
+  &__autosave-toggle {
+    margin: 0 20px 10px;
+
+    .btn-default {
+      color: #666;
+      background-color: #ddd;
+    }
+    .btn-primary {
+      color: black;
+      background-color: white;
+      border-color: white;
+    }
+  }
+  &__autosave-title {
+    color: #ccc;
   }
 }
 
 .page-edit-step {
-  min-height: 90vh;
-  width: 75vw;
+  width: 80%;
   float: right;
-  @include box-shadow(1px 1px 25px -10px black);
   background: white;
-  margin: 20px;
-  border-radius: 10px;
   padding: 40px;
   box-sizing: border-box;
+  border-bottom: 50px solid $page-edit-bg-color;
+  margin: 0;
+  &:last-of-type {
+    border-bottom: none;
+  }
 }

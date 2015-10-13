@@ -1,12 +1,12 @@
 = render 'sidebar'
 
-section.page-edit-step#layout data-icon='newspaper-o'
-  h1.page-edit-step__title Layout
-  = render 'layout_form', page: @page
-
 section.page-edit-step#basics data-icon='pencil'
   h1.page-edit-step__title Basics
   = render 'form', page: @page
+
+section.page-edit-step#layout data-icon='newspaper-o'
+  h1.page-edit-step__title Layout
+  = render 'layout_form', page: @page
 
 section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title Sources
