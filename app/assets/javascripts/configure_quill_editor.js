@@ -22,7 +22,7 @@
 
     quill.setHTML( $contentField.val() );
 
-    $('form.edit_page').on('ajax:before', updateContentBeforeSave);
+    $.subscribe("quill_editor:submit", updateContentBeforeSave);
   }
 
   $.subscribe("quill_editor:setup", configureQuillEditor);

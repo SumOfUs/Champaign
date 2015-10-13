@@ -51,7 +51,7 @@ let PageEditBar = Backbone.View.extend({
   },
 
   save: function() {
-    console.log('save called!')
+    $.publish('quill_editor:submit'); // for quill to update content
     this.model.save(this.readData(), {success: this.saved, error: this.saveFailed});
   },
 
