@@ -12,13 +12,16 @@ let PageEditBar = Backbone.View.extend({
   events: {
     'click .page-edit-bar__save-button': 'save',
     'click .page-edit-bar__message': 'findError',
+    'click .toggle-button': 'toggleAutosave',
   },
 
   initialize: function() {
+    this.autosave = false;
     $('.page-edit-step').each((ii, step) => {
       this.addStepToSidebar($(step));
     });
     this.model = new PageModel();
+    this.setupAutosave();
     $('body').scrollspy({ target: '.scrollspy', offset: 150});
   },
 
@@ -48,17 +51,18 @@ let PageEditBar = Backbone.View.extend({
   },
 
   save: function() {
+    console.log('save called!')
     this.model.save(this.readData(), {success: this.saved, error: this.saveFailed});
   },
 
   saved: function() {
     $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
-    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--success');
     $('.page-edit-bar__message').text('Saved successfully!');
+    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--success');
     window.setTimeout(function(){
       $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--success');
       $('.page-edit-bar__message').text('');
-    }, 2000)
+    }, 1200)
   },
 
   saveFailed: function(e, data) {
@@ -80,6 +84,27 @@ let PageEditBar = Backbone.View.extend({
         }, 500);
       }
     }
+  },
+
+  toggleAutosave: function(e) {
+    e.preventDefault();
+    this.autosave = !this.autosave;
+    this.$('.toggle-button').toggleClass('btn-primary');
+    // this.$(e.target).addClass('btn-primary');
+    if(this.autosave) {
+      this.$('.page-edit-bar__save-button').addClass('hidden-irrelevant');
+    } else {
+      this.$('.page-edit-bar__save-button').removeClass('hidden-irrelevant');
+    }
+  },
+
+  setupAutosave: function() {
+    const SAVE_PERIOD = 5000; // milliseconds
+    window.setInterval(() => {
+      if(this.autosave) {
+        this.save();
+      }
+    }, SAVE_PERIOD)
   },
 
 });
