@@ -68,6 +68,7 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 
 gem 'newrelic_rpm'
 gem 'puma'
+gem 'typhoeus'
 
 group :development, :test do
   gem 'byebug'
@@ -101,7 +102,10 @@ source 'https://rails-assets.org' do
   # Reduce user-misspelled email addresses in your forms.
   gem 'rails-assets-mailcheck'
 
-  #Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
+  # Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
   gem 'rails-assets-dropzone'
+
+  # Generate a slug – transliteration with a lot of options
+  gem 'rails-assets-speakingurl'
 end
 

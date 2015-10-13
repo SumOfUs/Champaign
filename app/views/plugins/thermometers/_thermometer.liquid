@@ -1,13 +1,15 @@
 {% if plugins.thermometer[ref].active %}
-  <h5>{{plugins.thermometer[ref].title}}</h5>
-  <div class="progress">
-    <div class="progress-bar"
-         role="progressbar"
-         data-page-id="{{id}}"
-         aria-valuenow="{{plugins.thermometer[ref].offset}}"
-         aria-valuemin="0"
-         aria-valuemax="{{ plugins.thermometer[ref].goal }}"
-         style="width: '0%'">
+  <div class='thermometer'>
+    <div class="thermometer__stats">
+      <div class='thermometer__signatures'>
+        {{ plugins.thermometer[ref].signatures }} signatures
+      </div>
+      <div class="thermometer__remaining">
+        {{ plugins.thermometer[ref].remaining }} until {{ plugins.thermometer[ref].goal_k }}
+      </div>
+    </div>
+    <div class="thermometer__bg">
+      <div class="thermometer__mercury" style="width: {{ plugins.thermometer[ref].percentage }}%"></div>
     </div>
   </div>
 {% endif %}

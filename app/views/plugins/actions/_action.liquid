@@ -18,6 +18,10 @@
       <div class="action-bar__expand-arrow"></div>
       <div class="action-bar__shading"></div>
 
+      <div class="mobile-hide">
+        {% include 'thermometer' %}
+      </div>
+
       <form action='/api/pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
         {% if member %}
             Welcome back {{member.first_name}} {{member.last_name}}!

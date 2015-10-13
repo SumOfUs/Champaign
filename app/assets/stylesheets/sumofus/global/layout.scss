@@ -54,3 +54,19 @@ html {
     display: block;
   }
 }
+@media(max-width: $mobile-width) {
+  .mobile-hide {
+    display: none;
+  }
+  .mobile-show {
+    display: block;
+  }
+}
+@media(min-width: $mobile-width) {
+  .mobile-hide {
+    display: block;
+  }
+  .mobile-show {
+    display: none;
+  }
+}
