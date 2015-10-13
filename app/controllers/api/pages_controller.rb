@@ -15,7 +15,7 @@ class Api::PagesController < ApplicationController
     if updater.update(all_params)
       render json: { refresh: updater.refresh? }, status: :ok
     else
-      render json: updater.errors, status: 422
+      render json: { errors: shallow_errors(updater.errors) }, status: 422
     end
   end
 
@@ -25,6 +25,10 @@ class Api::PagesController < ApplicationController
     # not going to spend a long time on tricky strong params
     # until we have the UX worked out better.
     Rack::Utils.parse_nested_query(params.to_query).with_indifferent_access
+  end
+
+  def shallow_errors(errors)
+    Rack::Utils.parse_query(errors.to_query)
   end
 
   def get_page

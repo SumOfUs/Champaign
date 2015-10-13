@@ -51,11 +51,24 @@ let PageEditBar = Backbone.View.extend({
   },
 
   saved: function() {
-    console.log("saved successfully!");
+    $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
+    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--success');
+    $('.page-edit-bar__message').text('Saved successfully!');
+    window.setTimeout(function(){
+      $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--success');
+      $('.page-edit-bar__message').text('');
+    }, 2000)
   },
 
-  saveFailed: function(a, err) {
-    console.log("save failed with", a, err);
+  saveFailed: function(e, data) {
+    console.log("save failed with", e, data);
+    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
+    if(data.status == 422) {
+      Champaign.showErrors(e, data);
+      $('.page-edit-bar__message').text("The server didn't like something you entered. Click here to see the error.");
+    } else {
+      $('.page-edit-bar__message').text("The server unexpectedly messed up saving your work.");
+    }
   },
 
 });

@@ -44,7 +44,7 @@ class PageUpdater
   def update_plugins
     all_plugin_params.each_pair do |name, plugin_params|
       errors = update_plugin(plugin_params)
-      @errors[name] = errors unless errors.blank?
+      @errors[name] = errors.to_h unless errors.blank?
     end
   end
 

@@ -23,7 +23,7 @@ body {
         list-style: none;
         padding: 15px 15px;
         margin: 0;
-        box-sizing: border-box;
+        @include box-sizing(border-box);
         color: #ccc;
         @include transition(background-color 0.1s linear, color 0.1s linear);
 
@@ -42,7 +42,39 @@ body {
         color: #eee;
       }
     }
+  }
 
+  &__save-box {
+    $save-box-color: lighten($bg-color, 10%);
+    position: absolute;
+    bottom: 0;
+    @include box-sizing(border-box);
+    width: 100%;
+    min-height: 100px;
+    padding: 15px;
+    background: $save-box-color;
+    text-align: center;
+
+    @include transition(background 1s ease-out);
+    &--has-error {
+      @include transition(background 0s ease-out);
+      background: maroon;
+      .page-edit-bar__message {
+        cursor: pointer;
+      }
+    }
+    &--success {
+      @include transition(background 0s ease-out);
+      background: darkgreen;
+    }
+  }
+
+  &__save-button {
+  }
+
+  &__message {
+    color: white;
+    padding: 10px 14px 0;
   }
 }
 
