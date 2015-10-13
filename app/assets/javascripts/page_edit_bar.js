@@ -10,7 +10,8 @@ let PageEditBar = Backbone.View.extend({
   el: '.page-edit-bar',
 
   events: {
-    'click .page-edit-bar__save-button': 'save'
+    'click .page-edit-bar__save-button': 'save',
+    'click .page-edit-bar__message': 'findError',
   },
 
   initialize: function() {
@@ -68,6 +69,16 @@ let PageEditBar = Backbone.View.extend({
       $('.page-edit-bar__message').text("The server didn't like something you entered. Click here to see the error.");
     } else {
       $('.page-edit-bar__message').text("The server unexpectedly messed up saving your work.");
+    }
+  },
+
+  findError: function(){
+    if (this.$('.page-edit-bar__save-box').hasClass('page-edit-bar__save-box--has-error')) {
+      if ($('.has-error').length > 0) {
+        $('html, body').animate({
+            scrollTop: $('.has-error').first().offset().top
+        }, 500);
+      }
     }
   },
 
