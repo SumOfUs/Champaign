@@ -31,7 +31,7 @@
 //= require selectize_config.js
 //= require ajax
 //= require configure_quill_editor
-//= require plugins_toggle
 //= require_tree ./plugins/actions/admin/
 
+require("plugins_toggle");
 window.PageEditBar = require("page_edit_bar");

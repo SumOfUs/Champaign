@@ -1,31 +1,42 @@
 (function(){
-  var configureToggle = function() {
-    var $stateInput = $('.plugin-active-field');
 
-    var handleClick = function(e){
+  let PluginToggle = Backbone.View.extend({
+
+    events: {
+      'ajax:before': 'updateState',
+      'ajax:success': 'handleSuccess',
+      'ajax:error': 'handleError',
+      'click .toggle-button': 'handleClick',
+    },
+
+    initialize: function(){
+      this.$stateInput = this.$('.plugin-active-field');
+    },
+
+    handleClick: function(e){
       e.preventDefault();
-      $('form.plugin-toggle').submit();
-      $('.toggle-button').removeClass('btn-primary');
-      $(this).addClass('btn-primary');
-    };
+      this.$el.submit();
+      this.$('.toggle-button').removeClass('btn-primary');
+      this.$(e.target).addClass('btn-primary');
+    },
 
-    var handleSuccess = function(e,data){};
+    handleSuccess: function(e,data){},
 
-    var handleError = function(xhr, status, error){
+    handleError: function(xhr, status, error){
       console.log('error', status, error);
-    };
+    },
 
-    var updateState = function(){
-      var state = !JSON.parse($stateInput.val());
-      $stateInput.val(state);
-    };
+    updateState: function(){
+      var state = !JSON.parse(this.$stateInput.val());
+      this.$stateInput.val(state);
+    },
+  });
 
-    $('.toggle-button').on('click', handleClick);
-
-    $('form.plugin-toggle').on('ajax:before', updateState);
-    $('form.plugin-toggle').on('ajax:success', handleSuccess);
-    $('form.plugin-toggle').on('ajax:error', handleError);
-  };
+  const configureToggle = function() {
+    $('form.plugin-toggle').each(function(ii, el){
+      let toggle = new PluginToggle({ el: $(el) });
+    });
+  }
 
   $.subscribe("plugins:toggle", configureToggle);
 }());
