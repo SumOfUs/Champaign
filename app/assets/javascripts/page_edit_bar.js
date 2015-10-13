@@ -16,7 +16,7 @@ let PageEditBar = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.autosave = false;
+    this.autosave = true;
     $('.page-edit-step').each((ii, step) => {
       this.addStepToSidebar($(step));
     });
@@ -42,7 +42,15 @@ let PageEditBar = Backbone.View.extend({
     let data = {}
     $('form.one-form').each(function(ii, form){
       _.each($(form).serializeArray(), function(pair) {
-        data[pair.name] = pair.value;
+        if (pair.name.endsWith('[]')) {
+          let name = pair.name.slice(0, -2);
+          if (!data.hasOwnProperty(name)) {
+            data[name] = []
+          }
+          data[name].push(pair.value)
+        } else {
+          data[pair.name] = pair.value;
+        }
       });
     });
     data.id = data['page[id]'];
@@ -90,7 +98,6 @@ let PageEditBar = Backbone.View.extend({
     e.preventDefault();
     this.autosave = !this.autosave;
     this.$('.toggle-button').toggleClass('btn-primary');
-    // this.$(e.target).addClass('btn-primary');
     if(this.autosave) {
       this.$('.page-edit-bar__save-button').addClass('hidden-irrelevant');
     } else {
