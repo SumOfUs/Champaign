@@ -11,9 +11,5 @@ h2 = t('.title')
     = f.select :liquid_layout_id, LiquidLayout.all.map{|ll| [ll.title, ll.id] }, {}, class: "form-control"
 
   .form-group
-    = f.label :language_id, t('.language_label')
-    = f.select :language_id, Language.all.map{|lang| [lang.name, lang.id] }, {}, class: "form-control"
-
-  .form-group
     = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary'
 

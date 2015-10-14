@@ -64,7 +64,6 @@ en:
     new:
       title: "Let's Get Started!"
       title_label: "Campaign Title"
-      language_label: "Language"
     edit:
       show: "View the page"
       tags: "Tags"
@@ -76,6 +75,7 @@ en:
       layout_select: 'Page layout'
       secondary_layout_select: 'Page layout for post-action page'
       add_link: 'Add source'
+      language_label: "Language"
 
 
   campaigns:

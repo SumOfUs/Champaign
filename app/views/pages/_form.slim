@@ -12,10 +12,6 @@
       .form-group
         = render 'shared/quill_editor'
 
-      .form-group
-        = f.label  :tag_ids, t('.tags')
-        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
-
 
 javascript:
   $.publish("quill_editor:setup");
