@@ -6,12 +6,10 @@ class PageUpdater
   end
 
   def update(params)
-    puts "got params #{params}"
-    @params = params
-    @page.update(@params['page'])
-    @errors = @page.errors.to_h
+    @params, @errors, @refresh = params, {}, false
     update_plugins()
     # update_shares()
+    update_page()
     @errors.empty?
   end
 
@@ -20,15 +18,23 @@ class PageUpdater
   end
 
   def refresh?
-    false
+    @refresh || false
   end
 
   private
 
+  def update_page
+    return unless @params[:page]
+    @page.assign_attributes(@params[:page])
+    @refresh = true unless (@page.changed & refresh_triggers).empty?
+    saved = @page.save
+    @errors[:page] = @page.errors.to_h unless @page.errors.empty?
+  end
+
   def update_plugin(plugin_params)
-    puts "got plugin_params #{plugin_params}"
-    plugin = plugins.select{|p| p.id == plugin_params[:id].to_i }.first
-    plugin.update_attributes(plugin_params)
+    plugin = plugins.select{|p| p.id == plugin_params[:id].to_i && p.name == plugin_params[:name] }.first
+    raise ActiveRecord::RecordNotFound if plugin.blank?
+    plugin.update_attributes(plugin_params.select{|k| k.to_sym != :name })
     plugin.errors
   end
 
@@ -61,6 +67,11 @@ class PageUpdater
 
   def plugins
     @page.plugins
+  end
+
+  def refresh_triggers
+    # if one of these fields gets updated, it will break the forms, so we refresh the page
+    ['liquid_layout_id']
   end
 
 end
