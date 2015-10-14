@@ -128,3 +128,57 @@ body.page-edit-body {
     border-bottom: none;
   }
 }
+
+.dropzone {
+  border-style: dashed;
+  background-color: #eee;
+  border-color: #999;
+  cursor: pointer;
+
+  .dz-message {
+    font-size: 20px;
+    color: #999;
+    margin: 10px 0;
+  }
+
+  .dz-preview.dz-image-preview, .dz-preview.dz-file-preview, .dz-preview {
+    margin: 10px;
+    background-color: transparent;
+    max-width: 100px;
+    max-height: 100px;
+    &:hover {
+      .dz-delete {
+        display: block;
+      }
+    }
+    .dz-image {
+      height: 100px;
+      width: 100px;
+    }
+    .dz-delete {
+      display: none;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+
+      width: 25px;
+      height: 25px;
+      border-radius: 12px;
+
+      background-color: white;
+      z-index: 100;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background-color: maroon;
+        .fa {
+          color: white;
+        }
+      }
+      .fa {
+        line-height: 25px;
+        cursor: pointer;
+      }
+    }
+  }
+}

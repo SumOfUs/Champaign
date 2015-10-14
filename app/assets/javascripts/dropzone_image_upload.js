@@ -6,11 +6,12 @@
       addRemoveLinks: false,
       previewsContainer: null,
       createImageThumbnails: true,
+      previewTemplate: document.querySelector('#dropzone-preview-template').innerHTML,
 
       init: function() {
         this.on("success", function(resp, html) {
-          $('.campaign-images').append(html);
           $('.campaign-images .notice').hide();
+          $('.dz-success').replaceWith(html);
         });
 
         this.on("addedfiled", function(file) {
@@ -22,14 +23,8 @@
 
   var bindHandlers = function() {
     $('.campaign-images').on('ajax:success', "a[data-method=delete]", function(){
-      $(this).parents('.image-thumb').fadeOut();
+      $(this).parents('.dz-preview').fadeOut();
     });
-  };
-
-  var checkAnyImages = function() {
-    if( $('.campaign-images img').length == 0) {
-      $('.campaign-images').hide();
-    }
   };
 
   var initialize = function() {
