@@ -21,5 +21,8 @@ done
 
 echo "OK"
 
-# Once it succeeds, it runs tests
+# Then it tries to run all of the rake tasks
+rake db:migrate db:seed champaign:seed_liquid assets:precompile
+
+# And then it runs tests
 rspec spec
