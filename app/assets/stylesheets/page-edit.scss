@@ -147,7 +147,22 @@ body.page-edit-body {
     color: $page-edit-bar-color;
     font-size: 30px;
   }
-}
+
+  .two-ninths.form-group {
+    width: 21%;
+    margin-right: 1%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+  .one-ninth.form-group {
+    width: 12%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }}
 
 .dropzone {
   border-style: dashed;
