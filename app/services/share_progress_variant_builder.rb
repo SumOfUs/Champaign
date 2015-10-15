@@ -5,11 +5,11 @@ class ShareProgressVariantBuilder
     new(params, variant_type, page, url).create
   end
 
-  def self.update(params, variant_type:, page:, url:, id:)
+  def self.update(params, variant_type:, page:, url: nil, id:)
     new(params, variant_type, page, url, id).update
   end
 
-  def initialize(params, variant_type, page, url, id = nil)
+  def initialize(params, variant_type, page, url=nil, id=nil)
     @params = params
     @page = page
     @variant_type = variant_type.to_sym
@@ -21,7 +21,7 @@ class ShareProgressVariantBuilder
     variant = variant_class.find(@id)
     variant.assign_attributes(@params)
 
-    return variant unless variant.valid?
+    return variant if (variant.changed.empty? || variant.invalid?)
 
     button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
@@ -71,7 +71,10 @@ class ShareProgressVariantBuilder
 
   def share_progress_button_params(variant, button)
     {
-      page_url: @url,
+      # the page_url parameter is broken now cause url isn't
+      # getting stored. need a scheme of where the url is stored, and
+      # maybe just a better scheme of what a button is and this file
+      page_url: button.url || @url,
       button_template: "sp_#{variant_initials}_large",
       page_title: "#{@page.title} [#{@variant_type}]",
       variants: send("#{@variant_type}_variants", variant),

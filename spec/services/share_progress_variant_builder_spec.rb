@@ -158,6 +158,15 @@ describe ShareProgressVariantBuilder do
         expect(success_sp_button).to receive(:save)
         update_variant
       end
+
+      it 'does not request to SP API if nothing changed' do
+        expect(ShareProgress::Button).to receive(:new)
+        expect(success_sp_button).to receive(:save)
+        update_variant
+        expect(ShareProgress::Button).not_to receive(:new)
+        expect(success_sp_button).not_to receive(:save)
+        update_variant
+      end
     end
 
     describe 'failure' do
