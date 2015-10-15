@@ -217,3 +217,14 @@ body.page-edit-body {
     }
   }
 }
+
+[data-toggle="collapse"] {
+  cursor: pointer;
+  .fa {
+    margin-right: 5px;
+    @include transition(transform 0.4s linear);
+  }
+  &.open .fa {
+    @include transform(rotate(90deg));
+  }
+}

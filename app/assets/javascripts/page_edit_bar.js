@@ -64,6 +64,7 @@ let PageEditBar = Backbone.View.extend({
   },
 
   saved: function() {
+    $.publish('plugin:action:preview:update');
     let now = new Date();
     $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
     $('.page-edit-bar__error-message').text('');

@@ -48,3 +48,13 @@ $(function(){
   });
 });
 
+(function(){
+  var bindCaretToggle = function() {
+    $('[data-toggle="collapse"]').on('click', function(e){
+      $(this).toggleClass('open')
+    })
+  };
+
+  $.subscribe('plugin:action:loaded', bindCaretToggle);
+}());
+
