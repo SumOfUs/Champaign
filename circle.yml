@@ -21,7 +21,7 @@ test:
 
 database:
   override:
-    - echo "look in circle/run-tests for database setup for testing environment"
+    - echo "look in circle/specs-and-rake-tasks for database setup for testing environment"
 
 deployment:
   production:

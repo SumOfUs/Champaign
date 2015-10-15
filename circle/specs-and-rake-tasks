@@ -21,11 +21,11 @@ done
 
 echo "OK"
 
-# Then it runs tests
+# Runs tests
 rspec spec
 
-# And then it tries to run all of the rake tasks
+# Try to run all of the DB-related rake tasks
 bundle exec rake db:migrate db:seed champaign:seed_liquid
 
-# Try to precompile assets with production mode
+# Try to precompile assets production mode
 bundle exec rake RAILS_ENV=production assets:precompile
