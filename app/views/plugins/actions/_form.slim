@@ -21,12 +21,13 @@
 
     .well
       h4 = t('plugins.action.choose_form_template')
+      p = t('plugins.action.form_template_explanation')
       = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action', id: 'change-form-template'  do
         .form-group
           = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
 
         .form-group
-          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
+          = submit_tag t('plugins.action.apply_template'), class: 'btn btn-default xhr-feedback'
 
     .well
       h4 = t('plugins.action.customise_form')
