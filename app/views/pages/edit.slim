@@ -12,6 +12,12 @@ section.page-edit-step#pictures data-icon='camera-retro'
   h1.page-edit-step__title Pictures
   = render 'photo_form', page: @page
 
+section.page-edit-step#shares data-icon='share-square-o'
+  h1.page-edit-step__title Shares
+  table.table.table-striped.shares-editor
+    - @variations.each do |variation|
+      = render variation, page: @page
+
 - @page.plugins.each do |plugin|
   section.page-edit-step id=plugin_title(plugin) data-icon=plugin_icon(plugin)
     h1.page-edit-step__title= plugin_title(plugin)
@@ -24,6 +30,7 @@ section.page-edit-step#sources data-icon='link'
 javascript:
   $.publish("pages:edit");
   $.publish("plugins:toggle");
+  $.publish("shares:edit");
 
   $(document).ready(function(){
     new PageEditBar();

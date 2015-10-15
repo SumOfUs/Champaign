@@ -41,6 +41,14 @@ class Page < ActiveRecord::Base
     end.flatten
   end
 
+  def shares
+    variations = []
+    [Share::Facebook, Share::Twitter, Share::Email].each do |share_class|
+      variations += share_class.where(page_id: id)
+    end
+    variations
+  end
+
   private
 
   def switch_plugins

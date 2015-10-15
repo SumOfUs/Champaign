@@ -1,0 +1,9 @@
+tr
+  td
+    span.fa.fa-twitter
+  td colspan=3 = simple_format twitter.description
+  td = render 'share/btn_edit_share'
+
+tr.shares-editor__edit-row.hidden-closed
+  td colspan=5
+    = render 'share/form', page: page, share: twitter

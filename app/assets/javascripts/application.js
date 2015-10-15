@@ -34,4 +34,5 @@
 
 require("plugins_toggle");
 require("collection_editor");
+require('shares_editor');
 window.PageEditBar = require("page_edit_bar");

@@ -1,4 +1,10 @@
-.row
-  .col-md-12
-    h4 = email.subject
-    = simple_format email.body
+tr
+  td
+    span.fa.fa-envelope-o
+  td = email.subject
+  td colspan=2 = simple_format email.body
+  td = render 'share/btn_edit_share'
+
+tr.shares-editor__edit-row.hidden-closed
+  td colspan=5
+    = render 'share/form', page: page, share: email

@@ -14,6 +14,7 @@ class PagesController < ApplicationController
   end
 
   def edit
+    @variations = @page.shares
     render :edit, layout: 'page_edit'
   end
 
