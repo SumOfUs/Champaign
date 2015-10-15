@@ -1,6 +1,6 @@
 .row
   .col-md-12
-    = form_for page, remote: true, html: {class: 'one-form'} do |f|
+    = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
       = f.hidden_field :id
       = f.hidden_field :content
 

@@ -40,21 +40,34 @@ let PageEditBar = Backbone.View.extend({
 
   readData: function(){
     let data = {}
-    $('form.one-form').each(function(ii, form){
-      _.each($(form).serializeArray(), function(pair) {
-        if (pair.name.endsWith('[]')) {
-          let name = pair.name.slice(0, -2);
-          if (!data.hasOwnProperty(name)) {
-            data[name] = []
-          }
-          data[name].push(pair.value)
-        } else {
-          data[pair.name] = pair.value;
-        }
-      });
+    $('form.one-form').each((ii, form) => {
+      let $form = $(form);
+      let type = $form.data('type') || 'base';
+      console.log(data)
+      if (!data.hasOwnProperty(type)) {
+        console.log('new', type, data[type])
+        data[type] = {}
+      } 
+      $.extend(data[type], this.serializeForm($form))
     });
-    data.id = data['page[id]'];
+    data.id = data.page['page[id]'];
     console.log(data);
+    return data;
+  },
+
+  serializeForm: function($form){
+    let data = {}
+    _.each($form.serializeArray(), function(pair) {
+      if (pair.name.endsWith('[]')) {
+        let name = pair.name.slice(0, -2);
+        if (!data.hasOwnProperty(name)) {
+          data[name] = []
+        }
+        data[name].push(pair.value)
+      } else {
+        data[pair.name] = pair.value;
+      }
+    });
     return data;
   },
 

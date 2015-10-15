@@ -1,5 +1,5 @@
 .col-md-7
-  = form_for page, remote: true, html: {class: 'one-form'} do |f|
+  = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
 
     .form-group
       = f.label  :tag_ids, t('pages.edit.tags')

@@ -4,7 +4,7 @@
 
     .well
       h4  = t('plugins.action.action_description')
-      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action one-form' }  do |f|
+      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action one-form', data: {type: "plugins_action_#{plugin.id}" } }  do |f|
         = render 'plugins/shared/plugin_metadata', f: f
 
         .form-group

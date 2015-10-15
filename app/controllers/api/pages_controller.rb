@@ -22,9 +22,21 @@ class Api::PagesController < ApplicationController
   private
 
   def all_params
-    # not going to spend a long time on tricky strong params
-    # until we have the UX worked out better.
-    Rack::Utils.parse_nested_query(params.to_query).with_indifferent_access
+    # this is pretty janky but it's the best I can do moving quickly
+    # and serializing a bunch of rails forms into one thing
+    # the real key is Rack::Utils.parse_nested_query(params.to_query)
+    # which turns {'page[title]' => 'hi'} into {page: {title: 'hi'}}
+    # it also doesn't use strong params.
+    unwrapped = {}
+    Rack::Utils.parse_nested_query(params.to_query).each_pair do |key, nested|
+      next unless nested.is_a? Hash
+      nested.each_pair do |subkey, subnested|
+        if subnested.is_a? Hash
+          unwrapped[key] = subnested
+        end
+      end
+    end
+    unwrapped.with_indifferent_access
   end
 
   def shallow_errors(errors)
