@@ -21,8 +21,11 @@ done
 
 echo "OK"
 
-# Then it tries to run all of the rake tasks
-rake db:migrate db:seed champaign:seed_liquid assets:precompile
-
-# And then it runs tests
+# Then it runs tests
 rspec spec
+
+# And then it tries to run all of the rake tasks
+bundle exec rake db:migrate db:seed champaign:seed_liquid
+
+# Try to precompile assets with production mode
+bundle exec rake RAILS_ENV=production assets:precompile
