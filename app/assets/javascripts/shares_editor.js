@@ -4,6 +4,8 @@
 
     events: {
       'click tr.shares-editor__summary-row': 'toggleEditor',
+      'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
+      'submit .shares-editor__new-form': 'newShareSubmitted',
     },
 
     initialize: function(){
@@ -18,6 +20,27 @@
       $target.next('.shares-editor__edit-row').toggleClass('hidden-closed');
       $btn.text( $btn.text() == "Edit" ? "Done" : "Edit" );
     },
+
+    switchVariantForm: function(e){
+      let $target = this.$(e.target)
+      const desired = $target.data('state');
+      if (desired) {
+        this.$('.shares-editor__new-type-toggle .btn').removeClass('btn-primary');
+        $target.addClass('btn-primary');
+        this.$('.shares-editor__new-form').addClass('hidden-closed');
+        this.$(`.shares-editor__new-form[data-share="${desired}"]`).removeClass('hidden-closed');
+      }
+    },
+
+    newShareSubmitted: function(e) {
+      e.preventDefault();
+      let $target = $(e.target);
+      let $edit_row = $('<tr class="shares-editor__edit-row"><td colspan="5"></td></tr>')
+      $edit_row.find('td').append($target.clone().addClass('one-form'));
+      this.$('.shares-editor__existing tbody').append($edit_row);
+      console.log("submitted new form",$target.serializeArray());
+    },
+
   });
 
   const configureShares = function() {

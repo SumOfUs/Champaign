@@ -1,8 +1,8 @@
 class PageUpdater
 
-  def initialize(page, params={})
+  def initialize(page, page_url)
     @page = page
-    @params = params
+    @page_url = page_url
   end
 
   def update(params)
@@ -39,11 +39,15 @@ class PageUpdater
   end
 
   def update_share(share_params)
-    ShareProgressVariantBuilder.update(without_name(share_params), {
+    params = without_name(share_params).symbolize_keys.merge({
       variant_type: share_params[:name],
-      page: @page,
-      id: share_params[:id]
+      page: @page
     })
+    if share_params[:id].present?
+      ShareProgressVariantBuilder.update(**params.merge(id: share_params[:id]))
+    else
+      ShareProgressVariantBuilder.create(**params.merge(url: @page_url))
+    end
   end
 
   def update_plugins

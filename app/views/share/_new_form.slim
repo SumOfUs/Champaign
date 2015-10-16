@@ -1,0 +1,6 @@
+= form_for [page, share], html: { class: "shares-editor__new-form #{css_class}", data: {type: "share_#{share.name}_#{rand.to_s[2..11]}", share: share.name } }  do |f|
+
+  = f.hidden_field :name
+  = render partial: "share/#{share.name}s/share_fields", locals: { form: f, share: share }
+
+  = f.submit t('common.save'), class: 'btn btn-primary'

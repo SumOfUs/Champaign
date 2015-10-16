@@ -11,7 +11,7 @@ class Api::PagesController < ApplicationController
   end
 
   def update
-    updater = PageUpdater.new(@page)
+    updater = PageUpdater.new(@page, page_url(@page))
     if updater.update(all_params)
       render json: { refresh: updater.refresh? }, status: :ok
     else
