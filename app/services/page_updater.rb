@@ -7,6 +7,7 @@ class PageUpdater
 
   def update(params)
     @params, @errors, @refresh = params, {}, false
+    @new_shares = {}
     update_plugins()
     update_shares()
     update_page()
@@ -38,16 +39,18 @@ class PageUpdater
     plugin.errors
   end
 
-  def update_share(share_params)
+  def update_share(share_params, name)
     params = without_name(share_params).symbolize_keys.merge({
       variant_type: share_params[:name],
       page: @page
     })
     if share_params[:id].present?
-      ShareProgressVariantBuilder.update(**params.merge(id: share_params[:id]))
+      variant = ShareProgressVariantBuilder.update(**params.merge(id: share_params[:id]))
     else
-      ShareProgressVariantBuilder.create(**params.merge(url: @page_url))
+      variant = ShareProgressVariantBuilder.create(**params.merge(url: @page_url))
+      @new_shares[name] = variant.sp_id if variant.errors.blank?
     end
+    variant.errors
   end
 
   def update_plugins
@@ -59,8 +62,8 @@ class PageUpdater
 
   def update_shares
     params_for('share').each_pair do |name, share_params|
-      puts "share_params: #{share_params}"
-      update_share(share_params)
+      errors = update_share(share_params, name)
+      @errors[name] = errors.to_h unless errors.blank?
     end
   end
 

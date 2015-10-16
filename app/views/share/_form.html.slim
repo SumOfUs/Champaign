@@ -1,4 +1,5 @@
-= form_for [page, share], html: { class: 'share one-form', data: {type: "share_#{share.name}_#{share.id}" } }  do |f|
+- name = "share_#{share.name}_#{share.id}"
+= form_for [page, share], as: name, html: { class: 'share one-form', data: {type: name} }  do |f|
 
   = render partial: 'shared/error_messages', locals: {target: share }
   = f.hidden_field :id

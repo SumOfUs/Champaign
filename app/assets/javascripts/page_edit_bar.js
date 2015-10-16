@@ -90,14 +90,15 @@ let PageEditBar = Backbone.View.extend({
     }
   },
 
-  saveFailed: function(e, data) {
-    return () => { // closure for `this` cause it's an event callback
+  saveFailed: function() {
+    return (e, data) => { // closure for `this` cause it's an event callback
       console.log("save failed with", e, data);
       this.outstandingSaveRequest = false;
       $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
       if(data.status == 422) {
         Champaign.showErrors(e, data);
         $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
+        $.publish('page:errors');
       } else {
         $('.page-edit-bar__error-message').text("The server unexpectedly messed up saving your work.");
       }

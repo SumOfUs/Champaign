@@ -9,7 +9,7 @@
     },
 
     initialize: function(){
-      console.log('yooo')
+      this.openEditorForErrors();
       // this.$stateInput = this.$('.plugin-active-field');
     },
 
@@ -19,6 +19,13 @@
       let $btn = $target.find('.shares-editor__toggle-edit');
       $target.next('.shares-editor__edit-row').toggleClass('hidden-closed');
       $btn.text( $btn.text() == "Edit" ? "Done" : "Edit" );
+    },
+
+    openEditor: function($edit_row){
+      let $prev = $edit_row.prev('.shares-editor__summary-row');
+      let $btn = $prev.find('.shares-editor__toggle-edit');
+      $btn.text( "Done" );
+      $edit_row.removeClass('hidden-closed');
     },
 
     switchVariantForm: function(e){
@@ -39,6 +46,12 @@
       $edit_row.find('td').append($target.clone().addClass('one-form'));
       this.$('.shares-editor__existing tbody').append($edit_row);
       console.log("submitted new form",$target.serializeArray());
+    },
+
+    openEditorForErrors: function(){
+      $.subscribe('page:errors', (e) => {
+        this.openEditor(this.$('.has-error').parents('.shares-editor__edit-row'));
+      });
     },
 
   });
