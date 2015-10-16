@@ -9,10 +9,11 @@ class Plugins::Thermometer < ActiveRecord::Base
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
 
   def current_total
-    offset + page.action_count
+    offset + (page.action_count || 0)
   end
 
   def current_progress
+    update_goal if goal_should_update
     current_total / goal.to_f * 100
   end
 
@@ -30,9 +31,8 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   def update_goal
-    if goal_should_update
-      self.goal = self.determine_next_goal
-    end
+    self.goal = self.determine_next_goal
+    self.save
   end
 
   protected
