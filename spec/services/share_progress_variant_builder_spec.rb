@@ -12,6 +12,7 @@ describe ShareProgressVariantBuilder do
            save: true,
            id: '1',
            share_button_html: '<div />',
+           page_url: 'http://example.com/foo',
            variants: {facebook:  sp_variants})
   end
 
@@ -60,6 +61,7 @@ describe ShareProgressVariantBuilder do
         button = Share::Button.first
         expect(button.sp_id).to eq("1")
         expect(button.sp_button_html).to eq("<div />")
+        expect(button.url).to eq 'http://example.com/foo'
       end
     end
 
@@ -136,7 +138,6 @@ describe ShareProgressVariantBuilder do
       ShareProgressVariantBuilder.update(params, {
         variant_type: 'facebook',
         page: page,
-        url: 'http://example.com/foo',
         id: share.id
       })
     end
@@ -174,6 +175,7 @@ describe ShareProgressVariantBuilder do
       before do
         allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
       end
+
       it 'does not update variant locally' do
         expect{ update_variant }.not_to change{ share.reload.title }
       end

@@ -23,7 +23,6 @@ class Share::SharesController < ApplicationController
     @share = ShareProgressVariantBuilder.update(permitted_params, {
       variant_type: @resource.to_sym,
       page: @page,
-      url: page_url(@page),
       id: params[:id]
     })
 

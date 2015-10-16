@@ -2,11 +2,11 @@ require 'share_progress'
 
 class ShareProgressVariantBuilder
   def self.create(params, variant_type:, page:, url:)
-    new(params, variant_type, page, url).create
+    new(params, variant_type, page, url, nil).create
   end
 
-  def self.update(params, variant_type:, page:, url: nil, id:)
-    new(params, variant_type, page, url, id).update
+  def self.update(params, variant_type:, page:, id:)
+    new(params, variant_type, page, nil, id).update
   end
 
   def initialize(params, variant_type, page, url=nil, id=nil)
@@ -44,7 +44,7 @@ class ShareProgressVariantBuilder
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
 
     if sp_button.save
-      button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html) unless button.sp_id
+      button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html, url: sp_button.page_url)
       variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
     else
       add_sp_errors_to_variant(sp_button, variant)
@@ -74,7 +74,7 @@ class ShareProgressVariantBuilder
       # the page_url parameter is broken now cause url isn't
       # getting stored. need a scheme of where the url is stored, and
       # maybe just a better scheme of what a button is and this file
-      page_url: button.url || @url,
+      page_url: @url || button.url,
       button_template: "sp_#{variant_initials}_large",
       page_title: "#{@page.title} [#{@variant_type}]",
       variants: send("#{@variant_type}_variants", variant),

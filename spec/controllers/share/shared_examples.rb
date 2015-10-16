@@ -93,7 +93,6 @@ shared_examples "shares" do |share_class, service|
           with(params, {
           variant_type: service.to_sym,
           page: page,
-          url: "http://test.host/pages/1",
           id: '2'
         })
       end
