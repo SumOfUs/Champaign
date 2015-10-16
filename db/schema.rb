@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002221626) do
+ActiveRecord::Schema.define(version: 20151016185415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -160,6 +160,7 @@ ActiveRecord::Schema.define(version: 20151002221626) do
     t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
+    t.integer  "action_count"
   end
 
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree

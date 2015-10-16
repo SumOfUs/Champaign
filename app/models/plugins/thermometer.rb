@@ -9,7 +9,7 @@ class Plugins::Thermometer < ActiveRecord::Base
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
 
   def current_total
-    offset + page.actions.count
+    offset + page.action_count
   end
 
   def current_progress
@@ -27,5 +27,35 @@ class Plugins::Thermometer < ActiveRecord::Base
 
   def name
     self.class.name.demodulize
+  end
+
+  def update_goal
+    if goal_should_update
+      self.goal = self.determine_next_goal
+    end
+  end
+
+  protected
+  def goal_should_update
+    current_total >= self.goal
+  end
+
+  def determine_next_goal
+    # We grow the goal by a number which keeps the target in close reach for a new signer.
+    # For the purposes of this MVP, the new progress should be at 87.5%, rounded to the nearest 50.
+    target_jump = 50
+    increase_ratio = 1.125
+
+    new_goal = current_total * increase_ratio
+    goal_target_difference = new_goal % target_jump
+    target_midpoint = target_jump * 0.5
+
+    if goal_target_difference == 0
+      new_goal
+    elsif goal_target_difference <= target_midpoint
+      new_goal - goal_target_difference
+    else
+      new_goal + target_jump - (goal_target_difference)
+    end
   end
 end
