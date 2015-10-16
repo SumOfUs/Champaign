@@ -3,7 +3,7 @@
   let SharesEditor = Backbone.View.extend({
 
     events: {
-      'click .shares-editor__toggle-edit': 'toggleEditor',
+      'click tr.shares-editor__summary-row': 'toggleEditor',
     },
 
     initialize: function(){
@@ -12,8 +12,11 @@
     },
 
     toggleEditor: function(e) {
-      console.log('hey',this.$(e.target).parents('tr'), this.$(e.target).parents('tr').next('.shares-editor__edit-row'))
-      this.$(e.target).parents('tr').next('.shares-editor__edit-row').toggleClass('hidden-closed');
+      let $target = this.$(e.target);
+      $target = $target.is('tr') ? $target : $target.parents('tr');
+      let $btn = $target.find('.shares-editor__toggle-edit');
+      $target.next('.shares-editor__edit-row').toggleClass('hidden-closed');
+      $btn.text( $btn.text() == "Edit" ? "Done" : "Edit" );
     },
   });
 

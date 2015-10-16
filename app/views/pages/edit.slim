@@ -14,7 +14,7 @@ section.page-edit-step#pictures data-icon='camera-retro'
 
 section.page-edit-step#shares data-icon='share-square-o'
   h1.page-edit-step__title Shares
-  table.table.table-striped.shares-editor
+  table.table.shares-editor
     - @variations.each do |variation|
       = render variation, page: @page
 
