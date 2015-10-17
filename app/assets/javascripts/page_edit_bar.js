@@ -44,7 +44,6 @@ let PageEditBar = Backbone.View.extend({
     $('form.one-form').each((ii, form) => {
       let $form = $(form);
       let type = $form.data('type') || 'base';
-      console.log(data)
       if (!data.hasOwnProperty(type)) {
         data[type] = {}
       } 
@@ -80,9 +79,9 @@ let PageEditBar = Backbone.View.extend({
   },
 
   saved: function() {
-    return () => { // closure for `this` cause it's an event callback 
+    return (e, data) => { // closure for `this` cause it's an event callback
       this.outstandingSaveRequest = false;
-      $.publish('plugin:action:preview:update');
+      $.publish('page:saved', data);
       let now = new Date();
       $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
       $('.page-edit-bar__error-message').text('');

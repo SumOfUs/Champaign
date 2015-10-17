@@ -22,6 +22,10 @@ class PageUpdater
     @refresh || false
   end
 
+  def new_shares
+    @new_shares
+  end
+
   private
 
   def update_page
@@ -48,7 +52,7 @@ class PageUpdater
       variant = ShareProgressVariantBuilder.update(**params.merge(id: share_params[:id]))
     else
       variant = ShareProgressVariantBuilder.create(**params.merge(url: @page_url))
-      @new_shares[name] = variant.sp_id if variant.errors.blank?
+      @new_shares[name] = variant.id if variant.errors.blank?
     end
     variant.errors
   end
