@@ -3,6 +3,8 @@ web:
   links:
     - db
   command: /myapp/circle/specs-and-rake-tasks
+  volumes:
+    - .:/myapp
   env_file:
     - test.env
 
