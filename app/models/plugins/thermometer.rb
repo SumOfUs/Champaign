@@ -3,7 +3,7 @@ include ActionView::Helpers::NumberHelper
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page
 
-  DEFAULTS = { offset: 0, goal: 1000 }
+  DEFAULTS = { offset: 0, goal: 100 }
 
   validates :goal, :offset, presence: true
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
@@ -41,12 +41,13 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   def determine_next_goal
-    # We grow the goal by a number which keeps the target in close reach for a new signer.
-    # For the purposes of this MVP, the new progress should be at 87.5%, rounded to the nearest 50.
-    target_jump = 50
-    increase_ratio = 1.125
+    target_jump = self.determine_target_jump(self.current_total)
 
-    new_goal = current_total * increase_ratio
+
+    # This is slight overkill; it makes sure that when we increment the goal, it's targeting the closest jump value.
+    # Essentially, the goal here is to make sure that if we somehow don't update the goal right when it's on the next
+    # step (like 200 or 10000) we don't end up with an ugly goal like 301.
+    new_goal = current_total + target_jump
     goal_target_difference = new_goal % target_jump
     target_midpoint = target_jump * 0.5
 
@@ -56,6 +57,32 @@ class Plugins::Thermometer < ActiveRecord::Base
       new_goal - goal_target_difference
     else
       new_goal + target_jump - (goal_target_difference)
+    end
+  end
+
+  def determine_target_jump(count)
+    # We use a target jump here that's intended to bring us to round, pyschologically appealing
+    # numbers. People tend to react better seeing 25000 as a target than something like 22500, even
+    # if the latter is closer. So, this method defines a set of steps for the number to jump, based
+    # on the given value.
+    if count < 500
+      100
+    elsif count < 1000
+      250
+    elsif count < 10000
+      1000
+    elsif count < 25000
+      5000
+    elsif count < 100000
+      25000
+    elsif count < 250000
+      50000
+    elsif count < 1000000
+      250000
+    elsif count < 2000000
+      500000
+    else
+      1000000
     end
   end
 end
