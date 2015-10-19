@@ -177,6 +177,10 @@ body.page-edit-body {
   &__toggle-edit {
     min-width: 60px;
   }
+  &__preview-image {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 .dropzone {

@@ -4,7 +4,7 @@ tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
   td = share.title
   td
     - if share.image.present?
-      = image_tag share.image.content(:thumb), class: 'img-responsive img-rounded'
+      = image_tag share.image.content(:thumb), class: 'img-rounded shares-editor__preview-image'
     - else
       = t('share.facebook.no_image')
   td = simple_format share.description
