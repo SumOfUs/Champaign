@@ -5,5 +5,6 @@ class Action < ActiveRecord::Base
 
   def update_page_action_count
     self.page.action_count = self.page.actions.count
+    self.page.save
   end
 end
