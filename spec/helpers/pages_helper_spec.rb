@@ -12,14 +12,14 @@ describe PagesHelper do
     it "returns link when active" do
       actual = helper.toggle_switch(true, true, 'foo')
       expect(actual).to eq(
-        "<a class=\"btn-primary btn toggle-button btn-default\">foo</a>"
+        "<a class=\"btn-primary btn toggle-button btn-default\" data-state=\"true\">foo</a>"
       )
     end
 
     it "returns link when inactive" do
       actual = helper.toggle_switch(true, false, 'foo')
       expect(actual).to eq(
-        "<a class=\" btn toggle-button btn-default\">foo</a>"
+        "<a class=\" btn toggle-button btn-default\" data-state=\"true\">foo</a>"
       )
     end
   end

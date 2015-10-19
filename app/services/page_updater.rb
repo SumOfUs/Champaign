@@ -1,13 +1,12 @@
 class PageUpdater
 
-  def initialize(page, page_url)
+  def initialize(page, page_url=nil)
     @page = page
     @page_url = page_url
   end
 
   def update(params)
     @params, @errors, @refresh = params, {}, false
-    @new_shares = {}
     update_plugins()
     update_shares()
     update_page()
@@ -21,11 +20,6 @@ class PageUpdater
   def refresh?
     @refresh || false
   end
-
-  def new_shares
-    @new_shares
-  end
-
   private
 
   def update_page

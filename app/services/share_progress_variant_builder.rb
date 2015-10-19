@@ -71,9 +71,6 @@ class ShareProgressVariantBuilder
 
   def share_progress_button_params(variant, button)
     {
-      # the page_url parameter is broken now cause url isn't
-      # getting stored. need a scheme of where the url is stored, and
-      # maybe just a better scheme of what a button is and this file
       page_url: @url || button.url,
       button_template: "sp_#{variant_initials}_large",
       page_title: "#{@page.title} [#{@variant_type}]",
