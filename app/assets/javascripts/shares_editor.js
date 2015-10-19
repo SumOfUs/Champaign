@@ -5,11 +5,11 @@
     events: {
       'click tr.shares-editor__summary-row': 'toggleEditor',
       'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
+      'ajax:success form.shares-editor__new-form': 'clearForm',
     },
 
     initialize: function(){
       $.subscribe('page:errors', this.openEditorForErrors());
-      $.subscribe('page:saved', this.newShareSaved());
     },
 
     toggleEditor: function(e) {
@@ -38,8 +38,8 @@
       }
     },
 
-    clearForm: function($form){
-      $form.find('input[type="text"], textarea').val('')
+    clearForm: function(e){
+      $(e.target).find('input[type="text"], textarea').val('')
     },
 
     openEditorForErrors: function(){

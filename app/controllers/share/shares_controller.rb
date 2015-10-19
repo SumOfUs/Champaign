@@ -45,13 +45,10 @@ class Share::SharesController < ApplicationController
     respond_to do |format|
       if @share.errors.empty?
         format.html { redirect_to index_path }
-        # So now we just need to show this thing how to call showErrors
-        # but I think we should change chmpgn.showErrors to use the event system
-        # anyway so I'm leaving this for Monday.
-        # format.js {  }
+        format.js
       else
         format.html { render 'share/new' }
-        format.js { render 'create' }
+        format.js { render json: { errors: @share.errors, name: "share_#{@share.name}"}, status: 422 }
       end
     end
   end

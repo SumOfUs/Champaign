@@ -2,4 +2,4 @@
 
   = f.hidden_field :name
   = render partial: "share/#{share.name}s/share_fields", locals: { form: f, share: share }
-  = f.submit 'Add share variant', class: 'btn btn-primary'
+  = f.submit 'Add share variant', class: 'btn btn-primary', 'data-disable-with' => t('common.saving')
