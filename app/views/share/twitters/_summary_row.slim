@@ -1,0 +1,5 @@
+tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
+  td
+    span.fa.fa-twitter
+  td colspan=3 = simple_format share.description
+  td = render 'share/btn_edit_share'

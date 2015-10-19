@@ -10,6 +10,7 @@
 
     initialize: function(){
       $.subscribe('page:errors', this.openEditorForErrors());
+      $.subscribe('page:saved', this.updateSummaryRows());
     },
 
     toggleEditor: function(e) {
@@ -43,10 +44,25 @@
     },
 
     openEditorForErrors: function(){
-      () => { // closure for this in callback
+      return () => { // closure for this in callback
         this.openEditor(this.$('.has-error').parents('.shares-editor__edit-row'));
       }
     },
+
+    updateSummaryRows: function(){
+      return (e, data) => { // closure for `this` in callback
+        $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
+          _.each(rows, (row) => {
+            let $row = $(row.html);
+            $row = $(`#${$row.prop('id')}`).replaceWith($row);
+            $row = $(`#${$row.prop('id')}`);
+            if (!$row.next('.shares-editor__edit-row').hasClass('hidden-closed')) {
+              $row.find('.shares-editor__toggle-edit').text('Done');
+            }
+          })
+        });
+      }
+    }
 
   });
 

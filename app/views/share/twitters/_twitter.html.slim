@@ -1,8 +1,4 @@
-tr.shares-editor__summary-row
-  td
-    span.fa.fa-twitter
-  td colspan=3 = simple_format twitter.description
-  td = render 'share/btn_edit_share'
+= render 'share/twitters/summary_row', share: twitter
 
 tr.shares-editor__edit-row.hidden-closed
   td colspan=5
