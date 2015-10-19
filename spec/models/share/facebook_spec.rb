@@ -19,16 +19,18 @@ describe Share::Facebook do
     end
   end
 
-  describe 'before_create' do
+  describe 'image association' do
     let(:image) { Image.create(content: File.new("spec/fixtures/test-image.png")) }
     let(:page) { create(:page, images: [image]) }
 
-    subject { create(:share_facebook, page: page) }
+    it "does not takes a default image" do
+      share = create(:share_facebook, page: page)
+      expect(share.image).to eq nil
+    end
 
-    context 'without image' do
-      it "takes page's first image" do
-        expect(subject.image.url).to match('test-image.png')
-      end
+    it "can associate with an image" do
+      share = create(:share_facebook, page: page, image: image)
+      expect(share.image.content.url).to match('test-image.png')
     end
   end
 end
