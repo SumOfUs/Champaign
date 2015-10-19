@@ -3,8 +3,8 @@ tr.shares-editor__summary-row
     span.fa.fa-facebook-square
   td = facebook.title
   td
-    - if facebook.image.exists?
-      = image_tag facebook.image(:thumb), class: 'img-responsive img-rounded'
+    - if facebook.image.present?
+      = image_tag facebook.image.content(:thumb), class: 'img-responsive img-rounded'
     - else
       = t('share.facebook.no_image')
   td = simple_format facebook.description

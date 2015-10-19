@@ -6,12 +6,12 @@
   = form.label :description, t('share.facebook.form.description')
   = form.text_area :description, class: 'form-control', rows: 3
 
-- if share.image.exists?
+- if share.image.present?
   .form-group
-    = image_tag share.image(:thumb)
+    = image_tag share.image.content(:thumb)
 
 .form-group
-  = form.label :image, ( share.new_record? ? t('share.facebook.form.image') : t('share.facebook.form.update_image')  )
-  = form.file_field :image
+  = form.label :image_id, t('share.facebook.form.image')
+  = form.select :image_id, page.images.map{|im| [im.content_file_name, im.id] }, { include_blank: true}, class: 'form-control'
 
 

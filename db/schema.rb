@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151002221626) do
+ActiveRecord::Schema.define(version: 20151019181951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -229,19 +229,17 @@ ActiveRecord::Schema.define(version: 20151002221626) do
     t.text     "description"
     t.string   "image"
     t.integer  "button_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "image_file_name"
-    t.string   "image_content_type"
-    t.integer  "image_file_size"
-    t.datetime "image_updated_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.integer  "page_id"
     t.integer  "share_count"
     t.integer  "click_count"
     t.string   "sp_id"
+    t.integer  "image_id"
   end
 
   add_index "share_facebooks", ["button_id"], name: "index_share_facebooks_on_button_id", using: :btree
+  add_index "share_facebooks", ["image_id"], name: "index_share_facebooks_on_image_id", using: :btree
   add_index "share_facebooks", ["page_id"], name: "index_share_facebooks_on_page_id", using: :btree
 
   create_table "share_twitters", force: :cascade do |t|
@@ -308,5 +306,6 @@ ActiveRecord::Schema.define(version: 20151002221626) do
   add_foreign_key "plugins_actions", "pages"
   add_foreign_key "plugins_thermometers", "pages"
   add_foreign_key "share_emails", "pages"
+  add_foreign_key "share_facebooks", "images"
   add_foreign_key "share_twitters", "pages"
 end

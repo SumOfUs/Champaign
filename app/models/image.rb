@@ -5,6 +5,7 @@ class Image < ActiveRecord::Base
       medium: "300x300>",
       thumb: "100x100#",
       medium_square: "700x500#",
+      facebook: "1200x630>",
       large: "1920x"
     },
     convert_options: {

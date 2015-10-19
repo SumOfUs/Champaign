@@ -85,7 +85,7 @@ class ShareProgressVariantBuilder
         {
           facebook_title: variant.title,
           facebook_description: variant.description,
-          facebook_thumbnail: variant.image(:facebook),
+          facebook_thumbnail: variant.image.blank? ? nil : variant.image.content(:facebook),
           id: variant.sp_id
         }
       ]
