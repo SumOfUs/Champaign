@@ -25,11 +25,12 @@ describe ShareProgressVariantBuilder do
   describe '.create' do
 
     subject(:create_variant) do
-      ShareProgressVariantBuilder.create(params, {
+      ShareProgressVariantBuilder.create(
+        params: params,
         variant_type: 'facebook',
         page: page,
         url: 'http://example.com/foo'
-      })
+      )
     end
 
     describe 'success' do
@@ -135,11 +136,12 @@ describe ShareProgressVariantBuilder do
     let(:params) { {title: 'Bar' } }
 
     subject(:update_variant) do
-      ShareProgressVariantBuilder.update(params, {
+      ShareProgressVariantBuilder.update(
+        params: params,
         variant_type: 'facebook',
         page: page,
         id: share.id
-      })
+      )
     end
 
     describe 'success' do

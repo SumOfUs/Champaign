@@ -20,11 +20,12 @@ class Share::SharesController < ApplicationController
   end
 
   def update
-    @share = ShareProgressVariantBuilder.update(**permitted_params.merge({
+    @share = ShareProgressVariantBuilder.update(
+      params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
       id: params[:id]
-    }).symbolize_keys)
+    )
 
     respond_to do |format|
       if @share.errors.empty?
@@ -36,11 +37,12 @@ class Share::SharesController < ApplicationController
   end
 
   def create
-    @share = ShareProgressVariantBuilder.create(**permitted_params.merge({
+    @share = ShareProgressVariantBuilder.create(
+      params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
       url: page_url(@page)
-    }).symbolize_keys)
+    )
 
     respond_to do |format|
       if @share.errors.empty?

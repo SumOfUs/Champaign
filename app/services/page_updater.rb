@@ -38,15 +38,20 @@ class PageUpdater
   end
 
   def update_share(share_params, name)
-    params = without_name(share_params).symbolize_keys.merge({
-      variant_type: share_params[:name],
-      page: @page
-    })
     if share_params[:id].present?
-      variant = ShareProgressVariantBuilder.update(**params.merge(id: share_params[:id]))
+      variant = ShareProgressVariantBuilder.update(
+        params: without_name(share_params),
+        variant_type: share_params[:name],
+        page: @page,
+        id: share_params[:id]
+      )
     else
-      variant = ShareProgressVariantBuilder.create(**params.merge(url: @page_url))
-      @new_shares[name] = variant.id if variant.errors.blank?
+      variant = ShareProgressVariantBuilder.create(
+        params: without_name(share_params),
+        variant_type: share_params[:name],
+        page: @page,
+        url: @page_url
+      )
     end
     variant.errors
   end

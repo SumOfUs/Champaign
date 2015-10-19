@@ -1,17 +1,17 @@
 require 'share_progress'
 
 class ShareProgressVariantBuilder
-  def self.create(variant_type:, page:, url:, **params)
+  def self.create(params:, variant_type:, page:, url:)
     new(params, variant_type, page, url, nil).create
   end
 
-  def self.update(variant_type:, page:, id:, **params)
+  def self.update(params:, variant_type:, page:, id:)
     new(params, variant_type, page, nil, id).update
   end
 
   def initialize(params, variant_type, page, url=nil, id=nil)
-    @params = params
     @page = page
+    @params = params
     @variant_type = variant_type.to_sym
     @url = url
     @id = id
