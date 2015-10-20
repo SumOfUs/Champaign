@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(version: 20151019181951) do
     t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
-    t.integer  "action_count"
+    t.integer  "action_count",               default: 0
   end
 
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree
