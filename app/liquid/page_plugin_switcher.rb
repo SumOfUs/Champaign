@@ -28,6 +28,8 @@ class PagePluginSwitcher
   end
 
   def find_overlap(old_plugin_refs, new_plugin_refs)
+    old_plugin_refs = standardize_blank_refs(old_plugin_refs)
+    new_plugin_refs = standardize_blank_refs(new_plugin_refs)
     keepers  = old_plugin_refs & new_plugin_refs
     quitters = old_plugin_refs - keepers
     starters = new_plugin_refs - keepers
@@ -36,6 +38,10 @@ class PagePluginSwitcher
 
   def plugin_refs_from_plugins(plugins)
     plugins.map { |p| [p.name.underscore, p.ref] }
+  end
+
+  def standardize_blank_refs(plugin_refs)
+    plugin_refs.map { |p, r| [p, r.to_s] }
   end
 
 end
