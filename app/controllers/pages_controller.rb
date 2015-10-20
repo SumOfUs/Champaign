@@ -54,7 +54,7 @@ class PagesController < ApplicationController
   end
 
   def request_country
-    # when location API times out, window.location is blank
+    # when geocoder location API times out, request.location is blank
     request.location.blank? ? nil : request.location.country_code
   end
 
