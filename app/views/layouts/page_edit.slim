@@ -13,4 +13,14 @@ html
     = csrf_meta_tags
 
   body.page-edit-body
+    .navbar.navbar-static-top.navbar--dark
+      button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      .navbar-collapse.collapse.navbar-responsive-collapse
+        ul.nav.navbar-nav.pull-right
+          = render 'shared/loginout_button'
+        ul.nav.navbar-nav.pull-right
+          = render 'shared/navbar_links'
     = yield

@@ -1,4 +1,5 @@
 $page-edit-bar-color: #222;
+$page-edit-text-color: #ccc;
 $save-box-color: lighten($page-edit-bar-color, 10%);
 $bootstrap-bg-gray: #f5f5f5;
 $bootstrap-border-gray: #e3e3e3;
@@ -41,7 +42,7 @@ body.page-edit-body {
         padding: 15px 15px;
         margin: 0;
         @include box-sizing(border-box);
-        color: #ccc;
+        color: $page-edit-text-color;
         @include transition(background-color 0.1s linear, color 0.1s linear);
 
         &:hover {
@@ -122,10 +123,10 @@ body.page-edit-body {
     }
   }
   &__autosave-title {
-    color: #ccc;
+    color: $page-edit-text-color;
   }
   &__last-saved {
-    color: #ccc;
+    color: $page-edit-text-color;
     font-size: 12px;
   }
 }
@@ -257,5 +258,23 @@ body.page-edit-body {
   }
   &.open .fa {
     @include transform(rotate(90deg));
+  }
+}
+
+.navbar--dark {
+  background-color: $page-edit-bar-color;
+  color: $page-edit-text-color;
+  margin: 0;
+  padding: 0 40px 0 0;
+  height: 50px;
+  z-index: 200;
+  .nav > li > a {
+    color: $page-edit-text-color;
+    text-decoration: none;
+
+    &:hover, &:focus {
+      background-color: $save-box-color;
+      color: white;
+    }
   }
 }
