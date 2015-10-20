@@ -7,11 +7,5 @@
     = render 'plugins/shared/plugin_metadata', f: f
 
     .form-group
-      = f.label :title, "Title"
-      = f.text_field :title, class: 'form-control'
-    .form-group
       = f.label :offset, "Offset"
       = f.text_field(:offset, class: 'form-control')
-    .form-group
-      = f.label :goal, "Goal"
-      = f.text_field(:goal, class: 'form-control')

@@ -7,7 +7,7 @@
 
     .form-group
       = f.label :language_id, t('pages.edit.language_label')
-      = f.select :language_id, Language.all.map{|lang| [lang.name, lang.id] }, {}, class: "form-control"
+      = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, {}, class: "form-control"
 
     .form-group
       = f.label :liquid_layout_id, t('pages.edit.layout_select')
