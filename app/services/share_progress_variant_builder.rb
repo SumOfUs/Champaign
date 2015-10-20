@@ -1,17 +1,17 @@
 require 'share_progress'
 
 class ShareProgressVariantBuilder
-  def self.create(params, variant_type:, page:, url:)
+  def self.create(params:, variant_type:, page:, url:)
     new(params, variant_type, page, url, nil).create
   end
 
-  def self.update(params, variant_type:, page:, id:)
+  def self.update(params:, variant_type:, page:, id:)
     new(params, variant_type, page, nil, id).update
   end
 
   def initialize(params, variant_type, page, url=nil, id=nil)
-    @params = params
     @page = page
+    @params = params
     @variant_type = variant_type.to_sym
     @url = url
     @id = id
@@ -71,9 +71,6 @@ class ShareProgressVariantBuilder
 
   def share_progress_button_params(variant, button)
     {
-      # the page_url parameter is broken now cause url isn't
-      # getting stored. need a scheme of where the url is stored, and
-      # maybe just a better scheme of what a button is and this file
       page_url: @url || button.url,
       button_template: "sp_#{variant_initials}_large",
       page_title: "#{@page.title} [#{@variant_type}]",
@@ -88,7 +85,7 @@ class ShareProgressVariantBuilder
         {
           facebook_title: variant.title,
           facebook_description: variant.description,
-          facebook_thumbnail: variant.image(:facebook),
+          facebook_thumbnail: variant.image.blank? ? nil : variant.image.content(:facebook),
           id: variant.sp_id
         }
       ]

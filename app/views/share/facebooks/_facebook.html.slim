@@ -1,15 +1,4 @@
-tr
-  td
-    span.fa.fa-facebook-square
-  td = facebook.title
-  td
-    - if facebook.image.exists?
-      = image_tag facebook.image(:thumb), class: 'img-responsive img-rounded'
-    - else
-      = t('share.facebook.no_image')
-  td = simple_format facebook.description
-  td = render 'share/btn_edit_share'
-
+= render 'share/facebooks/summary_row', share: facebook
 
 tr.shares-editor__edit-row.hidden-closed
   td colspan=5

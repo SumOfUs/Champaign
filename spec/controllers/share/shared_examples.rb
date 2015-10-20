@@ -90,11 +90,12 @@ shared_examples "shares" do |share_class, service|
 
       it 'updates' do
         expect(ShareProgressVariantBuilder).to have_received(:update).
-          with(params, {
-          variant_type: service.to_sym,
-          page: page,
-          id: '2'
-        })
+          with(
+            params: params,
+            variant_type: service.to_sym,
+            page: page,
+            id: '2'
+          )
       end
 
       it 'redirects to share index path' do
@@ -133,11 +134,12 @@ shared_examples "shares" do |share_class, service|
 
       it 'creates' do
         expect(ShareProgressVariantBuilder).to have_received(:create).
-          with(params, {
-          variant_type: service.to_sym,
-          page: page,
-          url: "http://test.host/pages/1"
-        })
+          with(
+            params: params,
+            variant_type: service.to_sym,
+            page: page,
+            url: "http://test.host/pages/1"
+          )
       end
 
       it 'redirects to share index path' do

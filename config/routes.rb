@@ -99,6 +99,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :pages do
       resources :actions
+      get 'share-rows', on: :member, action: 'share_rows'
     end
   end
   # Example resource route within a namespace:

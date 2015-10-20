@@ -1,9 +1,4 @@
-tr
-  td
-    span.fa.fa-envelope-o
-  td = email.subject
-  td colspan=2 = simple_format email.body
-  td = render 'share/btn_edit_share'
+= render 'share/emails/summary_row', share: email
 
 tr.shares-editor__edit-row.hidden-closed
   td colspan=5

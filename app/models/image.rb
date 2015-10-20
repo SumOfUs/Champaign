@@ -5,6 +5,7 @@ class Image < ActiveRecord::Base
       medium: "300x300>",
       thumb: "100x100#",
       medium_square: "700x500#",
+      facebook: "1200x630>",
       large: "1920x"
     },
     convert_options: {
@@ -17,5 +18,6 @@ class Image < ActiveRecord::Base
   validates_attachment_content_type :content, :content_type => ["image/tiff", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/gif"]
 
   belongs_to :page
+  has_many :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
 end
 

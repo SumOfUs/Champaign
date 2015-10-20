@@ -25,7 +25,7 @@ module PagesHelper
     klass = (active == state ? 'btn-primary' : '')
     klass += " btn toggle-button btn-default"
 
-    content_tag :a, label, class: klass
+    content_tag :a, label, class: klass, data: { state: state }
   end
 
   def plugin_title(plugin)

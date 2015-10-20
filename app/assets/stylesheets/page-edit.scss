@@ -161,7 +161,27 @@ body.page-edit-body {
     input {
       width: 100%;
     }
-  }}
+  }
+}
+
+.shares-editor {
+  &__summary-row {
+    cursor: pointer;
+  }
+  &__edit-row {
+    background-color: $bootstrap-bg-gray;
+    form {
+      padding: 20px 20% 15px 10%;
+    }
+  }
+  &__toggle-edit {
+    min-width: 60px;
+  }
+  &__preview-image {
+    width: 60px;
+    height: 60px;
+  }
+}
 
 .dropzone {
   border-style: dashed;

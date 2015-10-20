@@ -17,11 +17,13 @@ let PageEditBar = Backbone.View.extend({
 
   initialize: function() {
     this.autosave = true;
+    this.outstandingSaveRequest = false;
     $('.page-edit-step').each((ii, step) => {
       this.addStepToSidebar($(step));
     });
     this.model = new PageModel();
     this.setupAutosave();
+    this.$saveBtn = this.$('.page-edit-bar__save-button');
     $('body').scrollspy({ target: '.scrollspy', offset: 150});
   },
 
@@ -43,9 +45,7 @@ let PageEditBar = Backbone.View.extend({
     $('form.one-form').each((ii, form) => {
       let $form = $(form);
       let type = $form.data('type') || 'base';
-      console.log(data)
       if (!data.hasOwnProperty(type)) {
-        console.log('new', type, data[type])
         data[type] = {}
       } 
       $.extend(data[type], this.serializeForm($form))
@@ -73,25 +73,36 @@ let PageEditBar = Backbone.View.extend({
 
   save: function() {
     $.publish('quill_editor:submit'); // for quill to update content
-    this.model.save(this.readData(), {success: this.saved, error: this.saveFailed});
+    if (!this.outstandingSaveRequest) {
+      this.disableSubmit();
+      this.model.save(this.readData(), {success: this.saved(), error: this.saveFailed()});
+    }
   },
 
   saved: function() {
-    $.publish('plugin:action:preview:update');
-    let now = new Date();
-    $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
-    $('.page-edit-bar__error-message').text('');
-    $('.page-edit-bar__last-saved').text(`Last saved at ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+    return (e, data) => { // closure for `this` cause it's an event callback
+      if (data.refresh){ location.reload(); }
+      this.enableSubmit();
+      $.publish('page:saved', data);
+      let now = new Date();
+      $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
+      $('.page-edit-bar__error-message').text('');
+      $('.page-edit-bar__last-saved').text(`Last saved at ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+    }
   },
 
-  saveFailed: function(e, data) {
-    console.log("save failed with", e, data);
-    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
-    if(data.status == 422) {
-      Champaign.showErrors(e, data);
-      $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
-    } else {
-      $('.page-edit-bar__error-message').text("The server unexpectedly messed up saving your work.");
+  saveFailed: function() {
+    return (e, data) => { // closure for `this` cause it's an event callback
+      console.log("save failed with", e, data);
+      this.enableSubmit();
+      $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
+      if(data.status == 422) {
+        Champaign.showErrors(e, data);
+        $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
+        $.publish('page:errors');
+      } else {
+        $('.page-edit-bar__error-message').text("The server unexpectedly messed up saving your work.");
+      }
     }
   },
 
@@ -114,6 +125,18 @@ let PageEditBar = Backbone.View.extend({
     } else {
       this.$('.page-edit-bar__btn-holder').removeClass('page-edit-bar__btn-holder--hidden');
     }
+  },
+
+  disableSubmit: function(){
+    this.outstandingSaveRequest = true;
+    this.$saveBtn.text('Saving...');
+    this.$saveBtn.addClass('disabled');
+  },
+
+  enableSubmit: function(){
+    this.outstandingSaveRequest = false;
+    this.$saveBtn.text('Save my work');
+    this.$saveBtn.removeClass('disabled');
   },
 
   setupAutosave: function() {

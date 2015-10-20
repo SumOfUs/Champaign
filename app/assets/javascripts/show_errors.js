@@ -3,6 +3,8 @@
 //   format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
 // The name field is for if the form element names are prefixed, eg 'link[title]'
 
+// this is ripe for a refactor to use the event system, and could be a backbone view too
+
 window.Champaign = window.Champaign || {};
 window.Champaign.showErrors = function(e, data) {
 

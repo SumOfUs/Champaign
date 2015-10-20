@@ -11,12 +11,18 @@ class Api::PagesController < ApplicationController
   end
 
   def update
-    updater = PageUpdater.new(@page)
+    updater = PageUpdater.new(@page, page_url(@page))
     if updater.update(all_params)
-      render json: { refresh: updater.refresh? }, status: :ok
+      render json: { refresh: updater.refresh?, id: @page.id }, status: :ok
     else
       render json: { errors: shallow_errors(updater.errors) }, status: 422
     end
+  end
+
+  def share_rows
+    render json: (@page.shares.map do |s|
+      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
+    end)
   end
 
   private
@@ -40,6 +46,8 @@ class Api::PagesController < ApplicationController
   end
 
   def shallow_errors(errors)
+    # note that its `parse_query`, not `parse_nested_query`, so we get
+    # {'page[title]' => "can't be blank" }
     Rack::Utils.parse_query(errors.to_query)
   end
 

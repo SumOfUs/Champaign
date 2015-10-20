@@ -15,7 +15,7 @@ class Share::FacebooksController < Share::SharesController
 
   def permitted_params
     params.require(:share_facebook).
-      permit(:title, :image, :description)
+      permit(:title, :image_id, :description)
   end
 end
 

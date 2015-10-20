@@ -1,8 +1,8 @@
 class PageUpdater
 
-  def initialize(page, params={})
+  def initialize(page, page_url=nil)
     @page = page
-    @params = params
+    @page_url = page_url
   end
 
   def update(params)
@@ -20,7 +20,6 @@ class PageUpdater
   def refresh?
     @refresh || false
   end
-
   private
 
   def update_page
@@ -38,12 +37,23 @@ class PageUpdater
     plugin.errors
   end
 
-  def update_share(share_params)
-    ShareProgressVariantBuilder.update(without_name(share_params), {
-      variant_type: share_params[:name],
-      page: @page,
-      id: share_params[:id]
-    })
+  def update_share(share_params, name)
+    if share_params[:id].present?
+      variant = ShareProgressVariantBuilder.update(
+        params: without_name(share_params),
+        variant_type: share_params[:name],
+        page: @page,
+        id: share_params[:id]
+      )
+    else
+      variant = ShareProgressVariantBuilder.create(
+        params: without_name(share_params),
+        variant_type: share_params[:name],
+        page: @page,
+        url: @page_url
+      )
+    end
+    variant.errors
   end
 
   def update_plugins
@@ -55,8 +65,8 @@ class PageUpdater
 
   def update_shares
     params_for('share').each_pair do |name, share_params|
-      puts "share_params: #{share_params}"
-      update_share(share_params)
+      errors = update_share(share_params, name)
+      @errors[name] = errors.to_h unless errors.blank?
     end
   end
 
