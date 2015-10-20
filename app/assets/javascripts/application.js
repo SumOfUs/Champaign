@@ -32,7 +32,8 @@
 //= require ajax
 //= require configure_quill_editor
 //= require plugins_toggle
-
-//= require('page');
-
 //= require_tree ./plugins/actions/admin/
+
+require('page');
+
+
