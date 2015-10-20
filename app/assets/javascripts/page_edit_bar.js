@@ -81,6 +81,7 @@ let PageEditBar = Backbone.View.extend({
 
   saved: function() {
     return (e, data) => { // closure for `this` cause it's an event callback
+      if (data.refresh){ location.reload(); }
       this.enableSubmit();
       $.publish('page:saved', data);
       let now = new Date();
