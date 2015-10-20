@@ -1,4 +1,4 @@
 class ActionkitPage < ActiveRecord::Base
-  belongs_to :actionkit_page_type
+  belongs_to :page
 
 end

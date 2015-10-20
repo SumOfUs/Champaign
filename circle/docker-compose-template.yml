@@ -2,7 +2,7 @@ web:
   image: soutech/champaign_web:$CIRCLE_SHA1
   links:
     - db
-  command: /myapp/circle/run-tests
+  command: /myapp/circle/specs-and-rake-tasks
   env_file:
     - test.env
 
@@ -11,4 +11,4 @@ db:
   ports:
     - "5432"
   environment:
-    POSTGRES_DB: champaign_test
+    POSTGRES_DB: champaign

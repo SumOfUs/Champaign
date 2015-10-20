@@ -26,7 +26,7 @@ section.page-edit-step#sources data-icon='link'
   = render 'link_form', page: @page
 
 javascript:
-  $.publish("pages:edit");
+  $.publish("pages:edit", #{@page.id});
   $.publish("plugins:toggle");
   $.publish("shares:edit");
 
