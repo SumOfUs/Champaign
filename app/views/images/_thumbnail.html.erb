@@ -1,4 +1,4 @@
-<div class="dz-preview dz-image-preview">
+<div class="dz-preview dz-image-preview" data-image-id="<%= image.present? ? image.id : '' %>">
   <% if image.present? %>
     <%= link_to page_image_url(@page, image), method: :delete,  data: { confirm: t('common.confirm') }, remote: true do %>
       <div class="dz-delete">

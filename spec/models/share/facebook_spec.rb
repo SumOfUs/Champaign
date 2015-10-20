@@ -32,6 +32,13 @@ describe Share::Facebook do
       share = create(:share_facebook, page: page, image: image)
       expect(share.image.content.url).to match('test-image.png')
     end
+
+    it 'becomes nil when the image is destroyed' do
+      share = create(:share_facebook, page: page, image: image)
+      expect(share.image.content.url).to match('test-image.png')
+      expect{image.destroy}.not_to raise_error
+      expect(share.reload.image).to eq nil
+    end
   end
 end
 

@@ -11,6 +11,10 @@
     initialize: function(){
       $.subscribe('page:errors', this.openEditorForErrors());
       $.subscribe('page:saved', this.updateSummaryRows());
+
+      // this is the kind of DOM hosuekeeping that makes me want to use react
+      $.subscribe('image:success', this.addImageSelectors());
+      $.subscribe('image:destroyed', this.pruneImageSelectors());
     },
 
     toggleEditor: function(e) {
@@ -62,7 +66,20 @@
           })
         });
       }
-    }
+    },
+
+    addImageSelectors: function(){
+      return (e, file, id, html) => { // closure for `this` in callback
+        let newOption = `<option value='${id}'>${file.name}</option>`;
+        this.$('.shares-editor__image-selector').append(newOption);
+      }
+    },
+
+    pruneImageSelectors: function(){
+      return (e, id) => { // closure for `this` in callback
+        this.$(`option[value="${id}"]`).remove()
+      }
+    },
 
   });
 

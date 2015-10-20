@@ -18,5 +18,6 @@ class Image < ActiveRecord::Base
   validates_attachment_content_type :content, :content_type => ["image/tiff", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/gif"]
 
   belongs_to :page
+  has_many :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
 end
 
