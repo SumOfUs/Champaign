@@ -16,6 +16,18 @@ body.page-edit-body {
   bottom: 0;
   left: 0;
   background: $page-edit-bar-color;
+  z-index: 300;
+
+  &__logo {
+    height: 50px;
+    width: 100%;
+    background: url(asset-path('champaign/your-logo.png'));
+    background-size: 50%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-left: 15px;
+    opacity: 0.9;
+  }
 
   &__step-list {
     margin: 0;
