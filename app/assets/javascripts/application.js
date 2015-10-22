@@ -32,7 +32,6 @@
 //= require selectize_config.js
 //= require ajax
 //= require configure_quill_editor
-
 //= require_tree ./plugins/actions/admin/
 
 require('page');
