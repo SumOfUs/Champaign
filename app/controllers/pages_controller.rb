@@ -24,8 +24,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    country = request.location.country_code
-    renderer = LiquidRenderer.new(@page, country: country)
+    renderer = LiquidRenderer.new(@page, country: request_country)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
@@ -52,6 +51,11 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find(params[:id])
+  end
+
+  def request_country
+    # when geocoder location API times out, request.location is blank
+    request.location.blank? ? nil : request.location.country_code
   end
 
   def page_params
