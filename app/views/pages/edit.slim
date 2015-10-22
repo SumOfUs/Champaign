@@ -25,7 +25,7 @@ section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title Sources
   = render 'link_form', page: @page
 
-section.page-edit-step.page-edit-step--just-title#review data-icon='eye'
+section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=page_url(@page)
   h1.page-edit-step__title
     | View
     = link_to @page, target: "_blank"  do
