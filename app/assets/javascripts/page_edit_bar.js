@@ -1,5 +1,3 @@
-// window.PageModel = require('page_model');
-
 let PageModel = Backbone.Model.extend({
   urlRoot: '/api/pages',
 });
@@ -33,7 +31,7 @@ let PageEditBar = Backbone.View.extend({
 
   addStepToSidebar: function($step) {
     let $ul = this.$('ul.page-edit-bar__step-list');
-    const title = $step.find('.page-edit-step__title').text();
+    const title = $step.find('.page-edit-step__title')[0].childNodes[0].nodeValue.trim();
     const id = $step.attr('id');
     const icon = $step.data('icon') || 'cubes'
     const li = `<li><a href="#${id}"><i class="fa fa-${icon}"></i>${title}</a></li>`;

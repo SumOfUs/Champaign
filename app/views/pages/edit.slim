@@ -25,6 +25,13 @@ section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title Sources
   = render 'link_form', page: @page
 
+section.page-edit-step.page-edit-step--just-title#review data-icon='eye'
+  h1.page-edit-step__title
+    | View
+    = link_to @page, target: "_blank"  do
+      button.btn-primary.btn.pull-right
+        | Show the page
+
 javascript:
   $.publish("pages:edit", #{@page.id});
   $.publish("plugins:toggle");

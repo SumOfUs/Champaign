@@ -140,10 +140,6 @@ body.page-edit-body {
   margin: 0 0 30px;
   position: relative;
 
-  &:last-of-type {
-    border-bottom: none;
-  }
-
   &__title {
     position: absolute;
     top: 0;
@@ -158,6 +154,9 @@ body.page-edit-body {
     text-align: left;
     color: $page-edit-bar-color;
     font-size: 30px;
+  }
+  &--just-title {
+    padding: 35px;
   }
 
   .two-ninths.form-group {
