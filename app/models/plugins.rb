@@ -15,6 +15,7 @@ module Plugins
       return true unless existing.empty?
       plugin = plugin_class.new(plugin_class.const_get(:DEFAULTS))
       plugin.page_id = page.id
+      plugin.active = true
       plugin.ref = ref if ref.present?
       plugin.save
     end
