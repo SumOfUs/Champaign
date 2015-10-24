@@ -36,8 +36,10 @@ $(function(){
     });
   };
 
-  $.subscribe('plugin:action:preview:update', updatePreview);
-  $.subscribe('page:saved', updatePreview);
+  if ($('.plugin-action-preview .content').length > 0) {
+    $.subscribe('plugin:action:preview:update', updatePreview);
+    $.subscribe('page:saved', updatePreview);
+  }
 
   $('.plugin.action').on('ajax:success', function(){
     $.publish('plugin:action:preview:update');
