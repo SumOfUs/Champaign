@@ -70,6 +70,7 @@ en:
       content: 'Content'
       settings: 'Settings'
       pictures: 'Pictures'
+      shares: 'Shares'
       show: "View the page"
       tags: "Tags"
       short_name: "Short Name (no spaces allowed)"
