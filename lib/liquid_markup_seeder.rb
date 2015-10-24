@@ -38,7 +38,8 @@ module LiquidMarkupSeeder
   def parse_name(file)
     file.split('/').
       last.
-      gsub(/^\_|\.liquid$/, '')
+      gsub(/^\_|\.liquid$/, '').
+      titleize
   end
 
   def klass(file)
