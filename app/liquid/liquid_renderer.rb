@@ -19,7 +19,7 @@ class LiquidRenderer
   end
 
   def default_markup
-    File.read("#{Rails.root}/app/liquid/views/layouts/default.liquid")
+    File.read("#{Rails.root}/app/liquid/views/layouts/generic.liquid")
   end
 
   def data
