@@ -1,19 +1,19 @@
 = render 'sidebar'
 
 section.page-edit-step#basics data-icon='pencil'
-  h1.page-edit-step__title Content
+  h1.page-edit-step__title = t('.content')
   = render 'form', page: @page
 
 section.page-edit-step#layout data-icon='cog'
-  h1.page-edit-step__title Settings
+  h1.page-edit-step__title = t('.settings')
   = render 'settings_form', page: @page
 
 section.page-edit-step#pictures data-icon='camera-retro'
-  h1.page-edit-step__title Pictures
+  h1.page-edit-step__title = t('.pictures')
   = render 'photo_form', page: @page
 
 section.page-edit-step#shares data-icon='share-square-o'
-  h1.page-edit-step__title Shares
+  h1.page-edit-step__title = t('.shares')
   = render 'shares_editor', page: @page
 
 - @page.plugins.each do |plugin|
@@ -22,7 +22,7 @@ section.page-edit-step#shares data-icon='share-square-o'
     = render "#{plugin.class.to_s.underscore.pluralize}/form", plugin: plugin, page: @page
 
 section.page-edit-step#sources data-icon='link'
-  h1.page-edit-step__title Sources
+  h1.page-edit-step__title = t('.sources')
   = render 'link_form', page: @page
 
 section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=page_url(@page)

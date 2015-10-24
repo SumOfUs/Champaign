@@ -67,6 +67,9 @@ en:
       language_label: "Language"
       slug_label: "Slug"
     edit:
+      content: 'Content'
+      settings: 'Settings'
+      pictures: 'Pictures'
       show: "View the page"
       tags: "Tags"
       short_name: "Short Name (no spaces allowed)"
