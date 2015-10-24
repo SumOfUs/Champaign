@@ -1,7 +1,8 @@
 .shares-editor
   table.table.shares-editor__existing
-    - @variations.each do |variation|
-      = render variation, page: @page  
+    tbody
+      - @variations.each do |variation|
+        = render variation, page: @page
   .well
     h4 data-toggle="collapse" data-target=".shares-editor__new-forms" aria-expanded="false"
       i.fa.fa-caret-right

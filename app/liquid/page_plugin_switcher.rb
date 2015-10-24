@@ -15,7 +15,7 @@ class PagePluginSwitcher
 
   def delete_quitters(quitters)
     @page.plugins.each do |plugin|
-      if quitters.include? [plugin.name.underscore, plugin.ref]
+      if quitters.include? [plugin.name.underscore, plugin.ref.to_s]
         plugin.destroy!
       end
     end

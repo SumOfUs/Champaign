@@ -7,9 +7,8 @@ GIT
       httparty (>= 0.13)
 
 GIT
-  remote: https://github.com/robkilby/compass-rails
-  revision: d42ec065ae21aaed15bb5edb7345fd62d403dc67
-  branch: sprockets-3
+  remote: https://github.com/compass/compass-rails
+  revision: a1c890628d61f62e61474de2c00dde2658251196
   specs:
     compass-rails (3.0.0)
       compass (~> 1.0.0)
