@@ -43,12 +43,6 @@ describe PageBuilder do
     expect(Page.last.liquid_layout).not_to eq LiquidLayout.default
   end
 
-  it 'uses the default template if none specified' do
-    params.delete :liquid_layout_id
-    expect { subject }.to change{ Page.count }.from(0).to(1)
-    expect(Page.last.liquid_layout).to eq LiquidLayout.default
-  end
-
   [Plugins::Thermometer, Plugins::Action].each do |plugin|
     it "creates a #{plugin.name}" do
       expect { subject }.to change{ plugin.count }.by 1
