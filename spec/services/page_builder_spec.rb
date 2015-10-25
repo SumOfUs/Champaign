@@ -40,7 +40,6 @@ describe PageBuilder do
   it 'uses the correct liquid layout' do
     subject
     expect(Page.last.liquid_layout_id).to eq template.id
-    expect(Page.last.liquid_layout).not_to eq LiquidLayout.default
   end
 
   [Plugins::Thermometer, Plugins::Action].each do |plugin|

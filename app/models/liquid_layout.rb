@@ -9,10 +9,4 @@ class LiquidLayout < ActiveRecord::Base
     # pass depth of -1 to allow layouts one more level of nesting than partials
     super(depth: -1)
   end
-
-  class << self
-    def default
-      find_by(title: 'Generic')
-    end
-  end
 end
