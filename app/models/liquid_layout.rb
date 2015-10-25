@@ -12,7 +12,7 @@ class LiquidLayout < ActiveRecord::Base
 
   class << self
     def default
-      find_by(title: 'default')
+      find_by(title: 'Generic')
     end
   end
 end
