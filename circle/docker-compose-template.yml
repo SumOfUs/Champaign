@@ -11,4 +11,4 @@ db:
   ports:
     - "5432"
   environment:
-    POSTGRES_DB: champaign
+    POSTGRES_DB: champaign_test
