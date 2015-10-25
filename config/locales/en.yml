@@ -63,7 +63,7 @@ en:
         featured: "Featured"
     new:
       title: "Let's Get Started!"
-      title_label: "Campaign Title"
+      title_label: "Page Title"
       language_label: "Language"
       slug_label: "Slug"
     edit:
