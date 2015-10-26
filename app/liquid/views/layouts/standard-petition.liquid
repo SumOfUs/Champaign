@@ -35,7 +35,7 @@
     <div class="body-text main-feature">
       {{ content }}
 
-      {% unless link_list.blank? %}
+      {% unless link_list == blank %}
         <hr class="stubby-hr" />
         <h3>More information</h3>
         {% include 'Links' %}
