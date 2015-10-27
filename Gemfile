@@ -107,5 +107,8 @@ source 'https://rails-assets.org' do
 
   # Generate a slug – transliteration with a lot of options
   gem 'rails-assets-speakingurl'
+
+  # Cross browser rich text editor
+  gem 'rails-assets-quill'
 end
 

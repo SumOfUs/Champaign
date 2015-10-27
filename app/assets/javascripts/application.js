@@ -26,6 +26,7 @@
 //= require syntax-highlighting
 //= require typeahead.jquery
 //= require speakingurl
+//= require quill
 
 //= require show_errors
 //= require dropzone_image_upload

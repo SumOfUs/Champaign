@@ -352,6 +352,7 @@ GEM
       rails-assets-underscore (>= 1.5.0)
     rails-assets-dropzone (4.0.1)
     rails-assets-mailcheck (1.1.1)
+    rails-assets-quill (0.20.0)
     rails-assets-speakingurl (6.0.0)
     rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
@@ -505,6 +506,7 @@ DEPENDENCIES
   rails-assets-backbone!
   rails-assets-dropzone!
   rails-assets-mailcheck!
+  rails-assets-quill!
   rails-assets-speakingurl!
   rails-assets-underscore!
   rails_admin
