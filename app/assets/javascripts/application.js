@@ -18,8 +18,6 @@
 //= require jquery-ui/sortable
 //= require jquery.remotipart
 
-//= require underscore
-//= require backbone
 //= require bootstrap-sprockets
 //= require selectize
 //= require dropzone

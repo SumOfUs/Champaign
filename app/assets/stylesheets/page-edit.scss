@@ -50,6 +50,9 @@ body.page-edit-body {
           text-decoration: none;
           color: white;
         }
+        &:focus {
+          background-color: $page-edit-bar-color;
+        }
 
         .fa {
           margin-right: 5px;
