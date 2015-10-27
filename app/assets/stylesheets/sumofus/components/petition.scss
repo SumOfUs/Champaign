@@ -16,6 +16,7 @@ $action-top-height: 120px;
     padding: $padding;
     overflow: visible;
     position: relative;
+    min-height: 68px;
   }
   &__main {
     background: $chalk-gray;

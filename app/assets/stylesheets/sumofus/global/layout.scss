@@ -70,3 +70,8 @@ html {
     display: none;
   }
 }
+
+.hidden-irrelevant, .hidden-closed {
+  display: none;
+  visibility: hidden;
+}
