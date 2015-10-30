@@ -5,7 +5,7 @@
   .page-edit-bar__save-box
     .page-edit-bar__toggle
       .page-edit-bar__toggle-title Autosave
-      .btn-group.page-edit-bar__toggle-btns.page-edit-bar__toggle-autosave
+      .btn-group.page-edit-bar__toggle-btns.page-edit-bar__toggle-autosave data-autosave="#{!page.active?}"
         = toggle_switch true, true, 'On'
         = toggle_switch false, true, 'Off'
     .page-edit-bar__toggle

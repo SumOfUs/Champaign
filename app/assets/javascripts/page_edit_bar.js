@@ -14,7 +14,6 @@ let PageEditBar = Backbone.View.extend({
   },
 
   initialize: function() {
-    this.autosave = true;
     this.outstandingSaveRequest = false;
     $('.page-edit-step').each((ii, step) => {
       this.addStepToSidebar($(step));
@@ -51,13 +50,13 @@ let PageEditBar = Backbone.View.extend({
       $.extend(data[type], this.serializeForm($form))
     });
     data.id = data.page['page[id]'];
-    console.log(data);
     return data;
   },
 
   serializeForm: function($form){
     let data = {}
     _.each($form.serializeArray(), function(pair) {
+      // this is to handle form arrays cause their name ends in []
       if (pair.name.endsWith('[]')) {
         let name = pair.name.slice(0, -2);
         if (!data.hasOwnProperty(name)) {
@@ -117,9 +116,9 @@ let PageEditBar = Backbone.View.extend({
   },
 
   toggleAutosave: function(e) {
-    e.preventDefault();
+    if (e) { e.preventDefault(); }
     this.autosave = !this.autosave;
-    this.$(e.target).parents('.page-edit-bar__toggle-autosave').find('.toggle-button').toggleClass('btn-primary');
+    this.$('.page-edit-bar__toggle-autosave').find('.toggle-button').toggleClass('btn-primary');
     if(this.autosave) {
       this.$('.page-edit-bar__btn-holder').addClass('page-edit-bar__btn-holder--hidden');
     } else {
@@ -141,6 +140,11 @@ let PageEditBar = Backbone.View.extend({
 
   setupAutosave: function() {
     const SAVE_PERIOD = 5000; // milliseconds
+    const shouldAutosave = (this.$('.page-edit-bar__toggle-autosave').data('autosave') == true);
+    this.autosave = true;
+    if (shouldAutosave != this.autosave) {
+      this.toggleAutosave();
+    }
     window.setInterval(() => {
       if(this.autosave) {
         this.save();
