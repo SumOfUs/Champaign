@@ -29,6 +29,7 @@ class PagesController < ApplicationController
   end
 
   def show
+    raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     renderer = LiquidRenderer.new(@page, country: request_country)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
