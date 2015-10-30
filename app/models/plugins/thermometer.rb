@@ -65,11 +65,8 @@ class Plugins::Thermometer < ActiveRecord::Base
     # numbers. People tend to react better seeing 25000 as a target than something like 22500, even
     # if the latter is closer. So, this method defines a set of steps for the number to jump, based
     # on the given value.
-    if count < 500
-      100
-    elsif count < 1000
-      250
-    elsif count < 10000
+    # The view rounds to the nearest thousand for the target, so don't have jumps of under 1000.
+    if count < 10000
       1000
     elsif count < 25000
       5000

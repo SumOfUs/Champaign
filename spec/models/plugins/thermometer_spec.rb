@@ -18,14 +18,14 @@ describe Plugins::Thermometer do
     test_page.action_count = 101
     test_page.save
     thermometer.update_goal
-    expect(thermometer.goal).to eq(200)
+    expect(thermometer.goal).to eq(1000)
   end
 
   it 'correctly jumps between 500 and 1K' do
     test_page.action_count = 501
     test_page.save
     thermometer.update_goal
-    expect(thermometer.goal).to eq(750)
+    expect(thermometer.goal).to eq(2000)
   end
 
   it 'correctly jumps between 1K and 10K' do
