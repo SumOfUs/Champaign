@@ -1,6 +1,6 @@
 (function(){
 
-  let PluginToggle = Backbone.View.extend({
+  let ActivationToggle = Backbone.View.extend({
 
     events: {
       'ajax:before': 'updateState',
@@ -10,20 +10,24 @@
     },
 
     initialize: function(){
-      this.$stateInput = this.$('.plugin-active-field');
+      this.$stateInput = this.$('.activation-toggle-field');
     },
 
     handleClick: function(e){
       e.preventDefault();
       this.$el.submit();
-      this.$('.toggle-button').removeClass('btn-primary');
-      this.$(e.target).addClass('btn-primary');
+      this.toggleButton();
+    },
+
+    toggleButton: function() {
+      this.$('.toggle-button').toggleClass('btn-primary');
     },
 
     handleSuccess: function(e,data){},
 
     handleError: function(xhr, status, error){
-      console.log('error', status, error);
+      console.error('error', status, error);
+      this.toggleButton();
     },
 
     updateState: function(){
@@ -33,15 +37,15 @@
   });
 
   const configureToggle = function() {
-    $('form.plugin-toggle').each(function(ii, el){
+    $('form.activation-toggle').each(function(ii, el){
       let $el = $(el);
       if( $el.data('js-inited') != true) {
-        let toggle = new PluginToggle({ el: $el });
+        let toggle = new ActivationToggle({ el: $el });
         $el.data('js-inited', true)
       }
     });
   }
 
-  $.subscribe("plugins:toggle", configureToggle);
+  $.subscribe("activation:toggle", configureToggle);
 }());
 

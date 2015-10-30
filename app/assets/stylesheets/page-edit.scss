@@ -109,7 +109,7 @@ body.page-edit-body {
     color: white;
     padding: 0 14px;
   }
-  &__autosave-toggle {
+  &__toggle-btns {
     margin: 0 20px 6px;
 
     .btn-default {
@@ -125,12 +125,31 @@ body.page-edit-body {
       }
     }
   }
-  &__autosave-title {
+  &__toggle-title {
     color: $page-edit-text-color;
   }
   &__last-saved {
     color: $page-edit-text-color;
     font-size: 12px;
+  }
+  @media(min-width: 950px) {
+    // put toggles and label inline
+
+    .page-edit-bar__toggle {
+      margin: 10px 0;
+      float: none;
+      overflow: hidden;
+    }
+    .page-edit-bar__toggle-title {
+      float: left;
+      padding: 6px 0;
+      width: 40%;
+      text-align: right;
+    }
+    .page-edit-bar__toggle-btns {
+      margin: 0 0 0 4%;
+      float: left;
+    }
   }
 }
 
