@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151019181951) do
+ActiveRecord::Schema.define(version: 20151102163019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,9 +161,11 @@ ActiveRecord::Schema.define(version: 20151019181951) do
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
     t.integer  "action_count",               default: 0
+    t.integer  "primary_image_id"
   end
 
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree
+  add_index "pages", ["primary_image_id"], name: "index_pages_on_primary_image_id", using: :btree
   add_index "pages", ["secondary_liquid_layout_id"], name: "index_pages_on_secondary_liquid_layout_id", using: :btree
 
   create_table "pages_tags", force: :cascade do |t|
@@ -300,6 +302,7 @@ ActiveRecord::Schema.define(version: 20151019181951) do
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
   add_foreign_key "pages", "campaigns"
+  add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"
   add_foreign_key "pages", "liquid_layouts"
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"

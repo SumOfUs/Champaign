@@ -24,6 +24,7 @@ describe Page do
   it { is_expected.to respond_to :campaign }
   it { is_expected.to respond_to :liquid_layout }
   it { is_expected.to respond_to :secondary_liquid_layout }
+  it { is_expected.to respond_to :primary_image }
   it { is_expected.to respond_to :plugins }
 
   describe 'tags' do
@@ -182,7 +183,26 @@ describe Page do
         expect(simple_page.save).to eq false
       end
     end
-
   end
+
+  describe 'primary image' do
+
+    before :each do
+      simple_page.images = [image_1, image_2]
+      simple_page.primary_image = image_2
+      simple_page.save!
+    end
+
+    it 'finds the image' do
+      expect(simple_page.primary_image).to eq image_2
+    end
+
+    it 'cannot be set to an image that doesnt belong to the page' do
+      expect(simple_page).to be_valid
+      simple_page.primary_image = image_3
+      expect(simple_page).to be_invalid
+    end
+  end
+
 end
 
