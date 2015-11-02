@@ -36,6 +36,18 @@
     bindHandlers();
   };
 
+  var addImageOption = function(e, file, id, html) {
+    var newOption = "<option value='"+id+"'>"+file.name+"</option>";
+    $('#page_primary_image_id').append(newOption);
+  }
+
+  var removeImageOption = function(e, id) {
+    $('#page_primary_image_id').find('option[value="'+id+'"]').remove();
+  }
+
   $.subscribe("dropzone:setup", initialize);
+  $.subscribe('image:success', addImageOption);
+  $.subscribe('image:destroyed', removeImageOption);
+
 }());
 

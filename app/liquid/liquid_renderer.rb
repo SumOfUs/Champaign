@@ -26,14 +26,21 @@ class LiquidRenderer
     @data ||= Plugins.data_for_view(@page).
                 merge( @page.liquid_data ).
                 merge( images: images ).
+                merge( primary_image: image_urls(@page.image_to_display) ).
                 merge( LiquidHelper.globals(country: @country) ).
                 merge( shares: Shares.get_all(@page) ).
                 deep_stringify_keys
   end
 
   def images
-    @page.images.map do |img|
-      { urls: { large: img.content.url(:large), small: img.content.url(:thumb) } }
-    end
+    @page.images.map{ |img| image_urls(img) }
   end
+
+  private
+
+  def image_urls(img)
+    return { urls: { large: '', small: '' } } if img.blank? || img.content.blank?
+    { urls: { large: img.content.url(:large), small: img.content.url(:thumb) } }
+  end
+
 end

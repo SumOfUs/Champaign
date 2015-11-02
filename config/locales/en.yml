@@ -85,6 +85,7 @@ en:
       secondary_layout_select: 'Page layout for post-action page'
       add_link: 'Add source'
       language_label: "Language"
+      primary_image: 'Which is the main image for the page?'
 
 
   campaigns:

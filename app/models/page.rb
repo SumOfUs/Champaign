@@ -51,6 +51,10 @@ class Page < ActiveRecord::Base
     variations
   end
 
+  def image_to_display
+    primary_image || images.first
+  end
+
   private
 
   def switch_plugins
