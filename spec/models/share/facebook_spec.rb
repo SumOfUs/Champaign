@@ -20,7 +20,7 @@ describe Share::Facebook do
   end
 
   describe 'image association' do
-    let(:image) { Image.create(content: File.new("spec/fixtures/test-image.png")) }
+    let(:image) { Image.create(content: File.new("spec/fixtures/test-image.gif")) }
     let(:page) { create(:page, images: [image]) }
 
     it "does not takes a default image" do
@@ -30,12 +30,12 @@ describe Share::Facebook do
 
     it "can associate with an image" do
       share = create(:share_facebook, page: page, image: image)
-      expect(share.image.content.url).to match('test-image.png')
+      expect(share.image.content.url).to match('test-image.gif')
     end
 
     it 'becomes nil when the image is destroyed' do
       share = create(:share_facebook, page: page, image: image)
-      expect(share.image.content.url).to match('test-image.png')
+      expect(share.image.content.url).to match('test-image.gif')
       expect{image.destroy}.not_to raise_error
       expect(share.reload.image).to eq nil
     end

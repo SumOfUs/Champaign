@@ -7,7 +7,7 @@ describe Page do
   let(:simple_page) { create :page, liquid_layout: liquid_layout }
   let(:existing_page) { create :page }
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
-  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.png')) }
+  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
   let(:image_1) { Image.create!(content: image_file) }
   let(:image_2) { Image.create!(content: image_file) }
   let(:image_3) { Image.create!(content: image_file) }
