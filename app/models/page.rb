@@ -12,8 +12,8 @@ class Page < ActiveRecord::Base
   has_many :pages_tags, dependent: :destroy
   has_many :tags, through: :pages_tags
   has_many :actions
-  has_many :images
-  has_many :links
+  has_many :images, dependent: :destroy
+  has_many :links, dependent: :destroy
 
   validates :title, :slug, presence: true, uniqueness: true
   validates :liquid_layout, presence: true

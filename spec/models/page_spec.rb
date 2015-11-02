@@ -7,6 +7,10 @@ describe Page do
   let(:simple_page) { create :page, liquid_layout: liquid_layout }
   let(:existing_page) { create :page }
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
+  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.png')) }
+  let(:image_1) { Image.create!(content: image_file) }
+  let(:image_2) { Image.create!(content: image_file) }
+  let(:image_3) { Image.create!(content: image_file) }
 
   subject { simple_page }
 
@@ -119,6 +123,24 @@ describe Page do
     it 'should not be required' do
       simple_page.language = nil
       expect(simple_page).to be_valid
+    end
+  end
+
+  describe 'images' do
+    it 'get deleted when the page is deleted' do
+      simple_page.images = [image_1, image_2]
+      simple_page.save!
+      expect{ simple_page.destroy }.to change{ Image.count }.by -2
+    end
+  end
+
+  describe 'link' do
+    it 'get deleted when the page is deleted' do
+      link_1 = create :link
+      link_2 = create :link
+      simple_page.links = [link_1, link_2]
+      simple_page.save!
+      expect{ simple_page.destroy }.to change{ Link.count }.by -2
     end
   end
 
