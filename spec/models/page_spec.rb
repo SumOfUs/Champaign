@@ -202,6 +202,12 @@ describe Page do
       simple_page.primary_image = image_3
       expect(simple_page).to be_invalid
     end
+
+    it 'gets set to nil if the image is deleted' do
+      expect(simple_page.primary_image).to eq image_2
+      expect{ image_2.destroy }.to change{ Image.count }.by -1
+      expect(simple_page.reload.primary_image).to eq nil
+    end
   end
 
 end
