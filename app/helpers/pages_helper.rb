@@ -13,6 +13,12 @@ module PagesHelper
     end
   end
 
+  def prefill_link(new_variant)
+    new_variant.description = "{LINK}" if new_variant.name == 'twitter'
+    new_variant.body = "{LINK}" if new_variant.name == 'email'
+    new_variant
+  end
+
   def button_group_item(text, path)
     selected = current_page?(path)
     klass = selected ? 'btn-primary' : 'btn-default'
