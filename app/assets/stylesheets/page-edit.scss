@@ -197,6 +197,23 @@ body.page-edit-body {
     }
   }
 }
+@media(max-width: 600px) {
+  .page-edit-bar {
+    width: 100%;
+    position: relative;
+    &__step-list {
+      padding: 0 0 200px 10px;
+    }
+  }
+  .page-edit-step {
+    width: 100%;
+    padding: 80px 20px 20px;
+    overflow: scroll;
+  }
+  .shares-editor {
+    overflow: scroll;
+  }
+}
 
 .shares-editor {
   &__summary-row {
