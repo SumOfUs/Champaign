@@ -9,7 +9,8 @@ describe PageUpdater do
   let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref].lol }}' }
   let(:liquid_layout) { create :liquid_layout, :default }
   let(:page) { create :page, liquid_layout: liquid_layout }
-  let(:pupdater) { PageUpdater.new(page) }
+  let(:url) { 'sumofus.org/my-path' }
+  let(:pupdater) { PageUpdater.new(page, url) }
   let(:simple_changes) { {page: {title: 'howdy folks!', content: 'Did they get you to trade'}} }
   let(:breaking_changes) { {page: {title: nil, content: 'your heros for ghosts'}} }
   let(:thermo_plugin) { page.plugins.select{|p| p.name == "Thermometer"}.first }
@@ -95,7 +96,59 @@ describe PageUpdater do
       expect( page.reload.active).to eq false
     end
 
-    it 'can update shares'
+    describe 'shares' do
+
+      let(:errorless_variant) { instance_double('Shares::Twitter', errors: {}) }
+      let(:error_variant) { instance_double('Shares::Twitter', errors: {description: "can't be blank"}) }
+      let(:create_params) { {share_twitter_1: {description: "I want you to {LINK} for me", name: "twitter"}} }
+      let(:update_params) { {share_twitter_12: {description: "I want you to {LINK} for me", name: "twitter", id: '12'}} }
+
+      before :each do
+        allow(ShareProgressVariantBuilder).to receive(:create){ errorless_variant }
+        allow(ShareProgressVariantBuilder).to receive(:update){ errorless_variant }
+        params = {share_twitter_1: {description: "I want you to {LINK} for me", id: "1", name: "twitter"}}
+      end
+
+      it 'creates variants if not given an id' do
+        pupdater.update(create_params)
+        expect(ShareProgressVariantBuilder).to have_received(:create).with(
+          params: {description: "I want you to {LINK} for me"},
+          variant_type: 'twitter',
+          page: page,
+          url: url
+        )
+      end
+
+      it 'updates variants if given an id' do
+        pupdater.update(update_params)
+        expect(ShareProgressVariantBuilder).to have_received(:update).with(
+          params: {description: "I want you to {LINK} for me", id: '12'},
+          variant_type: 'twitter',
+          page: page,
+          id: '12'
+        )
+      end
+
+      it 'can update and create at the same time' do
+        params = update_params.merge(create_params)
+        pupdater.update(params)
+        expect(ShareProgressVariantBuilder).to have_received(:update)
+        expect(ShareProgressVariantBuilder).to have_received(:create)
+      end
+
+      it 'can update multiple at once' do
+        params = update_params.merge(share_twitter_1: create_params[:share_twitter_1].merge(id: '1'))
+        pupdater.update(params)
+        expect(ShareProgressVariantBuilder).to have_received(:update).exactly(2).times
+      end
+
+      it 'can return multiple errors' do
+        allow(ShareProgressVariantBuilder).to receive(:update){ error_variant }
+        allow(ShareProgressVariantBuilder).to receive(:create){ error_variant }
+        expect(pupdater.update(update_params.merge(create_params))).to eq false
+        expect(pupdater.errors).to eq({share_twitter_12: {description: "can't be blank"}, share_twitter_1: {description: "can't be blank"}})
+      end
+    end
 
   end
 
