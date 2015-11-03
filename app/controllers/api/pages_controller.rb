@@ -28,6 +28,9 @@ class Api::PagesController < ApplicationController
   private
 
   def all_params
+    # this method flattens a lot of nested data from one object per form element
+    # to one object per entity (page, share variant, etc) to modify
+    #
     # this is pretty janky but it's the best I can do moving quickly
     # and serializing a bunch of rails forms into one thing
     # the real key is Rack::Utils.parse_nested_query(params.to_query)
