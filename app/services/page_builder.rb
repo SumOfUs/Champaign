@@ -19,15 +19,11 @@ class PageBuilder
   private
 
   def page
-    @page ||= Page.new(params)
+    @page ||= Page.new(@params)
   end
 
   def push_to_queue
     ChampaignQueue.push(data_for_queue)
-  end
-
-  def params
-    {liquid_layout_id: LiquidLayout.default.id}.merge(@params)
   end
 
   def data_for_queue

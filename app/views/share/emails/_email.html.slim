@@ -1,4 +1,5 @@
-.row
-  .col-md-12
-    h4 = email.subject
-    = simple_format email.body
+= render 'share/emails/summary_row', share: email
+
+tr.shares-editor__edit-row.hidden-closed
+  td colspan=5
+    = render 'share/form', page: page, share: email

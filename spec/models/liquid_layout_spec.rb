@@ -40,16 +40,6 @@ describe LiquidLayout do
     end
   end
 
-  describe '.default' do
-    before do
-      create(:liquid_layout, title: 'default')
-    end
-
-    it 'returns default layout' do
-      expect(LiquidLayout.default.title).to eq('default')
-    end
-  end
-
   describe 'plugin_refs' do
 
     it 'has all the plugins from its partials as length two arrays' do

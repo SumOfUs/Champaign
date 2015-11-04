@@ -2,7 +2,7 @@ module LiquidMarkupSeeder
   extend self
 
   def seed
-    partials.each{ |path| create(path) }
+    sort_by_partial_count(partials).each{ |path| create(path) }
     layouts.each { |path| create(path) }
   end
 
@@ -12,10 +12,12 @@ module LiquidMarkupSeeder
 
   def create(path)
     title, klass = title_and_class(path)
+    puts "creating #{klass} called #{title} from path #{path}"
 
     view = klass.constantize.find_or_create_by(title: title)
     view.content = read(path)
-    view.save
+    saved = view.save
+    puts "Failed to save: #{view.errors.full_messages}" unless saved
   end
 
   def partials
@@ -38,11 +40,19 @@ module LiquidMarkupSeeder
   def parse_name(file)
     file.split('/').
       last.
-      gsub(/^\_|\.liquid$/, '')
+      gsub(/^\_|\.liquid$/, '').
+      titleize
   end
 
   def klass(file)
     file =~ /\_\w+\.liquid$/ ? 'LiquidPartial' : 'LiquidLayout'
   end
+
+  def sort_by_partial_count(paths)
+    paths.sort_by do |path|
+      LiquidTagFinder.new(read(path)).plugin_names.size
+    end
+  end
+
 end
 

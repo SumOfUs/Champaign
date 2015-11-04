@@ -1,5 +1,5 @@
-= form_for plugin, url: path, remote: true, html: { class: 'plugin-toggle' }  do |f|
-  = f.hidden_field :active, class: 'plugin-active-field'
+= form_for plugin, url: path, remote: true, html: { class: 'activation-toggle' }  do |f|
+  = f.hidden_field :active, class: 'activation-toggle-field'
   .form-group.plugin-toggle
     .btn-group
       = toggle_switch true, plugin.active?, 'On'
