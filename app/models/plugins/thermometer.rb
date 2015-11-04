@@ -31,17 +31,17 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   def update_goal
-    self.goal = self.determine_next_goal
-    self.save
+    increment!(:goal, determine_next_goal - goal)
   end
 
-  protected
+  private
+
   def goal_should_update
     current_total >= self.goal
   end
 
   def determine_next_goal
-    target_jump = self.determine_target_jump(self.current_total)
+    target_jump = determine_target_jump(self.current_total)
 
 
     # This is slight overkill; it makes sure that when we increment the goal, it's targeting the closest jump value.
