@@ -66,17 +66,18 @@ class Plugins::Thermometer < ActiveRecord::Base
     # if the latter is closer. So, this method defines a set of steps for the number to jump, based
     # on the given value.
     # The view rounds to the nearest thousand for the target, so don't have jumps of under 1000.
-    if count < 10000
+    case
+    when count < 10000
       1000
-    elsif count < 25000
+    when count < 25000
       5000
-    elsif count < 100000
+    when count < 100000
       25000
-    elsif count < 250000
+    when count < 250000
       50000
-    elsif count < 1000000
+    when count < 1000000
       250000
-    elsif count < 2000000
+    when count < 2000000
       500000
     else
       1000000
