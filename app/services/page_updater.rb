@@ -1,4 +1,64 @@
+##
+# The <tt>PageUpdater</tt> class serves to update a Page model along with
+# its associate Plugins and Share Variants. It allows for comprehensive saving
+# and updating with one form from the user perspective.
+#
+# The +update+ method updates pages, plugins, and share variants that are passed
+# to it. It returns true if all saves passed without errors and false if any of
+# the saves returned errors. It will not rollback save on one entity if save
+# failed on another. It expects params of the following format. Any of the hashes
+# can be left out, only those present will be updated.
+#   {
+#     page: {
+#       content: "my content",
+#       id: "608"
+#     },
+#     plugins_action_150: {
+#       cta: "Sign the Petition",
+#       description: "Tell those meanieheads to do something!",
+#       id: "150",
+#       name: "Action",
+#       ref: "",
+#       target: ""
+#     },
+#     plugins_thermometer_81: {
+#       id: "81",
+#       name: "Thermometer",
+#       offset: "0",
+#       ref: ""
+#     },
+#     share_facebook_12: {
+#       description: "and this is the message",
+#       id: "12",
+#       image_id: "16",
+#       name: "facebook",
+#       title: "This is the title"
+#     },
+#     share_twitter_1: {
+#       description: "I want you to {LINK} for me",
+#       id: "1",
+#       name: "twitter"
+#     },
+#     share_twitter_2: {
+#       description: "I want you to {LINK} for me",
+#       id: "2",
+#       name: "twitter"
+#     }
+#   }
+#
+# Some fields change the plugins available to the page, so these are listed
+# as REFRESH_TRIGGERS. If one of these fields is updated, the +refresh?+ method
+# will return true, otherwise it will return false.
+#
+# Finally, the +errors+ method will return a hash where each key is the name of the
+# updated entity (eg :share_twitter_2 or :page) and the value is the AR errors hash
+# for that object. The key will only be present if there are errors for that entity.
+#
+
 class PageUpdater
+
+  REFRESH_TRIGGERS = %w{ liquid_layout_id }
+  attr_reader :errors
 
   def initialize(page, page_url=nil)
     @page = page
@@ -7,25 +67,22 @@ class PageUpdater
 
   def update(params)
     @params, @errors, @refresh = params, {}, false
-    update_plugins()
-    update_shares()
-    update_page()
+    update_plugins
+    update_shares
+    update_page
     @errors.empty?
-  end
-
-  def errors
-    @errors
   end
 
   def refresh?
     @refresh || false
   end
+
   private
 
   def update_page
     return unless @params[:page]
     @page.assign_attributes(@params[:page])
-    @refresh = true unless (@page.changed & refresh_triggers).empty?
+    @refresh = true unless (@page.changed & REFRESH_TRIGGERS).empty?
     saved = @page.save
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
   end
@@ -83,10 +140,4 @@ class PageUpdater
   def without_name(params)
     params.select{|k| k.to_sym != :name }
   end
-
-  def refresh_triggers
-    # if one of these fields gets updated, it will break the forms, so we refresh the page
-    ['liquid_layout_id']
-  end
-
 end
