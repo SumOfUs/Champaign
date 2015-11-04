@@ -39,13 +39,16 @@ module PagesHelper
     "#{plugin.name}#{detail}"
   end
 
+  # given a plugin object, this method returns the name
+  # of a font-awesome icon for that plugin, either specific
+  # to that plugin or falling back to a generic one.
   def plugin_icon(plugin)
     registered = {
       action: 'hand-rock-o',
       thermometer: 'neuter'
     }
     name = plugin.name.underscore.to_sym
-    registered.has_key?(name) ? registered[name] : 'cubes'
+    registered.fetch( name, 'cubes' )
   end
 
   def determine_ascending

@@ -37,7 +37,7 @@ class Plugins::Thermometer < ActiveRecord::Base
   private
 
   def goal_should_update
-    current_total >= self.goal
+    current_total >= goal
   end
 
   def determine_next_goal
