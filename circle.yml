@@ -37,8 +37,8 @@ deployment:
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging'
   testing:
-      branch: testing-env
-      commands:
-        - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-        - docker push soutech/champaign_web
-        - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-testing'
+    branch: campaigner-ui
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push soutech/champaign_web
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-testing'

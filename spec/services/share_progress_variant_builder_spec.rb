@@ -12,6 +12,7 @@ describe ShareProgressVariantBuilder do
            save: true,
            id: '1',
            share_button_html: '<div />',
+           page_url: 'http://example.com/foo',
            variants: {facebook:  sp_variants})
   end
 
@@ -24,11 +25,12 @@ describe ShareProgressVariantBuilder do
   describe '.create' do
 
     subject(:create_variant) do
-      ShareProgressVariantBuilder.create(params, {
+      ShareProgressVariantBuilder.create(
+        params: params,
         variant_type: 'facebook',
         page: page,
         url: 'http://example.com/foo'
-      })
+      )
     end
 
     describe 'success' do
@@ -60,6 +62,7 @@ describe ShareProgressVariantBuilder do
         button = Share::Button.first
         expect(button.sp_id).to eq("1")
         expect(button.sp_button_html).to eq("<div />")
+        expect(button.url).to eq 'http://example.com/foo'
       end
     end
 
@@ -133,12 +136,12 @@ describe ShareProgressVariantBuilder do
     let(:params) { {title: 'Bar' } }
 
     subject(:update_variant) do
-      ShareProgressVariantBuilder.update(params, {
+      ShareProgressVariantBuilder.update(
+        params: params,
         variant_type: 'facebook',
         page: page,
-        url: 'http://example.com/foo',
         id: share.id
-      })
+      )
     end
 
     describe 'success' do
@@ -158,6 +161,15 @@ describe ShareProgressVariantBuilder do
         expect(success_sp_button).to receive(:save)
         update_variant
       end
+
+      it 'does not request to SP API if nothing changed' do
+        expect(ShareProgress::Button).to receive(:new)
+        expect(success_sp_button).to receive(:save)
+        update_variant
+        expect(ShareProgress::Button).not_to receive(:new)
+        expect(success_sp_button).not_to receive(:save)
+        update_variant
+      end
     end
 
     describe 'failure' do
@@ -165,6 +177,7 @@ describe ShareProgressVariantBuilder do
       before do
         allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
       end
+
       it 'does not update variant locally' do
         expect{ update_variant }.not_to change{ share.reload.title }
       end

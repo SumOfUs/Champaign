@@ -13,6 +13,12 @@ module PagesHelper
     end
   end
 
+  def prefill_link(new_variant)
+    new_variant.description = "{LINK}" if new_variant.name == 'twitter'
+    new_variant.body = "{LINK}" if new_variant.name == 'email'
+    new_variant
+  end
+
   def button_group_item(text, path)
     selected = current_page?(path)
     klass = selected ? 'btn-primary' : 'btn-default'
@@ -25,12 +31,24 @@ module PagesHelper
     klass = (active == state ? 'btn-primary' : '')
     klass += " btn toggle-button btn-default"
 
-    content_tag :a, label, class: klass
+    content_tag :a, label, class: klass, data: { state: state }
   end
 
   def plugin_title(plugin)
     detail = plugin.ref.present? ? " - #{plugin.ref}" : ''
     "#{plugin.name}#{detail}"
+  end
+
+  # given a plugin object, this method returns the name
+  # of a font-awesome icon for that plugin, either specific
+  # to that plugin or falling back to a generic one.
+  def plugin_icon(plugin)
+    registered = {
+      action: 'hand-rock-o',
+      thermometer: 'neuter'
+    }
+    name = plugin.name.underscore.to_sym
+    registered.fetch( name, 'cubes' )
   end
 
   def determine_ascending

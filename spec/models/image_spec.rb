@@ -7,7 +7,7 @@ describe Image do
                 rejecting('text/plain', 'text/xml', "text/javascript") }
   it { should validate_attachment_size(:content).less_than(20.megabytes) }
 
-  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.png')) }
+  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
   let(:image) { Image.create!(content: image_file) }
 
   after :each do

@@ -3,18 +3,19 @@
     - page.links.each do |link|
       = render 'link', link: link
 
-  .well
-    = form_for Link.new, remote: true, html: {class: 'form-inline', id: 'new_collection_element'}  do |f|
-      = f.hidden_field :page_id, value: page.id
-      .form-group.form-group-md
-        = f.text_field :url, class: 'form-control', placeholder: t('links.forms.url')
-      .form-group.form-group-md
-        = f.text_field :title, class: 'form-control', placeholder: t('links.forms.title')
-      .form-group.form-group-md
-        = f.text_field :source, class: 'form-control', placeholder: t('links.forms.source')
-      .form-group.form-group-md
-        = f.date_field :date, class: 'form-control', placeholder: t('links.forms.date')
-      = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback', 'data-disable-with' => t('common.saving')
+  h4= t('pages.edit.add_link')
+  = form_for Link.new, remote: true, html: {class: 'form-inline', id: 'new_collection_element'}  do |f|
+    = f.hidden_field :page_id, value: page.id
+    .form-group.two-ninths
+      = f.text_field :url, class: 'form-control', placeholder: t('links.forms.url')
+    .form-group.two-ninths
+      = f.text_field :title, class: 'form-control', placeholder: t('links.forms.title')
+    .form-group.two-ninths
+      = f.text_field :source, class: 'form-control', placeholder: t('links.forms.source')
+    .form-group.two-ninths
+      = f.date_field :date, class: 'form-control', placeholder: t('links.forms.date')
+    .form-group.one-ninth
+      = submit_tag t('pages.edit.add_link'), class: 'btn btn-default xhr-feedback', 'data-disable-with' => t('common.saving')
 
 javascript:
   $.publish("collection:edit:loaded");

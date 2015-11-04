@@ -1,0 +1,3 @@
+<%- if @share.errors.empty? %>
+  $("table.shares-editor__existing tbody").append('<%= escape_javascript(render @share, page: @page) %>');
+<% end %>
