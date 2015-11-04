@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 describe Action do
-  let(:test_liquid_layout) { LiquidLayout.create! title: 'test', content: 'test'}
-  let(:page) { Page.create! title: 'test', liquid_layout_id: test_liquid_layout.id }
+  let(:page) { create :page }
 
   it 'increases the action_count after creation' do
-    Action.create! page_id: page.id
-    expect(Page.find(page.id).action_count).to eq(1)
+    create :action, page_id: page.id
+    expect(page.reload.action_count).to eq 1
+    create :action, page_id: page.id
+    expect(page.reload.action_count).to eq 2
   end
 end

@@ -27,6 +27,7 @@ describe Page do
   it { is_expected.to respond_to :primary_image }
   it { is_expected.to respond_to :plugins }
   it { is_expected.to respond_to :shares }
+  it { is_expected.to respond_to :action_count }
 
   describe 'tags' do
 
@@ -246,6 +247,13 @@ describe Page do
       e2 = create :share_email, page: simple_page
       expect(simple_page.shares).to match_array [t1, f1, f2, f3, e1, e2]
       expect(existing_page.shares).to match_array [f4, e3]
+    end
+  end
+
+  describe 'action_count' do
+
+    it 'defaults to 0' do
+      expect(Page.new.action_count).to eq 0
     end
   end
 end

@@ -9,7 +9,7 @@ class Plugins::Thermometer < ActiveRecord::Base
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
 
   def current_total
-    offset + (page.action_count || 0)
+    offset + page.action_count
   end
 
   def current_progress

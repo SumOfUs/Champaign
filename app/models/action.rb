@@ -4,7 +4,6 @@ class Action < ActiveRecord::Base
   after_create :update_page_action_count
 
   def update_page_action_count
-    self.page.action_count = self.page.actions.count
-    self.page.save
+    page.increment! :action_count
   end
 end
