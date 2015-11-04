@@ -26,6 +26,7 @@ describe Page do
   it { is_expected.to respond_to :secondary_liquid_layout }
   it { is_expected.to respond_to :primary_image }
   it { is_expected.to respond_to :plugins }
+  it { is_expected.to respond_to :shares }
 
   describe 'tags' do
 
@@ -210,5 +211,42 @@ describe Page do
     end
   end
 
+  describe 'shares' do
+
+    it 'can find a twitter variant' do
+      twitter_share = create :share_twitter, page: simple_page
+      expect(simple_page.shares).to eq [twitter_share]
+    end
+
+    it 'can find a facebook variant' do
+      facebook_share = create :share_facebook, page: simple_page
+      expect(simple_page.shares).to eq [facebook_share]
+    end
+
+    it 'can find a email variant' do
+      email_share = create :share_email, page: simple_page
+      expect(simple_page.shares).to eq [email_share]
+    end
+
+    it 'returns empty array if none exist' do
+      expect(simple_page.shares).to eq []
+    end
+
+    it 'can find multiple of each type' do
+      t1 = create :share_twitter, page: simple_page
+      t2 = create :share_twitter, page: nil
+      t3 = create :share_twitter, page: nil
+      f1 = facebook_share = create :share_facebook, page: simple_page
+      f2 = facebook_share = create :share_facebook, page: simple_page
+      f3 = facebook_share = create :share_facebook, page: simple_page
+      f4 = facebook_share = create :share_facebook, page: existing_page
+      e1 = create :share_email, page: simple_page
+      e4 = create :share_email, page: nil
+      e3 = create :share_email, page: existing_page
+      e2 = create :share_email, page: simple_page
+      expect(simple_page.shares).to match_array [t1, f1, f2, f3, e1, e2]
+      expect(existing_page.shares).to match_array [f4, e3]
+    end
+  end
 end
 

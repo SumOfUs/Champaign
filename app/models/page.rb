@@ -44,11 +44,9 @@ class Page < ActiveRecord::Base
   end
 
   def shares
-    variations = []
-    [Share::Facebook, Share::Twitter, Share::Email].each do |share_class|
+    [Share::Facebook, Share::Twitter, Share::Email].inject([]) do |variations, share_class|
       variations += share_class.where(page_id: id)
     end
-    variations
   end
 
   def image_to_display
