@@ -27,10 +27,10 @@ section.page-edit-step#sources data-icon='link'
 
 section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=page_url(@page)
   h1.page-edit-step__title
-    | View
+    = t('.view')
     = link_to @page, target: "_blank"  do
       button.btn-primary.btn.pull-right
-        | Show the page
+        = t('.show')
 
 javascript:
   $.publish("pages:edit", #{@page.id});

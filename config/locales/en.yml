@@ -71,7 +71,8 @@ en:
       settings: 'Settings'
       pictures: 'Pictures'
       shares: 'Shares'
-      show: "View the page"
+      show: "Show the page"
+      view: 'View'
       tags: "Tags"
       short_name: "Short Name (no spaces allowed)"
       action_kit_problem: "Whoops! We've had a problem creating your page on ActionKit. Here's what they're saying..."
@@ -86,6 +87,7 @@ en:
       add_link: 'Add source'
       language_label: "Language"
       primary_image: 'Which is the main image for the page?'
+      new_variant: 'Create new share variant'
 
 
   campaigns:
@@ -144,7 +146,7 @@ en:
 
     get_started: "Click 'new variation' below to get started"
     form:
-      new_variation: 'New Variation'
+      new_variation: 'Create new share variant'
 
     facebook:
       title: 'Facebook Share Headline'
@@ -175,6 +177,8 @@ en:
       apply_template: "Apply template"
       make_required: "Make this field required"
       form_template_explanation: Choose and apply a template to replace the fields in your existing form.
+    thermometer:
+      offset: "Offset (number of fake signatures to add to true count)"
 
   ak_logs:
     index:
