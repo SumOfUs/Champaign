@@ -28,11 +28,14 @@ $(function(){
   };
 
   var updatePreview = function(){
-    var plugin_id = $('.plugin.action').data('plugin-id'),
+    $('.plugin.action').each(function(ii, el){
+      var $el = $(el);
+        plugin_id = $el.data('plugin-id'),
         url = ["/plugins/actions/", plugin_id, "/preview"].join('');
 
-    $.get(url, function(resp) {
-      $('.plugin-action-preview .content').html(resp)
+      $.get(url, function(resp) {
+        $el.find('.plugin-action-preview .content').html(resp)
+      });
     });
   };
 
