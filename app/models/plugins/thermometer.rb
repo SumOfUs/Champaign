@@ -3,7 +3,7 @@ include ActionView::Helpers::NumberHelper
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page
 
-  DEFAULTS = { offset: 0, goal: 100 }
+  DEFAULTS = { offset: 0, goal: 1000 }
 
   validates :goal, :offset, presence: true
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
