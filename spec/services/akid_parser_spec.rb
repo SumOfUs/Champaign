@@ -5,8 +5,8 @@ describe AkidParser do
   let(:valid_mailing_id) {'14203'}
   let(:valid_akid) {'7145943'}
   let(:invalid_string) {'Not a valid akid'}
-  let(:valid_return) { {mailing_id: valid_mailing_id, akid: valid_akid}}
-  let(:invalid_return) { {mailing_id: nil, akid: nil} }
+  let(:valid_return) { {mailing_id: valid_mailing_id, actionkit_user_id: valid_akid}}
+  let(:invalid_return) { {mailing_id: nil, actionkit_user_id: nil} }
 
   it 'validates the provided akid before working on it' do
     expect(AkidParser.new(invalid_string).invalid?).to eq(true)

@@ -11,11 +11,11 @@ class AkidParser
 
   def parse
     if @akid.nil? or self.invalid?
-      return {akid: nil, mailing_id: nil}
+      return {actionkit_user_id: nil, mailing_id: nil}
     end
 
     split_akid = @akid.split('.')
-    {mailing_id: split_akid[0], akid: split_akid[1]}
+    {mailing_id: split_akid[0], actionkit_user_id: split_akid[1]}
   end
 
   def invalid?
