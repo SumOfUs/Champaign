@@ -31,6 +31,9 @@ module Champaign
     # to get browserify to turn everything into es6
     config.browserify_rails.commandline_options = "--transform babelify --extension=\".js\""
 
+    config.assets.enabled = true
+    config.assets.version = '1.0'
+
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.
