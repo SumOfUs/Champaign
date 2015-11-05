@@ -10,19 +10,18 @@ class AkidParser
   end
 
   def parse
-    if @akid.nil? or self.invalid?
-      return {actionkit_user_id: nil, mailing_id: nil}
-    end
-
+    return empty_response if @akid.blank? || invalid?
     split_akid = @akid.split('.')
     {mailing_id: split_akid[0], actionkit_user_id: split_akid[1]}
   end
 
   def invalid?
-    if @akid.count('.') == 2
-      false
-    else
-      true
-    end
+    @akid.count('.') != 2
+  end
+
+  private
+
+  def empty_response
+    {actionkit_user_id: nil, mailing_id: nil}
   end
 end

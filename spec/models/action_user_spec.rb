@@ -24,17 +24,17 @@ describe ActionUser do
 
   it 'finds users by akid' do
     user = user_with_akid
-    expect(ActionUser.find_action_user_from_request(akid, nil)).to eq(user)
+    expect(ActionUser.find_from_request(akid: akid)).to eq(user)
   end
 
   it 'finds users by id' do
     user = user_without_akid
-    expect(ActionUser.find_action_user_from_request(nil, user.id)).to eq(user)
+    expect(ActionUser.find_from_request(id: user.id)).to eq(user)
   end
 
   it 'returns nil when it cannot find any users' do
     _ = user_without_akid
-    expect(ActionUser.find_action_user_from_request(nil, nil)).to eq(nil)
+    expect(ActionUser.find_from_request).to eq(nil)
   end
 
 end
