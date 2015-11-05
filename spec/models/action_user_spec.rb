@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 describe ActionUser do
-  let(:user_with_akid) {ActionUser.create! actionkit_user_id: 'test' }
-  let(:user_without_akid) {ActionUser.create! actionkit_user_id: 'fake_id'}
+
+  let(:ak_user_id) { '7145943'}
+  let(:akid) { "14203.#{ak_user_id}.Si3iNOw"}
+  let(:user_with_akid) { create :action_user, actionkit_user_id: ak_user_id }
+  let(:user_without_akid) { create :action_user, actionkit_user_id: nil }
 
   let(:action_user) { create :action_user }
   subject { action_user }
@@ -21,7 +24,7 @@ describe ActionUser do
 
   it 'finds users by akid' do
     user = user_with_akid
-    expect(ActionUser.find_action_user_from_request('test', nil)).to eq(user)
+    expect(ActionUser.find_action_user_from_request(akid, nil)).to eq(user)
   end
 
   it 'finds users by id' do
