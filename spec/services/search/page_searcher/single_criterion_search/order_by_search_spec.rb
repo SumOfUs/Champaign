@@ -9,9 +9,9 @@ describe 'Search ::' do
         let(:page_searcher) {Search::PageSearcher}
 
         it 'orders searches based on creation date' do
-          expect(page_searcher.new(search: {order_by: [:created_at, :asc]}).search).to eq(Page.all)
+          expect(page_searcher.new(search: {order_by: [:created_at, :asc]}).search).to eq(Page.all.order(created_at: :asc))
           expect(page_searcher.new(search: {order_by: [:created_at, :desc]}).search).to eq(Page.all.order(created_at: :desc))
-          expect(page_searcher.new(search: {order_by: :created_at}).search).to eq(Page.all)
+          expect(page_searcher.new(search: {order_by: :created_at}).search).to eq(Page.all.order(created_at: :asc))
         end
         it 'orders searches based on update date' do
           expect(page_searcher.new(search: {order_by: [:updated_at, :asc]}).search).to eq(Page.all.order(updated_at: :asc))

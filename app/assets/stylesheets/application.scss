@@ -1,7 +1,10 @@
+@import "compass";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "selectize";
 @import "selectize.bootstrap2";
+@import "quill";
+@import "quill/quill.snow";
 @import "interactive";
 @import "widget";
 @import "common";
@@ -12,6 +15,12 @@
 @import "codemirror";
 @import "codemirror/themes/3024-night";
 @import "typeahead";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import "page-edit";
+
+
 /* Decide what's needed below, and organise with files */
 #petition_form {
     float: right;

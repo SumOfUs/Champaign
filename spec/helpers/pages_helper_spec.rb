@@ -12,15 +12,34 @@ describe PagesHelper do
     it "returns link when active" do
       actual = helper.toggle_switch(true, true, 'foo')
       expect(actual).to eq(
-        "<a class=\"btn-primary btn toggle-button btn-default\">foo</a>"
+        "<a class=\"btn-primary btn toggle-button btn-default\" data-state=\"true\">foo</a>"
       )
     end
 
     it "returns link when inactive" do
       actual = helper.toggle_switch(true, false, 'foo')
       expect(actual).to eq(
-        "<a class=\" btn toggle-button btn-default\">foo</a>"
+        "<a class=\" btn toggle-button btn-default\" data-state=\"true\">foo</a>"
       )
+    end
+  end
+
+  describe '#prefill_link' do
+    it 'prefills link for twitter' do
+      variant = Share::Twitter.new
+      expect(variant.description).to eq nil
+      expect(prefill_link(variant).description).to eq '{LINK}'
+    end
+
+    it 'prefills link for twitter' do
+      variant = Share::Email.new
+      expect(variant.body).to eq nil
+      expect(prefill_link(variant).body).to eq '{LINK}'
+    end
+
+    it 'prefills nothing for facebook' do
+      variant = Share::Facebook.new
+      expect(prefill_link(variant).attributes).to eq Share::Facebook.new.attributes
     end
   end
 end

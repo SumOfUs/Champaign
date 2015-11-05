@@ -1,0 +1,322 @@
+$page-edit-bar-color: #222;
+$page-edit-text-color: #ccc;
+$save-box-color: lighten($page-edit-bar-color, 10%);
+$bootstrap-bg-gray: #f5f5f5;
+$bootstrap-border-gray: #e3e3e3;
+
+body.page-edit-body {
+  position: relative;
+  background-color: $page-edit-bar-color;
+}
+
+.page-edit-bar {
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: $page-edit-bar-color;
+  z-index: 300;
+
+  &__logo {
+    height: 50px;
+    width: 100%;
+    background: url(asset-path('champaign/your-logo.png'));
+    background-size: 50%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-left: 15px;
+    opacity: 0.9;
+  }
+
+  &__step-list {
+    margin: 0;
+    padding: 0;
+
+    li {
+      a {
+        width: 100%;
+        display: block;
+        list-style: none;
+        padding: 15px 15px;
+        margin: 0;
+        @include box-sizing(border-box);
+        color: $page-edit-text-color;
+        @include transition(background-color 0.1s linear, color 0.1s linear);
+
+        &:hover {
+          background-color: $save-box-color;
+          text-decoration: none;
+          color: white;
+        }
+        &:focus {
+          background-color: $page-edit-bar-color;
+        }
+
+        .fa {
+          margin-right: 5px;
+        }
+      }
+      &.active a {
+        background-color: $save-box-color;
+        color: white;
+      }
+    }
+  }
+
+  &__save-box {
+    position: absolute;
+    bottom: 0;
+    @include box-sizing(border-box);
+    width: 100%;
+    padding: 5px 15px;
+    background: $save-box-color;
+    text-align: center;
+
+    &--has-error {
+      background: maroon;
+      .page-edit-bar__error-message {
+        cursor: pointer;
+      }
+      .page-edit-bar__btn-holder {
+        background: maroon;
+      }
+    }
+    &--success {
+      background: darkgreen;
+    }
+  }
+
+  &__btn-holder {
+    width: 100%;
+    position: absolute;
+    top: -45px;
+    left: 0;
+    @include transition(top 0.1s ease-in-out);
+    z-index: -1;
+    padding-top: 10px;
+    background-color: $save-box-color;
+    &--hidden {
+      top: 0;
+    }
+  }
+  &__save-button {
+    margin-bottom: 10px;
+  }
+
+  &__error-message {
+    color: white;
+    padding: 0 14px;
+  }
+  &__toggle-btns {
+    margin: 0 20px 6px;
+
+    .btn-default {
+      color: #666;
+      background-color: #ddd;
+    }
+    .btn-primary {
+      color: black;
+      background-color: white;
+      border-color: white;
+      &:active {
+        background-color: white;
+      }
+    }
+  }
+  &__toggle-title {
+    color: $page-edit-text-color;
+  }
+  &__last-saved {
+    color: $page-edit-text-color;
+    font-size: 12px;
+  }
+  @media(min-width: 950px) {
+    // put toggles and label inline
+
+    .page-edit-bar__toggle {
+      margin: 10px 0;
+      float: none;
+      overflow: hidden;
+    }
+    .page-edit-bar__toggle-title {
+      float: left;
+      padding: 6px 0;
+      width: 40%;
+      text-align: right;
+    }
+    .page-edit-bar__toggle-btns {
+      margin: 0 0 0 4%;
+      float: left;
+    }
+  }
+}
+
+.page-edit-step {
+  width: 80%;
+  float: right;
+  background: white;
+  padding: 100px 40px 40px;
+  box-sizing: border-box;
+  margin: 0 0 30px;
+  position: relative;
+
+  &__title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 0;
+
+    background-color: $bootstrap-bg-gray;
+    width: 100%;
+    padding: 20px 40px 15px;
+    border-bottom: 1px solid $bootstrap-border-gray;
+
+    text-align: left;
+    color: $page-edit-bar-color;
+    font-size: 30px;
+  }
+  &--just-title {
+    padding: 35px;
+  }
+
+  .two-ninths.form-group {
+    width: 21%;
+    margin-right: 1%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+  .one-ninth.form-group {
+    width: 12%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+}
+@media(max-width: 600px) {
+  .page-edit-bar {
+    width: 100%;
+    position: relative;
+    &__step-list {
+      padding: 0 0 200px 10px;
+    }
+  }
+  .page-edit-step {
+    width: 100%;
+    padding: 80px 20px 20px;
+    overflow: scroll;
+  }
+  .shares-editor {
+    overflow: scroll;
+  }
+}
+
+.shares-editor {
+  &__summary-row {
+    cursor: pointer;
+  }
+  &__edit-row {
+    background-color: $bootstrap-bg-gray;
+    form {
+      padding: 20px 20% 15px 10%;
+    }
+  }
+  &__toggle-edit {
+    width: 60px;
+  }
+  &__toggle-cell {
+    width: 64px;
+  }
+  &__preview-image {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.dropzone {
+  border-style: dashed;
+  background-color: $bootstrap-bg-gray;
+  border-color: $bootstrap-border-gray;
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  .dz-message {
+    font-size: 20px;
+    color: #999;
+    margin: 10px 0;
+  }
+
+  .dz-preview.dz-image-preview, .dz-preview.dz-file-preview, .dz-preview {
+    margin: 10px;
+    background-color: transparent;
+    max-width: 100px;
+    max-height: 100px;
+    &:hover {
+      .dz-delete {
+        display: block;
+      }
+    }
+    .dz-image {
+      height: 100px;
+      width: 100px;
+    }
+    .dz-delete {
+      display: none;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+
+      width: 25px;
+      height: 25px;
+      border-radius: 12px;
+
+      background-color: white;
+      z-index: 100;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background-color: maroon;
+        .fa {
+          color: white;
+        }
+      }
+      .fa {
+        line-height: 25px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+[data-toggle="collapse"] {
+  cursor: pointer;
+  .fa {
+    margin-right: 5px;
+    @include transition(transform 0.4s linear);
+  }
+  &.open .fa {
+    @include transform(rotate(90deg));
+  }
+}
+
+.navbar--dark {
+  background-color: $page-edit-bar-color;
+  color: $page-edit-text-color;
+  margin: 0;
+  padding: 0 40px 0 0;
+  height: 50px;
+  z-index: 200;
+  .nav > li > a {
+    color: $page-edit-text-color;
+    text-decoration: none;
+
+    &:hover, &:focus {
+      background-color: $save-box-color;
+      color: white;
+    }
+  }
+}

@@ -11,4 +11,9 @@ module Share::Variant
       errors.add(:base, error)
     end
   end
+
+  def name
+    self.class.name.demodulize.underscore
+  end
+
 end

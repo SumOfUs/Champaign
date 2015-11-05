@@ -1,0 +1,6 @@
+tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
+  td
+    span.fa.fa-envelope-o
+  td = share.subject
+  td colspan=2 = simple_format share.body
+  td.shares-editor__toggle-cell = render 'share/btn_edit_share'

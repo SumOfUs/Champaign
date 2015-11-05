@@ -1,32 +1,51 @@
 (function(){
-  var configureToggle = function() {
-    var $stateInput = $('.plugin-active-field');
 
-    var handleClick = function(e){
+  let ActivationToggle = Backbone.View.extend({
+
+    events: {
+      'ajax:before': 'updateState',
+      'ajax:success': 'handleSuccess',
+      'ajax:error': 'handleError',
+      'click .toggle-button': 'handleClick',
+    },
+
+    initialize: function(){
+      this.$stateInput = this.$('.activation-toggle-field');
+    },
+
+    handleClick: function(e){
       e.preventDefault();
-      $('form.plugin-toggle').submit();
-      $('.toggle-button').removeClass('btn-primary');
-      $(this).addClass('btn-primary');
-    };
+      this.$el.submit();
+      this.toggleButton();
+    },
 
-    var handleSuccess = function(e,data){};
+    toggleButton: function() {
+      this.$('.toggle-button').toggleClass('btn-primary');
+    },
 
-    var handleError = function(xhr, status, error){
-      console.log('error', status, error);
-    };
+    handleSuccess: function(e,data){},
 
-    var updateState = function(){
-      var state = !JSON.parse($stateInput.val());
-      $stateInput.val(state);
-    };
+    handleError: function(xhr, status, error){
+      console.error('error', status, error);
+      this.toggleButton();
+    },
 
-    $('.toggle-button').on('click', handleClick);
+    updateState: function(){
+      var state = !JSON.parse(this.$stateInput.val());
+      this.$stateInput.val(state);
+    },
+  });
 
-    $('form.plugin-toggle').on('ajax:before', updateState);
-    $('form.plugin-toggle').on('ajax:success', handleSuccess);
-    $('form.plugin-toggle').on('ajax:error', handleError);
-  };
+  const configureToggle = function() {
+    $('form.activation-toggle').each(function(ii, el){
+      let $el = $(el);
+      if( $el.data('js-inited') != true) {
+        let toggle = new ActivationToggle({ el: $el });
+        $el.data('js-inited', true)
+      }
+    });
+  }
 
-  $.subscribe("plugins:toggle", configureToggle);
+  $.subscribe("activation:toggle", configureToggle);
 }());
 

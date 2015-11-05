@@ -21,7 +21,7 @@ test:
 
 database:
   override:
-    - echo "look in circle/run-tests for database setup for testing environment"
+    - echo "look in circle/specs-and-rake-tasks for database setup for testing environment"
 
 deployment:
   production:
@@ -36,3 +36,9 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging'
+  testing:
+    branch: campaigner-ui
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push soutech/champaign_web
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-testing'

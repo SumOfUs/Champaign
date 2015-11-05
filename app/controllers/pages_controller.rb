@@ -13,6 +13,11 @@ class PagesController < ApplicationController
     @page = Page.new
   end
 
+  def edit
+    @variations = @page.shares
+    render :edit, layout: 'page_edit'
+  end
+
   def create
     @page = PageBuilder.create( page_params )
 
@@ -24,9 +29,9 @@ class PagesController < ApplicationController
   end
 
   def show
+    raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     recognized_member = ActionUser.find_action_user_from_request(params[:akid], cookies.signed[:action_user_id])
-    country = request.location.country_code
-    renderer = LiquidRenderer.new(@page, country: country, member: recognized_member)
+    renderer = LiquidRenderer.new(@page, country: request_country, member: recognized_member)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
@@ -56,7 +61,7 @@ class PagesController < ApplicationController
   end
 
   def request_country
-    # when location API times out, window.location is blank
+    # when geocoder location API times out, request.location is blank
     request.location.blank? ? nil : request.location.country_code
   end
 

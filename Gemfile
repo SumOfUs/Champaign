@@ -21,8 +21,8 @@ gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
 
-# they still haven't merged the PR to support sprockets 3, but will in the next few weeks
-gem "compass-rails", git: 'https://github.com/robkilby/compass-rails', branch: 'sprockets-3'
+# they still haven't released sprockets 3 support, but it's merged on master
+gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -107,5 +107,8 @@ source 'https://rails-assets.org' do
 
   # Generate a slug – transliteration with a lot of options
   gem 'rails-assets-speakingurl'
+
+  # Cross browser rich text editor
+  gem 'rails-assets-quill'
 end
 
