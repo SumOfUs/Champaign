@@ -24,8 +24,11 @@ describe ManageAction do
         with({
         type: "action", params: {
           slug: page.slug,
-          email: "bob@example.com",
-          page_id: page.id }
+          body: {
+            email: "bob@example.com",
+            page_id: page.id
+          }
+        }
       })
 
       subject

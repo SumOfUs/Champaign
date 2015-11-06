@@ -27,8 +27,8 @@ class ManageAction
       type: 'action',
       params: {
         slug: page.slug,
-        email: action_user.email
-      }.merge(@params)
+        body: @params
+      }
     }
   end
 
