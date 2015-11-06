@@ -4,10 +4,12 @@ describe Api::ActionsController do
 
   describe "POST create" do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')] ) }
+    let(:action_user) { instance_double('ActionUser', id: 12) }
+    let(:action) { instance_double('Action', action_user: action_user)}
 
     before :each do
       allow(Form).to receive(:find){ form }
-      allow(ManageAction).to receive(:create)
+      allow(ManageAction).to receive(:create){ action }
     end
 
     describe "successful" do
@@ -42,6 +44,10 @@ describe Api::ActionsController do
       it "responds with the follow-up url" do
         expect(response.body).to eq({ follow_up_url: follow_up_page_path(2) }.to_json)
       end
+
+      it 'sets the cookie' do
+        expect(cookies.signed['action_user_id']).to eq action_user.id
+      end
     end
 
     describe "unsuccessful" do
@@ -59,6 +65,10 @@ describe Api::ActionsController do
 
       it "displays the errors" do
         expect(validator).to have_received(:errors)
+      end
+
+      it 'does not set the cookie' do
+        expect(response.cookies[:action_user_id]).to eq nil
       end
     end
   end
