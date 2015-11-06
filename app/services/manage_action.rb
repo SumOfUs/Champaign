@@ -33,7 +33,14 @@ class ManageAction
   end
 
   def action_user
-    @user ||= ActionUser.find_or_create_by(email: @params[:email])
+    return @user if @user.present?
+    @user = ActionUser.find_or_create_by(email: @params[:email])
+    @params.each_pair do |key, value|
+      # here we choose not to overwrite newly blank values.
+      @user[key] = value if @user.respond_to?("#{key}=".to_sym) && value.present?
+    end
+    @user.save if @user.changed
+    @user
   end
 
   def page
