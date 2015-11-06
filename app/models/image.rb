@@ -11,7 +11,12 @@ class Image < ActiveRecord::Base
     convert_options: {
       all: '-strip -interlace Plane'
     },
-    default_url: "/images/:style/missing.png"
+    default_url: "/images/:style/missing.png",
+    storage: :s3,
+    url: ':s3_alias_url',
+    s3_host_alias: ENV['CLOUDFRONT_URL'],
+    bucket: ENV['FOG_DIRECTORY'],
+    path: "images/:class/:id.:style.:extension"
 
   validates_attachment_presence :content
   validates_attachment_size :content, less_than: 20.megabytes
