@@ -48,5 +48,6 @@ Rails.application.configure do
 
   # sets location of ImageMagick for Paperclip. Get it by the terminal command 'which convert'.
   Paperclip.options[:command_path] = '/usr/bin/'
+  PAPERCLIP_S3_CONFIG = {}
 end
 
