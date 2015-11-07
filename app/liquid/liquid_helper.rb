@@ -7,7 +7,7 @@ class LiquidHelper
     def globals(country: nil, member: nil)
       {
         country_option_tags: country_option_tags(country),
-        member: member
+        member: member_hash(member)
       }
     end
 
@@ -28,6 +28,15 @@ class LiquidHelper
       codes = ['US', 'GB', 'CA', 'FR', 'DE']
       preferred = names_with_codes.select{|name, code| codes.include? code }
       preferred + names_with_codes # better ux to have it twice than hard to find
+    end
+
+    def member_hash(member)
+      return nil if member.blank?
+      values = member.attributes.symbolize_keys
+      values[:name] = [values[:first_name], values[:last_name]].join(' ')
+      values[:name] = values[:email] if values[:name].blank?
+      values[:postal] = values[:postal_code]
+      values
     end
   end
 end

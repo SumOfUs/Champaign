@@ -28,25 +28,13 @@ class LiquidRenderer
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
-                merge( LiquidHelper.globals(country: @country) ).
-                merge( LiquidHelper.globals(member: member_hash) ).
+                merge( LiquidHelper.globals(country: @country, member: @member) ).
                 merge( shares: Shares.get_all(@page) ).
                 deep_stringify_keys
   end
 
   def images
     @page.images.map{ |img| image_urls(img) }
-  end
-
-  def member_hash
-    if @member
-      values = @member.attributes.symbolize_keys
-      values[:name] = [values[:first_name], values[:last_name]].join(' ')
-      values[:postal] = values[:postal_code]
-      values
-    else
-      nil
-    end
   end
 
   private

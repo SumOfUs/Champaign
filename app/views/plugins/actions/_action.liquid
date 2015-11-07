@@ -25,9 +25,8 @@
       <form action='/api/pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
         {% if member %}
             <span class="welcome-text">
-              Welcome back {{member.first_name}} {{member.last_name}}!
-              <br />
-              <a href="javascript:;" id="form-action-clear">Not you?</a>
+              Welcome back {{member.name}}!
+              (<a href="javascript:;" id="form-action-clear">Not you?</a>)
             </span>
         {% endif %}
         <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
