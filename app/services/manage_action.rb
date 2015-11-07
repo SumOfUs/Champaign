@@ -8,7 +8,8 @@ class ManageAction
   end
 
   def create
-    return false if Action.exists?( action_user: action_user, page: page )
+    action = Action.where( action_user: action_user, page: page ).first
+    return action if action.present?
 
     action = Action.create( action_user: action_user, page: page, form_data: @params )
     ChampaignQueue.push(queue_message)

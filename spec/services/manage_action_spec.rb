@@ -96,15 +96,15 @@ describe ManageAction do
         expect(action.action_user.first_name).to eq 'Bupkis'
         expect(action.action_user.reload.first_name).to eq 'Bupkis'
       end
-
     end
+
     context "action already exists" do
       before do
         @action = ManageAction.create(data)
       end
 
-      it 'returns false' do
-        expect(subject).to be false
+      it 'returns existing action' do
+        expect(subject).to eq @action
       end
 
       it 'does not post to queue' do
