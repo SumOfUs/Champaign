@@ -35,7 +35,6 @@ class LiquidHelper
       values = member.attributes.symbolize_keys
       values[:welcome_name] = [values[:first_name], values[:last_name]].join(' ')
       values[:welcome_name] = values[:email] if values[:welcome_name].blank?
-      values[:postal] = values[:postal_code]
       values
     end
 
