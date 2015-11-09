@@ -7,8 +7,8 @@ const ActionBar = Backbone.View.extend({
     'click .action-bar__close-button': 'hide',
     'click .action-bar__expand-arrow': 'toggleBlurb',
     'click .action-bar__top': 'toggleBlurb',
+    'click .action-bar__clear-form': 'clearForm'
   },
-
   initialize: function() {
     this.isSticky = false;
     this.petitionTextMinHeight = 120; // pixels
@@ -88,6 +88,13 @@ const ActionBar = Backbone.View.extend({
 
   selectizeCountry: function() {
     $('.action-bar__country-selector').selectize();
+  },
+
+  clearForm: function(){
+    let $fields_holder = this.$('.form__group--prefilled');
+    $fields_holder.removeClass('form__group--prefilled');
+    $fields_holder.find('input').removeAttr('value');
+    $('.action-bar__welcome-text').addClass('hidden-irrelevant');
   }
 
 });
