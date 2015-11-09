@@ -13,13 +13,6 @@ class Image < ActiveRecord::Base
     },
     :default_url=> "/images/:style/missing.png",
     :path=> ":attachment/:id/:style.:extension"
-    :url=> ":s3_alias_url",
-        :s3_host_alias=> ENV["CLOUDFRONT_URL"],
-    :s3_credentials=> {
-        :bucket=> ENV["FOG_DIRECTORY"],
-        :access_key_id=> ENV["AWS_ACCESS_KEY_ID"],
-        :secret_access_key=> ENV["AWS_SECRET_ACCESS_KEY"]
-    }
 
   validates_attachment_presence :content
   validates_attachment_size :content, less_than: 20.megabytes
