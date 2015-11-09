@@ -82,14 +82,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  PAPERCLIP_S3_CONFIG = {
-    :url=> ":s3_alias_url",
-    :s3_host_alias=> ENV["CLOUDFRONT_URL"],
-    :s3_credentials=> {
-        :bucket=> ENV["FOG_DIRECTORY"],
-        :access_key_id=> ENV["AWS_ACCESS_KEY_ID"],
-        :secret_access_key=> ENV["AWS_SECRET_ACCESS_KEY"]
-    }
-  }
 end
 
