@@ -4,9 +4,9 @@ class LiquidHelper
     # when possible, I think we should try to make this match with
     # helpers in liquid docs to be more intuitive for people familiar with liquid
     # https://docs.shopify.com/themes/liquid-documentation/objects
-    def globals(country: nil, member: nil)
+    def globals(request_country: nil, member: nil)
       {
-        country_option_tags: country_option_tags(country),
+        country_option_tags: country_option_tags(selected_country(request_country, member)),
         member: member_hash(member)
       }
     end
@@ -38,5 +38,10 @@ class LiquidHelper
       values[:postal] = values[:postal_code]
       values
     end
+
+    def selected_country(request_country, member)
+      member.present? && member.country.present? ? member.country : request_country
+    end
+
   end
 end

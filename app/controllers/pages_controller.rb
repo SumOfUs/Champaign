@@ -31,7 +31,7 @@ class PagesController < ApplicationController
   def show
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     recognized_member = ActionUser.find_from_request(akid: params[:akid], id: cookies.signed[:action_user_id])
-    renderer = LiquidRenderer.new(@page, country: request_country, member: recognized_member)
+    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
