@@ -33,8 +33,8 @@ class LiquidHelper
     def member_hash(member)
       return nil if member.blank?
       values = member.attributes.symbolize_keys
-      values[:name] = [values[:first_name], values[:last_name]].join(' ')
-      values[:name] = values[:email] if values[:name].blank?
+      values[:welcome_name] = [values[:first_name], values[:last_name]].join(' ')
+      values[:welcome_name] = values[:email] if values[:welcome_name].blank?
       values[:postal] = values[:postal_code]
       values
     end
