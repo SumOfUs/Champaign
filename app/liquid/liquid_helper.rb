@@ -4,9 +4,10 @@ class LiquidHelper
     # when possible, I think we should try to make this match with
     # helpers in liquid docs to be more intuitive for people familiar with liquid
     # https://docs.shopify.com/themes/liquid-documentation/objects
-    def globals(country: nil)
+    def globals(request_country: nil, member: nil)
       {
-        country_option_tags: country_option_tags(country)
+        country_option_tags: country_option_tags(selected_country(request_country, member)),
+        member: member_hash(member)
       }
     end
 
@@ -28,5 +29,18 @@ class LiquidHelper
       preferred = names_with_codes.select{|name, code| codes.include? code }
       preferred + names_with_codes # better ux to have it twice than hard to find
     end
+
+    def member_hash(member)
+      return nil if member.blank?
+      values = member.attributes.symbolize_keys
+      values[:welcome_name] = [values[:first_name], values[:last_name]].join(' ')
+      values[:welcome_name] = values[:email] if values[:welcome_name].blank?
+      values
+    end
+
+    def selected_country(request_country, member)
+      member.present? && member.country.present? ? member.country : request_country
+    end
+
   end
 end
