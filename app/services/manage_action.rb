@@ -33,7 +33,7 @@ class ManageAction
   def action_user
     return @user if @user.present?
     @user = ActionUser.find_or_create_by(email: @params[:email])
-    permitted = @user.attributes.keys.map(&:to_sym)
+    permitted = @user.attributes.keys.map(&:to_sym).reject!{|k| k == :id}
     @user.assign_attributes(@params.compact.keep_if{ |k| permitted.include? k })
     @user.save if @user.changed
     @user
