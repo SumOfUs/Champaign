@@ -14,6 +14,9 @@
       font-size: 14px;
       float: right;
     }
+    &--prefilled {
+      display: none;
+    }
   }
   &--big {
     input, select, .selectize-control.single .selectize-input {

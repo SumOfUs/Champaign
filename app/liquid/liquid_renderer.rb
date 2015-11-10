@@ -1,9 +1,10 @@
 class LiquidRenderer
 
-  def initialize(page, layout: nil, country: nil)
+  def initialize(page, layout: nil, request_country: nil, member: nil)
     @page = page
     @markup = layout.content unless layout.blank?
-    @country = country
+    @request_country = request_country
+    @member = member
   end
 
   def render
@@ -27,7 +28,7 @@ class LiquidRenderer
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
-                merge( LiquidHelper.globals(country: @country) ).
+                merge( LiquidHelper.globals(request_country: @request_country, member: @member) ).
                 merge( shares: Shares.get_all(@page) ).
                 deep_stringify_keys
   end
