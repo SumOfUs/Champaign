@@ -1,0 +1,11 @@
+.col-md-7
+  - path = '/' # plugins_fundraiser_path(plugin)
+  = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: path }
+
+  - name = "plugins_fundraiser_#{plugin.id}"
+  = form_for plugin, url: path, remote: true, as: name, html: {class: 'plugin-settings one-form', data: {type: name }} do |f|
+    = render 'plugins/shared/plugin_metadata', f: f
+
+    .form-group
+      = f.label :title, t('plugins.fundraiser.title')
+      = f.text_field :title, class: 'form-control'
