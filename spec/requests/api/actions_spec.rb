@@ -31,6 +31,7 @@ describe "Api Actions" do
         }.to_json
       }
 
+
       expect(sqs_client).to have_received(:send_message).with(expected_params)
       expect(Action.count).to eq(1)
     end
