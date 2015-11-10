@@ -11,8 +11,7 @@ class Image < ActiveRecord::Base
     :convert_options=> {
         :all=> '-strip -interlace Plane'
     },
-    :default_url=> "/images/:style/missing.png",
-    :path=> ":attachment/:id/:style.:extension"
+    :default_url=> "/images/:style/missing.png"
 
   validates_attachment_presence :content
   validates_attachment_size :content, less_than: 20.megabytes
@@ -22,4 +21,3 @@ class Image < ActiveRecord::Base
   has_one :page_using_as_primary, class_name: 'Page', dependent: :nullify, foreign_key: :primary_image_id
   has_many :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
 end
-
