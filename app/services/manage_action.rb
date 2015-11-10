@@ -8,7 +8,7 @@ class ManageAction
   end
 
   def create
-    return false if Action.exists?( action_user: action_user, page: page )
+    return false if action_already_exists
 
     action = Action.create( action_user: action_user, page: page, form_data: @params )
     ChampaignQueue.push(queue_message)
@@ -18,13 +18,17 @@ class ManageAction
 
   private
 
+  def action_already_exists
+    Action.exists?( action_user: action_user, page: page )
+  end
+
   def queue_message
     {
       type: 'action',
       params: {
         slug: page.slug,
-        email: action_user.email
-      }.merge(@params)
+        body: @params
+      }
     }
   end
 
