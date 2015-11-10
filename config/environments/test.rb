@@ -51,4 +51,5 @@ Rails.application.configure do
 
   # Required for testing strong parameters for action_parameter gem
   config.action_controller.action_on_unpermitted_parameters = :raise
+
 end
