@@ -16,10 +16,6 @@ class ManageAction
 
   private
 
-  def action_already_exists
-    Action.exists?( action_user: action_user, page: page )
-  end
-
   def queue_message
     {
       type: 'action',
@@ -37,10 +33,8 @@ class ManageAction
   def action_user
     return @user if @user.present?
     @user = ActionUser.find_or_create_by(email: @params[:email])
-    @params.each_pair do |key, value|
-      # here we choose not to overwrite newly blank values.
-      @user[key] = value if @user.respond_to?("#{key}=".to_sym) && value.present?
-    end
+    permitted = @user.attributes.keys.map(&:to_sym)
+    @user.assign_attributes(@params.compact.keep_if{ |k| permitted.include? k })
     @user.save if @user.changed
     @user
   end

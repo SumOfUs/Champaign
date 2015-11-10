@@ -11,8 +11,8 @@ class AkidParser
 
   def parse
     return empty_response if @akid.blank? || invalid?
-    split_akid = @akid.split('.')
-    {mailing_id: split_akid[0], actionkit_user_id: split_akid[1]}
+    mailing_id, actionkit_user_id = @akid.split('.')
+    {mailing_id: mailing_id, actionkit_user_id: actionkit_user_id}
   end
 
   def invalid?

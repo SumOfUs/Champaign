@@ -45,8 +45,9 @@ describe ManageAction do
         action = ManageAction.create(data.merge(first_name))
         expect(action.action_user.first_name).to eq first_name[:first_name]
         expect(action.action_user.email).to eq data[:email]
-        expect(action.action_user.reload.first_name).to eq first_name[:first_name]
-        expect(action.action_user.reload.email).to eq data[:email]
+        persisted = action.action_user.reload
+        expect(persisted.first_name).to eq first_name[:first_name]
+        expect(persisted.email).to eq data[:email]
       end
 
       it 'creates an action user even with extraneous fields' do
@@ -76,8 +77,9 @@ describe ManageAction do
         action = ManageAction.create(data.merge(first_name).merge(email: 'new@email.com'))
         expect(action.action_user.first_name).to eq first_name[:first_name]
         expect(action.action_user.email).to eq 'new@email.com'
-        expect(action.action_user.reload.first_name).to eq first_name[:first_name]
-        expect(action.action_user.reload.email).to eq 'new@email.com'
+        persisted = action.action_user.reload
+        expect(persisted.first_name).to eq first_name[:first_name]
+        expect(persisted.email).to eq 'new@email.com'
       end
 
       it 'is not bothered by fields not saveable to action_user' do
