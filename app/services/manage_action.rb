@@ -8,29 +8,30 @@ class ManageAction
   end
 
   def create
-    action = Action.where( action_user: action_user, page: page ).first
-    return action if action.present?
+    return previous_action if previous_action.present?
 
-    action = Action.create( action_user: action_user, page: page, form_data: @params )
     ChampaignQueue.push(queue_message)
-
-    action
+    Action.create( action_user: action_user, page: page, form_data: @params )
   end
 
   private
+
+  def action_already_exists
+    Action.exists?( action_user: action_user, page: page )
+  end
 
   def queue_message
     {
       type: 'action',
       params: {
         slug: page.slug,
-        email: action_user.email
-      }.merge(@params)
+        body: @params
+      }
     }
   end
 
   def previous_action
-    Action.where(action_user: action_user, page_id: page).first
+    @previous_action ||= Action.where(action_user: action_user, page_id: page).first
   end
 
   def action_user

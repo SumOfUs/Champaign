@@ -41,6 +41,7 @@ gem 'rails_admin'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
+gem 'sentry-raven'
 
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
