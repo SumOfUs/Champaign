@@ -4,7 +4,7 @@ ruby '2.2.2'
 # Synchronises Assets between Rails and S3.
 gem 'fog-aws'
 gem 'asset_sync'
-
+gem 'braintree'
 gem 'rails', '4.2.3'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
