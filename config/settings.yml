@@ -1,32 +1,54 @@
 # This is the central repository for settings in Champaign. Settings are defined in the following files:
 #
-#   config/settings.yml
-#   config/settings/#{environment}.yml
-#   config/environments/#{environment}.yml
+#    config/settings.yml
+#    config/settings/#{environment}.yml
+#    config/environments/#{environment}.yml
 #
-#   config/settings.local.yml
-#   config/settings/#{environment}.local.yml
-#   config/environments/#{environment}.local.yml
+#    config/settings.local.yml
+#    config/settings/#{environment}.local.yml
+#    config/environments/#{environment}.local.yml
 #
 # Settings defined in files lower on the list override settings higher on the list. So, settings in
 # config/settings/#{environment}.yml will override the settings in this file, and settings in
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
-secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
-omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
-omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
+# General Champaign settings.
+     secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
+     omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
+     omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
+     liquid_templating_source: 'file'
+
 
 # AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
 # page creation/update information or page signature events to a background processor listening on the specified
 # queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
 # in production situations.
+#    aws_access_key_id: ‘get from https://console.aws.amazon.com/iam/home#users’
+#    aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
+#    aws_region: 'get this from your AWS SQS dashboard.'
+#    sqs_queue_url: 'Set this based on your AWS SQS queue information.'
 
-# aws_access_key_id: ‘get from https://console.aws.amazon.com/iam/home#users’
-# aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
-# aws_region: 'get this from your AWS SQS dashboard.'
+
+# Direct ActionKit Connection variables.
+#    ak_processor_url: 'set this based on your ActionKit API URL.'
+#    ak_username: 'Set this based on an account which has API access to your ActionKit instance for direct data pushing to AK, in a .local file.'
+#    ak_password: 'Just like ak_username.'
+
+
+# CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
+# by default in development, they should be overridden in production settings to speed up Champaign's page performance.
+#    cloudfront_url: 'get this from cloudfront configuration'
+#    fog_directory: 'get this from cloudfront configuration'
+#    rails_serve_static_files: 'Set to nil in development, override for production server based on needs.'
+#    compile_static: 'Set to nil in development, override for production server based on needs.'
 
 
 # NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
 # performance and error information to the NewRelic Dashboard. Disabled by default, except in production.
+#    newrelick_license_key: 'Get this from your NewRelic Dashboard'
 
-# newrelick_license_key: 'Get this from your NewRelic Dashboard'
+
+# Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
+     facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
+     share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+
