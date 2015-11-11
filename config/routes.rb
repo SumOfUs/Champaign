@@ -105,6 +105,11 @@ Rails.application.routes.draw do
   #   resources :photos, concerns: :toggleable
 
   namespace :api do
+    namespace :braintree do
+      get 'token'
+      post 'transaction'
+    end
+
     resources :pages do
       resources :actions
       get 'share-rows', on: :member, action: 'share_rows'
