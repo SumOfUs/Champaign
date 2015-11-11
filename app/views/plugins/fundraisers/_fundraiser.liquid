@@ -1,5 +1,28 @@
 {% if plugins.fundraiser[ref].active %}
-  <div class='fundraiser'>
-    {{ plugins.fundraiser[ref].title }}
+  <div class="fundraiser-bar fundraiser-bar--elevated fundraiser-bar--mobile-view--closed">
+    <div class="fundraiser-bar__content">
+      <div class="fundraiser-bar__top">
+        <div class="fundraiser-bar__mobile-ui">
+          <a class="fundraiser-bar__close-button">&#x2715;</a>
+        </div>
+        <h2>{{ plugins.fundraiser[ref].title }}</h2>
+      </div>
+      <div class="fundraiser-bar__main">
+        this is the main content. we're gonna have people donating hella $$ here!
+      </div>
+    </div>
   </div>
+
+  <div class="fundraiser-bar__mobile-ui">
+    <div class="fundraiser-bar__mobile-ui__bottom-bar">
+      <button class="button fundraiser-bar__open-button">{{ plugins.fundraiser[ref].cta }}</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var myFundraiserBar = new window.FundraiserBar();
+    });
+  </script>
+
 {% endif %}
