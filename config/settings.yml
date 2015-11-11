@@ -11,3 +11,22 @@
 # Settings defined in files lower on the list override settings higher on the list. So, settings in
 # config/settings/#{environment}.yml will override the settings in this file, and settings in
 # config/settings/#{environment}.local.yml will override the settings in that file.
+
+secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
+omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
+omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
+
+# AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
+# page creation/update information or page signature events to a background processor listening on the specified
+# queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
+# in production situations.
+
+# aws_access_key_id: ‘get from https://console.aws.amazon.com/iam/home#users’
+# aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
+# aws_region: 'get this from your AWS SQS dashboard.'
+
+
+# NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
+# performance and error information to the NewRelic Dashboard. Disabled by default, except in production.
+
+# newrelick_license_key: 'Get this from your NewRelic Dashboard'
