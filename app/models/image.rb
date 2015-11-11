@@ -19,7 +19,7 @@ class Image < ActiveRecord::Base
         :bucket => ENV["FOG_DIRECTORY"],
         :access_key_id=> ENV["AWS_ACCESS_KEY_ID"],
         :secret_access_key=> ENV["AWS_SECRET_ACCESS_KEY"]
-    }
+    },
     :default_url=> "/images/:style/missing.png"
 
   validates_attachment_presence :content
