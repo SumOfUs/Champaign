@@ -1,6 +1,6 @@
 $action-top-height: 120px;
 
-.action-bar {
+.action-bar, .fundraiser-bar {
 
   color: $navy;
 
@@ -110,7 +110,7 @@ $action-top-height: 120px;
       }
     }
 
-    .action-bar__content {
+    .action-bar__content, .fundraiser-bar__content {
       height: 100%;
       width: 100%;
       overflow-y: scroll;
@@ -152,7 +152,7 @@ $action-top-height: 120px;
   position: relative;
   top: $action-top-height * -1;
   @include transition(top 0.4s ease-in-out);
-  .action-bar--elevated {
+  .action-bar--elevated, .fundraiser-bar--elevated {
     @media(min-width: $mobile-width) {
       top: 0;
     }
