@@ -55,7 +55,8 @@ Rails.application.routes.draw do
       resources :forms, module: :actions
       resource :preview, module: :actions
     end
-    resources :thermometers
+    resources :thermometers, only: :update
+    resources :fundraisers, only: :update
   end
 
 

@@ -1,9 +1,8 @@
 .col-md-7
-  - path = '/' # plugins_fundraiser_path(plugin)
-  = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: path }
+  = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_fundraiser_path(plugin) }
 
   - name = "plugins_fundraiser_#{plugin.id}"
-  = form_for plugin, url: path, remote: true, as: name, html: {class: 'plugin-settings one-form', data: {type: name }} do |f|
+  = form_for plugin, url: plugins_fundraiser_path(plugin), remote: true, as: name, html: {class: 'plugin-settings one-form', data: {type: name }} do |f|
     = render 'plugins/shared/plugin_metadata', f: f
 
     .form-group
