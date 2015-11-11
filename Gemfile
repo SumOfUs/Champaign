@@ -71,6 +71,9 @@ gem 'newrelic_rpm'
 gem 'puma'
 gem 'typhoeus'
 
+# Braintree as a payment processor
+gem 'braintree'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
