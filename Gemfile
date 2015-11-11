@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 ruby '2.2.2'
 
 # Synchronises Assets between Rails and S3.
@@ -41,6 +41,7 @@ gem 'rails_admin'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
+gem 'sentry-raven'
 
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'

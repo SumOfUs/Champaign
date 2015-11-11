@@ -8,12 +8,10 @@ class ManageAction
   end
 
   def create
-    return false if Action.exists?( action_user: action_user, page: page )
+    return previous_action if previous_action.present?
 
-    action = Action.create( action_user: action_user, page: page, form_data: @params )
     ChampaignQueue.push(queue_message)
-
-    action
+    Action.create( action_user: action_user, page: page, form_data: @params )
   end
 
   private
@@ -23,17 +21,22 @@ class ManageAction
       type: 'action',
       params: {
         slug: page.slug,
-        email: action_user.email
-      }.merge(@params)
+        body: @params
+      }
     }
   end
 
   def previous_action
-    Action.where(action_user: action_user, page_id: page).first
+    @previous_action ||= Action.where(action_user: action_user, page_id: page).first
   end
 
   def action_user
-    @user ||= ActionUser.find_or_create_by(email: @params[:email])
+    return @user if @user.present?
+    @user = ActionUser.find_or_create_by(email: @params[:email])
+    permitted = @user.attributes.keys.map(&:to_sym)
+    @user.assign_attributes(@params.compact.keep_if{ |k| permitted.include? k })
+    @user.save if @user.changed
+    @user
   end
 
   def page

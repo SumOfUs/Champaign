@@ -4,7 +4,11 @@ class Api::ActionsController < ApplicationController
     validator = FormValidator.new(@action_params)
 
     if validator.valid?
-      ManageAction.create(@action_params)
+      action = ManageAction.create(@action_params)
+      cookies.signed[:action_user_id] = {
+        value: action.action_user.id,
+        expires: 1.hour.from_now
+      }
       render json: { follow_up_url: follow_up_page_path(@action_params[:page_id]) }
     else
       render json: {errors: validator.errors}, status: 422

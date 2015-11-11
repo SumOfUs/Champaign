@@ -45,6 +45,19 @@ $action-top-height: 120px;
     @include rem(font-size, 0.8rem, true);
   }
 
+  &__welcome-text {
+    float: left;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  &__clear-form {
+    margin-top: 6px;
+    display: block;
+  }
+
   &__shading {
     @include background-image(linear-gradient(rgba($overcast-gray, 0), $overcast-gray));
     position: absolute;
