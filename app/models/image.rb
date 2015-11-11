@@ -12,11 +12,11 @@ class Image < ActiveRecord::Base
         :all=> '-strip -interlace Plane'
     },
     :default_url=> "/images/:style/missing.png",
-    :path=> ":attachment/:id/:style.:extension"
-    :url=> ":s3_alias_url",
-        :s3_host_alias=> ENV["CLOUDFRONT_URL"],
-    :s3_credentials=> {
-        :bucket=> ENV["FOG_DIRECTORY"],
+    :path=> ":attachment/:id/:style.:extension",
+    :url => ":s3_alias_url",
+        :s3_host_alias => ENV["CLOUDFRONT_URL"],
+    :s3_credentials => {
+        :bucket => ENV["FOG_DIRECTORY"],
         :access_key_id=> ENV["AWS_ACCESS_KEY_ID"],
         :secret_access_key=> ENV["AWS_SECRET_ACCESS_KEY"]
     }

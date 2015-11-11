@@ -70,6 +70,10 @@ gem 'newrelic_rpm'
 gem 'puma'
 gem 'typhoeus'
 
+# The Config gem is used as a way to easily access configuration variables without calling directly
+# to the ENV.
+gem 'config'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'

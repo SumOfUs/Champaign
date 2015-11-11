@@ -1,0 +1,13 @@
+# This is the central repository for settings in Champaign. Settings are defined in the following files:
+#
+#   config/settings.yml
+#   config/settings/#{environment}.yml
+#   config/environments/#{environment}.yml
+#
+#   config/settings.local.yml
+#   config/settings/#{environment}.local.yml
+#   config/environments/#{environment}.local.yml
+#
+# Settings defined in files lower on the list override settings higher on the list. So, settings in
+# config/settings/#{environment}.yml will override the settings in this file, and settings in
+# config/settings/#{environment}.local.yml will override the settings in that file.

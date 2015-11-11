@@ -5,7 +5,7 @@
 #
 #   {% include 'post' %}
 #
-# The above tag is equivialnt to calling:
+# The above tag is equivalent to calling:
 #
 #   LiquidFileSystem.read_template_file('post')
 #
