@@ -2,12 +2,7 @@ require 'rails_helper'
 
 describe ChampaignQueue::Clients::Direct do
   before do
-    ENV['AK_PROCESSOR_URL'] = "http://example.com/message"
-  end
-
-  after do
-    # If this sticks around, it breaks some other tests in other files.
-    ENV['AK_PROCESSOR_URL'] = nil
+    Settings.ak_processor_url = "http://example.com/message"
   end
 
   before do
