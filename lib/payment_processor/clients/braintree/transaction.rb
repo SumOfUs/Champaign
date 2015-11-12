@@ -2,7 +2,7 @@ module PaymentProcessor
   module Clients
     module Braintree
       class Transaction
-        def self.make_transaction(params)
+        def self.make_transaction(payment_method_nonce:, amount:, user:)
           @amount = params[:amount]
           @user_data = params[:user]
           @nonce = params[:payment_method_nonce]
