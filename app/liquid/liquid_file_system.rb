@@ -17,7 +17,7 @@
 #
 #   _post.liquid
 #
-# When developing a new partial, you can set <tt>ENV['LIQUID_TEMPLATING_SOURCE']</tt>
+# When developing a new partial, you can set <tt>Settings.liquid_templating_source</tt>
 # to 'file'. This will force the class to always read content from file.
 class LiquidFileSystem
   class << self

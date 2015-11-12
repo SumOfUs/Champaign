@@ -16,8 +16,6 @@
      secret_key_base: 'a fake secret key'
      omniauth_client_secret: 'a fake client secret'
      omniauth_client_id: 'a fake client_id'
-     liquid_templating_source: 'file'
-
 
 # AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
 # page creation/update information or page signature events to a background processor listening on the specified
