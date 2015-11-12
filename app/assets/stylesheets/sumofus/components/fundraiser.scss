@@ -24,6 +24,25 @@
       color: $slate-gray;
     }
   }
+  &__amount-button {
+    @include button($orange);
+    width: 47%;
+    margin: 3px 1.5%;
+    float: left;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 18px;
+  }
+  input.fundraiser-bar__custom-field {
+    width: 47%;
+    margin: 4px 1.5%;
+    text-align: center;
+  }
+  &__average-clarification {
+    margin: 20px 0;
+    font-size: 14px;
+    float: left;
+  }
   &__step-number {
     height: 45px;
     width: 45px;

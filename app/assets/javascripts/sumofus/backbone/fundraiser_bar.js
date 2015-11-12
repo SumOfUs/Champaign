@@ -5,7 +5,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
   el: '.fundraiser-bar',
 
   events: {
-    'click .fundraiser-bar__step-number': 'triggerStepChange'
+    'click .fundraiser-bar__step-number': 'triggerStepChange',
+    'focus .fundraiser-bar__custom-field': 'primeCustom',
+    'blur .fundraiser-bar__custom-field': 'resetCustom',
   },
 
   initialize: function() {
@@ -15,6 +17,22 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
 
   isMobile: function() {
     return $('.mobile-indicator').is(':visible');
+  },
+
+  primeCustom: function(e) {
+    let $field = this.$(e.target);
+    if ($field.val() == '') {
+      $field[0].value = '$';
+    }
+    this.$('.fundraiser-bar__first-continue').slideDown(200);
+  },
+
+  resetCustom: function(e) {
+    let $field = this.$(e.target);
+    if ($field.val() == '$' || $field.val() == '') {
+      $field[0].value = '';
+      this.$('.fundraiser-bar__first-continue').slideUp(200);
+    }
   },
 
   triggerStepChange: function(e) {
