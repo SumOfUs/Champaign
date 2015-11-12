@@ -15,7 +15,7 @@
      aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
      aws_region: <%= ENV['AWS_REGION'] %>
      sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
-     s3_host_name: <%= EMV['S3_HOST_NAME'] %>
+     s3_host_name: <%= ENV['S3_HOST_NAME'] %>
 
 
 # Direct ActionKit Connection variables.
