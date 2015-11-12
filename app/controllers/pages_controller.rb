@@ -39,6 +39,7 @@ class PagesController < ApplicationController
   def update
     respond_to do |format|
       if @page.update(page_params)
+        QueueManager.push(@page, job_type: :update)
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.js   { render json: {}, status: :ok }
       else

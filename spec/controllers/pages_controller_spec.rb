@@ -54,16 +54,39 @@ describe PagesController do
       allow(Page).to receive(:find){ page }
       allow(page).to receive(:update)
       allow(LiquidRenderer).to receive(:new) { }
-      put :update, id: '1', page: { title: 'bar' }
+      allow(QueueManager).to receive(:push)
     end
 
-    it 'finds the campaign page' do
-      expect(Page).to have_received(:find).with('1')
+    subject { put :update, id: '1', page: { title: 'bar' } }
+
+    it 'finds page' do
+      expect(Page).to receive(:find).with('1')
+      subject
     end
 
-    it 'udpates the campaign page' do
-      expect(page).to have_received(:update).with(title: 'bar')
+    it 'updates page' do
+      expect(page).to receive(:update).with(title: 'bar')
+      subject
     end
+
+    context "successfully updates" do
+      before do
+        allow(page).to receive(:update){ true }
+      end
+
+      it 'posts to queue' do
+        expect(QueueManager).to receive(:push)
+        subject
+      end
+    end
+
+    context "unsuccessfully updates" do
+      it 'posts to queue' do
+        expect(QueueManager).to_not receive(:push)
+        subject
+      end
+    end
+
   end
 
   describe 'GET #show' do
