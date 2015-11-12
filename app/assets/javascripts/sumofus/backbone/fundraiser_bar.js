@@ -25,12 +25,21 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
     // if (targetStep - this.currentStep > 1) {
     //   targetStep = this.currentStep + 1; // max advance of 1
     // }
+    this.changeStepPanel(targetStep);
+    this.changeStepNumber(targetStep);
+    this.currentStep = targetStep;
+  },
+
+  changeStepPanel: function(targetStep) {
+    this.$('.fundraiser-bar__step-panel').addClass('hidden-closed');
+    this.$(`.fundraiser-bar__step-panel[data-step="${targetStep}"]`).removeClass('hidden-closed');
+  },
+
+  changeStepNumber: function(targetStep) {
     this.$('.fundraiser-bar__step-number').
       removeClass('fundraiser-bar__step-number--past').
       removeClass('fundraiser-bar__step-number--current').
       removeClass('fundraiser-bar__step-number--upcoming')
-
-    this.currentStep = targetStep;
     this.$('.fundraiser-bar__step-number').each((ii, el) => {
       const step = this.$(el).data('step');
       if ( step < targetStep ) {
@@ -41,7 +50,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
         $(el).addClass('fundraiser-bar__step-number--upcoming');
       }
     });
-  }
+  },
 
 }));
 
