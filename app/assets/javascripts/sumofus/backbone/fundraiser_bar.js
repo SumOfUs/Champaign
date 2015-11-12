@@ -5,7 +5,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
   el: '.fundraiser-bar',
 
   events: {
-    'click .fundraiser-bar__step-number': 'triggerStepChange',
+    'click .fundraiser-bar__step-number--past': 'triggerStepChange',
     'focus .fundraiser-bar__custom-field': 'primeCustom',
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
@@ -50,13 +50,13 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
   },
 
   triggerStepChange: function(e) {
-    this.changeStep(this.$(e.target).data('step'));
+    const targetStep = this.$(e.target).data('step');
+    if (targetStep < this.currentStep) {
+      this.changeStep(targetStep);
+    }
   },
 
   changeStep: function(targetStep) {
-    // if (targetStep - this.currentStep > 1) {
-    //   targetStep = this.currentStep + 1; // max advance of 1
-    // }
     this.changeStepPanel(targetStep);
     this.changeStepNumber(targetStep);
     this.currentStep = targetStep;

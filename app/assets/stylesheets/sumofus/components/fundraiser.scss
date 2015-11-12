@@ -56,7 +56,6 @@
     position: relative;
 
     font-size: 20px;
-    cursor: pointer;
 
     &:first-of-type {
       position: absolute;
@@ -73,6 +72,7 @@
       color: white;
       background: $slate-gray;
       border-color: $slate-gray;
+      cursor: pointer;
       &:hover {
         border-color: $navy;
         background-color: $navy;
@@ -82,17 +82,11 @@
       color: white;
       background: $navy;
       border-color: $navy;
-      cursor: auto;
     }
     &--upcoming {
       color: $slate-gray;
       background: $overcast-gray;
       border-color: $slate-gray;
-      &:hover {
-        border-color: $navy;
-        background-color: $navy;
-        color: white;
-      }
     }
   }
 }
