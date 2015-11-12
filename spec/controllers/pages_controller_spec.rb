@@ -75,7 +75,7 @@ describe PagesController do
       end
 
       it 'posts to queue' do
-        expect(QueueManager).to receive(:push)
+        expect(QueueManager).to receive(:push).with(page, job_type: :update)
         subject
       end
     end
