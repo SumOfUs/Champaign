@@ -2,12 +2,23 @@ module PaymentProcessor
   module Clients
     module Braintree
       class Transaction
-        def self.make_transaction(params)
-          @amount = params[:amount]
-          @user_data = params[:user]
-          @nonce = params[:payment_method_nonce]
 
-          result = ::Braintree::Transaction.sale(
+        # By setting expected arguments we provide some implicit documentation
+        # and it'll raise if anyone doesn't give it what it needs.
+        def self.make_transaction(payment_method_nonce:, amount:, user:)
+          new(payment_method_nonce, amount, user).sale
+        end
+
+        def initialize(nonce, amount, user)
+          @amount = amount
+          @user_data = user
+          @nonce = nonce
+        end
+
+        private
+
+        def sale
+          ::Braintree::Transaction.sale(
               amount: @amount.to_i,
               payment_method_nonce: @nonce,
               options: {
@@ -21,10 +32,6 @@ module PaymentProcessor
                   email: @user_data[:email]
               }
           )
-
-          # Do stuff with result
-          result
-
         end
       end
     end
