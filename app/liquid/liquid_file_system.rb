@@ -30,7 +30,7 @@ class LiquidFileSystem
     def partials(title)
       Dir.glob([
         "#{Rails.root}/app/views/plugins/**/_#{title}.liquid",
-        "#{Rails.root}/app/views_liquid/**/_#{title}.liquid"
+        "#{Rails.root}/app/liquid/views/partials/_#{title.parameterize.underscore}.liquid"
       ])
     end
 
