@@ -34,7 +34,7 @@
 
 
 # NewRelic Connection information.
-     newrelick_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
+     newrelic_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
 
 
 # Social media connection information.
