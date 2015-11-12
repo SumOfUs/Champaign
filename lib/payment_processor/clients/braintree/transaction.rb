@@ -14,17 +14,16 @@ module PaymentProcessor
                   submit_for_settlement: true,
                   store_in_vault_on_success: true
               },
-              customer: @user_data
+              customer: {
+                  id: @user_data[:id],
+                  first_name: @user_data[:first_name],
+                  last_name: @user_data[:last_name],
+                  email: @user_data[:email]
+              }
           )
 
-          pp 'result', result
+          # Do stuff with result
           result
-
-          # Failure/Error: expect(response.body).to eq( { success: true, transaction_id: '1234' }.to_json )
-          #
-          # expected: "{\"success\":true,\"transaction_id\":\"1234\"}"
-          # got: "{\"__expired\":false,\"name\":\"sale\"}"
-
 
         end
       end

@@ -21,8 +21,15 @@ describe Api::BraintreeController do
   end
 
   describe "POST transaction" do
-    let(:user_params) do
-      {first_name: "George", last_name: "Orwell", email: "big@brother.com", id: '123' }
+
+    let(:params) do ActionController::Parameters.new({
+      payment_method_nonce: 'fake-valid-nonce',
+      amount: '100',
+      user: {
+        first_name: 'George',
+        last_name: 'Orwell',
+        email:'big@brother.com',
+        id: '123'}})
     end
 
     context "valid transaction" do
@@ -30,20 +37,19 @@ describe Api::BraintreeController do
       let(:sale_object){ double(:sale, valid?: true, transaction_id: '1234') }
 
       before do
-        # Sketching out the API, so don't care what SOU::Braintree::Transactio#sale does at the moment.
+        # Sketching out the API, so don't care what PaymentProcessor::Clients::Braintree::Transaction#make_transaction does at the moment.
         # Just want to make sure it's being called.
         #
-        allow(SOU::Braintree::Transaction).to receive(:sale){ sale_object }
+        allow(PaymentProcessor::Clients::Braintree::Transaction).to receive(:make_transaction){ sale_object }
 
         # Client will post an amount, braintree's nonce (stupid word), and any user
         # fields wrapped as `user`
         #
-        post :transaction, payment_method_nonce: 'nonce_xyz', amount: 100.00, user: user_params
+        post :transaction, params
       end
 
       it 'processes transaction' do
-        expect(SOU::Braintree::Transaction).to have_received(:sale).
-          with(100.00, user_params, 'nonce_xyz')
+        expect(PaymentProcessor::Clients::Braintree::Transaction).to have_received(:make_transaction).with(params)
       end
 
       it 'responds with JSON' do
