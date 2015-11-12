@@ -35,7 +35,7 @@ class LiquidFileSystem
     end
 
     def read_template_file(title)
-      if ENV['LIQUID_TEMPLATING_SOURCE'] == 'file'
+      if Settings.liquid_templating_source == 'file'
         return read_from_file(title)
       else
         return read(title)

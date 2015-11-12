@@ -5,6 +5,9 @@
      omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
      omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
      liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'file' %>
+     raven_dsn: <%= ENV['RAVEN_DSN'] %>
+     asset_sync: <%= ENV['ASSET_SYNC'] %>
+     asset_sync_gzip_compression: <%= ENV['ASSET_SYNC_GZIP_COMPRESSION'] %>
 
 
 # AWS Config Variables.
@@ -12,6 +15,7 @@
      aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
      aws_region: <%= ENV['AWS_REGION'] %>
      sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
+     s3_host_name: <%= EMV['S3_HOST_NAME'] %>
 
 
 # Direct ActionKit Connection variables.
@@ -23,6 +27,8 @@
 # CloudFront config Variables.
      cloudfront_url: <%= ENV['CLOUDFRONT_URL'] %>
      fog_directory: <%= ENV['FOG_DIRECTORY'] %>
+     fog_provider: <%= ENV['FOG_PROVIDER'] %>
+     fog_region: <%= ENV['FOG_REGION'] %>
      rails_serve_static_files: <%= ENV['RAILS_SERVE_STATIC_FILES'] %>
      compile_static: <%= ENV['COMPILE_STATIC'] %>
 

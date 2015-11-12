@@ -1,10 +1,10 @@
 AssetSync.configure do |config|
-  config.fog_provider = ENV['FOG_PROVIDER']
-  config.aws_access_key_id = ENV['AWS_ACCESS_KEY_ID']
-  config.aws_secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
-  config.fog_directory = ENV['FOG_DIRECTORY']
-  config.fog_region = ENV['FOG_REGION']
-  config.run_on_precompile = ENV['ASSET_SYNC'] || false
+  config.fog_provider = Settings.fog_provider
+  config.aws_access_key_id = Settings.aws_access_key_id
+  config.aws_secret_access_key = Settings.aws_secret_access_key
+  config.fog_directory = Settings.fog_directory
+  config.fog_region = Settings.fog_region
+  config.run_on_precompile = Settings.asset_sync || false
   config.log_silently = false
-  config.gzip_compression = ENV['ASSET_SYNC_GZIP_COMPRESSION'] || false
+  config.gzip_compression = Settings.asset_sync_gzip_compression || false
 end

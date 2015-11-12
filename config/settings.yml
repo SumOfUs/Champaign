@@ -17,6 +17,9 @@
      omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
      omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
      liquid_templating_source: 'file'
+#    raven_dsn: 'Data Source name for Raven Sentry client. See https://github.com/getsentry/raven-ruby for details.'
+#    asset_sync: 'Whether or not assets are synced to using asset_sync gem. Defaults to false except in production.'
+#    asset_sync_gzip_compression: 'Whether or not asset sync should use GZIP compression. Defaults to false except in production.'
 
 
 # AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
@@ -27,6 +30,7 @@
 #    aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
 #    aws_region: 'get this from your AWS SQS dashboard.'
 #    sqs_queue_url: 'Set this based on your AWS SQS queue information.'
+#    s3_host_name: 'S3 host name for storing static assets.'
 
 
 # Direct ActionKit Connection variables.
@@ -39,6 +43,8 @@
 # by default in development, they should be overridden in production settings to speed up Champaign's page performance.
 #    cloudfront_url: 'get this from cloudfront configuration'
 #    fog_directory: 'get this from cloudfront configuration'
+#    fog_provder: 'get this from cloudfront configuration'
+#    fog_region: 'Get this from cloudfront configuration'
 #    rails_serve_static_files: 'Set to nil in development, override for production server based on needs.'
 #    compile_static: 'Set to nil in development, override for production server based on needs.'
 

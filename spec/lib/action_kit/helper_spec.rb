@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 describe ActionKit::Helper do
-  before do
-    allow(ENV).to receive(:[]).with("AK_PASSWORD"){ "ak_password" }
-    allow(ENV).to receive(:[]).with("AK_USERNAME"){ "ak_username" }
-  end
 
   describe "#check_petition_name_is_available" do
     before do
