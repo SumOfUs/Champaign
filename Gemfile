@@ -4,7 +4,7 @@ ruby '2.2.2'
 # Synchronises Assets between Rails and S3.
 gem 'fog-aws'
 gem 'asset_sync'
-gem 'braintree'
+
 gem 'rails', '4.2.3'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
@@ -20,6 +20,9 @@ gem 'countries'
 gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
+
+# Braintree as a payment processor
+gem 'braintree', '~> 2.54.0'
 
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
@@ -70,9 +73,6 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 gem 'newrelic_rpm'
 gem 'puma'
 gem 'typhoeus'
-
-# Braintree as a payment processor
-gem 'braintree'
 
 group :development, :test do
   gem 'byebug'
