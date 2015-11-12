@@ -20,7 +20,7 @@ describe ChampaignQueue::Clients::Sqs do
     let(:request_uri)  { "https://sqs.us-east-1.amazonaws.com/679051310897/demo" }
 
     before do
-      Settings.sqs_queue_url = 'https://sqs.us-east-1.amazonaws.com/679051310897/demo'
+      Settings.sqs_queue_url = request_uri
 
       stub_request(:post, request_uri).
         with(body: request_body).
