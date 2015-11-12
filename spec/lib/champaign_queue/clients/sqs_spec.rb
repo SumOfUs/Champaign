@@ -22,6 +22,9 @@ describe ChampaignQueue::Clients::Sqs do
     before do
       Settings.sqs_queue_url = request_uri
 
+      # Set some fake credentials for AWS.
+      Aws.config.update({region: 'us-west-2', credentials: Aws::Credentials.new('fake', 'password')})
+
       stub_request(:post, request_uri).
         with(body: request_body).
         to_return(status: 200, body: resp_body)

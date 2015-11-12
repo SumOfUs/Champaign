@@ -12,13 +12,6 @@ class Image < ActiveRecord::Base
         all: '-strip -interlace Plane'
     },
     path: ':attachment/:id/:style.:extension',
-    url: ':s3_alias_url',
-    s3_host_alias: Settings.cloudfront_url,
-    s3_credentials: {
-        bucket: Settings.fog_directory,
-        access_key_id: Settings.aws_access_key_id,
-        secret_access_key: Settings.aws_secret_access_key
-    },
     default_url: '/images/:style/missing.png'
 
   validates_attachment_presence :content

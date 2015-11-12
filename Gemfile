@@ -2,8 +2,10 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 # Synchronises Assets between Rails and S3.
-gem 'fog-aws'
-gem 'asset_sync'
+group :production do
+  gem 'fog-aws'
+  gem 'asset_sync'
+end
 
 gem 'rails', '4.2.3'
 gem 'pg'
