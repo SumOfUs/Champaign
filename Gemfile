@@ -111,5 +111,8 @@ source 'https://rails-assets.org' do
 
   # Cross browser rich text editor
   gem 'rails-assets-quill'
+
+  # braintree js
+  gem 'rails-assets-braintree-web'
 end
 

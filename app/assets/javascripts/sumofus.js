@@ -3,6 +3,7 @@
 //= require pub_sub
 //= require sticky
 //= require underscore
+//= require braintree-web
 //= require backbone
 
 //= require show_errors

@@ -351,6 +351,7 @@ GEM
       sprockets-rails
     rails-assets-backbone (1.1.2)
       rails-assets-underscore (>= 1.5.0)
+    rails-assets-braintree-web (2.15.4)
     rails-assets-dropzone (4.0.1)
     rails-assets-mailcheck (1.1.1)
     rails-assets-quill (0.20.0)
@@ -508,6 +509,7 @@ DEPENDENCIES
   puma
   rails (= 4.2.3)
   rails-assets-backbone!
+  rails-assets-braintree-web!
   rails-assets-dropzone!
   rails-assets-mailcheck!
   rails-assets-quill!
