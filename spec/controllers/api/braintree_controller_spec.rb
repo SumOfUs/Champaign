@@ -22,31 +22,23 @@ describe Api::BraintreeController do
 
   describe "POST transaction" do
 
-    let(:params) do {
-      payment_method_nonce: 'fake-valid-nonce',
-      amount: '100',
-      user: {
-        first_name: 'George',
-        last_name: 'Orwell',
-        email:'big@brother.com',
-        }
-    }
-    end
-
     context "valid transaction" do
+
+      let(:params) do {
+          payment_method_nonce: 'fake-valid-nonce',
+          amount: '100',
+          user: {
+              first_name: 'George',
+              last_name: 'Orwell',
+              email:'big@brother.com',
+          }
+      }
+      end
 
       let(:sale_object){ double(:sale, success?: true, transaction: double(id: '1234')) }
 
       before do
-        # Sketching out the API, so don't care what PaymentProcessor::Clients::Braintree::Transaction#make_transaction
-        # does at the moment.
-        # Just want to make sure it's being called.
-        #
         allow(PaymentProcessor::Clients::Braintree::Transaction).to receive(:make_transaction){ sale_object }
-
-        # Client will post an amount, braintree's nonce (stupid word), and any user
-        # fields wrapped as `user`
-        #
         post :transaction, params
       end
 
@@ -64,6 +56,23 @@ describe Api::BraintreeController do
       it 'responds with JSON' do
         expect(response.body).to eq( { success: true, transaction_id: '1234' }.to_json )
       end
+    end
+
+    context "invalid transaction" do
+
+      # These involve the Braintree API and so should probably be made into VCR specs instead.
+      describe "errors in customer parameters" do
+      end
+
+      describe "errors in payment method" do
+      end
+
+      describe "errors in recurring billing" do
+      end
+
+      describe "errors in transaction" do
+      end
+
     end
   end
 end
