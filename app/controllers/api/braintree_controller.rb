@@ -7,8 +7,6 @@ class Api::BraintreeController < ApplicationController
   end
 
   def transaction
-    # we could use permitted params instead of params.except(:action, :controller)
-    # render json: PaymentProcessor::Clients::Braintree::Transaction.make_transaction(params.except(:action, :controller))
     sale = braintree.make_transaction(options)
 
     if sale.success?

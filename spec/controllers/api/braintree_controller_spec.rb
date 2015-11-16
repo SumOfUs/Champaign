@@ -62,32 +62,6 @@ describe Api::BraintreeController do
       end
 
       it 'responds with JSON' do
-
-        # Testing on the command line, the transaction_id is random, so as far as I know, expecting it to be '1234'
-        # won't work.
-
-        # I've ran a bunch of tests on the CLI with:
-        # params = {
-          # :payment_method_nonce=>"fake-valid-nonce",
-          # :amount=>"100",
-          # :user=>{
-          #   :first_name=>"George",
-          #   :last_name=>"Orwell",
-          #   :email=>"big@brother.com",
-          #   :id=>"123"}
-        # }
-        # app.post '/api/braintree/transaction'
-        # response = app.response
-        # response.body
-        #
-        # "{\"success\":true,\"transaction_id\":\"jpvhjt\"}"
-
-
-        # The response body looks like so if the user id has already been used:
-        # => "{\"success\":false,\"errors\":[]}"
-
-        # So really, it works as expected - I just don't know how to make sense out of this spec,
-        # where the parsed body is {"__expired"=>false, "name"=>"sale"} instead.
         expect(response.body).to eq( { success: true, transaction_id: '1234' }.to_json )
       end
     end

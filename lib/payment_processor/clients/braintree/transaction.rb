@@ -4,7 +4,6 @@ module PaymentProcessor
       class Transaction
 
         def self.make_transaction(nonce:, amount:, user:)
-          puts "making a transaction"
           new(nonce, amount, user).sale
         end
 
@@ -15,7 +14,6 @@ module PaymentProcessor
         end
 
         def sale
-          puts "in sale"
           ::Braintree::Transaction.sale(
             amount: @amount,
             payment_method_nonce: @nonce,
