@@ -28,7 +28,7 @@ class LiquidRenderer
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
-                merge( LiquidHelper.globals(request_country: @request_country, member: @member) ).
+                merge( LiquidHelper.globals(request_country: @request_country, member: @member, page: @page) ).
                 merge( shares: Shares.get_all(@page) ).
                 deep_stringify_keys
   end

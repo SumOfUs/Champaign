@@ -4,10 +4,11 @@ class LiquidHelper
     # when possible, I think we should try to make this match with
     # helpers in liquid docs to be more intuitive for people familiar with liquid
     # https://docs.shopify.com/themes/liquid-documentation/objects
-    def globals(request_country: nil, member: nil)
+    def globals(request_country: nil, member: nil, page: nil)
       {
         country_option_tags: country_option_tags(selected_country(request_country, member)),
-        member: member_hash(member)
+        member: member_hash(member),
+        petition_target: petition_target(page)
       }
     end
 
@@ -19,6 +20,12 @@ class LiquidHelper
         options << "<option value='#{code}' #{selected}>#{name}</option>"
       end
       options.join("\n")
+    end
+
+    def petition_target(page)
+      return nil unless page.present?
+      actions = page.plugins.select{ |p| p.name == "Action" && p.active? }
+      actions.map(&:target).reject(&:blank?).first
     end
 
     private

@@ -54,4 +54,39 @@ describe LiquidHelper do
     end
   end
 
+  describe 'petition_target' do
+    it 'returns nil if no page given' do
+      expect(LiquidHelper.globals[:petition_target]).to eq nil
+    end
+
+    it 'returns nil if page has no action plugin' do
+      page = create :page
+      plugin = create :plugins_thermometer, page: page, active: true
+      expect(LiquidHelper.globals(page: page)[:petition_target]).to eq nil
+    end
+
+    it 'returns nil if action plugin is inactive' do
+      page = create :page
+      plugin = create :plugins_action, page: page, target: 'koch brothers', active: false
+      expect(LiquidHelper.globals(page: page)[:petition_target]).to eq nil
+    end
+
+    it 'returns the target value of an action plugin' do
+      page = create :page
+      plugin = create :plugins_action, page: page, target: 'koch brothers', active: true
+      expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
+    end
+
+    it 'returns the target value of the first non-blank action plugin' do
+      page = create :page
+      create :plugins_action, page: page, target: '', active: true
+      create :plugins_action, page: page, target: ' ', active: true
+      create :plugins_action, page: page, target: 'koch brothers', active: true
+      create :plugins_action, page: page, target: '', active: true
+      create :plugins_action, page: page, target: 'mf doom', active: true
+      create :plugins_action, page: page, target: '', active: true
+      expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
+    end
+  end
+
 end
