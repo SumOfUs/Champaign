@@ -16,7 +16,7 @@ module PaymentProcessor
 
         def sale
           puts "in sale"
-          transaction = ::Braintree::Transaction.sale(
+          ::Braintree::Transaction.sale(
             amount: @amount,
             payment_method_nonce: @nonce,
             options: {
@@ -30,18 +30,7 @@ module PaymentProcessor
               email: @user[:email]
             }
           )
-          process_response(transaction)
         end
-
-        def process_response(braintree_response)
-          puts "processing response"
-          if braintree_response.success?
-            { success: true, transaction_id: braintree_response.transaction.id }.to_json
-          else
-            { success: false, errors: [] }.to_json
-          end
-        end
-
       end
     end
   end
