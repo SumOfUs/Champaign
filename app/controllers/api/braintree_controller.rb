@@ -12,7 +12,7 @@ class Api::BraintreeController < ApplicationController
     if sale.success?
       render json: { success: true, transaction_id: sale.transaction.id }
     else
-      render json: { success: false, errors: [] }
+      render json: { success: false, errors: sale.errors }
     end
   end
 
