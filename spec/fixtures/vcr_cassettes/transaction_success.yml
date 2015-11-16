@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://rc6z35cn8kkdj524:a32a1844d6c72a95225532a73c4c3b42@api.sandbox.braintreegateway.com/merchants/48cb639qvrmyfzgm/transactions
+    uri: https://<BRAINTREE_PUBLIC_KEY>:<BRAINTREE_PRIVATE_KEY>@api.sandbox.braintreegateway.com/merchants/<BRAINTREE_MERCHANT_ID>/transactions
     body:
       encoding: UTF-8
       string: |
@@ -15,10 +15,10 @@ http_interactions:
             <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
           </options>
           <customer>
-            <id>123</id>
+            <id>567</id>
             <first-name nil="true"/>
             <last-name nil="true"/>
-            <email>bob@example.com</email>
+            <email>foo@example.com</email>
           </customer>
           <type>sale</type>
         </transaction>
@@ -39,7 +39,7 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Thu, 12 Nov 2015 19:37:16 GMT
+      - Mon, 16 Nov 2015 12:53:36 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
@@ -57,13 +57,13 @@ http_interactions:
       X-Ua-Compatible:
       - IE=Edge,chrome=1
       Etag:
-      - '"7aefaea9b34af78849758abfe33bb373"'
+      - '"659ae4cfc8f63d5d45fd841be8e6e16f"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 9acb40ea3d3a0170c94657282b5c17c0
+      - 9d67519312b5197ff7518f57996a53c5
       X-Runtime:
-      - '0.506281'
+      - '0.495069'
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -71,37 +71,37 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     http_version: 
-  recorded_at: Thu, 12 Nov 2015 19:39:22 GMT
+  recorded_at: Mon, 16 Nov 2015 12:56:00 GMT
 recorded_with: VCR 3.0.0

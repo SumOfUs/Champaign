@@ -35,7 +35,7 @@ describe Api::BraintreeController do
 
     context "valid transaction" do
 
-      let(:sale_object){ double(:sale, success?: true, transaction_id: '1234') }
+      let(:sale_object){ double(:sale, success?: true, transaction: double(id: '1234')) }
 
       before do
         # Sketching out the API, so don't care what PaymentProcessor::Clients::Braintree::Transaction#make_transaction
