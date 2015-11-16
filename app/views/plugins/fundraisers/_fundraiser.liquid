@@ -27,10 +27,14 @@
           </button>
         </div>
         <div class="fundraiser-bar__step-panel" data-step="2">
-          this is the info panel. it'll be sweet!
+          This here is the info panel and it sure is gonna collect lots of info.
         </div>
         <div class="fundraiser-bar__step-panel" data-step="3">
-          and now we're finishing up. right on!
+          <div id="hosted-fields">
+            <div class="hosted-fields__number"></div>
+            <div class="hosted-fields__cvv"></div>
+            <div class="hosted-fields__expiration"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -45,6 +49,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
       var myFundraiserBar = new window.FundraiserBar();
+      // var myHostedFields = new window.HostedFields();
     });
   </script>
 

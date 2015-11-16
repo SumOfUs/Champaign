@@ -7,7 +7,11 @@ const HostedFields = Backbone.View.extend({
   },
 
   initialize: function() {
-    braintree.setup(this.getClientToken, "custom", {
+    this.setupBraintree();
+  },
+
+  setupBraintree: function() {
+    braintree.setup(this.getClientToken(), "custom", {
       id: "hosted-fields",
       hostedFields: {
         number: {
@@ -20,10 +24,13 @@ const HostedFields = Backbone.View.extend({
           selector: ".hosted-fields__expiration"
         }
       }
-    });  
-
+    });
   },
 
-}));
+  getClientToken: function() {
+    return '{}';
+  },
+
+});
 
 module.exports = HostedFields;
