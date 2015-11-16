@@ -10,7 +10,7 @@ $(function(){
      *
      */
 
-    var $preview =  $('.plugin-action-preview');
+    var $preview =  $('.plugin-form-preview');
 
     var originalPosition = $preview.offset(),
         originalTop = originalPosition.top;
@@ -28,27 +28,31 @@ $(function(){
   };
 
   var updatePreview = function(){
-    $('.plugin.action').each(function(ii, el){
-      var $el = $(el);
-        plugin_id = $el.data('plugin-id'),
-        url = ["/plugins/actions/", plugin_id, "/preview"].join('');
+    var updater = function(plugin_type) {
+      return function(ii, el){
+        var $el = $(el);
+          plugin_id = $el.data('plugin-id'),
+          url = ["/plugins/forms/", plugin_type, "/", plugin_id].join('');
 
-      $.get(url, function(resp) {
-        $el.find('.plugin-action-preview .content').html(resp)
-      });
-    });
+        $.get(url, function(resp) {
+          $el.find('.plugin-form-preview .content').html(resp);
+        });
+      }
+    };
+    $('.plugin.action').each(updater('action'));
+    $('.plugin.fundraiser').each(updater('fundraiser'));
   };
 
-  if ($('.plugin-action-preview .content').length > 0) {
-    $.subscribe('plugin:action:preview:update', updatePreview);
+  if ($('.plugin-form-preview .content').length > 0) {
+    $.subscribe('plugin:form:preview:update', updatePreview);
     $.subscribe('page:saved', updatePreview);
   }
 
-  $('.plugin.action').on('ajax:success', function(){
-    $.publish('plugin:action:preview:update');
+  $('.plugin.action, .plugin.fundraiser').on( 'ajax:success', function(){
+    $.publish('plugin:form:preview:update');
   });
 
-  $('.plugin.action').on('ajax:error', function(e, xhr,resp){
+  $('.plugin.action, .plugin.fundraiser').on('ajax:error', function(e, xhr,resp){
     //for debugging
     console.log(xhr, resp);
   });
@@ -61,6 +65,6 @@ $(function(){
     })
   };
 
-  $.subscribe('plugin:action:loaded', bindCaretToggle);
+  $.subscribe('plugin:form:loaded', bindCaretToggle);
 }());
 
