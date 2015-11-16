@@ -51,12 +51,11 @@ Rails.application.routes.draw do
   end
 
   namespace :plugins do
-    resources :actions do
-      resources :forms, module: :actions
-      resource :preview, module: :actions
-    end
+    resources :actions
     resources :thermometers, only: :update
     resources :fundraisers, only: :update
+    get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
+    post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
 
 
