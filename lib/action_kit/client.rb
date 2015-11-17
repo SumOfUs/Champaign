@@ -4,7 +4,7 @@ module ActionKit
     def client(verb, path, params)
       Typhoeus::Request.send(
         verb,
-        "#{Settings.ak_processor_url}/#{path}/",
+        "#{Settings.ak_api_url}/#{path}/",
         { userpwd: "#{Settings.ak_username}:#{Settings.ak_password}" }.merge(params)
       )
     end

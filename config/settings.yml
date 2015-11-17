@@ -30,10 +30,11 @@
 #    aws_region: 'get this from your AWS SQS dashboard.'
 #    sqs_queue_url: 'Set this based on your AWS SQS queue information.'
 #    s3_host_name: 'S3 host name for storing static assets.'
+#    ak_processor_url: 'The URL of the endpoint used to process queue requests. Only use for testing.'
 
 
 # Direct ActionKit Connection variables.
-#    ak_processor_url: 'set this based on your ActionKit API URL.'
+#    ak_api_url: 'set this based on your ActionKit API URL.'
 #    ak_username: 'Set this based on an account which has API access to your ActionKit instance for direct data pushing to AK, in a .local file.'
 #    ak_password: 'Just like ak_username.'
 
