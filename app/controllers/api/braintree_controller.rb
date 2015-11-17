@@ -8,6 +8,7 @@ class Api::BraintreeController < ApplicationController
     sale = braintree.make_transaction(options)
 
     if sale.success?
+      Payment::BraintreeTransaction.create(transaction_id: sale.transaction.id)
       render json: { success: true, transaction_id: sale.transaction.id }
     else
       render json: { success: false, errors: sale.errors }
@@ -27,5 +28,4 @@ class Api::BraintreeController < ApplicationController
   def braintree
     PaymentProcessor::Clients::Braintree::Transaction
   end
-
 end

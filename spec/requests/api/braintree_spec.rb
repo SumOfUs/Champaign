@@ -14,7 +14,12 @@ VCR.configure do |config|
 end
 
 describe "Braintree API" do
+  def body
+    JSON.parse(response.body).with_indifferent_access
+  end
+
   describe "making a transaction" do
+
     it 'gets a client token' do
       VCR.use_cassette("braintree_client_token") do
         get '/api/braintree/token'
@@ -25,22 +30,39 @@ describe "Braintree API" do
         expect(parsed_body[:token].length).to be > 5
       end
     end
-    it 'returns transaction code in a valid transaction' do
-      VCR.use_cassette("transaction_success") do
-        post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00,
-             user: {email: 'foo@example.com', id: '567' }
+
+    context "successful" do
+
+      before do
+        VCR.use_cassette("transaction_success") do
+          post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00,
+            user: {email: 'foo@example.com', id: '567' }
+        end
+      end
+
+      it 'returns transaction code in a valid transaction' do
         expect(response.body).to eq({success: true, transaction_id: 'bvzfhp'}.to_json)
       end
+
+      it 'records transaction to store' do
+        transaction = Payment::BraintreeTransaction.first
+        expect(transaction.transaction_id).to eq(body[:transaction_id])
+      end
+
     end
+  end
+
+  context 'unsuccessful' do
+
     it 'returns error messages and codes in an invalid transaction' do
       VCR.use_cassette("transaction_failure_invalid_nonce") do
         post '/api/braintree/transaction', payment_method_nonce: 'fake-coinbase-nonce', amount: 100.00,
-             user: {email: 'foo@example.com', id: '567' }
-        parsed_body = JSON.parse(response.body).with_indifferent_access
-        expect(parsed_body.keys).to contain_exactly('success','errors')
-        expect(parsed_body[:success]).to be false
-        expect(parsed_body[:errors].is_a?(Array)).to be true
-        expect(parsed_body[:errors].first.keys).to contain_exactly('code','attribute', 'message')
+          user: {email: 'foo@example.com', id: '567' }
+
+        expect(body.keys).to contain_exactly('success','errors')
+        expect(body[:success]).to be false
+        expect(body[:errors].is_a?(Array)).to be true
+        expect(body[:errors].first.keys).to contain_exactly('code','attribute', 'message')
       end
     end
   end
