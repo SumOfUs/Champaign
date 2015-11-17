@@ -15,7 +15,7 @@ module PaymentProcessor
         end
 
         def sale
-          if transaction.success?
+          if transaction.success? and @store
             @store.write_transaction(transaction: transaction, provider: :braintree )
           end
 
