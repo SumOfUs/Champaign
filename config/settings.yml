@@ -19,6 +19,7 @@
 #    raven_dsn: 'Data Source name for Raven Sentry client. See https://github.com/getsentry/raven-ruby for details.'
 #    asset_sync: 'Whether or not assets are synced to using asset_sync gem. Defaults to false except in production.'
 #    asset_sync_gzip_compression: 'Whether or not asset sync should use GZIP compression. Defaults to false except in production.'
+#    oauth_domain_whitelist: 'If someone is trying to use Google OAuth to authenticate and the domain of their email address is in this list, they will be allowed.'
 
 
 # AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like

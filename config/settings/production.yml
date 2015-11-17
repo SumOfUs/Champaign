@@ -8,6 +8,8 @@
      raven_dsn: <%= ENV['RAVEN_DSN'] %>
      asset_sync: <%= ENV['ASSET_SYNC'] %>
      asset_sync_gzip_compression: <%= ENV['ASSET_SYNC_GZIP_COMPRESSION'] %>
+     oauth_domain_whitelist:
+       - 'sumofus.org'
 
 
 # AWS Config Variables.
