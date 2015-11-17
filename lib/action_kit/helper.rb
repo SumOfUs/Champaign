@@ -8,7 +8,7 @@ module ActionKit
       if resp.response_code == 200
         { valid: JSON.parse(resp.response_body)['meta']['total_count'] == 0, response: JSON.parse(resp.response_body)}
       else
-        false
+        { valid: false, response: JSON.parse(resp.response_body) }
       end
     end
   end
