@@ -19,15 +19,14 @@ describe "Braintree API" do
   end
 
   describe "making a transaction" do
-
     it 'gets a client token' do
       VCR.use_cassette("braintree_client_token") do
         get '/api/braintree/token'
-        parsed_body = JSON.parse(response.body).with_indifferent_access
-        expect(parsed_body).to have_key(:token)
-        expect(parsed_body[:token].is_a?(String)).to be true
-        expect(parsed_body[:token]).to_not include(' ')
-        expect(parsed_body[:token].length).to be > 5
+
+        expect(body).to have_key(:token)
+        expect(body[:token]).to be_a String
+        expect(body[:token]).to_not include(' ')
+        expect(body[:token].length).to be > 5
       end
     end
 
@@ -47,6 +46,9 @@ describe "Braintree API" do
       it 'records transaction to store' do
         transaction = Payment::BraintreeTransaction.first
         expect(transaction.transaction_id).to eq(body[:transaction_id])
+        expect(transaction.transaction_type).to eq('sale')
+        expect(transaction.amount).to eq('100.0')
+
       end
 
     end
