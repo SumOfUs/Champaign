@@ -7,7 +7,7 @@ class Plugins::Fundraiser < ActiveRecord::Base
   after_create :create_form
 
   def liquid_data
-    attributes
+    attributes.merge(form_id: form.try(:id), fields: form_fields)
   end
 
   def form_fields

@@ -27,7 +27,10 @@
           </button>
         </div>
         <div class="fundraiser-bar__step-panel" data-step="2">
-          This here is the info panel and it sure is gonna collect lots of info.
+          {% include 'Form',
+            cta: 'Proceed to payment',
+            form_id: plugins.fundraiser[ref].form_id,
+            fields: plugins.fundraiser[ref].fields %}
         </div>
         <div class="fundraiser-bar__step-panel" data-step="3">
           <div id="hosted-fields">

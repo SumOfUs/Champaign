@@ -25,6 +25,9 @@ $action-top-height: 120px;
     position: absolute;
     top: $action-top-height;
     @include transition(top 0.4s ease-in-out);
+
+    width: 100%;
+    @include box-sizing(border-box);
   }
 
   &__content {

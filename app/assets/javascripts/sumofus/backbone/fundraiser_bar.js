@@ -1,6 +1,8 @@
 const StickyMethods = require('sumofus/backbone/sticky_methods');
+const FormMethods   = require('sumofus/backbone/form_methods');
 
-const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
+const FundraiserBar = Backbone.View.extend(_.extend(
+  StickyMethods, FormMethods, {
 
   el: '.fundraiser-bar',
 
@@ -10,12 +12,18 @@ const FundraiserBar = Backbone.View.extend(_.extend(StickyMethods, {
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
+    'click .action-bar__clear-form': 'clearForm',
+    'ajax:success form': 'handleSuccess',
   },
 
   initialize: function() {
     this.initializeSticky();
     this.changeStep(1);
     this.donationAmount = 0;
+    this.handleError();
+    if (!this.isMobile()) {
+      this.selectizeCountry();
+    }
   },
 
   isMobile: function() {
