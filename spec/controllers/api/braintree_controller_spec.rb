@@ -46,7 +46,8 @@ describe Api::BraintreeController do
         expected_arguments = {
           nonce: 'fake-valid-nonce',
           amount: 100,
-          user: params[:user]
+          user: params[:user],
+          store: Payment
         }
 
         expect(PaymentProcessor::Clients::Braintree::Transaction).to have_received(:make_transaction).
