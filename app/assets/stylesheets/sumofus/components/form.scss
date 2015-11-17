@@ -30,6 +30,14 @@
       outline: none;
       box-shadow: none;
 
+      &.form__half-width {
+        width: 49%;
+        float: left;
+        &:first-of-type {
+          margin-right: 2%;
+        }
+      }
+
       &:focus, &.focus {
         border-color: $teal;
         &.dropdown-active {
