@@ -90,3 +90,16 @@
     }
   }
 }
+
+.hosted-fields {
+  &__host {
+    height: 58px;
+    width: 100%;
+    &.braintree-hosted-fields-focused {
+      border-color: $teal;
+    }
+    &.braintree-hosted-fields-invalid {
+      border-color: $orange;
+    }
+  }
+}

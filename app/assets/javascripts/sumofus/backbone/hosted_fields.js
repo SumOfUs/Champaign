@@ -11,24 +11,38 @@ const HostedFields = Backbone.View.extend({
   },
 
   setupBraintree: function() {
-    braintree.setup(this.getClientToken(), "custom", {
+    this.getClientToken(this.setupFields);
+  },
+
+  setupFields: function(clientToken) {
+    braintree.setup(clientToken, "custom", {
       id: "hosted-fields",
       hostedFields: {
         number: {
-          selector: ".hosted-fields__number"
+          selector: ".hosted-fields__number",
+          placeholder: "Card number",
         },
         cvv: {
-          selector: ".hosted-fields__cvv"
+          selector: ".hosted-fields__cvv",
+          placeholder: "CVV",
         },
         expirationDate: {
-          selector: ".hosted-fields__expiration"
+          selector: ".hosted-fields__expiration",
+          placeholder: "Expiration",
+        },
+        styles: {
+          input: {
+            "font-size": "16px",
+          },
         }
       }
     });
   },
 
-  getClientToken: function() {
-    return '{}';
+  getClientToken: function(callback) {
+    $.get('/api/braintree/token', function(resp, success){
+      callback(resp.token);
+    });
   },
 
 });

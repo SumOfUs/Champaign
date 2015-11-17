@@ -33,12 +33,18 @@
             form_url_postscript: '/validate',
             fields: plugins.fundraiser[ref].fields %}
         </div>
-        <div class="fundraiser-bar__step-panel" data-step="3">
-          <div id="hosted-fields">
-            <div class="hosted-fields__number"></div>
-            <div class="hosted-fields__cvv"></div>
-            <div class="hosted-fields__expiration"></div>
-          </div>
+        <div class="fundraiser-bar__step-panel form--big" data-step="3">
+          <form action='/' id="hosted-fields">
+            <div class="form__group">
+              <div class="hosted-fields__host hosted-fields__number"></div>
+            </div>
+            <div class="form__group">
+              <div class="hosted-fields__host hosted-fields__cvv"></div>
+            </div>
+            <div class="form__group">
+              <div class="hosted-fields__host hosted-fields__expiration"></div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -53,7 +59,7 @@
   <script type="text/javascript">
     $(document).ready(function(){
       var myFundraiserBar = new window.FundraiserBar();
-      // var myHostedFields = new window.HostedFields();
+      var myHostedFields = new window.HostedFields();
     });
   </script>
 
