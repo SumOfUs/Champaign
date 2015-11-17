@@ -15,6 +15,15 @@ class Api::ActionsController < ApplicationController
     end
   end
 
+  def validate
+    validator = FormValidator.new(action_params)
+    if validator.valid?
+      render json: {}, status: 200
+    else
+      render json: {errors: validator.errors}, status: 422
+    end
+  end
+
   private
 
   def action_params

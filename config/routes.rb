@@ -111,7 +111,9 @@ Rails.application.routes.draw do
     end
 
     resources :pages do
-      resources :actions
+      resources :actions do
+        post 'validate', on: :collection, action: 'validate'
+      end
       get 'share-rows', on: :member, action: 'share_rows'
     end
   end

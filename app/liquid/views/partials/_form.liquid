@@ -1,4 +1,4 @@
-<form action='/api/pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
+<form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action'>
   {% if member %}
       <div class="action-bar__welcome-text">
         Welcome back, {{member.welcome_name}}!

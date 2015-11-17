@@ -30,6 +30,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return $('.mobile-indicator').is(':visible');
   },
 
+  handleSuccess: function(e, data) {
+    this.changeStep(this.currentStep+1);
+  },
+
   primeCustom: function(e) {
     let $field = this.$(e.target);
     if ($field.val() == '') {
