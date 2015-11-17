@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116223037) do
+ActiveRecord::Schema.define(version: 20151117154619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,13 +22,12 @@ ActiveRecord::Schema.define(version: 20151116223037) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "city"
-    t.string   "postal"
+    t.string   "postal_code"
     t.string   "title"
     t.string   "address1"
     t.string   "address2"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.string   "actionkit_user_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "actionkit_page_types", force: :cascade do |t|
@@ -153,11 +152,11 @@ ActiveRecord::Schema.define(version: 20151116223037) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -175,6 +174,18 @@ ActiveRecord::Schema.define(version: 20151116223037) do
     t.integer "tag_id"
   end
 
+  create_table "payment_braintree_transactions", force: :cascade do |t|
+    t.string   "transaction_id"
+    t.string   "transaction_type"
+    t.string   "status"
+    t.string   "amount"
+    t.datetime "transaction_created_at"
+    t.string   "payment_method_token"
+    t.string   "customer_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "plugins_actions", force: :cascade do |t|
     t.integer  "page_id"
     t.boolean  "active",      default: false
@@ -184,7 +195,6 @@ ActiveRecord::Schema.define(version: 20151116223037) do
     t.text     "description"
     t.string   "ref"
     t.string   "target"
-    t.string   "cta"
   end
 
   add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
@@ -247,17 +257,19 @@ ActiveRecord::Schema.define(version: 20151116223037) do
     t.text     "description"
     t.string   "image"
     t.integer  "button_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
     t.integer  "page_id"
     t.integer  "share_count"
     t.integer  "click_count"
     t.string   "sp_id"
-    t.integer  "image_id"
   end
 
   add_index "share_facebooks", ["button_id"], name: "index_share_facebooks_on_button_id", using: :btree
-  add_index "share_facebooks", ["image_id"], name: "index_share_facebooks_on_image_id", using: :btree
   add_index "share_facebooks", ["page_id"], name: "index_share_facebooks_on_page_id", using: :btree
 
   create_table "share_twitters", force: :cascade do |t|
@@ -317,7 +329,6 @@ ActiveRecord::Schema.define(version: 20151116223037) do
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
   add_foreign_key "pages", "campaigns"
-  add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"
   add_foreign_key "pages", "liquid_layouts"
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
@@ -327,6 +338,5 @@ ActiveRecord::Schema.define(version: 20151116223037) do
   add_foreign_key "plugins_fundraisers", "pages"
   add_foreign_key "plugins_thermometers", "pages"
   add_foreign_key "share_emails", "pages"
-  add_foreign_key "share_facebooks", "images"
   add_foreign_key "share_twitters", "pages"
 end
