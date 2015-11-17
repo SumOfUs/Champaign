@@ -11,7 +11,7 @@ class ManageAction
     return previous_action if previous_action.present?
 
     ChampaignQueue.push(queue_message)
-    Action.create( action_user: action_user, page: page, form_data: @params )
+    Action.create( member: member, page: page, form_data: @params )
   end
 
   private
@@ -27,12 +27,12 @@ class ManageAction
   end
 
   def previous_action
-    @previous_action ||= Action.where(action_user: action_user, page_id: page).first
+    @previous_action ||= Action.where(member: member, page_id: page).first
   end
 
-  def action_user
+  def member
     return @user if @user.present?
-    @user = ActionUser.find_or_create_by(email: @params[:email])
+    @user = Member.find_or_create_by(email: @params[:email])
     permitted = @user.attributes.keys.map(&:to_sym).reject!{|k| k == :id}
     @user.assign_attributes(@params.compact.keep_if{ |k| permitted.include? k })
     @user.save if @user.changed

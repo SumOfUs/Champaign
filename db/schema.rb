@@ -11,25 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110174806) do
+ActiveRecord::Schema.define(version: 20151117225810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "action_users", force: :cascade do |t|
-    t.string   "email"
-    t.string   "country"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "city"
-    t.string   "postal"
-    t.string   "title"
-    t.string   "address1"
-    t.string   "address2"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
-    t.string   "actionkit_user_id"
-  end
 
   create_table "actionkit_page_types", force: :cascade do |t|
     t.string "actionkit_page_type", null: false
@@ -42,7 +27,7 @@ ActiveRecord::Schema.define(version: 20151110174806) do
 
   create_table "actions", force: :cascade do |t|
     t.integer  "page_id"
-    t.integer  "action_user_id"
+    t.integer  "member_id"
     t.string   "link"
     t.boolean  "created_user"
     t.boolean  "subscribed_user"
@@ -51,7 +36,7 @@ ActiveRecord::Schema.define(version: 20151110174806) do
     t.jsonb    "form_data"
   end
 
-  add_index "actions", ["action_user_id"], name: "index_actions_on_action_user_id", using: :btree
+  add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
   add_index "actions", ["page_id"], name: "index_actions_on_page_id", using: :btree
 
   create_table "ak_logs", force: :cascade do |t|
@@ -141,8 +126,18 @@ ActiveRecord::Schema.define(version: 20151110174806) do
   end
 
   create_table "members", force: :cascade do |t|
-    t.string "email_address",       null: false
-    t.string "actionkit_member_id", null: false
+    t.string   "email"
+    t.string   "country"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "city"
+    t.string   "postal"
+    t.string   "title"
+    t.string   "address1"
+    t.string   "address2"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "actionkit_user_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -156,7 +151,6 @@ ActiveRecord::Schema.define(version: 20151110174806) do
     t.string   "status",                     default: "pending"
     t.text     "messages"
     t.text     "content",                    default: ""
-    t.boolean  "thermometer",                default: false
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
     t.integer  "liquid_layout_id"
@@ -190,6 +184,19 @@ ActiveRecord::Schema.define(version: 20151110174806) do
 
   add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
   add_index "plugins_actions", ["page_id"], name: "index_plugins_actions_on_page_id", using: :btree
+
+  create_table "plugins_fundraisers", force: :cascade do |t|
+    t.string   "title"
+    t.string   "ref"
+    t.integer  "page_id"
+    t.boolean  "active",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "form_id"
+  end
+
+  add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
+  add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
 
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
@@ -300,7 +307,7 @@ ActiveRecord::Schema.define(version: 20151110174806) do
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
-  add_foreign_key "actions", "action_users"
+  add_foreign_key "actions", "members"
   add_foreign_key "actions", "pages"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
@@ -311,6 +318,8 @@ ActiveRecord::Schema.define(version: 20151110174806) do
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
   add_foreign_key "plugins_actions", "forms"
   add_foreign_key "plugins_actions", "pages"
+  add_foreign_key "plugins_fundraisers", "forms"
+  add_foreign_key "plugins_fundraisers", "pages"
   add_foreign_key "plugins_thermometers", "pages"
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"
