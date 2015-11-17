@@ -6,7 +6,7 @@ module ActionKit
       resp = ActionKit::Client.get('petitionpage', params: {_limit: 1, name: name})
 
       if resp.response_code == 200
-        JSON.parse(resp.response_body)['meta']['total_count'] == 0
+        { valid: JSON.parse(resp.response_body)['meta']['total_count'] == 0, response: JSON.parse(resp.response_body)}
       else
         false
       end

@@ -3,7 +3,7 @@ class ActionKitController < ApplicationController
     valid = ActionKit::Helper.check_petition_name_is_available(params[:slug])
 
     respond_to do |format|
-      format.json { render json: { valid: valid } }
+      format.json { render json: { valid: valid[:valid], response: valid[:response] } }
     end
   end
 
