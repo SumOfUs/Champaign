@@ -3,18 +3,33 @@ module PaymentProcessor
     module Braintree
       class Transaction
 
-        def self.make_transaction(nonce:, amount:, user:)
-          new(nonce, amount, user).sale
+        def self.make_transaction(nonce:, amount:, user:, store: nil)
+          new(nonce, amount, user, store).sale
         end
 
-        def initialize(nonce, amount, user)
+        def initialize(nonce, amount, user, store)
           @amount = amount
           @nonce = nonce
           @user = user
+          @store = store
         end
 
         def sale
-          ::Braintree::Transaction.sale(
+          if transaction.success?
+            @store.write_transaction(transaction)
+          end
+
+          transaction
+        end
+
+        def transaction
+          @transaction ||= ::Braintree::Transaction.sale(options)
+        end
+
+        private
+
+        def options
+          {
             amount: @amount,
             payment_method_nonce: @nonce,
             options: {
@@ -27,9 +42,10 @@ module PaymentProcessor
               last_name: @user[:last_name],
               email: @user[:email]
             }
-          )
+          }
         end
       end
     end
   end
 end
+
