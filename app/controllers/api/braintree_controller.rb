@@ -1,6 +1,4 @@
 class Api::BraintreeController < ApplicationController
-  # TODO: replace with something smarter / safer
-  skip_before_filter :verify_authenticity_token
 
   def token
     render json: {token: ::Braintree::ClientToken.generate}
