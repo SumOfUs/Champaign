@@ -23,7 +23,7 @@ class ConnectWithOauthProvider
   private
 
   def whitelisted
-    return true if whitelist.empty? or whitelist.nil?
+    return true if whitelist.blank?
     whitelist.include? email_domain
   end
 
