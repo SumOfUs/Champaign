@@ -153,11 +153,11 @@ ActiveRecord::Schema.define(version: 20151116223037) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
     t.integer  "action_count",               default: 0

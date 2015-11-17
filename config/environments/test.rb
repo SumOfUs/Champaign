@@ -3,7 +3,10 @@ Rails.application.configure do
   {
     SQS_QUEUE_URL: 'http://example.com',
     AWS_REGION: 'us-west-2',
-    SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4'
+    SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4',
+    BRAINTREE_MERCHANT_ID: 'braintree_merchant_id',
+    BRAINTREE_PUBLIC_KEY:  'braintree_public_key',
+    BRAINTREE_PRIVATE_KEY: 'braintree_private_key'
   }.each do |key, val|
     ENV.store(key.to_s, val)
   end
@@ -51,4 +54,5 @@ Rails.application.configure do
 
   # Required for testing strong parameters for action_parameter gem
   config.action_controller.action_on_unpermitted_parameters = :raise
+
 end
