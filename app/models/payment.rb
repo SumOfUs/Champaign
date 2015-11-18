@@ -14,6 +14,11 @@ module Payment
   end
 
   class BraintreeTransactionBuilder
+
+    def self.build(transaction)
+      new(transaction).build
+    end
+
     def initialize(transaction)
       @transaction = transaction
     end
