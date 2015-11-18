@@ -20,7 +20,7 @@ class Api::BraintreeController < ApplicationController
     {
       nonce: params[:payment_method_nonce],
       user: params[:user],
-      amount: params[:amount].to_i,
+      amount: params[:amount].to_f,
       store: Payment
     }
   end
