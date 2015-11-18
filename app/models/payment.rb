@@ -6,6 +6,8 @@ module Payment
 
     def write_transaction(transaction:, provider:)
       sale = transaction.transaction
+      card = sale.credit_card_details
+      customer = sale.customer_details
 
       attrs = {
         transaction_id: sale.id,
@@ -15,6 +17,20 @@ module Payment
       }
 
       ::Payment::BraintreeTransaction.create(attrs)
+
+      customer = {
+        card_type: card.card_type,
+        card_bin: card.bin,
+        cardholder_name: card.cardholder_name,
+        card_debit: card.debit,
+        card_last_4: card.last_4,
+        card_vault_token: card.token,
+        email: customer.email,
+        first_name: customer.first_name,
+        last_name: customer.last_name
+      }
+
+      ::Payment::BraintreeCustomer.create(customer)
     end
   end
 end
