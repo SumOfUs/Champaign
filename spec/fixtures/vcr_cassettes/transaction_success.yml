@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<BRAINTREE_PUBLIC_KEY>:<BRAINTREE_PRIVATE_KEY>@api.sandbox.braintreegateway.com/merchants/<BRAINTREE_MERCHANT_ID>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount type="integer">100</amount>
+          <payment-method-nonce>fake-valid-nonce</payment-method-nonce>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <id>567</id>
+            <first-name nil="true"/>
+            <last-name nil="true"/>
+            <email>foo@example.com</email>
+          </customer>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Mon, 16 Nov 2015 12:53:36 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - bvjfn8txg497g49s
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"659ae4cfc8f63d5d45fd841be8e6e16f"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9d67519312b5197ff7518f57996a53c5
+      X-Runtime:
+      - '0.495069'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+    http_version: 
+  recorded_at: Mon, 16 Nov 2015 12:56:00 GMT
+recorded_with: VCR 3.0.0

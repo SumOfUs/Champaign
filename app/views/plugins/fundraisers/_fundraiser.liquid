@@ -1,0 +1,56 @@
+{% if plugins.fundraiser[ref].active %}
+  <div class="fundraiser-bar fundraiser-bar--elevated fundraiser-bar--mobile-view--closed">
+    <div class="fundraiser-bar__content">
+      <div class="fundraiser-bar__top">
+        <div class="fundraiser-bar__mobile-ui">
+          <a class="fundraiser-bar__close-button">&#x2715;</a>
+        </div>
+        <h2>{{ plugins.fundraiser[ref].title }}</h2>
+        <div class="fundraiser-bar__steps">
+          <hr class="fundraiser-bar__step-connector" />
+          <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past" data-step="1">1</div>
+          <div class="fundraiser-bar__step-number fundraiser-bar__step-number--current" data-step="2">2</div>
+          <div class="fundraiser-bar__step-number fundraiser-bar__step-number--upcoming" data-step="3">3</div>
+        </div>
+      </div>
+      <div class="fundraiser-bar__main form--big">
+        <div class="fundraiser-bar__step-panel" data-step="1">
+          <div class="fundraiser-bar__amount-button" data-amount="10">$10</div>
+          <div class="fundraiser-bar__amount-button" data-amount="20">$20</div>
+          <div class="fundraiser-bar__amount-button" data-amount="32.5">$32.50*</div>
+          <div class="fundraiser-bar__amount-button" data-amount="50">$50</div>
+          <div class="fundraiser-bar__amount-button" data-amount="100">$100</div>
+          <div class="fundraiser-bar__average-clarification">*average donation in this campaign</div>
+          <input class="fundraiser-bar__custom-field" placeholder="Other" />
+          <button class="fundraiser-bar__first-continue button" style="display:none;">
+            Proceed to details
+          </button>
+        </div>
+        <div class="fundraiser-bar__step-panel" data-step="2">
+          This here is the info panel and it sure is gonna collect lots of info.
+        </div>
+        <div class="fundraiser-bar__step-panel" data-step="3">
+          <div id="hosted-fields">
+            <div class="hosted-fields__number"></div>
+            <div class="hosted-fields__cvv"></div>
+            <div class="hosted-fields__expiration"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fundraiser-bar__mobile-ui">
+    <div class="fundraiser-bar__mobile-ui__bottom-bar">
+      <button class="button fundraiser-bar__open-button">{{ plugins.fundraiser[ref].cta }}</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var myFundraiserBar = new window.FundraiserBar();
+      // var myHostedFields = new window.HostedFields();
+    });
+  </script>
+
+{% endif %}

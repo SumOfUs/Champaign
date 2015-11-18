@@ -23,6 +23,9 @@ gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
 
+# Braintree as a payment processor
+gem 'braintree', '~> 2.54.0'
+
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 
@@ -87,6 +90,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'vcr'
 end
 
 
@@ -117,5 +121,8 @@ source 'https://rails-assets.org' do
 
   # Cross browser rich text editor
   gem 'rails-assets-quill'
+
+  # braintree js
+  gem 'rails-assets-braintree-web'
 end
 

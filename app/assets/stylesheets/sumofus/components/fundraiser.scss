@@ -1,0 +1,92 @@
+.fundraiser-bar {
+  &__steps {
+    position: relative;
+    width: 100%;
+    margin-top: 15px;
+  }
+  &__step-connector {
+    width: 100%;
+    height: 2px;
+    top: 22px;
+    margin: 0;
+    position: absolute;
+    background: $slate-gray;
+    border: none;
+  }
+  &__step-label {
+    &--past {
+      color: $navy;
+    }
+    &--current {
+      color: $navy;
+    }
+    &--upcoming {
+      color: $slate-gray;
+    }
+  }
+  &__amount-button {
+    @include button($orange);
+    width: 47%;
+    margin: 3px 1.5%;
+    float: left;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 18px;
+  }
+  input.fundraiser-bar__custom-field {
+    width: 47%;
+    margin: 4px 1.5%;
+    text-align: center;
+  }
+  &__average-clarification {
+    margin: 20px 0;
+    font-size: 14px;
+    float: left;
+  }
+  &__step-number {
+    height: 45px;
+    width: 45px;
+    border-radius: 22px;
+    border-width: 2px;
+    border-style: solid;
+    @include box-sizing(border-box);
+    padding: 11px 15px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+
+    font-size: 20px;
+
+    &:first-of-type {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    &:last-of-type {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+
+    &--past {
+      color: white;
+      background: $slate-gray;
+      border-color: $slate-gray;
+      cursor: pointer;
+      &:hover {
+        border-color: $navy;
+        background-color: $navy;
+      }
+    }
+    &--current {
+      color: white;
+      background: $navy;
+      border-color: $navy;
+    }
+    &--upcoming {
+      color: $slate-gray;
+      background: $overcast-gray;
+      border-color: $slate-gray;
+    }
+  }
+}

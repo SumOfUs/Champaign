@@ -51,11 +51,11 @@ Rails.application.routes.draw do
   end
 
   namespace :plugins do
-    resources :actions do
-      resources :forms, module: :actions
-      resource :preview, module: :actions
-    end
-    resources :thermometers
+    resources :actions
+    resources :thermometers, only: :update
+    resources :fundraisers, only: :update
+    get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
+    post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
 
 
@@ -105,6 +105,11 @@ Rails.application.routes.draw do
   #   resources :photos, concerns: :toggleable
 
   namespace :api do
+    namespace :braintree do
+      get 'token'
+      post 'transaction'
+    end
+
     resources :pages do
       resources :actions
       get 'share-rows', on: :member, action: 'share_rows'

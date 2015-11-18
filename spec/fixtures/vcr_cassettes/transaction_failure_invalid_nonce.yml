@@ -1,0 +1,84 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<BRAINTREE_PUBLIC_KEY>:<BRAINTREE_PRIVATE_KEY>@api.sandbox.braintreegateway.com/merchants/<BRAINTREE_MERCHANT_ID>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount type="integer">100</amount>
+          <payment-method-nonce>fake-coinbase-nonce</payment-method-nonce>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <id>567</id>
+            <first-name nil="true"/>
+            <last-name nil="true"/>
+            <email>foo@example.com</email>
+          </customer>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Mon, 16 Nov 2015 22:48:13 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - zghrwxtg8j3ds29n
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 0da41a4e22d2ef1be4a5a9ce14548d20
+      X-Runtime:
+      - '0.153066'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAC1dSlYAA6xTsXLbMAzd8xU87bTsIUl7RzOdunVL5x5MwQmvJMEjqFz8
+        94VsybJ9cqZOAvDwAD4AMi+fMagPLOwpbZvNat0oTI46n962ze/Xn/pb82If
+        DGSvsRQquiBnSoz2QSlzDPFgnh1VDxm3DZQCh6YdoVogMbgqTU6R5fQJm9DZ
+        l4g8Cu33zePzs2mP9iUItRa/6yuO9fgQdxQaG7G4d0j1DzhHvXx9Z9pz8lWJ
+        iMzwhvbXSFEjRXWErBJVxX3OVKrKcIgogE9cSz+YK9NO9FlCe6VhdPnsu54r
+        yftuRS9OcOBfE0x7M9TLBiZDgchfTB/ioM1u1muZx8meoFGejljfqdOJkkO7
+        h7+oHfm0A8ZTzLSLmVMZykNDvpDH/S76qvdyRYy1BhzIVkYopZaxC26lgton
+        /QF9qJqS5t45mfnEv4uf53fzoKUF+M4+Psl9yXcO7n3hqhNEVMmHbTM0nPci
+        CQG+xjGCD3ZP9AM/IeaAK0dR1nUM31nvsDY5A8sQRN3RvLf2edf/7YblJhZ+
+        +H8AAAD//wMARaZlFC0EAAA=
+    http_version: 
+  recorded_at: Mon, 16 Nov 2015 22:48:13 GMT
+recorded_with: VCR 3.0.0

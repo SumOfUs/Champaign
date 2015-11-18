@@ -82,6 +82,8 @@ GEM
     bootstrap-sass (3.3.5.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
+    braintree (2.54.0)
+      builder (>= 2.0.0)
     browser (0.9.1)
     browserify-rails (1.4.0)
       railties (>= 4.0.0, < 5.0)
@@ -355,6 +357,7 @@ GEM
       sprockets-rails
     rails-assets-backbone (1.1.2)
       rails-assets-underscore (>= 1.5.0)
+    rails-assets-braintree-web (2.15.4)
     rails-assets-dropzone (4.0.1)
     rails-assets-mailcheck (1.1.1)
     rails-assets-quill (0.20.0)
@@ -462,6 +465,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
+    vcr (3.0.0)
     warden (1.2.3)
       rack (>= 1.0)
     web-console (2.2.1)
@@ -484,6 +488,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
+  braintree (~> 2.54.0)
   browser
   browserify-rails
   byebug
@@ -513,6 +518,7 @@ DEPENDENCIES
   puma
   rails (= 4.2.3)
   rails-assets-backbone!
+  rails-assets-braintree-web!
   rails-assets-dropzone!
   rails-assets-mailcheck!
   rails-assets-quill!
@@ -533,6 +539,7 @@ DEPENDENCIES
   timecop
   typhoeus
   uglifier (>= 1.3.0)
+  vcr
   web-console (~> 2.0)
   webmock
 

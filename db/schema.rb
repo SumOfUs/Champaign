@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110174806) do
+ActiveRecord::Schema.define(version: 20151116223037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,7 +154,6 @@ ActiveRecord::Schema.define(version: 20151110174806) do
     t.datetime "updated_at"
     t.text     "compiled_html"
     t.text     "content",                    default: ""
-    t.boolean  "thermometer",                default: false
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
     t.string   "status",                     default: "pending"
@@ -190,6 +189,19 @@ ActiveRecord::Schema.define(version: 20151110174806) do
 
   add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
   add_index "plugins_actions", ["page_id"], name: "index_plugins_actions_on_page_id", using: :btree
+
+  create_table "plugins_fundraisers", force: :cascade do |t|
+    t.string   "title"
+    t.string   "ref"
+    t.integer  "page_id"
+    t.boolean  "active",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "form_id"
+  end
+
+  add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
+  add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
 
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
@@ -311,6 +323,8 @@ ActiveRecord::Schema.define(version: 20151110174806) do
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
   add_foreign_key "plugins_actions", "forms"
   add_foreign_key "plugins_actions", "pages"
+  add_foreign_key "plugins_fundraisers", "forms"
+  add_foreign_key "plugins_fundraisers", "pages"
   add_foreign_key "plugins_thermometers", "pages"
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"

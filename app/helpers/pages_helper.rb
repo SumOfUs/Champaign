@@ -45,7 +45,8 @@ module PagesHelper
   def plugin_icon(plugin)
     registered = {
       action: 'hand-rock-o',
-      thermometer: 'neuter'
+      thermometer: 'neuter',
+      fundraiser: 'money'
     }
     name = plugin.name.underscore.to_sym
     registered.fetch( name, 'cubes' )
