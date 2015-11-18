@@ -28,6 +28,10 @@ module PaymentProcessor
 
         private
 
+        def customer
+          @customer ||= @store ? @store.customer(@user[:email]) : nil
+        end
+
         def options
           {
             amount: @amount,
@@ -41,7 +45,7 @@ module PaymentProcessor
               last_name: @user[:last_name],
               email: @user[:email]
             }
-          }
+          }.tap{ |opts| opts[:customer_id] = customer.customer_id if customer }
         end
       end
     end

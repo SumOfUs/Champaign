@@ -60,6 +60,18 @@ describe "Braintree API" do
         end
       end
 
+      context 'repeat donation' do
+        before do
+          VCR.use_cassette("repeat_transaction_success") do
+            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 20.00, user: { email: 'foo@example.com' }
+          end
+        end
+
+        it 'uses existing customer_id' do
+          expect(Payment::BraintreeCustomer.count).to eq(1)
+        end
+
+      end
     end
   end
 

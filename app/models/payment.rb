@@ -7,6 +7,10 @@ module Payment
     def write_transaction(transaction:, provider: :braintree)
       BraintreeTransactionBuilder.new(transaction).build
     end
+
+    def customer(email)
+      Payment::BraintreeCustomer.find_by(email: email)
+    end
   end
 
   class BraintreeTransactionBuilder
@@ -16,10 +20,17 @@ module Payment
 
     def build
       ::Payment::BraintreeTransaction.create(transaction_attrs)
-      ::Payment::BraintreeCustomer.create(customer_attrs)
+
+      unless customer
+        ::Payment::BraintreeCustomer.create(customer_attrs)
+      end
     end
 
     private
+
+    def customer
+      @customer ||= Payment.customer(customer_details.email)
+    end
 
     def transaction_attrs
      {
@@ -38,10 +49,10 @@ module Payment
         card_debit:       card.debit,
         card_last_4:      card.last_4,
         card_vault_token: card.token,
-        email:            customer.email,
-        first_name:       customer.first_name,
-        last_name:        customer.last_name,
-        customer_id:      customer.id
+        email:            customer_details.email,
+        first_name:       customer_details.first_name,
+        last_name:        customer_details.last_name,
+        customer_id:      customer_details.id
       }
     end
 
@@ -53,7 +64,7 @@ module Payment
       @card ||= @sale.credit_card_details
     end
 
-    def customer
+    def customer_details
       @customer ||= @sale.customer_details
     end
   end
