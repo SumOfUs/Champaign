@@ -1,42 +1,39 @@
-const HostedFields = Backbone.View.extend({
-
-  el: '#hosted-fields',
-
-  events: {
-    // 'click .hosted-fields__step-number--past': 'triggerStepChange',
-  },
+const HostedFieldsMethods = {
 
   initialize: function() {
     this.setupBraintree();
   },
 
-  setupBraintree: function() {
-    this.getClientToken(this.setupFields);
+  initializeBraintree: function() {
+    this.getClientToken(this.setupFields());
   },
 
-  setupFields: function(clientToken) {
-    braintree.setup(clientToken, "custom", {
-      id: "hosted-fields",
-      hostedFields: {
-        number: {
-          selector: ".hosted-fields__number",
-          placeholder: "Card number",
-        },
-        cvv: {
-          selector: ".hosted-fields__cvv",
-          placeholder: "CVV",
-        },
-        expirationDate: {
-          selector: ".hosted-fields__expiration",
-          placeholder: "Expiration",
-        },
-        styles: {
-          input: {
-            "font-size": "16px",
+  setupFields: function() {
+    return (clientToken) => {
+      braintree.setup(clientToken, "custom", {
+        id: "hosted-fields",
+        onPaymentMethodReceived: this.paymentMethodReceived(),
+        hostedFields: {
+          number: {
+            selector: ".hosted-fields__number",
+            placeholder: "Card number",
           },
+          cvv: {
+            selector: ".hosted-fields__cvv",
+            placeholder: "CVV",
+          },
+          expirationDate: {
+            selector: ".hosted-fields__expiration",
+            placeholder: "Expiration",
+          },
+          styles: {
+            input: {
+              "font-size": "16px",
+            },
+          }
         }
-      }
-    });
+      });
+    }
   },
 
   getClientToken: function(callback) {
@@ -45,6 +42,11 @@ const HostedFields = Backbone.View.extend({
     });
   },
 
-});
+  paymentMethodReceived: function(data) {
+    return (data) => {
+      console.log("We have the nonce! Override this method to use it. Nonce:", data.nonce);
+    }
+  },
+};
 
-module.exports = HostedFields;
+module.exports = HostedFieldsMethods;
