@@ -36,30 +36,30 @@ describe ManageAction do
       subject
     end
 
-    describe 'new action_user' do
-      it 'creates an action user' do
-        expect{ subject }.to change{ ActionUser.count }.by 1
+    describe 'new member' do
+      it 'creates an member' do
+        expect{ subject }.to change{ Member.count }.by 1
       end
       
-      it 'saves available fields to action_user' do
+      it 'saves available fields to member' do
         action = ManageAction.create(data.merge(first_name))
-        expect(action.action_user.first_name).to eq first_name[:first_name]
-        expect(action.action_user.email).to eq data[:email]
-        persisted = action.action_user.reload
+        expect(action.member.first_name).to eq first_name[:first_name]
+        expect(action.member.email).to eq data[:email]
+        persisted = action.member.reload
         expect(persisted.first_name).to eq first_name[:first_name]
         expect(persisted.email).to eq data[:email]
       end
 
-      it 'creates an action user even with extraneous fields' do
+      it 'creates an member even with extraneous fields' do
         expect{
           ManageAction.create(data.merge(extraneous) )
-        }.to change{ ActionUser.count }.by 1
+        }.to change{ Member.count }.by 1
       end
 
       it 'saves available fields even with extraneous fields' do
         action = ManageAction.create(data.merge(first_name).merge(extraneous) )
-        expect(action.action_user.reload.first_name).to eq first_name[:first_name]
-        expect(action.action_user.reload.email).to eq data[:email]
+        expect(action.member.reload.first_name).to eq first_name[:first_name]
+        expect(action.member.reload.email).to eq data[:email]
       end
 
       it 'ignores a sent id parameter' do
@@ -68,51 +68,51 @@ describe ManageAction do
       end
     end
 
-    describe 'existing action_user' do
+    describe 'existing member' do
 
       before :each do
-        @existing = create :action_user, email: data[:email]
+        @existing = create :member, email: data[:email]
       end
 
-      it 'does not change the number of action users' do
-        expect{ subject }.to_not change{ ActionUser.count }.from(1)
+      it 'does not change the number of members' do
+        expect{ subject }.to_not change{ Member.count }.from(1)
       end
 
-      it 'saves all new fields to action_user' do
+      it 'saves all new fields to member' do
         action = ManageAction.create(data.merge(first_name))
-        expect(action.action_user.first_name).to eq first_name[:first_name]
-        expect(action.action_user.reload.first_name).to eq first_name[:first_name]
-        expect(action.action_user).to eq @existing.reload
+        expect(action.member.first_name).to eq first_name[:first_name]
+        expect(action.member.reload.first_name).to eq first_name[:first_name]
+        expect(action.member).to eq @existing.reload
       end
 
-      it 'is not bothered by fields not saveable to action_user' do
+      it 'is not bothered by fields not saveable to member' do
         action = ManageAction.create(data.merge(first_name).merge(extraneous))
-        expect(action.action_user.first_name).to eq first_name[:first_name]
-        expect(action.action_user.reload.first_name).to eq first_name[:first_name]
+        expect(action.member.first_name).to eq first_name[:first_name]
+        expect(action.member.reload.first_name).to eq first_name[:first_name]
       end
 
       it 'does not touch existing fields if not included' do
         @existing.update_attributes(first_name: 'Bupkis')
         action = ManageAction.create(data.merge(last_name: 'McBamgler'))
-        expect(action.action_user.first_name).to eq 'Bupkis'
-        expect(action.action_user.reload.first_name).to eq 'Bupkis'
+        expect(action.member.first_name).to eq 'Bupkis'
+        expect(action.member.reload.first_name).to eq 'Bupkis'
       end
 
       it 'does not overwrite existing fields with nil' do
         @existing.update_attributes(first_name: 'Bupkis')
         action = ManageAction.create(data.merge(first_name: nil))
-        expect(action.action_user.first_name).to eq 'Bupkis'
-        expect(action.action_user.reload.first_name).to eq 'Bupkis'
+        expect(action.member.first_name).to eq 'Bupkis'
+        expect(action.member.reload.first_name).to eq 'Bupkis'
       end
 
-      it 'does not create an ActionUser if sent an id parameter' do
-        expect{ ManageAction.create(data.merge(id: 200)) }.not_to change{ ActionUser.count }
+      it 'does not create an Member if sent an id parameter' do
+        expect{ ManageAction.create(data.merge(id: 200)) }.not_to change{ Member.count }
       end
 
       it 'ignores a sent id parameter' do
         action = ManageAction.create(data.merge(id: 200))
-        expect(action.action_user.id).to eq @existing.reload.id
-        expect(action.action_user.id).not_to eq 200
+        expect(action.member.id).to eq @existing.reload.id
+        expect(action.member.id).not_to eq 200
       end
     end
 

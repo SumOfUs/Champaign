@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :action_user do
+  factory :member do
     email { Faker::Internet.email }
   end
 end
