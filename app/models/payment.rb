@@ -27,7 +27,8 @@ module Payment
         card_vault_token: card.token,
         email: customer.email,
         first_name: customer.first_name,
-        last_name: customer.last_name
+        last_name: customer.last_name,
+        customer_id: customer.id
       }
 
       ::Payment::BraintreeCustomer.create(customer)

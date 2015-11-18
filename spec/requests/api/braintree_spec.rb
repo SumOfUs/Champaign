@@ -40,7 +40,7 @@ describe "Braintree API" do
       end
 
       it 'returns transaction_id' do
-        expect(body[:transaction_id]).to match(/[a-z]{6}/)
+        expect(body[:transaction_id]).to match(/[a-z0-9]{6}/)
       end
 
       it 'records transaction to store' do
@@ -50,10 +50,13 @@ describe "Braintree API" do
         expect(transaction.amount).to eq('100.0')
       end
 
-      context 'customer', :focus do
+      context 'customer' do
         it 'persists braintree customer' do
           customer = Payment::BraintreeCustomer.first
           expect(customer).to_not be nil
+          expect(customer.email).to eq('foo@example.com')
+          expect(customer.customer_id).to match(/\d{8}/)
+          expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
         end
       end
 
@@ -65,7 +68,7 @@ describe "Braintree API" do
     it 'returns error messages and codes in an invalid transaction' do
       VCR.use_cassette("transaction_failure_invalid_nonce") do
         post '/api/braintree/transaction', payment_method_nonce: 'fake-coinbase-nonce', amount: 100.00,
-          user: {email: 'foo@example.com', id: '567' }
+          user: { email: 'foo@example.com' }
 
         expect(body.keys).to contain_exactly('success','errors')
         expect(body[:success]).to be false
