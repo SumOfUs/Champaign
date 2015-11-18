@@ -8,6 +8,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   el: '.fundraiser-bar',
 
   events: {
+    'click .fundraiser-bar__step-name--past': 'triggerStepChange',
     'click .fundraiser-bar__step-number--past': 'triggerStepChange',
     'focus .fundraiser-bar__custom-field': 'primeCustom',
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
@@ -64,7 +65,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   triggerStepChange: function(e) {
-    const targetStep = this.$(e.target).data('step');
+    const targetStep = this.$(e.target).parent().data('step');
     if (targetStep < this.currentStep) {
       this.changeStep(targetStep);
     }
@@ -82,19 +83,21 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   changeStepNumber: function(targetStep) {
-    this.$('.fundraiser-bar__step-number').
-      removeClass('fundraiser-bar__step-number--past').
-      removeClass('fundraiser-bar__step-number--current').
-      removeClass('fundraiser-bar__step-number--upcoming')
-    this.$('.fundraiser-bar__step-number').each((ii, el) => {
-      const step = this.$(el).data('step');
-      if ( step < targetStep ) {
-        $(el).addClass('fundraiser-bar__step-number--past');
-      } else if ( step == targetStep) {
-        $(el).addClass('fundraiser-bar__step-number--current');
-      } else {
-        $(el).addClass('fundraiser-bar__step-number--upcoming');
-      }
+    $.each(['number', 'name'], (ii, part) => {
+      this.$(`.fundraiser-bar__step-${part}`).
+        removeClass(`fundraiser-bar__step-${part}--past`).
+        removeClass(`fundraiser-bar__step-${part}--current`).
+        removeClass(`fundraiser-bar__step-${part}--upcoming`);
+      this.$(`.fundraiser-bar__step-${part}`).each((ii, el) => {
+        const step = this.$(el).parent().data('step');
+        if ( step < targetStep ) {
+          $(el).addClass(`fundraiser-bar__step-${part}--past`);
+        } else if ( step == targetStep) {
+          $(el).addClass(`fundraiser-bar__step-${part}--current`);
+        } else {
+          $(el).addClass(`fundraiser-bar__step-${part}--upcoming`);
+        }
+      });
     });
   },
 

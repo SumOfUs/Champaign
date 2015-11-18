@@ -8,9 +8,18 @@
         <h2>{{ plugins.fundraiser[ref].title }}</h2>
         <div class="fundraiser-bar__steps">
           <hr class="fundraiser-bar__step-connector" />
-          <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past" data-step="1">1</div>
-          <div class="fundraiser-bar__step-number fundraiser-bar__step-number--current" data-step="2">2</div>
-          <div class="fundraiser-bar__step-number fundraiser-bar__step-number--upcoming" data-step="3">3</div>
+          <div class="fundraiser-bar__step-label" data-step="1">
+            <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past">1</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--past">Amount</div>
+          </div>
+          <div class="fundraiser-bar__step-label" data-step="2">
+            <div class="fundraiser-bar__step-number fundraiser-bar__step-number--current" data-step="2">2</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--current">Details</div>
+          </div>
+          <div class="fundraiser-bar__step-label" data-step="3">
+            <div class="fundraiser-bar__step-number fundraiser-bar__step-number--upcoming" data-step="3">3</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--upcoming">Payment</div>
+          </div>
         </div>
       </div>
       <div class="fundraiser-bar__main form--big">
