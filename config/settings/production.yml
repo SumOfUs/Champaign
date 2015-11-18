@@ -1,0 +1,45 @@
+# Production Settings for Champaign
+
+# General Champaign settings.
+     secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
+     omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
+     omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
+     liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'file' %>
+     raven_dsn: <%= ENV['RAVEN_DSN'] %>
+     asset_sync: <%= ENV['ASSET_SYNC'] %>
+     asset_sync_gzip_compression: <%= ENV['ASSET_SYNC_GZIP_COMPRESSION'] %>
+     oauth_domain_whitelist:
+       - 'sumofus.org'
+
+
+# AWS Config Variables.
+     aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+     aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+     aws_region: <%= ENV['AWS_REGION'] %>
+     sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
+     s3_host_name: <%= ENV['S3_HOST_NAME'] %>
+     ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
+
+
+# Direct ActionKit Connection variables.
+     ak_api_url: <%= ENV['AK_API_URL'] %>
+     ak_username: <%= ENV['AK_USERNAME'] %>
+     ak_password: <%= ENV['AK_PASSWORD'] %>
+
+
+# CloudFront config Variables.
+     cloudfront_url: <%= ENV['CLOUDFRONT_URL'] %>
+     fog_directory: <%= ENV['FOG_DIRECTORY'] %>
+     fog_provider: <%= ENV['FOG_PROVIDER'] %>
+     fog_region: <%= ENV['FOG_REGION'] %>
+     rails_serve_static_files: <%= ENV['RAILS_SERVE_STATIC_FILES'] %>
+     compile_static: <%= ENV['COMPILE_STATIC'] %>
+
+
+# NewRelic Connection information.
+     newrelic_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
+
+
+# Social media connection information.
+     facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
+     share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>

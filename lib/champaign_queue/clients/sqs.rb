@@ -30,7 +30,7 @@ module ChampaignQueue
       end
 
       def queue_url
-        ENV['SQS_QUEUE_URL']
+        Settings.sqs_queue_url
       end
     end
   end

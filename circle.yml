@@ -37,7 +37,8 @@ deployment:
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging'
   testing:
-    branch: campaigner-ui
+    # Change the branch value to your branch name to push up your branch to the testing server automatically.
+    branch: centralize-config
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web

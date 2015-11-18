@@ -2,8 +2,10 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 # Synchronises Assets between Rails and S3.
-gem 'fog-aws'
-gem 'asset_sync'
+group :production do
+  gem 'fog-aws'
+  gem 'asset_sync'
+end
 
 gem 'rails', '4.2.3'
 gem 'pg'
@@ -70,6 +72,10 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 gem 'newrelic_rpm'
 gem 'puma'
 gem 'typhoeus'
+
+# The Config gem is used as a way to easily access configuration variables without calling directly
+# to the ENV.
+gem 'config'
 
 group :development, :test do
   gem 'byebug'

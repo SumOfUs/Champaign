@@ -23,7 +23,7 @@ class ConnectWithOauthProvider
   private
 
   def whitelisted
-    return true if whitelist.empty?
+    return true if whitelist.blank?
     whitelist.include? email_domain
   end
 
@@ -54,7 +54,7 @@ class ConnectWithOauthProvider
   end
 
   def whitelist
-    ChampaignConfig.oauth_domain_whitelist
+    Settings.oauth_domain_whitelist
   end
 
   alias_method :user_exists_but_disconnected, :disconnected_user
