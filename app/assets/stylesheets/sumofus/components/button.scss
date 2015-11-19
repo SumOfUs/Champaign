@@ -15,10 +15,6 @@
   text-decoration: none;
   text-align: center;
 
-  @if is-superselector(button, &) {
-    padding-top: 0;
-  }
-
   // main color scheme
   background-color: $color;
 
@@ -32,14 +28,22 @@
   }
 }
 
-button.button {
-  @include button($orange);
-}
-
 .button {
   @include button($orange);
+
+  &--disabled {
+    @include button($slate-gray);
+    cursor: auto;
+    &:hover, &:active {
+      box-shadow: none;
+      background-color: $slate-gray;
+    }
+  }
 }
 
+button.button {
+  padding-top: 0;
+}
 
 
 // shareprogress isn't super customization friendly, so we do

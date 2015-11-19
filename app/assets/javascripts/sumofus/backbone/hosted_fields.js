@@ -13,6 +13,7 @@ const HostedFieldsMethods = {
       braintree.setup(clientToken, "custom", {
         id: "hosted-fields",
         onPaymentMethodReceived: this.paymentMethodReceived(),
+        onError: this.handleErrors(),
         hostedFields: {
           number: {
             selector: ".hosted-fields__number",
@@ -24,7 +25,7 @@ const HostedFieldsMethods = {
           },
           expirationDate: {
             selector: ".hosted-fields__expiration",
-            placeholder: "Expiration",
+            placeholder: "mm/yy",
           },
           styles: {
             input: {
@@ -33,6 +34,12 @@ const HostedFieldsMethods = {
           }
         }
       });
+    }
+  },
+
+  handleErrors: function() {
+    return (a, b) => {
+      this.enableButton();
     }
   },
 

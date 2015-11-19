@@ -16,6 +16,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .action-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'handleValidationSuccess',
+    'submit form#hosted-fields': 'disableButton',
   },
 
   initialize: function() {
@@ -123,12 +124,15 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       payment_method_nonce: this.nonce,
       amount: this.donationAmount,
       user: this.serializeUserForm(),
-    }, this.handleTransaction);
+    }, this.handleTransaction());
   },
 
-  handleTransaction: function(data, status) {
-    if (data.success) {
-      console.log('transaction success!', data, status);
+  handleTransaction: function() {
+    return (data, status) => {
+      if (data.success) {
+        console.log('transaction success!', data, status);
+        this.enableButton();
+      }
     }
   },
 
@@ -139,6 +143,14 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       serialized[field.name] = field.value;
     });
     return serialized;
+  },
+
+  disableButton: function(e) {
+    this.$('.fundraiser-bar__submit-button').text('Processing...').addClass('button--disabled');
+  },
+
+  enableButton: function() {
+    this.$('.fundraiser-bar__submit-button').text('Submit').removeClass('button--disabled');
   },
 
 }));
