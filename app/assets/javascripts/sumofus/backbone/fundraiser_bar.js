@@ -58,9 +58,19 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     if (typeof amount == 'string' && amount.indexOf('$') > -1) {
       amount = amount.replace('$', '');
     }
-    this.donationAmount = parseFloat(amount);
+    this.setDonationAmount(amount);
     if (this.donationAmount > 0) {
       this.changeStep(2)
+    }
+  },
+
+  setDonationAmount: function(amount) {
+    let parsed = parseFloat(amount);
+    if (parsed > 0){
+      this.donationAmount = parsed;
+      this.$('.fundraiser-bar__display-amount').text(`$${this.donationAmount}`);
+    } else {
+      this.changeStep(1);
     }
   },
 
