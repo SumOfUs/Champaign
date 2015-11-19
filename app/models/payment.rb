@@ -5,7 +5,7 @@ module Payment
     end
 
     def write_transaction(transaction:, provider: :braintree)
-      BraintreeTransactionBuilder.new(transaction).build
+      BraintreeTransactionBuilder.build(transaction)
     end
 
     def customer(email)
@@ -24,10 +24,12 @@ module Payment
     end
 
     def build
-      ::Payment::BraintreeTransaction.create(transaction_attrs)
+      if @transaction.success?
+        ::Payment::BraintreeTransaction.create(transaction_attrs)
 
-      unless customer
-        ::Payment::BraintreeCustomer.create(customer_attrs)
+        unless customer
+          ::Payment::BraintreeCustomer.create(customer_attrs)
+        end
       end
     end
 
