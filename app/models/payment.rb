@@ -5,7 +5,9 @@ module Payment
     end
 
     def write_transaction(transaction:, provider: :braintree)
-      BraintreeTransactionBuilder.new(transaction).build
+      if transaction.success?
+        BraintreeTransactionBuilder.new(transaction).build
+      end
     end
 
     def customer(email)
