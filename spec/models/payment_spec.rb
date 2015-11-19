@@ -15,8 +15,7 @@ describe Payment do
     let(:builder) { double }
 
     before do
-      allow(Payment::BraintreeTransactionBuilder).to receive(:new){ builder }
-      allow(builder).to receive(:build)
+      allow(Payment::BraintreeTransactionBuilder).to receive(:build){ builder }
     end
 
     it 'requires a transaction' do
@@ -26,8 +25,7 @@ describe Payment do
     end
 
     it 'delegates to transaction builder' do
-      expect(Payment::BraintreeTransactionBuilder).to receive(:new).with('transaction')
-      expect(builder).to receive(:build)
+      expect(Payment::BraintreeTransactionBuilder).to receive(:build).with('transaction')
 
       Payment.write_transaction(transaction: 'transaction')
     end

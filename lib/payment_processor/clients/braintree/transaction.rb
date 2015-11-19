@@ -2,7 +2,21 @@ module PaymentProcessor
   module Clients
     module Braintree
       class Transaction
-
+        # = Braintree::Transaction
+        #
+        # Wrapper around Braintree's Ruby SDK.
+        #
+        # == Usage
+        #
+        # Call <tt>PaymentProcessor::Clients::Braintree::Transaction.make_transaction</tt>
+        #
+        # === Options
+        #
+        # * +:nonce+  - Braintree token that references a payment method provided by the client
+        # * +:amount+ - Billing amount
+        # * +:user+   - Hash of information describing the customer. Must include email, and name
+        # * +:store+  - Class/Module which responds to +.write_transaction+. Should handle storing the transaction
+        #
         def self.make_transaction(nonce:, amount:, user:, store: nil)
           new(nonce, amount, user, store).sale
         end
@@ -15,9 +29,7 @@ module PaymentProcessor
         end
 
         def sale
-          if @store
-            store_transaction
-          end
+          store_transaction if @store
 
           transaction
         end
