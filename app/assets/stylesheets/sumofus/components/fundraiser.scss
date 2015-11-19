@@ -2,7 +2,7 @@
   &__steps {
     position: relative;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 21px;
   }
   &__step-connector {
     width: 70%;
@@ -96,6 +96,7 @@
     font-size: 14px;
     font-weight: bold;
     margin-top: 6px;
+    min-width: 65px;
 
     &--past {
       color: $slate-gray;
