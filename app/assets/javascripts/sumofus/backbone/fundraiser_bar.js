@@ -19,12 +19,13 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'submit form#hosted-fields': 'disableButton',
   },
 
-  initialize: function() {
+  initialize: function(follow_up_url) {
     this.initializeSticky();
     this.initializeBraintree();
     this.changeStep(1);
     this.donationAmount = 0;
-    this.handleError();
+    this.handleFormErrors();
+    this.follow_up_url = follow_up_url;
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
@@ -129,9 +130,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   handleTransaction: function() {
     return (data, status) => {
+      this.enableButton();
       if (data.success) {
         console.log('transaction success!', data, status);
-        this.enableButton();
+        window.location.href = this.follow_up_url
+      } else {
+        console.error('Transaction failed:', data);
       }
     }
   },

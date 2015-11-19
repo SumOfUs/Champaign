@@ -1,6 +1,6 @@
 const FormMethods = {
 
-  handleError: function() {
+  handleFormErrors: function() {
     this.$('form').on('ajax:error', window.Champaign.showErrors);
   },
 
