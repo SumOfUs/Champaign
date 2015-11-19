@@ -1,5 +1,6 @@
 class LiquidPartial < ActiveRecord::Base
   include HasLiquidPartials
+  has_paper_trail
 
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false

@@ -1,4 +1,5 @@
 class Member < ActiveRecord::Base
+  has_paper_trail on: [:update, :destroy]
 
   def self.find_from_request(akid: nil, id: nil)
     if akid.present?
