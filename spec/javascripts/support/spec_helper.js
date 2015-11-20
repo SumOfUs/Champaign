@@ -1,14 +1,13 @@
 //= require jquery
 //= require support/sinon
 //= require support/chai
+//= require chai-jquery
 //= require magic_lamp
 
-// require support/chai-jquery
 // require support/sinon-chai
-// require application
 // require_self
 
-// jQuery.fx.off = true;
+jQuery.fx.off = true;
 
 MagicLamp.preload();
 
