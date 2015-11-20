@@ -290,8 +290,13 @@ GEM
     logger (1.2.8)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
+    magic_lamp (1.6.2)
+      method_source
+      rails (>= 4.0.0)
+      rake
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.6.2)
     mimemagic (0.3.0)
     mini_portile (0.6.2)
@@ -446,6 +451,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    teaspoon (1.1.1)
+      railties (>= 3.2.5, < 5)
+    teaspoon-mocha (2.3.3)
+      teaspoon (>= 1.0.0)
     temple (0.7.6)
     thor (0.19.1)
     thread_safe (0.3.5)
@@ -505,6 +514,7 @@ DEPENDENCIES
   jquery-rails
   liquid
   logger
+  magic_lamp
   newrelic_rpm
   omniauth-google-oauth2
   paper_trail
@@ -531,6 +541,8 @@ DEPENDENCIES
   share_progress!
   slim-rails
   spring
+  teaspoon
+  teaspoon-mocha
   timecop
   typhoeus
   uglifier (>= 1.3.0)

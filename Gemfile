@@ -85,6 +85,9 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'vcr'
+  gem 'teaspoon'
+  gem 'teaspoon-mocha'
+  gem 'magic_lamp'
 end
 
 

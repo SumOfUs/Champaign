@@ -124,4 +124,5 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
 end
