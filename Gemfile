@@ -41,6 +41,9 @@ gem 'omniauth-google-oauth2'
 # Rails admin for data administration
 gem 'activeadmin', github: 'activeadmin'
 
+# Country select gives ActiveAdmin the ability to have country dropdowns.
+gem 'country_select'
+
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
 gem 'sentry-raven'
