@@ -13,9 +13,22 @@ VCR.configure do |config|
   end
 end
 
+
 describe "Braintree API" do
   def body
     JSON.parse(response.body).with_indifferent_access
+  end
+
+  describe 'making a subscription' do
+    let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
+
+    it 'creates subscription' do
+      VCR.use_cassette('braintree_subscription_success') do
+        post '/api/braintree/subscription', email: customer.email, amount: '100.00'
+
+        expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+      end
+    end
   end
 
   describe "making a transaction" do

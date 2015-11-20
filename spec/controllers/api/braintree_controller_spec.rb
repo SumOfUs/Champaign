@@ -20,8 +20,42 @@ describe Api::BraintreeController do
     end
   end
 
-  describe "POST transaction" do
+  # endpoint /api/braintree/subscription
+  #
+  describe 'POST subscription' do
+    context 'valid subscription' do
+      let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
+      let(:subscription_object) { double(:subscription_object, subscription: double(id: 'xyz123')) }
 
+      before do
+        allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
+        allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription).and_return( subscription_object )
+
+        post :subscription, amount: '12.23', email: 'foo@example.com'
+      end
+
+      it 'finds customer' do
+        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com')
+      end
+
+      it 'creates subscription' do
+        expected_arguments = {
+          amount: '12.23',
+          plan_id: '35wm',
+          payment_method_token: 'a1b2c3'
+        }
+
+        expect(PaymentProcessor::Clients::Braintree::Subscription).to have_received(:make_subscription).
+          with( expected_arguments )
+      end
+
+      it 'returns subsription ID' do
+        expect(response.body).to eq( { success: true, subscription_id: 'xyz123' }.to_json )
+      end
+    end
+  end
+
+  describe "POST transaction" do
     context "valid transaction" do
 
       let(:params) do {
