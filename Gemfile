@@ -39,7 +39,7 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 
 # Rails admin for data administration
-gem 'rails_admin'
+gem 'activeadmin', github: 'activeadmin'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
