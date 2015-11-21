@@ -18,10 +18,6 @@ module PaymentProcessor
 
         private
 
-        def find_user
-
-        end
-
         def options
           {
               payment_method_token: @token,
