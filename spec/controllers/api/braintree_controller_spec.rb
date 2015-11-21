@@ -24,8 +24,9 @@ describe Api::BraintreeController do
   #
   describe 'POST subscription' do
     context 'valid subscription' do
-      let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
-      let(:subscription_object) { double(:subscription_object, subscription: double(id: 'xyz123')) }
+      let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
+      let(:customer) { double(:customer, email: 'foo@example.com', default_payment_method: payment_method) }
+      let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'xyz123')) }
 
       before do
         allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
@@ -40,7 +41,7 @@ describe Api::BraintreeController do
 
       it 'creates subscription' do
         expected_arguments = {
-          amount: '12.23',
+          amount: 12.23,
           plan_id: '35wm',
           payment_method_token: 'a1b2c3'
         }
