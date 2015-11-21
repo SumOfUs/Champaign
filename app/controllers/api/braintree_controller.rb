@@ -5,18 +5,26 @@ class Api::BraintreeController < ApplicationController
   end
 
   def transaction
-    sale = braintree.make_transaction(options)
-
-    if sale.success?
-      render json: { success: true, transaction_id: sale.transaction.id }
+    result = braintree::Transaction.make_transaction(transaction_options)
+    if result.success?
+      render json: { success: true, transaction_id: result.transaction.id }
     else
-      render json: { success: false, errors: sale.errors }
+      render json: { success: false, errors: result.errors }
+    end
+  end
+
+  def subscription
+    result = braintree::Subscription.make_subscription(subscription_options)
+    if result.success?
+      render json: { success: true, subscription_id: result.subscription.id }
+    else
+      render json: { success: false, errors: result.errors.for(:subscription) }
     end
   end
 
   private
 
-  def options
+  def transaction_options
     {
       nonce: params[:payment_method_nonce],
       user: params[:user],
@@ -25,7 +33,15 @@ class Api::BraintreeController < ApplicationController
     }
   end
 
+  def subscription_options
+    {
+      amount: params[:amount].to_f,
+      plan_id: '35wm',
+      payment_method_token: Payment.customer(params[:email]).default_payment_method.token
+    }
+  end
+
   def braintree
-    PaymentProcessor::Clients::Braintree::Transaction
+    PaymentProcessor::Clients::Braintree
   end
 end
