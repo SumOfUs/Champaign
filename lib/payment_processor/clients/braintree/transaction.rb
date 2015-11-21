@@ -26,6 +26,7 @@ module PaymentProcessor
           @nonce = nonce
           @user = user
           @store = store
+
         end
 
         def sale
