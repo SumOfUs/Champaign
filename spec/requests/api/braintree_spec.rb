@@ -22,11 +22,24 @@ describe "Braintree API" do
   describe 'making a subscription' do
     let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
 
-    it 'creates subscription' do
-      VCR.use_cassette('braintree_subscription_success') do
-        post '/api/braintree/subscription', email: customer.email, amount: '100.00'
+    context "successful subscription" do
+      it 'creates subscription' do
+        VCR.use_cassette('braintree_subscription_success') do
+          post '/api/braintree/subscription', email: customer.email, amount: '100.00'
 
-        expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+          expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+        end
+      end
+    end
+    context "unsuccessful subscription" do
+      it 'returns error messages and codes for a subscription where the e-mail is not associated with a token' do
+        VCR.use_cassette('braintree_failed_subscription_no_token') do
+          post '/api/braintree/subscription', amount: '100.00', email: 'does_not_exist@example.com'
+          expect(body[:success]).to be false
+          expect(body.keys).to contain_exactly('success','errors')
+          expect(body[:errors].is_a?(Array)).to be true
+          expect(body[:errors].first.keys).to contain_exactly('code','attribute', 'message')
+        end
       end
     end
   end
@@ -88,7 +101,7 @@ describe "Braintree API" do
     end
   end
 
-  context 'unsuccessful' do
+  context 'unsuccessful transaction' do
 
     it 'returns error messages and codes in an invalid transaction' do
       VCR.use_cassette("transaction_failure_invalid_nonce") do
