@@ -15,6 +15,7 @@ class Api::BraintreeController < ApplicationController
 
   def subscription
     result = braintree::Subscription.make_subscription(subscription_options)
+
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
@@ -37,11 +38,15 @@ class Api::BraintreeController < ApplicationController
     {
       amount: params[:amount].to_f,
       plan_id: '35wm',
-      payment_method_token: Payment.customer(params[:email]).default_payment_method.token
+      payment_method_token: default_payment_method_token
     }
   end
 
   def braintree
     PaymentProcessor::Clients::Braintree
+  end
+
+  def default_payment_method_token
+    @token ||= ::Payment.customer(params[:email]).try(:card_vault_token)
   end
 end
