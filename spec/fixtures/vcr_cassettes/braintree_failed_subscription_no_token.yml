@@ -28,20 +28,13 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Mon, 23 Nov 2015 20:41:07 GMT
+      - Mon, 23 Nov 2015 21:14:11 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
       - chunked
       Connection:
       - close
-      X-Frame-Options:
-      - SAMEORIGIN
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
       X-Authentication:
       - basic_auth
       X-User:
@@ -50,18 +43,22 @@ http_interactions:
       - Accept-Encoding
       Content-Encoding:
       - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 6bb48af5-b6b4-4ee0-b1ca-148aa3fdde90
+      - 6d250e6b13d0791bd3258629d97b989f
       X-Runtime:
-      - '0.429408'
+      - '0.066004'
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAON5U1YAA5xSy27DIBC85ysQd0KiqFIjYXLLuYf2HGGzSlHNQyxO678v
+        H4sIAKOBU1YAA5xSy27DIBC85ysQd0KiqFIjYXLLuYf2HGGzSlHNQyxO678v
         8TOxfKh629mdGfaBOP3YmtwgovGuoPvtjhJwldfGXQv68X5mr/QkN0IFwyBG
         H1kEDN4hyA0hokvhPZwASW2AgqoYVUv5UMKmxCqakPIrfWqdP9bG6oxzJncF
         8rg/7g6Cd/FjUaUUTdkkGPywtaWvqQyqteDSxUL69PqS/Bc4wSf2k4cFRHUF
@@ -69,5 +66,5 @@ http_interactions:
         vzssFIIvb/DYowgqKjtSh52xfn7Wz+9MXdAUG5iOGmrlmNHy8PJtBR9R5zzb
         /WepefyV7/YLAAD//wMAiiypTKsCAAA=
     http_version: 
-  recorded_at: Mon, 23 Nov 2015 20:41:07 GMT
+  recorded_at: Mon, 23 Nov 2015 21:14:11 GMT
 recorded_with: VCR 3.0.0
