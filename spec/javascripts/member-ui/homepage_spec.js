@@ -22,18 +22,56 @@ describe("fundraiser", function() {
 
   describe('loading and first panel', function(){
     it("shows only the first two panels of the donate panel", function() {
-      expect($('.fundraiser-bar__step-panel[data-step="1"]')).not.to.have.class('hidden-closed');
-      expect($('.fundraiser-bar__step-panel[data-step="2"]')).to.have.class('hidden-closed');
-      expect($('.fundraiser-bar__step-panel[data-step="3"]')).to.have.class('hidden-closed');
+      expect(helpers.currentStepOf(3)).to.eq(1);
     });
 
-    it('does not display the "next" button', function(){});
-    it('autofills the custom amount with a dollar sign', function(){});
-    it('reveals the "next" button when a custom amount is entered', function(){});
-    it('moves to step 2 when next clicked with custom amount', function(){});
-    it('moves to step 2 when amount button clicked', function(){});
-    it('does not move to step 2 if custom amount has only dollar sign', function(){});
-    it('displays the amount over step 1 after moving ahead', function(){});
+    it('does not display the "next" button', function(){
+      expect($('.fundraiser-bar__first-continue')).to.have.css('display', 'none');
+    });
+
+    it('autofills the custom amount with a dollar sign', function(){
+      var $el = $('.fundraiser-bar__custom-field');
+      expect($el).to.have.value('');
+      $el.focus();
+      expect($el).to.have.value('$');
+    });
+
+    it('reveals the "next" button when a custom amount is entered', function(){
+      var $next = $('.fundraiser-bar__first-continue');
+      var $input = $('.fundraiser-bar__custom-field');
+      expect($next).to.have.css('display','none');
+      $input.focus();
+      expect($next).not.to.have.css('display','none');
+      $input.blur();
+      expect($next).have.css('display','none');
+      $input.focus();
+      $input.val('$25');
+      $input.blur();
+      expect($next).not.to.have.css('display','none');
+    });
+
+    it('moves to step 2 when amount button clicked', function(){
+      $('.fundraiser-bar__amount-button').click();
+      expect(helpers.currentStepOf(3)).to.eq(2);
+    });
+
+    it('moves to step 2 when next clicked with custom amount', function(){
+      $('.fundraiser-bar__custom-field').value('$22');
+      $('.fundraiser-bar__first-continue').click();
+      expect(helpers.currentStepOf(3)).to.eq(2);
+    });
+ 
+    it('does not move to step 2 if custom amount has only dollar sign', function(){
+      $('.fundraiser-bar__custom-field').value('$');
+      $('.fundraiser-bar__first-continue').click();
+      expect(helpers.currentStepOf(3)).to.eq(1);
+    });
+
+    it('displays the amount over step 1 after moving ahead', function(){
+      $('.fundraiser-bar__custom-field').value('$22');
+      $('.fundraiser-bar__first-continue').click();
+      expect($('.fundraiser-bar__display-amount').text()).to.eq('$22');
+    });
   });
 
   describe('second panel', function(){
