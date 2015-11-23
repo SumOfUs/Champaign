@@ -32,7 +32,7 @@ describe Api::BraintreeController do
         allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
         allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription).and_return( subscription_object )
 
-        post :subscription, amount: '12.23', email: 'foo@example.com'
+        post :subscription, price: '12.23', email: 'foo@example.com'
       end
 
       xit 'finds customer' do
@@ -41,7 +41,7 @@ describe Api::BraintreeController do
 
       xit 'creates subscription' do
         expected_arguments = {
-          amount: 12.23,
+          price: 12.23,
           plan_id: '35wm',
           payment_method_token: 'a1b2c3'
         }
