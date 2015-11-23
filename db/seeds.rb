@@ -2,18 +2,14 @@ puts "Seeding..."
 
 
 # Languages
-languages =  [
+languages = [
     {code: 'en', name: 'English'},
     {code: 'fr', name: 'French'},
     {code: 'de', name: 'German'}
 ]
 
 languages.each do |language|
-  begin
-    Language.create!(language)
-  rescue ActiveRecord::RecordInvalid
-    # Do nothing, the record already exists or can't be created.
-  end
+  Language.create!(language)
 end
 
 
@@ -27,17 +23,13 @@ end
 
 
 basic_form_fields = [
-  {label: 'Email Address', name: 'email',  required: true,  data_type: 'email', form: basic_form},
-  {label: 'Full Name',     name: 'name',   required: true,  data_type: 'text', form: basic_form},
-  {label: 'Postal Code',   name: 'postal', required: true,  data_type: 'text', form: basic_form}
+    {label: 'Email Address', name: 'email', required: true, data_type: 'email', form: basic_form},
+    {label: 'Full Name', name: 'name', required: true, data_type: 'text', form: basic_form},
+    {label: 'Postal Code', name: 'postal', required: true, data_type: 'text', form: basic_form}
 ]
 
 basic_form_fields.each do |field|
-  begin
-    FormElement.create!(field)
-  rescue ActiveRecord::RecordInvalid
-    # Do nothing, the record already exists or can't be created.
-  end
+  FormElement.create!(field)
 end
 
 
@@ -92,11 +84,7 @@ all_tags = [
     {name: '@USA', actionkit_uri: '/rest/v1/tag/966/'}
 ]
 all_tags.each do |tag|
-  begin
-    Tag.create!(tag)
-  rescue ActiveRecord::RecordInvalid
-    # Do nothing, the record already exists or can't be created.
-  end
+  Tag.create!(tag)
 end
 
 
