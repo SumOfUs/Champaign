@@ -4,5 +4,6 @@ class Tag < ActiveRecord::Base
 
   has_many :pages_tags, dependent: :destroy
   has_many :pages, through: :pages_tags
+
 end
 
