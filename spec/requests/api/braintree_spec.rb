@@ -1,18 +1,4 @@
 require 'rails_helper'
-require 'vcr'
-
-VCR.configure do |config|
-  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
-  config.hook_into :webmock
-
-  # The filter_sensitive_data configuration option prevents
-  # sensitive data from being written to your cassette files.
-  #
-  %w{BRAINTREE_MERCHANT_ID BRAINTREE_PUBLIC_KEY BRAINTREE_PRIVATE_KEY}.each do |env|
-    config.filter_sensitive_data("<#{env}>") { ENV[env] }
-  end
-end
-
 
 describe "Braintree API" do
   def body

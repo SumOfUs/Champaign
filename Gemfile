@@ -20,7 +20,8 @@ gem 'countries'
 gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
-
+gem 'money'
+gem 'google_currency'
 # Braintree as a payment processor
 gem 'braintree', '~> 2.54.0'
 
