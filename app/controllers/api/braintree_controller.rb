@@ -15,11 +15,13 @@ class Api::BraintreeController < ApplicationController
 
   def subscription
     result = braintree::Subscription.make_subscription(subscription_options)
-
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
-      render json: { success: false, errors: result.errors.for(:subscription) }
+      # Subscription-specific errors can be accessed with results.errors.for(:subscription),
+      # but that would not include errors due to invalid parameters.
+      # Subscription-specific errors are raised e.g. if there's an attempt to update a deleted subscription.
+      render json: { success: false, errors: result.errors }
     end
   end
 
