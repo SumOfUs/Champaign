@@ -4,6 +4,8 @@
 //= require chai-jquery
 //= require magic_lamp
 
+//= require support/helper_functions
+
 // require support/sinon-chai
 // require_self
 

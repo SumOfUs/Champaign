@@ -2,6 +2,18 @@
 
 describe("fundraiser", function() {
 
+  before(function() {
+    this.server = sinon.fakeServer.create();
+    this.server.respondWith("GET", '/api/braintree/token',
+      [200, { "Content-Type": "application/json" },
+             '{ "token": '+helpers.btClientToken+' }'
+             ]);
+  });
+
+  after(function() {
+    this.server.restore();
+  });
+
   beforeEach(function() {
     MagicLamp.wish("pages/fundraiser");
     var myFundraiserBar = new window.FundraiserBar("/pages/636/follow-up");
