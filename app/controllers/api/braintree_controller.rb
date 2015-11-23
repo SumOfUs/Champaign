@@ -1,4 +1,6 @@
 class Api::BraintreeController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }
@@ -38,7 +40,7 @@ class Api::BraintreeController < ApplicationController
 
   def subscription_options
     {
-      amount: params[:amount].to_f,
+      price: params[:price].to_f,
       plan_id: '35wm',
       payment_method_token: default_payment_method_token
     }

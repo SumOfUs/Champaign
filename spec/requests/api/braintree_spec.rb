@@ -25,8 +25,7 @@ describe "Braintree API" do
     context "successful subscription" do
       it 'creates subscription' do
         VCR.use_cassette('braintree_subscription_success') do
-          post '/api/braintree/subscription', email: customer.email, amount: '100.00'
-
+          post '/api/braintree/subscription', email: customer.email, price: '100.00'
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end
       end
