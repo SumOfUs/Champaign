@@ -17,7 +17,7 @@ module PaymentProcessor
         # * +:user+   - Hash of information describing the customer. Must include email, and name
         # * +:store+  - Class/Module which responds to +.write_transaction+. Should handle storing the transaction
         #
-        def self.make_transaction(nonce:, amount:, user:, recurring: fale, store: nil)
+        def self.make_transaction(nonce:, amount:, user:, recurring: false, store: nil)
           new(nonce, amount, user, recurring, store).sale
         end
 
