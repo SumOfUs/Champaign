@@ -17,21 +17,22 @@ module PaymentProcessor
         # * +:user+   - Hash of information describing the customer. Must include email, and name
         # * +:store+  - Class/Module which responds to +.write_transaction+. Should handle storing the transaction
         #
-        def self.make_transaction(nonce:, amount:, user:, store: nil)
-          new(nonce, amount, user, store).sale
+        def self.make_transaction(nonce:, amount:, user:, recurring: false, store: nil)
+          new(nonce, amount, user, recurring, store).sale
         end
 
-        def initialize(nonce, amount, user, store)
+        def initialize(nonce, amount, user, recurring, store)
           @amount = amount
           @nonce = nonce
           @user = user
+          @recurring = recurring
           @store = store
-
         end
 
         def sale
           store_transaction if @store
 
+          make_recurring if transaction.success? and @recurring
           transaction
         end
 
@@ -43,6 +44,10 @@ module PaymentProcessor
 
         def store_transaction
           @store.write_transaction(transaction: transaction, provider: :braintree )
+        end
+
+        def make_recurring
+          Subscription.make_subscription_from_transaction(transaction)
         end
 
         def customer

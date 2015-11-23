@@ -32,6 +32,7 @@ class Api::BraintreeController < ApplicationController
       nonce: params[:payment_method_nonce],
       user: params[:user],
       amount: params[:amount].to_f,
+      recurring: params[:recurring] || false,
       store: Payment
     }
   end
