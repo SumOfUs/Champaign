@@ -4,9 +4,10 @@ describe("fundraiser", function() {
 
   before(function() {
     this.server = sinon.fakeServer.create();
+    this.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
     this.server.respondWith("GET", '/api/braintree/token',
-      [200, { "Content-Type": "application/json" },
-             '{ "token": '+helpers.btClientToken+' }' ]);
+                            [200, { "Content-Type": "application/json" },
+                            '{ "token": '+helpers.btClientToken+' }' ]);
   });
 
   after(function() {
@@ -77,20 +78,10 @@ describe("fundraiser", function() {
     // most of the interaction on the form are on the form js, which is beyond the scope
     // of this test suite
 
-    before(function(){
-      this.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
-      this.xhr = sinon.useFakeXMLHttpRequest();
-      self = this;
-      self.requests = [];
-      this.xhr.onCreate = function(xhr) {
-        self.requests.push(xhr);
-      };
-    });
-
     beforeEach(function(){
       $('.fundraiser-bar__custom-field').val('$22');
       $('.fundraiser-bar__first-continue').click();
-      this.requests = [];
+      helpers.recordRequests(this);
     });
 
     it('returns to panel 1 if number 1 is clicked', function(){
@@ -115,6 +106,39 @@ describe("fundraiser", function() {
       this.requests[0].respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
       expect(helpers.currentStepOf(3)).to.eq(2);
     });
+  });
+
+  describe('third panel', function() {
+
+    beforeEach(function(){
+      helpers.recordRequests(this);
+      $('.fundraiser-bar__custom-field').val('$22');
+      $('.fundraiser-bar__first-continue').click();
+      $('.action-bar__submit-button').click();
+      this.requests[this.requests.length-1].respond(200, { "Content-Type": "application/json" }, '{}');
+      expect(helpers.currentStepOf(3)).to.eq(3);
+    });
+
+    it('disables the button when the form submits', function(){
+      var $button = $('.fundraiser-bar__submit-button');
+      expect($button).not.to.have.class('button--disabled');
+      $button.click();
+      expect($button).to.have.class('button--disabled');
+    });
+
+    xit('first makes a request to braintree', function(){
+      this.requests = [];
+      $('.fundraiser-bar__submit-button').click();
+      console.log('hey so requests:',this.requests);
+    });
+
+    xit('sends the nonce to the server after receiving it from braintree', function(){});
+    xit('loads the follow-up url after success from the server', function(){});
+
+    xit('displays validation errors passed back from the server', function(){
+      // it doesn't actually do this yet, spec is here as a reminder
+    })
+
   });
 
 });
