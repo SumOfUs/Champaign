@@ -10,6 +10,7 @@
 // require_self
 
 jQuery.fx.off = true;
+window.expect = chai.expect;
 
 MagicLamp.preload();
 
@@ -44,4 +45,3 @@ MagicLamp.preload();
 //   });
 // });
 
-window.expect = chai.expect;
