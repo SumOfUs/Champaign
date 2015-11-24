@@ -1,26 +1,35 @@
 //= require sumofus
 
 describe("fundraiser", function() {
+  var suite = this;
 
   before(function() {
-    this.server = sinon.fakeServer.create();
-    this.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
-    this.server.respondWith("GET", '/api/braintree/token',
-                            [200, { "Content-Type": "application/json" },
-                            '{ "token": '+helpers.btClientToken+' }' ]);
+    suite.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
+    window.onbeforeunload = function(){
+      return 'Are you sure you want to leave?';
+    };
   });
 
-  after(function() {
-    this.server.restore();
+  afterEach(function() {
+    suite.server.restore();
   });
 
   beforeEach(function() {
     MagicLamp.wish("pages/fundraiser");
+
+
+    suite.server = sinon.fakeServer.create();
+    suite.server.respondWith("GET", '/api/braintree/token',
+                            [200, { "Content-Type": "application/json" },
+                            '{ "token": "'+helpers.btClientToken+'" }' ]);
+
     var myFundraiserBar = new window.FundraiserBar("/pages/636/follow-up");
+    suite.server.respond(); // respond to request for token
   });
 
 
   describe('loading and first panel', function(){
+
     it("shows only the first two panels of the donate panel", function() {
       expect(helpers.currentStepOf(3)).to.eq(1);
     });
@@ -81,7 +90,6 @@ describe("fundraiser", function() {
     beforeEach(function(){
       $('.fundraiser-bar__custom-field').val('$22');
       $('.fundraiser-bar__first-continue').click();
-      helpers.recordRequests(this);
     });
 
     it('returns to panel 1 if number 1 is clicked', function(){
@@ -91,54 +99,22 @@ describe("fundraiser", function() {
 
     it('makes a request to validate the form', function(){
       $('.action-bar__submit-button').click();
-      expect(this.requests[0].method).to.eq("POST");
-      expect(this.requests[0].url).to.match(this.validatePath);
+      var request = helpers.last(suite.server.requests);
+      expect(request.method).to.eq("POST");
+      expect(request.url).to.match(suite.validatePath);
     });
 
     it('moves to panel 3 if validation passes', function(){
       $('.action-bar__submit-button').click();
-      this.requests[0].respond(200, { "Content-Type": "application/json" }, '{}');
+      helpers.last(suite.server.requests).respond(200, { "Content-Type": "application/json" }, '{}');
       expect(helpers.currentStepOf(3)).to.eq(3);
     });
 
     it('stays on panel 2 if validation fails', function(){
       $('.action-bar__submit-button').click();
-      this.requests[0].respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
+      helpers.last(suite.server.requests).respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
       expect(helpers.currentStepOf(3)).to.eq(2);
     });
-  });
-
-  describe('third panel', function() {
-
-    beforeEach(function(){
-      helpers.recordRequests(this);
-      $('.fundraiser-bar__custom-field').val('$22');
-      $('.fundraiser-bar__first-continue').click();
-      $('.action-bar__submit-button').click();
-      this.requests[this.requests.length-1].respond(200, { "Content-Type": "application/json" }, '{}');
-      expect(helpers.currentStepOf(3)).to.eq(3);
-    });
-
-    it('disables the button when the form submits', function(){
-      var $button = $('.fundraiser-bar__submit-button');
-      expect($button).not.to.have.class('button--disabled');
-      $button.click();
-      expect($button).to.have.class('button--disabled');
-    });
-
-    xit('first makes a request to braintree', function(){
-      this.requests = [];
-      $('.fundraiser-bar__submit-button').click();
-      console.log('hey so requests:',this.requests);
-    });
-
-    xit('sends the nonce to the server after receiving it from braintree', function(){});
-    xit('loads the follow-up url after success from the server', function(){});
-
-    xit('displays validation errors passed back from the server', function(){
-      // it doesn't actually do this yet, spec is here as a reminder
-    })
-
   });
 
 });

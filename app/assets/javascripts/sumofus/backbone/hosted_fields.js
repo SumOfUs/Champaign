@@ -1,9 +1,5 @@
 const HostedFieldsMethods = {
 
-  initialize: function() {
-    this.setupBraintree();
-  },
-
   initializeBraintree: function() {
     this.getClientToken(this.setupFields());
   },
