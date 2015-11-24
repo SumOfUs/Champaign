@@ -34,6 +34,7 @@ class Api::BraintreeController < ApplicationController
       nonce: params[:payment_method_nonce],
       user: params[:user],
       amount: params[:amount].to_f,
+      recurring: params[:recurring] || false,
       store: Payment
     }
   end
@@ -41,7 +42,7 @@ class Api::BraintreeController < ApplicationController
   def subscription_options
     {
       price: params[:price].to_f,
-      plan_id: '35wm',
+      plan_id: ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'],
       payment_method_token: default_payment_method_token
     }
   end
