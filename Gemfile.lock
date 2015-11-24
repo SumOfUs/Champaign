@@ -338,6 +338,7 @@ GEM
       mime-types
       mimemagic (= 0.3.0)
     pg (0.18.2)
+    phantomjs (1.9.8.0)
     puma (2.12.2)
     rack (1.6.4)
     rack-pjax (0.8.0)
@@ -521,6 +522,7 @@ DEPENDENCIES
   paper_trail
   paperclip
   pg
+  phantomjs
   puma
   rails (= 4.2.3)
   rails-assets-backbone!
