@@ -15,7 +15,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .action-bar__clear-form': 'clearForm',
-    'ajax:success form.action': 'handleValidationSuccess',
+    'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
   },
 
@@ -35,10 +35,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return $('.mobile-indicator').is(':visible');
   },
 
-  handleValidationSuccess: function(e, data) {
-    this.changeStep(this.currentStep+1);
-  },
-
   primeCustom: function(e) {
     let $field = this.$(e.target);
     if ($field.val() == '') {
@@ -53,6 +49,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       $field[0].value = '';
       this.$('.fundraiser-bar__first-continue').slideUp(200);
     }
+  },
+
+  advanceToPayment: function(e, data) {
+    this.changeStep(this.currentStep+1);
   },
 
   advanceToDetails: function(e) {
