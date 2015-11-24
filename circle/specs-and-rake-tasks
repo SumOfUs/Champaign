@@ -21,6 +21,9 @@ done
 
 echo "OK"
 
+# Run javascript tests
+RAILS_ENV=test bundle exec teaspoon
+
 # Runs tests
 rspec spec
 
