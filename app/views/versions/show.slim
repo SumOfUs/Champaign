@@ -15,5 +15,7 @@
             td=version.index + 1
             td=version.created_at
             td=version.event == 'create' ? 'Created' : render('versions/changeset', changes: version.changeset)
-            td=User.find(version.whodunnit).email
+            td
+              - if version.whodunnit
+                = User.find(version.whodunnit).email
 

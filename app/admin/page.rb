@@ -23,7 +23,7 @@ ActiveAdmin.register Page do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for page do
       row :versions do
-        link_to "There are #{page.versions.length} previous versions of this page. Click here to view."
+        link_to "There are #{page.versions.length} total versions of this page. Click here to view.", controller: '/versions', action: 'show', model: 'page', id: page.id
       end
     end
   end

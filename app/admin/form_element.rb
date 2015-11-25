@@ -15,4 +15,12 @@ ActiveAdmin.register FormElement do
   filter :name
   filter :data_type
   filter :form
+
+  sidebar 'Previous Versions', only: :show do
+    attributes_table_for form_element do
+      row :versions do
+        link_to "There are #{form_element.versions.length} total versions of this form_element. Click here to view.", controller: '/versions', action: 'show', model: 'form_element', id: form_element.id
+      end
+    end
+  end
 end
