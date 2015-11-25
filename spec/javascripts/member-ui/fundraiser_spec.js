@@ -13,6 +13,7 @@ describe("fundraiser", function() {
 
   afterEach(function() {
     suite.server.restore();
+    suite.fundraiserBar.redirectTo.restore();
   });
 
   beforeEach(function() {
@@ -26,7 +27,7 @@ describe("fundraiser", function() {
 
     suite.follow_up_url = "/pages/636/follow-up";
     suite.fundraiserBar = new window.FundraiserBar(suite.follow_up_url);
-    suite.fundraiserBar.redirectTo = sinon.stub().returns(null);
+    sinon.stub(suite.fundraiserBar, 'redirectTo');
     suite.server.respond(); // respond to request for token
   });
 
