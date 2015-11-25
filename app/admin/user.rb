@@ -28,7 +28,7 @@ ActiveAdmin.register User do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for user do
       row :versions do
-        link_to "There are #{user.versions.length} total versions of this user. Click here to view.", controller: '/versions', action: 'show', model: 'user', id: user.id
+        render '/versions/versions_link', model: user, model_name: 'user'
       end
     end
   end

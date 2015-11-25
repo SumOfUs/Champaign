@@ -19,7 +19,7 @@ ActiveAdmin.register Form do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for form do
       row :versions do
-        link_to "There are #{form.versions.length} total versions of this form. Click here to view.", controller: '/versions', action: 'show', model: 'form', id: form.id
+        render '/versions/versions_link', model: form, model_name: 'form'
       end
     end
   end

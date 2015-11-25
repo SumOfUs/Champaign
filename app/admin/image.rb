@@ -4,7 +4,7 @@ ActiveAdmin.register Image do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for image do
       row :versions do
-        link_to "There are #{image.versions.length} total versions of this image. Click here to view.", controller: '/versions', action: 'show', model: 'image', id: image.id
+        render '/versions/versions_link', model: image, model_name: 'image'
       end
     end
   end

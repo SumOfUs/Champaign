@@ -4,7 +4,7 @@ ActiveAdmin.register Action do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for action do
       row :versions do
-        link_to "There are #{action.versions.length} total versions of this action. Click here to view.", controller: '/versions', action: 'show', model: 'action', id: action.id
+        render '/versions/versions_link', model: action, model_name: 'action'
       end
     end
   end

@@ -15,7 +15,7 @@ ActiveAdmin.register Campaign do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for campaign do
       row :versions do
-        link_to "There are #{campaign.versions.length} total versions of this campaign. Click here to view.", controller: '/versions', action: 'show', model: 'campaign', id: campaign.id
+        render '/versions/versions_link', model: campaign, model_name: 'campaign'
       end
     end
   end

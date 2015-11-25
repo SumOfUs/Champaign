@@ -16,7 +16,7 @@ ActiveAdmin.register Tag do
   sidebar 'Previous Versions', only: :show do
     attributes_table_for tag do
       row :versions do
-        link_to "There are #{tag.versions.length} total versions of this tag. Click here to view.", controller: '/versions', action: 'show', model: 'tag', id: tag.id
+        render '/versions/versions_link', model: tag, model_name: 'tag'
       end
     end
   end
