@@ -25,7 +25,7 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
     else
-      render json: { success: false, errors: result.errors }
+      render json: { success: false, errors: result.errors }, status: 422
     end
   end
 
@@ -35,7 +35,7 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
-      render json: { success: false, errors: result.errors }
+      render json: { success: false, errors: result.errors }, status: 422
     end
   end
 
@@ -45,7 +45,7 @@ class Api::BraintreeController < ApplicationController
       customer = braintree::Customer.create({ email: params[:email] })
       if not customer.success?
         # render customer creation failure json - it's pointless to continue if there's no user (subscription will fail)
-        render json: { success: false, errors: customer.errors }
+        render json: { success: false, errors: customer.errors }, status: 422
       else
         # persist customer locally
         Payment::BraintreeCustomer.
