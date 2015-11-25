@@ -2,6 +2,7 @@
 
 describe("fundraiser", function() {
   var suite = this;
+  suite.timeout(10000);
 
   before(function() {
     suite.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
