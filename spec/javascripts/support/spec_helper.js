@@ -12,8 +12,6 @@
 jQuery.fx.off = true;
 window.expect = chai.expect;
 
-MagicLamp.preload();
-
 // var spies;
 // var stubs;
 // window.spyOn = function(object, method) {
