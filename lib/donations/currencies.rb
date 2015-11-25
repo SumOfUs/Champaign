@@ -26,13 +26,13 @@ module Donations
 
     def initialize(amounts)
       @amounts = amounts
-      @currencies = { USD: @amounts.map{|val| Money.new(val).to_f}  }
+      @currencies = { USD: @amounts.map{ |val| Money.new(val).to_s }  }
     end
 
     def convert
       VALID_CURRENCIES.each do |currency|
         @currencies[currency] = @amounts.map do |val|
-          PaymentProcessor::Currency.convert(val, currency).to_f
+          PaymentProcessor::Currency.convert( val, currency ).to_s
         end
       end
 
