@@ -7,7 +7,7 @@ class Api::BraintreeController < ApplicationController
   end
 
   def transaction
-    if params[:recurring]
+    if ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
       manage_subscription(params)
     else
       manage_transaction(params)
@@ -48,7 +48,9 @@ class Api::BraintreeController < ApplicationController
         render json: { success: false, errors: customer.errors }
       else
         # persist customer locally
-        Payment::BraintreeCustomer.create!({ email: params[:email], card_vault_token: customer.card.token})
+        Payment::BraintreeCustomer.
+            find_or_initialize_by(email: params[:email]).
+            update_attributes!(card_vault_token: customer.card.token)
       end
     end
   end
