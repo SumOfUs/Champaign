@@ -22,6 +22,7 @@ done
 echo "OK"
 
 # Run javascript tests
+RAILS_ENV=test rake db:schema:load
 RAILS_ENV=test bundle exec teaspoon
 
 # Runs tests
