@@ -25,4 +25,11 @@ ActiveAdmin.register User do
     f.actions
   end
 
+  sidebar 'Previous Versions', only: :show do
+    attributes_table_for user do
+      row :versions do
+        render '/versions/versions_link', model: user, model_name: 'user'
+      end
+    end
+  end
 end

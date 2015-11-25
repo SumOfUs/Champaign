@@ -19,4 +19,12 @@ ActiveAdmin.register Page do
     end
     actions
   end
+
+  sidebar 'Previous Versions', only: :show do
+    attributes_table_for page do
+      row :versions do
+        render '/versions/versions_link', model: page, model_name: 'page'
+      end
+    end
+  end
 end

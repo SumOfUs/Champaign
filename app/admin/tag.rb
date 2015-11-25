@@ -9,7 +9,15 @@ ActiveAdmin.register Tag do
     actions
   end
 
-  filter :pages
+  filter :tags
   filter :name
   filter :actionkit_uri
+
+  sidebar 'Previous Versions', only: :show do
+    attributes_table_for tag do
+      row :versions do
+        render '/versions/versions_link', model: tag, model_name: 'tag'
+      end
+    end
+  end
 end

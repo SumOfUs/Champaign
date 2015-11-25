@@ -1,4 +1,5 @@
 class Image < ActiveRecord::Base
+  has_paper_trail
 
   has_attached_file :content,
     styles: {

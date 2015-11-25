@@ -15,4 +15,12 @@ ActiveAdmin.register Form do
   filter :description
   filter :visible
   filter :master
+
+  sidebar 'Previous Versions', only: :show do
+    attributes_table_for form do
+      row :versions do
+        render '/versions/versions_link', model: form, model_name: 'form'
+      end
+    end
+  end
 end

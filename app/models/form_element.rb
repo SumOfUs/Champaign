@@ -1,5 +1,6 @@
 class FormElement < ActiveRecord::Base
   belongs_to :form
+  has_paper_trail
 
   before_validation :set_position, on: :create
   before_validation :set_name, on: :create

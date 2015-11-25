@@ -9,6 +9,7 @@ require 'support/helper_functions'
 require 'support/omni_auth_helper'
 require 'support/capybara'
 require 'webmock/rspec'
+require 'paper_trail/frameworks/rspec'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
