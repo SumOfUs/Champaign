@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118132544) do
+ActiveRecord::Schema.define(version: 20151125114641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,9 +26,10 @@ ActiveRecord::Schema.define(version: 20151118132544) do
     t.string   "title"
     t.string   "address1"
     t.string   "address2"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "actionkit_user_id"
+    t.string   "braintree_customer_id"
   end
 
   create_table "actionkit_page_types", force: :cascade do |t|
@@ -68,6 +69,13 @@ ActiveRecord::Schema.define(version: 20151118132544) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",     default: true
+  end
+
+  create_table "donation_bands", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "amounts",    default: [],              array: true
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "form_elements", force: :cascade do |t|
