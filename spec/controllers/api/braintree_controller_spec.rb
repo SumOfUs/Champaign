@@ -82,7 +82,6 @@ describe Api::BraintreeController do
           nonce: 'fake-valid-nonce',
           amount: 100,
           user: params[:user],
-          recurring: false,
           store: Payment
         }
 
