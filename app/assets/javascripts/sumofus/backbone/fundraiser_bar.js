@@ -113,6 +113,11 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     });
   },
 
+  // for testing without waiting on braintree API
+  fakeNonceSuccess: function(fakeData) {
+    this.paymentMethodReceived()(fakeData);
+  },
+
   paymentMethodReceived: function() {
     return (data) => {
       this.nonce = data.nonce;
@@ -132,8 +137,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return (data, status) => {
       this.enableButton();
       if (data.success) {
-        console.log('transaction success!', data, status);
-        window.location.href = this.follow_up_url
+        this.redirectTo(this.follow_up_url);
       } else {
         console.error('Transaction failed:', data);
       }
@@ -156,6 +160,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   enableButton: function() {
     this.$('.fundraiser-bar__submit-button').text('Submit').removeClass('button--disabled');
   },
+
+  redirectTo: function(url) {
+    window.location.href = url;
+  }
 
 }));
 

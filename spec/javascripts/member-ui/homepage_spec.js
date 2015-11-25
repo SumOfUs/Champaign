@@ -23,7 +23,9 @@ describe("fundraiser", function() {
                             [200, { "Content-Type": "application/json" },
                             '{ "token": "'+helpers.btClientToken+'" }' ]);
 
-    var myFundraiserBar = new window.FundraiserBar("/pages/636/follow-up");
+    suite.follow_up_url = "/pages/636/follow-up";
+    suite.fundraiserBar = new window.FundraiserBar(suite.follow_up_url);
+    suite.fundraiserBar.redirectTo = sinon.stub().returns(null);
     suite.server.respond(); // respond to request for token
   });
 
@@ -114,6 +116,51 @@ describe("fundraiser", function() {
       $('.action-bar__submit-button').click();
       helpers.last(suite.server.requests).respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
       expect(helpers.currentStepOf(3)).to.eq(2);
+    });
+  });
+
+  describe('third panel', function() {
+
+    beforeEach(function(){
+      suite.server.respondWith("POST", this.validatePath, ["200", {}, ""]);
+      $('.fundraiser-bar__custom-field').val('$22');
+      $('.fundraiser-bar__first-continue').click();
+      $('.action-bar__submit-button').click();
+
+      suite.server.respond();
+      expect(helpers.currentStepOf(3)).to.eq(3);
+    });
+
+    it('disables the button when the form submits', function(){
+      var $button = $('.fundraiser-bar__submit-button');
+      expect($button).not.to.have.class('button--disabled');
+      $button.click();
+      expect($button).to.have.class('button--disabled');
+    });
+
+    xit('first makes a request to braintree', function(){
+      // I don't think we can test this without some serious iframe hackery
+    });
+
+    it('sends the nonce to the server after receiving it from braintree', function(){
+      suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+      request = helpers.last(suite.server.requests);
+      expect(request.method).to.eq("POST");
+      expect(request.url).to.eq("/api/braintree/transaction");
+
+      bodyPairs = decodeURI(request.requestBody).split('&');
+      expect(bodyPairs).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
+    });
+
+    it('loads the follow-up url after success from the server', function(){
+      suite.server.respondWith('POST', "/api/braintree/transaction", [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
+      suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+      suite.server.respond();
+      expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
+    });
+
+    xit('displays validation errors passed back from the server', function(){
+      // it doesn't actually do this yet, spec is here as a reminder
     });
   });
 

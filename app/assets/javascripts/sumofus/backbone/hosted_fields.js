@@ -45,7 +45,7 @@ const HostedFieldsMethods = {
     });
   },
 
-  paymentMethodReceived: function(data) {
+  paymentMethodReceived: function() {
     return (data) => {
       console.log("We have the nonce! Override this method to use it. Nonce:", data.nonce);
     }

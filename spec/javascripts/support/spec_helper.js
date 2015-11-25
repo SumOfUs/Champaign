@@ -3,10 +3,10 @@
 //= require support/chai
 //= require chai-jquery
 //= require magic_lamp
+//= require support/sinon-chai
 
 //= require support/helper_functions
 
-// require support/sinon-chai
 // require_self
 
 jQuery.fx.off = true;
