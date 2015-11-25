@@ -1,0 +1,19 @@
+.row
+  .col-md-12
+    h2 = t('versions.shown_below', {count: @versions.length, model_name: params[:model]})
+
+    table.table-striped.table
+      thead
+        tr
+          th Version ID
+          th Version created at
+          th Differences from previous version
+          th Who made the change?
+      tbody
+        - @versions.each do |version|
+          tr
+            td=version.index + 1
+            td=version.created_at
+            td=version.event == 'create' ? 'Created' : render('versions/changeset', changes: version.changeset)
+            td=User.find(version.whodunnit).email
+

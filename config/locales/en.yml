@@ -184,3 +184,6 @@ en:
     index:
       title: "ActionKit Requests"
 
+  versions:
+    shown_below: "There are %{count} versions of this %{model_name}, shown below."
+

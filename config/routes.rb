@@ -18,6 +18,9 @@ Rails.application.routes.draw do
   post '/tags/add', to: 'tags#add_tag_to_page'
   delete '/tags/remove', to: 'tags#remove_tag_from_page'
 
+  # Resource Versioning
+  get '/versions/show/:model/:id', to: 'versions#show'
+
   resources :ak_logs
 
   resource  :action_kit, controller: 'action_kit' do
