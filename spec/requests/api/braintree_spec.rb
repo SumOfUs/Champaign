@@ -11,20 +11,19 @@ describe "Braintree API" do
     context "successful subscription" do
       it 'creates subscription' do
         VCR.use_cassette('braintree_subscription_success') do
-          post '/api/braintree/subscription', email: customer.email, price: '100.00'
+          post '/api/braintree/subscription', {user: { email: customer.email }, price: '100.00'}
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end
       end
     end
-    context "unsuccessful subscription" do
-      it 'returns error messages and codes for a subscription where the e-mail is not associated with a token' do
-        VCR.use_cassette('braintree_failed_subscription_no_token') do
-          post '/api/braintree/subscription', amount: '100.00', email: 'does_not_exist@example.com'
-          expect(body[:success]).to be false
-          expect(body.keys).to contain_exactly('success','errors')
-          expect(body[:errors].is_a?(Array)).to be true
-          expect(body[:errors].first.keys).to contain_exactly('code','attribute', 'message')
-        end
+    it 'creates a token and successfully subscribes a user whose e-mail is not associated with a token' do
+      VCR.use_cassette('braintree_subscription_success_no_token') do
+        post '/api/braintree/subscription', { amount: '100.00',
+                                              user: { email: 'does_not_exist@example.com'},
+                                              payment_method_nonce: 'fake-valid-visa-nonce' }
+        byebug
+        expect(body[:success]).to be true
+        expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
     end
   end
