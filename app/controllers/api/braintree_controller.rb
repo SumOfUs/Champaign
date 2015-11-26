@@ -8,6 +8,8 @@ class Api::BraintreeController < ApplicationController
 
   def transaction
     if ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
+      # Rename key - 'price' sets subscription price, and that's specified in 'amount' for transactions.
+      params[:price] = params.delete :amount
       manage_subscription(params)
     else
       manage_transaction(params)
@@ -42,15 +44,20 @@ class Api::BraintreeController < ApplicationController
   def find_or_create_user(params)
     # If user isn't associated with a token locally, create and persist the customer first
     if default_payment_method_token.blank?
-      customer = braintree::Customer.create({ email: params[:email] })
-      if not customer.success?
+      result = braintree::Customer.create({
+        email: params[:email],
+        first_name: params[:first_name],
+        last_name: params[:last_name],
+        payment_method_nonce: params[:payment_method_nonce]
+      })
+      if not result.success?
         # render customer creation failure json - it's pointless to continue if there's no user (subscription will fail)
-        render json: { success: false, errors: customer.errors }, status: 422
+        render json: { success: false, errors: result.errors }, status: 422
       else
         # persist customer locally
         Payment::BraintreeCustomer.
             find_or_initialize_by(email: params[:email]).
-            update_attributes!(card_vault_token: customer.card.token)
+            update_attributes!(card_vault_token: result.customer.payment_methods.first.token)
       end
     end
   end
@@ -77,6 +84,6 @@ class Api::BraintreeController < ApplicationController
   end
 
   def default_payment_method_token
-    @token ||= ::Payment.customer(params[:email]).try(:card_vault_token)
+    @token ||= ::Payment.customer(params[:user][:email]).try(:card_vault_token)
   end
 end
