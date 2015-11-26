@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Donations::Currencies do
   describe '#for' do
-    it 'converts and preents listed currencies as JSON' do
+    it 'converts and presents listed currencies as JSON' do
       VCR.use_cassette('donation_currencies') do
         expect(
           Donations::Currencies.for([102,204,302,401]).to_json
