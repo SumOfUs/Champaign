@@ -1,3 +1,5 @@
+require_relative 'donations'
+
 # == Currency Converter to JSON
 #
 # Takes an array of integer amounts, in US cents, and
@@ -25,15 +27,17 @@ module Donations
     end
 
     def initialize(amounts)
-      @amounts = amounts
-      @currencies = { USD: @amounts.map{ |val| Money.new(val).to_s }  }
+      @amounts = amounts.uniq
+      @currencies = { USD: @amounts.map{ |val| Money.new(val).to_i }  }
     end
 
     def convert
       VALID_CURRENCIES.each do |currency|
         @currencies[currency] = @amounts.map do |val|
-          PaymentProcessor::Currency.convert( val, currency ).to_s
-        end
+          Donations.round(
+            PaymentProcessor::Currency.convert(val,currency).to_f
+          )
+        end.flatten.uniq
       end
 
       self

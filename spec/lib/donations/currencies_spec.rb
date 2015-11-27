@@ -2,15 +2,15 @@ require 'rails_helper'
 
 describe Donations::Currencies do
   describe '#for' do
-    it 'converts and presents listed currencies as JSON' do
+    it 'converts and presents listed currencies' do
       VCR.use_cassette('donation_currencies') do
         expect(
-          Donations::Currencies.for([102,204,302,401]).to_json
+          Donations::Currencies.for([1000,1000,3300,7200]).to_hash
         ).to eq( {
-          USD: ['1.02', '2.04', '3.02', '4.01'],
-          GBP: ['0.67', '1.35', '2.00', '2.65'],
-          EUR: ['0.96', '1.92', '2.85', '3.79']
-        }.to_json )
+          USD: [10, 33, 72],
+          GBP: [7, 20, 50],
+          EUR: [9, 30, 70]
+        }.to_hash )
       end
     end
   end
