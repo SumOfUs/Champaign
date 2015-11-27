@@ -15,7 +15,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .action-bar__clear-form': 'clearForm',
-    'ajax:success form.action': 'handleValidationSuccess',
+    'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
   },
 
@@ -35,10 +35,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return $('.mobile-indicator').is(':visible');
   },
 
-  handleValidationSuccess: function(e, data) {
-    this.changeStep(this.currentStep+1);
-  },
-
   primeCustom: function(e) {
     let $field = this.$(e.target);
     if ($field.val() == '') {
@@ -53,6 +49,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       $field[0].value = '';
       this.$('.fundraiser-bar__first-continue').slideUp(200);
     }
+  },
+
+  advanceToPayment: function(e, data) {
+    this.changeStep(this.currentStep+1);
   },
 
   advanceToDetails: function(e) {
@@ -113,6 +113,11 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     });
   },
 
+  // for testing without waiting on braintree API
+  fakeNonceSuccess: function(fakeData) {
+    this.paymentMethodReceived()(fakeData);
+  },
+
   paymentMethodReceived: function() {
     return (data) => {
       this.nonce = data.nonce;
@@ -132,8 +137,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return (data, status) => {
       this.enableButton();
       if (data.success) {
-        console.log('transaction success!', data, status);
-        window.location.href = this.follow_up_url
+        this.redirectTo(this.follow_up_url);
       } else {
         console.error('Transaction failed:', data);
       }
@@ -156,6 +160,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   enableButton: function() {
     this.$('.fundraiser-bar__submit-button').text('Submit').removeClass('button--disabled');
   },
+
+  redirectTo: function(url) {
+    window.location.href = url;
+  }
 
 }));
 

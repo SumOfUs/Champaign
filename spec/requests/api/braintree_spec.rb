@@ -22,7 +22,7 @@ describe "Braintree API" do
   describe 'making a subscription' do
     let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
 
-    it 'creates subscription' do
+    xit 'creates subscription' do
       VCR.use_cassette('braintree_subscription_success') do
         post '/api/braintree/subscription', email: customer.email, amount: '100.00'
 

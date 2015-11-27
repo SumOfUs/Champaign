@@ -34,11 +34,11 @@ describe Api::BraintreeController do
         post :subscription, amount: '12.23', email: 'foo@example.com'
       end
 
-      it 'finds customer' do
+      xit 'finds customer' do
         expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com')
       end
 
-      it 'creates subscription' do
+      xit 'creates subscription' do
         expected_arguments = {
           amount: '12.23',
           plan_id: '35wm',
@@ -49,7 +49,7 @@ describe Api::BraintreeController do
           with( expected_arguments )
       end
 
-      it 'returns subsription ID' do
+      xit 'returns subscription ID' do
         expect(response.body).to eq( { success: true, subscription_id: 'xyz123' }.to_json )
       end
     end

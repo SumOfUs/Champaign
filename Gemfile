@@ -85,6 +85,10 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'vcr'
+  gem 'teaspoon'
+  gem 'teaspoon-mocha'
+  gem 'magic_lamp'
+  gem 'phantomjs'
 end
 
 
@@ -118,5 +122,8 @@ source 'https://rails-assets.org' do
 
   # braintree js
   gem 'rails-assets-braintree-web'
+
+  # for js testing
+  gem 'rails-assets-chai-jquery'
 end
 
