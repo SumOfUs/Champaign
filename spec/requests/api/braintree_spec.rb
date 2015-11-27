@@ -21,7 +21,6 @@ describe "Braintree API" do
         post '/api/braintree/subscription', { amount: '100.00',
                                               user: { email: 'does_not_exist@example.com'},
                                               payment_method_nonce: 'fake-valid-visa-nonce' }
-        byebug
         expect(body[:success]).to be true
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
