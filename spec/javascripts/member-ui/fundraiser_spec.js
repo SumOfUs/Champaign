@@ -150,8 +150,18 @@ describe("fundraiser", function() {
       expect(request.method).to.eq("POST");
       expect(request.url).to.eq("/api/braintree/transaction");
 
-      bodyPairs = decodeURI(request.requestBody).split('&');
-      expect(bodyPairs).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
+      expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
+    });
+
+    it("sends 'recurring' as false by default", function(){
+      suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+      expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=false"]);
+    });
+
+    it("sends 'recurring' as true if it's checked", function(){
+      $('input.fundraiser-bar__recurring').click();
+      suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+      expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=true"]);
     });
 
     it('loads the follow-up url after success from the server', function(){
