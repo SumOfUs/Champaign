@@ -32,7 +32,7 @@
      fog_directory: <%= ENV['FOG_DIRECTORY'] %>
      fog_provider: <%= ENV['FOG_PROVIDER'] %>
      fog_region: <%= ENV['FOG_REGION'] %>
-     rails_serve_static_files: <%= ENV['RAILS_SERVE_STATIC_FILES'] %>
+     rails_serve_static_assets: <%= ENV['RAILS_SERVE_STATIC_ASSETS'] %>
      compile_static: <%= ENV['COMPILE_STATIC'] %>
 
 

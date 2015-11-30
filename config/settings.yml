@@ -46,7 +46,7 @@
 #    fog_directory: 'get this from cloudfront configuration'
 #    fog_provder: 'get this from cloudfront configuration'
 #    fog_region: 'Get this from cloudfront configuration'
-#    rails_serve_static_files: 'Set to nil in development, override for production server based on needs.'
+#    rails_serve_static_assets: 'Set to nil in development, override for production server based on needs.'
 #    compile_static: 'Set to nil in development, override for production server based on needs.'
 
 
