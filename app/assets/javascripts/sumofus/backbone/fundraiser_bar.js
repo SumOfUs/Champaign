@@ -142,6 +142,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       amount: this.donationAmount,
       user: this.serializeUserForm(),
       currency: this.currency,
+      recurring: this.readRecurring()
     }, this.handleTransaction());
   },
 
@@ -163,6 +164,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       serialized[field.name] = field.value;
     });
     return serialized;
+  },
+
+  readRecurring: function() {
+    return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
   },
 
   disableButton: function(e) {
