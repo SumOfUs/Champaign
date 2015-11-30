@@ -9,17 +9,17 @@ describe LiquidHelper do
     end
 
     it 'includes all of the attributes of a given action user' do
-      au = create :action_user
+      au = create :member
       expect(LiquidHelper.globals(member: au)[:member].keys).to include(*au.attributes.keys.map(&:to_sym))
     end
 
     it 'gives email as welcome name if no name' do
-      au = create :action_user, first_name: nil, last_name: "", email: 'sup@dude.com'
+      au = create :member, first_name: nil, last_name: "", email: 'sup@dude.com'
       expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq au.email
     end
 
     it 'gives first name and last name if available' do
-      au = create :action_user, first_name: 'big', last_name: "dog", email: 'sup@dude.com'
+      au = create :member, first_name: 'big', last_name: "dog", email: 'sup@dude.com'
       expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq 'big dog'
     end
   end
@@ -49,7 +49,7 @@ describe LiquidHelper do
     end
 
     it 'selects a country if passed member has a country code' do
-      au = create :action_user, country: 'AF'
+      au = create :member, country: 'AF'
       expect(LiquidHelper.globals(member: au)[:country_option_tags]).to include('selected')
     end
   end

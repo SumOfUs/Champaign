@@ -117,8 +117,8 @@ describe Api::ActionsController do
       end
 
       it 'does not set a cookie the cookie' do
-        expect(cookies.signed['action_user_id']).to eq nil
-        expect(response.cookies[:action_user_id]).to eq nil
+        expect(cookies.signed['member_id']).to eq nil
+        expect(response.cookies[:member_id]).to eq nil
       end
     end
 
@@ -140,8 +140,8 @@ describe Api::ActionsController do
       end
 
       it 'does not set the cookie' do
-        expect(cookies.signed['action_user_id']).to eq nil
-        expect(response.cookies[:action_user_id]).to eq nil
+        expect(cookies.signed['member_id']).to eq nil
+        expect(response.cookies[:member_id]).to eq nil
       end
     end
   end
