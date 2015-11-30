@@ -80,7 +80,7 @@ class Api::BraintreeController < ApplicationController
   def subscription_options
     {
       price: params[:amount].to_f,
-      plan_id: ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'],
+      plan_id: Settings.braintree_subscription_plan_id,
       payment_method_token: default_payment_method_token
     }
   end
