@@ -4,7 +4,6 @@ Rails.application.configure do
     SQS_QUEUE_URL: 'http://example.com',
     AWS_REGION: 'us-west-2',
     SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4',
-    BRAINTREE_SUBSCRIPTION_PLAN_ID: '35wm'
   }.each do |key, val|
     ENV.store(key.to_s, val)
   end
