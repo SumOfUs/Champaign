@@ -24,23 +24,35 @@ describe Api::BraintreeController do
   #
   describe 'POST subscription' do
     context 'valid subscription' do
+      let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
       let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
-      let(:subscription_object) { double(:subscription_object, subscription: double(id: 'xyz123')) }
+      let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'xyz123')) }
+
+      let(:params) do {
+        payment_method_nonce: 'fake-valid-nonce',
+        amount: '100',
+        user: {
+          first_name: 'George',
+          last_name: 'Orwell',
+          email:'foo@example.com'
+        }
+      }
+      end
 
       before do
         allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
         allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription).and_return( subscription_object )
 
-        post :subscription, amount: '12.23', email: 'foo@example.com'
+        post :subscription, params
       end
 
-      xit 'finds customer' do
-        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com')
+      it 'finds customer' do
+        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com').twice
       end
 
-      xit 'creates subscription' do
+      it 'creates subscription' do
         expected_arguments = {
-          amount: '12.23',
+          price: 100,
           plan_id: '35wm',
           payment_method_token: 'a1b2c3'
         }
@@ -49,7 +61,7 @@ describe Api::BraintreeController do
           with( expected_arguments )
       end
 
-      xit 'returns subscription ID' do
+      it 'returns subsription ID' do
         expect(response.body).to eq( { success: true, subscription_id: 'xyz123' }.to_json )
       end
     end
@@ -59,13 +71,13 @@ describe Api::BraintreeController do
     context "valid transaction" do
 
       let(:params) do {
-          payment_method_nonce: 'fake-valid-nonce',
-          amount: '100',
-          user: {
-              first_name: 'George',
-              last_name: 'Orwell',
-              email:'big@brother.com',
-          }
+        payment_method_nonce: 'fake-valid-nonce',
+        amount: '100',
+        user: {
+          first_name: 'George',
+          last_name: 'Orwell',
+          email:'big@brother.com',
+        }
       }
       end
 
@@ -90,6 +102,35 @@ describe Api::BraintreeController do
 
       it 'responds with JSON' do
         expect(response.body).to eq( { success: true, transaction_id: '1234' }.to_json )
+      end
+    end
+
+    describe "valid transaction with recurring parameter" do
+      let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
+      let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
+      let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'kj2qnp')) }
+
+      let(:params) do {
+        payment_method_nonce: 'fake-valid-nonce',
+        amount: '100',
+        recurring: true,
+        user: {
+          first_name: 'George',
+          last_name: 'Orwell',
+          email:'foo@example.com'
+        }
+      }
+      end
+
+      before do
+        allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
+        allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription){ subscription_object }
+
+        post :transaction, params
+      end
+
+      it "creates a subscription" do
+        expect(response.body).to eq( { success: true, subscription_id: 'kj2qnp' }.to_json )
       end
     end
 

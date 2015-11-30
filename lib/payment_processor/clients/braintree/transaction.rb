@@ -26,11 +26,11 @@ module PaymentProcessor
           @nonce = nonce
           @user = user
           @store = store
+
         end
 
         def sale
           store_transaction if @store
-
           transaction
         end
 
@@ -56,7 +56,6 @@ module PaymentProcessor
               submit_for_settlement: true,
               store_in_vault_on_success: store_in_vault?
             },
-
             customer: {
               first_name: @user[:first_name] || @user[:name],
               last_name: @user[:last_name],
@@ -71,6 +70,7 @@ module PaymentProcessor
         def store_in_vault?
           customer.nil?
         end
+
       end
     end
   end

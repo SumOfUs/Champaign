@@ -1,18 +1,4 @@
 require 'rails_helper'
-require 'vcr'
-
-VCR.configure do |config|
-  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
-  config.hook_into :webmock
-
-  # The filter_sensitive_data configuration option prevents
-  # sensitive data from being written to your cassette files.
-  #
-  %w{BRAINTREE_MERCHANT_ID BRAINTREE_PUBLIC_KEY BRAINTREE_PRIVATE_KEY}.each do |env|
-    config.filter_sensitive_data("<#{env}>") { ENV[env] }
-  end
-end
-
 
 describe "Braintree API" do
   def body
@@ -22,10 +8,21 @@ describe "Braintree API" do
   describe 'making a subscription' do
     let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
 
-    xit 'creates subscription' do
-      VCR.use_cassette('braintree_subscription_success') do
-        post '/api/braintree/subscription', email: customer.email, amount: '100.00'
+    context "successful subscription" do
+      it 'creates subscription' do
+        VCR.use_cassette('braintree_subscription_success') do
+          post '/api/braintree/subscription', {user: { email: customer.email }, price: '100.00'}
+          expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+        end
+      end
+    end
 
+    it 'creates a token and successfully subscribes a user whose e-mail is not associated with a token' do
+      VCR.use_cassette('braintree_subscription_success_no_token') do
+        post '/api/braintree/subscription', { amount: '100.00',
+                                              user: { email: 'does_not_exist@example.com'},
+                                              payment_method_nonce: 'fake-valid-visa-nonce' }
+        expect(body[:success]).to be true
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
     end
@@ -44,32 +41,52 @@ describe "Braintree API" do
     end
 
     context "successful" do
+      context "one off" do
+        before do
+          VCR.use_cassette("transaction_success", record: :none) do
+            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00, recurring: false,
+              user: { email: 'foo@example.com' }
+          end
+        end
 
-      before do
-        VCR.use_cassette("transaction_success") do
-          post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00,
-            user: { email: 'foo@example.com' }
+        it 'returns transaction_id' do
+          expect(body[:transaction_id]).to match(/[a-z0-9]{6}/)
+        end
+
+        it 'records transaction to store' do
+          transaction = Payment::BraintreeTransaction.first
+          expect(transaction.transaction_id).to eq(body[:transaction_id])
+          expect(transaction.transaction_type).to eq('sale')
+          expect(transaction.amount).to eq('100.0')
+        end
+
+        context 'customer' do
+          it 'persists braintree customer' do
+            customer = Payment::BraintreeCustomer.first
+            expect(customer).to_not be nil
+            expect(customer.email).to eq('foo@example.com')
+            expect(customer.customer_id).to match(/\d{8}/)
+            expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          end
         end
       end
 
-      it 'returns transaction_id' do
-        expect(body[:transaction_id]).to match(/[a-z0-9]{6}/)
-      end
+      context 'recurring' do
+        before do
+          VCR.use_cassette("transaction_recurring_success") do
+            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00, recurring: true, user: { email: 'foo@example.com' }
+          end
+        end
 
-      it 'records transaction to store' do
-        transaction = Payment::BraintreeTransaction.first
-        expect(transaction.transaction_id).to eq(body[:transaction_id])
-        expect(transaction.transaction_type).to eq('sale')
-        expect(transaction.amount).to eq('100.0')
-      end
 
-      context 'customer' do
-        it 'persists braintree customer' do
-          customer = Payment::BraintreeCustomer.first
-          expect(customer).to_not be nil
-          expect(customer.email).to eq('foo@example.com')
-          expect(customer.customer_id).to match(/\d{8}/)
-          expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+        it 'records transaction to store' do
+            customer = Payment::BraintreeCustomer.first
+            expect(customer).to_not be nil
+            expect(customer.email).to eq('foo@example.com')
+            expect(customer.customer_id).to match(/\d{8}/)
+            expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+
+          expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end
       end
 
@@ -88,7 +105,7 @@ describe "Braintree API" do
     end
   end
 
-  context 'unsuccessful' do
+  context 'unsuccessful transaction' do
 
     it 'returns error messages and codes in an invalid transaction' do
       VCR.use_cassette("transaction_failure_invalid_nonce") do
@@ -103,3 +120,4 @@ describe "Braintree API" do
     end
   end
 end
+

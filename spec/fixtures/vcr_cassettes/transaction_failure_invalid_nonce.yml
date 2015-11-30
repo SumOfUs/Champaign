@@ -8,14 +8,13 @@ http_interactions:
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
         <transaction>
-          <amount type="integer">100</amount>
+          <amount>100.0</amount>
           <payment-method-nonce>fake-coinbase-nonce</payment-method-nonce>
           <options>
             <submit-for-settlement type="boolean">true</submit-for-settlement>
             <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
           </options>
           <customer>
-            <id>567</id>
             <first-name nil="true"/>
             <last-name nil="true"/>
             <email>foo@example.com</email>
@@ -39,7 +38,7 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Mon, 16 Nov 2015 22:48:13 GMT
+      - Mon, 23 Nov 2015 21:14:09 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
@@ -49,7 +48,7 @@ http_interactions:
       X-Authentication:
       - basic_auth
       X-User:
-      - zghrwxtg8j3ds29n
+      - 2vtm97htjg9x4v78
       Vary:
       - Accept-Encoding
       Content-Encoding:
@@ -59,9 +58,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 0da41a4e22d2ef1be4a5a9ce14548d20
+      - 6c393649f546f4c415cb5018baf774a3
       X-Runtime:
-      - '0.153066'
+      - '0.146269'
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -69,16 +68,16 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAC1dSlYAA6xTsXLbMAzd8xU87bTsIUl7RzOdunVL5x5MwQmvJMEjqFz8
-        94VsybJ9cqZOAvDwAD4AMi+fMagPLOwpbZvNat0oTI46n962ze/Xn/pb82If
-        DGSvsRQquiBnSoz2QSlzDPFgnh1VDxm3DZQCh6YdoVogMbgqTU6R5fQJm9DZ
-        l4g8Cu33zePzs2mP9iUItRa/6yuO9fgQdxQaG7G4d0j1DzhHvXx9Z9pz8lWJ
-        iMzwhvbXSFEjRXWErBJVxX3OVKrKcIgogE9cSz+YK9NO9FlCe6VhdPnsu54r
-        yftuRS9OcOBfE0x7M9TLBiZDgchfTB/ioM1u1muZx8meoFGejljfqdOJkkO7
-        h7+oHfm0A8ZTzLSLmVMZykNDvpDH/S76qvdyRYy1BhzIVkYopZaxC26lgton
-        /QF9qJqS5t45mfnEv4uf53fzoKUF+M4+Psl9yXcO7n3hqhNEVMmHbTM0nPci
-        CQG+xjGCD3ZP9AM/IeaAK0dR1nUM31nvsDY5A8sQRN3RvLf2edf/7YblJhZ+
-        +H8AAAD//wMARaZlFC0EAAA=
+        H4sIAKGBU1YAA6xTTU/DMAy98yui3rNuBwRIWeDEjRuckZd5EJHEUewi9u9J
+        t3Zf6jhxqu3n5+T5pebxJwb1jYU9pWWzmM0bhcnR2qePZfP2+qzvm0d7YyB7
+        jaVQ0QU5U2K0N0qZXYn78JAo2WZcNlAKbJt2gKRAYnBSD9lXpttHbESPea3U
+        S6F9WNze3Zl2F5+CIFL8qhMc5vE2rig0NmJxn5DkHZyjrn792rSH5rMREZnh
+        A+3LQFEDRa0JWSUSxV3OVERl2EasgE8spevDmWlH+lFCe6ZhSPmQu46F6v0u
+        RU9usOefE0x7sdTTA0yGApH/2D7EXptdzOezed3IPhvBQaCOKJ+01omSQ7uB
+        L9SOfFoB475m2snOcQzl/kg+EcjdKnrRm/qOGEUC9mRbl1hHTWMnXKGC2if9
+        DV0QTUlz51zd+si/ih82eHGhKQs2vrDoBBFV8mHZ9LOPJtSGAH/jGMEHuyF6
+        wh+IOeDMUaze7MpXvOw9qp5bhlCF7MJrHh+N/bcHW+2f+Lt/AQAA//8DAIwr
+        uWYaBAAA
     http_version: 
-  recorded_at: Mon, 16 Nov 2015 22:48:13 GMT
+  recorded_at: Mon, 23 Nov 2015 21:14:09 GMT
 recorded_with: VCR 3.0.0
