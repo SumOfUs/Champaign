@@ -39,25 +39,6 @@ module Donations
       self
     end
 
-    def round(amounts)
-      amounts.map do |am|
-        # round to integer if below 20, round to nearest 5 if above
-        am.to_f <= 20 ? am.to_f.round : (am.to_f / 5).round * 5
-      end.map(&:to_i)
-    end
-
-    def deduplicate(amounts)
-      duplicates = amounts.group_by{ |e| e }.select{ |k, v| v.size > 1 }.values.flatten # duplicates
-      safe = amounts - duplicates
-      duplicates.each do |misfit|
-        while safe.include? misfit
-          if misfit < 20 then misfit += 1 else misfit += 5 end
-        end
-        safe << misfit
-      end
-      safe.sort
-    end
-
     def to_hash
       @currencies
     end
