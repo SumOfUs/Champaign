@@ -112,7 +112,7 @@ class Api::BraintreeController < ApplicationController
       actionable = [:amount]
       return true if actionable.include?(error.attribute.to_sym)
     end
-    result.errors.map{|e| "#{e.message} (#{e.code} on #{e.attribute})"}.join(', ')
+    messages = result.errors.map{|e| "#{e.message} (#{e.code} on #{e.attribute})"}.join(', ')
     raise Braintree::ValidationsFailed.new(messages)
   end
 end
