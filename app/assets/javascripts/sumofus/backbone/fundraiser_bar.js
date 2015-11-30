@@ -131,17 +131,19 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       amount: this.donationAmount,
       user: this.serializeUserForm(),
       recurring: this.readRecurring(),
-    }, this.handleTransaction());
+    }).done(this.transactionSuccess()).error(this.transactionFailed());
   },
 
-  handleTransaction: function() {
+  transactionSuccess: function() {
+    return (data, status) => {
+      this.redirectTo(this.follow_up_url);
+    }
+  },
+
+  transactionFailed: function() {
     return (data, status) => {
       this.enableButton();
-      if (data.success) {
-        this.redirectTo(this.follow_up_url);
-      } else {
-        console.error('Transaction failed:', data);
-      }
+      console.error('Transaction failed', data);
     }
   },
 
