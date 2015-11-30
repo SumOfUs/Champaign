@@ -2,8 +2,10 @@ source 'https://rubygems.org'
 ruby '2.2.2'
 
 # Synchronises Assets between Rails and S3.
-gem 'fog-aws'
-gem 'asset_sync'
+group :production do
+  gem 'fog-aws'
+  gem 'asset_sync'
+end
 
 gem 'rails', '4.2.3'
 gem 'pg'
@@ -41,7 +43,10 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 
 # Rails admin for data administration
-gem 'rails_admin'
+gem 'activeadmin', github: 'activeadmin'
+
+# Country select gives ActiveAdmin the ability to have country dropdowns.
+gem 'country_select'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
@@ -74,6 +79,10 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 gem 'newrelic_rpm'
 gem 'puma'
 gem 'typhoeus'
+
+# The Config gem is used as a way to easily access configuration variables without calling directly
+# to the ENV.
+gem 'config'
 
 group :development, :test do
   gem 'byebug'

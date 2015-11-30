@@ -4,8 +4,8 @@ module ActionKit
     def client(verb, path, params)
       Typhoeus::Request.send(
         verb,
-        "https://act.sumofus.org/rest/v1/#{path}/",
-        { userpwd: "#{ENV['AK_USERNAME']}:#{ENV['AK_PASSWORD']}" }.merge(params)
+        "#{Settings.ak_api_url}/#{path}/",
+        { userpwd: "#{Settings.ak_username}:#{Settings.ak_password}" }.merge(params)
       )
     end
 

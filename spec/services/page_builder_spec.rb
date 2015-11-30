@@ -11,7 +11,7 @@ describe PageBuilder do
     create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref].lol }}'
 
     create(:liquid_layout, :default)
-    allow(ChampaignQueue).to receive(:push)
+    allow(QueueManager).to receive(:push)
   end
 
   subject { PageBuilder.create(params) }
@@ -24,17 +24,7 @@ describe PageBuilder do
   it "pushes page to queue" do
     subject
 
-    expected_params = {
-      type: 'create',
-      params: {
-        slug: "foo-bar",
-        id: Page.first.id,
-        title: "Foo Bar",
-        language_code: 'en'
-      }
-    }
-
-    expect( ChampaignQueue ).to have_received(:push).with(expected_params)
+    expect( QueueManager ).to have_received(:push).with(Page.first, job_type: :create)
   end
 
   it 'uses the correct liquid layout' do

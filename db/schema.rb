@@ -16,22 +16,6 @@ ActiveRecord::Schema.define(version: 20151125114641) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "action_users", force: :cascade do |t|
-    t.string   "email"
-    t.string   "country"
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "city"
-    t.string   "postal"
-    t.string   "title"
-    t.string   "address1"
-    t.string   "address2"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
-    t.string   "actionkit_user_id"
-    t.string   "braintree_customer_id"
-  end
-
   create_table "actionkit_page_types", force: :cascade do |t|
     t.string "actionkit_page_type", null: false
   end
@@ -43,7 +27,7 @@ ActiveRecord::Schema.define(version: 20151125114641) do
 
   create_table "actions", force: :cascade do |t|
     t.integer  "page_id"
-    t.integer  "action_user_id"
+    t.integer  "member_id"
     t.string   "link"
     t.boolean  "created_user"
     t.boolean  "subscribed_user"
@@ -52,8 +36,23 @@ ActiveRecord::Schema.define(version: 20151125114641) do
     t.jsonb    "form_data"
   end
 
-  add_index "actions", ["action_user_id"], name: "index_actions_on_action_user_id", using: :btree
+  add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
   add_index "actions", ["page_id"], name: "index_actions_on_page_id", using: :btree
+
+  create_table "active_admin_comments", force: :cascade do |t|
+    t.string   "namespace"
+    t.text     "body"
+    t.string   "resource_id",   null: false
+    t.string   "resource_type", null: false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id", using: :btree
 
   create_table "ak_logs", force: :cascade do |t|
     t.text     "request_body"
@@ -149,8 +148,18 @@ ActiveRecord::Schema.define(version: 20151125114641) do
   end
 
   create_table "members", force: :cascade do |t|
-    t.string "email_address",       null: false
-    t.string "actionkit_member_id", null: false
+    t.string   "email"
+    t.string   "country"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "city"
+    t.string   "postal"
+    t.string   "title"
+    t.string   "address1"
+    t.string   "address2"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "actionkit_user_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -161,11 +170,11 @@ ActiveRecord::Schema.define(version: 20151125114641) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -337,18 +346,19 @@ ActiveRecord::Schema.define(version: 20151125114641) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "versions", force: :cascade do |t|
-    t.string   "item_type",  null: false
-    t.integer  "item_id",    null: false
-    t.string   "event",      null: false
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
     t.string   "whodunnit"
     t.text     "object"
     t.datetime "created_at"
+    t.text     "object_changes"
   end
 
   add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
 
   add_foreign_key "actionkit_pages", "actionkit_page_types"
-  add_foreign_key "actions", "action_users"
+  add_foreign_key "actions", "members"
   add_foreign_key "actions", "pages"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
