@@ -24,7 +24,7 @@ span.cross:after {
   width: 100%;
   padding: 5px;
   box-shadow: none;
-  color: #797878;
+  color: #222;
   border-radius: 5px;
   border: 1px solid #ddd;
 }
@@ -128,7 +128,7 @@ li.list-group-item {
     top: 0;
     right: 0;
 
-    padding: $padding-base-vertical $padding-base-horizontal;
+    padding: 10px $padding-base-horizontal;
 
     a {
       padding-left: $padding-small-horizontal;
@@ -181,5 +181,37 @@ input.has-error {
     top: 1px;
     right: 1px;
   }
+}
+
+#new_page .form-inline input[type='text'] {
+  width: 400px;
+}
+
+.loading {
+  margin: 0 5px;
+  .glyphicon-refresh-animate {
+      -animation: spin .7s infinite linear;
+      -webkit-animation: spin2 .7s infinite linear;
+  }
+
+  @-webkit-keyframes spin2 {
+      from { -webkit-transform: rotate(0deg);}
+      to { -webkit-transform: rotate(360deg);}
+  }
+
+  @keyframes spin {
+      from { transform: scale(1) rotate(0deg);}
+      to { transform: scale(1) rotate(360deg);}
+  }
+}
+
+.versions__changeset-removed {
+  background-color: #ffecec;
+  width:50%;
+}
+
+.versions__changeset-added {
+  background-color: #a6f3a6;
+  width:50%;
 }
 

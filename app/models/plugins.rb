@@ -4,19 +4,18 @@ module Plugins
       'plugins_'
     end
 
-    def basic_create_for_page(plugin, page)
-      plugin = plugin.new(plugin.const_get(:DEFAULTS))
-      plugin.page = page
-      plugin.save
+    def class_from_name(plugin_name)
+      "Plugins::#{plugin_name.camelcase}".constantize
     end
 
     def create_for_page(plugin_name, page, ref)
       return true if plugin_name.blank? || page.blank?
-      plugin_class = "Plugins::#{plugin_name.camelcase}".constantize
+      plugin_class = class_from_name(plugin_name)
       existing = plugin_class.where(ref: ref, page_id: page.id)
       return true unless existing.empty?
       plugin = plugin_class.new(plugin_class.const_get(:DEFAULTS))
-      plugin.page = page
+      plugin.page_id = page.id
+      plugin.active = true
       plugin.ref = ref if ref.present?
       plugin.save
     end

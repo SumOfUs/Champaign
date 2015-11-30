@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-
+//= require underscore
+//= require backbone
 //= require pub_sub
 //= require jquery-ui/sortable
 //= require jquery.remotipart
@@ -22,12 +23,18 @@
 //= require dropzone
 //= require syntax-highlighting
 //= require typeahead.jquery
+//= require speakingurl
+//= require quill
 
 //= require show_errors
-//= require collection_editor
 //= require dropzone_image_upload
 //= require selectize_config.js
 //= require ajax
 //= require configure_quill_editor
-//= require plugins_toggle
 //= require_tree ./plugins/actions/admin/
+
+require('page');
+require("plugins_toggle");
+require("collection_editor");
+require('shares_editor');
+window.PageEditBar = require("page_edit_bar");

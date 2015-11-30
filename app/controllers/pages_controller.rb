@@ -13,8 +13,13 @@ class PagesController < ApplicationController
     @page = Page.new
   end
 
+  def edit
+    @variations = @page.shares
+    render :edit, layout: 'page_edit'
+  end
+
   def create
-    @page = PageBuilder.create_with_plugins( page_params )
+    @page = PageBuilder.create( page_params )
 
     if @page.valid?
       redirect_to edit_page_path(@page)
@@ -24,7 +29,9 @@ class PagesController < ApplicationController
   end
 
   def show
-    renderer = LiquidRenderer.new(@page)
+    raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
+    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
+    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
@@ -32,6 +39,7 @@ class PagesController < ApplicationController
   def update
     respond_to do |format|
       if @page.update(page_params)
+        QueueManager.push(@page, job_type: :update)
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.js   { render json: {}, status: :ok }
       else
@@ -42,7 +50,7 @@ class PagesController < ApplicationController
   end
 
   def follow_up
-    renderer = LiquidRenderer.new(@page, @page.secondary_liquid_layout)
+    renderer = LiquidRenderer.new(@page, layout: @page.secondary_liquid_layout)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
@@ -51,6 +59,11 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find(params[:id])
+  end
+
+  def request_country
+    # when geocoder location API times out, request.location is blank
+    request.location.blank? ? nil : request.location.country_code
   end
 
   def page_params

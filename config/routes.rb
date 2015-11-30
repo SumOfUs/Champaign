@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
+  ActiveAdmin.routes(self)
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
 
@@ -18,7 +18,18 @@ Rails.application.routes.draw do
   post '/tags/add', to: 'tags#add_tag_to_page'
   delete '/tags/remove', to: 'tags#remove_tag_from_page'
 
+  # Resource Versioning
+  get '/versions/show/:model/:id', to: 'versions#show'
+
   resources :ak_logs
+
+  resource  :action_kit, controller: 'action_kit' do
+    member do
+      post :check_slug
+      post :create_petition_page
+      get :check_petition_page_status
+    end
+  end
 
   # Standard resources
   resources :campaigns
@@ -99,6 +110,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :pages do
       resources :actions
+      get 'share-rows', on: :member, action: 'share_rows'
     end
   end
   # Example resource route within a namespace:

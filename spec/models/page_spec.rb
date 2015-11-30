@@ -4,9 +4,13 @@ describe Page do
 
   let(:english) { create :language }
   let(:liquid_layout) { create :liquid_layout }
-  let(:simple_page) { create :page }
+  let(:simple_page) { create :page, liquid_layout: liquid_layout }
   let(:existing_page) { create :page }
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
+  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
+  let(:image_1) { Image.create!(content: image_file) }
+  let(:image_2) { Image.create!(content: image_file) }
+  let(:image_3) { Image.create!(content: image_file) }
 
   subject { simple_page }
 
@@ -20,7 +24,10 @@ describe Page do
   it { is_expected.to respond_to :campaign }
   it { is_expected.to respond_to :liquid_layout }
   it { is_expected.to respond_to :secondary_liquid_layout }
+  it { is_expected.to respond_to :primary_image }
   it { is_expected.to respond_to :plugins }
+  it { is_expected.to respond_to :shares }
+  it { is_expected.to respond_to :action_count }
 
   describe 'tags' do
 
@@ -115,17 +122,6 @@ describe Page do
     end
   end
 
-  describe 'slug' do
-
-    it 'should auto-fill slug' do
-      existing_page.slug = nil
-      existing_page.valid?
-      expect(existing_page).to be_valid
-      expect(existing_page.slug).not_to be_nil
-    end
-
-  end
-
   describe 'language' do
     it 'should not be required' do
       simple_page.language = nil
@@ -133,5 +129,132 @@ describe Page do
     end
   end
 
+  describe 'images' do
+    it 'get deleted when the page is deleted' do
+      simple_page.images = [image_1, image_2]
+      simple_page.save!
+      expect{ simple_page.destroy }.to change{ Image.count }.by -2
+    end
+  end
 
+  describe 'link' do
+    it 'get deleted when the page is deleted' do
+      link_1 = create :link
+      link_2 = create :link
+      simple_page.links = [link_1, link_2]
+      simple_page.save!
+      expect{ simple_page.destroy }.to change{ Link.count }.by -2
+    end
+  end
+
+  describe 'liquid_layout' do
+
+    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
+    let(:other_liquid_layout) { create :liquid_layout }
+
+    before :each do
+      allow(PagePluginSwitcher).to receive(:new).and_return(switcher)
+    end
+
+    describe 'valid' do
+
+      before :each do
+        expect(simple_page).to be_valid
+        expect(simple_page).to be_persisted
+      end
+
+      it 'switches the layout plugins if layout changed' do
+        simple_page.liquid_layout = other_liquid_layout
+        expect(PagePluginSwitcher).to receive(:new)
+        expect(switcher).to receive(:switch).with(other_liquid_layout)
+        expect(simple_page.save).to eq true
+      end
+
+      it 'does not switch the layout plugins if layout unchanged' do
+        simple_page.title = "just changin the title here"
+        expect(switcher).not_to receive(:switch)
+        expect(simple_page.save).to eq true
+      end
+    end
+
+    describe 'invalid' do
+      it 'does not switch the layout plugins even if layout is changed' do
+        simple_page.title = nil
+        simple_page.liquid_layout = other_liquid_layout
+        expect(switcher).not_to receive(:switch)
+        expect(simple_page.save).to eq false
+      end
+    end
+  end
+
+  describe 'primary image' do
+
+    before :each do
+      simple_page.images = [image_1, image_2]
+      simple_page.primary_image = image_2
+      simple_page.save!
+    end
+
+    it 'finds the image' do
+      expect(simple_page.primary_image).to eq image_2
+    end
+
+    it 'cannot be set to an image that doesnt belong to the page' do
+      expect(simple_page).to be_valid
+      simple_page.primary_image = image_3
+      expect(simple_page).to be_invalid
+    end
+
+    it 'gets set to nil if the image is deleted' do
+      expect(simple_page.primary_image).to eq image_2
+      expect{ image_2.destroy }.to change{ Image.count }.by -1
+      expect(simple_page.reload.primary_image).to eq nil
+    end
+  end
+
+  describe 'shares' do
+
+    it 'can find a twitter variant' do
+      twitter_share = create :share_twitter, page: simple_page
+      expect(simple_page.shares).to eq [twitter_share]
+    end
+
+    it 'can find a facebook variant' do
+      facebook_share = create :share_facebook, page: simple_page
+      expect(simple_page.shares).to eq [facebook_share]
+    end
+
+    it 'can find a email variant' do
+      email_share = create :share_email, page: simple_page
+      expect(simple_page.shares).to eq [email_share]
+    end
+
+    it 'returns empty array if none exist' do
+      expect(simple_page.shares).to eq []
+    end
+
+    it 'can find multiple of each type' do
+      t1 = create :share_twitter, page: simple_page
+      t2 = create :share_twitter, page: nil
+      t3 = create :share_twitter, page: nil
+      f1 = facebook_share = create :share_facebook, page: simple_page
+      f2 = facebook_share = create :share_facebook, page: simple_page
+      f3 = facebook_share = create :share_facebook, page: simple_page
+      f4 = facebook_share = create :share_facebook, page: existing_page
+      e1 = create :share_email, page: simple_page
+      e4 = create :share_email, page: nil
+      e3 = create :share_email, page: existing_page
+      e2 = create :share_email, page: simple_page
+      expect(simple_page.shares).to match_array [t1, f1, f2, f3, e1, e2]
+      expect(existing_page.shares).to match_array [f4, e3]
+    end
+  end
+
+  describe 'action_count' do
+
+    it 'defaults to 0' do
+      expect(Page.new.action_count).to eq 0
+    end
+  end
 end
+

@@ -1,7 +1,5 @@
-.row
-  .col-md-3
-    = image_tag facebook.image(:thumb), class: 'img-responsive img-rounded'
-  .col-md-9
-    h4 = facebook.title
-    = simple_format facebook.description
+= render 'share/facebooks/summary_row', share: facebook
 
+tr.shares-editor__edit-row.hidden-closed
+  td colspan=5
+    = render 'share/form', page: page, share: facebook

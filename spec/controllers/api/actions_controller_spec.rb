@@ -4,10 +4,12 @@ describe Api::ActionsController do
 
   describe "POST create" do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')] ) }
+    let(:member) { instance_double('Member', id: 12) }
+    let(:action) { instance_double('Action', member: member)}
 
     before :each do
       allow(Form).to receive(:find){ form }
-      allow(Action).to receive(:create_action)
+      allow(ManageAction).to receive(:create){ action }
     end
 
     describe "successful" do
@@ -26,7 +28,7 @@ describe Api::ActionsController do
       it "delegates to Action with params" do
         expected_params = { page_id: '2', form_id: '3', foo: 'bar'}.stringify_keys
 
-        expect(Action).to have_received(:create_action).
+        expect(ManageAction).to have_received(:create).
           with(expected_params)
       end
 
@@ -42,6 +44,10 @@ describe Api::ActionsController do
       it "responds with the follow-up url" do
         expect(response.body).to eq({ follow_up_url: follow_up_page_path(2) }.to_json)
       end
+
+      it 'sets the cookie' do
+        expect(cookies.signed['member_id']).to eq member.id
+      end
     end
 
     describe "unsuccessful" do
@@ -54,11 +60,16 @@ describe Api::ActionsController do
       end
 
       it "does not create an action" do
-        expect(Action).not_to have_received(:create_action)
+        expect(ManageAction).not_to have_received(:create)
       end
 
       it "displays the errors" do
         expect(validator).to have_received(:errors)
+      end
+
+      it 'does not set the cookie' do
+        expect(cookies.signed['member_id']).to eq nil
+        expect(response.cookies[:member_id]).to eq nil
       end
     end
   end

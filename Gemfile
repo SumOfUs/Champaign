@@ -1,9 +1,11 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 ruby '2.2.2'
 
 # Synchronises Assets between Rails and S3.
-gem 'fog-aws'
-gem 'asset_sync'
+group :production do
+  gem 'fog-aws'
+  gem 'asset_sync'
+end
 
 gem 'rails', '4.2.3'
 gem 'pg'
@@ -17,11 +19,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'codemirror-rails'
 gem 'selectize-rails'
 gem 'countries'
+gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
 
-# they still haven't merged the PR to support sprockets 3, but will in the next few weeks
-gem "compass-rails", git: 'https://github.com/robkilby/compass-rails', branch: 'sprockets-3'
+# they still haven't released sprockets 3 support, but it's merged on master
+gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -36,10 +39,14 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 
 # Rails admin for data administration
-gem 'rails_admin'
+gem 'activeadmin', github: 'activeadmin'
+
+# Country select gives ActiveAdmin the ability to have country dropdowns.
+gem 'country_select'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
+gem 'sentry-raven'
 
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
@@ -67,6 +74,11 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 
 gem 'newrelic_rpm'
 gem 'puma'
+gem 'typhoeus'
+
+# The Config gem is used as a way to easily access configuration variables without calling directly
+# to the ENV.
+gem 'config'
 
 group :development, :test do
   gem 'byebug'
@@ -100,7 +112,13 @@ source 'https://rails-assets.org' do
   # Reduce user-misspelled email addresses in your forms.
   gem 'rails-assets-mailcheck'
 
-  #Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
+  # Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
   gem 'rails-assets-dropzone'
+
+  # Generate a slug – transliteration with a lot of options
+  gem 'rails-assets-speakingurl'
+
+  # Cross browser rich text editor
+  gem 'rails-assets-quill'
 end
 

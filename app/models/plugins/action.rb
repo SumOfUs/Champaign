@@ -2,12 +2,14 @@ class Plugins::Action < ActiveRecord::Base
   belongs_to :page
   belongs_to :form
 
+  validates :cta, presence: true, allow_blank: false
+
   after_create :create_form
 
-  DEFAULTS = {}
+  DEFAULTS = { cta: 'Sign the Petition' }
 
   def liquid_data
-    attributes.merge('form_id' => form.try(:id),  'fields' => form_fields)
+    attributes.merge(form_id: form.try(:id), fields: form_fields)
   end
 
   def form_fields

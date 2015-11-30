@@ -11,10 +11,10 @@ describe PageBuilder do
     create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref].lol }}'
 
     create(:liquid_layout, :default)
-    allow(ChampaignQueue).to receive(:push)
+    allow(QueueManager).to receive(:push)
   end
 
-  subject { PageBuilder.create_with_plugins(params) }
+  subject { PageBuilder.create(params) }
 
   it 'creates a campaign page' do
     expect { subject }.to change{ Page.count }.from(0).to(1)
@@ -24,29 +24,12 @@ describe PageBuilder do
   it "pushes page to queue" do
     subject
 
-    expected_params = {
-      type: 'create',
-      params: {
-        slug: "foo-bar",
-        id: Page.first.id,
-        title: "Foo Bar",
-        language_code: 'en'
-      }
-    }
-
-    expect( ChampaignQueue ).to have_received(:push).with(expected_params)
+    expect( QueueManager ).to have_received(:push).with(Page.first, job_type: :create)
   end
 
   it 'uses the correct liquid layout' do
     subject
     expect(Page.last.liquid_layout_id).to eq template.id
-    expect(Page.last.liquid_layout).not_to eq LiquidLayout.default
-  end
-
-  it 'uses the default template if none specified' do
-    params.delete :liquid_layout_id
-    expect { subject }.to change{ Page.count }.from(0).to(1)
-    expect(Page.last.liquid_layout).to eq LiquidLayout.default
   end
 
   [Plugins::Thermometer, Plugins::Action].each do |plugin|

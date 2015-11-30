@@ -2,11 +2,6 @@ require 'rails_helper'
 
 describe ConnectWithOauthProvider do
   let(:resp) { double(:resp, provider: 'google', uid: '1234', info: double(:info, email: 'foo@example.com' ) )}
-  let(:whitelist) { %w(example.com) }
-
-  before do
-    allow(ChampaignConfig).to receive(:oauth_domain_whitelist){ whitelist }
-  end
 
   context "user doesn't exist" do
     it "creates user" do
@@ -26,16 +21,16 @@ describe ConnectWithOauthProvider do
   end
 
   describe 'whitelisting' do
-    let(:whitelist) { %w(sumofus.org exxon.mobi) }
 
     it 'whitelists domain' do
+      Settings.oauth_domain_whitelist = %w(sumofus.org exxon.mobi)
       expect{ ConnectWithOauthProvider.connect(resp) }.to raise_error(Champaign::NotWhitelisted)
     end
 
     context 'empty whitelist' do
-      let(:whitelist) { [] }
 
       it 'skips check' do
+        Settings.oauth_domain_whitelist = []
         expect{ ConnectWithOauthProvider.connect(resp) }.to_not raise_error
       end
     end

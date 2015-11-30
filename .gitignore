@@ -31,3 +31,7 @@ queue_listeners/config/env.yml
 !.elasticbeanstalk/*.global.yml
 node_modules
 public/system
+
+config/settings.local.yml
+config/settings/*.local.yml
+config/environments/*.local.yml

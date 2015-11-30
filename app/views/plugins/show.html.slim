@@ -10,7 +10,4 @@
   .col-md-10
     = render partial: "#{@plugin.class.to_s.underscore.pluralize}/form", locals: { plugin: @plugin, page: @page }
 
-javascript:
-  $.publish("plugins:toggle");
-
 

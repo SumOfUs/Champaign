@@ -1,10 +1,13 @@
 .form-group
-  = form.text_field :title, class: 'form-control', placeholder: t('share.facebook.form.title')
+  = form.label :title, t('share.facebook.form.title')
+  = form.text_field :title, class: 'form-control'
 
 .form-group
   = form.label :description, t('share.facebook.form.description')
-  = form.text_area :description, class: 'form-control'
+  = form.text_area :description, class: 'form-control', rows: 3
 
 .form-group
-  = form.file_field :image
+  = form.label :image_id, t('share.facebook.form.image')
+  = form.select :image_id, page.images.map{|im| [im.content_file_name, im.id] }, { include_blank: "No image" }, class: 'form-control shares-editor__image-selector'
+
 

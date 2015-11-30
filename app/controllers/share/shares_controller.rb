@@ -20,15 +20,15 @@ class Share::SharesController < ApplicationController
   end
 
   def update
-    @share = ShareProgressVariantBuilder.update(permitted_params, {
+    @share = ShareProgressVariantBuilder.update(
+      params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
-      url: page_url(@page),
       id: params[:id]
-    })
+    )
 
     respond_to do |format|
-      if @share.valid?
+      if @share.errors.empty?
         format.html { redirect_to index_path }
       else
         format.html { render 'share/edit' }
@@ -37,17 +37,20 @@ class Share::SharesController < ApplicationController
   end
 
   def create
-    @share = ShareProgressVariantBuilder.create(permitted_params, {
+    @share = ShareProgressVariantBuilder.create(
+      params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
       url: page_url(@page)
-    })
+    )
 
     respond_to do |format|
-      if @share.valid?
+      if @share.errors.empty?
         format.html { redirect_to index_path }
+        format.js
       else
         format.html { render 'share/new' }
+        format.js { render json: { errors: @share.errors, name: "share_#{@share.name}"}, status: 422 }
       end
     end
   end

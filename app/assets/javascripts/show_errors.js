@@ -3,22 +3,22 @@
 //   format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
 // The name field is for if the form element names are prefixed, eg 'link[title]'
 
+// this is ripe for a refactor to use the event system, and could be a backbone view too
+
 window.Champaign = window.Champaign || {};
 window.Champaign.showErrors = function(e, data) {
 
-  if (!e || !data || !e.target || !data.responseText || $(e.target).length == 0) {
+  if (!e || !data || !data.responseText || data.status != 422) {
     return; // no reason to try if we dont have what we need
   }
-  if (data.status != 422) {
-    return; // we're only interested in validation errors
-  }
 
-  $form = $(e.target);
+  // use the relevant form if the event was a form submission
+  $form = ($(e.target) && $(e.target).length > 0) ? $(e.target) : $('form');
   response = $.parseJSON(data.responseText);
 
   var errorMsg = function(field_name, msgs) {
-    var name = field_name.replace(/_/g, ' ')
-    return ["<div class='error-msg'>", name, ' ', msgs[0], "</div>"].join('');
+    msg = (typeof msgs === "string") ? msgs : msgs[0]
+    return ["<div class='error-msg'>This field ", msg, "</div>"].join('');
   }
 
   var clearErrors = function() {

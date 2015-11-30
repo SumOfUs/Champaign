@@ -1,46 +1,42 @@
-= render 'pages/header'
+= render 'sidebar', page: @page
 
-.row
-  .col-md-12
-    = form_for @page, remote: true do |f|
-      = f.hidden_field :content
+section.page-edit-step#basics data-icon='pencil'
+  h1.page-edit-step__title = t('.content')
+  = render 'form', page: @page
 
-      = render 'shared/error_messages', target: @page
+section.page-edit-step#layout data-icon='cog'
+  h1.page-edit-step__title = t('.settings')
+  = render 'settings_form', page: @page
 
-      .page-title.form-group
-        = f.text_field :title
+section.page-edit-step#pictures data-icon='camera-retro'
+  h1.page-edit-step__title = t('.pictures')
+  = render 'photo_form', page: @page
 
-      .form-group
-        = render 'shared/quill_editor'
+section.page-edit-step#shares data-icon='share-square-o'
+  h1.page-edit-step__title = t('.shares')
+  = render 'shares_editor', page: @page
 
-      .form-group
-        = f.label  :tag_ids, t('.tags')
-        = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', @page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
+- @page.plugins.each do |plugin|
+  section.page-edit-step id=plugin_title(plugin) data-icon=plugin_icon(plugin)
+    h1.page-edit-step__title= plugin_title(plugin)
+    = render "#{plugin.class.to_s.underscore.pluralize}/form", plugin: plugin, page: @page
 
-      .form-group
-        = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
+section.page-edit-step#sources data-icon='link'
+  h1.page-edit-step__title = t('.sources')
+  = render 'link_form', page: @page
 
-    section
-      h3 = t('.sources')
-      = render 'link_form', page: @page
-
-    section
-      h3 = t('.photos')
-      .component.campaign-images
-        - if @page.images.empty?
-          p.notice =t('pages.edit.no_images_notice')
-
-        - @page.images.each do |image|
-          = render partial: 'images/thumbnail', locals: { image: image }
-
-      .component
-        = form_tag page_images_url(@page, format: :js), id: 'dropzone', class: 'dropzone' do
-
-    section
-      h3 = t('.follow-up')
-      = render 'post_action_form', page: @page
+section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=page_url(@page)
+  h1.page-edit-step__title
+    = t('.view')
+    = link_to @page, target: "_blank"  do
+      button.btn-primary.btn.pull-right
+        = t('.show')
 
 javascript:
-  $.publish("quill_editor:setup");
-  $.publish("dropzone:setup");
+  $.publish("pages:edit", #{@page.id});
+  $.publish("activation:toggle");
+  $.publish("shares:edit");
 
+  $(document).ready(function(){
+    new PageEditBar();
+  });

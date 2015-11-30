@@ -4,7 +4,10 @@
 
     .well
       h4  = t('plugins.action.action_description')
-      = form_for plugin, url: plugins_action_path(plugin), remote: true, html: { class: 'action' }  do |f|
+      - name = "plugins_action_#{plugin.id}"
+      = form_for plugin, url: plugins_action_path(plugin), remote: true, as: name, html: { class: 'action one-form', data: {type: name } }  do |f|
+        = render 'plugins/shared/plugin_metadata', f: f
+
         .form-group
           = f.text_area :description, class: 'form-control'
 
@@ -13,26 +16,32 @@
           = f.text_field :target, class: 'form-control'
 
         .form-group
-          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
+          = f.label :cta, "Call to Action"
+          = f.text_field :cta, class: 'form-control', placeholder: 'Sign the Petition'
+
 
     .well
       h4 = t('plugins.action.choose_form_template')
+      p = t('plugins.action.form_template_explanation')
       = form_tag plugins_action_forms_path(plugin), method: :post, remote: true, class: 'action', id: 'change-form-template'  do
         .form-group
           = select_tag :form_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
 
         .form-group
-          = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
+          = submit_tag t('plugins.action.apply_template'), class: 'btn btn-default xhr-feedback'
 
     .well
-      h4 = t('plugins.action.customise_form')
-      .forms-edit
-        = render partial: 'forms/edit', locals: {form: plugin.form }
+      h4 data-toggle="collapse" data-target=".form-customization" aria-expanded="false"
+        i.fa.fa-caret-right
+        = t('plugins.action.customise_form')
+      .form-customization.collapse
+        .forms-edit
+          = render partial: 'forms/edit', locals: {form: plugin.form }
 
-      - if plugin.form
-        h5 = t('plugins.action.add_new_field')
-        .forms-add-element
-          = render partial: 'forms/add_element', locals: {form: plugin.form, form_element: FormElement.new}
+        - if plugin.form
+          h5 = t('plugins.action.add_new_field')
+          .forms-add-element
+            = render partial: 'forms/add_element', locals: {form: plugin.form, form_element: FormElement.new}
 
   .col-md-5
     .plugin-action-preview
@@ -42,3 +51,4 @@
 
 javascript:
   $.publish("collection:edit:loaded");
+  $.publish("plugin:action:loaded");

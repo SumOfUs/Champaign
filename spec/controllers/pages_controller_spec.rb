@@ -21,14 +21,14 @@ describe PagesController do
     let(:page) { instance_double(Page, valid?: true) }
 
     before do
-      allow(PageBuilder).to receive(:create_with_plugins) { page }
+      allow(PageBuilder).to receive(:create) { page }
       post :create, { page: { title: "Foo Bar" }}
     end
 
     it 'creates page' do
       expected_params = { title: "Foo Bar" }
 
-      expect(PageBuilder).to have_received(:create_with_plugins).
+      expect(PageBuilder).to have_received(:create).
         with(expected_params)
     end
 
@@ -54,16 +54,39 @@ describe PagesController do
       allow(Page).to receive(:find){ page }
       allow(page).to receive(:update)
       allow(LiquidRenderer).to receive(:new) { }
-      put :update, id: '1', page: { title: 'bar' }
+      allow(QueueManager).to receive(:push)
     end
 
-    it 'finds the campaign page' do
-      expect(Page).to have_received(:find).with('1')
+    subject { put :update, id: '1', page: { title: 'bar' } }
+
+    it 'finds page' do
+      expect(Page).to receive(:find).with('1')
+      subject
     end
 
-    it 'udpates the campaign page' do
-      expect(page).to have_received(:update).with(title: 'bar')
+    it 'updates page' do
+      expect(page).to receive(:update).with(title: 'bar')
+      subject
     end
+
+    context "successfully updates" do
+      before do
+        allow(page).to receive(:update){ true }
+      end
+
+      it 'posts to queue' do
+        expect(QueueManager).to receive(:push).with(page, job_type: :update)
+        subject
+      end
+    end
+
+    context "unsuccessfully updates" do
+      it 'posts to queue' do
+        expect(QueueManager).to_not receive(:push)
+        subject
+      end
+    end
+
   end
 
   describe 'GET #show' do
@@ -72,24 +95,51 @@ describe PagesController do
       allow(Page).to receive(:find){ page }
       allow(page).to receive(:update)
       allow(LiquidRenderer).to receive(:new){ renderer }
-      get :show, id: '1'
     end
 
     it 'finds campaign page' do
+      get :show, id: '1'
       expect(Page).to have_received(:find).with('1')
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
-      expect(LiquidRenderer).to have_received(:new).with(page)
+      get :show, id: '1'
+      expect(LiquidRenderer).to have_received(:new).with(page, request_country: "RD", member: nil)
       expect(renderer).to have_received(:render)
     end
 
     it 'renders show template' do
+      get :show, id: '1'
       expect(response).to render_template :show
     end
 
     it 'assigns campaign' do
+      get :show, id: '1'
       expect(assigns(:rendered)).to eq(renderer.render)
+    end
+
+    it 'raises 404 if user not logged in and page unpublished' do
+      allow(controller).to receive(:user_signed_in?) { false }
+      allow(page).to receive(:active?){ false }
+      expect{ get :show, id: '1' }.to raise_error ActiveRecord::RecordNotFound
+    end
+
+    it 'does not raise 404 if user not logged in and page published' do
+      allow(controller).to receive(:user_signed_in?) { false }
+      allow(page).to receive(:active?){ true }
+      expect{ get :show, id: '1' }.not_to raise_error
+    end
+
+    it 'does not raise 404 if user logged in and page unpublished' do
+      allow(controller).to receive(:user_signed_in?) { true }
+      allow(page).to receive(:active?){ false }
+      expect{ get :show, id: '1' }.not_to raise_error
+    end
+
+    it 'does not raise 404 if user logged in and page published' do
+      allow(controller).to receive(:user_signed_in?) { true }
+      allow(page).to receive(:active?){ true }
+      expect{ get :show, id: '1' }.not_to raise_error
     end
   end
 
@@ -107,7 +157,7 @@ describe PagesController do
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
-      expect(LiquidRenderer).to have_received(:new).with(page, page.secondary_liquid_layout)
+      expect(LiquidRenderer).to have_received(:new).with(page, layout: page.secondary_liquid_layout)
       expect(renderer).to have_received(:render)
     end
 

@@ -18,18 +18,29 @@
       <div class="action-bar__expand-arrow"></div>
       <div class="action-bar__shading"></div>
 
+      <div class="mobile-hide">
+        {% include 'Thermometer' %}
+      </div>
+
       <form action='/api/pages/{{id}}/actions' data-remote='true' method='post' class='form--big action'>
+        {% if member %}
+            <div class="action-bar__welcome-text">
+              Welcome back, {{member.welcome_name}}!
+              <br />
+              <a href="javascript:;" class="action-bar__clear-form">Not you?</a>
+            </div>
+        {% endif %}
         <input type='hidden' name='form_id' value='{{ plugins.action[ref].form_id }}' />
         {% for field in plugins.action[ref].fields %}
-          <div class="form__group">
+          <div class="form__group {% if member[field.name] %}form__group--prefilled{% endif %}">
             {% case field.data_type %}
 
             {% when 'text' %}
-              <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+              <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}"/>
             {% when 'email' %}
-              <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" />
+              <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}" />
             {% when 'phone' %}
-              <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" />
+              <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}" />
             {% when 'checkbox' %}
               <label class="checkbox-label">
                 <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
@@ -42,14 +53,14 @@
             {% endcase %}
           </div>
         {% endfor %}
-        <button type="submit" class="button action-bar__submit-button">Sign the petition</button>
+        <button type="submit" class="button action-bar__submit-button">{{ plugins.action[ref].cta }}</button>
       </form>
     </div>
   </div>
 
   <div class="action-bar__mobile-ui">
     <div class="action-bar__mobile-ui__bottom-bar">
-      <button class="button action-bar__open-button">Sign the petition</button>
+      <button class="button action-bar__open-button">{{ plugins.action[ref].cta }}</button>
     </div>
   </div>
 

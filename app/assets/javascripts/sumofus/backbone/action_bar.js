@@ -7,10 +7,12 @@ const ActionBar = Backbone.View.extend({
     'click .action-bar__close-button': 'hide',
     'click .action-bar__expand-arrow': 'toggleBlurb',
     'click .action-bar__top': 'toggleBlurb',
+    'click .action-bar__clear-form': 'clearForm'
   },
-
   initialize: function() {
     this.isSticky = false;
+    this.petitionTextMinHeight = 120; // pixels
+    this.checkBlurbHeight();
     if (!this.isMobile()) {
       this.makeSticky();
       this.selectizeCountry();
@@ -31,13 +33,24 @@ const ActionBar = Backbone.View.extend({
     this.$el.removeClass('action-bar--mobile-view--closed').addClass('action-bar--mobile-view--open');
   },
 
-  toggleBlurb: function() {
-    if (this.$('.action-bar__expand-arrow').hasClass('action-bar__expand-arrow--expanded')) {
-      this.expandBlurb();
+  checkBlurbHeight: function (){
+    if (this.$('.action-bar__top').outerHeight() > this.petitionTextMinHeight) {
+      this.blurbIsTall = true;
     } else {
-      this.collapseBlurb();
+      this.blurbIsTall = false;
+      this.$('.action-bar__expand-arrow').addClass('hidden-irrelevant');
     }
-    this.$('.action-bar__expand-arrow').toggleClass('action-bar__expand-arrow--expanded');
+  },
+
+  toggleBlurb: function() {
+    if (this.blurbIsTall) {
+      if (this.$('.action-bar__expand-arrow').hasClass('action-bar__expand-arrow--expanded')) {
+        this.expandBlurb();
+      } else {
+        this.collapseBlurb();
+      }
+      this.$('.action-bar__expand-arrow').toggleClass('action-bar__expand-arrow--expanded');
+    }
   },
 
   expandBlurb: function() {
@@ -75,6 +88,13 @@ const ActionBar = Backbone.View.extend({
 
   selectizeCountry: function() {
     $('.action-bar__country-selector').selectize();
+  },
+
+  clearForm: function(){
+    let $fields_holder = this.$('.form__group--prefilled');
+    $fields_holder.removeClass('form__group--prefilled');
+    $fields_holder.find('input').removeAttr('value');
+    $('.action-bar__welcome-text').addClass('hidden-irrelevant');
   }
 
 });
