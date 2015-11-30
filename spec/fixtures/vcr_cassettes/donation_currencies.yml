@@ -21,9 +21,9 @@ http_interactions:
       Content-Type:
       - text/html; charset=ISO-8859-1
       Date:
-      - Wed, 25 Nov 2015 14:57:46 GMT
+      - Wed, 25 Nov 2015 19:31:40 GMT
       Expires:
-      - Wed, 25 Nov 2015 14:57:46 GMT
+      - Wed, 25 Nov 2015 19:31:40 GMT
       Cache-Control:
       - private, max-age=0
       X-Ua-Compatible:
@@ -37,9 +37,9 @@ http_interactions:
       Server:
       - GSE
       Set-Cookie:
-      - PREF=ID=1111111111111111:TM=1448463466:LM=1448463466:V=1:S=1BuzFpKbsq7xD7xh;
+      - PREF=ID=1111111111111111:TM=1448479900:LM=1448479900:V=1:S=1gYn9nYhV8t4mDVd;
         expires=Thu, 31-Dec-2015 16:02:17 GMT; path=/; domain=.google.com
-      - SC=RV=:ED=us; expires=Thu, 26-May-2016 14:57:46 GMT; path=/finance; domain=.google.com
+      - SC=RV=:ED=us; expires=Thu, 26-May-2016 19:31:40 GMT; path=/finance; domain=.google.com
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -457,13 +457,13 @@ http_interactions:
         WmFtYmlhbiBLd2FjaGEgKFpNVyk8L29wdGlvbj4KPG9wdGlvbiAgdmFsdWU9
         IlpXTCI+WmltYmFid2VhbiBEb2xsYXIgKDIwMDkpIChaV0wpPC9vcHRpb24+
         Cjwvc2VsZWN0Pgo8L2Rpdj4KJm5ic3A7CjxkaXYgaWQ9Y3VycmVuY3lfY29u
-        dmVydGVyX3Jlc3VsdD4xIFVTRCA9IDxzcGFuIGNsYXNzPWJsZD4wLjY2Mjgg
+        dmVydGVyX3Jlc3VsdD4xIFVTRCA9IDxzcGFuIGNsYXNzPWJsZD4wLjY2MTAg
         R0JQPC9zcGFuPgo8aW5wdXQgdHlwZT1zdWJtaXQgdmFsdWU9IkNvbnZlcnQi
         Pgo8L2Rpdj4KPGlucHV0IHR5cGU9aGlkZGVuIG5hbWU9bWV0YSB2YWx1ZT1l
-        aSYjNjE7YXN4VlZ1R0RIcEtjVUllZWo3QUw+CjwvZm9ybT4KPC9ib2R5Pgo8
+        aSYjNjE7bkF4V1Z1SEtNSW01VTZYN3JkZ1A+CjwvZm9ybT4KPC9ib2R5Pgo8
         L2Rpdj4KPC9odG1sPgo=
     http_version: 
-  recorded_at: Wed, 25 Nov 2015 15:01:01 GMT
+  recorded_at: Wed, 25 Nov 2015 19:34:56 GMT
 - request:
     method: get
     uri: http://www.google.com/finance/converter?a=1&from=USD&to=EUR
@@ -485,9 +485,9 @@ http_interactions:
       Content-Type:
       - text/html; charset=ISO-8859-1
       Date:
-      - Wed, 25 Nov 2015 14:57:46 GMT
+      - Wed, 25 Nov 2015 19:31:40 GMT
       Expires:
-      - Wed, 25 Nov 2015 14:57:46 GMT
+      - Wed, 25 Nov 2015 19:31:40 GMT
       Cache-Control:
       - private, max-age=0
       X-Ua-Compatible:
@@ -501,9 +501,9 @@ http_interactions:
       Server:
       - GSE
       Set-Cookie:
-      - PREF=ID=1111111111111111:TM=1448463466:LM=1448463466:V=1:S=1BuzFpKbsq7xD7xh;
+      - PREF=ID=1111111111111111:TM=1448479900:LM=1448479900:V=1:S=1gYn9nYhV8t4mDVd;
         expires=Thu, 31-Dec-2015 16:02:17 GMT; path=/; domain=.google.com
-      - SC=RV=:ED=us; expires=Thu, 26-May-2016 14:57:46 GMT; path=/finance; domain=.google.com
+      - SC=RV=:ED=us; expires=Thu, 26-May-2016 19:31:40 GMT; path=/finance; domain=.google.com
     body:
       encoding: ASCII-8BIT
       string: !binary |-
@@ -921,11 +921,11 @@ http_interactions:
         WmFtYmlhbiBLd2FjaGEgKFpNVyk8L29wdGlvbj4KPG9wdGlvbiAgdmFsdWU9
         IlpXTCI+WmltYmFid2VhbiBEb2xsYXIgKDIwMDkpIChaV0wpPC9vcHRpb24+
         Cjwvc2VsZWN0Pgo8L2Rpdj4KJm5ic3A7CjxkaXYgaWQ9Y3VycmVuY3lfY29u
-        dmVydGVyX3Jlc3VsdD4xIFVTRCA9IDxzcGFuIGNsYXNzPWJsZD4wLjk0NTQg
+        dmVydGVyX3Jlc3VsdD4xIFVTRCA9IDxzcGFuIGNsYXNzPWJsZD4wLjk0MjIg
         RVVSPC9zcGFuPgo8aW5wdXQgdHlwZT1zdWJtaXQgdmFsdWU9IkNvbnZlcnQi
         Pgo8L2Rpdj4KPGlucHV0IHR5cGU9aGlkZGVuIG5hbWU9bWV0YSB2YWx1ZT1l
-        aSYjNjE7YXN4VlZyR0JKSWlKVTdyT2tZQUU+CjwvZm9ybT4KPC9ib2R5Pgo8
+        aSYjNjE7bkF4V1ZxbVlPWUd6VU4tcmxZZ0g+CjwvZm9ybT4KPC9ib2R5Pgo8
         L2Rpdj4KPC9odG1sPgo=
     http_version: 
-  recorded_at: Wed, 25 Nov 2015 15:01:01 GMT
+  recorded_at: Wed, 25 Nov 2015 19:34:57 GMT
 recorded_with: VCR 3.0.0
