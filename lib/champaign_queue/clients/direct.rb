@@ -1,8 +1,8 @@
 require 'net/http'
 
 # This client is for positing directly to <tt>ChampaignAkProcessor</tt>.
-# It'll use the +URL+ defined by <tt>ENV['AK_PROCESSOR_URL']</tt>. If this
-# variable is defined it'll trump <tt>ENV['SQS_QUEUE_URL']</tt> when
+# It'll use the +URL+ defined by <tt>Settings.ak_processor_url</tt>. If this
+# variable is defined it'll trump <tt>Settings.sqs_queue_url</tt> when
 # both are defined.
 
 module ChampaignQueue
@@ -37,7 +37,7 @@ module ChampaignQueue
       end
 
       def ak_processor_url
-        ENV['AK_PROCESSOR_URL']
+        Settings.ak_processor_url
       end
     end
   end

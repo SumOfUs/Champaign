@@ -3,7 +3,7 @@ require 'rails_helper'
 describe ChampaignQueue do
   describe '.push' do
     context 'with Sqs' do
-      before { ENV['AK_PROCESSOR_URL'] = nil }
+      before { Settings.ak_processor_url = nil }
 
       it 'delegates to Client::Sqs' do
         expect(ChampaignQueue::Clients::Sqs).
@@ -14,8 +14,7 @@ describe ChampaignQueue do
     end
 
     context 'with Direct' do
-      before { ENV['AK_PROCESSOR_URL'] = "http://example.com" }
-      after  { ENV['AK_PROCESSOR_URL'] = nil }
+      before { Settings.ak_processor_url = "http://example.com" }
 
       it 'delegates to Client::Direct' do
         expect(ChampaignQueue::Clients::Direct).

@@ -30,7 +30,7 @@ class PagesController < ApplicationController
 
   def show
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
-    recognized_member = ActionUser.find_from_request(akid: params[:akid], id: cookies.signed[:action_user_id])
+    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
     renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
@@ -39,6 +39,7 @@ class PagesController < ApplicationController
   def update
     respond_to do |format|
       if @page.update(page_params)
+        QueueManager.push(@page, job_type: :update)
         format.html { redirect_to edit_page_path(@page), notice: 'Page was successfully updated.' }
         format.js   { render json: {}, status: :ok }
       else

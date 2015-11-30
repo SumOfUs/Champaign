@@ -5,7 +5,7 @@
 #
 #   {% include 'post' %}
 #
-# The above tag is equivialnt to calling:
+# The above tag is equivalent to calling:
 #
 #   LiquidFileSystem.read_template_file('post')
 #
@@ -17,7 +17,7 @@
 #
 #   _post.liquid
 #
-# When developing a new partial, you can set <tt>ENV['LIQUID_TEMPLATING_SOURCE']</tt>
+# When developing a new partial, you can set <tt>Settings.liquid_templating_source</tt>
 # to 'file'. This will force the class to always read content from file.
 class LiquidFileSystem
   class << self
@@ -35,7 +35,7 @@ class LiquidFileSystem
     end
 
     def read_template_file(title)
-      if ENV['LIQUID_TEMPLATING_SOURCE'] == 'file'
+      if Settings.liquid_templating_source == 'file'
         return read_from_file(title)
       else
         return read(title)

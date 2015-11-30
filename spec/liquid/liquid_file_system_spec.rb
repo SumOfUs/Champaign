@@ -38,10 +38,8 @@ describe LiquidFileSystem do
       let!(:partial) { create(:liquid_partial, title: :foo, content: :bar) }
 
       before do
-        ENV['LIQUID_TEMPLATING_SOURCE'] = 'file'
+        Settings.liquid_templating_source = 'file'
       end
-
-      after { ENV['LIQUID_TEMPLATING_SOURCE'] = nil }
 
 
       it 'always reads from file' do

@@ -1,0 +1,15 @@
+span.changeset
+  - if changes.respond_to? :each_key
+    - changes.each_key do |key|
+      - if key != 'updated_at'
+        table.table-striped.table
+          thead
+            th colspan=2 = key.titleize
+          tr
+            td From
+            td To
+          tr
+            td.versions__changeset-removed
+              = changes[key][0]
+            td.versions__changeset-added
+              = changes[key][1]
