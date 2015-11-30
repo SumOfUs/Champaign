@@ -19,10 +19,31 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'submit form#hosted-fields': 'disableButton',
   },
 
+  DEFAULT_DONATION_BAND: [1, 10, 25, 50, 100],
+  DEFAULT_CURRENCY: 'GBP',
+  CURRENCY_SYMBOLS: {
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'CAD': '$',
+    'AUD': '$',
+    'NVD': '$',
+  },
+
+  showDonationBand: function(amounts, currency) {
+    let $buttonContainer = this.$('.fundraiser-bar__amount-buttons');
+    $buttonContainer.html('');
+    for (let ii = 0; ii < amounts.length; ii++) {
+      let tag = `<div class="fundraiser-bar__amount-button" data-amount="${amounts[ii]}">${this.CURRENCY_SYMBOLS[currency]}${amounts[ii]}</div>`
+      $buttonContainer.append(tag);
+    };
+  },
+
   initialize: function(follow_up_url) {
     this.initializeSticky();
     this.initializeBraintree();
     this.changeStep(1);
+    this.showDonationBand(this.DEFAULT_DONATION_BAND, this.DEFAULT_CURRENCY);
     this.donationAmount = 0;
     this.handleFormErrors();
     this.follow_up_url = follow_up_url;
