@@ -24,6 +24,7 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
     else
+      raise_unless_user_error(result)
       render json: { success: false, errors: result.errors }, status: 422
     end
   end
@@ -35,6 +36,7 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
+      raise_unless_user_error(result)
       render json: { success: false, errors: result.errors }, status: 422
     end
   end
@@ -102,5 +104,15 @@ class Api::BraintreeController < ApplicationController
 
   def local_customer
     @local_customer ||= ::Payment.customer(params[:user][:email])
+  end
+
+  def raise_unless_user_error(result)
+    return true unless result.present? && result.errors.size > 0
+    result.errors.each do |error|
+      actionable = [:amount]
+      return true if actionable.include?(error.attribute.to_sym)
+    end
+    result.errors.map{|e| "#{e.message} (#{e.code} on #{e.attribute})"}.join(', ')
+    raise Braintree::ValidationsFailed.new(messages)
   end
 end
