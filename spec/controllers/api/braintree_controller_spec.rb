@@ -30,7 +30,7 @@ describe Api::BraintreeController do
 
       let(:params) do {
         payment_method_nonce: 'fake-valid-nonce',
-        price: '100',
+        amount: '100',
         user: {
           first_name: 'George',
           last_name: 'Orwell',
@@ -46,11 +46,11 @@ describe Api::BraintreeController do
         post :subscription, params
       end
 
-      xit 'finds customer' do
-        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com')
+      it 'finds customer' do
+        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com').twice
       end
 
-      xit 'creates subscription' do
+      it 'creates subscription' do
         expected_arguments = {
           price: 100,
           plan_id: '35wm',
@@ -61,7 +61,7 @@ describe Api::BraintreeController do
           with( expected_arguments )
       end
 
-      xit 'returns subscription ID' do
+      it 'returns subsription ID' do
         expect(response.body).to eq( { success: true, subscription_id: 'xyz123' }.to_json )
       end
     end
