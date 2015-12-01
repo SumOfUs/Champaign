@@ -4,11 +4,17 @@ set -eu -o pipefail
 SHA1=$1
 AWS_APPLICATION_NAME=$2
 AWS_ENVIRONMENT_NAME=$3
+STATIC_BUCKET=$4
 
 # Update Elastic Beanstalk
 echo 'Shipping source bundle to S3...'
 zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
 SOURCE_BUNDLE=$SHA1-config.zip
+
+echo 'Shipping static assets to S3...'
+docker cp $(docker create soutech/champaign_web:$SHA1):/myapp/public/assets statics
+docker rm -v $id
+aws s3 sync /statics/assets/ s3://$STATIC_BUCKET/assets/
 
 aws configure set default.region $AWS_REGION
 aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE
