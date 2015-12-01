@@ -1,4 +1,4 @@
-ActiveAdmin.register_page 'DonationBand' do
+ActiveAdmin.register DonationBand do
   actions :all, except: [:new, :edit]
 
 

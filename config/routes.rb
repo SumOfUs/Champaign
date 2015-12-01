@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   # Standard resources
   resources :campaigns
+  resources :donation_bands
 
   resources :pages do
     namespace :share do

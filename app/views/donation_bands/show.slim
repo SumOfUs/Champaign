@@ -1,0 +1,8 @@
+h3 = @donation_band.name
+
+= link_to t('donation_bands.show.edit'), edit_donation_band_path(@donation_band), class: 'btn btn-sm btn-warning'
+= link_to t('donation_bands.show.destroy'), destroy_donation_band_path(@donation_band), class: 'btn btn-sm btn-danger', data: {warning: 'Are you sure?'}
+
+div
+  | Donation values in this band:
+  = @donation_band.amounts
