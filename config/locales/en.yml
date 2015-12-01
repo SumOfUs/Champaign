@@ -198,7 +198,7 @@ en:
     new:
       form:
         name: "An easy name to remember this donation band by."
-        amounts: "Enter a list of numeric amounts in USD separated by spaces."
+        amounts: "Enter a list of numeric amounts in US Cents (100 per 1 dollar) separated by spaces."
       title: "Create a new donation band."
     show:
       edit: "Edit donation band"

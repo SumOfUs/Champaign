@@ -32,7 +32,9 @@ class DonationBandsController < ApplicationController
   private
 
   def permitted_params
-    params.require(:donation_band).permit(:name, :amounts)
+    values = params.require(:donation_band).permit(:id, :name, :amounts)
+    values[:amounts] = DonationBandConverter.convert_for_saving(values[:amounts])
+    values
   end
 
   def find_donation_band
