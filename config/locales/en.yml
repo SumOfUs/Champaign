@@ -51,6 +51,7 @@ en:
     login: 'Log in'
     sign_up: 'Sign up'
     sign_google: 'Sign in with Google'
+    donation_bands: 'Donation Bands'
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
