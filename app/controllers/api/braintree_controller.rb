@@ -1,7 +1,6 @@
 class Api::BraintreeController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-
   def token
     render json: { token: ::Braintree::ClientToken.generate }
   end
@@ -22,6 +21,7 @@ class Api::BraintreeController < ApplicationController
 
   def manage_transaction(params)
     result = braintree::Transaction.make_transaction(transaction_options)
+
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
     else
@@ -38,8 +38,8 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
-      raise_unless_user_error(result)
-      render json: { success: false, errors: result.errors }, status: 422
+      errors = raise_unless_user_error(result)
+      render json: { success: false, errors: errors }, status: 422
     end
   end
 
@@ -96,12 +96,7 @@ class Api::BraintreeController < ApplicationController
   end
 
   def raise_unless_user_error(result)
-    return true unless result.present? && result.errors.size > 0
-    result.errors.each do |error|
-      actionable = [:amount]
-      return true if actionable.include?(error.attribute.to_sym)
-    end
-    messages = result.errors.map{|e| "#{e.message} (#{e.code} on #{e.attribute})"}.join(', ')
-    raise Braintree::ValidationsFailed.new(messages)
+    braintree::ErrorProcessing.new(result).process
   end
 end
+
