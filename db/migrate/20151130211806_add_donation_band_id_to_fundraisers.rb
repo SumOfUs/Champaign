@@ -1,6 +1,5 @@
 class AddDonationBandIdToFundraisers < ActiveRecord::Migration
   def change
-    add_column :plugins_fundraisers, :donation_band_id, :integer
-    add_foreign_key :plugins_fundraisers, :donation_bands
+    add_reference :plugins_fundraisers, :donation_bands, index: true, foreign_key: true
   end
 end
