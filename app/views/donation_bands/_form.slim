@@ -1,7 +1,9 @@
 = form_for(@donation_band) do |f|
   .form-group
+    = f.label :title, t('donation_bands.name')
     = f.text_field :name, class: 'form-control', placeholder: t('donation_bands.new.form.name')
   .form-group
+    = f.label :amounts, t('donation_bands.amounts')
     = f.text_field :amounts, class: 'form-control', placeholder: t('donation_bands.new.form.amounts')
   .form-group
     = f.submit t('common.save'), class: 'btn btn-sm btn-primary'

@@ -180,6 +180,8 @@ en:
       form_template_explanation: Choose and apply a template to replace the fields in your existing form.
     thermometer:
       offset: "Offset (number of fake signatures to add to true count)"
+    fundraiser:
+      donation_band: "Default Donation Band for unknown user:"
 
   ak_logs:
     index:
@@ -206,4 +208,6 @@ en:
     index:
       title: "Donation Bands"
       new: "Create new donation band"
+    name: 'Name:'
+    amounts: 'Amounts:'
 
