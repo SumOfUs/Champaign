@@ -15,7 +15,7 @@ echo 'Shipping static assets to S3...'
 id=$(docker create soutech/champaign_web:$SHA1)
 docker cp $id:/myapp/public/assets statics
 
-aws s3 sync statics/assets/ s3://$STATIC_BUCKET/assets/
+aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
 
 aws configure set default.region $AWS_REGION
 aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE

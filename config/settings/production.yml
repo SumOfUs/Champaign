@@ -6,8 +6,6 @@
      omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
      liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'file' %>
      raven_dsn: <%= ENV['RAVEN_DSN'] %>
-     asset_sync: <%= ENV['ASSET_SYNC'] %>
-     asset_sync_gzip_compression: <%= ENV['ASSET_SYNC_GZIP_COMPRESSION'] %>
      oauth_domain_whitelist:
        - 'sumofus.org'
 
@@ -29,9 +27,7 @@
 
 # CloudFront config Variables.
      cloudfront_url: <%= ENV['CLOUDFRONT_URL'] %>
-     fog_directory: <%= ENV['FOG_DIRECTORY'] %>
-     fog_provider: <%= ENV['FOG_PROVIDER'] %>
-     fog_region: <%= ENV['FOG_REGION'] %>
+     s3_asset_bucket: <%= ENV['S3_ASSET_BUCKET'] %>
      rails_serve_static_assets: <%= ENV['RAILS_SERVE_STATIC_ASSETS'] %>
      compile_static: <%= ENV['COMPILE_STATIC'] %>
 

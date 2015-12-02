@@ -86,7 +86,7 @@ Rails.application.configure do
     storage: :s3,
     s3_host_name: Settings.s3_host_name,
     s3_credentials: {
-      bucket: Settings.fog_directory,
+      bucket: Settings.s3_asset_bucket,
       access_key_id: Settings.aws_access_key_id,
       secret_access_key: Settings.aws_secret_access_key
     }
