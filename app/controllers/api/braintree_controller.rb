@@ -1,7 +1,6 @@
 class Api::BraintreeController < ApplicationController
   skip_before_action :verify_authenticity_token
 
-
   def token
     render json: { token: ::Braintree::ClientToken.generate }
   end
@@ -73,6 +72,7 @@ class Api::BraintreeController < ApplicationController
       nonce: params[:payment_method_nonce],
       amount: params[:amount].to_f,
       user: params[:user],
+      currency: params[:currency],
       store: Payment
     }
   end

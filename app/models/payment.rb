@@ -44,7 +44,9 @@ module Payment
         transaction_id:         sale.id,
         transaction_type:       sale.type,
         amount:                 sale.amount,
-        transaction_created_at: sale.created_at
+        transaction_created_at: sale.created_at,
+        merchant_account_id:    sale.merchant_account_id,
+        currency:               sale.currency_iso_code
       }
     end
 

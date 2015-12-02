@@ -17,16 +17,16 @@ module PaymentProcessor
         # * +:user+   - Hash of information describing the customer. Must include email, and name
         # * +:store+  - Class/Module which responds to +.write_transaction+. Should handle storing the transaction
         #
-        def self.make_transaction(nonce:, amount:, user:, store: nil)
-          new(nonce, amount, user, store).sale
+        def self.make_transaction(nonce:, amount:, currency:, user:, store: nil)
+          new(nonce, amount, currency, user, store).sale
         end
 
-        def initialize(nonce, amount, user, store)
+        def initialize(nonce, amount, currency, user, store)
           @amount = amount
           @nonce = nonce
           @user = user
           @store = store
-
+          @currency = currency
         end
 
         def sale
@@ -52,6 +52,7 @@ module PaymentProcessor
           {
             amount: @amount,
             payment_method_nonce: @nonce,
+            merchant_account_id: MerchantAccountSelector.for_currency(@currency),
             options: {
               submit_for_settlement: true,
               store_in_vault_on_success: store_in_vault?
@@ -70,7 +71,6 @@ module PaymentProcessor
         def store_in_vault?
           customer.nil?
         end
-
       end
     end
   end

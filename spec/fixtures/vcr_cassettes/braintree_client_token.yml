@@ -27,20 +27,13 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Mon, 23 Nov 2015 21:14:09 GMT
+      - Wed, 02 Dec 2015 15:13:35 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
       - chunked
       Connection:
       - close
-      X-Frame-Options:
-      - SAMEORIGIN
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
       X-Authentication:
       - basic_auth
       X-User:
@@ -49,42 +42,46 @@ http_interactions:
       - Accept-Encoding
       Content-Encoding:
       - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
       Etag:
-      - '"66faeedddadd34f83d768c0d7e00ae55"'
+      - '"a12e502d4c061593caa4f3cb1f9e217e"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - a6ec86e4-eaef-40fd-bf8c-bc4f8a24acdb
+      - 1a8d34084634369a22eb62131f10e4e2
       X-Runtime:
-      - '0.165112'
+      - '0.090200'
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAKGBU1YAA8RVXW+jOhB976+o+r53wYRqkdqumiYQrOBsSIKx3zCmBWJD
-        tEn4+vV3aLd7U+3q7n27ykMk2zNnzpwzw93XTqvrJvt+LOrq/sb8y7i5zqq0
-        lkX1cn+z27qfvtx8fbi6S1WRVadPp3qfVQ9X19d3TaLO2UPWY8RjPCTUOftl
-        3S+fcC7jsBYWPmTaNcbzUKszR1GfLvBBVOtiVfiIb+cWK1+6YHjp+XZvkdm0
-        DCgbAsTgPJ0Q6pt8RjT89gxhzbYMcTqfkGHdktnODsrdQNBuwrc7RDx/4Ho3
-        PHuk59Q1OA2fWbx2gvKxIxujCzZGH5jrPtjWHZnV7WozMcjgD8GQtqvZ7nsw
-        e2wDtzPhvyfaVKkmNaO2ESO1/7blUDu2koUymM77rFS3QYVTuYWYkreS4mNC
-        yXOCIvtbzGxeAQ8tb1PKJ9lsbYpqXkBPSoFsnVAZpboF/riWi7BNh7pZIrdN
-        NvYAeHumnclS455RdZYLrDiVufQii8X7M0POaVWujaB3TtDvMvFceBM0RNsV
-        q2SdxWGRLPDtKq77tHBK4SklqrEP08PSYt0SkUZofuBW1LM4PAg0ea0L8hyF
-        F436DH55EL4mSBZYwh3E80OqnbOg0Vk++bd+RXKhw0JYL2+c3jCmqaf+F15+
-        0RYsJgOPwyGK8RH8B29DI10Et8veyVOLKMh1ZhXOE9Az1ZHiCPwRyzzb2KCJ
-        Ubz79Xfx4/my4kpos1n+w/2P+YR2j1D3gVlBsaqOhfw19w8e6xP0JxfgLfDQ
-        8F8xnjdtIb0cvB7NdygqIb8KIQ/TneKgEwf8FO2OfjXNs3iai3l0ZuBTTmH2
-        qrCX9OIO3sMM75OYtMJz7a12T3wDWitiip2jozi41BqP+UUVHcVTW4zzLLVb
-        ZlHUj3l8nRty8TjyU5nnnlKvU0sNvts4bfrkA2YEWuEpt0YPmGO+D75ZFV8a
-        Hue5iKdH/sa1kZ4zvOqs3YF/wJkO4/t3/f/NX3/wCXguKhPkmPLJblmsWkbb
-        n3HcU9BnYqwv8N/5M9odhSX9sXaYHSOtIvXL3MztZqsjQyKnT3r/FuozOejH
-        qY2SGMNMjn0YdyJuuOawS2w14kq4h3rHXUZ+zsWltpd8dwTiRiy1H7kJ6g7A
-        v2eoOwAOzJY/vj8IrzsILS/7P1z65p0X1A2xoAPMNoO9AbUYG/pa4yCp2XDQ
-        8bWnsEvAn2dmKZwiZyZQqEb8KCJzvzIAkzTAZ+z97/15sWvf8vsI6iskym3p
-        4Tqtajsrcf/aD8AR9MuPPrHieX1/f/f57Rt0dff549fpbwAAAP//AwDxgHX/
-        1AYAAA==
+        H4sIAJ8KX1YAA8RVTXOjOBC951ekcp8dEMY1VCWZimODoYw8xlgg3RAiASyB
+        a2zz9eu3cSazTs3Uzt72RJXU3a9fv9fi/mun5G2TfT8WdfVwp/+l3d1mVVqL
+        onp9uNuF9qcvd18fb+5TWWTV6dOp3mfV483t7X2TyHP2mPUeYrE3JJF1dsu6
+        Xz17uYiDmhveIVO2Np4HSp4ZIn269A682hTrwitpuWmZQ1saYumHtMchy9fO
+        YoLn+8F3aM/KheEPLqKll1PlI6xcjZay8OfUxGXa+SXJ8bDXWOQjqhhEuN2L
+        g3sW2XAWvNB4Y/nlU4e3WucXWuvLTYfDuvOHesDbiebPdzoOXyfr0P/uz59a
+        3+50+PZY6TJVuKaRqcVI7r+FDHr3jGQpNaryPivl1K+8VISQU7JWRN4xifBL
+        goj5LaYmq2alr8Q0jdgkm290Xi0KmEnJkamSSJBUtSP/WiyDNh3qZoXsNtma
+        A+DtqbImK+X1NJJnsfQki0QuHGLQeH+myDqty43m99YJ5l0mjg0xfoOVWdFK
+        1FkcFMnSm67juk8Lq+SOlLwa5zA7rAzarRBuuGIHZpCexsGBo8mlL6hz5A4Z
+        9Rnc8sBdhZEoPAF3kM8OqbLOPCJn8exO3QrnXAUFN17fOL1hzFJH/i+83KIt
+        aIwHFgcDib0j+A9iAy1d+tNVb+WpgSXUOtPKyxPQM1VEMgT+iEWebU3QRCve
+        /fq7/PF8VTHJld6s/uH+x3pc2Ufo+0ANv1hXx0L8WvsHj80J5pNz8BZ4aPiv
+        GC/bthBODl4nix0iJdSXAdShqpMMdGKAn6Ld0a1meRbPcr4gZwo+ZRHsXhX0
+        Irq6g3jY4X0S45Y7thkq+8S2oLXEOt9ZisT+tdbeWJ9X5Mif22LcZ6HsMiOk
+        H+u4KtfE8mnkJzPHPqVOJ1cKfLe12vTZBUwCWnkzZowe0Md6H3yzLr40LM5z
+        Hs+O7I1rIxxruOis7IF9wJkNY/y7/v/mrz/4BDxHygRZung2WxrLlkbtzzzm
+        SJgz1jZX+O/8adQduSHcsXfYHS2tiPxlbxZmEyqiCWT1Se9OoT+dgX4sMlES
+        e7CT4xwub2LDFIO3xJQjroB76Hd8y/DPvbjW9prvDkPeiCX3Izce2QPw7ynq
+        DoADu+WO8QfudAeuxPX8h2vfvPOCviEXdIDdpvBuQC/aNrr0OIhIbxjoeJkp
+        vCXgzzM1pJcia85RIEd8QvDCrTTAxA3wGWf/e39evbVv9V0E/RUC5aZwvDqt
+        ajMrvf4yD8Dh0Zcfc6LFy+bh4f7z2z/o5v7zx7/T3wAAAP//AwBrLSZ41AYA
+        AA==
     http_version: 
-  recorded_at: Mon, 23 Nov 2015 21:14:09 GMT
+  recorded_at: Wed, 02 Dec 2015 15:17:30 GMT
 recorded_with: VCR 3.0.0
