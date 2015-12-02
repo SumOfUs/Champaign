@@ -14,7 +14,7 @@ describe "Braintree API" do
 
   def post_transaction(opts = {})
     post '/api/braintree/transaction', {
-      currency: :EUR,
+      currency: :USD,
       payment_method_nonce: 'fake-valid-nonce',
       amount: 100.00,
       recurring: false,
@@ -23,7 +23,9 @@ describe "Braintree API" do
   end
 
   def post_subscription(opts = {})
-    post '/api/braintree/subscription', {user: { email: customer.email }, price: '100.00', currency: :GBP}
+    post '/api/braintree/subscription', {
+      user: { email: customer.email }, price: '100.00', currency: :USD
+    }.merge(opts)
   end
 
   def body
@@ -46,7 +48,7 @@ describe "Braintree API" do
 
     it 'creates a token and successfully subscribes a user whose e-mail is not associated with a token' do
       VCR.use_cassette('braintree_subscription_success_no_token') do
-        post_subscription(user: { email: 'foo+123@example.com'}, payment_method_nonce: 'fake-valid-visa-nonce')
+        post_subscription(user: { email: 'foo+1234@example.com'}, payment_method_nonce: 'fake-valid-visa-nonce')
         expect(body[:success]).to be true
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
@@ -104,13 +106,12 @@ describe "Braintree API" do
           end
         end
 
-
         it 'records transaction to store' do
-            customer = Payment::BraintreeCustomer.first
-            expect(customer).to_not be nil
-            expect(customer.email).to eq('foo@example.com')
-            expect(customer.customer_id).to match(/\d{8}/)
-            expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          customer = Payment::BraintreeCustomer.first
+          expect(customer).to_not be nil
+          expect(customer.email).to eq('foo@example.com')
+          expect(customer.customer_id).to match(/\d{8}/)
+          expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end

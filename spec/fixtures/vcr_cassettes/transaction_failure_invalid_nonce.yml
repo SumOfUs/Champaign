@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://<BRAINTREE_PUBLIC_KEY>:<BRAINTREE_PRIVATE_KEY>@api.sandbox.braintreegateway.com/merchants/<BRAINTREE_MERCHANT_ID>/transactions
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
     body:
       encoding: UTF-8
       string: |
@@ -39,7 +39,7 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Wed, 02 Dec 2015 15:13:34 GMT
+      - Wed, 02 Dec 2015 20:08:04 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
@@ -59,9 +59,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 50a157be36246f9b6e6d3dc432cf4694
+      - 5ca246dca899ac549d128a3d792f2737
       X-Runtime:
-      - '0.145084'
+      - '0.146133'
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -69,7 +69,7 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAJ4KX1YAA6xUTW/bMAy991cIvitODkNXQFF32W67DOu5YGSmFWaJgkgX
+        H4sIAKRPX1YAA6xUTW/bMAy991cIvitODkNXQFF32W67DOu5YGSmFWaJgkgX
         zb+flNj5qtNTTyb59PjxSNg8vodevWFmT3HdrBbLRmF01Pn4sm6e/v7S35tH
         e2cgeY05U9YZOVFktHdKmX2Iq3l0lOwSrhvIGXZNO0KSITI4KUUOkfnnEzah
         J79ESlNoH1bf7u9Nu7fPQRDJfjMIjvl4FzbUNzZgdq8Q5Rmco6F8fWfa4+OL
@@ -80,5 +80,5 @@ http_interactions:
         UEXfr5ua+7S58qCHz3EM4Hu7JfqB7xBSjwtHoSx0H75xAHWx5VAsQ18G2Zu3
         DuN0DV925eVmZn4J/wEAAP//AwCwubOhTwQAAA==
     http_version: 
-  recorded_at: Wed, 02 Dec 2015 15:17:29 GMT
+  recorded_at: Wed, 02 Dec 2015 20:12:01 GMT
 recorded_with: VCR 3.0.0
