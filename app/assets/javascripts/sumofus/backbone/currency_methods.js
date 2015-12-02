@@ -1,5 +1,5 @@
 const CurrencyMethods = {
-  DEFAULT_CURRENCY: 'GBP',
+  DEFAULT_CURRENCY: 'USD',
   DEFAULT_DONATION_BANDS: {
     'GBP': [1, 5, 10, 25, 51],
     'USD': [1, 5, 10, 25, 52],

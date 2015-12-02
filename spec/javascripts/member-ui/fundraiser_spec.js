@@ -2,7 +2,7 @@
 
 describe("fundraiser", function() {
   var suite = this;
-  suite.timeout(10000);
+  suite.timeout(20000);
 
   before(function() {
     suite.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
@@ -26,7 +26,7 @@ describe("fundraiser", function() {
                             '{ "token": "'+helpers.btClientToken+'" }' ]);
 
     suite.follow_up_url = "/pages/636/follow-up";
-    suite.fundraiserBar = new window.FundraiserBar(suite.follow_up_url);
+    suite.fundraiserBar = new window.FundraiserBar({ followUpUrl: suite.follow_up_url });
     sinon.stub(suite.fundraiserBar, 'redirectTo');
     suite.server.respond(); // respond to request for token
   });
@@ -85,6 +85,8 @@ describe("fundraiser", function() {
       $('.fundraiser-bar__first-continue').click();
       expect($('.fundraiser-bar__display-amount').text()).to.eq('$22');
     });
+
+
   });
 
   describe('second panel', function(){

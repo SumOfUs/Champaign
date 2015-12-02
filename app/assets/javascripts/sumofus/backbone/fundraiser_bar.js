@@ -141,6 +141,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       payment_method_nonce: this.nonce,
       amount: this.donationAmount,
       user: this.serializeUserForm(),
+      currency: this.currency,
     }, this.handleTransaction());
   },
 
