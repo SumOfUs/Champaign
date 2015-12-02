@@ -22,7 +22,6 @@
 
 
 # Direct ActionKit Connection variables.
-     ak_api_url: <%= ENV['AK_API_URL'] %>
      ak_username: <%= ENV['AK_USERNAME'] %>
      ak_password: <%= ENV['AK_PASSWORD'] %>
 
