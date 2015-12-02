@@ -14,7 +14,7 @@ module PaymentProcessor
         end
 
         def merchant_account_id
-          raise_error if @currency.nil?
+          raise_error if @currency.blank?
           id = MERCHANT_ACCOUNTS[@currency.upcase.to_sym]
           raise_error unless id
           id
