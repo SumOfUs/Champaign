@@ -1,9 +1,10 @@
 const StickyMethods = require('sumofus/backbone/sticky_methods');
 const FormMethods   = require('sumofus/backbone/form_methods');
+const CurrencyMethods     = require('sumofus/backbone/currency_methods');
 const HostedFieldsMethods = require('sumofus/backbone/hosted_fields');
 
 const FundraiserBar = Backbone.View.extend(_.extend(
-  StickyMethods, FormMethods, HostedFieldsMethods, {
+  StickyMethods, FormMethods, HostedFieldsMethods, CurrencyMethods, {
 
   el: '.fundraiser-bar',
 
@@ -17,15 +18,23 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .action-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
+    'change select.fundraiser-bar__currency-selector': 'switchCurrency',
+    'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
   },
 
-  initialize: function(follow_up_url) {
+  // options: object with any of the following keys
+  //    followUpUrl: the url to redirect to after success
+  //    currency: the three letter capitalized currency code to use
+  //    donationBands: an object with three letter currency codes as keys
+  //      and array of numbers, integers or floats, to display as donation amounts
+  initialize: function(options) {
+    this.initializeCurrency(options.currency, options.donationBands)
     this.initializeSticky();
     this.initializeBraintree();
     this.changeStep(1);
     this.donationAmount = 0;
     this.handleFormErrors();
-    this.follow_up_url = follow_up_url;
+    this.followUpUrl = options.followUpUrl;
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
@@ -38,17 +47,18 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   primeCustom: function(e) {
     let $field = this.$(e.target);
     if ($field.val() == '') {
-      $field[0].value = '$';
+      $field[0].value = this.CURRENCY_SYMBOLS[this.currency];
     }
     this.$('.fundraiser-bar__first-continue').slideDown(200);
   },
 
   resetCustom: function(e) {
     let $field = this.$(e.target);
-    if ($field.val() == '$' || $field.val() == '') {
+    let currencySymbols = /^[\$\£\€]*$/;
+    if (currencySymbols.test($field.val())) {
       $field[0].value = '';
       this.$('.fundraiser-bar__first-continue').slideUp(200);
-    }
+    };
   },
 
   advanceToPayment: function(e, data) {
@@ -57,8 +67,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   advanceToDetails: function(e) {
     let amount = this.$(e.target).data('amount') || this.$('.fundraiser-bar__custom-field').val();
-    if (typeof amount == 'string' && amount.indexOf('$') > -1) {
-      amount = amount.replace('$', '');
+    if (typeof amount == 'string') {
+      amount = amount.replace(/[\$\£\€]/g, '');
     }
     this.setDonationAmount(amount);
     if (this.donationAmount > 0) {
@@ -70,7 +80,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     let parsed = parseFloat(amount);
     if (parsed > 0){
       this.donationAmount = parsed;
-      this.$('.fundraiser-bar__display-amount').text(`$${this.donationAmount}`);
+      let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
+      this.$('.fundraiser-bar__display-amount').text(`${currencySymbol}${this.donationAmount}`);
     } else {
       this.changeStep(1);
     }
@@ -130,6 +141,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       payment_method_nonce: this.nonce,
       amount: this.donationAmount,
       user: this.serializeUserForm(),
+      currency: this.currency,
     }, this.handleTransaction());
   },
 
@@ -137,7 +149,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return (data, status) => {
       this.enableButton();
       if (data.success) {
-        this.redirectTo(this.follow_up_url);
+        this.redirectTo(this.followUpUrl);
       } else {
         console.error('Transaction failed:', data);
       }
