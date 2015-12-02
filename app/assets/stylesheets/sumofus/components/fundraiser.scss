@@ -33,6 +33,12 @@
     font-size: 14px;
     float: left;
   }
+  &__currency-selector {
+    margin-top: 10px;
+  }
+  &__engage-currency-switcher {
+    cursor: pointer;
+  }
   &__step-label {
     margin: 0 auto;
     position: relative;

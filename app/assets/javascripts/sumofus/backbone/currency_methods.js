@@ -14,7 +14,7 @@ const CurrencyMethods = {
     'GBP': '£',
     'CAD': '$',
     'AUD': '$',
-    'NVD': '$',
+    'NZD': '$',
   },
 
   showDonationBandForCurrency: function(currency) {
@@ -34,7 +34,6 @@ const CurrencyMethods = {
   showDonationBand: function(amounts, currency) {
     let $buttonContainer = this.$('.fundraiser-bar__amount-buttons');
     $buttonContainer.html('');
-    console.log(currency, this.CURRENCY_SYMBOLS, this.CURRENCY_SYMBOLS[currency]);
     for (let ii = 0; ii < amounts.length; ii++) {
       let tag = `<div class="fundraiser-bar__amount-button" data-amount="${amounts[ii]}">${this.CURRENCY_SYMBOLS[currency]}${amounts[ii]}</div>`
       $buttonContainer.append(tag);
@@ -47,8 +46,10 @@ const CurrencyMethods = {
     } else {
       this.currency = currency;
     }
-    this.$('select.fundraiser-bar__currency-selector').find(`option[value="${currency}"]`).prop('selected', true);
-    this.showDonationBandForCurrency(currency);
+    this.$('.fundraiser-bar__current-currency').text(this.currency);
+    this.$('select.fundraiser-bar__currency-selector').find('option').prop('selected', false);
+    this.$('select.fundraiser-bar__currency-selector').find(`option[value="${this.currency}"]`).prop('selected', true);
+    this.showDonationBandForCurrency(this.currency);
   },
 
   setupCurrencySelector: function() {
@@ -59,10 +60,19 @@ const CurrencyMethods = {
     });
   },
 
+  switchCurrency: function(e) {
+    this.setCurrency(this.$('select.fundraiser-bar__currency-selector').val());
+  },
+
   initializeCurrency: function(currency, donationBands) {
     this.setupCurrencySelector();
     this.donationBands = donationBands || this.DEFAULT_DONATION_BANDS;
     this.setCurrency(currency || this.DEFAULT_CURRENCY);
+  },
+
+  showCurrencySwitcher: function(e) {
+    this.$('.fundraiser-bar__engage-currency-switcher').addClass('hidden-irrelevant');
+    this.$('.fundraiser-bar__currency-selector').slideDown();
   },
 }
 

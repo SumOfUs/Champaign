@@ -18,6 +18,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .action-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
+    'change select.fundraiser-bar__currency-selector': 'switchCurrency',
+    'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
   },
 
   // options: object with any of the following keys
