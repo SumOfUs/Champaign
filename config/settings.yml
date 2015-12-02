@@ -35,7 +35,6 @@
 
 
 # Direct ActionKit Connection variables.
-#    ak_api_url: 'set this based on your ActionKit API URL.'
 #    ak_username: 'Set this based on an account which has API access to your ActionKit instance for direct data pushing to AK, in a .local file.'
 #    ak_password: 'Just like ak_username.'
 

@@ -31,7 +31,6 @@
 
 
 # Direct ActionKit Connection variables.
-     ak_api_url: 'https://act.sumofus.org/rest/v1'
      ak_username: 'ak_username'
      ak_password: 'ak_password'
 
