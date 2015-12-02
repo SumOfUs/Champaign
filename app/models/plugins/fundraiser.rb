@@ -1,6 +1,7 @@
 class Plugins::Fundraiser < ActiveRecord::Base
   belongs_to :page
   belongs_to :form
+  belongs_to :donation_band
 
   DEFAULTS = { title: 'Donate now' }
 
