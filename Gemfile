@@ -77,7 +77,7 @@ gem 'browser'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
 gem 'newrelic_rpm'
-gem 'puma'
+gem 'puma', '~> 2.15.3'
 gem 'typhoeus'
 
 # The Config gem is used as a way to easily access configuration variables without calling directly
