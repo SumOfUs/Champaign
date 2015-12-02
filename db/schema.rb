@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202130956) do
+ActiveRecord::Schema.define(version: 20151202162648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,18 @@ ActiveRecord::Schema.define(version: 20151202130956) do
     t.string   "customer_id"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+  end
+
+  create_table "payment_braintree_subscriptions", force: :cascade do |t|
+    t.string   "subscription_id"
+    t.datetime "next_billing_date"
+    t.string   "plan_id"
+    t.string   "price"
+    t.string   "status"
+    t.string   "merchant_account_id"
+    t.string   "customer_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "payment_braintree_transactions", force: :cascade do |t|

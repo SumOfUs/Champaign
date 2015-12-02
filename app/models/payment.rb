@@ -8,8 +8,39 @@ module Payment
       BraintreeTransactionBuilder.build(transaction)
     end
 
+    def write_subscription(subscription:, provider: :braintree)
+      BraintreeSubscriptionBuilder.build(subscription)
+    end
+
     def customer(email)
       Payment::BraintreeCustomer.find_by(email: email)
+    end
+  end
+
+  class BraintreeSubscriptionBuilder
+
+    def self.build(response)
+      new(response).build
+    end
+
+    def initialize(response)
+      @response = response
+      @subscription = response.subscription
+    end
+
+    def build
+      if @response.success?
+        ::Payment::BraintreeSubscription.create(attrs)
+      end
+    end
+
+    def attrs
+     {
+        subscription_id:        @subscription.id,
+        price:                  @subscription.price,
+        merchant_account_id:    @subscription.merchant_account_id,
+        next_billing_date:      @subscription.next_billing_date
+      }
     end
   end
 

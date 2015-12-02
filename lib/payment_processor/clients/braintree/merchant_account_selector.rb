@@ -14,9 +14,14 @@ module PaymentProcessor
         end
 
         def merchant_account_id
+          raise_error if @currency.nil?
           id = MERCHANT_ACCOUNTS[@currency.upcase.to_sym]
-          raise PaymentProcessor::Exceptions::InvalidCurrency, "No merchant account is associated with this currency: #{@currency}" unless id
+          raise_error unless id
           id
+        end
+
+        def raise_error
+          raise PaymentProcessor::Exceptions::InvalidCurrency, "No merchant account is associated with this currency: #{@currency}"
         end
       end
     end

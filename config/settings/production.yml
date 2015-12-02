@@ -43,3 +43,14 @@
 # Social media connection information.
      facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
      share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
+
+
+# Braintree
+     braintree:
+       merchants:
+         EUR: ENV['BRAINTREE_MERCHANT_ID_EUR']
+         GBP: ENV['BRAINTREE_MERCHANT_ID_GBP']
+         USD: ENV['BRAINTREE_MERCHANT_ID_USD']
+         AUD: ENV['BRAINTREE_MERCHANT_ID_AUD']
+         CAD: ENV['BRAINTREE_MERCHANT_ID_CAD']
+         NZD: ENV['BRAINTREE_MERCHANT_ID_NZD']

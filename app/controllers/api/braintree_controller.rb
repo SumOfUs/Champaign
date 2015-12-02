@@ -30,7 +30,6 @@ class Api::BraintreeController < ApplicationController
 
   def manage_subscription(params)
     find_or_create_user
-
     result = braintree::Subscription.make_subscription(subscription_options)
 
     if result.success?
@@ -63,6 +62,8 @@ class Api::BraintreeController < ApplicationController
           first_name: user[:firstname] || user[:name],
           last_name: user[:last_name]
         )
+
+        result
       end
     end
   end
@@ -81,7 +82,9 @@ class Api::BraintreeController < ApplicationController
     {
       price: params[:amount].to_f,
       plan_id: ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'],
-      payment_method_token: default_payment_method_token
+      payment_method_token: default_payment_method_token,
+      currency: params[:currency],
+      store: Payment
     }
   end
 
@@ -90,6 +93,14 @@ class Api::BraintreeController < ApplicationController
   end
 
   def default_payment_method_token
-    ::Payment.customer(params[:user][:email]).try(:card_vault_token)
+   local_customer.try(:card_vault_token)
+  end
+
+  def customer_id
+    local_customer.try(:card_vault_token)
+  end
+
+  def local_customer
+    @local_customer ||= ::Payment.customer(params[:user][:email])
   end
 end

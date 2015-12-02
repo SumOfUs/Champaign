@@ -22,6 +22,10 @@ describe "Braintree API" do
     }.merge(opts)
   end
 
+  def post_subscription(opts = {})
+    post '/api/braintree/subscription', {user: { email: customer.email }, price: '100.00', currency: :GBP}
+  end
+
   def body
     JSON.parse(response.body).with_indifferent_access
   end
@@ -32,17 +36,17 @@ describe "Braintree API" do
     context "successful subscription" do
       it 'creates subscription' do
         VCR.use_cassette('braintree_subscription_success') do
-          post '/api/braintree/subscription', {user: { email: customer.email }, price: '100.00'}
+          post_subscription
+          record = Payment::BraintreeSubscription.first
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+          expect(record.subscription_id).to eq(body[:subscription_id])
         end
       end
     end
 
     it 'creates a token and successfully subscribes a user whose e-mail is not associated with a token' do
       VCR.use_cassette('braintree_subscription_success_no_token') do
-        post '/api/braintree/subscription', { amount: '100.00',
-                                              user: { email: 'foo+123@example.com'},
-                                              payment_method_nonce: 'fake-valid-visa-nonce' }
+        post_subscription(user: { email: 'foo+123@example.com'}, payment_method_nonce: 'fake-valid-visa-nonce')
         expect(body[:success]).to be true
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
