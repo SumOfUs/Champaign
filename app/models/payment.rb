@@ -38,8 +38,7 @@ module Payment
      {
         subscription_id:        @subscription.id,
         price:                  @subscription.price,
-        merchant_account_id:    @subscription.merchant_account_id,
-        next_billing_date:      @subscription.next_billing_date
+        merchant_account_id:    @subscription.merchant_account_id
       }
     end
   end

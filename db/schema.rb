@@ -210,12 +210,8 @@ ActiveRecord::Schema.define(version: 20151202162648) do
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
-    t.datetime "next_billing_date"
-    t.string   "plan_id"
     t.string   "price"
-    t.string   "status"
     t.string   "merchant_account_id"
-    t.string   "customer_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
