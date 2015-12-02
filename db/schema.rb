@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151125114641) do
+ActiveRecord::Schema.define(version: 20151130211806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -239,12 +239,14 @@ ActiveRecord::Schema.define(version: 20151125114641) do
     t.string   "title"
     t.string   "ref"
     t.integer  "page_id"
-    t.boolean  "active",     default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.boolean  "active",           default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
     t.integer  "form_id"
+    t.integer  "donation_band_id"
   end
 
+  add_index "plugins_fundraisers", ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id", using: :btree
   add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
   add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
 
@@ -369,6 +371,7 @@ ActiveRecord::Schema.define(version: 20151125114641) do
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
   add_foreign_key "plugins_actions", "forms"
   add_foreign_key "plugins_actions", "pages"
+  add_foreign_key "plugins_fundraisers", "donation_bands"
   add_foreign_key "plugins_fundraisers", "forms"
   add_foreign_key "plugins_fundraisers", "pages"
   add_foreign_key "plugins_thermometers", "pages"

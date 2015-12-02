@@ -24,13 +24,19 @@
       </div>
       <div class="fundraiser-bar__main form--big">
         <div class="fundraiser-bar__step-panel" data-step="1">
-          <div class="fundraiser-bar__amount-button" data-amount="10">$10</div>
-          <div class="fundraiser-bar__amount-button" data-amount="20">$20</div>
-          <div class="fundraiser-bar__amount-button" data-amount="32.5">$32.50*</div>
-          <div class="fundraiser-bar__amount-button" data-amount="50">$50</div>
-          <div class="fundraiser-bar__amount-button" data-amount="100">$100</div>
-          <div class="fundraiser-bar__average-clarification">*average donation in this campaign</div>
+          <div class="fundraiser-bar__amount-buttons">
+            <div class="fundraiser-bar__amount-button" data-amount="5">$5</div>
+            <div class="fundraiser-bar__amount-button" data-amount="10">$10</div>
+            <div class="fundraiser-bar__amount-button" data-amount="20">$20</div>
+            <div class="fundraiser-bar__amount-button" data-amount="50">$50</div>
+            <div class="fundraiser-bar__amount-button" data-amount="100">$100</div>
+          </div>
           <input class="fundraiser-bar__custom-field" placeholder="Other" />
+          <div class="fundraiser-bar__switch-currency">
+            Values shown in <span class="fundraiser-bar__current-currency">USD</span>.
+            <a class="fundraiser-bar__engage-currency-switcher">Switch currency.</a>
+            <select class="fundraiser-bar__currency-selector" style="display: none;"></select>
+          </div>
           <button class="fundraiser-bar__first-continue button" style="display:none;">
             Proceed to details
           </button>
@@ -71,7 +77,18 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
-      var myFundraiserBar = new window.FundraiserBar("{{ follow_up_url }}");
+      var myFundraiserBar = new window.FundraiserBar({
+        followUpUrl: "{{ follow_up_url }}",
+        currency: "EUR",
+        donationBands: {
+          'GBP': [1, 5, 10, 25, 50],
+          'USD': [2, 5, 10, 25, 50],
+          'EUR': [3, 5, 10, 25, 50],
+          'AUD': [4, 5, 10, 25, 50],
+          'CAD': [6, 5, 10, 25, 50],
+          'NZD': [7, 5, 10, 25, 50]
+        }
+      });
     });
   </script>
 
