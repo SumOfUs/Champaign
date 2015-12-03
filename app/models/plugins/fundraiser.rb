@@ -8,7 +8,8 @@ class Plugins::Fundraiser < ActiveRecord::Base
   after_create :create_form
 
   def liquid_data
-    attributes.merge(form_id: form.try(:id), fields: form_fields, donation_bands: donation_band.internationalize.to_json)
+    bands = donation_band.present? ? donation_band.internationalize.to_json : "null"
+    attributes.merge(form_id: form.try(:id), fields: form_fields, donation_bands: bands)
   end
 
   def form_fields
