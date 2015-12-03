@@ -40,8 +40,8 @@ VCR.configure do |config|
   # The filter_sensitive_data configuration option prevents
   # sensitive data from being written to your cassette files.
   #
-  %w{BRAINTREE_MERCHANT_ID BRAINTREE_PUBLIC_KEY BRAINTREE_PRIVATE_KEY}.each do |env|
-    config.filter_sensitive_data("<#{env}>") { ENV[env] }
+  %w{merchant_id public_key private_key}.each do |env|
+    config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }
   end
 end
 
