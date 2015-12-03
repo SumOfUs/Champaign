@@ -66,3 +66,11 @@
          AUD: 'AUD'
          CAD: 'CAD'
          NZD: 'NZD'
+
+       subscription_plans:
+         EUR: 'subscription_EUR'
+         GBP: 'subscription_GBP'
+         USD: 'subscription_USD'
+         AUD: 'subscription_AUD'
+         CAD: 'subscription_CAD'
+         NZD: 'subscription_NZD'
