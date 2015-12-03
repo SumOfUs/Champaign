@@ -25,7 +25,7 @@ gem 'font-awesome-sass'
 gem 'money'
 gem 'google_currency'
 # Braintree as a payment processor
-gem 'braintree', '~> 2.54.0'
+gem 'braintree'
 
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
@@ -77,7 +77,7 @@ gem 'browser'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
 gem 'newrelic_rpm'
-gem 'puma', '~> 2.15.3'
+gem 'puma', '~> 2.15', '>= 2.15.3'
 gem 'typhoeus'
 
 # The Config gem is used as a way to easily access configuration variables without calling directly

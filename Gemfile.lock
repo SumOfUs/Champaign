@@ -530,7 +530,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
-  braintree (~> 2.54.0)
+  braintree
   browser
   browserify-rails
   byebug
@@ -562,7 +562,7 @@ DEPENDENCIES
   paperclip
   pg
   phantomjs
-  puma (~> 2.15.3)
+  puma (~> 2.15, >= 2.15.3)
   rails (= 4.2.3)
   rails-assets-backbone!
   rails-assets-braintree-web!
