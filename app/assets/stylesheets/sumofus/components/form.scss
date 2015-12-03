@@ -17,6 +17,13 @@
     &--prefilled {
       display: none;
     }
+    &--half-width {
+      width: 49%;
+      float: left;
+      &--left {
+        margin-right: 2%;
+      }
+    }
   }
   &--big {
     input, select, .selectize-control.single .selectize-input, .hosted-fields__host {
@@ -29,14 +36,6 @@
       width: 100%;
       outline: none;
       box-shadow: none;
-
-      &.form__half-width {
-        width: 49%;
-        float: left;
-        &:first-of-type {
-          margin-right: 2%;
-        }
-      }
 
       &:focus, &.focus {
         border-color: $teal;
