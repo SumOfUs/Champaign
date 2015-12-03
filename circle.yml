@@ -29,17 +29,17 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production' 'champaign-assets-production'
   staging:
     branch: donations-demo
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging'
   testing:
     # Change the branch value to your branch name to push up your branch to the testing server automatically.
-    branch: centralize-config
+    branch: random-branch
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-testing'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'

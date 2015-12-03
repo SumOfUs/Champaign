@@ -30,6 +30,3 @@ rspec spec
 
 # Try to run all of the DB-related rake tasks
 bundle exec rake RAILS_ENV=test db:migrate db:seed champaign:seed_liquid
-
-# Try to precompile assets production mode
-bundle exec rake RAILS_ENV=production assets:precompile

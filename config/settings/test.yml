@@ -39,8 +39,8 @@
 # CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
 # by default in development, they should be overridden in production settings to speed up Champaign's page performance.
      cloudfront_url: 'http://fake-cloudfront.com'
-     fog_directory: 'fake_fog_directory'
-     rails_serve_static_files: false
+     s3_asset_bucket: 'fake_s3_asset_bucket'
+     rails_serve_static_assets: false
      compile_static: false
 
 
