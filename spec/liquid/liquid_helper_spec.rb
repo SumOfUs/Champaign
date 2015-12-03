@@ -61,19 +61,19 @@ describe LiquidHelper do
 
     it 'returns nil if page has no action plugin' do
       page = create :page
-      plugin = create :plugins_thermometer, page: page, active: true
+      create :plugins_thermometer, page: page, active: true
       expect(LiquidHelper.globals(page: page)[:petition_target]).to eq nil
     end
 
     it 'returns nil if action plugin is inactive' do
       page = create :page
-      plugin = create :plugins_action, page: page, target: 'koch brothers', active: false
+      create :plugins_action, page: page, target: 'koch brothers', active: false
       expect(LiquidHelper.globals(page: page)[:petition_target]).to eq nil
     end
 
     it 'returns the target value of an action plugin' do
       page = create :page
-      plugin = create :plugins_action, page: page, target: 'koch brothers', active: true
+      create :plugins_action, page: page, target: 'koch brothers', active: true
       expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
     end
 
@@ -86,6 +86,20 @@ describe LiquidHelper do
       create :plugins_action, page: page, target: 'mf doom', active: true
       create :plugins_action, page: page, target: '', active: true
       expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
+    end
+  end
+
+  describe '.guess_currency' do
+    it 'returns appropraite currency for country' do
+      expect(LiquidHelper.guess_currency('GB') ).to eq('GBP')
+    end
+
+    it 'returns USD as default' do
+      expect(LiquidHelper.guess_currency('MX') ).to eq('USD')
+    end
+
+    it 'returns EUR for european nation' do
+      expect(LiquidHelper.guess_currency('AD') ).to eq('EUR')
     end
   end
 
