@@ -74,15 +74,8 @@
     $(document).ready(function(){
       var myFundraiserBar = new window.FundraiserBar({
         followUpUrl: "{{ follow_up_url }}",
-        currency: "EUR",
-        donationBands: {
-          'GBP': [1, 5, 10, 25, 50],
-          'USD': [2, 5, 10, 25, 50],
-          'EUR': [3, 5, 10, 25, 50],
-          'AUD': [4, 5, 10, 25, 50],
-          'CAD': [6, 5, 10, 25, 50],
-          'NZD': [7, 5, 10, 25, 50]
-        }
+        currency: "{{ guessed_currency }}",
+        donationBands: {{ plugins.fundraiser[ref].donation_bands }}
       });
     });
   </script>

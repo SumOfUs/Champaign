@@ -8,7 +8,8 @@ class LiquidHelper
       {
         country_option_tags: country_option_tags(selected_country(request_country, member)),
         member: member_hash(member),
-        petition_target: petition_target(page)
+        petition_target: petition_target(page),
+        guessed_currency: guess_currency(request_country)
       }
     end
 
@@ -49,5 +50,20 @@ class LiquidHelper
       member.present? && member.country.present? ? member.country : request_country
     end
 
+    def guess_currency(request_country)
+      return 'EUR' if euro_country_codes.include?(request_country.to_sym)
+      guesser = {
+        EU: 'USD',
+        GB: 'GBP',
+        NZ: 'NZD',
+        AU: 'AUD',
+        CA: 'CAD',
+      }.default('USD')
+      guesser[request_country.to_sym]
+    end
+
+    def euro_country_codes
+      [:AL, :AD, :AT, :BY, :BE, :BA, :BG, :HR, :CY, :CZ, :DK, :EE, :FO, :FI, :FR, :DE, :GI, :GR, :HU, :IS, :IE, :IT, :LV, :LI, :LT, :LU, :MK, :MT, :MD, :MC, :NL, :NO, :PL, :PT, :RO, :RU, :SM, :RS, :SK, :SI, :ES, :SE, :CH, :UA, :GB, :VA, :RS, :IM, :RS, :ME]
+    end
   end
 end
