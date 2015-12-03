@@ -106,16 +106,40 @@ describe "Braintree API" do
   end
 
   context 'unsuccessful transaction' do
-
-    it 'returns error messages and codes in an invalid transaction' do
-      VCR.use_cassette("transaction_failure_invalid_nonce") do
-        post '/api/braintree/transaction', payment_method_nonce: 'fake-coinbase-nonce', amount: 100.00,
-          user: { email: 'foo@example.com' }
+    it 'returns user validation errors' do
+      VCR.use_cassette("transaction_failure_invalid_amount") do
+        post '/api/braintree/transaction', payment_method_nonce: 'valid-payment-nonce', amount: -10, user: { email: 'foo@example.com' }
 
         expect(body.keys).to contain_exactly('success','errors')
         expect(body[:success]).to be false
-        expect(body[:errors].is_a?(Array)).to be true
-        expect(body[:errors].first.keys).to contain_exactly('code','attribute', 'message')
+        expect(body[:errors].first[:message]).to eq("Amount cannot be negative.")
+      end
+    end
+
+    context 'invalid nonce' do
+      it 'raises braintree validations error' do
+        VCR.use_cassette("transaction_failure_invalid_nonce") do
+          expect{
+            post '/api/braintree/transaction', payment_method_nonce: 'fake-coinbase-nonce', amount: 100.00,
+              user: { email: 'foo@example.com' }
+          }.to raise_error(Braintree::ValidationsFailed)
+        end
+      end
+    end
+
+    context 'Customer ID is required' do
+      let(:customer){ double(:customer, customer_id: 'x') }
+
+      before do
+        allow(::Payment).to receive(:customer){ customer }
+      end
+
+      it 'raises braintree validations error' do
+        VCR.use_cassette("transaction_failure_customer_id_missing") do
+          expect{
+            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00, user: { email: 'foo@example.com' }
+          }.to raise_error(Braintree::ValidationsFailed)
+        end
       end
     end
   end

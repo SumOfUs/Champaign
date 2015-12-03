@@ -43,3 +43,9 @@
 # Social media connection information.
      facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
      share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
+
+# Braintree keys
+    braintree_merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
+    braintree_public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
+    braintree_private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
+    braintree_subscription_plan_id: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'] %>

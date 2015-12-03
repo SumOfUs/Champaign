@@ -53,3 +53,8 @@
      facebook_app_id: 'fake_app_id'
      share_progress_api_key: 'fake_api_key'
 
+# Braintree keys
+     braintree_subscription_plan_id: '35wm'
+     braintree_merchant_id: 'braintree_merchant_id'
+     braintree_public_key: 'braintree_public_key'
+     braintree_private_key: 'braintree_private_key'
