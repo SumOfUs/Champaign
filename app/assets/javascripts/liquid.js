@@ -2,8 +2,6 @@
 //= require jquery_ujs
 //= require show_errors
 //= require bootstrap-sprockets
-//= require plugins/actions
-//= require plugins/thermometers
 
 // These two files combine to do error suggestions for mistyped emails.
 //= require mailcheck

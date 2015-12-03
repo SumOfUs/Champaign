@@ -1,4 +1,8 @@
-const ActionBar = Backbone.View.extend({
+const StickyMethods = require('sumofus/backbone/sticky_methods');
+const FormMethods = require('sumofus/backbone/form_methods');
+
+const ActionBar = Backbone.View.extend(_.extend(
+  StickyMethods, FormMethods, {
 
   el: '.action-bar',
 
@@ -7,18 +11,26 @@ const ActionBar = Backbone.View.extend({
     'click .action-bar__close-button': 'hide',
     'click .action-bar__expand-arrow': 'toggleBlurb',
     'click .action-bar__top': 'toggleBlurb',
-    'click .action-bar__clear-form': 'clearForm'
+    'click .action-bar__clear-form': 'clearForm',
+    'ajax:success form.action': 'handleSuccess',
   },
+
   initialize: function() {
-    this.isSticky = false;
     this.petitionTextMinHeight = 120; // pixels
     this.checkBlurbHeight();
+    this.initializeSticky();
     if (!this.isMobile()) {
-      this.makeSticky();
       this.selectizeCountry();
     }
-    // can't use events hash cause scoped to window
-    $(window).on('resize', () => this.questionSticky());
+  },
+
+  handleSuccess: function(e, data) {
+    if (data.follow_up_url) {
+      window.location.href = data.follow_up_url
+    } else {
+      // this should never happen, but just in case.
+      alert("You've signed the petition! Thanks so much!");
+    }
   },
 
   isMobile: function() {
@@ -64,39 +76,6 @@ const ActionBar = Backbone.View.extend({
     this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
   },
 
-  makeSticky: function() {
-    if(!this.isSticky) {
-      this.$el.sticky({topSpacing:0});
-      this.isSticky = true;
-    }
-  },
-
-  unmakeSticky: function() {
-    if(this.isSticky) {
-      this.$el.unstick();
-      this.isSticky = false;
-    }
-  },
-
-  questionSticky: function() {
-    if(this.isMobile()) {
-      this.unmakeSticky();
-    } else {
-      this.makeSticky();
-    }
-  },
-
-  selectizeCountry: function() {
-    $('.action-bar__country-selector').selectize();
-  },
-
-  clearForm: function(){
-    let $fields_holder = this.$('.form__group--prefilled');
-    $fields_holder.removeClass('form__group--prefilled');
-    $fields_holder.find('input').removeAttr('value');
-    $('.action-bar__welcome-text').addClass('hidden-irrelevant');
-  }
-
-});
+}));
 
 module.exports = ActionBar;

@@ -4,12 +4,6 @@ class Api::PagesController < ApplicationController
   before_action :get_page
   layout false
 
-  def show
-    respond_to do |format|
-      format.json
-    end
-  end
-
   def update
     updater = PageUpdater.new(@page, page_url(@page))
     if updater.update(all_params)

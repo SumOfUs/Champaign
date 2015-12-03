@@ -1,9 +1,0 @@
-- unless plugin.target.blank?
-  = "To: #{plugin.target}"
-= simple_format(plugin.description)
-
-- if plugin.form
-  == render partial: 'forms/preview', locals: { form: plugin.form }
-
-  button.btn.btn-default
-    = plugin.cta

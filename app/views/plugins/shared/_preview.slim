@@ -1,0 +1,16 @@
+- if plugin.respond_to?(:title) && plugin.title.present?
+  h4= plugin.title
+  hr
+
+- if plugin.respond_to?(:target) && plugin.target.present?
+  = "To: #{plugin.target}"
+
+- if plugin.respond_to?(:description)
+  = simple_format(plugin.description)
+
+- if plugin.respond_to?(:form) && plugin.form
+  == render partial: 'forms/preview', locals: { form: plugin.form }
+
+- if plugin.respond_to?(:cta)
+  button.btn.btn-default
+    = plugin.cta

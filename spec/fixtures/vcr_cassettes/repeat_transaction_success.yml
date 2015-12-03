@@ -1,0 +1,107 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>20.0</amount>
+          <payment-method-nonce>fake-valid-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name nil="true"/>
+            <last-name nil="true"/>
+            <email>foo@example.com</email>
+          </customer>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 02 Dec 2015 20:08:08 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"325de6a53b0d1b467d72318e2661e9e0"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - fbcb60c073090a7ccf282d4a7c1e06e4
+      X-Runtime:
+      - '0.618104'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+        L1t3gK5v5TBjg+aRXP0DAAD//wMAhePxYB8TAAA=
+    http_version: 
+  recorded_at: Wed, 02 Dec 2015 20:12:05 GMT
+recorded_with: VCR 3.0.0

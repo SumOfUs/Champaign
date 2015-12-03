@@ -31,7 +31,7 @@
 //= require selectize_config.js
 //= require ajax
 //= require configure_quill_editor
-//= require_tree ./plugins/actions/admin/
+//= require_tree ./plugins/admin
 
 require('page');
 require("plugins_toggle");

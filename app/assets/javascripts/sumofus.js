@@ -3,6 +3,7 @@
 //= require pub_sub
 //= require sticky
 //= require underscore
+//= require braintree-web
 //= require backbone
 
 //= require show_errors
@@ -11,3 +12,4 @@
 
 require("sumofus/scroll");
 window.ActionBar = require('sumofus/backbone/action_bar');
+window.FundraiserBar = require('sumofus/backbone/fundraiser_bar');

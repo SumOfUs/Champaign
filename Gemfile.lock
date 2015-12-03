@@ -100,6 +100,8 @@ GEM
     bourbon (4.2.6)
       sass (~> 3.4)
       thor (~> 0.19)
+    braintree (2.54.0)
+      builder (>= 2.0.0)
     browser (0.9.1)
     browserify-rails (1.4.0)
       railties (>= 4.0.0, < 5.0)
@@ -186,6 +188,8 @@ GEM
     geocoder (1.2.11)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    google_currency (3.2.0)
+      money (~> 6.5.0)
     has_scope (0.6.0)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
@@ -220,12 +224,19 @@ GEM
     logger (1.2.8)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
+    magic_lamp (1.6.2)
+      method_source
+      rails (>= 4.0.0)
+      rake
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.6.2)
     mimemagic (0.3.0)
     mini_portile (0.6.2)
     minitest (5.8.1)
+    money (6.5.1)
+      i18n (>= 0.6.4, <= 0.7.0)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -259,9 +270,10 @@ GEM
       mime-types
       mimemagic (= 0.3.0)
     pg (0.18.2)
+    phantomjs (1.9.8.0)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
-    puma (2.12.2)
+    puma (2.15.3)
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -278,6 +290,8 @@ GEM
       sprockets-rails
     rails-assets-backbone (1.1.2)
       rails-assets-underscore (>= 1.5.0)
+    rails-assets-braintree-web (2.15.4)
+    rails-assets-chai-jquery (2.0.1)
     rails-assets-dropzone (4.0.1)
     rails-assets-mailcheck (1.1.1)
     rails-assets-quill (0.20.0)
@@ -364,6 +378,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    teaspoon (1.1.1)
+      railties (>= 3.2.5, < 5)
+    teaspoon-mocha (2.3.3)
+      teaspoon (>= 1.0.0)
     temple (0.7.6)
     thor (0.19.1)
     thread_safe (0.3.5)
@@ -377,6 +395,7 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     unicode_utils (1.4.0)
+    vcr (3.0.0)
     warden (1.2.3)
       rack (>= 1.0)
     web-console (2.2.1)
@@ -399,6 +418,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   aws-sdk-v1
   bootstrap-sass (~> 3.3.5)
+  braintree (~> 2.54.0)
   browser
   browserify-rails
   byebug
@@ -416,18 +436,24 @@ DEPENDENCIES
   faker
   font-awesome-sass
   geocoder
+  google_currency
   jbuilder (~> 2.0)
   jquery-rails
   liquid
   logger
+  magic_lamp
+  money
   newrelic_rpm
   omniauth-google-oauth2
   paper_trail
   paperclip
   pg
-  puma
+  phantomjs
+  puma (~> 2.15.3)
   rails (= 4.2.3)
   rails-assets-backbone!
+  rails-assets-braintree-web!
+  rails-assets-chai-jquery!
   rails-assets-dropzone!
   rails-assets-mailcheck!
   rails-assets-quill!
@@ -444,9 +470,12 @@ DEPENDENCIES
   share_progress!
   slim-rails
   spring
+  teaspoon
+  teaspoon-mocha
   timecop
   typhoeus
   uglifier (>= 1.3.0)
+  vcr
   web-console (~> 2.0)
   webmock
 

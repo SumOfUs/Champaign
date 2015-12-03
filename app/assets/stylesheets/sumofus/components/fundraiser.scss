@@ -1,0 +1,136 @@
+.fundraiser-bar {
+  &__steps {
+    position: relative;
+    width: 100%;
+    margin-top: 21px;
+  }
+  &__step-connector {
+    width: 70%;
+    height: 2px;
+    top: 22px;
+    left: 15%;
+    margin: 0;
+    position: absolute;
+    background: $slate-gray;
+    border: none;
+  }
+  &__amount-button {
+    @include button($orange);
+    width: 47%;
+    margin: 3px 1.5%;
+    float: left;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 18px;
+  }
+  input.fundraiser-bar__custom-field {
+    width: 47%;
+    margin: 4px 1.5%;
+    text-align: center;
+  }
+  &__switch-currency {
+    margin: 20px 0;
+    font-size: 14px;
+    float: left;
+  }
+  &__currency-selector {
+    margin-top: 10px;
+  }
+  &__engage-currency-switcher {
+    cursor: pointer;
+  }
+  &__step-label {
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    display: table;
+
+    &:first-of-type {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    &:last-of-type {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    &:hover {
+      .fundraiser-bar__step-name--past {
+        color: $navy;
+      }
+      .fundraiser-bar__step-number--past {
+        background-color: $navy;
+        border-color: $navy;
+        color: white;
+      }
+    }
+  }
+  &__step-number {
+    height: 45px;
+    width: 45px;
+    border-radius: 22px;
+    border-width: 2px;
+    border-style: solid;
+    @include box-sizing(border-box);
+    padding: 11px 15px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+
+    font-size: 20px;
+    &--past {
+      color: white;
+      background: $slate-gray;
+      border-color: $slate-gray;
+      cursor: pointer;
+    }
+    &--current {
+      color: white;
+      background: $navy;
+      border-color: $navy;
+    }
+    &--upcoming {
+      color: $slate-gray;
+      background: $overcast-gray;
+      border-color: $slate-gray;
+    }
+  }
+  &__step-name {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 6px;
+    min-width: 65px;
+
+    &--past {
+      color: $slate-gray;
+      cursor: pointer;
+    }
+    &--current {
+      color: $navy;
+    }
+    &--upcoming {
+      color: $slate-gray;
+    }
+  }
+  &__step-numbers, &__step-names {
+    float: left;
+    width: 100%;
+    position: relative;
+  }
+}
+
+.hosted-fields {
+  &__host {
+    height: 58px;
+    width: 100%;
+    &.braintree-hosted-fields-focused {
+      border-color: $teal;
+    }
+    &.braintree-hosted-fields-invalid {
+      border-color: $orange;
+    }
+  }
+}
