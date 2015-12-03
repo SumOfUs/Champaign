@@ -148,7 +148,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   transactionSuccess: function() {
     return (data, status) => {
-      this.redirectTo(this.follow_up_url);
+      this.redirectTo(this.followUpUrl);
     }
   },
 

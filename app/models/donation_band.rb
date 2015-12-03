@@ -3,6 +3,6 @@ class DonationBand < ActiveRecord::Base
 
   def internationalize
     converted = ::Donations::Currencies.for(amounts).to_hash
-    converted.map{ |k, vals| puts k, vals; [k, ::Donations::Utils.round_and_dedup(vals)] }.to_h
+    converted.map{ |k, vals| [k, ::Donations::Utils.round_and_dedup(vals)] }.to_h
   end
 end
