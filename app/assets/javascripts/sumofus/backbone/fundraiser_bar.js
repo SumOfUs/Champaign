@@ -142,17 +142,20 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       amount: this.donationAmount,
       user: this.serializeUserForm(),
       currency: this.currency,
-    }, this.handleTransaction());
+      recurring: this.readRecurring()
+    }).done(this.transactionSuccess()).error(this.transactionFailed());
   },
 
-  handleTransaction: function() {
+  transactionSuccess: function() {
+    return (data, status) => {
+      this.redirectTo(this.follow_up_url);
+    }
+  },
+
+  transactionFailed: function() {
     return (data, status) => {
       this.enableButton();
-      if (data.success) {
-        this.redirectTo(this.followUpUrl);
-      } else {
-        console.error('Transaction failed:', data);
-      }
+      console.error('Transaction failed', data);
     }
   },
 
@@ -163,6 +166,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       serialized[field.name] = field.value;
     });
     return serialized;
+  },
+
+  readRecurring: function() {
+    return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
   },
 
   disableButton: function(e) {

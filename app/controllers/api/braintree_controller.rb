@@ -21,9 +21,11 @@ class Api::BraintreeController < ApplicationController
 
   def manage_transaction(params)
     result = braintree::Transaction.make_transaction(transaction_options)
+
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
     else
+      raise_unless_user_error(result)
       render json: { success: false, errors: result.errors }, status: 422
     end
   end
@@ -35,7 +37,8 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
-      render json: { success: false, errors: result.errors }, status: 422
+      errors = raise_unless_user_error(result)
+      render json: { success: false, errors: errors }, status: 422
     end
   end
 
@@ -81,7 +84,7 @@ class Api::BraintreeController < ApplicationController
   def subscription_options
     {
       price: params[:amount].to_f,
-      plan_id: ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'],
+      plan_id: Settings.braintree.subscription_plan_id,
       payment_method_token: default_payment_method_token,
       currency: params[:currency],
       store: Payment
@@ -103,4 +106,9 @@ class Api::BraintreeController < ApplicationController
   def local_customer
     @local_customer ||= ::Payment.customer(params[:user][:email])
   end
+
+  def raise_unless_user_error(result)
+    braintree::ErrorProcessing.new(result).process
+  end
 end
+

@@ -27,16 +27,46 @@ const HostedFieldsMethods = {
             input: {
               "font-size": "16px",
             },
-          }
-        }
+          },
+          onFieldEvent: (event) => {
+            if (event.type === "fieldStateChange"){
+              if (event.isPotentiallyValid) {
+                this.clearError(event.target.fieldKey);
+              } else {
+                this.showError(event.target.fieldKey, "doesn't look right");
+              }
+            }
+          },
+        },
       });
     }
   },
 
   handleErrors: function() {
-    return (a, b) => {
+    return (error) => {
       this.enableButton();
+      if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
+        _.each(error.details.invalidFieldKeys, (key) => {
+          this.showError(key, 'is invalid');
+        });
+      }
     }
+  },
+
+  showError: function(field_name, msg) {
+    field_name = this.standardizeFieldName(field_name);
+    let $holder = $(`.hosted-fields__${field_name}`).parent();
+    $holder.find('.error-msg').remove();
+    $holder.append(`<div class='error-msg'>${field_name} ${msg}</div>`);
+  },
+
+  clearError: function(field_name) {
+    field_name = this.standardizeFieldName(field_name);
+    this.$(`.hosted-fields__${field_name}`).parent().find('.error-msg').remove();
+  },
+
+  standardizeFieldName: function(field_name) {
+    return /expiration/.test(field_name) ? 'expiration' : field_name;
   },
 
   getClientToken: function(callback) {

@@ -57,6 +57,7 @@
        merchant_id: "test_id"
        public_key:  "test_public_key"
        private_key:  "test_private_key"
+       subscription_plan_id: '35wm'
 
        merchants:
          EUR: 'EUR'
@@ -65,4 +66,3 @@
          AUD: 'AUD'
          CAD: 'CAD'
          NZD: 'NZD'
-

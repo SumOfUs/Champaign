@@ -44,12 +44,12 @@
      facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
      share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
 
-
 # Braintree
      braintree:
        merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
        public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
        private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
+       subscription_plan_id: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'] %>
 
        merchants:
          EUR: <%= ENV['BRAINTREE_MERCHANT_ID_EUR'] %>
