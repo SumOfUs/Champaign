@@ -54,7 +54,6 @@ describe Api::BraintreeController do
       it 'creates subscription' do
         expected_arguments = {
           price: 100,
-          plan_id: '35wm',
           payment_method_token: 'a1b2c3',
           currency: 'EUR',
           store: Payment

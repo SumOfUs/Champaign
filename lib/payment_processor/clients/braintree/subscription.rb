@@ -2,14 +2,13 @@ module PaymentProcessor
   module Clients
     module Braintree
       class Subscription
-        def self.make_subscription(store: nil, price:, currency:, plan_id:, payment_method_token:)
-          new(price, currency, plan_id, payment_method_token, store).subscribe
+        def self.make_subscription(store: nil, price:, currency:, payment_method_token:)
+          new(price, currency, payment_method_token, store).subscribe
         end
 
-        def initialize(price, currency, plan_id, payment_method_token, store)
+        def initialize(price, currency, payment_method_token, store)
           @price = price
           @currency = currency
-          @plan_id = plan_id
           @payment_method_token = payment_method_token
           @store = store
         end
@@ -26,7 +25,7 @@ module PaymentProcessor
         def options
           {
             payment_method_token: @payment_method_token,
-            plan_id: @plan_id,
+            plan_id: SubscriptionPlanSelector.for_currency(@currency),
             price: @price,
             merchant_account_id: MerchantAccountSelector.for_currency(@currency)
           }
