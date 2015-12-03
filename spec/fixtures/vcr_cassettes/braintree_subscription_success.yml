@@ -1,0 +1,81 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/subscriptions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <subscription>
+          <payment-method-token>4y5dr6</payment-method-token>
+          <plan-id>subscription_USD</plan-id>
+          <price>0.0</price>
+          <merchant-account-id>sumofus</merchant-account-id>
+        </subscription>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Thu, 03 Dec 2015 00:28:08 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"fa92ffc684fb695c88453b4b69fd4821"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 9b8d202b9d048418bc9cc111cc32aa68
+      X-Runtime:
+      - '0.306235'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJiMX1YAA5RVy27cIBTd5yss74k9bhONIo+jVm1/oMmmm4oBZoxqwOIR
+        xX/fC3jssc1EreQFvvecw30B9fO76LI3pg1X8pDv7ss8Y5IoyuX5kL++/ED7
+        /Lm5q407GqJ5bwHW3GVZjSlFSprMDj075FhrPORF8BxxhyVhTXlflnVx+Qse
+        3nWgiygekDohoaRtRwEuLTsznTcVUBKwBb9nmiuKmKSAsWyU8Evgl7tHVO7g
+        m4VW+JSWsVjbpNoD2lWorDZqMyPoEc1gSRG2VwKWi2uRTy9l+VTtn8r9r7qY
+        CYHvevp//JkQ93daM2nRJUoykI6tiws1SeKCApTboB4bSMqxTPLukFvt2NhV
+        yg1RTtpUx0+Yd04zFADrPWEGFv7I4NrMMXxY9i00KHDa7ImhFSBg6S2CadJi
+        SA2TsBECu3FCnZypi5TTkySD2UfsveeaXVI7KtUxLPPGp18XC8hIeo8RISxC
+        SnHUN+YF9mp00qwtYMO/Pe3VSmiqk3TiCOHDOVp03Gwa3GNOkW21cuf242O1
+        QY78QfjBEsy2kIJVf5hsPg8PVD96SsIZWHA7xEbN98vv15/fgDJ6Akrz6UKJ
+        a2+FE2idab4Qy9+gT+Ov91jNcQdjrLHX26S6dCMnub2Bif1Yz8UJdwY2vIbE
+        M8JiDkr7X198LDYnyafTKpmyO91t4iiWohAXlgYTH3jqKMYioJYbIAwLwLjJ
+        iIChjhMWjP6iAYfo//HymfCTws1mxMwM08136NxXBU+NwHB9ectEvuo+Mspp
+        6DDuOcgkHBfSzXcm1jg1Mr6e6/wny1gzeOyK5Wv3FwAA//8DAIgDvEUkBwAA
+    http_version: 
+  recorded_at: Thu, 03 Dec 2015 00:28:08 GMT
+recorded_with: VCR 3.0.0
