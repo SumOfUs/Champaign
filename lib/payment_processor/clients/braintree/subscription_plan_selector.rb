@@ -3,7 +3,17 @@ module PaymentProcessor
     module Braintree
 
       class SubscriptionPlanSelector
-        SUBSCRIPTION_PLANS = Settings.braintree.subscription_plans.to_hash.dup.freeze
+        # I know, I know! This is a temporary measure.
+        # Plan to have these in a yml file, one for sandbox
+        # and the other for production.
+        SUBSCRIPTION_PLANS = {
+          EUR: 'subscription_EUR',
+          GBP: 'subscription_GBP',
+          USD: 'subscription_USD',
+          AUD: 'subscription_AUD',
+          CAD: 'subscription_CAD',
+          NZD: 'subscription_NZD'
+        }.freeze
 
         def self.for_currency(currency)
           new(currency).get_subscription_id

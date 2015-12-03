@@ -3,7 +3,14 @@ module PaymentProcessor
     module Braintree
 
       class MerchantAccountSelector
-        MERCHANT_ACCOUNTS = Settings.braintree.merchants.to_hash.dup.freeze
+        MERCHANT_ACCOUNTS = {
+         EUR: 'EUR',
+         GBP: 'GBP',
+         USD: 'USD',
+         AUD: 'AUD',
+         CAD: 'CAD',
+         NZD: 'NZD'
+        }.freeze
 
         def self.for_currency(currency)
           new(currency).merchant_account_id

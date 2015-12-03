@@ -49,20 +49,4 @@
        merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
        public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
        private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
-       subscription_plan_id: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_ID'] %>
 
-       merchants:
-         EUR: <%= ENV['BRAINTREE_MERCHANT_ID_EUR'] %>
-         GBP: <%= ENV['BRAINTREE_MERCHANT_ID_GBP'] %>
-         USD: <%= ENV['BRAINTREE_MERCHANT_ID_USD'] %>
-         AUD: <%= ENV['BRAINTREE_MERCHANT_ID_AUD'] %>
-         CAD: <%= ENV['BRAINTREE_MERCHANT_ID_CAD'] %>
-         NZD: <%= ENV['BRAINTREE_MERCHANT_ID_NZD'] %>
-
-       subscription_plans:
-         EUR: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_EUR'] %>
-         GBP: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_GBP'] %>
-         USD: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_USD'] %>
-         AUD: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_AUD'] %>
-         CAD: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_CAD'] %>
-         NZD: <%= ENV['BRAINTREE_SUBSCRIPTION_PLAN_NZD'] %>
