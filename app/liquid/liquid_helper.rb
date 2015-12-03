@@ -35,7 +35,7 @@ class LiquidHelper
 
     # TODO: 'Country code to currency' probably better served by +Donations::Utils+
     def guess_currency(request_country)
-      return 'EUR' if EURO_COUNTRY_CODES.include?(request_country.to_sym)
+      return 'EUR' if EURO_COUNTRY_CODES.include?(request_country.try(:to_sym))
 
       {
         US: 'USD',
@@ -43,7 +43,7 @@ class LiquidHelper
         NZ: 'NZD',
         AU: 'AUD',
         CA: 'CAD'
-      }[request_country.to_sym] || DEFAULT_CURRENCY
+      }[request_country.try(:to_sym)] || DEFAULT_CURRENCY
     end
 
     private

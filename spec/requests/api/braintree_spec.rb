@@ -84,8 +84,8 @@ describe "Braintree API" do
           expect(transaction.transaction_id).to eq(body[:transaction_id])
           expect(transaction.transaction_type).to eq('sale')
           expect(transaction.amount).to eq('100.0')
-          expect(transaction.merchant_account_id).to eq('EUR')
-          expect(transaction.currency).to eq('EUR')
+          expect(transaction.merchant_account_id).to eq('sumofus')
+          expect(transaction.currency).to eq('USD')
         end
 
         context 'customer' do
@@ -102,9 +102,12 @@ describe "Braintree API" do
       context 'recurring' do
         before do
           VCR.use_cassette("transaction_recurring_success") do
-            post_transaction(recurring: true)
+            post_transaction(recurring: true, email: 'foo+1234example.com')
           end
         end
+
+
+        it 'raises when subscription already exists'
 
         it 'records transaction to store' do
           customer = Payment::BraintreeCustomer.first
@@ -141,7 +144,7 @@ describe "Braintree API" do
 
     it 'returns user validation errors' do
       VCR.use_cassette("transaction_failure_invalid_amount") do
-        post '/api/braintree/transaction', payment_method_nonce: 'valid-payment-nonce', amount: -10, user: { email: 'foo@example.com' }
+        post_transaction(amount: -10)
 
         expect(body.keys).to contain_exactly('success','errors')
         expect(body[:success]).to be false
@@ -153,8 +156,7 @@ describe "Braintree API" do
       it 'raises braintree validations error' do
         VCR.use_cassette("transaction_failure_invalid_nonce") do
           expect{
-            post '/api/braintree/transaction', payment_method_nonce: 'fake-coinbase-nonce', amount: 100.00,
-              user: { email: 'foo@example.com' }
+            post_transaction(payment_method_nonce: 'fake-coinbase-nonce')
           }.to raise_error(Braintree::ValidationsFailed)
         end
       end
@@ -170,7 +172,7 @@ describe "Braintree API" do
       it 'raises braintree validations error' do
         VCR.use_cassette("transaction_failure_customer_id_missing") do
           expect{
-            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00, user: { email: 'foo@example.com' }
+            post_transaction
           }.to raise_error(Braintree::ValidationsFailed)
         end
       end
