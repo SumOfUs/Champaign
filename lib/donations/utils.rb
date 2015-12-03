@@ -2,6 +2,10 @@ module Donations
   module Utils
     extend self
 
+    def round_and_dedup(values)
+      deduplicate(round(values))
+    end
+
     def round(values)
       values.map do |value|
         value = value.to_f

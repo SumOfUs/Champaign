@@ -18,7 +18,7 @@
 module Donations
   class Currencies
     # Array of currency codes to convert to.
-    VALID_CURRENCIES = [:GBP, :EUR]
+    VALID_CURRENCIES = [:GBP, :EUR, :AUD, :NZD, :CAD]
 
     def self.for(amounts)
       new(amounts).convert
