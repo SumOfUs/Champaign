@@ -120,6 +120,13 @@
     width: 100%;
     position: relative;
   }
+  &__submit-button span{
+    vertical-align: middle;
+    &.fa {
+      margin-right: 6px;
+      font-size: 20px;
+    }
+  }
 }
 
 .hosted-fields {

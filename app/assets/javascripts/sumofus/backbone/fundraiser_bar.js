@@ -82,7 +82,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.donationAmount = parsed;
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
-      this.$('.fundraiser-bar__display-amount').text(`${currencySymbol}${this.donationAmount.toFixed(digits)}`);
+      let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
+      let buttonText = `<span class="fa fa-lock"></span><span>Donate ${donationAmount}</span>`
+      this.$('.fundraiser-bar__display-amount').text(donationAmount);
+      this.$('.fundraiser-bar__submit-button').html(buttonText);
     } else {
       this.changeStep(1);
     }
