@@ -93,6 +93,13 @@ group :development, :test do
   gem 'teaspoon-mocha'
   gem 'magic_lamp'
   gem 'phantomjs'
+  gem 'guard-rspec', require: false
+
+  # For Mac OS
+  # brew install terminal-notifier
+  gem 'terminal-notifier-guard'
+  gem 'spring-commands-rspec'
+
 end
 
 
