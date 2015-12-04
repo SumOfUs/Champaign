@@ -30,7 +30,6 @@ module PaymentProcessor
             merchant_account_id: MerchantAccountSelector.for_currency(@currency)
           }
         end
-
       end
     end
   end
