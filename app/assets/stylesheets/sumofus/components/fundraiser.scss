@@ -129,8 +129,26 @@
     &.braintree-hosted-fields-focused {
       border-color: $teal;
     }
+    &.braintree-hosted-fields-focused + .hosted-fields__card-type {
+      color: $teal;
+    }
     &.braintree-hosted-fields-invalid {
       border-color: $orange;
     }
+    &.braintree-hosted-fields-invalid + .hosted-fields__card-type{
+      display: none;
+    }
+    &.hosted-fields__number {
+      padding-right: 52px;
+    }
+  }
+  &__card-type {
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    font-size: 32px;
+    color: $overcast-gray;
+    padding: 4px;
+    border-radius: 3px;
   }
 }

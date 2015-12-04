@@ -35,6 +35,7 @@ const HostedFieldsMethods = {
               } else {
                 this.showError(event.target.fieldKey, "doesn't look right");
               }
+              this.showCardType(event.card);
             }
           },
         },
@@ -58,6 +59,26 @@ const HostedFieldsMethods = {
     let $holder = $(`.hosted-fields__${field_name}`).parent();
     $holder.find('.error-msg').remove();
     $holder.append(`<div class='error-msg'>${field_name} ${msg}</div>`);
+  },
+
+  showCardType: function(card) {
+    if (card == null || card.type == null ) {
+      this.$('.hosted-fields__card-type').addClass('hidden-irrelevant');
+    } else {
+      let icons = {
+        'diners-club': 'fa-cc-diners-club',
+        'jcb': 'fa-cc-jcb',
+        'american-express': 'fa-cc-amex',
+        'discover': 'fa-cc-discover',
+        'master-card': 'fa-cc-mastercard',
+        'visa': 'fa-cc-visa',
+      }
+      let $cardType = this.$('.hosted-fields__card-type');
+      $cardType.removeClass($cardType.data('card-class'));
+      if (icons[card.type] !== undefined) {
+        $cardType.addClass(icons[card.type]).data('card-class', icons[card.type]).removeClass('hidden-irrelevant');
+      }
+    }
   },
 
   clearError: function(field_name) {
