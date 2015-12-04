@@ -1,8 +1,9 @@
 module PaymentProcessor
   module Clients
     module Braintree
-
       class MerchantAccountSelector
+        include ActsLikeSelectorWithCurrency
+
         MERCHANT_ACCOUNTS = {
          EUR: 'EUR',
          GBP: 'GBP',
@@ -12,23 +13,11 @@ module PaymentProcessor
          NZD: 'NZD'
         }.freeze
 
-        def self.for_currency(currency)
-          new(currency).merchant_account_id
-        end
-
-        def initialize(currency)
-          @currency = currency
-        end
-
-        def merchant_account_id
+        def select_or_raise
           raise_error if @currency.blank?
           id = MERCHANT_ACCOUNTS[@currency.upcase.to_sym]
-          raise_error unless id
+          raise_error("No merchant account is associated with this currency: #{@currency}")  unless id
           id
-        end
-
-        def raise_error
-          raise PaymentProcessor::Exceptions::InvalidCurrency, "No merchant account is associated with this currency: #{@currency}"
         end
       end
     end
