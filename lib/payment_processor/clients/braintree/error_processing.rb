@@ -31,8 +31,6 @@ module PaymentProcessor
                 .flatten
                 .freeze
 
-        PROCESSOR_DECLINED = 'processor_declined'
-
         FILTER = -> (error) { USER_ERROR_CODES.include?( error.code.to_i ) }
 
         def initialize(response)
@@ -41,7 +39,7 @@ module PaymentProcessor
 
         def process
           return user_errors if user_errors.any?
-          return transaction_error if processor_declined?
+          return processor_errors if processor_errors.any?
 
           raise_system_errors if system_errors.any?
         end
@@ -68,14 +66,42 @@ module PaymentProcessor
           @response.errors
         end
 
-        def transaction_error
-          if processor_declined?
-            [{ code: @response.transaction.processor_response_code, message: @response.transaction.processor_response_text }]
+        def processor_errors
+          if @response.transaction
+            case @response.transaction.status
+            when 'processor_declined'
+              processor_declined_error
+            when 'gateway_rejected'
+              gateway_rejected_error
+            when 'settlement_declined'
+              settlement_declined_error
+            else
+              []
+            end
+          else
+            []
           end
         end
 
-        def processor_declined?
-          @response.transaction and @response.transaction.status === PROCESSOR_DECLINED
+        def processor_declined_error
+          [{
+            code: @response.transaction.processor_response_code,
+            message: @response.transaction.processor_response_text
+          }]
+        end
+
+        def settlement_declined_error
+          [{
+            code: @response.transaction.processor_settlement_response_code,
+            message: @response.transaction.processor_settlement_response_text
+          }]
+        end
+
+        def gateway_rejected_error
+          [{
+            code: '',
+            message: @response.transaction.gateway_rejection_reason
+          }]
         end
       end
     end

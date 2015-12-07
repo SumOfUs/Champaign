@@ -137,9 +137,9 @@ describe "Braintree API" do
 
   context 'unsuccessful transaction' do
 
-    context "Processor declined" do
+    context "processor related" do
 
-      it 'returns code and message' do
+      it 'processor declined' do
         VCR.use_cassette("braintree_processor_declined") do
           post_transaction(amount: 2100)
           expect(
@@ -151,7 +151,19 @@ describe "Braintree API" do
         end
       end
 
+      it 'settlement declined' do
+        VCR.use_cassette("braintree_settlement_declined") do
+          post_transaction(amount: 5001)
+          expect(
+            body[:errors].first
+          ).to eq({
+            "code"    => '',
+            "message" => "application_incomplete"
+          })
+        end
+      end
     end
+
     it 'raises if no merchant account exists' do
       expect{
         post_transaction(currency: 'JPY')
