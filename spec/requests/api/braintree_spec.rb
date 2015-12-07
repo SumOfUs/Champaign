@@ -136,6 +136,36 @@ describe "Braintree API" do
   end
 
   context 'unsuccessful transaction' do
+
+    context "processor related" do
+
+      it 'processor declined' do
+        VCR.use_cassette("braintree_processor_declined") do
+          post_transaction(amount: 2100)
+          expect(
+            body[:errors].first
+          ).to eq({
+            "code"    => "2100",
+            "message" => "Processor Declined"
+          })
+        end
+      end
+
+      it 'gateway rejected' do
+        VCR.use_cassette("braintree_gateway_rejected") do
+          post_transaction(amount: 5001)
+          expect(
+            body[:errors].first
+          ).to eq({
+            "code"    => '',
+            "message" => "application_incomplete"
+          })
+        end
+      end
+
+      it 'settlement declined for paypal'
+    end
+
     it 'raises if no merchant account exists' do
       expect{
         post_transaction(currency: 'JPY')
