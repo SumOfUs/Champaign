@@ -25,8 +25,8 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
     else
-      raise_unless_user_error(result)
-      render json: { success: false, errors: result.errors }, status: 422
+      errors = raise_unless_user_error(result)
+      render json: { success: false, errors: errors }, status: 422
     end
   end
 

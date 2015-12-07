@@ -31,6 +31,8 @@ module PaymentProcessor
                 .flatten
                 .freeze
 
+        PROCESSOR_DECLINED = 'processor_declined'
+
         FILTER = -> (error) { USER_ERROR_CODES.include?( error.code.to_i ) }
 
         def initialize(response)
@@ -38,11 +40,10 @@ module PaymentProcessor
         end
 
         def process
-          if user_errors.any?
-            return user_errors
-          else
-            raise_system_errors if system_errors.any?
-          end
+          return user_errors if user_errors.any?
+          return transaction_error if processor_declined?
+
+          raise_system_errors if system_errors.any?
         end
 
         private
@@ -65,6 +66,16 @@ module PaymentProcessor
 
         def errors
           @response.errors
+        end
+
+        def transaction_error
+          if processor_declined?
+            [{ code: @response.transaction.processor_response_code, message: @response.transaction.processor_response_text }]
+          end
+        end
+
+        def processor_declined?
+          @response.transaction and @response.transaction.status === PROCESSOR_DECLINED
         end
       end
     end
