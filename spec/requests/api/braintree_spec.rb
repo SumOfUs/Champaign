@@ -163,7 +163,7 @@ describe "Braintree API" do
         end
       end
 
-      it 'settlement declined'
+      it 'settlement declined for paypal'
     end
 
     it 'raises if no merchant account exists' do
