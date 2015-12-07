@@ -151,8 +151,8 @@ describe "Braintree API" do
         end
       end
 
-      it 'settlement declined' do
-        VCR.use_cassette("braintree_settlement_declined") do
+      it 'gateway rejected' do
+        VCR.use_cassette("braintree_gateway_rejected") do
           post_transaction(amount: 5001)
           expect(
             body[:errors].first
@@ -162,6 +162,8 @@ describe "Braintree API" do
           })
         end
       end
+
+      it 'settlement declined'
     end
 
     it 'raises if no merchant account exists' do
