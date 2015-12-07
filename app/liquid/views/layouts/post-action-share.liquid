@@ -1,29 +1,3 @@
-<div class="header-logo header-logo--light">
-  <a href="http://sumofus.org/">
-    <div class="header-logo__logo sumofus-logo--positive"></div>
-  </a>
-</div>
-
-<div class="center-content">
-  <div class="center-content__one-column">
-
-    <div class="center-content__central-square">
-
-      <div class='thank-you__action-confirmation'>Name submitted</div>
-      <h1 class="thank-you__thanks">Thanks for adding your name to '{{ title }}'!</h1>
-      <div class="thank-you__cta">Share the campaign with your friends to <strong>triple your impact!</strong></div>
-
-      <style type="text/css">
-        .medium-photo--translucent::after {
-          background-image: url({{ images[0].urls.large }})
-        }
-      </style>
-      <div class="medium-photo medium-photo--translucent center-content__centered-element">
-        {% include 'Share' %}
-      </div>
-    </div>
-
-  </div>
-</div>
-
+{% capture message %}Thanks for adding your name to {{ title }}!{% endcapture %}
+{% include 'Share Page', message: message %}
 {% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}

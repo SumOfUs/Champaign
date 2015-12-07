@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe LiquidTagFinder do
+describe LiquidRenderer do
 
   let!(:body_partial) { create :liquid_partial, title: 'body_text', content: '<p>{{ content }}</p>' }
   let(:liquid_layout) { create :liquid_layout, content: "<h1>{{ title }}</h1> {% include 'body_text' %}" }

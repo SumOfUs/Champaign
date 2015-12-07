@@ -1,0 +1,8 @@
+h4 = t('plugins.action.choose_form_template')
+p = t('plugins.action.form_template_explanation')
+= form_tag plugins_form_create_path(plugin_id: plugin.id, plugin_type: plugin.name), method: :post, remote: true, class: 'action', id: 'change-form-template'  do
+  .form-group
+    = select_tag :master_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {class: 'form-control form-select'}
+
+  .form-group
+    = submit_tag t('plugins.action.apply_template'), class: 'btn btn-default xhr-feedback'
