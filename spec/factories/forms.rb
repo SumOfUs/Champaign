@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     factory :form_with_email do
       after(:create) do |form, evaluator|
-        create :form_element, form: form, name: 'email', label: 'Email'
+        create :form_element, form: form, name: 'email', label: 'Email', data_type: 'email'
       end
     end
 

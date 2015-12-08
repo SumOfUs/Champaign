@@ -7,9 +7,14 @@ class Plugins::Fundraiser < ActiveRecord::Base
 
   after_create :create_form
 
-  def liquid_data
+  def liquid_data(supplemental_data={})
     bands = donation_band.present? ? donation_band.internationalize.to_json : "null"
-    attributes.merge(form_id: form.try(:id), fields: form_fields, donation_bands: bands)
+    attributes.merge(
+      form_id: form_id,
+      fields: form_fields,
+      donation_bands: bands,
+      outstanding_fields: outstanding_fields(supplemental_data[:form_values]).map(&:to_s)
+    )
   end
 
   def form_fields
@@ -18,6 +23,11 @@ class Plugins::Fundraiser < ActiveRecord::Base
 
   def name
     self.class.name.demodulize
+  end
+
+  def outstanding_fields(form_values)
+    return [] if form_id.blank?
+    FormValidator.new({form_id: form_id}.merge(form_values || {})).errors.keys
   end
 
   private

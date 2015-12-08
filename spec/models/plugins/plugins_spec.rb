@@ -67,6 +67,10 @@ describe Plugins do
         expect(data_for_view[:plugins]['action'].keys[0]).to eq data_for_view[:ref]
       end
 
+      it 'can receive supplemental data ' do
+        expect{ Plugins.data_for_view(page, {some: 'stuff'}) }.not_to raise_error
+      end
+
     end
 
   end

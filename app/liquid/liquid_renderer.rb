@@ -26,7 +26,7 @@ class LiquidRenderer
   end
 
   def data
-    @data ||= Plugins.data_for_view(@page).
+    @data ||= Plugins.data_for_view(@page, {form_values: @member.try(:attributes)}).
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
