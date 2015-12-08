@@ -63,7 +63,7 @@ class Api::BraintreeController < ApplicationController
           customer_id: result.customer.id,
           first_name: user[:firstname] || user[:name],
           last_name: user[:last_name],
-          last_4: result.payment_methods.first.last_4
+          card_last_4: result.customer.payment_methods.first.last_4
         )
         result
       end
