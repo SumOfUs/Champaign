@@ -15,23 +15,28 @@ describe FormValidator do
       expect(subject).to be_valid
     end
 
+    it 'is valid with value and string key' do
+      params.merge!('address1' => 'bar')
+      expect(subject).to be_valid
+    end
+
     context "is invalid" do
       it "without value" do
         expect(subject).to_not be_valid
       end
 
       it "with nil" do
-        params.merge!(address: nil)
+        params.merge!(address1: nil)
         expect(subject).to_not be_valid
       end
 
       it "with false" do
-        params.merge!(address: false)
+        params.merge!(address1: false)
         expect(subject).to_not be_valid
       end
 
       it "with empty string" do
-        params.merge!(address: "")
+        params.merge!(address1: "")
         expect(subject).to_not be_valid
       end
     end
