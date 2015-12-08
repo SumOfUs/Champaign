@@ -1,4 +1,5 @@
 class LiquidRenderer
+  include Rails.application.routes.url_helpers
 
   def initialize(page, layout: nil, request_country: nil, member: nil)
     @page = page
@@ -28,8 +29,9 @@ class LiquidRenderer
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
-                merge( LiquidHelper.globals(request_country: @request_country, member: @member) ).
+                merge( LiquidHelper.globals(request_country: @request_country, member: @member, page: @page) ).
                 merge( shares: Shares.get_all(@page) ).
+                merge( follow_up_url: follow_up_page_path(@page.id)).
                 deep_stringify_keys
   end
 

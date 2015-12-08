@@ -1,0 +1,30 @@
+.row.plugin.fundraiser.collection-editor data-plugin-id=plugin.id
+  .col-md-7
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_fundraiser_path(plugin) }
+
+    - name = "plugins_fundraiser_#{plugin.id}"
+    = form_for plugin, url: plugins_fundraiser_path(plugin), remote: true, as: name, html: {class: 'plugin-settings one-form', data: {type: name }} do |f|
+      = render 'plugins/shared/plugin_metadata', f: f
+
+      .form-group
+        = f.label :title, t('plugins.fundraiser.title')
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = f.label :donation_band, t('plugins.fundraiser.donation_band')
+        = f.select :donation_band_id, DonationBand.all.collect { |d| [d.name, d.id] }, {}, {class: 'form-control form-select'}
+
+    .well
+      = render partial: 'plugins/shared/apply_form_template', locals: { plugin: plugin }
+
+    .well
+      = render partial: 'plugins/shared/customize_form', locals: { plugin: plugin }
+
+  .col-md-5
+    .plugin-form-preview
+      h4 Preview
+      .content
+        = render partial: 'plugins/shared/preview', locals: {plugin: plugin }
+
+javascript:
+  $.publish("collection:edit:loaded");
+  $.publish("plugin:form:loaded");

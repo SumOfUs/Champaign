@@ -1,5 +1,6 @@
 require 'rails_helper'
+require_relative 'shared_examples'
 
-RSpec.describe Plugins::ThermometersController, type: :controller do
-
+describe Plugins::ThermometersController do
+  include_examples "plugins controller", Plugins::Thermometer, :plugins_thermometer
 end

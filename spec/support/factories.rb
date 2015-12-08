@@ -7,7 +7,7 @@ FactoryGirl.define do
   sequence :actionkit_uri do |n| "/rest/v1/tag/#{n}/" end
 
   factory :user do
-    email
+    email { Faker::Internet.email }
     password { Faker::Internet.password }
     admin false
   end
