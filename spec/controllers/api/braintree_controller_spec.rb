@@ -25,7 +25,7 @@ describe Api::BraintreeController do
   describe 'POST subscription' do
     context 'valid subscription' do
       let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
-      let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
+      let(:customer) { double(:customer, email: 'foo@example.com', default_payment_method_token: 'a1b2c3') }
       let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'xyz123')) }
 
       let(:params) do {
@@ -111,7 +111,7 @@ describe Api::BraintreeController do
 
     describe "valid transaction with recurring parameter" do
       let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
-      let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
+      let(:customer) { double(:customer, email: 'foo@example.com', default_payment_method_token: 'a1b2c3') }
       let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'kj2qnp')) }
 
       let(:params) do {

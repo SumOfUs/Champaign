@@ -33,7 +33,7 @@ describe "Braintree API" do
   end
 
   describe 'making a subscription' do
-    let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
+    let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', default_payment_method_token: '4y5dr6' )}
 
     context "successful subscription" do
       it 'creates subscription' do
@@ -94,7 +94,7 @@ describe "Braintree API" do
             expect(customer).to_not be nil
             expect(customer.email).to eq('foo@example.com')
             expect(customer.customer_id).to match(/\d{8}/)
-            expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+            expect(customer.default_payment_method_token).to match(/[a-z0-9]{6}/)
           end
         end
       end
@@ -114,7 +114,7 @@ describe "Braintree API" do
           expect(customer).to_not be nil
           expect(customer.email).to eq('foo@example.com')
           expect(customer.customer_id).to match(/\d{8}/)
-          expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          expect(customer.default_payment_method_token).to match(/[a-z0-9]{6}/)
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end
