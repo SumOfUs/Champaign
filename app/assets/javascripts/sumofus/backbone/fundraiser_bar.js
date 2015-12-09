@@ -15,13 +15,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
-    'click .fundraiser-bar__clear-form': 'clearForm',
+    'click .fundraiser-bar__clear-form': 'showSecondStep',
     'click .action-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
-    'click .fundraiser-bar__mistaken-identity': 'showSecondStep',
   },
 
   // options: object with any of the following keys
@@ -68,7 +67,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   hideSecondStep: function() {
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
-    this.$('.fundraiser-bar__mistaken-identity').removeClass('hidden-irrelevant');
+    this.$('.fundraiser-bar__welcome-text').removeClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
     this.hidingStepTwo = true;
@@ -76,9 +75,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   showSecondStep: function() {
     this.$('.fundraiser-bar__steps').removeClass('fundraiser-bar__steps--two-step');
-    this.$('.fundraiser-bar__mistaken-identity').addClass('hidden-irrelevant');
+    this.$('.fundraiser-bar__welcome-text').addClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'visible');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(3);
+    this.clearForm();
     this.hidingStepTwo = false;
     this.changeStep(2);
   },

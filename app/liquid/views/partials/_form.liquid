@@ -8,9 +8,15 @@
   {% endif %}
   <input type='hidden' name='form_id' value='{{ form_id }}' />
   {% for field in fields %}
-    <div class="form__group {% if member[field.name] %}form__group--prefilled{% endif %}">
+    {% if member[field.name] %}
+      {% assign prefilled = true %}
+    {% elsif member and field.required == false %}
+      {% assign prefilled = true %}
+    {% else %}
+      {% assign prefilled = false %}
+    {% endif %}
+    <div class="form__group {% if prefilled %}form__group--prefilled{% endif %}">
       {% case field.data_type %}
-
       {% when 'text' %}
         <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}"/>
       {% when 'email' %}
