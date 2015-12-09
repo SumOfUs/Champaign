@@ -2,7 +2,15 @@
   &__steps {
     position: relative;
     width: 100%;
-    margin-top: 21px;
+    margin: 21px auto 0;
+    @include transition(width 0.2s linear);
+
+    &--two-step {
+    @include transition(width 0s linear);
+      position: relative;
+      width: 70%;
+      margin: 21px auto 0;
+    }
   }
   &__step-connector {
     width: 70%;
@@ -125,6 +133,13 @@
     &.fa {
       margin-right: 6px;
       font-size: 20px;
+    }
+  }
+  &__mistaken-identity {
+    margin-bottom: 12px;
+    font-size: 14px;
+    .fundraiser-bar__clear-form {
+      display: inline;
     }
   }
 }

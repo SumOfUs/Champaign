@@ -49,6 +49,9 @@
             fields: plugins.fundraiser[ref].fields %}
         </div>
         <div class="fundraiser-bar__step-panel form--big" data-step="3">
+          <div class="fundraiser-bar__mistaken-identity hidden-irrelevant">
+            Welcome back, {{member.welcome_name}}! <a href="javascript:;" class="fundraiser-bar__clear-form">Not you?</a>
+          </div>
           <form action='/' id="hosted-fields">
             <div class="form__group">
               <div class="hosted-fields__host hosted-fields__number"></div>
@@ -83,7 +86,9 @@
       var myFundraiserBar = new window.FundraiserBar({
         followUpUrl: "{{ follow_up_url }}",
         currency: "{{ guessed_currency }}",
-        donationBands: {{ plugins.fundraiser[ref].donation_bands }}
+        donationBands: {{ plugins.fundraiser[ref].donation_bands }},
+        amount: {% if url_params['amount'] == blank %} 0 {% else %} {{ url_params['amount'] }}{% endif %},
+        outstandingFields: {{ plugins.fundraiser[ref].outstanding_fields.size }}
       });
     });
   </script>

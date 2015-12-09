@@ -11,72 +11,238 @@ describe("fundraiser", function() {
     };
   });
 
+  beforeEach(function(){
+    MagicLamp.wish("pages/fundraiser");
+    suite.server = sinon.fakeServer.create();
+    suite.server.respondWith("GET", '/api/braintree/token',
+                            [200, { "Content-Type": "application/json" },
+                            '{ "token": "'+helpers.btClientToken+'" }' ]);
+    suite.server.respond();
+  });
+
   describe('instantiation', function(){
 
-    it('sets the default currency if currency passed');
-    it('displays the values from the correct passed donation band');
+    it('sets the default currency if currency passed', function(){
+      suite.fundraiserBar = new window.FundraiserBar({ currency: 'GBP'});
+      expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
+    });
 
-    describe('outstanding fields is empty list', function(){
+    it('displays the values from the correct passed donation band', function(){
+      var donationBands = {
+        EUR: [1, 2, 3, 4, 5],
+        USD: [6, 7, 8, 9, 10],
+        GBP: [7, 14, 21, 28, 35]
+      };
+      suite.fundraiserBar = new window.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
+      var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
+      expect(displayedAmounts).to.include.members(donationBands['EUR']);
+    });
+
+    describe('outstanding fields is zero', function(){
 
       describe('amount is not passed', function(){
-        it('starts on the first step');
-        it('hides the second step');
-        it('displays the second step when user requests');
-        it('clears prefilled fields when second step displayed');
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 0 });
+        });
+
+        it('starts on the first step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(1);
+        });
+
+        it('hides the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
+          $('.fundraiser-bar__amount-button').first().click();
+          expect(helpers.currentStepOf(3)).to.eq(3);
+        });
+
+        it('displays the second step when user requests', function(){
+          $('.fundraiser-bar__amount-button').first().click();
+          expect(helpers.currentStepOf(3)).to.eq(3);
+          $('.fundraiser-bar__clear-form').click();
+          expect(helpers.currentStepOf(3)).to.eq(2);
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+
+        it('clears prefilled fields when second step displayed', function(){
+          var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
+          input.parents('.form__group').addClass('form__group--prefilled');
+          input.attr('value', 'cheerio!');
+          expect(input.val()).to.equal('cheerio!');
+          $('.fundraiser-bar__amount-button').first().click();
+          $('.fundraiser-bar__clear-form').click();
+          expect(input.val()).to.equal('');
+        });
+
       });
 
       describe('amount is greater than zero ', function(){
-        it('skips to the third step');
-        it('displays the correct amount');
-        it('hides the second step');
-        it('displays the second step when user requests');
-        it('clears prefilled fields when second step displayed');
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 0, amount: 11 });
+        });
+
+        it('skips to the third step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(3);
+        });
+
+        it('displays the correct amount', function(){
+          expect($('.fundraiser-bar__display-amount').text()).to.eq('$11');
+        });
+
+        it('hides the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
+        });
+
+        it('displays the second step when user requests', function(){
+          $('.fundraiser-bar__clear-form').click();
+          expect(helpers.currentStepOf(3)).to.eq(2);
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+
+        it('clears prefilled fields when second step displayed', function(){
+          var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
+          input.parents('.form__group').addClass('form__group--prefilled');
+          input.attr('value', 'cheerio!');
+          expect(input.val()).to.equal('cheerio!');
+          $('.fundraiser-bar__amount-button').first().click();
+          $('.fundraiser-bar__clear-form').click();
+          expect(input.val()).to.equal('');
+        });
+
       });
     });
 
     describe('outstanding fields is not passed', function(){
 
       describe('amount is not passed', function(){
-        it('starts on the first step');
-        it('displays the second step');
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.FundraiserBar({});
+        });
+
+        it('starts on the first step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(1);
+        });
+
+        it('displays the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
       });
 
       describe('amount is greater than zero ', function(){
-        it('skips to the second step');
-        it('displays the correct amount');
-        it('displays the second step');
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.FundraiserBar({amount: 17});
+        });
+
+        it('skips to the second step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(2);
+        });
+
+        it('displays the correct amount', function(){
+          expect($('.fundraiser-bar__display-amount').text()).to.eq('$17');
+        });
+
+        it('displays the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
       });
     });
 
-    describe('outstanding fields is list of fields', function(){
+    describe('outstanding fields is greater than zero', function(){
 
       describe('amount is not passed', function(){
-        it('starts on the first step');
-        it('displays the second step');
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 2 });
+        });
+
+        it('starts on the first step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(1);
+        });
+
+        it('displays the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
       });
 
       describe('amount is greater than zero ', function(){
-        it('skips to the second step');
-        it('displays the correct amount');
-        it('displays the second step');
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 1, amount: 17 });
+        });
+
+        it('skips to the second step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(2);
+        });
+
+        it('displays the correct amount', function(){
+          expect($('.fundraiser-bar__display-amount').text()).to.eq('$17');
+        });
+
+        it('displays the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
       });
     });
 
     describe('degenerate arguments', function(){
 
       describe('it starts on first step when amount', function(){
-        it('is negative');
-        it('is zero');
-        it('is a string');
-        it('is null');
-        it('is an array');
-      })
+        it('is negative', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ amount: -1 });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is zero', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ amount: 0 });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is a string', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ amount: "hi" });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is null', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ amount: null });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is an array', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ amount: [3, 4, 5] });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+      });
 
-      it('shows second step when outstandingFields', function(){
-        it('is an object');
-        it('is null');
-        it('is a number');
-        it('is a string');
+      it ('starts on second step when amount is numeric string', function(){
+        suite.fundraiserBar = new window.FundraiserBar({ amount: "3" });
+        expect(helpers.currentStepOf(3)).to.eq(2)
+      });
+
+      describe('shows second step when outstandingFields', function(){
+        it('is an object', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: {first: 'second'} });
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+        it('is null', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: null });
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+        it('is an array', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: ['email'] });
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+        it('is a string', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 'yooo' });
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+        it('is a numeric string', function(){
+          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: '5' });
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+        });
+      });
+
+      it ('hides second step when outstandingFields is zero string', function(){
+        suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: "0" });
+        expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
       });
     });
 
@@ -85,13 +251,6 @@ describe("fundraiser", function() {
   describe('interactions', function(){
 
     beforeEach(function() {
-      MagicLamp.wish("pages/fundraiser");
-
-
-      suite.server = sinon.fakeServer.create();
-      suite.server.respondWith("GET", '/api/braintree/token',
-                              [200, { "Content-Type": "application/json" },
-                              '{ "token": "'+helpers.btClientToken+'" }' ]);
 
       suite.follow_up_url = "/pages/636/follow-up";
       suite.fundraiserBar = new window.FundraiserBar({ followUpUrl: suite.follow_up_url });
