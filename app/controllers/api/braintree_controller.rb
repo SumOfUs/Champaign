@@ -23,6 +23,15 @@ class Api::BraintreeController < ApplicationController
     result = braintree::Transaction.make_transaction(transaction_options)
 
     if result.success?
+      donation_params = ManageDonation.format_params(
+          user_email: params[:user][:email],
+          user_country: result.transaction.credit_card_details.customer_location,
+          page_id: params[:page_id].to_i,
+          amount: result.transaction.amount,
+          exp_date: result.transaction.credit_card_details.expiration_date,
+          card_num: result.transaction.credit_card_details.last_4
+      )
+      ManageDonation.create(donation_params)
       render json: { success: true, transaction_id: result.transaction.id }
     else
       errors = raise_unless_user_error(result)
