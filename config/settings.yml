@@ -55,3 +55,9 @@
      facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
      share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
 
+# Braintree connection information. Used for taking donations.
+     braintree:
+       # public_key: Set this based on your braintree integration information
+       # private_key: Set this based on your braintree integration information
+       # merchant_id: Set this based on your braintree integration information
+
