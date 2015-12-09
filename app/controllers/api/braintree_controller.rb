@@ -97,11 +97,7 @@ class Api::BraintreeController < ApplicationController
   def default_payment_method_token
    local_customer.try(:card_vault_token)
   end
-
-  def customer_id
-    local_customer.try(:card_vault_token)
-  end
-
+  
   def local_customer
     @local_customer ||= ::Payment.customer(params[:user][:email])
   end
