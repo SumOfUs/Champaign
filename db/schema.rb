@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130211806) do
+ActiveRecord::Schema.define(version: 20151202162648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -208,6 +208,14 @@ ActiveRecord::Schema.define(version: 20151130211806) do
     t.datetime "updated_at",                    null: false
   end
 
+  create_table "payment_braintree_subscriptions", force: :cascade do |t|
+    t.string   "subscription_id"
+    t.string   "price"
+    t.string   "merchant_account_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
   create_table "payment_braintree_transactions", force: :cascade do |t|
     t.string   "transaction_id"
     t.string   "transaction_type"
@@ -218,6 +226,8 @@ ActiveRecord::Schema.define(version: 20151130211806) do
     t.string   "customer_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
+    t.string   "merchant_account_id"
+    t.string   "currency"
   end
 
   create_table "plugins_actions", force: :cascade do |t|
@@ -246,6 +256,7 @@ ActiveRecord::Schema.define(version: 20151130211806) do
     t.integer  "donation_band_id"
   end
 
+  add_index "plugins_fundraisers", ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id", using: :btree
   add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
   add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
 

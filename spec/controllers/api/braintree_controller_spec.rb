@@ -31,6 +31,7 @@ describe Api::BraintreeController do
       let(:params) do {
         payment_method_nonce: 'fake-valid-nonce',
         amount: '100',
+        currency: 'EUR',
         user: {
           first_name: 'George',
           last_name: 'Orwell',
@@ -47,14 +48,16 @@ describe Api::BraintreeController do
       end
 
       it 'finds customer' do
-        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com').twice
+        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com')
       end
 
       it 'creates subscription' do
         expected_arguments = {
           price: 100,
           plan_id: '35wm',
-          payment_method_token: 'a1b2c3'
+          payment_method_token: 'a1b2c3',
+          currency: 'EUR',
+          store: Payment
         }
 
         expect(PaymentProcessor::Clients::Braintree::Subscription).to have_received(:make_subscription).
@@ -73,6 +76,7 @@ describe Api::BraintreeController do
       let(:params) do {
         payment_method_nonce: 'fake-valid-nonce',
         amount: '100',
+        currency: 'EUR',
         user: {
           first_name: 'George',
           last_name: 'Orwell',
@@ -92,6 +96,7 @@ describe Api::BraintreeController do
         expected_arguments = {
           nonce: 'fake-valid-nonce',
           amount: 100,
+          currency: 'EUR',
           user: params[:user],
           store: Payment
         }

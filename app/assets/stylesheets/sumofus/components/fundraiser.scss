@@ -28,10 +28,16 @@
     margin: 4px 1.5%;
     text-align: center;
   }
-  &__average-clarification {
+  &__switch-currency {
     margin: 20px 0;
     font-size: 14px;
     float: left;
+  }
+  &__currency-selector {
+    margin-top: 10px;
+  }
+  &__engage-currency-switcher {
+    cursor: pointer;
   }
   &__step-label {
     margin: 0 auto;

@@ -2,18 +2,23 @@ module PaymentProcessor
   module Clients
     module Braintree
       class Subscription
-        def self.make_subscription(price:, plan_id:, payment_method_token:)
-          new(price, plan_id, payment_method_token).subscribe
+        def self.make_subscription(store: nil, price:, currency:, plan_id:, payment_method_token:)
+          new(price, currency, plan_id, payment_method_token, store).subscribe
         end
 
-        def initialize(price, plan_id, payment_method_token)
+        def initialize(price, currency, plan_id, payment_method_token, store)
           @price = price
+          @currency = currency
           @plan_id = plan_id
           @payment_method_token = payment_method_token
+          @store = store
         end
 
         def subscribe
-          ::Braintree::Subscription.create(options)
+          subscription = ::Braintree::Subscription.create(options)
+          @store.write_subscription(subscription: subscription, provider: :braintree ) if @store
+
+          subscription
         end
 
         private
@@ -22,7 +27,8 @@ module PaymentProcessor
           {
             payment_method_token: @payment_method_token,
             plan_id: @plan_id,
-            price: @price
+            price: @price,
+            merchant_account_id: MerchantAccountSelector.for_currency(@currency)
           }
         end
 

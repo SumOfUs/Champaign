@@ -1,6 +1,33 @@
 require 'rails_helper'
 
 describe "Braintree API" do
+
+  before do
+    Settings.merge!(braintree: {
+      merchants: {
+        USD: 'sumofus',
+        EUR: 'EUR',
+        GBP: 'GBP'
+      }
+    })
+  end
+
+  def post_transaction(opts = {})
+    post '/api/braintree/transaction', {
+      currency: :USD,
+      payment_method_nonce: 'fake-valid-nonce',
+      amount: 100.00,
+      recurring: false,
+      user: { email: 'foo@example.com' }
+    }.merge(opts)
+  end
+
+  def post_subscription(opts = {})
+    post '/api/braintree/subscription', {
+      user: { email: customer.email }, price: '100.00', currency: :USD
+    }.merge(opts)
+  end
+
   def body
     JSON.parse(response.body).with_indifferent_access
   end
@@ -11,17 +38,17 @@ describe "Braintree API" do
     context "successful subscription" do
       it 'creates subscription' do
         VCR.use_cassette('braintree_subscription_success') do
-          post '/api/braintree/subscription', {user: { email: customer.email }, price: '100.00'}
+          post_subscription
+          record = Payment::BraintreeSubscription.first
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+          expect(record.subscription_id).to eq(body[:subscription_id])
         end
       end
     end
 
     it 'creates a token and successfully subscribes a user whose e-mail is not associated with a token' do
       VCR.use_cassette('braintree_subscription_success_no_token') do
-        post '/api/braintree/subscription', { amount: '100.00',
-                                              user: { email: 'does_not_exist@example.com'},
-                                              payment_method_nonce: 'fake-valid-visa-nonce' }
+        post_subscription(user: { email: 'foo+1234@example.com'}, payment_method_nonce: 'fake-valid-visa-nonce')
         expect(body[:success]).to be true
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
@@ -43,9 +70,8 @@ describe "Braintree API" do
     context "successful" do
       context "one off" do
         before do
-          VCR.use_cassette("transaction_success", record: :none) do
-            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00, recurring: false,
-              user: { email: 'foo@example.com' }
+          VCR.use_cassette("transaction_success") do
+            post_transaction
           end
         end
 
@@ -58,6 +84,8 @@ describe "Braintree API" do
           expect(transaction.transaction_id).to eq(body[:transaction_id])
           expect(transaction.transaction_type).to eq('sale')
           expect(transaction.amount).to eq('100.0')
+          expect(transaction.merchant_account_id).to eq('EUR')
+          expect(transaction.currency).to eq('EUR')
         end
 
         context 'customer' do
@@ -74,17 +102,16 @@ describe "Braintree API" do
       context 'recurring' do
         before do
           VCR.use_cassette("transaction_recurring_success") do
-            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 100.00, recurring: true, user: { email: 'foo@example.com' }
+            post_transaction(recurring: true)
           end
         end
 
-
         it 'records transaction to store' do
-            customer = Payment::BraintreeCustomer.first
-            expect(customer).to_not be nil
-            expect(customer.email).to eq('foo@example.com')
-            expect(customer.customer_id).to match(/\d{8}/)
-            expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          customer = Payment::BraintreeCustomer.first
+          expect(customer).to_not be nil
+          expect(customer.email).to eq('foo@example.com')
+          expect(customer.customer_id).to match(/\d{8}/)
+          expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end
@@ -93,7 +120,7 @@ describe "Braintree API" do
       context 'repeat donation' do
         before do
           VCR.use_cassette("repeat_transaction_success") do
-            post '/api/braintree/transaction', payment_method_nonce: 'fake-valid-nonce', amount: 20.00, user: { email: 'foo@example.com' }
+            post_transaction(amount: 20.00)
           end
         end
 
@@ -107,10 +134,15 @@ describe "Braintree API" do
 
   context 'unsuccessful transaction' do
 
+    it 'raises if no merchant account exists' do
+      expect{
+        post_transaction(currency: 'JPY')
+      }.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
+    end
+
     it 'returns error messages and codes in an invalid transaction' do
       VCR.use_cassette("transaction_failure_invalid_nonce") do
-        post '/api/braintree/transaction', payment_method_nonce: 'fake-coinbase-nonce', amount: 100.00,
-          user: { email: 'foo@example.com' }
+        post_transaction(payment_method_nonce: 'fake-coinbase-nonce')
 
         expect(body.keys).to contain_exactly('success','errors')
         expect(body[:success]).to be false

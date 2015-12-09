@@ -2,7 +2,7 @@
 
 describe("fundraiser", function() {
   var suite = this;
-  suite.timeout(10000);
+  suite.timeout(20000);
 
   before(function() {
     suite.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
@@ -26,7 +26,7 @@ describe("fundraiser", function() {
                             '{ "token": "'+helpers.btClientToken+'" }' ]);
 
     suite.follow_up_url = "/pages/636/follow-up";
-    suite.fundraiserBar = new window.FundraiserBar(suite.follow_up_url);
+    suite.fundraiserBar = new window.FundraiserBar({ followUpUrl: suite.follow_up_url });
     sinon.stub(suite.fundraiserBar, 'redirectTo');
     suite.server.respond(); // respond to request for token
   });
@@ -84,6 +84,45 @@ describe("fundraiser", function() {
       $('.fundraiser-bar__custom-field').val('$22');
       $('.fundraiser-bar__first-continue').click();
       expect($('.fundraiser-bar__display-amount').text()).to.eq('$22');
+    });
+
+    it('changes the buttons to the right band when currency changes', function(){
+      suite.fundraiserBar.donationBands['GBP'] = [1, 2, 3, 4, 5, 6, 7];
+      $('.fundraiser-bar__currency-selector').val('GBP').change();
+      var $buttons = $('.fundraiser-bar__amount-button');
+      var texts = $buttons.map(function(ii, el){ return $(el).text() }).toArray();
+      var vals =  $buttons.map(function(ii, el){ return $(el).data('amount'); }).toArray();
+      expect($buttons.length).to.equal(7);
+      expect(texts).to.include.members(['£1', '£2', '£3', '£4', '£5', '£6', '£7']);
+      expect(vals).to.include.members([1, 2, 3, 4, 5, 6, 7]);
+    });
+
+    it('shows the selector when prompted', function(){
+      var $selector = $('.fundraiser-bar__currency-selector');
+      expect($selector).to.have.css('display','none');
+      $('.fundraiser-bar__engage-currency-switcher').click();
+      expect($selector).not.to.have.css('display','none');
+    });
+
+    it('changes the reported currency code when currency changes', function(){
+      expect($('.fundraiser-bar__current-currency').text()).to.equal('USD');
+      $('.fundraiser-bar__currency-selector').val('AUD').change();
+      expect($('.fundraiser-bar__current-currency').text()).to.equal('AUD');
+    });
+
+    it('changes the filled in currency symbol when clicking in', function(){
+      $('.fundraiser-bar__currency-selector').val('GBP').change();
+      var $el = $('.fundraiser-bar__custom-field');
+      expect($el).to.have.value('');
+      $el.focus();
+      expect($el).to.have.value('£');
+    });
+
+    it('displays the amount over step 1 with correct currency after moving on', function(){
+      $('.fundraiser-bar__currency-selector').val('EUR').change();
+      $('.fundraiser-bar__custom-field').val('$22');
+      $('.fundraiser-bar__first-continue').click();
+      expect($('.fundraiser-bar__display-amount').text()).to.eq('€22');
     });
   });
 
@@ -151,7 +190,7 @@ describe("fundraiser", function() {
       expect(request.url).to.eq("/api/braintree/transaction");
 
       bodyPairs = decodeURI(request.requestBody).split('&');
-      expect(bodyPairs).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
+      expect(bodyPairs).to.include.members(["payment_method_nonce="+helpers.btNonce]);
     });
 
     it('loads the follow-up url after success from the server', function(){
@@ -159,6 +198,13 @@ describe("fundraiser", function() {
       suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
       suite.server.respond();
       expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
+    });
+
+    it('submits the currency and amount to the server', function(){
+      suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+      request = helpers.last(suite.server.requests);
+      bodyPairs = decodeURI(request.requestBody).split('&');
+      expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
     });
 
     xit('displays validation errors passed back from the server', function(){

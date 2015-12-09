@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://<BRAINTREE_PUBLIC_KEY>:<BRAINTREE_PRIVATE_KEY>@api.sandbox.braintreegateway.com/merchants/<BRAINTREE_MERCHANT_ID>/transactions
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
     body:
       encoding: UTF-8
       string: |
@@ -10,6 +10,7 @@ http_interactions:
         <transaction>
           <amount>100.0</amount>
           <payment-method-nonce>fake-coinbase-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
           <options>
             <submit-for-settlement type="boolean">true</submit-for-settlement>
             <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
@@ -38,7 +39,7 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Mon, 23 Nov 2015 21:14:09 GMT
+      - Wed, 02 Dec 2015 20:08:04 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
@@ -58,9 +59,9 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 6c393649f546f4c415cb5018baf774a3
+      - 5ca246dca899ac549d128a3d792f2737
       X-Runtime:
-      - '0.146269'
+      - '0.146133'
       X-Frame-Options:
       - SAMEORIGIN
       Strict-Transport-Security:
@@ -68,16 +69,16 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAKGBU1YAA6xTTU/DMAy98yui3rNuBwRIWeDEjRuckZd5EJHEUewi9u9J
-        t3Zf6jhxqu3n5+T5pebxJwb1jYU9pWWzmM0bhcnR2qePZfP2+qzvm0d7YyB7
-        jaVQ0QU5U2K0N0qZXYn78JAo2WZcNlAKbJt2gKRAYnBSD9lXpttHbESPea3U
-        S6F9WNze3Zl2F5+CIFL8qhMc5vE2rig0NmJxn5DkHZyjrn792rSH5rMREZnh
-        A+3LQFEDRa0JWSUSxV3OVERl2EasgE8spevDmWlH+lFCe6ZhSPmQu46F6v0u
-        RU9usOefE0x7sdTTA0yGApH/2D7EXptdzOezed3IPhvBQaCOKJ+01omSQ7uB
-        L9SOfFoB475m2snOcQzl/kg+EcjdKnrRm/qOGEUC9mRbl1hHTWMnXKGC2if9
-        DV0QTUlz51zd+si/ih82eHGhKQs2vrDoBBFV8mHZ9LOPJtSGAH/jGMEHuyF6
-        wh+IOeDMUaze7MpXvOw9qp5bhlCF7MJrHh+N/bcHW+2f+Lt/AQAA//8DAIwr
-        uWYaBAAA
+        H4sIAKRPX1YAA6xUTW/bMAy991cIvitODkNXQFF32W67DOu5YGSmFWaJgkgX
+        zb+flNj5qtNTTyb59PjxSNg8vodevWFmT3HdrBbLRmF01Pn4sm6e/v7S35tH
+        e2cgeY05U9YZOVFktHdKmX2Iq3l0lOwSrhvIGXZNO0KSITI4KUUOkfnnEzah
+        J79ESlNoH1bf7u9Nu7fPQRDJfjMIjvl4FzbUNzZgdq8Q5Rmco6F8fWfa4+OL
+        FAGZ4QXt75GiRorqCFlFEsVDSpRFJdgFLICPLHmo5sK0E/00Qnsxw+jy0XcD
+        C5X+roeeVbDyLwmmvRL1vIBJkCHwJ+pDqLPZ1XK5WBZFDt4EjgPqgPJKnY4U
+        Hdot/EPtyMcNMB5ipp19OaWZxNejktp39ufTn6rVR2AiUap98pkqPGyCF70t
+        x8co0mOtaIvypf48dsYVyqh91G8w9KIpah6cK6ua+Dfxo+xXDc3tbeszi44Q
+        UEXfr5ua+7S58qCHz3EM4Hu7JfqB7xBSjwtHoSx0H75xAHWx5VAsQ18G2Zu3
+        DuN0DV925eVmZn4J/wEAAP//AwCwubOhTwQAAA==
     http_version: 
-  recorded_at: Mon, 23 Nov 2015 21:14:09 GMT
+  recorded_at: Wed, 02 Dec 2015 20:12:01 GMT
 recorded_with: VCR 3.0.0
