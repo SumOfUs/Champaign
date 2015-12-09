@@ -10,6 +10,9 @@ const HostedFieldsMethods = {
         id: "hosted-fields",
         onPaymentMethodReceived: this.paymentMethodReceived(),
         onError: this.handleErrors(),
+        paypal: {
+          container: 'hosted-fields__paypal',
+        },
         hostedFields: {
           number: {
             selector: ".hosted-fields__number",

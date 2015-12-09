@@ -13,6 +13,11 @@
     position: absolute;
     background: $slate-gray;
     border: none;
+    &--static {
+      position: static;
+      float: none;
+      margin: 20px auto;
+    }
   }
   &__amount-button {
     @include button($orange);
@@ -157,5 +162,10 @@
     color: $overcast-gray;
     padding: 4px;
     border-radius: 3px;
+  }
+  &__paypal {
+    background: $paypal;
+    padding: 4px 0;
+    border-radius: 4px;
   }
 }
