@@ -57,15 +57,14 @@ class Api::BraintreeController < ApplicationController
         render json: { success: false, errors: result.errors }, status: 422
       else
         # persist customer locally
-
         customer = Payment::BraintreeCustomer.find_or_initialize_by(email: user[:email])
         customer.update(
           default_payment_method_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
           first_name: user[:firstname] || user[:name],
-          last_name: user[:last_name]
+          last_name: user[:last_name],
+          card_last_4: result.customer.payment_methods.first.last_4
         )
-
         result
       end
     end

@@ -84,7 +84,7 @@ describe "Braintree API" do
           expect(transaction.transaction_id).to eq(body[:transaction_id])
           expect(transaction.transaction_type).to eq('sale')
           expect(transaction.amount).to eq('100.0')
-          expect(transaction.merchant_account_id).to eq('sumofus')
+          expect(transaction.merchant_account_id).to eq('USD')
           expect(transaction.currency).to eq('USD')
         end
 
