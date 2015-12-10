@@ -70,6 +70,8 @@ describe "Braintree API" do
     end
 
     context "successful" do
+      subject { Payment::BraintreeTransaction.first }
+
       context "one off" do
         before do
           VCR.use_cassette("transaction_success") do
@@ -82,12 +84,15 @@ describe "Braintree API" do
         end
 
         it 'records transaction to store' do
-          transaction = Payment::BraintreeTransaction.first
-          expect(transaction.transaction_id).to eq(body[:transaction_id])
-          expect(transaction.transaction_type).to eq('sale')
-          expect(transaction.amount).to eq('100.0')
-          expect(transaction.merchant_account_id).to eq('USD')
-          expect(transaction.currency).to eq('USD')
+          expect(subject.transaction_id).to eq(body[:transaction_id])
+          expect(subject.transaction_type).to eq('sale')
+          expect(subject.amount).to eq('100.0')
+          expect(subject.merchant_account_id).to eq('USD')
+          expect(subject.currency).to eq('USD')
+        end
+
+        it 'associates it with originating page' do
+          expect(subject.page).to eq(page)
         end
 
         context 'customer' do
