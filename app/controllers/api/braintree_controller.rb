@@ -63,10 +63,21 @@ class Api::BraintreeController < ApplicationController
           customer_id: result.customer.id,
           first_name: user[:firstname] || user[:name],
           last_name: user[:last_name],
-          card_last_4: result.customer.payment_methods.first.last_4
+          card_last_4: get_card_digits(result)
         )
         result
       end
+    end
+  end
+
+  def get_card_digits(braintree_response)
+    # If the subscription was a PayPal payment, it has no card number and a dummy number will be used instead,
+    # since it's a required field in the ActionKit API.
+    if braintree_response.customer.payment_methods.first.class==Braintree::PayPalAccount
+      '1111'
+    # else just return the four digits
+    else
+      braintree_response.customer.payment_methods.first.last_4
     end
   end
 

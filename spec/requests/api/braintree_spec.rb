@@ -53,6 +53,15 @@ describe "Braintree API" do
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
     end
+
+    it 'successfully subscribes a user with PayPal' do
+      VCR.use_cassette('braintree_subscription_paypal') do
+        post_subscription(user: { email: 'foo_paypal@example.com'}, payment_method_nonce: 'fake-paypal-future-nonce')
+        expect(body[:success]).to be true
+        expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+        (expect Payment.customer('foo_paypal@example.com').card_last_4.to_i).to be 1111
+      end
+    end
   end
 
   describe "making a transaction" do

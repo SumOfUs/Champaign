@@ -1,0 +1,156 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <customer>
+          <email>foo_paypal@example.com</email>
+          <first-name nil="true"/>
+          <last-name nil="true"/>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+        </customer>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 09 Dec 2015 23:28:58 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"183f83435f8cff840c1a334e67dfc3d0"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - bb5a5fb3a002015273743a5a25a264d1
+      X-Runtime:
+      - '0.795380'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIADq5aFYAA6RTy3LiMBC88xUu32WBEyigbJPTfkH2shdqbI1tZfVwSXLA
+        +fqVH0CCyWErx+nu0Yx6ZpLDWYrgHY3lWqXhKlqGAapCM66qNPz9+otsw0O2
+        SIrWOi3RZIsgSDjL1s+bzfN2EyfUBz3muaIG5YiPN6rKT3Xn8tp87D5ik9DP
+        bK8uubGOKJAYKC7S0JkWQzpQAr5jCi0bUN0MRwlcZKXWxwa6BsQLnkE2AiOf
+        kNCR7XVNrdX81RLOM+yEueXuQQcGwSEj4ALXNZiGzIeOSwyzeLlak1VMlrvX
+        +Gkfb/fr7Z+E3hKG/LZh/5d/SxjrD1MgJUfB7LUlxh0pwDA7PQrGQDd1PDpC
+        oCh0q9xXRS+YSUbQwzkXwi8BgcogShxmd2/IIPyhKeMb03qRL6v1Gb0oGZbQ
+        ikupXGuBoMKs7ymhE3kVj7N/A4UR0/jNXgxKLqFC0hqR1c41dk8pWIvORrkB
+        rpy3oPI9n6Drk6m3rHfkKNHVmh2FrjQdbYwaVR1QvXOjVS9JLSiW67O/k2uF
+        S03b5rYwvHH+9B7MbtA4/RdVtpPbt9IbMkYX7ofbNP7bkv4wFQrCFXe85++9
+        LUFYb+4j6bRCdL5D95gdQGDMoDd29t3bsLPFPwAAAP//AwAczAMelAQAAA==
+    http_version: 
+  recorded_at: Wed, 09 Dec 2015 23:28:58 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/subscriptions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <subscription>
+          <payment-method-token>9m8jf2</payment-method-token>
+          <plan-id>subscription_USD</plan-id>
+          <price>0.0</price>
+          <merchant-account-id>USD</merchant-account-id>
+        </subscription>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Wed, 09 Dec 2015 23:33:14 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"3d58d57ef11f9d2d857eb00628275a42"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 780568325c960660b948486562f167a2
+      X-Runtime:
+      - '0.696425'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIADq6aFYAA5RVTXPbIBC951dodCeS7KYTZ2Rl2mn7B5pceulgCVu0AjQL
+        ZOx/3wVk2ZJwJr3B7nuP/QLK56PokjcGmiu5TYv7PE2YrFXD5WGbvr78II/p
+        c3VXarvTNfDeIKy6S5KSNg1RUifm1LNtSgHoKc28Z0c7KmtW5fd5Xmbnnffw
+        rkNd0tATUXsilDTtIMClYQcGabVBSgQ24fcMuGoIkw1iDBsk3DKtVnnxmeQF
+        yR8vQjN8TEsbCiaq9kCKFck3C7ULw+vVwHDZEGquBAwXE5GX1fppvX4qPv0q
+        swvB823f/B//QgjnWwAmDTlHWZ/qjs2LW+CxMZxXwHJr0lONSVmWSN5tUwOW
+        DV1tuK6VlSbW8T3lnQVGPGB+Js7AxB8YHPQlhnfLvoR6Bd5Ua3jQRygzXDqL
+        YFC3FFOjtT+IoP3157cyizkcQTKce8KOPQd2TmunVMeoTCuXeplNIAPpGKIh
+        VPh0wpgvzBPs1djEWUvAgn970jczobFG0oodho93aNJtvWhuT3lDTAvKHtr3
+        r9QCOfBPwg2VYKbFFIz6y2S1EY9/9itHiTg9C18G14vrt+W379jZ41HAx8ck
+        rJ0Vb5+xuvpSG/6GfRq2zmOA0w5HGKjTW6Q6dRMrubmBCf2Yz8WedhoPvIaE
+        +8FCDgrc1hWfisUtcum0SsbsFrpFHNlUFOOiUtPaBR67hqEIpOUaCacJYDhk
+        QOBQhwnzRvfIoEP0H3x4RvyocLMZITPNoPqOnfuq8JsRFJ8uZxnJV90nWlnA
+        DtOeo0zEcSbd/GNCjWMj4+o5z3+0DDXDjy6b/nT/AAAA//8DAMVRqG4gBwAA
+    http_version: 
+  recorded_at: Wed, 09 Dec 2015 23:33:14 GMT
+recorded_with: VCR 3.0.0
