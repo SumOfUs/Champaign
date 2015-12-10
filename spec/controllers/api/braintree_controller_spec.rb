@@ -14,6 +14,9 @@ describe Api::BraintreeController do
   }
   end
 
+  let(:page) { instance_double("Page") }
+
+
   # endpoint /api/braintree/token
   #
   describe "GET token" do
@@ -70,6 +73,11 @@ describe Api::BraintreeController do
   end
 
   describe "POST transaction" do
+    before do
+      allow(Payment).to receive(:write_transaction)
+      allow(Page).to receive(:find){ page }
+    end
+
     context "valid transaction" do
       let(:sale_object){ double(:sale, success?: true, transaction: double(id: '1234')) }
 
@@ -83,12 +91,16 @@ describe Api::BraintreeController do
           nonce: 'fake-valid-nonce',
           amount: 100,
           currency: 'EUR',
-          user: params[:user],
-          store: Payment
+          user: params[:user]
         }
 
         expect(PaymentProcessor::Clients::Braintree::Transaction).to have_received(:make_transaction).
           with( expected_arguments )
+      end
+
+      it 'stores transaction' do
+        expect(Payment).to(
+          have_received(:write_transaction).with({page: page, transaction: sale_object}))
       end
 
       it 'responds with JSON' do

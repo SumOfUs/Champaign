@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe "Braintree API" do
 
+  let(:page) { create(:page) }
+
   before do
     Settings.merge!(braintree: {
       merchants: {
@@ -13,7 +15,7 @@ describe "Braintree API" do
   end
 
   def post_transaction(opts = {})
-    post '/api/braintree/pages/1/transaction', {
+    post "/api/braintree/pages/#{page.id}/transaction", {
       currency: :USD,
       payment_method_nonce: 'fake-valid-nonce',
       amount: 100.00,
@@ -23,7 +25,7 @@ describe "Braintree API" do
   end
 
   def post_subscription(opts = {})
-    post '/api/braintree/pages/1/subscription', {
+    post "/api/braintree/pages/#{page.id}/subscription", {
       user: { email: customer.email }, price: '100.00', currency: :USD
     }.merge(opts)
   end

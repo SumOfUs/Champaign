@@ -15,22 +15,19 @@ module PaymentProcessor
         # * +:nonce+  - Braintree token that references a payment method provided by the client
         # * +:amount+ - Billing amount
         # * +:user+   - Hash of information describing the customer. Must include email, and name
-        # * +:store+  - Class/Module which responds to +.write_transaction+. Should handle storing the transaction
         #
-        def self.make_transaction(nonce:, amount:, currency:, user:, store: nil)
-          new(nonce, amount, currency, user, store).sale
+        def self.make_transaction(nonce:, amount:, currency:, user:)
+          new(nonce, amount, currency, user).sale
         end
 
-        def initialize(nonce, amount, currency, user, store)
+        def initialize(nonce, amount, currency, user)
           @amount = amount
           @nonce = nonce
           @user = user
-          @store = store
           @currency = currency
         end
 
         def sale
-          store_transaction if @store
           transaction
         end
 
@@ -39,10 +36,6 @@ module PaymentProcessor
         end
 
         private
-
-        def store_transaction
-          @store.write_transaction(transaction: transaction, provider: :braintree )
-        end
 
         def customer
           @customer ||= @store ? @store.customer(@user[:email]) : nil

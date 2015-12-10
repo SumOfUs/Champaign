@@ -4,8 +4,8 @@ module Payment
       'payment_'
     end
 
-    def write_transaction(transaction:, provider: :braintree)
-      BraintreeTransactionBuilder.build(transaction)
+    def write_transaction(page:, transaction:, provider: :braintree)
+      BraintreeTransactionBuilder.build(page, transaction)
     end
 
     def write_subscription(subscription:, provider: :braintree)
@@ -45,11 +45,12 @@ module Payment
 
   class BraintreeTransactionBuilder
 
-    def self.build(transaction)
-      new(transaction).build
+    def self.build(page, transaction)
+      new(page, transaction).build
     end
 
-    def initialize(transaction)
+    def initialize(page, transaction)
+      @page = page
       @transaction = transaction
     end
 
