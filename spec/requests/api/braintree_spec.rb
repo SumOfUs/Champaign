@@ -79,8 +79,30 @@ describe "Braintree API" do
           end
         end
 
-        it 'returns transaction_id' do
+        it 'returns a transaction_id' do
           expect(body[:transaction_id]).to match(/[a-z0-9]{6}/)
+        end
+
+        it 'creates an action' do
+          expect(Action.first.page).to eq(page)
+        end
+
+        it 'creates a member' do
+          expect(Member.first.email).to eq('foo@example.com')
+        end
+
+        describe 'transaction associations' do
+          it 'with originating page' do
+            expect(subject.page).to eq(page)
+          end
+
+          it 'with member' do
+            expect(subject.member).to eq(Member.first)
+          end
+
+          it 'with action' do
+            expect(subject.action).to eq(Action.first)
+          end
         end
 
         it 'records transaction to store' do
@@ -89,10 +111,6 @@ describe "Braintree API" do
           expect(subject.amount).to eq('100.0')
           expect(subject.merchant_account_id).to eq('USD')
           expect(subject.currency).to eq('USD')
-        end
-
-        it 'associates it with originating page' do
-          expect(subject.page).to eq(page)
         end
 
         context 'customer' do
