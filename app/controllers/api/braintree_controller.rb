@@ -21,6 +21,7 @@ class Api::BraintreeController < ApplicationController
 
   def manage_transaction(params)
     result = braintree::Transaction.make_transaction(transaction_options)
+    ::Payment.write_transaction(page: page, transaction: result)
 
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
@@ -33,7 +34,6 @@ class Api::BraintreeController < ApplicationController
   def manage_subscription(params)
     find_or_create_user
     result = braintree::Subscription.make_subscription(subscription_options)
-
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
@@ -87,7 +87,7 @@ class Api::BraintreeController < ApplicationController
       amount: params[:amount].to_f,
       user: params[:user],
       currency: params[:currency],
-      store: Payment
+      customer: Payment.customer(params[:user][:email])
     }
   end
 
@@ -114,6 +114,10 @@ class Api::BraintreeController < ApplicationController
 
   def raise_unless_user_error(result)
     braintree::ErrorProcessing.new(result).process
+  end
+
+  def page
+    @page ||= Page.find(params[:page_id])
   end
 end
 

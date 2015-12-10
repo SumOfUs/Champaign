@@ -111,8 +111,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :braintree do
       get 'token'
-      post 'transaction'
-      post 'subscription'
+      post 'pages/:page_id/transaction',  action: 'transaction'
+      post 'pages/:page_id/subscription', action: 'subscription'
     end
 
     resources :pages do

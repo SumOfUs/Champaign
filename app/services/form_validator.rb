@@ -1,7 +1,7 @@
 class FormValidator
 
   def initialize(params)
-    @params = params
+    @params = params.symbolize_keys
   end
 
   def form

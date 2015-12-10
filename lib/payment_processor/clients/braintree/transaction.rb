@@ -12,25 +12,24 @@ module PaymentProcessor
         #
         # === Options
         #
-        # * +:nonce+  - Braintree token that references a payment method provided by the client
-        # * +:amount+ - Billing amount
-        # * +:user+   - Hash of information describing the customer. Must include email, and name
-        # * +:store+  - Class/Module which responds to +.write_transaction+. Should handle storing the transaction
+        # * +:nonce+    - Braintree token that references a payment method provided by the client (required)
+        # * +:amount+   - Billing amount (required)
+        # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
+        # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
         #
-        def self.make_transaction(nonce:, amount:, currency:, user:, store: nil)
-          new(nonce, amount, currency, user, store).sale
+        def self.make_transaction(nonce:, amount:, currency:, user:, customer: nil)
+          new(nonce, amount, currency, user, customer).sale
         end
 
-        def initialize(nonce, amount, currency, user, store)
+        def initialize(nonce, amount, currency, user, customer)
           @amount = amount
           @nonce = nonce
           @user = user
-          @store = store
           @currency = currency
+          @customer = customer
         end
 
         def sale
-          store_transaction if @store
           transaction
         end
 
@@ -39,14 +38,6 @@ module PaymentProcessor
         end
 
         private
-
-        def store_transaction
-          @store.write_transaction(transaction: transaction, provider: :braintree )
-        end
-
-        def customer
-          @customer ||= @store ? @store.customer(@user[:email]) : nil
-        end
 
         def options
           {
@@ -62,14 +53,14 @@ module PaymentProcessor
               last_name: @user[:last_name],
               email: @user[:email]
             }
-          }.tap{ |opts| opts[:customer_id] = customer.customer_id if customer }
+          }.tap{ |opts| opts[:customer_id] = @customer.customer_id if @customer }
         end
 
         # Don't store payment method in Braintree's vault if the
         # customer already exists.
         #
         def store_in_vault?
-          customer.nil?
+          @customer.nil?
         end
       end
     end
