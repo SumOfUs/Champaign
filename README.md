@@ -2,6 +2,8 @@
 
 Champaign is a digital campaigning platform built by SumOfUs. It is under development and currently offers very little functionality. If you're interested in collaborating on the project with us, have ideas or recommendations, please get in touch! 
 
+[![Circle CI](https://circleci.com/gh/SumOfUs/Champaign.svg?style=svg)](https://circleci.com/gh/SumOfUs/Champaign)
+
 ## Installation
 
 1. Install Docker - for detailed instructions, go [here](https://docs.docker.com/installation/).
@@ -39,4 +41,7 @@ Champaign is a digital campaigning platform built by SumOfUs. It is under develo
 8. Run the tests
   * `docker-compose run web rspec spec`
 
+## Running tests
 
+`bundle exec rspec spec` to run main suite of ruby tests
+`RAILS_ENV=test rake teaspoon` to run javascript tests
