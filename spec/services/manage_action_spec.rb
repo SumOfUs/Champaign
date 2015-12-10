@@ -7,7 +7,7 @@ describe ManageAction do
 
   let(:page) { create(:page) }
   let(:data) { { email: 'bob@example.com', page_id: page.id } }
-  let(:first_name) { { first_name: 'Bobtholomew' } }
+  let(:full_name) { { full_name: 'Bobtholomew Wurst' } }
   let(:extraneous) { { is_delta_shareholder: true, eye_color: 'hazel' } }
 
   before do
@@ -42,11 +42,11 @@ describe ManageAction do
       end
       
       it 'saves available fields to member' do
-        action = ManageAction.create(data.merge(first_name))
-        expect(action.member.first_name).to eq first_name[:first_name]
+        action = ManageAction.create(data.merge(full_name))
+        expect(action.member.full_name).to eq full_name[:full_name]
         expect(action.member.email).to eq data[:email]
         persisted = action.member.reload
-        expect(persisted.first_name).to eq first_name[:first_name]
+        expect(persisted.full_name).to eq full_name[:full_name]
         expect(persisted.email).to eq data[:email]
       end
 
@@ -57,8 +57,8 @@ describe ManageAction do
       end
 
       it 'saves available fields even with extraneous fields' do
-        action = ManageAction.create(data.merge(first_name).merge(extraneous) )
-        expect(action.member.reload.first_name).to eq first_name[:first_name]
+        action = ManageAction.create(data.merge(full_name).merge(extraneous) )
+        expect(action.member.reload.full_name).to eq full_name[:full_name]
         expect(action.member.reload.email).to eq data[:email]
       end
 
@@ -79,30 +79,30 @@ describe ManageAction do
       end
 
       it 'saves all new fields to member' do
-        action = ManageAction.create(data.merge(first_name))
-        expect(action.member.first_name).to eq first_name[:first_name]
-        expect(action.member.reload.first_name).to eq first_name[:first_name]
+        action = ManageAction.create(data.merge(full_name))
+        expect(action.member.full_name).to eq full_name[:full_name]
+        expect(action.member.reload.full_name).to eq full_name[:full_name]
         expect(action.member).to eq @existing.reload
       end
 
       it 'is not bothered by fields not saveable to member' do
-        action = ManageAction.create(data.merge(first_name).merge(extraneous))
-        expect(action.member.first_name).to eq first_name[:first_name]
-        expect(action.member.reload.first_name).to eq first_name[:first_name]
+        action = ManageAction.create(data.merge(full_name).merge(extraneous))
+        expect(action.member.full_name).to eq full_name[:full_name]
+        expect(action.member.reload.full_name).to eq full_name[:full_name]
       end
 
       it 'does not touch existing fields if not included' do
-        @existing.update_attributes(first_name: 'Bupkis')
-        action = ManageAction.create(data.merge(last_name: 'McBamgler'))
-        expect(action.member.first_name).to eq 'Bupkis'
-        expect(action.member.reload.first_name).to eq 'Bupkis'
+        @existing.update_attributes(full_name: 'Bupkis McBangler')
+        action = ManageAction.create(data.merge(city: 'New Orleans'))
+        expect(action.member.full_name).to eq 'Bupkis McBangler'
+        expect(action.member.reload.full_name).to eq 'Bupkis McBangler'
       end
 
       it 'does not overwrite existing fields with nil' do
-        @existing.update_attributes(first_name: 'Bupkis')
-        action = ManageAction.create(data.merge(first_name: nil))
-        expect(action.member.first_name).to eq 'Bupkis'
-        expect(action.member.reload.first_name).to eq 'Bupkis'
+        @existing.update_attributes(full_name: 'Bupkis McBangler')
+        action = ManageAction.create(data.merge(full_name: nil))
+        expect(action.member.full_name).to eq 'Bupkis McBangler'
+        expect(action.member.reload.full_name).to eq 'Bupkis McBangler'
       end
 
       it 'does not create an Member if sent an id parameter' do

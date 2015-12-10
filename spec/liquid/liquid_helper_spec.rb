@@ -14,13 +14,13 @@ describe LiquidHelper do
     end
 
     it 'gives email as welcome name if no name' do
-      au = create :member, first_name: nil, last_name: "", email: 'sup@dude.com'
+      au = create :member, full_name: "", email: 'sup@dude.com'
       expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq au.email
     end
 
     it 'gives first name and last name if available' do
-      au = create :member, first_name: 'big', last_name: "dog", email: 'sup@dude.com'
-      expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq 'big dog'
+      au = create :member, full_name: "big dog papi", email: 'sup@dude.com'
+      expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq 'big dog papi'
     end
   end
 

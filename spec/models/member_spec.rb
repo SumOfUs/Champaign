@@ -17,13 +17,14 @@ describe Member do
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :email }
   it { is_expected.to respond_to :country }
-  it { is_expected.to respond_to :first_name }
-  it { is_expected.to respond_to :last_name }
   it { is_expected.to respond_to :city }
   it { is_expected.to respond_to :postal }
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :address1 }
   it { is_expected.to respond_to :address2 }
+  it { is_expected.to respond_to :full_name }
+  it { is_expected.not_to respond_to :first_name }
+  it { is_expected.not_to respond_to :last_name }
 
   it { is_expected.to_not respond_to :postal_code }
 
