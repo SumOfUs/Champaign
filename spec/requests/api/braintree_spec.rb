@@ -13,7 +13,7 @@ describe "Braintree API" do
   end
 
   def post_transaction(opts = {})
-    post '/api/braintree/transaction', {
+    post '/api/braintree/pages/1/transaction', {
       currency: :USD,
       payment_method_nonce: 'fake-valid-nonce',
       amount: 100.00,
@@ -23,7 +23,7 @@ describe "Braintree API" do
   end
 
   def post_subscription(opts = {})
-    post '/api/braintree/subscription', {
+    post '/api/braintree/pages/1/subscription', {
       user: { email: customer.email }, price: '100.00', currency: :USD
     }.merge(opts)
   end
