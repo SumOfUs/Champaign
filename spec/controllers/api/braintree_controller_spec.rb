@@ -91,7 +91,8 @@ describe Api::BraintreeController do
           nonce: 'fake-valid-nonce',
           amount: 100,
           currency: 'EUR',
-          user: params[:user]
+          user: params[:user],
+          customer: nil
         }
 
         expect(PaymentProcessor::Clients::Braintree::Transaction).to have_received(:make_transaction).

@@ -75,7 +75,8 @@ class Api::BraintreeController < ApplicationController
       nonce: params[:payment_method_nonce],
       amount: params[:amount].to_f,
       user: params[:user],
-      currency: params[:currency]
+      currency: params[:currency],
+      customer: Payment.customer(params[:user][:email])
     }
   end
 

@@ -19,8 +19,7 @@ module PaymentProcessor
               nonce: 'a_nonce',
               amount: 100,
               currency: 'USD',
-              user: { email: "bob@example.com", name: 'foo' },
-              store: store
+              user: { email: "bob@example.com", name: 'foo' }
             }
           end
 
@@ -62,35 +61,16 @@ module PaymentProcessor
             subject.make_transaction(required_options)
           end
 
-          context 'with store' do
-            let(:store) { Payment }
-
-            before do
-              allow(Payment).to receive(:write_transaction)
-            end
-
-            it 'calls write_transaction on store' do
-              expected_arguments = {
-                transaction:  transaction,
-                provider:     :braintree
-              }
-
-              expect(Payment).to receive(:write_transaction).with(expected_arguments)
-              subject.make_transaction(required_options)
-            end
+          context 'with customer' do
+            let(:required_options_with_customer) { required_options.merge(customer: customer) }
+            let(:customer) { double(:customer, customer_id: '98') }
 
             context 'repeat transaction' do
-              let(:customer) { double(:customer, customer_id: '98') }
-
-              before do
-                allow(Payment).to receive(:customer){ customer }
-              end
-
               it 'passes customer_id to Braintree' do
                 expect(::Braintree::Transaction).to receive(:sale).
                   with( hash_including(customer_id: '98') )
 
-                subject.make_transaction(required_options)
+                subject.make_transaction(required_options_with_customer)
               end
             end
           end
