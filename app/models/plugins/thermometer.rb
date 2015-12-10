@@ -17,7 +17,7 @@ class Plugins::Thermometer < ActiveRecord::Base
     current_total / goal.to_f * 100
   end
 
-  def liquid_data
+  def liquid_data(supplemental_data={})
     attributes.merge(
       percentage: current_progress,
       remaining: number_with_delimiter(goal - current_total),
