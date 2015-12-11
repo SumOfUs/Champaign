@@ -1,5 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Payment::BraintreeCustomer, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Payment::BraintreeCustomer do
+
+  describe '#member' do
+
+  end
 end
