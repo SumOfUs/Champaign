@@ -76,6 +76,7 @@ describe Api::BraintreeController do
     before do
       allow(Payment).to receive(:write_transaction)
       allow(Page).to receive(:find){ page }
+      allow(ManageAction).to receive(:create)
     end
 
     context "valid transaction" do
@@ -102,6 +103,15 @@ describe Api::BraintreeController do
       it 'stores transaction' do
         expect(Payment).to(
           have_received(:write_transaction).with({page: page, transaction: sale_object}))
+      end
+
+      it 'creates action' do
+        expect(ManageAction).to have_received(:create).with({
+          first_name: 'George',
+          last_name:  'Orwell',
+          email:      'foo@example.com',
+          page_id:    '1'
+        })
       end
 
       it 'responds with JSON' do
