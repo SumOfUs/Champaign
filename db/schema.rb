@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151210132734) do
+ActiveRecord::Schema.define(version: 20151211000003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,11 +170,11 @@ ActiveRecord::Schema.define(version: 20151210132734) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -198,7 +198,7 @@ ActiveRecord::Schema.define(version: 20151210132734) do
     t.string   "cardholder_name"
     t.string   "card_debit"
     t.string   "card_last_4"
-    t.string   "card_vault_token"
+    t.string   "default_payment_method_token"
     t.string   "card_unqiue_number_identifier"
     t.string   "email"
     t.string   "first_name"
@@ -206,7 +206,10 @@ ActiveRecord::Schema.define(version: 20151210132734) do
     t.string   "customer_id"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
+    t.integer  "member_id"
   end
+
+  add_index "payment_braintree_customers", ["member_id"], name: "index_payment_braintree_customers_on_member_id", using: :btree
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
@@ -384,6 +387,7 @@ ActiveRecord::Schema.define(version: 20151210132734) do
   add_foreign_key "pages", "languages"
   add_foreign_key "pages", "liquid_layouts"
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
+  add_foreign_key "payment_braintree_customers", "members"
   add_foreign_key "payment_braintree_subscriptions", "pages"
   add_foreign_key "payment_braintree_transactions", "pages"
   add_foreign_key "plugins_actions", "forms"
