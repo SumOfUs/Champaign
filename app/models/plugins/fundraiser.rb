@@ -8,13 +8,10 @@ class Plugins::Fundraiser < ActiveRecord::Base
 
   def liquid_data(supplemental_data={})
     donation_band_name = ''
-    backup_id = nil
+    backup_id = donation_band.try(:id)
 
     if supplemental_data.has_key? :url_params
       donation_band_name = supplemental_data[:url_params][:donation_band]
-    end
-    if donation_band.present?
-      backup_id = donation_band.id
     end
 
     bands = Donations::BandFinder.find_band(donation_band_name, backup_id)
