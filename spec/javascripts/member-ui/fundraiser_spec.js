@@ -440,54 +440,45 @@ describe("Fundraiser", function() {
         expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
       });
 
-      describe('server responses', function(){
+      it('loads the follow-up url after success from the server', function(){
+        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+          [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
+        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        suite.server.respond();
+        expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
+      });
 
-        beforeEach(function(){
-          // these need sinon's responders to be cleared
-          suite.server.restore();
-          suite.server = sinon.fakeServer.create();
-        });
+      it('displays a generic validation error when server 500', function(){
+        expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
+        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+          [500, { "Content-Type": "application/json" }, 'Failure!' ]);
+        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        suite.server.respond();
+        expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
+        expect($('.fundraiser-bar__error-detail').length).to.equal(1);
+        expect($('.fundraiser-bar__error-detail').text()).to.equal("Our technical team has been notified. Please double check your info or try a different payment method.")
+      });
 
-        it('loads the follow-up url after success from the server', function(){
-          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
-            [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
-          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
-          suite.server.respond();
-          expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
-        });
+      it('shows a specific error for card decline', function(){
+        expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
+        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+          [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
+        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        suite.server.respond();
+        expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
+        expect($('.fundraiser-bar__error-detail').length).to.equal(1);
+        expect($('.fundraiser-bar__error-detail').text()).to.equal("Your card was declined by the payment processor. Please try a different payment method.")
+      });
 
-        it('displays a generic validation error when server 500', function(){
-          expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
-          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
-            [500, { "Content-Type": "application/json" }, 'Failure!' ]);
-          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
-          suite.server.respond();
-          expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
-          expect($('.fundraiser-bar__error-detail').length).to.equal(1);
-          expect($('.fundraiser-bar__error-detail').text()).to.equal("Our technical team has been notified. Please double check your info or try a different payment method.")
-        });
-
-        it('shows a specific error for card decline', function(){
-          expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
-          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
-            [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
-          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
-          suite.server.respond();
-          expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
-          expect($('.fundraiser-bar__error-detail').length).to.equal(1);
-          expect($('.fundraiser-bar__error-detail').text()).to.equal("Your card was declined by the payment processor. Please try a different payment method.")
-        });
-
-        it('shows the errors for any other error', function(){
-          expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
-          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
-            [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
-          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
-          suite.server.respond();
-          expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
-          expect($('.fundraiser-bar__error-detail').length).to.equal(2);
-          expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
-        });
+      it('shows the errors for any other error', function(){
+        expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
+        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+          [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
+        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        suite.server.respond();
+        expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
+        expect($('.fundraiser-bar__error-detail').length).to.equal(2);
+        expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
       });
     });
   });
