@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe ManageDonation do
-  # Because ManageDonation extends ManageAction, we won't re-test any of the logic that we didn't overwrite.
+describe ManageBraintreeDonation do
+  # Because ManageBraintreeDonation extends ManageAction, we won't re-test any of the logic that we didn't overwrite.
   # So the only thing to test here is that the parameter dictionary is built correctly and sent to the queue
   # correctly
 
@@ -42,6 +42,6 @@ describe ManageDonation do
 
   it 'creates the right kind of request' do
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
-    ManageDonation.create(full_donation_options)
+    ManageBraintreeDonation.create(full_donation_options)
   end
 end
