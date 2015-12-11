@@ -85,16 +85,8 @@ module Payment
 
     def customer_attrs
       {
-        card_type:        card.card_type,
-        card_bin:         card.bin,
-        cardholder_name:  card.cardholder_name,
-        card_debit:       card.debit,
-        card_last_4:      card.last_4,
         default_payment_method_token: card.token,
-        email:            customer_details.email,
-        first_name:       customer_details.first_name,
-        last_name:        customer_details.last_name,
-        customer_id:      customer_details.id
+        customer_id:                  customer_details.id,
       }
     end
 

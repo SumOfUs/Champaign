@@ -18,13 +18,14 @@ module PaymentProcessor
         # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
         #
         def self.make_transaction(nonce:, amount:, currency:, user:, customer: nil)
+          byebug
           new(nonce, amount, currency, user, customer).sale
         end
 
         def initialize(nonce, amount, currency, user, customer)
           @amount = amount
           @nonce = nonce
-          @user = user
+          @user = Member.find_by(email: user[:email])
           @currency = currency
           @customer = customer
         end
