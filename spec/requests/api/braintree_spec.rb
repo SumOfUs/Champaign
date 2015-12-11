@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe "Braintree API" do
 
+  let(:page) { create(:page) }
+
   before do
     Settings.merge!(braintree: {
       merchants: {
@@ -13,7 +15,7 @@ describe "Braintree API" do
   end
 
   def post_transaction(opts = {})
-    post '/api/braintree/transaction', {
+    post "/api/braintree/pages/#{page.id}/transaction", {
       currency: :USD,
       payment_method_nonce: 'fake-valid-nonce',
       amount: 100.00,
@@ -23,7 +25,7 @@ describe "Braintree API" do
   end
 
   def post_subscription(opts = {})
-    post '/api/braintree/subscription', {
+    post "/api/braintree/pages/#{page.id}/subscription", {
       user: { email: customer.email }, price: '100.00', currency: :USD
     }.merge(opts)
   end
@@ -33,7 +35,7 @@ describe "Braintree API" do
   end
 
   describe 'making a subscription' do
-    let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
+    let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', default_payment_method_token: '4y5dr6' )}
 
     context "successful subscription" do
       it 'creates subscription' do
@@ -53,6 +55,15 @@ describe "Braintree API" do
         expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
       end
     end
+
+    it 'successfully subscribes a user with PayPal' do
+      VCR.use_cassette('braintree_subscription_paypal') do
+        post_subscription(user: { email: 'foo_paypal@example.com'}, payment_method_nonce: 'fake-paypal-future-nonce')
+        expect(body[:success]).to be true
+        expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
+        (expect Payment.customer('foo_paypal@example.com').card_last_4.to_i).to be 1111
+      end
+    end
   end
 
   describe "making a transaction" do
@@ -68,6 +79,8 @@ describe "Braintree API" do
     end
 
     context "successful" do
+      subject { Payment::BraintreeTransaction.first }
+
       context "one off" do
         before do
           VCR.use_cassette("transaction_success") do
@@ -75,17 +88,38 @@ describe "Braintree API" do
           end
         end
 
-        it 'returns transaction_id' do
+        it 'returns a transaction_id' do
           expect(body[:transaction_id]).to match(/[a-z0-9]{6}/)
         end
 
+        it 'creates an action' do
+          expect(Action.first.page).to eq(page)
+        end
+
+        it 'creates a member' do
+          expect(Member.first.email).to eq('foo@example.com')
+        end
+
+        describe 'transaction associations' do
+          it 'with originating page' do
+            expect(subject.page).to eq(page)
+          end
+
+          it 'with member' do
+            expect(subject.member).to eq(Member.first)
+          end
+
+          it 'with action' do
+            expect(subject.action).to eq(Action.first)
+          end
+        end
+
         it 'records transaction to store' do
-          transaction = Payment::BraintreeTransaction.first
-          expect(transaction.transaction_id).to eq(body[:transaction_id])
-          expect(transaction.transaction_type).to eq('sale')
-          expect(transaction.amount).to eq('100.0')
-          expect(transaction.merchant_account_id).to eq('USD')
-          expect(transaction.currency).to eq('USD')
+          expect(subject.transaction_id).to eq(body[:transaction_id])
+          expect(subject.transaction_type).to eq('sale')
+          expect(subject.amount).to eq('100.0')
+          expect(subject.merchant_account_id).to eq('USD')
+          expect(subject.currency).to eq('USD')
         end
 
         context 'customer' do
@@ -94,7 +128,7 @@ describe "Braintree API" do
             expect(customer).to_not be nil
             expect(customer.email).to eq('foo@example.com')
             expect(customer.customer_id).to match(/\d{8}/)
-            expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+            expect(customer.default_payment_method_token).to match(/[a-z0-9]{6}/)
           end
         end
       end
@@ -114,7 +148,7 @@ describe "Braintree API" do
           expect(customer).to_not be nil
           expect(customer.email).to eq('foo@example.com')
           expect(customer.customer_id).to match(/\d{8}/)
-          expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          expect(customer.default_payment_method_token).to match(/[a-z0-9]{6}/)
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end

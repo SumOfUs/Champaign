@@ -21,6 +21,7 @@ class Api::BraintreeController < ApplicationController
 
   def manage_transaction(params)
     result = braintree::Transaction.make_transaction(transaction_options)
+    ::Payment.write_transaction(page: page, transaction: result)
 
     if result.success?
       render json: { success: true, transaction_id: result.transaction.id }
@@ -33,7 +34,6 @@ class Api::BraintreeController < ApplicationController
   def manage_subscription(params)
     find_or_create_user
     result = braintree::Subscription.make_subscription(subscription_options)
-
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
@@ -59,14 +59,25 @@ class Api::BraintreeController < ApplicationController
         # persist customer locally
         customer = Payment::BraintreeCustomer.find_or_initialize_by(email: user[:email])
         customer.update(
-          card_vault_token: result.customer.payment_methods.first.token,
+          default_payment_method_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
           first_name: user[:firstname] || user[:name],
           last_name: user[:last_name],
-          card_last_4: result.customer.payment_methods.first.last_4
+          card_last_4: get_card_digits(result)
         )
         result
       end
+    end
+  end
+
+  def get_card_digits(braintree_response)
+    # If the subscription was a PayPal payment, it has no card number and a dummy number will be used instead,
+    # since it's a required field in the ActionKit API.
+    if braintree_response.customer.payment_methods.first.class==Braintree::PayPalAccount
+      '1111'
+    # else just return the four digits
+    else
+      braintree_response.customer.payment_methods.first.last_4
     end
   end
 
@@ -76,7 +87,7 @@ class Api::BraintreeController < ApplicationController
       amount: params[:amount].to_f,
       user: params[:user],
       currency: params[:currency],
-      store: Payment
+      customer: Payment.customer(params[:user][:email])
     }
   end
 
@@ -94,11 +105,7 @@ class Api::BraintreeController < ApplicationController
   end
 
   def default_payment_method_token
-   local_customer.try(:card_vault_token)
-  end
-
-  def customer_id
-    local_customer.try(:card_vault_token)
+   local_customer.try(:default_payment_method_token)
   end
 
   def local_customer
@@ -107,6 +114,10 @@ class Api::BraintreeController < ApplicationController
 
   def raise_unless_user_error(result)
     braintree::ErrorProcessing.new(result).process
+  end
+
+  def page
+    @page ||= Page.find(params[:page_id])
   end
 end
 

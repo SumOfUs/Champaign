@@ -4,8 +4,8 @@ module Payment
       'payment_'
     end
 
-    def write_transaction(transaction:, provider: :braintree)
-      BraintreeTransactionBuilder.build(transaction)
+    def write_transaction(page:, transaction:, provider: :braintree)
+      BraintreeTransactionBuilder.build(page, transaction)
     end
 
     def write_subscription(subscription:, provider: :braintree)
@@ -45,17 +45,19 @@ module Payment
 
   class BraintreeTransactionBuilder
 
-    def self.build(transaction)
-      new(transaction).build
+    def self.build(page, transaction)
+      new(page, transaction).build
     end
 
-    def initialize(transaction)
+    def initialize(page, transaction)
+      @page = page
       @transaction = transaction
     end
 
     def build
       if @transaction.success?
         ::Payment::BraintreeTransaction.create(transaction_attrs)
+
 
         unless customer
           ::Payment::BraintreeCustomer.create(customer_attrs)
@@ -76,22 +78,15 @@ module Payment
         amount:                 sale.amount,
         transaction_created_at: sale.created_at,
         merchant_account_id:    sale.merchant_account_id,
-        currency:               sale.currency_iso_code
+        currency:               sale.currency_iso_code,
+        page:                   @page
       }
     end
 
     def customer_attrs
       {
-        card_type:        card.card_type,
-        card_bin:         card.bin,
-        cardholder_name:  card.cardholder_name,
-        card_debit:       card.debit,
-        card_last_4:      card.last_4,
-        card_vault_token: card.token,
-        email:            customer_details.email,
-        first_name:       customer_details.first_name,
-        last_name:        customer_details.last_name,
-        customer_id:      customer_details.id
+        default_payment_method_token: card.token,
+        customer_id:                  customer_details.id,
       }
     end
 
