@@ -31,8 +31,8 @@ class ManageBraintreeDonation
             payment_account: 'Default Import Stub'
         },
         order: {
-            amount: @braintree_result.amount,
-            card_num: @braintree_result.credit_card_details.last_4,
+            amount: @braintree_result.transaction.amount,
+            card_num: @braintree_result.transaction.credit_card_details.last_4,
             exp_date_month: expire_month,
             exp_date_year: expire_year
         },
@@ -52,6 +52,6 @@ class ManageBraintreeDonation
   end
 
   def split_expire_date
-    @split_date ||= @braintree_result.credit_card_details.expiration_date.split('/')
+    @split_date ||= @braintree_result.transaction.credit_card_details.expiration_date.split('/')
   end
 end
