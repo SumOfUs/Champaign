@@ -38,7 +38,7 @@ describe Plugins::Fundraiser do
 
     # The converted values of the second band.
     expected_converted_values = second_band.internationalize.to_json
-    serialized = fundraiser.liquid_data({url_params: {donation_band: 'Test Band'}})
+    serialized = fundraiser.liquid_data({donation_band: 'Test Band'})
     expect(serialized[:donation_bands]).to eq(expected_converted_values)
   end
 
