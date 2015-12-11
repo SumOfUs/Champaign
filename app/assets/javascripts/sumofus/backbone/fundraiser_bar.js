@@ -189,7 +189,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       amount: this.donationAmount,
       user: this.serializeUserForm(),
       currency: this.currency,
-      recurring: this.readRecurring()
+      recurring: this.readRecurring(),
+      page_id: $('.page_id').html()
     }).done(this.transactionSuccess()).error(this.transactionFailed());
   },
 

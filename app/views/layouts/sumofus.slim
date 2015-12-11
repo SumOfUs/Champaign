@@ -14,5 +14,7 @@ html
     = yield
 
     .mobile-indicator
-    - if current_user && @page.present?
-      = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
+    - if @page.present?
+      span.hidden.page_id = @page.id
+      - if current_user
+        = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
