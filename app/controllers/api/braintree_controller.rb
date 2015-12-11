@@ -25,7 +25,7 @@ class Api::BraintreeController < ApplicationController
 
     if result.success?
       begin
-        ManageBraintreeDonation.create(params: params, braintree_result: result )
+        ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result )
       rescue
         # There's a possibility that trying to create the donation on the queue is going to
         # error in some way, like missing member data. If that happens, we shouldn't fail on the user
