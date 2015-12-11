@@ -31,4 +31,15 @@ describe Plugins::Fundraiser do
     expect( fundraiser.liquid_data[:donation_bands]).to eq "null"
   end
 
+  it 'serializes a named donation band' do
+    allow(PaymentProcessor::Currency).to receive(:convert)
+    _ = create :donation_band # We create this because it would be the default if the named band wasn't found.
+    second_band = DonationBand.create!(name: 'Test Band', amounts: [100, 200])
+
+    # The converted values of the second band.
+    expected_converted_values = second_band.internationalize.to_json
+    serialized = fundraiser.liquid_data({url_params: {donation_band: 'Test Band'}})
+    expect(serialized[:donation_bands]).to eq(expected_converted_values)
+  end
+
 end
