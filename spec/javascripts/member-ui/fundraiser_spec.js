@@ -1,6 +1,6 @@
 //= require sumofus
 
-describe("fundraiser", function() {
+describe("Fundraiser", function() {
   var suite = this;
   suite.timeout(20000);
 
@@ -253,7 +253,7 @@ describe("fundraiser", function() {
     beforeEach(function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
-      suite.fundraiserBar = new window.FundraiserBar({ followUpUrl: suite.follow_up_url });
+      suite.fundraiserBar = new window.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
       sinon.stub(suite.fundraiserBar, 'redirectTo');
       suite.server.respond(); // respond to request for token
     });
@@ -418,7 +418,7 @@ describe("fundraiser", function() {
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
-        expect(request.url).to.eq("/api/braintree/transaction");
+        expect(request.url).to.eq("/api/braintree/pages/1/transaction");
 
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
       });
@@ -454,3 +454,5 @@ describe("fundraiser", function() {
     });
   });
 });
+
+

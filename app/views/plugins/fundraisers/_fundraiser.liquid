@@ -86,11 +86,12 @@
   <script type="text/javascript">
     $(document).ready(function(){
       var myFundraiserBar = new window.FundraiserBar({
-        followUpUrl: "{{ follow_up_url }}",
-        currency: "{{ guessed_currency }}",
-        donationBands: {{ plugins.fundraiser[ref].donation_bands }},
-        amount: {% if url_params['amount'] == blank %} 0 {% else %} {{ url_params['amount'] }}{% endif %},
-        outstandingFields: {{ plugins.fundraiser[ref].outstanding_fields.size }}
+        pageId:           "{{ id }}",
+        followUpUrl:      "{{ follow_up_url }}",
+        currency:         "{{ guessed_currency }}",
+        donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
+        amount:           {% if url_params['amount'] == blank %} 0 {% else %} {{ url_params['amount'] }}{% endif %},
+        outstandingFields:{{ plugins.fundraiser[ref].outstanding_fields.size }}
       });
     });
   </script>
