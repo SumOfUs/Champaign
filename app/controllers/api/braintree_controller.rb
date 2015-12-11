@@ -21,10 +21,10 @@ class Api::BraintreeController < ApplicationController
 
   def manage_transaction(params)
     result = braintree::Transaction.make_transaction(transaction_options)
-    Payment.write_transaction(page: page, transaction: result)
 
     if result.success?
       ManageAction.create( params[:user].merge(page_id: params[:page_id]) )
+      Payment.write_successful_transaction(page: page, transaction: result)
       render json: { success: true, transaction_id: result.transaction.id }
     else
       errors = raise_unless_user_error(result)

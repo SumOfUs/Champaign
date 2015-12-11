@@ -74,7 +74,7 @@ describe Api::BraintreeController do
 
   describe "POST transaction" do
     before do
-      allow(Payment).to receive(:write_transaction)
+      allow(Payment).to receive(:write_successful_transaction)
       allow(Page).to receive(:find){ page }
       allow(ManageAction).to receive(:create)
     end
@@ -102,7 +102,7 @@ describe Api::BraintreeController do
 
       it 'stores transaction' do
         expect(Payment).to(
-          have_received(:write_transaction).with({page: page, transaction: sale_object}))
+          have_received(:write_successful_transaction).with({page: page, transaction: sale_object}))
       end
 
       it 'creates action' do

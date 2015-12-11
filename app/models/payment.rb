@@ -4,8 +4,12 @@ module Payment
       'payment_'
     end
 
-    def write_transaction(page:, transaction:, provider: :braintree)
+    def write_successful_transaction(page:, transaction:, provider: :braintree)
       BraintreeTransactionBuilder.build(page, transaction)
+    end
+
+    def write_unsuccessful_transaction(page:, transaction:, provider: :braintree)
+      # TODO: Implement
     end
 
     def write_subscription(subscription:, provider: :braintree)
@@ -57,10 +61,9 @@ module Payment
     def build
       if @transaction.success?
         ::Payment::BraintreeTransaction.create(transaction_attrs)
-
-
         unless customer
-          ::Payment::BraintreeCustomer.create(customer_attrs)
+          new_customer = ::Payment::BraintreeCustomer.create(customer_attrs)
+          new_customer.member = Member.find_or_initialize_by(email: new_customer.email)
         end
       end
     end
@@ -91,7 +94,8 @@ module Payment
         card_debit:       card.debit,
         card_last_4:      card.last_4,
         card_vault_token: card.token,
-        customer_id:      customer_details.id
+        customer_id:      customer_details.id,
+        email:            customer_details.email
       }
     end
 
