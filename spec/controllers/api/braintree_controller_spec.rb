@@ -33,8 +33,7 @@ describe Api::BraintreeController do
         amount: '100',
         currency: 'EUR',
         user: {
-          first_name: 'George',
-          last_name: 'Orwell',
+          full_name: 'George Orwell',
           email:'foo@example.com'
         }
       }
@@ -77,8 +76,7 @@ describe Api::BraintreeController do
         amount: '100',
         currency: 'EUR',
         user: {
-          first_name: 'George',
-          last_name: 'Orwell',
+          full_name: 'George Orwell',
           email:'big@brother.com',
         }
       }
@@ -119,8 +117,7 @@ describe Api::BraintreeController do
         amount: '100',
         recurring: true,
         user: {
-          first_name: 'George',
-          last_name: 'Orwell',
+          full_name: 'George Orwell',
           email:'foo@example.com'
         }
       }
