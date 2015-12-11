@@ -121,7 +121,6 @@ describe "Braintree API" do
           it 'persists braintree customer' do
             customer = Payment::BraintreeCustomer.first
             expect(customer).to_not be nil
-            expect(customer.email).to eq('foo@example.com')
             expect(customer.customer_id).to match(/\d{8}/)
             expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
           end

@@ -91,9 +91,6 @@ module Payment
         card_debit:       card.debit,
         card_last_4:      card.last_4,
         card_vault_token: card.token,
-        email:            customer_details.email,
-        first_name:       customer_details.first_name,
-        last_name:        customer_details.last_name,
         customer_id:      customer_details.id
       }
     end
