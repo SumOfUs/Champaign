@@ -6,7 +6,7 @@ describe "Api Actions" do
   before do
     allow(Aws::SQS::Client).to receive(:new){ sqs_client }
     allow(sqs_client).to receive(:send_message)
-    Settings.ak_processor_url = nil
+    allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
   end
 
   describe "creating" do

@@ -5,12 +5,15 @@ module ChampaignQueue
   extend self
 
   def push(opts)
-    client.push(opts)
+    if Rails.env.production?
+      client.push(opts)
+    else
+      false
+    end
   end
 
   def client
-    return  Clients::Sqs if Rails.env.production?
-    Settings.ak_processor_url.nil? ? Clients::Sqs : Clients::Direct
+    Clients::Sqs
   end
 end
 
