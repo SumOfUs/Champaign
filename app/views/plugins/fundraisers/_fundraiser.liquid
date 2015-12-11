@@ -1,0 +1,99 @@
+{% if plugins.fundraiser[ref].active %}
+  <div class="fundraiser-bar fundraiser-bar--elevated fundraiser-bar--mobile-view--closed">
+    <div class="fundraiser-bar__content">
+      <div class="fundraiser-bar__top">
+        <div class="fundraiser-bar__mobile-ui">
+          <a class="fundraiser-bar__close-button">&#x2715;</a>
+        </div>
+        <h2>{{ plugins.fundraiser[ref].title }}</h2>
+        <div class="fundraiser-bar__steps">
+          <hr class="fundraiser-bar__step-connector" />
+          <div class="fundraiser-bar__step-label" data-step="1">
+            <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past">1</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--past fundraiser-bar__display-amount">Amount</div>
+          </div>
+          <div class="fundraiser-bar__step-label" data-step="2">
+            <div class="fundraiser-bar__step-number fundraiser-bar__step-number--current" data-step="2">2</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--current">Details</div>
+          </div>
+          <div class="fundraiser-bar__step-label" data-step="3">
+            <div class="fundraiser-bar__step-number fundraiser-bar__step-number--upcoming" data-step="3">3</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--upcoming">Payment</div>
+          </div>
+        </div>
+      </div>
+      <div class="fundraiser-bar__main form--big">
+        <div class="fundraiser-bar__step-panel" data-step="1">
+          <div class="fundraiser-bar__amount-buttons">
+          </div>
+          <input class="fundraiser-bar__custom-field" placeholder="Other" />
+          <div class="fundraiser-bar__switch-currency">
+            Values shown in <span class="fundraiser-bar__current-currency">USD</span>.
+            <a class="fundraiser-bar__engage-currency-switcher">Switch currency.</a>
+            <select class="fundraiser-bar__currency-selector" style="display: none;"></select>
+          </div>
+          <button class="fundraiser-bar__first-continue button" style="display:none;">
+            Proceed to details
+          </button>
+        </div>
+        <div class="fundraiser-bar__step-panel" data-step="2">
+          {% include 'Form',
+            cta: 'Proceed to payment',
+            form_id: plugins.fundraiser[ref].form_id,
+            form_url_postscript: '/validate',
+            outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
+            fields: plugins.fundraiser[ref].fields %}
+        </div>
+        <div class="fundraiser-bar__step-panel form--big" data-step="3">
+          <div class="fundraiser-bar__welcome-text hidden-irrelevant">
+            Welcome back, {{member.welcome_name}}! <br />
+            <a href="javascript:;" class=" fundraiser-bar__clear-form">Not you?</a>
+          </div>
+          <form action='/' id="hosted-fields">
+            <div class="form__group">
+              <div id="hosted-fields__paypal"></div>
+              <div class="hosted-fields__or">or</div>
+            </div>
+            <div class="form__group">
+              <div class="hosted-fields__host hosted-fields__number"></div>
+              <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
+            </div>
+            <div class="form__group form__group--half-width form__group--half-width--left">
+              <div class="hosted-fields__host hosted-fields__cvv"></div>
+            </div>
+            <div class="form__group form__group--half-width">
+              <div class="hosted-fields__host hosted-fields__expiration"></div>
+            </div>
+            <div class="form__group">
+              <hr class="fundraiser-bar__step-connector fundraiser-bar__step-connector--static" />
+              <label class="checkbox-label">
+                <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> Make my donation monthly
+              </label>
+            </div>
+            <button type="submit" class="button fundraiser-bar__submit-button">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fundraiser-bar__mobile-ui">
+    <div class="fundraiser-bar__mobile-ui__bottom-bar">
+      <button class="button fundraiser-bar__open-button">{{ plugins.fundraiser[ref].cta }}</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      var myFundraiserBar = new window.FundraiserBar({
+        pageId:           "{{ id }}",
+        followUpUrl:      "{{ follow_up_url }}",
+        currency:         "{{ guessed_currency }}",
+        donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
+        amount:           {% if url_params['amount'] == blank %} 0 {% else %} {{ url_params['amount'] }}{% endif %},
+        outstandingFields:{{ plugins.fundraiser[ref].outstanding_fields.size }}
+      });
+    });
+  </script>
+
+{% endif %}

@@ -16,6 +16,10 @@ gem 'countries'
 gem 'geocoder'
 gem 'browserify-rails'
 gem 'font-awesome-sass'
+gem 'money'
+gem 'google_currency'
+# Braintree as a payment processor
+gem 'braintree', '~> 2.54.0'
 
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
@@ -67,7 +71,7 @@ gem 'browser'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
 gem 'newrelic_rpm'
-gem 'puma'
+gem 'puma', '~> 2.15.3'
 gem 'typhoeus'
 
 # The Config gem is used as a way to easily access configuration variables without calling directly
@@ -84,6 +88,18 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'vcr'
+  gem 'teaspoon'
+  gem 'teaspoon-mocha'
+  gem 'magic_lamp'
+  gem 'phantomjs'
+  gem 'guard-rspec', require: false
+
+  # For Mac OS
+  # brew install terminal-notifier
+  gem 'terminal-notifier-guard'
+  gem 'spring-commands-rspec'
+
 end
 
 
@@ -114,5 +130,11 @@ source 'https://rails-assets.org' do
 
   # Cross browser rich text editor
   gem 'rails-assets-quill'
+
+  # braintree js
+  gem 'rails-assets-braintree-web'
+
+  # for js testing
+  gem 'rails-assets-chai-jquery'
 end
 

@@ -6,6 +6,10 @@ describe Plugins::Thermometer do
   let(:test_page) { Page.create! title: 'test page', action_count: starting_action_count, liquid_layout: liquid_layout }
   let(:thermometer) { Plugins::Thermometer.create! offset: 0, goal: 1000, page: test_page }
 
+  it "can accept random supplemental data to liquid_data method" do
+    expect{ thermometer.liquid_data({foo: 'bar'}) }.not_to raise_error
+  end
+
   it 'correctly returns the current total' do
     expect(thermometer.current_total).to eq(starting_action_count)
   end

@@ -1,9 +1,12 @@
 require 'rails_helper'
+require_relative 'shared_examples'
 
 describe Plugins::Action do
   let(:action) { create :plugins_action }
 
   subject{ action }
+
+  include_examples "plugin with form", :plugins_action
 
   it { is_expected.to be_valid }
   it { is_expected.to respond_to :description }
