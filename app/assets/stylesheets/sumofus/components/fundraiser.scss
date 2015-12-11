@@ -140,6 +140,28 @@
       font-size: 20px;
     }
   }
+  &__errors {
+    background: #fdd7d1;
+    width: 100%;
+    padding: 18px 26px;
+    margin: -26px -26px 20px;
+    border-top: 2px solid #f8492e;
+    border-bottom: 2px solid #f8492e;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  &__error-intro {
+    padding-left: 40px;
+    padding-bottom: 10px;
+    min-height: 30px;
+  }
+  .fa-exclamation-triangle {
+    position: absolute;
+    top: 21px;
+    left: 26px;
+    color: #f8492e;
+    font-size: 30px;
+  }
 }
 
 .hosted-fields {

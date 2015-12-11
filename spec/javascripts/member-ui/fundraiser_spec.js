@@ -20,6 +20,10 @@ describe("Fundraiser", function() {
     suite.server.respond();
   });
 
+  afterEach(function(){
+    suite.server.restore();
+  });
+
   describe('instantiation', function(){
 
     it('sets the default currency if currency passed', function(){
@@ -259,7 +263,6 @@ describe("Fundraiser", function() {
     });
 
     afterEach(function() {
-      suite.server.restore();
       suite.fundraiserBar.redirectTo.restore();
     });
 
@@ -410,10 +413,6 @@ describe("Fundraiser", function() {
         expect($button).to.have.class('button--disabled');
       });
 
-      xit('first makes a request to braintree', function(){
-        // I don't think we can test this without some serious iframe hackery
-      });
-
       it('sends the nonce to the server after receiving it from braintree', function(){
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         request = helpers.last(suite.server.requests);
@@ -434,13 +433,6 @@ describe("Fundraiser", function() {
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=true"]);
       });
 
-      it('loads the follow-up url after success from the server', function(){
-        suite.server.respondWith('POST', "/api/braintree/transaction", [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
-        suite.server.respond();
-        expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
-      });
-
       it('submits the currency and amount to the server', function(){
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         request = helpers.last(suite.server.requests);
@@ -448,8 +440,54 @@ describe("Fundraiser", function() {
         expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
       });
 
-      xit('displays validation errors passed back from the server', function(){
-        // it doesn't actually do this yet, spec is here as a reminder
+      describe('server responses', function(){
+
+        beforeEach(function(){
+          // these need sinon's responders to be cleared
+          suite.server.restore();
+          suite.server = sinon.fakeServer.create();
+        });
+
+        it('loads the follow-up url after success from the server', function(){
+          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+            [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
+          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+          suite.server.respond();
+          expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
+        });
+
+        it('displays a generic validation error when server 500', function(){
+          expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
+          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+            [500, { "Content-Type": "application/json" }, 'Failure!' ]);
+          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+          suite.server.respond();
+          expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
+          expect($('.fundraiser-bar__error-detail').length).to.equal(1);
+          expect($('.fundraiser-bar__error-detail').text()).to.equal("Our technical team has been notified. Please double check your info or try a different payment method.")
+        });
+
+        it('shows a specific error for card decline', function(){
+          expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
+          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+            [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
+          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+          suite.server.respond();
+          expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
+          expect($('.fundraiser-bar__error-detail').length).to.equal(1);
+          expect($('.fundraiser-bar__error-detail').text()).to.equal("Your card was declined by the payment processor. Please try a different payment method.")
+        });
+
+        it('shows the errors for any other error', function(){
+          expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
+          suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+            [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
+          suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+          suite.server.respond();
+          expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
+          expect($('.fundraiser-bar__error-detail').length).to.equal(2);
+          expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
+        });
       });
     });
   });

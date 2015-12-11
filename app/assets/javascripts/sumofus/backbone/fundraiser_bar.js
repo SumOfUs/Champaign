@@ -35,9 +35,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.initializeCurrency(options.currency, options.donationBands)
     this.initializeSticky();
     this.initializeBraintree();
+    this.handleFormErrors();
     this.changeStep(1);
     this.donationAmount = 0;
-    this.handleFormErrors();
     this.followUpUrl = options.followUpUrl;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
@@ -205,7 +205,23 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   transactionFailed () {
     return (data, status) => {
       this.enableButton();
-      console.error('Transaction failed', data);
+      let $errors = this.$('.fundraiser-bar__errors');
+      $errors.removeClass('hidden-closed');
+      $errors.find('.fundraiser-bar__error-detail').remove();
+      if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
+        var messages = _.map(data.responseJSON.errors, function(error){
+          if (error.declined) {
+            return "Your card was declined by the payment processor. Please try a different payment method."
+          } else {
+            return error.message;
+          }
+        });
+      } else {
+        var messages = ["Our technical team has been notified. Please double check your info or try a different payment method."];
+      }
+      _.each(messages, (error_message) => {
+        $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
+      });
     }
   },
 
@@ -223,6 +239,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   disableButton (e) {
+    this.$('.fundraiser-bar__errors').addClass('hidden-closed');
     this.$('.fundraiser-bar__submit-button').text('Processing...').addClass('button--disabled');
   },
 

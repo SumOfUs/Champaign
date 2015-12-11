@@ -85,6 +85,7 @@ module PaymentProcessor
 
         def processor_declined_error
           [{
+            declined: true,
             code: @response.transaction.processor_response_code,
             message: @response.transaction.processor_response_text
           }]
@@ -92,6 +93,7 @@ module PaymentProcessor
 
         def settlement_declined_error
           [{
+            declined: true,
             code: @response.transaction.processor_settlement_response_code,
             message: @response.transaction.processor_settlement_response_text
           }]
@@ -99,6 +101,7 @@ module PaymentProcessor
 
         def gateway_rejected_error
           [{
+            declined: true,
             code: '',
             message: @response.transaction.gateway_rejection_reason
           }]
