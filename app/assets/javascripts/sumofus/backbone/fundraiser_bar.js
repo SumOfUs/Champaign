@@ -29,6 +29,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    outstandingFields: the number of step 2 form fields that need to to be filled by the user
   //    donationBands: an object with three letter currency codes as keys
+  //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options) {
     this.initializeCurrency(options.currency, options.donationBands)
