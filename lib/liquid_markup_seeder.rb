@@ -50,7 +50,7 @@ module LiquidMarkupSeeder
 
   def sort_by_partial_count(paths)
     paths.sort_by do |path|
-      LiquidTagFinder.new(read(path)).plugin_names.size
+      LiquidTagFinder.new(read(path)).partial_names.size
     end
   end
 

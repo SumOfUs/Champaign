@@ -29,11 +29,11 @@ class PagesController < ApplicationController
   end
 
   def show
-    raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
-    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member)
-    @rendered = renderer.render
-    render :show, layout: 'sumofus'
+    render_liquid(@page.liquid_layout)
+  end
+
+  def follow_up
+    render_liquid(@page.secondary_liquid_layout)
   end
 
   def update
@@ -49,13 +49,15 @@ class PagesController < ApplicationController
     end
   end
 
-  def follow_up
-    renderer = LiquidRenderer.new(@page, layout: @page.secondary_liquid_layout)
+  private
+
+  def render_liquid(layout)
+    raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
+    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
+    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member, layout: layout, url_params: params)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
-
-  private
 
   def get_page
     @page = Page.find(params[:id])

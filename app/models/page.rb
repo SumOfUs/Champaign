@@ -40,7 +40,7 @@ class Page < ActiveRecord::Base
   def plugins
     Plugins.registered.map do |plugin_class|
       plugin_class.where(page_id: id).to_a
-    end.flatten
+    end.flatten.sort_by(&:created_at)
   end
 
   def shares

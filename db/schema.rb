@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151124153734) do
+ActiveRecord::Schema.define(version: 20151210231204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,13 @@ ActiveRecord::Schema.define(version: 20151124153734) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "active",     default: true
+  end
+
+  create_table "donation_bands", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "amounts",    default: [],              array: true
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "form_elements", force: :cascade do |t|
@@ -143,8 +150,6 @@ ActiveRecord::Schema.define(version: 20151124153734) do
   create_table "members", force: :cascade do |t|
     t.string   "email"
     t.string   "country"
-    t.string   "first_name"
-    t.string   "last_name"
     t.string   "city"
     t.string   "postal"
     t.string   "title"
@@ -153,6 +158,7 @@ ActiveRecord::Schema.define(version: 20151124153734) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "actionkit_user_id"
+    t.string   "full_name"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -164,7 +170,6 @@ ActiveRecord::Schema.define(version: 20151124153734) do
     t.datetime "updated_at"
     t.text     "compiled_html"
     t.text     "content",                    default: ""
-    t.boolean  "thermometer",                default: false
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
     t.string   "status",                     default: "pending"
@@ -186,6 +191,44 @@ ActiveRecord::Schema.define(version: 20151124153734) do
     t.integer "tag_id"
   end
 
+  create_table "payment_braintree_customers", force: :cascade do |t|
+    t.string   "card_type"
+    t.string   "card_bin"
+    t.string   "cardholder_name"
+    t.string   "card_debit"
+    t.string   "card_last_4"
+    t.string   "card_vault_token"
+    t.string   "card_unqiue_number_identifier"
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "customer_id"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  create_table "payment_braintree_subscriptions", force: :cascade do |t|
+    t.string   "subscription_id"
+    t.string   "price"
+    t.string   "merchant_account_id"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "payment_braintree_transactions", force: :cascade do |t|
+    t.string   "transaction_id"
+    t.string   "transaction_type"
+    t.string   "status"
+    t.string   "amount"
+    t.datetime "transaction_created_at"
+    t.string   "payment_method_token"
+    t.string   "customer_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "merchant_account_id"
+    t.string   "currency"
+  end
+
   create_table "plugins_actions", force: :cascade do |t|
     t.integer  "page_id"
     t.boolean  "active",      default: false
@@ -200,6 +243,21 @@ ActiveRecord::Schema.define(version: 20151124153734) do
 
   add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
   add_index "plugins_actions", ["page_id"], name: "index_plugins_actions_on_page_id", using: :btree
+
+  create_table "plugins_fundraisers", force: :cascade do |t|
+    t.string   "title"
+    t.string   "ref"
+    t.integer  "page_id"
+    t.boolean  "active",           default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "form_id"
+    t.integer  "donation_band_id"
+  end
+
+  add_index "plugins_fundraisers", ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id", using: :btree
+  add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
+  add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
 
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
@@ -322,6 +380,9 @@ ActiveRecord::Schema.define(version: 20151124153734) do
   add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
   add_foreign_key "plugins_actions", "forms"
   add_foreign_key "plugins_actions", "pages"
+  add_foreign_key "plugins_fundraisers", "donation_bands"
+  add_foreign_key "plugins_fundraisers", "forms"
+  add_foreign_key "plugins_fundraisers", "pages"
   add_foreign_key "plugins_thermometers", "pages"
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"

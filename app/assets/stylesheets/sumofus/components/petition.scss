@@ -1,6 +1,4 @@
-$action-top-height: 120px;
-
-.action-bar {
+.action-bar, .fundraiser-bar {
 
   color: $navy;
 
@@ -8,9 +6,6 @@ $action-top-height: 120px;
   position: relative;
   z-index: 600;
 
-  &--elevated {
-    top: -1 * $action-top-height;
-  }
   &__top {
     background: $overcast-gray;
     padding: $padding;
@@ -23,8 +18,10 @@ $action-top-height: 120px;
     padding: $padding;
 
     position: absolute;
-    top: $action-top-height;
     @include transition(top 0.4s ease-in-out);
+
+    width: 100%;
+    @include box-sizing(border-box);
   }
 
   &__content {
@@ -49,7 +46,6 @@ $action-top-height: 120px;
     float: left;
     font-size: 14px;
     line-height: 14px;
-    font-weight: bold;
     margin-bottom: 10px;
   }
 
@@ -110,7 +106,7 @@ $action-top-height: 120px;
       }
     }
 
-    .action-bar__content {
+    .action-bar__content, .fundraiser-bar__content {
       height: 100%;
       width: 100%;
       overflow-y: scroll;
@@ -148,11 +144,39 @@ $action-top-height: 120px;
   }
 }
 
+$action-top-height: 120px;
+$fundraiser-top-height: 156px;
+
+.action-bar {
+  &__main {
+    top: $action-top-height;
+  }
+  &--elevated {
+    top: -1 * $action-top-height;
+  }
+}
+.fundraiser-bar {
+  &__main {
+    top: $fundraiser-top-height;
+  }
+  &--elevated {
+    top: -1 * $fundraiser-top-height;
+  }
+  &__top {
+    padding-bottom: 20px;
+  }
+}
 .sticky-wrapper {
   position: relative;
-  top: $action-top-height * -1;
   @include transition(top 0.4s ease-in-out);
-  .action-bar--elevated {
+
+  &.action {
+    top: $action-top-height * -1;
+  }
+  &.fundraiser {
+    top: $fundraiser-top-height * -1;
+  }
+  .action-bar--elevated, .fundraiser-bar--elevated {
     @media(min-width: $mobile-width) {
       top: 0;
     }

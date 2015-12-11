@@ -1,0 +1,28 @@
+require 'rails_helper'
+
+module PaymentProcessor
+  module Clients
+    module Braintree
+      describe SubscriptionPlanSelector do
+        subject { described_class }
+
+        describe '.for_currency' do
+          context 'unmatched currency' do
+            it 'raises' do
+              expect{
+                subject.for_currency('VVZ')
+              }.to raise_error(Exceptions::InvalidCurrency, 'No merchant account is associated with this currency: VVZ')
+            end
+          end
+
+          context 'matched currency' do
+            it 'returns merchant account ID' do
+              expect( subject.for_currency('EUR') ).to eq('subscription_EUR')
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
