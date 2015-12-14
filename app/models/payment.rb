@@ -4,11 +4,11 @@ module Payment
       'payment_'
     end
 
-    def write_successful_transaction(action:, transaction:)
-      BraintreeTransactionBuilder.build(action, transaction)
+    def write_successful_transaction(action:, transaction_response:)
+      BraintreeTransactionBuilder.build(action, transaction_response)
     end
 
-    def write_unsuccessful_transaction(action:, transaction:)
+    def write_unsuccessful_transaction(action:, transaction_response:)
       # TODO: Implement
     end
 
@@ -48,29 +48,28 @@ module Payment
   end
 
   class BraintreeTransactionBuilder
-    # = BraintreeTransactionBuilder
     #
     # Stores and associates a Braintree transaction as +Payment::BraintreeTransaction+. Builder will also
     # create an instance of +Payment::BraintreeCustomer+, if it doesn't already exist.
     #
     # === Options
     #
-    # * +:action+        - The ActiveRecord model of the corresponding action.
-    # * +:transaction+   - An Braintree::Transaction response object (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    # * +:action+                 - The ActiveRecord model of the corresponding action.
+    # * +:transaction_response+   - An Braintree::Transaction response object (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
     #
 
-    def self.build(action, transaction)
-      new(action, transaction).build
+    def self.build(action, transaction_response)
+      new(action, transaction_response).build
     end
 
-    def initialize(action, transaction)
+    def initialize(action, transaction_response)
       @action = action
-      @transaction = transaction
+      @transaction_response = transaction_response
     end
 
 
     def build
-      if @transaction.success?
+      if @transaction_response.success?
         ::Payment::BraintreeTransaction.create(transaction_attrs)
 
         unless locally_stored_customer
@@ -91,13 +90,14 @@ module Payment
 
     def transaction_attrs
      {
-        transaction_id:         sale.id,
-        transaction_type:       sale.type,
-        amount:                 sale.amount,
-        transaction_created_at: sale.created_at,
-        merchant_account_id:    sale.merchant_account_id,
-        currency:               sale.currency_iso_code,
-        page:                   @action.page
+        transaction_id:          sale.id,
+        transaction_type:        sale.type,
+        payment_instrument_type: sale.payment_instrument_type,
+        amount:                  sale.amount,
+        transaction_created_at:  sale.created_at,
+        merchant_account_id:     sale.merchant_account_id,
+        currency:                sale.currency_iso_code,
+        page:                    @action.page
       }
     end
 
@@ -116,7 +116,7 @@ module Payment
     end
 
     def sale
-      @transaction.transaction
+      @transaction_response.transaction
     end
 
     def card
