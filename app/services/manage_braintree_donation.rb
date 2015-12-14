@@ -33,6 +33,7 @@ class ManageBraintreeDonation
         order: {
             amount: @braintree_result.transaction.amount,
             card_num: @braintree_result.transaction.credit_card_details.last_4,
+            card_code: '007',
             exp_date_month: expire_month,
             exp_date_year: expire_year
         },
