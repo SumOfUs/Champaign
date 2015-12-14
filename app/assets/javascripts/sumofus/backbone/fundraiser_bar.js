@@ -209,7 +209,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       $errors.removeClass('hidden-closed');
       $errors.find('.fundraiser-bar__error-detail').remove();
       if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
-        var messages = _.map(data.responseJSON.errors, function(error){
+        var messages = data.responseJSON.errors.map(function(error){
           if (error.declined) {
             return "Your card was declined by the payment processor. Please try a different payment method."
           } else {
