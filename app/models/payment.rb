@@ -48,6 +48,16 @@ module Payment
   end
 
   class BraintreeTransactionBuilder
+    # = BraintreeTransactionBuilder
+    #
+    # Stores and associates a Braintree transaction as +Payment::BraintreeTransaction+. Builder will also
+    # create an instance of +Payment::BraintreeCustomer+, if it doesn't already exist.
+    #
+    # === Options
+    #
+    # * +:action+        - The ActiveRecord model of the corresponding action.
+    # * +:transaction+   - An Braintree::Transaction response object (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    #
 
     def self.build(action, transaction)
       new(action, transaction).build
@@ -57,6 +67,7 @@ module Payment
       @action = action
       @transaction = transaction
     end
+
 
     def build
       if @transaction.success?
