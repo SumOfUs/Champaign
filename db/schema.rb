@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211172648) do
+ActiveRecord::Schema.define(version: 20151214155329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -230,11 +230,12 @@ ActiveRecord::Schema.define(version: 20151211172648) do
     t.datetime "transaction_created_at"
     t.string   "payment_method_token"
     t.string   "customer_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.string   "merchant_account_id"
     t.string   "currency"
     t.integer  "page_id"
+    t.string   "payment_instrument_type"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
