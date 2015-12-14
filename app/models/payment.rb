@@ -4,15 +4,15 @@ module Payment
       'payment_'
     end
 
-    def write_successful_transaction(action:, transaction:, provider: :braintree)
+    def write_successful_transaction(action:, transaction:)
       BraintreeTransactionBuilder.build(action, transaction)
     end
 
-    def write_unsuccessful_transaction(action:, transaction:, provider: :braintree)
+    def write_unsuccessful_transaction(action:, transaction:)
       # TODO: Implement
     end
 
-    def write_subscription(subscription:, provider: :braintree)
+    def write_subscription(subscription:)
       BraintreeSubscriptionBuilder.build(subscription)
     end
 
