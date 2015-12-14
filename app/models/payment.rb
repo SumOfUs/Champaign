@@ -100,15 +100,15 @@ module Payment
     end
 
     def sale
-      @sale ||= @transaction.transaction
+      @transaction.transaction
     end
 
     def card
-      @card ||= @sale.credit_card_details
+      @sale.credit_card_details
     end
 
     def customer_details
-      @customer ||= @sale.customer_details
+      @sale.customer_details
     end
   end
 end
