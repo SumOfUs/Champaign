@@ -101,7 +101,7 @@ describe Api::BraintreeController do
 
       it 'stores transaction' do
         expect(Payment).to(
-          have_received(:write_successful_transaction).with({action: action, transaction: sale_object}))
+          have_received(:write_successful_transaction).with({action: action, transaction_response: sale_object}))
       end
 
       it 'creates action' do
