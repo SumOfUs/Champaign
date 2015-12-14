@@ -173,6 +173,7 @@ describe "Braintree API" do
           expect(
             body[:errors].first
           ).to eq({
+            "declined"=> true,
             "code"    => "2100",
             "message" => "Processor Declined"
           })
@@ -185,6 +186,7 @@ describe "Braintree API" do
           expect(
             body[:errors].first
           ).to eq({
+            "declined"=> true,
             "code"    => '',
             "message" => "application_incomplete"
           })
