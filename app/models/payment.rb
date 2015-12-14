@@ -61,17 +61,21 @@ module Payment
     def build
       if @transaction.success?
         ::Payment::BraintreeTransaction.create(transaction_attrs)
-        unless customer
-          new_customer = ::Payment::BraintreeCustomer.create(customer_attrs)
-          new_customer.member = Member.find_or_initialize_by(email: new_customer.email)
+
+        unless locally_stored_customer
+          store_braintree_customer_locally
         end
       end
     end
 
     private
 
-    def customer
-      @customer ||= Payment.customer(customer_details.email)
+    def locally_stored_customer
+      @locally_stored_customer ||= Payment.customer(customer_details.email)
+    end
+
+    def store_braintree_customer_locally
+      Payment::BraintreeCustomer.create(customer_attrs)
     end
 
     def transaction_attrs
