@@ -60,7 +60,7 @@ class Api::BraintreeController < ApplicationController
         # persist customer locally
         customer = Payment::BraintreeCustomer.find_or_initialize_by(email: user[:email])
         customer.update(
-          card_vault_token: result.customer.payment_methods.first.token,
+          default_payment_method_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
           first_name: user[:firstname] || user[:name],
           last_name: user[:last_name],
@@ -95,13 +95,9 @@ class Api::BraintreeController < ApplicationController
   end
 
   def default_payment_method_token
-   local_customer.try(:card_vault_token)
+   local_customer.try(:default_payment_method_token)
   end
-
-  def customer_id
-    local_customer.try(:card_vault_token)
-  end
-
+  
   def local_customer
     @local_customer ||= ::Payment.customer(params[:user][:email])
   end
