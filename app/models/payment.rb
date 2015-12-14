@@ -4,11 +4,15 @@ module Payment
       'payment_'
     end
 
-    def write_transaction(page:, transaction:, provider: :braintree)
-      BraintreeTransactionBuilder.build(page, transaction)
+    def write_successful_transaction(action:, transaction_response:)
+      BraintreeTransactionBuilder.build(action, transaction_response)
     end
 
-    def write_subscription(subscription:, provider: :braintree)
+    def write_unsuccessful_transaction(action:, transaction_response:)
+      # TODO: Implement
+    end
+
+    def write_subscription(subscription:)
       BraintreeSubscriptionBuilder.build(subscription)
     end
 
@@ -44,42 +48,56 @@ module Payment
   end
 
   class BraintreeTransactionBuilder
+    #
+    # Stores and associates a Braintree transaction as +Payment::BraintreeTransaction+. Builder will also
+    # create an instance of +Payment::BraintreeCustomer+, if it doesn't already exist.
+    #
+    # === Options
+    #
+    # * +:action+                 - The ActiveRecord model of the corresponding action.
+    # * +:transaction_response+   - An Braintree::Transaction response object (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    #
 
-    def self.build(page, transaction)
-      new(page, transaction).build
+    def self.build(action, transaction_response)
+      new(action, transaction_response).build
     end
 
-    def initialize(page, transaction)
-      @page = page
-      @transaction = transaction
+    def initialize(action, transaction_response)
+      @action = action
+      @transaction_response = transaction_response
     end
+
 
     def build
-      if @transaction.success?
+      if @transaction_response.success?
         ::Payment::BraintreeTransaction.create(transaction_attrs)
 
-
-        unless customer
-          ::Payment::BraintreeCustomer.create(customer_attrs)
+        unless locally_stored_customer
+          store_braintree_customer_locally
         end
       end
     end
 
     private
 
-    def customer
-      @customer ||= Payment.customer(customer_details.email)
+    def locally_stored_customer
+      @locally_stored_customer ||= Payment.customer(customer_details.email)
+    end
+
+    def store_braintree_customer_locally
+      Payment::BraintreeCustomer.create(customer_attrs)
     end
 
     def transaction_attrs
      {
-        transaction_id:         sale.id,
-        transaction_type:       sale.type,
-        amount:                 sale.amount,
-        transaction_created_at: sale.created_at,
-        merchant_account_id:    sale.merchant_account_id,
-        currency:               sale.currency_iso_code,
-        page:                   @page
+        transaction_id:          sale.id,
+        transaction_type:        sale.type,
+        payment_instrument_type: sale.payment_instrument_type,
+        amount:                  sale.amount,
+        transaction_created_at:  sale.created_at,
+        merchant_account_id:     sale.merchant_account_id,
+        currency:                sale.currency_iso_code,
+        page:                    @action.page
       }
     end
 
@@ -91,20 +109,22 @@ module Payment
         card_debit:       card.debit,
         card_last_4:      card.last_4,
         card_vault_token: card.token,
-        customer_id:      customer_details.id
+        customer_id:      customer_details.id,
+        email:            customer_details.email,
+        member:           @action.member
       }
     end
 
     def sale
-      @sale ||= @transaction.transaction
+      @transaction_response.transaction
     end
 
     def card
-      @card ||= @sale.credit_card_details
+      sale.credit_card_details
     end
 
     def customer_details
-      @customer ||= @sale.customer_details
+      sale.customer_details
     end
   end
 end
