@@ -72,6 +72,18 @@ describe "Braintree API" do
     context "successful" do
       subject { Payment::BraintreeTransaction.first }
 
+
+      context "with paypal" do
+        it 'sets payment type' do
+          VCR.use_cassette("transaction_paypal_success") do
+            post_transaction( payment_method_nonce: 'fake-paypal-one-time-nonce' )
+          end
+
+          expect(subject.payment_instrument_type).to eq('paypal_account')
+        end
+
+      end
+
       context "one off" do
         before do
           VCR.use_cassette("transaction_success") do
@@ -118,11 +130,16 @@ describe "Braintree API" do
         end
 
         context 'customer' do
+          subject(:customer) { Payment::BraintreeCustomer.first }
+
           it 'persists braintree customer' do
-            customer = Payment::BraintreeCustomer.first
             expect(customer).to_not be nil
             expect(customer.customer_id).to match(/\d{8}/)
             expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          end
+
+          it 'associates with member' do
+            expect(customer.member).to eq(Member.first)
           end
         end
       end

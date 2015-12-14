@@ -15,7 +15,7 @@ module PaymentProcessor
 
         def subscribe
           subscription = ::Braintree::Subscription.create(options)
-          @store.write_subscription(subscription: subscription, provider: :braintree ) if @store
+          @store.write_subscription(subscription: subscription ) if @store
 
           subscription
         end

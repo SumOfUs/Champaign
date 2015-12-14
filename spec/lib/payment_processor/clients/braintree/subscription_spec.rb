@@ -62,12 +62,7 @@ module PaymentProcessor
             end
 
             it 'calls write_subscription on store' do
-              expected_arguments = {
-                subscription: subscription,
-                provider:     :braintree
-              }
-
-              expect(Payment).to receive(:write_subscription).with(expected_arguments)
+              expect(Payment).to receive(:write_subscription).with({subscription: subscription})
               subject.make_subscription(required_options)
             end
           end
