@@ -4,11 +4,11 @@ module Payment
       'payment_'
     end
 
-    def write_successful_transaction(page:, transaction:, provider: :braintree)
-      BraintreeTransactionBuilder.build(page, transaction)
+    def write_successful_transaction(action:, transaction:, provider: :braintree)
+      BraintreeTransactionBuilder.build(action, transaction)
     end
 
-    def write_unsuccessful_transaction(page:, transaction:, provider: :braintree)
+    def write_unsuccessful_transaction(action:, transaction:, provider: :braintree)
       # TODO: Implement
     end
 
@@ -49,12 +49,12 @@ module Payment
 
   class BraintreeTransactionBuilder
 
-    def self.build(page, transaction)
-      new(page, transaction).build
+    def self.build(action, transaction)
+      new(action, transaction).build
     end
 
-    def initialize(page, transaction)
-      @page = page
+    def initialize(action, transaction)
+      @action = action
       @transaction = transaction
     end
 
@@ -86,7 +86,7 @@ module Payment
         transaction_created_at: sale.created_at,
         merchant_account_id:    sale.merchant_account_id,
         currency:               sale.currency_iso_code,
-        page:                   @page
+        page:                   @action.page
       }
     end
 
@@ -99,7 +99,8 @@ module Payment
         card_last_4:      card.last_4,
         card_vault_token: card.token,
         customer_id:      customer_details.id,
-        email:            customer_details.email
+        email:            customer_details.email,
+        member:           @action.member
       }
     end
 
@@ -108,11 +109,11 @@ module Payment
     end
 
     def card
-      @sale.credit_card_details
+      sale.credit_card_details
     end
 
     def customer_details
-      @sale.customer_details
+      sale.customer_details
     end
   end
 end
