@@ -20,14 +20,14 @@ describe Payment do
 
     it 'requires a transaction' do
       expect{ Payment.write_successful_transaction }.to raise_error(
-        ArgumentError, 'missing keywords: page, transaction'
+        ArgumentError, 'missing keywords: action, transaction'
       )
     end
 
     it 'delegates to transaction builder' do
-      expect(Payment::BraintreeTransactionBuilder).to receive(:build).with('page', 'transaction')
+      expect(Payment::BraintreeTransactionBuilder).to receive(:build).with('action', 'transaction')
 
-      Payment.write_successful_transaction({page: 'page', transaction: 'transaction'})
+      Payment.write_successful_transaction({action: 'action', transaction: 'transaction'})
     end
   end
 
