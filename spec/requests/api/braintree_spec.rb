@@ -72,6 +72,18 @@ describe "Braintree API" do
     context "successful" do
       subject { Payment::BraintreeTransaction.first }
 
+
+      context "with paypal" do
+        it 'sets payment type' do
+          VCR.use_cassette("transaction_paypal_success") do
+            post_transaction( payment_method_nonce: 'fake-paypal-one-time-nonce' )
+          end
+
+          expect(subject.payment_instrument_type).to eq('paypal_account')
+        end
+
+      end
+
       context "one off" do
         before do
           VCR.use_cassette("transaction_success") do
