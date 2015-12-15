@@ -108,9 +108,8 @@ module Payment
         cardholder_name:  card.cardholder_name,
         card_debit:       card.debit,
         card_last_4:      card.last_4,
-        card_vault_token: card.token,
+        default_payment_method_token: card.token,
         customer_id:      customer_details.id,
-        email:            customer_details.email,
         member:           @action.member
       }
     end
