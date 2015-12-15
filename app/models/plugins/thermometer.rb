@@ -3,7 +3,7 @@ include ActionView::Helpers::NumberHelper
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page
 
-  DEFAULTS = { offset: 0, goal: 1000 }
+  DEFAULTS = { offset: 0, goal: 100 }
 
   validates :goal, :offset, presence: true
   validates :goal, :offset, numericality: { greater_than_or_equal_to: 0 }
@@ -22,7 +22,7 @@ class Plugins::Thermometer < ActiveRecord::Base
       percentage: current_progress,
       remaining: number_with_delimiter(goal - current_total),
       signatures: number_with_delimiter(current_total),
-      goal_k: "#{(goal / 1000).to_i}k"
+      goal_k: goal >= 1000 ? "#{(goal / 1000).to_i}k" : goal.to_s
     )
   end
 
@@ -65,8 +65,9 @@ class Plugins::Thermometer < ActiveRecord::Base
     # numbers. People tend to react better seeing 25000 as a target than something like 22500, even
     # if the latter is closer. So, this method defines a set of steps for the number to jump, based
     # on the given value.
-    # The view rounds to the nearest thousand for the target, so don't have jumps of under 1000.
     case
+    when count < 500
+      100
     when count < 10000
       1000
     when count < 25000
