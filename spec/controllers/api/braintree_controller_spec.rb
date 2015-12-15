@@ -76,7 +76,7 @@ describe Api::BraintreeController do
     before do
       allow(Payment).to receive(:write_successful_transaction)
       allow(Page).to receive(:find){ page }
-      allow(ManageBraintreeDonation).to receive(:create)
+      allow(ManageBraintreeDonation).to receive(:create) { action }
     end
 
     context "valid transaction" do
