@@ -17,7 +17,8 @@ module Payment
     end
 
     def customer(email)
-      Payment::BraintreeCustomer.find_by(email: email)
+      member = Member.find_by(email: email)
+      member.try(:customer)
     end
   end
 

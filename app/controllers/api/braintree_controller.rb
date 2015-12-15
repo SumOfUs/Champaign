@@ -53,12 +53,15 @@ class Api::BraintreeController < ApplicationController
         last_name: user[:last_name],
         payment_method_nonce: params[:payment_method_nonce]
       })
+
       if not result.success?
         # render customer creation failure json - it's pointless to continue if there's no user (subscription will fail)
         render json: { success: false, errors: result.errors }, status: 422
       else
         # persist customer locally
-        customer = Payment::BraintreeCustomer.find_or_initialize_by(email: user[:email])
+        action = ManageAction.create( params[:user].merge(page_id: params[:page_id]) )
+        customer = action.member.customer || Payment::BraintreeCustomer.find_or_initialize_by(member_id: action.member_id)
+
         customer.update(
           card_vault_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
@@ -96,10 +99,6 @@ class Api::BraintreeController < ApplicationController
 
   def default_payment_method_token
    local_customer.try(:card_vault_token)
-  end
-
-  def customer_id
-    local_customer.try(:card_vault_token)
   end
 
   def local_customer
