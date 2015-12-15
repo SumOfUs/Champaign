@@ -1,23 +1,23 @@
 {% if plugins.petition[ref].active %}
-  <div class="action-bar action-bar--elevated action-bar--mobile-view--closed">
-    <div class="action-bar__content">
-      <div class="action-bar__top">
-        <div class="action-bar__mobile-ui">
-          <a class="action-bar__close-button">&#x2715;</a>
+  <div class="petition-bar petition-bar--elevated petition-bar--mobile-view--closed">
+    <div class="petition-bar__content">
+      <div class="petition-bar__top">
+        <div class="petition-bar__mobile-ui">
+          <a class="petition-bar__close-button">&#x2715;</a>
         </div>
         <h2>Sign the petition</h2>
-        <div class="action-bar__target">
+        <div class="petition-bar__target">
           {% unless plugins.petition[ref].target == blank %}
             TO: {{ plugins.petition[ref].target }}
           {% endunless %}
         </div>
-        <p class="action-bar__petition-text">
+        <p class="petition-bar__petition-text">
           {{ plugins.petition[ref].description }}
         </p>
       </div>
-      <div class="action-bar__main">
-        <div class="action-bar__expand-arrow"></div>
-        <div class="action-bar__shading"></div>
+      <div class="petition-bar__main">
+        <div class="petition-bar__expand-arrow"></div>
+        <div class="petition-bar__shading"></div>
 
         <div class="mobile-hide">
           {% include 'Thermometer' %}
@@ -31,15 +31,15 @@
     </div>
   </div>
 
-  <div class="action-bar__mobile-ui">
-    <div class="action-bar__mobile-ui__bottom-bar">
-      <button class="button action-bar__open-button">{{ plugins.petition[ref].cta }}</button>
+  <div class="petition-bar__mobile-ui">
+    <div class="petition-bar__mobile-ui__bottom-bar">
+      <button class="button petition-bar__open-button">{{ plugins.petition[ref].cta }}</button>
     </div>
   </div>
 
   <script type="text/javascript">
     $(document).ready(function(){
-      var myActionBar = new window.ActionBar();
+      var myPetitionBar = new window.PetitionBar();
     });
   </script>
 {% endif %}

@@ -1,4 +1,4 @@
-.action-bar, .fundraiser-bar {
+.petition-bar, .fundraiser-bar {
 
   color: $navy;
 
@@ -95,18 +95,18 @@
     overflow-y: visible;
     background: $chalk-gray;
 
-    &.action-bar--mobile-view--closed {
+    &.petition-bar--mobile-view--closed {
       top: 2000px;
     }
-    &.action-bar--mobile-view--open {
+    &.petition-bar--mobile-view--open {
       top: 0;
 
-      .action-bar__mobile-ui__bottom-bar {
+      .petition-bar__mobile-ui__bottom-bar {
         bottom: -100px;
       }
     }
 
-    .action-bar__content, .fundraiser-bar__content {
+    .petition-bar__content, .fundraiser-bar__content {
       height: 100%;
       width: 100%;
       overflow-y: scroll;
@@ -144,15 +144,15 @@
   }
 }
 
-$action-top-height: 120px;
+$petition-top-height: 120px;
 $fundraiser-top-height: 156px;
 
-.action-bar {
+.petition-bar {
   &__main {
-    top: $action-top-height;
+    top: $petition-top-height;
   }
   &--elevated {
-    top: -1 * $action-top-height;
+    top: -1 * $petition-top-height;
   }
 }
 .fundraiser-bar {
@@ -170,13 +170,13 @@ $fundraiser-top-height: 156px;
   position: relative;
   @include transition(top 0.4s ease-in-out);
 
-  &.action {
-    top: $action-top-height * -1;
+  &.petition {
+    top: $petition-top-height * -1;
   }
   &.fundraiser {
     top: $fundraiser-top-height * -1;
   }
-  .action-bar--elevated, .fundraiser-bar--elevated {
+  .petition-bar--elevated, .fundraiser-bar--elevated {
     @media(min-width: $mobile-width) {
       top: 0;
     }

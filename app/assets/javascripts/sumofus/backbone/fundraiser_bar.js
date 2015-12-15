@@ -16,7 +16,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .fundraiser-bar__clear-form': 'showSecondStep',
-    'click .action-bar__clear-form': 'clearForm',
+    'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
