@@ -480,6 +480,34 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__error-detail').length).to.equal(2);
         expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
       });
+
+      it('grays out the paypal button once two digits of a card number are entered', function(){
+        $('.hosted-fields__number').text('4');
+        expect($('')).not.to.have.class('paypal--grayed-out');
+        $('.hosted-fields__number').text('4');
+        expect($('')).to.have.class('paypal--grayed-out');
+      });
+
+      it('restores color to the paypal button after the card digits are deleted', function(){
+        $('.hosted-fields__number').text('41');
+        expect($('')).to.have.class('paypal--grayed-out');
+        $('.hosted-fields__number').text('');
+        expect($('')).not.to.have.class('paypal--grayed-out');
+      });
+
+      it('hides the credit card field when paypal calls onSuccess', function(){
+        expect($()).not.to.have.css('display','none');
+        suite.fundraiserBar.braintreeSettings.paypal.onSuccess('fake-nonce', 'user@test.com');
+        expect($()).to.have.css('display','none');
+      });
+
+      it('shows the credit card fields when paypal canceled', function(){
+        suite.fundraiserBar.braintreeSettings.paypal.onSuccess('fake-nonce', 'user@test.com');
+        expect($()).to.have.css('display','none');
+        suite.fundraiserBar.braintreeSettings.paypal.onCancelled();
+        expect($()).not.to.have.css('display','none');
+      });
+
     });
   });
 });

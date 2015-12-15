@@ -1,3 +1,5 @@
+@import "compass/css3/filter";
+
 .fundraiser-bar {
   &__steps {
     position: relative;
@@ -194,12 +196,15 @@
     border-radius: 3px;
   }
   &__or {
-    margin: 8px auto 2px;
+    margin: 5px auto 8px;
     display: table;
     text-transform: uppercase;
     font-size: 14px;
     font-weight: bold;
     color: $slate-gray;
+  }
+  &__credit-card-fields {
+    float: left;
   }
 }
 #hosted-fields {
@@ -214,6 +219,14 @@
     img {
       width: 115px !important;
       margin: 0 auto;
+    }
+  }
+  .paypal--grayed-out {
+    #braintree-paypal-button, #braintree-paypal-button img {
+      @include filter(grayscale(100%));
+      &:hover, &:hover img {
+        @include filter(grayscale(0%));
+      }
     }
   }
   #bt-pp-cancel {
