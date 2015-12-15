@@ -1,4 +1,4 @@
-{% if plugins.action[ref].active %}
+{% if plugins.petition[ref].active %}
   <div class="action-bar action-bar--elevated action-bar--mobile-view--closed">
     <div class="action-bar__content">
       <div class="action-bar__top">
@@ -7,12 +7,12 @@
         </div>
         <h2>Sign the petition</h2>
         <div class="action-bar__target">
-          {% unless plugins.action[ref].target == blank %}
-            TO: {{ plugins.action[ref].target }}
+          {% unless plugins.petition[ref].target == blank %}
+            TO: {{ plugins.petition[ref].target }}
           {% endunless %}
         </div>
         <p class="action-bar__petition-text">
-          {{ plugins.action[ref].description }}
+          {{ plugins.petition[ref].description }}
         </p>
       </div>
       <div class="action-bar__main">
@@ -23,17 +23,17 @@
           {% include 'Thermometer' %}
         </div>
         {% include 'Form',
-          cta: plugins.action[ref].cta,
-          form_id: plugins.action[ref].form_id,
+          cta: plugins.petition[ref].cta,
+          form_id: plugins.petition[ref].form_id,
           outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
-          fields: plugins.action[ref].fields %}
+          fields: plugins.petition[ref].fields %}
       </div>
     </div>
   </div>
 
   <div class="action-bar__mobile-ui">
     <div class="action-bar__mobile-ui__bottom-bar">
-      <button class="button action-bar__open-button">{{ plugins.action[ref].cta }}</button>
+      <button class="button action-bar__open-button">{{ plugins.petition[ref].cta }}</button>
     </div>
   </div>
 

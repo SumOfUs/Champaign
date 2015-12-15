@@ -6,12 +6,12 @@ FactoryGirl.define do
 
     trait :default do
       title 'default'
-      content %{ {% include 'action' %} {% include 'thermometer' %} }
+      content %{ {% include 'petition' %} {% include 'thermometer' %} }
     end
 
-    trait :action do
-      title 'action template'
-      content %{ {% include 'action' %} }
+    trait :petition do
+      title 'petition template'
+      content %{ {% include 'petition' %} }
     end
 
     trait :thermometer do

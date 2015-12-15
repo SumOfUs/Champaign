@@ -170,7 +170,7 @@ en:
         body: "Email body"
 
   plugins:
-    action:
+    petition:
       action_description: "Petition Text"
       choose_form_template: "Use a form template"
       customise_form: "Customise your petition form"

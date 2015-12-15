@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151214155329) do
+ActiveRecord::Schema.define(version: 20151215173255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,21 +240,6 @@ ActiveRecord::Schema.define(version: 20151214155329) do
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
 
-  create_table "plugins_actions", force: :cascade do |t|
-    t.integer  "page_id"
-    t.boolean  "active",      default: false
-    t.integer  "form_id"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.text     "description"
-    t.string   "ref"
-    t.string   "target"
-    t.string   "cta"
-  end
-
-  add_index "plugins_actions", ["form_id"], name: "index_plugins_actions_on_form_id", using: :btree
-  add_index "plugins_actions", ["page_id"], name: "index_plugins_actions_on_page_id", using: :btree
-
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"
     t.string   "ref"
@@ -268,6 +253,21 @@ ActiveRecord::Schema.define(version: 20151214155329) do
 
   add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
   add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
+
+  create_table "plugins_petitions", force: :cascade do |t|
+    t.integer  "page_id"
+    t.boolean  "active",      default: false
+    t.integer  "form_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.text     "description"
+    t.string   "ref"
+    t.string   "target"
+    t.string   "cta"
+  end
+
+  add_index "plugins_petitions", ["form_id"], name: "index_plugins_petitions_on_form_id", using: :btree
+  add_index "plugins_petitions", ["page_id"], name: "index_plugins_petitions_on_page_id", using: :btree
 
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
@@ -391,11 +391,11 @@ ActiveRecord::Schema.define(version: 20151214155329) do
   add_foreign_key "payment_braintree_customers", "members"
   add_foreign_key "payment_braintree_subscriptions", "pages"
   add_foreign_key "payment_braintree_transactions", "pages"
-  add_foreign_key "plugins_actions", "forms"
-  add_foreign_key "plugins_actions", "pages"
   add_foreign_key "plugins_fundraisers", "donation_bands"
   add_foreign_key "plugins_fundraisers", "forms"
   add_foreign_key "plugins_fundraisers", "pages"
+  add_foreign_key "plugins_petitions", "forms"
+  add_foreign_key "plugins_petitions", "pages"
   add_foreign_key "plugins_thermometers", "pages"
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"

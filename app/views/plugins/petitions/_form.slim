@@ -1,11 +1,11 @@
 .row.plugin.action.collection-editor data-plugin-id=plugin.id
   .col-md-7
-    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_action_path(plugin) }
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_petition_path(plugin) }
 
     .well
-      h4  = t('plugins.action.action_description')
-      - name = "plugins_action_#{plugin.id}"
-      = form_for plugin, url: plugins_action_path(plugin), remote: true, as: name, html: { class: 'action one-form', data: {type: name } }  do |f|
+      h4  = t('plugins.petition.action_description')
+      - name = "plugins_petition_#{plugin.id}"
+      = form_for plugin, url: plugins_petition_path(plugin), remote: true, as: name, html: { class: 'action one-form', data: {type: name } }  do |f|
         = render 'plugins/shared/plugin_metadata', f: f
 
         .form-group
