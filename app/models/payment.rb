@@ -17,7 +17,8 @@ module Payment
     end
 
     def customer(email)
-      Payment::BraintreeCustomer.find_by(email: email)
+      member = Member.find_by(email: email)
+      member.try(:customer)
     end
   end
 
@@ -110,7 +111,6 @@ module Payment
         card_last_4:      card.last_4,
         card_vault_token: card.token,
         customer_id:      customer_details.id,
-        email:            customer_details.email,
         member:           @action.member
       }
     end

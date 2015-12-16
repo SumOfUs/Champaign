@@ -26,7 +26,8 @@ describe "Braintree API" do
 
   def post_subscription(opts = {})
     post "/api/braintree/pages/#{page.id}/subscription", {
-      user: { email: customer.email }, price: '100.00', currency: :USD
+      user: { email: customer.email }, price: '100.00', currency: :USD, payment_method_nonce: 'fake-valid-nonce',
+
     }.merge(opts)
   end
 
@@ -147,7 +148,7 @@ describe "Braintree API" do
       context 'recurring' do
         before do
           VCR.use_cassette("transaction_recurring_success") do
-            post_transaction(recurring: true, email: 'foo+1234example.com')
+            post_transaction(recurring: true)
           end
         end
 
@@ -157,8 +158,8 @@ describe "Braintree API" do
         it 'records transaction to store' do
           customer = Payment::BraintreeCustomer.first
           expect(customer).to_not be nil
-          expect(customer.email).to eq('foo@example.com')
           expect(customer.customer_id).to match(/\d{8}/)
+          expect(customer.member.email).to eq('foo@example.com')
           expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)

@@ -40,18 +40,19 @@ describe Api::BraintreeController do
   describe 'POST subscription' do
     context 'valid subscription' do
       let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
+      let(:member) { double(:member, customer: customer) }
       let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
       let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'xyz123')) }
 
       before do
-        allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
         allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription).and_return( subscription_object )
+        allow(Member).to receive(:find_by).and_return( member )
 
         post :subscription, params
       end
 
       it 'finds customer' do
-        expect(::Payment::BraintreeCustomer).to have_received(:find_by).with(email: 'foo@example.com')
+        expect(Member).to have_received(:find_by).with(email: 'foo@example.com')
       end
 
       it 'creates subscription' do
@@ -123,13 +124,14 @@ describe Api::BraintreeController do
 
     describe "valid transaction with recurring parameter" do
       let(:payment_method) { double(:default_payment_method, token: 'a1b2c3' ) }
+      let(:member)   { double(:member, customer: customer) }
       let(:customer) { double(:customer, email: 'foo@example.com', card_vault_token: 'a1b2c3') }
       let(:subscription_object) { double(:subscription_object, success?: true, subscription: double(id: 'kj2qnp')) }
 
       let(:params_with_recurring) { params.merge(recurring: true) }
 
       before do
-        allow(::Payment::BraintreeCustomer).to receive(:find_by).and_return( customer )
+        allow(Member).to receive(:find_by).and_return( member )
         allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription){ subscription_object }
 
         post :transaction, params_with_recurring

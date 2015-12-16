@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Payment do
   describe '.customer' do
     it 'returns customer with matching email' do
-      create(:payment_braintree_customer, email: "foo@example.com")
+      member = create(:member, email: 'foo@example.com')
+      create(:payment_braintree_customer, member: member)
 
       expect(
         Payment.customer('foo@example.com')
