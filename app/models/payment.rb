@@ -111,7 +111,6 @@ module Payment
         card_last_4:      card.last_4,
         card_vault_token: card.token,
         customer_id:      customer_details.id,
-        email:            customer_details.email,
         member:           @action.member
       }
     end
