@@ -18,6 +18,7 @@ gem 'browserify-rails'
 gem 'font-awesome-sass'
 gem 'money'
 gem 'google_currency'
+
 # Braintree as a payment processor
 gem 'braintree', '~> 2.54.0'
 
@@ -44,7 +45,6 @@ gem 'country_select'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
-gem 'sentry-raven'
 
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
