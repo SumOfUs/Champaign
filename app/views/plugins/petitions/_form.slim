@@ -1,0 +1,36 @@
+.row.plugin.petition.collection-editor data-plugin-id=plugin.id
+  .col-md-7
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_petition_path(plugin) }
+
+    .well
+      h4  = t('plugins.petition.petition_description')
+      - name = "plugins_petition_#{plugin.id}"
+      = form_for plugin, url: plugins_petition_path(plugin), remote: true, as: name, html: { class: 'petition one-form', data: {type: name } }  do |f|
+        = render 'plugins/shared/plugin_metadata', f: f
+
+        .form-group
+          = f.text_area :description, class: 'form-control'
+
+        .form-group
+          = f.label :target, "Petition target (optional)"
+          = f.text_field :target, class: 'form-control'
+
+        .form-group
+          = f.label :cta, "Call to Action"
+          = f.text_field :cta, class: 'form-control', placeholder: 'Sign the Petition'
+
+    .well
+      = render partial: 'plugins/shared/apply_form_template', locals: { plugin: plugin }
+
+    .well
+      = render partial: 'plugins/shared/customize_form', locals: { plugin: plugin }
+
+  .col-md-5
+    .plugin-form-preview
+      h4 Preview
+      .content
+        = render partial: 'plugins/shared/preview', locals: {plugin: plugin }
+
+javascript:
+  $.publish("collection:edit:loaded");
+  $.publish("plugin:form:loaded");

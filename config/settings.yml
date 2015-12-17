@@ -16,7 +16,6 @@
      secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
      omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
      omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
-#    raven_dsn: 'Data Source name for Raven Sentry client. See https://github.com/getsentry/raven-ruby for details.'
 #    oauth_domain_whitelist: 'If someone is trying to use Google OAuth to authenticate and the domain of their email address is in this list, they will be allowed.'
 
 
@@ -54,4 +53,10 @@
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
      facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
      share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+
+# Braintree connection information. Used for taking donations.
+     braintree:
+       # public_key: Set this based on your braintree integration information
+       # private_key: Set this based on your braintree integration information
+       # merchant_id: Set this based on your braintree integration information
 

@@ -89,5 +89,5 @@ RSpec.shared_context 'page_searcher_spec_data' do
            campaign: create(:campaign, name: 'a not very impactful test campaign')
     )
   }
-  let!(:plugin) { create(:plugins_action, page: content_tag_plugin_layout_match, active:true)}
+  let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active:true)}
 end

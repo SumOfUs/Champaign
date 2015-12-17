@@ -1,0 +1,2 @@
+module Plugins::PetitionsHelper
+end

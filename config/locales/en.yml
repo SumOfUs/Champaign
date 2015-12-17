@@ -32,6 +32,7 @@ en:
     featured: 'Featured'
     created: 'Date Created'
     modified: 'Date Modified'
+    amounts: 'Amounts'
 
   validation:
     is_required: 'is required'
@@ -50,6 +51,7 @@ en:
     login: 'Log in'
     sign_up: 'Sign up'
     sign_google: 'Sign in with Google'
+    donation_bands: 'Donation Bands'
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -168,8 +170,8 @@ en:
         body: "Email body"
 
   plugins:
-    action:
-      action_description: "Petition Text"
+    petition:
+      petition_description: "Petition Text"
       choose_form_template: "Use a form template"
       customise_form: "Customise your petition form"
       add_new_field: "Add a new field"
@@ -179,6 +181,8 @@ en:
       form_template_explanation: Choose and apply a template to replace the fields in your existing form.
     thermometer:
       offset: "Offset (number of fake signatures to add to true count)"
+    fundraiser:
+      donation_band: "Default Donation Band for unknown user:"
 
   ak_logs:
     index:
@@ -186,4 +190,25 @@ en:
 
   versions:
     shown_below: "There are %{count} versions of this %{model_name}, shown below."
+
+  donation_bands:
+    create:
+      notice: "Donation Band has been created."
+    update:
+      notice: "Donation Band has been updated."
+    destroy:
+      notice: "Donation Band has been deleted. Contact an admin if you would like to restore it."
+    new:
+      form:
+        name: "An easy name to remember this donation band by."
+        amounts: "Enter a list of numeric amounts in US Cents (100 per 1 dollar) separated by spaces."
+      title: "Create a new donation band."
+    show:
+      edit: "Edit donation band"
+      destroy: "Delete donation band"
+    index:
+      title: "Donation Bands"
+      new: "Create new donation band"
+    name: 'Name:'
+    amounts: 'Amounts:'
 

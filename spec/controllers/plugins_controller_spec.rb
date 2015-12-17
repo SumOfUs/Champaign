@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe PluginsController do
-  let(:plugin) { instance_double('Plugins::Action') }
+  let(:plugin) { instance_double('Plugins::Petition') }
   let(:page)   { instance_double('Page', id: 5) }
 
   before do

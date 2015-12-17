@@ -5,7 +5,6 @@
      omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
      omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
      liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'file' %>
-     raven_dsn: <%= ENV['RAVEN_DSN'] %>
      oauth_domain_whitelist:
        - 'sumofus.org'
 
@@ -39,3 +38,10 @@
 # Social media connection information.
      facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
      share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
+
+# Braintree
+     braintree:
+       merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
+       public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
+       private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
+
