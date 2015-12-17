@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>100.0</amount>
+          <payment-method-nonce>fake-paypal-one-time-nonce</payment-method-nonce>
+          <merchant-account-id>USD</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name nil="true"/>
+            <last-name nil="true"/>
+            <email>foo@example.com</email>
+          </customer>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Mon, 14 Dec 2015 15:33:09 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      X-Ua-Compatible:
+      - IE=Edge,chrome=1
+      Etag:
+      - '"5d24d1fd5e88069ee02bfcfbcd9d8f47"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 8a892c1810ef7d97e393d4895728cfa8
+      X-Runtime:
+      - '0.431941'
+      X-Frame-Options:
+      - SAMEORIGIN
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+        //8DAA3J8agwFwAA
+    http_version: 
+  recorded_at: Mon, 14 Dec 2015 15:38:13 GMT
+recorded_with: VCR 3.0.0

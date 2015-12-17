@@ -24,8 +24,8 @@ describe LiquidPartial do
     end
 
     it "with multiple references to the same plugin" do
-      partial.content = "<div>{{ plugins.actions[ref].text }}</div>
-                         <div>{{ plugins.actions[ref].wink }}</div>"
+      partial.content = "<div>{{ plugins.petition[ref].text }}</div>
+                         <div>{{ plugins.petition[ref].wink }}</div>"
     end
 
     it "with a reference to a partial that does exist" do
@@ -49,7 +49,7 @@ describe LiquidPartial do
     end
 
     it "with multiple references to different plugins" do
-      partial.content = "<div>{{ plugins.actions[ref].text }}</div>
+      partial.content = "<div>{{ plugins.petition[ref].text }}</div>
                          <div>{{ plugins.thermometer[ref].wink }}</div>"
     end
 

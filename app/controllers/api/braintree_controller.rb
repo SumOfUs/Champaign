@@ -23,6 +23,8 @@ class Api::BraintreeController < ApplicationController
     result = braintree::Transaction.make_transaction(transaction_options)
 
     if result.success?
+      action = ManageAction.create( params[:user].merge(page_id: params[:page_id]) )
+      Payment.write_successful_transaction(action: action, transaction_response: result)
       render json: { success: true, transaction_id: result.transaction.id }
     else
       errors = raise_unless_user_error(result)
@@ -33,7 +35,6 @@ class Api::BraintreeController < ApplicationController
   def manage_subscription(params)
     find_or_create_user
     result = braintree::Subscription.make_subscription(subscription_options)
-
     if result.success?
       render json: { success: true, subscription_id: result.subscription.id }
     else
@@ -51,12 +52,15 @@ class Api::BraintreeController < ApplicationController
         name: user[:name] || user[:full_name],
         payment_method_nonce: params[:payment_method_nonce]
       })
+
       if not result.success?
         # render customer creation failure json - it's pointless to continue if there's no user (subscription will fail)
         render json: { success: false, errors: result.errors }, status: 422
       else
         # persist customer locally
-        customer = Payment::BraintreeCustomer.find_or_initialize_by(email: user[:email])
+        action = ManageAction.create( params[:user].merge(page_id: params[:page_id]) )
+        customer = action.member.customer || Payment::BraintreeCustomer.find_or_initialize_by(member_id: action.member_id)
+
         customer.update(
           card_vault_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
@@ -74,7 +78,7 @@ class Api::BraintreeController < ApplicationController
       amount: params[:amount].to_f,
       user: params[:user],
       currency: params[:currency],
-      store: Payment
+      customer: Payment.customer(params[:user][:email])
     }
   end
 
@@ -95,16 +99,16 @@ class Api::BraintreeController < ApplicationController
    local_customer.try(:card_vault_token)
   end
 
-  def customer_id
-    local_customer.try(:card_vault_token)
-  end
-
   def local_customer
     @local_customer ||= ::Payment.customer(params[:user][:email])
   end
 
   def raise_unless_user_error(result)
     braintree::ErrorProcessing.new(result).process
+  end
+
+  def page
+    @page ||= Page.find(params[:page_id])
   end
 end
 

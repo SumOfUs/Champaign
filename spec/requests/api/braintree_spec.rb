@@ -2,6 +2,8 @@ require 'rails_helper'
 
 describe "Braintree API" do
 
+  let(:page) { create(:page) }
+
   before do
     Settings.merge!(braintree: {
       merchants: {
@@ -13,7 +15,7 @@ describe "Braintree API" do
   end
 
   def post_transaction(opts = {})
-    post '/api/braintree/transaction', {
+    post "/api/braintree/pages/#{page.id}/transaction", {
       currency: :USD,
       payment_method_nonce: 'fake-valid-nonce',
       amount: 100.00,
@@ -23,8 +25,9 @@ describe "Braintree API" do
   end
 
   def post_subscription(opts = {})
-    post '/api/braintree/subscription', {
-      user: { email: customer.email }, price: '100.00', currency: :USD
+    post "/api/braintree/pages/#{page.id}/subscription", {
+      user: { email: customer.email }, price: '100.00', currency: :USD, payment_method_nonce: 'fake-valid-nonce',
+
     }.merge(opts)
   end
 
@@ -68,6 +71,20 @@ describe "Braintree API" do
     end
 
     context "successful" do
+      subject { Payment::BraintreeTransaction.first }
+
+
+      context "with paypal" do
+        it 'sets payment type' do
+          VCR.use_cassette("transaction_paypal_success") do
+            post_transaction( payment_method_nonce: 'fake-paypal-one-time-nonce' )
+          end
+
+          expect(subject.payment_instrument_type).to eq('paypal_account')
+        end
+
+      end
+
       context "one off" do
         before do
           VCR.use_cassette("transaction_success") do
@@ -75,26 +92,55 @@ describe "Braintree API" do
           end
         end
 
-        it 'returns transaction_id' do
+        it 'returns a transaction_id' do
           expect(body[:transaction_id]).to match(/[a-z0-9]{6}/)
         end
 
+        it 'creates an action' do
+          expect(Action.first.page).to eq(page)
+        end
+
+        it 'creates a member' do
+          expect(Member.first.email).to eq('foo@example.com')
+        end
+
+        describe 'transaction associations' do
+          it 'with page' do
+            expect(subject.page).to eq(page)
+          end
+
+          it 'with customer' do
+            pending
+            fail
+            expect(subject.customer).to eq(Payment::BraintreeCustomer.first)
+          end
+
+          it 'with action' do
+            pending
+            fail
+            expect(subject.action).to eq(Action.first)
+          end
+        end
+
         it 'records transaction to store' do
-          transaction = Payment::BraintreeTransaction.first
-          expect(transaction.transaction_id).to eq(body[:transaction_id])
-          expect(transaction.transaction_type).to eq('sale')
-          expect(transaction.amount).to eq('100.0')
-          expect(transaction.merchant_account_id).to eq('USD')
-          expect(transaction.currency).to eq('USD')
+          expect(subject.transaction_id).to eq(body[:transaction_id])
+          expect(subject.transaction_type).to eq('sale')
+          expect(subject.amount).to eq('100.0')
+          expect(subject.merchant_account_id).to eq('USD')
+          expect(subject.currency).to eq('USD')
         end
 
         context 'customer' do
+          subject(:customer) { Payment::BraintreeCustomer.first }
+
           it 'persists braintree customer' do
-            customer = Payment::BraintreeCustomer.first
             expect(customer).to_not be nil
-            expect(customer.email).to eq('foo@example.com')
             expect(customer.customer_id).to match(/\d{8}/)
             expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
+          end
+
+          it 'associates with member' do
+            expect(customer.member).to eq(Member.first)
           end
         end
       end
@@ -102,7 +148,7 @@ describe "Braintree API" do
       context 'recurring' do
         before do
           VCR.use_cassette("transaction_recurring_success") do
-            post_transaction(recurring: true, email: 'foo+1234example.com')
+            post_transaction(recurring: true)
           end
         end
 
@@ -112,8 +158,8 @@ describe "Braintree API" do
         it 'records transaction to store' do
           customer = Payment::BraintreeCustomer.first
           expect(customer).to_not be nil
-          expect(customer.email).to eq('foo@example.com')
           expect(customer.customer_id).to match(/\d{8}/)
+          expect(customer.member.email).to eq('foo@example.com')
           expect(customer.card_vault_token).to match(/[a-z0-9]{6}/)
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
@@ -145,6 +191,7 @@ describe "Braintree API" do
           expect(
             body[:errors].first
           ).to eq({
+            "declined"=> true,
             "code"    => "2100",
             "message" => "Processor Declined"
           })
@@ -157,6 +204,7 @@ describe "Braintree API" do
           expect(
             body[:errors].first
           ).to eq({
+            "declined"=> true,
             "code"    => '',
             "message" => "application_incomplete"
           })

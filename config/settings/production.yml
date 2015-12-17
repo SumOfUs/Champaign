@@ -5,7 +5,6 @@
      omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
      omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
      liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'file' %>
-     raven_dsn: <%= ENV['RAVEN_DSN'] %>
      oauth_domain_whitelist:
        - 'sumofus.org'
 

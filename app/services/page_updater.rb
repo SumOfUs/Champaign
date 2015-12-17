@@ -13,11 +13,11 @@
 #       content: "my content",
 #       id: "608"
 #     },
-#     plugins_action_150: {
+#     plugins_petition_150: {
 #       cta: "Sign the Petition",
 #       description: "Tell those meanieheads to do something!",
 #       id: "150",
-#       name: "Action",
+#       name: "Petition",
 #       ref: "",
 #       target: ""
 #     },

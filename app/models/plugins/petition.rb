@@ -1,4 +1,4 @@
-class Plugins::Action < ActiveRecord::Base
+class Plugins::Petition < ActiveRecord::Base
   include Plugins::HasForm
 
   belongs_to :page

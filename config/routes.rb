@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   end
 
   namespace :plugins do
-    resources :actions
+    resources :petitions
     resources :thermometers, only: :update
     resources :fundraisers, only: :update
     get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
@@ -111,8 +111,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :braintree do
       get 'token'
-      post 'transaction'
-      post 'subscription'
+      post 'pages/:page_id/transaction',  action: 'transaction'
+      post 'pages/:page_id/subscription', action: 'subscription'
     end
 
     resources :pages do

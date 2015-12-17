@@ -5,7 +5,7 @@ describe PageUpdater do
   # these are really integration tests, but I want to test it does the things
   # that will actually make or break the campaigner experience
 
-  let!(:action_partial) { create :liquid_partial, title: 'action', content: '{{ plugins.action[ref].lol }}' }
+  let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref].lol }}' }
   let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref].lol }}' }
   let(:liquid_layout) { create :liquid_layout, :default }
   let(:page) { create :page, liquid_layout: liquid_layout }
@@ -14,7 +14,7 @@ describe PageUpdater do
   let(:simple_changes) { {page: {title: 'howdy folks!', content: 'Did they get you to trade'}} }
   let(:breaking_changes) { {page: {title: nil, content: 'your heros for ghosts'}} }
   let(:thermo_plugin) { page.plugins.select{|p| p.name == "Thermometer"}.first }
-  let(:action_plugin) { page.plugins.select{|p| p.name == "Action"}.first }
+  let(:petition_plugin) { page.plugins.select{|p| p.name == "Petition"}.first }
 
   subject{ pupdater }
 
@@ -33,13 +33,13 @@ describe PageUpdater do
     end
 
     it 'can update one plugin' do
-      pupdater.update({plugins_action: {cta: "Walk on part in the war", id: action_plugin.id, name: action_plugin.name}})
-      expect(action_plugin.reload.cta).to eq "Walk on part in the war"
+      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}})
+      expect(petition_plugin.reload.cta).to eq "Walk on part in the war"
     end
 
     it 'can update multiple plugin' do
-      pupdater.update({plugins_action: {cta: "Walk on part in the war", id: action_plugin.id, name: action_plugin.name}, plugins_thermometer: {offset: 1612, id: thermo_plugin.id, name: thermo_plugin.name} })
-      expect(action_plugin.reload.cta).to eq "Walk on part in the war"
+      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}, plugins_thermometer: {offset: 1612, id: thermo_plugin.id, name: thermo_plugin.name} })
+      expect(petition_plugin.reload.cta).to eq "Walk on part in the war"
       expect(thermo_plugin.reload.offset).to eq 1612
     end
 
@@ -49,8 +49,8 @@ describe PageUpdater do
     end
 
     it 'can update plugins and page together' do
-      pupdater.update({plugins_action: {cta: "Walk on part in the war", id: action_plugin.id, name: action_plugin.name}, page: {content: "for a leading role in the cage"}})
-      expect(action_plugin.reload.cta).to eq "Walk on part in the war"
+      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}, page: {content: "for a leading role in the cage"}})
+      expect(petition_plugin.reload.cta).to eq "Walk on part in the war"
       expect(page.reload.content).to eq "for a leading role in the cage"
     end
 
@@ -181,7 +181,7 @@ describe PageUpdater do
     end
 
     it 'returns false if several non-refresh fields were updated' do
-      pupdater.update({plugins_action: {cta: "Walk on part in the war", id: action_plugin.id, name: action_plugin.name}, page: {content: "for a leading role in the cage"}})
+      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}, page: {content: "for a leading role in the cage"}})
       expect(pupdater.refresh?).to eq false
     end
 

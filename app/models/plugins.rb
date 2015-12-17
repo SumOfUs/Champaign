@@ -21,7 +21,7 @@ module Plugins
     end
 
     def registered
-      [ Plugins::Action,
+      [ Plugins::Petition,
         Plugins::Thermometer,
         Plugins::Fundraiser ]
     end

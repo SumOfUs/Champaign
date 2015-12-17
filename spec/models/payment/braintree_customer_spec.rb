@@ -1,5 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe Payment::BraintreeCustomer, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe Payment::BraintreeCustomer do
+  describe '#member' do
+    let(:member)   { create(:member) }
+    let(:customer) { create(:payment_braintree_customer) }
+
+    before do
+      customer.update(member: member)
+    end
+
+    it 'returns the associated member' do
+      expect(customer.member).to eq(member)
+    end
+  end
 end

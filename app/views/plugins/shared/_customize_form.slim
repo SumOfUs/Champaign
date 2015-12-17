@@ -1,11 +1,11 @@
 h4 data-toggle="collapse" data-target=".form-customization" aria-expanded="false"
   i.fa.fa-caret-right
-  = t('plugins.action.customise_form')
+  = t('plugins.petition.customise_form')
 .form-customization.collapse
   .forms-edit
     = render partial: 'forms/edit', locals: {form: plugin.form }
 
   - if plugin.form
-    h5 = t('plugins.action.add_new_field')
+    h5 = t('plugins.petition.add_new_field')
     .forms-add-element
       = render partial: 'forms/add_element', locals: {form: plugin.form, form_element: FormElement.new}

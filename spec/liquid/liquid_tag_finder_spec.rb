@@ -17,8 +17,8 @@ describe LiquidTagFinder do
     end
 
     it "finds a plugin in a for loop tag" do
-      @content  = "<div>{% for field in plugins.action.fields %}<p>hey</p>{% endfor %}</div>"
-      @expected = ['action']
+      @content  = "<div>{% for field in plugins.petition.fields %}<p>hey</p>{% endfor %}</div>"
+      @expected = ['petition']
     end
 
     it "finds a plugin with underscores, numbers, and capital letters in the name" do
@@ -27,8 +27,8 @@ describe LiquidTagFinder do
     end
 
     it "finds a plugin in a for loop tag" do
-      @content  = "<div>{% for field in plugins.action.fields %}<p>hey</p>{% endfor %}</div>"
-      @expected = ['action']
+      @content  = "<div>{% for field in plugins.petition.fields %}<p>hey</p>{% endfor %}</div>"
+      @expected = ['petition']
     end
 
     it "finds a plugin referenced twice in the same way" do

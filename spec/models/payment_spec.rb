@@ -3,7 +3,8 @@ require 'rails_helper'
 describe Payment do
   describe '.customer' do
     it 'returns customer with matching email' do
-      create(:payment_braintree_customer, email: "foo@example.com")
+      member = create(:member, email: 'foo@example.com')
+      create(:payment_braintree_customer, member: member)
 
       expect(
         Payment.customer('foo@example.com')
@@ -11,7 +12,7 @@ describe Payment do
     end
   end
 
-  describe 'write_transaction' do
+  describe 'write_successful_transaction' do
     let(:builder) { double }
 
     before do
@@ -19,15 +20,15 @@ describe Payment do
     end
 
     it 'requires a transaction' do
-      expect{ Payment.write_transaction }.to raise_error(
-        ArgumentError, 'missing keyword: transaction'
+      expect{ Payment.write_successful_transaction }.to raise_error(
+        ArgumentError, 'missing keywords: action, transaction_response'
       )
     end
 
     it 'delegates to transaction builder' do
-      expect(Payment::BraintreeTransactionBuilder).to receive(:build).with('transaction')
+      expect(Payment::BraintreeTransactionBuilder).to receive(:build).with('action', 'transaction')
 
-      Payment.write_transaction(transaction: 'transaction')
+      Payment.write_successful_transaction({action: 'action', transaction_response: 'transaction'})
     end
   end
 
