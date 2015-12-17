@@ -23,7 +23,7 @@ class Api::BraintreeController < ApplicationController
     result = braintree::Transaction.make_transaction(transaction_options)
 
     if result.success?
-      action = ManageAction.create( params[:user].merge(page_id: params[:page_id]) )
+      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result )
       Payment.write_successful_transaction(action: action, transaction_response: result)
       render json: { success: true, transaction_id: result.transaction.id }
     else

@@ -76,7 +76,8 @@ describe Api::BraintreeController do
   describe "POST transaction" do
     before do
       allow(Payment).to receive(:write_successful_transaction)
-      allow(ManageAction).to receive(:create){ action }
+      allow(Page).to receive(:find){ page }
+      allow(ManageBraintreeDonation).to receive(:create) { action }
     end
 
     context "valid transaction" do
@@ -106,11 +107,13 @@ describe Api::BraintreeController do
       end
 
       it 'creates action' do
-        expect(ManageAction).to have_received(:create).with({
+        expect(ManageBraintreeDonation).to have_received(:create).with({
+        params: {
           first_name: 'George',
           last_name:  'Orwell',
           email:      'foo@example.com',
-          page_id:    '1'
+          page_id:    '1',},
+          braintree_result: sale_object
         })
       end
 
