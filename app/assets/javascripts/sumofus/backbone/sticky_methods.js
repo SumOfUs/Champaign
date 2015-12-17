@@ -17,8 +17,8 @@ const StickyMethods = {
       this.$el.sticky({topSpacing:0});
       if (this.$el.hasClass('fundraiser-bar')) {
         this.$el.parent('.sticky-wrapper').addClass('fundraiser');
-      } else if (this.$el.hasClass('action-bar')) {
-        this.$el.parent('.sticky-wrapper').addClass('action');
+      } else if (this.$el.hasClass('petition-bar')) {
+        this.$el.parent('.sticky-wrapper').addClass('petition');
       }
       this.isSticky = true;
     }

@@ -39,7 +39,7 @@ $(function(){
         });
       }
     };
-    $('.plugin.action').each(updater('action'));
+    $('.plugin.petition').each(updater('petition'));
     $('.plugin.fundraiser').each(updater('fundraiser'));
   };
 
@@ -48,11 +48,11 @@ $(function(){
     $.subscribe('page:saved', updatePreview);
   }
 
-  $('.plugin.action, .plugin.fundraiser').on( 'ajax:success', function(){
+  $('.plugin.petition, .plugin.fundraiser').on( 'ajax:success', function(){
     $.publish('plugin:form:preview:update');
   });
 
-  $('.plugin.action, .plugin.fundraiser').on('ajax:error', function(e, xhr,resp){
+  $('.plugin.petition, .plugin.fundraiser').on('ajax:error', function(e, xhr,resp){
     //for debugging
     console.log(xhr, resp);
   });

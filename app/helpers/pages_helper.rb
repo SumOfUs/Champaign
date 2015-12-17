@@ -44,7 +44,7 @@ module PagesHelper
   # to that plugin or falling back to a generic one.
   def plugin_icon(plugin)
     registered = {
-      action: 'hand-rock-o',
+      petition: 'hand-rock-o',
       thermometer: 'neuter',
       fundraiser: 'money'
     }
