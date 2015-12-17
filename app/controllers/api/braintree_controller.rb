@@ -36,6 +36,7 @@ class Api::BraintreeController < ApplicationController
     find_or_create_user
     result = braintree::Subscription.make_subscription(subscription_options)
     if result.success?
+      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result )
       render json: { success: true, subscription_id: result.subscription.id }
     else
       errors = raise_unless_user_error(result)

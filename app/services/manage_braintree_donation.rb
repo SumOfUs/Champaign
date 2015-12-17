@@ -61,14 +61,11 @@ class ManageBraintreeDonation
   end
 
   def split_expire_date
-    p @braintree_result.transaction.credit_card_details
     if @braintree_result.transaction.credit_card_details.expiration_date == '/'
       # We weren't given an expiration, probably because it's a PayPal transaction, so set a fake expiration five years
       # in the future.
-      p 'here'
-      [Time.now.month, Time.now.year + 5]
+      [Time.now.month.to_s, (Time.now.year + 5).to_s]
     else
-      p 'there'
       @split_date ||= @braintree_result.transaction.credit_card_details.expiration_date.split('/')
     end
 

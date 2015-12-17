@@ -111,12 +111,19 @@ describe ManageBraintreeDonation do
   end
 
   it 'can handle not having an expiration date' do
-    result.transaction.expiration_date = '/'
-    expect(result.transaction.expiration_date).to eq('/')
+    result.transaction.credit_card_details.expiration_date = '/'
+    expect(result.transaction.credit_card_details.expiration_date).to eq('/')
     full_donation_options[:order][:exp_date_month] = Time.now.month.to_s
     full_donation_options[:order][:exp_date_year] = (Time.now.year + 5).to_s
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
-    p result.transaction.expiration_date
-    ManageBraintreeDonation.new(params: data, braintree_result: result).create
+    ManageBraintreeDonation.create(params: data, braintree_result: result)
+  end
+
+  it 'can handle not having a credit card number' do
+    result.transaction.credit_card_details.last_4 = nil
+    expect(result.transaction.credit_card_details.last_4).to eq(nil)
+    full_donation_options[:order][:card_num] = 'PYPL'
+    expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
+    ManageBraintreeDonation.create(params: data, braintree_result: result)
   end
 end
