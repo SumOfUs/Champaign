@@ -49,8 +49,7 @@ class Api::BraintreeController < ApplicationController
     if default_payment_method_token.blank?
       result = braintree::Customer.create({
         email: user[:email],
-        first_name: user[:first_name],
-        last_name: user[:last_name],
+        name: user[:name] || user[:full_name],
         payment_method_nonce: params[:payment_method_nonce]
       })
 
@@ -65,8 +64,7 @@ class Api::BraintreeController < ApplicationController
         customer.update(
           card_vault_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
-          first_name: user[:firstname] || user[:name],
-          last_name: user[:last_name],
+          name: user[:name] || user[:full_name],
           card_last_4: result.customer.payment_methods.first.last_4
         )
         result

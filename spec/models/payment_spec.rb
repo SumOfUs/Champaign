@@ -56,8 +56,7 @@ describe Payment do
     let(:customer_details) do
       double(:customer_details, {
         email: 'foo@example.com',
-        first_name: "foo",
-        last_name: '',
+        full_name: "foo",
         id: 'fe2'
       })
 

@@ -7,8 +7,7 @@ describe Api::BraintreeController do
     amount: '100',
     currency: 'EUR',
     user: {
-      first_name: 'George',
-      last_name: 'Orwell',
+      full_name: 'George Orwell',
       email:'foo@example.com'
     }
   }
@@ -107,8 +106,7 @@ describe Api::BraintreeController do
 
       it 'creates action' do
         expect(ManageAction).to have_received(:create).with({
-          first_name: 'George',
-          last_name:  'Orwell',
+          full_name: 'George Orwell',
           email:      'foo@example.com',
           page_id:    '1'
         })
@@ -157,4 +155,3 @@ describe Api::BraintreeController do
     end
   end
 end
-

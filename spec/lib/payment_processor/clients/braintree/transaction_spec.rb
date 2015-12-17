@@ -50,8 +50,7 @@ module PaymentProcessor
                store_in_vault_on_success: true
               },
               customer: {
-                first_name:               'foo',
-                last_name:                nil,
+                full_name:               'foo',
                 email:                    'bob@example.com'
               }
             }

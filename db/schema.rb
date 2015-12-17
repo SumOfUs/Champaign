@@ -150,8 +150,6 @@ ActiveRecord::Schema.define(version: 20151215173255) do
   create_table "members", force: :cascade do |t|
     t.string   "email"
     t.string   "country"
-    t.string   "first_name"
-    t.string   "last_name"
     t.string   "city"
     t.string   "postal"
     t.string   "title"
@@ -160,6 +158,7 @@ ActiveRecord::Schema.define(version: 20151215173255) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "actionkit_user_id"
+    t.string   "full_name"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -170,11 +169,11 @@ ActiveRecord::Schema.define(version: 20151215173255) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "secondary_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -251,6 +250,7 @@ ActiveRecord::Schema.define(version: 20151215173255) do
     t.integer  "donation_band_id"
   end
 
+  add_index "plugins_fundraisers", ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id", using: :btree
   add_index "plugins_fundraisers", ["form_id"], name: "index_plugins_fundraisers_on_form_id", using: :btree
   add_index "plugins_fundraisers", ["page_id"], name: "index_plugins_fundraisers_on_page_id", using: :btree
 

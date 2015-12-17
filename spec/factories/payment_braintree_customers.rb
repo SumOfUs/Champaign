@@ -8,8 +8,7 @@ FactoryGirl.define do
     card_vault_token "MyString"
     card_unqiue_number_identifier "MyString"
     email { Faker::Internet.email }
-    first_name "MyString"
-    last_name "MyString"
+    full_name "MyString McCoy Richards"
     customer_id "MyString"
   end
 end

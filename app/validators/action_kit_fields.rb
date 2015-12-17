@@ -47,10 +47,8 @@ class ActionKitFields < ActiveModel::Validator
     city
     country
     email
-    first_name
+    full_name
     home_phone
-    last_name
-    middle_name
     mobile_phone
     name
     phone
