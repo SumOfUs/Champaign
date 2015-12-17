@@ -23,16 +23,7 @@ class Api::BraintreeController < ApplicationController
     result = braintree::Transaction.make_transaction(transaction_options)
 
     if result.success?
-      begin
-        action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result )
-      rescue
-        # There's a possibility that trying to create the donation on the queue is going to
-        # error in some way, like missing member data. If that happens, we shouldn't fail on the user
-        # but we should log the error to let ourselves know that something went wrong and we need to import
-        # the data correctly.
-
-        ## For comments: How should we log this?
-      end
+      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result )
       Payment.write_successful_transaction(action: action, transaction_response: result)
       render json: { success: true, transaction_id: result.transaction.id }
     else

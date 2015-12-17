@@ -109,4 +109,14 @@ describe ManageBraintreeDonation do
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end
+
+  it 'can handle not having an expiration date' do
+    result.transaction.expiration_date = '/'
+    expect(result.transaction.expiration_date).to eq('/')
+    full_donation_options[:order][:exp_date_month] = Time.now.month.to_s
+    full_donation_options[:order][:exp_date_year] = (Time.now.year + 5).to_s
+    expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
+    p result.transaction.expiration_date
+    ManageBraintreeDonation.new(params: data, braintree_result: result).create
+  end
 end
