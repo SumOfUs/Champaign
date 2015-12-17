@@ -40,6 +40,13 @@ const HostedFieldsMethods = {
             } else {
               this.showError(event.target.fieldKey, "doesn't look right");
             }
+            if (event.target.fieldKey == 'number') {
+              if (event.isEmpty) {
+                this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
+              } else {
+                this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
+              }
+            }
             this.showCardType(event.card);
           }
         },
