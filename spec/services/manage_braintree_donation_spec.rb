@@ -126,4 +126,14 @@ describe ManageBraintreeDonation do
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end
+
+  it 'can handle a subscription event and send the proper information' do
+    result.transactions = []
+    result.transactions[0] = result.transaction
+    deleted_transaction = result.delete_field('transaction')
+    expect(result.transaction).to eq(nil)
+    expect(result.transactions[0]).to eq(deleted_transaction)
+    expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
+    ManageBraintreeDonation.create(params: data, braintree_result: result)
+  end
 end
