@@ -14,8 +14,6 @@ describe 'forms/' do
 
   describe "edit" do
     it 'renders without error' do
-      # form = create(:form_with_email, id: 1)
-      # puts "form has #{form.form_elements.size}"
       assign :form, build(:form, id: 1)
       assign :form_element, FormElement.new
       expect{ render template: "forms/edit" }.not_to raise_error

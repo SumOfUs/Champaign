@@ -53,7 +53,7 @@ describe LiquidTagFinder do
                     {% else %}
                       {% unless field == 'derp' %}
                         {{ plugins.Nd_1 }}
-                        {{ include 'something' }}
+                        {% include 'something' %}
                       {% endunless %}
                     {% endif %}
                   {% endfor %}"
