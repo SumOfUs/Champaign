@@ -4,45 +4,59 @@ const HostedFieldsMethods = {
     this.getClientToken(this.setupFields());
   },
 
+  braintreeSettings: function() {
+    return {
+      id: "hosted-fields",
+      onPaymentMethodReceived: this.paymentMethodReceived(),
+      onError: this.handleErrors(),
+      paypal: {
+        container: 'hosted-fields__paypal',
+        onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
+        onSuccess: () => { this.$('.hosted-fields__credit-card-fields').slideUp(); },
+        // when adding i18n, pass the locale param to paypal
+      },
+      hostedFields: {
+        number: {
+          selector: ".hosted-fields__number",
+          placeholder: "Card number",
+        },
+        cvv: {
+          selector: ".hosted-fields__cvv",
+          placeholder: "CVV",
+        },
+        expirationDate: {
+          selector: ".hosted-fields__expiration",
+          placeholder: "mm/yy",
+        },
+        styles: {
+          input: {
+            "font-size": "16px",
+          },
+        },
+        onFieldEvent: (event) => {
+          if (event.type === "fieldStateChange"){
+            if (event.isPotentiallyValid) {
+              this.clearError(event.target.fieldKey);
+            } else {
+              this.showError(event.target.fieldKey, "doesn't look right");
+            }
+            if (event.target.fieldKey == 'number') {
+              if (event.isEmpty) {
+                this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
+              } else {
+                this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
+              }
+            }
+            this.showCardType(event.card);
+          }
+        },
+      },
+    };
+  },
+
   setupFields: function() {
     return (clientToken) => {
-      braintree.setup(clientToken, "custom", {
-        id: "hosted-fields",
-        onPaymentMethodReceived: this.paymentMethodReceived(),
-        onError: this.handleErrors(),
-        paypal: {
-          container: 'hosted-fields__paypal',
-        },
-        hostedFields: {
-          number: {
-            selector: ".hosted-fields__number",
-            placeholder: "Card number",
-          },
-          cvv: {
-            selector: ".hosted-fields__cvv",
-            placeholder: "CVV",
-          },
-          expirationDate: {
-            selector: ".hosted-fields__expiration",
-            placeholder: "mm/yy",
-          },
-          styles: {
-            input: {
-              "font-size": "16px",
-            },
-          },
-          onFieldEvent: (event) => {
-            if (event.type === "fieldStateChange"){
-              if (event.isPotentiallyValid) {
-                this.clearError(event.target.fieldKey);
-              } else {
-                this.showError(event.target.fieldKey, "doesn't look right");
-              }
-              this.showCardType(event.card);
-            }
-          },
-        },
-      });
+      braintree.setup(clientToken, "custom", this.braintreeSettings());
     }
   },
 
@@ -97,12 +111,6 @@ const HostedFieldsMethods = {
     $.get('/api/braintree/token', function(resp, success){
       callback(resp.token);
     });
-  },
-
-  paymentMethodReceived: function() {
-    return (data) => {
-      console.log("We have the nonce! Override this method to use it. Nonce:", data.nonce);
-    }
   },
 };
 
