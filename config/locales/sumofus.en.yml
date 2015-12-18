@@ -1,0 +1,13 @@
+en:
+  fundraiser:
+    amount: Amount
+    details: Details
+    payment: Payment
+    error_intro: We were unable to process your donation!
+    currency_in: Values shown in # USD
+    switch_currency: Switch currency
+    proceed_to_details: Proceed to details
+    make_recurring: Make my donation monthly
+  form:
+    welcome_back: Welcome back
+    switch_user: Not you?
