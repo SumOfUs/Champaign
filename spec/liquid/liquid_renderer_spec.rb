@@ -35,6 +35,36 @@ describe LiquidRenderer do
     it "renders the partial with the content" do
       expect(renderer.render).to include("<p>#{page.content}</p>")
     end
+
+    describe 'handles a missing translation' do
+
+      it 'by raising an error in test' do
+        expect(Rails.env.test?).to eq true
+        liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
+        expect{ renderer.render }.to raise_error I18n::TranslationMissing
+      end
+
+      it 'by raising an error in development' do
+        allow(Rails).to receive(:env).and_return "development".inquiry
+        expect(Rails.env.development?).to eq true
+        liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
+        expect{ renderer.render }.to raise_error I18n::TranslationMissing
+      end
+
+      it 'by showing the best effort on production' do
+        allow(Rails).to receive(:env).and_return "production".inquiry
+        expect(Rails.env.production?).to eq true
+        liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
+        expect{ renderer.render }.not_to raise_error
+        expect( renderer.render ).to include('lunacy');
+      end
+    end
+
+    it 'fills in localized string' do
+      liquid_layout.update_attributes(content: "{{ 'common.confirm' | t }}")
+      expect(renderer.render).to eq "Are you sure?"
+    end
+
   end
 
   describe "default_markup" do
