@@ -41,6 +41,9 @@
           <button class="fundraiser-bar__first-continue button" style="display:none;">
             Proceed to details
           </button>
+          <div class="fundraiser-bar__fine-print">
+            SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org.
+          </div>
         </div>
         <div class="fundraiser-bar__step-panel" data-step="2">
           {% include 'Form',
@@ -58,23 +61,25 @@
           <form action='/' id="hosted-fields">
             <div class="form__group">
               <div id="hosted-fields__paypal"></div>
-              <div class="hosted-fields__or">or</div>
             </div>
-            <div class="form__group">
-              <div class="hosted-fields__host hosted-fields__number"></div>
-              <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
-            </div>
-            <div class="form__group form__group--half-width form__group--half-width--left">
-              <div class="hosted-fields__host hosted-fields__cvv"></div>
-            </div>
-            <div class="form__group form__group--half-width">
-              <div class="hosted-fields__host hosted-fields__expiration"></div>
-            </div>
-            <div class="form__group">
-              <hr class="fundraiser-bar__step-connector fundraiser-bar__step-connector--static" />
-              <label class="checkbox-label">
-                <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> Make my donation monthly
-              </label>
+            <div class="hosted-fields__credit-card-fields">
+              <div class="form__group">
+                <div class="hosted-fields__or">or</div>
+                <div class="hosted-fields__host hosted-fields__number"></div>
+                <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
+              </div>
+              <div class="form__group form__group--half-width form__group--half-width--left">
+                <div class="hosted-fields__host hosted-fields__cvv"></div>
+              </div>
+              <div class="form__group form__group--half-width">
+                <div class="hosted-fields__host hosted-fields__expiration"></div>
+              </div>
+              <div class="form__group">
+                <hr class="fundraiser-bar__step-connector fundraiser-bar__step-connector--static" />
+                <label class="checkbox-label">
+                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> Make my donation monthly
+                </label>
+              </div>
             </div>
             <button type="submit" class="button fundraiser-bar__submit-button">Submit</button>
           </form>
