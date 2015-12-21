@@ -25,6 +25,47 @@ describe LiquidRenderer do
         LiquidRenderer.new(page, secondary_layout: liquid_layout)
       }.to raise_error(ArgumentError)
     end
+
+    describe 'setting locale' do
+
+      after :each do
+        I18n.locale = I18n.default_locale
+      end
+
+      describe "leaves english as the locale when page" do
+        it 'has no language' do
+          page.language = nil
+          LiquidRenderer.new(page, layout: liquid_layout)
+          expect(I18n.locale).to eq :en
+          expect(I18n.t('common.save')).to eq 'Save'
+        end
+        it "has a language with a blank code" do
+          page.language = build :language, code: ""
+          LiquidRenderer.new(page, layout: liquid_layout)
+          expect(I18n.locale).to eq :en
+          expect(I18n.t('common.save')).to eq 'Save'
+        end
+        it "has a nonsense language code" do
+          page.language = build :language, code: 'xxx'
+          LiquidRenderer.new(page, layout: liquid_layout)
+          expect(I18n.locale).to eq :en
+          expect(I18n.t('common.save')).to eq 'Save'
+        end
+        it "has an unsupported language code" do
+          page.language = build :language, code: 'es'
+          LiquidRenderer.new(page, layout: liquid_layout)
+          expect(I18n.locale).to eq :en
+          expect(I18n.t('common.save')).to eq 'Save'
+        end
+      end
+
+      it "changes the locale when it's supported" do
+        page.language = build :language, code: 'fr'
+        LiquidRenderer.new(page, layout: liquid_layout)
+        expect(I18n.locale).to eq :fr
+        expect(I18n.t('common.save')).to eq 'Enregistrer'
+      end
+    end
   end
 
   describe "render" do

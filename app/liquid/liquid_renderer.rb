@@ -7,6 +7,7 @@ class LiquidRenderer
     @request_country = request_country
     @member = member
     @url_params = url_params
+    set_locale
   end
 
   def render
@@ -42,6 +43,15 @@ class LiquidRenderer
   end
 
   private
+
+  def set_locale
+    begin
+      if @page.language.present? && @page.language.code.present?
+        I18n.locale = @page.language.code
+      end
+    rescue I18n::InvalidLocale
+    end
+  end
 
   def image_urls(img)
     return { urls: { large: '', small: '' } } if img.blank? || img.content.blank?
