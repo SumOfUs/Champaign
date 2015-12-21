@@ -31,4 +31,12 @@ end
 
 describe 'pages/' do
   include_examples "view smoke test", :page, [:index, :new, :show]
+
+  describe "edit" do
+    it 'renders without error' do
+      assign :page, build(:page, id: 1)
+      assign :variations, [build(:share_facebook, id: 1)]
+      expect{ render template: "pages/edit" }.not_to raise_error
+    end
+  end
 end

@@ -41,19 +41,19 @@ shared_examples "view smoke test" do |model_sym, actions|
   if actions.include? :index
     describe "index" do
       it "renders no #{model_plural} without error" do
-        assign model_plural, Campaign.none
+        assign model_plural, model_class.none
         expect{ render template: "#{model_plural}/index" }.not_to raise_error
       end
 
       it "renders multiple #{model_plural} without error" do
         3.times { create model_sym }
-        assign model_plural, Campaign.all
+        assign model_plural, model_class.all
         expect{ render template: "#{model_plural}/index" }.not_to raise_error
       end
 
       it "renders a single campaign without error" do
         create model_sym
-        assign model_plural, Campaign.all
+        assign model_plural, model_class.all
         expect{ render template: "#{model_plural}/index" }.not_to raise_error
       end
     end
