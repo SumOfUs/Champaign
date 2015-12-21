@@ -1,4 +1,11 @@
 en:
+  page:
+    more_info: More information
+  basics:
+    or: or
+  branding:
+    tagline: Fighting for people over profits
+    license: Creative Commons Attribution 3.0 Unported License.
   fundraiser:
     amount: Amount
     details: Details
@@ -8,6 +15,14 @@ en:
     switch_currency: Switch currency
     proceed_to_details: Proceed to details
     make_recurring: Make my donation monthly
+    thank_you: Thank you for your donation
+  petition:
+    sign_it: Sign the petition
+    target_prefix: TO
+    confirmation: Name submitted
+    thank_you: Thanks for adding your name to # <petition title>
   form:
     welcome_back: Welcome back
     switch_user: Not you?
+  share:
+    cta: Share the campaign with your friends to triple your impact!

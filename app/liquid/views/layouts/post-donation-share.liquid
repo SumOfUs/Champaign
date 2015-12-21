@@ -1,2 +1,3 @@
-{% include 'Share Page', message: "Thank you for your donation!" %}
+{% capture message %}{{ 'fundraiser.thank_you' }}!{% endcapture %}
+{% include 'Share Page', message: message %}
 {% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}
