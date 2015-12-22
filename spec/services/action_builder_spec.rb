@@ -43,4 +43,47 @@ describe ActionBuilder do
     mab.build_action
     expect(mab.previous_action).to eq(found_action)
   end
+
+  describe 'permitted_keys' do
+
+    let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }
+
+    it 'returns symbols' do
+      expect(mab.permitted_keys.map(&:class).uniq).to eq [Symbol]
+    end
+
+    it 'does not include the id' do
+      expect(mab.permitted_keys).not_to include(:id)
+    end
+
+    it 'includes all the other keys of member' do
+      expect(mab.permitted_keys).to include(:email, :country, :first_name, :last_name, :city, :postal, :title, :address1, :address2, :actionkit_user_id)
+    end
+  end
+
+  describe 'filtered_params' do
+
+    let(:params) { {email: "silly@billy.com", country: "US", first_name: "Silly", last_name: "Billy", city: "Northampton", postal: "01060", address1: "10 Coates St.", address2: ""} }
+
+    it 'passes all keys as symbols' do
+      mab = MockActionBuilder.new(params)
+      expect(mab.filtered_params).to eq params
+    end
+
+    it 'passes all keys as strings' do
+      mab = MockActionBuilder.new(params.stringify_keys)
+      expect(mab.filtered_params).to eq params.stringify_keys
+    end
+
+    it 'passes all keys with indifferent access' do
+      mab = MockActionBuilder.new(params.with_indifferent_access)
+      expect(mab.filtered_params).to eq params.with_indifferent_access
+    end
+
+    it 'passes all keys as action parameters' do
+      mab = MockActionBuilder.new(ActionController::Parameters.new(params))
+      expect(mab.filtered_params).to eq params.with_indifferent_access
+    end
+  end
+
 end
