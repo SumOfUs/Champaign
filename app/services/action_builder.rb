@@ -17,7 +17,8 @@ module ActionBuilder
   end
 
   def filtered_params
-    @params.compact.keep_if{ |k| permitted_keys.include? k.to_sym }
+    hash = @params.try(:to_unsafe_hash) || @params.to_h # for ActionController::Params
+    hash.symbolize_keys.compact.keep_if{ |k| permitted_keys.include? k }
   end
 
   def permitted_keys

@@ -74,17 +74,17 @@ describe ActionBuilder do
 
       it 'keys as strings' do
         mab = MockActionBuilder.new(params.stringify_keys)
-        expect(mab.filtered_params).to eq params.stringify_keys
+        expect(mab.filtered_params).to eq params
       end
 
       it 'keys with indifferent access' do
         mab = MockActionBuilder.new(params.with_indifferent_access)
-        expect(mab.filtered_params).to eq params.with_indifferent_access
+        expect(mab.filtered_params).to eq params
       end
 
       it 'keys as action parameters' do
         mab = MockActionBuilder.new(ActionController::Parameters.new(params))
-        expect(mab.filtered_params).to eq params.with_indifferent_access
+        expect(mab.filtered_params).to eq params
       end
     end
 
@@ -99,17 +99,17 @@ describe ActionBuilder do
 
       it 'keys as strings' do
         mab = MockActionBuilder.new(porky_params.stringify_keys)
-        expect(mab.filtered_params).to eq params.stringify_keys
+        expect(mab.filtered_params).to eq params
       end
 
       it 'keys with indifferent access' do
         mab = MockActionBuilder.new(porky_params.with_indifferent_access)
-        expect(mab.filtered_params).to eq params.with_indifferent_access
+        expect(mab.filtered_params).to eq params
       end
 
       it 'keys as action parameters' do
         mab = MockActionBuilder.new(ActionController::Parameters.new(porky_params))
-        expect(mab.filtered_params).to eq params.with_indifferent_access
+        expect(mab.filtered_params).to eq params
       end
 
     end
