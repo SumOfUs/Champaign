@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'home#index'
+  root to: redirect('https://sumofus.org'), as: :sumofus
 
   # Specifies routing to templates controller for when a new template layout is requested by 
   # a user toggling different templates when creating a campaign page
