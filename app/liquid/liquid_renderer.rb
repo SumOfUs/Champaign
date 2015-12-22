@@ -46,9 +46,7 @@ class LiquidRenderer
 
   def set_locale
     begin
-      if @page.language.present? && @page.language.code.present?
-        I18n.locale = @page.language.code
-      end
+      I18n.locale = @page.language.code if @page.language.present?
     rescue I18n::InvalidLocale
     end
   end

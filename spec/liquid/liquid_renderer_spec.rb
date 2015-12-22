@@ -39,18 +39,14 @@ describe LiquidRenderer do
           expect(I18n.locale).to eq :en
           expect(I18n.t('common.save')).to eq 'Save'
         end
-        it "has a language with a blank code" do
-          page.language = build :language, code: ""
-          LiquidRenderer.new(page, layout: liquid_layout)
-          expect(I18n.locale).to eq :en
-          expect(I18n.t('common.save')).to eq 'Save'
-        end
+
         it "has a nonsense language code" do
           page.language = build :language, code: 'xxx'
           LiquidRenderer.new(page, layout: liquid_layout)
           expect(I18n.locale).to eq :en
           expect(I18n.t('common.save')).to eq 'Save'
         end
+
         it "has an unsupported language code" do
           page.language = build :language, code: 'es'
           LiquidRenderer.new(page, layout: liquid_layout)
