@@ -65,25 +65,55 @@ describe ActionBuilder do
 
     let(:params) { {email: "silly@billy.com", country: "US", first_name: "Silly", last_name: "Billy", city: "Northampton", postal: "01060", address1: "10 Coates St.", address2: ""} }
 
-    it 'passes all keys as symbols' do
-      mab = MockActionBuilder.new(params)
-      expect(mab.filtered_params).to eq params
+    describe 'passes all' do
+
+      it 'keys as symbols' do
+        mab = MockActionBuilder.new(params)
+        expect(mab.filtered_params).to eq params
+      end
+
+      it 'keys as strings' do
+        mab = MockActionBuilder.new(params.stringify_keys)
+        expect(mab.filtered_params).to eq params.stringify_keys
+      end
+
+      it 'keys with indifferent access' do
+        mab = MockActionBuilder.new(params.with_indifferent_access)
+        expect(mab.filtered_params).to eq params.with_indifferent_access
+      end
+
+      it 'keys as action parameters' do
+        mab = MockActionBuilder.new(ActionController::Parameters.new(params))
+        expect(mab.filtered_params).to eq params.with_indifferent_access
+      end
     end
 
-    it 'passes all keys as strings' do
-      mab = MockActionBuilder.new(params.stringify_keys)
-      expect(mab.filtered_params).to eq params.stringify_keys
+    describe 'filters irrelevant' do
+
+      let(:porky_params) { params.merge(page_id: page.id, form_id: '3', blerg: false) }
+
+      it 'keys as symbols' do
+        mab = MockActionBuilder.new(porky_params)
+        expect(mab.filtered_params).to eq params
+      end
+
+      it 'keys as strings' do
+        mab = MockActionBuilder.new(porky_params.stringify_keys)
+        expect(mab.filtered_params).to eq params.stringify_keys
+      end
+
+      it 'keys with indifferent access' do
+        mab = MockActionBuilder.new(porky_params.with_indifferent_access)
+        expect(mab.filtered_params).to eq params.with_indifferent_access
+      end
+
+      it 'keys as action parameters' do
+        mab = MockActionBuilder.new(ActionController::Parameters.new(porky_params))
+        expect(mab.filtered_params).to eq params.with_indifferent_access
+      end
+
     end
 
-    it 'passes all keys with indifferent access' do
-      mab = MockActionBuilder.new(params.with_indifferent_access)
-      expect(mab.filtered_params).to eq params.with_indifferent_access
-    end
-
-    it 'passes all keys as action parameters' do
-      mab = MockActionBuilder.new(ActionController::Parameters.new(params))
-      expect(mab.filtered_params).to eq params.with_indifferent_access
-    end
   end
 
 end
