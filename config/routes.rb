@@ -113,6 +113,7 @@ Rails.application.routes.draw do
       get 'token'
       post 'pages/:page_id/transaction',  action: 'transaction'
       post 'pages/:page_id/subscription', action: 'subscription'
+      post 'braintree/webhook', action: 'webhook'
     end
 
     resources :pages do

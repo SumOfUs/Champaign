@@ -19,12 +19,12 @@ class Api::BraintreeController < ApplicationController
       card_num = webhook_notification.subscription.transactions.last.credit_card_details.last_4
       query_params = {
           is_subscription: true,
-          email: webhook_notification.subscription.customer_details.email,
+          email: webhook_notification.subscription.transactions.last.customer_details.email,
           card_num: card_num.nil? ? 'PYPL' : card_num,
           amount: webhook_notification.subscription.transactions.last.amount.to_s
       }
-      action = Action.where('form_data @> ?', query_params).last
-      member = User.find(action.member_id)
+      action = Action.where('form_data @> ?', query_params.to_json).last
+      member = Member.find(action.member_id)
       params = {
           email: member.email,
           country: member.country,
@@ -136,4 +136,3 @@ class Api::BraintreeController < ApplicationController
     @page ||= Page.find(params[:page_id])
   end
 end
-
