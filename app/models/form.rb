@@ -4,6 +4,6 @@ class Form < ActiveRecord::Base
 
   scope :masters, -> { where(master: true) }
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true
 end
 

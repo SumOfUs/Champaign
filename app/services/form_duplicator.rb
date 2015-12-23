@@ -27,6 +27,7 @@ class FormDuplicator
       @new_form
     else
       @new_form = @form.dup
+      @new_form.name = @form.name + "-#{SecureRandom.uuid.to_s}"
       @new_form.save
       @new_form
     end
