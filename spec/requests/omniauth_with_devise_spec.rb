@@ -36,8 +36,8 @@ describe 'Omniauth with Devise' do
   context 'not whitelisted' do
     it 'redirects home' do
       login_with_google('not@whitelisted.com')
-      expect(response).to redirect_to(root_path)
-      expect(flash.now[:alert]).to eq("You're not authorised to authenticate with that account.")
+      expect(response).to redirect_to(new_user_session_path)
+      expect(flash.now[:error]).to eq("You're not authorised to authenticate with that account.")
     end
   end
 end
