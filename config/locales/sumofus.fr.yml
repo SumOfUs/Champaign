@@ -1,0 +1,36 @@
+fr:
+  page:
+    more_info: fr(More information)
+  basics:
+    or: fr(or)
+  branding:
+    tagline: fr(Fighting for people over profits)
+    license: fr(Creative Commons Attribution 3.0 Unported License.)
+  fundraiser:
+    amount: fr(Amount)
+    details: fr(Details)
+    payment: fr(Payment)
+    donate: fr(Donate) # used on the submit button, eg 'Donate $15'
+    error_intro: fr(We were unable to process your donation!)
+    currency_in: fr(Values shown in) # USD
+    switch_currency: fr(Switch currency)
+    proceed_to_details: fr(Proceed to details)
+    make_recurring: fr(Make my donation monthly)
+    thank_you: fr(Thank you for your donation)
+    card_declined: fr(Your card was declined by the payment processor. Please try a different payment method.)
+    unknown_error: fr(Our technical team has been notified. Please double check your info or try a different payment method.)
+  petition:
+    sign_it: fr(Sign the petition)
+    target_prefix: fr(TO)
+    confirmation: fr(Name submitted)
+    thank_you: fr(Thanks for adding your name to) # <petition title>
+  form:
+    welcome_back: fr(Welcome back)
+    switch_user: fr(Not you?)
+    processing: fr(Processing...)
+    submit: fr(Submit)
+  share:
+    cta: fr(Share the campaign with your friends to triple your impact!)
+  errors:
+    probably_invalid: fr(doesn't look right)
+    is_invalid: fr(is invalid)
