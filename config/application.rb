@@ -36,6 +36,7 @@ module Champaign
 
     config.i18n.available_locales = [:en, :fr]
     config.i18n.enforce_available_locales = true
+    config.middleware.use I18n::JS::Middleware # I18n in js
 
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker

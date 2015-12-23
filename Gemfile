@@ -31,7 +31,7 @@ gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 gem 'slim-rails'
 gem 'liquid'
 gem 'remotipart', '~> 1.2'
-
+gem "i18n-js", ">= 3.0.0.rc11"
 
 # Use Devise for Authentication
 gem 'devise'

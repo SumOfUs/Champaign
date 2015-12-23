@@ -38,7 +38,7 @@ const HostedFieldsMethods = {
             if (event.isPotentiallyValid) {
               this.clearError(event.target.fieldKey);
             } else {
-              this.showError(event.target.fieldKey, "doesn't look right");
+              this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
             }
             if (event.target.fieldKey == 'number') {
               if (event.isEmpty) {
@@ -65,7 +65,7 @@ const HostedFieldsMethods = {
       this.enableButton();
       if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
         _.each(error.details.invalidFieldKeys, (key) => {
-          this.showError(key, 'is invalid');
+          this.showError(key, I18n.t('errors.is_invalid'));
         });
       }
     }

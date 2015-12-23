@@ -44,6 +44,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
+    this.buttonText = I18n.t('form.submit');
   },
 
   initializeSkipping (options){
@@ -128,9 +129,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
-      let buttonText = `<span class="fa fa-lock"></span><span>Donate ${donationAmount}</span>`
+      this.buttonText = `<span class="fa fa-lock"></span><span>${I18n.t('fundraiser.donate')} ${donationAmount}</span>`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
-      this.$('.fundraiser-bar__submit-button').html(buttonText);
+      this.$('.fundraiser-bar__submit-button').html(this.buttonText);
     } else {
       this.changeStep(1);
     }
@@ -211,13 +212,13 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
         var messages = data.responseJSON.errors.map(function(error){
           if (error.declined) {
-            return "Your card was declined by the payment processor. Please try a different payment method."
+            return I18n.t('fundraiser.card_declined')
           } else {
             return error.message;
           }
         });
       } else {
-        var messages = ["Our technical team has been notified. Please double check your info or try a different payment method."];
+        var messages = [I18n.t('fundraiser.unknown_error')];
       }
       _.each(messages, (error_message) => {
         $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
@@ -240,11 +241,11 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   disableButton (e) {
     this.$('.fundraiser-bar__errors').addClass('hidden-closed');
-    this.$('.fundraiser-bar__submit-button').text('Processing...').addClass('button--disabled');
+    this.$('.fundraiser-bar__submit-button').text(I18n.t('form.processing')).addClass('button--disabled');
   },
 
   enableButton () {
-    this.$('.fundraiser-bar__submit-button').text('Submit').removeClass('button--disabled');
+    this.$('.fundraiser-bar__submit-button').html(this.buttonText).removeClass('button--disabled');
   },
 
   redirectTo (url) {
