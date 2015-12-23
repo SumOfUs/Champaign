@@ -13,7 +13,7 @@ const HostedFieldsMethods = {
         container: 'hosted-fields__paypal',
         onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
         onSuccess: () => { this.$('.hosted-fields__credit-card-fields').slideUp(); },
-        // when adding i18n, pass the locale param to paypal
+        locale: I18n.currentLocale(),
       },
       hostedFields: {
         number: {
