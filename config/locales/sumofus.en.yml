@@ -15,6 +15,8 @@ en:
     currency_in: Values shown in # USD
     switch_currency: Switch currency
     proceed_to_details: Proceed to details
+    proceed_to_payment: Proceed to payment
+    other_amount: Other
     make_recurring: Make my donation monthly
     thank_you: Thank you for your donation
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
@@ -22,8 +24,9 @@ en:
     fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
     fields:
       cvv: CVV
-      number: Number
+      number: Card number
       expiration: Expiration date
+      expiration_format: mm/yy
       postalCode: Postal code
   petition:
     sign_it: Sign the petition

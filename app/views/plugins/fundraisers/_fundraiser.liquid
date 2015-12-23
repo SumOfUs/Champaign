@@ -38,7 +38,7 @@
         <div class="fundraiser-bar__step-panel" data-step="1">
           <div class="fundraiser-bar__amount-buttons">
           </div>
-          <input class="fundraiser-bar__custom-field" placeholder="Other" />
+          <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
           <div class="fundraiser-bar__switch-currency">
             {{ 'fundraiser.currency_in' | t }} <span class="fundraiser-bar__current-currency">USD</span>.
             <a class="fundraiser-bar__engage-currency-switcher">{{ 'fundraiser.switch_currency' | t }}.</a>
@@ -52,8 +52,9 @@
           </div>
         </div>
         <div class="fundraiser-bar__step-panel" data-step="2">
+          {% capture cta %}{{ 'fundraiser.proceed_to_payment' | t }}{% endcapture %}
           {% include 'Form',
-            cta: 'Proceed to payment',
+            cta: cta,
             form_id: plugins.fundraiser[ref].form_id,
             form_url_postscript: '/validate',
             outstanding_fields: plugins.fundraiser[ref].outstanding_fields,

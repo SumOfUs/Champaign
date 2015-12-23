@@ -15,6 +15,8 @@ fr:
     currency_in: fr(Values shown in) # USD
     switch_currency: fr(Switch currency)
     proceed_to_details: fr(Proceed to details)
+    proceed_to_payment: fr(Proceed to payment)
+    other_amount: fr(Other)
     make_recurring: fr(Make my donation monthly)
     thank_you: fr(Thank you for your donation)
     card_declined: fr(Your card was declined by the payment processor. Please try a different payment method.)
@@ -24,6 +26,7 @@ fr:
       cvv: fr(CVV)
       number: fr(Number)
       expiration: fr(Expiration date)
+      expiration_format: fr(mm/yy)
       postalCode: fr(Postal code)
   petition:
     sign_it: fr(Sign the petition)

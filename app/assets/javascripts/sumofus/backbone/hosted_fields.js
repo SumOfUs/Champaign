@@ -18,15 +18,15 @@ const HostedFieldsMethods = {
       hostedFields: {
         number: {
           selector: ".hosted-fields__number",
-          placeholder: "Card number",
+          placeholder: I18n.t('fundraiser.fields.number'),
         },
         cvv: {
           selector: ".hosted-fields__cvv",
-          placeholder: "CVV",
+          placeholder: I18n.t('fundraiser.fields.cvv'),
         },
         expirationDate: {
           selector: ".hosted-fields__expiration",
-          placeholder: "mm/yy",
+          placeholder: I18n.t('fundraiser.fields.expiration_format'),
         },
         styles: {
           input: {
