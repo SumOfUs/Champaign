@@ -19,6 +19,12 @@ fr:
     thank_you: fr(Thank you for your donation)
     card_declined: fr(Your card was declined by the payment processor. Please try a different payment method.)
     unknown_error: fr(Our technical team has been notified. Please double check your info or try a different payment method.)
+    fine_print: "fr(SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org.)"
+    fields:
+      cvv: fr(CVV)
+      number: fr(Number)
+      expiration: fr(Expiration date)
+      postalCode: fr(Postal code)
   petition:
     sign_it: fr(Sign the petition)
     target_prefix: fr(TO)
