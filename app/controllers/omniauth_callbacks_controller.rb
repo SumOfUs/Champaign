@@ -6,7 +6,7 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", kind: "Google"
       sign_in_and_redirect @user, event: :authentication
     rescue Champaign::NotWhitelisted
-      redirect_to root_path, alert: t('oauth.not_authorised')
+      redirect_to new_user_session_path, flash: {error: t('oauth.not_authorised')}
     end
 
     # TODO: Handle registration, when new user is authenticating.
