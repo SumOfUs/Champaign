@@ -43,3 +43,9 @@ en:
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid
+    this_field: This field
+  validation:
+    is_required: is required
+    is_invalid_email: is not a valid email address
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: must be a valid country code

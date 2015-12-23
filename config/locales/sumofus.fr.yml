@@ -43,3 +43,9 @@ fr:
   errors:
     probably_invalid: fr(doesn't look right)
     is_invalid: fr(is invalid)
+    this_field: fr(This field)
+  validation:
+    is_required: fr(is required)
+    is_invalid_email: fr(is not a valid email address)
+    is_invalid_phone: 'fr(can only have numbers, dash, plus, and parentheses)'
+    is_invalid_country: fr(must be a valid country code)
