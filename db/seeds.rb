@@ -25,7 +25,7 @@ end
 basic_form_fields = [
     {label: 'Email Address', name: 'email', required: true, data_type: 'email', form: basic_form},
     {label: 'Full Name', name: 'name', required: true, data_type: 'text', form: basic_form},
-    {label: 'Postal Code', name: 'postal', required: true, data_type: 'text', form: basic_form}
+    {label: 'Postal Code', name: 'postal', required: false, data_type: 'text', form: basic_form}
 ]
 
 basic_form_fields.each do |field|
