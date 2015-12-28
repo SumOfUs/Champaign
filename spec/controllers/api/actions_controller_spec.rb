@@ -10,6 +10,7 @@ describe Api::ActionsController do
     before :each do
       allow(Form).to receive(:find){ form }
       allow(ManageAction).to receive(:create){ action }
+      allow(controller).to receive(:localize_from_page_id)
     end
 
     describe "successful" do
@@ -48,6 +49,11 @@ describe Api::ActionsController do
       it 'sets the cookie' do
         expect(cookies.signed['member_id']).to eq member.id
       end
+
+      it 'attemptes to localize the page' do
+        expect(controller).to have_received(:localize_from_page_id)
+      end
+
     end
 
     describe "unsuccessful" do
@@ -80,6 +86,7 @@ describe Api::ActionsController do
     before :each do
       allow(Form).to receive(:find){ form }
       allow(ManageAction).to receive(:create)
+      allow(controller).to receive(:localize_from_page_id)
     end
 
     describe "successful" do
@@ -119,6 +126,10 @@ describe Api::ActionsController do
       it 'does not set a cookie the cookie' do
         expect(cookies.signed['member_id']).to eq nil
         expect(response.cookies[:member_id]).to eq nil
+      end
+
+      it 'attemptes to localize the page' do
+        expect(controller).to have_received(:localize_from_page_id)
       end
     end
 
