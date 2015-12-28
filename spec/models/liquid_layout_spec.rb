@@ -7,6 +7,8 @@ describe LiquidLayout do
 
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :content }
+  it { is_expected.to respond_to :experimental }
+  it { is_expected.to respond_to :description }
   it { is_expected.to respond_to :pages }
   it { is_expected.to respond_to :partial_names }
   it { is_expected.to respond_to :partial_refs }
@@ -37,6 +39,10 @@ describe LiquidLayout do
 
     it "with a reference to a partial that doesn't exist" do
       layout.content = "<div>{% include 'nonexistent' %}</div>"
+    end
+
+    it 'with nil value for experimental' do
+      layout.experimental = nil
     end
   end
 
