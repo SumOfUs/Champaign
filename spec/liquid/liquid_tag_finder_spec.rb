@@ -4,6 +4,19 @@ require 'rails_helper'
 # change to version 3.0.x and try again.
 describe LiquidTagFinder do
 
+  let(:base_content) do
+    %Q{<section class="wrapper">
+        <div class="foo">
+          {% include "example" %}
+        </div>
+        <h2>{{ title }}</h2>
+        <div class='bar'>
+          {% include 'swell' %}
+        </div>
+      </section>
+      <div>{% for field in plugins.petition.fields %}<p>hey</p>{% endfor %}</div>}
+  end
+
   describe "plugin_names" do
 
     after :each do
@@ -176,6 +189,95 @@ describe LiquidTagFinder do
 
       end
     end
+  end
+
+  describe "description" do
+
+    describe 'is found if it' do
+      it 'has description in all lower case' do
+        tag = '{% comment %} description: oh me oh my!{% endcomment %}'
+        description = LiquidTagFinder.new(tag+base_content).description
+        expect(description).to eq "oh me oh my!"
+      end
+
+      it 'has description in wonky case' do
+        tag = '{% comment %} DescRIPtion: Obla de obla da {% endcomment %}'
+        description = LiquidTagFinder.new(tag+base_content).description
+        expect(description).to eq "Obla de obla da"
+      end
+
+      it 'has the description tag at the end' do
+        tag = '{% comment %}description: ay yai YAI{% endcomment %}'
+        description = LiquidTagFinder.new(base_content+tag).description
+        expect(description).to eq "ay yai YAI"
+      end
+
+      it 'has the description tag in the middle' do
+        tag = '{% comment %}description: The flames crept higher. {% endcomment %}'
+        description = LiquidTagFinder.new(base_content+tag+base_content).description
+        expect(description).to eq "The flames crept higher."
+      end
+
+      it 'is the first description tag' do
+        tag1 = '{% comment %} description: Led them to the rebel base. {% endcomment %}'
+        tag2 = '{% comment %}description: Rebel bass rebel bass. {% endcomment %}'
+        description = LiquidTagFinder.new(tag1+tag2+base_content).description
+        expect(description).to eq "Led them to the rebel base."
+      end
+
+      it 'comes after an experimental tag' do
+        e_tag = '{% comment %} experimental: true {% endcomment %}'
+        tag = '{% comment %}description: R&B - rebel and base. {% endcomment %}'
+        description = LiquidTagFinder.new(e_tag+tag+base_content).description
+        expect(description).to eq "R&B - rebel and base."
+      end
+    end
+
+    describe 'is not found if it' do
+      it 'does not have a colon' do
+        tag = '{% comment %} description - oh me oh my!{% endcomment %}'
+        description = LiquidTagFinder.new(tag+base_content).description
+        expect(description).to eq nil
+      end
+
+      it 'is not in a liquid comment' do
+        tag = '<!-- description: oh me oh my! -->'
+        description = LiquidTagFinder.new(tag+base_content).description
+        expect(description).to eq nil
+      end
+
+      it 'is not included' do
+        description = LiquidTagFinder.new(base_content).description
+        expect(description).to eq nil
+      end
+    end
+  end
+
+  describe 'experimental?' do
+
+    it 'returns true if experimental is "true"' do
+      tag = '{% comment %} experimental: true {% endcomment %}'
+      description = LiquidTagFinder.new(tag+base_content).experimental?
+      expect(description).to eq true
+    end
+
+    it 'returns true if experimental is "TRUE"' do
+      tag = '{% comment %} experimental: TRUE {% endcomment %}'
+      description = LiquidTagFinder.new(tag+base_content).experimental?
+      expect(description).to eq true
+    end
+
+    it 'returns false if experimental is 1' do
+      tag = '{% comment %} experimental: 1 {% endcomment %}'
+      description = LiquidTagFinder.new(tag+base_content).experimental?
+      expect(description).to eq false
+    end
+
+    it 'returns false if experimental tag is absent' do
+      description = LiquidTagFinder.new(base_content).experimental?
+      expect(description).to eq false
+    end
+
   end
 
 end

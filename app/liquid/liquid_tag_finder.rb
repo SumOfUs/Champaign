@@ -23,10 +23,29 @@ class LiquidTagFinder
     all_refs.uniq # one form for multiple refless/ same reffed templates
   end
 
+  def description
+    string_search(/description: *(.+)/i, string_comments.flatten)
+  end
+
+  def experimental?
+    status = string_search(/experimental: *(.+)/i, string_comments.flatten)
+    status.present? ? status.match(/true/i).present? : false
+  end
+
   private
+
+  def string_comments
+    all_comment_tags.map{ |node| node.instance_values['nodelist'].select{|subnode| subnode.class == String } }
+  end
 
   def all_liquid_tags
     tree_liquid_tags(template.root.nodelist)
+  end
+
+  def all_comment_tags
+    all_liquid_tags.select do |node|
+      (node.class == Liquid::Comment) && node.instance_values['nodelist'].length > 0
+    end
   end
 
   def all_include_tags
@@ -45,6 +64,14 @@ class LiquidTagFinder
 
   def strip_quotes(str)
     str.gsub(/\A["']|["']\Z/, '')
+  end
+
+  # regex: a regex with a capturing group. returns the captured text in first string to match the regex
+  # candidates: an array of strings to search for the regex in
+  def string_search(regex, candidates)
+    matches = candidates.map{ |comment| comment.match(regex) }
+    re_sult = matches.select{ |m| m.present? && m[1].length }.first
+    re_sult.present? ? re_sult[1].strip : nil
   end
 
   # recursive method to get nodes out of tree format
