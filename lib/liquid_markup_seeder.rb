@@ -16,6 +16,7 @@ module LiquidMarkupSeeder
 
     view = klass.constantize.find_or_create_by(title: title)
     view.content = read(path)
+    set_metadata_fields(view)
     saved = view.save
     puts "Failed to save: #{view.errors.full_messages}" unless saved
   end
@@ -54,5 +55,11 @@ module LiquidMarkupSeeder
     end
   end
 
+  def set_metadata_fields(view)
+    return unless view.class == LiquidLayout
+    ltf = LiquidTagFinder.new(view.content)
+    view.experimental = ltf.experimental?
+    view.description = ltf.description
+  end
 end
 
