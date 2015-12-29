@@ -320,3 +320,28 @@ body.page-edit-body {
     }
   }
 }
+
+.layout-settings {
+  &--primary, &--secondary {
+    margin-top: 15px;
+  }
+  &__title {
+    font-weight: bold;
+  }
+  &__description {
+    width: 100%;
+    float: left;
+    margin-top: 5px;
+  }
+}
+
+.radio-group {
+  .btn-group-vertical {
+    width: 100%;
+  }
+  &__option {
+    text-align: left;
+    padding: 10px;
+    @include clearfix();
+  }
+}
