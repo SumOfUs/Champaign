@@ -322,8 +322,8 @@ body.page-edit-body {
 }
 
 .layout-settings {
-  &--primary, &--secondary {
-    margin-top: 15px;
+  &__button-group {
+    padding-top: 15px;
   }
   &__title {
     font-weight: bold;

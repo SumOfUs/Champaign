@@ -1,9 +1,5 @@
 module PagesHelper
 
-  def liquid_layout_options
-    LiquidLayout.all.map{|ll| [ll.title, ll.id] }
-  end
-
   def page_nav_item(text, path, strict=true)
     selected = current_page?(path) || (!strict && request.path.include?(path))
     klass = selected ? 'active' : nil
