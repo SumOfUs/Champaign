@@ -2,16 +2,18 @@
 -# dom_name: CSS class extension, should be `primary` or `secondary`
 -# field: `:liquid_layout_id` or `:secondary_liquid_layout_id`
 br
-  - if f.object.send(association).present?
-    = f.object.send(association).title
-    = " - "
-  a data-toggle="collapse" data-target=".layout-settings--#{dom_name}" aria-expanded="false"
-    = t('pages.edit.change_layout')
-  .radio-group.collapse class="layout-settings--#{dom_name}"
-    .btn-group-vertical.layout-settings__button-group role="group"
-      - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
-        - active_class = (ll.id == f.object.send(field)) ? 'active' : ''
-        = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class}"
-          = f.radio_button field, ll.id, class: 'hidden-irrelevant'
-          span.layout-settings__title= ll.title
-          span.layout-settings__description= ll.description
+  .layout-settings
+    - if f.object.send(association).present?
+      span.layout-settings__current
+        = f.object.send(association).title
+      = " - "
+    a data-toggle="collapse" data-target=".layout-settings--#{dom_name}" aria-expanded="false"
+      = t('pages.edit.change_layout')
+    .radio-group.collapse class="layout-settings--#{dom_name}"
+      .btn-group-vertical.layout-settings__button-group role="group"
+        - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
+          - active_class = (ll.id == f.object.send(field)) ? 'active' : ''
+          = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class}"
+            = f.radio_button field, ll.id, class: 'hidden-irrelevant'
+            span.layout-settings__title= ll.title
+            span.layout-settings__description= ll.description
