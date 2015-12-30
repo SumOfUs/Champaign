@@ -38,6 +38,9 @@ en:
     switch_user: Not you?
     processing: Processing...
     submit: Submit
+  thermometer:
+    signatures: signatures # as in '225 signatures'
+    until: until # as in '25 signatures until 250'
   share:
     cta: Share the campaign with your friends to triple your impact!
   errors:
