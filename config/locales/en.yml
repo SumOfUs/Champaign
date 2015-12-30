@@ -92,6 +92,9 @@ en:
       primary_image: 'Which is the main image for the page?'
       new_variant: 'Create new share variant'
 
+  liquid:
+    experimental: Experimental
+    experimental_explanation: (experimental templates are not available to campaigners)
 
   campaigns:
     new:

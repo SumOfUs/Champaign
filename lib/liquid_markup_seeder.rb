@@ -56,7 +56,7 @@ module LiquidMarkupSeeder
   end
 
   def set_metadata_fields(view)
-    return unless view.class == LiquidLayout
+    return unless view.is_a? LiquidLayout
     ltf = LiquidTagFinder.new(view.content)
     view.experimental = ltf.experimental?
     view.description = ltf.description

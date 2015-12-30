@@ -9,7 +9,7 @@
   .checkbox
     = f.label :experimental
       = f.check_box :experimental
-      | Experimental (experimental templates are not available to campaigners)
+      = "#{t('liquid.experimental')} #{t('liquid.experimental_explanation')}"
 
   .form-group
     button.btn.btn-default Save

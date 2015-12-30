@@ -35,7 +35,7 @@ class LiquidTagFinder
   private
 
   def string_comments
-    all_comment_tags.map{ |node| node.instance_values['nodelist'].select{|subnode| subnode.class == String } }
+    all_comment_tags.map{ |node| node.instance_values['nodelist'].select{|subnode| subnode.is_a? String } }
   end
 
   def all_liquid_tags
