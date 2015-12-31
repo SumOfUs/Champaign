@@ -12,6 +12,7 @@ RSpec.shared_context 'multiple_search_data' do
   let!(:matches_by_content_language_campaign) {
     create(:page,
            title: 'multimatch page 1',
+           slug: 'multimatch-page-1',
            language: language,
            campaign: campaign,
            tags: [create(:tag, name: 'ninja tag', actionkit_uri: '/foo/bar2')],
@@ -21,6 +22,7 @@ RSpec.shared_context 'multiple_search_data' do
   let!(:matches_by_content_language_tags_layout) {
     create(:page,
            title: 'multimatch page 2',
+           slug: 'multimatch-page-2',
            language: language,
            campaign: campaign2,
            tags: [tag],
