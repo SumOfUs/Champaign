@@ -12,31 +12,18 @@ html
 
   body
     = render 'shared/navbar'
-
-
     = yield :page_header
 
     .container
-      #trum
       - if flash[:error]
         div.alert.alert-dismissible.alert-danger
           button type='button' class='close' data-dismiss='alert' x
-          - if flash[:error].respond_to? :each
-            - flash[:error].each do |error|
-              strong #{error}
-              br
-          - else
-            strong #{flash[:error]}
-
+          strong #{flash[:error]}
       - if flash[:notice]
         div.alert.alert-dismissible.alert-success
           button type='button' class='close' data-dismiss='alert' x
-          - if flash[:notice].respond_to? :each
-            - flash[:notice].each do |notice|
-              strong #{notice}
-              br
-          - else
-            strong #{flash[:notice]}
+          strong #{flash[:notice]}
+
       = yield
     footer.footer
       .container

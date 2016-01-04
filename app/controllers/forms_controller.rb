@@ -13,11 +13,12 @@ class FormsController < ApplicationController
   end
 
   def create
-    @form = Form.create(name: params[:form][:name], master: true)
-    if @form.errors.present?
-      redirect_to new_form_path, flash: { error: @form.errors.full_messages }
-    else
+    @form = Form.new(name: params[:form][:name], master: true)
+
+    if @form.save
       redirect_to [:edit, @form]
+    else
+      render :new
     end
 
   end
