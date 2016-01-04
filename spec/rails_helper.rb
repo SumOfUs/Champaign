@@ -90,3 +90,10 @@ RSpec.configure do |config|
     end
   end
 end
+
+
+describe "kill", :focus do
+  it 'is' do
+    expect(1).to eq(1)
+  end
+end
