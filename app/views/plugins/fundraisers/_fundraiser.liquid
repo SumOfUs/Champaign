@@ -10,15 +10,21 @@
           <hr class="fundraiser-bar__step-connector" />
           <div class="fundraiser-bar__step-label" data-step="1">
             <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past">1</div>
-            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--past fundraiser-bar__display-amount">Amount</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--past fundraiser-bar__display-amount">
+              {{ 'fundraiser.amount' | t }}
+            </div>
           </div>
           <div class="fundraiser-bar__step-label" data-step="2">
             <div class="fundraiser-bar__step-number fundraiser-bar__step-number--current" data-step="2">2</div>
-            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--current">Details</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--current">
+              {{ 'fundraiser.details' | t }}
+            </div>
           </div>
           <div class="fundraiser-bar__step-label" data-step="3">
             <div class="fundraiser-bar__step-number fundraiser-bar__step-number--upcoming" data-step="3">3</div>
-            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--upcoming">Payment</div>
+            <div class="fundraiser-bar__step-name fundraiser-bar__step-name--upcoming">
+              {{ 'fundraiser.payment' | t }}
+            </div>
           </div>
         </div>
       </div>
@@ -26,28 +32,29 @@
         <div class="fundraiser-bar__errors hidden-closed">
           <span class="fa fa-exclamation-triangle"></span>
           <div class="fundraiser-bar__error-intro">
-            We were unable to process your donation!
+            {{ 'fundraiser.error_intro' | t }}
           </div>
         </div>
         <div class="fundraiser-bar__step-panel" data-step="1">
           <div class="fundraiser-bar__amount-buttons">
           </div>
-          <input class="fundraiser-bar__custom-field" placeholder="Other" />
+          <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
           <div class="fundraiser-bar__switch-currency">
-            Values shown in <span class="fundraiser-bar__current-currency">USD</span>.
-            <a class="fundraiser-bar__engage-currency-switcher">Switch currency.</a>
+            {{ 'fundraiser.currency_in' | t }} <span class="fundraiser-bar__current-currency">USD</span>.
+            <a class="fundraiser-bar__engage-currency-switcher">{{ 'fundraiser.switch_currency' | t }}.</a>
             <select class="fundraiser-bar__currency-selector" style="display: none;"></select>
           </div>
           <button class="fundraiser-bar__first-continue button" style="display:none;">
-            Proceed to details
+            {{ 'fundraiser.proceed_to_details' | t }}
           </button>
           <div class="fundraiser-bar__fine-print">
-            SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org.
+            {{ 'fundraiser.fine_print' | t }}
           </div>
         </div>
         <div class="fundraiser-bar__step-panel" data-step="2">
+          {% capture cta %}{{ 'fundraiser.proceed_to_payment' | t }}{% endcapture %}
           {% include 'Form',
-            cta: 'Proceed to payment',
+            cta: cta,
             form_id: plugins.fundraiser[ref].form_id,
             form_url_postscript: '/validate',
             outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
@@ -55,8 +62,8 @@
         </div>
         <div class="fundraiser-bar__step-panel form--big" data-step="3">
           <div class="fundraiser-bar__welcome-text hidden-irrelevant">
-            Welcome back, {{member.welcome_name}}! <br />
-            <a href="javascript:;" class=" fundraiser-bar__clear-form">Not you?</a>
+            {{ 'form.welcome_back' | t }}, {{member.welcome_name}}! <br />
+            <a href="javascript:;" class=" fundraiser-bar__clear-form">{{ 'form.switch_user' | t }}</a>
           </div>
           <form action='/' id="hosted-fields">
             <div class="form__group">
@@ -64,7 +71,7 @@
             </div>
             <div class="hosted-fields__credit-card-fields">
               <div class="form__group">
-                <div class="hosted-fields__or">or</div>
+                <div class="hosted-fields__or">{{ 'basics.or' | t }}</div>
                 <div class="hosted-fields__host hosted-fields__number"></div>
                 <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
               </div>
@@ -77,7 +84,7 @@
               <div class="form__group">
                 <hr class="fundraiser-bar__step-connector fundraiser-bar__step-connector--static" />
                 <label class="checkbox-label">
-                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> Make my donation monthly
+                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> {{ 'fundraiser.make_recurring' | t }}
                 </label>
               </div>
             </div>

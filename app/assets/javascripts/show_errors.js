@@ -17,8 +17,9 @@ window.Champaign.showErrors = function(e, data) {
   response = $.parseJSON(data.responseText);
 
   var errorMsg = function(field_name, msgs) {
-    msg = (typeof msgs === "string") ? msgs : msgs[0]
-    return ["<div class='error-msg'>This field ", msg, "</div>"].join('');
+    var msg = (typeof msgs === "string") ? msgs : msgs[0]
+    var prefix = window.I18n ? I18n.t('errors.this_field') : 'This field';
+    return ["<div class='error-msg'>", prefix, " ", msg, "</div>"].join('');
   }
 
   var clearErrors = function() {

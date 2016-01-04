@@ -213,6 +213,8 @@ GEM
       json (~> 1.8)
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
+    i18n-js (3.0.0.rc11)
+      i18n (~> 0.6)
     i18n_data (0.7.0)
     inherited_resources (1.6.0)
       actionpack (>= 3.2, < 5)
@@ -471,6 +473,7 @@ DEPENDENCIES
   geocoder
   google_currency
   guard-rspec
+  i18n-js (>= 3.0.0.rc11)
   jbuilder (~> 2.0)
   jquery-rails
   liquid

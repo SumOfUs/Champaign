@@ -68,6 +68,7 @@ en:
       title_label: "Page Title"
       language_label: "Language"
       slug_label: "Slug"
+      layout_select: "Pick a layout"
     edit:
       content: 'Content'
       settings: 'Settings'
@@ -112,6 +113,7 @@ en:
   forms:
     index:
       title: 'Forms'
+      new: 'Create new form'
     edit:
       title: "Add a Field"
       preview: "Preview"
@@ -183,6 +185,7 @@ en:
       offset: "Offset (number of fake signatures to add to true count)"
     fundraiser:
       donation_band: "Default Donation Band for unknown user:"
+      title: "Donate now"
 
   ak_logs:
     index:

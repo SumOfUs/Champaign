@@ -7,6 +7,7 @@ class LiquidRenderer
     @request_country = request_country
     @member = member
     @url_params = url_params
+    set_locale
   end
 
   def render
@@ -42,6 +43,16 @@ class LiquidRenderer
   end
 
   private
+
+  def set_locale
+    begin
+      I18n.locale = @page.language.code if @page.language.present?
+    rescue I18n::InvalidLocale
+      # by setting the +i18n.enforce_available_locales+ flag to true but
+      # catching the resulting error, it allows us to only set the locale
+      # if it's one explicitly registered under +i18n.available_locales+
+    end
+  end
 
   def image_urls(img)
     return { urls: { large: '', small: '' } } if img.blank? || img.content.blank?
