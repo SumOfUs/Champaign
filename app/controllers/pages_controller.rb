@@ -29,7 +29,7 @@ class PagesController < ApplicationController
   end
 
   def show
-    render_liquid(@page.liquid_layout)
+    render_liquid
   end
 
   def follow_up
@@ -51,10 +51,10 @@ class PagesController < ApplicationController
 
   private
 
-  def render_liquid(layout)
+  def render_liquid
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member, layout: layout, url_params: params)
+    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member, url_params: params)
     @rendered = renderer.render
     render :show, layout: 'sumofus'
   end
@@ -65,7 +65,7 @@ class PagesController < ApplicationController
 
   def request_country
     # when geocoder location API times out, request.location is blank
-    request.location.blank? ? nil : request.location.country_code
+    #request.location.blank? ? nil : request.location.country_code
   end
 
   def page_params

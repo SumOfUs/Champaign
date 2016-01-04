@@ -64,7 +64,7 @@ class LiquidHelper
     end
 
     def selected_country(request_country, member)
-      member.present? && member.country.present? ? member.country : request_country
+      #member.present? && member.country.present? ? member.country : request_country
     end
   end
 end
