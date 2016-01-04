@@ -117,6 +117,8 @@ en:
     edit:
       title: "Add a Field"
       preview: "Preview"
+    new:
+      title: "Give your form a name"
 
   form_elements:
     shared:
