@@ -376,20 +376,20 @@ describe("Fundraiser", function() {
       });
 
       it('makes a request to validate the form', function(){
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
         var request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
         expect(request.url).to.match(suite.validatePath);
       });
 
       it('moves to panel 3 if validation passes', function(){
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
         helpers.last(suite.server.requests).respond(200, { "Content-Type": "application/json" }, '{}');
         expect(helpers.currentStepOf(3)).to.eq(3);
       });
 
       it('stays on panel 2 if validation fails', function(){
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
         helpers.last(suite.server.requests).respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
         expect(helpers.currentStepOf(3)).to.eq(2);
       });
@@ -401,7 +401,7 @@ describe("Fundraiser", function() {
         suite.server.respondWith("POST", this.validatePath, ["200", {}, ""]);
         $('.fundraiser-bar__custom-field').val('$22');
         $('.fundraiser-bar__first-continue').click();
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
 
         suite.server.respond();
         expect(helpers.currentStepOf(3)).to.eq(3);
