@@ -23,14 +23,7 @@ class FormDuplicator
   private
 
   def new_form
-    if @new_form
-      @new_form
-    else
-      @new_form = @form.dup
-      @new_form.name = @form.name + "-#{SecureRandom.uuid.to_s}"
-      @new_form.save
-      @new_form
-    end
+    @new_form ||= @form.dup
   end
 end
 
