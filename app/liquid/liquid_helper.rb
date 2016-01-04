@@ -10,10 +10,10 @@ class LiquidHelper
     # https://docs.shopify.com/themes/liquid-documentation/objects
     def globals(request_country: nil, member: nil, page: nil)
       {
-        country_option_tags: country_option_tags(selected_country(request_country, member)),
-        member: member_hash(member),
-        petition_target: petition_target(page),
-        guessed_currency: guess_currency(request_country)
+        country_option_tags:  country_option_tags(selected_country(request_country, member)),
+        member:               member_hash(member),
+        petition_target:      petition_target(page),
+        guessed_currency:     guess_currency(request_country)
       }
     end
 

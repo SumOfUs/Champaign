@@ -64,8 +64,7 @@ class PagesController < ApplicationController
   end
 
   def request_country
-    # when geocoder location API times out, request.location is blank
-    #request.location.blank? ? nil : request.location.country_code
+    nil
   end
 
   def page_params
