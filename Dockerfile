@@ -1,4 +1,4 @@
-FROM ruby:2.2.2
+FROM ruby:2.3.0
 # Install system dependencies
 RUN apt-get update -qq; apt-get install -y nodejs npm imagemagick netcat && \
     update-alternatives --install /usr/bin/node nodejs /usr/bin/nodejs 100
