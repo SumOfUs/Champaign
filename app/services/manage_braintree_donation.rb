@@ -2,7 +2,7 @@ class ManageBraintreeDonation
   include ActionBuilder
 
   def self.create(params:, braintree_result:, additional_values: {}, is_subscription: false)
-    new(params: params, braintree_result: braintree_result, additional_values: additional_values).create
+    new(params: params, braintree_result: braintree_result, additional_values: additional_values, is_subscription: is_subscription).create
   end
 
   def initialize(params:, braintree_result:, additional_values: {}, is_subscription: false)
