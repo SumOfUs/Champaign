@@ -26,6 +26,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
   },
 
   handleSuccess: function(e, data) {
+    this.clearFormErrors();
     if (data.follow_up_url) {
       window.location.href = data.follow_up_url
     } else {
