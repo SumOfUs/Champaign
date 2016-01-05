@@ -20,3 +20,4 @@ class PluginsController < ApplicationController
     @page = Page.find params[:page_id]
   end
 end
+
