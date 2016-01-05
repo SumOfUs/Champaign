@@ -12,12 +12,9 @@ html
 
   body
     = render 'shared/navbar'
-
-
     = yield :page_header
 
     .container
-      #trum
       - if flash[:error]
         div.alert.alert-dismissible.alert-danger
           button type='button' class='close' data-dismiss='alert' x
@@ -26,6 +23,7 @@ html
         div.alert.alert-dismissible.alert-success
           button type='button' class='close' data-dismiss='alert' x
           strong #{flash[:notice]}
+
       = yield
     footer.footer
       .container

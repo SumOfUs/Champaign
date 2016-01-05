@@ -4,14 +4,7 @@ Rails.application.routes.draw do
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  root to: redirect('https://sumofus.org'), as: :sumofus
-
-  # Specifies routing to templates controller for when a new template layout is requested by 
-  # a user toggling different templates when creating a campaign page
+  root 'home#index'
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
