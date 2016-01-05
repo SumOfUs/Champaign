@@ -1,4 +1,6 @@
 class Form < ActiveRecord::Base
+  DEFAULT_NAME = 'Basic'
+
   has_paper_trail on: [:update, :destroy]
   has_many :form_elements, -> { order(:position) }
 
