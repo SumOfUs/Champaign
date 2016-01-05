@@ -20,6 +20,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.checkBlurbHeight();
     this.handleFormErrors();
     this.initializeSticky();
+    this.guessLocation();
     if (!this.isMobile()) {
       this.selectizeCountry();
     }

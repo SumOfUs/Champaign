@@ -15,6 +15,29 @@ const FormMethods = {
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
   },
 
+  setCountry: function(countryCode){
+    let selectize = this.$('select[name="country"]')[0].selectize
+    if (selectize) {
+      selectize.addItem(countryCode);
+    } else {
+      $('select[name="country"]').val(countryCode);
+    }
+  },
+
+  guessLocation: function(setCurrency=false) {
+    $.ajax({
+      url: '//freegeoip.net/json/',
+      type: 'POST',
+      dataType: 'jsonp',
+      success: (location) => {
+        this.setCountry(location.country_code);
+        if(setCurrency) {
+          this.setCurrencyFromCountry(location.country_code);
+        }
+      }
+    });
+  },
+
 };
 
 module.exports = FormMethods;
