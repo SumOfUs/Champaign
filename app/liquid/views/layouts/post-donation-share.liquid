@@ -1,3 +1,4 @@
 {% comment %} Description: A follow-up page thanking for donating money and asking to share {% endcomment %}
-{% include 'Share Page', message: "Thank you for your donation!" %}
+{% capture message %}{{ 'fundraiser.thank_you' | t }}!{% endcapture %}
+{% include 'Share Page', message: message %}
 {% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}

@@ -6,6 +6,9 @@
 //= require braintree-web
 //= require backbone
 
+//= require i18n
+//= require i18n/translations
+
 //= require show_errors
 //= require selectize
 //= require_directory ./plugins

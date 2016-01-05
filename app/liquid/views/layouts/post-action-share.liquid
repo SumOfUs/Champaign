@@ -1,5 +1,5 @@
 {% comment %} Description: A follow-up page thanking for signing a petition and asking to share {% endcomment %}
 
-{% capture message %}Thanks for adding your name to {{ title }}!{% endcapture %}
+{% capture message %}{{ 'petition.thank_you' | t }} "{{ title }}"!{% endcapture %}
 {% include 'Share Page', message: message %}
 {% include 'Simple Footer', extra_class: 'simple-footer--stuck-to-bottom' %}

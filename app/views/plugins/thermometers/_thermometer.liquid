@@ -2,10 +2,10 @@
   <div class='thermometer'>
     <div class="thermometer__stats">
       <div class='thermometer__signatures'>
-        {{ plugins.thermometer[ref].signatures }} signatures
+        {{ plugins.thermometer[ref].signatures }} {{ 'thermometer.signatures' | t }}
       </div>
       <div class="thermometer__remaining">
-        {{ plugins.thermometer[ref].remaining }} until {{ plugins.thermometer[ref].goal_k }}
+        {{ plugins.thermometer[ref].remaining }} {{ 'thermometer.until' | t }} {{ plugins.thermometer[ref].goal_k }}
       </div>
     </div>
     <div class="thermometer__bg">

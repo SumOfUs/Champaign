@@ -1,4 +1,6 @@
 class Api::ActionsController < ApplicationController
+  before_filter :localize_from_page_id
+
   def create
     @action_params = action_params
     validator = FormValidator.new(@action_params)

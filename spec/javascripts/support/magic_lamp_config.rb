@@ -14,7 +14,7 @@ MagicLamp.configure do |config|
 
   config.before_each do
     DatabaseCleaner.clean
-    LiquidMarkupSeeder.seed
+    LiquidMarkupSeeder.seed(quiet: true)
   end
 
   config.after_each do

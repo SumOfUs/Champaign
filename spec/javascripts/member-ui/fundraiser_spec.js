@@ -7,6 +7,7 @@ describe("Fundraiser", function() {
   before(function() {
     suite.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
     window.onbeforeunload = function(){
+      // the javascript has redirects, this prevents them firing if you view the tests in browser
       return 'Are you sure you want to leave?';
     };
   });

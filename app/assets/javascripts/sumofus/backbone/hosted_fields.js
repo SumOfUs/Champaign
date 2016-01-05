@@ -13,20 +13,20 @@ const HostedFieldsMethods = {
         container: 'hosted-fields__paypal',
         onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
         onSuccess: () => { this.$('.hosted-fields__credit-card-fields').slideUp(); },
-        // when adding i18n, pass the locale param to paypal
+        locale: I18n.currentLocale(),
       },
       hostedFields: {
         number: {
           selector: ".hosted-fields__number",
-          placeholder: "Card number",
+          placeholder: I18n.t('fundraiser.fields.number'),
         },
         cvv: {
           selector: ".hosted-fields__cvv",
-          placeholder: "CVV",
+          placeholder: I18n.t('fundraiser.fields.cvv'),
         },
         expirationDate: {
           selector: ".hosted-fields__expiration",
-          placeholder: "mm/yy",
+          placeholder: I18n.t('fundraiser.fields.expiration_format'),
         },
         styles: {
           input: {
@@ -38,7 +38,7 @@ const HostedFieldsMethods = {
             if (event.isPotentiallyValid) {
               this.clearError(event.target.fieldKey);
             } else {
-              this.showError(event.target.fieldKey, "doesn't look right");
+              this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
             }
             if (event.target.fieldKey == 'number') {
               if (event.isEmpty) {
@@ -65,17 +65,17 @@ const HostedFieldsMethods = {
       this.enableButton();
       if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
         _.each(error.details.invalidFieldKeys, (key) => {
-          this.showError(key, 'is invalid');
+          this.showError(this.translateKey(key), I18n.t('errors.is_invalid'));
         });
       }
     }
   },
 
-  showError: function(field_name, msg) {
-    field_name = this.standardizeFieldName(field_name);
-    let $holder = $(`.hosted-fields__${field_name}`).parent();
+  showError: function(fieldName, msg) {
+    fieldName = this.standardizeFieldName(fieldName);
+    let $holder = $(`.hosted-fields__${fieldName}`).parent();
     $holder.find('.error-msg').remove();
-    $holder.append(`<div class='error-msg'>${field_name} ${msg}</div>`);
+    $holder.append(`<div class='error-msg'>${this.translateFieldName(fieldName)} ${msg}</div>`);
   },
 
   showCardType: function(card) {
@@ -98,13 +98,21 @@ const HostedFieldsMethods = {
     }
   },
 
-  clearError: function(field_name) {
-    field_name = this.standardizeFieldName(field_name);
-    this.$(`.hosted-fields__${field_name}`).parent().find('.error-msg').remove();
+  clearError: function(fieldName) {
+    fieldName = this.standardizeFieldName(fieldName);
+    this.$(`.hosted-fields__${fieldName}`).parent().find('.error-msg').remove();
   },
 
-  standardizeFieldName: function(field_name) {
-    return /expiration/.test(field_name) ? 'expiration' : field_name;
+  standardizeFieldName: function(fieldName) {
+    return /expiration/.test(fieldName) ? 'expiration' : fieldName;
+  },
+
+  translateFieldName: function(fieldName) {
+    if (['expiration', 'cvv', 'number', 'postalCode'].indexOf(this.standardizeFieldName(fieldName)) > -1) {
+      return I18n.t(`fundraiser.fields.${fieldName}`)
+    } else {
+      return fieldName;
+    }
   },
 
   getClientToken: function(callback) {
