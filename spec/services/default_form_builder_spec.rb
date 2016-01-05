@@ -14,10 +14,14 @@ describe DefaultFormBuilder do
   context 'when form already exists' do
     before {  DefaultFormBuilder.create  }
 
-    it 'returns form' do
+    it "doesn't create a new form" do
       expect {
          DefaultFormBuilder.create
-      }.to_not change{ Form.count }
+      }.to_not change{ Form.count }.from(1)
+    end
+
+    it 'returns existing form' do
+      expect( DefaultFormBuilder.create.name).to eq('Basic')
     end
   end
 end
