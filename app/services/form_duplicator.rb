@@ -10,20 +10,24 @@ class FormDuplicator
   end
 
   def duplicate
-    @form.form_elements.map(&:dup).
-      map do |clone|
-        clone.form = new_form
-        clone
-      end.each(&:save)
+    @form.form_elements.each do |element|
+      element = element.dup
+      element.form = new_form
+      element.save
+    end
 
-    new_form.update master: false
     new_form
   end
 
   private
 
   def new_form
-    @new_form ||= @form.dup
+    return @new_form || (
+      @new_form = @form.dup
+      @new_form.master = false
+      @new_form.save
+      @new_form
+    )
   end
 end
 
