@@ -74,9 +74,17 @@ describe("Inline form errors", function() {
       expect($msg.text()).to.have.length(0);
     });
 
-    it('dismisses the error when field receives focus', function(){
+    it('does not dismiss the error when field receives focus', function(){
       var $input = $('input[name="email"]');
       $input.focus();
+      expect($input.parent()).to.have.class('has-error');
+      expect($input.parent().find('.has-error')).to.have.length.above(0);
+      expect($input.parent().find('.error-msg')).to.have.length.above(0);
+    });
+
+    it('dismisses the error when field value changes', function(){
+      var $input = $('input[name="email"]');
+      $input.change();
       expect($input.parent()).not.to.have.class('has-error');
       expect($input.parent().find('.has-error')).to.have.length(0);
       expect($input.parent().find('.error-msg')).to.have.length(0);

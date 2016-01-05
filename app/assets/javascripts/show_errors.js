@@ -24,7 +24,7 @@ let ErrorDisplay = {
     let $field = this.findField(field_name, $form, response);
     $field.addClass('has-error').parent().addClass('has-error');
     $field.parent().append(this.errorMsg(field_name, msgs));
-    $field.on('focus', (e) => { this.hideError(e) })
+    $field.on('change', (e) => { this.hideError(e) })
   },
 
   errorMsg(field_name, msgs) {
