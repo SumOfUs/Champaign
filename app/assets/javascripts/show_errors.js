@@ -8,7 +8,8 @@ let ErrorDisplay = {
     if (!e || !data || !data.responseText || data.status != 422) {
       return; // no reason to try if we dont have what we need
     }
-    // use the relevant form if the event was a form submission
+    // use the relevant form if the event was a form submission.
+    // otherwise, search in all the forms on the page.
     let $form = ($(e.target) && $(e.target).length > 0) ? $(e.target) : $('form');
     let response = $.parseJSON(data.responseText);
     this.clearErrors($form);
