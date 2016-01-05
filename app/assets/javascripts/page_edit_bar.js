@@ -1,3 +1,5 @@
+let ErrorDisplay = require('show_errors');
+
 let PageModel = Backbone.Model.extend({
   urlRoot: '/api/pages',
 
@@ -117,7 +119,7 @@ let PageEditBar = Backbone.View.extend({
       this.enableSubmit();
       $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
       if(data.status == 422) {
-        Champaign.showErrors(e, data);
+        ErrorDisplay.show(e, data);
         $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
         $.publish('page:errors');
       } else {

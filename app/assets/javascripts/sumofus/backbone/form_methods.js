@@ -1,11 +1,17 @@
+let ErrorDisplay = require('show_errors');
+
 const FormMethods = {
 
   handleFormErrors: function() {
-    this.$('form').on('ajax:error', window.Champaign.showErrors);
+    this.$('form').on('ajax:error', (e, d) => { ErrorDisplay.show(e, d); });
   },
 
   selectizeCountry: function() {
     $('.petition-bar__country-selector').selectize();
+  },
+
+  clearFormErrors: function() {
+    ErrorDisplay.clearErrors(this.$('form'));
   },
 
   clearForm: function(){
