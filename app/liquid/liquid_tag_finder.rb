@@ -34,9 +34,9 @@ class LiquidTagFinder
   # Returns the names of every partial referenced in the liquid markup.
   # More examples can be found in the LiquidTagFinderSpec
   # For example:
-  #     {% include 'thermometer', ref: 'modal' %}
-  # would return
-  #     ['thermometer']
+  #     {% include 'thermometer', ref: 'modal' %} {% include 'fundraiser' %}
+  # would yield
+  #     ['thermometer', 'fundraiser']
   def partial_names
     all_include_tags.map{ |incl| partial_name_from_include(incl) }
   end
@@ -45,9 +45,9 @@ class LiquidTagFinder
   # along with the ref passed with it. More examples in the spec.
   # Refs serve to allow multiple of one plugin on a page.
   # For example:
-  #     {% include 'thermometer', ref: 'modal' %}
-  # would return
-  #     [['thermometer', 'modal']]
+  #     {% include 'thermometer', ref: 'modal' %} {% include 'fundraiser' %} {% include 'thermometer' %}
+  # would yield
+  #     [['thermometer', 'modal'], ['fundraiser', nil], ['thermometer', nil]]
   def partial_refs
     all_refs = all_include_tags.map{ |incl| [partial_name_from_include(incl), ref_from_include(incl)] }
     all_refs.uniq # one form for multiple refless/ same reffed templates
