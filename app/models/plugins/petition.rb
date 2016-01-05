@@ -2,6 +2,7 @@ class Plugins::Petition < ActiveRecord::Base
   include Plugins::HasForm
 
   belongs_to :page
+
   validates :cta, presence: true, allow_blank: false
 
   DEFAULTS = { cta: 'Sign the Petition' }
@@ -10,3 +11,4 @@ class Plugins::Petition < ActiveRecord::Base
     attributes.merge(form_liquid_data(supplemental_data))
   end
 end
+

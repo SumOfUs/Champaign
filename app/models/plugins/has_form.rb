@@ -3,7 +3,7 @@ module Plugins::HasForm
 
   included do
     belongs_to :form
-    after_create :create_form
+    before_create :create_form
   end
 
   def form_fields
@@ -16,20 +16,26 @@ module Plugins::HasForm
 
   def outstanding_fields(form_values)
     return [] if form.blank?
-    FormValidator.new({form_id: form_id}.merge(form_values || {})).errors.keys
+    FormValidator.new(
+      {form_id: form_id}.merge(form_values || {})
+    ).errors.keys
   end
 
   private
 
   def create_form
-    update(form: Form.create(master: false, name: "#{name}:#{id}"))
+    self.form = FormDuplicator.duplicate(
+      DefaultFormBuilder.create
+    )
   end
 
   def form_liquid_data(supplemental_data)
     {
       form_id: form.try(:id),
       fields: form_fields,
-      outstanding_fields: outstanding_fields(supplemental_data[:form_values]).map(&:to_s)
+      outstanding_fields: outstanding_fields(
+        supplemental_data[:form_values]
+      ).map(&:to_s)
     }
   end
 end

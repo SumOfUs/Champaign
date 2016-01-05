@@ -14,24 +14,7 @@ end
 
 
 # Forms
-
-begin
-  basic_form = Form.create name: "Basic", master: true
-rescue ActiveRecord::RecordInvalid
-  # Do nothing, the record already exists or can't be created.
-end
-
-
-basic_form_fields = [
-    {label: 'Email Address', name: 'email', required: true, data_type: 'email', form: basic_form},
-    {label: 'Full Name', name: 'name', required: true, data_type: 'text', form: basic_form},
-    {label: 'Postal Code', name: 'postal', required: false, data_type: 'text', form: basic_form}
-]
-
-basic_form_fields.each do |field|
-  FormElement.create!(field)
-end
-
+DefaultFormBuilder.create
 
 # Create tags and their associations to ActionKit
 all_tags = [
