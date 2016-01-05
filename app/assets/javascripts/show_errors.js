@@ -9,10 +9,10 @@ let ErrorDisplay = {
       return; // no reason to try if we dont have what we need
     }
     // use the relevant form if the event was a form submission
-    this.$form = ($(e.target) && $(e.target).length > 0) ? $(e.target) : $('form');
-    this.response = $.parseJSON(data.responseText);
-    this.clearErrors(this.$form);
-    $.each(this.response.errors, (f, m) => { this.showError(f, m) });
+    let $form = ($(e.target) && $(e.target).length > 0) ? $(e.target) : $('form');
+    let response = $.parseJSON(data.responseText);
+    this.clearErrors($form);
+    $.each(response.errors, (f, m) => { this.showError(f, m, $form, response) });
   },
 
   clearErrors($form) {
@@ -20,8 +20,8 @@ let ErrorDisplay = {
     $form.find('.error-msg').remove();
   },
 
-  showError(field_name, msgs) {
-    let $field = this.findField(field_name);
+  showError(field_name, msgs, $form, response) {
+    let $field = this.findField(field_name, $form, response);
     $field.addClass('has-error').parent().addClass('has-error');
     $field.parent().append(this.errorMsg(field_name, msgs));
     $field.on('focus', (e) => { this.hideError(e) })
@@ -38,11 +38,11 @@ let ErrorDisplay = {
     $(e.target).siblings('.error-msg').remove();
   },
 
-  findField(field_name) {
-    if (this.response.name) {
-      field_name = [this.response.name, '[', field_name, ']'].join('');
+  findField(field_name, $form, response) {
+    if (response.name) {
+      field_name = [response.name, '[', field_name, ']'].join('');
     }
-    return this.$form.find("[name='" + field_name + "']");
+    return $form.find("[name='" + field_name + "']");
   },
 }
 
