@@ -1,9 +1,15 @@
 = form_for @liquid_layout, html: { class: 'template-form' } do |f|
   = render "shared/error_messages", target: @liquid_layout
   .form-group
-    = f.text_field :title, class: 'form-control'
+    = f.text_field :title, class: 'form-control', placeholder: 'Title'
+  .form-group
+    = f.text_field :description, class: 'form-control', placeholder: 'Description'
   .form-group
     = f.text_area :content, class: 'form-control syntax-highlighting'
+  .checkbox
+    = f.label :experimental
+      = f.check_box :experimental
+      = "#{t('liquid.experimental')} #{t('liquid.experimental_explanation')}"
 
   .form-group
     button.btn.btn-default Save

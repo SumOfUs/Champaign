@@ -86,12 +86,16 @@ en:
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
       layout_select: 'Page layout'
-      secondary_layout_select: 'Page layout for post-action page'
+      secondary_layout_select: 'Page layout for follow-up page'
+      change_layout: 'Change layout'
       add_link: 'Add source'
       language_label: "Language"
       primary_image: 'Which is the main image for the page?'
       new_variant: 'Create new share variant'
 
+  liquid:
+    experimental: Experimental
+    experimental_explanation: (experimental templates are not available to campaigners)
 
   campaigns:
     new:

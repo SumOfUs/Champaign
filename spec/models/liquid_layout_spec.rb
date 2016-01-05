@@ -7,6 +7,8 @@ describe LiquidLayout do
 
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :content }
+  it { is_expected.to respond_to :experimental }
+  it { is_expected.to respond_to :description }
   it { is_expected.to respond_to :pages }
   it { is_expected.to respond_to :partial_names }
   it { is_expected.to respond_to :partial_refs }
@@ -38,6 +40,10 @@ describe LiquidLayout do
     it "with a reference to a partial that doesn't exist" do
       layout.content = "<div>{% include 'nonexistent' %}</div>"
     end
+
+    it 'with nil value for experimental' do
+      layout.experimental = nil
+    end
   end
 
   describe 'plugin_refs' do
@@ -57,6 +63,18 @@ describe LiquidLayout do
       layout.content = "<p>{{ plugins.thermometer[ref] }}</p>{% include 'd', ref: 'modal' %}"
       expect(layout.plugin_refs).to match_array [['thermometer', nil], ['d', "modal"]]
     end
+  end
+
+  describe 'campaginer_friendly' do
+
+    it 'only returns layouts with experimental: false' do
+      l1 = create :liquid_layout, experimental: true
+      l2 = create :liquid_layout, experimental: false
+      l3 = create :liquid_layout, experimental: true
+      l4 = create :liquid_layout, experimental: false
+      expect(LiquidLayout.campaigner_friendly).to match_array([l2, l4])
+    end
+
   end
 end
 
