@@ -22,12 +22,10 @@ class FormDuplicator
   private
 
   def new_form
-    return @new_form || (
-      @new_form = @form.dup
-      @new_form.master = false
-      @new_form.save
-      @new_form
-    )
+    @new_form ||= @form.dup.tap do |f|
+      f.master = false
+      f.save
+    end
   end
 end
 
