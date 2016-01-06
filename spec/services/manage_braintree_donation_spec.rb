@@ -134,7 +134,7 @@ describe ManageBraintreeDonation do
   it 'can handle not having a credit card number' do
     result.transaction.credit_card_details.last_4 = nil
     expect(result.transaction.credit_card_details.last_4).to eq(nil)
-    full_donation_options[:order][:card_num] = 'PYPL'
+    full_donation_options[:order][:card_num] = ManageBraintreeDonation::PAYPAL_IDENTIFIER
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end

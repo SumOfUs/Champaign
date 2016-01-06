@@ -1,5 +1,6 @@
 class ManageBraintreeDonation
   include ActionBuilder
+  PAYPAL_IDENTIFIER = 'PYPL'
 
   def self.create(params:, braintree_result:, additional_values: {}, is_subscription: false)
     new(params: params, braintree_result: braintree_result, additional_values: additional_values, is_subscription: is_subscription).create
@@ -77,7 +78,7 @@ class ManageBraintreeDonation
     # Credit Card info along for the ride, we can safely assume at this time that it's a PayPal transaction and that's
     # what we do here.
     given_num = transaction.credit_card_details.last_4
-    given_num.nil? ? 'PYPL' : given_num
+    given_num.nil? ? ManageBraintreeDonation::PAYPAL_IDENTIFIER: given_num
   end
 
   def expire_month
