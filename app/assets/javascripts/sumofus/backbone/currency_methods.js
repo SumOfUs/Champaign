@@ -16,6 +16,18 @@ const CurrencyMethods = {
     'AUD': '$',
     'NZD': '$',
   },
+  COUNTRY_TO_CURRENCY_MAP: {
+    'US': 'USD',
+    'GB': 'GBP',
+    'NZ': 'NZD',
+    'AU': 'AUD',
+    'CA': 'CAD'
+  },
+  EURO_COUNTRY_CODES: ['AL', 'AD', 'AT', 'BY', 'BE', 'BA', 'BG', 'HR', 'CY',
+     'CZ', 'DK', 'EE', 'FO', 'FI', 'FR', 'DE', 'GI', 'GR', 'HU', 'IS', 'IE',
+     'IT', 'LV', 'LI', 'LT', 'LU', 'MK', 'MT', 'MD', 'MC', 'NL', 'NO', 'PL',
+     'PT', 'RO', 'RU', 'SM', 'RS', 'SK', 'SI', 'ES', 'SE', 'CH', 'UA', 'VA',
+     'RS', 'IM', 'RS', 'ME'],
 
   showDonationBandForCurrency: function(currency) {
     let candidates = [[this.donationBands,          currency],
@@ -50,6 +62,16 @@ const CurrencyMethods = {
     this.$('select.fundraiser-bar__currency-selector').find('option').prop('selected', false);
     this.$('select.fundraiser-bar__currency-selector').find(`option[value="${this.currency}"]`).prop('selected', true);
     this.showDonationBandForCurrency(this.currency);
+  },
+
+  setCurrencyFromCountry: function(countryCode) {
+    if (_.indexOf(EURO_COUNTRY_CODES, countryCode) > -1) {
+      return this.setCurrency('EUR');
+    } else if (COUNTRY_TO_CURRENCY_MAP.hasOwnProperty(countryCode)) {
+      return this.setCurrency(COUNTRY_TO_CURRENCY_MAP[countryCode]);
+    } else {
+      // we don't support this country's currency
+    }
   },
 
   setupCurrencySelector: function() {
