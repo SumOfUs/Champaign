@@ -191,7 +191,7 @@ en:
       offset: "Offset (number of fake signatures to add to true count)"
     fundraiser:
       donation_band: "Default Donation Band for unknown user:"
-      title: "Donate now"
+      title: "Title (eg 'Donate now')"
 
   ak_logs:
     index:
