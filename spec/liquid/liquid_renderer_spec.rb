@@ -10,7 +10,7 @@ describe LiquidRenderer do
   describe 'new' do
     it 'receives the correct arguments' do
       expect{
-        LiquidRenderer.new(page, layout: liquid_layout, request_country: 'RD', member: {}, url_params: {hi: 'a'})
+        LiquidRenderer.new(page, layout: liquid_layout, member: {}, url_params: {hi: 'a'})
       }.not_to raise_error
     end
 
