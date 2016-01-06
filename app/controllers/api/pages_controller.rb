@@ -7,6 +7,7 @@ class Api::PagesController < ApplicationController
   def update
     updater = PageUpdater.new(@page, page_url(@page))
     if updater.update(all_params)
+      expire_fragment "page_#{@page.id}"
       render json: { refresh: updater.refresh?, id: @page.id }, status: :ok
     else
       render json: { errors: shallow_errors(updater.errors) }, status: 422

@@ -2,12 +2,9 @@ doctype html
 html
   head
     title SumOfUs.org
-    = render partial: 'shared/optimizely_snippet'
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     = stylesheet_link_tag "sumofus"
     = javascript_include_tag "sumofus"
-    = render partial: 'shared/js_locale'
-    script type="text/javascript" charset="utf-8" src="//c.shpg.org/99/sp.js"
     = csrf_meta_tags
     = favicon_link_tag 'sumofus/favicon.ico'
 
@@ -17,3 +14,5 @@ html
     .mobile-indicator
     - if current_user && @page.present?
       = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
+
+    = render partial: 'shared/js_locale'
