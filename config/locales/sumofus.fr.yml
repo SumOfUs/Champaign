@@ -39,8 +39,8 @@ fr:
     processing: En cours de traitement...
     submit: Envoyer
   thermometer:
-    signatures: fr(signatures) # as in '225 signatures'
-    until: fr(until) # as in '25 signatures until 250'
+    signatures: signatures #, par exemple '225 signatures'
+    until: jusqu'à #, par exemple '25 signatures jusqu'à 250'
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
   errors:
