@@ -19,4 +19,24 @@ describe "Liquid page rendering" do
       end
     end
   end
+
+  describe 'rendering sidebars' do
+
+    before :each do
+      LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
+    end
+
+    it 'renders the fundraiser sidebar' do
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Standard Fundraiser")
+      get "/pages/#{page.id}"
+      expect(response.body).to include('<div class="fundraiser-bar__content">')
+    end
+
+    it 'renders the fundraiser sidebar' do
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Standard Petition")
+      get "/pages/#{page.id}"
+      expect(response.body).to include('<div class="petition-bar__content">')
+    end
+
+  end
 end
