@@ -350,6 +350,7 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rdoc (4.2.0)
+    redis (3.2.2)
     remotipart (1.2.1)
     render_anywhere (0.0.11)
       rails (>= 3.0.7)
@@ -497,6 +498,7 @@ DEPENDENCIES
   rails-assets-quill!
   rails-assets-speakingurl!
   rails-assets-underscore!
+  redis
   remotipart (~> 1.2)
   render_anywhere
   rmagick
