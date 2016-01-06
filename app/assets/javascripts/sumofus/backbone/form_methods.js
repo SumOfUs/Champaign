@@ -16,9 +16,9 @@ const FormMethods = {
   },
 
   setCountry: function(countryCode){
-    let selectize = this.$('select[name="country"]')[0].selectize
-    if (selectize) {
-      selectize.addItem(countryCode);
+    let selectize_el = this.$('select[name="country"]')[0];
+    if (selectize_el) {
+      selectize_el.selectize && selectize_el.selectize.addItem(countryCode);
     } else {
       $('select[name="country"]').val(countryCode);
     }

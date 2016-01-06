@@ -65,10 +65,10 @@ const CurrencyMethods = {
   },
 
   setCurrencyFromCountry: function(countryCode) {
-    if (_.indexOf(EURO_COUNTRY_CODES, countryCode) > -1) {
+    if (_.indexOf(this.EURO_COUNTRY_CODES, countryCode) > -1) {
       return this.setCurrency('EUR');
-    } else if (COUNTRY_TO_CURRENCY_MAP.hasOwnProperty(countryCode)) {
-      return this.setCurrency(COUNTRY_TO_CURRENCY_MAP[countryCode]);
+    } else if (this.COUNTRY_TO_CURRENCY_MAP.hasOwnProperty(countryCode)) {
+      return this.setCurrency(this.COUNTRY_TO_CURRENCY_MAP[countryCode]);
     } else {
       // we don't support this country's currency
     }
