@@ -1,5 +1,5 @@
 ActiveAdmin.register LiquidLayout do
-  actions :all, except: [:new, :edit, :destroy]
+  actions :all, except: [:new, :edit]
 
   index do
     selectable_column
