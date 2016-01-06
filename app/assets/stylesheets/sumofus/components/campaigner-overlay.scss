@@ -1,7 +1,36 @@
-.campaigner-overlay__edit-link {
+.campaigner-overlay{
   position: fixed;
-  top: 20px;
-  right: 20px;
+  bottom: -20px;
+  left: 6px;
   z-index: 10000;
   color: white;
+  width: 130px;
+  @include box-sizing(border-box);
+  padding: 15px 15px 30px;
+  font-size: 12px;
+  border-radius: 5px;
+
+  &--active {
+    background: darkgreen;
+  }
+  &--inactive {
+    background: darkorange;
+  }
+  &__active-status {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+
+  &__edit-link {
+    float: left;
+    display: block;
+    width: 100%;
+    color: white;
+    margin-top: 10px;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }

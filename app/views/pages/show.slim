@@ -1,2 +1,9 @@
 = @rendered
 
+- if user_signed_in? && @page.present?
+  .campaigner-overlay class="#{@page.active? ? 'campaigner-overlay--active' : 'campaigner-overlay--inactive'}"
+    .campaigner-overlay__active-status
+      = @page.active? ? "Published" : "Not published"
+    .campaigner-overlay__active_message
+      = @page.active? ? "Anyone with the link can view." : "Only campaigners can view."
+    = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
