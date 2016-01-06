@@ -2,11 +2,9 @@ require 'rails_helper'
 require_relative 'shared_examples'
 
 describe Plugins::Petition do
-  let(:petition) { create :plugins_petition }
+  subject(:petition) { create(:plugins_petition) }
 
-  subject{ petition }
-
-  include_examples "plugin with form", :plugins_petition
+  include_examples "plugin with form"
 
   it { is_expected.to be_valid }
   it { is_expected.to respond_to :description }
@@ -25,5 +23,5 @@ describe Plugins::Petition do
     petition.target = ""
     expect(petition).to be_valid
   end
-
 end
+

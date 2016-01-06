@@ -1,0 +1,54 @@
+en:
+  page:
+    more_info: More information
+  basics:
+    or: or
+  branding:
+    tagline: Fighting for people over profits
+    license: Creative Commons Attribution 3.0 Unported License.
+  fundraiser:
+    amount: Amount
+    details: Details
+    payment: Payment
+    donate: Donate # used on the submit button, eg 'Donate $15'
+    error_intro: We were unable to process your donation!
+    currency_in: Values shown in # USD
+    switch_currency: Switch currency
+    proceed_to_details: Proceed to details
+    proceed_to_payment: Proceed to payment
+    other_amount: Other
+    make_recurring: Make my donation monthly
+    thank_you: Thank you for your donation
+    card_declined: Your card was declined by the payment processor. Please try a different payment method.
+    unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
+    fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
+    fields:
+      cvv: CVV
+      number: Card number
+      expiration: Expiration date
+      expiration_format: mm/yy
+      postalCode: Postal code
+  petition:
+    sign_it: Sign the petition
+    target_prefix: TO
+    confirmation: Name submitted
+    thank_you: Thanks for adding your name to # <petition title>
+  form:
+    welcome_back: Welcome back
+    switch_user: Not you?
+    processing: Processing...
+    submit: Submit
+  thermometer:
+    signatures: signatures # as in '225 signatures'
+    until: until # as in '25 signatures until 250'
+  share:
+    cta: Share the campaign with your friends to triple your impact!
+  errors:
+    probably_invalid: doesn't look right
+    is_invalid: is invalid
+    this_field: This field
+  validation:
+    is_required: is required
+    is_invalid_email: is not a valid email address
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: must be a valid country code

@@ -20,8 +20,27 @@ describe Form do
   end
 
   describe 'validations' do
-    it "requires a title" do
-      expect(Form.new).to_not be_valid
+    context 'name' do
+      it "must be present" do
+        expect(Form.new).to_not be_valid
+      end
+
+      context 'for non-master' do
+        it 'uniqueness is not necessary' do
+          create(:form, master: true, name: 'Foo')
+
+          new_form = Form.create(master:false, name: 'Foo')
+          expect(new_form.errors[:name]).to be_empty
+        end
+      end
+
+      context 'for master' do
+        it 'must be unique' do
+          create(:form, master: true, name: 'Foo')
+          new_form = Form.create(master:true, name: 'Foo')
+          expect(new_form.errors[:name]).to eq(['must be unique'])
+        end
+      end
     end
   end
 end

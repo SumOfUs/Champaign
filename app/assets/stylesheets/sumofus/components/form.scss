@@ -10,6 +10,11 @@
         border-color: $orange;
       }
     }
+    &.has-error {
+      .selectize-control.single .selectize-input {
+        border-color: $orange;
+      }
+    }
     .error-msg {
       color: $orange;
       font-size: 14px;

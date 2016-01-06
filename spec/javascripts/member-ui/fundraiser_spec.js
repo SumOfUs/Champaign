@@ -7,6 +7,7 @@ describe("Fundraiser", function() {
   before(function() {
     suite.validatePath = /\/api\/pages\/[0-9]+\/actions\/validate/;
     window.onbeforeunload = function(){
+      // the javascript has redirects, this prevents them firing if you view the tests in browser
       return 'Are you sure you want to leave?';
     };
   });
@@ -375,20 +376,20 @@ describe("Fundraiser", function() {
       });
 
       it('makes a request to validate the form', function(){
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
         var request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
         expect(request.url).to.match(suite.validatePath);
       });
 
       it('moves to panel 3 if validation passes', function(){
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
         helpers.last(suite.server.requests).respond(200, { "Content-Type": "application/json" }, '{}');
         expect(helpers.currentStepOf(3)).to.eq(3);
       });
 
       it('stays on panel 2 if validation fails', function(){
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
         helpers.last(suite.server.requests).respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
         expect(helpers.currentStepOf(3)).to.eq(2);
       });
@@ -400,7 +401,7 @@ describe("Fundraiser", function() {
         suite.server.respondWith("POST", this.validatePath, ["200", {}, ""]);
         $('.fundraiser-bar__custom-field').val('$22');
         $('.fundraiser-bar__first-continue').click();
-        $('.action-bar__submit-button').click();
+        $('.petition-bar__submit-button').click();
 
         suite.server.respond();
         expect(helpers.currentStepOf(3)).to.eq(3);
@@ -480,6 +481,38 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__error-detail').length).to.equal(2);
         expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
       });
+
+      it('grays out the paypal button once a card number are entered', function(){
+        event = {type: 'fieldStateChange', target: {fieldKey: 'number'}, isEmpty: true};
+        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
+        expect($('#hosted-fields__paypal')).not.to.have.class('paypal--grayed-out');
+        event.isEmpty = false
+        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
+        expect($('#hosted-fields__paypal')).to.have.class('paypal--grayed-out');
+      });
+
+      it('restores color to the paypal button after the card digits are deleted', function(){
+        event = {type: 'fieldStateChange', target: {fieldKey: 'number'}, isEmpty: false};
+        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
+        expect($('#hosted-fields__paypal')).to.have.class('paypal--grayed-out');
+        event.isEmpty = true
+        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
+        expect($('#hosted-fields__paypal')).not.to.have.class('paypal--grayed-out');
+      });
+
+      it('hides the credit card field when paypal calls onSuccess', function(){
+        expect($('.hosted-fields__credit-card-fields')).not.to.have.css('display','none');
+        suite.fundraiserBar.braintreeSettings().paypal.onSuccess('fake-nonce', 'user@test.com');
+        expect($('.hosted-fields__credit-card-fields')).to.have.css('display','none');
+      });
+
+      it('shows the credit card fields when paypal canceled', function(){
+        suite.fundraiserBar.braintreeSettings().paypal.onSuccess('fake-nonce', 'user@test.com');
+        expect($('.hosted-fields__credit-card-fields')).to.have.css('display','none');
+        suite.fundraiserBar.braintreeSettings().paypal.onCancelled();
+        expect($('.hosted-fields__credit-card-fields')).not.to.have.css('display','none');
+      });
+
     });
   });
 });

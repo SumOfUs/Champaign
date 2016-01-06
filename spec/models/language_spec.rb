@@ -8,13 +8,23 @@ describe Language do
       expect(subject).to be_valid
     end
 
-    it "requires a code" do
-      subject.code = ''
+    it "does not allow a nil code" do
+      subject.code = nil
       expect(subject).to_not be_valid
     end
 
-    it "requires a name" do
-      subject.name = ''
+    it "does not allow a nil name" do
+      subject.name = nil
+      expect(subject).to_not be_valid
+    end
+
+    it "does not allow a blank code" do
+      subject.code = ' '
+      expect(subject).to_not be_valid
+    end
+
+    it "does not allow a blank name" do
+      subject.name = ' '
       expect(subject).to_not be_valid
     end
   end

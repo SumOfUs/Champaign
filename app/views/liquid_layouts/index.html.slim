@@ -5,12 +5,17 @@
       thead
         tr
           th Title
+          th Description
+          th Experimental
           th
 
       tbody
         - @liquid_layouts.each do |liquid_layout|
           tr
             td = liquid_layout.title
+            td = liquid_layout.description
+            td
+              span class=(liquid_layout.experimental? ? 'tick' : 'cross')
             td = link_to 'Edit', edit_liquid_layout_path(liquid_layout)
 
 

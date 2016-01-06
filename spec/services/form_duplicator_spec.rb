@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe FormDuplicator do
-  let(:form) { create(:form_with_fields) }
+  let(:form) { create(:form_with_fields, master: true) }
 
   subject(:copy) { FormDuplicator.duplicate(form) }
 

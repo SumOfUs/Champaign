@@ -15,14 +15,16 @@ describe 'Search ::' do
         let!(:intersection_page_1) {
           create(:page,
                  title: 'has one same tag as intersection page 2',
-                 tags: [tag1, tag2, tag3, tag4],
+                 slug:  'has-same-page-2',
+                 tags:  [tag1, tag2, tag3, tag4]
           )
         }
 
         let!(:intersection_page_2) {
           create(:page,
                  title: 'has one same tag as intersection page 1',
-                 tags: [tag3, tag4, tag5],
+                 slug:  'has-same-page-1',
+                 tags:  [tag3, tag4, tag5]
           )
         }
         let(:tag_searcher) { Search::PageSearcher.new({search: {tags: [tag.id]} }) }

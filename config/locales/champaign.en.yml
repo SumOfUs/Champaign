@@ -68,6 +68,7 @@ en:
       title_label: "Page Title"
       language_label: "Language"
       slug_label: "Slug"
+      layout_select: "Pick a layout"
     edit:
       content: 'Content'
       settings: 'Settings'
@@ -85,12 +86,16 @@ en:
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
       layout_select: 'Page layout'
-      secondary_layout_select: 'Page layout for post-action page'
+      secondary_layout_select: 'Page layout for follow-up page'
+      change_layout: 'Change layout'
       add_link: 'Add source'
       language_label: "Language"
       primary_image: 'Which is the main image for the page?'
       new_variant: 'Create new share variant'
 
+  liquid:
+    experimental: Experimental
+    experimental_explanation: (experimental templates are not available to campaigners)
 
   campaigns:
     new:
@@ -112,9 +117,12 @@ en:
   forms:
     index:
       title: 'Forms'
+      new: 'Create new form'
     edit:
       title: "Add a Field"
       preview: "Preview"
+    new:
+      title: "Give your form a name"
 
   form_elements:
     shared:
@@ -183,6 +191,7 @@ en:
       offset: "Offset (number of fake signatures to add to true count)"
     fundraiser:
       donation_band: "Default Donation Band for unknown user:"
+      title: "Title (eg 'Donate now')"
 
   ak_logs:
     index:

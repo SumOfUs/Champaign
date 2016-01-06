@@ -4,45 +4,59 @@ const HostedFieldsMethods = {
     this.getClientToken(this.setupFields());
   },
 
+  braintreeSettings: function() {
+    return {
+      id: "hosted-fields",
+      onPaymentMethodReceived: this.paymentMethodReceived(),
+      onError: this.handleErrors(),
+      paypal: {
+        container: 'hosted-fields__paypal',
+        onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
+        onSuccess: () => { this.$('.hosted-fields__credit-card-fields').slideUp(); },
+        locale: I18n.currentLocale(),
+      },
+      hostedFields: {
+        number: {
+          selector: ".hosted-fields__number",
+          placeholder: I18n.t('fundraiser.fields.number'),
+        },
+        cvv: {
+          selector: ".hosted-fields__cvv",
+          placeholder: I18n.t('fundraiser.fields.cvv'),
+        },
+        expirationDate: {
+          selector: ".hosted-fields__expiration",
+          placeholder: I18n.t('fundraiser.fields.expiration_format'),
+        },
+        styles: {
+          input: {
+            "font-size": "16px",
+          },
+        },
+        onFieldEvent: (event) => {
+          if (event.type === "fieldStateChange"){
+            if (event.isPotentiallyValid) {
+              this.clearError(event.target.fieldKey);
+            } else {
+              this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
+            }
+            if (event.target.fieldKey == 'number') {
+              if (event.isEmpty) {
+                this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
+              } else {
+                this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
+              }
+            }
+            this.showCardType(event.card);
+          }
+        },
+      },
+    };
+  },
+
   setupFields: function() {
     return (clientToken) => {
-      braintree.setup(clientToken, "custom", {
-        id: "hosted-fields",
-        onPaymentMethodReceived: this.paymentMethodReceived(),
-        onError: this.handleErrors(),
-        paypal: {
-          container: 'hosted-fields__paypal',
-        },
-        hostedFields: {
-          number: {
-            selector: ".hosted-fields__number",
-            placeholder: "Card number",
-          },
-          cvv: {
-            selector: ".hosted-fields__cvv",
-            placeholder: "CVV",
-          },
-          expirationDate: {
-            selector: ".hosted-fields__expiration",
-            placeholder: "mm/yy",
-          },
-          styles: {
-            input: {
-              "font-size": "16px",
-            },
-          },
-          onFieldEvent: (event) => {
-            if (event.type === "fieldStateChange"){
-              if (event.isPotentiallyValid) {
-                this.clearError(event.target.fieldKey);
-              } else {
-                this.showError(event.target.fieldKey, "doesn't look right");
-              }
-              this.showCardType(event.card);
-            }
-          },
-        },
-      });
+      braintree.setup(clientToken, "custom", this.braintreeSettings());
     }
   },
 
@@ -51,17 +65,17 @@ const HostedFieldsMethods = {
       this.enableButton();
       if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
         _.each(error.details.invalidFieldKeys, (key) => {
-          this.showError(key, 'is invalid');
+          this.showError(this.translateKey(key), I18n.t('errors.is_invalid'));
         });
       }
     }
   },
 
-  showError: function(field_name, msg) {
-    field_name = this.standardizeFieldName(field_name);
-    let $holder = $(`.hosted-fields__${field_name}`).parent();
+  showError: function(fieldName, msg) {
+    fieldName = this.standardizeFieldName(fieldName);
+    let $holder = $(`.hosted-fields__${fieldName}`).parent();
     $holder.find('.error-msg').remove();
-    $holder.append(`<div class='error-msg'>${field_name} ${msg}</div>`);
+    $holder.append(`<div class='error-msg'>${this.translateFieldName(fieldName)} ${msg}</div>`);
   },
 
   showCardType: function(card) {
@@ -84,25 +98,27 @@ const HostedFieldsMethods = {
     }
   },
 
-  clearError: function(field_name) {
-    field_name = this.standardizeFieldName(field_name);
-    this.$(`.hosted-fields__${field_name}`).parent().find('.error-msg').remove();
+  clearError: function(fieldName) {
+    fieldName = this.standardizeFieldName(fieldName);
+    this.$(`.hosted-fields__${fieldName}`).parent().find('.error-msg').remove();
   },
 
-  standardizeFieldName: function(field_name) {
-    return /expiration/.test(field_name) ? 'expiration' : field_name;
+  standardizeFieldName: function(fieldName) {
+    return /expiration/.test(fieldName) ? 'expiration' : fieldName;
+  },
+
+  translateFieldName: function(fieldName) {
+    if (['expiration', 'cvv', 'number', 'postalCode'].indexOf(this.standardizeFieldName(fieldName)) > -1) {
+      return I18n.t(`fundraiser.fields.${fieldName}`)
+    } else {
+      return fieldName;
+    }
   },
 
   getClientToken: function(callback) {
     $.get('/api/braintree/token', function(resp, success){
       callback(resp.token);
     });
-  },
-
-  paymentMethodReceived: function() {
-    return (data) => {
-      console.log("We have the nonce! Override this method to use it. Nonce:", data.nonce);
-    }
   },
 };
 

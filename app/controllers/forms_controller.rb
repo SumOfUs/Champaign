@@ -13,8 +13,14 @@ class FormsController < ApplicationController
   end
 
   def create
-    @form = Form.create(name: params[:form][:name], master: true)
-    redirect_to [:edit, @form]
+    @form = Form.new(name: params[:form][:name], master: true)
+
+    if @form.save
+      redirect_to [:edit, @form]
+    else
+      render :new
+    end
+
   end
 
   def new
