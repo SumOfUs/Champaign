@@ -1,19 +1,6 @@
 require 'spec_helper'
 require './lib/analytics/analytics'
 
-describe Analytics::Page do
-
-  context 'action on page' do
-    subject { Analytics::Page.new('1') }
-
-    it 'updates total number of actions for page' do
-      expect_any_instance_of(Redis).to receive('incr').with('pages:1:total_actions')
-      subject.increment_actions
-    end
-  end
-end
-
-
 describe Analytics do
   subject { Analytics::Page.new('1') }
 
@@ -29,6 +16,43 @@ describe Analytics do
 
     it 'counts new member actions' do
       expect( subject.total_actions(new_members: true) ).to eq(1)
+    end
+  end
+
+  describe '#total_actions_over_time' do
+    context 'over 12 hours' do
+
+      before do
+        Timecop.freeze('01-01-2000') do
+          2.times{ subject.increment_actions }
+
+          Timecop.travel(1.hour.ago) do
+            5.times{ subject.increment_actions }
+          end
+
+          Timecop.travel(3.hours.ago) do
+            3.times{ subject.increment_actions }
+          end
+        end
+      end
+
+      it 'has 12 data points' do
+        expect(
+          subject.total_actions_over_time(period: :hour).keys
+        ).to eq( (0..11).to_a )
+      end
+
+      it 'returns total actions by hour' do
+        sample_of_expected_data = {
+          0 => 2, 1 => 5, 3 => 3
+        }
+
+        Timecop.freeze('01-01-2000') do
+          expect(
+            subject.total_actions_over_time(period: :hour)
+          ).to include( sample_of_expected_data )
+        end
+      end
     end
   end
 end
