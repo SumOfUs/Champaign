@@ -6,6 +6,7 @@ web:
     - "3000:3000"
   links:
     - db
+    - redis
   environment:
     PG_USERNAME: postgres
     PG_HOST: db
@@ -19,5 +20,3 @@ db:
 
 redis:
   image: redis
-  ports:
-    - "6379:6379"
