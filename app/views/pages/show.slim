@@ -1,9 +1,26 @@
 = @rendered
 
 - if user_signed_in? && @page.present?
-  .campaigner-overlay class="#{@page.active? ? 'campaigner-overlay--active' : 'campaigner-overlay--inactive'}"
-    .campaigner-overlay__active-status
-      = @page.active? ? "Published" : "Not published"
-    .campaigner-overlay__active_message
-      = @page.active? ? "Anyone with the link can view." : "Only campaigners can view."
-    = link_to 'Edit Page', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
+  .campaigner-overlay.mobile-hide class="#{@page.active? ? 'campaigner-overlay--active' : 'campaigner-overlay--inactive'}" data-status="#{@page.active? ? 'active' : 'inactive'}"
+    .campaigner-overlay__close.fa.fa-close
+    .campaigner-overlay__status.campaigner-overlay__info--active
+      | Published
+    .campaigner-overlay__status.campaigner-overlay__info--inactive
+      | Not published
+    .campaigner-overlay__message.campaigner-overlay__info--active
+      | Anyone with the link can view.
+    .campaigner-overlay__message.campaigner-overlay__info--inactive
+      | Only campaigners can view.
+    .campaigner-overlay__actions
+      = form_for @page, url: api_page_path(@page), remote: true do |ff|
+        / we have nested page[page][active] to match the massive nested form submitted with the one-form
+        = ff.fields_for :page do |f|
+          = f.hidden_field :active, class: 'campaigner-overlay__publish-field', value: !@page.active?
+          = f.submit "Publish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--inactive'
+          = f.submit "Unpublish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--active'
+      = link_to 'Edit', edit_page_path(@page), class: 'campaigner-overlay__edit-link'
+
+  javascript:
+    $(document).ready(function(){
+      var myCampaignerOverlay = new window.CampaignerOverlay();
+    });
