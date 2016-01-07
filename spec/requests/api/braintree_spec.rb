@@ -38,6 +38,10 @@ describe "Braintree API" do
   describe 'making a subscription' do
     let!(:customer) { create(:payment_braintree_customer, email: 'foo@example.com', card_vault_token: '4y5dr6' )}
 
+    before do
+      allow(ManageBraintreeDonation).to receive(:create)
+    end
+
     context "successful subscription" do
       it 'creates subscription' do
         VCR.use_cassette('braintree_subscription_success') do
@@ -147,6 +151,7 @@ describe "Braintree API" do
 
       context 'recurring' do
         before do
+          allow(ManageBraintreeDonation).to receive(:create)
           VCR.use_cassette("transaction_recurring_success") do
             post_transaction(recurring: true)
           end

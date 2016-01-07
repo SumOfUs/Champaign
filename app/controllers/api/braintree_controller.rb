@@ -13,6 +13,28 @@ class Api::BraintreeController < ApplicationController
     end
   end
 
+  def webhook
+    webhook_notification = Braintree::WebhookNotification.parse(params[:bt_signature], params[:bt_payload])
+    if webhook_notification.kind == Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully
+      card_num = webhook_notification.subscription.transactions.last.credit_card_details.last_4
+      query_params = {
+          is_subscription: true,
+          email: webhook_notification.subscription.transactions.last.customer_details.email,
+          card_num: card_num.nil? ? ManageBraintreeDonation::PAYPAL_IDENTIFIER : card_num,
+          amount: webhook_notification.subscription.transactions.last.amount.to_s
+      }
+      action = Action.where('form_data @> ?', query_params.to_json).last
+      member = Member.find(action.member_id)
+      params = {
+          email: member.email,
+          country: member.country,
+          page_id: action.page_id
+      }
+      ManageBraintreeDonation.create(params: params, braintree_result: webhook_notification, is_subscription: true)
+    end
+    render json: {success: true}
+  end
+
   def subscription
     manage_subscription(params)
   end
@@ -23,7 +45,7 @@ class Api::BraintreeController < ApplicationController
     result = braintree::Transaction.make_transaction(transaction_options)
 
     if result.success?
-      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result )
+      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result)
       Payment.write_successful_transaction(action: action, transaction_response: result)
       render json: { success: true, transaction_id: result.transaction.id }
     else
@@ -36,6 +58,7 @@ class Api::BraintreeController < ApplicationController
     find_or_create_user
     result = braintree::Subscription.make_subscription(subscription_options)
     if result.success?
+      ManageBraintreeDonation.create(params: params[:user].merge(parge_id: params[:page_id]), braintree_result: result, is_subscription: true)
       render json: { success: true, subscription_id: result.subscription.id }
     else
       errors = raise_unless_user_error(result)
@@ -113,4 +136,3 @@ class Api::BraintreeController < ApplicationController
     @page ||= Page.find(params[:page_id])
   end
 end
-

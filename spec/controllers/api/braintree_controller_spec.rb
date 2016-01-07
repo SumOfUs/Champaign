@@ -47,6 +47,7 @@ describe Api::BraintreeController do
       before do
         allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription).and_return( subscription_object )
         allow(Member).to receive(:find_by).and_return( member )
+        allow(ManageBraintreeDonation).to receive(:create)
 
         post :subscription, params
       end
@@ -157,6 +158,29 @@ describe Api::BraintreeController do
       describe "errors in transaction" do
       end
 
+    end
+  end
+
+  describe 'POST webhook' do
+    let(:braintree_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully, 'test_id') }
+    let(:member) { double(:member, email: 'test@email.com', country: 'United States') }
+    let(:action) { double(:action, id: 1, member_id: 1, page_id: 1) }
+
+    before do
+      allow(Action).to receive(:where).and_return([action])
+      allow(Member).to receive(:find).and_return(member)
+      allow(ManageBraintreeDonation).to receive(:create) { action }
+    end
+
+    it 'successfully parses a webhook and returns a successful response' do
+      post :webhook, braintree_webhook
+      expect(response.body).to eq( {success: true}.to_json )
+    end
+
+    it 'returns a successful response when presented with an unsupported Notification Kind' do
+      uncovered_webhook = Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionCanceled, 'canceled_id')
+      post :webhook, uncovered_webhook
+      expect(response.body).to eq( {success:true}.to_json )
     end
   end
 end

@@ -28,7 +28,7 @@ describe ManageBraintreeDonation do
   let!(:user) { create(:member, email: 'bob@example.com', country: 'United States')}
   let(:data) { {email: user.email, page_id: page.id} }
   let(:transaction_attributes) {
-    detail_hash = {
+    {
         transaction: {
             id: 'test',
             type: 'sale',
@@ -65,13 +65,25 @@ describe ManageBraintreeDonation do
         }
 
     }
+
+
+  }
+  let(:result) {
     # We don't really care if we don't have a Braintree Result object, just something which conforms to its interface.
     # We're not testing the internals of the BT library here.
     # So, instantiate a class which allows for data retrieval in the same style as the BT class we get back, and call it good.
-    DeepStruct.new(detail_hash)
-
+    DeepStruct.new(transaction_attributes)
   }
-  let(:result) { transaction_attributes }
+  let(:webhook_attributes) {
+    {
+        subscription: {
+            transactions: [result.transaction]
+        }
+    }
+  }
+  let(:webhook_notification) {
+    DeepStruct.new(webhook_attributes)
+  }
 
 
   let(:full_donation_options) {
@@ -122,8 +134,23 @@ describe ManageBraintreeDonation do
   it 'can handle not having a credit card number' do
     result.transaction.credit_card_details.last_4 = nil
     expect(result.transaction.credit_card_details.last_4).to eq(nil)
-    full_donation_options[:order][:card_num] = 'PYPL'
+    full_donation_options[:order][:card_num] = ManageBraintreeDonation::PAYPAL_IDENTIFIER
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
+  end
+
+  it 'can handle a subscription event and send the proper information' do
+    result.transactions = []
+    result.transactions[0] = result.transaction
+    deleted_transaction = result.delete_field('transaction')
+    expect(result.transaction).to eq(nil)
+    expect(result.transactions[0]).to eq(deleted_transaction)
+    expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
+    ManageBraintreeDonation.create(params: data, braintree_result: result)
+  end
+
+  it 'can handle a subscription event after the initial signup and send the proper information' do
+    expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
+    ManageBraintreeDonation.create(params: data, braintree_result: webhook_notification)
   end
 end
