@@ -87,6 +87,7 @@ en:
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
       layout_select: 'Page layout'
       secondary_layout_select: 'Page layout for follow-up page'
+      no_layout: None selected
       change_layout: 'Change layout'
       add_link: 'Add source'
       language_label: "Language"

@@ -322,7 +322,7 @@ body.page-edit-body {
 }
 
 .layout-settings {
-  &__button-group {
+  &--primary, &--secondary {
     padding-top: 15px;
   }
   &__title {
@@ -332,6 +332,10 @@ body.page-edit-body {
     width: 100%;
     float: left;
     margin-top: 5px;
+  }
+  &__no-layout {
+    text-transform: uppercase;
+    font-weight: bold;
   }
 }
 
