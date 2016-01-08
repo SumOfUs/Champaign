@@ -2,7 +2,10 @@ require 'redis'
 
 module Analytics
   def self.store
-    @redis ||= Redis.new(url: (Settings.redis_url || 'redis://127.0.0.1:6379'))
+    @redis ||= Redis.new(
+      host: Settings.redis.host,
+      port: Settings.redis.port
+    )
   end
 end
 

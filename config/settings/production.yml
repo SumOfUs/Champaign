@@ -45,3 +45,8 @@
        public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
        private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
 
+
+     redis:
+       host: <%= ENV["REDIS_HOST"] %>
+       port: <%= ENV["REDIS_PORT"] %>
+
