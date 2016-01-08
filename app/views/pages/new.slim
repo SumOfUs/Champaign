@@ -26,7 +26,9 @@ h2 = t('.title')
     = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, {}, class: "form-control"
 
   .form-group
-    = render 'layout_select', field: :liquid_layout_id, f: f
+    = f.label :liquid_layout_id, t('.layout_select')
+    .layout-settings
+      = render 'layout_select', field: :liquid_layout_id, f: f
 
   .form-group
     = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary submit-new-page'

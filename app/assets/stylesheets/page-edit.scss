@@ -322,7 +322,7 @@ body.page-edit-body {
 }
 
 .layout-settings {
-  &__button-group {
+  &--primary, &--secondary {
     padding-top: 15px;
   }
   &__title {
