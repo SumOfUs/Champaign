@@ -28,7 +28,7 @@ describe("Fundraiser", function() {
   describe('instantiation', function(){
 
     it('sets the default currency if currency passed', function(){
-      suite.fundraiserBar = new window.FundraiserBar({ currency: 'GBP'});
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'GBP'});
       expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
     });
 
@@ -38,7 +38,7 @@ describe("Fundraiser", function() {
         USD: [6, 7, 8, 9, 10],
         GBP: [7, 14, 21, 28, 35]
       };
-      suite.fundraiserBar = new window.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
       var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
       expect(displayedAmounts).to.include.members(donationBands['EUR']);
     });
@@ -48,7 +48,7 @@ describe("Fundraiser", function() {
       describe('amount is not passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 0 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0 });
         });
 
         it('starts on the first step', function(){
@@ -84,7 +84,7 @@ describe("Fundraiser", function() {
       describe('amount is greater than zero ', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 0, amount: 11 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0, amount: 11 });
         });
 
         it('skips to the third step', function(){
@@ -123,7 +123,7 @@ describe("Fundraiser", function() {
       describe('amount is not passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({});
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({});
         });
 
         it('starts on the first step', function(){
@@ -138,7 +138,7 @@ describe("Fundraiser", function() {
       describe('amount is greater than zero ', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({amount: 17});
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({amount: 17});
         });
 
         it('skips to the second step', function(){
@@ -160,7 +160,7 @@ describe("Fundraiser", function() {
       describe('amount is not passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 2 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 2 });
         });
 
         it('starts on the first step', function(){
@@ -175,7 +175,7 @@ describe("Fundraiser", function() {
       describe('amount is greater than zero ', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 1, amount: 17 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 1, amount: 17 });
         });
 
         it('skips to the second step', function(){
@@ -196,57 +196,57 @@ describe("Fundraiser", function() {
 
       describe('it starts on first step when amount', function(){
         it('is negative', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: -1 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: -1 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is zero', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: 0 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: 0 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is a string', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: "hi" });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "hi" });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is null', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: null });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: null });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is an array', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: [3, 4, 5] });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: [3, 4, 5] });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
       });
 
       it ('starts on second step when amount is numeric string', function(){
-        suite.fundraiserBar = new window.FundraiserBar({ amount: "3" });
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "3" });
         expect(helpers.currentStepOf(3)).to.eq(2)
       });
 
       describe('shows second step when outstandingFields', function(){
         it('is an object', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: {first: 'second'} });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: {first: 'second'} });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is null', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: null });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: null });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is an array', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: ['email'] });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email'] });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is a string', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 'yooo' });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 'yooo' });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is a numeric string', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: '5' });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: '5' });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
       });
 
       it ('hides second step when outstandingFields is zero string', function(){
-        suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: "0" });
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: "0" });
         expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
       });
     });
@@ -258,7 +258,7 @@ describe("Fundraiser", function() {
     beforeEach(function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
-      suite.fundraiserBar = new window.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
       sinon.stub(suite.fundraiserBar, 'redirectTo');
       suite.server.respond(); // respond to request for token
     });

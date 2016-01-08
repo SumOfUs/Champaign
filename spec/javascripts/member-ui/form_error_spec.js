@@ -16,7 +16,7 @@ describe("Inline form errors", function() {
     suite.server.respondWith("GET", '/api/braintree/token',
                             [200, { "Content-Type": "application/json" },
                             '{ "token": "'+helpers.btClientToken+'" }' ]);
-    suite.petitionBar = new window.PetitionBar(); // binds the form events
+    suite.petitionBar = new window.sumofus.PetitionBar(); // binds the form events
   });
 
   afterEach(function(){

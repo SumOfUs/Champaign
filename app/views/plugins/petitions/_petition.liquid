@@ -1,4 +1,5 @@
 {% if plugins.petition[ref].active %}
+  {% include 'Pandering' %}
   <div class="petition-bar petition-bar--elevated petition-bar--mobile-view--closed">
     <div class="petition-bar__content">
       <div class="petition-bar__top">
@@ -39,7 +40,7 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
-      var myPetitionBar = new window.PetitionBar();
+      window.sumofus.myPetitionBar = new window.sumofus.PetitionBar();
     });
   </script>
 {% endif %}
