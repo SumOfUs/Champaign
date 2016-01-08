@@ -1,7 +1,11 @@
-require 'spec_helper'
+require 'rails_helper'
 require './lib/analytics/analytics'
 
 describe Analytics do
+  before do
+    Analytics.store.flushdb
+  end
+
   subject { Analytics::Page.new('1') }
 
   describe '#total_actions' do
