@@ -333,6 +333,10 @@ body.page-edit-body {
     float: left;
     margin-top: 5px;
   }
+  &__no-layout {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
 }
 
 .radio-group {

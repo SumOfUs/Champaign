@@ -1,0 +1,16 @@
+-# association: `:liquid_layout` or `:secondary_liquid_layout`
+-# field: `:liquid_layout_id` or `:secondary_liquid_layout_id`
+-# dom_name: CSS class extension, should be `primary` or `secondary`
+-# f: form builder
+br
+  .layout-settings  
+    span.layout-settings__current
+      - if f.object.send(association).present?
+        = f.object.send(association).title
+      - else
+        span.layout-settings__no-layout = t('pages.edit.no_layout')
+    = " - "
+    a data-toggle="collapse" data-target=".layout-settings--#{dom_name}" aria-expanded="false"
+      = t('pages.edit.change_layout')
+    .collapse class="layout-settings--#{dom_name}"
+      = render 'layout_select', f: f, field: field
