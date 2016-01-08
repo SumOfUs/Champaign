@@ -15,6 +15,7 @@
 
     events: {
       'keyup #page_title' : 'generateSlug',
+      'change #page_title' : 'generateSlug',
       'keyup #page_slug'  : 'resetFeedback',
       'click #check_slug_available' : 'checkSlugAvailable',
       'submit' : 'submit'
