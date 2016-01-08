@@ -1,7 +1,73 @@
-.campaigner-overlay__edit-link {
+.campaigner-overlay{
   position: fixed;
-  top: 20px;
-  right: 20px;
+  bottom: -20px;
+  left: 6px;
   z-index: 10000;
   color: white;
+  width: 130px;
+  @include box-sizing(border-box);
+  @include transition(bottom 1s linear);
+  padding: 15px 15px 30px;
+  font-size: 12px;
+  border-radius: 5px;
+
+  &--active {
+    background: darkgreen;
+    .campaigner-overlay__info--inactive {
+      display: none;
+    }
+  }
+  &--inactive {
+    background: darkorange;
+    .campaigner-overlay__info--active {
+      display: none;
+    }
+  }
+  &__status {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  &__close {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    cursor: pointer;
+  }
+  &__toggle-publish {
+    background: none;
+    border: none;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+    float: left;
+    position: relative;
+  }
+  &__edit-link {
+    float: right;
+    padding-top: 2px;
+  }
+  &__edit-link, &__toggle-publish {
+    line-height: 12px;
+    height: 14px;
+    font-size: 12px;
+    text-decoration: underline;
+    color: white;
+    cursor: pointer;
+    display: inline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &__actions {
+    float: left;
+    display: block;
+    width: 100%;
+    color: white;
+    margin-top: 10px;
+    form {
+      float: left;
+    }
+  }
 }
