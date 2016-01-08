@@ -3,8 +3,8 @@ require 'redis'
 module Analytics
   def self.store
     @redis ||= Redis.new(
-      host: Settings.redis.host,
-      port: Settings.redis.port
+      host: ENV["REDIS_PORT_6379_TCP_ADDR"],
+      port: ENV["REDIS_PORT_6379_TCP_PORT"]
     )
   end
 end
