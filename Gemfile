@@ -19,6 +19,10 @@ gem 'font-awesome-sass'
 gem 'money'
 gem 'google_currency'
 
+# Sprockets 3 breaks Teaspoon.
+# see https://github.com/modeset/teaspoon/issues/443
+gem 'sprockets-rails', '< 3.0'
+
 # Braintree as a payment processor
 gem 'braintree', '~> 2.54.0'
 
