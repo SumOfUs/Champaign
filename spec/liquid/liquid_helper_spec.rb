@@ -40,12 +40,8 @@ describe LiquidHelper do
       expect(LiquidHelper.globals[:country_option_tags]).not_to include('selected')
     end
 
-    it 'selects a country if passed request_country as a code' do
-      expect(LiquidHelper.globals(request_country: 'AF')[:country_option_tags]).to include('selected')
-    end
-
-    it 'does not select a country if passed request_country as a country name' do
-      expect(LiquidHelper.globals(request_country: 'Afghanistan')[:country_option_tags]).not_to include('selected')
+    it 'does not take a request_country param' do
+      expect{ LiquidHelper.globals(request_country: 'AF') }.to raise_error(ArgumentError)
     end
 
     it 'selects a country if passed member has a country code' do
@@ -86,20 +82,6 @@ describe LiquidHelper do
       create :plugins_petition, page: page, target: 'mf doom', active: true
       create :plugins_petition, page: page, target: '', active: true
       expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
-    end
-  end
-
-  describe '.guess_currency' do
-    it 'returns appropraite currency for country' do
-      expect(LiquidHelper.guess_currency('GB') ).to eq('GBP')
-    end
-
-    it 'returns USD as default' do
-      expect(LiquidHelper.guess_currency('MX') ).to eq('USD')
-    end
-
-    it 'returns EUR for european nation' do
-      expect(LiquidHelper.guess_currency('AD') ).to eq('EUR')
     end
   end
 

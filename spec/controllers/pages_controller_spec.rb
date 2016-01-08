@@ -105,7 +105,6 @@ describe PagesController do
     it 'instantiates a LiquidRenderer and calls render' do
       get :show, id: '1'
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
         member: nil,
         layout: page.liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
@@ -163,7 +162,6 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
         member: nil,
         layout: page.secondary_liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}

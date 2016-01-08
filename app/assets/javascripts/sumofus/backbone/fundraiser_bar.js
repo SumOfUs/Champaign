@@ -40,6 +40,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
     this.initializeSkipping(options);
+    this.guessLocation(true);
     this.pageId = options.pageId;
     if (!this.isMobile()) {
       this.selectizeCountry();
