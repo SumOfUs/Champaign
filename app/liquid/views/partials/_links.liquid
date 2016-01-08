@@ -1,6 +1,6 @@
 {% for link in link_list %}
   <div class="page-link">
-    <a href="{{ link.url }}">{{ link.title }}</a>
+    <a href="{{ link.url }}" target="_blank">{{ link.title }}</a>
     {% unless link.source == blank and link.date == blank %}
       <br />
     {% endunless %}
