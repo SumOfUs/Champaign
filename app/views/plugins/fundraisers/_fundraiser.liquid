@@ -1,5 +1,5 @@
 {% if plugins.fundraiser[ref].active %}
-  {% include 'Pandering' %}
+  {% include 'Personalization' %}
 
   <div class="fundraiser-bar fundraiser-bar--elevated fundraiser-bar--mobile-view--closed">
     <div class="fundraiser-bar__content">
@@ -108,10 +108,10 @@
       window.sumofus.myFundraiserBar = new window.sumofus.FundraiserBar({
         pageId:           "{{ id }}",
         followUpUrl:      "{{ follow_up_url }}",
-        currency:         window.sumofus.pandering.currency,
+        currency:         window.sumofus.personalization.currency,
         donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
-        amount:           window.sumofus.pandering.donationAmount,
-        outstandingFields:window.sumofus.pandering.outstandingFields
+        amount:           window.sumofus.personalization.donationAmount,
+        outstandingFields:window.sumofus.personalization.outstandingFields
       });
     });
   </script>
