@@ -43,10 +43,9 @@ describe Plugins do
   describe "data_for_view" do
 
     describe 'with plugins' do
-    
       before :each do
         Plugins.create_for_page('thermometer', page, 'stripey')
-        Plugins.create_for_page('petition', page, 'swiper')
+        Plugins.create_for_page('petition',    page, 'swiper')
         @thermometer = Plugins::Thermometer.last
         @petition = Plugins::Petition.last
         expect(page.plugins).to match_array [@thermometer, @petition]
@@ -72,7 +71,5 @@ describe Plugins do
       end
 
     end
-
   end
-
 end

@@ -12,28 +12,28 @@ shared_examples "plugin with form" do
   end
 
   it "serializes outstanding_fields without a form or values" do
-    subject.form_id = nil
+    subject.form = nil
     expect( subject.liquid_data[:outstanding_fields]).to eq []
   end
 
   it "serializes outstanding_fields without a form but with values" do
-    subject.form_id = nil
+    subject.form = nil
     expect( subject.liquid_data({form_values: {email: 'a'}})[:outstanding_fields]).to eq []
   end
 
   it "serializes outstanding_fields without values but with a form" do
-    subject.form_id = form.id
+    subject.form = form
     subject.form.form_elements.each{ |el| el.update_attributes(required: true) }
     expect( subject.liquid_data[:outstanding_fields]).to eq ['email']
   end
 
   it "serializes outstanding_fields with a form and values" do
-    subject.form_id = form.id
+    subject.form = form
     expect( subject.liquid_data({form_values: {email: 'a'}})[:outstanding_fields]).to eq ['email']
   end
 
   it "serializes outstanding_fields with a form and values that match" do
-    subject.form_id = form.id
+    subject.form = form
     expect( subject.liquid_data({form_values: {email: 'neal@test.com'}})[:outstanding_fields]).to eq []
   end
 end

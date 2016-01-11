@@ -14,3 +14,4 @@ class Plugins::Fundraiser < ActiveRecord::Base
     attributes.merge(form_liquid_data(supplemental_data)).merge(donation_bands: bands)
   end
 end
+

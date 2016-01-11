@@ -13,12 +13,11 @@ class Form < ActiveRecord::Base
 
   has_paper_trail on: [:update, :destroy]
   has_many :form_elements, -> { order(:position) }
+  belongs_to :formable, polymorphic: true, touch: true
 
   after_touch do
-    [Plugins::Petition, Plugins::Fundraiser].each do |plugin_type|
-      plugin_type.where(form_id: id).each do |plugin|
-        plugin.page.touch
-      end
+    formable.try(:page) do |page|
+      page.touch if page
     end
   end
 
