@@ -30,6 +30,7 @@
 //= require dropzone_image_upload
 //= require selectize_config.js
 //= require configure_quill_editor
+//= require analytics
 //= require_tree ./plugins/admin
 
 require('ajax')
