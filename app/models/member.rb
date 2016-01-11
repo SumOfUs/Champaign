@@ -10,4 +10,14 @@ class Member < ActiveRecord::Base
     end
     id.present? ? find_by(id: id) : nil
   end
+
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+
+  def full_name=(full_name)
+    splitter = NameSplitter.new(full_name: full_name)
+    self.first_name = splitter.first_name
+    self.last_name = splitter.last_name
+  end
 end
