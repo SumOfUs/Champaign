@@ -1,7 +1,4 @@
-require 'render_anywhere'
-
 class Page < ActiveRecord::Base
-  include RenderAnywhere
   has_paper_trail
 
   belongs_to :language
@@ -26,11 +23,6 @@ class Page < ActiveRecord::Base
   # have we thought about using friendly id? probably better
   def create_slug
     self.slug = title.parameterize if slug.nil? and not title.nil?
-  end
-
-  # Compiles the HTML for this Page so that it can be used by external display apps.
-  def compile_html
-    PageRenderer.new(self).render_and_save
   end
 
   def liquid_data
