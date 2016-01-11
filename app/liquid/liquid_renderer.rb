@@ -1,10 +1,10 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  def initialize(page, layout: nil, request_country: nil, member: nil, url_params: {})
+  def initialize(page, layout: nil, location: nil, member: nil, url_params: {})
     @page = page
     @markup = layout.content unless layout.blank?
-    @request_country = request_country
+    @location = location
     @member = member
     @url_params = url_params
     set_locale
@@ -31,10 +31,12 @@ class LiquidRenderer
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
-                merge( LiquidHelper.globals(request_country: @request_country, member: @member, page: @page) ).
+                merge( LiquidHelper.globals(page: @page) ).
                 merge( shares: Shares.get_all(@page) ).
                 merge( url_params: @url_params ).
                 merge( follow_up_url: follow_up_page_path(@page.id)).
+                merge( member: member_hash ).
+                merge( location: location).
                 deep_stringify_keys
   end
 
@@ -43,6 +45,20 @@ class LiquidRenderer
   end
 
   private
+
+  def member_hash
+    return nil if @member.blank?
+    values = @member.attributes.symbolize_keys
+    values[:welcome_name] = [values[:first_name], values[:last_name]].join(' ')
+    values[:welcome_name] = values[:email] if values[:welcome_name].blank?
+    values
+  end
+
+  def location
+    return @location if @location.blank? || @location.country_code.blank?
+    currency = Donations::Utils.currency_from_country_code(@location.country_code)
+    @location.data.merge(currency: currency)
+  end
 
   def set_locale
     begin
