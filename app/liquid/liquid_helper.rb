@@ -1,8 +1,4 @@
 class LiquidHelper
-  # TODO: Move constants to `Donations`
-  EURO_COUNTRY_CODES = [:AL, :AD, :AT, :BY, :BE, :BA, :BG, :HR, :CY, :CZ, :DK, :EE, :FO, :FI, :FR, :DE, :GI, :GR, :HU, :IS, :IE, :IT, :LV, :LI, :LT, :LU, :MK, :MT, :MD, :MC, :NL, :NO, :PL, :PT, :RO, :RU, :SM, :RS, :SK, :SI, :ES, :SE, :CH, :UA, :VA, :RS, :IM, :RS, :ME]
-  DEFAULT_CURRENCY = 'USD'
-
   class << self
 
     # when possible, I think we should try to make this match with
@@ -33,27 +29,7 @@ class LiquidHelper
       actions.map(&:target).reject(&:blank?).first
     end
 
-    # TODO: 'Country code to currency' probably better served by +Donations::Utils+
-    def guess_currency(request_country)
-      return 'EUR' if EURO_COUNTRY_CODES.include?(request_country.try(:to_sym))
-
-      {
-        US: 'USD',
-        GB: 'GBP',
-        NZ: 'NZD',
-        AU: 'AUD',
-        CA: 'CAD'
-      }[request_country.try(:to_sym)] || DEFAULT_CURRENCY
-    end
-
     private
-
-    def preferred(names_with_codes)
-      # currently unused
-      codes = ['US', 'GB', 'CA', 'FR', 'DE']
-      preferred = names_with_codes.select{|name, code| codes.include? code }
-      preferred + names_with_codes # better ux to have it twice than hard to find
-    end
 
     def member_hash(member)
       return nil if member.blank?
