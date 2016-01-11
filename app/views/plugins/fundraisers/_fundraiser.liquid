@@ -1,6 +1,4 @@
 {% if plugins.fundraiser[ref].active %}
-  {% include 'Personalization' %}
-
   <div class="fundraiser-bar fundraiser-bar--elevated fundraiser-bar--mobile-view--closed">
     <div class="fundraiser-bar__content">
       <div class="fundraiser-bar__top">
@@ -108,9 +106,9 @@
       window.sumofus.myFundraiserBar = new window.sumofus.FundraiserBar({
         pageId:           "{{ id }}",
         followUpUrl:      "{{ follow_up_url }}",
-        currency:         window.sumofus.personalization.currency,
+        currency:         window.sumofus.personalization.location.currency,
         donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
-        amount:           window.sumofus.personalization.donationAmount,
+        amount:           window.sumofus.personalization.urlParams.amount,
         outstandingFields:window.sumofus.personalization.outstandingFields
       });
     });

@@ -1,8 +1,0 @@
-<script type="text/javascript">
-  window.sumofus = window.sumofus || {};
-  window.sumofus.personalization = {
-    currency: "{{ guessed_currency }}",
-    donationAmount: {% if url_params['amount'] == blank %} 0 {% else %} {{ url_params['amount'] }}{% endif %},
-    outstandingFields: {{ plugins.fundraiser[ref].outstanding_fields.size }}
-  }
-</script>

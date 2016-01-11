@@ -9,6 +9,10 @@ module PagesHelper
     end
   end
 
+  def serialize(data, field)
+    (data[field.to_s] || {}).to_json.html_safe
+  end
+
   def prefill_link(new_variant)
     new_variant.description = "{LINK}" if new_variant.name == 'twitter'
     new_variant.body = "{LINK}" if new_variant.name == 'email'
