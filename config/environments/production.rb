@@ -12,7 +12,6 @@ Rails.application.configure do
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
-  config.action_controller.perform_caching = true
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
@@ -92,5 +91,12 @@ Rails.application.configure do
     }
   }
 
+  # config.action_controller.perform_caching = true
+  #
+  # We don't want to use memory_store, it's just a convenient choice for development.
+  # AWS provides a managed memcached/redis service, with a t2.micro instances (1Gb) as
+  # part of their free tier.
+  #
+  # config.cache_store = :memory_store, { size: 10.megabytes }
 end
 

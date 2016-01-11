@@ -14,3 +14,4 @@ class LiquidLayout < ActiveRecord::Base
     super(depth: -1)
   end
 end
+

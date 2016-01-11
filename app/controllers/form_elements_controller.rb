@@ -32,6 +32,7 @@ class FormElementsController < ApplicationController
       FormElement.where(id: id, form_id: @form.id).update_all(position: index)
     end
 
+    @form.touch
     render json: @form.form_elements.map(&:position)
   end
 

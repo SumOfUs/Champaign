@@ -2,7 +2,7 @@ module Plugins::HasForm
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :form
+    belongs_to :form, touch: true
     before_create :create_form
   end
 

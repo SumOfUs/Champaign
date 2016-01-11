@@ -1,7 +1,7 @@
 class Plugins::Fundraiser < ActiveRecord::Base
   include Plugins::HasForm
 
-  belongs_to :page
+  belongs_to :page, touch: true
   belongs_to :donation_band
 
   DEFAULTS = { title: 'Donate now' }

@@ -11,7 +11,9 @@ class LiquidRenderer
   end
 
   def render
-    template.render( data ).html_safe
+    Rails.cache.fetch(cache_key) do
+      template.render( data ).html_safe
+    end
   end
 
   def template
@@ -59,4 +61,8 @@ class LiquidRenderer
     { urls: { large: img.content.url(:large), small: img.content.url(:thumb) } }
   end
 
+  def cache_key
+    "rendered_liquid:#{@page.cache_key}:#{@page.liquid_layout.cache_key}"
+  end
 end
+

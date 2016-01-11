@@ -1,5 +1,5 @@
 class FormElement < ActiveRecord::Base
-  belongs_to :form
+  belongs_to :form, touch: true
   has_paper_trail
 
   before_validation :set_position, on: :create

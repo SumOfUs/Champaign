@@ -1,5 +1,5 @@
 class Link < ActiveRecord::Base
-  belongs_to :page
+  belongs_to :page, touch: true
   has_paper_trail on: [:update, :destroy]
 
   validates :url, :title, presence: true, allow_blank: false
@@ -21,5 +21,5 @@ class Link < ActiveRecord::Base
       self.url = "//#{url}"
     end
   end
-
 end
+

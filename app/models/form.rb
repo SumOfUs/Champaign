@@ -2,7 +2,7 @@ class Form < ActiveRecord::Base
 
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.
-  # 
+  #
   DEFAULT_NAME = 'Basic'
 
   DEFAULT_FIELDS = [
@@ -14,11 +14,18 @@ class Form < ActiveRecord::Base
   has_paper_trail on: [:update, :destroy]
   has_many :form_elements, -> { order(:position) }
 
+  after_touch do
+    [Plugins::Petition, Plugins::Fundraiser].each do |plugin_type|
+      plugin_type.where(form_id: id).each do |plugin|
+        plugin.page.touch
+      end
+    end
+  end
+
   scope :masters, -> { where(master: true) }
 
   validates :name, presence: true
   validate :name_is_unique
-
 
   def name_is_unique
     return unless master?
