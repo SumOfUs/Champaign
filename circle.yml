@@ -1,7 +1,6 @@
 machine:
   services:
     - docker
-    - redis
 
 dependencies:
   override:
