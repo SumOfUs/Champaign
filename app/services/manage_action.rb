@@ -13,13 +13,13 @@ class ManageAction
     return previous_action if previous_action.present?
 
     ChampaignQueue.push(queue_message)
-    incremenet_counters
+    increment_counters
     build_action
   end
 
   private
 
-  def incremenet_counters
+  def increment_counters
     Analytics::Page.increment(page.id, new_member: !existing_member?)
   end
 
