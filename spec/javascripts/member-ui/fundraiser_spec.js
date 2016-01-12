@@ -32,7 +32,7 @@ describe("Fundraiser", function() {
       expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
     });
 
-    it('displays the values from the correct passed donation band', function(){
+    it('displays the values from the correct passed currency band', function(){
       var donationBands = {
         EUR: [1, 2, 3, 4, 5],
         USD: [6, 7, 8, 9, 10],
@@ -43,12 +43,12 @@ describe("Fundraiser", function() {
       expect(displayedAmounts).to.include.members(donationBands['EUR']);
     });
 
-    describe('outstanding fields is zero', function(){
+    describe('outstanding fields is empty', function(){
 
       describe('amount is not passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
         });
 
         it('starts on the first step', function(){
@@ -84,7 +84,7 @@ describe("Fundraiser", function() {
       describe('amount is greater than zero ', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0, amount: 11 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], amount: 11 });
         });
 
         it('skips to the third step', function(){
@@ -155,12 +155,12 @@ describe("Fundraiser", function() {
       });
     });
 
-    describe('outstanding fields is greater than zero', function(){
+    describe('outstanding fields has elements', function(){
 
       describe('amount is not passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 2 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email', 'name'] });
         });
 
         it('starts on the first step', function(){
@@ -231,8 +231,8 @@ describe("Fundraiser", function() {
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: null });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
-        it('is an array', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email'] });
+        it('is a number', function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0 });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is a string', function(){
@@ -243,11 +243,6 @@ describe("Fundraiser", function() {
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: '5' });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
-      });
-
-      it ('hides second step when outstandingFields is zero string', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: "0" });
-        expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
       });
     });
 

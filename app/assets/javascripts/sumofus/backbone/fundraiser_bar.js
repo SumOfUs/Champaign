@@ -52,27 +52,31 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.setDonationAmount(options.amount);
     }
     this.hidingStepTwo = false;
-    // here we deliberately abuse the fact that non-numbers compared
-    // with > always return false
-    this.hideSteps((options.amount > 0), (options.outstandingFields == 0));
+    let amountKnown = (options.amount > 0); // non-numbers with > are always false
+    let memberKnown = (options.outstandingFields && options.outstandingFields.length === 0);
+    this.prefillForm(options.member, options.outstandingFields);
+    this.hideSteps(amountKnown, memberKnown, options.member);
   },
 
-  hideSteps (amountKnown, memberKnown) {
+  hideSteps (amountKnown, memberKnown, member) {
     if (amountKnown && memberKnown) {
       this.changeStep(3);
-      this.hideSecondStep();
+      this.hideSecondStep(member);
     } else if (memberKnown) {
-      this.hideSecondStep();
+      this.hideSecondStep(member);
     } else if (amountKnown) {
       this.changeStep(2);
     }
   },
 
-  hideSecondStep () {
+  hideSecondStep (member) {
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
-    this.$('.fundraiser-bar__welcome-text').removeClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
+    if (this.formFieldCount > 0) { // don't offer to reveal fields if nothing to show
+      this.$('.fundraiser-bar__welcome-text').removeClass('hidden-irrelevant');
+      this.$('.fundraiser-bar__welcome-name').text(member.welcome_name);
+    }
     this.hidingStepTwo = true;
   },
 
