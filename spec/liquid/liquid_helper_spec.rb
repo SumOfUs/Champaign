@@ -2,28 +2,6 @@ require 'rails_helper'
 
 describe LiquidHelper do
 
-  describe 'member' do
-
-    it 'returns nil if no member given' do
-      expect(LiquidHelper.globals[:member]).to eq nil
-    end
-
-    it 'includes all of the attributes of a given action user' do
-      au = create :member
-      expect(LiquidHelper.globals(member: au)[:member].keys).to include(*au.attributes.keys.map(&:to_sym))
-    end
-
-    it 'gives email as welcome name if no name' do
-      au = create :member, first_name: nil, last_name: "", email: 'sup@dude.com'
-      expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq au.email
-    end
-
-    it 'gives first name and last name if available' do
-      au = create :member, first_name: 'big', last_name: "dog", email: 'sup@dude.com'
-      expect(LiquidHelper.globals(member: au)[:member][:welcome_name]).to eq 'big dog'
-    end
-  end
-
   describe 'country_option_tags' do
 
     it 'gives a long html by default' do
@@ -41,16 +19,11 @@ describe LiquidHelper do
     end
 
     it 'selects a country if passed request_country as a code' do
-      expect(LiquidHelper.globals(request_country: 'AF')[:country_option_tags]).to include('selected')
+      expect(LiquidHelper.country_option_tags('AF')).to include('selected')
     end
 
     it 'does not select a country if passed request_country as a country name' do
-      expect(LiquidHelper.globals(request_country: 'Afghanistan')[:country_option_tags]).not_to include('selected')
-    end
-
-    it 'selects a country if passed member has a country code' do
-      au = create :member, country: 'AF'
-      expect(LiquidHelper.globals(member: au)[:country_option_tags]).to include('selected')
+      expect(LiquidHelper.country_option_tags('Afganistan')).not_to include('selected')
     end
   end
 
@@ -88,19 +61,4 @@ describe LiquidHelper do
       expect(LiquidHelper.globals(page: page)[:petition_target]).to eq 'koch brothers'
     end
   end
-
-  describe '.guess_currency' do
-    it 'returns appropraite currency for country' do
-      expect(LiquidHelper.guess_currency('GB') ).to eq('GBP')
-    end
-
-    it 'returns USD as default' do
-      expect(LiquidHelper.guess_currency('MX') ).to eq('USD')
-    end
-
-    it 'returns EUR for european nation' do
-      expect(LiquidHelper.guess_currency('AD') ).to eq('EUR')
-    end
-  end
-
 end

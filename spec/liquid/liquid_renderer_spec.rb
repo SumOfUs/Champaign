@@ -10,7 +10,7 @@ describe LiquidRenderer do
   describe 'new' do
     it 'receives the correct arguments' do
       expect{
-        LiquidRenderer.new(page, layout: liquid_layout, request_country: 'RD', member: {}, url_params: {hi: 'a'})
+        LiquidRenderer.new(page, layout: liquid_layout, location: {}, member: {}, url_params: {hi: 'a'})
       }.not_to raise_error
     end
 
@@ -120,12 +120,89 @@ describe LiquidRenderer do
     end
 
     it "should have expected keys" do
-      expected_keys = ['plugins', 'ref', 'title', 'content', 'images', 'shares', 'country_option_tags', 'url_params', 'primary_image', 'follow_up_url']
+      expected_keys = ['plugins', 'ref', 'images', 'shares', 'country_option_tags',
+                      'url_params', 'primary_image', 'follow_up_url', 'outstanding_fields',
+                      'petition_target', 'location', 'member']
+      expected_keys += page.liquid_data.keys.map(&:to_s)
       actual_keys = renderer.data.keys
-      expected_keys.each do |expected_key|
-        expect(actual_keys).to include(expected_key)
+      expect(actual_keys).to match_array(expected_keys)
+    end
+
+    describe 'outstanding_fields' do
+      it 'is [] if it has no plugins' do
+        expect(page.plugins.size).to eq 0
+        expect(LiquidRenderer.new(page).data['outstanding_fields']).to eq []
+      end
+
+      it "is [] if it's plugins don't have forms" do
+        create :plugins_thermometer, page: page
+        expect(LiquidRenderer.new(page).data['outstanding_fields']).to eq []
+      end
+
+      it 'has the fields from one plugin form' do
+        form = create :form_with_email_and_name
+        create :plugins_fundraiser, page: page, form: form
+        expect(LiquidRenderer.new(page).data['outstanding_fields']).to eq ['email', 'name']
+      end
+
+      it 'has from both plugin forms' do
+        p1 = create :plugins_fundraiser, page: page
+        p2 = create :plugins_petition, page: page
+        p1.update_attributes(form: create(:form_with_email_and_name))
+        p2.update_attributes(form: create(:form_with_phone_and_country))
+        expect(LiquidRenderer.new(page).data['outstanding_fields']).to match_array ['email', 'name', 'phone', 'country']
       end
     end
+
+    describe 'location' do
+
+      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: {country_code: 'US'}, country_code: 'US') }
+
+      before :each do
+        allow(Donations::Utils).to receive(:currency_from_country_code){ 'USD' }
+      end
+
+      it 'returns the location its passed' do
+        allow(location).to receive(:data){ {region: 'USA' } }
+        allow(location).to receive(:country_code){ nil }
+        renderer = LiquidRenderer.new(page, location: location)
+        expect(renderer.data['location']).to eq location.data.stringify_keys
+        expect(Donations::Utils).not_to have_received(:currency_from_country_code).with('DE')
+      end
+
+      it 'calls currency_from_country_code with member country' do
+        member = build :member, country: 'DE'
+        allow(location).to receive(:country_code){ 'GB' }
+        allow(location).to receive(:data){ {country_code: 'GB' } }
+        renderer = LiquidRenderer.new(page, member: member, location: location)
+        expect(renderer.data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD'})
+        expect(Donations::Utils).to have_received(:currency_from_country_code).with('DE')
+      end
+
+      it 'calls currency_from_country_code with location country if member has none' do
+        member = build :member, country: nil
+        allow(location).to receive(:country_code){ 'GB' }
+        allow(location).to receive(:data){ {country_code: 'GB' } }
+        renderer = LiquidRenderer.new(page, member: member, location: location)
+        expect(renderer.data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD'})
+        expect(Donations::Utils).to have_received(:currency_from_country_code).with('GB')
+      end
+    end
+
+    describe 'member' do
+      it 'gives email as welcome name if no name' do
+        member = build :member, first_name: nil, last_name: "", email: 'sup@dude.com'
+        renderer = LiquidRenderer.new(page, member: member)
+        expect(renderer.data['member']['welcome_name']).to eq 'sup@dude.com'
+      end
+
+      it 'gives first name and last name if available' do
+        member = build :member, first_name: 'big', last_name: "dog", email: 'sup@dude.com'
+        renderer = LiquidRenderer.new(page, member: member)
+        expect(renderer.data['member']['welcome_name']).to eq 'big dog'
+      end
+    end
+
   end
 
 end

@@ -3,11 +3,12 @@ require 'rails_helper'
 describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4') }
-  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html') }
+  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', data: {'some' => 'data'}) }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
+    allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
   end
 
   describe 'GET #index' do
@@ -90,7 +91,6 @@ describe PagesController do
   end
 
   describe 'GET #show' do
-
     before do
       allow(Page).to receive(:find){ page }
       allow(page).to receive(:update)
@@ -105,7 +105,7 @@ describe PagesController do
     it 'instantiates a LiquidRenderer and calls render' do
       get :show, id: '1'
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
+        location: {},
         member: nil,
         layout: page.liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
@@ -163,7 +163,7 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
+        location: {},
         member: nil,
         layout: page.secondary_liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}

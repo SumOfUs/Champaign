@@ -17,6 +17,13 @@ FactoryGirl.define do
       end
     end
 
+    factory :form_with_phone_and_country do
+      after(:create) do |form, evaluator|
+        create :form_element, form: form, name: 'country', label: 'Country', data_type: 'country', required: true
+        create :form_element, form: form, name: 'phone', label: 'Phone number', data_type: 'phone', required: true
+      end
+    end
+
     factory :form_with_fields do
       after(:create) do |form, evaluator|
         create_list(:form_element, 2, form: form)

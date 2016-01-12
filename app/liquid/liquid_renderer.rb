@@ -27,7 +27,9 @@ class LiquidRenderer
   end
 
   def data
-    @data ||= Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]}).
+    return @data if @data
+    plugin_data = Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
+    @data ||= plugin_data.
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
@@ -37,6 +39,7 @@ class LiquidRenderer
                 merge( follow_up_url: follow_up_page_path(@page.id)).
                 merge( member: member_hash ).
                 merge( location: location).
+                merge( outstanding_fields: outstanding_fields(plugin_data) ).
                 deep_stringify_keys
   end
 
@@ -54,9 +57,20 @@ class LiquidRenderer
     values
   end
 
+  def outstanding_fields(plugin_data)
+    plugin_values = plugin_data.deep_symbolize_keys[:plugins].values().map(&:values).flatten
+    plugin_values.map{|plugin| plugin[:outstanding_fields]}.flatten.compact
+  end
+
   def location
-    return @location if @location.blank? || @location.country_code.blank?
-    currency = Donations::Utils.currency_from_country_code(@location.country_code)
+    return @location if @location.blank?
+    if @member.present? && @member.country.present? && @member.country.length == 2
+      country_code = @member.country
+    else
+      country_code = @location.country_code
+    end
+    return @location.data if country_code.blank?
+    currency = Donations::Utils.currency_from_country_code(country_code)
     @location.data.merge(currency: currency)
   end
 
