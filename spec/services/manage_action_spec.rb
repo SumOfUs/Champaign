@@ -3,6 +3,7 @@ require 'rails_helper'
 describe ManageAction do
   before do
     allow(ChampaignQueue).to receive(:push)
+    allow(Analytics::Page).to receive(:increment)
   end
 
   let(:page) { create(:page) }
@@ -14,8 +15,13 @@ describe ManageAction do
     allow(ChampaignQueue).to receive(:push)
   end
 
-  describe '#create' do
+  describe '.create' do
     subject { ManageAction.create(data) }
+
+    it 'increments counter as new member' do
+      expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
+      subject
+    end
 
     it 'creates an action' do
       expect(subject).to be_a Action
@@ -40,7 +46,7 @@ describe ManageAction do
       it 'creates an member' do
         expect{ subject }.to change{ Member.count }.by 1
       end
-      
+
       it 'saves available fields to member' do
         action = ManageAction.create(data.merge(first_name))
         expect(action.member.first_name).to eq first_name[:first_name]
@@ -72,6 +78,11 @@ describe ManageAction do
 
       before :each do
         @existing = create :member, email: data[:email]
+      end
+
+      it 'increments counter not as new member' do
+        expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+        subject
       end
 
       it 'does not change the number of members' do

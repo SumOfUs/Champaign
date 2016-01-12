@@ -5,15 +5,27 @@ module ActionBuilder
   end
 
   def previous_action
+    return nil unless existing_member?
     @previous_action ||= Action.where(member: member, page_id: page).first
+  end
+
+  def existing_member
+    @existing_member ||= Member.find_by( email: @params[:email] )
+  end
+
+  def existing_member?
+    !!existing_member
   end
 
   def member
     return @user if @user.present?
-    @user = Member.find_or_create_by(email: @params[:email])
+
+    @user = existing_member || Member.new(email: @params[:email])
+
     if @params.has_key? :name
       @user.name = @params[:name]
     end
+
     @user.assign_attributes(filtered_params)
     @user.save if @user.changed
     @user
@@ -32,3 +44,4 @@ module ActionBuilder
     @page ||= Page.find(@params[:page_id])
   end
 end
+

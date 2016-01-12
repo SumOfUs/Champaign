@@ -1,5 +1,5 @@
 require 'rails_helper'
-require './lib/analytics/analytics'
+require './lib/analytics'
 
 describe Analytics do
   before do
