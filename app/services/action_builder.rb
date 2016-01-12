@@ -12,7 +12,7 @@ module ActionBuilder
     return @user if @user.present?
     @user = Member.find_or_create_by(email: @params[:email])
     if @params.has_key? :name
-      @user.full_name = @params[:name]
+      @user.name = @params[:name]
     end
     @user.assign_attributes(filtered_params)
     @user.save if @user.changed
