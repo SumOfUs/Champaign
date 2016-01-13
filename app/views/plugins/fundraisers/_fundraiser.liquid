@@ -107,7 +107,7 @@
       window.sumofus.myFundraiserBar = new window.sumofus.FundraiserBar({
         pageId:           "{{ id }}",
         followUpUrl:      "{{ follow_up_url }}",
-        currency:         window.sumofus.personalization.location.currency,
+        currency:         window.sumofus.personalization.urlParams.currency || window.sumofus.personalization.location.currency,
         donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
         amount:           window.sumofus.personalization.urlParams.amount,
         outstandingFields:window.sumofus.personalization.outstandingFields
