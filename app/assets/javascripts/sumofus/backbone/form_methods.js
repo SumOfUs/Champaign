@@ -21,20 +21,20 @@ const FormMethods = {
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
   },
 
-  prefillForm: function(member, outstandingFields){
-    if(typeof outstandingFields !== typeof []) { return; }
-    if(typeof member !== typeof {}) { return; }
-    this.$('.petition-bar__field-container').each((ii, container) => {
-      let $container = $(container);
-      let $field = $container.find('input, select');
-      let name = $field.attr('name');
-      if (outstandingFields.indexOf(name) > -1) {
-        return; // if its marked outstanding, the value we have wouldn't pass validation
-      } else if(outstandingFields.length === 0) {
-        $container.addClass('form__group--prefilled');
-      }
-      if (member.hasOwnProperty(name)) {
-        $field.val(member[name]);
+  completePrefill: function(prefillValues) {
+    this.$('.petition-bar__field-container').addClass('form__group--prefilled');
+    this.partialPrefill(prefillValues, []);
+  },
+
+  partialPrefill: function(prefillValues, fieldsToSkipPrefill) {
+    if(typeof prefillValues !== typeof {}) { return; }
+    fieldsToSkipPrefill = fieldsToSkipPrefill || [];
+    this.$('.petition-bar__field-container input, select').each((ii, field) => {
+      let $field = $(field);
+      let name = $field.prop('name');
+      console.log('prefilling field with name',name);
+      if (prefillValues.hasOwnProperty(name) && fieldsToSkipPrefill.indexOf(name) === -1) {
+        $field.val(prefillValues[name]);
       }
     });
   },
