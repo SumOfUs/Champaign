@@ -4,7 +4,7 @@ describe Page do
 
   let(:english) { create :language }
   let(:liquid_layout) { create :liquid_layout }
-  let(:simple_page) { create :page, liquid_layout: liquid_layout }
+  let!(:simple_page) { create :page, liquid_layout: liquid_layout, slug: 'simple_slug' }
   let(:existing_page) { create :page }
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
@@ -254,6 +254,15 @@ describe Page do
 
     it 'defaults to 0' do
       expect(Page.new.action_count).to eq 0
+    end
+  end
+
+  describe 'find by slug' do
+    it 'finds a page by its slug' do
+      expect(Page.find('simple_slug')).to eq simple_page
+    end
+    it 'finds a page by id' do
+      expect(Page.find(simple_page.id)).to eq simple_page
     end
   end
 end
