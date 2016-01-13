@@ -112,6 +112,7 @@ Rails.application.routes.draw do
     end
 
     resources :pages do
+      resource  :analytics
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
       end
