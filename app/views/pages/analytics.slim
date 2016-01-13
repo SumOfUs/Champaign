@@ -1,8 +1,22 @@
+= stylesheet_link_tag "analytics/application", media: 'all'
+
+.row
+  div#analytics-dashboard
+    .col-md-8
+      .charts
+      h4 Total actions last 12 hours
+    .col-md-4
+      .totals
+        dl.actions
+          dt.odometer.total-actions-all
+          dd Total Actions
+        dl.new-members
+          dt.odometer.total-actions-new
+          dd New Members
 
 
-
-div style="width:400px; height: 400px;"
-  canvas#chart width="400px" height="400px"
-
-script type="text/javascript" src="https://rawgit.com/nnnick/Chart.js/v2.0-dev/Chart.js"
-
+javascript:
+  $( function() {
+    window.chart = new BarChart("#{@page.id}");
+    chart.render();
+  });

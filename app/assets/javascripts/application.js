@@ -17,6 +17,9 @@
 //= require pub_sub
 //= require jquery-ui/sortable
 //= require jquery.remotipart
+//= require d3
+//= require odometer
+//= require moment
 
 //= require bootstrap-sprockets
 //= require selectize
