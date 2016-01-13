@@ -122,7 +122,7 @@ describe LiquidRenderer do
     it "should have expected keys" do
       expected_keys = ['plugins', 'ref', 'images', 'shares', 'country_option_tags',
                       'url_params', 'primary_image', 'follow_up_url', 'outstanding_fields',
-                      'petition_target', 'location', 'member']
+                      'petition_target', 'location', 'member', 'donation_bands']
       expected_keys += page.liquid_data.keys.map(&:to_s)
       actual_keys = renderer.data.keys
       expect(actual_keys).to match_array(expected_keys)
@@ -151,6 +151,59 @@ describe LiquidRenderer do
         p1.update_attributes(form: create(:form_with_email_and_name))
         p2.update_attributes(form: create(:form_with_phone_and_country))
         expect(LiquidRenderer.new(page).data['outstanding_fields']).to match_array ['email', 'name', 'phone', 'country']
+      end
+    end
+
+    describe 'donation_bands' do
+
+      let(:stubbed_conversion) { {"GBP"=>[0, 1, 2, 3, 4], "EUR"=>[0, 1, 2, 3, 4], "AUD"=>[0, 1, 2, 3, 4], "NZD"=>[0, 1, 2, 3, 4], "CAD"=>[0, 1, 2, 3, 4]} }
+
+      before :each do
+        allow(PaymentProcessor::Currency).to receive(:convert)
+      end
+
+      it 'is nil if it has no plugins and no url_params' do
+        expect(page.plugins.size).to eq 0
+        expect(LiquidRenderer.new(page).data['donation_bands']).to eq nil
+      end
+
+      it "is {} if it's plugins don't have donation bands and no url_params" do
+        fundraiser = create :plugins_fundraiser, page: page
+        expect(fundraiser.donation_band).to eq nil
+        expect(LiquidRenderer.new(page).data['donation_bands']).to eq Hash.new
+      end
+
+      it "has the fundraiser's donation band if no url_param" do
+        a = create :donation_band, name: 'eh mate'
+        b = create :donation_band, name: 'bee boy'
+        create :plugins_fundraiser, page: page, donation_band: b
+        expected = {"USD" => Donations::Utils.round_and_dedup(b.amounts.map{|v| v/100})}
+        expect(LiquidRenderer.new(page).data['donation_bands']).to eq stubbed_conversion.merge(expected)
+      end
+
+      it "has the first fundraiser's donation band if multiple" do
+        a = create :donation_band, name: 'eh mate'
+        b = create :donation_band, name: 'bee boy'
+        create :plugins_fundraiser, page: page, donation_band: a
+        create :plugins_fundraiser, page: page, donation_band: b
+        expected = {"USD" => Donations::Utils.round_and_dedup(b.amounts.map{|v| v/100})}
+        expect(LiquidRenderer.new(page).data['donation_bands']).to eq stubbed_conversion.merge(expected)
+      end
+
+      it "has the fundraiser's donation band if url_param nonsensical" do
+        a = create :donation_band, name: 'eh mate'
+        b = create :donation_band, name: 'bee boy'
+        create :plugins_fundraiser, page: page, donation_band: b
+        expected = {"USD" => Donations::Utils.round_and_dedup(b.amounts.map{|v| v/100})}
+        expect(LiquidRenderer.new(page, url_params: {donation_band: 'slurp'}).data['donation_bands']).to eq stubbed_conversion.merge(expected)
+      end
+
+      it "uses the url_params donation band if passed" do
+        a = create :donation_band, name: 'eh mate'
+        b = create :donation_band, name: 'bee boy'
+        create :plugins_fundraiser, page: page, donation_band: b
+        expected = {"USD" => Donations::Utils.round_and_dedup(a.amounts.map{|v| v/100})}
+        expect(LiquidRenderer.new(page, url_params: {donation_band: a.name}).data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
     end
 

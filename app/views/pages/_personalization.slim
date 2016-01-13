@@ -2,7 +2,8 @@ javascript:
   window.sumofus = window.sumofus || {};
   window.sumofus.personalization = {
     outstandingFields: #{serialize(data, 'outstanding_fields')},
+    donationBands: #{serialize(data, 'donation_bands')},
     urlParams: #{ serialize(data, 'url_params') },
     location: #{ serialize(data, 'location') },
-    member: #{serialize(data, 'member')}
+    member: #{serialize(data, 'member') }
   }

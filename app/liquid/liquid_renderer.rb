@@ -40,6 +40,7 @@ class LiquidRenderer
                 merge( member: member_hash ).
                 merge( location: location).
                 merge( outstanding_fields: outstanding_fields(plugin_data) ).
+                merge( donation_bands: donation_bands(plugin_data) ).
                 deep_stringify_keys
   end
 
@@ -58,8 +59,16 @@ class LiquidRenderer
   end
 
   def outstanding_fields(plugin_data)
+    isolate_from_plugin_data(plugin_data, :outstanding_fields)
+  end
+
+  def donation_bands(plugin_data)
+    isolate_from_plugin_data(plugin_data, :donation_bands).first
+  end
+
+  def isolate_from_plugin_data(plugin_data, field)
     plugin_values = plugin_data.deep_symbolize_keys[:plugins].values().map(&:values).flatten
-    plugin_values.map{|plugin| plugin[:outstanding_fields]}.flatten.compact
+    plugin_values.map{|plugin| plugin[field]}.flatten.compact
   end
 
   def location

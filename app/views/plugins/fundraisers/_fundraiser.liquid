@@ -108,7 +108,7 @@
         pageId:           "{{ id }}",
         followUpUrl:      "{{ follow_up_url }}",
         currency:         window.sumofus.personalization.urlParams.currency || window.sumofus.personalization.location.currency,
-        donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
+        donationBands:    window.sumofus.personalization.donationBands,
         amount:           window.sumofus.personalization.urlParams.amount,
         outstandingFields:window.sumofus.personalization.outstandingFields
       });
