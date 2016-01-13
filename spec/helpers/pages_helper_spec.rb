@@ -42,4 +42,32 @@ describe PagesHelper do
       expect(prefill_link(variant).attributes).to eq Share::Facebook.new.attributes
     end
   end
+
+  describe "serialize" do
+
+    it 'can serialize with a symbol keys and symbol query' do
+      expect(serialize({foo: 'bar'}, :foo)).to eq '"bar"'
+    end
+
+    it 'can serialize with a symbol keys and string query' do
+      expect(serialize({foo: 'bar'}, 'foo')).to eq '"bar"'
+    end
+
+    it 'can serialize with a string keys and symbol query' do
+      expect(serialize({'foo' => 'bar'}, :foo)).to eq '"bar"'
+    end
+
+    it 'can serialize with a string keys and string query' do
+      expect(serialize({'foo' => 'bar'}, 'foo')).to eq '"bar"'
+    end
+
+    it 'renders empty object if key is missing' do
+      expect(serialize({foo: 'bar'}, :baz)).to eq '{}'
+    end
+
+    it 'serializes a subhash into appropriate json' do
+      expect(serialize({foo: {bar: 'baz', quu: 'ray'}}, :foo)).to eq '{"bar":"baz","quu":"ray"}'
+    end
+  end
+
 end
