@@ -32,7 +32,6 @@ const FormMethods = {
     this.$('.petition-bar__field-container input, select').each((ii, field) => {
       let $field = $(field);
       let name = $field.prop('name');
-      console.log('prefilling field with name',name);
       if (prefillValues.hasOwnProperty(name) && fieldsToSkipPrefill.indexOf(name) === -1) {
         $field.val(prefillValues[name]);
       }

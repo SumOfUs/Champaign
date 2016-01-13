@@ -45,20 +45,73 @@ describe("Fundraiser", function() {
 
     describe('outstanding fields is empty', function(){
 
-      describe('amount is not passed', function(){
+      describe('member is not passed', function(){
 
-        beforeEach(function(){
+        it('hides the second step if there are no fields', function(){
+          $('.fundraiser-bar .petition-bar__field-container').remove();
+          expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
-        });
-
-        it('starts on the first step', function(){
-          expect(helpers.currentStepOf(3)).to.eq(1);
-        });
-
-        it('hides the second step', function(){
           expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
           $('.fundraiser-bar__amount-button').first().click();
           expect(helpers.currentStepOf(3)).to.eq(3);
+        });
+
+        describe('amount is not passed', function(){
+
+          beforeEach(function(){
+            suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
+          });
+
+          it('does not prefill values', function(){
+            var vals = $('.petition-bar__field-container').map(function(ii, el){ return $(el).val() }).toArray();
+            expect(vals).to.eql([""]);
+          });
+
+          it('does not hide the second step if there are fields', function(){
+            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+          });
+
+          it('starts on the first step', function(){
+            expect(helpers.currentStepOf(3)).to.eq(1);
+          });
+        });
+
+      });
+
+      it('ignores extraneous member values', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com', oogle: 'boogle'} });
+        expect($('input[name="email"]').val()).to.eql('neal@test.com');
+      });
+
+      describe('member is passed', function(){
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
+        });
+
+        it('does not display the clearer when form has no fields', function(){
+          $('.fundraiser-bar .petition-bar__field-container').remove();
+          expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
+          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
+        });
+
+        it('displays the clearer when form has fields', function(){
+          expect($('.fundraiser-bar .petition-bar__field-container').length).to.be.at.least(1);
+          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.fundraiser-bar__welcome-text')).not.to.have.class('hidden-irrelevant');
+        });
+
+        it('prefills with values of member', function(){
+          expect($('input[name="email"]').val()).to.eql('neal@test.com');
+        });
+
+        it('hides the form fields', function(){
+            var classed = $('.petition-bar__field-container').map(function(ii, el){
+              return $(el).hasClass('form__group--prefilled')
+            }).toArray();
+            expect(classed).to.eql([false]);
         });
 
         it('displays the second step when user requests', function(){
@@ -78,16 +131,9 @@ describe("Fundraiser", function() {
           $('.fundraiser-bar__clear-form').click();
           expect(input.val()).to.equal('');
         });
-
-        it('displays the clearer when form has fields');
-        it('does not display the clearer when form has no fields');
-        it('prefills with values of member');
-        it('ignores extraneous member values');
-        it('does not prefill if member is not passed');
-        it('hides the form fields');
       });
 
-      describe('amount is greater than zero ', function(){
+      describe('amount is greater than zero', function(){
 
         beforeEach(function(){
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], amount: 11 });
