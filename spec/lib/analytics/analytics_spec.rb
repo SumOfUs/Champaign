@@ -68,7 +68,7 @@ describe Analytics do
 
     context 'by hour' do
       before do
-        Timecop.freeze('01-01-2000') do
+        Timecop.freeze('02-01-2000') do
           2.times{ subject.increment_actions }
           subject.increment_actions(new_member: true)
 
@@ -84,17 +84,25 @@ describe Analytics do
       end
 
       it 'has 12 data points' do
-        expect(
-          subject.total_actions_over_time(period: :hour).keys
-        ).to eq( (0..11).to_a )
+        Timecop.freeze do
+          expected_keys = (0..11).inject([]) do |memo, i|
+            memo << (Time.now.utc - i.send(:hour)).beginning_of_hour.to_s(:db)
+          end
+
+          expect(
+            subject.total_actions_over_time(period: :hour).keys
+          ).to eq( expected_keys )
+        end
       end
 
       it 'returns total actions by hour' do
         sample_of_expected_data = {
-          0 => 3, 1 => 8, 3 => 3
+          "2000-01-02 00:00:00" => 3,
+          "2000-01-01 23:00:00" => 8,
+          "2000-01-01 21:00:00" => 3
         }
 
-        Timecop.freeze('01-01-2000') do
+        Timecop.freeze('02-01-2000') do
           expect(
             subject.total_actions_over_time(period: :hour)
           ).to include( sample_of_expected_data )
@@ -103,10 +111,12 @@ describe Analytics do
 
       it 'returns actions by new members by hour' do
         sample_of_expected_data = {
-          0 => 1, 1 => 3
+          "2000-01-02 00:00:00" => 1,
+          "2000-01-01 23:00:00" => 3
         }
 
-        Timecop.freeze('01-01-2000') do
+
+        Timecop.freeze('02-01-2000') do
           expect(
             subject.total_actions_over_time(period: :hour, new_members: true)
           ).to include( sample_of_expected_data )

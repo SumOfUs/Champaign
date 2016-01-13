@@ -32,9 +32,9 @@ module Analytics
 
     def total_by_hour(new_members_only)
       12.times.inject({}) do |memo, i|
-        hour = (Time.now.utc - i.send(:hour)).hour
+        hour = (Time.now.utc - i.send(:hour)).beginning_of_hour.to_s(:db)
 
-        memo[i] = Analytics.store.get(key_with_hour(hour: hour, new_member: new_members_only)).to_i
+        memo[hour] = Analytics.store.get(key_with_hour(hour: hour, new_member: new_members_only)).to_i
         memo
       end
     end
@@ -56,7 +56,7 @@ module Analytics
       end
     end
 
-    def key_with_hour(hour: Time.now.utc.hour, new_member: false)
+    def key_with_hour(hour: Time.now.beginning_of_hour.utc.to_s(:db), new_member: false)
       "#{ key(new_member) }:hours:#{hour}"
     end
 
