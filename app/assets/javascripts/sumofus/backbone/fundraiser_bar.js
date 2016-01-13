@@ -16,7 +16,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .fundraiser-bar__clear-form': 'showSecondStep',
-    'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
@@ -53,9 +52,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
     this.hidingStepTwo = false;
     let amountKnown = (options.amount > 0); // non-numbers with > are always false
-    let formComplete = ((typeof options.outstandingFields === typeof []) && 
-                        (options.outstandingFields.length === 0) &&
-                        (this.formFieldCount() === 0 || (typeof options.member == typeof {})));
+    let formComplete = (_.isArray(options.outstandingFields) &&
+                        options.outstandingFields.length === 0 &&
+                        (this.formFieldCount() === 0 || _.isObject(options.member)));
     this.hideSteps(amountKnown, formComplete, options.member, options.outstandingFields);
   },
 

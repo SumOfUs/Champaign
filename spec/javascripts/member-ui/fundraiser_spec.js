@@ -83,18 +83,18 @@ describe("Fundraiser", function() {
         expect($('input[name="email"]').val()).to.eql('neal@test.com');
       });
 
+      it('does not display the clearer when form has no fields', function(){
+        $('.fundraiser-bar .petition-bar__field-container').remove();
+        expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
+        expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+        expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
+      });
+
       describe('member is passed', function(){
 
         beforeEach(function(){
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
-        });
-
-        it('does not display the clearer when form has no fields', function(){
-          $('.fundraiser-bar .petition-bar__field-container').remove();
-          expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
-          expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
         });
 
         it('displays the clearer when form has fields', function(){
@@ -109,9 +109,9 @@ describe("Fundraiser", function() {
 
         it('hides the form fields', function(){
             var classed = $('.petition-bar__field-container').map(function(ii, el){
-              return $(el).hasClass('form__group--prefilled')
+              return $(el).hasClass('form__group--prefilled');
             }).toArray();
-            expect(classed).to.eql([false]);
+            expect(classed).to.eql([true]);
         });
 
         it('displays the second step when user requests', function(){
@@ -125,8 +125,7 @@ describe("Fundraiser", function() {
         it('clears prefilled fields when second step displayed', function(){
           var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
           input.parents('.form__group').addClass('form__group--prefilled');
-          input.attr('value', 'cheerio!');
-          expect(input.val()).to.equal('cheerio!');
+          expect(input.val()).to.equal('neal@test.com');
           $('.fundraiser-bar__amount-button').first().click();
           $('.fundraiser-bar__clear-form').click();
           expect(input.val()).to.equal('');
@@ -136,7 +135,7 @@ describe("Fundraiser", function() {
       describe('amount is greater than zero', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], amount: 11 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], amount: 11, member: {} });
         });
 
         it('skips to the third step', function(){

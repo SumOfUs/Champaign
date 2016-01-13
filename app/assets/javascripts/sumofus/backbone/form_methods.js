@@ -18,6 +18,7 @@ const FormMethods = {
     let $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder.find('input').removeAttr('value');
+    $fields_holder.parents('form').trigger('reset');
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
   },
 
@@ -27,7 +28,7 @@ const FormMethods = {
   },
 
   partialPrefill: function(prefillValues, fieldsToSkipPrefill) {
-    if(typeof prefillValues !== typeof {}) { return; }
+    if(!_.isObject(prefillValues)) { return; }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
     this.$('.petition-bar__field-container input, select').each((ii, field) => {
       let $field = $(field);
