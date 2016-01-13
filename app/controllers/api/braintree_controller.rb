@@ -67,7 +67,7 @@ class Api::BraintreeController < ApplicationController
   end
 
   def find_or_create_user
-    user = params[:user].merge(name_split)
+    user = params[:user]
     # If user isn't associated with a token locally, create and persist the customer first
     if default_payment_method_token.blank?
       result = braintree::Customer.create({
@@ -101,19 +101,10 @@ class Api::BraintreeController < ApplicationController
     {
       nonce: params[:payment_method_nonce],
       amount: params[:amount].to_f,
-      user: params[:user].merge(name_split),
+      user: params[:user],
       currency: params[:currency],
       customer: Payment.customer(params[:user][:email])
     }
-  end
-
-  def name_split
-    if params[:user].has_key? :name
-      splitter = NameSplitter.new(full_name: params[:user][:name])
-      {first_name: splitter.first_name, last_name: splitter.last_name}
-    else
-      {}
-    end
   end
 
   def subscription_options
