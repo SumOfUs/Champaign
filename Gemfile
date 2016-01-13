@@ -141,5 +141,14 @@ source 'https://rails-assets.org' do
 
   # for js testing
   gem 'rails-assets-chai-jquery'
+
+  # A JavaScript visualization library for HTML and SVG.
+  gem 'rails-assets-d3'
+
+  # Transition numbers with ease
+  gem 'rails-assets-odometer'
+
+  # Parse, validate, manipulate, and display dates in javascript.
+  gem 'rails-assets-moment'
 end
 

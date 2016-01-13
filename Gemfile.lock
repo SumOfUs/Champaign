@@ -321,8 +321,11 @@ GEM
       rails-assets-underscore (>= 1.5.0)
     rails-assets-braintree-web (2.15.4)
     rails-assets-chai-jquery (2.0.1)
+    rails-assets-d3 (3.5.12)
     rails-assets-dropzone (4.0.1)
     rails-assets-mailcheck (1.1.1)
+    rails-assets-moment (2.11.1)
+    rails-assets-odometer (0.4.7)
     rails-assets-quill (0.20.0)
     rails-assets-speakingurl (6.0.0)
     rails-assets-underscore (1.8.3)
@@ -493,8 +496,11 @@ DEPENDENCIES
   rails-assets-backbone!
   rails-assets-braintree-web!
   rails-assets-chai-jquery!
+  rails-assets-d3!
   rails-assets-dropzone!
   rails-assets-mailcheck!
+  rails-assets-moment!
+  rails-assets-odometer!
   rails-assets-quill!
   rails-assets-speakingurl!
   rails-assets-underscore!
