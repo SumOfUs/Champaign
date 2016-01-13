@@ -88,7 +88,7 @@ class Api::BraintreeController < ApplicationController
         customer.update(
           card_vault_token: result.customer.payment_methods.first.token,
           customer_id: result.customer.id,
-          first_name: user[:firstname] || user[:name],
+          first_name: user[:first_name] || user[:name],
           last_name: user[:last_name],
           card_last_4: result.customer.payment_methods.first.last_4
         )
