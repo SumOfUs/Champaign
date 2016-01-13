@@ -79,6 +79,12 @@ describe("Fundraiser", function() {
           expect(input.val()).to.equal('');
         });
 
+        it('displays the clearer when form has fields');
+        it('does not display the clearer when form has no fields');
+        it('prefills with values of member');
+        it('ignores extraneous member values');
+        it('does not prefill if member is not passed');
+        it('hides the form fields');
       });
 
       describe('amount is greater than zero ', function(){
@@ -114,7 +120,6 @@ describe("Fundraiser", function() {
           $('.fundraiser-bar__clear-form').click();
           expect(input.val()).to.equal('');
         });
-
       });
     });
 
@@ -133,6 +138,12 @@ describe("Fundraiser", function() {
         it('displays the second step', function(){
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
+
+        it('does not display the clearer');
+        it('prefills with values of member');
+        it('ignores extraneous member values');
+        it('does not prefill if member is not passed');
+        it('does not hide hides the form fields');
       });
 
       describe('amount is greater than zero ', function(){
@@ -170,6 +181,13 @@ describe("Fundraiser", function() {
         it('displays the second step', function(){
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
+
+        it('does not display the clearer');
+        it('prefills with values of member');
+        it('does not prefill if value is in outstandingFields');
+        it('ignores extraneous member values');
+        it('does not prefill if member is not passed');
+        it('does not hide the form fields');
       });
 
       describe('amount is greater than zero ', function(){
