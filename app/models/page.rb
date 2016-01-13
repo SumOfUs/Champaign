@@ -1,6 +1,7 @@
 require 'render_anywhere'
 
 class Page < ActiveRecord::Base
+  extend FriendlyId
   include RenderAnywhere
   has_paper_trail
 
@@ -23,7 +24,8 @@ class Page < ActiveRecord::Base
   before_validation :create_slug
   after_save :switch_plugins
 
-  # have we thought about using friendly id? probably better
+  friendly_id :slug, :use => [:finders]
+
   def create_slug
     self.slug = title.parameterize if slug.nil? and not title.nil?
   end
