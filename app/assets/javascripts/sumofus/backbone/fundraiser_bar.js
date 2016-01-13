@@ -69,6 +69,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     } else if (amountKnown) {
       this.changeStep(2);
       this.partialPrefill(member, fieldsToSkipPrefill);
+    } else {
+      this.partialPrefill(member, fieldsToSkipPrefill);
     }
   },
 
