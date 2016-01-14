@@ -159,7 +159,7 @@ describe("Fundraiser", function() {
         it('clears prefilled fields when second step displayed', function(){
           var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
           input.parents('.form__group').addClass('form__group--prefilled');
-          input.attr('value', 'cheerio!');
+          input.val('cheerio!');
           expect(input.val()).to.equal('cheerio!');
           $('.fundraiser-bar__amount-button').first().click();
           $('.fundraiser-bar__clear-form').click();

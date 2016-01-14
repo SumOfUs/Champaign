@@ -26,11 +26,13 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    followUpUrl: the url to redirect to after success
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
-  //    outstandingFields: the number of step 2 form fields that need to to be filled by the user
+  //    outstandingFields: the names of step 2 form fields that can't be prefilled
   //    donationBands: an object with three letter currency codes as keys
+  //    member: an object with fields that will prefill the form
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options) {
+    options = options || {};
     this.initializeCurrency(options.currency, options.donationBands)
     this.initializeSticky();
     this.initializeBraintree();
@@ -52,9 +54,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
     this.hidingStepTwo = false;
     let amountKnown = (options.amount > 0); // non-numbers with > are always false
-    let formComplete = (_.isArray(options.outstandingFields) &&
-                        options.outstandingFields.length === 0 &&
-                        (this.formFieldCount() === 0 || _.isObject(options.member)));
+    let formComplete = this.formCanAutocomplete(options.outstandingFields, options.member);
     this.hideSteps(amountKnown, formComplete, options.member, options.outstandingFields);
   },
 

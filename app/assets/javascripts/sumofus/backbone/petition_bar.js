@@ -15,13 +15,29 @@ const PetitionBar = Backbone.View.extend(_.extend(
     'ajax:success form.action': 'handleSuccess',
   },
 
-  initialize: function() {
+  // options: object with any of the following keys
+  //    outstandingFields: the names of step 2 form fields that can't be prefilled
+  //    member: an object with fields that will prefill the form
+  initialize: function(options) {
+    options = options || {};
     this.petitionTextMinHeight = 120; // pixels
     this.checkBlurbHeight();
     this.handleFormErrors();
     this.initializeSticky();
+    this.initializePrefill(options);
     if (!this.isMobile()) {
       this.selectizeCountry();
+    }
+  },
+
+  initializePrefill: function(options) {
+    if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
+      this.completePrefill(options.member);
+      if (this.formFieldCount() > 0) {
+        $('.petition-bar__welcome-text').removeClass('hidden-irrelevant');
+      }
+    } else {
+      this.partialPrefill(options.member, options.outstandingFields);
     }
   },
 

@@ -39,7 +39,10 @@
 
   <script type="text/javascript">
     $(document).ready(function(){
-      window.sumofus.myPetitionBar = new window.sumofus.PetitionBar();
+      window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
+        member:           window.sumofus.personalization.member,
+        outstandingFields:window.sumofus.personalization.outstandingFields
+      });
     });
   </script>
 {% endif %}

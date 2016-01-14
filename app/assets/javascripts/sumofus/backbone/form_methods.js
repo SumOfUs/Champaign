@@ -14,10 +14,18 @@ const FormMethods = {
     ErrorDisplay.clearErrors(this.$('form'));
   },
 
+  formCanAutocomplete: function(outstandingFields, member) {
+    return (_.isArray(outstandingFields) &&
+            outstandingFields.length === 0 &&
+            (this.formFieldCount() === 0 || _.isObject(member)));
+  },
+
   clearForm: function(){
     let $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
-    $fields_holder.find('input').removeAttr('value');
+    $fields_holder.find('input, select').val('');
+    $fields_holder.find('select').each((ii, el)=>{ el.selectedIndex = -1; });
+    $fields_holder.find('.selectized').each((ii, el)=>{ el.selectize.clear(); });
     $fields_holder.parents('form').trigger('reset');
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
   },
