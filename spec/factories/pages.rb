@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :page do
     title { Faker::Company.bs }
-    slug { Faker::Internet.slug }
+    slug { Faker::Internet.slug(Faker::Lorem.sentence(10), '-') }
     active true
     featured false
     liquid_layout
