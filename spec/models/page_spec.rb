@@ -264,6 +264,10 @@ describe Page do
     it 'finds a page by id' do
       expect(Page.find(simple_page.id)).to eq simple_page
     end
+    it 'finds using friendly.find' do
+      expect(Page.friendly.find('simple_slug')).to eq simple_page
+      expect(Page.friendly.find(simple_page.id)).to eq simple_page
+    end
   end
 end
 
