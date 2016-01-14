@@ -33,7 +33,6 @@
 //= require dropzone_image_upload
 //= require selectize_config.js
 //= require configure_quill_editor
-//= require analytics
 //= require_tree ./plugins/admin
 
 require('ajax')
@@ -42,3 +41,4 @@ require("plugins_toggle");
 require("collection_editor");
 require('shares_editor');
 window.PageEditBar = require("page_edit_bar");
+window.AnalyticsDashboard = require('analytics');

@@ -1,6 +1,6 @@
 "use strict";
 
-class BarChart {
+class AnalyticsDashboard {
   constructor (pageId) {
     this.width = 550;
     this.height = 300;
@@ -153,3 +153,5 @@ class BarChart {
   }
 }
 
+
+module.exports = AnalyticsDashboard;
