@@ -2,25 +2,25 @@ let ErrorDisplay = require('show_errors');
 
 const FormMethods = {
 
-  handleFormErrors: function() {
+  handleFormErrors() {
     this.$('form').on('ajax:error', (e, d) => { ErrorDisplay.show(e, d); });
   },
 
-  selectizeCountry: function() {
+  selectizeCountry() {
     $('.petition-bar__country-selector').selectize();
   },
 
-  clearFormErrors: function() {
+  clearFormErrors() {
     ErrorDisplay.clearErrors(this.$('form'));
   },
 
-  formCanAutocomplete: function(outstandingFields, member) {
+  formCanAutocomplete(outstandingFields, member) {
     return (_.isArray(outstandingFields) &&
             outstandingFields.length === 0 &&
             (this.formFieldCount() === 0 || _.isObject(member)));
   },
 
-  clearForm: function(){
+  clearForm(){
     let $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder.find('input, select').val('');
@@ -30,12 +30,12 @@ const FormMethods = {
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
   },
 
-  completePrefill: function(prefillValues) {
+  completePrefill(prefillValues) {
     this.$('.petition-bar__field-container').addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, []);
   },
 
-  partialPrefill: function(prefillValues, fieldsToSkipPrefill) {
+  partialPrefill(prefillValues, fieldsToSkipPrefill) {
     if(!_.isObject(prefillValues)) { return; }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
     this.$('.petition-bar__field-container input, select').each((ii, field) => {
@@ -47,11 +47,11 @@ const FormMethods = {
     });
   },
 
-  formFieldCount: function() {
+  formFieldCount() {
     return this.$('.petition-bar__field-container').length;
   },
 
-  showFormClearer: function(member) {
+  showFormClearer(member) {
     this.$().member.welcome_name
   }
 };

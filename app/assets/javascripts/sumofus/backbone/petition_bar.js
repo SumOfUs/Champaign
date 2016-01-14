@@ -18,7 +18,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
   // options: object with any of the following keys
   //    outstandingFields: the names of step 2 form fields that can't be prefilled
   //    member: an object with fields that will prefill the form
-  initialize: function(options) {
+  initialize(options) {
     options = options || {};
     this.petitionTextMinHeight = 120; // pixels
     this.checkBlurbHeight();
@@ -30,7 +30,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  initializePrefill: function(options) {
+  initializePrefill(options) {
     if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
       this.completePrefill(options.member);
       if (this.formFieldCount() > 0) {
@@ -41,7 +41,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  handleSuccess: function(e, data) {
+  handleSuccess(e, data) {
     this.clearFormErrors();
     if (data.follow_up_url) {
       window.location.href = data.follow_up_url
@@ -51,19 +51,19 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  isMobile: function() {
+  isMobile() {
     return $('.mobile-indicator').is(':visible');
   },
 
-  hide: function() {
+  hide() {
     this.$el.addClass('petition-bar--mobile-view--closed').removeClass('petition-bar--mobile-view--open');
   },
 
-  reveal: function() {
+  reveal() {
     this.$el.removeClass('petition-bar--mobile-view--closed').addClass('petition-bar--mobile-view--open');
   },
 
-  checkBlurbHeight: function (){
+  checkBlurbHeight (){
     if (this.$('.petition-bar__top').outerHeight() > this.petitionTextMinHeight) {
       this.blurbIsTall = true;
     } else {
@@ -72,7 +72,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  toggleBlurb: function() {
+  toggleBlurb() {
     if (this.blurbIsTall) {
       if (this.$('.petition-bar__expand-arrow').hasClass('petition-bar__expand-arrow--expanded')) {
         this.expandBlurb();
@@ -83,12 +83,12 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  expandBlurb: function() {
+  expandBlurb() {
     this.$('.petition-bar__main').css('top', '');
     this.$el.parent('.sticky-wrapper').css('top', '');
   },
 
-  collapseBlurb: function() {
+  collapseBlurb() {
     const height = this.$('.petition-bar__top').outerHeight();
     this.$('.petition-bar__main').css('top', `${height}px`);
     this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
