@@ -10,7 +10,7 @@ en:
     amount: Amount
     details: Details
     payment: Payment
-    donate: Donate # used on the submit button, eg 'Donate $15'
+    donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
     error_intro: We were unable to process your donation!
     currency_in: Values shown in # USD
     switch_currency: Switch currency
@@ -32,15 +32,15 @@ en:
     sign_it: Sign the petition
     target_prefix: TO
     confirmation: Name submitted
-    thank_you: Thanks for adding your name to # <petition title>
+    thank_you: "Thanks for adding your name to %{petition_title}"
   form:
     welcome_back: Welcome back
     switch_user: Not you?
     processing: Processing...
     submit: Submit
   thermometer:
+    signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
-    until: until # as in '25 signatures until 250'
   share:
     cta: Share the campaign with your friends to triple your impact!
   errors:
