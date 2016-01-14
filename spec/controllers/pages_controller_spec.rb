@@ -2,7 +2,9 @@ require 'rails_helper'
 
 describe PagesController do
   let(:user) { instance_double('User', id: '1') }
-  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4') }
+  let(:default_language) { instance_double(Language, code: :en) }
+  let(:language) { instance_double(Language, code: :fr) }
+  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html') }
 
   before do
@@ -15,10 +17,18 @@ describe PagesController do
       get :index
       expect(response).to render_template('index')
     end
+    it 'uses default localization' do
+      expect(I18n.locale).to eq :en
+    end
+    it 'resets localization if a non-default localization is used' do
+      I18n.locale = :fr
+      get :index
+      expect(I18n.locale).to eq :en
+    end
   end
 
   describe 'POST #create' do
-    let(:page) { instance_double(Page, valid?: true) }
+    let(:page) { instance_double(Page, valid?: true, language:default_language) }
 
     before do
       allow(PageBuilder).to receive(:create) { page }
@@ -39,7 +49,7 @@ describe PagesController do
     end
 
     context "successfully created" do
-      let(:page) { instance_double(Page, valid?: false) }
+      let(:page) { instance_double(Page, valid?: false, language: default_language) }
 
       it 'redirects to edit_page' do
         expect(response).to render_template :new
@@ -48,7 +58,7 @@ describe PagesController do
   end
 
   describe 'PUT #update' do
-    let(:page) { instance_double(Page) }
+    let(:page) { instance_double(Page, language: default_language) }
 
     before do
       allow(Page).to receive(:find){ page }
@@ -145,6 +155,20 @@ describe PagesController do
       allow(controller).to receive(:user_signed_in?) { true }
       allow(page).to receive(:active?){ true }
       expect{ get :show, id: '1' }.not_to raise_error
+    end
+
+    context 'on pages with localization' do
+      let(:french_page) { instance_double(Page, valid?: true, active?: true, language: language, id: '42', liquid_layout: '5') }
+      let(:english_page) { instance_double(Page, valid?: true, active?: true, language: default_language, id: '66', liquid_layout: '5') }
+      it 'sets the locality to that of the language code on the page' do
+        allow(Page).to receive(:find){ french_page }
+        get :show, id: '42'
+        expect(I18n.locale).to eq :fr
+        allow(Page).to receive(:find){ english_page }
+        get :show, id: '66'
+        expect(I18n.locale).to eq :en
+      end
+
     end
   end
 

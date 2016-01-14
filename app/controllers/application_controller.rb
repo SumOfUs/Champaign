@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
 
   def localize_from_page_id
     page = Page.find_by(id: params[:page_id])
+    localize_by_page_language(page)
+  end
+
+  def localize_by_page_language(page)
     if page.present? && page.language.present? && page.language.code.present?
       set_locale(page.language.code)
     end
