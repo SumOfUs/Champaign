@@ -19,12 +19,30 @@
 class I18n::TranslationMissing < Exception; end
 
 module LiquidI18nRails
-  def t(string)
-    return I18n.t(string) unless Rails.env.development? || Rails.env.test?
+  def t(query)
+    translation_key, interpolation_vals = parse_interpolation(query)
+    return I18n.t(translation_key, **interpolation_vals) unless Rails.env.development? || Rails.env.test?
     begin
-      I18n.t(string, :raise => true)
+      I18n.t(translation_key, **interpolation_vals.merge(:raise => true))
     rescue I18n::MissingTranslationData => e
       raise I18n::TranslationMissing.new(e.message)
     end
+  end
+
+  def v(base, key, value)
+    "#{base}, #{key}: #{value}"
+  end
+
+  private
+
+  def parse_interpolation(query)
+    puts query
+    params = {}
+    _, translation_key, string_params = /([^,]+)(.*)/.match(query).to_a
+    while string_params.present? && string_params.length > 0
+      _, key, val, string_params = /, *([a-zA-z_]+): *([^,])+(.*)/.match(string_params).to_a
+      params[key.to_sym] = val if key.present? && key.length > 0
+    end
+    [translation_key, params]
   end
 end
