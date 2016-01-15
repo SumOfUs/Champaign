@@ -5,7 +5,9 @@
         <div class="petition-bar__mobile-ui">
           <a class="petition-bar__close-button">&#x2715;</a>
         </div>
-        <h2>{{ 'petition.sign_it' | t }}</h2>
+        <div class="petition-bar__title-bar">
+          <h2 class="petition-bar__title">{{ 'petition.sign_it' | t }}</h2>
+        </div>
         <div class="petition-bar__target">
           {% unless plugins.petition[ref].target == blank %}
             {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}

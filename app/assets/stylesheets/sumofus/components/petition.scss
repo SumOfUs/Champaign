@@ -23,6 +23,32 @@
     width: 100%;
     @include box-sizing(border-box);
   }
+  &__title-bar {
+    position: absolute;
+    top: -60px;
+    left: 0;
+
+    width: 100%;
+    overflow: hidden;
+    clip-path: url(sumofus/corner.svg#corner);
+    -webkit-clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
+    &::after {
+      width: 15%;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: $dark-teal;
+      content: "";
+    }
+  }
+  &__title {
+    @include box-sizing(border-box);
+    padding: 18px 16px;
+
+    background: $teal;
+    color: white;
+  }
 
   &__content {
     position: relative;
@@ -34,7 +60,7 @@
   }
 
   &__target {
-    margin: 20px 0 8px;
+    margin: 0 0 8px;
     @include rem(font-size, 1rem, true);
   }
 
