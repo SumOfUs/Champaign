@@ -7,18 +7,22 @@ namespace :champaign do
     puts "Seeding..."
     Redis.new.flushdb
 
-    def seed_for_moment(page_id)
-      ((rand(10) * rand(10)) + rand(10)).times do
-        new_member = [true, false, false, false, false].sample
-        Analytics::Page.increment(page_id, new_member: new_member)
-        print '.'
+    def new_member?
+      [true, false, false, false, false, false, false].sample
+    end
+
+    def seed_for_moment(page_id, multiplier = 1)
+      ((rand(10) * rand(10)) + rand(10) * multiplier).times do
+        x = new_member?
+        Analytics::Page.increment(page_id, new_member: new_member?)
+        print x ? 'x' : '.'
       end
     end
 
-    13.times do |i|
-      i += 1
+    31.times do |i|
+      i += 2
       Timecop.travel( Time.now - i.send(:days) ) do
-        seed_for_moment(args.page_id)
+        seed_for_moment(args.page_id, 40)
       end
     end
 
@@ -29,9 +33,8 @@ namespace :champaign do
     end
 
     1000.times do
-      new_member = [true, false, false, false, false].sample
       rand(2).times do
-        Analytics::Page.increment(args.page_id, new_member: new_member)
+        Analytics::Page.increment(args.page_id, new_member: new_member?)
         print '.'
       end
       sleep 3
