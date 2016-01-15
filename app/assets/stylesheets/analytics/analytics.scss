@@ -1,5 +1,8 @@
 #analytics-dashboard {
+  width: 1170px;
   .totals {
+    position: relative;
+
     dt {
       font-size: 95px;
     }
@@ -10,9 +13,18 @@
   }
 
   .analytics-chart {
-    padding: 10px;
-    border-radius: 5px;
-    display: inline-block;
+    margin-top: 26px;
+  }
+
+  .chart-title {
+    margin-top: -15px;
+  }
+
+  .mini {
+    top:      52px;
+    position: absolute;
+    margin:   0;
+    padding:  0;
   }
 
   .axis {
@@ -22,11 +34,14 @@
   .axis path,
   .axis line {
     fill: none;
-    /*stroke: #000;*/
     shape-rendering: crispEdges;
   }
 
   .x.axis path {
+    display: none;
+  }
+
+  .hide-tick {
     display: none;
   }
 }
@@ -119,4 +134,8 @@
 }
 .odometer.odometer-auto-theme .odometer-value, .odometer.odometer-theme-default .odometer-value {
   text-align: center;
+}
+
+.odometer-value {
+  text-shadow: 1px 1px 4px rgba(41, 41, 41, 0.3);
 }

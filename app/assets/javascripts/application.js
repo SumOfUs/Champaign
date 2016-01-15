@@ -40,5 +40,6 @@ require('page');
 require("plugins_toggle");
 require("collection_editor");
 require('shares_editor');
-window.PageEditBar = require("page_edit_bar");
-window.AnalyticsDashboard = require('analytics');
+
+window.PageEditBar =  require("page_edit_bar");
+window.Analytics   =  require('analytics');
