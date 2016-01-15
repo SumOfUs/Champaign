@@ -26,10 +26,20 @@ describe("Petition", function() {
 
   describe('instantiation', function(){
 
-    it ('selectizes the dropdown', function(){
-      expect($('select')).not.to.have.class('selectized');
-      suite.petitionBar = new window.sumofus.PetitionBar();
-      expect($('select')).to.have.class('selectized');
+    describe('selective', function(){
+      it ('selectizes the dropdown when not on mobile', function(){
+        expect($('select')).not.to.have.class('selectized');
+        $('.mobile-indicator').css('display', 'none');
+        suite.petitionBar = new window.sumofus.PetitionBar();
+        expect($('select')).to.have.class('selectized');
+      });
+
+      it ('does not selectize the dropdown when on mobile', function(){
+        expect($('select')).not.to.have.class('selectized');
+        $('.mobile-indicator').css('display', 'block');
+        suite.petitionBar = new window.sumofus.PetitionBar();
+        expect($('select')).not.to.have.class('selectized');
+      });
     });
 
     describe('outstanding fields is empty', function(){
