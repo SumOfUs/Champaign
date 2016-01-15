@@ -40,10 +40,10 @@ module Analytics
     end
 
     def total_by_day(new_members_only)
-      14.times.inject({}) do |memo, i|
+      30.times.inject({}) do |memo, i|
         date = Time.now.utc - i.send(:day)
 
-        day = date.strftime('%d/%m')
+        day = (Time.now.utc - i.send(:day)).beginning_of_day.to_s(:db)
 
         memo[day] = Analytics.store.get(key_with_day(day: date.day, new_member: new_members_only)).to_i
         memo

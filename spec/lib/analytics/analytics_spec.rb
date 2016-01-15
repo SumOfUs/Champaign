@@ -43,7 +43,7 @@ describe Analytics do
 
       it 'returns total actions by day' do
         sample_of_expected_data = {
-          '01/01' => 3, '31/12' => 8, '29/12' => 3
+          '2000-01-01 00:00:00' => 3, '1999-12-31 00:00:00' => 8, '1999-12-29 00:00:00' => 3
         }
 
         Timecop.freeze('01-01-2000') do
@@ -55,7 +55,7 @@ describe Analytics do
 
       it 'returns actions by new members by day' do
         sample_of_expected_data = {
-          '01/01' => 1, '31/12' => 3, '29/12' => 0
+          '2000-01-01 00:00:00' => 1, '1999-12-31 00:00:00' => 3, '1999-12-29 00:00:00' => 0
         }
 
         Timecop.freeze('01-01-2000') do
