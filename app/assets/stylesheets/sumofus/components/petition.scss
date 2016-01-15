@@ -64,24 +64,6 @@
 
     z-index: 20;
   }
-  &__expand-arrow {
-    background-image: url(asset-path('sumofus/circled-arrow.png'));
-    @include background-size(100% 100%);
-    width: 21px;
-    height: 21px;
-
-    position: absolute;
-    top: -10px;
-    right: $padding;
-    z-index: 30;
-
-    cursor: pointer;
-
-    @include transition(transform 0.4s linear);
-    &--expanded {
-      @include transform(rotate(180deg))
-    }
-  }
 
   @media(max-width: $mobile-width) {
     position: fixed;
