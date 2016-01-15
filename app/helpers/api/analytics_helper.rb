@@ -8,8 +8,10 @@ module Api::AnalyticsHelper
   end
 
   def new_members_by_day(page)
-    map_data @page.total_actions_over_time(period: :day, new_members: true)
+    map_data page.total_actions_over_time(period: :day, new_members: true)
   end
+
+  private
 
   def map_data(data)
     data.inject([]) do |m, (k,v)|
