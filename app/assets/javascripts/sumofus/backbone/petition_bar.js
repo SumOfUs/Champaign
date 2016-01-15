@@ -17,6 +17,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
     this.initializeSticky();
+    this.expandBlurb();
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
@@ -42,6 +43,12 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   reveal: function() {
     this.$el.removeClass('petition-bar--mobile-view--closed').addClass('petition-bar--mobile-view--open');
+  },
+
+  expandBlurb: function() {
+    const height = this.$('.petition-bar__top').outerHeight();
+    this.$('.petition-bar__main').css('top', `${height}px`);
+    this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
   },
 
 }));

@@ -8,6 +8,7 @@
 
   &__top {
     background: $overcast-gray;
+    color: black;
     padding: $padding;
     overflow: visible;
     position: relative;
@@ -18,7 +19,6 @@
     padding: $padding;
 
     position: absolute;
-    @include transition(top 0.4s ease-in-out);
 
     width: 100%;
     @include box-sizing(border-box);
@@ -61,11 +61,13 @@
 
   &__target {
     margin: 0 0 8px;
+    font-weight: bold;
     @include rem(font-size, 1rem, true);
   }
 
   &__petition-text {
-    @include rem(font-size, 0.8rem, true);
+    @include rem(font-size, 1rem, true);
+    @include rem(line-height, 1.4rem, true);
   }
 
   &__welcome-text {
@@ -80,20 +82,8 @@
     display: block;
   }
 
-  &__shading {
-    @include background-image(linear-gradient(rgba($overcast-gray, 0), $overcast-gray));
-    position: absolute;
-    top: $padding * -1;
-    left: 0;
-    height: $padding;
-    width: 100%;
-
-    z-index: 20;
-  }
-
   @media(max-width: $mobile-width) {
     position: fixed;
-    @include transition(top 0.40s ease-in-out);
     width: 100%;
     padding: 0 4%;
     left: -4%;
@@ -152,7 +142,7 @@
   }
 }
 
-$petition-top-height: 120px;
+$petition-top-height: 0;
 $fundraiser-top-height: 156px;
 
 .petition-bar {
@@ -176,7 +166,6 @@ $fundraiser-top-height: 156px;
 }
 .sticky-wrapper {
   position: relative;
-  @include transition(top 0.4s ease-in-out);
 
   &.petition {
     top: $petition-top-height * -1;
@@ -186,7 +175,7 @@ $fundraiser-top-height: 156px;
   }
   .petition-bar--elevated, .fundraiser-bar--elevated {
     @media(min-width: $mobile-width) {
-      top: 0;
+      top: 50px;
     }
   }
 }
