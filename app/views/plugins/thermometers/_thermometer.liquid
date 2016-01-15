@@ -6,8 +6,8 @@
       </div>
       <div class="thermometer__remaining">
         {{ 'thermometer.signatures_until_goal' |
-            v: 'goal', plugins.thermometer[ref].goal_k |
-            v: 'remaining', plugins.thermometer[ref].remaining | t }}
+            val: 'goal', plugins.thermometer[ref].goal_k |
+            val: 'remaining', plugins.thermometer[ref].remaining | t }}
       </div>
     </div>
     <div class="thermometer__bg">
