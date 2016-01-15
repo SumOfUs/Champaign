@@ -8,7 +8,21 @@
 #
 #   I18n.t('fundraiser.thank_you')
 #
-# The only logic here serves to ensure aggressive reporting of missing
+# The parsing logic parses interpolation arguments using a regex, which
+# is how liquid parse all its tags. It expects values of the form:
+#
+#   {{ 'fundraiser.donate, amount: $15, foo: bar' | t }}
+#
+# The +val+ method serves to facilitate variable interpolation in liquid.
+# If the string "$15" is stored in a variable called my_amount, the above
+# can be re-written as
+#
+#   {{ 'fundraiser.donate' | val: 'amount', my_amount | val: 'foo','bar' | t }}
+#
+# Because we don't have a proof that there's no degenerate case that makes
+# the iterative regex loop forever, it limits to 10 interpolations per translation.
+#
+# The error logic here serves to ensure aggressive reporting of missing
 # translations when in development and test mode. In those environments,
 # if a template is rendered and a translation is missing, an exception
 # will be raised. In production, it will show a fallback message.
