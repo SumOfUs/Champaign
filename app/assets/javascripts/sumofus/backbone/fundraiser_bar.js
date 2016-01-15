@@ -79,8 +79,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
     if (this.formFieldCount() > 0) { // don't offer to reveal fields if nothing to show
-      this.$('.fundraiser-bar__welcome-text').removeClass('hidden-irrelevant');
-      this.$('.fundraiser-bar__welcome-name').text(member.welcome_name);
+      this.showFormClearer('fundraiser', member);
     }
     this.hidingStepTwo = true;
   },

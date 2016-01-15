@@ -94,13 +94,14 @@ describe("Fundraiser", function() {
       describe('member is passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com', welcome_name: 'Neal'} });
         });
 
         it('displays the clearer when form has fields', function(){
           expect($('.fundraiser-bar .petition-bar__field-container').length).to.be.at.least(1);
           expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
           expect($('.fundraiser-bar__welcome-text')).not.to.have.class('hidden-irrelevant');
+          expect($('.fundraiser-bar__welcome-name')).to.have.text('Neal');
         });
 
         it('prefills with values of member', function(){

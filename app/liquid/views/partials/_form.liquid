@@ -1,7 +1,7 @@
 <form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action'>
   <div class="petition-bar__welcome-text hidden-irrelevant">
     {{ 'form.welcome_back' | t }},
-    <span class="petition-bar__welcome-name">{{member.welcome_name}}</span>! <br />
+    <span class="petition-bar__welcome-name"></span>! <br />
     <a href="javascript:;" class=" petition-bar__clear-form">{{ 'form.switch_user' | t }}</a>
   </div>
   <input type='hidden' name='form_id' value='{{ form_id }}' />

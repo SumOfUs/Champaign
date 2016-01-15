@@ -34,7 +34,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
       this.completePrefill(options.member);
       if (this.formFieldCount() > 0) {
-        $('.petition-bar__welcome-text').removeClass('hidden-irrelevant');
+        this.showFormClearer('petition', options.member);
       }
     } else {
       this.partialPrefill(options.member, options.outstandingFields);

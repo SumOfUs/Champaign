@@ -51,9 +51,10 @@ const FormMethods = {
     return this.$('.petition-bar__field-container').length;
   },
 
-  showFormClearer(member) {
-    this.$().member.welcome_name
-  }
+  showFormClearer(plugin_type, member) {
+    this.$(`.${plugin_type}-bar__welcome-name`).text(member.welcome_name);
+    this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
+  },
 };
 
 module.exports = FormMethods;

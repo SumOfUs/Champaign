@@ -17,6 +17,7 @@ describe("Petition", function() {
       email: 'starman@bowie.com',
       name: 'David Bowie',
       country: 'GB',
+      welcome_name: 'David Bowie',
       phone: "213-7212-9087",
       voter: true,
       hair_color: 'dyed'
@@ -71,6 +72,7 @@ describe("Petition", function() {
           expect($('.petition-bar .petition-bar__field-container').length).to.be.at.least(1);
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals });
           expect($('.petition-bar__welcome-text')).not.to.have.class('hidden-irrelevant');
+          expect($('.petition-bar__welcome-name')).to.have.text('David Bowie');
         });
 
         it('does not display the clearer when form has no fields', function(){
