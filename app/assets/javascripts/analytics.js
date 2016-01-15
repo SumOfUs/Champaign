@@ -29,7 +29,6 @@ class AnalyticsDashboard {
   update () {
     this.setYScale(this.data);
 
-    console.log('booo');
     this.svg.selectAll(".bar")
       .data(this.data)
       .transition()
@@ -143,9 +142,7 @@ class Dashboard {
     this.$totalAll  = $('.total-actions-all');
     this.$totalNew  = $('.total-actions-new');
 
-    $('button#refresh-data').on('click', () => {
-      this.refreshData();
-    }.bind(this));
+    $('button#refresh-data').on('click', this.refreshData.bind(this) );
   }
 
   getData (cb) {
@@ -154,7 +151,7 @@ class Dashboard {
         cb(json);
         this.setCounters(json.totals);
       }
-    }.bind(this) );
+    } );
   }
 
   setCounters (totals) {
@@ -166,7 +163,7 @@ class Dashboard {
     this.getData( (data) => {
       this.chart.data = data.hours;
       this.chart.update();
-    }.bind(this) );
+    } );
   }
 
 }
