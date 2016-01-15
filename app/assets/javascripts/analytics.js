@@ -10,7 +10,10 @@ class AnalyticsDashboard {
   }
 
   render () {
-    this.updateSVG();
+    this.svg
+      .attr("width", this.width)
+      .attr("height", this.height + this.margins.bottom);
+
     this.setYScale(this.data);
     this.draw();
 
@@ -23,20 +26,10 @@ class AnalyticsDashboard {
     }
   }
 
-  updateSVG () {
-    this.svg
-      .attr("width", this.width)
-      .attr("height", this.height + this.margins.bottom);
-  }
+  update () {
+    this.setYScale(this.data);
 
-  updateData () {
-    this.getData( () => {
-      this.setYScale(this.data);
-      this.updateAll();
-    });
-  }
-
-  updateAll () {
+    console.log('booo');
     this.svg.selectAll(".bar")
       .data(this.data)
       .transition()
@@ -49,6 +42,7 @@ class AnalyticsDashboard {
       });
 
     this.drawLabels();
+
     this.svg.selectAll(".label")
       .data(this.data)
       .transition()
@@ -61,8 +55,9 @@ class AnalyticsDashboard {
   }
 
   setYForLabel (d) {
-    let scaled = this.scale(d.value);
-    let y = this.height - scaled + 15;
+    let scaled  = this.scale(d.value),
+        y       = this.height - scaled + 15;
+
     if(scaled < 20 ) {
       y -= 20;
     }
@@ -142,57 +137,74 @@ class AnalyticsDashboard {
 }
 
 class Dashboard {
-  constructor (id) {
-    this.id = id;
+  constructor (id, chart) {
+    this.id         = id;
+    this.chart      = chart;
+    this.$totalAll  = $('.total-actions-all');
+    this.$totalNew  = $('.total-actions-new');
+
+    $('button#refresh-data').on('click', () => {
+      this.refreshData();
+    }.bind(this));
   }
 
   getData (cb) {
     d3.json(`/api/pages/${this.id}/analytics.json`, (json)  => {
       if(cb) {
         cb(json);
+        this.setCounters(json.totals);
       }
-    });
+    }.bind(this) );
+  }
+
+  setCounters (totals) {
+    this.$totalAll.html(totals.all_total);
+    this.$totalNew.html(totals.new_total);
+  }
+
+  refreshData () {
+    this.getData( (data) => {
+      this.chart.data = data.hours;
+      this.chart.update();
+    }.bind(this) );
   }
 
 }
 
 var createMiniChart = (className, data) => {
   var svg = d3.select(`#analytics-dashboard .${className} .chart`)
+
   var chart = new AnalyticsDashboard();
-  chart.width = 360;
-  chart.height = 70;
-  chart.fill = 'rgba(51,51,51,0.3)';
-  chart.data = data;
-  chart.xAxis = false;
-  chart.labels = false;
-  chart.svg = svg;
+  chart.width   = 360;
+  chart.height  = 70;
+  chart.fill    = 'rgba(51,51,51,0.3)';
+  chart.data    = data;
+  chart.xAxis   = false;
+  chart.labels  = false;
+  chart.svg     = svg;
   return chart;
 }
 
 module.exports = {
   makeDashboard (pageId) {
-    var d = new Dashboard(pageId);
-    var shortChartSVG = d3.select("#analytics-dashboard .short-view .chart")
+    var shortChartSVG = d3.select("#analytics-dashboard .short-view .chart"),
+        chart         = new AnalyticsDashboard(),
+        d             = new Dashboard(pageId, chart);
 
-    d.getData( (resp) => {
-      var totals = resp.totals
-      $('.total-actions-all').html(totals.all_total);
-      $('.total-actions-new').html(totals.new_total);
-
-      let shortChart = new AnalyticsDashboard();
-      shortChart.width = 650;
-      shortChart.height = 280;
-      shortChart.data = resp.hours;
-      shortChart.fill = 'rgba(51,51,51,1)';
-      shortChart.svg = shortChartSVG;
-      shortChart.axisDateFormat = 'HH a';
-      shortChart.render();
+    d.getData( (data) => {
+      chart.width     = 650;
+      chart.height    = 280;
+      chart.data      = data.hours;
+      chart.fill      = 'rgba(51,51,51,1)';
+      chart.svg       = shortChartSVG;
+      chart.axisDateFormat = 'HH a';
+      chart.render();
 
 
-      createMiniChart('mini-total', resp.days_total.reverse())
+      createMiniChart('mini-total', data.days_total.reverse())
         .render();
 
-      createMiniChart('mini-new', resp.days_new.reverse())
+      createMiniChart('mini-new',   data.days_new.reverse())
         .render();
     });
   }

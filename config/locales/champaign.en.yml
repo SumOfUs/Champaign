@@ -95,6 +95,7 @@ en:
       new_variant: 'Create new share variant'
     analytics:
       hours_chart_title: "Total actions last 12 hours"
+      refresh: 'refresh'
 
   liquid:
     experimental: Experimental
