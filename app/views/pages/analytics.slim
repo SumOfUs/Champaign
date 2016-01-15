@@ -1,22 +1,29 @@
 = stylesheet_link_tag "analytics/application", media: 'all'
 
-.row
-  div#analytics-dashboard
+#analytics-dashboard
+  .row
     .col-md-8
-      .charts
-      h4 Total actions last 12 hours
+      .analytics-chart.short-view
+        svg.chart
+
+      h4.chart-title Total actions last 12 hours
     .col-md-4
       .totals
         dl.actions
           dt.odometer.total-actions-all
           dd Total Actions
+        .analytics-chart.mini-total.mini
+          svg.chart
+      .totals
         dl.new-members
           dt.odometer.total-actions-new
           dd New Members
+        .analytics-chart.mini-new.mini
+          svg.chart
+
 
 
 javascript:
   $( function() {
-    window.chart = new AnalyticsDashboard("#{@page.id}");
-    chart.render();
+    Analytics.makeDashboard("#{@page.id}");
   });
