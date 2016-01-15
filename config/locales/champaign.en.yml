@@ -93,6 +93,8 @@ en:
       language_label: "Language"
       primary_image: 'Which is the main image for the page?'
       new_variant: 'Create new share variant'
+    analytics:
+      hours_chart_title: "Total actions last 12 hours"
 
   liquid:
     experimental: Experimental
