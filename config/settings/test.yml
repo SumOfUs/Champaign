@@ -39,8 +39,8 @@
 # CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
 # by default in development, they should be overridden in production settings to speed up Champaign's page performance.
      cloudfront_url: 'http://fake-cloudfront.com'
-     fog_directory: 'fake_fog_directory'
-     rails_serve_static_files: false
+     s3_asset_bucket: 'fake_s3_asset_bucket'
+     rails_serve_static_assets: false
      compile_static: false
 
 
@@ -52,4 +52,9 @@
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
      facebook_app_id: 'fake_app_id'
      share_progress_api_key: 'fake_api_key'
+
+     braintree:
+       merchant_id: "test_id"
+       public_key:  "test_public_key"
+       private_key:  "test_private_key"
 

@@ -1,3 +1,5 @@
+let ErrorDisplay = require('show_errors');
+
 $(function(){
   var handleStart = function(e,i){
     var button = $(e.target).find('.xhr-feedback');
@@ -24,7 +26,7 @@ $(function(){
       removeClass('label-success').
       addClass('label-danger').
       text('Save failed.');
-    window.Champaign.showErrors(e, data);
+    ErrorDisplay.show(e, data);
   };
 
   var handleSuccess = function(e){

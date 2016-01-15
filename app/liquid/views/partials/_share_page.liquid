@@ -1,0 +1,27 @@
+<div class="header-logo header-logo--light">
+  <a href="http://sumofus.org/">
+    <div class="header-logo__logo sumofus-logo--positive"></div>
+  </a>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column">
+
+    <div class="center-content__central-square">
+
+      <div class='thank-you__action-confirmation'>{{ 'petition.confirmation' | t }}</div>
+      <h1 class="thank-you__thanks">{{ message }}</h1>
+      <div class="thank-you__cta">{{ 'share.cta' | t }}</div>
+
+      <style type="text/css">
+        .medium-photo--translucent::after {
+          background-image: url({{ images[0].urls.large }})
+        }
+      </style>
+      <div class="medium-photo medium-photo--translucent center-content__centered-element">
+        {% include 'Share' %}
+      </div>
+    </div>
+
+  </div>
+</div>

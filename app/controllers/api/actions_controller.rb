@@ -1,4 +1,6 @@
 class Api::ActionsController < ApplicationController
+  before_filter :localize_from_page_id
+
   def create
     @action_params = action_params
     validator = FormValidator.new(@action_params)
@@ -15,6 +17,15 @@ class Api::ActionsController < ApplicationController
     end
   end
 
+  def validate
+    validator = FormValidator.new(action_params)
+    if validator.valid?
+      render json: {}, status: 200
+    else
+      render json: {errors: validator.errors}, status: 422
+    end
+  end
+
   private
 
   def action_params
@@ -22,7 +33,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w{page_id form_id}
+    %w{page_id form_id name}
   end
 
   def fields

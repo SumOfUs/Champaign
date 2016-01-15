@@ -1,0 +1,224 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  common:
+    name: 'Name'
+    active: 'Active'
+    edit: 'Edit'
+    save: 'Save'
+    saving: 'Saving...'
+    lets_go: "Let's Go!"
+    successful_update: "Your changes have been saved!"
+    confirm: 'Are you sure?'
+    featured: 'Featured'
+    created: 'Date Created'
+    modified: 'Date Modified'
+    amounts: 'Amounts'
+
+  validation:
+    is_required: 'is required'
+    is_invalid_email: 'is not a valid email address'
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: 'must be a two letter country code'
+
+  menu:
+    pages: 'Pages'
+    campaigns: 'Campaigns'
+    forms: 'Forms'
+    templates: 'Templates'
+    partials: 'Partials'
+    actions: 'Actions'
+    logout: 'Logout'
+    login: 'Log in'
+    sign_up: 'Sign up'
+    sign_google: 'Sign in with Google'
+    donation_bands: 'Donation Bands'
+
+  oauth:
+    not_authorised: "You're not authorised to authenticate with that account."
+
+  pages:
+    index:
+      new: "Create a new page"
+      title: "Pages"
+      filter: "Filter Pages"
+      table:
+        featured: "Featured"
+    new:
+      title: "Let's Get Started!"
+      title_label: "Page Title"
+      language_label: "Language"
+      slug_label: "Slug"
+      layout_select: "Pick a layout"
+    edit:
+      content: 'Content'
+      settings: 'Settings'
+      pictures: 'Pictures'
+      shares: 'Shares'
+      show: "Show the page"
+      view: 'View'
+      tags: "Tags"
+      short_name: "Short Name (no spaces allowed)"
+      action_kit_problem: "Whoops! We've had a problem creating your page on ActionKit. Here's what they're saying..."
+      action_kit_page_status: "Status Code: %{status}"
+      photos: 'Photos'
+      follow_up: 'Post action'
+      sources: 'Sources'
+      extras: 'Extras'
+      no_images_notice: "You haven't any photos. Drag your pics into the box below."
+      layout_select: 'Page layout'
+      secondary_layout_select: 'Page layout for follow-up page'
+      no_layout: None selected
+      change_layout: 'Change layout'
+      add_link: 'Add source'
+      language_label: "Language"
+      primary_image: 'Which is the main image for the page?'
+      new_variant: 'Create new share variant'
+
+  liquid:
+    experimental: Experimental
+    experimental_explanation: (experimental templates are not available to campaigners)
+
+  campaigns:
+    new:
+      title: "Create a new campaign"
+      forms:
+        name: "Name your campaign"
+    index:
+      new: "Create a new campaign"
+      title: "Campaigns"
+    show:
+      deactivated_notice: "The campaign you requested has been deactivated."
+    create:
+      notice: "Campaign has been created."
+    update:
+      notice: "Campaign has been updated."
+    destroy:
+      notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
+
+  forms:
+    index:
+      title: 'Forms'
+      new: 'Create new form'
+    edit:
+      title: "Add a Field"
+      preview: "Preview"
+    new:
+      title: "Give your form a name"
+
+  form_elements:
+    shared:
+      label: 'Label'
+      data_type: 'Field type'
+      name: 'Name'
+      required: 'Required'
+    forms:
+      name:
+        help:
+          title: "ActionKit Name Processing"
+          body: |
+            <p>The <strong>name</strong> value will dictate how your action content is handled by <strong>ActionKit</strong>.</p>
+            <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
+
+  links:
+    forms:
+      url: 'URL'
+      title: 'Title'
+      source: 'Source e.g. BBC'
+      date: 'Date published'
+
+  share:
+    analytics:
+      weight: 'Weight'
+      shares: 'Shares'
+      successful_shares: 'Successful Shares'
+      conversions: 'Conversions'
+      winner: 'Winner'
+      no_data: "We haven't any data, yet!"
+
+    get_started: "Click 'new variation' below to get started"
+    form:
+      new_variation: 'Create new share variant'
+
+    facebook:
+      title: 'Facebook Share Headline'
+      no_image: 'No Image'
+      form:
+        title: 'Facebook Share title'
+        description: 'Facebook Share text'
+        image: "Image"
+
+    twitter:
+      title: 'Twitter Retweet Variant'
+      form:
+        description: "Tweet text"
+
+    email:
+      title: 'Email Variant'
+      form:
+        subject: "Email subject"
+        body: "Email body"
+
+  plugins:
+    petition:
+      petition_description: "Petition Text"
+      choose_form_template: "Use a form template"
+      customise_form: "Customise your petition form"
+      add_new_field: "Add a new field"
+      add_field: "Add field"
+      apply_template: "Apply template"
+      make_required: "Make this field required"
+      form_template_explanation: Choose and apply a template to replace the fields in your existing form.
+    thermometer:
+      offset: "Offset (number of fake signatures to add to true count)"
+    fundraiser:
+      donation_band: "Default Donation Band for unknown user:"
+      title: "Title (eg 'Donate now')"
+
+  ak_logs:
+    index:
+      title: "ActionKit Requests"
+
+  versions:
+    shown_below: "There are %{count} versions of this %{model_name}, shown below."
+
+  donation_bands:
+    create:
+      notice: "Donation Band has been created."
+    update:
+      notice: "Donation Band has been updated."
+    destroy:
+      notice: "Donation Band has been deleted. Contact an admin if you would like to restore it."
+    new:
+      form:
+        name: "An easy name to remember this donation band by."
+        amounts: "Enter a list of numeric amounts in US Cents (100 per 1 dollar) separated by spaces."
+      title: "Create a new donation band."
+    show:
+      edit: "Edit donation band"
+      destroy: "Delete donation band"
+    index:
+      title: "Donation Bands"
+      new: "Create new donation band"
+    name: 'Name:'
+    amounts: 'Amounts:'
+

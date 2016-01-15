@@ -3,9 +3,15 @@
     float: left;
     width: 100%;
     margin-bottom: 5px;
+    position: relative;
 
     input {
       &.has-error {
+        border-color: $orange;
+      }
+    }
+    &.has-error {
+      .selectize-control.single .selectize-input {
         border-color: $orange;
       }
     }
@@ -17,9 +23,16 @@
     &--prefilled {
       display: none;
     }
+    &--half-width {
+      width: 49%;
+      float: left;
+      &--left {
+        margin-right: 2%;
+      }
+    }
   }
   &--big {
-    input, select, .selectize-control.single .selectize-input {
+    input, select, .selectize-control.single .selectize-input, .hosted-fields__host {
       @include rem(font-size, 1rem, true);
       @include box-sizing(border-box);
       border: 2px solid white;

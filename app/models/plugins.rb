@@ -21,18 +21,19 @@ module Plugins
     end
 
     def registered
-      [ Plugins::Action,
-        Plugins::Thermometer ]
+      [ Plugins::Petition,
+        Plugins::Thermometer,
+        Plugins::Fundraiser ]
     end
 
-    def data_for_view(page)
+    def data_for_view(page, supplemental_data={})
       default_ref = 'default'
       plugins_data = page.plugins.inject({}) do |memo, plugin|
         if plugin
           plugin_name = plugin.name.underscore
           memo[plugin_name] = {} unless memo.include? plugin_name
           ref = plugin.ref.present? ? plugin.ref : default_ref
-          memo[plugin_name][ref] = plugin.liquid_data
+          memo[plugin_name][ref] = plugin.liquid_data(supplemental_data)
         end
         memo
       end
@@ -48,3 +49,4 @@ module Plugins
     end
   end
 end
+

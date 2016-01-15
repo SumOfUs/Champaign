@@ -1,2 +1,0 @@
-module Plugins::ActionsHelper
-end

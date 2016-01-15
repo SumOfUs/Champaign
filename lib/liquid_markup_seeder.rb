@@ -1,23 +1,28 @@
 module LiquidMarkupSeeder
   extend self
 
-  def seed
-    sort_by_partial_count(partials).each{ |path| create(path) }
-    layouts.each { |path| create(path) }
+  def seed(quiet: false)
+    sort_by_partial_count(partials).each{ |path| create(path, quiet) }
+    layouts.each { |path| create(path, quiet) }
   end
 
   def read(file_path)
     File.read(file_path)
   end
 
-  def create(path)
+  def create(path, quiet)
     title, klass = title_and_class(path)
-    puts "creating #{klass} called #{title} from path #{path}"
+    puts "creating #{klass} called #{title} from path #{path}" unless quiet
 
     view = klass.constantize.find_or_create_by(title: title)
     view.content = read(path)
+    set_metadata_fields(view)
     saved = view.save
-    puts "Failed to save: #{view.errors.full_messages}" unless saved
+    puts "Failed to save: #{view.errors.full_messages}" unless saved || quiet
+  end
+
+  def titles
+    layouts.map{ |file| parse_name(file) }
   end
 
   def partials
@@ -50,9 +55,15 @@ module LiquidMarkupSeeder
 
   def sort_by_partial_count(paths)
     paths.sort_by do |path|
-      LiquidTagFinder.new(read(path)).plugin_names.size
+      LiquidTagFinder.new(read(path)).partial_names.size
     end
   end
 
+  def set_metadata_fields(view)
+    return unless view.is_a? LiquidLayout
+    ltf = LiquidTagFinder.new(view.content)
+    view.experimental = ltf.experimental?
+    view.description = ltf.description
+  end
 end
 

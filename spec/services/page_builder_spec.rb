@@ -3,11 +3,11 @@ require 'rails_helper'
 describe PageBuilder do
   let(:language) { create(:language) }
   let(:params) {{ title: "Foo Bar", liquid_layout_id: template.id, language_id: language.id }}
-  let(:content) { "{% include 'action' %}<div class='foo'>{% include 'thermometer' %}</div>"}
+  let(:content) { "{% include 'petition' %}<div class='foo'>{% include 'thermometer' %}</div>"}
   let(:template) { create :liquid_layout, content: content }
 
   before :each do
-    create :liquid_partial, title: 'action', content: '{{ plugins.action[ref].lol }}'
+    create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref].lol }}'
     create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref].lol }}'
 
     create(:liquid_layout, :default)
@@ -32,7 +32,7 @@ describe PageBuilder do
     expect(Page.last.liquid_layout_id).to eq template.id
   end
 
-  [Plugins::Thermometer, Plugins::Action].each do |plugin|
+  [Plugins::Thermometer, Plugins::Petition].each do |plugin|
     it "creates a #{plugin.name}" do
       expect { subject }.to change{ plugin.count }.by 1
     end

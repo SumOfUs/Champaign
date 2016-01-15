@@ -16,9 +16,6 @@
      secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
      omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
      omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
-#    raven_dsn: 'Data Source name for Raven Sentry client. See https://github.com/getsentry/raven-ruby for details.'
-#    asset_sync: 'Whether or not assets are synced to using asset_sync gem. Defaults to false except in production.'
-#    asset_sync_gzip_compression: 'Whether or not asset sync should use GZIP compression. Defaults to false except in production.'
 #    oauth_domain_whitelist: 'If someone is trying to use Google OAuth to authenticate and the domain of their email address is in this list, they will be allowed.'
 
 
@@ -42,12 +39,10 @@
 
 # CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
 # by default in development, they should be overridden in production settings to speed up Champaign's page performance.
-#    cloudfront_url: 'get this from cloudfront configuration'
-#    fog_directory: 'get this from cloudfront configuration'
-#    fog_provder: 'get this from cloudfront configuration'
-#    fog_region: 'Get this from cloudfront configuration'
-#    rails_serve_static_files: 'Set to nil in development, override for production server based on needs.'
-#    compile_static: 'Set to nil in development, override for production server based on needs.'
+#    cloudfront_url: 'the url of your cloudfront distribution'
+#    s3_asset_bucket: 'your s3 bucket'
+#    rails_serve_static_assets: 'Should Rails serve your static assets?'
+#    compile_static: 'Should Rails compile your static assets on the run if the requested asset is missing?'
 
 
 # NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
@@ -58,4 +53,11 @@
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
      facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
      share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+
+# Braintree connection information. Used for taking donations.
+     braintree:
+       # public_key: Set this based on your braintree integration information
+       # private_key: Set this based on your braintree integration information
+       # merchant_id: Set this based on your braintree integration information
+       # environment: The Braintree environment you will run transactions against. Set to production in production, sandbox otherwise.
 

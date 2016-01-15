@@ -1,0 +1,54 @@
+fr:
+  page:
+    more_info: Plus d’informations
+  basics:
+    or: ou
+  branding:
+    tagline: L’humain avant le profit
+    license: Creative Commons Attribution 3.0 Unported License.
+  fundraiser:
+    amount: Montant
+    details: Détails
+    payment: Paiement
+    donate: Donner # utilisé dans le bouton de validation, eg 'Donner 15€'
+    error_intro: Votre don n’a pas pu être effectué!
+    currency_in: Monnaie en # USD
+    switch_currency: Changer de monnaie
+    proceed_to_details: Remplir les informations
+    proceed_to_payment: Procéder au versement
+    other_amount: Autre
+    make_recurring: Faire un don mensuel
+    thank_you: Nous vous remercions pour votre don!
+    card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
+    unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
+    fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"
+    fields:
+      cvv: CVV
+      number: Numéro de votre carte
+      expiration: Date d’expiration
+      expiration_format: mm/an
+      postalCode: Code postal
+  petition:
+    sign_it: Signez la pétition
+    target_prefix: Pétition adressée à
+    confirmation: Nom envoyé
+    thank_you: Merci d’avoir ajouté votre nom à la pétition # <petition title>
+  form:
+    welcome_back: Bienvenue
+    switch_user: Ce n’est pas vous?
+    processing: En cours de traitement...
+    submit: Envoyer
+  thermometer:
+    signatures: signatures #, par exemple '225 signatures'
+    until: jusqu'à #, par exemple '25 signatures jusqu'à 250'
+  share:
+    cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
+  errors:
+    probably_invalid: Cela n’a pas l’air d’être correct
+    is_invalid: est invalide
+    this_field: Ce champ
+  validation:
+    is_required: est requis
+    is_invalid_email: n’est pas une adresse email valide
+    is_invalid_phone: 'peut uniquement comprendre des chiffres, tirets, plus, et des parenthèses'
+    is_invalid_country: doit comprendre un code pays valide

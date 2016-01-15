@@ -4,14 +4,7 @@ Rails.application.routes.draw do
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
   root 'home#index'
-
-  # Specifies routing to templates controller for when a new template layout is requested by 
-  # a user toggling different templates when creating a campaign page
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
@@ -33,6 +26,7 @@ Rails.application.routes.draw do
 
   # Standard resources
   resources :campaigns
+  resources :donation_bands, except: [:show, :destroy]
 
   resources :pages do
     namespace :share do
@@ -54,11 +48,11 @@ Rails.application.routes.draw do
   end
 
   namespace :plugins do
-    resources :actions do
-      resources :forms, module: :actions
-      resource :preview, module: :actions
-    end
-    resources :thermometers
+    resources :petitions
+    resources :thermometers, only: :update
+    resources :fundraisers, only: :update
+    get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
+    post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
 
 
@@ -108,8 +102,17 @@ Rails.application.routes.draw do
   #   resources :photos, concerns: :toggleable
 
   namespace :api do
+    namespace :braintree do
+      get 'token'
+      post 'pages/:page_id/transaction',  action: 'transaction'
+      post 'pages/:page_id/subscription', action: 'subscription'
+      post 'braintree/webhook', action: 'webhook'
+    end
+
     resources :pages do
-      resources :actions
+      resources :actions do
+        post 'validate', on: :collection, action: 'validate'
+      end
       get 'share-rows', on: :member, action: 'share_rows'
     end
   end
@@ -119,4 +122,5 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
 end

@@ -1,13 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.3.0'
 
-# Synchronises Assets between Rails and S3.
-group :production do
-  gem 'fog-aws'
-  gem 'asset_sync'
-end
-
-gem 'rails', '4.2.3'
+gem 'rails', '4.2.5'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -20,8 +14,17 @@ gem 'codemirror-rails'
 gem 'selectize-rails'
 gem 'countries'
 gem 'geocoder'
-gem 'browserify-rails'
+gem 'browserify-rails', '~> 2.1.0'
 gem 'font-awesome-sass'
+gem 'money'
+gem 'google_currency'
+
+# Sprockets 3 breaks Teaspoon.
+# see https://github.com/modeset/teaspoon/issues/443
+gem 'sprockets-rails', '< 3.0'
+
+# Braintree as a payment processor
+gem 'braintree', '~> 2.54.0'
 
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
@@ -32,7 +35,7 @@ gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 gem 'slim-rails'
 gem 'liquid'
 gem 'remotipart', '~> 1.2'
-
+gem "i18n-js", ">= 3.0.0.rc12"
 
 # Use Devise for Authentication
 gem 'devise'
@@ -46,7 +49,6 @@ gem 'country_select'
 
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
-gem 'sentry-raven'
 
 gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
@@ -73,7 +75,7 @@ gem 'browser'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
 gem 'newrelic_rpm'
-gem 'puma'
+gem 'puma', '~> 2.15.3'
 gem 'typhoeus'
 
 # The Config gem is used as a way to easily access configuration variables without calling directly
@@ -90,6 +92,18 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'vcr'
+  gem 'teaspoon'
+  gem 'teaspoon-mocha'
+  gem 'magic_lamp'
+  gem 'phantomjs'
+  gem 'guard-rspec', require: false
+
+  # For Mac OS
+  # brew install terminal-notifier
+  gem 'terminal-notifier-guard'
+  gem 'spring-commands-rspec'
+
 end
 
 
@@ -120,5 +134,11 @@ source 'https://rails-assets.org' do
 
   # Cross browser rich text editor
   gem 'rails-assets-quill'
+
+  # braintree js
+  gem 'rails-assets-braintree-web'
+
+  # for js testing
+  gem 'rails-assets-chai-jquery'
 end
 

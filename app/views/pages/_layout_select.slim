@@ -1,0 +1,9 @@
+-# field: `:liquid_layout_id` or `:secondary_liquid_layout_id`
+-# f: form builder
+.radio-group.btn-group-vertical.layout-settings__button-group role="group"
+  - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
+    - active_class = (ll.id == f.object.send(field)) ? 'active' : ''
+    = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class}"
+      = f.radio_button field, ll.id, class: 'hidden-irrelevant'
+      span.layout-settings__title= ll.title
+      span.layout-settings__description= ll.description

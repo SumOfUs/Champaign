@@ -1,6 +1,6 @@
 li.list-group-item data-id=link.id
   = link.title
-  = " <#{link_to link.url, link.url}>. ".html_safe
+  = " <#{link_to link.url, link.url, target: 'blank'}>. ".html_safe
   - unless link.source.blank?
     = " #{link.source}. "
   = link.date

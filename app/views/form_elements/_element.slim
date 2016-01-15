@@ -4,6 +4,8 @@ li.list-group-item data-id=element.id
   = element.label
 
   .control-bar
+    - if element.required
+      span.label.label-primary required
     span.label.label-info = element.data_type
 
     = link_to form_form_element_path(form, element),

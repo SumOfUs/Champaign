@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe PagesController do
   let(:user) { instance_double('User', id: '1') }
-  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', secondary_liquid_layout: '4') }
+  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4') }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html') }
 
   before do
@@ -104,7 +104,12 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       get :show, id: '1'
-      expect(LiquidRenderer).to have_received(:new).with(page, request_country: "RD", member: nil)
+      expect(LiquidRenderer).to have_received(:new).with(page,
+        request_country: "RD",
+        member: nil,
+        layout: page.liquid_layout,
+        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
+      )
       expect(renderer).to have_received(:render)
     end
 
@@ -157,7 +162,12 @@ describe PagesController do
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
-      expect(LiquidRenderer).to have_received(:new).with(page, layout: page.secondary_liquid_layout)
+      expect(LiquidRenderer).to have_received(:new).with(page,
+        request_country: "RD",
+        member: nil,
+        layout: page.secondary_liquid_layout,
+        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
+      )
       expect(renderer).to have_received(:render)
     end
 
@@ -167,6 +177,30 @@ describe PagesController do
 
     it 'assigns campaign' do
       expect(assigns(:rendered)).to eq(renderer.render)
+    end
+
+    it 'raises 404 if user not logged in and page unpublished' do
+      allow(controller).to receive(:user_signed_in?) { false }
+      allow(page).to receive(:active?){ false }
+      expect{ get :show, id: '1' }.to raise_error ActiveRecord::RecordNotFound
+    end
+
+    it 'does not raise 404 if user not logged in and page published' do
+      allow(controller).to receive(:user_signed_in?) { false }
+      allow(page).to receive(:active?){ true }
+      expect{ get :show, id: '1' }.not_to raise_error
+    end
+
+    it 'does not raise 404 if user logged in and page unpublished' do
+      allow(controller).to receive(:user_signed_in?) { true }
+      allow(page).to receive(:active?){ false }
+      expect{ get :show, id: '1' }.not_to raise_error
+    end
+
+    it 'does not raise 404 if user logged in and page published' do
+      allow(controller).to receive(:user_signed_in?) { true }
+      allow(page).to receive(:active?){ true }
+      expect{ get :show, id: '1' }.not_to raise_error
     end
   end
 end

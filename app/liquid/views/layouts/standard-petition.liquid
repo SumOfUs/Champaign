@@ -1,29 +1,6 @@
-<div class="cover-photo" style="background-image: url({{ primary_image.urls.large }})">
-  <div class="cover-photo__overlay">
+{% comment %} Description: The petition page with a wide cover photo.{% endcomment %}
 
-    <div class="header-logo header-logo--dark checks-top checks-top--at-top">
-      <a href="http://sumofus.org/">
-        <div class="header-logo__logo sumofus-logo--negative"></div>
-      </a>
-      <div class="header-logo__tagline sumofus-logo--tagline">Fighting for people over profits</div>
-    </div>
-
-    <div class="cover-photo__titles">
-      <div class="center-content">
-        <div class="center-content__big-column">
-          <!-- one line to be able to check :empty  -->
-          <h3 class="cover-photo__target typography__highlight--dark typography__highlight--simple">{% include 'Target' %}</h3>
-          <div class="typography__highlight-wrapper">
-            <h1 class="cover-photo__title typography__highlight">
-              <span>{{ title }}</span>
-            </h1>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+{% include 'Full Width Header' %}
 
 <div class="center-content">
   <div class="center-content__big-column">
@@ -36,15 +13,13 @@
 
       {% unless link_list == blank %}
         <hr class="stubby-hr" />
-        <h3>More information</h3>
+        <h3>{{ 'page.more_info' | t }}</h3>
         {% include 'Links' %}
       {% endunless %}
     </div>
   </div>
   <div class="center-content__small-column">
-    <div class="action-bar action-bar--elevated action-bar--mobile-view--closed">
-      {% include 'Action' %}
-    </div>
+    {% include 'Petition' %}
   </div>
 </div>
 
