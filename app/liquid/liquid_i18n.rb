@@ -17,8 +17,11 @@
 # class subclassed directly on Exception that will not be caught.
 
 class I18n::TranslationMissing < Exception; end
+class I18n::TooMuchInterpolation < StandardError; end
 
-module LiquidI18nRails
+module LiquidI18n
+  MAX_INTERPOLATIONS = 10
+
   def t(query)
     translation_key, interpolation_vals = parse_interpolation(query)
     return I18n.t(translation_key, **interpolation_vals) unless Rails.env.development? || Rails.env.test?
@@ -29,19 +32,22 @@ module LiquidI18nRails
     end
   end
 
-  def v(base, key, value)
+  def val(base, key, value)
     "#{base}, #{key}: #{value}"
   end
 
   private
 
   def parse_interpolation(query)
-    puts query
-    params = {}
+    params, depth = {}, 0
     _, translation_key, string_params = /([^,]+)(.*)/.match(query).to_a
     while string_params.present? && string_params.length > 0
-      _, key, val, string_params = /, *([a-zA-z_]+): *([^,])+(.*)/.match(string_params).to_a
+      if depth >= MAX_INTERPOLATIONS
+        raise I18n::TooMuchInterpolation.new("More than #{MAX_INTERPOLATIONS} interpolation values are not allowed.")
+      end
+      _, key, val, string_params = /, *([a-zA-z_]+): *([^,]+)(.*)/.match(string_params).to_a
       params[key.to_sym] = val if key.present? && key.length > 0
+      depth += 1
     end
     [translation_key, params]
   end
