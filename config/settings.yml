@@ -59,4 +59,5 @@
        # public_key: Set this based on your braintree integration information
        # private_key: Set this based on your braintree integration information
        # merchant_id: Set this based on your braintree integration information
+       # environment: The Braintree environment you will run transactions against. Set to production in production, sandbox otherwise.
 
