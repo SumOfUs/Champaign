@@ -10,7 +10,7 @@ fr:
     amount: Montant
     details: Détails
     payment: Paiement
-    donate: Donner # utilisé dans le bouton de validation, eg 'Donner 15€'
+    donate: "Donner %{amount}" # utilisé dans le bouton de validation, eg 'Donner 15€'
     error_intro: Votre don n’a pas pu être effectué!
     currency_in: Monnaie en # USD
     switch_currency: Changer de monnaie
@@ -32,15 +32,15 @@ fr:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
     confirmation: Nom envoyé
-    thank_you: Merci d’avoir ajouté votre nom à la pétition # <petition title>
+    thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"'
   form:
     welcome_back: Bienvenue
     switch_user: Ce n’est pas vous?
     processing: En cours de traitement...
     submit: Envoyer
   thermometer:
+    signatures_until_goal: "%{remaining} signatures jusqu'à %{goal}"
     signatures: signatures #, par exemple '225 signatures'
-    until: jusqu'à #, par exemple '25 signatures jusqu'à 250'
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
   errors:
