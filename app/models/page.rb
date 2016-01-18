@@ -11,21 +11,26 @@ class Page < ActiveRecord::Base
   belongs_to :secondary_liquid_layout, class_name: 'LiquidLayout'
   belongs_to :primary_image, class_name: 'Image'
 
-  has_many :pages_tags, dependent: :destroy
   has_many :tags, through: :pages_tags
   has_many :actions
-  has_many :images, dependent: :destroy
-  has_many :links, dependent: :destroy
+  has_many :pages_tags, dependent: :destroy
+  has_many :images,     dependent: :destroy
+  has_many :links,      dependent: :destroy
 
-  validates :title, :slug, presence: true, uniqueness: true
+  #                 FIXME
+  validates :title, :slug,  presence: true, uniqueness: true
   validates :liquid_layout, presence: true
   validate :primary_image_is_owned
 
+  # FIXME
   before_validation :create_slug
+
   after_save :switch_plugins
 
+  # FIXME
   friendly_id :slug, :use => [:finders]
 
+  # FIXME
   def create_slug
     self.slug = title.parameterize if slug.nil? and not title.nil?
   end
