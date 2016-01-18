@@ -21,6 +21,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
+    'click .fundraiser-bar__open-button': 'reveal',
+    'click .fundraiser-bar__close-button': 'hide',
   },
 
   // options: object with any of the following keys
@@ -250,7 +252,19 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   redirectTo (url) {
     window.location.href = url;
-  }
+  },
+
+  hide: function() {
+    this.$('.fundraiser-bar__mobile-view')
+      .addClass('fundraiser-bar__mobile-view--closed')
+      .removeClass('fundraiser-bar__mobile-view--open');
+  },
+
+  reveal: function() {
+    this.$('.fundraiser-bar__mobile-view')
+      .removeClass('fundraiser-bar__mobile-view--closed')
+      .addClass('fundraiser-bar__mobile-view--open');
+  },
 
 }));
 

@@ -82,40 +82,6 @@
     display: block;
   }
 
-
-  @media(max-width: $mobile-width) {
-    .petition-bar__mobile-view {
-      position: fixed;
-      width: 100%;
-      padding: 0 4%;
-      left: -4%;
-      z-index: 400;
-      margin: 0;
-      height: 100%;
-      overflow-y: visible;
-      background: $chalk-gray;
-      @include transition(top 0.40s ease-in-out);
-
-      &--closed {
-        top: 2000px;
-      }
-      &--open {
-        top: 0;
-
-        .petition-bar__mobile-ui__bottom-bar {
-          bottom: -100px;
-        }
-      }
-    }
-
-    .petition-bar__content, .fundraiser-bar__content {
-      height: 100%;
-      width: 100%;
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-
   &__mobile-ui {
 
     @media(min-width: $mobile-width) {
@@ -143,5 +109,39 @@
     right: 10px;
     top: 10px;
     cursor: pointer;
+  }
+}
+
+
+@media(max-width: $mobile-width) {
+  .petition-bar__mobile-view, .fundraiser-bar__mobile-view {
+    position: fixed;
+    width: 100%;
+    padding: 0 4%;
+    left: -4%;
+    z-index: 400;
+    margin: 0;
+    height: 100%;
+    overflow-y: visible;
+    background: $chalk-gray;
+    @include transition(top 0.40s ease-in-out);
+
+    &--closed {
+      top: 2000px;
+    }
+    &--open {
+      top: 0;
+
+      .petition-bar__mobile-ui__bottom-bar {
+        bottom: -100px;
+      }
+    }
+  }
+
+  .petition-bar__content, .fundraiser-bar__content {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }
