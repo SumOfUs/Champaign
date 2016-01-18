@@ -18,8 +18,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
   // options: object with any of the following keys
   //    outstandingFields: the names of step 2 form fields that can't be prefilled
   //    member: an object with fields that will prefill the form
-  initialize(options) {
-    options = options || {};
+  initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.checkBlurbHeight();
     this.handleFormErrors();

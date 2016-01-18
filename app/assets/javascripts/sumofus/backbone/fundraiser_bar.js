@@ -31,8 +31,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    member: an object with fields that will prefill the form
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
-  initialize (options) {
-    options = options || {};
+  initialize (options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
     this.initializeSticky();
     this.initializeBraintree();
