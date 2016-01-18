@@ -73,10 +73,10 @@ class LiquidRenderer
 
   def location
     return @location if @location.blank?
-    if @member.present? && @member.country.present? && @member.country.length == 2
-      country_code = @member.country
+    country_code = if @member.try(:country) && @member.country.length == 2
+      @member.country
     else
-      country_code = @location.country_code
+      @location.country_code
     end
     return @location.data if country_code.blank?
     currency = Donations::Utils.currency_from_country_code(country_code)
