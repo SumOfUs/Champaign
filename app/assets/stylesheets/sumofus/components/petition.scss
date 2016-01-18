@@ -82,25 +82,29 @@
     display: block;
   }
 
+
   @media(max-width: $mobile-width) {
-    position: fixed;
-    width: 100%;
-    padding: 0 4%;
-    left: -4%;
-    z-index: 400;
-    margin: 0;
-    height: 100%;
-    overflow-y: visible;
-    background: $chalk-gray;
+    .petition-bar__mobile-view {
+      position: fixed;
+      width: 100%;
+      padding: 0 4%;
+      left: -4%;
+      z-index: 400;
+      margin: 0;
+      height: 100%;
+      overflow-y: visible;
+      background: $chalk-gray;
+      @include transition(top 0.40s ease-in-out);
 
-    &.petition-bar--mobile-view--closed {
-      top: 2000px;
-    }
-    &.petition-bar--mobile-view--open {
-      top: 0;
+      &--closed {
+        top: 2000px;
+      }
+      &--open {
+        top: 0;
 
-      .petition-bar__mobile-ui__bottom-bar {
-        bottom: -100px;
+        .petition-bar__mobile-ui__bottom-bar {
+          bottom: -100px;
+        }
       }
     }
 
@@ -139,43 +143,5 @@
     right: 10px;
     top: 10px;
     cursor: pointer;
-  }
-}
-
-$petition-top-height: 0;
-$fundraiser-top-height: 156px;
-
-.petition-bar {
-  &__main {
-    top: $petition-top-height;
-  }
-  &--elevated {
-    top: -1 * $petition-top-height;
-  }
-}
-.fundraiser-bar {
-  &__main {
-    top: $fundraiser-top-height;
-  }
-  &--elevated {
-    top: -1 * $fundraiser-top-height;
-  }
-  &__top {
-    padding-bottom: 20px;
-  }
-}
-.sticky-wrapper {
-  position: relative;
-
-  &.petition {
-    top: $petition-top-height * -1;
-  }
-  &.fundraiser {
-    top: $fundraiser-top-height * -1;
-  }
-  .petition-bar--elevated, .fundraiser-bar--elevated {
-    @media(min-width: $mobile-width) {
-      top: 50px;
-    }
   }
 }

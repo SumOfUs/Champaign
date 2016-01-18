@@ -38,17 +38,24 @@ const PetitionBar = Backbone.View.extend(_.extend(
   },
 
   hide: function() {
-    this.$el.addClass('petition-bar--mobile-view--closed').removeClass('petition-bar--mobile-view--open');
+    this.$('.petition-bar__mobile-view')
+      .addClass('petition-bar__mobile-view--closed')
+      .removeClass('petition-bar__mobile-view--open');
   },
 
   reveal: function() {
-    this.$el.removeClass('petition-bar--mobile-view--closed').addClass('petition-bar--mobile-view--open');
+    this.$('.petition-bar__mobile-view')
+      .removeClass('petition-bar__mobile-view--closed')
+      .addClass('petition-bar__mobile-view--open');
   },
 
   expandBlurb: function() {
     const height = this.$('.petition-bar__top').outerHeight();
-    this.$('.petition-bar__main').css('top', `${height}px`);
-    this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
+    if (this.isSticky){
+      this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
+    } else {
+      this.$el.css('top', `-${height}px`);
+    }
   },
 
 }));
