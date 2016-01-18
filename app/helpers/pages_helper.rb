@@ -10,7 +10,8 @@ module PagesHelper
   end
 
   def serialize(data, field)
-    (data.stringify_keys[field.to_s] || {}).to_json.html_safe
+    hash = HashWithIndifferentAccess.new(data)
+    (hash[field].blank? ? {} : hash[field]).to_json.html_safe
   end
 
   def prefill_link(new_variant)
