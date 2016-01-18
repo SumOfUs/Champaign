@@ -1,10 +1,10 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  def initialize(page, layout: nil, request_country: nil, member: nil, url_params: {})
+  def initialize(page, layout: nil, location: nil, member: nil, url_params: {})
     @page = page
     @markup = layout.content unless layout.blank?
-    @request_country = request_country
+    @location = location
     @member = member
     @url_params = url_params
     set_locale
@@ -29,14 +29,20 @@ class LiquidRenderer
   end
 
   def data
-    @data ||= Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]}).
+    return @data if @data
+    plugin_data = Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
+    @data ||= plugin_data.
                 merge( @page.liquid_data ).
                 merge( images: images ).
                 merge( primary_image: image_urls(@page.image_to_display) ).
-                merge( LiquidHelper.globals(request_country: @request_country, member: @member, page: @page) ).
+                merge( LiquidHelper.globals(page: @page) ).
                 merge( shares: Shares.get_all(@page) ).
                 merge( url_params: @url_params ).
                 merge( follow_up_url: follow_up_page_path(@page.id)).
+                merge( member: member_hash ).
+                merge( location: location).
+                merge( outstanding_fields: outstanding_fields(plugin_data) ).
+                merge( donation_bands: donation_bands(plugin_data) ).
                 deep_stringify_keys
   end
 
@@ -45,6 +51,39 @@ class LiquidRenderer
   end
 
   private
+
+  def member_hash
+    return nil if @member.blank?
+    values = @member.attributes.symbolize_keys
+    values[:welcome_name] = [values[:first_name], values[:last_name]].join(' ')
+    values[:welcome_name] = values[:email] if values[:welcome_name].blank?
+    values
+  end
+
+  def outstanding_fields(plugin_data)
+    isolate_from_plugin_data(plugin_data, :outstanding_fields)
+  end
+
+  def donation_bands(plugin_data)
+    isolate_from_plugin_data(plugin_data, :donation_bands).first
+  end
+
+  def isolate_from_plugin_data(plugin_data, field)
+    plugin_values = plugin_data.deep_symbolize_keys[:plugins].values().map(&:values).flatten
+    plugin_values.map{|plugin| plugin[field]}.flatten.compact
+  end
+
+  def location
+    return @location if @location.blank?
+    country_code = if @member.try(:country) && @member.country.length == 2
+      @member.country
+    else
+      @location.country_code
+    end
+    return @location.data if country_code.blank?
+    currency = Donations::Utils.currency_from_country_code(country_code)
+    @location.data.merge(currency: currency)
+  end
 
   def set_locale
     begin

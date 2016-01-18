@@ -1,41 +1,30 @@
 <form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action'>
-  {% if member %}
-      <div class="petition-bar__welcome-text">
-        {{ 'form.welcome_back' | t }}, {{member.welcome_name}}!
-        <br />
-        <a href="javascript:;" class="petition-bar__clear-form">{{ 'form.switch_user' | t }}</a>
-      </div>
-  {% endif %}
+  <div class="petition-bar__welcome-text hidden-irrelevant">
+    {{ 'form.welcome_back' | t }},
+    <span class="petition-bar__welcome-name"></span>! <br />
+    <a href="javascript:;" class=" petition-bar__clear-form">{{ 'form.switch_user' | t }}</a>
+  </div>
   <input type='hidden' name='form_id' value='{{ form_id }}' />
-  {% for field in fields %}
-    {% if outstanding_fields contains field.name %}
-      {% assign prefilled = false %}
-    {% elsif member[field.name] %}
-      {% assign prefilled = true %}
-    {% elsif member and field.required == false %}
-      {% assign prefilled = true %}
-    {% else %}
-      {% assign prefilled = false %}
-    {% endif %}
-    <div class="form__group {% if prefilled %}form__group--prefilled{% endif %}">
-      {% case field.data_type %}
-      {% when 'text' %}
-        <input type="text" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}"/>
-      {% when 'email' %}
-        <input type="email" name="{{field.name}}" class="form-control mailcheck" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}" />
-      {% when 'phone' %}
-        <input type="tel" name="{{field.name}}" class="form-control" id="" placeholder="{{ field.label }}" value="{{member[field.name]}}" />
-      {% when 'checkbox' %}
-        <label class="checkbox-label">
-          <input type="checkbox" name="{{field.name}}" /> {{ field.label }}
-        </label>
-      {% when 'country' %}
-        <select name="{{field.name}}" class="petition-bar__country-selector" placeholder="{{field.label}}">
-          <option></option>
-          {{ country_option_tags }}
-        </select>
-      {% endcase %}
-    </div>
-  {% endfor %}
+    {% for field in fields %}
+      <div class="form__group petition-bar__field-container">
+        {% case field.data_type %}
+        {% when 'text' %}
+          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
+        {% when 'email' %}
+          <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" />
+        {% when 'phone' %}
+          <input type="tel" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
+        {% when 'checkbox' %}
+          <label class="checkbox-label">
+            <input type="checkbox" name="{{field.name}}" class="form__content" /> {{ field.label }}
+          </label>
+        {% when 'country' %}
+          <select name="{{field.name}}" class="petition-bar__country-selector form__content" placeholder="{{field.label}}">
+            <option></option>
+            {{ country_option_tags }}
+          </select>
+        {% endcase %}
+      </div>
+    {% endfor %}
   <button type="submit" class="button petition-bar__submit-button">{{ cta }}</button>
 </form>

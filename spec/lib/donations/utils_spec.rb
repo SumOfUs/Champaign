@@ -75,5 +75,44 @@ describe Donations::Utils do
       ).to eq [16.7, 17.7, 20.0, 25.1, 30.1]
     end
   end
+
+  describe '.currency_from_country_code' do
+    it 'maps european countries to euro' do
+      expect(subject.currency_from_country_code('CZ')).to eq 'EUR'
+      expect(subject.currency_from_country_code('DE')).to eq 'EUR'
+    end
+
+    it 'maps nil to USD' do
+      expect(subject.currency_from_country_code(nil)).to eq 'USD'
+    end
+
+    it 'maps unknown country to USD' do
+      expect(subject.currency_from_country_code('NI')).to eq 'USD'
+    end
+
+    it 'maps US to USD' do
+      expect(subject.currency_from_country_code('US')).to eq 'USD'
+    end
+
+    it 'maps GB to GBP' do
+      expect(subject.currency_from_country_code('GB')).to eq 'GBP'
+    end
+
+    it 'maps NZ to NZD' do
+      expect(subject.currency_from_country_code('NZ')).to eq 'NZD'
+    end
+
+    it 'maps AU to AUD' do
+      expect(subject.currency_from_country_code('AU')).to eq 'AUD'
+    end
+
+    it 'maps CA to CAD' do
+      expect(subject.currency_from_country_code('CA')).to eq 'CAD'
+    end
+
+    it 'works with symbols' do
+      expect(subject.currency_from_country_code(:CA)).to eq 'CAD'
+    end
+  end
 end
 

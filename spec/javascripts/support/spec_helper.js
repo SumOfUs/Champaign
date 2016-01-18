@@ -26,6 +26,13 @@
 // spec path and it'll be included in the default suite automatically. If you want to customize suites, check out the
 // configuration in teaspoon_env.rb
 
+
+////// Requiring tests
+//= require member-ui/petition_spec
+//= require member-ui/form_error_spec
+//= require member-ui/fundraiser_spec
+
+
 jQuery.fx.off = true;
 window.expect = chai.expect;
 

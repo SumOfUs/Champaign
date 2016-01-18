@@ -1,6 +1,6 @@
 const StickyMethods = {
 
-  initializeSticky: function() {
+  initializeSticky() {
     this.isSticky = false;
     this.questionSticky();
 
@@ -8,11 +8,11 @@ const StickyMethods = {
     $(window).on('resize', () => this.questionSticky());
   },
 
-  isMobile: function() {
+  isMobile() {
     return $('.mobile-indicator').is(':visible');
   },
 
-  makeSticky: function() {
+  makeSticky() {
     if(!this.isSticky) {
       this.$el.sticky({topSpacing:0});
       if (this.$el.hasClass('fundraiser-bar')) {
@@ -24,14 +24,14 @@ const StickyMethods = {
     }
   },
 
-  unmakeSticky: function() {
+  unmakeSticky() {
     if(this.isSticky) {
       this.$el.unstick();
       this.isSticky = false;
     }
   },
 
-  questionSticky: function() {
+  questionSticky() {
     if(this.isMobile()) {
       this.unmakeSticky();
     } else {

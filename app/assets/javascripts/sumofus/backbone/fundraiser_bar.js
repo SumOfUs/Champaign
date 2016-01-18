@@ -16,7 +16,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .fundraiser-bar__clear-form': 'showSecondStep',
-    'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
@@ -27,11 +26,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    followUpUrl: the url to redirect to after success
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
-  //    outstandingFields: the number of step 2 form fields that need to to be filled by the user
+  //    outstandingFields: the names of step 2 form fields that can't be prefilled
   //    donationBands: an object with three letter currency codes as keys
+  //    member: an object with fields that will prefill the form
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
-  initialize (options) {
+  initialize (options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
     this.initializeSticky();
     this.initializeBraintree();
@@ -52,27 +52,34 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.setDonationAmount(options.amount);
     }
     this.hidingStepTwo = false;
-    // here we deliberately abuse the fact that non-numbers compared
-    // with > always return false
-    this.hideSteps((options.amount > 0), (options.outstandingFields == 0));
+    let amountKnown = (options.amount > 0); // non-numbers with > are always false
+    let formComplete = this.formCanAutocomplete(options.outstandingFields, options.member);
+    this.hideSteps(amountKnown, formComplete, options.member, options.outstandingFields);
   },
 
-  hideSteps (amountKnown, memberKnown) {
-    if (amountKnown && memberKnown) {
+  hideSteps (amountKnown, formComplete, member, fieldsToSkipPrefill) {
+    if (amountKnown && formComplete) {
       this.changeStep(3);
-      this.hideSecondStep();
-    } else if (memberKnown) {
-      this.hideSecondStep();
+      this.hideSecondStep(member);
+      this.completePrefill(member);
+    } else if (formComplete) {
+      this.hideSecondStep(member);
+      this.completePrefill(member);
     } else if (amountKnown) {
       this.changeStep(2);
+      this.partialPrefill(member, fieldsToSkipPrefill);
+    } else {
+      this.partialPrefill(member, fieldsToSkipPrefill);
     }
   },
 
-  hideSecondStep () {
+  hideSecondStep (member) {
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
-    this.$('.fundraiser-bar__welcome-text').removeClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
+    if (this.formFieldCount() > 0) { // don't offer to reveal fields if nothing to show
+      this.showFormClearer('fundraiser', member);
+    }
     this.hidingStepTwo = true;
   },
 
