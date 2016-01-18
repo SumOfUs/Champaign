@@ -38,9 +38,8 @@ module LiquidI18n
 
   def t(query)
     translation_key, interpolation_vals = parse_interpolation(query)
-    return I18n.t(translation_key, **interpolation_vals) unless Rails.env.development? || Rails.env.test?
     begin
-      I18n.t(translation_key, **interpolation_vals.merge(:raise => true))
+      I18n.t(translation_key, **interpolation_vals.merge(:raise => !Rails.env.production?))
     rescue I18n::MissingTranslationData => e
       raise I18n::TranslationMissing.new(e.message)
     end
