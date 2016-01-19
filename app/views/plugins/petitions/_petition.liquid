@@ -1,48 +1,50 @@
 {% if plugins.petition[ref].active %}
-  <div class="petition-bar petition-bar--elevated petition-bar--mobile-view--closed">
-    <div class="petition-bar__content">
-      <div class="petition-bar__top">
-        <div class="petition-bar__mobile-ui">
-          <a class="petition-bar__close-button">&#x2715;</a>
+  <div class="petition-bar">
+    <div class="petition-bar__mobile-view petition-bar__mobile-view--closed">
+      <div class="petition-bar__content">
+        <div class="petition-bar__top">
+          <div class="petition-bar__mobile-ui">
+            <a class="petition-bar__close-button">&#x2715;</a>
+          </div>
+          <div class="petition-bar__title-bar">
+            <h2 class="petition-bar__title">{{ 'petition.sign_it' | t }}</h2>
+          </div>
+          <div class="petition-bar__target">
+            {% unless plugins.petition[ref].target == blank %}
+              {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
+            {% endunless %}
+          </div>
+          <p class="petition-bar__petition-text">
+            {{ plugins.petition[ref].description }}
+          </p>
         </div>
-        <h2>{{ 'petition.sign_it' | t }}</h2>
-        <div class="petition-bar__target">
-          {% unless plugins.petition[ref].target == blank %}
-            {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
-          {% endunless %}
-        </div>
-        <p class="petition-bar__petition-text">
-          {{ plugins.petition[ref].description }}
-        </p>
-      </div>
-      <div class="petition-bar__main">
-        <div class="petition-bar__expand-arrow"></div>
-        <div class="petition-bar__shading"></div>
+        <div class="petition-bar__main">
 
-        <div class="mobile-hide">
-          {% include 'Thermometer' %}
+          <div class="mobile-hide">
+            {% include 'Thermometer' %}
+          </div>
+          {% include 'Form',
+            cta: plugins.petition[ref].cta,
+            form_id: plugins.petition[ref].form_id,
+            outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
+            fields: plugins.petition[ref].fields %}
         </div>
-        {% include 'Form',
-          cta: plugins.petition[ref].cta,
-          form_id: plugins.petition[ref].form_id,
-          outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
-          fields: plugins.petition[ref].fields %}
       </div>
     </div>
-  </div>
 
-  <div class="petition-bar__mobile-ui">
-    <div class="petition-bar__mobile-ui__bottom-bar">
-      <button class="button petition-bar__open-button">{{ plugins.petition[ref].cta }}</button>
+    <div class="petition-bar__mobile-ui">
+      <div class="petition-bar__mobile-ui__bottom-bar">
+        <button class="button petition-bar__open-button">{{ plugins.petition[ref].cta }}</button>
+      </div>
     </div>
-  </div>
 
-  <script type="text/javascript">
-    $(document).ready(function(){
-      window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
-        member:           window.sumofus.personalization.member,
-        outstandingFields:window.sumofus.personalization.outstandingFields
+    <script type="text/javascript">
+      $(document).ready(function(){
+        window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
+          member:           window.sumofus.personalization.member,
+          outstandingFields:window.sumofus.personalization.outstandingFields
+        });
       });
-    });
-  </script>
+    </script>
+  </div>
 {% endif %}
