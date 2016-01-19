@@ -289,7 +289,8 @@ describe Page do
 
     context 'updating title' do
       before do
-        page.update(title: 'Complex Slug', slug: nil).reload
+        page.update(title: 'Complex Slug', slug: nil)
+        page.reload
       end
 
       it 'updates slug' do
@@ -310,11 +311,13 @@ describe Page do
       before do
         titles.each do |title|
           page.update(title: title, slug: nil)
+          page.save
         end
       end
 
       it 'keeps findable record of previous slugs' do
         titles.each do |title|
+          byebug
           expect( Page.find(title.parameterize) ).to eq(page)
         end
       end

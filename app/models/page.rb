@@ -17,7 +17,7 @@ class Page < ActiveRecord::Base
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
 
-  #                 FIXME
+  # FIXME
   validates :title, :slug,  presence: true, uniqueness: true
   validates :liquid_layout, presence: true
   validate :primary_image_is_owned
@@ -28,7 +28,7 @@ class Page < ActiveRecord::Base
   after_save :switch_plugins
 
   # FIXME
-  friendly_id :slug, :use => [:finders]
+  friendly_id :slug, :use => [:finders, :history]
 
   # FIXME
   def create_slug
