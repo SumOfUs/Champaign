@@ -156,6 +156,23 @@ body.page-edit-body {
   }
 }
 
+
+
+.page-edit-step__title, .edit-block__title, .centered-overlay__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+
+  background-color: $bootstrap-bg-gray;
+  width: 100%;
+  padding: 20px 40px 15px;
+  border-bottom: 1px solid $bootstrap-border-gray;
+
+  text-align: left;
+  color: $page-edit-bar-color;
+  font-size: 30px;
+}
 .page-edit-step, .edit-block {
   width: 80%;
   float: right;
@@ -165,21 +182,6 @@ body.page-edit-body {
   margin: 0 0 30px;
   position: relative;
 
-  &__title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-
-    background-color: $bootstrap-bg-gray;
-    width: 100%;
-    padding: 20px 40px 15px;
-    border-bottom: 1px solid $bootstrap-border-gray;
-
-    text-align: left;
-    color: $page-edit-bar-color;
-    font-size: 30px;
-  }
   &--just-title {
     padding: 35px;
   }

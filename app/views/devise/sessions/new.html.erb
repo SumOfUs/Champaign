@@ -1,4 +1,4 @@
-<h2>Log in</h2>
+<h1 class="centered-overlay__title">Log in</h1>
 
 <%- if devise_mapping.omniauthable? %>
   <section class="col-xs-12">
@@ -6,7 +6,7 @@
   </section>
 <% end -%>
 
-<section class="col-xs-4">
+<section class="col-xs-12">
   <h4>or log in with a password</h4>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
     <div class="form-group">
