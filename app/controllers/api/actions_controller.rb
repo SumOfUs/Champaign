@@ -33,7 +33,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w{page_id form_id}
+    %w{page_id form_id name}
   end
 
   def fields
