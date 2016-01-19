@@ -1,24 +1,16 @@
-.page-edit-bar
-  .page-edit-bar__logo
-  .scrollspy
-    ul.page-edit-bar__step-list.nav
-  .page-edit-bar__save-box
-    .page-edit-bar__toggle
-      .page-edit-bar__toggle-title Autosave
-      .btn-group.page-edit-bar__toggle-btns.page-edit-bar__toggle-autosave data-autosave="#{!page.active?}"
-        = toggle_switch true, true, 'On'
-        = toggle_switch false, true, 'Off'
-    .page-edit-bar__toggle
-      = form_for page, url: api_page_path(page), remote: true, html: {class: 'activation-toggle'} do |ff|
-        / we have nested page[page][active] to match the massive nested form submitted with the one-form
-        = ff.fields_for :page do |f|
-          = f.hidden_field :active, class: 'activation-toggle-field', value: page.active?
-          .page-edit-bar__toggle-title Publish
-          .btn-group.page-edit-bar__toggle-btns
-            = toggle_switch true, page.active?, 'On'
-            = toggle_switch false, page.active?, 'Off'
-    .page-edit-bar__last-saved
-    .page-edit-bar__error-message
-    .page-edit-bar__btn-holder.page-edit-bar__btn-holder--hidden
-      button.page-edit-bar__save-button.btn.btn-primary
-        | Save my work
+.sidebar
+  .sidebar__logo
+  ul.page-edit-bar__step-list.nav
+    li class="#{'active' if action == :index}"
+      = link_to pages_path do
+        i.fa.fa-th-list
+        | Show pages
+    li class="#{'active' if action == :new}"
+      = link_to new_page_path do
+        i.fa.fa-file
+        | New page
+    - Page.limit(5).order('updated_at desc').each do |page|
+      li
+        = link_to edit_page_path(page)
+          i.fa.fa-pencil
+          = page.title

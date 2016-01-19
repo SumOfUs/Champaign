@@ -9,7 +9,7 @@ body.page-edit-body {
   background-color: $page-edit-bar-color;
 }
 
-.page-edit-bar {
+.page-edit-bar, .sidebar {
   width: 20%;
   height: 100%;
   position: fixed;
@@ -44,6 +44,9 @@ body.page-edit-body {
         @include box-sizing(border-box);
         color: $page-edit-text-color;
         @include transition(background-color 0.1s linear, color 0.1s linear);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
 
         &:hover {
           background-color: $save-box-color;
@@ -153,7 +156,7 @@ body.page-edit-body {
   }
 }
 
-.page-edit-step {
+.page-edit-step, .edit-block {
   width: 80%;
   float: right;
   background: white;
