@@ -4,11 +4,11 @@
     li class="#{'active' if action == :index}"
       = link_to controller: resource, action: :index do
         i.fa.fa-th-list
-        | List #{resource}
+        | List #{resource.to_s.titleize}
     li class="#{'active' if action == :new}"
       = link_to controller: resource, action: :new do
         i.fa.fa-file
-        | New #{resource.to_s.singularize}
+        | New #{resource.to_s.singularize.titleize}
     - filter ||= {}
     - klass = resource.to_s.singularize.classify.constantize
     - klass.limit(5).order('updated_at desc').where(filter).each do |instance|
