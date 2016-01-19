@@ -47,7 +47,7 @@ describe FormElement do
     end
   end
 
-  describe 'cascading touch', :focus do
+  describe 'cascading touch' do
     let(:page) { create(:page) }
     let!(:petition) { create(:plugins_petition, form: form, page: page) }
 
@@ -57,9 +57,6 @@ describe FormElement do
       Timecop.travel(1.hour) do
         element.update(label: 'foo')
         expect(petition.page).to eq(page)
-
-        #expect(element.form.formable.page).to eq(page)
-        #expect(page.reload.updated_at.to_s).to eq(Time.now.utc.to_s)
       end
     end
   end
