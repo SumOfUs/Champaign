@@ -48,4 +48,12 @@
       display: none;
     }
   }
+  &--small {
+    height: 390px;
+    width: 67%;
+    overflow: hidden;
+    position: relative;
+    @include background-size(cover);
+    background-position: center;
+  }
 }

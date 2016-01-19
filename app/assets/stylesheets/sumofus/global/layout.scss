@@ -44,6 +44,13 @@ html {
   &--push-down {
     margin-top: 50px;
   }
+  &__fixed-right {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 33%;
+    z-index: 200;
+  }
 }
 
 .clearfix {

@@ -6,6 +6,26 @@
   position: relative;
   z-index: 600;
 
+  &.stuck-right {
+    margin-top: 17px;
+    .petition-bar__main {
+      height: 100vh;
+    } 
+    .petition-bar__title-bar {
+      clip-path: none;
+      -webkit-clip-path: none;
+      top: -67px;
+      &::after {
+        display: none;
+      }
+    }
+    .petition-bar__title {
+      height: 67px;
+    }
+    form, .petition-bar__petition-text, .thermometer {
+      max-width: 300px;
+    }
+  }
   &__top {
     background: $overcast-gray;
     color: black;
