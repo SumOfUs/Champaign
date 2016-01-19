@@ -1,4 +1,4 @@
-= render 'sidebar', action: :edit, id: @campaign.id
+= render 'shared/sidebar', action: :edit, id: @campaign.id, resource: :campaigns
 
 .edit-block
   h1.edit-block__title= @campaign.name
