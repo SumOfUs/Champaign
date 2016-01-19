@@ -1,3 +1,6 @@
-h3 = @donation_band.name
+= render 'shared/sidebar', action: :edit, id: @donation_band.id, resource: :donation_bands
 
-= render 'form'
+.edit-block
+  h1.edit-block__title= @donation_band.name
+
+  = render 'form'
