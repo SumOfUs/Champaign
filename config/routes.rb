@@ -56,8 +56,8 @@ Rails.application.routes.draw do
   end
 
 
-  resources :liquid_partials
-  resources :liquid_layouts
+  resources :liquid_partials, except: [:show]
+  resources :liquid_layouts, except: [:show]
   resources :links, only: [:create, :destroy]
 
   # Example of regular route:
