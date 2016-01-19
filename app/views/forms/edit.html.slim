@@ -1,15 +1,18 @@
-.row.collection-editor
-  .col-md-12
-    h3 #{  @form.name }
-  .col-md-6
-    h4 = t('.title')
-    .forms-add-element
-      = render partial: 'add_element', locals: {form: @form, form_element: @form_element}
+= render 'shared/sidebar', action: :edit, id: @form.id, resource: :forms, filter: {master: true}
 
-  .col-md-6
-    h4 = t('.preview')
-    .forms-edit
-      = render partial: 'edit', locals: {form: @form }
+.edit-block
+  h1.edit-block__title= @form.name
+
+  .row.collection-editor
+    .col-md-6
+      h4 = t('.title')
+      .forms-add-element
+        = render partial: 'add_element', locals: {form: @form, form_element: @form_element}
+
+    .col-md-6
+      h4 = t('.preview')
+      .forms-edit
+        = render partial: 'edit', locals: {form: @form }
 
 javascript:
   $.publish("collection:edit:loaded");
