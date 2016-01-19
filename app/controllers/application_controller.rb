@@ -24,11 +24,7 @@ class ApplicationController < ActionController::Base
       # if it's one explicitly registered under +i18n.available_locales+
     end
   end
-
-  # if @page.present? && @page.language.present? && @page.language.code.present?
-  #   I18n.locale = @page.language.code
-  # end
-
+  
   def localize_from_page_id
     page = Page.find_by(id: params[:page_id])
     localize_by_page_language(page)
