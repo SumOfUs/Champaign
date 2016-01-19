@@ -20,4 +20,11 @@ class Member < ActiveRecord::Base
     self.first_name = splitter.first_name
     self.last_name = splitter.last_name
   end
+
+  def liquid_data
+    attributes.merge({
+      name: name,
+      welcome_name: name.blank? ? email : name
+    })
+  end
 end

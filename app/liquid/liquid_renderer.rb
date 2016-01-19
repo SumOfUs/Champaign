@@ -39,7 +39,7 @@ class LiquidRenderer
                 merge( shares: Shares.get_all(@page) ).
                 merge( url_params: @url_params ).
                 merge( follow_up_url: follow_up_page_path(@page.id)).
-                merge( member: member_hash ).
+                merge( member: @member.try(:liquid_data) ).
                 merge( location: location).
                 merge( outstanding_fields: outstanding_fields(plugin_data) ).
                 merge( donation_bands: donation_bands(plugin_data) ).
@@ -51,14 +51,6 @@ class LiquidRenderer
   end
 
   private
-
-  def member_hash
-    return nil if @member.blank?
-    values = @member.attributes.symbolize_keys
-    values[:welcome_name] = [values[:first_name], values[:last_name]].join(' ')
-    values[:welcome_name] = values[:email] if values[:welcome_name].blank?
-    values
-  end
 
   def outstanding_fields(plugin_data)
     isolate_from_plugin_data(plugin_data, :outstanding_fields)
