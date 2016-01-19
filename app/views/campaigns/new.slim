@@ -1,3 +1,6 @@
-h3 = t('.title')
+= render 'sidebar', action: :new
 
-= render 'form'
+.edit-block
+  h1.edit-block__title= t('.title')
+
+  = render 'form'

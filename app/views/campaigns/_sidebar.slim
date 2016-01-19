@@ -1,0 +1,16 @@
+.sidebar
+  .sidebar__logo
+  ul.sidebar__step-list.nav
+    li class="#{'active' if action == :index}"
+      = link_to campaigns_path do
+        i.fa.fa-th-list
+        | List campaigns
+    li class="#{'active' if action == :new}"
+      = link_to new_campaign_path do
+        i.fa.fa-file
+        | New campaign
+    - Campaign.limit(5).order('updated_at desc').each do |campaign|
+      li class="#{'active' if action == :edit && id == campaign.id}"
+        = link_to edit_campaign_path(campaign)
+          i.fa.fa-pencil
+          = campaign.name
