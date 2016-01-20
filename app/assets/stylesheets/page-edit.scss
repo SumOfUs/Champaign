@@ -231,20 +231,23 @@ body.page-edit-body {
   }
 }
 @media(max-width: 600px) {
-  .page-edit-bar {
+  .page-edit-bar, .sidebar {
     width: 100%;
     position: relative;
-    &__step-list {
-      padding: 0 0 200px 10px;
-    }
   }
-  .page-edit-step {
+  .page-edit-bar__step-list {
+    padding: 0 0 200px 10px;
+  }
+  .page-edit-step, .edit-block {
     width: 100%;
     padding: 80px 20px 20px;
     overflow: scroll;
   }
   .shares-editor {
     overflow: scroll;
+  }
+  .accomodates-sidebar {
+    width: 100%;
   }
 }
 
@@ -341,7 +344,6 @@ body.page-edit-body {
   color: $page-edit-text-color;
   margin: 0;
   padding: 0 40px 0 0;
-  height: 50px;
   z-index: 200;
   .nav > li > a {
     color: $page-edit-text-color;
@@ -351,6 +353,15 @@ body.page-edit-body {
       background-color: $save-box-color;
       color: white;
     }
+  }
+  .icon-bar {
+    background-color: white;
+  }
+  @media(min-width: 600px) {
+    height: 50px;
+  }
+  @media(max-width: 600px) {
+    padding-right: 0;
   }
 }
 
