@@ -298,29 +298,6 @@ describe Page do
         expect(page.friendly_id).to eq('complex-slug')
       end
     end
-
-    context 'historical' do
-      let(:titles) do
-        [
-          'My dog has died',
-          'I buried him in the garden',
-          'next to a rusted old machine'
-        ]
-      end
-
-      before do
-        titles.each do |title|
-          page.update(title: title, slug: nil)
-          page.save
-        end
-      end
-
-      it 'keeps findable record of previous slugs' do
-        titles.each do |title|
-          expect( Page.find(title.parameterize) ).to eq(page)
-        end
-      end
-    end
   end
 end
 

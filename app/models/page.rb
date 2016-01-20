@@ -17,13 +17,13 @@ class Page < ActiveRecord::Base
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
 
-  validates :title, :slug,  presence: true, uniqueness: true
+  validates :title, presence: true, uniqueness: true
   validates :liquid_layout, presence: true
   validate  :primary_image_is_owned
 
   after_save :switch_plugins
 
-  friendly_id :title, use: [:finders, :history]
+  friendly_id :title, use: [:finders, :slugged]
 
   # Compiles the HTML for this Page so that it can be used by external display apps.
   def compile_html

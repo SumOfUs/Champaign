@@ -106,7 +106,6 @@ describe PagesController do
       allow(Page).to            receive(:find){ page }
       allow(page).to            receive(:update)
       allow(LiquidRenderer).to  receive(:new){ renderer }
-      allow(controller).to      receive(:page_path){ "/pages/#{subject.id}"}
     end
 
     it 'finds campaign page' do
@@ -219,7 +218,6 @@ describe PagesController do
     end
 
     it 'raises 404 if user not logged in and page unpublished' do
-      allow(controller).to receive(:page_path){'/pages/1/follow-up'}
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:active?){ false }
       expect{ get :show, id: '1' }.to raise_error ActiveRecord::RecordNotFound

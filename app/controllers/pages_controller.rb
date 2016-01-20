@@ -29,10 +29,6 @@ class PagesController < ApplicationController
   end
 
   def show
-    if request.path != page_path(@page)
-      return redirect_to page_path(@page), status: :moved_permanently
-    end
-
     render_liquid(@page.liquid_layout)
   end
 
