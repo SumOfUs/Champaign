@@ -8,12 +8,20 @@ module Analytics
       @page_id = page_id
     end
 
-    def total_actions(new_members: false)
-      Analytics.store.get( key(new_members )).to_i
+    def total_actions
+      Analytics.store.get( key( false )).to_i
     end
 
-    def total_actions_over_time(period: :hour, new_members: false)
-      send("total_by_#{period}", new_members)
+    def total_new_members
+      Analytics.store.get( key( true )).to_i
+    end
+
+    def total_actions_over_time(period: :hour)
+      send("total_by_#{period}", false)
+    end
+
+    def total_new_members_over_time(period: :hour)
+      send("total_by_#{period}", true)
     end
 
     def increment_actions(new_member: false)

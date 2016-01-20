@@ -17,6 +17,7 @@ describe Api::AnalyticsHelper do
 
   before do
     allow(cache).to receive(:total_actions_over_time){ data }
+    allow(cache).to receive(:total_new_members_over_time){ data }
   end
 
   describe '#total_actions_by_hour' do
@@ -43,7 +44,7 @@ describe Api::AnalyticsHelper do
 
   describe '#new_members_by_day' do
     it 'fetches data from cache' do
-      expect( cache ).to receive(:total_actions_over_time).with(period: :day, new_members: true)
+      expect( cache ).to receive(:total_new_members_over_time).with(period: :day)
       helper.new_members_by_day( cache )
     end
 

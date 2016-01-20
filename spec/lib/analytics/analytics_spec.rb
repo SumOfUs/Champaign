@@ -6,27 +6,29 @@ describe Analytics do
     Analytics.store.flushdb
   end
 
+  let(:start_date) { Time.utc('2000/01/01' ) }
+
   subject { Analytics::Page.new('1') }
 
-  describe '#total_actions' do
+  describe 'totals' do
     before do
       subject.increment_actions(new_member: true)
       2.times{ subject.increment_actions(new_member: false) }
     end
 
-    it 'counts total actions' do
+    it 'counts actions' do
       expect( subject.total_actions ).to eq(3)
     end
 
-    it 'counts new member actions' do
-      expect( subject.total_actions(new_members: true) ).to eq(1)
+    it 'counts new members' do
+      expect( subject.total_new_members ).to eq(1)
     end
   end
 
-  describe '#total_actions_over_time' do
+  describe 'totals over time' do
     context 'by day' do
       before do
-        Timecop.freeze('01-01-2000') do
+        Timecop.freeze( start_date ) do
           2.times{ subject.increment_actions }
           subject.increment_actions(new_member: true)
 
@@ -41,26 +43,26 @@ describe Analytics do
         end
       end
 
-      it 'returns total actions by day' do
+      it 'counts actions by day' do
         sample_of_expected_data = {
           '2000-01-01 00:00:00' => 3, '1999-12-31 00:00:00' => 8, '1999-12-29 00:00:00' => 3
         }
 
-        Timecop.freeze('01-01-2000') do
+        Timecop.freeze( start_date ) do
           expect(
             subject.total_actions_over_time(period: :day)
           ).to include( sample_of_expected_data )
         end
       end
 
-      it 'returns actions by new members by day' do
+      it 'counts new members by day' do
         sample_of_expected_data = {
           '2000-01-01 00:00:00' => 1, '1999-12-31 00:00:00' => 3, '1999-12-29 00:00:00' => 0
         }
 
-        Timecop.freeze('01-01-2000') do
+        Timecop.freeze( start_date ) do
           expect(
-            subject.total_actions_over_time(period: :day, new_members: true)
+            subject.total_new_members_over_time(period: :day)
           ).to include( sample_of_expected_data )
         end
       end
@@ -68,7 +70,8 @@ describe Analytics do
 
     context 'by hour' do
       before do
-        Timecop.freeze('02-01-2000') do
+        Timecop.freeze( start_date ) do
+
           2.times{ subject.increment_actions }
           subject.increment_actions(new_member: true)
 
@@ -95,30 +98,30 @@ describe Analytics do
         end
       end
 
-      it 'returns total actions by hour' do
+      it 'actions by hour' do
         sample_of_expected_data = {
-          "2000-01-02 00:00:00" => 3,
-          "2000-01-01 23:00:00" => 8,
-          "2000-01-01 21:00:00" => 3
+          "2000-01-01 00:00:00" => 3,
+          "1999-12-31 23:00:00" => 8,
+          "1999-12-31 21:00:00" => 3
         }
 
-        Timecop.freeze('02-01-2000') do
+        Timecop.freeze( start_date ) do
           expect(
             subject.total_actions_over_time(period: :hour)
           ).to include( sample_of_expected_data )
         end
       end
 
-      it 'returns actions by new members by hour' do
+      it 'members by hour' do
         sample_of_expected_data = {
-          "2000-01-02 00:00:00" => 1,
-          "2000-01-01 23:00:00" => 3
+          "2000-01-01 00:00:00" => 1,
+          "1999-12-31 23:00:00" => 3
         }
 
 
-        Timecop.freeze('02-01-2000') do
+        Timecop.freeze( start_date ) do
           expect(
-            subject.total_actions_over_time(period: :hour, new_members: true)
+            subject.total_new_members_over_time(period: :hour)
           ).to include( sample_of_expected_data )
         end
       end

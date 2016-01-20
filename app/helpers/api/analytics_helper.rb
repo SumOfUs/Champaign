@@ -8,7 +8,7 @@ module Api::AnalyticsHelper
   end
 
   def new_members_by_day(page)
-    map_data page.total_actions_over_time(period: :day, new_members: true)
+    map_data page.total_new_members_over_time(period: :day)
   end
 
   private
