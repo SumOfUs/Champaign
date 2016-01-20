@@ -17,23 +17,13 @@ class Page < ActiveRecord::Base
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
 
-  # FIXME
   validates :title, :slug,  presence: true, uniqueness: true
   validates :liquid_layout, presence: true
-  validate :primary_image_is_owned
-
-  # FIXME
-  before_validation :create_slug
+  validate  :primary_image_is_owned
 
   after_save :switch_plugins
 
-  # FIXME
-  friendly_id :slug, :use => [:finders, :history]
-
-  # FIXME
-  def create_slug
-    self.slug = title.parameterize if slug.nil? and not title.nil?
-  end
+  friendly_id :title, use: [:finders, :history]
 
   # Compiles the HTML for this Page so that it can be used by external display apps.
   def compile_html
