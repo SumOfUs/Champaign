@@ -22,7 +22,7 @@ class PagesController < ApplicationController
     @page = PageBuilder.create( page_params )
 
     if @page.valid?
-      redirect_to edit_page_path(@page)
+      redirect_to edit_page_path(@page.id)
     else
       render :new
     end
@@ -30,8 +30,9 @@ class PagesController < ApplicationController
 
   def show
     if request.path != page_path(@page)
-      return redirect_to @page, :status => :moved_permanently
+      return redirect_to page_path(@page), status: :moved_permanently
     end
+
     render_liquid(@page.liquid_layout)
   end
 
@@ -47,7 +48,7 @@ class PagesController < ApplicationController
         format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.js { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
+        format.js   { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
       end
     end
   end
@@ -91,3 +92,4 @@ class PagesController < ApplicationController
       {:tag_ids => []} )
   end
 end
+

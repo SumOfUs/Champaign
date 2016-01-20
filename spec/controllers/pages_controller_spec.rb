@@ -28,7 +28,7 @@ describe PagesController do
   end
 
   describe 'POST #create' do
-    let(:page) { instance_double(Page, valid?: true, language:default_language) }
+    let(:page) { instance_double(Page, valid?: true, language: default_language, id: 1) }
 
     before do
       allow(PageBuilder).to receive(:create) { page }
@@ -44,7 +44,7 @@ describe PagesController do
 
     context "successfully created" do
       it 'redirects to edit_page' do
-        expect(response).to redirect_to(edit_page_path(page))
+        expect(response).to redirect_to(edit_page_path(page.id))
       end
     end
 
@@ -102,9 +102,10 @@ describe PagesController do
   describe 'GET #show' do
 
     before do
-      allow(Page).to receive(:find){ page }
-      allow(page).to receive(:update)
-      allow(LiquidRenderer).to receive(:new){ renderer }
+      allow(Page).to            receive(:find){ page }
+      allow(page).to            receive(:update)
+      allow(LiquidRenderer).to  receive(:new){ renderer }
+      allow(controller).to      receive(:page_path){ "/pages/#{page.id}"}
     end
 
     it 'finds campaign page' do
@@ -114,6 +115,7 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       get :show, id: '1'
+
       expect(LiquidRenderer).to have_received(:new).with(page,
         request_country: "RD",
         member: nil,
@@ -157,9 +159,10 @@ describe PagesController do
       expect{ get :show, id: '1' }.not_to raise_error
     end
 
-    context 'on pages with localization' do
-      let(:french_page) { instance_double(Page, valid?: true, active?: true, language: language, id: '42', liquid_layout: '5') }
+    context 'on pages with localization', :focus do
+      let(:french_page)  { instance_double(Page, valid?: true, active?: true, language: language,         id: '42', liquid_layout: '5') }
       let(:english_page) { instance_double(Page, valid?: true, active?: true, language: default_language, id: '66', liquid_layout: '5') }
+
       it 'sets the locality to that of the language code on the page' do
         allow(Page).to receive(:find){ french_page }
         get :show, id: '42'
@@ -204,6 +207,7 @@ describe PagesController do
     end
 
     it 'raises 404 if user not logged in and page unpublished' do
+      allow(controller).to receive(:page_path){'/pages/1/follow-up'}
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:active?){ false }
       expect{ get :show, id: '1' }.to raise_error ActiveRecord::RecordNotFound
@@ -211,7 +215,7 @@ describe PagesController do
 
     it 'does not raise 404 if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:active?){ true }
+      allow(page).to       receive(:active?){ true }
       expect{ get :show, id: '1' }.not_to raise_error
     end
 
@@ -228,5 +232,4 @@ describe PagesController do
     end
   end
 end
-
 
