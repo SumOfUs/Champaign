@@ -26,7 +26,8 @@ describe Form do
 
       form.update(formable: petition)
 
-      expect(form.formable).to eq(petition)
+      expect(form.reload.formable).to eq(petition)
+      expect(form.formable_id).to     eq(petition.id)
       expect(petition.reload.form).to eq(form)
     end
 
