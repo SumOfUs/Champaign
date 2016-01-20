@@ -39,7 +39,7 @@
             td = page.updated_at.strftime('%Y-%b-%d')
             td = page.actions.count
 
-            td = link_to t('common.edit'), edit_page_path(page)
+            td = link_to t('common.edit'), edit_page_path(page.id)
 
 
     = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
