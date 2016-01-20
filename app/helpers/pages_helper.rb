@@ -11,7 +11,7 @@ module PagesHelper
 
   def serialize(data, field)
     hash = HashWithIndifferentAccess.new(data)
-    (hash[field].blank? ? {} : hash[field]).to_json.html_safe
+    (hash[field].nil? ? {} : hash[field]).to_json.html_safe
   end
 
   def prefill_link(new_variant)

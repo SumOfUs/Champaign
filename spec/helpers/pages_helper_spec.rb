@@ -65,12 +65,16 @@ describe PagesHelper do
       expect(serialize({foo: 'bar'}, :baz)).to eq '{}'
     end
 
-    it 'renders empty object if key is nil' do
+    it 'renders empty object if value is nil' do
       expect(serialize({foo: nil}, :foo)).to eq '{}'
     end
 
-    it 'renders empty object if key is blank' do
-      expect(serialize({foo: ' '}, :foo)).to eq '{}'
+    it 'renders empty string if value is blank' do
+      expect(serialize({foo: ' '}, :foo)).to eq "\" \""
+    end
+
+    it 'renders empty array if value is empty array' do
+      expect(serialize({foo: []}, :foo)).to eq "[]"
     end
 
     it 'serializes a subhash into appropriate json' do
