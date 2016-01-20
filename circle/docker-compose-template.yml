@@ -2,6 +2,7 @@ web:
   image: soutech/champaign_web:$CIRCLE_SHA1
   links:
     - db
+    - redis
   command: /myapp/circle/specs-and-rake-tasks
   env_file:
     - test.env
@@ -12,3 +13,6 @@ db:
     - "5432"
   environment:
     POSTGRES_DB: champaign_test
+
+redis:
+  image: redis

@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       resources :emails
     end
 
+    get 'analytics', on: :member
+
     get 'follow-up', on: :member, action: 'follow_up'
     resources :images
     get 'plugins', to: 'plugins#index'
@@ -110,6 +112,7 @@ Rails.application.routes.draw do
     end
 
     resources :pages do
+      resource  :analytics
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
       end

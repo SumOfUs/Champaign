@@ -3,10 +3,13 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create, :follow_up]
-  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up]
+  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up, :analytics]
 
   def index
     @pages = Search::PageSearcher.new(params).search
+  end
+
+  def analytics
   end
 
   def new
