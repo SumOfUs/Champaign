@@ -15,13 +15,13 @@
       .totals
         dl.actions
           dt.odometer.total-actions-all
-          dd Total Actions
+          dd = t('.total_actions')
         .analytics-chart.mini-total.mini
           svg.chart
       .totals
         dl.new-members
           dt.odometer.total-actions-new
-          dd New Members
+          dd = t('.new_members')
         .analytics-chart.mini-new.mini
           svg.chart
 
@@ -31,3 +31,4 @@ javascript:
   $( function() {
     Analytics.makeDashboard("#{@page.id}");
   });
+

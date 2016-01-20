@@ -96,6 +96,8 @@ en:
     analytics:
       hours_chart_title: "Total actions last 12 hours"
       refresh: 'refresh'
+      new_members: 'New Members'
+      total_actions: 'Total Actions'
 
   liquid:
     experimental: Experimental
