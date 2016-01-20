@@ -30,11 +30,26 @@ body.page-edit-body {
     opacity: 0.9;
   }
 
+  &__group {
+    overflow: hidden;
+    @include transition (height 0.2s ease-out);
+    &--open {
+      height: 182px
+    }
+    &--closed {
+      height: 50px
+    }
+  }
+
   &__step-list {
     margin: 0;
     padding: 0;
 
     li {
+      border-top: 1px solid $save-box-color;
+      &:last-of-type {
+        border-bottom: 1px solid $save-box-color;
+      }
       a {
         width: 100%;
         display: block;
@@ -47,14 +62,22 @@ body.page-edit-body {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        cursor: pointer;
 
-        &:hover {
+        &:hover, &.active {
           background-color: $save-box-color;
           text-decoration: none;
           color: white;
         }
         &:focus {
           background-color: $page-edit-bar-color;
+        }
+        &.sidebar__secondary-link {
+          padding: 12px 15px 12px 36px;
+          background: black;
+          &:hover, &.active {
+            text-decoration: underline;
+          }
         }
 
         .fa {
@@ -76,6 +99,7 @@ body.page-edit-body {
     padding: 5px 15px;
     background: $save-box-color;
     text-align: center;
+    z-index: 200;
 
     &--has-error {
       background: maroon;
