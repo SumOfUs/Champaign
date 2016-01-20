@@ -81,9 +81,10 @@ class PageUpdater
 
   def update_page
     return unless @params[:page]
+    @page.slug = nil
     @page.assign_attributes(@params[:page])
     @refresh = true unless (@page.changed & REFRESH_TRIGGERS).empty?
-    saved = @page.save
+    @page.save
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
   end
 
