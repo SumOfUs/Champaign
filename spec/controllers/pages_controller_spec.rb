@@ -100,12 +100,13 @@ describe PagesController do
   end
 
   describe 'GET #show' do
+    subject { page }
 
     before do
       allow(Page).to            receive(:find){ page }
       allow(page).to            receive(:update)
       allow(LiquidRenderer).to  receive(:new){ renderer }
-      allow(controller).to      receive(:page_path){ "/pages/#{page.id}"}
+      allow(controller).to      receive(:page_path){ "/pages/#{subject.id}"}
     end
 
     it 'finds campaign page' do
@@ -159,17 +160,28 @@ describe PagesController do
       expect{ get :show, id: '1' }.not_to raise_error
     end
 
-    context 'on pages with localization', :focus do
+    context 'on pages with localization' do
       let(:french_page)  { instance_double(Page, valid?: true, active?: true, language: language,         id: '42', liquid_layout: '5') }
       let(:english_page) { instance_double(Page, valid?: true, active?: true, language: default_language, id: '66', liquid_layout: '5') }
 
-      it 'sets the locality to that of the language code on the page' do
-        allow(Page).to receive(:find){ french_page }
-        get :show, id: '42'
-        expect(I18n.locale).to eq :fr
-        allow(Page).to receive(:find){ english_page }
-        get :show, id: '66'
-        expect(I18n.locale).to eq :en
+      context 'with french' do
+        subject { french_page }
+        before { allow(Page).to receive(:find){ french_page } }
+
+        it 'sets the locality to :fr' do
+          get :show, id: '42'
+          expect(I18n.locale).to eq :fr
+        end
+
+        context 'with default (en)' do
+          subject { english_page }
+          before { allow(Page).to receive(:find){ english_page } }
+
+          it 'sets the locality to :en' do
+            get :show, id: '66'
+            expect(I18n.locale).to eq :en
+          end
+        end
       end
 
     end
