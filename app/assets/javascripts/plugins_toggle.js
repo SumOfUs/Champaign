@@ -1,3 +1,5 @@
+const setupOnce = require('setup_once');
+
 (function(){
 
   let ActivationToggle = Backbone.View.extend({
@@ -36,16 +38,8 @@
     },
   });
 
-  const configureToggle = function() {
-    $('form.activation-toggle').each(function(ii, el){
-      let $el = $(el);
-      if( $el.data('js-inited') != true) {
-        let toggle = new ActivationToggle({ el: $el });
-        $el.data('js-inited', true)
-      }
-    });
-  }
-
-  $.subscribe("activation:toggle", configureToggle);
+  $.subscribe("activation:toggle", function(){
+    setupOnce('form.activation-toggle', ActivationToggle);
+  });
 }());
 

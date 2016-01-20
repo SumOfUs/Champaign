@@ -8,6 +8,8 @@
 //   Twitter's typeahead: http://twitter.github.io/typeahead.js/
 //   - Use for autocompleting for setting the field's name value
 
+const setupOnce = require('setup_once');
+
 (function(){
   let CollectionEditor = Backbone.View.extend({
 
@@ -112,16 +114,8 @@
     }
   });
 
-  const configureCollections = function() {
-    $('.collection-editor').each(function(ii, el){
-      let $el = $(el);
-      if( $el.data('js-inited') != true) {
-        let editor = new CollectionEditor({ el: $el });
-        $el.data('js-inited', true)
-      }
-    });
-  }
-
-  $.subscribe("collection:edit:loaded", configureCollections);
+  $.subscribe("collection:edit:loaded", function(){
+    setupOnce('.collection-editor', CollectionEditor)
+  });
 }());
 
