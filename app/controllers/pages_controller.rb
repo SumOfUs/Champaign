@@ -53,6 +53,7 @@ class PagesController < ApplicationController
 
   def render_liquid(layout)
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
+    localize_by_page_language(@page)
     recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
     renderer = LiquidRenderer.new(@page, location: request.location, member: recognized_member, layout: layout, url_params: params)
     @rendered = renderer.render

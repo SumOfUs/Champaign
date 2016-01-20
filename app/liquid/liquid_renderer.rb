@@ -7,7 +7,6 @@ class LiquidRenderer
     @location = location
     @member = member
     @url_params = url_params
-    set_locale
   end
 
   def render

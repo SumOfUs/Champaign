@@ -54,13 +54,6 @@ describe LiquidRenderer do
           expect(I18n.t('common.save')).to eq 'Save'
         end
       end
-
-      it "changes the locale when it's supported" do
-        page.language = build :language, code: 'fr'
-        LiquidRenderer.new(page, layout: liquid_layout)
-        expect(I18n.locale).to eq :fr
-        expect(I18n.t('common.save')).to eq 'Enregistrer'
-      end
     end
   end
 
