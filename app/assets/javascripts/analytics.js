@@ -1,6 +1,11 @@
 "use strict";
+const  Y_AXIS_LABEL_LIMIT = 20;
 
 class AnalyticsDashboard {
+  static get yAxisLabelLimit() {
+    return Y_AXIS_LABEL_LIMIT;
+  }
+
   constructor () {
     this.barPadding   = 1;
     this.bottomMargin = 100;
@@ -57,8 +62,8 @@ class AnalyticsDashboard {
     let scaled  = this.scale(d.value),
         y       = this.height - scaled + 15;
 
-    if(scaled < 20 ) {
-      y -= 20;
+    if(scaled < AnalyticsDashboard.yAxisLabelLimit  ) {
+      y -= AnalyticsDashboard.yAxisLabelLimit;
     }
 
     return y;
