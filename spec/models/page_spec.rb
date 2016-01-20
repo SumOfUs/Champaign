@@ -317,7 +317,6 @@ describe Page do
 
       it 'keeps findable record of previous slugs' do
         titles.each do |title|
-          byebug
           expect( Page.find(title.parameterize) ).to eq(page)
         end
       end
