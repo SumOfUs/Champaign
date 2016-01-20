@@ -13,13 +13,16 @@
     background-image: url(asset-path('champaign/backgrounds/allende'));
   }
   &.photo-1 {
-    background-image: url(asset-path('champaign/backgrounds/signs'));
+    background-image: url(asset-path('champaign/backgrounds/climate'));
   }
   &.photo-2 {
     background-image: url(asset-path('champaign/backgrounds/crowd'));
   }
   &.photo-3 {
     background-image: url(asset-path('champaign/backgrounds/dune'));
+  }
+  &.photo-4 {
+    background-image: url(asset-path('champaign/backgrounds/signs'));
   }
 }
 .centered-overlay {
@@ -30,5 +33,5 @@
   margin: 90px auto 0;
   padding: 20px;
   position: relative;
-  padding-top: 70px;
+  padding-top: 90px;
 }
