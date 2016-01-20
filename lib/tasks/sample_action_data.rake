@@ -8,7 +8,7 @@ namespace :champaign do
     Redis.new.flushdb
 
     def new_member?
-      [true, false, false, false, false, false, false].sample
+      rand < 0.125
     end
 
     def seed_for_moment(page_id, multiplier = 1)
