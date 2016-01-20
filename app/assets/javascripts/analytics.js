@@ -140,7 +140,7 @@ class AnalyticsDashboard {
   }
 }
 
-class Dashboard {
+class Conductor {
   constructor (id, chart) {
     this.id         = id;
     this.chart      = chart;
@@ -191,7 +191,7 @@ module.exports = {
   makeDashboard (pageId) {
     var shortChartSVG = d3.select("#analytics-dashboard .short-view .chart"),
         chart         = new AnalyticsDashboard(),
-        d             = new Dashboard(pageId, chart);
+        d             = new Conductor(pageId, chart);
 
     d.getData( (data) => {
       chart.width     = 650;
