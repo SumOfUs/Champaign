@@ -1,9 +1,9 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  def initialize(page, layout: nil, location: nil, member: nil, url_params: {})
+  def initialize(page, layout:, location: nil, member: nil, url_params: {})
     @page = page
-    @markup = layout.content unless layout.blank?
+    @layout = layout
     @location = location
     @member = member
     @url_params = url_params
@@ -16,15 +16,7 @@ class LiquidRenderer
   end
 
   def template
-    @template ||= Liquid::Template.parse(markup)
-  end
-
-  def markup
-    @markup ||= @page.liquid_layout ? @page.liquid_layout.content : default_markup
-  end
-
-  def default_markup
-    File.read("#{Rails.root}/app/liquid/views/layouts/generic.liquid")
+    @template ||= Liquid::Template.parse(@layout.content)
   end
 
   def data
@@ -92,7 +84,7 @@ class LiquidRenderer
   end
 
   def cache_key
-    "rendered_liquid:#{@page.cache_key}:#{@page.liquid_layout.cache_key}"
+    "rendered_liquid:#{@page.cache_key}:#{@layout.cache_key}"
   end
 end
 
