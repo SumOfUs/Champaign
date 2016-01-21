@@ -40,12 +40,29 @@
      share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
 
 # Braintree
-     braintree:
-       merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
-       public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
-       private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
-       environment: production
+      braintree:
+        merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
+        public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
+        private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
 
+        # on staging, we use sandbox, so this can't be 'production'
+        environment: <%= ENV['BRAINTREE_ENV'] %>
+
+        merchants:
+          EUR: 'SumOfUs_EUR' # might be 'sumofus2_EUR'
+          GBP: 'SumOfUs_GBP' # might be 'sumofus2_GBP'
+          USD: 'sumofus' # unsure
+          AUD: 'SumOfUs_AUD'
+          CAD: 'SumOfUs_CAD'
+          NZD: 'SumOfUs_NZD'
+
+        subscription_plans:
+          EUR: 'subscription_EUR'
+          GBP: 'subscription_GBP'
+          USD: 'subscription_USD'
+          AUD: 'subscription_AUD'
+          CAD: 'subscription_CAD'
+          NZD: 'subscription_NZD'
 
      redis:
        host: <%= ENV["REDIS_HOST"] %>
