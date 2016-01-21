@@ -79,6 +79,9 @@ gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
 gem 'typhoeus'
 
+# Gem for vanity urls
+gem 'friendly_id'
+
 # The Config gem is used as a way to easily access configuration variables without calling directly
 # to the ENV.
 gem 'config'
