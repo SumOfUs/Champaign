@@ -57,18 +57,27 @@ class PagesController < ApplicationController
   def render_liquid(layout)
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     localize_by_page_language(@page)
-    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-    renderer = LiquidRenderer.new(@page, location: request.location, member: recognized_member, layout: layout, url_params: params)
-    @rendered = renderer.render
-    @data = renderer.data
+
+    @rendered = renderer(layout).render
+    @data = renderer(layout).data
     render :show, layout: 'sumofus'
+  end
+
+  def renderer(layout)
+    @renderer ||= LiquidRenderer.new(@page, {
+      location: request.location,
+      member: recognized_member,
+      layout: layout,
+      url_params: params
+    })
+  end
+
+  def recognized_member
+    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
 
   def get_page
     @page = Page.find(params[:id])
-    # If an old id or a numeric id was used to find the record, then
-    # the request path will not match the post_path, and we should do
-    # a 301 redirect that uses the current friendly id.
   end
 
   def page_params
