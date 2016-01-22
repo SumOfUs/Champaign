@@ -28,7 +28,7 @@ class LiquidPartial < ActiveRecord::Base
   end
 
   def invalidate_cache
-    Rails.cache.clear
+    Rails.cache.delete_matched("rendered_liquid*")
   end
 end
 

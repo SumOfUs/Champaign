@@ -7,7 +7,7 @@ describe LiquidPartial do
   subject{ partial }
 
   before do
-    allow(Rails.cache).to receive(:clear)
+    allow(Rails.cache).to receive(:delete_matched)
   end
 
   it { is_expected.to respond_to :title }
@@ -157,7 +157,7 @@ describe LiquidPartial do
 
   context 'saving' do
     it 'clears the cache' do
-      expect(Rails.cache).to receive(:clear).twice
+      expect(Rails.cache).to receive(:delete_matched).with('rendered_liquid*').twice
       partial.save
     end
   end
