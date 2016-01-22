@@ -245,6 +245,24 @@ describe LiquidRenderer do
       end
     end
 
+    describe 'cache_key' do
+
+      let(:renderer){ LiquidRenderer.new(page, layout: liquid_layout) }
+
+      it 'has the cache key prefix' do
+        expect(renderer.send(:cache_key)).to start_with(LiquidRenderer::CACHE_KEY_PREFIX)
+      end
+
+      it 'uses the cache keys of the page and layout' do
+        allow(page).to receive(:cache_key)
+        allow(liquid_layout).to receive(:cache_key)
+        renderer.send(:cache_key)
+        expect(page).to have_received(:cache_key)
+        expect(liquid_layout).to have_received(:cache_key)
+      end
+
+    end
+
   end
 
 end

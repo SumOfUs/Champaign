@@ -1,6 +1,8 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
+  CACHE_KEY_PREFIX = "rendered_liquid"
+
   def initialize(page, layout:, location: nil, member: nil, url_params: {})
     @page = page
     @layout = layout
@@ -84,7 +86,7 @@ class LiquidRenderer
   end
 
   def cache_key
-    "rendered_liquid:#{@page.cache_key}:#{@layout.cache_key}"
+    "#{CACHE_KEY_PREFIX}:#{@page.cache_key}:#{@layout.cache_key}"
   end
 end
 

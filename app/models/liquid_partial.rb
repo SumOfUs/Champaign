@@ -28,7 +28,8 @@ class LiquidPartial < ActiveRecord::Base
   end
 
   def invalidate_cache
-    Rails.cache.delete_matched("rendered_liquid*")
+    # THIS ONLY CLEARS THE CACHE IN REDIS.
+    Rails.cache.delete_matched("#{LiquidRenderer::CACHE_KEY_PREFIX}*")
   end
 end
 
