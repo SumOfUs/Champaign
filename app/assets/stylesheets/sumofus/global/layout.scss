@@ -9,6 +9,9 @@ html {
   @include legacy-pie-clearfix();
   @include centered-to-full(1080px);
 
+  &--accomodates-stuck-footer {
+    margin-bottom: 100px;
+  }
   &__big-column {
     width: 59%;
     margin-left: 4%;

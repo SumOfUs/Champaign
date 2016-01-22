@@ -21,6 +21,8 @@
     }
     .petition-bar__title {
       height: 67px;
+      @include box-sizing(border-box);
+      padding: 21px;
     }
     form, .petition-bar__petition-text, .thermometer {
       max-width: 300px;
