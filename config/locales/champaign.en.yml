@@ -33,6 +33,7 @@ en:
     created: 'Date Created'
     modified: 'Date Modified'
     amounts: 'Amounts'
+    delete: 'Delete'
 
   validation:
     is_required: 'is required'

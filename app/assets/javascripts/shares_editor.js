@@ -5,7 +5,8 @@ const setupOnce = require('setup_once');
   let SharesEditor = Backbone.View.extend({
 
     events: {
-      'click tr.shares-editor__summary-row': 'toggleEditor',
+      'click .shares-editor__delete-variant': 'deleteVariant',
+      'click .shares-editor__toggle-edit': 'toggleEditor',
       'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
       'ajax:success form.shares-editor__new-form': 'clearForm',
     },
@@ -17,6 +18,10 @@ const setupOnce = require('setup_once');
       // this is the kind of DOM hosuekeeping that makes me want to use react
       $.subscribe('image:success', this.addImageSelectors());
       $.subscribe('image:destroyed', this.pruneImageSelectors());
+    },
+
+    deleteVariant: function(){
+      console.log("TOGGLED DELETE")
     },
 
     toggleEditor: function(e) {
