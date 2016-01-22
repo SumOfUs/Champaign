@@ -17,7 +17,7 @@ class PluginsController < ApplicationController
   private
 
   def find_page
-    @page = Page.find params[:page_id]
+    @page = Page.find(params[:page_id])
   end
 end
 

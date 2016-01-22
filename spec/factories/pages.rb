@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :page do
-    title { Faker::Company.bs }
-    slug { Faker::Internet.slug(Faker::Lorem.sentence(10), '-') }
-    active true
+    title    { Faker::Company.bs }
+    slug     nil # Used by friendly_id  http://norman.github.io/friendly_id/
+    active   true
     featured false
     liquid_layout
     language

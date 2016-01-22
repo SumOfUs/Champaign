@@ -3,10 +3,13 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create, :follow_up]
-  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up]
+  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up, :analytics]
 
   def index
     @pages = Search::PageSearcher.new(params).search
+  end
+
+  def analytics
   end
 
   def new
@@ -22,7 +25,7 @@ class PagesController < ApplicationController
     @page = PageBuilder.create( page_params )
 
     if @page.valid?
-      redirect_to edit_page_path(@page)
+      redirect_to edit_page_path(@page.id)
     else
       render :new
     end
@@ -44,7 +47,7 @@ class PagesController < ApplicationController
         format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.js { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
+        format.js   { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
       end
     end
   end
@@ -63,6 +66,9 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find(params[:id])
+    # If an old id or a numeric id was used to find the record, then
+    # the request path will not match the post_path, and we should do
+    # a 301 redirect that uses the current friendly id.
   end
 
   def page_params
@@ -81,3 +87,4 @@ class PagesController < ApplicationController
       {:tag_ids => []} )
   end
 end
+
