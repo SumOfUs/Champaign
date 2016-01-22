@@ -9,3 +9,4 @@ tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
       = t('share.facebook.no_image')
   td = simple_format share.description
   td.shares-editor__toggle-cell = render 'share/btn_edit_share'
+  td = render 'share/btn_delete_share'
