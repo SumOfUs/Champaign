@@ -3,10 +3,13 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create, :follow_up]
-  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up]
+  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up, :analytics]
 
   def index
     @pages = Search::PageSearcher.new(params).search
+  end
+
+  def analytics
   end
 
   def new
@@ -15,14 +18,14 @@ class PagesController < ApplicationController
 
   def edit
     @variations = @page.shares
-    render :edit, layout: 'page_edit'
+    render :edit
   end
 
   def create
     @page = PageBuilder.create( page_params )
 
     if @page.valid?
-      redirect_to edit_page_path(@page)
+      redirect_to edit_page_path(@page.id)
     else
       render :new
     end
@@ -44,7 +47,7 @@ class PagesController < ApplicationController
         format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.js { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
+        format.js   { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
       end
     end
   end
@@ -55,18 +58,17 @@ class PagesController < ApplicationController
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     localize_by_page_language(@page)
     recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member, layout: layout, url_params: params)
+    renderer = LiquidRenderer.new(@page, location: request.location, member: recognized_member, layout: layout, url_params: params)
     @rendered = renderer.render
+    @data = renderer.data
     render :show, layout: 'sumofus'
   end
 
   def get_page
     @page = Page.find(params[:id])
-  end
-
-  def request_country
-    # when geocoder location API times out, request.location is blank
-    request.location.blank? ? nil : request.location.country_code
+    # If an old id or a numeric id was used to find the record, then
+    # the request path will not match the post_path, and we should do
+    # a 301 redirect that uses the current friendly id.
   end
 
   def page_params
@@ -85,3 +87,4 @@ class PagesController < ApplicationController
       {:tag_ids => []} )
   end
 end
+

@@ -66,7 +66,6 @@ describe LiquidLayout do
   end
 
   describe 'campaginer_friendly' do
-
     it 'only returns layouts with experimental: false' do
       l1 = create :liquid_layout, experimental: true
       l2 = create :liquid_layout, experimental: false
@@ -74,7 +73,6 @@ describe LiquidLayout do
       l4 = create :liquid_layout, experimental: false
       expect(LiquidLayout.campaigner_friendly).to match_array([l2, l4])
     end
-
   end
 end
 

@@ -1,10 +1,13 @@
 = form_for @liquid_layout, html: { class: 'template-form' } do |f|
   = render "shared/error_messages", target: @liquid_layout
   .form-group
-    = f.text_field :title, class: 'form-control', placeholder: 'Title'
+    = f.label :title
+    = f.text_field :title, class: 'form-control'
   .form-group
-    = f.text_field :description, class: 'form-control', placeholder: 'Description'
+    = f.label :description
+    = f.text_field :description, class: 'form-control'
   .form-group
+    = f.label :content, "Markup"
     = f.text_area :content, class: 'form-control syntax-highlighting'
   .checkbox
     = f.label :experimental

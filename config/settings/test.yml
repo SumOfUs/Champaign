@@ -58,3 +58,8 @@
        public_key:  "test_public_key"
        private_key:  "test_private_key"
 
+
+     redis:
+       host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
+       port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
+

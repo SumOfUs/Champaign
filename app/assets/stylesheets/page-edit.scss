@@ -9,7 +9,7 @@ body.page-edit-body {
   background-color: $page-edit-bar-color;
 }
 
-.page-edit-bar {
+.page-edit-bar, .sidebar {
   width: 20%;
   height: 100%;
   position: fixed;
@@ -30,11 +30,26 @@ body.page-edit-body {
     opacity: 0.9;
   }
 
+  &__group {
+    overflow: hidden;
+    @include transition (height 0.2s ease-out);
+    &--open {
+      height: 182px
+    }
+    &--closed {
+      height: 50px
+    }
+  }
+
   &__step-list {
     margin: 0;
     padding: 0;
 
     li {
+      border-top: 1px solid $save-box-color;
+      &:last-of-type {
+        border-bottom: 1px solid $save-box-color;
+      }
       a {
         width: 100%;
         display: block;
@@ -44,14 +59,25 @@ body.page-edit-body {
         @include box-sizing(border-box);
         color: $page-edit-text-color;
         @include transition(background-color 0.1s linear, color 0.1s linear);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
 
-        &:hover {
+        &:hover, &.active {
           background-color: $save-box-color;
           text-decoration: none;
           color: white;
         }
         &:focus {
           background-color: $page-edit-bar-color;
+        }
+        &.sidebar__secondary-link {
+          padding: 12px 15px 12px 36px;
+          background: black;
+          &:hover, &.active {
+            text-decoration: underline;
+          }
         }
 
         .fa {
@@ -73,6 +99,7 @@ body.page-edit-body {
     padding: 5px 15px;
     background: $save-box-color;
     text-align: center;
+    z-index: 200;
 
     &--has-error {
       background: maroon;
@@ -153,7 +180,28 @@ body.page-edit-body {
   }
 }
 
-.page-edit-step {
+
+
+.page-edit-step__title, .edit-block__title, .centered-overlay__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+
+  background-color: $bootstrap-bg-gray;
+  width: 100%;
+  padding: 20px 40px 15px;
+  border-bottom: 1px solid $bootstrap-border-gray;
+
+  text-align: left;
+  color: $page-edit-bar-color;
+  font-size: 30px;
+}
+.accomodates-sidebar {
+  width: 80%;
+  float: right;
+}
+.page-edit-step, .edit-block {
   width: 80%;
   float: right;
   background: white;
@@ -162,21 +210,6 @@ body.page-edit-body {
   margin: 0 0 30px;
   position: relative;
 
-  &__title {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-
-    background-color: $bootstrap-bg-gray;
-    width: 100%;
-    padding: 20px 40px 15px;
-    border-bottom: 1px solid $bootstrap-border-gray;
-
-    text-align: left;
-    color: $page-edit-bar-color;
-    font-size: 30px;
-  }
   &--just-title {
     padding: 35px;
   }
@@ -198,20 +231,23 @@ body.page-edit-body {
   }
 }
 @media(max-width: 600px) {
-  .page-edit-bar {
+  .page-edit-bar, .sidebar {
     width: 100%;
     position: relative;
-    &__step-list {
-      padding: 0 0 200px 10px;
-    }
   }
-  .page-edit-step {
+  .page-edit-bar__step-list {
+    padding: 0 0 200px 10px;
+  }
+  .page-edit-step, .edit-block {
     width: 100%;
     padding: 80px 20px 20px;
     overflow: scroll;
   }
   .shares-editor {
     overflow: scroll;
+  }
+  .accomodates-sidebar {
+    width: 100%;
   }
 }
 
@@ -308,7 +344,6 @@ body.page-edit-body {
   color: $page-edit-text-color;
   margin: 0;
   padding: 0 40px 0 0;
-  height: 50px;
   z-index: 200;
   .nav > li > a {
     color: $page-edit-text-color;
@@ -318,6 +353,15 @@ body.page-edit-body {
       background-color: $save-box-color;
       color: white;
     }
+  }
+  .icon-bar {
+    background-color: white;
+  }
+  @media(min-width: 600px) {
+    height: 50px;
+  }
+  @media(max-width: 600px) {
+    padding-right: 0;
   }
 }
 

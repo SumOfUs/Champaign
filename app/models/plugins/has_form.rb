@@ -2,8 +2,8 @@ module Plugins::HasForm
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :form
     before_create :create_form
+    has_one :form, as: :formable
   end
 
   def form_fields
@@ -17,7 +17,7 @@ module Plugins::HasForm
   def outstanding_fields(form_values)
     return [] if form.blank?
     FormValidator.new(
-      {form_id: form_id}.merge(form_values || {})
+      {form_id: form.id}.merge(form_values || {})
     ).errors.keys
   end
 

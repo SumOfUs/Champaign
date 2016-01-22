@@ -13,9 +13,13 @@ const PetitionBar = Backbone.View.extend(_.extend(
     'ajax:success form.action': 'handleSuccess',
   },
 
-  initialize: function() {
+  // options: object with any of the following keys
+  //    outstandingFields: the names of step 2 form fields that can't be prefilled
+  //    member: an object with fields that will prefill the form
+  initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
+    this.initializePrefill(options);
     this.expandBlurb();
     if (!this.$el.hasClass('stuck-right')){
       this.initializeSticky();
@@ -25,7 +29,18 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  handleSuccess: function(e, data) {
+  initializePrefill(options) {
+    if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
+      this.completePrefill(options.member);
+      if (this.formFieldCount() > 0) {
+        this.showFormClearer('petition', options.member);
+      }
+    } else {
+      this.partialPrefill(options.member, options.outstandingFields);
+    }
+  },
+
+  handleSuccess(e, data) {
     this.clearFormErrors();
     if (data.follow_up_url) {
       window.location.href = data.follow_up_url
@@ -35,7 +50,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  isMobile: function() {
+  isMobile() {
     return $('.mobile-indicator').is(':visible');
   },
 

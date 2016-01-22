@@ -46,10 +46,11 @@ RSpec.describe LiquidPartialsController, type: :controller do
   end
 
   describe "GET #show" do
-    it "assigns the requested liquid_partial as @liquid_partial" do
+    it "is not a route" do
       liquid_partial = LiquidPartial.create! valid_attributes
-      get :show, {:id => liquid_partial.to_param}, valid_session
-      expect(assigns(:liquid_partial)).to eq(liquid_partial)
+      expect {
+        get :show, {:id => liquid_partial.to_param}
+      }.to raise_error ActionController::UrlGenerationError
     end
   end
 

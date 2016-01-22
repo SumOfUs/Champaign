@@ -1,6 +1,8 @@
 module Donations
   module Utils
     extend self
+    EURO_COUNTRY_CODES = [:AL, :AD, :AT, :BY, :BE, :BA, :BG, :HR, :CY, :CZ, :DK, :EE, :FO, :FI, :FR, :DE, :GI, :GR, :HU, :IS, :IE, :IT, :LV, :LI, :LT, :LU, :MK, :MT, :MD, :MC, :NL, :NO, :PL, :PT, :RO, :RU, :SM, :RS, :SK, :SI, :ES, :SE, :CH, :UA, :VA, :RS, :IM, :RS, :ME]
+    DEFAULT_CURRENCY = 'USD'
 
     def round_and_dedup(values)
       deduplicate(round(values))
@@ -30,6 +32,17 @@ module Donations
         safe << misfit
       end
       safe.sort
+    end
+
+    def currency_from_country_code(country_code)
+      return 'EUR' if EURO_COUNTRY_CODES.include?(country_code.to_s.to_sym)
+      {
+        US: 'USD',
+        GB: 'GBP',
+        NZ: 'NZD',
+        AU: 'AUD',
+        CA: 'CAD'
+      }[country_code.to_s.to_sym] || DEFAULT_CURRENCY
     end
   end
 end

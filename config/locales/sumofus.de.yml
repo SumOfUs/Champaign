@@ -29,12 +29,12 @@ de:
       expiration_format: MM/JJ
       postalCode: Postleitzahl
   petition:
-    sign_it: Unterschreiben Sie die Petition
+    sign_it: Petition Unterschreiben
     target_prefix: AN
     confirmation: Ihr Name wurde übermittelt
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
   form:
-    welcome_back: Willkommen zurück!
+    welcome_back: Willkommen zurück
     switch_user: Das sind nicht Sie?
     processing: In Bearbeitung...
     submit: Abschicken

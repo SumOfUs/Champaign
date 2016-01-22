@@ -16,7 +16,7 @@ describe 'Localization for pages' do
       get "/pages/#{page.id}"
       expect(response).to be_successful
       expect(I18n.locale).to eq locale
-      get "/"
+      get "/users/sign_in"
       expect(response).to be_successful
       expect(I18n.locale).to eq I18n.default_locale
     end
@@ -24,7 +24,7 @@ describe 'Localization for pages' do
   end
 
   it "uses default locale for a page where localization isn't required" do
-    get "/"
+    get "/users/sign_in"
     expect(response).to be_successful
     expect(I18n.locale).to eq I18n.default_locale
   end

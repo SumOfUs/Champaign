@@ -1,4 +1,8 @@
-.row
-  .col-md-12
-    h3 New Partial
-    == render 'form'
+= render 'shared/sidebar', action: :new, resource: :liquid_partials
+
+.edit-block
+  h1.edit-block__title New Partial
+
+  .row
+    .col-md-12
+      == render 'form'

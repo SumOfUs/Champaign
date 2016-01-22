@@ -1,7 +1,9 @@
 = form_for @liquid_partial, html: { class: 'template-form' } do |f|
   .form-group
+    = f.label :title
     = f.text_field :title,  class: 'form-control'
   .form-group
+    = f.label :content, "Markup"
     = f.text_area :content, class: 'form-control syntax-highlighting'
 
   .form-group

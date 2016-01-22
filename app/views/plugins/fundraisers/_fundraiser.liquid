@@ -63,7 +63,8 @@
           </div>
           <div class="fundraiser-bar__step-panel form--big" data-step="3">
             <div class="fundraiser-bar__welcome-text hidden-irrelevant">
-              {{ 'form.welcome_back' | t }}, {{member.welcome_name}}! <br />
+              {{ 'form.welcome_back' | t }},
+              <span class="fundraiser-bar__welcome-name"></span>! <br />
               <a href="javascript:;" class=" fundraiser-bar__clear-form">{{ 'form.switch_user' | t }}</a>
             </div>
             <form action='/' id="hosted-fields">
@@ -89,7 +90,7 @@
                   </label>
                 </div>
               </div>
-              <button type="submit" class="button fundraiser-bar__submit-button">Submit</button>
+              <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
             </form>
           </div>
         </div>
@@ -104,13 +105,14 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        var myFundraiserBar = new window.FundraiserBar({
+        window.sumofus.myFundraiserBar = new window.sumofus.FundraiserBar({
           pageId:           "{{ id }}",
           followUpUrl:      "{{ follow_up_url }}",
-          currency:         "{{ guessed_currency }}",
-          donationBands:    {{ plugins.fundraiser[ref].donation_bands }},
-          amount:           {% if url_params['amount'] == blank %} 0 {% else %} {{ url_params['amount'] }}{% endif %},
-          outstandingFields:{{ plugins.fundraiser[ref].outstanding_fields.size }}
+          currency:         window.sumofus.personalization.urlParams.currency || window.sumofus.personalization.location.currency,
+          donationBands:    window.sumofus.personalization.donationBands,
+          amount:           window.sumofus.personalization.urlParams.amount,
+          member:           window.sumofus.personalization.member,
+          outstandingFields:window.sumofus.personalization.outstandingFields
         });
       });
     </script>

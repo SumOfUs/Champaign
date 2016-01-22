@@ -1,3 +1,6 @@
-h3 = @campaign.name
+= render 'shared/sidebar', action: :edit, id: @campaign.id, resource: :campaigns
 
-= render 'form'
+.edit-block
+  h1.edit-block__title= @campaign.name
+
+  = render 'form'

@@ -1,48 +1,70 @@
 # Production Settings for Champaign
 
 # General Champaign settings.
-     secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
-     omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
-     omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
-     liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'store' %>
-     oauth_domain_whitelist:
-       - 'sumofus.org'
+secret_key_base: <%= ENV['SECRET_KEY_BASE'] %>
+omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
+omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
+liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'store' %>
+oauth_domain_whitelist:
+  - 'sumofus.org'
 
 
 # AWS Config Variables.
-     aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-     aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
-     aws_region: <%= ENV['AWS_REGION'] %>
-     sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
-     s3_host_name: <%= ENV['S3_HOST_NAME'] %>
-     ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
+aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+aws_region: <%= ENV['AWS_REGION'] %>
+sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
+s3_host_name: <%= ENV['S3_HOST_NAME'] %>
+ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
 
 
 # Direct ActionKit Connection variables.
-     ak_api_url: <%= ENV['AK_API_URL'] %>
-     ak_username: <%= ENV['AK_USERNAME'] %>
-     ak_password: <%= ENV['AK_PASSWORD'] %>
+ak_api_url: <%= ENV['AK_API_URL'] %>
+ak_username: <%= ENV['AK_USERNAME'] %>
+ak_password: <%= ENV['AK_PASSWORD'] %>
 
 
 # CloudFront config Variables.
-     cloudfront_url: <%= ENV['CLOUDFRONT_URL'] %>
-     s3_asset_bucket: <%= ENV['S3_ASSET_BUCKET'] %>
-     rails_serve_static_assets: <%= ENV['RAILS_SERVE_STATIC_ASSETS'] %>
-     compile_static: <%= ENV['COMPILE_STATIC'] %>
+cloudfront_url: <%= ENV['CLOUDFRONT_URL'] %>
+s3_asset_bucket: <%= ENV['S3_ASSET_BUCKET'] %>
+rails_serve_static_assets: <%= ENV['RAILS_SERVE_STATIC_ASSETS'] %>
+compile_static: <%= ENV['COMPILE_STATIC'] %>
 
 
 # NewRelic Connection information.
-     newrelic_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
+newrelic_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
 
 
 # Social media connection information.
-     facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
-     share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
+facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
+share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
 
 # Braintree
-     braintree:
-       merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
-       public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
-       private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
-       environment: production
+braintree:
+  merchant_id: <%= ENV['BRAINTREE_MERCHANT_ID'] %>
+  public_key: <%= ENV['BRAINTREE_PUBLIC_KEY'] %>
+  private_key: <%= ENV['BRAINTREE_PRIVATE_KEY'] %>
+
+  # on staging, we use sandbox, so this can't be 'production'
+  environment: <%= ENV['BRAINTREE_ENV'] %>
+
+  merchants:
+    EUR: 'sumofus2_EUR' # for irish account. 'SumOfUs_EUR' for USA
+    GBP: 'sumofus2_GBP' # for irish account. 'SumOfUs_GBP' for USA
+    USD: 'sumofus'
+    AUD: 'SumOfUs_AUD'
+    CAD: 'SumOfUs_CAD'
+    NZD: 'SumOfUs_NZD'
+
+  subscription_plans:
+    EUR: 'EUR'
+    GBP: 'GBP'
+    USD: '1'
+    AUD: 'AUD'
+    CAD: 'CAD'
+    NZD: 'NZD'
+
+redis:
+  host: <%= ENV["REDIS_HOST"] %>
+  port: <%= ENV["REDIS_PORT"] %>
 

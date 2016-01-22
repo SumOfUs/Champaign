@@ -14,6 +14,7 @@
 //= require_directory ./plugins
 
 require("sumofus/scroll");
-window.PetitionBar = require('sumofus/backbone/petition_bar');
-window.FundraiserBar = require('sumofus/backbone/fundraiser_bar');
-window.CampaignerOverlay = require('sumofus/backbone/campaigner_overlay');
+window.sumofus = {};
+window.sumofus.PetitionBar = require('sumofus/backbone/petition_bar');
+window.sumofus.FundraiserBar = require('sumofus/backbone/fundraiser_bar');
+window.sumofus.CampaignerOverlay = require('sumofus/backbone/campaigner_overlay');

@@ -1,3 +1,5 @@
+const setupOnce = require('setup_once');
+
 (function(){
 
   let SharesEditor = Backbone.View.extend({
@@ -83,15 +85,7 @@
 
   });
 
-  const configureShares = function() {
-    $('.shares-editor').each(function(ii, el){
-      let $el = $(el);
-      if( $el.data('js-inited') != true) {
-        let editor = new SharesEditor({ el: $el });
-        $el.data('js-inited', true)
-      }
-    });
-  }
-
-  $.subscribe("shares:edit", configureShares);
+  $.subscribe("shares:edit", function(){
+    setupOnce('.shares-editor', SharesEditor);
+  });
 }());

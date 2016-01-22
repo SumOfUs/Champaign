@@ -1,0 +1,8 @@
+- if flash[:error]
+  .alert.alert-dismissible.alert-danger.accomodates-sidebar
+    button type='button' class='close' data-dismiss='alert' x
+    strong #{flash[:error]}
+- if flash[:notice]
+  .alert.alert-dismissible.alert-success.accomodates-sidebar
+    button type='button' class='close' data-dismiss='alert' x
+    strong #{flash[:notice]}

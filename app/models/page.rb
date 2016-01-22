@@ -1,7 +1,5 @@
-require 'render_anywhere'
-
 class Page < ActiveRecord::Base
-  include RenderAnywhere
+  extend FriendlyId
   has_paper_trail
 
   belongs_to :language
@@ -10,28 +8,19 @@ class Page < ActiveRecord::Base
   belongs_to :secondary_liquid_layout, class_name: 'LiquidLayout'
   belongs_to :primary_image, class_name: 'Image'
 
-  has_many :pages_tags, dependent: :destroy
   has_many :tags, through: :pages_tags
   has_many :actions
-  has_many :images, dependent: :destroy
-  has_many :links, dependent: :destroy
+  has_many :pages_tags, dependent: :destroy
+  has_many :images,     dependent: :destroy
+  has_many :links,      dependent: :destroy
 
-  validates :title, :slug, presence: true, uniqueness: true
+  validates :title, presence: true, uniqueness: true
   validates :liquid_layout, presence: true
-  validate :primary_image_is_owned
+  validate  :primary_image_is_owned
 
-  before_validation :create_slug
   after_save :switch_plugins
 
-  # have we thought about using friendly id? probably better
-  def create_slug
-    self.slug = title.parameterize if slug.nil? and not title.nil?
-  end
-
-  # Compiles the HTML for this Page so that it can be used by external display apps.
-  def compile_html
-    PageRenderer.new(self).render_and_save
-  end
+  friendly_id :title, use: [:finders, :slugged]
 
   def liquid_data
     attributes.merge(link_list: links.map(&:attributes))

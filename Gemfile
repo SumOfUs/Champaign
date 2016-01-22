@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.3.0'
 
 gem 'rails', '4.2.5'
+gem 'redis'
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -54,10 +55,6 @@ gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
 gem 'action_parameter'
 
-# We need to use render inside a model in order to compile HTML for display
-# in champaign-flute.
-gem 'render_anywhere', require: false
-
 # AWS SDK for Ruby
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'
@@ -77,6 +74,9 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
 gem 'typhoeus'
+
+# Gem for vanity urls
+gem 'friendly_id'
 
 # The Config gem is used as a way to easily access configuration variables without calling directly
 # to the ENV.
@@ -140,5 +140,14 @@ source 'https://rails-assets.org' do
 
   # for js testing
   gem 'rails-assets-chai-jquery'
+
+  # A JavaScript visualization library for HTML and SVG.
+  gem 'rails-assets-d3'
+
+  # Transition numbers with ease
+  gem 'rails-assets-odometer'
+
+  # Parse, validate, manipulate, and display dates in javascript.
+  gem 'rails-assets-moment'
 end
 

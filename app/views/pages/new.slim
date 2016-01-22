@@ -1,39 +1,43 @@
-h2 = t('.title')
+= render "sidebar", action: :new
 
-= form_for @page, class: '' do |f|
-  = render 'shared/error_messages', target: @page
+.edit-block
+  h1.edit-block__title= t('.title')
 
-  .form-group
-    = f.text_field :title, class: 'form-control', placeholder: t('.title_label')
+  = form_for @page, class: '' do |f|
+    = render 'shared/error_messages', target: @page
 
-  .form-group.slug-field style='display:none;'
     .form-group
-      .alert.alert-warning
-        strong Whoops!
-        |  Your slug isn't available. Please pick another.
+      = f.label :title, t('.title_label')
+      = f.text_field :title, class: 'form-control'
 
-    .form-inline
-      .form-group.slug
-        = f.text_field :slug, class: 'form-control', placeholder: t('.slug_label')
-        span.glyphicon.glyphicon-ok.form-control-feedback
-        span.glyphicon.glyphicon-remove.form-control-feedback
-
+    .form-group.slug-field style='display:none;'
       .form-group
-        = link_to 'Check if name is available', '#', class: 'btn btn-default', id: 'check_slug_available'
+        .alert.alert-warning
+          strong Whoops!
+          |  Your slug isn't available. Please pick another.
 
-  .form-group
-    = f.label :language_id, t('pages.edit.language_label')
-    = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, {}, class: "form-control"
+      .form-inline
+        .form-group.slug
+          = f.text_field :slug, class: 'form-control', placeholder: t('.slug_label')
+          span.glyphicon.glyphicon-ok.form-control-feedback
+          span.glyphicon.glyphicon-remove.form-control-feedback
 
-  .form-group
-    = f.label :liquid_layout_id, t('.layout_select')
-    .layout-settings
-      = render 'layout_select', field: :liquid_layout_id, f: f
+        .form-group
+          = link_to 'Check if name is available', '#', class: 'btn btn-default', id: 'check_slug_available'
 
-  .form-group
-    = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary submit-new-page'
-    span.loading style='display:none;'
-      span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+    .form-group
+      = f.label :language_id, t('pages.edit.language_label')
+      = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, {}, class: "form-control"
+
+    .form-group
+      = f.label :liquid_layout_id, t('.layout_select')
+      .layout-settings
+        = render 'layout_select', field: :liquid_layout_id, f: f
+
+    .form-group
+      = f.submit t('common.lets_go'), class: 'btn btn-sm btn-primary submit-new-page'
+      span.loading style='display:none;'
+        span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
 
 javascript:
   $.publish("pages:new");

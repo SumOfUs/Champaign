@@ -47,10 +47,11 @@ describe LiquidLayoutsController do
   end
 
   describe "GET #show" do
-    it "assigns the requested liquid_layout as @liquid_layout" do
+    it "is not a route" do
       liquid_layout = LiquidLayout.create! valid_attributes
-      get :show, {:id => liquid_layout.to_param}
-      expect(assigns(:liquid_layout)).to eq(liquid_layout)
+      expect {
+        get :show, {:id => liquid_layout.to_param}
+      }.to raise_error ActionController::UrlGenerationError
     end
   end
 

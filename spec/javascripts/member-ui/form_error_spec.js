@@ -13,10 +13,7 @@ describe("Inline form errors", function() {
   beforeEach(function(){
     MagicLamp.wish("pages/petition");
     suite.server = sinon.fakeServer.create();
-    suite.server.respondWith("GET", '/api/braintree/token',
-                            [200, { "Content-Type": "application/json" },
-                            '{ "token": "'+helpers.btClientToken+'" }' ]);
-    suite.petitionBar = new window.PetitionBar(); // binds the form events
+    suite.petitionBar = new window.sumofus.PetitionBar(); // binds the form events
   });
 
   afterEach(function(){

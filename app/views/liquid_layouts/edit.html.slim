@@ -1,5 +1,9 @@
-.row
-  .col-md-12
-    h3 Edit Template
-    == render 'form'
+= render 'shared/sidebar', action: :edit, id: @liquid_layout.id, resource: :liquid_layouts
+
+.edit-block
+  h1.edit-block__title Edit Template
+
+  .row
+    .col-md-12
+      = render 'form'
 

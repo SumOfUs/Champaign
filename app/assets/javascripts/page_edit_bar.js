@@ -34,9 +34,7 @@ let PageEditBar = Backbone.View.extend({
 
   initialize: function() {
     this.outstandingSaveRequest = false;
-    $('.page-edit-step').each((ii, step) => {
-      this.addStepToSidebar($(step));
-    });
+    this.addStepsToSidebar();
     this.model = new PageModel();
     this.setupAutosave();
     this.$saveBtn = this.$('.page-edit-bar__save-button');
@@ -45,6 +43,15 @@ let PageEditBar = Backbone.View.extend({
 
   isMobile: function() {
     return $('.mobile-indicator').is(':visible');
+  },
+
+  addStepsToSidebar: function() {
+    const $existing = $('ul.page-edit-bar__step-list li');
+    $('.page-edit-step').each((ii, step) => {
+      this.addStepToSidebar($(step));
+    });
+    $existing.remove();
+    this.$('ul.page-edit-bar__step-list').append($existing);
   },
 
   addStepToSidebar: function($step) {
