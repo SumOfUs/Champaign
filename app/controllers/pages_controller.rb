@@ -57,9 +57,7 @@ class PagesController < ApplicationController
   def render_liquid(layout)
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
     localize_by_page_language(@page)
-    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member, layout: layout, url_params: params)
-    @rendered = renderer.render
+    @rendered = renderer(layout).render
     render :show, layout: 'sumofus'
   end
 
@@ -72,7 +70,20 @@ class PagesController < ApplicationController
 
   def request_country
     # when geocoder location API times out, request.location is blank
-    request.location.blank? ? nil : request.location.country_code
+    @request_country ||= request.location.try(:country_code)
+  end
+
+  def renderer(layout)
+    @renderer ||= LiquidRenderer.new(@page, {
+      request_country:  request_country,
+      member:           recognized_member,
+      layout:           layout,
+      url_params:       params
+    })
+  end
+
+  def recognized_member
+    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
 
   def page_params
