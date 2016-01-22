@@ -19,6 +19,29 @@ describe Form do
     end
   end
 
+  describe "polymorphically associated with plugins" do
+    it 'assciates' do
+      petition = create(:plugins_fundraiser)
+      form = create(:form)
+
+      form.update(formable: petition)
+
+      expect(form.reload.formable).to eq(petition)
+      expect(form.formable_id).to     eq(petition.id)
+      expect(petition.reload.form).to eq(form)
+    end
+
+    it 'associates the other way' do
+      petition = create(:plugins_fundraiser)
+      form = create(:form)
+
+      petition.update(form:form)
+
+      expect(petition.reload.form).to eq(form)
+      expect(form.formable).to eq(petition)
+    end
+  end
+
   describe 'validations' do
     context 'name' do
       it "must be present" do

@@ -1,7 +1,7 @@
 include ActionView::Helpers::NumberHelper
 
 class Plugins::Thermometer < ActiveRecord::Base
-  belongs_to :page
+  belongs_to :page, touch: true
 
   DEFAULTS = { offset: 0, goal: 100 }
 

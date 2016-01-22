@@ -1,8 +1,5 @@
-require 'render_anywhere'
-
 class Page < ActiveRecord::Base
   extend FriendlyId
-  include RenderAnywhere
   has_paper_trail
 
   belongs_to :language
@@ -24,11 +21,6 @@ class Page < ActiveRecord::Base
   after_save :switch_plugins
 
   friendly_id :title, use: [:finders, :slugged]
-
-  # Compiles the HTML for this Page so that it can be used by external display apps.
-  def compile_html
-    PageRenderer.new(self).render_and_save
-  end
 
   def liquid_data
     attributes.merge(link_list: links.map(&:attributes))

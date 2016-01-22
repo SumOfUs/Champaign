@@ -96,11 +96,15 @@ ActiveRecord::Schema.define(version: 20160118124847) do
   create_table "forms", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.boolean  "visible",     default: false
-    t.boolean  "master",      default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.boolean  "visible",       default: false
+    t.boolean  "master",        default: false
+    t.integer  "formable_id"
+    t.string   "formable_type"
   end
+
+  add_index "forms", ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id", using: :btree
 
   create_table "images", force: :cascade do |t|
     t.string   "content_file_name"

@@ -5,11 +5,12 @@ describe PagesController do
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
   let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4', language: default_language) }
-  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html') }
+  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', data: { some: 'data'}) }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
+    allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
   end
 
   describe 'GET #index' do
@@ -117,7 +118,7 @@ describe PagesController do
       get :show, id: '1'
 
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
+        location: {},
         member: nil,
         layout: page.liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
@@ -201,7 +202,7 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
+        location: {},
         member: nil,
         layout: page.secondary_liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}

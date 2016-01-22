@@ -9,6 +9,11 @@ module PagesHelper
     end
   end
 
+  def serialize(data, field)
+    hash = HashWithIndifferentAccess.new(data)
+    (hash[field].nil? ? {} : hash[field]).to_json.html_safe
+  end
+
   def prefill_link(new_variant)
     new_variant.description = "{LINK}" if new_variant.name == 'twitter'
     new_variant.body = "{LINK}" if new_variant.name == 'email'

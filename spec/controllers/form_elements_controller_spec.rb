@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe FormElementsController do
   let(:element) { instance_double('FormElement', valid?: true) }
+  let(:form) { instance_double('Form') }
 
   describe 'POST #create' do
-    let(:form) { instance_double('Form') }
     let(:params) { { label: "Label", data_type: 'text', required: true } }
 
     before do
@@ -28,6 +28,25 @@ describe FormElementsController do
       end
     end
   end
+
+  describe "POST #sort" do
+    before do
+      allow(Form).to receive(:find){ form }
+      allow(form).to receive(:touch)
+      allow(form).to receive(:form_elements){ [] }
+
+      post :sort, form_id: '1', form_element_ids: ''
+    end
+
+    it 'finds form' do
+      expect(Form).to have_received(:find).with('1')
+    end
+
+    it 'touches form' do
+      expect(form).to have_received(:touch)
+    end
+  end
+
 
   describe "DELETE #destroy" do
     before do

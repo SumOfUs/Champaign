@@ -55,10 +55,6 @@ gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
 gem 'action_parameter'
 
-# We need to use render inside a model in order to compile HTML for display
-# in champaign-flute.
-gem 'render_anywhere', require: false
-
 # AWS SDK for Ruby
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'

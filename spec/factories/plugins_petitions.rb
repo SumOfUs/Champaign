@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :plugins_petition, :class => 'Plugins::Petition' do
+  factory :plugins_petition, class: 'Plugins::Petition' do
     page nil
     active false
     form nil
