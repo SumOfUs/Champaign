@@ -1,7 +1,7 @@
 .col-md-12
   form action='/pages' method='get'
-    legend Filter your view to include pages that ...
-    .form-group
+    legend Only show pages that...
+    .page-filter__row
       / pass params[:search] that contains all search options for filtering.
       = label_tag 'search[content_search]', 'Contain the following text: ', class: 'control-label col-lg-3'
       .col-lg-3
@@ -11,7 +11,7 @@
       .col-lg-3
         = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'name'),
                      html_options= {class: 'selectize-container', multiple: true}
-
+    .page-filter__row
       = label_tag 'search[layout]', 'Use one of these layouts:', class: 'control-label col-lg-3'
       .col-lg-3
         = select_tag 'search[layout]', options_from_collection_for_select(LiquidLayout.all, 'id', 'title'),
@@ -21,7 +21,7 @@
       .col-lg-3
         = select_tag 'search[language]', options_from_collection_for_select(Language.all, 'id', 'name'),
                      html_options= {:class => 'selectize-container', multiple: true}
-
+    .page-filter__row
       = label_tag 'search[tags]', 'Contain all of these tags:', class: 'control-label col-lg-3'
       .col-lg-3
         = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'name'),
@@ -33,4 +33,4 @@
                      html_options= {class: 'selectize-container', multiple: true}
 
       .col-md-12
-        = submit_tag 'Go!', class: 'btn btn-info btn-sm', id: 'search_button'
+        = submit_tag 'Filter by these criteria', class: 'btn btn-primary page-filter__submit', id: 'search_button'

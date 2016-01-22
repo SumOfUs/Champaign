@@ -11,3 +11,23 @@
     margin-bottom: 20px;
   }
 }
+
+.page-filter {
+  &__row {
+    margin-bottom: 5px;
+    @include legacy-pie-clearfix();
+  }
+  &__title {
+    overflow: hidden;
+    padding-bottom: 5px;
+    i, span {
+      margin-right: 5px;
+      font-size: 20px;
+    }
+  }
+  &__submit {
+    float: left;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
+}
