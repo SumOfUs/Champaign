@@ -2,10 +2,12 @@ class LiquidPartial < ActiveRecord::Base
   include HasLiquidPartials
   has_paper_trail
 
-  validates :title, presence: true, allow_blank: false
+  validates :title,   presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false
 
   validate :one_plugin
+
+  after_save :invalidate_cache
 
   def plugin_name
     LiquidTagFinder.new(content).plugin_names[0]
@@ -25,4 +27,8 @@ class LiquidPartial < ActiveRecord::Base
     end
   end
 
+  def invalidate_cache
+    Rails.cache.clear
+  end
 end
+

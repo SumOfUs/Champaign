@@ -1,10 +1,14 @@
 require 'rails_helper'
 
 describe LiquidPartial do
-  
+
   let(:partial) { create(:liquid_partial) }
 
   subject{ partial }
+
+  before do
+    allow(Rails.cache).to receive(:clear)
+  end
 
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :content }
@@ -149,8 +153,13 @@ describe LiquidPartial do
       p2 = create :liquid_partial
       expect(LiquidPartial.missing_partials([p1.title, 'lies', p2.title])).to eq ['lies']
     end
-
   end
 
-
+  context 'saving' do
+    it 'clears the cache' do
+      expect(Rails.cache).to receive(:clear).twice
+      partial.save
+    end
+  end
 end
+
