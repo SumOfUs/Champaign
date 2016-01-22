@@ -32,7 +32,7 @@ const StickyMethods = {
   },
 
   questionSticky() {
-    if(this.isMobile()) {
+    if(this.isMobile() || this.$el.hasClass('stuck-right')) {
       this.unmakeSticky();
     } else {
       this.makeSticky();

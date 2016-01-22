@@ -21,9 +21,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.handleFormErrors();
     this.initializePrefill(options);
     this.expandBlurb();
-    if (!this.$el.hasClass('stuck-right')){
-      this.initializeSticky();
-    }
+    this.initializeSticky();
     if (!this.isMobile()) {
       this.selectizeCountry();
     }

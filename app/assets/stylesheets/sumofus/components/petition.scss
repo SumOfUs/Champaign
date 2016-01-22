@@ -6,9 +6,11 @@
   position: relative;
   z-index: 600;
 
-  &.stuck-right {
+  &.petition-bar.stuck-right {
     margin-top: 17px;
-    .petition-bar__main {
+  }
+  &.stuck-right {
+    .petition-bar__main, .fundraiser-bar__main {
       height: 100vh;
     } 
     .petition-bar__title-bar {
@@ -24,8 +26,12 @@
       @include box-sizing(border-box);
       padding: 21px;
     }
-    form, .petition-bar__petition-text, .thermometer {
-      max-width: 300px;
+    form, .petition-bar__petition-text, .thermometer,
+    .fundraiser-bar__steps, .fundraiser-bar__step-panel {
+      max-width: 290px;
+    }
+    .fundraiser-bar__steps {
+      margin-left: 0;
     }
   }
   &__top {
