@@ -38,6 +38,7 @@
 require('ajax')
 require('page');
 require("plugins_toggle");
+require("sidebar");
 require("collection_editor");
 require('shares_editor');
 

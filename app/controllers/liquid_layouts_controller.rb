@@ -8,11 +8,6 @@ class LiquidLayoutsController < ApplicationController
     @liquid_layouts = LiquidLayout.all
   end
 
-  # GET /liquid_layouts/1
-  # GET /liquid_layouts/1.json
-  def show
-  end
-
   # GET /liquid_layouts/new
   def new
     @liquid_layout = LiquidLayout.new

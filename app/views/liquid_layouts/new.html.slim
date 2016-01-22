@@ -1,5 +1,8 @@
-.row
-  .col-md-12
-    h3 New Template
-    = render 'form'
+= render 'shared/sidebar', action: :new, resource: :liquid_layouts
+
+.edit-block
+  h1.edit-block__title New Template
+  .row
+    .col-md-12
+      = render 'form'
 

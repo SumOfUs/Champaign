@@ -1,29 +1,34 @@
 = stylesheet_link_tag "analytics/application", media: 'all'
 
-#analytics-dashboard
-  .row
-    .col-md-8
-      .analytics-chart.short-view
-        svg.chart
-      h4.chart-title = t('.hours_chart_title')
+= render "sidebar", action: :analytics, id: @page.id
 
-      button.btn.btn-default#refresh-data
-        span> = t('.refresh')
-        span.glyphicon.glyphicon-refresh
+.edit-block
+  h1.edit-block__title= @page.title
 
-    .col-md-4
-      .totals
-        dl.actions
-          dt.odometer.total-actions-all
-          dd = t('.total_actions')
-        .analytics-chart.mini-total.mini
+  #analytics-dashboard
+    .col-md-10
+      .col-md-8
+        .analytics-chart.short-view
           svg.chart
-      .totals
-        dl.new-members
-          dt.odometer.total-actions-new
-          dd = t('.new_members')
-        .analytics-chart.mini-new.mini
-          svg.chart
+        h4.chart-title = t('.hours_chart_title')
+
+        button.btn.btn-default#refresh-data
+          span> = t('.refresh')
+          span.glyphicon.glyphicon-refresh
+
+      .col-md-4
+        .totals
+          dl.actions
+            dt.odometer.total-actions-all
+            dd = t('.total_actions')
+          .analytics-chart.mini-total.mini
+            svg.chart
+        .totals
+          dl.new-members
+            dt.odometer.total-actions-new
+            dd = t('.new_members')
+          .analytics-chart.mini-new.mini
+            svg.chart
 
 
 

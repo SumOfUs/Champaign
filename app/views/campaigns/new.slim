@@ -1,3 +1,6 @@
-h3 = t('.title')
+= render 'shared/sidebar', action: :new, resource: :campaigns
 
-= render 'form'
+.edit-block
+  h1.edit-block__title= t('.title')
+
+  = render 'form'

@@ -194,7 +194,7 @@ module.exports = {
         d             = new Conductor(pageId, chart);
 
     d.getData( (data) => {
-      chart.width     = 650;
+      chart.width     = 495;
       chart.height    = 280;
       chart.data      = data.hours;
       chart.fill      = 'rgba(51,51,51,1)';

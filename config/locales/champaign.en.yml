@@ -61,6 +61,7 @@ en:
       new: "Create a new page"
       title: "Pages"
       filter: "Filter Pages"
+      stats: "Stats"
       table:
         featured: "Featured"
     new:

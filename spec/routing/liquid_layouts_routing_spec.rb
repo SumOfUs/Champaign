@@ -11,10 +11,6 @@ RSpec.describe LiquidLayoutsController, type: :routing do
       expect(:get => "/liquid_layouts/new").to route_to("liquid_layouts#new")
     end
 
-    it "routes to #show" do
-      expect(:get => "/liquid_layouts/1").to route_to("liquid_layouts#show", :id => "1")
-    end
-
     it "routes to #edit" do
       expect(:get => "/liquid_layouts/1/edit").to route_to("liquid_layouts#edit", :id => "1")
     end
