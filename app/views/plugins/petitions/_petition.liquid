@@ -40,7 +40,10 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        var myPetitionBar = new window.PetitionBar();
+        window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
+          member:           window.sumofus.personalization.member,
+          outstandingFields:window.sumofus.personalization.outstandingFields
+        });
       });
     </script>
   </div>

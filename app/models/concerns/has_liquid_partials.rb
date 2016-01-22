@@ -42,5 +42,5 @@ module HasLiquidPartials
   def partial_refs
     LiquidTagFinder.new(content).partial_refs
   end
-
 end
+

@@ -5,11 +5,12 @@ describe PagesController do
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
   let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4', language: default_language) }
-  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html') }
+  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', data: { some: 'data'}) }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
+    allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
   end
 
   describe 'GET #index' do
@@ -28,7 +29,7 @@ describe PagesController do
   end
 
   describe 'POST #create' do
-    let(:page) { instance_double(Page, valid?: true, language:default_language) }
+    let(:page) { instance_double(Page, valid?: true, language: default_language, id: 1) }
 
     before do
       allow(PageBuilder).to receive(:create) { page }
@@ -44,7 +45,7 @@ describe PagesController do
 
     context "successfully created" do
       it 'redirects to edit_page' do
-        expect(response).to redirect_to(edit_page_path(page))
+        expect(response).to redirect_to(edit_page_path(page.id))
       end
     end
 
@@ -100,11 +101,12 @@ describe PagesController do
   end
 
   describe 'GET #show' do
+    subject { page }
 
     before do
-      allow(Page).to receive(:find){ page }
-      allow(page).to receive(:update)
-      allow(LiquidRenderer).to receive(:new){ renderer }
+      allow(Page).to            receive(:find){ page }
+      allow(page).to            receive(:update)
+      allow(LiquidRenderer).to  receive(:new){ renderer }
     end
 
     it 'finds campaign page' do
@@ -114,8 +116,9 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       get :show, id: '1'
+
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
+        location: {},
         member: nil,
         layout: page.liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
@@ -158,15 +161,27 @@ describe PagesController do
     end
 
     context 'on pages with localization' do
-      let(:french_page) { instance_double(Page, valid?: true, active?: true, language: language, id: '42', liquid_layout: '5') }
+      let(:french_page)  { instance_double(Page, valid?: true, active?: true, language: language,         id: '42', liquid_layout: '5') }
       let(:english_page) { instance_double(Page, valid?: true, active?: true, language: default_language, id: '66', liquid_layout: '5') }
-      it 'sets the locality to that of the language code on the page' do
-        allow(Page).to receive(:find){ french_page }
-        get :show, id: '42'
-        expect(I18n.locale).to eq :fr
-        allow(Page).to receive(:find){ english_page }
-        get :show, id: '66'
-        expect(I18n.locale).to eq :en
+
+      context 'with french' do
+        subject { french_page }
+        before { allow(Page).to receive(:find){ french_page } }
+
+        it 'sets the locality to :fr' do
+          get :show, id: '42'
+          expect(I18n.locale).to eq :fr
+        end
+
+        context 'with default (en)' do
+          subject { english_page }
+          before { allow(Page).to receive(:find){ english_page } }
+
+          it 'sets the locality to :en' do
+            get :show, id: '66'
+            expect(I18n.locale).to eq :en
+          end
+        end
       end
 
     end
@@ -187,7 +202,7 @@ describe PagesController do
 
     it 'instantiates a LiquidRenderer and calls render' do
       expect(LiquidRenderer).to have_received(:new).with(page,
-        request_country: "RD",
+        location: {},
         member: nil,
         layout: page.secondary_liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
@@ -211,7 +226,7 @@ describe PagesController do
 
     it 'does not raise 404 if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:active?){ true }
+      allow(page).to       receive(:active?){ true }
       expect{ get :show, id: '1' }.not_to raise_error
     end
 
@@ -228,5 +243,4 @@ describe PagesController do
     end
   end
 end
-
 
