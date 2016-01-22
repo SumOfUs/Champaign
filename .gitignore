@@ -20,6 +20,7 @@ out/*
 # Ignore uploads
 public/uploads*
 
+env.yml
 config/env.yml
 
 queue_listeners/config/env.yml
