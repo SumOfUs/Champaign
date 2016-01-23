@@ -20,8 +20,14 @@ const setupOnce = require('setup_once');
       $.subscribe('image:destroyed', this.pruneImageSelectors());
     },
 
-    deleteVariant: function(){
-      console.log("TOGGLED DELETE")
+    deleteVariant: function(e){
+        let $delete_button = this.$(e.target);
+        let $summary_row = $delete_button.parents('.shares-editor__summary-row');
+        let share_id = $summary_row.attr('id');
+        // TODO: parse the row ID for variant type and ID: e.g. share_summary_facebook_12
+        $.post(`/api/pages/1/delete-share`, {}, (whatever) => {
+            console.log(whatever)
+        })
     },
 
     toggleEditor: function(e) {
