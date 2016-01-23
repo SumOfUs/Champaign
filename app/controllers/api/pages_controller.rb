@@ -13,6 +13,11 @@ class Api::PagesController < ApplicationController
     end
   end
 
+  def delete_share
+    ShareProgressVariantBuilder.delete(params)
+    render json: { refresh: 'OK' }, status: :ok
+  end
+
   def share_rows
     render json: (@page.shares.map do |s|
       {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}

@@ -73,6 +73,11 @@ class PageUpdater
     @errors.empty?
   end
 
+  def delete_share(params)
+     #TODO: implement to ShareProgressVariantBuilder
+    ShareProgressVariantBuilder.delete(params)
+  end
+
   def refresh?
     @refresh || false
   end

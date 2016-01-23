@@ -9,6 +9,11 @@ class ShareProgressVariantBuilder
     new(params, variant_type, page, nil, id).update
   end
 
+  def self.delete(params)
+    pp "ShareProgressVariantBuilder#delete is PENDING"
+    #TODO: implement
+  end
+
   def initialize(params, variant_type, page, url=nil, id=nil)
     @page = page
     @params = params
