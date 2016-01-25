@@ -145,6 +145,7 @@ GEM
     config (1.0.0)
       activesupport (>= 3.0)
       deep_merge (~> 1.0.0)
+    connection_pool (2.2.0)
     countries (1.0.0)
       currencies (~> 0.4.2)
       i18n_data (~> 0.7.0)
@@ -211,6 +212,7 @@ GEM
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
     hashie (3.4.2)
+    hiredis (0.6.1)
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -355,6 +357,9 @@ GEM
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
     rdoc (4.2.0)
+    readthis (1.2.0)
+      connection_pool (~> 2.1)
+      redis (~> 3.0)
     redis (3.2.2)
     remotipart (1.2.1)
     request_store (1.2.0)
@@ -479,6 +484,7 @@ DEPENDENCIES
   geocoder
   google_currency
   guard-rspec
+  hiredis
   i18n-js (>= 3.0.0.rc12)
   jbuilder (~> 2.0)
   jquery-rails
@@ -505,7 +511,8 @@ DEPENDENCIES
   rails-assets-quill!
   rails-assets-speakingurl!
   rails-assets-underscore!
-  redis
+  readthis
+  redis (>= 3.2.0)
   remotipart (~> 1.2)
   rmagick
   rspec-rails
