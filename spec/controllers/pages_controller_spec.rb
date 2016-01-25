@@ -4,7 +4,7 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
-  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4', language: default_language) }
+  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', data: { some: 'data'}) }
 
   before do
@@ -204,7 +204,7 @@ describe PagesController do
       expect(LiquidRenderer).to have_received(:new).with(page,
         location: {},
         member: nil,
-        layout: page.secondary_liquid_layout,
+        layout: page.follow_up_liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
       )
       expect(renderer).to have_received(:render)
