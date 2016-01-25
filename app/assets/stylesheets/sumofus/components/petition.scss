@@ -11,7 +11,7 @@
   }
   &.stuck-right {
     .petition-bar__main, .fundraiser-bar__main {
-      height: 100vh;
+      @include viewport-unit(height, 100vh);
     } 
     .petition-bar__title-bar {
       clip-path: none;
