@@ -1,6 +1,10 @@
 class PageFollower
   include Rails.application.routes.url_helpers
 
+  def self.new_from_page(page)
+    new(page.follow_up_plan, page.id, page.follow_up_liquid_layout_id, page.follow_up_page_id)
+  end
+
   def initialize(plan, page_id, follow_up_liquid_layout_id, follow_up_page_id)
     @plan = plan
     @page_id = page_id
@@ -9,7 +13,7 @@ class PageFollower
   end
 
   def follow_up_path
-    case @plan
+    case @plan.try(:to_sym)
     when :with_page
       path_to_follow_up_page || path_to_follow_up_layout
     when :with_liquid

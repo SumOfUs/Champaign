@@ -64,6 +64,11 @@ describe PageFollower do
           expect(result).to eq page_path(follow_up_page_id)
         end
 
+        it 'returns page path when liquid_layout is passed and plan is a string' do
+          result = PageFollower.new(plan.to_s, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
+          expect(result).to eq page_path(follow_up_page_id)
+        end
+
         it 'returns page path when liquid_layout is blank' do
           result = PageFollower.new(plan, page_id, nil, follow_up_page_id).follow_up_path
           expect(result).to eq page_path(follow_up_page_id)
@@ -84,6 +89,21 @@ describe PageFollower do
           PageFollower.new(nil, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
         }.to raise_error ArgumentError
       end
+    end
+  end
+
+  describe 'new_from_page' do
+
+    let(:page) { instance_double('Page', follow_up_plan: 'with_liquid', id: 2, follow_up_liquid_layout_id: 3, follow_up_page_id: 4) }
+
+    it 'calls with page attributes' do
+      allow(PageFollower).to receive(:new)
+      PageFollower.new_from_page(page)
+      expect(PageFollower).to have_received(:new).with('with_liquid', 2, 3, 4)
+    end
+
+    it 'returns the instance for call chaining' do
+      expect(PageFollower.new_from_page(page).follow_up_path).to eq follow_up_page_path(2)
     end
   end
 
