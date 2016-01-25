@@ -2,9 +2,12 @@ class Page < ActiveRecord::Base
   extend FriendlyId
   has_paper_trail
 
+  enum follow_up_plan: [:with_liquid, :with_page] # todo - :with_link
+
   belongs_to :language
   belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
   belongs_to :liquid_layout
+  belongs_to :follow_up_page, class_name: 'Page'
   belongs_to :follow_up_liquid_layout, class_name: 'LiquidLayout'
   belongs_to :primary_image, class_name: 'Image'
 
