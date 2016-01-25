@@ -15,7 +15,7 @@ const setupOnce = require('setup_once');
       $.subscribe('page:errors', this.openEditorForErrors());
       $.subscribe('page:saved', this.updateSummaryRows());
 
-      // this is the kind of DOM hosuekeeping that makes me want to use react
+      // this is the kind of DOM housekeeping that makes me want to use react
       $.subscribe('image:success', this.addImageSelectors());
       $.subscribe('image:destroyed', this.pruneImageSelectors());
     },
@@ -67,6 +67,8 @@ const setupOnce = require('setup_once');
     },
 
     updateSummaryRows: function(){
+      // this only updates existing shares. new ones are appended by
+      // code in view/share/shares/create.js.erb, using rails UJS
       return (e, data) => { // closure for `this` in callback
         $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
           _.each(rows, (row) => {
