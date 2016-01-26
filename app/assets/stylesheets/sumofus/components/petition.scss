@@ -76,6 +76,9 @@
 
     background: $teal;
     color: white;
+    &.petition-bar__title {
+      max-width: 280px;
+    }
   }
 
   &__content {

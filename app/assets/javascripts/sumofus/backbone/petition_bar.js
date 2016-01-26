@@ -21,9 +21,9 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
     this.initializePrefill(options);
+    this.initializeSticky();
     this.expandBlurb();
     this.followUpUrl = options.followUpUrl;
-    this.initializeSticky();
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
@@ -73,6 +73,10 @@ const PetitionBar = Backbone.View.extend(_.extend(
     } else if(!this.$el.hasClass('stuck-right')){
       this.$el.css('top', `-${height}px`);
     }
+
+    // german is so damn long the absolute position title wraps
+    const $title = $('.petition-bar__title-bar');
+    $title.css('top', `-${$title.outerHeight()}px`);
   },
 
 }));
