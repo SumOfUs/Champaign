@@ -4,8 +4,9 @@ describe LiquidRenderer do
 
   let!(:body_partial) { create :liquid_partial, title: 'body_text', content: '<p>{{ content }}</p>' }
   let(:liquid_layout) { create :liquid_layout, content: "<h1>{{ title }}</h1> {% include 'body_text' %}" }
-  let(:page) { create :page, liquid_layout: liquid_layout, content: 'sliiiiide to the left' }
-  let(:renderer) { LiquidRenderer.new(page, layout: liquid_layout) }
+  let(:page)          { create :page, liquid_layout: liquid_layout, content: 'sliiiiide to the left' }
+  let(:renderer)      { LiquidRenderer.new(page, layout: liquid_layout) }
+  let(:cache_helper)  { double(:cache_helper, key_for_data: 'foo', key_for_markup: 'bar') }
 
   describe 'new' do
     it 'receives the correct arguments' do
@@ -245,24 +246,28 @@ describe LiquidRenderer do
       end
     end
 
-    describe 'cache_key' do
+    describe LiquidRenderer::Cache do
+      subject { LiquidRenderer::Cache.new(page, liquid_layout) }
+      let(:partial) { [ double(:partial, cache_key: 'foobar') ] }
 
-      let(:renderer){ LiquidRenderer.new(page, layout: liquid_layout) }
-
-      it 'has the cache key prefix' do
-        expect(renderer.send(:cache_key)).to start_with(LiquidRenderer::CACHE_KEY_PREFIX)
+      before do
+        allow(page).to receive(:cache_key){ 'foo' }
+        allow(liquid_layout).to receive(:cache_key){ 'bar' }
+        allow(LiquidPartial).to receive(:for_cache_key){ partial }
       end
 
-      it 'uses the cache keys of the page and layout' do
-        allow(page).to receive(:cache_key)
-        allow(liquid_layout).to receive(:cache_key)
-        renderer.send(:cache_key)
-        expect(page).to have_received(:cache_key)
-        expect(liquid_layout).to have_received(:cache_key)
+      describe '#key_for_data' do
+        it 'follows pattern' do
+          expect(subject.key_for_data).to eq('client_data:foo:bar')
+        end
       end
 
+      describe '#key_for_markup' do
+        it 'follows pattern' do
+          expect(subject.key_for_markup).to eq('liquid_markup:foobar:foo:bar')
+        end
+      end
     end
-
   end
-
 end
+

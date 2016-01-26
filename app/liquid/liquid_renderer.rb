@@ -10,8 +10,8 @@ class LiquidRenderer
   end
 
   def render
-    Rails.cache.fetch(key.for_markup) do
-      template.render( JSON.parse(data) ).html_safe
+    Rails.cache.fetch(cache.key_for_markup) do
+      template.render( markup_data ).html_safe
     end
   end
 
@@ -19,28 +19,27 @@ class LiquidRenderer
     @template ||= Liquid::Template.parse(@layout.content)
   end
 
-  def data
-    return @data if @data
+  def markup_data
+    return @markup_data if @markup_data
 
-    @data = Rails.cache.fetch(key.for_data) do
+    @markup_data = Rails.cache.fetch( cache.key_for_data ) do
+      plugin_data = Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
 
-    plugin_data = Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
-
-    plugin_data.
-      merge( @page.liquid_data ).
-      merge( images: images ).
-      merge( primary_image: image_urls(@page.image_to_display) ).
-      merge( LiquidHelper.globals(page: @page) ).
-      merge( shares: Shares.get_all(@page) ).
-      merge( follow_up_url: follow_up_page_path(@page.id)).
-      merge( outstanding_fields: outstanding_fields(plugin_data) ).
-      merge( donation_bands: donation_bands(plugin_data) ).
-      to_json
+      plugin_data.
+        merge( images: images                                      ).
+        merge( primary_image: image_urls(@page.image_to_display)   ).
+        merge( shares: Shares.get_all(@page)                       ).
+        merge( follow_up_url: follow_up_page_path(@page.id)        ).
+        merge( outstanding_fields: outstanding_fields(plugin_data) ).
+        merge( donation_bands: donation_bands(plugin_data)         ).
+        merge( @page.liquid_data                                   ).
+        merge( LiquidHelper.globals(page: @page)                   ).
+        deep_stringify_keys
     end
   end
 
-  def data_per_member
-    JSON.parse(data).stringify_keys.merge(member_data)
+  def data
+    markup_data.merge(member_data)
   end
 
   def images
@@ -54,7 +53,7 @@ class LiquidRenderer
       url_params: @url_params,
       member:     @member.try(:liquid_data),
       location:   location
-    }
+    }.deep_stringify_keys
   end
 
   def outstanding_fields(plugin_data)
@@ -97,28 +96,32 @@ class LiquidRenderer
     { urls: { large: img.content.url(:large), small: img.content.url(:thumb) } }
   end
 
-  def key
-    Key.new(@page, @layout)
+  def cache
+    @cache ||= Cache.new(@page, @layout)
   end
 
-  class Key
+  class Cache
     def initialize(page, layout)
-      @page = page
+      @page   = page
       @layout = layout
     end
 
-    def for_data
+    def key_for_data
       "client_data:" << base
     end
 
-    def for_markup
-      "liquid_markup:" << base
+    def key_for_markup
+      "liquid_markup:#{last_partial.try(:cache_key)}:#{base}"
     end
 
     private
 
+    def last_partial
+      @liquid_partial ||= LiquidPartial.for_cache_key.first
+    end
+
     def base
-      "#{@page.cache_key}:#{@layout.cache_key}"
+      "#{@page.cache_key}:#{@layout.try(:cache_key)}"
     end
   end
 end

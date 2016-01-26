@@ -17,11 +17,11 @@ describe LiquidPartial do
   describe 'scopes' do
     describe 'for_cache_key' do
       it 'returns latest updated record' do
-        old = create(LiquidPartial)
-        new = create(LiquidPartial)
+        older = create(LiquidPartial)
+        later = create(LiquidPartial)
 
-        Timecop.travel(1.day.ago){ new.touch }
-        expect(LiquidPartial.for_cache_key.first).to eq(old)
+        Timecop.travel(1.day.ago){ later.touch }
+        expect(LiquidPartial.for_cache_key.first).to eq(older)
       end
 
       it 'select updated_at and id only' do

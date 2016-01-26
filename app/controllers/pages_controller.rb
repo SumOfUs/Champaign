@@ -59,7 +59,7 @@ class PagesController < ApplicationController
     localize_by_page_language(@page)
 
     @rendered = renderer(layout).render
-    @data = renderer(layout).data_per_member
+    @data = renderer(layout).data
     render :show, layout: 'sumofus'
   end
 
