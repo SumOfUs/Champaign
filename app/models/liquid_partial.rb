@@ -6,8 +6,6 @@ class LiquidPartial < ActiveRecord::Base
   validates :content, presence: true, allow_blank: false
 
   validate :one_plugin
-  scope :for_cache_key, -> { select('updated_at, id').order('updated_at DESC').limit(1) }
-
 
   def plugin_name
     LiquidTagFinder.new(content).plugin_names[0]

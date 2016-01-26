@@ -14,24 +14,6 @@ describe LiquidPartial do
 
   it { is_expected.not_to respond_to :one_plugin }
 
-  describe 'scopes' do
-    describe 'for_cache_key' do
-      it 'returns latest updated record' do
-        older = create(LiquidPartial)
-        later = create(LiquidPartial)
-
-        Timecop.travel(1.day.ago){ later.touch }
-        expect(LiquidPartial.for_cache_key.first).to eq(older)
-      end
-
-      it 'select updated_at and id only' do
-        partial
-
-        expect(LiquidPartial.for_cache_key.first.attributes.keys).to match_array(['updated_at', 'id'])
-      end
-    end
-  end
-
   describe "is valid" do
     it "with factory settings" do
       expect(partial).to be_valid

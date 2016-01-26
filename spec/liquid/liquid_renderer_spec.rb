@@ -253,7 +253,13 @@ describe LiquidRenderer do
       before do
         allow(page).to receive(:cache_key){ 'foo' }
         allow(liquid_layout).to receive(:cache_key){ 'bar' }
-        allow(LiquidPartial).to receive(:for_cache_key){ partial }
+      end
+
+      describe '.invalidate' do
+        it 'incremenets invalidator seed' do
+          expect(Rails.cache).to receive(:increment).with('cache_invalidator')
+          LiquidRenderer::Cache.invalidate
+        end
       end
 
       describe '#key_for_data' do
@@ -264,7 +270,7 @@ describe LiquidRenderer do
 
       describe '#key_for_markup' do
         it 'follows pattern' do
-          expect(subject.key_for_markup).to eq('liquid_markup:foobar:foo:bar')
+          expect(subject.key_for_markup).to eq('liquid_markup:0:foo:bar')
         end
       end
     end

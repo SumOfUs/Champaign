@@ -103,6 +103,12 @@ class LiquidRenderer
   end
 
   class Cache
+    INVALIDATOR_KEY = 'cache_invalidator'
+
+    def self.invalidate
+      Rails.cache.increment(INVALIDATOR_KEY)
+    end
+
     def initialize(page, layout)
       @page   = page
       @layout = layout
@@ -113,13 +119,13 @@ class LiquidRenderer
     end
 
     def key_for_markup
-      "liquid_markup:#{last_partial.try(:cache_key)}:#{base}"
+      "liquid_markup:#{invalidator_seed}:#{base}"
     end
 
     private
 
-    def last_partial
-      @liquid_partial ||= LiquidPartial.for_cache_key.first
+    def invalidator_seed
+      Rails.cache.fetch(INVALIDATOR_KEY){ 0 }
     end
 
     def base
