@@ -117,7 +117,6 @@ Rails.application.routes.draw do
         post 'validate', on: :collection, action: 'validate'
       end
       get 'share-rows', on: :member, action: 'share_rows'
-      post 'delete-share', on: :member, action: 'delete_share'
     end
   end
   # Example resource route within a namespace:
