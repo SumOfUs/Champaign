@@ -19,26 +19,14 @@ describe Form do
     end
   end
 
-  describe "polymorphically associated with plugins" do
-    it 'assciates' do
-      petition = create(:plugins_fundraiser)
-      form = create(:form)
+  describe "forms polymorphic association" do
+    let(:plugin) { create(:plugins_fundraiser) }
+    let!(:form)  { create(:form, formable: plugin) }
 
-      form.update(formable: petition)
-
-      expect(form.reload.formable).to eq(petition)
-      expect(form.formable_id).to     eq(petition.id)
-      expect(petition.reload.form).to eq(form)
-    end
-
-    it 'associates the other way' do
-      petition = create(:plugins_fundraiser)
-      form = create(:form)
-
-      petition.update(form:form)
-
-      expect(petition.reload.form).to eq(form)
-      expect(form.formable).to eq(petition)
+    it 'has formable' do
+      expect(form.reload.formable).to eq(plugin)
+      expect(form.formable_id).to     eq(plugin.id)
+      expect(plugin.reload.form).to   eq(form)
     end
   end
 
@@ -67,3 +55,4 @@ describe Form do
     end
   end
 end
+

@@ -10,6 +10,7 @@ class ShareProgressVariantBuilder
   end
 
   def self.delete(params:, variant_type:, page:, id:)
+    pp params
     new(params, variant_type, page, nil, id).destroy
   end
 
@@ -41,9 +42,7 @@ class ShareProgressVariantBuilder
   def create
     variant = variant_class.new(@params)
     variant.page = @page
-
     return variant unless variant.valid?
-
     button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
 
@@ -57,8 +56,11 @@ class ShareProgressVariantBuilder
   end
 
   def destroy
-    pp 'Implement.'
     #TODO: check how this is implemented in the gem
+    pp 'params', @params
+    variant = variant_class.find(@id)
+    variant.assign_attributes(@params)
+    pp variant
   end
 
   private
