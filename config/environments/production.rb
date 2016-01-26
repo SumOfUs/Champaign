@@ -101,8 +101,8 @@ Rails.application.configure do
   config.cache_store = :readthis_store, {
     namespace: 'cache',
     expires_in: 1.day.to_i,
-    redis:     { host: ENV["REDIS_PORT_6379_TCP_ADDR"],
-                 port: ENV["REDIS_PORT_6379_TCP_PORT"], dirve: :hiredis }
+    redis:     { host: Settings.redis.host,
+                 port: Settings.redis.port, drive: :hiredis }
   }
 
 end
