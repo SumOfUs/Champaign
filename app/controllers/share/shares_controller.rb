@@ -55,6 +55,15 @@ class Share::SharesController < ApplicationController
     end
   end
 
+  def destroy
+    @deleted_share = ShareProgressVariantBuilder.delete(
+      params: nil,
+      variant_type: @resource.to_sym,
+      page: @page,
+      id: params[:id]
+    )
+  end
+
   private
 
   #

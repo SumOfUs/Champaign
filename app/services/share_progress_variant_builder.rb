@@ -9,9 +9,8 @@ class ShareProgressVariantBuilder
     new(params, variant_type, page, nil, id).update
   end
 
-  def self.delete(params)
-    pp "ShareProgressVariantBuilder#delete is PENDING"
-    #TODO: implement
+  def self.delete(params:, variant_type:, page:, id:)
+    new(params, variant_type, page, nil, id).destroy
   end
 
   def initialize(params, variant_type, page, url=nil, id=nil)
@@ -55,6 +54,11 @@ class ShareProgressVariantBuilder
       add_sp_errors_to_variant(sp_button, variant)
     end
     variant
+  end
+
+  def destroy
+    pp 'Implement.'
+    #TODO: check how this is implemented in the gem
   end
 
   private
