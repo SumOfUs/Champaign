@@ -29,7 +29,7 @@ class LiquidRenderer
                 merge( LiquidHelper.globals(page: @page) ).
                 merge( shares: Shares.get_all(@page) ).
                 merge( url_params: @url_params ).
-                merge( follow_up_url: follow_up_page_path(@page.id)).
+                merge( follow_up_url: follow_up_url).
                 merge( member: @member.try(:liquid_data) ).
                 merge( location: location).
                 merge( outstanding_fields: outstanding_fields(plugin_data) ).
@@ -85,6 +85,10 @@ class LiquidRenderer
 
   def cache_key
     "rendered_liquid:#{@page.cache_key}:#{@layout.cache_key}"
+  end
+
+  def follow_up_url
+    PageFollower.new_from_page(@page).follow_up_path
   end
 end
 

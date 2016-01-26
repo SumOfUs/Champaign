@@ -14,6 +14,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
   },
 
   // options: object with any of the following keys
+  //    followUpUrl: the url to redirect to after success
   //    outstandingFields: the names of step 2 form fields that can't be prefilled
   //    member: an object with fields that will prefill the form
   initialize(options = {}) {
@@ -21,6 +22,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.handleFormErrors();
     this.initializePrefill(options);
     this.expandBlurb();
+    this.followUpUrl = options.followUpUrl;
     this.initializeSticky();
     if (!this.isMobile()) {
       this.selectizeCountry();
@@ -40,11 +42,11 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   handleSuccess(e, data) {
     this.clearFormErrors();
-    if (data.follow_up_url) {
-      window.location.href = data.follow_up_url
+    if (this.followUpUrl) {
+      window.location.href = this.followUpUrl;
     } else {
       // this should never happen, but just in case.
-      alert("You've signed the petition! Thanks so much!");
+      alert(I18n.t('petition.confirmation')+'!');
     }
   },
 

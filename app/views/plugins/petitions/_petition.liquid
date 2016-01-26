@@ -42,7 +42,8 @@
       $(document).ready(function(){
         window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
           member:           window.sumofus.personalization.member,
-          outstandingFields:window.sumofus.personalization.outstandingFields
+          outstandingFields:window.sumofus.personalization.outstandingFields,
+          followUpUrl:      "{{ follow_up_url }}"
         });
       });
     </script>
