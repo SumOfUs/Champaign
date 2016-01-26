@@ -98,5 +98,12 @@ Rails.application.configure do
   # part of their free tier.
   #
   # config.cache_store = :memory_store, { size: 10.megabytes }
+  config.cache_store = :readthis_store, {
+    namespace: 'cache',
+    expires_in: 1.day.to_i,
+    redis:     { host: ENV["REDIS_PORT_6379_TCP_ADDR"],
+                 port: ENV["REDIS_PORT_6379_TCP_PORT"], dirve: :hiredis }
+  }
+
 end
 
