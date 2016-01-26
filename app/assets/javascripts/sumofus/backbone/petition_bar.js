@@ -19,9 +19,9 @@ const PetitionBar = Backbone.View.extend(_.extend(
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
-    this.initializeSticky();
     this.initializePrefill(options);
     this.expandBlurb();
+    this.initializeSticky();
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
@@ -68,7 +68,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     const height = this.$('.petition-bar__top').outerHeight();
     if (this.isSticky){
       this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
-    } else {
+    } else if(!this.$el.hasClass('stuck-right')){
       this.$el.css('top', `-${height}px`);
     }
   },
