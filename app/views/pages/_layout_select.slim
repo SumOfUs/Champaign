@@ -1,9 +1,20 @@
 -# field: `:liquid_layout_id` or `:follow_up_liquid_layout_id`
 -# f: form builder
+-# offer_redirect: boolean, whether to offer a redirect
+- offer_redirect ||= false
 .radio-group.btn-group-vertical.layout-settings__button-group role="group"
   - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
-    - active_class = (ll.id == f.object.send(field)) ? 'active' : ''
+    - liquid_matters = (!offer_redirect || f.object.follow_up_plan.to_sym == :with_liquid)
+    - active_class = (ll.id == f.object.send(field) && liquid_matters) ? 'active' : ''
     = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class}"
       = f.radio_button field, ll.id, class: 'hidden-irrelevant'
       span.layout-settings__title= ll.title
       span.layout-settings__description= ll.description
+  - if offer_redirect
+    - active_class = (f.object.follow_up_plan.to_sym == :with_page) ? 'active' : ''
+    = f.label :follow_up_plan, value: :with_page, class: "btn btn-default radio-group__option #{active_class}"
+      = f.radio_button :follow_up_plan, :with_page, class: 'hidden-irrelevant'
+      = f.radio_button :follow_up_plan, :with_liquid, class: 'hidden-irrelevant'
+      span.layout-settings__title Redirect to another page
+      span.layout-settings__description
+        = f.select :follow_up_page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.follow_up_page_id), {}, html_options= {class: 'selectize-container', multiple: false}

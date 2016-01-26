@@ -41,6 +41,7 @@ require("plugins_toggle");
 require("sidebar");
 require("collection_editor");
 require('shares_editor');
+require('layout_picker');
 
 window.PageEditBar =  require("page_edit_bar");
 window.Analytics   =  require('analytics');
