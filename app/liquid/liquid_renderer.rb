@@ -23,19 +23,17 @@ class LiquidRenderer
     return @markup_data if @markup_data
 
     @markup_data = Rails.cache.fetch( cache.key_for_data ) do
-      plugin_data = Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
-
-      plugin_data.
-        merge( images: images                                      ).
-        merge( primary_image: image_urls(@page.image_to_display)   ).
-        merge( shares: Shares.get_all(@page)                       ).
-        merge( follow_up_url: follow_up_page_path(@page.id)        ).
-        merge( outstanding_fields: outstanding_fields(plugin_data) ).
-        merge( donation_bands: donation_bands(plugin_data)         ).
-        merge( @page.liquid_data                                   ).
-        merge( LiquidHelper.globals(page: @page)                   ).
-        deep_stringify_keys
-    end
+      {
+        images: images,
+        primary_image: image_urls(@page.image_to_display),
+        shares: Shares.get_all(@page),
+        follow_up_url: follow_up_page_path(@page.id),
+        outstanding_fields: outstanding_fields(plugin_data),
+        donation_bands: donation_bands(plugin_data)
+      }.
+      merge( @page.liquid_data ).
+      merge( LiquidHelper.globals(page: @page) )
+    end.merge( plugin_data ).deep_stringify_keys
   end
 
   def data
@@ -47,6 +45,10 @@ class LiquidRenderer
   end
 
   private
+
+  def plugin_data
+    @plugin_data ||= Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
+  end
 
   def member_data
     {
