@@ -6,30 +6,27 @@ class LiquidPartial < ActiveRecord::Base
   validates :content, presence: true, allow_blank: false
 
   validate :one_plugin
+  scope :for_cache_key, -> { select('updated_at, id').order('updated_at DESC').limit(1) }
 
-  after_save :invalidate_cache
 
   def plugin_name
     LiquidTagFinder.new(content).plugin_names[0]
   end
 
-  # Filters array of partial names to those absent from the database. (returns new array)
+  # Filters array of partial names to those absent from the database.
+  #
   def self.missing_partials(names)
-    names.reject{|name| LiquidPartial.exists?(title: name) }
+    names.reject{ |name| LiquidPartial.exists?(title: name) }
   end
 
   private
 
   def one_plugin
     plugin_names = LiquidTagFinder.new(content).plugin_names
+
     if plugin_names.size > 1
       errors.add(:content, "can only reference one partial, but found #{plugin_names.join(',')}")
     end
-  end
-
-  def invalidate_cache
-    # THIS ONLY CLEARS THE CACHE IN REDIS.
-    Rails.cache.delete_matched("#{LiquidRenderer::CACHE_KEY_PREFIX}*")
   end
 end
 
