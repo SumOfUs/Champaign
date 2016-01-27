@@ -14,11 +14,9 @@ describe PagesController do
   end
 
   describe 'GET #index' do
-    it 'renders index' do
+    it 'renders index and uses default localization' do
       get :index
       expect(response).to render_template('index')
-    end
-    it 'uses default localization' do
       expect(I18n.locale).to eq :en
     end
     it 'resets localization if a non-default localization is used' do
