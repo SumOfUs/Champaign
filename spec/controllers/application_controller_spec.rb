@@ -11,6 +11,10 @@ describe ApplicationController do
       allow(controller).to receive(:set_locale)
     end
 
+    after :each do
+      I18n.locale = :en
+    end
+
     it 'does nothing if page_id is blank' do
       allow(controller).to receive(:params).and_return({page_id: nil})
       controller.send(:localize_from_page_id)
@@ -33,8 +37,10 @@ describe ApplicationController do
 
   describe 'set_locale' do
 
-    after :each do
-      I18n.locale = :en
+    around(:each) do |spec|
+      I18n.locale = I18n.default_locale
+      spec.run
+      I18n.locale = I18n.default_locale
     end
 
     it 'sets the locale if it is a known locale' do
