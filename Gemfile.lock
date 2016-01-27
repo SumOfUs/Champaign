@@ -17,14 +17,6 @@ GIT
       sass-rails
 
 GIT
-  remote: https://github.com/SumOfUs/share_progress
-  revision: 0c48b479ac4b90b90baa0b0f4edb2fa907fd0e72
-  branch: master
-  specs:
-    share_progress (0.1.2)
-      httparty (>= 0.13)
-
-GIT
   remote: https://github.com/compass/compass-rails
   revision: a1c890628d61f62e61474de2c00dde2658251196
   specs:
@@ -32,6 +24,12 @@ GIT
       compass (~> 1.0.0)
       sass-rails (< 5.1)
       sprockets (< 4.0)
+
+PATH
+  remote: ../share_progress
+  specs:
+    share_progress (0.2.0)
+      httparty (>= 0.13)
 
 GEM
   remote: https://rubygems.org/

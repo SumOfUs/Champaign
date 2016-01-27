@@ -10,7 +10,6 @@ class ShareProgressVariantBuilder
   end
 
   def self.delete(params:, variant_type:, page:, id:)
-    pp params
     new(params, variant_type, page, nil, id).destroy
   end
 
@@ -56,11 +55,9 @@ class ShareProgressVariantBuilder
   end
 
   def destroy
-    #TODO: check how this is implemented in the gem
-    pp 'params', @params
     variant = variant_class.find(@id)
     variant.assign_attributes(@params)
-    pp variant
+    # TODO: Call ShareProgress::Variant.delete with some params to send a request to delete the variant
   end
 
   private
