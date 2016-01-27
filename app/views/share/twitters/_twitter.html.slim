@@ -1,6 +1,6 @@
 = render 'share/twitters/summary_row', share: twitter
-= render 'share/stats_row', share: twitter, share_type: 'twitter', page: page
+= render 'share/stats_row', share: twitter, share_type: 'twitter', page: page, preview: twitter.description
 
 tr.shares-editor__edit-row.hidden-closed
-  td colspan=5
+  td colspan=8
     = render 'share/form', page: page, share: twitter

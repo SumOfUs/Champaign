@@ -1,6 +1,6 @@
 = render 'share/emails/summary_row', share: email
-= render 'share/stats_row', share: email, share_type: 'email', page: page
+= render 'share/stats_row', share: email, share_type: 'email', page: page, preview: email.subject
 
 tr.shares-editor__edit-row.hidden-closed
-  td colspan=5
+  td colspan=8
     = render 'share/form', page: page, share: email

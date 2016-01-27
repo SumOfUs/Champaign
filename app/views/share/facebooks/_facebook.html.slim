@@ -1,6 +1,6 @@
 = render 'share/facebooks/summary_row', share: facebook
-= render 'share/stats_row', share: facebook, share_type: 'facebook', page: page
+= render 'share/stats_row', share: facebook, share_type: 'facebook', page: page, preview: facebook.title
 
 tr.shares-editor__edit-row.hidden-closed
-  td colspan=5
+  td colspan=8
     = render 'share/form', page: page, share: facebook
