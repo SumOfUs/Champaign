@@ -57,12 +57,13 @@ class Share::SharesController < ApplicationController
 
   def destroy
     find_share
-    @deleted_share = ShareProgressVariantBuilder.delete(
+    @deleted_share = ShareProgressVariantBuilder.destroy(
       params: {},
       variant_type: @resource.to_sym,
       page: @page,
       id: params[:id]
     )
+    pp @deleted_share
     respond_to do |format|
       if @deleted_share.errors.empty?
         format.html { redirect_to index_path }
