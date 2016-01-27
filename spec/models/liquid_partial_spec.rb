@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe LiquidPartial do
-  
+
   let(:partial) { create(:liquid_partial) }
 
   subject{ partial }
@@ -15,46 +15,48 @@ describe LiquidPartial do
   it { is_expected.not_to respond_to :one_plugin }
 
   describe "is valid" do
-
-    after :each do
-      expect(partial).to be_valid
-    end
-
     it "with factory settings" do
+      expect(partial).to be_valid
     end
 
     it "with multiple references to the same plugin" do
       partial.content = "<div>{{ plugins.petition[ref].text }}</div>
                          <div>{{ plugins.petition[ref].wink }}</div>"
+
+      expect(partial).to be_valid
     end
 
     it "with a reference to a partial that does exist" do
       create :liquid_partial, title: 'existent'
       partial.content = "<div>{% include 'existent' %}</div>"
+      expect(partial).to be_valid
     end
   end
 
   describe "is invalid" do
-
-    after :each do
-      expect(partial).to be_invalid
-    end
-
     it "with a blank title" do
       partial.title = " "
+
+      expect(partial).to be_invalid
     end
 
     it "with a blank content" do
       partial.content = " "
+
+      expect(partial).to be_invalid
     end
 
     it "with multiple references to different plugins" do
       partial.content = "<div>{{ plugins.petition[ref].text }}</div>
                          <div>{{ plugins.thermometer[ref].wink }}</div>"
+
+      expect(partial).to be_invalid
     end
 
     it "with a reference to a partial that doesn't exist" do
       partial.content = "<div>{% include 'nonexistent' %}</div>"
+
+      expect(partial).to be_invalid
     end
   end
 
@@ -131,7 +133,6 @@ describe LiquidPartial do
   end
 
   describe "missing_partials" do
-
     it "filters out none if none exist" do
       nonexistent = ['fake', 'not_a_real_partial', 'seriouslyyy']
       expect(LiquidPartial.missing_partials(nonexistent)).to eq nonexistent
@@ -149,8 +150,6 @@ describe LiquidPartial do
       p2 = create :liquid_partial
       expect(LiquidPartial.missing_partials([p1.title, 'lies', p2.title])).to eq ['lies']
     end
-
   end
-
-
 end
+
