@@ -26,11 +26,15 @@ const setupOnce = require('setup_once');
       });
     },
 
+    editRow: function($summaryRow) {
+      return $summaryRow.next('.shares-editor__stats-row').next('.shares-editor__edit-row');
+    },
+
     toggleEditor: function(e) {
       let $target = this.$(e.target);
       $target = $target.is('tr') ? $target : $target.parents('tr');
       let $btn = $target.find('.shares-editor__toggle-edit');
-      $target.next('.shares-editor__edit-row').toggleClass('hidden-closed');
+      this.editRow($target).toggleClass('hidden-closed');
       $btn.text( $btn.text() == "Edit" ? "Done" : "Edit" );
     },
 
@@ -71,7 +75,7 @@ const setupOnce = require('setup_once');
             let $row = $(row.html);
             $row = $(`#${$row.prop('id')}`).replaceWith($row);
             $row = $(`#${$row.prop('id')}`);
-            if (!$row.next('.shares-editor__edit-row').hasClass('hidden-closed')) {
+            if (!this.editRow($row).hasClass('hidden-closed')) {
               $row.find('.shares-editor__toggle-edit').text('Done');
             }
           })
