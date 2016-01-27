@@ -12,7 +12,7 @@ class Form < ActiveRecord::Base
   ]
 
   has_paper_trail on: [:update, :destroy]
-  has_many :form_elements, -> { order(:position) }
+  has_many :form_elements, -> { order(:position) }, dependent: :destroy
   belongs_to :formable, polymorphic: true, touch: true
 
   after_touch do
@@ -24,6 +24,8 @@ class Form < ActiveRecord::Base
   scope :masters, -> { where(master: true) }
 
   validates :name, presence: true
+  validates :formable_id, uniqueness: { scope: :formable_type, allow_nil: true }
+
   validate :name_is_unique
 
   def name_is_unique

@@ -18,14 +18,12 @@ class Plugins::FormsController < ApplicationController
     render partial: 'plugins/shared/preview', locals: { plugin: plugin }
   end
 
-
   private
 
   def attach_duplicate_form(form, plugin)
     new_form = FormDuplicator.duplicate(form)
-    plugin.update form: new_form
+    plugin.update_form(new_form)
     new_form
   end
-
 end
 
