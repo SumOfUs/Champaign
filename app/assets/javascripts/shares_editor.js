@@ -8,6 +8,7 @@ const setupOnce = require('setup_once');
       'click .shares-editor__delete-variant': 'deleteVariant',
       'click .shares-editor__toggle-edit': 'toggleEditor',
       'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
+      'click .shares-editor__view-toggle .btn': 'switchView',
       'ajax:success form.shares-editor__new-form': 'clearForm',
     },
 
@@ -26,8 +27,11 @@ const setupOnce = require('setup_once');
       });
     },
 
-    editRow: function($summaryRow) {
-      return $summaryRow.next('.shares-editor__stats-row').next('.shares-editor__edit-row');
+    editRow: function($row) {
+      if (!$row.hasClass('shares-editor__stats-row')) {
+        $row = $row.next('.shares-editor__stats-row');
+      }
+      return $row.next('.shares-editor__edit-row');
     },
 
     toggleEditor: function(e) {
@@ -53,6 +57,24 @@ const setupOnce = require('setup_once');
         $target.addClass('btn-primary');
         this.$('.shares-editor__new-form').addClass('hidden-closed');
         this.$(`.shares-editor__new-form[data-share="${desired}"]`).removeClass('hidden-closed');
+      }
+    },
+
+    switchView: function(e) {
+      let $target = this.$(e.target)
+      const desired = $target.data('state');
+      if (desired) {
+        this.$('.shares-editor__view-toggle .btn').removeClass('btn-primary');
+        $target.addClass('btn-primary');
+        if (desired === 'summary') {
+          this.$('.shares-editor__summary-row').removeClass('hidden-closed');
+          this.$('.shares-editor__stats-row').addClass('hidden-closed');
+          this.$('.shares-editor__stats-heading').addClass('hidden-closed');
+        } else {
+          this.$('.shares-editor__summary-row').addClass('hidden-closed');
+          this.$('.shares-editor__stats-row').removeClass('hidden-closed');
+          this.$('.shares-editor__stats-heading').removeClass('hidden-closed');
+        }
       }
     },
 

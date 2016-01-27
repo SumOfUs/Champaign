@@ -265,8 +265,8 @@ body.page-edit-body {
       padding: 20px 20% 15px 10%;
     }
   }
-  &__stats-row, &__stats-row table.table {
-    background-color: $bootstrap-bg-gray;
+  &__view-toggle {
+    margin-bottom: 15px
   }
   &__toggle-edit {
     width: 60px;

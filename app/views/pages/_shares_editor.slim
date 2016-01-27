@@ -1,4 +1,8 @@
 .shares-editor
+  .shares-editor__view-toggle.btn-group
+    = toggle_switch 'summary', 'summary', 'Summary view'
+    = toggle_switch 'stats', 'summary', 'Analysis view'
+
   table.table.shares-editor__existing
     thead.shares-editor__stats-heading.hidden-closed
       th
