@@ -88,9 +88,10 @@ en:
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
       layout_select: 'Page layout'
-      secondary_layout_select: 'Page layout for follow-up page'
+      follow_up_layout_select: 'Follow-up action'
       no_layout: None selected
       change_layout: 'Change layout'
+      change_follow_up: 'Change follow up'
       add_link: 'Add source'
       language_label: "Language"
       primary_image: 'Which is the main image for the page?'

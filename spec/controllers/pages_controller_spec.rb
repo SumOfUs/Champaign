@@ -1,10 +1,17 @@
 require 'rails_helper'
 
 describe PagesController do
+
+  around(:each) do |spec|
+    I18n.locale = I18n.default_locale
+    spec.run
+    I18n.locale = I18n.default_locale
+  end
+
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
-  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', secondary_liquid_layout: '4', language: default_language) }
+  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', data: { some: 'data'}) }
 
   before do
@@ -14,11 +21,9 @@ describe PagesController do
   end
 
   describe 'GET #index' do
-    it 'renders index' do
+    it 'renders index and uses default localization' do
       get :index
       expect(response).to render_template('index')
-    end
-    it 'uses default localization' do
       expect(I18n.locale).to eq :en
     end
     it 'resets localization if a non-default localization is used' do
@@ -204,7 +209,7 @@ describe PagesController do
       expect(LiquidRenderer).to have_received(:new).with(page,
         location: {},
         member: nil,
-        layout: page.secondary_liquid_layout,
+        layout: page.follow_up_liquid_layout,
         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
       )
       expect(renderer).to have_received(:render)

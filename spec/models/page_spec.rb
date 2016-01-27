@@ -23,11 +23,17 @@ describe Page do
   it { is_expected.to respond_to :pages_tags }
   it { is_expected.to respond_to :campaign }
   it { is_expected.to respond_to :liquid_layout }
-  it { is_expected.to respond_to :secondary_liquid_layout }
+  it { is_expected.to respond_to :follow_up_liquid_layout }
+  it { is_expected.to respond_to :follow_up_page }
+  it { is_expected.to respond_to :follow_up_plan }
+  it { is_expected.to respond_to :with_liquid? }
+  it { is_expected.to respond_to :with_page? }
   it { is_expected.to respond_to :primary_image }
   it { is_expected.to respond_to :plugins }
   it { is_expected.to respond_to :shares }
   it { is_expected.to respond_to :action_count }
+
+  it { is_expected.not_to respond_to :secondary_liquid_layout }
 
   describe 'tags' do
 
@@ -299,5 +305,13 @@ describe Page do
       end
     end
   end
+
+  describe 'follow_up_plan' do
+    it 'defaults to :with_liquid' do
+      new_page = create :page
+      expect(page.follow_up_plan).to eq 'with_liquid'
+    end
+  end
+
 end
 

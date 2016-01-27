@@ -6,6 +6,35 @@
   position: relative;
   z-index: 600;
 
+  &.petition-bar.stuck-right {
+    margin-top: 17px;
+  }
+  &.stuck-right {
+    .petition-bar__main, .fundraiser-bar__main {
+      @include viewport-unit(height, 100vh);
+    } 
+    .petition-bar__title-bar {
+      clip-path: none;
+      -webkit-clip-path: none;
+      top: -67px;
+      &::after {
+        display: none;
+      }
+    }
+    .petition-bar__title {
+      height: 67px;
+      @include box-sizing(border-box);
+      padding: 21px;
+      max-width: 100%;
+    }
+    form, .petition-bar__petition-text, .thermometer,
+    .fundraiser-bar__steps, .fundraiser-bar__step-panel {
+      max-width: 290px;
+    }
+    .fundraiser-bar__steps {
+      margin-left: 0;
+    }
+  }
   &__top {
     background: $overcast-gray;
     color: black;
@@ -48,6 +77,9 @@
 
     background: $teal;
     color: white;
+    &.petition-bar__title {
+      max-width: 280px;
+    }
   }
 
   &__content {

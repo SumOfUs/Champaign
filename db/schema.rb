@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160111153538) do
+ActiveRecord::Schema.define(version: 20160125211650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -182,16 +182,19 @@ ActiveRecord::Schema.define(version: 20160111153538) do
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
     t.integer  "liquid_layout_id"
-    t.integer  "secondary_liquid_layout_id"
+    t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
     t.integer  "primary_image_id"
     t.string   "ak_petition_resource_uri"
     t.string   "ak_donation_resource_uri"
+    t.integer  "follow_up_plan",             default: 0,         null: false
+    t.integer  "follow_up_page_id"
   end
 
+  add_index "pages", ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id", using: :btree
+  add_index "pages", ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id", using: :btree
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree
   add_index "pages", ["primary_image_id"], name: "index_pages_on_primary_image_id", using: :btree
-  add_index "pages", ["secondary_liquid_layout_id"], name: "index_pages_on_secondary_liquid_layout_id", using: :btree
 
   create_table "pages_tags", force: :cascade do |t|
     t.integer "page_id"
@@ -394,7 +397,7 @@ ActiveRecord::Schema.define(version: 20160111153538) do
   add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"
   add_foreign_key "pages", "liquid_layouts"
-  add_foreign_key "pages", "liquid_layouts", column: "secondary_liquid_layout_id"
+  add_foreign_key "pages", "liquid_layouts", column: "follow_up_liquid_layout_id"
   add_foreign_key "payment_braintree_customers", "members"
   add_foreign_key "payment_braintree_subscriptions", "pages"
   add_foreign_key "payment_braintree_transactions", "pages"

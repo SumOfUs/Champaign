@@ -1,5 +1,5 @@
 {% if plugins.fundraiser[ref].active %}
-  <div class="fundraiser-bar">
+  <div class="fundraiser-bar {{ extra_class }}">
     <div class="fundraiser-bar__mobile-view fundraiser-bar__mobile-view--closed">
       <div class="fundraiser-bar__content">
         <div class="fundraiser-bar__top">
@@ -99,7 +99,7 @@
 
     <div class="fundraiser-bar__mobile-ui">
       <div class="fundraiser-bar__mobile-ui__bottom-bar">
-        <button class="button fundraiser-bar__open-button">{{ 'fundraiser.donate' | t }}</button>
+        <button class="button fundraiser-bar__open-button">{{ plugins.fundraiser[ref].title }}</button>
       </div>
     </div>
 

@@ -120,12 +120,16 @@ body.page-edit-body {
     position: absolute;
     top: -45px;
     left: 0;
-    @include transition(top 0.1s ease-in-out);
+    @include transition(top 0.1s ease-in-out, height 0.1s ease-in-out);
+    @include box-sizing(border-box);
+    height: 54px;
     z-index: -1;
     padding-top: 10px;
     background-color: $save-box-color;
+    overflow: hidden;
     &--hidden {
       top: 0;
+      height: 0;
     }
   }
   &__save-button {
@@ -369,7 +373,7 @@ body.page-edit-body {
 }
 
 .layout-settings {
-  &--primary, &--secondary {
+  &--primary, &--follow_up {
     padding-top: 15px;
   }
   &__title {

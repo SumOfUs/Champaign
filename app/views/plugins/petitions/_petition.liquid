@@ -1,5 +1,5 @@
 {% if plugins.petition[ref].active %}
-  <div class="petition-bar">
+  <div class="petition-bar {{ extra_class }}">
     <div class="petition-bar__mobile-view petition-bar__mobile-view--closed">
       <div class="petition-bar__content">
         <div class="petition-bar__top">
@@ -42,7 +42,8 @@
       $(document).ready(function(){
         window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
           member:           window.sumofus.personalization.member,
-          outstandingFields:window.sumofus.personalization.outstandingFields
+          outstandingFields:window.sumofus.personalization.outstandingFields,
+          followUpUrl:      "{{ follow_up_url }}"
         });
       });
     </script>

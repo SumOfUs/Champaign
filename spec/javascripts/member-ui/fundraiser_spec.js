@@ -32,6 +32,11 @@ describe("Fundraiser", function() {
       expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
     });
 
+    it('sets the default currency if currency passed as lowercase', function(){
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'gbp'});
+      expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
+    });
+
     it('displays the values from the correct passed currency band', function(){
       var donationBands = {
         EUR: [1, 2, 3, 4, 5],

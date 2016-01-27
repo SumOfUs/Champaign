@@ -22,9 +22,11 @@ class Member < ActiveRecord::Base
   end
 
   def liquid_data
+    full_name = name
     attributes.merge({
-      name: name,
-      welcome_name: name.blank? ? email : name
+      name: full_name,
+      full_name: full_name,
+      welcome_name: full_name.blank? ? email : full_name
     })
   end
 end

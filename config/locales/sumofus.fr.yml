@@ -32,7 +32,8 @@ fr:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
     confirmation: Nom envoyé
-    thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"'
+    excited_confirmation: Nom envoyé!
+    thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
   form:
     welcome_back: Bienvenue
     switch_user: Ce n’est pas vous?
