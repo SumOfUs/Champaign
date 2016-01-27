@@ -25,6 +25,7 @@
       height: 67px;
       @include box-sizing(border-box);
       padding: 21px;
+      max-width: 100%;
     }
     form, .petition-bar__petition-text, .thermometer,
     .fundraiser-bar__steps, .fundraiser-bar__step-panel {
