@@ -46,7 +46,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
       window.location.href = this.followUpUrl;
     } else {
       // this should never happen, but just in case.
-      alert(I18n.t('petition.confirmation')+'!');
+      alert(I18n.t('petition.excited_confirmation'));
     }
   },
 

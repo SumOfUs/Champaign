@@ -212,7 +212,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         this.redirectTo(this.followUpUrl);
       } else {
         // this should never happen, but just in case.
-        alert(I18n.t('fundraiser.thank_you')+'!');
+        alert(I18n.t('fundraiser.thank_you'));
       }
     }
   },
