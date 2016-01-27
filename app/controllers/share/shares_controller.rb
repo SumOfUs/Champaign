@@ -63,7 +63,6 @@ class Share::SharesController < ApplicationController
       page: @page,
       id: params[:id]
     )
-    pp @deleted_share
     respond_to do |format|
       if @deleted_share.errors.empty?
         format.html { redirect_to index_path }

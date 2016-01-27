@@ -10,4 +10,4 @@ tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
   td = simple_format share.description
   td.shares-editor__toggle-cell = render 'share/btn_edit_share'
   td
-    = button_to 'Delete', page_share_facebook_path(@page.id, share.id), {class: 'btn btn-danger shares-editor__delete-variant', method: :delete}
+    = button_to 'Delete', page_share_facebook_path(@page.id, share.id), {class: 'btn btn-danger shares-editor__delete-variant', method: :delete, remote: true}
