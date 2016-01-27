@@ -27,7 +27,7 @@ class LiquidRenderer
         images: images,
         primary_image: image_urls(@page.image_to_display),
         shares: Shares.get_all(@page),
-        follow_up_url: follow_up_page_path(@page.id),
+        follow_up_url: follow_up_url,
         outstanding_fields: outstanding_fields(plugin_data),
         donation_bands: donation_bands(plugin_data)
       }.
@@ -131,6 +131,10 @@ class LiquidRenderer
     def base
       "#{@page.cache_key}:#{@layout.try(:cache_key)}"
     end
+  end
+
+  def follow_up_url
+    PageFollower.new_from_page(@page).follow_up_path
   end
 end
 

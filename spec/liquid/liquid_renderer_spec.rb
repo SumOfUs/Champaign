@@ -23,7 +23,7 @@ describe LiquidRenderer do
 
     it 'does not receive arbitrary keyword arguments' do
       expect{
-        LiquidRenderer.new(page, layout: liquid_layout, secondary_layout: liquid_layout)
+        LiquidRenderer.new(page, layout: liquid_layout, follow_up_layout: liquid_layout)
       }.to raise_error(ArgumentError)
     end
 
