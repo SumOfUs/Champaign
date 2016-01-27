@@ -59,7 +59,7 @@ class ShareProgressVariantBuilder
 
     button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
-    sp_variant = ShareProgress::Variant.new(id: variant.sp_id, button: sp_button)
+    sp_variant = sp_variant_class.new(id: variant.sp_id, button: sp_button)
 
     if sp_variant.destroy
       variant.destroy
@@ -131,6 +131,10 @@ class ShareProgressVariantBuilder
         }
       ]
     }
+  end
+
+  def sp_variant_class
+    "ShareProgress::#{@variant_type.to_s.classify}Variant".constantize
   end
 
   def variant_class
