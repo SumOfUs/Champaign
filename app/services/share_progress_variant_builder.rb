@@ -57,6 +57,21 @@ class ShareProgressVariantBuilder
   def destroy
     variant = variant_class.find(@id)
     variant.assign_attributes(@params)
+    # TODO: Can ShareProgress::VariantCollection be used to remove variants for this use case?
+    # Variant looks like so:
+    # #<Share::Facebook:0x007fd5cfedabc8
+    # id: 1,
+    #     title: "facebeeerk",
+    #     description: "text",
+    #     image: nil,
+    #     button_id: nil,
+    #     created_at: Tue, 26 Jan 2016 20:07:31 UTC +00:00,
+    #     updated_at: Tue, 26 Jan 2016 20:07:31 UTC +00:00,
+    #     page_id: 1,
+    #     share_count: nil,
+    #     click_count: nil,
+    #     sp_id: "465950",
+    #     image_id: 1>
     # TODO: Call ShareProgress::Variant.delete with some params to send a request to delete the variant
   end
 
