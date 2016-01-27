@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe PagesController do
+
+  around(:each) do |spec|
+    I18n.locale = I18n.default_locale
+    spec.run
+    I18n.locale = I18n.default_locale
+  end
+
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
