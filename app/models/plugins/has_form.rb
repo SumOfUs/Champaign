@@ -3,7 +3,7 @@ module Plugins::HasForm
 
   included do
     before_create :create_form
-    has_one :form, as: :formable
+    has_one :form, as: :formable, dependent: :destroy
   end
 
   def form_fields
@@ -19,6 +19,15 @@ module Plugins::HasForm
     FormValidator.new(
       {form_id: form.id}.merge(form_values || {})
     ).errors.keys
+  end
+
+  def update_form(new_form)
+    if form
+      form.form_elements.destroy_all
+      form.destroy
+    end
+
+    update(form: new_form)
   end
 
   private
@@ -39,3 +48,4 @@ module Plugins::HasForm
     }
   end
 end
+
