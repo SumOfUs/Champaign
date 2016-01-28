@@ -10,6 +10,13 @@ FactoryGirl.define do
       end
     end
 
+    factory :form_with_email_and_optional_country do
+      after(:create) do |form, evaluator|
+        create :form_element, form: form, name: 'email', label: 'Email', data_type: 'email', required: true
+        create :form_element, form: form, name: 'country', label: 'Country', data_type: 'country', required: false
+      end
+    end
+
     factory :form_with_email_and_name do
       after(:create) do |form, evaluator|
         create :form_element, form: form, name: 'email', label: 'Email', data_type: 'email', required: true

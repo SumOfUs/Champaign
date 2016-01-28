@@ -111,6 +111,17 @@ describe("Petition", function() {
           var vals = suite.inputs.map(function(ii, el){ return $(el).val(); }).toArray();
           expect(vals).to.eql( ['', '', '', '']);
         });
+
+        it('overrides location country with member country', function(){
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
+          expect(suite.inputs.filter('[name="country"]').val()).to.eq('GB');
+        });
+
+        it('falls back to location country when member country not provided', function(){
+          delete suite.fullVals['country'];
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
+          expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
+        });
       });
     });
 
@@ -130,6 +141,11 @@ describe("Petition", function() {
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);
+        });
+
+        it('uses location country when country in outstandingFields', function(){
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: ['country'], member: suite.fullVals, location: {country: 'NI'} });
+          expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
       });
 

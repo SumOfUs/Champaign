@@ -80,7 +80,7 @@ class LiquidRenderer
     end
     return @location.data if country_code.blank?
     currency = Donations::Utils.currency_from_country_code(country_code)
-    @location.data.merge(currency: currency)
+    @location.data.merge(currency: currency, country: country_code)
   end
 
   def set_locale

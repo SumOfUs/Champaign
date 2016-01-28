@@ -69,7 +69,7 @@ describe("Fundraiser", function() {
 
           it('does not prefill values', function(){
             var vals = $('.petition-bar__field-container').map(function(ii, el){ return $(el).val() }).toArray();
-            expect(vals).to.eql([""]);
+            expect(vals).to.eql(['', '']);
           });
 
           it('does not hide the second step if there are fields', function(){
@@ -117,7 +117,7 @@ describe("Fundraiser", function() {
             var classed = $('.petition-bar__field-container').map(function(ii, el){
               return $(el).hasClass('form__group--prefilled');
             }).toArray();
-            expect(classed).to.eql([true]);
+            expect(classed).to.eql([true, true]);
         });
 
         it('displays the second step when user requests', function(){
@@ -205,7 +205,7 @@ describe("Fundraiser", function() {
             var classed = $('.petition-bar__field-container').map(function(ii, el){
               return $(el).hasClass('form__group--prefilled');
             }).toArray();
-            expect(classed).to.eql([false]);
+            expect(classed).to.eql([false, false]);
           });
         });
 
@@ -236,7 +236,7 @@ describe("Fundraiser", function() {
             var classed = $('.petition-bar__field-container').map(function(ii, el){
               return $(el).hasClass('form__group--prefilled');
             }).toArray();
-            expect(classed).to.eql([false]);
+            expect(classed).to.eql([false, false]);
           });
         });
       });
@@ -307,12 +307,22 @@ describe("Fundraiser", function() {
         expect($('input[name="email"]').val()).to.eql('');
       });
 
+      it('uses location country when country in outstandingFields', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['country'], member: {country: 'GB'}, location: {country: 'NI'} });
+        expect($('[name="country"]').val()).to.eq('NI');
+      });
+
+      it('uses location country', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], location: {country: 'NI'}, member: {} });
+        expect($('[name="country"]').val()).to.eq('NI');
+      });
+
       it('does not hide the form fields', function(){
         suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
         var classed = $('.petition-bar__field-container').map(function(ii, el){
           return $(el).hasClass('form__group--prefilled');
         }).toArray();
-        expect(classed).to.eql([false]);
+        expect(classed).to.eql([false, false]);
       });
     });
 

@@ -15,8 +15,10 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
-  //    outstandingFields: the names of step 2 form fields that can't be prefilled
+  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
+  //      the values in the member hash.
   //    member: an object with fields that will prefill the form
+  //    location: a hash of location values inferred from the user's request
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
@@ -31,12 +33,12 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   initializePrefill(options) {
     if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
-      this.completePrefill(options.member);
+      this.completePrefill(options.member, options.location);
       if (this.formFieldCount() > 0) {
         this.showFormClearer('petition', options.member);
       }
     } else {
-      this.partialPrefill(options.member, options.outstandingFields);
+      this.partialPrefill(options.member, options.location, options.outstandingFields);
     }
   },
 
