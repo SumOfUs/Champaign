@@ -37,7 +37,7 @@ class LiquidRenderer
   end
 
   def data
-    markup_data.merge(member_data)
+    markup_data.merge(personalization_data)
   end
 
   def images
@@ -47,15 +47,19 @@ class LiquidRenderer
   private
 
   def plugin_data
-    @plugin_data ||= Plugins.data_for_view(@page, {form_values: @member.try(:liquid_data), donation_band: @url_params[:donation_band]})
+    @plugin_data ||= Plugins.data_for_view(@page, {form_values: member_data, donation_band: @url_params[:donation_band]})
+  end
+
+  def personalization_data
+    {
+      url_params: @url_params,
+      member:     member_data,
+      location:   location
+    }.deep_stringify_keys
   end
 
   def member_data
-    {
-      url_params: @url_params,
-      member:     @member.try(:liquid_data),
-      location:   location
-    }.deep_stringify_keys
+    @member.try(:liquid_data)
   end
 
   def outstanding_fields(plugin_data)

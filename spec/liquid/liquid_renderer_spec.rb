@@ -226,8 +226,7 @@ describe LiquidRenderer do
         member = build :member, country: 'DE'
         allow(location).to receive(:country_code){ 'GB' }
         allow(location).to receive(:data){ {country_code: 'GB' } }
-        renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
-        expect(renderer.data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD'})
+        LiquidRenderer.new(page, layout: nil, member: member, location: location).data
         expect(Donations::Utils).to have_received(:currency_from_country_code).with('DE')
       end
 
@@ -235,9 +234,24 @@ describe LiquidRenderer do
         member = build :member, country: nil
         allow(location).to receive(:country_code){ 'GB' }
         allow(location).to receive(:data){ {country_code: 'GB' } }
-        renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
-        expect(renderer.data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD'})
+        LiquidRenderer.new(page, layout: nil, member: member, location: location).data
         expect(Donations::Utils).to have_received(:currency_from_country_code).with('GB')
+      end
+
+      it 'sets location.country to member country if present' do
+        member = build :member, country: 'DE'
+        allow(location).to receive(:country_code){ 'GB' }
+        allow(location).to receive(:data){ {country_code: 'GB' } }
+        renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
+        expect(renderer.data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD', 'country' => 'DE'})
+      end
+
+      it 'sets location.country to location.country_code if member has no country' do
+        member = build :member, country: nil
+        allow(location).to receive(:country_code){ 'GB' }
+        allow(location).to receive(:data){ {country_code: 'GB' } }
+        renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
+        expect(renderer.data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD', 'country' => 'GB'})
       end
     end
 
