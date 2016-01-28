@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe "Braintree API" do
 
-  let(:page) { create(:page) }
+  let(:page) { create(:page, title: 'foo-bar-raa') }
 
   before do
     Settings.merge!(braintree: {
@@ -86,11 +86,12 @@ describe "Braintree API" do
 
           expect(subject.payment_instrument_type).to eq('paypal_account')
         end
-
       end
 
       context "one off" do
         before do
+          allow(ChampaignQueue).to receive(:push)
+
           VCR.use_cassette("transaction_success") do
             post_transaction
           end
@@ -107,6 +108,33 @@ describe "Braintree API" do
         it 'creates a member' do
           expect(Member.first.email).to eq('foo@example.com')
         end
+
+        it 'posts donation to worker' do
+          expected = {
+            type: 'donation',
+            params: {
+              donationpage: {
+                name: 'foo-bar-raa-donation',
+                payment_account: 'Default Import Stub',
+              },
+              order: {
+                amount: '100.0',
+                card_num: '1881',
+                card_code: '007',
+                exp_date_month: '12',
+                exp_date_year: '2020',
+                currency: 'USD'
+              },
+              user: {
+                email: 'foo@example.com',
+                country: nil
+              }
+            }
+          }
+
+          expect(ChampaignQueue).to have_received(:push).with(expected)
+        end
+
 
         describe 'transaction associations' do
           it 'with page' do

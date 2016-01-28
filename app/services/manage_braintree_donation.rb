@@ -2,14 +2,13 @@ class ManageBraintreeDonation
   include ActionBuilder
   PAYPAL_IDENTIFIER = 'PYPL'
 
-  def self.create(params:, braintree_result:, additional_values: {}, is_subscription: false)
-    new(params: params, braintree_result: braintree_result, additional_values: additional_values, is_subscription: is_subscription).create
+  def self.create(params:, braintree_result:, is_subscription: false)
+    new(params: params, braintree_result: braintree_result, is_subscription: is_subscription).create
   end
 
-  def initialize(params:, braintree_result:, additional_values: {}, is_subscription: false)
+  def initialize(params:, braintree_result:, is_subscription: false)
     @params = params
     @braintree_result = braintree_result
-    @additional_values = additional_values
     @is_subscription = is_subscription
   end
 
@@ -24,6 +23,7 @@ class ManageBraintreeDonation
   end
 
   private
+
   def queue_message
     {
         type: 'donation',
@@ -34,21 +34,22 @@ class ManageBraintreeDonation
   def organize_params
     {
         donationpage: {
-            name: "#{page.slug}-donation",
-            payment_account: 'Default Import Stub'
+            name:             "#{page.slug}-donation",
+            payment_account:  'Default Import Stub'
         },
         order: {
-            amount: transaction.amount,
-            card_num: card_num,
-            card_code: '007',
+            amount:         transaction.amount.to_s,
+            card_num:       card_num,
+            card_code:      '007',
             exp_date_month: expire_month,
-            exp_date_year: expire_year
+            exp_date_year:  expire_year,
+            currency:       transaction.currency_iso_code
         },
         user: {
-            email: member.email,
-            country: member.country
+            email:    member.email,
+            country:  member.country
         }
-    }.merge(@additional_values)
+    }
   end
 
   def transaction
