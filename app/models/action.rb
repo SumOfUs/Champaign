@@ -5,6 +5,6 @@ class Action < ActiveRecord::Base
   has_paper_trail on: [:update, :destroy]
 
   def update_page_action_count
-    page.increment! :action_count
+    Page.increment_counter(:action_count, page_id)
   end
 end
