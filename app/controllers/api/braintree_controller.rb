@@ -6,7 +6,7 @@ class Api::BraintreeController < ApplicationController
   end
 
   def transaction
-    if ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
+    if recurring?
       manage_subscription(params)
     else
       manage_transaction(params)
@@ -15,6 +15,7 @@ class Api::BraintreeController < ApplicationController
 
   def webhook
     webhook_notification = Braintree::WebhookNotification.parse(params[:bt_signature], params[:bt_payload])
+
     if webhook_notification.kind == Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully
       card_num = webhook_notification.subscription.transactions.last.credit_card_details.last_4
       query_params = {
@@ -41,6 +42,18 @@ class Api::BraintreeController < ApplicationController
 
   private
 
+  def manage_subscription(params)
+    find_or_create_user
+    result = braintree::Subscription.make_subscription(subscription_options)
+    if result.success?
+      ManageBraintreeDonation.create(params: params[:user].merge(parge_id: params[:page_id]), braintree_result: result, is_subscription: true)
+      render json: { success: true, subscription_id: result.subscription.id }
+    else
+      errors = raise_unless_user_error(result)
+      render json: { success: false, errors: errors }, status: 422
+    end
+  end
+
   def manage_transaction(params)
     result = braintree::Transaction.make_transaction(transaction_options)
 
@@ -48,18 +61,6 @@ class Api::BraintreeController < ApplicationController
       action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result)
       Payment.write_successful_transaction(action: action, transaction_response: result)
       render json: { success: true, transaction_id: result.transaction.id }
-    else
-      errors = raise_unless_user_error(result)
-      render json: { success: false, errors: errors }, status: 422
-    end
-  end
-
-  def manage_subscription(params)
-    find_or_create_user
-    result = braintree::Subscription.make_subscription(subscription_options)
-    if result.success?
-      ManageBraintreeDonation.create(params: params[:user].merge(parge_id: params[:page_id]), braintree_result: result, is_subscription: true)
-      render json: { success: true, subscription_id: result.subscription.id }
     else
       errors = raise_unless_user_error(result)
       render json: { success: false, errors: errors }, status: 422
@@ -134,5 +135,9 @@ class Api::BraintreeController < ApplicationController
 
   def page
     @page ||= Page.find(params[:page_id])
+  end
+
+  def recurring?
+    ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
   end
 end
