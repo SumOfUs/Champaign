@@ -1,13 +1,13 @@
-- analytics = ShareAnalytics.(@page, @resource, variation )[0]
+- analytics = ShareAnalytics.data(@page, @resource, variation )[0]
 
 - if analytics
   table.table.table-condensed
     thead
-      th = t('shares.analytics.weight')
-      th = t('shares.analytics.shares')
-      th = t('shares.analytics.successful_shares')
-      th = t('shares.analytics.conversions')
-      th = t('shares.analytics.winner')
+      th = t('share.analytics.weight')
+      th = t('share.analytics.shares')
+      th = t('share.analytics.successful_shares')
+      th = t('share.analytics.conversions')
+      th = t('share.analytics.winner')
     tbody
       td = analytics['weight']
       td = analytics['shares']
@@ -15,5 +15,5 @@
       td = analytics['conversion']
       td = analytics['winner']
 - else
-  p = t('shares.analytics.no_data')
+  p = t('share.analytics.no_data')
 

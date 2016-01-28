@@ -28,7 +28,6 @@
   position: relative;
   @include background-size(cover);
   background-position: center;
-
   &__overlay {
     position: absolute;
     z-index: 10;
@@ -47,5 +46,28 @@
     &:empty {
       display: none;
     }
+  }
+  &--small {
+    height: 390px;
+    overflow: hidden;
+    position: relative;
+    @include background-size(cover);
+    background-position: center;
+  }
+}
+
+.cover-photo--small, .header-logo__left-constraint {
+  float: right;
+  max-width: 900px;
+  &.header-logo__left-constraint {
+    max-width: 880px; // creates padding
+  }
+  @media(min-width: $mobile-width) {
+    width: 67%;
+    margin-right: 33%;
+  }
+  @media(max-width: $mobile-width) {
+    width: 100%;
+    margin-right: 0%;
   }
 }

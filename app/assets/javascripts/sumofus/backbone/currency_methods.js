@@ -40,7 +40,8 @@ const CurrencyMethods = {
     };
   },
 
-  setCurrency(currency) {
+  setCurrency(currency_with_case) {
+    const currency = currency_with_case.toUpperCase();
     if( this.CURRENCY_SYMBOLS[currency] === undefined) {
       this.currency = this.DEFAULT_CURRENCY;
     } else {

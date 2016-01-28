@@ -36,7 +36,7 @@ class PagesController < ApplicationController
   end
 
   def follow_up
-    render_liquid(@page.secondary_liquid_layout)
+    render_liquid(@page.follow_up_liquid_layout)
   end
 
   def update
@@ -92,7 +92,7 @@ class PagesController < ApplicationController
       :campaign_id,
       :language_id,
       :liquid_layout_id,
-      :secondary_liquid_layout_id,
+      :follow_up_liquid_layout_id,
       {:tag_ids => []} )
   end
 end

@@ -4,8 +4,9 @@ describe LiquidRenderer do
 
   let!(:body_partial) { create :liquid_partial, title: 'body_text', content: '<p>{{ content }}</p>' }
   let(:liquid_layout) { create :liquid_layout, content: "<h1>{{ title }}</h1> {% include 'body_text' %}" }
-  let(:page) { create :page, liquid_layout: liquid_layout, content: 'sliiiiide to the left' }
-  let(:renderer) { LiquidRenderer.new(page, layout: liquid_layout) }
+  let(:page)          { create :page, liquid_layout: liquid_layout, content: 'sliiiiide to the left' }
+  let(:renderer)      { LiquidRenderer.new(page, layout: liquid_layout) }
+  let(:cache_helper)  { double(:cache_helper, key_for_data: 'foo', key_for_markup: 'bar') }
 
   describe 'new' do
     it 'receives the correct arguments' do
@@ -22,7 +23,7 @@ describe LiquidRenderer do
 
     it 'does not receive arbitrary keyword arguments' do
       expect{
-        LiquidRenderer.new(page, layout: liquid_layout, secondary_layout: liquid_layout)
+        LiquidRenderer.new(page, layout: liquid_layout, follow_up_layout: liquid_layout)
       }.to raise_error(ArgumentError)
     end
 
@@ -245,6 +246,34 @@ describe LiquidRenderer do
       end
     end
 
-  end
+    describe LiquidRenderer::Cache do
+      subject { LiquidRenderer::Cache.new(page, liquid_layout) }
+      let(:partial) { [ double(:partial, cache_key: 'foobar') ] }
 
+      before do
+        allow(page).to receive(:cache_key){ 'foo' }
+        allow(liquid_layout).to receive(:cache_key){ 'bar' }
+      end
+
+      describe '.invalidate' do
+        it 'incremenets invalidator seed' do
+          expect(Rails.cache).to receive(:increment).with('cache_invalidator')
+          LiquidRenderer::Cache.invalidate
+        end
+      end
+
+      describe '#key_for_data' do
+        it 'follows pattern' do
+          expect(subject.key_for_data).to eq('client_data:foo:bar')
+        end
+      end
+
+      describe '#key_for_markup' do
+        it 'follows pattern' do
+          expect(subject.key_for_markup).to eq('liquid_markup:0:foo:bar')
+        end
+      end
+    end
+  end
 end
+

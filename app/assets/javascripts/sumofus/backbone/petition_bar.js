@@ -14,14 +14,16 @@ const PetitionBar = Backbone.View.extend(_.extend(
   },
 
   // options: object with any of the following keys
+  //    followUpUrl: the url to redirect to after success
   //    outstandingFields: the names of step 2 form fields that can't be prefilled
   //    member: an object with fields that will prefill the form
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
-    this.initializeSticky();
     this.initializePrefill(options);
+    this.initializeSticky();
     this.expandBlurb();
+    this.followUpUrl = options.followUpUrl;
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
@@ -40,11 +42,11 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   handleSuccess(e, data) {
     this.clearFormErrors();
-    if (data.follow_up_url) {
-      window.location.href = data.follow_up_url
+    if (this.followUpUrl) {
+      window.location.href = this.followUpUrl;
     } else {
       // this should never happen, but just in case.
-      alert("You've signed the petition! Thanks so much!");
+      alert(I18n.t('petition.excited_confirmation'));
     }
   },
 
@@ -68,9 +70,13 @@ const PetitionBar = Backbone.View.extend(_.extend(
     const height = this.$('.petition-bar__top').outerHeight();
     if (this.isSticky){
       this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
-    } else {
+    } else if(!this.$el.hasClass('stuck-right')){
       this.$el.css('top', `-${height}px`);
     }
+
+    // german is so damn long the absolute position title wraps
+    const $title = $('.petition-bar__title-bar');
+    $title.css('top', `-${$title.outerHeight()}px`);
   },
 
 }));

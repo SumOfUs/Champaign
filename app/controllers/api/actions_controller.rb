@@ -11,7 +11,7 @@ class Api::ActionsController < ApplicationController
         value: action.member.id,
         expires: 1.hour.from_now
       }
-      render json: { follow_up_url: follow_up_page_path(@action_params[:page_id]) }
+      render json: {}, status: 200
     else
       render json: {errors: validator.errors}, status: 422
     end
