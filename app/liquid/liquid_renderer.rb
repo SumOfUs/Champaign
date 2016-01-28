@@ -47,7 +47,7 @@ class LiquidRenderer
   private
 
   def plugin_data
-    @plugin_data ||= Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
+    @plugin_data ||= Plugins.data_for_view(@page, {form_values: @member.try(:liquid_data), donation_band: @url_params[:donation_band]})
   end
 
   def member_data

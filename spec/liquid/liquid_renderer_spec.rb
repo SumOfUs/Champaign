@@ -135,6 +135,15 @@ describe LiquidRenderer do
         expect(LiquidRenderer.new(page, layout: liquid_layout).data['outstanding_fields']).to eq ['email', 'name']
       end
 
+      it "checks with the member's liquid data" do
+        form = create :form_with_email_and_name
+        create :plugins_fundraiser, page: page, form: form
+        member = create :member, name: 'Humphrey Bogart', email: 'psycho@killer.com'
+        expect(member.liquid_data.keys).to include(:name)
+        expect(member.attributes.keys).not_to include(:name)
+        expect(LiquidRenderer.new(page, layout: liquid_layout, member: member).data['outstanding_fields']).to eq []
+      end
+
       it 'has from both plugin forms' do
         p1 = create :plugins_fundraiser, page: page
         p2 = create :plugins_petition, page: page
