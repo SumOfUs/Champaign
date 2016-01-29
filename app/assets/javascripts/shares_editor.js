@@ -5,7 +5,7 @@ const setupOnce = require('setup_once');
   let SharesEditor = Backbone.View.extend({
 
     events: {
-      'click .shares-editor__delete-variant': 'deleteVariant',
+      'ajax:success form.shares-editor__delete-variant': 'deleteVariant',
       'click .shares-editor__toggle-edit': 'toggleEditor',
       'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
       'click .shares-editor__view-toggle .btn': 'switchView',
@@ -21,10 +21,14 @@ const setupOnce = require('setup_once');
       $.subscribe('image:destroyed', this.pruneImageSelectors());
     },
 
-    deleteVariant: function(e){
-      this.$(e.target).on('ajax:success',"a[data-method=delete]", function(){
-        $(this).parents('.shares-editor__summary-row').fadeOut()
-      });
+    deleteVariant: function(e) {
+      let $target = $(e.target);
+        let $summary_row = $target.parents('.shares-editor__summary-row');
+        let $stats_row = $summary_row.next('.share-editor__stats-row');
+        let $edit_row = $stats_row.next('.shares-editor__edit-row');
+      $summary_row.remove();
+      $stats_row.remove();
+      $edit_row.remove();
     },
 
     editRow: function($row) {

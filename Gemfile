@@ -72,8 +72,7 @@ gem 'logger'
 # Gem for user agent / browser detection
 gem 'browser'
 
-# gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
-gem 'share_progress', path: '../share_progress'
+gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
 gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
