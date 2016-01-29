@@ -134,7 +134,7 @@ describe LiquidRenderer do
     end
 
     it 'has a follow_up_url' do
-      expect(subject.fetch('follow_up_url')).to match(/pages\/\d+\/follow\-up/)
+      expect(subject.fetch('follow_up_url')).to match(/pages\/[a-z\-]+\/follow\-up/)
     end
   end
 
