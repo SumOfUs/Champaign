@@ -12,7 +12,7 @@ describe PagesController do
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
   let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
-  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', data: { some: 'data'}) }
+  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data'}) }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
@@ -131,6 +131,11 @@ describe PagesController do
       expect(renderer).to have_received(:render)
     end
 
+    it 'assigns @data to personalization_data' do
+      get :show, id: '1'
+      expect(assigns(:data)).to eq(renderer.personalization_data)
+    end
+
     it 'renders show template' do
       get :show, id: '1'
       expect(response).to render_template :show
@@ -217,6 +222,10 @@ describe PagesController do
 
     it 'renders show template' do
       expect(response).to render_template :show
+    end
+
+    it 'assigns @data to personalization_data' do
+      expect(assigns(:data)).to eq(renderer.personalization_data)
     end
 
     it 'assigns campaign' do
