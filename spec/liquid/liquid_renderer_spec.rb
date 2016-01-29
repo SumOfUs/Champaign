@@ -313,19 +313,25 @@ describe LiquidRenderer do
       end
 
       it "is serializes the thermometer plugin's data" do
-        t1 = create :plugins_thermometer, page: page
-        t1.current_progress # allow goal to update
-        expected = t1.liquid_data.stringify_keys
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq expected
+        Timecop.freeze do # this test is not about timestamps
+          t1 = create :plugins_thermometer, page: page
+          t1.current_progress # allow goal to update
+          expected = t1.liquid_data.stringify_keys
+          actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
+          expect(actual).to eq expected
+        end
       end
 
       it 'is uses the first if multiple thermometer plugins' do
-        t1 = create :plugins_thermometer, page: page, ref: 'secondary'
-        t2 = create :plugins_thermometer, page: page
-        expect(page.plugins.size).to eq 2
-        t1.current_progress # allow goal to update
-        expected = t1.liquid_data.stringify_keys
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq expected
+        Timecop.freeze do # this test is not about timestamps
+          t1 = create :plugins_thermometer, page: page, ref: 'secondary'
+          t2 = create :plugins_thermometer, page: page
+          expect(page.plugins.size).to eq 2
+          t1.current_progress # allow goal to update
+          expected = t1.liquid_data.stringify_keys
+          actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
+          expect(actual).to eq expected
+        end
       end
     end
 
