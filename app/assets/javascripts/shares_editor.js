@@ -23,9 +23,9 @@ const setupOnce = require('setup_once');
 
     deleteVariant: function(e) {
       let $target = $(e.target);
-        let $summary_row = $target.parents('.shares-editor__summary-row');
-        let $stats_row = $summary_row.next('.share-editor__stats-row');
-        let $edit_row = $stats_row.next('.shares-editor__edit-row');
+      let $summary_row = $target.parents('.shares-editor__summary-row');
+      let $stats_row = $summary_row.next('.share-editor__stats-row');
+      let $edit_row = $stats_row.next('.shares-editor__edit-row');
       $summary_row.remove();
       $stats_row.remove();
       $edit_row.remove();
