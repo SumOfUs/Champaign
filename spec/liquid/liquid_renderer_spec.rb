@@ -134,7 +134,7 @@ describe LiquidRenderer do
     end
 
     it 'has a follow_up_url' do
-      expect(subject.fetch('follow_up_url')).to match(/pages\/[a-z\-]+\/follow\-up/)
+      expect(subject.fetch('follow_up_url')).to match(/pages\/[a-z0-9\-]+\/follow\-up/)
     end
   end
 
@@ -313,25 +313,25 @@ describe LiquidRenderer do
       end
 
       it "is serializes the thermometer plugin's data" do
-        Timecop.freeze do # this test is not about timestamps
-          t1 = create :plugins_thermometer, page: page
-          t1.current_progress # allow goal to update
-          expected = t1.liquid_data.stringify_keys
-          actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
-          expect(actual).to eq expected
-        end
+        t1 = create :plugins_thermometer, page: page
+        t1.current_progress # allow goal to update
+        expected = t1.liquid_data.stringify_keys
+        actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
+        # disagreement over timestamps is not what this test is about
+        [expected, actual].each { |h| h.delete('updated_at'); h.delete('created_at') }
+        expect(actual).to eq expected
       end
 
       it 'is uses the first if multiple thermometer plugins' do
-        Timecop.freeze do # this test is not about timestamps
-          t1 = create :plugins_thermometer, page: page, ref: 'secondary'
-          t2 = create :plugins_thermometer, page: page
-          expect(page.plugins.size).to eq 2
-          t1.current_progress # allow goal to update
-          expected = t1.liquid_data.stringify_keys
-          actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
-          expect(actual).to eq expected
-        end
+        t1 = create :plugins_thermometer, page: page, ref: 'secondary'
+        t2 = create :plugins_thermometer, page: page
+        expect(page.plugins.size).to eq 2
+        t1.current_progress # allow goal to update
+        expected = t1.liquid_data.stringify_keys
+        actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
+        # disagreement over timestamps is not what this test is about
+        [expected, actual].each { |h| h.delete('updated_at'); h.delete('created_at') }
+        expect(actual).to eq expected
       end
     end
 
