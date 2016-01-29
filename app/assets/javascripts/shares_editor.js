@@ -9,10 +9,11 @@ const setupOnce = require('setup_once');
       'click .shares-editor__toggle-edit': 'toggleEditor',
       'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
       'click .shares-editor__view-toggle .btn': 'switchView',
-      'ajax:success form.shares-editor__new-form': 'clearForm',
+      'ajax:success form.shares-editor__new-form': 'clearFormAndConformView',
     },
 
     initialize: function(){
+      this.view = "summary";
       $.subscribe('page:errors', this.openEditorForErrors());
       $.subscribe('page:saved', this.updateSummaryRows());
 
@@ -68,22 +69,28 @@ const setupOnce = require('setup_once');
       let $target = this.$(e.target)
       const desired = $target.data('state');
       if (desired) {
-        this.$('.shares-editor__view-toggle .btn').removeClass('btn-primary');
-        $target.addClass('btn-primary');
-        if (desired === 'summary') {
-          this.$('.shares-editor__summary-row').removeClass('hidden-closed');
-          this.$('.shares-editor__stats-row').addClass('hidden-closed');
-          this.$('.shares-editor__stats-heading').addClass('hidden-closed');
-        } else {
-          this.$('.shares-editor__summary-row').addClass('hidden-closed');
-          this.$('.shares-editor__stats-row').removeClass('hidden-closed');
-          this.$('.shares-editor__stats-heading').removeClass('hidden-closed');
-        }
+        this.setView(desired);
       }
     },
 
-    clearForm: function(e){
+    setView: function(desired) {
+      this.view = desired;
+      this.$('.shares-editor__view-toggle .btn').removeClass('btn-primary');
+      this.$(`[data-state="${desired}"]`).addClass('btn-primary');
+      if (desired === 'summary') {
+        this.$('.shares-editor__summary-row').removeClass('hidden-closed');
+        this.$('.shares-editor__stats-row').addClass('hidden-closed');
+        this.$('.shares-editor__stats-heading').addClass('hidden-closed');
+      } else {
+        this.$('.shares-editor__summary-row').addClass('hidden-closed');
+        this.$('.shares-editor__stats-row').removeClass('hidden-closed');
+        this.$('.shares-editor__stats-heading').removeClass('hidden-closed');
+      }
+    },
+
+    clearFormAndConformView: function(e){
       $(e.target).find('input[type="text"], textarea').val('')
+      this.setView(this.view); // make new rows conform
     },
 
     openEditorForErrors: function(){
