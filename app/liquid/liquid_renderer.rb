@@ -37,7 +37,9 @@ class LiquidRenderer
       member:     member_data,
       location:   location,
       outstanding_fields: outstanding_fields,
-      donation_bands: donation_bands
+      donation_bands: donation_bands,
+      thermometer: thermometer,
+      action_count: @page.action_count
     }.deep_stringify_keys
   end
 
@@ -73,6 +75,10 @@ class LiquidRenderer
 
   def donation_bands
     isolate_from_plugin_data(:donation_bands).first
+  end
+
+  def thermometer
+    plugin_data.deep_symbolize_keys[:plugins][:thermometer].try(:values).try(:first)
   end
 
   def isolate_from_plugin_data(field)

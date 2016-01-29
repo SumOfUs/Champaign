@@ -144,7 +144,7 @@ describe LiquidRenderer do
     end
 
     it "should have expected keys" do
-      expected_keys = ['url_params', 'outstanding_fields', 'location', 'member', 'donation_bands']
+      expected_keys = ['url_params', 'outstanding_fields', 'location', 'member', 'donation_bands', 'thermometer', 'action_count']
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
     end
@@ -300,26 +300,62 @@ describe LiquidRenderer do
       end
     end
 
-    describe LiquidRenderer::Cache do
-      subject { LiquidRenderer::Cache.new(page, liquid_layout) }
-      let(:partial) { [ double(:partial, cache_key: 'foobar') ] }
-
-      before do
-        allow(page).to receive(:cache_key){ 'foo' }
-        allow(liquid_layout).to receive(:cache_key){ 'bar' }
+    describe 'thermometer' do
+      it 'is nil if no plugins' do
+        expect(page.plugins.size).to eq 0
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq nil
       end
 
-      describe '.invalidate' do
-        it 'incremenets invalidator seed' do
-          expect(Rails.cache).to receive(:increment).with('cache_invalidator')
-          LiquidRenderer::Cache.invalidate
-        end
+      it 'is nil if no thermometer plugin' do
+        create :plugins_fundraiser, page: page
+        expect(page.plugins.size).to eq 1
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq nil
       end
 
-      describe '#key_for_markup' do
-        it 'follows pattern' do
-          expect(subject.key_for_markup).to eq('liquid_markup:0:foo:bar')
-        end
+      it "is serializes the thermometer plugin's data" do
+        t1 = create :plugins_thermometer, page: page
+        t1.current_progress # allow goal to update
+        expected = t1.liquid_data.stringify_keys
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq expected
+      end
+
+      it 'is uses the first if multiple thermometer plugins' do
+        t1 = create :plugins_thermometer, page: page, ref: 'secondary'
+        t2 = create :plugins_thermometer, page: page
+        expect(page.plugins.size).to eq 2
+        t1.current_progress # allow goal to update
+        expected = t1.liquid_data.stringify_keys
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq expected
+      end
+    end
+
+    describe 'action_count' do
+      it 'serializes page.action_count' do
+        page.action_count = 1337
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['action_count']).to eq 1337
+      end
+    end
+  end
+
+  describe LiquidRenderer::Cache do
+    subject { LiquidRenderer::Cache.new(page, liquid_layout) }
+    let(:partial) { [ double(:partial, cache_key: 'foobar') ] }
+
+    before do
+      allow(page).to receive(:cache_key){ 'foo' }
+      allow(liquid_layout).to receive(:cache_key){ 'bar' }
+    end
+
+    describe '.invalidate' do
+      it 'incremenets invalidator seed' do
+        expect(Rails.cache).to receive(:increment).with('cache_invalidator')
+        LiquidRenderer::Cache.invalidate
+      end
+    end
+
+    describe '#key_for_markup' do
+      it 'follows pattern' do
+        expect(subject.key_for_markup).to eq('liquid_markup:0:foo:bar')
       end
     end
   end
