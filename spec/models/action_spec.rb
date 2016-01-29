@@ -11,8 +11,8 @@ describe Action do
   end
 
   it 'does not change the page updated_at or cache_key after creation' do
-    timestamp = page.updated_at
-    key = page.cache_key
+    timestamp = page.reload.updated_at
+    key = page.reload.cache_key
     create :action, page_id: page.id
     expect(page.reload.cache_key).to eq key
     expect(page.reload.updated_at).to eq timestamp
