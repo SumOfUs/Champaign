@@ -105,16 +105,36 @@ describe LiquidRenderer do
   end
 
   describe "markup_data" do
-    it "should have string keys" do
-      expect(renderer.markup_data.keys.map(&:class).uniq).to eq [String]
+    let(:page) do
+      create(:page,
+        follow_up_liquid_layout: create(:liquid_layout),
+        follow_up_page:          create(:page))
     end
 
-    it "should have expected keys" do
-      expected_keys = ['plugins', 'ref', 'images', 'shares', 'country_option_tags',
-                      'follow_up_url', 'primary_image', 'petition_target']
+    subject { renderer.markup_data }
+
+    it "has string keys" do
+      expect(subject.keys.map(&:class).uniq).to eq [String]
+    end
+
+    it "has expected keys" do
+      expected_keys = %w{
+        plugins
+        ref
+        images
+        shares
+        country_option_tags
+        follow_up_url
+        primary_image
+        petition_target }
+
       expected_keys += page.liquid_data.keys.map(&:to_s)
-      actual_keys = renderer.markup_data.keys
-      expect(actual_keys).to match_array(expected_keys)
+
+      expect(subject.keys).to match_array(expected_keys)
+    end
+
+    it 'has a follow_up_url' do
+      expect(subject.fetch('follow_up_url')).to match(/pages\/\d+\/follow\-up/)
     end
   end
 
@@ -293,12 +313,6 @@ describe LiquidRenderer do
         it 'incremenets invalidator seed' do
           expect(Rails.cache).to receive(:increment).with('cache_invalidator')
           LiquidRenderer::Cache.invalidate
-        end
-      end
-
-      describe '#key_for_data' do
-        it 'follows pattern' do
-          expect(subject.key_for_data).to eq('client_data:foo:bar')
         end
       end
 

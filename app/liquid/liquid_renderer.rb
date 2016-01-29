@@ -111,6 +111,13 @@ class LiquidRenderer
     @cache ||= Cache.new(@page, @layout)
   end
 
+  def follow_up_url
+    PageFollower.new_from_page(@page).follow_up_path
+  end
+end
+
+
+class LiquidRenderer
   class Cache
     INVALIDATOR_KEY = 'cache_invalidator'
 
@@ -121,10 +128,6 @@ class LiquidRenderer
     def initialize(page, layout)
       @page   = page
       @layout = layout
-    end
-
-    def key_for_data
-      "client_data:" << base
     end
 
     def key_for_markup
@@ -140,10 +143,6 @@ class LiquidRenderer
     def base
       "#{@page.cache_key}:#{@layout.try(:cache_key)}"
     end
-  end
-
-  def follow_up_url
-    PageFollower.new_from_page(@page).follow_up_path
   end
 end
 
