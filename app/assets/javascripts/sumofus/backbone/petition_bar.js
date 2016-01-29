@@ -19,11 +19,13 @@ const PetitionBar = Backbone.View.extend(_.extend(
   //      the values in the member hash.
   //    member: an object with fields that will prefill the form
   //    location: a hash of location values inferred from the user's request
+  //    thermometer: options to display on the thermometer
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
     this.initializePrefill(options);
     this.initializeSticky();
+    this.updateThermometer(options.thermometer);
     this.expandBlurb();
     this.followUpUrl = options.followUpUrl;
     if (!this.isMobile()) {
@@ -80,6 +82,18 @@ const PetitionBar = Backbone.View.extend(_.extend(
     const $title = $('.petition-bar__title-bar');
     $title.css('top', `-${$title.outerHeight()}px`);
   },
+
+  updateThermometer: function(thermometer) {
+    if(!_.isObject(thermometer) || _.keys(thermometer).length == 0) { return; }
+    $('.thermometer__remaining').text(
+      I18n.t('thermometer.signatures_until_goal',
+      {goal: thermometer.goal_k, remaining: thermometer.remaining})
+    );
+    $('.thermometer__signatures').text(
+      `${thermometer.signatures} ${I18n.t('thermometer.signatures')}`
+    );
+    $('.thermometer__mercury').css('width', `${thermometer.percentage}%`);
+  }
 
 }));
 

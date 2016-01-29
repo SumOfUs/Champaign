@@ -3,6 +3,8 @@ javascript:
   window.sumofus.personalization = {
     outstandingFields: #{serialize(data, 'outstanding_fields')},
     donationBands: #{serialize(data, 'donation_bands')},
+    actionCount: #{ serialize(data, 'action_count') },
+    thermometer: #{ serialize(data, 'thermometer') },
     urlParams: #{ serialize(data, 'url_params') },
     location: #{ serialize(data, 'location') },
     member: #{serialize(data, 'member') }

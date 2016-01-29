@@ -35,7 +35,6 @@ const FormMethods = {
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
   },
 
-
   // prefillValues - an object mapping form names to prefill values
   // fieldsToSkipPrefill - a list of names of fields that were not
   //    satisfied when the form was validated with prefillValues
