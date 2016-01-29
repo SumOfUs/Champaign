@@ -30,7 +30,7 @@ const setupOnce = require('setup_once');
 
   });
 
-  $.subscribe("layout:edit", function(){
+  $.subscribe("layout:edit pages:new", function(){
     setupOnce('.layout-settings', LayoutPicker);
   });
 }());
