@@ -8,5 +8,5 @@
     = render 'plugins/shared/plugin_metadata', f: f
 
     .form-group
-      = f.label :offset, t('plugins.thermometer.offset')
+      = label_with_tooltip(f, :offset, t('plugins.thermometer.offset'), t('tooltips.thermometer_offset'))
       = f.text_field(:offset, class: 'form-control')

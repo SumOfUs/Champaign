@@ -10,11 +10,11 @@
       = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, {}, class: "form-control"
 
     .form-group
-      = f.label :liquid_layout_preview, t('pages.edit.layout_select')
+      = label_with_tooltip(f, :liquid_layout_preview, t('pages.edit.layout_select'), t('tooltips.page_layout'))
       = render 'collapsing_layout_select', f: f, field: :liquid_layout_id, dom_name: 'primary', association: :liquid_layout
 
     .form-group
-      = f.label :liquid_layout_preview, t('pages.edit.follow_up_layout_select')
+      = label_with_tooltip(f, :liquid_layout_preview, t('pages.edit.follow_up_layout_select'), t('tooltips.follow_up'))
       = render 'collapsing_layout_select', f: f, field: :follow_up_liquid_layout_id, dom_name: 'follow_up', association: :follow_up_liquid_layout, offer_redirect: true
 
     javascript:

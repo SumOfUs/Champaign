@@ -12,11 +12,11 @@
           = f.text_area :description, class: 'form-control'
 
         .form-group
-          = f.label :target, "Petition target (optional)"
+          = label_with_tooltip(f, :target, t('plugins.petition.target'), t('tooltips.petition.target'))
           = f.text_field :target, class: 'form-control'
 
         .form-group
-          = f.label :cta, "Call to Action"
+          = label_with_tooltip(f, :cta, t('plugins.petition.cta'), t('tooltips.petition.cta'))
           = f.text_field :cta, class: 'form-control', placeholder: 'Sign the Petition'
 
     .well

@@ -10,7 +10,7 @@
 .col-md-7
   = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
     .form-group
-      = f.label :primary_image_id, t('pages.edit.primary_image')
+      = label_with_tooltip(f, :primary_image_id, t('pages.edit.primary_image'), t('tooltips.main_image'))
       = f.select :primary_image_id, page.images.map { |im| [im.content_file_name, im.id] }, {}, class: "form-control"
 
 javascript:
