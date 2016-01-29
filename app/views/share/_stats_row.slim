@@ -15,7 +15,7 @@ tr.shares-editor__stats-row.hidden-closed
     td = analytics['successful_shares']
     td = analytics['conversion']
     td = analytics['weight']
-    td = analytics['winner']
+    td = (analytics['winner'] ? t('common.yes') : t('common.no'))
   - else
     td colspan=5
       = t('share.analytics.no_data')
