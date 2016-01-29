@@ -2,6 +2,7 @@ tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
   td
     span.fa.fa-twitter
   td colspan=5 = simple_format share.description
+  td.shares-editor__toggle-cell = render 'share/btn_edit_share'
   td
-    = button_to 'Delete', page_share_twitter_path(@page.id, share.id), {class: 'btn btn-danger shares-editor__delete-variant', method: :delete, remote: true}
+    = button_to 'Delete', page_share_twitter_path(@page.id, share.id),  {form_class: 'shares-editor__delete-variant', class: 'btn btn-danger', method: :delete, remote: true}
 
