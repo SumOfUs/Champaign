@@ -20,6 +20,13 @@ module PagesHelper
     new_variant
   end
 
+  def label_with_tooltip(f, field_sym, label_text, tooltip_text)
+    tooltip = render partial: 'tooltip', locals: {label_text: label_text, tooltip_text: tooltip_text}
+    f.label field_sym do
+      "#{label_text} #{tooltip}".html_safe
+    end
+  end
+
   def button_group_item(text, path)
     selected = current_page?(path)
     klass = selected ? 'btn-primary' : 'btn-default'

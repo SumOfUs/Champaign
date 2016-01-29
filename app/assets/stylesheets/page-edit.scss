@@ -397,3 +397,19 @@ body.page-edit-body {
     @include clearfix();
   }
 }
+
+.tooltip {
+  &__trigger {
+    position: relative;
+    display: inline-block;
+    background: $bootstrap-bg-gray;
+    border: 1px solid $bootstrap-border-gray;
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-weight: normal;
+    font-size: 13px;
+    color: $save-box-color;
+  }
+}

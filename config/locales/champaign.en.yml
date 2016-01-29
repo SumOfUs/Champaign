@@ -53,6 +53,9 @@ en:
     sign_google: 'Sign in with Google'
     donation_bands: 'Donation Bands'
 
+  tooltips:
+    tags: 'Standard SumOfUs tags as used in ActionKit'
+
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 

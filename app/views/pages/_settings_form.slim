@@ -2,7 +2,7 @@
   = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
 
     .form-group
-      = f.label  :tag_ids, t('pages.edit.tags')
+      = label_with_tooltip(f, :tag_ids, t('pages.edit.tags'), t('tooltips.tags'))
       = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
 
     .form-group

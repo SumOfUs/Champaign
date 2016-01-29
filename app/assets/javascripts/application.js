@@ -39,6 +39,7 @@ require('ajax')
 require('page');
 require("plugins_toggle");
 require("sidebar");
+require("tooltips");
 require("collection_editor");
 require('shares_editor');
 require('layout_picker');
