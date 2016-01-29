@@ -28,8 +28,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    followUpUrl: the url to redirect to after success
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
-  //    outstandingFields: the names of step 2 form fields that can't be prefilled
+  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
+  //      the values in the member hash.
   //    donationBands: an object with three letter currency codes as keys
+  //    location: a hash of location values inferred from the user's request
   //    member: an object with fields that will prefill the form
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
@@ -56,22 +58,22 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.hidingStepTwo = false;
     let amountKnown = (options.amount > 0); // non-numbers with > are always false
     let formComplete = this.formCanAutocomplete(options.outstandingFields, options.member);
-    this.hideSteps(amountKnown, formComplete, options.member, options.outstandingFields);
+    this.hideSteps(amountKnown, formComplete, options.member, options.location, options.outstandingFields);
   },
 
-  hideSteps (amountKnown, formComplete, member, fieldsToSkipPrefill) {
+  hideSteps (amountKnown, formComplete, member, location, fieldsToSkipPrefill) {
     if (amountKnown && formComplete) {
       this.changeStep(3);
       this.hideSecondStep(member);
-      this.completePrefill(member);
+      this.completePrefill(member, location);
     } else if (formComplete) {
       this.hideSecondStep(member);
-      this.completePrefill(member);
+      this.completePrefill(member, location);
     } else if (amountKnown) {
       this.changeStep(2);
-      this.partialPrefill(member, fieldsToSkipPrefill);
+      this.partialPrefill(member, location, fieldsToSkipPrefill);
     } else {
-      this.partialPrefill(member, fieldsToSkipPrefill);
+      this.partialPrefill(member, location, fieldsToSkipPrefill);
     }
   },
 

@@ -94,16 +94,17 @@ describe PageFollower do
 
   describe 'new_from_page' do
 
-    let(:page) { instance_double('Page', follow_up_plan: 'with_liquid', id: 2, follow_up_liquid_layout_id: 3, follow_up_page_id: 4) }
+    let(:other_page) { instance_double('Page', slug: 'bleep-bloop')}
+    let(:page) { instance_double('Page', follow_up_plan: 'with_liquid', slug: 'astro-droid', follow_up_liquid_layout_id: 3, follow_up_page: other_page) }
 
     it 'calls with page attributes' do
       allow(PageFollower).to receive(:new)
       PageFollower.new_from_page(page)
-      expect(PageFollower).to have_received(:new).with('with_liquid', 2, 3, 4)
+      expect(PageFollower).to have_received(:new).with('with_liquid', 'astro-droid', 3, 'bleep-bloop')
     end
 
     it 'returns the instance for call chaining' do
-      expect(PageFollower.new_from_page(page).follow_up_path).to eq follow_up_page_path(2)
+      expect(PageFollower.new_from_page(page).follow_up_path).to eq follow_up_page_path('astro-droid')
     end
   end
 

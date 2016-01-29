@@ -19,54 +19,69 @@ class LiquidRenderer
     @template ||= Liquid::Template.parse(@layout.content)
   end
 
-  def markup_data
-    return @markup_data if @markup_data
-
-    @markup_data = Rails.cache.fetch( cache.key_for_data ) do
-      {
-        images: images,
-        primary_image: image_urls(@page.image_to_display),
-        shares: Shares.get_all(@page),
-        follow_up_url: follow_up_url,
-        outstanding_fields: outstanding_fields(plugin_data),
-        donation_bands: donation_bands(plugin_data)
-      }.
-      merge( @page.liquid_data ).
-      merge( LiquidHelper.globals(page: @page) )
-    end.merge( plugin_data ).deep_stringify_keys
-  end
-
-  def data
-    markup_data.merge(member_data)
-  end
-
   def images
     @page.images.map{ |img| image_urls(img) }
   end
 
-  private
-
-  def plugin_data
-    @plugin_data ||= Plugins.data_for_view(@page, {form_values: @member.try(:attributes), donation_band: @url_params[:donation_band]})
+  # this is all of the data that is needed to render the
+  # liquid page. the only parts that change on each request
+  # are not used when rendering markup
+  def markup_data
+    cacheable_data.merge(plugin_data).deep_stringify_keys
   end
 
-  def member_data
+  # this is all the data that we expect to change from request to request
+  def personalization_data
     {
       url_params: @url_params,
-      member:     @member.try(:liquid_data),
-      location:   location
+      member:     member_data,
+      location:   location,
+      outstanding_fields: outstanding_fields,
+      donation_bands: donation_bands,
+      thermometer: thermometer,
+      action_count: @page.action_count
     }.deep_stringify_keys
   end
 
-  def outstanding_fields(plugin_data)
-    isolate_from_plugin_data(plugin_data, :outstanding_fields)
+  private
+
+  # the plugin serialization has lots of data that does not change
+  # from request to request, but it has some. it's used in both
+  # markup_data, which is used to create the cached html, and in 
+  # personalization_data, which is not cached.
+  def plugin_data
+    @plugin_data ||= Plugins.data_for_view(@page, {form_values: member_data, donation_band: @url_params[:donation_band]})
   end
 
-  def donation_bands(plugin_data)
-    isolate_from_plugin_data(plugin_data, :donation_bands).first
+  # this is all data used to render the page that we expect
+  # will not change from request to request
+  def cacheable_data
+    @cacheable_data ||= {}.
+      merge( @page.liquid_data ).
+      merge( LiquidHelper.globals(page: @page) ).
+      merge( images: images).
+      merge( primary_image: image_urls(@page.image_to_display)).
+      merge( shares: Shares.get_all(@page)).
+      merge( follow_up_url: follow_up_url)
   end
 
-  def isolate_from_plugin_data(plugin_data, field)
+  def member_data
+    @member.try(:liquid_data)
+  end
+
+  def outstanding_fields
+    isolate_from_plugin_data(:outstanding_fields)
+  end
+
+  def donation_bands
+    isolate_from_plugin_data(:donation_bands).first
+  end
+
+  def thermometer
+    plugin_data.deep_symbolize_keys[:plugins][:thermometer].try(:values).try(:first)
+  end
+
+  def isolate_from_plugin_data(field)
     plugin_values = plugin_data.deep_symbolize_keys[:plugins].values().map(&:values).flatten
     plugin_values.map{|plugin| plugin[field]}.flatten.compact
   end
@@ -80,7 +95,7 @@ class LiquidRenderer
     end
     return @location.data if country_code.blank?
     currency = Donations::Utils.currency_from_country_code(country_code)
-    @location.data.merge(currency: currency)
+    @location.data.merge(currency: currency, country: country_code)
   end
 
   def set_locale
@@ -102,6 +117,13 @@ class LiquidRenderer
     @cache ||= Cache.new(@page, @layout)
   end
 
+  def follow_up_url
+    PageFollower.new_from_page(@page).follow_up_path
+  end
+end
+
+
+class LiquidRenderer
   class Cache
     INVALIDATOR_KEY = 'cache_invalidator'
 
@@ -112,10 +134,6 @@ class LiquidRenderer
     def initialize(page, layout)
       @page   = page
       @layout = layout
-    end
-
-    def key_for_data
-      "client_data:" << base
     end
 
     def key_for_markup
@@ -131,10 +149,6 @@ class LiquidRenderer
     def base
       "#{@page.cache_key}:#{@layout.try(:cache_key)}"
     end
-  end
-
-  def follow_up_url
-    PageFollower.new_from_page(@page).follow_up_path
   end
 end
 

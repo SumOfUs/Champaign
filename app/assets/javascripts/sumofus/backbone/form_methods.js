@@ -30,17 +30,26 @@ const FormMethods = {
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
   },
 
-  completePrefill(prefillValues) {
+  completePrefill(prefillValues, unvalidatedPrefillValues) {
     this.$('.petition-bar__field-container').addClass('form__group--prefilled');
-    this.partialPrefill(prefillValues, []);
+    this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
   },
 
-  partialPrefill(prefillValues, fieldsToSkipPrefill) {
+  // prefillValues - an object mapping form names to prefill values
+  // fieldsToSkipPrefill - a list of names of fields that were not
+  //    satisfied when the form was validated with prefillValues
+  // unvalidatedPrefillValues - values that were not passed through
+  //    the form validator, so should be prefilled even if the field
+  //    name comes up in fieldsToSkipPrefill.
+  partialPrefill(prefillValues, unvalidatedPrefillValues = {}, fieldsToSkipPrefill = []) {
     if(!_.isObject(prefillValues)) { return; }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
     this.$('.petition-bar__field-container input, select').each((ii, field) => {
       let $field = $(field);
       let name = $field.prop('name');
+      if (unvalidatedPrefillValues.hasOwnProperty(name)) {
+        $field.val(unvalidatedPrefillValues[name]);
+      }
       if (prefillValues.hasOwnProperty(name) && fieldsToSkipPrefill.indexOf(name) === -1) {
         $field.val(prefillValues[name]);
       }

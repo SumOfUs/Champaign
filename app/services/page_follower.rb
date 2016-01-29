@@ -2,13 +2,13 @@ class PageFollower
   include Rails.application.routes.url_helpers
 
   def self.new_from_page(page)
-    new(page.follow_up_plan, page.id, page.follow_up_liquid_layout_id, page.follow_up_page_id)
+    new(page.follow_up_plan, page.slug, page.follow_up_liquid_layout_id, page.follow_up_page.try(:slug))
   end
 
-  def initialize(plan, page_id, follow_up_liquid_layout_id, follow_up_page_id)
+  def initialize(plan, page_slug, follow_up_liquid_layout_id, follow_up_page_slug)
     @plan = plan
-    @page_id = page_id
-    @follow_up_page_id = follow_up_page_id
+    @page_slug = page_slug
+    @follow_up_page_slug = follow_up_page_slug
     @follow_up_liquid_layout_id = follow_up_liquid_layout_id
   end
 
@@ -26,11 +26,11 @@ class PageFollower
   private
 
   def path_to_follow_up_page
-    page_path(@follow_up_page_id) unless @follow_up_page_id.blank?
+    page_path(@follow_up_page_slug) unless @follow_up_page_slug.blank?
   end
 
   def path_to_follow_up_layout
-    follow_up_page_path(@page_id) unless @page_id.blank? || @follow_up_liquid_layout_id.blank?
+    follow_up_page_path(@page_slug) unless @page_slug.blank? || @follow_up_liquid_layout_id.blank?
   end
 end
 

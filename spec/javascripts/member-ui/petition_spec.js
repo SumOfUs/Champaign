@@ -27,7 +27,7 @@ describe("Petition", function() {
 
   describe('instantiation', function(){
 
-    describe('selective', function(){
+    describe('selectize', function(){
       it ('selectizes the dropdown when not on mobile', function(){
         expect($('select')).not.to.have.class('selectized');
         $('.mobile-indicator').css('display', 'none');
@@ -42,6 +42,41 @@ describe("Petition", function() {
         expect($('select')).not.to.have.class('selectized');
       });
     });
+
+    describe('thermometer', function(){
+
+      beforeEach(function(){
+        $('.thermometer__remaining').text('UNTOUCHED');
+        $('.thermometer__signatures').text('UNTOUCHED');
+        $('.thermometer__mercury').css('width', '1337px');
+      });
+
+      it('does nothing if thermometer is not passed', function(){
+        new window.sumofus.PetitionBar();
+        expect(helpers.allTexts('.thermometer__remaining')).to.eql(['UNTOUCHED', 'UNTOUCHED']);
+        expect(helpers.allTexts('.thermometer__signatures')).to.eql(['UNTOUCHED', 'UNTOUCHED']);
+        expect($('.thermometer__mercury').css('width')).to.eq('1337px');
+      });
+
+      it('does nothing if thermometer is empty', function(){
+        new window.sumofus.PetitionBar({thermometer: {}});
+        expect(helpers.allTexts('.thermometer__remaining')).to.eql(['UNTOUCHED', 'UNTOUCHED']);
+        expect(helpers.allTexts('.thermometer__signatures')).to.eql(['UNTOUCHED', 'UNTOUCHED']);
+        expect($('.thermometer__mercury').css('width')).to.eq('1337px');
+      });
+
+      it('correctly fills the values on the thermometer', function(){
+        new window.sumofus.PetitionBar({thermometer: {
+          signatures: 9322,
+          goal_k: '10k',
+          remaining: 678,
+          percentage: 28.4
+        }});
+        expect(helpers.allTexts('.thermometer__remaining')).to.eql(['678 signatures until 10k', '678 signatures until 10k']);
+        expect(helpers.allTexts('.thermometer__signatures')).to.eql(['9322 signatures', '9322 signatures']);
+        expect($('.thermometer__mercury').css('width')).not.to.eq('1337px');
+      });
+    })
 
     describe('outstanding fields is empty', function(){
 
@@ -111,6 +146,17 @@ describe("Petition", function() {
           var vals = suite.inputs.map(function(ii, el){ return $(el).val(); }).toArray();
           expect(vals).to.eql( ['', '', '', '']);
         });
+
+        it('overrides location country with member country', function(){
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
+          expect(suite.inputs.filter('[name="country"]').val()).to.eq('GB');
+        });
+
+        it('falls back to location country when member country not provided', function(){
+          delete suite.fullVals['country'];
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
+          expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
+        });
       });
     });
 
@@ -130,6 +176,11 @@ describe("Petition", function() {
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);
+        });
+
+        it('uses location country when country in outstandingFields', function(){
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: ['country'], member: suite.fullVals, location: {country: 'NI'} });
+          expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
       });
 

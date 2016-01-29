@@ -15,13 +15,17 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
-  //    outstandingFields: the names of step 2 form fields that can't be prefilled
+  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
+  //      the values in the member hash.
   //    member: an object with fields that will prefill the form
+  //    location: a hash of location values inferred from the user's request
+  //    thermometer: options to display on the thermometer
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
     this.handleFormErrors();
     this.initializePrefill(options);
     this.initializeSticky();
+    this.updateThermometer(options.thermometer);
     this.expandBlurb();
     this.followUpUrl = options.followUpUrl;
     if (!this.isMobile()) {
@@ -31,12 +35,12 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
   initializePrefill(options) {
     if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
-      this.completePrefill(options.member);
+      this.completePrefill(options.member, options.location);
       if (this.formFieldCount() > 0) {
         this.showFormClearer('petition', options.member);
       }
     } else {
-      this.partialPrefill(options.member, options.outstandingFields);
+      this.partialPrefill(options.member, options.location, options.outstandingFields);
     }
   },
 
@@ -78,6 +82,18 @@ const PetitionBar = Backbone.View.extend(_.extend(
     const $title = $('.petition-bar__title-bar');
     $title.css('top', `-${$title.outerHeight()}px`);
   },
+
+  updateThermometer: function(thermometer) {
+    if(!_.isObject(thermometer) || _.keys(thermometer).length == 0) { return; }
+    $('.thermometer__remaining').text(
+      I18n.t('thermometer.signatures_until_goal',
+      {goal: thermometer.goal_k, remaining: thermometer.remaining})
+    );
+    $('.thermometer__signatures').text(
+      `${thermometer.signatures} ${I18n.t('thermometer.signatures')}`
+    );
+    $('.thermometer__mercury').css('width', `${thermometer.percentage}%`);
+  }
 
 }));
 
