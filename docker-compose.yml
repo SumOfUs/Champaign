@@ -2,7 +2,6 @@ web:
   build: .
   volumes:
     - .:/myapp
-    - ../share_progress:/share_progress
   ports:
     - "3000:3000"
   links:
