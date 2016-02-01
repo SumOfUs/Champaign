@@ -56,11 +56,9 @@ class ShareProgressVariantBuilder
 
   def destroy
     variant = variant_class.find(@id)
-
     button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
     sp_variant = sp_variant_class.new(id: variant.sp_id, button: sp_button)
-
     if sp_variant.destroy
       variant.destroy
     else
