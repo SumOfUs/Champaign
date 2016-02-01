@@ -15,7 +15,7 @@
         = ff.fields_for :page do |f|
           = f.hidden_field :active, class: 'campaigner-overlay__publish-field', value: !page.active?
           = f.submit "Publish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--inactive'
-          = f.submit "Unpublish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--active'
+          = f.submit "Unpublish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--active', 'data-confirm' => "Are you sure you want to unpublish this page? It will become inaccessible except to logged-in campaigners."
       = link_to 'Edit', edit_page_path(page), class: 'campaigner-overlay__edit-link'
 
   javascript:

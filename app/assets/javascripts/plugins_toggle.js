@@ -5,7 +5,7 @@ const setupOnce = require('setup_once');
   let ActivationToggle = Backbone.View.extend({
 
     events: {
-      'ajax:before': 'updateState',
+      'ajax:before': 'toggleState',
       'ajax:success': 'handleSuccess',
       'ajax:error': 'handleError',
       'change .onoffswitch__checkbox': 'handleClick',
@@ -14,9 +14,16 @@ const setupOnce = require('setup_once');
     initialize: function(){
       this.$stateInput = this.$('.activation-toggle-field');
       this.$checkbox = this.$('.onoffswitch__checkbox');
+      this.state = JSON.parse(this.$stateInput.val());
     },
 
     handleClick: function(e){
+      if (this.state == true && this.$stateInput.data('confirm-turning-off')){
+        if (!window.confirm(this.$stateInput.data('confirm-turning-off'))) {
+          this.toggleButton();
+          return false;
+        }
+      }
       this.$el.submit();
     },
 
@@ -29,11 +36,12 @@ const setupOnce = require('setup_once');
     handleError: function(xhr, status, error){
       console.error('error', status, error);
       this.toggleButton();
+      this.toggleState();
     },
 
-    updateState: function(){
-      var state = !JSON.parse(this.$stateInput.val());
-      this.$stateInput.val(state);
+    toggleState: function(){
+      this.state = !this.state;
+      this.$stateInput.val(this.state);
     },
   });
 

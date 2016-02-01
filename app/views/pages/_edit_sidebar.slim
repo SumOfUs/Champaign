@@ -15,7 +15,7 @@
       = form_for page, url: api_page_path(page), remote: true, html: {class: 'activation-toggle'} do |ff|
         / we have nested page[page][active] to match the massive nested form submitted with the one-form
         = ff.fields_for :page do |f|
-          = f.hidden_field :active, class: 'activation-toggle-field', value: page.active?
+          = f.hidden_field :active, class: 'activation-toggle-field', value: page.active?, "data-confirm-turning-off" => "Are you sure you want to unpublish this page? It will become inaccessible except to logged-in campaigners."
           .page-edit-bar__toggle-title Publish
           .page-edit-bar__toggle-btns
             = render 'shared/binary_switch', checked: page.active?
