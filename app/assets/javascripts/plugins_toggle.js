@@ -8,21 +8,20 @@ const setupOnce = require('setup_once');
       'ajax:before': 'updateState',
       'ajax:success': 'handleSuccess',
       'ajax:error': 'handleError',
-      'click .toggle-button': 'handleClick',
+      'change .onoffswitch__checkbox': 'handleClick',
     },
 
     initialize: function(){
       this.$stateInput = this.$('.activation-toggle-field');
+      this.$checkbox = this.$('.onoffswitch__checkbox');
     },
 
     handleClick: function(e){
-      e.preventDefault();
       this.$el.submit();
-      this.toggleButton();
     },
 
     toggleButton: function() {
-      this.$('.toggle-button').toggleClass('btn-primary');
+      this.$checkbox.prop("checked", !this.$checkbox.prop("checked"));
     },
 
     handleSuccess: function(e,data){},

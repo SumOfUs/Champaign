@@ -1,8 +1,4 @@
 = form_for plugin, url: path, remote: true, html: { class: 'activation-toggle' }  do |f|
   = f.hidden_field :active, class: 'activation-toggle-field'
-  .form-group.plugin-toggle
-    .btn-group
-      = toggle_switch true, plugin.active?, 'On'
-      = toggle_switch false, plugin.active?, 'Off'
-
-
+  .form-group
+    = render 'shared/binary_switch', checked: plugin.active?

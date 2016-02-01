@@ -9,18 +9,16 @@
   .page-edit-bar__save-box
     .page-edit-bar__toggle
       .page-edit-bar__toggle-title Autosave
-      .btn-group.page-edit-bar__toggle-btns.page-edit-bar__toggle-autosave data-autosave="#{!page.active?}"
-        = toggle_switch true, true, 'On'
-        = toggle_switch false, true, 'Off'
+      .page-edit-bar__toggle-btns.page-edit-bar__toggle-autosave data-autosave="#{!page.active?}"
+        = render 'shared/binary_switch', checked: !page.active?
     .page-edit-bar__toggle
       = form_for page, url: api_page_path(page), remote: true, html: {class: 'activation-toggle'} do |ff|
         / we have nested page[page][active] to match the massive nested form submitted with the one-form
         = ff.fields_for :page do |f|
           = f.hidden_field :active, class: 'activation-toggle-field', value: page.active?
           .page-edit-bar__toggle-title Publish
-          .btn-group.page-edit-bar__toggle-btns
-            = toggle_switch true, page.active?, 'On'
-            = toggle_switch false, page.active?, 'Off'
+          .page-edit-bar__toggle-btns
+            = render 'shared/binary_switch', checked: page.active?
     .page-edit-bar__last-saved
     .page-edit-bar__error-message
     .page-edit-bar__btn-holder.page-edit-bar__btn-holder--hidden

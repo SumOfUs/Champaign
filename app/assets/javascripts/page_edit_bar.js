@@ -29,7 +29,7 @@ let PageEditBar = Backbone.View.extend({
   events: {
     'click .page-edit-bar__save-button': 'save',
     'click .page-edit-bar__error-message': 'findError',
-    'click .page-edit-bar__toggle-autosave>.toggle-button': 'toggleAutosave',
+    'change .page-edit-bar__toggle-autosave .onoffswitch__checkbox': 'toggleAutosave',
   },
 
   initialize: function() {
@@ -146,7 +146,6 @@ let PageEditBar = Backbone.View.extend({
   },
 
   toggleAutosave: function(e) {
-    if (e) { e.preventDefault(); }
     this.autosave = !this.autosave;
     this.$('.page-edit-bar__toggle-autosave').find('.toggle-button').toggleClass('btn-primary');
     if(this.autosave) {
