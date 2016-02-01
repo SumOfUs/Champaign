@@ -255,6 +255,8 @@ GEM
       rake
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    metamagic (3.1.7)
+      rails (>= 3.0.0)
     method_source (0.8.2)
     mime-types (2.99)
     mimemagic (0.3.0)
@@ -493,6 +495,7 @@ DEPENDENCIES
   liquid
   logger
   magic_lamp
+  metamagic
   money
   newrelic_rpm
   omniauth-google-oauth2
