@@ -45,14 +45,14 @@ describe Page do
     end
 
     it 'should be a reciprocal many-to-many relationship' do
-      page = Page.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+      page = create :page, tags: Tag.last(2)
       expect(page.tags).to match_array Tag.last(2)
       expect(Tag.last.pages).to match_array [page]
       expect(Tag.first.pages).to match_array []
     end
 
     it 'reflects assigned tags in the tag_names property' do
-      page = Page.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+      page = create :page, tags: Tag.last(2)
       tag_array = page.tags.map { |tag| tag.name.downcase }
       expect(page.tag_names).to match_array(tag_array)
     end
