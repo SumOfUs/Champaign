@@ -15,7 +15,7 @@ let PageModel = Backbone.Model.extend({
       }
     } else {
       this.lastSaved = data;
-      Backbone.Model.prototype.save.apply(this, arguments)
+      Backbone.Model.prototype.save.apply(this, arguments, {patch: true});
     }
   }
 

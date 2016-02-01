@@ -65,7 +65,7 @@ class Share::SharesController < ApplicationController
     )
     respond_to do |format|
       if @deleted_share.errors.empty?
-        format.js { render inline: "location.reload();" }
+        format.js { render json: {} }
       else
         format.html { render 'share/edit' }
       end
