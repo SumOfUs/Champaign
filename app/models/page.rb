@@ -45,6 +45,10 @@ class Page < ActiveRecord::Base
     primary_image || images.first
   end
 
+  def meta_tags
+    tags.map {|tag| tag.name.downcase}
+  end
+
   private
 
   def switch_plugins
