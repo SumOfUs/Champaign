@@ -1,9 +1,12 @@
 #dropzone-preview-template.hidden-irrelevant
   = render 'images/thumbnail', image: nil
 
-= form_tag page_images_url(page, format: :js), id: 'dropzone', class: 'dropzone campaign-images' do
+= form_tag page_images_url(page, format: :js), id: 'dropzone', class: 'dropzone campaign-images'
+  .tooltip--image-uploader.tooltip--white
+    = render 'tooltip', tooltip_text: t('tooltips.image_upload')
   .dz-message data-dz-message=""
-    span Drop files or click here to upload
+    span
+      | Drop files or click here to upload
   - page.images.each do |image|
     = render partial: 'images/thumbnail', locals: { image: image }
 

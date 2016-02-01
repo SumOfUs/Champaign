@@ -3,7 +3,9 @@
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_petition_path(plugin) }
 
     .well
-      h4  = t('plugins.petition.petition_description')
+      h4
+        = t('plugins.petition.petition_description')
+        = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.petition.text'), space_left: true }
       - name = "plugins_petition_#{plugin.id}"
       = form_for plugin, url: plugins_petition_path(plugin), remote: true, as: name, html: { class: 'petition one-form', data: {type: name } }  do |f|
         = render 'plugins/shared/plugin_metadata', f: f
