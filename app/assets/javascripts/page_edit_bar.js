@@ -15,7 +15,7 @@ let PageModel = Backbone.Model.extend({
       }
     } else {
       this.lastSaved = data;
-      Backbone.Model.prototype.save.apply(this, arguments)
+      Backbone.Model.prototype.save.apply(this, arguments, {patch: true});
     }
   }
 
@@ -100,7 +100,11 @@ let PageEditBar = Backbone.View.extend({
     $.publish('quill_editor:submit'); // for quill to update content
     if (!this.outstandingSaveRequest) {
       this.disableSubmit();
-      this.model.save(this.readData(), {success: this.saved(), error: this.saveFailed(), unchanged: this.saveUnchanged()});
+      this.model.save(this.readData(), {
+          success: this.saved(),
+          error: this.saveFailed(),
+          unchanged: this.saveUnchanged()
+      });
     }
   },
 

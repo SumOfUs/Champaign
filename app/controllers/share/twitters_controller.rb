@@ -14,5 +14,6 @@ class Share::TwittersController < Share::SharesController
   def share_class
     Share::Twitter
   end
+
 end
 

@@ -256,10 +256,13 @@ body.page-edit-body {
       padding: 20px 20% 15px 10%;
     }
   }
+  &__view-toggle {
+    margin-bottom: 15px
+  }
   &__toggle-edit {
     width: 60px;
   }
-  &__toggle-cell {
+  &__button-cell {
     width: 64px;
   }
   &__preview-image {

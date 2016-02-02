@@ -10,7 +10,7 @@ class Share::SharesController < ApplicationController
   end
 
   def edit
-    @share = share_class.find params[:id]
+    find_share
     render 'share/edit'
   end
 
@@ -55,7 +55,28 @@ class Share::SharesController < ApplicationController
     end
   end
 
+  def destroy
+    find_share
+    @deleted_share = ShareProgressVariantBuilder.destroy(
+      params: {},
+      variant_type: @resource.to_sym,
+      page: @page,
+      id: params[:id]
+    )
+    respond_to do |format|
+      if @deleted_share.errors.empty?
+        format.js { render json: {} }
+      else
+        format.html { render 'share/edit' }
+      end
+    end
+  end
+
   private
+
+  def find_share
+    @share = share_class.find params[:id]
+  end
 
   #
   # Assigns resource name, which is taken from controller's class name.

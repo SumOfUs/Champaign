@@ -10,6 +10,8 @@ web:
   environment:
     PG_USERNAME: postgres
     PG_HOST: db
+  env_file:
+    - env.yml
 
 db:
   image: postgres

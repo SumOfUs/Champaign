@@ -1,11 +1,13 @@
 tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
   td
     span.fa.fa-facebook-square
-  td = share.title
+  td colspan=2 = share.title
   td
     - if share.image.present?
       = image_tag share.image.content(:thumb), class: 'img-rounded shares-editor__preview-image'
     - else
       = t('share.facebook.no_image')
-  td = simple_format share.description
-  td.shares-editor__toggle-cell = render 'share/btn_edit_share'
+  td colspan=2 = simple_format share.description
+  td.shares-editor__button-cell = render 'share/btn_edit_share'
+  td.shares-editor__button-cell
+    = button_to 'Delete', page_share_facebook_path(@page.id, share.id),  {form_class: 'shares-editor__delete-variant', class: 'btn btn-danger', method: :delete, remote: true}

@@ -33,6 +33,9 @@ en:
     created: 'Date Created'
     modified: 'Date Modified'
     amounts: 'Amounts'
+    delete: 'Delete'
+    'yes': 'Yes' # yml treats yes / no as booleans
+    'no': 'No'
 
   validation:
     is_required: 'is required'
@@ -172,10 +175,10 @@ en:
 
   share:
     analytics:
-      weight: 'Weight'
+      weight: 'Traffic allocation'
       shares: 'Shares'
       successful_shares: 'Successful Shares'
-      conversions: 'Conversions'
+      conversion_rate: 'Conversion rate'
       winner: 'Winner'
       no_data: "We haven't any data, yet!"
 

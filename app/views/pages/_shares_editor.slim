@@ -1,5 +1,19 @@
 .shares-editor
+  .shares-editor__view-toggle.btn-group
+    = toggle_switch 'summary', 'summary', 'Summary view'
+    = toggle_switch 'stats', 'summary', 'Analysis view'
+
   table.table.shares-editor__existing
+    thead.shares-editor__stats-heading.hidden-closed
+      th
+      th = "Content"
+      th = t('share.analytics.shares')
+      th = t('share.analytics.successful_shares')
+      th = t('share.analytics.conversion_rate')
+      th = t('share.analytics.weight')
+      th = t('share.analytics.winner')
+      th
+
     tbody
       - @variations.each do |variation|
         = render variation, page: @page

@@ -1,0 +1,23 @@
+- analytics = ShareAnalytics.data(page, share_type, share )[0]
+
+tr.shares-editor__stats-row.hidden-closed
+  td
+    - case share_type
+    - when "twitter"
+      span.fa.fa-twitter
+    - when "facebook"
+      span.fa.fa-facebook-square
+    - when "email"
+      span.fa.fa-envelope-o
+  td = preview
+  - if analytics
+    td = analytics['shares']
+    td = analytics['successful_shares']
+    td = analytics['conversion']
+    td = analytics['weight']
+    td = (analytics['winner'] ? t('common.yes') : t('common.no'))
+  - else
+    td colspan=5
+      = t('share.analytics.no_data')
+  td.shares-editor__button-cell = render 'share/btn_edit_share'
+
