@@ -21,7 +21,7 @@ module PagesHelper
   end
 
   def label_with_tooltip(f, field_sym, label_text, tooltip_text)
-    tooltip = render partial: 'tooltip', locals: {label_text: label_text, tooltip_text: tooltip_text}
+    tooltip = render partial: 'pages/tooltip', locals: {label_text: label_text, tooltip_text: tooltip_text}
     f.label field_sym do
       "#{label_text} #{tooltip}".html_safe
     end
