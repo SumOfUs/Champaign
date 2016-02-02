@@ -64,6 +64,25 @@ const FormMethods = {
     this.$(`.${plugin_type}-bar__welcome-name`).text(member.welcome_name);
     this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
   },
+
+  insertActionKitId(form_type) {
+    let $form;
+    if(form_type == 'petition') {
+      $form = $('.petition-bar__main').find('form')[0];
+    } else if(form_type == 'fundraiser') {
+      $form = $('.fundraiser-bar__step-panel').find('form')[0]
+    }
+
+    if('akid' in window.sumofus.personalization.urlParams) {
+      if($form) {
+        $('<input>').attr({
+          type: 'hidden',
+          name: 'actionkit_user_id',
+          value: window.sumofus.personalization.urlParams['akid']
+        }).appendTo($form);
+      }
+    }
+  },
 };
 
 module.exports = FormMethods;

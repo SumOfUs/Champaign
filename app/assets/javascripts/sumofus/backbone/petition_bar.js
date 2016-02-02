@@ -31,6 +31,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
+    this.insertActionKitId('petition');
   },
 
   initializePrefill(options) {
