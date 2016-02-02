@@ -120,7 +120,7 @@ body.page-edit-body {
     position: absolute;
     top: -45px;
     left: 0;
-    @include transition(top 0.1s ease-in-out, height 0.1s ease-in-out);
+    @include transition(top 0.15s ease-in-out, height 0.15s ease-in-out);
     @include box-sizing(border-box);
     height: 54px;
     z-index: -1;
@@ -143,17 +143,8 @@ body.page-edit-body {
   &__toggle-btns {
     margin: 0 20px 6px;
 
-    .btn-default {
-      color: #666;
-      background-color: #ddd;
-    }
-    .btn-primary {
-      color: black;
-      background-color: white;
-      border-color: white;
-      &:active {
-        background-color: white;
-      }
+    .onoffswitch {
+      margin: 0 auto;
     }
   }
   &__toggle-title {
