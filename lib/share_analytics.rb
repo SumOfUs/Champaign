@@ -10,7 +10,7 @@ class ShareAnalytics
   end
 
   def data
-    raw_data.select{|s| s['id'] == @share.sp_id || true}
+    raw_data.select{|s| s['id'] == @share.sp_id }
   end
 
   def raw_data
