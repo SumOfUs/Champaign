@@ -53,6 +53,28 @@ en:
     sign_google: 'Sign in with Google'
     donation_bands: 'Donation Bands'
 
+  tooltips:
+    title: "This is the the signer-facing external title that appears on the page and in Google results. It's also how the page is identified internally in Champaign."
+    tags: 'Standard SumOfUs tags as used in ActionKit'
+    page_layout: "Change this to a petition page, a fundraising page, or change the appearance"
+    follow_up: "Choose what the follow-up page should look like, or redirect to another page after the action"
+    image_upload: "Use this uploader for both the page image and any images for shares."
+    main_image: "Select which image should appear at the top of the page."
+    shares:
+      link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
+      new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
+    thermometer_offset: "Number of fake signatures to add to true count"
+    petition:
+      text: "Appears above the form - this is what the member is signing on to"
+      target: "Appears just above the page title and with the petition text"
+      cta: "The text on the button to sign"
+      use_form: "Almost always stick with 'Basic'. Create new form templates by clicking 'Forms' at the top of the page, then select them here."
+    add_source: "Only URL and Title are required. These appear as citations at the bottom of the page."
+    form_elements:
+      data_type: 'This changes what user inputs the field will accept'
+      label: 'This is the label of the field presented to the petition signer.'
+      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own and it will be automatically prefixed with 'data_'"
+
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
@@ -71,7 +93,8 @@ en:
       slug_label: "Slug"
       layout_select: "Pick a layout"
     edit:
-      content: 'Content'
+      title: 'Title'
+      content: 'Body text'
       settings: 'Settings'
       pictures: 'Pictures'
       shares: 'Shares'
@@ -133,18 +156,12 @@ en:
       title: "Give your form a name"
 
   form_elements:
-    shared:
-      label: 'Label'
-      data_type: 'Field type'
-      name: 'Name'
-      required: 'Required'
-    forms:
-      name:
-        help:
-          title: "ActionKit Name Processing"
-          body: |
-            <p>The <strong>name</strong> value will dictate how your action content is handled by <strong>ActionKit</strong>.</p>
-            <p>Valid names can have alpha-numeric characters (lower-case), and underscores (_).</p>
+    label: 'Label (user-facing)'
+    data_type: 'Field type'
+    name: 'Name (internal-facing)'
+    required: 'Required'
+    label_suggestion: "eg. Street Address"
+    name_suggestion: "eg. address1"
 
   links:
     forms:
@@ -195,8 +212,10 @@ en:
       apply_template: "Apply template"
       make_required: "Make this field required"
       form_template_explanation: Choose and apply a template to replace the fields in your existing form.
+      cta: "Call to Action"
+      target: "Petition target (optional)"
     thermometer:
-      offset: "Offset (number of fake signatures to add to true count)"
+      offset: "Offset"
     fundraiser:
       donation_band: "Default Donation Band for unknown user:"
       title: "Title (eg 'Donate now')"

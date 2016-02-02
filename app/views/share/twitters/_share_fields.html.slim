@@ -1,4 +1,4 @@
 .form-group
-  = form.label :description, t('share.twitter.form.description')
+  = label_with_tooltip(form, :description, t('share.twitter.form.description'), t('tooltips.shares.link_explanation'))
   = form.text_area :description, class: 'form-control'
 
