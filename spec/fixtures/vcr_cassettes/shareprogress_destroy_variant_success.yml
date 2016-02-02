@@ -23,7 +23,7 @@ http_interactions:
       Connection:
       - close
       Date:
-      - Tue, 02 Feb 2016 21:12:43 GMT
+      - Tue, 02 Feb 2016 21:42:14 GMT
       Status:
       - 200 OK
       X-Frame-Options:
@@ -39,7 +39,7 @@ http_interactions:
       X-Ratelimit-Remaining:
       - '29'
       X-Ratelimit-Reset:
-      - '1454447623'
+      - '1454449394'
       Content-Type:
       - application/json; charset=utf-8
       Etag:
@@ -47,9 +47,9 @@ http_interactions:
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - ee470718-7e59-4553-8070-de69e1e4e148
+      - 7d0228fc-47e8-412c-bf87-16fde7ab3dd0
       X-Runtime:
-      - '0.161430'
+      - '0.090580'
       Via:
       - 1.1 vegur
     body:
@@ -57,5 +57,5 @@ http_interactions:
       string: '{"success":false,"response":[{"id":null,"page_url":null,"page_title":null,"button_template":null,"share_button_html":null,"found_snippet":false,"is_active":false,"variants":{"facebook":[],"email":[],"twitter":[]},"advanced_options":{"automatic_traffic_routing":"true","buttons_optimize_actions":"true","customize_params":{"param":"source","e":"mlt","f":"fb","t":"tw","o":"c2c"},"id_pass":{"id":"id","passed":"referrer_id"}}}],"message":{"page_url":["can''t
         be blank"],"button_template":["can''t be blank"]}}'
     http_version: 
-  recorded_at: Tue, 02 Feb 2016 21:12:43 GMT
+  recorded_at: Tue, 02 Feb 2016 21:42:14 GMT
 recorded_with: VCR 3.0.0

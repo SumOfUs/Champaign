@@ -211,7 +211,7 @@ describe ShareProgressVariantBuilder do
       end
 
       it 'returns an object with no errors' do
-        VCR.use_cassette('shareprogress_destroy_variant') do
+        VCR.use_cassette('shareprogress_destroy_variant_success', :match_requests_on => [:host, :path]) do
           expect(ShareProgress::Button).to receive(:new)
           result = destroy_variant
           expect(result.errors[:base]).to eq []
@@ -219,7 +219,7 @@ describe ShareProgressVariantBuilder do
       end
 
       it 'removes the variant from local storage' do
-        VCR.use_cassette('shareprogress_destroy_variant') do
+        VCR.use_cassette('shareprogress_destroy_variant_success', :match_requests_on => [:host, :path]) do
           expect(ShareProgress::Button).to receive(:new)
           expect(Share::Facebook.find(share.id)).to eq(share)
           destroy_variant
