@@ -85,6 +85,10 @@ gem 'friendly_id'
 # to the ENV.
 gem 'config'
 
+# Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
+# SEO and to improve page targeting for A/B testing using Optimizely.
+gem 'metamagic'
+
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
