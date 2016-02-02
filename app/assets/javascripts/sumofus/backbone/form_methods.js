@@ -28,6 +28,7 @@ const FormMethods = {
     $fields_holder.find('.selectized').each((ii, el)=>{ el.selectize.clear(); });
     $fields_holder.parents('form').trigger('reset');
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
+    this.renameActionKitIdToReferringId();
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
@@ -83,6 +84,13 @@ const FormMethods = {
       }
     }
   },
+
+  renameActionKitIdToReferringId() {
+    let $action_kit_hidden = $('input[name=actionkit_user_id]');
+    if($action_kit_hidden) {
+      $action_kit_hidden.attr('name', 'referring_actionkit_user_id');
+    }
+  }
 };
 
 module.exports = FormMethods;
