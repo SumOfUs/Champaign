@@ -29,15 +29,17 @@
             th Actions
             th
             th
+            th
         tbody
           - @pages.each do |page|
             tr
-              td = link_to page.title, page
+              td = page.title
               td
                 span class=(page.active? ? 'tick' : 'cross')
               td = page.created_at.strftime('%Y-%b-%d')
               td = page.updated_at.strftime('%Y-%b-%d')
               td = page.actions.count
+              td = link_to t('pages.edit.view'), page
               td = link_to t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
 
