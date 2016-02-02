@@ -1,3 +1,5 @@
-h3 = t('donation_bands.new.title')
+= render 'shared/sidebar', action: :new, resource: :donation_bands
 
-= render 'form'
+.edit-block
+  h1.edit-block__title= t('donation_bands.new.title')
+  = render 'form'

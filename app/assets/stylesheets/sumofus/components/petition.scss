@@ -6,8 +6,38 @@
   position: relative;
   z-index: 600;
 
+  &.petition-bar.stuck-right {
+    margin-top: 17px;
+  }
+  &.stuck-right {
+    .petition-bar__main, .fundraiser-bar__main {
+      @include viewport-unit(height, 100vh);
+    } 
+    .petition-bar__title-bar {
+      clip-path: none;
+      -webkit-clip-path: none;
+      top: -67px;
+      &::after {
+        display: none;
+      }
+    }
+    .petition-bar__title {
+      height: 67px;
+      @include box-sizing(border-box);
+      padding: 21px;
+      max-width: 100%;
+    }
+    form, .petition-bar__petition-text, .thermometer,
+    .fundraiser-bar__steps, .fundraiser-bar__step-panel {
+      max-width: 290px;
+    }
+    .fundraiser-bar__steps {
+      margin-left: 0;
+    }
+  }
   &__top {
     background: $overcast-gray;
+    color: black;
     padding: $padding;
     overflow: visible;
     position: relative;
@@ -18,10 +48,38 @@
     padding: $padding;
 
     position: absolute;
-    @include transition(top 0.4s ease-in-out);
 
     width: 100%;
     @include box-sizing(border-box);
+  }
+  &__title-bar {
+    position: absolute;
+    top: -60px;
+    left: 0;
+
+    width: 100%;
+    overflow: hidden;
+    clip-path: url(sumofus/corner.svg#corner);
+    -webkit-clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
+    &::after {
+      width: 15%;
+      height: 100%;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: $dark-teal;
+      content: "";
+    }
+  }
+  &__title {
+    @include box-sizing(border-box);
+    padding: 18px 16px;
+
+    background: $teal;
+    color: white;
+    &.petition-bar__title {
+      max-width: 280px;
+    }
   }
 
   &__content {
@@ -34,12 +92,14 @@
   }
 
   &__target {
-    margin: 20px 0 8px;
+    margin: 0 0 8px;
+    font-weight: bold;
     @include rem(font-size, 1rem, true);
   }
 
   &__petition-text {
-    @include rem(font-size, 0.8rem, true);
+    @include rem(font-size, 1rem, true);
+    @include rem(line-height, 1.4rem, true);
   }
 
   &__welcome-text {
@@ -52,66 +112,6 @@
   &__clear-form {
     margin-top: 6px;
     display: block;
-  }
-
-  &__shading {
-    @include background-image(linear-gradient(rgba($overcast-gray, 0), $overcast-gray));
-    position: absolute;
-    top: $padding * -1;
-    left: 0;
-    height: $padding;
-    width: 100%;
-
-    z-index: 20;
-  }
-  &__expand-arrow {
-    background-image: url(asset-path('sumofus/circled-arrow.png'));
-    @include background-size(100% 100%);
-    width: 21px;
-    height: 21px;
-
-    position: absolute;
-    top: -10px;
-    right: $padding;
-    z-index: 30;
-
-    cursor: pointer;
-
-    @include transition(transform 0.4s linear);
-    &--expanded {
-      @include transform(rotate(180deg))
-    }
-  }
-
-  @media(max-width: $mobile-width) {
-    position: fixed;
-    @include transition(top 0.40s ease-in-out);
-    width: 100%;
-    padding: 0 4%;
-    left: -4%;
-    z-index: 400;
-    margin: 0;
-    height: 100%;
-    overflow-y: visible;
-    background: $chalk-gray;
-
-    &.petition-bar--mobile-view--closed {
-      top: 2000px;
-    }
-    &.petition-bar--mobile-view--open {
-      top: 0;
-
-      .petition-bar__mobile-ui__bottom-bar {
-        bottom: -100px;
-      }
-    }
-
-    .petition-bar__content, .fundraiser-bar__content {
-      height: 100%;
-      width: 100%;
-      overflow-y: scroll;
-      -webkit-overflow-scrolling: touch;
-    }
   }
 
   &__mobile-ui {
@@ -144,41 +144,36 @@
   }
 }
 
-$petition-top-height: 120px;
-$fundraiser-top-height: 156px;
 
-.petition-bar {
-  &__main {
-    top: $petition-top-height;
-  }
-  &--elevated {
-    top: -1 * $petition-top-height;
-  }
-}
-.fundraiser-bar {
-  &__main {
-    top: $fundraiser-top-height;
-  }
-  &--elevated {
-    top: -1 * $fundraiser-top-height;
-  }
-  &__top {
-    padding-bottom: 20px;
-  }
-}
-.sticky-wrapper {
-  position: relative;
-  @include transition(top 0.4s ease-in-out);
+@media(max-width: $mobile-width) {
+  .petition-bar__mobile-view, .fundraiser-bar__mobile-view {
+    position: fixed;
+    width: 100%;
+    padding: 0 4%;
+    left: -4%;
+    z-index: 400;
+    margin: 0;
+    height: 100%;
+    overflow-y: visible;
+    background: $chalk-gray;
+    @include transition(top 0.40s ease-in-out);
 
-  &.petition {
-    top: $petition-top-height * -1;
-  }
-  &.fundraiser {
-    top: $fundraiser-top-height * -1;
-  }
-  .petition-bar--elevated, .fundraiser-bar--elevated {
-    @media(min-width: $mobile-width) {
-      top: 0;
+    &--closed {
+      top: 2000px;
     }
+    &--open {
+      top: 0;
+
+      .petition-bar__mobile-ui__bottom-bar {
+        bottom: -100px;
+      }
+    }
+  }
+
+  .petition-bar__content, .fundraiser-bar__content {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 }

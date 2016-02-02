@@ -10,23 +10,18 @@ html
     = csrf_meta_tags
     = favicon_link_tag 'champaign/favicon.ico'
 
-  body
-    = render 'shared/navbar'
-    = yield :page_header
+  body.page-edit-body
+    .navbar.navbar-static-top.navbar--dark
+      button.navbar-toggle type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      .navbar-collapse.collapse.navbar-responsive-collapse
+        ul.nav.navbar-nav.pull-right
+          = render 'shared/loginout_button'
+        ul.nav.navbar-nav.pull-right
+          = render 'shared/navbar_links'
 
-    .container
-      - if flash[:error]
-        div.alert.alert-dismissible.alert-danger
-          button type='button' class='close' data-dismiss='alert' x
-          strong #{flash[:error]}
-      - if flash[:notice]
-        div.alert.alert-dismissible.alert-success
-          button type='button' class='close' data-dismiss='alert' x
-          strong #{flash[:notice]}
+    = render 'shared/flash'
 
-      = yield
-    footer.footer
-      .container
-        p Made with love and compassion. And coffee.
-
-    = yield :modals
+    = yield

@@ -29,13 +29,13 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production' 'champaign-assets-production'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107'
   staging:
     branch: development
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848'
   testing:
     # Change the branch value to your branch name to push up your branch to the testing server automatically.
     branch: random-branch

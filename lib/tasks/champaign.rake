@@ -20,4 +20,18 @@ namespace :champaign do
 
     puts "Seeding is done."
   end
+
+  desc "ONE-OFF task for updating plugins to work with polymorphic forms"
+  task make_forms_poly: :environment do
+    [Plugins::Fundraiser, Plugins::Petition].each do |plugin_class|
+      plugin_class.all.each do |plugin|
+        form = Form.find(plugin.form_id)
+
+        if form
+          puts "Updating form #{form.id}"
+          form.update(formable: plugin)
+        end
+      end
+    end
+  end
 end

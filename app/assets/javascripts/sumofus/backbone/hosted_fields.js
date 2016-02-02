@@ -1,10 +1,10 @@
 const HostedFieldsMethods = {
 
-  initializeBraintree: function() {
+  initializeBraintree() {
     this.getClientToken(this.setupFields());
   },
 
-  braintreeSettings: function() {
+  braintreeSettings() {
     return {
       id: "hosted-fields",
       onPaymentMethodReceived: this.paymentMethodReceived(),
@@ -54,13 +54,13 @@ const HostedFieldsMethods = {
     };
   },
 
-  setupFields: function() {
+  setupFields() {
     return (clientToken) => {
       braintree.setup(clientToken, "custom", this.braintreeSettings());
     }
   },
 
-  handleErrors: function() {
+  handleErrors() {
     return (error) => {
       this.enableButton();
       if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
@@ -71,14 +71,14 @@ const HostedFieldsMethods = {
     }
   },
 
-  showError: function(fieldName, msg) {
+  showError(fieldName, msg) {
     fieldName = this.standardizeFieldName(fieldName);
     let $holder = $(`.hosted-fields__${fieldName}`).parent();
     $holder.find('.error-msg').remove();
     $holder.append(`<div class='error-msg'>${this.translateFieldName(fieldName)} ${msg}</div>`);
   },
 
-  showCardType: function(card) {
+  showCardType(card) {
     if (card == null || card.type == null ) {
       this.$('.hosted-fields__card-type').addClass('hidden-irrelevant');
     } else {
@@ -98,16 +98,16 @@ const HostedFieldsMethods = {
     }
   },
 
-  clearError: function(fieldName) {
+  clearError(fieldName) {
     fieldName = this.standardizeFieldName(fieldName);
     this.$(`.hosted-fields__${fieldName}`).parent().find('.error-msg').remove();
   },
 
-  standardizeFieldName: function(fieldName) {
+  standardizeFieldName(fieldName) {
     return /expiration/.test(fieldName) ? 'expiration' : fieldName;
   },
 
-  translateFieldName: function(fieldName) {
+  translateFieldName(fieldName) {
     if (['expiration', 'cvv', 'number', 'postalCode'].indexOf(this.standardizeFieldName(fieldName)) > -1) {
       return I18n.t(`fundraiser.fields.${fieldName}`)
     } else {
@@ -115,7 +115,7 @@ const HostedFieldsMethods = {
     }
   },
 
-  getClientToken: function(callback) {
+  getClientToken(callback) {
     $.get('/api/braintree/token', function(resp, success){
       callback(resp.token);
     });

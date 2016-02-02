@@ -11,10 +11,6 @@ RSpec.describe LiquidPartialsController, type: :routing do
       expect(:get => "/liquid_partials/new").to route_to("liquid_partials#new")
     end
 
-    it "routes to #show" do
-      expect(:get => "/liquid_partials/1").to route_to("liquid_partials#show", :id => "1")
-    end
-
     it "routes to #edit" do
       expect(:get => "/liquid_partials/1/edit").to route_to("liquid_partials#edit", :id => "1")
     end

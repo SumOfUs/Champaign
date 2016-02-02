@@ -1,19 +1,23 @@
-.row
-  .col-md-12
-    h3 Partials
-    table.table-bordered.table-striped.table
-      thead
-        tr
-          th Title
-          th
+= render 'shared/sidebar', action: :index, resource: :liquid_partials
 
-      tbody
-        - @liquid_partials.each do |partial|
+.edit-block
+  h1.edit-block__title Partials
+
+  .row
+    .col-md-12
+      table.table-bordered.table-striped.table
+        thead
           tr
-            td = partial.title
-            td = link_to 'Edit', edit_liquid_partial_path(partial)
+            th Title
+            th
+
+        tbody
+          - @liquid_partials.each do |partial|
+            tr
+              td = partial.title
+              td = link_to 'Edit', edit_liquid_partial_path(partial)
 
 
 
-    = link_to 'New Partial', new_liquid_partial_path
+      = link_to 'New Partial', new_liquid_partial_path
 

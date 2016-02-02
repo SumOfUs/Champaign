@@ -11,6 +11,7 @@
   &--stuck-to-bottom {
     position: absolute;
     bottom: 0;
+    z-index: 300;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }

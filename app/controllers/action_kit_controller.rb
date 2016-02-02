@@ -16,7 +16,7 @@ class ActionKitController < ApplicationController
   end
 
   def check_petition_page_status
-    page = Page.find params[:id]
+    page = Page.find(params[:id])
 
     respond_to do |format|
       format.json { render json: { status: page.status, messages: page.messages } }

@@ -2,7 +2,7 @@ class Form < ActiveRecord::Base
 
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.
-  # 
+  #
   DEFAULT_NAME = 'Basic'
 
   DEFAULT_FIELDS = [
@@ -12,13 +12,21 @@ class Form < ActiveRecord::Base
   ]
 
   has_paper_trail on: [:update, :destroy]
-  has_many :form_elements, -> { order(:position) }
+  has_many :form_elements, -> { order(:position) }, dependent: :destroy
+  belongs_to :formable, polymorphic: true, touch: true
+
+  after_touch do
+    formable.try(:page) do |page|
+      page.touch if page
+    end
+  end
 
   scope :masters, -> { where(master: true) }
 
   validates :name, presence: true
-  validate :name_is_unique
+  validates :formable_id, uniqueness: { scope: :formable_type, allow_nil: true }
 
+  validate :name_is_unique
 
   def name_is_unique
     return unless master?

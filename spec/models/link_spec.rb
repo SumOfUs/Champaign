@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Link do
-
   let(:link) { create :link, date: Date.today.to_s, source: "Nature News" }
 
   subject { link }
@@ -13,9 +12,7 @@ describe Link do
   it { is_expected.to respond_to :date }
 
   describe 'validations' do
-
     describe 'should be valid' do
-
       it 'with nil source' do
         link.source = nil
         expect(link).to be_valid
@@ -55,11 +52,9 @@ describe Link do
         expect(link).to be_valid
         expect(link.url).to eq '//google.com'
       end
-
     end
 
     describe 'should be invalid' do
-
       it 'with nil title' do
         link.title = nil
         expect(link).to be_invalid
@@ -91,7 +86,21 @@ describe Link do
         expect(link).to be_invalid
         expect(link.url).to eq 'google.com//sweet'
       end
+    end
+  end
 
+  describe 'associated page' do
+    let!(:page) { create(:page, links: [link]) }
+
+    it 'touches page on update' do
+      old_time = Time.now.utc
+
+      Timecop.travel(1.hour) do
+        expect{ link.update(source: 'BBC') }.to change{
+          page.reload.updated_at.to_s
+        }.from(old_time.to_s).to((old_time + 1.hour).to_s)
+      end
     end
   end
 end
+

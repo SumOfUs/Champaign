@@ -23,12 +23,12 @@ describe Plugins::Fundraiser do
     fundraiser.donation_band = band
     serialized = fundraiser.liquid_data
     expect(serialized.keys).to include(:form_id, :fields, :donation_bands)
-    expect(serialized[:donation_bands].class).to eq String
+    expect(serialized[:donation_bands].class).to eq Hash
   end
 
   it 'serializes without a currency band' do
     expect{ fundraiser.liquid_data }.not_to raise_error
-    expect( fundraiser.liquid_data[:donation_bands]).to eq "null"
+    expect( fundraiser.liquid_data[:donation_bands]).to eq Hash.new
   end
 
   it 'serializes a named donation band' do
@@ -37,7 +37,7 @@ describe Plugins::Fundraiser do
     second_band = DonationBand.create!(name: 'Test Band', amounts: [100, 200])
 
     # The converted values of the second band.
-    expected_converted_values = second_band.internationalize.to_json
+    expected_converted_values = second_band.internationalize
     serialized = fundraiser.liquid_data({donation_band: 'Test Band'})
     expect(serialized[:donation_bands]).to eq(expected_converted_values)
   end

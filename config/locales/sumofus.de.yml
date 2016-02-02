@@ -1,0 +1,55 @@
+de:
+  page:
+    more_info: Mehr Informationen
+  basics:
+    or: oder
+  branding:
+    tagline: Menschen vor Profit!
+    license: Creative Commons Namensnennung 3.0 Unported Lizenz
+  fundraiser:
+    amount: Summe
+    details: Kontaktdaten
+    payment: Zahlung
+    donate: "%{amount} Spenden"
+    error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
+    currency_in: Beträge werden in Euro angezeigt.
+    switch_currency: Währung ändern
+    proceed_to_details: Weiter zu Kontaktdaten
+    proceed_to_payment: Weiter zur Zahlung
+    other_amount: Anderer Betrag
+    make_recurring: Monatlich spenden
+    thank_you: Vielen Dank für Ihre Spende!
+    card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
+    unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
+    fine_print: "SumOfUs ist eine eingetragene Non-Profit-Organisation (501(c)4) mit Sitz in Washington DC, USA. Spenden an SumOfUs können nicht von der Steuer abgesetzt werden. Für mehr Informationen schreiben Sie uns bitte eine E-Mail an info@sumofus.org."
+    fields:
+      cvv: Kartenprüfnummer
+      number: Kreditkartennummer
+      expiration: Ablaufdatum
+      expiration_format: MM/JJ
+      postalCode: Postleitzahl
+  petition:
+    sign_it: Petition Unterschreiben
+    target_prefix: AN
+    confirmation: Ihr Name wurde übermittelt
+    excited_confirmation: Ihr Name wurde übermittelt!
+    thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
+  form:
+    welcome_back: Willkommen zurück
+    switch_user: Das sind nicht Sie?
+    processing: In Bearbeitung...
+    submit: Abschicken
+  thermometer:
+    signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
+    signatures: Unterschriften
+  share:
+    cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
+  errors:
+    probably_invalid: Das sieht nicht richtig aus.
+    is_invalid: ist ungültig
+    this_field: Dieses Feld
+  validation:
+    is_required: wird benötigt
+    is_invalid_email: ist keine gültige E-Mail-Adresse
+    is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
+    is_invalid_country: muss eine gültige Ländervorwahl sein

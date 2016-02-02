@@ -1,12 +1,15 @@
-.row
-  .col-md-12
-    h3 = t('.title')
-    = render partial: 'shared/error_messages', locals: {target: @form}
+= render 'shared/sidebar', action: :new, resource: :forms, filter: {master: true}
 
-    = form_for @form  do |f|
-      .form-group
-        = f.text_field :name,  class: 'form-control'
+.edit-block
+  h1.edit-block__title= t('.title')
+  .row
+    .col-md-12
+      = render partial: 'shared/error_messages', locals: {target: @form}
 
-      .form-group
-        button.btn.btn-default = t('common.save')
+      = form_for @form  do |f|
+        .form-group
+          = f.text_field :name,  class: 'form-control'
+
+        .form-group
+          button.btn.btn-default = t('common.save')
 

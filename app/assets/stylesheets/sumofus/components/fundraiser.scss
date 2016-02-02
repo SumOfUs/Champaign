@@ -168,11 +168,24 @@
     font-size: 12px;
     color: $slate-gray;
     line-height: 16px;
+    width: 100%;
+    float: left;
   }
   &__first-continue {
     margin-bottom: 20px;
   }
 }
+
+$fundraiser-top-height: 162px;
+
+.sticky-wrapper {
+  position: relative;
+
+  &.fundraiser {
+    top: $fundraiser-top-height * -1;
+  }
+}
+
 
 .hosted-fields {
   &__host {

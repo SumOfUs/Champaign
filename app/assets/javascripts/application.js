@@ -17,6 +17,9 @@
 //= require pub_sub
 //= require jquery-ui/sortable
 //= require jquery.remotipart
+//= require d3
+//= require odometer
+//= require moment
 
 //= require bootstrap-sprockets
 //= require selectize
@@ -35,6 +38,10 @@
 require('ajax')
 require('page');
 require("plugins_toggle");
+require("sidebar");
 require("collection_editor");
 require('shares_editor');
-window.PageEditBar = require("page_edit_bar");
+require('layout_picker');
+
+window.PageEditBar =  require("page_edit_bar");
+window.Analytics   =  require('analytics');

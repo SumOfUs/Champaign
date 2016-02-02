@@ -6,9 +6,6 @@ class LiquidPartialsController < ApplicationController
     @liquid_partials = LiquidPartial.all
   end
 
-  def show
-  end
-
   def new
     @liquid_partial = LiquidPartial.new
   end

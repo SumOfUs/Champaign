@@ -16,22 +16,26 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .fundraiser-bar__clear-form': 'showSecondStep',
-    'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
+    'click .fundraiser-bar__open-button': 'reveal',
+    'click .fundraiser-bar__close-button': 'hide',
   },
 
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
-  //    outstandingFields: the number of step 2 form fields that need to to be filled by the user
+  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
+  //      the values in the member hash.
   //    donationBands: an object with three letter currency codes as keys
+  //    location: a hash of location values inferred from the user's request
+  //    member: an object with fields that will prefill the form
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
-  initialize (options) {
+  initialize (options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
     this.initializeSticky();
     this.initializeBraintree();
@@ -52,27 +56,34 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.setDonationAmount(options.amount);
     }
     this.hidingStepTwo = false;
-    // here we deliberately abuse the fact that non-numbers compared
-    // with > always return false
-    this.hideSteps((options.amount > 0), (options.outstandingFields == 0));
+    let amountKnown = (options.amount > 0); // non-numbers with > are always false
+    let formComplete = this.formCanAutocomplete(options.outstandingFields, options.member);
+    this.hideSteps(amountKnown, formComplete, options.member, options.location, options.outstandingFields);
   },
 
-  hideSteps (amountKnown, memberKnown) {
-    if (amountKnown && memberKnown) {
+  hideSteps (amountKnown, formComplete, member, location, fieldsToSkipPrefill) {
+    if (amountKnown && formComplete) {
       this.changeStep(3);
-      this.hideSecondStep();
-    } else if (memberKnown) {
-      this.hideSecondStep();
+      this.hideSecondStep(member);
+      this.completePrefill(member, location);
+    } else if (formComplete) {
+      this.hideSecondStep(member);
+      this.completePrefill(member, location);
     } else if (amountKnown) {
       this.changeStep(2);
+      this.partialPrefill(member, location, fieldsToSkipPrefill);
+    } else {
+      this.partialPrefill(member, location, fieldsToSkipPrefill);
     }
   },
 
-  hideSecondStep () {
+  hideSecondStep (member) {
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
-    this.$('.fundraiser-bar__welcome-text').removeClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
+    if (this.formFieldCount() > 0) { // don't offer to reveal fields if nothing to show
+      this.showFormClearer('fundraiser', member);
+    }
     this.hidingStepTwo = true;
   },
 
@@ -129,7 +140,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
-      this.buttonText = `<span class="fa fa-lock"></span><span>${I18n.t('fundraiser.donate')} ${donationAmount}</span>`;
+      this.buttonText = `<span class="fa fa-lock"></span><span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
       this.$('.fundraiser-bar__submit-button').html(this.buttonText);
     } else {
@@ -199,7 +210,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   transactionSuccess () {
     return (data, status) => {
-      this.redirectTo(this.followUpUrl);
+      if (this.followUpUrl) {
+        this.redirectTo(this.followUpUrl);
+      } else {
+        // this should never happen, but just in case.
+        alert(I18n.t('fundraiser.thank_you'));
+      }
     }
   },
 
@@ -250,7 +266,19 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   redirectTo (url) {
     window.location.href = url;
-  }
+  },
+
+  hide: function() {
+    this.$('.fundraiser-bar__mobile-view')
+      .addClass('fundraiser-bar__mobile-view--closed')
+      .removeClass('fundraiser-bar__mobile-view--open');
+  },
+
+  reveal: function() {
+    this.$('.fundraiser-bar__mobile-view')
+      .removeClass('fundraiser-bar__mobile-view--closed')
+      .addClass('fundraiser-bar__mobile-view--open');
+  },
 
 }));
 

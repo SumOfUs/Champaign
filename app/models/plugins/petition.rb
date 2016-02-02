@@ -1,7 +1,7 @@
 class Plugins::Petition < ActiveRecord::Base
   include Plugins::HasForm
 
-  belongs_to :page
+  belongs_to :page, touch: true
 
   validates :cta, presence: true, allow_blank: false
 

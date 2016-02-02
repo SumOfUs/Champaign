@@ -3,10 +3,13 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create, :follow_up]
-  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up]
+  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up, :analytics]
 
   def index
     @pages = Search::PageSearcher.new(params).search
+  end
+
+  def analytics
   end
 
   def new
@@ -15,14 +18,14 @@ class PagesController < ApplicationController
 
   def edit
     @variations = @page.shares
-    render :edit, layout: 'page_edit'
+    render :edit
   end
 
   def create
     @page = PageBuilder.create( page_params )
 
     if @page.valid?
-      redirect_to edit_page_path(@page)
+      redirect_to edit_page_path(@page.id)
     else
       render :new
     end
@@ -33,7 +36,7 @@ class PagesController < ApplicationController
   end
 
   def follow_up
-    render_liquid(@page.secondary_liquid_layout)
+    render_liquid(@page.follow_up_liquid_layout)
   end
 
   def update
@@ -44,7 +47,7 @@ class PagesController < ApplicationController
         format.js   { render json: {}, status: :ok }
       else
         format.html { render :edit }
-        format.js { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
+        format.js   { render json: { errors: @page.errors, name: :page }, status: :unprocessable_entity }
       end
     end
   end
@@ -53,19 +56,28 @@ class PagesController < ApplicationController
 
   def render_liquid(layout)
     raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
-    recognized_member = Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-    renderer = LiquidRenderer.new(@page, request_country: request_country, member: recognized_member, layout: layout, url_params: params)
-    @rendered = renderer.render
+    localize_by_page_language(@page)
+
+    @rendered = renderer(layout).render
+    @data = renderer(layout).personalization_data
     render :show, layout: 'sumofus'
+  end
+
+  def renderer(layout)
+    @renderer ||= LiquidRenderer.new(@page, {
+      location: request.location,
+      member: recognized_member,
+      layout: layout,
+      url_params: params
+    })
+  end
+
+  def recognized_member
+    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
 
   def get_page
     @page = Page.find(params[:id])
-  end
-
-  def request_country
-    # when geocoder location API times out, request.location is blank
-    request.location.blank? ? nil : request.location.country_code
   end
 
   def page_params
@@ -80,7 +92,8 @@ class PagesController < ApplicationController
       :campaign_id,
       :language_id,
       :liquid_layout_id,
-      :secondary_liquid_layout_id,
+      :follow_up_liquid_layout_id,
       {:tag_ids => []} )
   end
 end
+

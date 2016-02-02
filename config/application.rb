@@ -34,8 +34,10 @@ module Champaign
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.i18n.available_locales = [:en, :fr]
+    config.i18n.available_locales = [:en, :fr, :de]
     config.i18n.enforce_available_locales = true
+
+    config.active_record.observers = :liquid_partial_observer
 
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker

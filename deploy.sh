@@ -6,6 +6,13 @@ AWS_APPLICATION_NAME=$2
 export AWS_ENVIRONMENT_NAME=$3
 STATIC_BUCKET=$4
 
+# Set the right place for paper trail logging
+export PAPERTRAIL_HOST=$(cut -d ":" -f 1 <<< $5)
+export PAPERTRAIL_PORT=$(cut -d ":" -f 2 <<< $5)
+export PAPERTRAIL_SYSTEM=$3
+cat .ebextensions/03_papertrail.config | envsubst '$PAPERTRAIL_HOST:$PAPERTRAIL_PORT:$PAPERTRAIL_SYSTEM' >tmp.config
+mv tmp.config .ebextensions/03_papertrail.config
+
 echo 'Applying environment-specific New Relic configuration'
 envsubst '$AWS_ENVIRONMENT_NAME' <.ebextensions/04_newrelic.config >temp
 mv temp .ebextensions/04_newrelic.config

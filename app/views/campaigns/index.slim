@@ -1,20 +1,23 @@
-.row
-  .col-md-12
-    h3 = t('.title')
+= render 'shared/sidebar', action: :index, resource: :campaigns
 
-    table.table-bordered.table-striped.table
-      thead
-        tr
-          th = t('common.name')
-          th = t('common.active')
-          th
-      tbody
-        - Campaign.all.each do |campaign|
+.edit-block
+  h1.edit-block__title= t('.title')
+  .row
+    .col-md-12
+
+      table.table-bordered.table-striped.table
+        thead
           tr
-            td = campaign.name
-            td
-              span class=(campaign.active? ? 'tick' : 'cross')
-            td = link_to t('common.edit'), edit_campaign_path(campaign)
+            th = t('common.name')
+            th = t('common.active')
+            th
+        tbody
+          - Campaign.all.each do |campaign|
+            tr
+              td = campaign.name
+              td
+                span class=(campaign.active? ? 'tick' : 'cross')
+              td = link_to t('common.edit'), edit_campaign_path(campaign)
 
-    = link_to t('.new'), new_campaign_path, class: 'btn btn-primary btn-sm'
+      = link_to t('.new'), new_campaign_path, class: 'btn btn-primary btn-sm'
 

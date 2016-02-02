@@ -19,7 +19,30 @@ describe Form do
     end
   end
 
+  describe "formable" do
+    it 'is polymorphically associated' do
+      petition = create(:plugins_fundraiser)
+
+      expect(petition.form).to be_a Form
+      expect(Form.last.formable).to eq(petition)
+    end
+  end
+
   describe 'validations' do
+    context 'formable' do
+      it 'must be unique' do
+        create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
+
+        expect{
+          create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
+        }.to raise_error("Validation failed: Formable has already been taken")
+
+        expect{
+          create(:form, formable_id: 1, formable_type: 'Plugins::Fundraiser')
+        }.not_to raise_error
+      end
+    end
+
     context 'name' do
       it "must be present" do
         expect(Form.new).to_not be_valid
@@ -44,3 +67,4 @@ describe Form do
     end
   end
 end
+

@@ -46,5 +46,19 @@ describe FormElement do
       }.to_not change{ element.reload.position}
     end
   end
+
+  describe 'cascading touch' do
+    let(:page)      { create(:page) }
+    let!(:petition) { create(:plugins_petition, page: page) }
+
+    it 'touches associated records' do
+      future = Time.now.utc + 1.hour
+
+      Timecop.freeze(future) do
+        petition.form.form_elements.first.update(label: 'foo')
+        expect(petition.page.reload.updated_at.to_s).to eq(future.to_s)
+      end
+    end
+  end
 end
 

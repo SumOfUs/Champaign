@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
 
-  root 'home#index'
+  root 'pages#index'
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
@@ -35,6 +35,8 @@ Rails.application.routes.draw do
       resources :emails
     end
 
+    get 'analytics', on: :member
+
     get 'follow-up', on: :member, action: 'follow_up'
     resources :images
     get 'plugins', to: 'plugins#index'
@@ -56,8 +58,8 @@ Rails.application.routes.draw do
   end
 
 
-  resources :liquid_partials
-  resources :liquid_layouts
+  resources :liquid_partials, except: [:show]
+  resources :liquid_layouts, except: [:show]
   resources :links, only: [:create, :destroy]
 
   # Example of regular route:
@@ -110,6 +112,7 @@ Rails.application.routes.draw do
     end
 
     resources :pages do
+      resource  :analytics
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
       end

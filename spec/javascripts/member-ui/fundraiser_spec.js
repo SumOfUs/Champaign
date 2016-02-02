@@ -28,37 +28,96 @@ describe("Fundraiser", function() {
   describe('instantiation', function(){
 
     it('sets the default currency if currency passed', function(){
-      suite.fundraiserBar = new window.FundraiserBar({ currency: 'GBP'});
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'GBP'});
       expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
     });
 
-    it('displays the values from the correct passed donation band', function(){
+    it('sets the default currency if currency passed as lowercase', function(){
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'gbp'});
+      expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
+    });
+
+    it('displays the values from the correct passed currency band', function(){
       var donationBands = {
         EUR: [1, 2, 3, 4, 5],
         USD: [6, 7, 8, 9, 10],
         GBP: [7, 14, 21, 28, 35]
       };
-      suite.fundraiserBar = new window.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
       var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
       expect(displayedAmounts).to.include.members(donationBands['EUR']);
     });
 
-    describe('outstanding fields is zero', function(){
+    describe('outstanding fields is empty', function(){
 
-      describe('amount is not passed', function(){
+      describe('member is not passed', function(){
 
-        beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 0 });
-        });
-
-        it('starts on the first step', function(){
-          expect(helpers.currentStepOf(3)).to.eq(1);
-        });
-
-        it('hides the second step', function(){
+        it('hides the second step if there are no fields', function(){
+          $('.fundraiser-bar .petition-bar__field-container').remove();
+          expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
           $('.fundraiser-bar__amount-button').first().click();
           expect(helpers.currentStepOf(3)).to.eq(3);
+        });
+
+        describe('amount is not passed', function(){
+
+          beforeEach(function(){
+            suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
+          });
+
+          it('does not prefill values', function(){
+            var vals = $('.petition-bar__field-container').map(function(ii, el){ return $(el).val() }).toArray();
+            expect(vals).to.eql(['', '']);
+          });
+
+          it('does not hide the second step if there are fields', function(){
+            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+          });
+
+          it('starts on the first step', function(){
+            expect(helpers.currentStepOf(3)).to.eq(1);
+          });
+        });
+
+      });
+
+      it('ignores extraneous member values', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com', oogle: 'boogle'} });
+        expect($('input[name="email"]').val()).to.eql('neal@test.com');
+      });
+
+      it('does not display the clearer when form has no fields', function(){
+        $('.fundraiser-bar .petition-bar__field-container').remove();
+        expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
+        expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+        expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
+      });
+
+      describe('member is passed', function(){
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com', welcome_name: 'Neal'} });
+        });
+
+        it('displays the clearer when form has fields', function(){
+          expect($('.fundraiser-bar .petition-bar__field-container').length).to.be.at.least(1);
+          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.fundraiser-bar__welcome-text')).not.to.have.class('hidden-irrelevant');
+          expect($('.fundraiser-bar__welcome-name')).to.have.text('Neal');
+        });
+
+        it('prefills with values of member', function(){
+          expect($('input[name="email"]').val()).to.eql('neal@test.com');
+        });
+
+        it('hides the form fields', function(){
+            var classed = $('.petition-bar__field-container').map(function(ii, el){
+              return $(el).hasClass('form__group--prefilled');
+            }).toArray();
+            expect(classed).to.eql([true, true]);
         });
 
         it('displays the second step when user requests', function(){
@@ -72,19 +131,17 @@ describe("Fundraiser", function() {
         it('clears prefilled fields when second step displayed', function(){
           var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
           input.parents('.form__group').addClass('form__group--prefilled');
-          input.attr('value', 'cheerio!');
-          expect(input.val()).to.equal('cheerio!');
+          expect(input.val()).to.equal('neal@test.com');
           $('.fundraiser-bar__amount-button').first().click();
           $('.fundraiser-bar__clear-form').click();
           expect(input.val()).to.equal('');
         });
-
       });
 
-      describe('amount is greater than zero ', function(){
+      describe('amount is greater than zero', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 0, amount: 11 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], amount: 11, member: {} });
         });
 
         it('skips to the third step', function(){
@@ -108,13 +165,12 @@ describe("Fundraiser", function() {
         it('clears prefilled fields when second step displayed', function(){
           var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
           input.parents('.form__group').addClass('form__group--prefilled');
-          input.attr('value', 'cheerio!');
+          input.val('cheerio!');
           expect(input.val()).to.equal('cheerio!');
           $('.fundraiser-bar__amount-button').first().click();
           $('.fundraiser-bar__clear-form').click();
           expect(input.val()).to.equal('');
         });
-
       });
     });
 
@@ -122,23 +178,73 @@ describe("Fundraiser", function() {
 
       describe('amount is not passed', function(){
 
-        beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({});
+        describe('member is not passed', function(){
+
+          beforeEach(function(){
+            suite.fundraiserBar = new window.sumofus.FundraiserBar({});
+          });
+
+          it('starts on the first step', function(){
+            expect(helpers.currentStepOf(3)).to.eq(1);
+          });
+
+          it('displays the second step', function(){
+            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+          });
+
+          it('does not display the clearer', function(){
+            expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+            expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          });
+
+          it('does not prefill', function(){
+            expect($('input[name="email"]').val()).to.eql('');
+          });
+
+          it('does not hide the form fields', function(){
+            var classed = $('.petition-bar__field-container').map(function(ii, el){
+              return $(el).hasClass('form__group--prefilled');
+            }).toArray();
+            expect(classed).to.eql([false, false]);
+          });
         });
 
-        it('starts on the first step', function(){
-          expect(helpers.currentStepOf(3)).to.eq(1);
-        });
+        describe('member is passed', function(){
 
-        it('displays the second step', function(){
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+          beforeEach(function(){
+            suite.fundraiserBar = new window.sumofus.FundraiserBar({member: {email: 'neal@test.com'}});
+          });
+
+          it('starts on the first step', function(){
+            expect(helpers.currentStepOf(3)).to.eq(1);
+          });
+
+          it('displays the second step', function(){
+            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
+          });
+
+          it('does not display the clearer', function(){
+            expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+            expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          });
+
+          it('prefills with values of member', function(){
+            expect($('input[name="email"]').val()).to.eql('neal@test.com');
+          });
+
+          it('does not hide the form fields', function(){
+            var classed = $('.petition-bar__field-container').map(function(ii, el){
+              return $(el).hasClass('form__group--prefilled');
+            }).toArray();
+            expect(classed).to.eql([false, false]);
+          });
         });
       });
 
       describe('amount is greater than zero ', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({amount: 17});
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({amount: 17});
         });
 
         it('skips to the second step', function(){
@@ -155,12 +261,12 @@ describe("Fundraiser", function() {
       });
     });
 
-    describe('outstanding fields is greater than zero', function(){
+    describe('outstanding fields has elements', function(){
 
       describe('amount is not passed', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 2 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email'] });
         });
 
         it('starts on the first step', function(){
@@ -172,10 +278,10 @@ describe("Fundraiser", function() {
         });
       });
 
-      describe('amount is greater than zero ', function(){
+      describe('amount is greater than zero', function(){
 
         beforeEach(function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 1, amount: 17 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email'], amount: 17 });
         });
 
         it('skips to the second step', function(){
@@ -189,6 +295,34 @@ describe("Fundraiser", function() {
         it('displays the second step', function(){
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
+      });
+
+      it('prefills with values of member', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
+        expect($('input[name="email"]').val()).to.eql('neal@test.com');
+      });
+
+      it('does not prefill if value is in outstandingFields', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['email'], amount: 17 });
+        expect($('input[name="email"]').val()).to.eql('');
+      });
+
+      it('uses location country when country in outstandingFields', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['country'], member: {country: 'GB'}, location: {country: 'NI'} });
+        expect($('[name="country"]').val()).to.eq('NI');
+      });
+
+      it('uses location country', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], location: {country: 'NI'}, member: {} });
+        expect($('[name="country"]').val()).to.eq('NI');
+      });
+
+      it('does not hide the form fields', function(){
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
+        var classed = $('.petition-bar__field-container').map(function(ii, el){
+          return $(el).hasClass('form__group--prefilled');
+        }).toArray();
+        expect(classed).to.eql([false, false]);
       });
     });
 
@@ -196,58 +330,53 @@ describe("Fundraiser", function() {
 
       describe('it starts on first step when amount', function(){
         it('is negative', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: -1 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: -1 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is zero', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: 0 });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: 0 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is a string', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: "hi" });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "hi" });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is null', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: null });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: null });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is an array', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ amount: [3, 4, 5] });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: [3, 4, 5] });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
       });
 
       it ('starts on second step when amount is numeric string', function(){
-        suite.fundraiserBar = new window.FundraiserBar({ amount: "3" });
+        suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "3" });
         expect(helpers.currentStepOf(3)).to.eq(2)
       });
 
       describe('shows second step when outstandingFields', function(){
         it('is an object', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: {first: 'second'} });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: {first: 'second'} });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is null', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: null });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: null });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
-        it('is an array', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: ['email'] });
+        it('is a number', function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0 });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is a string', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: 'yooo' });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 'yooo' });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
         it('is a numeric string', function(){
-          suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: '5' });
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: '5' });
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
-      });
-
-      it ('hides second step when outstandingFields is zero string', function(){
-        suite.fundraiserBar = new window.FundraiserBar({ outstandingFields: "0" });
-        expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
       });
     });
 
@@ -258,7 +387,7 @@ describe("Fundraiser", function() {
     beforeEach(function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
-      suite.fundraiserBar = new window.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
+      suite.fundraiserBar = new window.sumofus.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
       sinon.stub(suite.fundraiserBar, 'redirectTo');
       suite.server.respond(); // respond to request for token
     });

@@ -33,6 +33,7 @@ describe ManageBraintreeDonation do
             id: 'test',
             type: 'sale',
             amount: '1.0',
+            currency_iso_code: 'GBP',
             status: 'submitted for settlement',
             created_at: Time.now,
             updated_at: Time.now,
@@ -97,7 +98,8 @@ describe ManageBraintreeDonation do
             card_num: '1111',
             card_code: '007',
             exp_date_month: '01',
-            exp_date_year: '2016'
+            exp_date_year: '2016',
+            currency: 'GBP'
         },
         user: {
             email: user.email,
