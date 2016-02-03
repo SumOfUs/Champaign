@@ -49,7 +49,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.selectizeCountry();
     }
     this.buttonText = I18n.t('form.submit');
-    this.insertActionKitId('fundraiser');
+    this.insertActionKitId('fundraiser', options.urlParams);
   },
 
   initializeSkipping (options){
