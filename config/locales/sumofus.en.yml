@@ -13,7 +13,7 @@ en:
     payment: Payment
     donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
     error_intro: We were unable to process your donation!
-    currency_in: Values shown in # USD
+    currency_in: "Values shown in %{currency}"
     switch_currency: Switch currency
     proceed_to_details: Proceed to details
     proceed_to_payment: Proceed to payment

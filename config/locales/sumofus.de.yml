@@ -13,7 +13,7 @@ de:
     payment: Zahlung
     donate: "%{amount} Spenden"
     error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
-    currency_in: Beträge werden in Euro angezeigt.
+    currency_in: "Beträge werden in %{currency} angezeigt"
     switch_currency: Währung ändern
     proceed_to_details: Weiter zu Kontaktdaten
     proceed_to_payment: Weiter zur Zahlung
