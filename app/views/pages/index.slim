@@ -11,21 +11,13 @@
           = t('pages.index.filter')
       #search-filter.collapse
         = render partial: 'search'
-      table.table-bordered.table-striped.table
+      table.table-bordered.table-striped.table#pages-table
         thead
           tr
-            th
-              = link_to t('common.name'), controller: 'pages', search: {order_by: ['title', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'title'
-            th
-              = link_to t('common.active'), controller: 'pages', search: {order_by: ['active', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'active'
-            th
-              = link_to t('common.created'), controller: 'pages', search: {order_by: ['created_at', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'created_at'
-            th
-              = link_to t('common.modified'), controller: 'pages', search: {order_by: ['updated_at', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'updated_at'
+            th = t('common.name')
+            th = t('common.active')
+            th = t('common.created')
+            th = t('common.modified')
             th Actions
             th
             th
@@ -34,8 +26,7 @@
           - @pages.each do |page|
             tr
               td = page.title
-              td
-                span class=(page.active? ? 'tick' : 'cross')
+              td = (page.active? ? 'Published' : 'Private')
               td = page.created_at.strftime('%Y-%b-%d')
               td = page.updated_at.strftime('%Y-%b-%d')
               td = page.actions.count
@@ -45,3 +36,8 @@
 
 
       = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
+
+javascript:
+  $(document).ready(function(){
+    $('#pages-table').DataTable();
+  });

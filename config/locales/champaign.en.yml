@@ -86,7 +86,7 @@ en:
     index:
       new: "Create a new page"
       title: "Pages"
-      filter: "Filter Pages"
+      filter: "Advanced Search"
       stats: "Stats"
       table:
         featured: "Featured"
