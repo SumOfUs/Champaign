@@ -25,7 +25,7 @@
       height: 67px;
       @include box-sizing(border-box);
       padding: 21px;
-      max-width: 100%;
+      width: 100%;
     }
     @media(min-width: $mobile-width) {
       form, .petition-bar__petition-text, .thermometer,
@@ -80,7 +80,7 @@
     background: $teal;
     color: white;
     &.petition-bar__title {
-      max-width: 280px;
+      width: 85%;
     }
   }
 
