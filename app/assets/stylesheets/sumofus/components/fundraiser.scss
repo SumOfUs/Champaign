@@ -15,10 +15,10 @@
     }
   }
   &__step-connector {
-    width: 70%;
+    width: calc(100% - 40px);
     height: 2px;
     top: 22px;
-    left: 15%;
+    left: 20px;
     margin: 0;
     position: absolute;
     background: $slate-gray;
