@@ -14,7 +14,7 @@ class ShareAnalytics
   end
 
   def raw_data
-    if button.analytics
+    if button.try(:analytics)
       JSON.parse(button.analytics)['response'][0]['share_tests'][@type]
     else
       []

@@ -30,6 +30,10 @@ describe 'liquid_partials/' do
 end
 
 describe 'pages/' do
+  before :each do
+    allow(view).to receive(:user_signed_in?).and_return(true)
+  end
+
   include_examples "view smoke test", :page, [:index, :new, :show]
 
   describe "edit" do
