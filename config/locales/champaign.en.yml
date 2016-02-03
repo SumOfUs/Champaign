@@ -34,6 +34,7 @@ en:
     modified: 'Date Modified'
     amounts: 'Amounts'
     delete: 'Delete'
+    working: 'Working'
     'yes': 'Yes' # yml treats yes / no as booleans
     'no': 'No'
 
