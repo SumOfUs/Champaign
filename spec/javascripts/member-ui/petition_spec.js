@@ -158,13 +158,20 @@ describe("Petition", function() {
           expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
 
-        // PENDING
-        // in these tests, we instantiate PetitionBar in every test
-        it('does not append a hidden akid field');
+        it('does not append a hidden akid field', function() {
+          expect($('input[name="akid"]').length).to.eq(0);
+        });
 
         describe('akid is passed', function(){
-          it('appends a hidden field with the akid to the form');
-          it('renames the hidden field when the "Not you?" is clicked');
+          it('appends a hidden field with the akid to the form', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}}});
+            expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
+          });
+          it('renames the hidden field when the "Not you?" is clicked', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
+            $('.fundraiser-bar__clear-form').click();
+            expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
+          });
         });
       });
     });

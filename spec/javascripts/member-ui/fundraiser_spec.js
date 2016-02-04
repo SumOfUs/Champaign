@@ -144,10 +144,13 @@ describe("Fundraiser", function() {
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'} });
         });
 
-        // PENDING
-        it('appends a hidden field with the akid to the form');
-        it('renames the hidden field when the "Not you?" is clicked');
-        // going to want to call `$('.fundraiser-bar__clear-form').click()` to clear
+        it('appends a hidden field with the akid to the form', function() {
+          expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
+        });
+        it('renames the hidden field when the "Not you?" is clicked', function() {
+          $('.fundraiser-bar__clear-form').click();
+          expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
+        });
       });
 
       describe('amount is greater than zero', function(){
@@ -220,8 +223,9 @@ describe("Fundraiser", function() {
             expect(classed).to.eql([false, false]);
           });
 
-          // PENDING
-          it('does not append a hidden akid field');
+          it('does not append a hidden akid field', function() {
+            expect($('input[name="akid"]').length).to.eq(0);
+          });
         });
 
         describe('member is passed', function(){
