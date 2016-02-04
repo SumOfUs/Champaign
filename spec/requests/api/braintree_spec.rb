@@ -109,6 +109,13 @@ describe "Braintree API" do
           expect(Member.first.email).to eq('foo@example.com')
         end
 
+        it 'sets the member cookie' do
+          # we can't access signed cookies in request specs, so
+          # we're checking against a hashed value.
+          expect(cookies['member_id']).not_to eq nil
+          expect(cookies['member_id'].length).to be > 20
+        end
+
         it 'posts donation to worker' do
           expected = {
             type: 'donation',
@@ -197,6 +204,13 @@ describe "Braintree API" do
 
           expect(body[:subscription_id]).to match(/[a-z0-9]{6}/)
         end
+
+        it 'sets the member cookie' do
+          # we can't access signed cookies in request specs, so
+          # we're checking against a hashed value.
+          expect(cookies['member_id']).not_to eq nil
+          expect(cookies['member_id'].length).to be > 20
+        end
       end
 
       context 'repeat donation' do
@@ -260,6 +274,13 @@ describe "Braintree API" do
         expect(body.keys).to contain_exactly('success','errors')
         expect(body[:success]).to be false
         expect(body[:errors].first[:message]).to eq("Amount cannot be negative.")
+      end
+    end
+
+    it 'does not set the member cookie' do
+      VCR.use_cassette("transaction_failure_invalid_amount") do
+        post_transaction(amount: -10)
+        expect(cookies['member_id']).to eq nil
       end
     end
 

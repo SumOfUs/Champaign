@@ -14,7 +14,7 @@ describe Api::BraintreeController do
   }
   end
 
-  let(:action) { instance_double("Action") }
+  let(:action) { instance_double("Action", member_id: 37) }
 
 
   # endpoint /api/braintree/token
@@ -47,7 +47,7 @@ describe Api::BraintreeController do
       before do
         allow(PaymentProcessor::Clients::Braintree::Subscription).to receive(:make_subscription).and_return( subscription_object )
         allow(Member).to receive(:find_by).and_return( member )
-        allow(ManageBraintreeDonation).to receive(:create)
+        allow(ManageBraintreeDonation).to receive(:create) { action }
 
         post :subscription, params
       end
@@ -121,6 +121,11 @@ describe Api::BraintreeController do
       it 'responds with JSON' do
         expect(response.body).to eq( { success: true, transaction_id: '1234' }.to_json )
       end
+
+      it 'sets the member cookie' do
+        expect(cookies.signed['member_id']).to eq 37
+      end
+
     end
 
     describe "valid transaction with recurring parameter" do
@@ -141,6 +146,10 @@ describe Api::BraintreeController do
       it "creates a subscription" do
         expect(response.body).to eq( { success: true, subscription_id: 'kj2qnp' }.to_json )
       end
+
+      it 'sets the member cookie' do
+        expect(cookies.signed['member_id']).to eq 37
+      end
     end
 
     context "invalid transaction" do
@@ -156,6 +165,10 @@ describe Api::BraintreeController do
       end
 
       describe "errors in transaction" do
+      end
+
+      it 'does not write the member cookie' do
+        expect(cookies.signed['member_id']).to eq nil
       end
 
     end

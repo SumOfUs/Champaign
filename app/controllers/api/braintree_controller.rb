@@ -48,7 +48,8 @@ class Api::BraintreeController < ApplicationController
     find_or_create_user
     result = braintree::Subscription.make_subscription(subscription_options)
     if result.success?
-      ManageBraintreeDonation.create(params: params[:user].merge(parge_id: params[:page_id]), braintree_result: result, is_subscription: true)
+      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result, is_subscription: true)
+      write_member_cookie(action.member_id) unless action.blank?
       render json: { success: true, subscription_id: result.subscription.id }
     else
       errors = raise_unless_user_error(result)
@@ -62,6 +63,7 @@ class Api::BraintreeController < ApplicationController
     if result.success?
       action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result)
       Payment.write_successful_transaction(action: action, transaction_response: result)
+      write_member_cookie(action.member_id) unless action.blank?
       render json: { success: true, transaction_id: result.transaction.id }
     else
       errors = raise_unless_user_error(result)
