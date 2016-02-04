@@ -26,7 +26,7 @@ module ActionBuilder
       @user.name = @params[:name]
     end
 
-    @params[:actionkit_user_id] = AkidParser.parse(@params[:actionkit_user_id])[:actionkit_user_id] if @params.has_key? :actionkit_user_id
+    @params[:actionkit_user_id] = AkidParser.parse(@params[:akid])[:actionkit_user_id] if @params.has_key? :akid
 
     @user.assign_attributes(filtered_params)
     @user.save if @user.changed

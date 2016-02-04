@@ -73,12 +73,13 @@ const FormMethods = {
     } else if(form_type == 'fundraiser') {
       $form = $('.fundraiser-bar__step-panel').find('form')[0]
     }
+    console.log(akid);
 
     if(akid) {
       if($form) {
         $('<input>').attr({
           type: 'hidden',
-          name: 'actionkit_user_id',
+          name: 'akid',
           value: akid
         }).appendTo($form);
       }
@@ -86,9 +87,9 @@ const FormMethods = {
   },
 
   renameActionKitIdToReferringId() {
-    let $action_kit_hidden = $('input[name=actionkit_user_id]');
+    let $action_kit_hidden = $('input[name="akid"]');
     if($action_kit_hidden) {
-      $action_kit_hidden.attr('name', 'referring_actionkit_user_id');
+      $action_kit_hidden.attr('name', 'referring_akid');
     }
   }
 };
