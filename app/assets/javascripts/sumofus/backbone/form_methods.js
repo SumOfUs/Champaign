@@ -73,7 +73,6 @@ const FormMethods = {
     } else if(form_type == 'fundraiser') {
       $form = $('.fundraiser-bar__step-panel').find('form')[0]
     }
-    console.log(akid);
 
     if(akid) {
       if($form) {
