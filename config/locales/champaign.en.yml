@@ -88,6 +88,10 @@ en:
       title: "Pages"
       filter: "Advanced Search"
       stats: "Stats"
+      publish_status: "Published?"
+      published: 'Published'
+      unpublished: 'Private'
+      action_count: 'Actions'
       table:
         featured: "Featured"
     new:

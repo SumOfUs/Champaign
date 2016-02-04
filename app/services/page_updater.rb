@@ -57,7 +57,6 @@
 
 class PageUpdater
 
-  REFRESH_TRIGGERS = %w{ liquid_layout_id }
   attr_reader :errors
 
   def initialize(page, page_url=nil)
