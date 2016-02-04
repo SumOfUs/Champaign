@@ -164,7 +164,7 @@ describe("Petition", function() {
 
         describe('akid is passed', function(){
           it('appends a hidden field with the akid to the form', function() {
-            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}}});
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
             expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
           });
           it('renames the hidden field when the "Not you?" is clicked', function() {
