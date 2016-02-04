@@ -6,13 +6,14 @@ de:
   branding:
     tagline: Menschen vor Profit!
     license: Creative Commons Namensnennung 3.0 Unported Lizenz
+    description: "SumOfUs.org ist eine weltweite Bewegung engagierter Menschen wie Ihnen, die sich zusammen dafür einsetzen, dass Konzerne für ihr Handeln zur Verantwortung gezogen werden. Gemeinsam ebnen wir so den Weg für eine neue, nachhaltige Weltwirtschaft."
   fundraiser:
     amount: Summe
     details: Kontaktdaten
     payment: Zahlung
     donate: "%{amount} Spenden"
     error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
-    currency_in: Beträge werden in Euro angezeigt.
+    currency_in: "Beträge werden in %{currency} angezeigt"
     switch_currency: Währung ändern
     proceed_to_details: Weiter zu Kontaktdaten
     proceed_to_payment: Weiter zur Zahlung

@@ -37,6 +37,13 @@ shared_examples "plugin with form" do
     expect( subject.liquid_data({form_values: {email: 'neal@test.com'}})[:outstanding_fields]).to eq []
   end
 
+  it 'deletes the form when it is deleted' do
+    subject.form = form
+    subject.save!
+    expect{ subject.destroy! }.not_to raise_error
+    expect{ form.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
   describe '#update_form' do
     let!(:new_form) { create(:form, master: false) }
 

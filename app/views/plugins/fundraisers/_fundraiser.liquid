@@ -41,7 +41,7 @@
             </div>
             <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
             <div class="fundraiser-bar__switch-currency">
-              {{ 'fundraiser.currency_in' | t }} <span class="fundraiser-bar__current-currency">USD</span>.
+              <span class="fundraiser-bar__current-currency">{{ 'fundraiser.currency_in, currency: USD' | t }}</span>.
               <a class="fundraiser-bar__engage-currency-switcher">{{ 'fundraiser.switch_currency' | t }}.</a>
               <select class="fundraiser-bar__currency-selector" style="display: none;"></select>
             </div>

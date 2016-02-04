@@ -247,9 +247,6 @@ body.page-edit-body {
 }
 
 .shares-editor {
-  &__summary-row {
-    cursor: pointer;
-  }
   &__edit-row {
     background-color: $bootstrap-bg-gray;
     form {

@@ -34,6 +34,7 @@ en:
     modified: 'Date Modified'
     amounts: 'Amounts'
     delete: 'Delete'
+    working: 'Working'
     'yes': 'Yes' # yml treats yes / no as booleans
     'no': 'No'
 
@@ -85,8 +86,12 @@ en:
     index:
       new: "Create a new page"
       title: "Pages"
-      filter: "Filter Pages"
+      filter: "Advanced Search"
       stats: "Stats"
+      publish_status: "Published?"
+      published: 'Published'
+      unpublished: 'Private'
+      action_count: 'Actions'
       table:
         featured: "Featured"
     new:

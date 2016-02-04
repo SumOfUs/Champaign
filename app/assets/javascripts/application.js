@@ -28,6 +28,8 @@
 //= require typeahead.jquery
 //= require speakingurl
 //= require quill
+//= require datatables
+//= require datatables/dataTables.bootstrap
 
 //= require show_errors
 //= require dropzone_image_upload

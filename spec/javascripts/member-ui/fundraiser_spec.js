@@ -469,9 +469,9 @@ describe("Fundraiser", function() {
       });
 
       it('changes the reported currency code when currency changes', function(){
-        expect($('.fundraiser-bar__current-currency').text()).to.equal('USD');
+        expect($('.fundraiser-bar__current-currency').text()).to.equal('Values shown in USD');
         $('.fundraiser-bar__currency-selector').val('AUD').change();
-        expect($('.fundraiser-bar__current-currency').text()).to.equal('AUD');
+        expect($('.fundraiser-bar__current-currency').text()).to.equal('Values shown in AUD');
       });
 
       it('changes the filled in currency symbol when clicking in', function(){
