@@ -19,6 +19,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
   //      the values in the member hash.
   //    member: an object with fields that will prefill the form
   //    location: a hash of location values inferred from the user's request
+  //    akid: the actionkitid (akid) to save with the user request
   //    thermometer: options to display on the thermometer
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
@@ -31,7 +32,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     if (!this.isMobile()) {
       this.selectizeCountry();
     }
-    this.insertActionKitId('petition', options.urlParams);
+    this.insertActionKitId('petition', options.akid);
   },
 
   initializePrefill(options) {

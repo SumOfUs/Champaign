@@ -66,7 +66,7 @@ const FormMethods = {
     this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
   },
 
-  insertActionKitId(form_type, urlParams) {
+  insertActionKitId(form_type, akid) {
     let $form;
     if(form_type == 'petition') {
       $form = $('.petition-bar__main').find('form')[0];
@@ -74,12 +74,12 @@ const FormMethods = {
       $form = $('.fundraiser-bar__step-panel').find('form')[0]
     }
 
-    if(urlParams && 'akid' in urlParams) {
+    if(akid) {
       if($form) {
         $('<input>').attr({
           type: 'hidden',
           name: 'actionkit_user_id',
-          value: urlParams['akid']
+          value: akid
         }).appendTo($form);
       }
     }
