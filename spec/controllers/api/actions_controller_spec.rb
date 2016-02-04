@@ -5,7 +5,7 @@ describe Api::ActionsController do
   describe "POST create" do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')] ) }
     let(:member) { instance_double('Member', id: 12) }
-    let(:action) { instance_double('Action', member: member)}
+    let(:action) { instance_double('Action', member_id: member.id)}
 
     before :each do
       allow(Form).to receive(:find){ form }
@@ -123,7 +123,7 @@ describe Api::ActionsController do
         expect(response.body).to eq({}.to_json)
       end
 
-      it 'does not set a cookie the cookie' do
+      it 'does not set the cookie' do
         expect(cookies.signed['member_id']).to eq nil
         expect(response.cookies[:member_id]).to eq nil
       end

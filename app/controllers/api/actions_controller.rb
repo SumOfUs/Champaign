@@ -7,10 +7,7 @@ class Api::ActionsController < ApplicationController
 
     if validator.valid?
       action = ManageAction.create(@action_params)
-      cookies.signed[:member_id] = {
-        value: action.member.id,
-        expires: 2.years.from_now
-      }
+      write_member_cookie(action.member_id)
       render json: {}, status: 200
     else
       render json: {errors: validator.errors}, status: 422
