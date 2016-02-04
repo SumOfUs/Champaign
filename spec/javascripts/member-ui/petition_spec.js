@@ -157,6 +157,15 @@ describe("Petition", function() {
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
           expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
+
+        // PENDING
+        // in these tests, we instantiate PetitionBar in every test
+        it('does not append a hidden akid field');
+
+        describe('akid is passed', function(){
+          it('appends a hidden field with the akid to the form');
+          it('renames the hidden field when the "Not you?" is clicked');
+        });
       });
     });
 

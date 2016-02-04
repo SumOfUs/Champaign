@@ -138,6 +138,18 @@ describe("Fundraiser", function() {
         });
       });
 
+      describe('member and akid are passed', function(){
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'} });
+        });
+
+        // PENDING
+        it('appends a hidden field with the akid to the form');
+        it('renames the hidden field when the "Not you?" is clicked');
+        // going to want to call `$('.fundraiser-bar__clear-form').click()` to clear
+      });
+
       describe('amount is greater than zero', function(){
 
         beforeEach(function(){
@@ -207,6 +219,9 @@ describe("Fundraiser", function() {
             }).toArray();
             expect(classed).to.eql([false, false]);
           });
+
+          // PENDING
+          it('does not append a hidden akid field');
         });
 
         describe('member is passed', function(){
