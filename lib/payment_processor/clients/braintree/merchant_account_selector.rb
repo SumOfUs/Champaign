@@ -4,14 +4,7 @@ module PaymentProcessor
       class MerchantAccountSelector
         include ActsLikeSelectorWithCurrency
 
-        MERCHANT_ACCOUNTS = {
-         EUR: 'EUR',
-         GBP: 'GBP',
-         USD: 'USD',
-         AUD: 'AUD',
-         CAD: 'CAD',
-         NZD: 'NZD'
-        }.freeze
+        MERCHANT_ACCOUNTS = Settings.braintree.merchants.freeze
 
         def select_or_raise
           raise_error if @currency.blank?
