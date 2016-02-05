@@ -58,6 +58,22 @@
        public_key:  "test_public_key"
        private_key:  "test_private_key"
 
+       merchants:
+         EUR: 'EUR'
+         GBP: 'GBP'
+         USD: 'USD'
+         AUD: 'AUD'
+         CAD: 'CAD'
+         NZD: 'NZD'
+
+       subscription_plans:
+         EUR: 'EUR'
+         GBP: 'GBP'
+         USD: '1'
+         AUD: 'AUD'
+         CAD: 'CAD'
+         NZD: 'NZD'
+
 
      redis:
        host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>

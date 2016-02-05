@@ -17,7 +17,7 @@ module PaymentProcessor
 
           context 'matched currency' do
             it 'returns merchant account ID' do
-              expect( subject.for_currency('EUR') ).to eq('subscription_EUR')
+              expect( subject.for_currency('EUR') ).to eq('EUR')
             end
           end
         end
