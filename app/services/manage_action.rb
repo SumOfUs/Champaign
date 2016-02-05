@@ -40,7 +40,12 @@ class ManageAction
 
     # This massages that data to translate the existing referring_akid into the referring_user value that AK will happily
     # accept.
-    @params[:referring_user] = "/rest/v1/user/#{actionkit_user_id(@params.delete(:referring_akid))}/" if @params.has_key? :referring_akid
+    if @params.has_key? :referring_akid
+      akuid = actionkit_user_id(@params.delete(:referring_akid))
+      if akuid
+        @params[:referring_user] = "/rest/v1/user/#{akuid}/"
+      end
+    end
   end
 end
 

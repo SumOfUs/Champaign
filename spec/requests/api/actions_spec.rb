@@ -4,7 +4,7 @@ describe "Api Actions" do
   let(:sqs_client) { double }
 
   before do
-    allow(Aws::SQS::Client).to receive(:new){ sqs_client }
+    allow(Aws::SQS::Client).to receive(:new) { sqs_client }
     allow(sqs_client).to receive(:send_message)
     allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
   end
@@ -14,10 +14,10 @@ describe "Api Actions" do
     let(:form) { create(:form_with_email) }
     let(:params) do
       {
-        email:   'hello@example.com',
-        form_id: form.id,
-        source:  'fb',
-        akid:    '123.456.fcvd'
+          email: 'hello@example.com',
+          form_id: form.id,
+          source: 'fb',
+          akid: '123.456.fcvd'
       }
     end
 
@@ -32,7 +32,7 @@ describe "Api Actions" do
 
       it 'saves akid' do
         expect(
-            Action.where('form_data @> ?', { akid: '123.456.fcvd' }.to_json).first
+            Action.where('form_data @> ?', {akid: '123.456.fcvd'}.to_json).first
         ).to eq(page.actions.first)
       end
 
@@ -45,11 +45,11 @@ describe "Api Actions" do
                 params: {
                     slug: page.slug,
                     body: {
-                        email:      "hello@example.com",
-                        page_id:    page.id.to_s,
-                        form_id:    form.id.to_s,
-                        source:     'fb',
-                        akid:       '123.456.fcvd'
+                        email: "hello@example.com",
+                        page_id: page.id.to_s,
+                        form_id: form.id.to_s,
+                        source: 'fb',
+                        akid: '123.456.fcvd'
                     }
                 }
             }.to_json
@@ -72,10 +72,10 @@ describe "Api Actions" do
                 params: {
                     slug: page.slug,
                     body: {
-                        email:          'hello@example.com',
-                        page_id:        page.id.to_s,
-                        form_id:        form.id.to_s,
-                        source:         'fb',
+                        email: 'hello@example.com',
+                        page_id: page.id.to_s,
+                        form_id: form.id.to_s,
+                        source: 'fb',
                         referring_user: '/rest/v1/user/456/'
                     }
                 }
@@ -86,5 +86,51 @@ describe "Api Actions" do
       end
     end
   end
+
+  describe 'invalid akids' do
+    let(:page) { create(:page) }
+    let(:form) { create(:form_with_email) }
+    let(:params) do
+      {
+          email: 'hello@example.com',
+          form_id: form.id,
+          akid: 'this_isnt_a_valid_akid'
+      }
+    end
+
+    before do
+      post "/api/pages/#{page.id}/actions", params
+    end
+
+    it 'does not assign an actionkit_user_id to the created Member' do
+      expect(Member.first.actionkit_user_id).to be(nil)
+    end
+
+    it 'sends the bad akid through the form data for record keeping' do
+      expect(Action.where('form_data @> ?', {akid: 'this_isnt_a_valid_akid'}.to_json).first).to eq(page.actions.first)
+    end
+
+    it 'does not include a referring_user_uri in the queue message' do
+      expected_params = {
+          queue_url: 'http://example.com',
+
+          message_body: {
+              type: 'action',
+              params: {
+                  slug: page.slug,
+                  body: {
+                      email: 'hello@example.com',
+                      page_id: page.id.to_s,
+                      form_id: form.id.to_s,
+                      akid: 'this_isnt_a_valid_akid'
+                  }
+              }
+          }.to_json
+      }
+      expect(sqs_client).to have_received(:send_message).with(expected_params)
+    end
+  end
 end
+
+
 
