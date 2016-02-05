@@ -34,6 +34,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
       $(window).on('resize', () => this.expandBlurb());
     }
     this.insertActionKitId(options.akid);
+    this.insertSource(options.source);
   },
 
   initializePrefill(options) {

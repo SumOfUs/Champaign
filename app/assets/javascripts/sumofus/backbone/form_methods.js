@@ -78,6 +78,18 @@ const FormMethods = {
     }
   },
 
+  insertSource(source) {
+    let $form = this.$('form.action');
+
+    if(source && $form) {
+      $('<input>').attr({
+        type: 'hidden',
+        name: 'source',
+        value: source
+      }).appendTo($form)
+    }
+  },
+
   renameActionKitIdToReferringId() {
     let $action_kit_hidden = $('input[name="akid"]');
     if($action_kit_hidden) {

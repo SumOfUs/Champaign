@@ -51,6 +51,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
     this.buttonText = I18n.t('form.submit');
     this.insertActionKitId(options.akid);
+    this.insertSource(options.source);
   },
 
   initializeSkipping (options){
