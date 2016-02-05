@@ -153,7 +153,7 @@ describe("Fundraiser", function() {
         });
       });
 
-      describe('source is passed', function() {
+      describe('source params are correctly handled', function() {
         it('appends a hidden field with the source to the form', function() {
           suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], source: 'facebook' });
           expect($('input[name="source"]').val()).to.eq('facebook');

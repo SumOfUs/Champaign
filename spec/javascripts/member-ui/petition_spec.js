@@ -175,7 +175,7 @@ describe("Petition", function() {
           });
         });
 
-        describe('source is passed', function() {
+        describe('source params are correctly handled', function() {
           it('appends a hidden field with source to the form', function() {
             suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], source: 'twitter'});
             expect($('input[name="source"]').val()).to.eq('twitter');
