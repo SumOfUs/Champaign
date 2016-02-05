@@ -174,6 +174,18 @@ describe("Petition", function() {
             expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
           });
         });
+
+        describe('source is passed', function() {
+          it('appends a hidden field with source to the form', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], source: 'twitter'});
+            expect($('input[name="source"]').val()).to.eq('twitter');
+          });
+
+          it('appends nothing when no source field is passed', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: []});
+            expect($('input[name="source"]').length).to.eq(0);
+          });
+        });
       });
     });
 

@@ -153,6 +153,18 @@ describe("Fundraiser", function() {
         });
       });
 
+      describe('source is passed', function() {
+        it('appends a hidden field with the source to the form', function() {
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], source: 'facebook' });
+          expect($('input[name="source"]').val()).to.eq('facebook');
+        });
+
+        it('appends nothing when no source is present', function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({outstandingFields: []});
+          expect($('input[name="source"]').length).to.eq(0);
+        });
+      });
+
       describe('amount is greater than zero', function(){
 
         beforeEach(function(){
