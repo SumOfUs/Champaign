@@ -66,22 +66,15 @@ const FormMethods = {
     this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
   },
 
-  insertActionKitId(form_type, akid) {
-    let $form;
-    if(form_type == 'petition') {
-      $form = $('.petition-bar__main').find('form')[0];
-    } else if(form_type == 'fundraiser') {
-      $form = $('.fundraiser-bar__step-panel').find('form')[0]
-    }
+  insertActionKitId(akid) {
+    let $form = this.$('form.action');
 
-    if(akid) {
-      if($form) {
-        $('<input>').attr({
-          type: 'hidden',
-          name: 'akid',
-          value: akid
-        }).appendTo($form);
-      }
+    if(akid && $form) {
+      $('<input>').attr({
+        type: 'hidden',
+        name: 'akid',
+        value: akid
+      }).appendTo($form);
     }
   },
 
