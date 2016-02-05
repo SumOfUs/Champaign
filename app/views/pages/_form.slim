@@ -7,9 +7,11 @@
       = render 'shared/error_messages', target: page
 
       .page-title.form-group
+        = label_with_tooltip(f, :title, t('pages.edit.title'), t('tooltips.title'))
         = f.text_field :title
 
       .form-group
+        = f.label :content, t('pages.edit.content')
         = render 'shared/quill_editor'
 
 

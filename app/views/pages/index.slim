@@ -1,4 +1,4 @@
-= render "sidebar", action: :index
+= render "pages/sidebar", action: :index
 
 .edit-block
   h1.edit-block__title= t('.title')
@@ -11,35 +11,33 @@
           = t('pages.index.filter')
       #search-filter.collapse
         = render partial: 'search'
-      table.table-bordered.table-striped.table
+      table.table-bordered.table-striped.table#pages-table
         thead
           tr
+            th = t('common.name')
+            th = t('.publish_status')
+            th = t('common.created')
+            th = t('common.modified')
+            th = t('.action_count')
             th
-              = link_to t('common.name'), controller: 'pages', search: {order_by: ['title', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'title'
-            th
-              = link_to t('common.active'), controller: 'pages', search: {order_by: ['active', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'active'
-            th
-              = link_to t('common.created'), controller: 'pages', search: {order_by: ['created_at', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'created_at'
-            th
-              = link_to t('common.modified'), controller: 'pages', search: {order_by: ['updated_at', determine_ascending] }
-              = "<i class='glyphicon #{determine_icon_header}'></i>".html_safe if determine_icon_location == 'updated_at'
-            th Actions
             th
             th
         tbody
           - @pages.each do |page|
             tr
-              td = link_to page.title, page
-              td
-                span class=(page.active? ? 'tick' : 'cross')
+              td = page.title
+              td = page.active? ? t('.published') : t('.unpublished')
               td = page.created_at.strftime('%Y-%b-%d')
               td = page.updated_at.strftime('%Y-%b-%d')
               td = page.actions.count
+              td = link_to t('pages.edit.view'), page
               td = link_to t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
 
 
       = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
+
+javascript:
+  $(document).ready(function(){
+    $('#pages-table').DataTable();
+  });

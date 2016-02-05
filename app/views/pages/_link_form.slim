@@ -3,7 +3,9 @@
     - page.links.each do |link|
       = render 'link', link: link
 
-  h4= t('pages.edit.add_link')
+  h4
+    = t('pages.edit.add_link')
+    = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.add_source'), space_left: true }
   = form_for Link.new, remote: true, html: {class: 'form-inline', id: 'new_collection_element'}  do |f|
     = f.hidden_field :page_id, value: page.id
     .form-group.two-ninths

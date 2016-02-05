@@ -255,6 +255,8 @@ GEM
       rake
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    metamagic (3.1.7)
+      rails (>= 3.0.0)
     method_source (0.8.2)
     mime-types (2.99)
     mimemagic (0.3.0)
@@ -326,7 +328,10 @@ GEM
     rails-assets-braintree-web (2.15.4)
     rails-assets-chai-jquery (2.0.1)
     rails-assets-d3 (3.5.12)
+    rails-assets-datatables (1.10.10)
+      rails-assets-jquery (>= 1.7.0)
     rails-assets-dropzone (4.0.1)
+    rails-assets-jquery (2.2.0)
     rails-assets-mailcheck (1.1.1)
     rails-assets-moment (2.11.1)
     rails-assets-odometer (0.4.7)
@@ -493,6 +498,7 @@ DEPENDENCIES
   liquid
   logger
   magic_lamp
+  metamagic
   money
   newrelic_rpm
   omniauth-google-oauth2
@@ -506,6 +512,7 @@ DEPENDENCIES
   rails-assets-braintree-web!
   rails-assets-chai-jquery!
   rails-assets-d3!
+  rails-assets-datatables!
   rails-assets-dropzone!
   rails-assets-mailcheck!
   rails-assets-moment!

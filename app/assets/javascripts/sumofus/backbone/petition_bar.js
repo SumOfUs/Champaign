@@ -31,6 +31,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.followUpUrl = options.followUpUrl;
     if (!this.isMobile()) {
       this.selectizeCountry();
+      $(window).on('resize', () => this.expandBlurb());
     }
     this.insertActionKitId(options.akid);
   },
@@ -73,7 +74,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
   },
 
   expandBlurb: function() {
-    const height = this.$('.petition-bar__top').outerHeight();
+    let height = this.$('.petition-bar__top').outerHeight();
     if (this.isSticky){
       this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
     } else if(!this.$el.hasClass('stuck-right')){

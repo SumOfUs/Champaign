@@ -113,7 +113,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   resetCustom (e) {
     let $field = this.$(e.target);
-    let currencySymbols = /^[\$\£\€]*$/;
+    let currencySymbols = /^[\$\u20ac\u00a3]*$/; // \u00a3 is £, \u20ac is €
     if (currencySymbols.test($field.val())) {
       $field[0].value = '';
       this.$('.fundraiser-bar__first-continue').slideUp(200);
@@ -127,7 +127,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   advanceToDetails (e) {
     let amount = this.$(e.target).data('amount') || this.$('.fundraiser-bar__custom-field').val();
     if (typeof amount == 'string') {
-      amount = amount.replace(/[\$\£\€]/g, '');
+      // \u00a3 is £, \u20ac is €
+      amount = amount.replace(/[\$\u20ac\u00a3]/g, '');
     }
     this.setDonationAmount(amount);
     if (this.donationAmount > 0) {

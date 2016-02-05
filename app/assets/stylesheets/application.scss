@@ -1,3 +1,4 @@
+@import "bootstrap-customization";
 @import "compass";
 @import "bootstrap-sprockets";
 @import "bootstrap";
@@ -15,8 +16,10 @@
 @import "codemirror";
 @import "codemirror/themes/3024-night";
 @import "typeahead";
+@import "datatables/dataTables.bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
+@import "switch";
 
 @import "page-edit";
 @import "devise";

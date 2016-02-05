@@ -43,6 +43,8 @@ VCR.configure do |config|
   %w{merchant_id public_key private_key}.each do |env|
     config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }
   end
+
+  config.filter_sensitive_data("<shareprogress_api_key>") { ENV["SHARE_PROGRESS_API_KEY"] }
 end
 
 

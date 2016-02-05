@@ -35,6 +35,14 @@ class Page < ActiveRecord::Base
     end.flatten.sort_by(&:created_at)
   end
 
+  def plugin_names
+    plugins.map { |plugin| plugin.model_name.name.split('::')[1].downcase }
+  end
+
+  def tag_names
+    tags.map { |tag| tag.name.downcase }
+  end
+
   def shares
     [Share::Facebook, Share::Twitter, Share::Email].inject([]) do |variations, share_class|
       variations += share_class.where(page_id: id)
@@ -43,6 +51,10 @@ class Page < ActiveRecord::Base
 
   def image_to_display
     primary_image || images.first
+  end
+
+  def meta_tags
+    tag_names << plugin_names
   end
 
   private

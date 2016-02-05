@@ -3,6 +3,6 @@
   = form.text_field :subject, class: 'form-control'
 
 .form-group
-  = form.label :body, t('share.email.form.body')
+  = label_with_tooltip(form, :body, t('share.email.form.body'), t('tooltips.shares.link_explanation'))
   = form.text_area :body, class: 'form-control', rows: 5
 

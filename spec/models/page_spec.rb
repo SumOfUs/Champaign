@@ -32,6 +32,9 @@ describe Page do
   it { is_expected.to respond_to :plugins }
   it { is_expected.to respond_to :shares }
   it { is_expected.to respond_to :action_count }
+  it { is_expected.to respond_to :tag_names }
+  it { is_expected.to respond_to :plugin_names }
+  it { is_expected.to respond_to :meta_tags }
 
   it { is_expected.not_to respond_to :secondary_liquid_layout }
 
@@ -42,10 +45,16 @@ describe Page do
     end
 
     it 'should be a reciprocal many-to-many relationship' do
-      page = Page.create!(page_params.merge({tag_ids: Tag.last(2).map(&:id)}))
+      page = create :page, tags: Tag.last(2)
       expect(page.tags).to match_array Tag.last(2)
       expect(Tag.last.pages).to match_array [page]
       expect(Tag.first.pages).to match_array []
+    end
+
+    it 'reflects assigned tags in the tag_names property' do
+      page = create :page, tags: Tag.last(2)
+      tag_array = page.tags.map { |tag| tag.name.downcase }
+      expect(page.tag_names).to match_array(tag_array)
     end
 
     describe 'create' do
@@ -310,6 +319,15 @@ describe Page do
     it 'defaults to :with_liquid' do
       new_page = create :page
       expect(page.follow_up_plan).to eq 'with_liquid'
+    end
+  end
+
+  describe 'plugins' do
+    it 'correctly lists the names of plugins' do
+      page = create :page
+      plugins = [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_thermometer, page: page)]
+      plugin_names = %w(petition fundraiser thermometer)
+      expect(page.plugin_names).to match_array(plugin_names)
     end
   end
 

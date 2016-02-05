@@ -1,4 +1,6 @@
-h4 = t('plugins.petition.choose_form_template')
+h4
+  = t('plugins.petition.choose_form_template')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.petition.use_form'), space_left: true }
 p = t('plugins.petition.form_template_explanation')
 = form_tag plugins_form_create_path(plugin_id: plugin.id, plugin_type: plugin.name), method: :post, remote: true, class: 'petition', id: 'change-form-template'  do
   .form-group

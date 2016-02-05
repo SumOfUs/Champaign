@@ -9,7 +9,7 @@ class Api::ActionsController < ApplicationController
       action = ManageAction.create(@action_params)
       cookies.signed[:member_id] = {
         value: action.member.id,
-        expires: 1.hour.from_now
+        expires: 2.years.from_now
       }
       render json: {}, status: 200
     else

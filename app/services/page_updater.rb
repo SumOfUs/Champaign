@@ -57,7 +57,6 @@
 
 class PageUpdater
 
-  REFRESH_TRIGGERS = %w{ liquid_layout_id }
   attr_reader :errors
 
   def initialize(page, page_url=nil)
@@ -81,9 +80,10 @@ class PageUpdater
 
   def update_page
     return unless @params[:page]
+    plugins_before = @page.plugins
     @page.assign_attributes(@params[:page])
-    @refresh = true unless (@page.changed & REFRESH_TRIGGERS).empty?
     @page.save
+    @refresh = (@page.plugins != plugins_before)
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
   end
 

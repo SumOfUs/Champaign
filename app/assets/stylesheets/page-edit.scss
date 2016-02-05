@@ -120,7 +120,7 @@ body.page-edit-body {
     position: absolute;
     top: -45px;
     left: 0;
-    @include transition(top 0.1s ease-in-out, height 0.1s ease-in-out);
+    @include transition(top 0.15s ease-in-out, height 0.15s ease-in-out);
     @include box-sizing(border-box);
     height: 54px;
     z-index: -1;
@@ -143,17 +143,8 @@ body.page-edit-body {
   &__toggle-btns {
     margin: 0 20px 6px;
 
-    .btn-default {
-      color: #666;
-      background-color: #ddd;
-    }
-    .btn-primary {
-      color: black;
-      background-color: white;
-      border-color: white;
-      &:active {
-        background-color: white;
-      }
+    .onoffswitch {
+      margin: 0 auto;
     }
   }
   &__toggle-title {
@@ -256,19 +247,19 @@ body.page-edit-body {
 }
 
 .shares-editor {
-  &__summary-row {
-    cursor: pointer;
-  }
   &__edit-row {
     background-color: $bootstrap-bg-gray;
     form {
       padding: 20px 20% 15px 10%;
     }
   }
+  &__view-toggle {
+    margin-bottom: 15px
+  }
   &__toggle-edit {
     width: 60px;
   }
-  &__toggle-cell {
+  &__button-cell {
     width: 64px;
   }
   &__preview-image {
@@ -283,6 +274,7 @@ body.page-edit-body {
   border-color: $bootstrap-border-gray;
   cursor: pointer;
   margin-bottom: 20px;
+  position: relative;
 
   .dz-message {
     font-size: 20px;
@@ -396,4 +388,45 @@ body.page-edit-body {
     padding: 10px;
     @include clearfix();
   }
+}
+
+.tooltip {
+  font-size: 13px;
+
+  &__trigger {
+    position: relative;
+    display: inline-block;
+    background: $bootstrap-bg-gray;
+    border: 1px solid $bootstrap-border-gray;
+    height: 20px;
+    width: 21px;
+    border-radius: 10px;
+    padding-top: 1px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 13px;
+    color: $save-box-color;
+    vertical-align: top;
+    position: relative;
+    &--space-left {
+      margin-left: 5px;
+    }
+  }
+  &__trigger-inner {
+    position: absolute;
+    display: block;
+    line-height: 11px;
+    left: 6px;
+    top: 4px;
+  }
+  &--image-uploader {
+    position: absolute;
+    width: 170px;
+    top: 10px;
+    left: 10px;
+
+  }
+}
+.well .tooltip__trigger, .tooltip--white .tooltip__trigger {
+  background: white;
 }

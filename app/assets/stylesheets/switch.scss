@@ -1,0 +1,71 @@
+// customized from https://proto.io/freebies/onoff/
+.onoffswitch {
+  position: relative;
+  width: 90px;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select: none;
+  &__checkbox {
+    display: none;
+  }
+  &__label {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    // border: 2px solid #FFFFFF;
+    border-radius: 29px;
+  }
+  &__inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.15s ease-in-out 0s;
+    &:before, &:after {
+      display: block;
+      float: left;
+      width: 50%;
+      height: 35px;
+      padding: 0;
+      line-height: 35px;
+      font-size: 18px;
+      color: white;
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      box-sizing: border-box;
+    }
+    &:before {
+      content: "ON";
+      padding-left: 12px;
+      background-color: #00C0CF;
+      color: #FFFFFF;
+      text-align: left;
+    }
+    &:after {
+      content: "OFF";
+      padding-right: 12px;
+      background-color: #DDDDDD;
+      color: #999999;
+      text-align: right;
+    }
+  }
+  &__switch {
+    display: block;
+    width: 22px;
+    margin: 6.5px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 55px;
+    border: 2px solid #FFFFFF;
+    border-radius: 29px;
+    transition: all 0.15s ease-in-out 0s;
+  }
+}
+.onoffswitch__checkbox:checked + .onoffswitch__label .onoffswitch__inner {
+  margin-left: 0;
+}
+.onoffswitch__checkbox:checked + .onoffswitch__label .onoffswitch__switch {
+  right: 0px;
+}
