@@ -13,12 +13,14 @@ describe Api::ActionsController do
       allow(controller).to receive(:localize_from_page_id)
     end
 
+    let(:validator) { instance_double('FormValidator', valid?: true, errors: []) }
+
+    before do
+      allow(FormValidator).to receive(:new){ validator }
+    end
+
     describe "successful" do
-
-      let(:validator) { instance_double('FormValidator', valid?: true, errors: []) }
-
       before do
-        allow(FormValidator).to receive(:new){ validator }
         post :create, { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
@@ -53,7 +55,22 @@ describe Api::ActionsController do
       it 'attemptes to localize the page' do
         expect(controller).to have_received(:localize_from_page_id)
       end
+    end
 
+    describe "URL params" do
+      before do
+        post :create, { page_id: 2, form_id: 3, foo: 'bar', source: "FB", akid: '123.456.rfs' }
+      end
+
+      it 'takes source' do
+        expect(ManageAction).to have_received(:create).
+          with( hash_including(source: 'FB' ) )
+      end
+
+      it 'takes akid' do
+        expect(ManageAction).to have_received(:create).
+          with( hash_including(akid: '123.456.rfs' ) )
+      end
     end
 
     describe "unsuccessful" do

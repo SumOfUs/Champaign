@@ -1,7 +1,11 @@
 module ActionBuilder
 
   def build_action
-    Action.create( member: member, page: page, form_data: @params )
+    Action.create(
+      member: member,
+      page: page,
+      form_data: @params
+    )
   end
 
   def previous_action

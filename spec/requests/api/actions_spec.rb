@@ -9,13 +9,33 @@ describe "Api Actions" do
     allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
   end
 
-  describe "creating" do
+  describe "POST#create" do
     let(:page) { create(:page) }
     let(:form) { create(:form_with_email) }
+    let(:params) do
+      {
+        email:   'hello@example.com',
+        form_id: form.id,
+        source:  'fb',
+        akid:    '123.456.fcvd'
+      }
+    end
+
+    before do
+      post "/api/pages/#{page.id}/actions", params
+    end
+
+    it 'persists action' do
+      expect(page.actions.count).to eq(1)
+    end
+
+    it 'saves akid' do
+      expect(
+        Action.where('form_data @> ?', { akid: '123.456.fcvd' }.to_json).first
+      ).to eq(page.actions.first)
+    end
 
     it "Posts action to SQS Queue" do
-      post "/api/pages/#{page.id}/actions", email: "hello@example.com", form_id: form.id
-
       expected_params = {
         queue_url: 'http://example.com',
 
@@ -24,16 +44,17 @@ describe "Api Actions" do
           params: {
             slug: page.slug,
             body: {
-              email: "hello@example.com",
-              page_id: page.id.to_s,
-              form_id: form.id.to_s
+              email:      "hello@example.com",
+              page_id:    page.id.to_s,
+              form_id:    form.id.to_s,
+              source:     'fb',
+              akid:       '123.456.fcvd'
             }
           }
         }.to_json
       }
 
       expect(sqs_client).to have_received(:send_message).with(expected_params)
-      expect(Action.count).to eq(1)
     end
   end
 end
