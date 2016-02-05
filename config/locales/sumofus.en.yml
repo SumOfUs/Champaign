@@ -6,13 +6,14 @@ en:
   branding:
     tagline: Fighting for people over profits
     license: Creative Commons Attribution 3.0 Unported License.
+    description: "SumOfUs is a global movement of consumers, investors, and workers all around the world, standing together to hold corporations accountable for their actions and forge a new, sustainable and just path for our global economy. It's not going to be fast or easy. But if enough of us come together, we can make a real difference."
   fundraiser:
     amount: Amount
     details: Details
     payment: Payment
     donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
     error_intro: We were unable to process your donation!
-    currency_in: Values shown in # USD
+    currency_in: "Values shown in %{currency}"
     switch_currency: Switch currency
     proceed_to_details: Proceed to details
     proceed_to_payment: Proceed to payment

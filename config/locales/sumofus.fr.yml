@@ -6,13 +6,14 @@ fr:
   branding:
     tagline: L’humain avant le profit
     license: Creative Commons Attribution 3.0 Unported License.
+    description: "SumOfUs est un mouvement mondial de personnes comme vous, qui travaillent ensemble afin de responsabiliser les entreprises et de tracer une nouvelle voie durable pour l’économie mondiale."
   fundraiser:
     amount: Montant
     details: Détails
     payment: Paiement
     donate: "Donner %{amount}" # utilisé dans le bouton de validation, eg 'Donner 15€'
     error_intro: Votre don n’a pas pu être effectué!
-    currency_in: Monnaie en # USD
+    currency_in: "Monnaie en %{currency}"
     switch_currency: Changer de monnaie
     proceed_to_details: Remplir les informations
     proceed_to_payment: Procéder au versement

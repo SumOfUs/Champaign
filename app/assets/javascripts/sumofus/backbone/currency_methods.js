@@ -47,7 +47,7 @@ const CurrencyMethods = {
     } else {
       this.currency = currency;
     }
-    this.$('.fundraiser-bar__current-currency').text(this.currency);
+    this.$('.fundraiser-bar__current-currency').text(I18n.t('fundraiser.currency_in', {currency: this.currency}));
     this.$('select.fundraiser-bar__currency-selector').find('option').prop('selected', false);
     this.$('select.fundraiser-bar__currency-selector').find(`option[value="${this.currency}"]`).prop('selected', true);
     this.showDonationBandForCurrency(this.currency);

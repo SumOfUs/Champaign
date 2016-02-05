@@ -169,7 +169,8 @@ describe PageUpdater do
 
   describe 'refresh?' do
 
-    let(:alt_liquid_layout) { create :liquid_layout, :thermometer }
+    let(:ll_different_plugins) { create :liquid_layout, :thermometer }
+    let(:ll_same_plugins) { create :liquid_layout, :default, title: 'Swoop swoop' }
 
     it 'returns false before update called' do
       expect(pupdater.refresh?).to eq false
@@ -185,14 +186,14 @@ describe PageUpdater do
       expect(pupdater.refresh?).to eq false
     end
 
-    it 'returns true if liquid_layout_id was changed' do
-      pupdater.update({page: {liquid_layout_id: alt_liquid_layout.id}})
+    it 'returns true if new liquid_layout has different plugins' do
+      pupdater.update({page: {liquid_layout_id: ll_different_plugins.id}})
       expect(pupdater.refresh?).to eq true
     end
 
-    it 'returns true if liquid_layout was changed' do
-      pupdater.update({page: {liquid_layout: alt_liquid_layout}})
-      expect(pupdater.refresh?).to eq true
+    it 'returns false if new liquid_layout has the same plugins' do
+      pupdater.update({page: {liquid_layout_id: ll_same_plugins.id}})
+      expect(pupdater.refresh?).to eq false
     end
   end
 end

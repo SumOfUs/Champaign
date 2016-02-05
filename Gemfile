@@ -156,5 +156,8 @@ source 'https://rails-assets.org' do
 
   # Parse, validate, manipulate, and display dates in javascript.
   gem 'rails-assets-moment'
+
+  # make tables kick ass
+  gem 'rails-assets-datatables'
 end
 

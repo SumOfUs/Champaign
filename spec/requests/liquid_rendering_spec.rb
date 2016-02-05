@@ -5,7 +5,7 @@ describe "Liquid page rendering" do
   LiquidMarkupSeeder.titles.each do |title|
 
     describe "page with layout #{title}" do
-      [:en, :fr].each do |language|
+      [:en, :fr, :de].each do |language|
 
         it "can render in #{language} without errors" do
           LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
@@ -27,13 +27,13 @@ describe "Liquid page rendering" do
     end
 
     it 'renders the fundraiser sidebar' do
-      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Standard Fundraiser")
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Fundraiser With Large Image")
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="fundraiser-bar__content">')
     end
 
-    it 'renders the fundraiser sidebar' do
-      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Standard Petition")
+    it 'renders the petition sidebar' do
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Petition With Large Image")
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="petition-bar__content">')
     end

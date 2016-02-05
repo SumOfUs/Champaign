@@ -12,15 +12,41 @@ html {
   &--accomodates-stuck-footer {
     margin-bottom: 100px;
   }
+  &__fixed-right {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 33%;
+    z-index: 200;
+    @media(max-width: 1100px) {
+      width: 39%;
+    }
+    @media(max-width: 900px) {
+      width: 47%;
+    }
+  }
   &__big-column {
     width: 59%;
     margin-left: 4%;
     float: left;
+    @media(max-width: 1100px) {
+      width: 53%;
+    }
+    @media(max-width: 900px) {
+      width: 46%;
+    }
   }
   &__small-column {
     width: 29%;
     margin-left: 4%;
     float: left;
+    @media(max-width: 1100px) {
+      width: 35%;
+    }
+    @media(max-width: 900px) {
+      width: 43%;
+      margin-left: 3%;
+    }
   }
   &__small-column, &__big-column {
     @media(max-width: $mobile-width) {
@@ -46,13 +72,6 @@ html {
   }
   &--push-down {
     margin-top: 50px;
-  }
-  &__fixed-right {
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 33%;
-    z-index: 200;
   }
 }
 
