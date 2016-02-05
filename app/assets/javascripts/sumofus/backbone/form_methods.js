@@ -70,24 +70,25 @@ const FormMethods = {
     let $form = this.$('form.action');
 
     if(akid && $form) {
-      $('<input>').attr({
-        type: 'hidden',
-        name: 'akid',
-        value: akid
-      }).appendTo($form);
+      this.insertHiddenInput('akid', akid, $form)
     }
-  },
+  }
+  ,
 
   insertSource(source) {
     let $form = this.$('form.action');
 
     if(source && $form) {
-      $('<input>').attr({
-        type: 'hidden',
-        name: 'source',
-        value: source
-      }).appendTo($form)
+      this.insertHiddenInput('source', source, $form)
     }
+  },
+
+  insertHiddenInput(name, value, element) {
+    $('<input>').attr({
+      type: 'hidden',
+      name: name,
+      value: value
+    }).appendTo(element);
   },
 
   renameActionKitIdToReferringId() {
