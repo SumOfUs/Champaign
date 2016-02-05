@@ -1,0 +1,59 @@
+# This file is not stored in git, thus can be used to store sensitive values.
+
+  secret_key_base: 3d43cbb5f0b39851bcea82011d74f4fd6aa4e440fc08aa7de60a61cb33fafae5f261b7e09036a74bcf13b19cbf9e21aae5eb88f9827590dbe08362a67f1e9d84
+  omniauth_client_secret: fGuhJZnhKlB-SArZZ0SEVymX
+  omniauth_client_id: 296467595055-j0gjmnfe53dkjgr50c69h8kbvg354c8n.apps.googleusercontent.com
+  devise_secret_key: 57c39e6f283ee27d612c997cd784e79bb273896050a77edd867920be35723972bad9ef1333a345313dc7eb307cde75501e9b456248b7a56f514635f0e93795e1
+
+
+# AWS config variables
+#    aws_access_key_id: ‘get from https://console.aws.amazon.com/iam/home#users’
+#    aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
+#    aws_region: 'us-west-2'
+#    sqs_queue_url: 'Set this based on your AWS SQS queue information.'
+
+# NewRelic variables
+#    newrelick_license_key: 5cbba845b089591a8db0f1f1b9ac400b00ec4e2c
+
+# Direct ActionKit Connection variables.
+  ak_api_url: https://act.sumofus.org/rest/v1
+  ak_username: api
+  ak_password: ?g7hCzWW*LQtZEp99g#o
+
+
+# CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
+# by default in development, they should be overridden in production settings to speed up Champaign's page performance.
+#    cloudfront_url: 'get this from cloudfront configuration'
+#    fog_directory: 'get this from cloudfront configuration'
+#    rails_serve_static_files: 'Set to nil in development, override for production server based on needs.'
+#    compile_static: 'Set to nil in development, override for production server based on needs.'
+
+
+# Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
+  facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
+  share_progress_api_key: 'PFVej020xHb1HvBlhUcpVA'
+
+# to always use liquid template from file. not db
+  liquid_templating_source: 'file'
+
+# braintree
+  braintree:
+    merchant_id: "6ngbwhytbhrz9z2r"
+    public_key:  "v9fpc2gzqfxx45nq"
+    private_key:  "41ae5b18be54c57c7cbfd21614717c6d"
+
+    merchants:
+      EUR: 'EUR'
+      GBP: 'GBP'
+      USD: 'USD'
+      AUD: 'AUD'
+      CAD: 'CAD'
+      NZD: 'NZD'
+
+    subscription_plans:
+      EUR: 'subscription_EUR'
+      GBP: 'subscription_GBP'
+      USD: 'subscription_USD'
+      AUD: 'subscription_AUD'
+      CAD: 'subscription_CAD'
+      NZD: 'subscription_NZD'

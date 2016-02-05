@@ -1,0 +1,76 @@
+# This is the central repository for settings in Champaign. Settings are defined in the following files:
+#
+#    config/settings.yml
+#    config/settings/#{environment}.yml
+#    config/environments/#{environment}.yml
+#
+#    config/settings.local.yml
+#    config/settings/#{environment}.local.yml
+#    config/environments/#{environment}.local.yml
+#
+# Settings defined in files lower on the list override settings higher on the list. So, settings in
+# config/settings/#{environment}.yml will override the settings in this file, and settings in
+# config/settings/#{environment}.local.yml will override the settings in that file.
+
+# General Champaign settings.
+     secret_key_base: 'a fake secret key'
+     omniauth_client_secret: 'a fake client secret'
+     omniauth_client_id: 'a fake client_id'
+     oauth_domain_whitelist:
+       - 'example.com'
+
+# AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
+# page creation/update information or page signature events to a background processor listening on the specified
+# queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
+# in production situations.
+     aws_access_key_id: 'fakeaccesskeyid'
+     aws_secret_access_key: 'fakesecretaccesskey'
+     aws_region: 'US-West-2'
+     sqs_queue_url: 'http://example.com'
+     ak_processor_url: 'http://example.com'
+
+
+# Direct ActionKit Connection variables.
+     ak_api_url: 'https://act.sumofus.org/rest/v1'
+     ak_username: 'ak_username'
+     ak_password: 'ak_password'
+
+
+# CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
+# by default in development, they should be overridden in production settings to speed up Champaign's page performance.
+     cloudfront_url: 'http://fake-cloudfront.com'
+     fog_directory: 'fake_fog_directory'
+     rails_serve_static_files: false
+     compile_static: false
+
+
+# NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
+# performance and error information to the NewRelic Dashboard. Disabled by default, except in production.
+#    newrelick_license_key: 'Get this from your NewRelic Dashboard'
+
+
+# Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
+     facebook_app_id: 'fake_app_id'
+     share_progress_api_key: 'fake_api_key'
+
+     braintree:
+       merchant_id: "6ngbwhytbhrz9z2r"
+       public_key:  "v9fpc2gzqfxx45nq"
+       private_key:  "41ae5b18be54c57c7cbfd21614717c6d"
+
+       merchants:
+         EUR: 'EUR'
+         GBP: 'GBP'
+         USD: 'USD'
+         AUD: 'AUD'
+         CAD: 'CAD'
+         NZD: 'NZD'
+
+       subscription_plans:
+         EUR: 'subscription_EUR'
+         GBP: 'subscription_GBP'
+         USD: 'subscription_USD'
+         AUD: 'subscription_AUD'
+         CAD: 'subscription_CAD'
+         NZD: 'subscription_NZD'
+
