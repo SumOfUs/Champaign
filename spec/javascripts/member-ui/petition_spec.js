@@ -167,9 +167,10 @@ describe("Petition", function() {
             suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
             expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
           });
+
           it('renames the hidden field when the "Not you?" is clicked', function() {
             suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
-            $('.fundraiser-bar__clear-form').click();
+            $('.petition-bar__clear-form').click();
             expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
           });
         });
