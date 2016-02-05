@@ -47,8 +47,8 @@ describe "Api Actions" do
               email:      "hello@example.com",
               page_id:    page.id.to_s,
               form_id:    form.id.to_s,
-              akid:       '123.456.fcvd',
-              source:     'fb'
+              source:     'fb',
+              akid:       '123.456.fcvd'
             }
           }
         }.to_json
