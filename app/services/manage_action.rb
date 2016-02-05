@@ -12,6 +12,7 @@ class ManageAction
   def create
     return previous_action if previous_action.present?
 
+    generate_referring_user
     ChampaignQueue.push(queue_message)
     increment_counters
     build_action
@@ -31,6 +32,10 @@ class ManageAction
         body: @params
       }
     }
+  end
+
+  def generate_referring_user
+    @params[:referring_user] = "/rest/v1/user/#{actionkit_user_id(@params.delete(:referring_akid))}/" if @params.has_key? :referring_akid
   end
 end
 

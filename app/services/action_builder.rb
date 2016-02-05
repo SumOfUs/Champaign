@@ -30,7 +30,7 @@ module ActionBuilder
       @user.name = @params[:name]
     end
 
-    @params[:actionkit_user_id] = AkidParser.parse(@params[:akid])[:actionkit_user_id] if @params.has_key? :akid
+    @params[:actionkit_user_id] = actionkit_user_id(@params[:akid]) if @params.has_key? :akid
 
     @user.assign_attributes(filtered_params)
     @user.save if @user.changed
@@ -48,6 +48,10 @@ module ActionBuilder
 
   def page
     @page ||= Page.find(@params[:page_id])
+  end
+
+  def actionkit_user_id(akid)
+    AkidParser.parse(akid)[:actionkit_user_id]
   end
 end
 
