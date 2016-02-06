@@ -34,4 +34,41 @@ namespace :champaign do
       end
     end
   end
+
+  desc "Seeds database with tags for campaigners"
+  task seed_campaigner_tags: :environment do
+    puts "Adding campaigner tags..."
+
+    campaigners=[
+      { name: "JonL", actionkit_uri: "/rest/v1/tag/1015/" },
+      { name: "KatherineT", actionkit_uri: "/rest/v1/tag/818/" },
+      { name: "LedysS", actionkit_uri: "/rest/v1/tag/992/" },
+      { name: "NicoleC", actionkit_uri: "/rest/v1/tag/1197/" },
+      { name: "EmmaP", actionkit_uri: "/rest/v1/tag/1044/" },
+      { name: "LizM", actionkit_uri: "/rest/v1/tag/1004/" },
+      { name: "PaulF", actionkit_uri: "/rest/v1/tag/821/" },
+      { name: "AngusW", actionkit_uri: "/rest/v1/tag/816/" },
+      { name: "MartinC", actionkit_uri: "/rest/v1/tag/878/" },
+      { name: "AnneI", actionkit_uri: "/rest/v1/tag/1018/" },
+      { name: "WiebkeS", actionkit_uri: "/rest/v1/tag/1200/" },
+      { name: "FatahS", actionkit_uri: "/rest/v1/tag/1102/" },
+      { name: "NabilB", actionkit_uri: "/rest/v1/tag/1465/" },
+      { name: "SondhyaG", actionkit_uri: "/rest/v1/tag/1651/" },
+      { name: "HannaT", actionkit_uri: "/rest/v1/tag/817/" },
+      { name: "RosaK", actionkit_uri: "/rest/v1/tag/1422/" },
+      { name: "EoinD", actionkit_uri: "/rest/v1/tag/1112/" },
+      { name: "HannahL", actionkit_uri: "/rest/v1/tag/982/" },
+      { name: "StevenB", actionkit_uri: "/rest/v1/tag/911/" },
+      { name: "MarkTP", actionkit_uri: "/rest/v1/tag/1019/" },
+      { name: "BexS", actionkit_uri: "/rest/v1/tag/1388/" },
+      { name: "MichaelS", actionkit_uri: "/rest/v1/tag/1160/" },
+      { name: "DeborahL", actionkit_uri: "/rest/v1/tag/1661/" },
+      { name: "KatieF", actionkit_uri: "/rest/v1/tag/1662/" }]
+
+    campaigners.each do |campaigner|
+      # Find the first tag named after the campaigner, or create a new one with the campaigner's name.
+      Tag.create_with(actionkit_uri: campaigner[:actionkit_uri]).find_or_create_by(name: campaigner[:name])
+    end
+    puts "Finished adding campaigner tags."
+  end
 end
