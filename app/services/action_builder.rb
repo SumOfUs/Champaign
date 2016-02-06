@@ -1,7 +1,11 @@
 module ActionBuilder
 
   def build_action
-    Action.create( member: member, page: page, form_data: @params )
+    Action.create(
+      member: member,
+      page: page,
+      form_data: @params
+    )
   end
 
   def previous_action
@@ -25,6 +29,8 @@ module ActionBuilder
     if @params.has_key? :name
       @user.name = @params[:name]
     end
+
+    @params[:actionkit_user_id] = AkidParser.parse(@params[:akid])[:actionkit_user_id] if @params.has_key? :akid
 
     @user.assign_attributes(filtered_params)
     @user.save if @user.changed

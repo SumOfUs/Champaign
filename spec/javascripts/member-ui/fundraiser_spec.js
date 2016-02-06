@@ -138,6 +138,21 @@ describe("Fundraiser", function() {
         });
       });
 
+      describe('member and akid are passed', function(){
+
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'} });
+        });
+
+        it('appends a hidden field with the akid to the form', function() {
+          expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
+        });
+        it('renames the hidden field when the "Not you?" is clicked', function() {
+          $('.fundraiser-bar__clear-form').click();
+          expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
+        });
+      });
+
       describe('amount is greater than zero', function(){
 
         beforeEach(function(){
@@ -206,6 +221,10 @@ describe("Fundraiser", function() {
               return $(el).hasClass('form__group--prefilled');
             }).toArray();
             expect(classed).to.eql([false, false]);
+          });
+
+          it('does not append a hidden akid field', function() {
+            expect($('input[name="akid"]').length).to.eq(0);
           });
         });
 
