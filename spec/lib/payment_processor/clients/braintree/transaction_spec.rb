@@ -53,6 +53,10 @@ module PaymentProcessor
                 first_name:               'Bob',
                 last_name:                '',
                 email:                    'bob@example.com'
+              },
+              billing: {
+                first_name: 'Bob',
+                last_name: ''
               }
             }
 
@@ -100,6 +104,209 @@ module PaymentProcessor
                 subject.make_transaction(required_options.merge(user: {
                   name: 'Frank Weeki-waki'
                 }))
+              end
+            end
+
+            it 'passes user email if available' do
+              customer = double(:customer, customer_id: '98', email: 'customer@test.com')
+              expected = a_hash_including(customer: a_hash_including( email: 'user@test.com') )
+              expect(::Braintree::Transaction).to receive(:sale).with(expected)
+
+              subject.make_transaction(required_options.merge(customer: customer, user: { email: 'user@test.com' }))
+            end
+
+            it 'passes customer email if no user email' do
+              customer = double(:customer, customer_id: '98', email: 'customer@test.com')
+              expected = a_hash_including(customer: a_hash_including( email: 'customer@test.com'))
+              expect(::Braintree::Transaction).to receive(:sale).with(expected)
+
+              subject.make_transaction(required_options.merge(customer: customer, user: {} ))
+            end
+
+            it 'passes an empty string if no known email' do
+              expected = a_hash_including(customer: a_hash_including( email: ''))
+              expect(::Braintree::Transaction).to receive(:sale).with(expected)
+
+              subject.make_transaction(required_options.merge(user: {} ))
+            end
+          end
+
+          describe 'billing field' do
+
+            describe 'postal code' do
+              let(:expected) { a_hash_including( billing: a_hash_including( postal_code: '01060' ) ) }
+
+              it 'can be filled by zip' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { zip: '01060'} ))
+              end
+
+              it 'can be filled by zip_code' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { zip_code: '01060'} ))
+              end
+
+              it 'can be filled by postal' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { postal: '01060'} ))
+              end
+
+              it 'can be filled by postal_code' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { postal_code: '01060'} ))
+              end
+
+              it 'prioritizes postal_code' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: {
+                  zip: '00000',
+                  zip_code: '00000',
+                  postal: '00000',
+                  postal_code: '01060'
+                }))
+              end
+            end
+
+            describe 'street address' do
+              let(:expected) { a_hash_including( billing: a_hash_including( street_address: '71 Pleasant St' ) ) }
+
+              it 'can be filled by address' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { address: '71 Pleasant St'} ))
+              end
+
+              it 'can be filled by address1' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { address1: '71 Pleasant St'} ))
+              end
+
+              it 'can be filled by street_address' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { street_address: '71 Pleasant St'} ))
+              end
+
+              it 'prioritizes street_address' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: {
+                  address: 'derp town',
+                  address1: 'derp town',
+                  street_address: '71 Pleasant St'
+                }))
+              end
+            end
+
+            describe 'extended address' do
+              let(:expected) { a_hash_including( billing: a_hash_including( extended_address: 'First floor' ) ) }
+
+              it 'can be filled by apartment' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { apartment: 'First floor'} ))
+              end
+
+              it 'can be filled by address2' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { address2: 'First floor'} ))
+              end
+
+              it 'can be filled by extended_address' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { extended_address: 'First floor'} ))
+              end
+
+              it 'prioritizes extended_address' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: {
+                  apartment: 'derp town',
+                  address2: 'derp town',
+                  extended_address: 'First floor'
+                }))
+              end
+            end
+
+            describe 'country' do
+              let(:expected) { a_hash_including( billing: a_hash_including( country_code_alpha2: 'US' ) ) }
+
+              it 'can be filled by country' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { country: 'US'} ))
+              end
+
+              it 'can be filled by country_code' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { country_code: 'US'} ))
+              end
+
+              it 'can be filled by country_code_alpha2' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { country_code_alpha2: 'US'} ))
+              end
+
+              it 'prioritizes country_code_alpha2' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: {
+                  country: 'NI',
+                  country_code: 'NI',
+                  country_code_alpha2: 'US'
+                }))
+              end
+            end
+
+            describe 'region' do
+              let(:expected) { a_hash_including( billing: a_hash_including( region: 'Massachusetts' ) ) }
+
+              it 'can be filled by province' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { province: 'Massachusetts'} ))
+              end
+
+              it 'can be filled by state' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { state: 'Massachusetts'} ))
+              end
+
+              it 'can be filled by region' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { region: 'Massachusetts'} ))
+              end
+
+              it 'prioritizes region' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: {
+                  province: 'Lapland',
+                  state: 'Lapland',
+                  region: 'Massachusetts'
+                }))
+              end
+            end
+
+            describe 'region' do
+              let(:expected) { a_hash_including( billing: a_hash_including( locality: 'Northampton' ) ) }
+
+              it 'can be filled by city' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { city: 'Northampton'} ))
+              end
+
+              it 'can be filled by locality' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { locality: 'Northampton'} ))
+              end
+
+              it 'prioritizes locality' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: {
+                  city: 'Managua',
+                  locality: 'Northampton'
+                }))
+              end
+            end
+
+            describe 'company' do
+              let(:expected) { a_hash_including( billing: a_hash_including( company: "Mimmo's Pizza" ) ) }
+
+              it 'can be filled by company' do
+                expect(::Braintree::Transaction).to receive(:sale).with(expected)
+                subject.make_transaction(required_options.merge(user: { company: "Mimmo's Pizza" } ))
               end
             end
           end
