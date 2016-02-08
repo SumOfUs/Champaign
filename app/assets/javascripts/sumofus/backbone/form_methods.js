@@ -28,6 +28,7 @@ const FormMethods = {
     $fields_holder.find('.selectized').each((ii, el)=>{ el.selectize.clear(); });
     $fields_holder.parents('form').trigger('reset');
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
+    this.renameActionKitIdToReferringId();
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
@@ -64,6 +65,38 @@ const FormMethods = {
     this.$(`.${plugin_type}-bar__welcome-name`).text(member.welcome_name);
     this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
   },
+
+  insertActionKitId(akid) {
+    let $form = this.$('form.action');
+
+    if(akid && $form) {
+      this.insertHiddenInput('akid', akid, $form)
+    }
+  }
+  ,
+
+  insertSource(source) {
+    let $form = this.$('form.action');
+
+    if(source && $form) {
+      this.insertHiddenInput('source', source, $form)
+    }
+  },
+
+  insertHiddenInput(name, value, element) {
+    $('<input>').attr({
+      type: 'hidden',
+      name: name,
+      value: value
+    }).appendTo(element);
+  },
+
+  renameActionKitIdToReferringId() {
+    let $action_kit_hidden = $('input[name="akid"]');
+    if($action_kit_hidden) {
+      $action_kit_hidden.attr('name', 'referring_akid');
+    }
+  }
 };
 
 module.exports = FormMethods;

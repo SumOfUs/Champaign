@@ -12,6 +12,7 @@ class ManageAction
   def create
     return previous_action if previous_action.present?
 
+    generate_referring_user_uri
     ChampaignQueue.push(queue_message)
     increment_counters
     build_action
@@ -31,6 +32,20 @@ class ManageAction
         body: @params
       }
     }
+  end
+
+  def generate_referring_user_uri
+    # ActionKit doesn't accept a value of "referring_akid" via the API. One can send a value of a "referring_user",
+    # which is the universial resource identifier for an AK user object, in the form /rest/v1/user/actionkit_user_id/.
+
+    # This massages that data to translate the existing referring_akid into the referring_user value that AK will happily
+    # accept.
+    if @params.has_key? :referring_akid
+      akuid = actionkit_user_id(@params.delete(:referring_akid))
+      if akuid
+        @params[:referring_user] = "/rest/v1/user/#{akuid}/"
+      end
+    end
   end
 end
 
