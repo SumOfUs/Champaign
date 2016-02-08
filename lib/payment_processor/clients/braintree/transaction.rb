@@ -49,8 +49,8 @@ module PaymentProcessor
               store_in_vault_on_success: store_in_vault?
             },
             customer: {
-              first_name: @user[:first_name] || @user[:name],
-              last_name: @user[:last_name],
+              first_name: @user[:first_name] || namesplitter.first_name,
+              last_name: @user[:last_name] || namesplitter.last_name,
               email: @user[:email]
             }
           }.tap{ |opts| opts[:customer_id] = @customer.customer_id if @customer }
@@ -61,6 +61,10 @@ module PaymentProcessor
         #
         def store_in_vault?
           @customer.nil?
+        end
+
+        def namesplitter
+          @splitter = NameSplitter.new(full_name: @user[:full_name] || @user[:name])
         end
       end
     end

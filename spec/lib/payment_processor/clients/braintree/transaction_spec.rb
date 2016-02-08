@@ -19,7 +19,7 @@ module PaymentProcessor
               nonce: 'a_nonce',
               amount: 100,
               currency: 'USD',
-              user: { email: "bob@example.com", name: 'foo' }
+              user: { email: "bob@example.com", name: 'Bob' }
             }
           end
 
@@ -40,7 +40,7 @@ module PaymentProcessor
             end
           end
 
-          it 'creates braintree sale' do
+          it 'passes basic arguments' do
             expected_arguments = {
               amount: 100,
               payment_method_nonce:       'a_nonce',
@@ -50,8 +50,8 @@ module PaymentProcessor
                store_in_vault_on_success: true
               },
               customer: {
-                first_name:               'foo',
-                last_name:                nil,
+                first_name:               'Bob',
+                last_name:                '',
                 email:                    'bob@example.com'
               }
             }
@@ -61,16 +61,45 @@ module PaymentProcessor
             subject.make_transaction(required_options)
           end
 
-          context 'with customer' do
-            let(:required_options_with_customer) { required_options.merge(customer: customer) }
-            let(:customer) { double(:customer, customer_id: '98') }
+          it 'passes customer_id' do
+            expect(::Braintree::Transaction).to receive(:sale).
+              with( hash_including(customer_id: '98') )
 
-            context 'repeat transaction' do
-              it 'passes customer_id to Braintree' do
-                expect(::Braintree::Transaction).to receive(:sale).
-                  with( hash_including(customer_id: '98') )
+            customer = double(:customer, customer_id: '98')
+            subject.make_transaction(required_options.merge(customer: customer))
+          end
 
-                subject.make_transaction(required_options_with_customer)
+          describe 'customer field' do
+            describe 'includes name if' do
+              let(:name_expectation) do
+                a_hash_including(
+                  customer: a_hash_including(
+                    first_name: 'Frank',
+                    last_name: 'Weeki-waki'
+                  )
+                )
+              end
+
+              it 'includes name if given as first_name, last_name' do
+                expect(::Braintree::Transaction).to receive(:sale).with(name_expectation)
+                subject.make_transaction(required_options.merge(user: {
+                  first_name: 'Frank',
+                  last_name: 'Weeki-waki'
+                }))
+              end
+
+              it 'includes name if given as full_name' do
+                expect(::Braintree::Transaction).to receive(:sale).with(name_expectation)
+                subject.make_transaction(required_options.merge(user: {
+                  full_name: 'Frank Weeki-waki'
+                }))
+              end
+
+              it 'includes name if given as name' do
+                expect(::Braintree::Transaction).to receive(:sale).with(name_expectation)
+                subject.make_transaction(required_options.merge(user: {
+                  name: 'Frank Weeki-waki'
+                }))
               end
             end
           end
