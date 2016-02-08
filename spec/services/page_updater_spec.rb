@@ -22,14 +22,31 @@ describe PageUpdater do
   it { is_expected.to respond_to :errors }
   it { is_expected.to respond_to :refresh? }
 
-  describe 'update' do
+  before do
+    allow(QueueManager).to receive(:push)
+  end
 
-    it 'returns true if successful' do
-      expect(pupdater.update(simple_changes)).to eq true
+  describe 'update' do
+    context 'on success' do
+      it 'returns true' do
+        expect(subject.update(simple_changes)).to eq true
+      end
+
+      it 'enqueues page for update' do
+        expect(QueueManager).to receive(:push).with(page, job_type: :update)
+        subject.update(simple_changes)
+      end
     end
 
-    it 'returns false if errors' do
-      expect(pupdater.update(breaking_changes)).to eq false
+    context 'with errors' do
+      it 'returns false' do
+        expect(pupdater.update(breaking_changes)).to eq false
+      end
+
+      it 'does not enqueue' do
+        expect(QueueManager).to_not receive(:push)
+        subject.update(breaking_changes)
+      end
     end
 
     it 'can update one plugin' do

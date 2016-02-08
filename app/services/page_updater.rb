@@ -82,7 +82,11 @@ class PageUpdater
     return unless @params[:page]
     plugins_before = @page.plugins
     @page.assign_attributes(@params[:page])
-    @page.save
+
+    if @page.save
+      QueueManager.push(@page, job_type: :update)
+    end
+
     @refresh = (@page.plugins != plugins_before)
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
   end

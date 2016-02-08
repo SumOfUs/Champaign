@@ -10,7 +10,7 @@ describe QueueManager do
         id: page.id,
         slug: 'i-am-a-slug',
         title: 'boo',
-        language_code: 'en',
+        language: page.language.actionkit_uri,
         tags: []
       }
     }
