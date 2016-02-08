@@ -33,6 +33,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    donationBands: an object with three letter currency codes as keys
   //    location: a hash of location values inferred from the user's request
   //    member: an object with fields that will prefill the form
+  //    akid: the actionkitid (akid) to save with the user request
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options = {}) {
@@ -49,6 +50,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.selectizeCountry();
     }
     this.buttonText = I18n.t('form.submit');
+    this.insertActionKitId(options.akid);
+    this.insertSource(options.source);
   },
 
   initializeSkipping (options){

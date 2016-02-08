@@ -5,17 +5,7 @@ module PaymentProcessor
       class SubscriptionPlanSelector
         include ActsLikeSelectorWithCurrency
 
-        # I know, I know! This is a temporary measure.
-        # Plan to have these in a yml file, one for sandbox
-        # and the other for production.
-        SUBSCRIPTION_PLANS = {
-          EUR: 'subscription_EUR',
-          GBP: 'subscription_GBP',
-          USD: 'subscription_USD',
-          AUD: 'subscription_AUD',
-          CAD: 'subscription_CAD',
-          NZD: 'subscription_NZD'
-        }.freeze
+        SUBSCRIPTION_PLANS = Settings.braintree.subscription_plans.freeze
 
         def select_or_raise
           raise_error if @currency.blank?

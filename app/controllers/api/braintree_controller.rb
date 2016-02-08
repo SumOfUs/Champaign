@@ -26,11 +26,13 @@ class Api::BraintreeController < ApplicationController
       }
       action = Action.where('form_data @> ?', query_params.to_json).last
       member = Member.find(action.member_id)
+
       params = {
-          email: member.email,
-          country: member.country,
-          page_id: action.page_id
+        email:   member.email,
+        country: member.country,
+        page_id: action.page_id
       }
+
       ManageBraintreeDonation.create(params: params, braintree_result: webhook_notification, is_subscription: true)
     end
     render json: {success: true}
@@ -85,7 +87,10 @@ class Api::BraintreeController < ApplicationController
         render json: { success: false, errors: result.errors }, status: 422
       else
         # persist customer locally
+
         action = ManageAction.create( params[:user].merge(page_id: params[:page_id]) )
+
+
         customer = action.member.customer || Payment::BraintreeCustomer.find_or_initialize_by(member_id: action.member_id)
 
         customer.update(
