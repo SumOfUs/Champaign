@@ -19,6 +19,8 @@ class ManageBraintreeDonation
     @params[:card_num] = card_num
     @params[:is_subscription] = @is_subscription
     @params[:amount] = transaction.amount
+    @params[:currency] = transaction.currency_iso_code
+    @params[:transaction_id] = transaction.id
     build_action
   end
 

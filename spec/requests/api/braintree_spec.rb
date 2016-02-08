@@ -4,10 +4,10 @@ describe "Braintree API" do
 
   let(:page) { create(:page, title: 'Cash rules everything around me') }
   let(:form) { create(:form) }
+
   before :each do
     allow(ChampaignQueue).to receive(:push)
   end
-
 
   describe 'making a transaction' do
     describe 'success' do
@@ -57,10 +57,9 @@ describe "Braintree API" do
             it "stores amount, currency, and transaction_id in form_data on the Action" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
-              puts "form_data:",form_data
               expect(form_data['amount']).to eq '123.05'
               expect(form_data['currency']).to eq 'EUR'
-              expect(form_data['transaction_id']).to eq Transaction.last.id
+              expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
 
             it "creates a Transaction associated with the page" do
