@@ -2,30 +2,29 @@ require 'rails_helper'
 
 describe Language do
   describe 'validations' do
-    subject { Language.new(code: 'EN', name: 'English') }
+    subject { build(:language) }
 
     it 'is valid' do
       expect(subject).to be_valid
     end
 
-    it "does not allow a nil code" do
-      subject.code = nil
-      expect(subject).to_not be_valid
+    context 'blank is not allowed for' do
+      %w{code name actionkit_uri}.each do |attr|
+        it "#{attr}" do
+          subject.send("#{attr}=", '')
+          expect(subject).to_not be_valid
+        end
+      end
     end
 
-    it "does not allow a nil name" do
-      subject.name = nil
-      expect(subject).to_not be_valid
-    end
-
-    it "does not allow a blank code" do
-      subject.code = ' '
-      expect(subject).to_not be_valid
-    end
-
-    it "does not allow a blank name" do
-      subject.name = ' '
-      expect(subject).to_not be_valid
+    context 'nil is not allowed for' do
+      %w{code name actionkit_uri}.each do |attr|
+        it "#{attr}" do
+          subject.send("#{attr}=", nil)
+          expect(subject).to_not be_valid
+        end
+      end
     end
   end
 end
+

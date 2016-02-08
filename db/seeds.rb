@@ -3,9 +3,10 @@ puts "Seeding..."
 
 # Languages
 languages = [
-    {code: 'en', name: 'English'},
-    {code: 'fr', name: 'French'},
-    {code: 'de', name: 'German'}
+    {code: 'en', name: 'English', actionkit_uri: '/rest/v1/language/100/'},
+    {code: 'fr', name: 'French',  actionkit_uri: '/rest/v1/language/103/'},
+    {code: 'de', name: 'German',  actionkit_uri: '/rest/v1/language/101/'},
+    {code: 'es', name: 'Spanish', actionkit_uri: '/rest/v1/language/102/'}
 ]
 
 languages.each do |language|
