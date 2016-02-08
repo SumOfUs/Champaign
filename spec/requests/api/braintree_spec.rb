@@ -24,8 +24,9 @@ describe "Braintree API" do
         {
           form_id: form.id, 
           name: "Joe Ferris", 
-          email: "paul+joe@sumofus.org", 
-          postal: "11225", 
+          email: "joe.ferris@sumofus.org",
+          postal: "11225",
+          address1: '25 Elm Drive',
           country: "US"
         }
       end
@@ -92,7 +93,7 @@ describe "Braintree API" do
                   },
                   user: {
                     # Double check - it's only sending email and country
-                    email:"paul+joe@sumofus.org",
+                    email:"joe.ferris@sumofus.org",
                     country:"US"
                   }
                 }
@@ -117,7 +118,14 @@ describe "Braintree API" do
                 customer: {
                   first_name: "Joe",
                   last_name: "Ferris",
-                  email: "paul+joe@sumofus.org"
+                  email: "joe.ferris@sumofus.org"
+                },
+                billing: {
+                  first_name: "Joe",
+                  last_name: "Ferris",
+                  street_address: "25 Elm Drive",
+                  postal_code: '11225',
+                  country_code_alpha2: 'US'
                 },
                 customer_id: customer.customer_id
               })
@@ -145,13 +153,6 @@ describe "Braintree API" do
           end
 
           context 'with different params' do
-            it "passes first_name and last_name to braintree if included as full_name" do
-
-            end
-
-            it "passes first_name and last_name to braintree if included as first name, last_name" do
-
-            end
 
             it 'passes PYPL'
           end
