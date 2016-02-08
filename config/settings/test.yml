@@ -67,12 +67,12 @@
          NZD: 'NZD'
 
        subscription_plans:
-         EUR: 'subscription_EUR'
-         GBP: 'subscription_GBP'
-         USD: 'subscription_USD'
-         AUD: 'subscription_AUD'
-         CAD: 'subscription_CAD'
-         NZD: 'subscription_NZD'
+         EUR: 'EUR'
+         GBP: 'GBP'
+         USD: '1'
+         AUD: 'AUD'
+         CAD: 'CAD'
+         NZD: 'NZD'
 
 
      redis:
