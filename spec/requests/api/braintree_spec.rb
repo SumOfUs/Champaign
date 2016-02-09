@@ -24,7 +24,7 @@ describe "Braintree API" do
         {
           form_id: form.id, 
           name: "Joe Ferris", 
-          email: "paul+joe@sumofus.org",
+          email: "joe.ferris@sumofus.org",
           postal: "11225",
           address1: '25 Elm Drive',
           country: "US"
@@ -37,13 +37,13 @@ describe "Braintree API" do
 
         context 'BraintreeCustomer exists' do
 
-          let!(:customer) { create :payment_braintree_customer, member: member }
+          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test' }
 
           context 'with basic params' do
 
             let(:params) { basic_params.merge(user: user_params) }
             subject do
-              VCR.use_cassette("transaction success") do
+              VCR.use_cassette("transaction success basic") do
                 post api_braintree_transaction_path(page.id), params
               end
             end
@@ -92,7 +92,7 @@ describe "Braintree API" do
                   },
                   user: {
                     # Double check - it's only sending email and country
-                    email: "paul+joe@sumofus.org",
+                    email: "joe.ferris@sumofus.org",
                     country: "US"
                   }
                 }
@@ -117,7 +117,7 @@ describe "Braintree API" do
                 customer: {
                   first_name: "Joe",
                   last_name: "Ferris",
-                  email: "paul+joe@sumofus.org"
+                  email: "joe.ferris@sumofus.org"
                 },
                 billing: {
                   first_name: "Joe",
