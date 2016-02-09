@@ -10,6 +10,6 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     first_name "MyString"
     last_name "MyString"
-    customer_id 1
+    customer_id { Faker::Number.number(6) }
   end
 end
