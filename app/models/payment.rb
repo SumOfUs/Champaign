@@ -92,7 +92,7 @@ module Payment
     end
 
     def transaction_attrs
-     {
+      {
         transaction_id:          sale.id,
         transaction_type:        sale.type,
         payment_instrument_type: sale.payment_instrument_type,
@@ -100,6 +100,9 @@ module Payment
         transaction_created_at:  sale.created_at,
         merchant_account_id:     sale.merchant_account_id,
         currency:                sale.currency_iso_code,
+        customer_id:             sale.customer_details.id,
+        status:                  (@transaction_response.success? ? :success : :failure),
+        payment_method_token:    payment_method_token,
         page:                    @action.page
       }
     end
@@ -127,6 +130,10 @@ module Payment
 
     def customer_details
       sale.customer_details
+    end
+
+    def payment_method_token
+      sale.credit_card_details.try(:token)
     end
   end
 end
