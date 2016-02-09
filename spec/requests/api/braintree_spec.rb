@@ -105,9 +105,12 @@ describe "Braintree API" do
                     currency: "EUR"
                   },
                   user: {
-                    # Double check - it's only sending email and country
                     email: "joe.ferris@sumofus.org",
-                    country: "US"
+                    country: "US",
+                    postal: "11225",
+                    address1: '25 Elm Drive',
+                    first_name: 'Joe',
+                    last_name: 'Ferris'
                   }
                 }
               })
