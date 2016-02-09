@@ -84,7 +84,7 @@ module Payment
     private
 
     def locally_stored_customer
-      @locally_stored_customer ||= Payment.customer(customer_details.email)
+      @locally_stored_customer ||= Payment.customer(transaction.customer_details.email)
     end
 
     def store_braintree_customer_locally
@@ -93,14 +93,14 @@ module Payment
 
     def transaction_attrs
       {
-        transaction_id:          sale.id,
-        transaction_type:        sale.type,
-        payment_instrument_type: sale.payment_instrument_type,
-        amount:                  sale.amount,
-        transaction_created_at:  sale.created_at,
-        merchant_account_id:     sale.merchant_account_id,
-        currency:                sale.currency_iso_code,
-        customer_id:             sale.customer_details.id,
+        transaction_id:          transaction.id,
+        transaction_type:        transaction.type,
+        payment_instrument_type: transaction.payment_instrument_type,
+        amount:                  transaction.amount,
+        transaction_created_at:  transaction.created_at,
+        merchant_account_id:     transaction.merchant_account_id,
+        currency:                transaction.currency_iso_code,
+        customer_id:             transaction.customer_details.id,
         status:                  status,
         payment_method_token:    payment_method_token,
         page:                    @action.page
@@ -115,21 +115,17 @@ module Payment
         card_debit:       card.debit,
         card_last_4:      card.last_4,
         card_vault_token: card.token,
-        customer_id:      customer_details.id,
+        customer_id:      transaction.customer_details.id,
         member:           @action.member
       }
     end
 
-    def sale
+    def transaction
       @transaction_response.transaction
     end
 
     def card
-      sale.credit_card_details
-    end
-
-    def customer_details
-      sale.customer_details
+      transaction.credit_card_details
     end
 
     def status
@@ -141,7 +137,14 @@ module Payment
     end
 
     def payment_method_token
-      sale.credit_card_details.try(:token)
+      case transaction.payment_instrument_type
+      when "credit_card"
+        transaction.credit_card_details.try(:token)
+      when "paypal_account"
+        transaction.paypal_details.try(:token)
+      else
+        nil
+      end
     end
   end
 end
