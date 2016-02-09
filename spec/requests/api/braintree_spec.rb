@@ -10,7 +10,7 @@ describe "Braintree API" do
   end
 
   describe 'making a transaction' do
-    describe 'success' do
+    describe 'successfully' do
 
       let(:basic_params) do
         {
@@ -31,11 +31,11 @@ describe "Braintree API" do
         }
       end
 
-      context 'Member exists' do
+      context 'when Member exists' do
 
         let!(:member) { create :member, email: user_params[:email], postal: nil }
 
-        context 'BraintreeCustomer exists' do
+        context 'when BraintreeCustomer exists' do
 
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test' }
 
@@ -220,7 +220,7 @@ describe "Braintree API" do
           end
         end
 
-        context 'BraintreeCustomer is new' do
+        context 'when BraintreeCustomer is new' do
 
           context 'with basic params' do
 
@@ -406,8 +406,8 @@ describe "Braintree API" do
         end
       end
 
-      context 'Member is new' do
-        context 'BraintreeCustomer is new' do
+      context 'when Member is new' do
+        context 'when BraintreeCustomer is new' do
 
         end
       end
