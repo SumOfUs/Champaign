@@ -14,6 +14,7 @@ class ManageBraintreeDonation
 
   def create
     ChampaignQueue.push(queue_message)
+
     # We need a way to cross-reference this action at a later date to find out what page
     # with which we will associate ongoing donations, in the event this is a subscription.
     @params[:card_num] = card_num
@@ -28,30 +29,37 @@ class ManageBraintreeDonation
 
   def queue_message
     {
-        type: 'donation',
-        params: organize_params
+      type: 'donation',
+      params: organize_params
     }
   end
 
   def organize_params
     {
-        donationpage: {
-            name:             "#{page.slug}-donation",
-            payment_account:  'Default Import Stub'
-        },
-        order: {
-            amount:         transaction.amount.to_s,
-            card_num:       card_num,
-            card_code:      '007',
-            exp_date_month: expire_month,
-            exp_date_year:  expire_year,
-            currency:       transaction.currency_iso_code
-        },
-        user: {
-            email:    member.email,
-            country:  member.country
-        }
+      donationpage: {
+        name:             "#{page.slug}-donation",
+        payment_account:  'Default Import Stub'
+      },
+      order: {
+        amount:         transaction.amount.to_s,
+        card_num:       card_num,
+        card_code:      '007',
+        exp_date_month: expire_month,
+        exp_date_year:  expire_year,
+        currency:       transaction.currency_iso_code
+      },
+      user: user_params
     }
+  end
+
+  def user_params
+    form_data = @params.select{ |k, v| !k.to_s.match(/(page_id|form_id|name|full_name)/) }
+    form_data.symbolize_keys.merge(
+      first_name: member.first_name,
+      last_name:  member.last_name,
+      email:    member.email,
+      country:  member.country
+    )
   end
 
   def transaction
