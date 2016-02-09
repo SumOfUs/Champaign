@@ -43,7 +43,7 @@ describe "Braintree API" do
 
             let(:params) { basic_params.merge(user: user_params) }
             subject do
-              VCR.use_cassette("transaction success basic") do
+              VCR.use_cassette("transaction success basic existing customer") do
                 post api_braintree_transaction_path(page.id), params
               end
             end
@@ -173,7 +173,7 @@ describe "Braintree API" do
             let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-one-time-nonce') }
 
             subject do
-              VCR.use_cassette("transaction success paypal") do
+              VCR.use_cassette("transaction success paypal existing customer") do
                 post api_braintree_transaction_path(page.id), params
               end
             end
