@@ -54,17 +54,31 @@ describe "Braintree API" do
               expect(Action.last.member).to eq member
             end
 
-            it "stores amount, currency, and transaction_id in form_data on the Action" do
+            it "stores amount, currency, card_num, is_subscription, and transaction_id in form_data on the Action" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
+              expect(form_data['card_num']).to eq '1881'
+              expect(form_data['is_subscription']).to eq false
               expect(form_data['amount']).to eq '123.05'
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
 
-            it "creates a Transaction associated with the page" do
+            it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
-              expect(Payment::BraintreeTransaction.last.page).to eq page
+              transaction = Payment::BraintreeTransaction.last
+
+              expect(transaction.page).to eq page
+              expect(transaction.amount).to eq '123.05'
+              expect(transaction.currency).to eq 'EUR'
+              expect(transaction.merchant_account_id).to eq 'EUR'
+              expect(transaction.payment_instrument_type).to eq 'credit_card'
+              expect(transaction.transaction_type).to eq 'sale'
+              expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.status).to eq 'success'
+
+              expect(transaction.payment_method_token).to be_blank
+              expect(transaction.transaction_id).not_to be_blank # it's for subscription
             end
 
             it "updates Payment::BraintreeCustomer including last four for credit card" do
@@ -151,9 +165,42 @@ describe "Braintree API" do
             end
           end
 
-          context 'with different params' do
+          context 'with Paypal' do
 
-            it 'passes PYPL'
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-one-time-nonce') }
+
+            subject do
+              VCR.use_cassette("transaction success paypal") do
+                post api_braintree_transaction_path(page.id), params
+              end
+            end
+
+            it "updates Payment::BraintreeCustomer to have PYPL for last 4" do
+              previous_last_4 = customer.card_last_4
+              # puts '----',customer.attributes
+              expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+              # puts '=====',customer.attributes
+              expect( customer.reload.card_last_4 ).not_to eq previous_last_4
+              expect( customer.reload.card_last_4 ).to eq 'PYPL'
+            end
+
+            it "stores PYPL as card_num on the Action" do
+              expect{ subject }.to change{ Action.count }.by 1
+              form_data = Action.last.form_data
+              expect(form_data['card_num']).to eq 'PYPL'
+              expect(form_data['is_subscription']).to eq false
+              expect(form_data['amount']).to eq '123.05'
+              expect(form_data['currency']).to eq 'EUR'
+              expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
+            end
+
+            it 'passes PYPL as card_num to queue' do
+              subject
+              expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
+                params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
+              ))
+            end
+
           end
         end
 
