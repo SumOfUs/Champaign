@@ -24,7 +24,7 @@ describe "Braintree API" do
         {
           form_id: form.id, 
           name: "Joe Ferris", 
-          email: "joe.ferris@sumofus.org",
+          email: "paul+joe@sumofus.org",
           postal: "11225",
           address1: '25 Elm Drive',
           country: "US"
@@ -92,8 +92,8 @@ describe "Braintree API" do
                   },
                   user: {
                     # Double check - it's only sending email and country
-                    email:"joe.ferris@sumofus.org",
-                    country:"US"
+                    email: "paul+joe@sumofus.org",
+                    country: "US"
                   }
                 }
               })
@@ -117,7 +117,7 @@ describe "Braintree API" do
                 customer: {
                   first_name: "Joe",
                   last_name: "Ferris",
-                  email: "joe.ferris@sumofus.org"
+                  email: "paul+joe@sumofus.org"
                 },
                 billing: {
                   first_name: "Joe",

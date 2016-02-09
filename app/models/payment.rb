@@ -73,7 +73,9 @@ module Payment
       if @transaction_response.success?
         ::Payment::BraintreeTransaction.create(transaction_attrs)
 
-        unless locally_stored_customer
+        if locally_stored_customer
+          locally_stored_customer.update(customer_attrs)
+        else
           store_braintree_customer_locally
         end
       end
