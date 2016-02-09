@@ -175,11 +175,9 @@ describe "Braintree API" do
               end
             end
 
-            it "updates Payment::BraintreeCustomer to have PYPL for last 4" do
-              previous_last_4 = customer.card_last_4
+            it "does not change Payment::BraintreeCustomer" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_last_4 ).not_to eq previous_last_4
-              expect( customer.reload.card_last_4 ).to eq 'PYPL'
+              expect( customer ).to eq Payment::BraintreeCustomer.find(customer.id)
             end
 
             it "stores PYPL as card_num on the Action" do

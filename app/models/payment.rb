@@ -101,7 +101,7 @@ module Payment
         merchant_account_id:     sale.merchant_account_id,
         currency:                sale.currency_iso_code,
         customer_id:             sale.customer_details.id,
-        status:                  (@transaction_response.success? ? :success : :failure),
+        status:                  status,
         payment_method_token:    payment_method_token,
         page:                    @action.page
       }
@@ -130,6 +130,14 @@ module Payment
 
     def customer_details
       sale.customer_details
+    end
+
+    def status
+      if @transaction_response.success?
+        Payment::BraintreeTransaction.statuses[:success]
+      else
+        Payment::BraintreeTransaction.statuses[:failure]
+      end
     end
 
     def payment_method_token
