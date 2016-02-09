@@ -177,9 +177,7 @@ describe "Braintree API" do
 
             it "updates Payment::BraintreeCustomer to have PYPL for last 4" do
               previous_last_4 = customer.card_last_4
-              # puts '----',customer.attributes
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              # puts '=====',customer.attributes
               expect( customer.reload.card_last_4 ).not_to eq previous_last_4
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
