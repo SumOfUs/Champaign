@@ -453,14 +453,58 @@ describe "Braintree API" do
               expect(response.status).to eq 200
               expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
             end
-
           end
         end
       end
 
       context 'when Member is new' do
+
         context 'when BraintreeCustomer is new' do
 
+          context 'with basic params' do
+
+            # we're using the same casette as above anyway, so we're only running specs
+            # relevant to the new member
+
+            let(:amount) { 13.20 } # to avoid duplicate donations recording specs
+            let(:params) { basic_params.merge(user: user_params, amount: amount) }
+
+            subject do
+              VCR.use_cassette("transaction success basic new customer") do
+                post api_braintree_transaction_path(page.id), params
+              end
+            end
+
+            it "creates an Action associated with the Page and Member" do
+              expect{ subject }.to change{ Action.count }.by 1
+              expect(Action.last.page).to eq page
+              expect(Action.last.member).to eq Member.last
+            end
+
+            it "leaves a cookie with the member_id" do
+              expect(cookies['member_id']).to eq nil
+              subject
+
+              # we can't access signed cookies in request specs, so check for hashed value
+              expect(cookies['member_id']).not_to eq nil
+              expect(cookies['member_id'].length).to be > 20
+            end
+
+            it "populates the Member’s fields with form data" do
+              expect{ subject }.to change{ Member.count }.by 1
+              member = Member.last
+              expect(member.first_name).to eq 'Bernie'
+              expect(member.last_name).to eq 'Sanders'
+              expect(member.postal).to eq '11225'
+            end
+
+            it 'responds successfully with transaction_id' do
+              subject
+              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              expect(response.status).to eq 200
+              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+            end
+          end
         end
       end
     end
