@@ -171,6 +171,13 @@ describe "Braintree API" do
               expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
             end
+
+            it 'responds successfully with transaction_id' do
+              subject
+              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              expect(response.status).to eq 200
+              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+            end
           end
 
           context 'with Paypal' do
@@ -226,6 +233,13 @@ describe "Braintree API" do
               expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
                 params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
               ))
+            end
+
+            it 'responds successfully with transaction_id' do
+              subject
+              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              expect(response.status).to eq 200
+              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
             end
 
           end
@@ -362,6 +376,13 @@ describe "Braintree API" do
               expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
             end
+
+            it 'responds successfully with transaction_id' do
+              subject
+              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              expect(response.status).to eq 200
+              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+            end
           end
 
           context 'with Paypal' do
@@ -415,6 +436,13 @@ describe "Braintree API" do
               expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
                 params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
               ))
+            end
+
+            it 'responds successfully with transaction_id' do
+              subject
+              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              expect(response.status).to eq 200
+              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
             end
 
           end
