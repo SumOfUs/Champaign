@@ -12,17 +12,39 @@ describe "Api Actions" do
   describe "POST#create" do
     let(:page) { create(:page) }
     let(:form) { create(:form_with_email) }
+
     let(:params) do
       {
-          email: 'hello@example.com',
-          form_id: form.id,
+          email:    'hello@example.com',
+          form_id:  form.id,
+          source:   'fb',
+          akid:     '123.456.fcvd'
+      }
+    end
+
+    let(:message_body) do
+      {
+        type: "action",
+
+        params: {
+          page:   "#{page.slug}-petition",
+          email:  "hello@example.com",
+          page_id: page.id.to_s,
+          form_id: form.id.to_s,
           source: 'fb',
-          akid: '123.456.fcvd'
+          akid:   '123.456.fcvd'
+        }
+      }
+    end
+
+    let(:expected_queue_payload) do
+      {
+        queue_url: 'http://example.com',
+        message_body: message_body.to_json
       }
     end
 
     describe 'akid manipulation' do
-
       context 'new member' do
         before do
           post "/api/pages/#{page.id}/actions", params
@@ -42,31 +64,12 @@ describe "Api Actions" do
           expect(Member.last.actionkit_user_id).to eq '456'
         end
 
-        it "Posts action to SQS Queue" do
-          expected_params = {
-              queue_url: 'http://example.com',
-
-              message_body: {
-                  type: "action",
-                  params: {
-                      slug: page.slug,
-                      body: {
-                          email: "hello@example.com",
-                          page_id: page.id.to_s,
-                          form_id: form.id.to_s,
-                          source: 'fb',
-                          akid: '123.456.fcvd'
-                      }
-                  }
-              }.to_json
-          }
-
-          expect(sqs_client).to have_received(:send_message).with(expected_params)
+        it 'posts action to SQS Queue' do
+          expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
         end
       end
 
       context 'existing member' do
-
         let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email]}
 
         it 'overwrites existing actionkit_user_id' do
@@ -78,29 +81,14 @@ describe "Api Actions" do
     end
 
     describe 'referring akid' do
+      before do
+        params[:referring_akid] = params[:akid]
+        message_body[:params][:referring_user] = '/rest/v1/user/456/'
+      end
+
       it 'posts a referring user if one is provided' do
-        updated_params = params
-        updated_params[:referring_akid] = updated_params.delete :akid
         post "/api/pages/#{page.id}/actions", params
-        expected_params = {
-            queue_url: 'http://example.com',
-
-            message_body: {
-                type: 'action',
-                params: {
-                    slug: page.slug,
-                    body: {
-                        email: 'hello@example.com',
-                        page_id: page.id.to_s,
-                        form_id: form.id.to_s,
-                        source: 'fb',
-                        referring_user: '/rest/v1/user/456/'
-                    }
-                }
-            }.to_json
-        }
-
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
+        expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
       end
     end
   end
@@ -152,13 +140,11 @@ describe "Api Actions" do
               message_body: {
                   type: 'action',
                   params: {
-                      slug: page.slug,
-                      body: {
-                          email: 'hello@example.com',
-                          page_id: page.id.to_s,
-                          form_id: form.id.to_s,
-                          akid: invalid_akid
-                      }
+                      page: "#{page.slug}-petition",
+                      email: 'hello@example.com',
+                      page_id: page.id.to_s,
+                      form_id: form.id.to_s,
+                      akid: invalid_akid
                   }
               }.to_json
           }
