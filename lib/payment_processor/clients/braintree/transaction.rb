@@ -70,40 +70,19 @@ module PaymentProcessor
             first_name: customer_options[:first_name],
             last_name: customer_options[:last_name]
           }.tap do |options|
-            # Yes, this could be done with some nice metaprogramming, but I reckon
-            # this is a but more self-documenting and straightforward
+            populate( options, :region, [:province, :state, :region])
+            populate( options, :company, [:company])
+            populate( options, :locality, [:city, :locality])
+            populate( options, :postal_code, [:zip, :zip_code, :postal, :postal_code])
+            populate( options, :street_address, [:address, :address1, :street_address])
+            populate( options, :extended_address, [:apartment, :address2, :extended_address])
+            populate( options, :country_code_alpha2, [:country, :country_code, :country_code_alpha2])
+          end
+        end
 
-            # `postal_code` can be filled with `postal`, `postal_code`, `zip`, or `zip_code`
-            options[:postal_code]         = @user[:zip] if @user[:zip].present?
-            options[:postal_code]         = @user[:zip_code] if @user[:zip_code].present?
-            options[:postal_code]         = @user[:postal] if @user[:postal].present?
-            options[:postal_code]         = @user[:postal_code] if @user[:postal_code].present?
-
-            # `street_address` can be filled with `address`, `street_address`, or `address1`
-            options[:street_address]      = @user[:address] if @user[:address].present?
-            options[:street_address]      = @user[:address1] if @user[:address1].present?
-            options[:street_address]      = @user[:street_address] if @user[:street_address].present?
-
-            # `extended_address` can be filled with `address2`, `extended_address`, or `apartment`
-            options[:extended_address]    = @user[:apartment] if @user[:apartment].present?
-            options[:extended_address]    = @user[:address2] if @user[:address2].present?
-            options[:extended_address]    = @user[:extended_address] if @user[:extended_address].present?
-
-            # `country_code_alpha2` can be filled with `country`, `country_code`, or `country_code_alpha2`
-            options[:country_code_alpha2] = @user[:country] if @user[:country].present?
-            options[:country_code_alpha2] = @user[:country_code] if @user[:country_code].present?
-            options[:country_code_alpha2] = @user[:country_code_alpha2] if @user[:country_code_alpha2].present?
-
-            # `locality` can be filled with `city` or `locality
-            options[:locality]            = @user[:city] if @user[:city].present?
-            options[:locality]            = @user[:locality] if @user[:locality].present?
-
-            # `region` can be filled with `state`, `province`, or `region`
-            options[:region]              = @user[:province] if @user[:province].present?
-            options[:region]              = @user[:state] if @user[:state].present?
-            options[:region]              = @user[:region] if @user[:region].present?
-
-            options[:company]             = @user[:company] if @user[:company].present?
+        def populate(options, field, pick_from)
+          pick_from.each do |key|
+            options[field] = @user[key] if @user[key].present?
           end
         end
 
