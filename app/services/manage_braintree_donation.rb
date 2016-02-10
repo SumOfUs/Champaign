@@ -38,7 +38,7 @@ class ManageBraintreeDonation
     {
       donationpage: {
         name:             "#{page.slug}-donation",
-        payment_account:  'Default Import Stub'
+        payment_account:  get_payment_account
       },
       order: {
         amount:         transaction.amount.to_s,
@@ -60,6 +60,25 @@ class ManageBraintreeDonation
       email:    member.email,
       country:  member.country
     )
+  end
+
+  # ActionKit can accept one of the following:
+  #
+  # PayPal USD
+  # PayPal GBP
+  # PayPal CAD
+  # PayPal EUR
+  # PayPal AUD
+  #
+  # Braintree USD
+  # Braintree CAD
+  # Braintree AUD
+  # Braintree GBP
+  # Braintree EUR
+  #
+  def get_payment_account
+    provider = card_num == PAYPAL_IDENTIFIER ? 'PayPal' : 'Braintree'
+    "#{provider} #{transaction.currency_iso_code}"
   end
 
   def transaction
@@ -89,7 +108,7 @@ class ManageBraintreeDonation
     # Credit Card info along for the ride, we can safely assume at this time that it's a PayPal transaction and that's
     # what we do here.
     given_num = transaction.credit_card_details.last_4
-    given_num.nil? ? ManageBraintreeDonation::PAYPAL_IDENTIFIER: given_num
+    given_num.nil? ? PAYPAL_IDENTIFIER : given_num
   end
 
   def expire_month

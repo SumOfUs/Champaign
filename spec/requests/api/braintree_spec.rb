@@ -94,7 +94,7 @@ describe "Braintree API" do
                 params: {
                   donationpage: {
                     name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Default Import Stub"
+                    payment_account: "Braintree EUR"
                   },
                   order: {
                     amount: "27.25",
@@ -278,7 +278,7 @@ describe "Braintree API" do
                 params: {
                   donationpage: {
                     name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Default Import Stub"
+                    payment_account: "Braintree EUR"
                   },
                   order: {
                     amount: "27.25",

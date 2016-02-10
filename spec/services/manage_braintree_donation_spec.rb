@@ -38,30 +38,30 @@ describe ManageBraintreeDonation do
             created_at: Time.now,
             updated_at: Time.now,
             credit_card_details: {
-                token: nil,
-                bin: '41111',
-                last_4: '1111',
-                card_type: 'Visa',
-                expiration_date: '01/2016',
-                cardholder_name: nil,
-                customer_location: 'US',
-                prepaid: 'Unknown',
-                healthcare: 'Unknown',
-                durbin_regulated: 'Unknown',
-                debit: 'Unknown',
-                commercial: 'Unknown',
-                payroll: 'Unknown',
-                country_of_issuance: 'Unknown'
+              token: nil,
+              bin: '41111',
+              last_4: '1111',
+              card_type: 'Visa',
+              expiration_date: '01/2016',
+              cardholder_name: nil,
+              customer_location: 'US',
+              prepaid: 'Unknown',
+              healthcare: 'Unknown',
+              durbin_regulated: 'Unknown',
+              debit: 'Unknown',
+              commercial: 'Unknown',
+              payroll: 'Unknown',
+              country_of_issuance: 'Unknown'
             },
             customer_details: {
-                id: '12345',
-                first_name: 'Eric Boersma',
-                last_name: nil,
-                email: user.email
+              id: '12345',
+              first_name: 'Eric Boersma',
+              last_name: nil,
+              email: user.email
             },
             subscription_details: {
-                billing_period_start_date: nil,
-                billing_period_end_date: nil
+              billing_period_start_date: nil,
+              billing_period_end_date: nil
             }
         }
 
@@ -91,7 +91,7 @@ describe ManageBraintreeDonation do
     {
         donationpage: {
             name: 'test-donation',
-            payment_account: 'Default Import Stub'
+            payment_account: 'Braintree GBP'
         },
         order: {
             amount: '1.0',
@@ -137,6 +137,7 @@ describe ManageBraintreeDonation do
     result.transaction.credit_card_details.last_4 = nil
     expect(result.transaction.credit_card_details.last_4).to eq(nil)
     full_donation_options[:order][:card_num] = ManageBraintreeDonation::PAYPAL_IDENTIFIER
+    expected_queue_message[:donation_page][:payment_account] = "PayPal EUR"
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end
