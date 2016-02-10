@@ -31,11 +31,9 @@ describe ManageAction do
       expect(ChampaignQueue).to receive(:push).
         with({
         type: "action", params: {
-          slug: page.slug,
-          body: {
-            email: "bob@example.com",
-            page_id: page.id
-          }
+          page:   "#{page.slug}-petition",
+          email:  "bob@example.com",
+          page_id: page.id
         }
       })
 

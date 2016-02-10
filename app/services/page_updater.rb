@@ -82,7 +82,11 @@ class PageUpdater
     return unless @params[:page]
     plugins_before = @page.plugins
     @page.assign_attributes(@params[:page])
-    @page.save
+
+    if @page.save
+      QueueManager.push(@page, job_type: :update_pages)
+    end
+
     @refresh = (@page.plugins != plugins_before)
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
   end
@@ -141,3 +145,4 @@ class PageUpdater
     params.select{|k| k.to_sym != :name }
   end
 end
+
