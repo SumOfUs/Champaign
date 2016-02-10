@@ -1,0 +1,76 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/subscriptions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <subscription>
+          <payment-method-token>MyString</payment-method-token>
+          <plan-id>EUR</plan-id>
+          <price>829.2</price>
+          <merchant-account-id>EUR</merchant-account-id>
+        </subscription>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Wed, 10 Feb 2016 23:12:34 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - c3f3cbfc-3871-4800-b5f3-a6479b9941bf
+      X-Runtime:
+      - '0.057396'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAOLDu1YAA5xSsW7CMBTc+QrLuzHQBSRjpnarVLVlRo/4CSwSO7Id1Px9
+        jeMEiDJU3Xy+u5d754jdT1WSKzqvrdnS5XxBCZrCKm1OW7r/fmNrupMzAbVm
+        6Jx1zKGvrfEoZ4SIdOVvxwGQ0Na4peActJRnyjdHXzhdh/iV7mpa33M9e8fx
+        JqZCuVluFi+Cp/MjCSE4fWwC5nm+rY62pLKGtkITDhWGs1WHYC9oBB/UTzMq
+        9B5OKD86D+k8JHmI9kSbK5RazQXvlfe4/Clvhn7AoBSLrY33m2zrZh/phdK+
+        sI0Jf58wcgg+foPHjKIGB1UvzZ2xbn+W9pfv7VfszJwEn6SzswTDtJKv+8+o
+        yyBTThco16vNfBWpBGa5dVecIc6DIgUe/FNEyn0P+58ni+VO/My/AAAA//8D
+        AKw7QVgJAwAA
+    http_version: 
+  recorded_at: Wed, 10 Feb 2016 23:12:34 GMT
+recorded_with: VCR 3.0.0
