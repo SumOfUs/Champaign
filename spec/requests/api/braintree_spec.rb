@@ -16,15 +16,15 @@ describe "Braintree API" do
         {
           currency: 'EUR',
           payment_method_nonce: 'fake-valid-nonce',
-          amount: 123.05,
+          amount: 27.25,
           recurring: false
         }
       end
       let(:user_params) do
         {
-          form_id: form.id, 
-          name: "Joe Ferris", 
-          email: "joe.ferris@sumofus.org",
+          form_id: form.id,
+          name: "Bernie Sanders",
+          email: "itsme@feelthebern.org",
           postal: "11225",
           address1: '25 Elm Drive',
           country: "US"
@@ -59,7 +59,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '123.05'
+              expect(form_data['amount']).to eq '27.25'
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
@@ -69,7 +69,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '123.05'
+              expect(transaction.amount).to eq '27.25'
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -97,7 +97,7 @@ describe "Braintree API" do
                     payment_account: "Default Import Stub"
                   },
                   order: {
-                    amount: "123.05",
+                    amount: "27.25",
                     card_num: "1881",
                     card_code: "007",
                     exp_date_month: "12",
@@ -105,12 +105,12 @@ describe "Braintree API" do
                     currency: "EUR"
                   },
                   user: {
-                    email: "joe.ferris@sumofus.org",
+                    email: "itsme@feelthebern.org",
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
-                    first_name: 'Joe',
-                    last_name: 'Ferris'
+                    first_name: 'Bernie',
+                    last_name: 'Sanders'
                   }
                 }
               })
@@ -124,21 +124,21 @@ describe "Braintree API" do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
               expect(Braintree::Transaction).to have_received(:sale).with({
-                amount: 123.05,
+                amount: 27.25,
                 payment_method_nonce: "fake-valid-nonce",
                 merchant_account_id: "EUR",
                 options: {
                   submit_for_settlement: true,
-                  store_in_vault_on_success: false
+                  store_in_vault_on_success: true
                 },
                 customer: {
-                  first_name: "Joe",
-                  last_name: "Ferris",
-                  email: "joe.ferris@sumofus.org"
+                  first_name: "Bernie",
+                  last_name: "Sanders",
+                  email: "itsme@feelthebern.org"
                 },
                 billing: {
-                  first_name: "Joe",
-                  last_name: "Ferris",
+                  first_name: "Bernie",
+                  last_name: "Sanders",
                   street_address: "25 Elm Drive",
                   postal_code: '11225',
                   country_code_alpha2: 'US'
@@ -157,20 +157,20 @@ describe "Braintree API" do
             end
 
             it "updates the Member’s fields with any new data" do
-              expect(member.first_name).not_to eq 'Joe'
-              expect(member.last_name).not_to eq 'Ferris'
+              expect(member.first_name).not_to eq 'Bernie'
+              expect(member.last_name).not_to eq 'Sanders'
               expect(member.postal).to eq nil
               expect{ subject }.to change{ Member.count }.by 0
               member.reload
-              expect(member.first_name).to eq 'Joe'
-              expect(member.last_name).to eq 'Ferris'
+              expect(member.first_name).to eq 'Bernie'
+              expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
             end
           end
 
           context 'with Paypal' do
 
-            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-one-time-nonce') }
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce') }
 
             subject do
               VCR.use_cassette("transaction success paypal existing customer") do
@@ -183,7 +183,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '123.05'
+              expect(transaction.amount).to eq '27.25'
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -205,7 +205,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq 'PYPL'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '123.05'
+              expect(form_data['amount']).to eq '27.25'
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
@@ -242,7 +242,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '123.05'
+              expect(form_data['amount']).to eq '27.25'
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
@@ -252,7 +252,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '123.05'
+              expect(transaction.amount).to eq '27.25'
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -281,7 +281,7 @@ describe "Braintree API" do
                     payment_account: "Default Import Stub"
                   },
                   order: {
-                    amount: "123.05",
+                    amount: "27.25",
                     card_num: "1881",
                     card_code: "007",
                     exp_date_month: "12",
@@ -289,12 +289,12 @@ describe "Braintree API" do
                     currency: "EUR"
                   },
                   user: {
-                    email: "joe.ferris@sumofus.org",
+                    email: "itsme@feelthebern.org",
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
-                    first_name: 'Joe',
-                    last_name: 'Ferris'
+                    first_name: 'Bernie',
+                    last_name: 'Sanders'
                   }
                 }
               })
@@ -308,7 +308,7 @@ describe "Braintree API" do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
               expect(Braintree::Transaction).to have_received(:sale).with({
-                amount: 123.05,
+                amount: 27.25,
                 payment_method_nonce: "fake-valid-nonce",
                 merchant_account_id: "EUR",
                 options: {
@@ -316,13 +316,13 @@ describe "Braintree API" do
                   store_in_vault_on_success: true
                 },
                 customer: {
-                  first_name: "Joe",
-                  last_name: "Ferris",
-                  email: "joe.ferris@sumofus.org"
+                  first_name: "Bernie",
+                  last_name: "Sanders",
+                  email: "itsme@feelthebern.org"
                 },
                 billing: {
-                  first_name: "Joe",
-                  last_name: "Ferris",
+                  first_name: "Bernie",
+                  last_name: "Sanders",
                   street_address: "25 Elm Drive",
                   postal_code: '11225',
                   country_code_alpha2: 'US'
@@ -340,20 +340,20 @@ describe "Braintree API" do
             end
 
             it "updates the Member’s fields with any new data" do
-              expect(member.first_name).not_to eq 'Joe'
-              expect(member.last_name).not_to eq 'Ferris'
+              expect(member.first_name).not_to eq 'Bernie'
+              expect(member.last_name).not_to eq 'Sanders'
               expect(member.postal).to eq nil
               expect{ subject }.to change{ Member.count }.by 0
               member.reload
-              expect(member.first_name).to eq 'Joe'
-              expect(member.last_name).to eq 'Ferris'
+              expect(member.first_name).to eq 'Bernie'
+              expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
             end
           end
 
           context 'with Paypal' do
 
-            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-one-time-nonce') }
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce') }
 
             subject do
               VCR.use_cassette("transaction success paypal new customer") do
@@ -366,7 +366,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '123.05'
+              expect(transaction.amount).to eq '27.25'
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -390,7 +390,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq 'PYPL'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '123.05'
+              expect(form_data['amount']).to eq '27.25'
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end

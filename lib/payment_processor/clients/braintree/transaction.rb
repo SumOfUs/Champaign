@@ -46,7 +46,10 @@ module PaymentProcessor
             merchant_account_id: MerchantAccountSelector.for_currency(@currency),
             options: {
               submit_for_settlement: true,
-              store_in_vault_on_success: store_in_vault?
+              # we always want to store in vault unless we're using an existing
+              # payment_method_token. we haven't built anything to do that yet,
+              # so for now always store the payment method.
+              store_in_vault_on_success: true
             },
             customer: customer_options,
             billing: billing_options
@@ -84,13 +87,6 @@ module PaymentProcessor
           pick_from.each do |key|
             options[field] = @user[key] if @user[key].present?
           end
-        end
-
-        # Don't store payment method in Braintree's vault if the
-        # customer already exists.
-        #
-        def store_in_vault?
-          @customer.nil?
         end
 
         def namesplitter
