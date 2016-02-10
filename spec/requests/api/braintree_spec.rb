@@ -16,7 +16,7 @@ describe "Braintree API" do
         {
           currency: 'EUR',
           payment_method_nonce: 'fake-valid-nonce',
-          amount: 27.25,
+          # amount: amount, # should override for each casette to avoid duplicates
           recurring: false
         }
       end
@@ -37,11 +37,12 @@ describe "Braintree API" do
 
         context 'when BraintreeCustomer exists' do
 
-          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test' }
+          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
 
           context 'with basic params' do
 
-            let(:params) { basic_params.merge(user: user_params) }
+            let(:amount) { 23.20 } # to avoid duplicate donations recording specs
+            let(:params) { basic_params.merge(user: user_params, amount: amount) }
             subject do
               VCR.use_cassette("transaction success basic existing customer") do
                 post api_braintree_transaction_path(page.id), params
@@ -59,7 +60,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '27.25'
+              expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
@@ -69,7 +70,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '27.25'
+              expect(transaction.amount).to eq amount.to_s
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -97,7 +98,7 @@ describe "Braintree API" do
                     payment_account: "Braintree EUR"
                   },
                   order: {
-                    amount: "27.25",
+                    amount: amount.to_s,
                     card_num: "1881",
                     card_code: "007",
                     exp_date_month: "12",
@@ -124,7 +125,7 @@ describe "Braintree API" do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
               expect(Braintree::Transaction).to have_received(:sale).with({
-                amount: 27.25,
+                amount: amount,
                 payment_method_nonce: "fake-valid-nonce",
                 merchant_account_id: "EUR",
                 options: {
@@ -170,7 +171,8 @@ describe "Braintree API" do
 
           context 'with Paypal' do
 
-            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce') }
+            let(:amount) { 29.20 } # to avoid duplicate donations recording specs
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
             subject do
               VCR.use_cassette("transaction success paypal existing customer") do
@@ -183,7 +185,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '27.25'
+              expect(transaction.amount).to eq amount.to_s
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -205,7 +207,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq 'PYPL'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '27.25'
+              expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
@@ -224,7 +226,8 @@ describe "Braintree API" do
 
           context 'with basic params' do
 
-            let(:params) { basic_params.merge(user: user_params) }
+            let(:amount) { 13.20 } # to avoid duplicate donations recording specs
+            let(:params) { basic_params.merge(user: user_params, amount: amount) }
             subject do
               VCR.use_cassette("transaction success basic new customer") do
                 post api_braintree_transaction_path(page.id), params
@@ -242,7 +245,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '27.25'
+              expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
@@ -252,7 +255,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '27.25'
+              expect(transaction.amount).to eq amount.to_s
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -281,7 +284,7 @@ describe "Braintree API" do
                     payment_account: "Braintree EUR"
                   },
                   order: {
-                    amount: "27.25",
+                    amount: amount.to_s,
                     card_num: "1881",
                     card_code: "007",
                     exp_date_month: "12",
@@ -308,7 +311,7 @@ describe "Braintree API" do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
               expect(Braintree::Transaction).to have_received(:sale).with({
-                amount: 27.25,
+                amount: amount,
                 payment_method_nonce: "fake-valid-nonce",
                 merchant_account_id: "EUR",
                 options: {
@@ -353,7 +356,8 @@ describe "Braintree API" do
 
           context 'with Paypal' do
 
-            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce') }
+            let(:amount) { 19.20 } # to avoid duplicate donations recording specs
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
             subject do
               VCR.use_cassette("transaction success paypal new customer") do
@@ -366,7 +370,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq '27.25'
+              expect(transaction.amount).to eq amount.to_s
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -390,7 +394,7 @@ describe "Braintree API" do
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq 'PYPL'
               expect(form_data['is_subscription']).to eq false
-              expect(form_data['amount']).to eq '27.25'
+              expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end

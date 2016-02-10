@@ -8,7 +8,7 @@ http_interactions:
       string: |
         <?xml version="1.0" encoding="UTF-8"?>
         <transaction>
-          <amount>27.25</amount>
+          <amount>13.2</amount>
           <payment-method-nonce>fake-valid-nonce</payment-method-nonce>
           <merchant-account-id>EUR</merchant-account-id>
           <options>
@@ -46,7 +46,7 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Wed, 10 Feb 2016 19:17:43 GMT
+      - Wed, 10 Feb 2016 20:15:23 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
@@ -69,51 +69,51 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - '"35cec244b4cbcfcfc9dd9f96f7bd2497"'
+      - '"29c0d2a644011806ad4139c7e3a98a3f"'
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - d00ca0d4-26a6-4f05-b3cf-a26f507a9ddc
+      - c24c7d12-85f8-4d47-a1cf-353927506b6d
       X-Runtime:
-      - '0.337938'
+      - '0.380140'
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        H4sIAFuau1YAA8xYS5PbNgy+51d4fOfqYTtxMlqlyTRtD20P3WwPvexQEmyx
+        K5EKSXnt/vqCop4Wtbs9ZKY3C/gIAiAIfHT08VwWqxNIxQS/XQc3/noFPBUZ
+        48fb9f3Xn8h+/TF+E2lJuaKpRlT8ZrWKWBa/rb6pQx55+NNIlKa6VrGqk5Jp
+        DdnDQcgHBVoXUALXkdcCDFZfKogVLSDymp9GltZS4s4XwpQg6ADEX+7/iLy5
+        2IBpKWqu42BzE/qR134ZRQkyzSnXhKapERL0rrHjUpgFQmYg8WPFWXG71rKG
+        tWf9kUAxDEL1yvh4u87wU7MS1nHoB2+JH5LA/xr6H4Ldh3DzF3raL2jW11X2
+        39YPC9p8KC3Qa/NhE75/uw+CzXbfpRylByaVJpyWEH8GyRkmdCSymIJ233eU
+        Y7Aq8gaRhaSirCi/XOcANVBSVsRMqxJ+OAAUOocEN7oR8hh5VmmBT5AopsFh
+        osoFd8kP9DxLujeOOkpYUWAd9hlwGfneCVBaAmDVZJkEpeJwt/pSlKsfJTuB
+        KemJsk3ZWQNuk3Vih9FCpLRg2rWfhCPeMVcaBV6gwl6BIAjDXeSNRV0cWNry
+        YkO753gg2eoO7x2olTisPmFiWUoxy2PYdKUxRmhR5TSM7+8G6Fi+tGKDKz65
+        lmxcS3jduBPvt/7Vmk7TVMSoCDA5h5pnrtvaa1R726iU9DJR4omMupjLSEWl
+        ZpjQoWtdrXAZp7XOhWT/vGx+ZDahOs2dmJxV1atr3lVadFn32ip39YHvXtRO
+        f4cyfUY9Ks1XoTYvodr6m3en8em0DZocGBSZamvhpAhIKSTBHFWCK3CG1uBG
+        oU/R8W840Z4FdCamp+a28iymCeN0mq+cCw30iI3kiV5Q8zfYKseRp+YHG1VS
+        pLgb5qG7HbSBN5Z+3vxyt/8Vu9dzoKmVqSuB7/vj5XNHHTqNFRx/qlBzgsy5
+        ukE0qc0yZjzB5M9hs1hPgqXmgA548LgCawcH5DwjtaEfuIvlGwsoTc/Ekhmn
+        Cs5QVh2dSIQogPJ1fKCFMkSqB3T0BaMgKZUdV9DiEXic6EpdcHbbL6tJGI+3
+        fhDu96bd8nEn2cbBfh+0A3PbXRY0Shri9idTZpz0312zqJi0h1kKrvM4CJEs
+        XAtn2AtQidzIMLprabtvSw6IaTUNFW0m1Ew6eJmLokm3u4Gwkh6B1LKIc41p
+        +eB5VGGTVjeJpIybi9NW/A12Tq+iF9O7H0rAas0eCnEU3gnjv6n48SPwE5OC
+        G8CtQpaRiDPStN5+2+0kVBS52+/CFKD9bTU5UKRW6LGZ2o9cPPHIG8ksKIOE
+        6UFvP1tVLfHgsAqPdWFI5Ah1relHgWHEOO0G6EjW+ksvUhQjRCdo06dUjc0Q
+        hxl/HDAT6bS5igMxWspTiIeRP5Z2eRJZnTYUfdh6kFlQzdm3GtqbhGLMPMNe
+        LGN/9y7cvQ+SXbLf7bfhu/ebbRZu6Ptkk/kZ3WN1LS61lk/AS0FU9rhw03p9
+        S1mnN619CJGcYVnKy4Qx9NO2QQAaag/QXE98GqCirF75XOjxvYX2gTUQkvGb
+        q0EsPZtsQhVm4AvOvc8COXKJ97qR9P6NyI0S2M4gphVDP+ZyG6U3D/M7R/6a
+        t+f/IA+9pC0ROyAK6iaNdaJSyapFUjnS9+28YcykQhIjMoK8jZiUOhrgFRLd
+        ktqJRZev9jFTkuBAdDDijKnmbjt1YK2I7rIttOalRyM207lvU6PINs2fBhjX
+        wv3t9XZQ5pRzmFvFMz+ZyY6v3qWZbLYVT8Se5kyLaUhqqSzhz0DjW7l7Ik5V
+        7rMZvRbc208xs/9JXgmHs0kAjinpdsO8nLBSkeO6DNZp6ngM4IksxG4ir2rz
+        HJ2XRjtfCePIWWv7+jKcwvbXB9NfI28JNGV9o0Cn5HBM/BZBL9tqqOJLtno+
+        qXNkEgSvl6k7QNcPYpqxSfOI3/wLAAD//wMAmMo5oZQTAAA=
     http_version: 
-  recorded_at: Wed, 10 Feb 2016 19:17:43 GMT
+  recorded_at: Wed, 10 Feb 2016 20:15:23 GMT
 recorded_with: VCR 3.0.0
