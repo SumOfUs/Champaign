@@ -22,8 +22,8 @@ describe "Braintree API" do
       end
       let(:user_params) do
         {
-          form_id: form.id, 
-          name: "Joe Ferris", 
+          form_id: form.id,
+          name: "Joe Ferris",
           email: "joe.ferris@sumofus.org",
           postal: "11225",
           address1: '25 Elm Drive',
@@ -94,7 +94,7 @@ describe "Braintree API" do
                 params: {
                   donationpage: {
                     name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Default Import Stub"
+                    payment_account: "Braintree EUR"
                   },
                   order: {
                     amount: "123.05",
@@ -278,7 +278,7 @@ describe "Braintree API" do
                 params: {
                   donationpage: {
                     name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Default Import Stub"
+                    payment_account: "Braintree EUR"
                   },
                   order: {
                     amount: "123.05",
