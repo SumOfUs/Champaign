@@ -48,6 +48,9 @@ class ManageBraintreeDonation
         exp_date_year:  expire_year,
         currency:       transaction.currency_iso_code
       },
+      action: {
+        source:         @params[:source] # falls back to nil
+      },
       user: user_params
     }
   end
@@ -77,7 +80,7 @@ class ManageBraintreeDonation
   # Braintree EUR
   #
   def get_payment_account
-    provider = card_num == PAYPAL_IDENTIFIER ? 'PayPal' : 'Braintree'
+    provider = is_paypal? ? 'PayPal' : 'Braintree'
     "#{provider} #{transaction.currency_iso_code}"
   end
 
@@ -104,11 +107,11 @@ class ManageBraintreeDonation
   end
 
   def card_num
-    # At the moment, we only accept two forms of payment from Braintree: PayPal and Credit Card. If we don't have
-    # Credit Card info along for the ride, we can safely assume at this time that it's a PayPal transaction and that's
-    # what we do here.
-    given_num = transaction.credit_card_details.last_4
-    given_num.nil? ? PAYPAL_IDENTIFIER : given_num
+    is_paypal? ? PAYPAL_IDENTIFIER : transaction.credit_card_details.last_4
+  end
+
+  def is_paypal?
+    transaction.payment_instrument_type == "paypal_account"
   end
 
   def expire_month

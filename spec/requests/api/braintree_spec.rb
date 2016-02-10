@@ -27,6 +27,7 @@ describe "Braintree API" do
           email: "itsme@feelthebern.org",
           postal: "11225",
           address1: '25 Elm Drive',
+          source: 'fb',
           country: "US"
         }
       end
@@ -114,8 +115,12 @@ describe "Braintree API" do
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
+                    source: 'fb',
                     first_name: 'Bernie',
                     last_name: 'Sanders'
+                  },
+                  action: {
+                    source: 'fb'
                   }
                 }
               })
@@ -319,9 +324,13 @@ describe "Braintree API" do
                     email: "itsme@feelthebern.org",
                     country: "US",
                     postal: "11225",
+                    source: 'fb',
                     address1: '25 Elm Drive',
                     first_name: 'Bernie',
                     last_name: 'Sanders'
+                  },
+                  action: {
+                    source: 'fb'
                   }
                 }
               })
