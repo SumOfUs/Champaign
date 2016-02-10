@@ -24,5 +24,11 @@ FactoryGirl.define do
       name      'country'
       data_type 'country'
     end
+
+    trait :zip do
+      label     'Zip'
+      name      'zip'
+      data_type 'zip'
+    end
   end
 end

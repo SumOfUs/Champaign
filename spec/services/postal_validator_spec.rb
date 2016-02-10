@@ -35,4 +35,12 @@ describe PostalValidator do
   it 'successfully identifies invalid postal codes and rejects them when not given a country code' do
     expect(PostalValidator.valid?(invalid_postal)).to be (false)
   end
+
+  it 'successfully identifies invalid postal codes when given the incorrect country code' do
+    expect(PostalValidator.valid?(basic_us_postal, country_code: :UK)).to be(false)
+    expect(PostalValidator.valid?(complex_us_postal, country_code: :UK)).to be(false)
+    expect(PostalValidator.valid?(valid_uk, country_code: :US)).to be(false)
+    expect(PostalValidator.valid?(valid_de, country_code: :UK)).to be(false)
+    expect(PostalValidator.valid?(valid_fr, country_code: :UK)).to be(false)
+  end
 end

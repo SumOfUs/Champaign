@@ -26,6 +26,7 @@ class FormValidator
     validate_country(  form_element, el_name, errors)
     validate_phone(    form_element, el_name, errors)
     validate_email(    form_element, el_name, errors)
+    validate_zip(      form_element, el_name, errors)
 
     errors.delete(el_name) if errors[el_name].empty?
     errors
@@ -60,6 +61,14 @@ class FormValidator
     end
   end
 
+  def validate_zip(form_element, el_name, errors)
+    zip = @params[el_name]
+    country = @params.fetch(:country, :US).to_sym
+    if form_element.data_type == 'zip' && zip.present? && !is_zip(zip, country)
+      errors[el_name] << I18n.t("validation.is_invalid_zip")
+    end
+  end
+
   def is_email(candidate)
     (/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate).present?
   end
@@ -72,5 +81,9 @@ class FormValidator
 
   def is_country_code(candidate)
     ISO3166::Country.all_names_with_codes.map(&:last).include?(candidate)
+  end
+
+  def is_zip(candidate, country)
+    PostalValidator.valid?(candidate, country_code: country)
   end
 end
