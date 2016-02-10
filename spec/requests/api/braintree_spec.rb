@@ -82,9 +82,13 @@ describe "Braintree API" do
               expect(transaction.transaction_id).not_to be_blank
             end
 
-            it "updates Payment::BraintreeCustomer including last four for credit card" do
+            it "updates Payment::BraintreeCustomer with new token and last_4" do
+              previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+              expect( customer.reload.card_vault_token ).not_to be_blank
+              expect( customer.reload.card_vault_token ).not_to eq previous_token
+              expect( customer.reload.card_last_4 ).not_to be_blank
               expect( customer.reload.card_last_4 ).not_to eq previous_last_4
             end
 
@@ -197,9 +201,14 @@ describe "Braintree API" do
               expect(transaction.transaction_id).not_to be_blank
             end
 
-            it "does not change Payment::BraintreeCustomer" do
+            it "updates Payment::BraintreeCustomer with new token and PYPL for last_4" do
+              previous_token = customer.card_vault_token
+              previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer ).to eq Payment::BraintreeCustomer.find(customer.id)
+              expect( customer.reload.card_vault_token ).not_to be_blank
+              expect( customer.reload.card_vault_token ).not_to eq previous_token
+              expect( customer.reload.card_last_4 ).not_to be_blank
+              expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
             it "stores PYPL as card_num on the Action" do
@@ -267,11 +276,12 @@ describe "Braintree API" do
               expect(transaction.transaction_id).not_to be_blank
             end
 
-            it "creates new Payment::BraintreeCustomer including customer_id and last four for credit card" do
+            it "creates new Payment::BraintreeCustomer including token, customer_id, and last four for credit card" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
               expect( customer.customer_id ).not_to be_blank
               expect( customer.card_last_4 ).to eq '1881'
+              expect( customer.card_vault_token ).not_to be_blank
             end
 
             it "posts donation action to queue with key data" do
@@ -387,6 +397,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).not_to be_blank
               expect(customer.card_last_4).to eq 'PYPL'
+              expect( customer.card_vault_token ).not_to be_blank
             end
 
             it "stores PYPL as card_num on the Action" do

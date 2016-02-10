@@ -113,8 +113,8 @@ module Payment
         card_bin:         card.bin,
         cardholder_name:  card.cardholder_name,
         card_debit:       card.debit,
-        card_last_4:      card.last_4,
-        card_vault_token: card.token,
+        card_last_4:      last_4,
+        card_vault_token: payment_method_token,
         customer_id:      transaction.customer_details.id,
         member:           @action.member
       }
@@ -134,6 +134,10 @@ module Payment
       else
         Payment::BraintreeTransaction.statuses[:failure]
       end
+    end
+
+    def last_4
+      transaction.payment_instrument_type == "paypal_account" ? 'PYPL' : card.last_4
     end
 
     def payment_method_token
