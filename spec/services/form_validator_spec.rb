@@ -130,11 +130,11 @@ describe FormValidator do
   end
 
   context 'with zip as data type' do
-    let(:element) { create :form_element, :zip, form: form }
+    let(:element) { create :form_element, :postal, form: form }
     let(:country_element) { create :form_element, :country, form: form}
     let(:us_zip) { '12345' }
     let(:uk_zip) { 'CR0 3RL' }
-    let(:params) { { form_id: element.form_id, zip: us_zip } }
+    let(:params) { { form_id: element.form_id, postal: us_zip } }
 
     context 'is valid' do
       it 'without a country code' do
@@ -142,14 +142,14 @@ describe FormValidator do
       end
 
       it 'with a valid country code in the UK' do
-        params.merge!(zip: uk_zip, country: :UK)
+        params.merge!(postal: uk_zip, country: :UK)
         expect(subject).to be_valid
       end
     end
 
     context 'is invalid' do
       it 'with an incorrect code' do
-        params.merge!(zip: 'Not a valid zip')
+        params.merge!(postal: 'Not a valid zip')
         expect(subject).to_not be_valid
       end
 

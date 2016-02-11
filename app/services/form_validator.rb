@@ -26,7 +26,7 @@ class FormValidator
     validate_country(  form_element, el_name, errors)
     validate_phone(    form_element, el_name, errors)
     validate_email(    form_element, el_name, errors)
-    validate_zip(      form_element, el_name, errors)
+    validate_postal(   form_element, el_name, errors)
 
     errors.delete(el_name) if errors[el_name].empty?
     errors
@@ -61,7 +61,7 @@ class FormValidator
     end
   end
 
-  def validate_zip(form_element, el_name, errors)
+  def validate_postal(form_element, el_name, errors)
     zip = @params[el_name]
     country = @params.fetch(:country, :US)
     if country.respond_to? :to_sym
@@ -70,7 +70,7 @@ class FormValidator
       # country is likely to be nil, so set it to our default
       country = :US
     end
-    if form_element.data_type == 'zip' && zip.present? && !is_zip(zip, country)
+    if form_element.data_type == 'postal' && zip.present? && !is_zip(zip, country)
       errors[el_name] << I18n.t("validation.is_invalid_zip")
     end
   end
