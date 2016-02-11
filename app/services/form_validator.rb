@@ -63,7 +63,13 @@ class FormValidator
 
   def validate_zip(form_element, el_name, errors)
     zip = @params[el_name]
-    country = @params.fetch(:country, :US).to_sym
+    country = @params.fetch(:country, :US)
+    if country.respond_to? :to_sym
+      country = country.to_sym
+    else
+      # country is likely to be nil, so set it to our default
+      country = :US
+    end
     if form_element.data_type == 'zip' && zip.present? && !is_zip(zip, country)
       errors[el_name] << I18n.t("validation.is_invalid_zip")
     end
