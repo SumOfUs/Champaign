@@ -99,7 +99,7 @@ class PageUpdater
     end
 
     if @page.save and ak_sensitive_changes
-      QueueManager.push(@page, job_type: :update)
+      QueueManager.push(@page, job_type: :update_pages)
     end
 
     @refresh = (@page.plugins != plugins_before)
@@ -160,3 +160,4 @@ class PageUpdater
     params.select{|k| k.to_sym != :name }
   end
 end
+

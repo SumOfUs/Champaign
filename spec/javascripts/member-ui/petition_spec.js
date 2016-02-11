@@ -157,6 +157,35 @@ describe("Petition", function() {
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
           expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
+
+        it('does not append a hidden akid field', function() {
+          expect($('input[name="akid"]').length).to.eq(0);
+        });
+
+        describe('akid is passed', function(){
+          it('appends a hidden field with the akid to the form', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
+            expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
+          });
+
+          it('renames the hidden field when the "Not you?" is clicked', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
+            $('.petition-bar__clear-form').click();
+            expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
+          });
+        });
+
+        describe('source params are correctly handled', function() {
+          it('appends a hidden field with source to the form', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], source: 'twitter'});
+            expect($('input[name="source"]').val()).to.eq('twitter');
+          });
+
+          it('appends nothing when no source field is passed', function() {
+            suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: []});
+            expect($('input[name="source"]').length).to.eq(0);
+          });
+        });
       });
     });
 
