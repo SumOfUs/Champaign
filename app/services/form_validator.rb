@@ -63,13 +63,7 @@ class FormValidator
 
   def validate_postal(form_element, el_name, errors)
     postal = @params[el_name]
-    country = @params.fetch(:country, :US)
-    if country.respond_to? :to_sym
-      country = country.to_sym
-    else
-      # country is likely to be nil, so set it to our default
-      country = :US
-    end
+    country = (@params[:country].blank? ? :US : @params[:country].to_sym)
     if form_element.data_type == 'postal' && postal.present? && !is_postal(postal, country)
       errors[el_name] << I18n.t('validation.is_invalid_postal')
     end
