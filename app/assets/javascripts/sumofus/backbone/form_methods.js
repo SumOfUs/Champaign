@@ -23,7 +23,7 @@ const FormMethods = {
   clearForm(){
     let $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
-    $fields_holder.find('input[type="text"], input[type="email"], select').val('');
+    $fields_holder.find('input[type="text"], input[type="email"], input[type="tel"], select').val('');
     $fields_holder.find('input[type="checkbox"]').attr('checked', false);
 
     $fields_holder.find('select').each((ii, el)=>{ el.selectedIndex = -1; });
