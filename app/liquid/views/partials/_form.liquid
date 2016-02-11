@@ -8,14 +8,12 @@
     {% for field in fields %}
       <div class="form__group petition-bar__field-container">
         {% case field.data_type %}
-        {% when 'text' %}
+        {% when 'text' or 'postal' %}
           <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
         {% when 'email' %}
           <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" />
         {% when 'phone' %}
           <input type="tel" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
-        {% when 'postal' %}
-          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
         {% when 'checkbox' %}
           <label class="checkbox-label">
             <input type="checkbox" name="{{field.name}}" class="form__content" /> {{ field.label }}
