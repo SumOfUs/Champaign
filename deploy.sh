@@ -5,7 +5,7 @@ SHA1=$1
 AWS_APPLICATION_NAME=$2
 export AWS_ENVIRONMENT_NAME=$3
 STATIC_BUCKET=$4
-ENV_URL=$5
+export ENV_URL=$5
 
 echo 'Setting up configuration for Papertrail logging'
 export PAPERTRAIL_HOST=$(cut -d ":" -f 1 <<< $5)

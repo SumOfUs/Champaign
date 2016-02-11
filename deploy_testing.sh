@@ -8,8 +8,11 @@ STATIC_BUCKET=$4
 
 echo 'Deleting configuration files that do not apply to testing'
 rm .ebextensions/03_papertrail.config
-rm .ebextensions/04_newrelic.config
 rm .ebextensions/05_nginx_proxy.config
+
+echo 'Applying environment-specific configuration in .ebextensions'
+envsubst '$AWS_ENVIRONMENT_NAME' <.ebextensions/04_newrelic.config >temp
+mv temp .ebextensions/04_newrelic.config
 
 echo 'Shipping source bundle to S3...'
 zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
