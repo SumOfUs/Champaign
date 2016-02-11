@@ -12,9 +12,8 @@ class QueueManager
 
   def push_to_queue
     case job_type
-    when :update
-      to_queue(uri: page.ak_petition_resource_uri)
-      to_queue(uri: page.ak_donation_resource_uri)
+    when :update_pages
+      to_queue(petition_uri: page.ak_petition_resource_uri, donation_uri: page.ak_donation_resource_uri)
     when :create
       to_queue
     else
@@ -39,11 +38,11 @@ class QueueManager
 
   def params
     {
-      id: page.id,
-      slug: page.slug,
-      title: page.title,
-      language_code: page.language.code,
-      tags: tags
+      page_id:  page.id,
+      name:     page.slug,
+      title:    page.title,
+      language: page.language.try(:actionkit_uri),
+      tags:     tags
     }
   end
 
@@ -51,3 +50,4 @@ class QueueManager
     page.tags.map(&:actionkit_uri)
   end
 end
+

@@ -78,11 +78,30 @@ class PageUpdater
 
   private
 
+  def important_changes_made
+    page_tags_before = @page.pages_tags.map(&:tag_id)
+
+    yield if block_given?
+
+    page_tags_after = @page.pages_tags.map(&:tag_id)
+
+    @page.changed_attributes.keys.any? do |attr|
+      ['language_id', 'title'].include?(attr)
+    end || page_tags_before != page_tags_after
+  end
+
   def update_page
     return unless @params[:page]
     plugins_before = @page.plugins
-    @page.assign_attributes(@params[:page])
-    @page.save
+
+    ak_sensitive_changes = important_changes_made do
+      @page.assign_attributes(@params[:page])
+    end
+
+    if @page.save and ak_sensitive_changes
+      QueueManager.push(@page, job_type: :update_pages)
+    end
+
     @refresh = (@page.plugins != plugins_before)
     @errors[:page] = @page.errors.to_h unless @page.errors.empty?
   end
@@ -141,3 +160,4 @@ class PageUpdater
     params.select{|k| k.to_sym != :name }
   end
 end
+

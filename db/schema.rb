@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125211650) do
+ActiveRecord::Schema.define(version: 20160208164639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,10 +119,11 @@ ActiveRecord::Schema.define(version: 20160125211650) do
   add_index "images", ["page_id"], name: "index_images_on_page_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
-    t.string   "code",       null: false
-    t.string   "name",       null: false
+    t.string   "code",          null: false
+    t.string   "name",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "actionkit_uri"
   end
 
   create_table "links", force: :cascade do |t|

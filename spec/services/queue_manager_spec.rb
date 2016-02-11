@@ -5,28 +5,28 @@ describe QueueManager do
 
   let(:expected_params) do
     {
-      type: :update,
+      type: :update_pages,
       params: {
-        id: page.id,
-        slug: 'i-am-a-slug',
+        page_id: page.id,
+        name: 'i-am-a-slug',
         title: 'boo',
-        language_code: 'en',
+        language: page.language.actionkit_uri,
         tags: []
       }
     }
   end
 
   context "with valid job type" do
-    context "update" do
+    context "update_pages" do
 
-      subject { QueueManager.push(page, job_type: :update) }
+      subject { QueueManager.push(page, job_type: :update_pages) }
 
       it 'posts to queue' do
-        expected_params_donation = expected_params.merge(uri: "http://example.com/donation")
-        expected_params_petition = expected_params.merge(uri: "http://example.com/petition")
-
-        expect(ChampaignQueue).to receive(:push).with( expected_params_petition )
-        expect(ChampaignQueue).to receive(:push).with( expected_params_donation )
+        expect(ChampaignQueue).to receive(:push).
+          with( expected_params.merge({
+            donation_uri: "http://example.com/donation",
+            petition_uri: "http://example.com/petition"
+          }))
 
         subject
       end

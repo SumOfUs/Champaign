@@ -28,9 +28,8 @@ class ManageAction
     {
       type: 'action',
       params: {
-        slug: page.slug,
-        body: @params
-      }
+        page: "#{page.slug}-petition"
+      }.merge(@params)
     }
   end
 
