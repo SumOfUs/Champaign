@@ -75,7 +75,7 @@ describe PageUpdater do
       end
 
       it 'enqueues page for update' do
-        expect(QueueManager).to receive(:push).with(page, job_type: :update)
+        expect(QueueManager).to receive(:push).with(page, job_type: :update_pages)
         subject.update(simple_changes)
       end
     end
