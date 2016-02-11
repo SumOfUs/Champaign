@@ -5,20 +5,11 @@ SHA1=$1
 AWS_APPLICATION_NAME=$2
 export AWS_ENVIRONMENT_NAME=$3
 STATIC_BUCKET=$4
-ENV_URL=$5
 
-echo 'Setting up configuration for Papertrail logging'
-export PAPERTRAIL_HOST=$(cut -d ":" -f 1 <<< $5)
-export PAPERTRAIL_PORT=$(cut -d ":" -f 2 <<< $5)
-export PAPERTRAIL_SYSTEM=$3
-cat .ebextensions/03_papertrail.config | envsubst '$PAPERTRAIL_HOST:$PAPERTRAIL_PORT:$PAPERTRAIL_SYSTEM' >temp
-mv temp .ebextensions/03_papertrail.config
-
-echo 'Applying environment-specific configuration in .ebextensions'
-envsubst '$AWS_ENVIRONMENT_NAME' <.ebextensions/04_newrelic.config >temp
-mv temp .ebextensions/04_newrelic.config
-envsubst '$ENV_URL' <.ebextensions/05_nginx_proxy.config >temp
-mv temp .ebextensions/05_nginx_proxy.config
+echo 'Deleting configuration files that do not apply to testing'
+rm .ebextensions/03_papertrail.config
+rm .ebextensions/04_newrelic.config
+rm .ebextensions/05_nginx_proxy.config
 
 echo 'Shipping source bundle to S3...'
 zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
