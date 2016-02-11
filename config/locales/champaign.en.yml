@@ -43,7 +43,7 @@ en:
     is_invalid_email: 'is not a valid email address'
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: 'must be a two letter country code'
-    is_invalid_zip: 'must be a valid postal code'
+    is_invalid_postal: 'must be a valid postal code'
 
   menu:
     pages: 'Pages'

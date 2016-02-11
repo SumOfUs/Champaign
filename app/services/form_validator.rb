@@ -62,7 +62,7 @@ class FormValidator
   end
 
   def validate_postal(form_element, el_name, errors)
-    zip = @params[el_name]
+    postal = @params[el_name]
     country = @params.fetch(:country, :US)
     if country.respond_to? :to_sym
       country = country.to_sym
@@ -70,8 +70,8 @@ class FormValidator
       # country is likely to be nil, so set it to our default
       country = :US
     end
-    if form_element.data_type == 'postal' && zip.present? && !is_zip(zip, country)
-      errors[el_name] << I18n.t("validation.is_invalid_zip")
+    if form_element.data_type == 'postal' && postal.present? && !is_postal(postal, country)
+      errors[el_name] << I18n.t('validation.is_invalid_postal')
     end
   end
 
@@ -89,7 +89,7 @@ class FormValidator
     ISO3166::Country.all_names_with_codes.map(&:last).include?(candidate)
   end
 
-  def is_zip(candidate, country)
+  def is_postal(candidate, country)
     PostalValidator.valid?(candidate, country_code: country)
   end
 end
