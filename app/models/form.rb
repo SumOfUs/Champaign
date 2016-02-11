@@ -8,7 +8,7 @@ class Form < ActiveRecord::Base
   DEFAULT_FIELDS = [
     { label: 'Email Address',  name: 'email',   required: true,  data_type: 'email'   },
     { label: 'Full Name',      name: 'name',    required: true,  data_type: 'text'    },
-    # { label: 'Country',        name: 'country', required: true,  data_type: 'country' },
+    { label: 'Country',        name: 'country', required: true,  data_type: 'country' },
     { label: 'Postal Code',    name: 'postal',  required: false, data_type: 'postal'    }
   ]
 
