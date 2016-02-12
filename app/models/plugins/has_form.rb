@@ -33,6 +33,7 @@ module Plugins::HasForm
   private
 
   def create_form
+    return if form.present? && !form.form_elements.empty?
     self.form = FormDuplicator.duplicate(
       DefaultFormBuilder.create
     )

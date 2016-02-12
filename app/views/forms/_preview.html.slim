@@ -3,7 +3,7 @@ form
     .form-element.form-group.clearfix
       - label = "#{element.label}#{element.required ? '*' : ''}"
       - case element.data_type
-      - when 'text', 'email', 'phone'
+      - when 'text', 'email', 'phone', 'postal'
         input.form-control placeholder=label
       - when 'country'
         = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes), class: "form-control"

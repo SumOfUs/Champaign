@@ -8,7 +8,7 @@ describe DefaultFormBuilder do
   end
 
   it 'creates fields' do
-    expect( DefaultFormBuilder.create.form_elements.size ).to eq(3)
+    expect( DefaultFormBuilder.create.form_elements.size ).to eq(4)
   end
 
   context 'when form already exists' do
