@@ -93,19 +93,16 @@ module PaymentProcessor
         end
 
         def create_customer_options
+          # we only pass the payment method if it's a new
+          # customer, otherwise we won't be able to tell which
+          # payment_method on the returned customer is the new one
+          return customer_options if existing_customer.present?
           customer_options.merge({
             payment_method_nonce: @nonce,
             credit_card: {
               billing_address: billing_options
             }
-          }).tap do |options|
-            unless existing_customer.present?
-              # we only create the payment method if it's a new
-              # customer, otherwise we won't be able to tell which
-              # payment_method on the returned customer is the new one
-              options[:payment_method_nonce] = @nonce
-            end
-          end
+          })
         end
       end
     end

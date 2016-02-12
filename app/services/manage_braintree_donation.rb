@@ -87,20 +87,10 @@ class ManageBraintreeDonation
   def transaction
     return @transaction if @transaction
 
-    # We don't use the `is_subscription` flag here because there are multiple ways that it's possible for
-    # a subscription to be structured. That's more for future information retrieval, not for identifying the
-    # internal structure of the braintree result we're searching through to manage notifications.
     if @braintree_result.transaction.present?
       # This is a one-off donation, so we can just use the built in transaction and send the data to the queue.
       @transaction = @braintree_result.transaction
-    # elsif @braintree_result.transactions.present?
-    #   # This is a "start" subscription event, so we have an array of transactions. We can safely withdraw the most recent
-    #   # transaction and use that information to send to the queue.
-    #   @transaction = @braintree_result.transactions.last
     elsif @braintree_result.subscription.transactions.present?
-      # This is an event which is notifying us that we're getting a transaction which is based on a recurring
-      # donation being charged after the first event. Braintree will send us this data in webhook form. Like
-      # with a subscription start event, we can grab the last transaction and run with it.
       @transaction = @braintree_result.subscription.transactions.last
     end
     @transaction
