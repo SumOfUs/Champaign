@@ -163,13 +163,13 @@ describe LiquidRenderer do
       it 'has the fields from one plugin form' do
         form = create :form_with_email_and_name
         create :plugins_fundraiser, page: page, form: form
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq ['email', 'name', 'country']
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq ['email', 'name']
       end
 
       it "checks with the member's liquid data" do
-        form = create :form_with_name_email_and_country
-        create :plugins_fundraiser, page: page, form: form
-        member = create :member, name: 'Humphrey Bogart', email: 'psycho@killer.com', country: 'US'
+        form = create :form_with_email_and_name
+        fundraiser = create :plugins_fundraiser, page: page, form: form
+        member = create :member, name: 'Humphrey Bogart', email: 'psycho@killer.com'
         expect(member.liquid_data.keys).to include(:name)
         expect(member.attributes.keys).not_to include(:name)
         expect(LiquidRenderer.new(page, layout: liquid_layout, member: member).personalization_data['outstanding_fields']).to eq []

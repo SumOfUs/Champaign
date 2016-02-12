@@ -4,7 +4,7 @@ require_relative 'shared_examples'
 describe Plugins::Petition do
   subject(:petition) { create(:plugins_petition) }
 
-  include_examples "plugin with form"
+  include_examples "plugin with form", :plugins_petition
 
   it { is_expected.to be_valid }
   it { is_expected.to respond_to :description }
