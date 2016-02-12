@@ -1,8 +1,8 @@
 .form-group
   = form.label :subject, t('share.email.form.subject')
-  = form.text_field :subject, class: 'form-control'
+  = form.text_field :subject, class: 'form-control', maxlength: 100
 
 .form-group
   = label_with_tooltip(form, :body, t('share.email.form.body'), t('tooltips.shares.link_explanation'))
-  = form.text_area :body, class: 'form-control', rows: 5
+  = form.text_area :body, class: 'form-control', rows: 5, maxlength: 750
 
