@@ -16,6 +16,18 @@ module Payment
       BraintreeSubscriptionBuilder.build(subscription)
     end
 
+    def write_customer(result, existing_customer)
+      # lifted from old find_or_create user method, we know it fails with paypal
+      customer = existing_customer || Payment::BraintreeCustomer.new
+      customer.update(
+        card_vault_token: result.customer.payment_methods.first.token,
+        customer_id: result.customer.id,
+        first_name: user[:first_name] || user[:name],
+        last_name: user[:last_name],
+        card_last_4: result.customer.payment_methods.first.last_4
+      )
+    end
+
     def customer(email)
       member = Member.find_by(email: email)
       member.try(:customer)
@@ -78,6 +90,8 @@ module Payment
         else
           store_braintree_customer_locally
         end
+      else
+        raise NotImplementedError, "We will handle recording unsuccessful transactions here"
       end
     end
 
