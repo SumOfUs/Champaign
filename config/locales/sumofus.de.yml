@@ -37,7 +37,7 @@ de:
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
   form:
     welcome_back: Willkommen zurück
-    switch_user: Das sind nicht Sie?
+    switch_user: Nicht Sie?
     processing: In Bearbeitung...
     submit: Abschicken
   thermometer:
