@@ -13,7 +13,17 @@ class ApplicationController < ActionController::Base
     pages_url
   end
 
+  def health_check
+    render plain: health_check_haiku, status: 200
+  end
+
   private
+
+  def health_check_haiku
+    "Health check is passing,\n"\
+    "don't terminate the instance.\n"\
+    "Response: 200."
+  end
 
   def set_locale(code)
     begin

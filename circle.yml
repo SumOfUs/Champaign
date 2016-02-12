@@ -29,17 +29,17 @@ deployment:
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'action2.sumofus.org'
   staging:
     branch: development
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848'
+      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
   testing:
     # Change the branch value to your branch name to push up your branch to the testing server automatically.
-    branch: random-branch
+    branch: customize-nginx
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'
+      - ./deploy_testing.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'
