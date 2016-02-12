@@ -1,7 +1,7 @@
 module PaymentProcessor
   module Clients
     module Braintree
-      class Subscription
+      class Subscription < Populator
         # = Braintree::Subscription
         #
         # Wrapper around Braintree's Ruby SDK. This class interfaces between the BT SDK
@@ -22,7 +22,7 @@ module PaymentProcessor
 
         def self.make_subscription(nonce:, amount:, currency:, user:, page_id:)
           builder = new(nonce, amount, currency, user, page_id)
-          @result = builder.subscribe
+          builder.subscribe
           builder
         end
 
@@ -36,36 +36,46 @@ module PaymentProcessor
 
         def subscribe
           customer_result = update_or_create_customer_on_braintree
-          return customer_result unless customer_result.success?
-          Payment.write_customer(customer_result, existing_customer)
+          (@result = customer_result and return) unless customer_result.success?
 
-          subscription_result = ::Braintree::Subscription.create(subscription_options)
-          return subscription_result unless subscription_result.success?
-          @action = ManageBraintreeDonation.create(params: user.merge(page_id: @page_id), braintree_result: result, is_subscription: true)
+          if existing_customer.present?
+            payment_method_result = ::Braintree::PaymentMethod.create(payment_method_options)
+            (@result = payment_method_result and return) unless payment_method_result.success?
+            payment_method_token = payment_method_result.payment_method.token
+          else
+            payment_method_token = customer_result.customer.payment_methods.first.token
+          end
 
-          Payment.write_subscription(subscription: subscription_result)
+          subscription_result = ::Braintree::Subscription.create(subscription_options(payment_method_token))
+          @result = subscription_result
+          return unless subscription_result.success?
+          @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true)
 
-          subscription_result
+          if existing_customer.present?
+            Payment.write_customer(customer_result.customer, payment_method_result.payment_method, @action.member_id, existing_customer)
+          else
+            # we can use payment_method.first here because we just created the customer
+            Payment.write_customer(customer_result.customer, customer_result.customer.payment_methods.first, @action.member_id, nil)
+          end
+
+          Payment.write_subscription(subscription_result)
         end
 
         private
 
-        def subscription_options(customer)
+        def payment_method_options
           {
-            payment_method_token: customer.card_vault_token
-            plan_id: SubscriptionPlanSelector.for_currency(@currency),
-            price: @amount,
-            currency: @currency,
-            merchant_account_id: MerchantAccountSelector.for_currency(@currency)
+            payment_method_nonce: @nonce,
+            customer_id: existing_customer.customer_id,
+            billing_address: billing_options
           }
         end
 
         def update_or_create_customer_on_braintree
           if existing_customer.present?
-            customer_id_option = { customer_id: existing_customer.customer_id }
-            Braintree::Customer.update(customer_options.merge(customer_id_option))
+            ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
           else
-            Braintree::Customer.create(customer_options)
+            ::Braintree::Customer.create(create_customer_options)
           end
         end
 
@@ -73,15 +83,29 @@ module PaymentProcessor
           @existing_customer ||= Payment.customer(@user[:email])
         end
 
-        def customer_options
-          # tomorrow this will be a shared method between this and the transaction class
-          # because they format the parameters the same
+        def subscription_options(payment_method_token)
           {
-            email: user[:email],
-            first_name: user[:first_name],
-            last_name: user[:last_name],
-            payment_method_nonce: params[:payment_method_nonce]
+            payment_method_token: payment_method_token,
+            plan_id: SubscriptionPlanSelector.for_currency(@currency),
+            price: @amount,
+            merchant_account_id: MerchantAccountSelector.for_currency(@currency)
           }
+        end
+
+        def create_customer_options
+          customer_options.merge({
+            payment_method_nonce: @nonce,
+            credit_card: {
+              billing_address: billing_options
+            }
+          }).tap do |options|
+            unless existing_customer.present?
+              # we only create the payment method if it's a new
+              # customer, otherwise we won't be able to tell which
+              # payment_method on the returned customer is the new one
+              options[:payment_method_nonce] = @nonce
+            end
+          end
         end
       end
     end

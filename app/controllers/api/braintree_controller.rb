@@ -7,13 +7,13 @@ class Api::BraintreeController < ApplicationController
 
   def transaction
     builder = if recurring?
-                braintree::Subscription.make_subscription(transaction_options)
+                client::Subscription.make_subscription(transaction_options)
               else
-                braintree::Transaction.make_transaction(transaction_options)
+                client::Transaction.make_transaction(transaction_options)
               end
     if builder.result.success?
-      write_member_cookie(builder.action.member_id) unless action.blank?
-      id = recurring? ? { subscription_id: result.subscription.id } : { transaction_id: result.transaction.id }
+      write_member_cookie(builder.action.member_id) unless builder.action.blank?
+      id = recurring? ? { subscription_id: builder.result.subscription.id } : { transaction_id: builder.result.transaction.id }
       render json: { success: true }.merge(id)
     else
       errors = raise_unless_user_error(builder.result)
@@ -48,61 +48,22 @@ class Api::BraintreeController < ApplicationController
 
   private
 
-  # Deprecated, delete this
-  def manage_subscription(params)
-    result = braintree::Subscription.make_subscription(transaction_options)
-    if result.success?
-      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result, is_subscription: true)
-      write_member_cookie(action.member_id) unless action.blank?
-      render json: { success: true, subscription_id: result.subscription.id }
-    else
-      errors = raise_unless_user_error(result)
-      render json: { success: false, errors: errors }, status: 422
-    end
-  end
-
-  # Deprecated, delete this
-  def manage_transaction(params)
-    result = braintree::Transaction.make_transaction(transaction_options)
-
-    if result.success?
-      action = ManageBraintreeDonation.create(params: params[:user].merge(page_id: params[:page_id]), braintree_result: result)
-      Payment.write_successful_transaction(action: action, transaction_response: result)
-      write_member_cookie(action.member_id) unless action.blank?
-      render json: { success: true, transaction_id: result.transaction.id }
-    else
-      errors = raise_unless_user_error(result)
-      render json: { success: false, errors: errors }, status: 422
-    end
-  end
-
   def transaction_options
     {
       nonce: params[:payment_method_nonce],
       amount: params[:amount].to_f,
       user: params[:user],
       currency: params[:currency],
-      page_id: params[:page_id],
-      customer: Payment.customer(params[:user][:email])
+      page_id: params[:page_id]
     }
   end
 
-  def braintree
+  def client
     PaymentProcessor::Clients::Braintree
   end
 
-  # Deprecated, delete this
-  def default_payment_method_token
-   local_customer.try(:card_vault_token)
-  end
-
-  # Deprecated, delete this
-  def local_customer
-    @local_customer ||= ::Payment.customer(params[:user][:email])
-  end
-
   def raise_unless_user_error(result)
-    braintree::ErrorProcessing.new(result).process
+    client::ErrorProcessing.new(result).process
   end
 
   def page
