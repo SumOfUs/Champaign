@@ -18,7 +18,8 @@ describe "Api Actions" do
           email:    'hello@example.com',
           form_id:  form.id,
           source:   'fb',
-          akid:     '123.456.fcvd'
+          akid:     '123.456.fcvd',
+          referring_akid: '123.456.xyz'
       }
     end
 
@@ -32,7 +33,8 @@ describe "Api Actions" do
           page_id: page.id.to_s,
           form_id: form.id.to_s,
           source: 'fb',
-          akid:   '123.456.fcvd'
+          akid:   '123.456.fcvd',
+          referring_akid: '123.456.xyz'
         }
       }
     end
@@ -82,11 +84,10 @@ describe "Api Actions" do
 
     describe 'referring akid' do
       before do
-        params[:referring_akid] = params[:akid]
-        message_body[:params][:referring_user] = '/rest/v1/user/456/'
+        params[:referring_akid] = '123.456.xyz'
       end
 
-      it 'posts a referring user if one is provided' do
+      it 'posts a referring akid' do
         post "/api/pages/#{page.id}/actions", params
         expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
       end

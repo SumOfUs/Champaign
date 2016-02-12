@@ -7,7 +7,7 @@ describe ManageAction do
   end
 
   let(:page) { create(:page) }
-  let(:data) { { email: 'bob@example.com', page_id: page.id } }
+  let(:data) { { email: 'bob@example.com', page_id: page.id, referring_akid: '123.456.xyz' } }
   let(:first_name) { { first_name: 'Bobtholomew' } }
   let(:extraneous) { { is_delta_shareholder: true, eye_color: 'hazel' } }
 
@@ -28,14 +28,16 @@ describe ManageAction do
     end
 
     it 'posts action to queue' do
-      expect(ChampaignQueue).to receive(:push).
-        with({
+      expected = {
         type: "action", params: {
-          page:   "#{page.slug}-petition",
-          email:  "bob@example.com",
-          page_id: page.id
+          page:           "#{page.slug}-petition",
+          email:          "bob@example.com",
+          page_id:        page.id,
+          referring_akid: '123.456.xyz'
         }
-      })
+      }
+
+      expect(ChampaignQueue).to receive(:push).with(expected)
 
       subject
     end
