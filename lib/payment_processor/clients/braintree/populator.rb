@@ -4,12 +4,10 @@ module PaymentProcessor
       class Populator
 
         def customer_options
-          email = @user[:email]
-          email = @customer.email if email.blank? && @customer.present?
           @customer_options ||= {
             first_name: @user[:first_name] || namesplitter.first_name,
             last_name: @user[:last_name] || namesplitter.last_name,
-            email: @user[:email] || email || ''
+            email: @user[:email] || ''
           }
         end
 

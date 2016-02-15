@@ -8,12 +8,12 @@ module Payment
       BraintreeTransactionBuilder.build(bt_result, page_id, member_id)
     end
 
-    def write_subscription(subscription_response, page_id, currency)
-      if subscription_response.success?
+    def write_subscription(subscription_result, page_id, currency)
+      if subscription_result.success?
         Payment::BraintreeSubscription.create({
-          subscription_id:        subscription_response.subscription.id,
-          amount:                 subscription_response.subscription.price,
-          merchant_account_id:    subscription_response.subscription.merchant_account_id,
+          subscription_id:        subscription_result.subscription.id,
+          amount:                 subscription_result.subscription.price,
+          merchant_account_id:    subscription_result.subscription.merchant_account_id,
           currency:               currency,
           page_id:                page_id
         })

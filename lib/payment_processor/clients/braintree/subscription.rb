@@ -80,10 +80,6 @@ module PaymentProcessor
           end
         end
 
-        def existing_customer
-          @existing_customer ||= Payment.customer(@user[:email])
-        end
-
         def subscription_options(payment_method_token)
           {
             payment_method_token: payment_method_token,
