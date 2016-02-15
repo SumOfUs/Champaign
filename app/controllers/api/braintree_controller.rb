@@ -7,9 +7,9 @@ class Api::BraintreeController < ApplicationController
 
   def transaction
     builder = if recurring?
-                client::Subscription.make_subscription(transaction_options)
+                client::Subscription.make_subscription(payment_options)
               else
-                client::Transaction.make_transaction(transaction_options)
+                client::Transaction.make_transaction(payment_options)
               end
     if builder.result.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
@@ -48,7 +48,7 @@ class Api::BraintreeController < ApplicationController
 
   private
 
-  def transaction_options
+  def payment_options
     {
       nonce: params[:payment_method_nonce],
       amount: params[:amount].to_f,
