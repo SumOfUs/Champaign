@@ -4,6 +4,8 @@ describe "Braintree API" do
 
   let(:page) { create(:page, title: 'Cash rules everything around me') }
   let(:form) { create(:form) }
+  let(:four_digits) { /[0-9]{4}/ }
+  let(:token_format) { /[a-z0-9]{1,36}/i }
   let(:user_params) do
     {
       form_id: form.id,
@@ -79,17 +81,17 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).not_to be_blank
+              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
               expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).not_to be_blank
+              expect( customer.reload.card_last_4 ).to match a_string_matching(four_digits)
               expect( customer.reload.card_last_4 ).not_to eq previous_last_4
             end
 
@@ -209,17 +211,16 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "updates Payment::BraintreeCustomer with new token and PYPL for last_4" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).not_to be_blank
+              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
               expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).not_to be_blank
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
@@ -291,8 +292,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "creates new Payment::BraintreeCustomer including token, customer_id, and last four for credit card" do
@@ -418,8 +419,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "creates a Payment::BraintreeCustomer with customer_id and PYPL for last 4" do
@@ -570,8 +571,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(/[a-z0-9]{1,36}/i)
-              expect(transaction.transaction_id).to match a_string_matching(/[a-z0-9]{1,36}/i)
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "creates a Subscription associated with the page storing relevant info" do
@@ -581,7 +582,7 @@ describe "Braintree API" do
               expect(subscription.amount).to eq amount
               expect(subscription.currency).to eq 'EUR'
               expect(subscription.merchant_account_id).to eq 'EUR'
-              expect(subscription.subscription_id).to match a_string_matching(/[a-z0-9]{1,36}/i)
+              expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
             end
 
@@ -589,9 +590,9 @@ describe "Braintree API" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).not_to be_blank
+              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
               expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).not_to be_blank
+              expect( customer.reload.card_last_4 ).to match a_string_matching(four_digits)
               expect( customer.reload.card_last_4 ).not_to eq previous_last_4
             end
 
@@ -637,7 +638,7 @@ describe "Braintree API" do
               subject
               expect(Braintree::Subscription).to have_received(:create).with({
                 price: amount,
-                payment_method_token: a_string_matching(/[a-z0-9]{1,36}/i),
+                payment_method_token: a_string_matching(token_format),
                 merchant_account_id: "EUR",
                 plan_id: 'EUR'
               })
@@ -721,17 +722,16 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "updates Payment::BraintreeCustomer with new token and PYPL for last_4" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).not_to be_blank
+              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
               expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).not_to be_blank
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
@@ -739,9 +739,10 @@ describe "Braintree API" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq 'PYPL'
-              expect(form_data['is_subscription']).to eq false
+              expect(form_data['is_subscription']).to eq true
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
+              expect(form_data['subscription_id']).to eq Payment::BraintreeSubscription.last.subscription_id
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
 
@@ -752,11 +753,11 @@ describe "Braintree API" do
               ))
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with subscription_id' do
               subject
-              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              subscription_id = Payment::BraintreeSubscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
 
           end
@@ -803,8 +804,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "creates new Payment::BraintreeCustomer including token, customer_id, and last four for credit card" do
@@ -930,8 +931,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "creates a Payment::BraintreeCustomer with customer_id and PYPL for last 4" do
