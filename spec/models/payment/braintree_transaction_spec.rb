@@ -24,6 +24,13 @@ describe Payment::BraintreeTransaction do
 
   it { is_expected.to_not respond_to :customer }
 
+  it 'handles money properly' do
+    create :payment_braintree_transaction, amount: 12.41
+    create :payment_braintree_transaction, amount: 10701.11
+    expect(Payment::BraintreeTransaction.all.map(&:amount).sum).to eq 10713.52
+    expect(Payment::BraintreeTransaction.last.amount.class).to eq BigDecimal
+  end
+
   describe '#status' do
 
     it 'can be set with a string' do

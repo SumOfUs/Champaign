@@ -71,7 +71,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -201,7 +201,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -283,7 +283,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -410,7 +410,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -700,7 +700,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
@@ -782,7 +782,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
@@ -909,7 +909,7 @@ describe "Braintree API" do
               transaction = Payment::BraintreeTransaction.last
 
               expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
+              expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'

@@ -236,17 +236,17 @@ ActiveRecord::Schema.define(version: 20160215164955) do
   create_table "payment_braintree_transactions", force: :cascade do |t|
     t.string   "transaction_id"
     t.string   "transaction_type"
-    t.string   "amount"
     t.datetime "transaction_created_at"
     t.string   "payment_method_token"
     t.string   "customer_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "merchant_account_id"
     t.string   "currency"
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
+    t.decimal  "amount",                  precision: 10, scale: 2
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
