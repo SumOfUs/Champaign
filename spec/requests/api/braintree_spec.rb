@@ -769,6 +769,7 @@ describe "Braintree API" do
 
             let(:amount) { 813.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
+
             subject do
               VCR.use_cassette("subscription success basic new customer") do
                 post api_braintree_transaction_path(page.id), params
@@ -781,13 +782,14 @@ describe "Braintree API" do
               expect(Action.last.member).to eq member
             end
 
-            it "stores amount, currency, card_num, is_subscription, and transaction_id in form_data on the Action" do
+            it "stores amount, currency, card_num, is_subscription, transaction_id, and subscription_id in form_data on the Action" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
-              expect(form_data['is_subscription']).to eq false
+              expect(form_data['is_subscription']).to eq true
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
+              expect(form_data['subscription_id']).to eq Payment::BraintreeSubscription.last.subscription_id
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
 
@@ -808,12 +810,23 @@ describe "Braintree API" do
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
-            it "creates new Payment::BraintreeCustomer including token, customer_id, and last four for credit card" do
+            it "creates a Subscription associated with the page storing relevant info" do
+              expect{ subject }.to change{ Payment::BraintreeSubscription.count }.by 1
+              subscription = Payment::BraintreeSubscription.last
+
+              expect(subscription.amount).to eq amount
+              expect(subscription.currency).to eq 'EUR'
+              expect(subscription.merchant_account_id).to eq 'EUR'
+              expect(subscription.subscription_id).to match a_string_matching(token_format)
+              expect(subscription.page).to eq page
+            end
+
+            it "creates a Payment::BraintreeCustomer with new token, customer_id, and last_4" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
-              expect( customer.customer_id ).not_to be_blank
-              expect( customer.card_last_4 ).to eq '1881'
-              expect( customer.card_vault_token ).not_to be_blank
+              expect(customer.customer_id).to match a_string_matching(token_format)
+              expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
 
             it "posts donation action to queue with key data" do
@@ -837,8 +850,8 @@ describe "Braintree API" do
                     email: "itsme@feelthebern.org",
                     country: "US",
                     postal: "11225",
-                    source: 'fb',
                     address1: '25 Elm Drive',
+                    source: 'fb',
                     first_name: 'Bernie',
                     last_name: 'Sanders'
                   },
@@ -853,30 +866,41 @@ describe "Braintree API" do
               expect{ subject }.to change{ page.reload.action_count }.by 1
             end
 
-            it "passes the params to braintree" do
+            it "passes the subscription params to braintree" do
               allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
               expect(Braintree::Subscription).to have_received(:create).with({
-                amount: amount,
-                payment_method_nonce: "fake-valid-nonce",
+                price: amount,
+                payment_method_token: a_string_matching(token_format),
                 merchant_account_id: "EUR",
-                options: {
-                  submit_for_settlement: true,
-                  store_in_vault_on_success: true
-                },
-                customer: {
-                  first_name: "Bernie",
-                  last_name: "Sanders",
-                  email: "itsme@feelthebern.org"
-                },
-                billing: {
-                  first_name: "Bernie",
-                  last_name: "Sanders",
-                  street_address: "25 Elm Drive",
-                  postal_code: '11225',
-                  country_code_alpha2: 'US'
+                plan_id: 'EUR'
+              })
+            end
+
+            it "passes the customer params and nonce to braintree" do
+              allow(Braintree::Customer).to receive(:create).and_call_original
+              subject
+              expect(Braintree::Customer).to have_received(:create).with({
+                first_name: "Bernie",
+                last_name: "Sanders",
+                payment_method_nonce: 'fake-valid-nonce',
+                email: "itsme@feelthebern.org",
+                credit_card: {
+                  billing_address: {
+                    first_name: "Bernie",
+                    last_name: "Sanders",
+                    street_address: "25 Elm Drive",
+                    postal_code: '11225',
+                    country_code_alpha2: 'US'
+                  }
                 }
               })
+            end
+
+            it 'does not create payment method separately' do
+              allow(Braintree::PaymentMethod).to receive(:create).and_call_original
+              subject
+              expect(Braintree::PaymentMethod).not_to have_received(:create)
             end
 
             it "leaves a cookie with the member_id" do
@@ -899,11 +923,11 @@ describe "Braintree API" do
               expect(member.postal).to eq '11225'
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with subscription_id' do
               subject
-              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              subscription_id = Payment::BraintreeSubscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
           end
 
@@ -938,18 +962,19 @@ describe "Braintree API" do
             it "creates a Payment::BraintreeCustomer with customer_id and PYPL for last 4" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
-              expect(customer.customer_id).not_to be_blank
-              expect(customer.card_last_4).to eq 'PYPL'
-              expect( customer.card_vault_token ).not_to be_blank
+              expect(customer.customer_id).to match a_string_matching(token_format)
+              expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
             it "stores PYPL as card_num on the Action" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq 'PYPL'
-              expect(form_data['is_subscription']).to eq false
+              expect(form_data['is_subscription']).to eq true
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
+              expect(form_data['subscription_id']).to eq Payment::BraintreeSubscription.last.subscription_id
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
             end
 
@@ -960,12 +985,13 @@ describe "Braintree API" do
               ))
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with subscription_id' do
               subject
-              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              subscription_id = Payment::BraintreeSubscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
+
           end
         end
       end
@@ -1011,11 +1037,11 @@ describe "Braintree API" do
               expect(member.postal).to eq '11225'
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with subscription_id' do
               subject
-              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              subscription_id = Payment::BraintreeSubscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
           end
         end
