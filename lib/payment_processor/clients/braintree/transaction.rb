@@ -1,10 +1,11 @@
 module PaymentProcessor
   module Clients
     module Braintree
-      class Transaction
+      class Transaction < Populator
         # = Braintree::Transaction
         #
-        # Wrapper around Braintree's Ruby SDK.
+        # Wrapper around Braintree's Ruby SDK. This class essentially just stuffs parameters
+        # into the keys that are expected by Braintree's class.
         #
         # == Usage
         #
@@ -14,27 +15,33 @@ module PaymentProcessor
         #
         # * +:nonce+    - Braintree token that references a payment method provided by the client (required)
         # * +:amount+   - Billing amount (required)
+        # * +:currency+ - Billing currency (required)
         # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
         # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
-        #
-        def self.make_transaction(nonce:, amount:, currency:, user:, customer: nil)
-          new(nonce, amount, currency, user, customer).sale
+        attr_reader :result, :action
+
+        def self.make_transaction(nonce:, amount:, currency:, user:, page_id:)
+          builder = new(nonce, amount, currency, user, page_id)
+          builder.transaction
+          builder
         end
 
-        def initialize(nonce, amount, currency, user, customer)
+        def initialize(nonce, amount, currency, user, page_id)
           @amount = amount
           @nonce = nonce
           @user = user
           @currency = currency
-          @customer = customer
-        end
-
-        def sale
-          transaction
+          @page_id = page_id
         end
 
         def transaction
-          @transaction ||= ::Braintree::Transaction.sale(options)
+          @result = ::Braintree::Transaction.sale(options)
+          if @result.success?
+            @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: result, is_subscription: false)
+            Payment.write_transaction(result, @page_id, @action.member_id)
+          else
+            Payment.write_transaction(result, @page_id, nil)
+          end
         end
 
         private
@@ -54,43 +61,8 @@ module PaymentProcessor
             customer: customer_options,
             billing: billing_options
           }.tap do |options|
-            options[:customer_id] = @customer.customer_id if @customer
+            options[:customer_id] = existing_customer.customer_id if existing_customer.present?
           end
-        end
-
-        def customer_options
-          email = @user[:email]
-          email = @customer.email if email.blank? && @customer.present?
-          @customer_options ||= {
-            first_name: @user[:first_name] || namesplitter.first_name,
-            last_name: @user[:last_name] || namesplitter.last_name,
-            email: @user[:email] || email || ''
-          }
-        end
-
-        def billing_options
-          @billing_options ||= {
-            first_name: customer_options[:first_name],
-            last_name: customer_options[:last_name]
-          }.tap do |options|
-            populate( options, :region, [:province, :state, :region])
-            populate( options, :company, [:company])
-            populate( options, :locality, [:city, :locality])
-            populate( options, :postal_code, [:zip, :zip_code, :postal, :postal_code])
-            populate( options, :street_address, [:address, :address1, :street_address])
-            populate( options, :extended_address, [:apartment, :address2, :extended_address])
-            populate( options, :country_code_alpha2, [:country, :country_code, :country_code_alpha2])
-          end
-        end
-
-        def populate(options, field, pick_from)
-          pick_from.each do |key|
-            options[field] = @user[key] if @user[key].present?
-          end
-        end
-
-        def namesplitter
-          @splitter ||= NameSplitter.new(full_name: @user[:full_name] || @user[:name])
         end
       end
     end

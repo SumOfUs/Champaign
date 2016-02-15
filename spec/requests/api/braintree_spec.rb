@@ -546,31 +546,31 @@ describe "Braintree API" do
               expect(Action.last.member).to eq member
             end
 
-            it "stores amount, currency, card_num, is_subscription, and transaction_id in form_data on the Action" do
+            it "stores amount, currency, card_num, is_subscription, and subscription_id in form_data on the Action" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
-              expect(form_data['is_subscription']).to eq false
+              expect(form_data['is_subscription']).to eq true
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
-              expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
+              expect(form_data['subscription_id']).to eq Payment::BraintreeSubscription.last.subscription_id
+              expect(form_data['subscription_id']).not_to be_blank
             end
 
-            it "creates a Transaction associated with the page storing relevant info" do
-              expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
-              transaction = Payment::BraintreeTransaction.last
+            it 'does not create a transaction' do
+              # this spec should change and we should create the transaction 
+              expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 0
+            end
 
-              expect(transaction.page).to eq page
-              expect(transaction.amount).to eq amount.to_s
-              expect(transaction.currency).to eq 'EUR'
-              expect(transaction.merchant_account_id).to eq 'EUR'
-              expect(transaction.payment_instrument_type).to eq 'credit_card'
-              expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.customer_id).to eq customer.customer_id
-              expect(transaction.status).to eq 'success'
+            it "creates a Subscription associated with the page storing relevant info" do
+              expect{ subject }.to change{ Payment::BraintreeSubscription.count }.by 1
+              subscription = Payment::BraintreeSubscription.last
 
-              expect(transaction.payment_method_token).not_to be_blank
-              expect(transaction.transaction_id).not_to be_blank
+              expect(subscription.page).to eq page
+              # TODO: change `price` column to `amount` for consistency, include currency
+              expect(subscription.price).to eq amount.to_s
+              expect(subscription.merchant_account_id).to eq 'EUR'
+              expect(subscription.payment_method_token).not_to be_blank
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
@@ -620,30 +620,40 @@ describe "Braintree API" do
               expect{ subject }.to change{ page.reload.action_count }.by 1
             end
 
-            it "passes the params to braintree" do
-              allow(Braintree::Transaction).to receive(:sale).and_call_original
+            it "passes the subscription params to braintree" do
+              allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
-              expect(Braintree::Transaction).to have_received(:sale).with({
-                amount: amount,
-                payment_method_nonce: "fake-valid-nonce",
+              expect(Braintree::Subscription).to have_received(:create).with({
+                price: amount,
+                payment_method_token: a_string_matching(/[a-z0-9]{1,36}/i),
                 merchant_account_id: "EUR",
-                options: {
-                  submit_for_settlement: true,
-                  store_in_vault_on_success: true
-                },
-                customer: {
-                  first_name: "Bernie",
-                  last_name: "Sanders",
-                  email: "itsme@feelthebern.org"
-                },
-                billing: {
+                plan_id: 'EUR'
+              })
+            end
+
+            it "passes the customer params to braintree" do
+              allow(Braintree::Customer).to receive(:update).and_call_original
+              subject
+              expect(Braintree::Customer).to have_received(:update).with(customer.customer_id, {
+                first_name: "Bernie",
+                last_name: "Sanders",
+                email: "itsme@feelthebern.org"
+              })
+            end
+
+            it 'passes the payment params to braintree' do
+              allow(Braintree::PaymentMethod).to receive(:create).and_call_original
+              subject
+              expect(Braintree::PaymentMethod).to have_received(:create).with({
+                payment_method_nonce: 'fake-valid-nonce',
+                customer_id: customer.customer_id,
+                billing_address: {
                   first_name: "Bernie",
                   last_name: "Sanders",
                   street_address: "25 Elm Drive",
                   postal_code: '11225',
                   country_code_alpha2: 'US'
-                },
-                customer_id: customer.customer_id
+                }
               })
             end
 
@@ -667,11 +677,11 @@ describe "Braintree API" do
               expect(member.postal).to eq '11225'
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with subscription_id' do
               subject
-              transaction_id = Payment::BraintreeTransaction.last.transaction_id
+              subscription_id = Payment::BraintreeSubscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
           end
 
@@ -831,9 +841,9 @@ describe "Braintree API" do
             end
 
             it "passes the params to braintree" do
-              allow(Braintree::Transaction).to receive(:sale).and_call_original
+              allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
-              expect(Braintree::Transaction).to have_received(:sale).with({
+              expect(Braintree::Subscription).to have_received(:create).with({
                 amount: amount,
                 payment_method_nonce: "fake-valid-nonce",
                 merchant_account_id: "EUR",

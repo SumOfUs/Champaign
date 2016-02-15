@@ -4,16 +4,22 @@ module Payment
       'payment_'
     end
 
-    def write_successful_transaction(action:, transaction_response:)
-      BraintreeTransactionBuilder.build(action, transaction_response)
+    def write_transaction(transaction_response, page_id, member_id)
+      BraintreeTransactionBuilder.build(transaction_response, page_id, member_id)
     end
 
-    def write_unsuccessful_transaction(action:, transaction_response:)
-      # TODO: Implement
+    def write_subscription(subscription_response)
+      if subscription_response.success?
+        Payment::BraintreeSubscription.create({
+          subscription_id:        subscription_response.subscription.id,
+          price:                  subscription_response.subscription.price,
+          merchant_account_id:    subscription_response.subscription.merchant_account_id
+        })
+      end
     end
 
-    def write_subscription(subscription:)
-      BraintreeSubscriptionBuilder.build(subscription)
+    def write_customer(transaction_response, page_id, member_id, existing_customer)
+      BraintreeCustomerBuilder.build(transaction_response, page_id, member_id, existing_customer)
     end
 
     def customer(email)
@@ -22,29 +28,48 @@ module Payment
     end
   end
 
-  class BraintreeSubscriptionBuilder
-
-    def self.build(response)
-      new(response).build
+  class BraintreeCustomerBuilder
+    def self.build(bt_customer, bt_payment_method, member_id, existing_customer)
+      new(bt_customer, bt_payment_method, member_id, existing_customer).build
     end
 
-    def initialize(response)
-      @response = response
-      @subscription = response.subscription
+    def initialize(bt_customer, bt_payment_method, member_id, existing_customer)
+      @bt_customer = bt_customer
+      @bt_payment_method = bt_payment_method
+      @existing_customer = existing_customer
+      @member_id = member_id
     end
 
     def build
-      if @response.success?
-        ::Payment::BraintreeSubscription.create(attrs)
+      if @existing_customer.present?
+        @existing_customer.update(customer_attrs)
+      else
+        Payment::BraintreeCustomer.create(customer_attrs)
       end
     end
 
-    def attrs
-     {
-        subscription_id:        @subscription.id,
-        price:                  @subscription.price,
-        merchant_account_id:    @subscription.merchant_account_id
-      }
+    def customer_attrs
+      card_attrs.merge({
+        card_vault_token: @bt_payment_method.token,
+        customer_id:      @bt_customer.id,
+        member_id:        @member_id
+      })
+    end
+
+    def card_attrs
+      if @bt_payment_method.class == Braintree::CreditCard
+        {
+          card_type:        @bt_payment_method.card_type,
+          card_bin:         @bt_payment_method.bin,
+          cardholder_name:  @bt_payment_method.cardholder_name,
+          card_debit:       @bt_payment_method.debit,
+          card_last_4:      @bt_payment_method.last_4
+        }
+      else
+        {
+          card_last_4: 'PYPL' # for now, assume PayPal if not CC
+        }
+      end
     end
   end
 
@@ -59,36 +84,33 @@ module Payment
     # * +:transaction_response+   - An Braintree::Transaction response object (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
     #
 
-    def self.build(action, transaction_response)
-      new(action, transaction_response).build
+    def self.build(transaction_response, page_id, member_id)
+      new(transaction_response, page_id, member_id).build
     end
 
-    def initialize(action, transaction_response)
-      @action = action
+    def initialize(transaction_response, page_id, member_id)
       @transaction_response = transaction_response
+      @page_id = page_id
+      @member_id = member_id
     end
-
 
     def build
-      if @transaction_response.success?
-        ::Payment::BraintreeTransaction.create(transaction_attrs)
+      ::Payment::BraintreeTransaction.create(transaction_attrs)
+      return unless @transaction_response.success?
 
-        if locally_stored_customer
-          locally_stored_customer.update(customer_attrs)
-        else
-          store_braintree_customer_locally
-        end
+      # it would be good to DRY this up and use CustomerBuilder, but we don't
+      # have a Braintre::PaymentMethod to pass it :(
+      if existing_customer.present?
+        existing_customer.update(customer_attrs)
+      else
+        Payment::BraintreeCustomer.create(customer_attrs)
       end
     end
 
     private
 
-    def locally_stored_customer
-      @locally_stored_customer ||= Payment.customer(transaction.customer_details.email)
-    end
-
-    def store_braintree_customer_locally
-      Payment::BraintreeCustomer.create(customer_attrs)
+    def existing_customer
+      @existing_customer ||= Payment.customer(transaction.customer_details.email)
     end
 
     def transaction_attrs
@@ -103,7 +125,7 @@ module Payment
         customer_id:             transaction.customer_details.id,
         status:                  status,
         payment_method_token:    payment_method_token,
-        page:                    @action.page
+        page_id:                 @page_id
       }
     end
 
@@ -116,7 +138,7 @@ module Payment
         card_last_4:      last_4,
         card_vault_token: payment_method_token,
         customer_id:      transaction.customer_details.id,
-        member:           @action.member
+        member_id:        @member_id
       }
     end
 
