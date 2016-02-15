@@ -12,7 +12,7 @@ module Payment
       if subscription_response.success?
         Payment::BraintreeSubscription.create({
           subscription_id:        subscription_response.subscription.id,
-          price:                  subscription_response.subscription.price,
+          amount:                 subscription_response.subscription.price,
           merchant_account_id:    subscription_response.subscription.merchant_account_id
         })
       end

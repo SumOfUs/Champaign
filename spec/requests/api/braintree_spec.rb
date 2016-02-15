@@ -567,8 +567,7 @@ describe "Braintree API" do
               subscription = Payment::BraintreeSubscription.last
 
               expect(subscription.page).to eq page
-              # TODO: change `price` column to `amount` for consistency, include currency
-              expect(subscription.price).to eq amount.to_s
+              expect(subscription.amount).to eq amount
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.payment_method_token).not_to be_blank
             end
