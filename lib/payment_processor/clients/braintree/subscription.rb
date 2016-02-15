@@ -58,7 +58,8 @@ module PaymentProcessor
             Payment.write_customer(customer_result.customer, customer_result.customer.payment_methods.first, @action.member_id, nil)
           end
 
-          Payment.write_subscription(subscription_result)
+          Payment.write_transaction(subscription_result, @page_id, @action.member_id)
+          Payment.write_subscription(subscription_result, @page_id, @currency)
         end
 
         private

@@ -4,22 +4,24 @@ module Payment
       'payment_'
     end
 
-    def write_transaction(transaction_response, page_id, member_id)
-      BraintreeTransactionBuilder.build(transaction_response, page_id, member_id)
+    def write_transaction(bt_result, page_id, member_id)
+      BraintreeTransactionBuilder.build(bt_result, page_id, member_id)
     end
 
-    def write_subscription(subscription_response)
+    def write_subscription(subscription_response, page_id, currency)
       if subscription_response.success?
         Payment::BraintreeSubscription.create({
           subscription_id:        subscription_response.subscription.id,
           amount:                 subscription_response.subscription.price,
-          merchant_account_id:    subscription_response.subscription.merchant_account_id
+          merchant_account_id:    subscription_response.subscription.merchant_account_id,
+          currency:               currency,
+          page_id:                page_id
         })
       end
     end
 
-    def write_customer(transaction_response, page_id, member_id, existing_customer)
-      BraintreeCustomerBuilder.build(transaction_response, page_id, member_id, existing_customer)
+    def write_customer(bt_customer, bt_payment_method, member_id, existing_customer)
+      BraintreeCustomerBuilder.build(bt_customer, bt_payment_method, member_id, existing_customer)
     end
 
     def customer(email)
@@ -80,26 +82,27 @@ module Payment
     #
     # === Options
     #
-    # * +:action+                 - The ActiveRecord model of the corresponding action.
-    # * +:transaction_response+   - An Braintree::Transaction response object (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    # * +:action+      - The ActiveRecord model of the corresponding action.
+    # * +:bt_result+   - An Braintree::Transaction response object or a Braintree::Subscription response
+    #                    (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
     #
 
-    def self.build(transaction_response, page_id, member_id)
-      new(transaction_response, page_id, member_id).build
+    def self.build(bt_result, page_id, member_id)
+      new(bt_result, page_id, member_id).build
     end
 
-    def initialize(transaction_response, page_id, member_id)
-      @transaction_response = transaction_response
+    def initialize(bt_result, page_id, member_id)
+      @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
     end
 
     def build
       ::Payment::BraintreeTransaction.create(transaction_attrs)
-      return unless @transaction_response.success?
+      return unless @bt_result.success?
 
       # it would be good to DRY this up and use CustomerBuilder, but we don't
-      # have a Braintre::PaymentMethod to pass it :(
+      # have a Braintree::PaymentMethod to pass it :(
       if existing_customer.present?
         existing_customer.update(customer_attrs)
       else
@@ -143,7 +146,7 @@ module Payment
     end
 
     def transaction
-      @transaction_response.transaction
+      @bt_result.transaction || @bt_result.subscription.transactions.first
     end
 
     def card
@@ -151,7 +154,7 @@ module Payment
     end
 
     def status
-      if @transaction_response.success?
+      if @bt_result.success?
         Payment::BraintreeTransaction.statuses[:success]
       else
         Payment::BraintreeTransaction.statuses[:failure]

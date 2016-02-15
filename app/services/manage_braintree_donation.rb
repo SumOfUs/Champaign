@@ -22,6 +22,7 @@ class ManageBraintreeDonation
     @params[:amount] = transaction.amount
     @params[:currency] = transaction.currency_iso_code
     @params[:transaction_id] = transaction.id
+    @params[:subscription_id] = subscription_id if subscription_id.present?
     build_action
   end
 
@@ -85,15 +86,16 @@ class ManageBraintreeDonation
   end
 
   def transaction
-    return @transaction if @transaction
+    @transaction ||= 
+      if @braintree_result.transaction.present?
+        @braintree_result.transaction
+      elsif @braintree_result.subscription.transactions.present?
+        @braintree_result.subscription.transactions.last
+      end
+  end
 
-    if @braintree_result.transaction.present?
-      # This is a one-off donation, so we can just use the built in transaction and send the data to the queue.
-      @transaction = @braintree_result.transaction
-    elsif @braintree_result.subscription.transactions.present?
-      @transaction = @braintree_result.subscription.transactions.last
-    end
-    @transaction
+  def subscription_id
+    @braintree_result.subscription.try(:id)
   end
 
   def card_num
