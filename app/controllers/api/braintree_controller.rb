@@ -11,6 +11,7 @@ class Api::BraintreeController < ApplicationController
               else
                 client::Transaction.make_transaction(payment_options)
               end
+
     if builder.result.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
       id = recurring? ? { subscription_id: builder.result.subscription.id } : { transaction_id: builder.result.transaction.id }
