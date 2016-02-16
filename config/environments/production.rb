@@ -22,16 +22,15 @@ Rails.application.configure do
   #     entitystore: 'redis://redis:6379/1/entitystore'
   # }
 
-  # Disable serving static files from the `/public` folder by default since
-  # Apache or NGINX already handles this.
+  # Whether the application server should serve static files depends on ENV
   config.serve_static_files =  Settings.rails_serve_static_assets || false
+
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
-  # AssetSync with Rails 4.0.3+ doesn't work without this enabled!
+  # Do fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = Settings.compile_static || false
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
@@ -49,8 +48,19 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = :info
+  config.lograge.enabled = true
 
+  config.lograge.custom_options = lambda do |event|
+    params = event.payload[:params].reject do |k|
+      ['controller', 'action'].include? k
+    end
+    log_hash = {"params"=> params, "time"=>event.time}
+    if not event.payload[:exception].blank?
+      log_hash["exception"]=event.payload[:exception]
+    end
+    log_hash
+  end
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
