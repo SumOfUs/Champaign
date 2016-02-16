@@ -4,8 +4,13 @@ module PaymentProcessor
       class Subscription < Populator
         # = Braintree::Subscription
         #
-        # Wrapper around Braintree's Ruby SDK. This class interfaces between the BT SDK
-        # and our local data format and persistence.
+        # Wrapper around Braintree's Ruby SDK. This class deals with the multi-step process
+        # of creating a Subscription. First, we update the Customer on BT, or update the existing
+        # one if it already exists. If the Customer is new, we pass the payment nonce at that
+        # stage, but if it exists we make a separate call to PaymentMethod.create because
+        # we otherwise can't tell which of the Customer's payment methods is the current one.
+        # We then take the payment information and use it to create a subscription. Finally,
+        # we record an Action, a Transaction, a Customer, and a Subscription in our database.
         #
         # == Usage
         #
@@ -34,35 +39,52 @@ module PaymentProcessor
           @page_id = page_id
         end
 
+        # the `catch` is used because if any of the BT requests fails, we want to stop
         def subscribe
-          customer_result = update_or_create_customer_on_braintree
-          (@result = customer_result and return) unless customer_result.success?
+          catch :bt_rejection do
+            customer_result = update_or_create_customer_on_braintree
+            payment_method = create_or_retrieve_payment_method_on_braintree(customer_result)
+            subscription_result = create_subscription_on_braintree(payment_method)
+            record_in_local_database(payment_method, customer_result, subscription_result)
+          end
+        end
 
+        private
+
+        # if the customer was updated, we have to create the payment method separately,
+        # because otherwise, we don't know which if the customer's payment methods to use
+        def create_or_retrieve_payment_method_on_braintree(customer_result)
           if existing_customer.present?
             payment_method_result = ::Braintree::PaymentMethod.create(payment_method_options)
-            (@result = payment_method_result and return) unless payment_method_result.success?
-            payment_method_token = payment_method_result.payment_method.token
+            break_if_rejected(payment_method_result)
+            return payment_method_result.payment_method
           else
-            payment_method_token = customer_result.customer.payment_methods.first.token
+            return customer_result.customer.payment_methods.first
           end
+        end
 
-          subscription_result = ::Braintree::Subscription.create(subscription_options(payment_method_token))
-          @result = subscription_result
-          return unless subscription_result.success?
+        def create_subscription_on_braintree(payment_method)
+          subscription_result = ::Braintree::Subscription.create(subscription_options(payment_method.token))
+          break_if_rejected(subscription_result)
+          @result = subscription_result # make the final success result accessible
+        end
+
+        def record_in_local_database(payment_method, customer_result, subscription_result)
           @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true)
 
-          if existing_customer.present?
-            Payment.write_customer(customer_result.customer, payment_method_result.payment_method, @action.member_id, existing_customer)
-          else
-            # we can use payment_method.first here because we just created the customer
-            Payment.write_customer(customer_result.customer, customer_result.customer.payment_methods.first, @action.member_id, nil)
-          end
-
+          Payment.write_customer(customer_result.customer, payment_method, @action.member_id, existing_customer)
           Payment.write_transaction(subscription_result, @page_id, @action.member_id)
           Payment.write_subscription(subscription_result, @page_id, @currency)
         end
 
-        private
+        # we make 2 or 3 requests to braintree. if any of them fails, set it as the result
+        # and stop trying to finish this subscription
+        def break_if_rejected(result)
+          if !result.success?
+            @result = result
+            throw :bt_rejection
+          end
+        end
 
         def payment_method_options
           {
@@ -73,11 +95,13 @@ module PaymentProcessor
         end
 
         def update_or_create_customer_on_braintree
-          if existing_customer.present?
-            ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
-          else
-            ::Braintree::Customer.create(create_customer_options)
-          end
+          result =  if existing_customer.present?
+                      ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
+                    else
+                      ::Braintree::Customer.create(create_customer_options)
+                    end
+          break_if_rejected(result)
+          result
         end
 
         def subscription_options(payment_method_token)
