@@ -6,65 +6,232 @@ module PaymentProcessor
       describe Subscription do
         describe '.make_subscription' do
 
-          before do
-            allow(MerchantAccountSelector).to   receive(:for_currency){ 'merchant_123' }
-            allow(SubscriptionPlanSelector).to  receive(:for_currency){ 'plan_123' }
-            allow(::Braintree::Subscription).to receive(:create){ subscription }
-          end
-
-          let(:store) { nil }
-          let(:subscription) { double }
-
           let(:required_options) do
             {
-              price: 100,
-              currency: 'USD',
-              payment_method_token: '12ax',
-              store: store
+              amount: '437.14',
+              currency: 'AUD',
+              nonce: '12ax',
+              page_id: '12',
+              user: {
+                email: 'bob.loblaw@law-blog.org',
+                name: 'Bob Loblaw',
+                country: 'AU'
+              }
             }
           end
-
-          def options_without(key)
-            required_options.delete(key)
-            required_options
-          end
+          let(:action) { instance_double('Action', member_id: 654) }
+          let(:customer_token) { 'asdfghjkl' }
+          let(:payment_method_token) { 'qwertyuiop' }
+          let(:customer_success) { instance_double('Braintree::SuccessResult', success?: true, customer: double(payment_methods: [double(token: customer_token)])) }
+          let(:payment_success) { instance_double('Braintree::SuccessResult', success?: true, payment_method: double(token: payment_method_token)) }
+          let(:subscription_success) { instance_double('Braintree::SuccessResult', success?: true) }
+          let(:failure) { instance_double('Braintree::ErrorResult', success?: false) }
 
           subject { described_class }
 
-          [:payment_method_token, :price, :currency].each do |keyword|
-            it "requires a #{keyword}" do
-              expect{
-                subject.make_subscription(
-                  options_without(keyword)
-                )
-              }.to raise_error(ArgumentError, "missing keyword: #{keyword}")
+          before :each do
+            allow(Payment).to receive(:write_customer)
+            allow(Payment).to receive(:write_transaction)
+            allow(Payment).to receive(:write_subscription)
+            allow(::Braintree::Customer).to receive(:update)
+            allow(::Braintree::Customer).to receive(:create)
+            allow(::Braintree::PaymentMethod).to receive(:create)
+            allow(::Braintree::Subscription).to receive(:create)
+            allow(ManageBraintreeDonation).to receive(:create).and_return(action)
+            allow(SubscriptionPlanSelector).to receive(:for_currency).and_return('AUD')
+            allow(MerchantAccountSelector).to receive(:for_currency).and_return('AUD')
+          end
+
+          describe 'parameters' do
+            [:nonce, :amount, :currency, :user, :page_id].each do |keyword|
+              it "requires a #{keyword}" do
+                expect{
+                  required_options.delete(keyword)
+                  subject.make_subscription(**required_options)
+                }.to raise_error(ArgumentError, "missing keyword: #{keyword}")
+              end
             end
           end
 
-          it 'creates braintree subscription' do
-            expected_arguments = {
-              price:                100,
-              merchant_account_id:  'merchant_123',
-              plan_id:              'plan_123',
-              payment_method_token: '12ax'
-            }
+          describe 'customer exists' do
 
-            expect(::Braintree::Subscription).to receive(:create).with(expected_arguments)
+            let!(:customer) { create :payment_braintree_customer, email: required_options[:user][:email] }
+            let(:customer_options) do
+              {
+                first_name: 'Bob',
+                last_name: 'Loblaw',
+                email: 'bob.loblaw@law-blog.org'
+              }
+            end
+            let(:payment_method_options) do
+              {
+                payment_method_nonce: required_options[:nonce],
+                customer_id: customer.customer_id,
+                billing_address: {
+                  first_name: 'Bob',
+                  last_name: 'Loblaw',
+                  country_code_alpha2: 'AU'
+                }
+              }
+            end
+            let(:subscription_options) do
+              {
+                payment_method_token: payment_method_token,
+                plan_id: 'AUD',
+                price: '437.14',
+                merchant_account_id: 'AUD'
+              }
+            end
 
-            subject.make_subscription(required_options)
+            describe 'but it fails to update' do
+
+              before :each do
+                allow(::Braintree::Customer).to receive(:update).and_return(failure)
+                @builder = subject.make_subscription(required_options)
+              end
+
+              it 'passes the right params to Braintree::Customer.update' do
+                expect(::Braintree::Customer).to have_received(:update).with(customer.customer_id, customer_options)
+              end
+
+              it 'does not call any other Braintree methods' do
+                expect(::Braintree::Customer).not_to have_received(:create)
+                expect(::Braintree::PaymentMethod).not_to have_received(:create)
+                expect(::Braintree::Subscription).not_to have_received(:create)
+              end
+
+              it "has '#result' as the error result from Braintree::Customer.update" do
+                expect(@builder.result).to eq failure
+              end
+
+              it "has '#action' as nil" do
+                expect(@builder.action).to be_nil
+              end
+
+              it 'does not record anything' do
+                expect(Payment).not_to have_received(:write_customer)
+                expect(Payment).not_to have_received(:write_transaction)
+                expect(Payment).not_to have_received(:write_subscription)
+              end
+            end
+
+            describe 'and is updated successfully' do
+
+              before :each do
+                allow(::Braintree::Customer).to receive(:update).and_return(customer_success)
+              end
+
+              describe 'but it fails to create payment method' do
+
+                before :each do
+                  allow(::Braintree::PaymentMethod).to receive(:create).and_return(failure)
+                  @builder = subject.make_subscription(required_options)
+                end
+
+                it 'passes the right params to Braintree::PaymentMethod.create' do
+                  expect(::Braintree::PaymentMethod).to have_received(:create).with(payment_method_options)
+                end
+
+                it 'does not call Braintree::Subscription.create' do
+                  expect(::Braintree::Subscription).not_to have_received(:create)
+                end
+
+                it "has '#result' as the error result from Braintree::Customer.update" do
+                  expect(@builder.result).to eq failure
+                end
+
+                it "has '#action' as nil" do
+                  expect(@builder.action).to be_nil
+                end
+
+                it 'does not record anything' do
+                  expect(Payment).not_to have_received(:write_customer)
+                  expect(Payment).not_to have_received(:write_transaction)
+                  expect(Payment).not_to have_received(:write_subscription)
+                end
+              end
+
+              describe 'and payment method is created successfully' do
+
+                before :each do
+                  allow(::Braintree::PaymentMethod).to receive(:create).and_return(payment_success)
+                end
+
+                describe 'but it fails to create subscription' do
+
+                  before :each do
+                    allow(::Braintree::Subscription).to receive(:create).and_return(failure)
+                    @builder = subject.make_subscription(required_options)
+                  end
+
+                  it 'passes the right params to Braintree::Subscription.create' do
+                    expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
+                  end
+
+                  it "has '#result' as the error result from Braintree::Subscription.create" do
+                    expect(@builder.result).to eq failure
+                  end
+
+                  it "has '#action' as nil" do
+                    expect(@builder.action).to be_nil
+                  end
+
+                  it 'does not record anything' do
+                    expect(Payment).not_to have_received(:write_customer)
+                    expect(Payment).not_to have_received(:write_transaction)
+                    expect(Payment).not_to have_received(:write_subscription)
+                  end
+                end
+
+                describe 'and subscription is successfully created' do
+
+                  before :each do
+                    allow(::Braintree::Subscription).to receive(:create).and_return(subscription_success)
+                    @builder = subject.make_subscription(required_options)
+                  end
+
+                  it 'passes the right params to Braintree::Customer.update' do
+                    expect(::Braintree::Customer).to have_received(:update).with(customer.customer_id, customer_options)
+                  end
+
+                  it 'passes the right params to Braintree::PaymentMethod.create' do
+                    expect(::Braintree::PaymentMethod).to have_received(:create).with(payment_method_options)
+                  end
+
+                  it 'passes the right params to Braintree::Subscription.create' do
+                    expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
+                  end
+
+                  it "has '#result' as the success result from Braintree::Subscription.create" do
+                    expect(@builder.result).to eq subscription_success
+                  end
+
+                  it "has '#action' as the result from ManageBraintreeDonation.create" do
+                    expect(@builder.action).to eq action
+                  end
+
+                  it 'calls Payment.write_customer with the correct payment method' do
+                    expect(Payment).to have_received(:write_customer).with(
+                      customer_success.customer, payment_success.payment_method, action.member_id, customer
+                    )
+                  end
+
+                  it 'calls Payment.write_transaction with the right params' do
+                    expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id)
+                  end
+
+                  it 'calls Payment.write_subscription with the right params' do
+                    expect(Payment).to have_received(:write_subscription).with(subscription_success, '12', 'AUD')
+                  end
+                end
+              end
+            end
           end
 
-          context 'with store' do
-            let(:store) { Payment }
+          describe 'customer does not exist' do
 
-            before do
-              allow(Payment).to receive(:write_subscription)
-            end
+            it 'NEEDS TO BE IMPLEMENTED'
 
-            it 'calls write_subscription on store' do
-              expect(Payment).to receive(:write_subscription).with({subscription: subscription})
-              subject.make_subscription(required_options)
-            end
           end
         end
       end
