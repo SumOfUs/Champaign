@@ -1,4 +1,4 @@
-const setupOnce = require('setup_once');
+let setupOnce = require('setup_once');
 
 (function(){
 
@@ -128,6 +128,7 @@ const setupOnce = require('setup_once');
         this.$(`option[value="${id}"]`).remove()
       }
     },
+
 
   });
 
