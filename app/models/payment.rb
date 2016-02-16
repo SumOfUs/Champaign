@@ -85,8 +85,9 @@ module Payment
     # === Options
     #
     # * +:action+      - The ActiveRecord model of the corresponding action.
-    # * +:bt_result+   - An Braintree::Transaction response object or a Braintree::Subscription response
+    # * +:bt_result+   - A Braintree::Transaction response object or a Braintree::Subscription response
     #                    (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    #
     #
 
     def self.build(bt_result, page_id, member_id)
@@ -126,6 +127,7 @@ module Payment
         amount:                  transaction.amount,
         transaction_created_at:  transaction.created_at,
         merchant_account_id:     transaction.merchant_account_id,
+        processor_response_code: transaction.processor_response_code,
         currency:                transaction.currency_iso_code,
         customer_id:             transaction.customer_details.id,
         status:                  status,
