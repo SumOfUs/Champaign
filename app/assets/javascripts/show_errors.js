@@ -10,7 +10,7 @@ let ErrorDisplay = {
     }
     // use the relevant form if the event was a form submission.
     // otherwise, search in all the forms on the page.
-    let $form = ($(e.target) && $(e.target).exists()) ? $(e.target) : $('form');
+    let $form = ($(e.target) && $(e.target).length) ? $(e.target) : $('form');
     let response = $.parseJSON(data.responseText);
     this.clearErrors($form);
     $.each(response.errors, (f, m) => { this.showError(f, m, $form, response) });
@@ -30,7 +30,7 @@ let ErrorDisplay = {
 
   errorMsg(field_name, msgs) {
     let msg = (typeof msgs === "string") ? msgs : msgs[0]
-    let prefix = window.I18n ? I18n.t('errors.this_field') : 'This field';
+    let prefix = window.I18n ? I18n.t('errors.this_field') : 'The field';
     return `<div class='error-msg'>${prefix} ${msg}</div>`;
   },
 
@@ -44,16 +44,12 @@ let ErrorDisplay = {
     if (response.name) {
       field_name = [response.name, '[', field_name, ']'].join('');
     }
-    var field = $form.find("[name='" + field_name + "']");
-    if (!field.exists()) {
+    var field = $form.find(`[name="${field_name}"]`);
+    if (!field.length) {
       field = $form.find(':submit').prev();
     }
     return field
   },
-}
-
-$.fn.exists = function () {
-    return this.length !== 0;
 }
 
 module.exports = ErrorDisplay
