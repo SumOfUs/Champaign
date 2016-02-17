@@ -103,6 +103,7 @@ module Payment
     end
 
     def build
+      return unless transaction.present?
       ::Payment::BraintreeTransaction.create(transaction_attrs)
       return unless @bt_result.success?
 
