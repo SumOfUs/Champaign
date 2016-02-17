@@ -230,6 +230,15 @@ describe Payment do
           Payment.write_transaction(bt_result, page_id, member_id, nil)
           expect(Payment::BraintreeCustomer).to have_received(:create).with(customer_params)
         end
+
+        it 'does not update or create customer if save_customer=false' do
+          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+        end
       end
 
       describe 'with unsuccessful transaction' do
@@ -256,6 +265,15 @@ describe Payment do
           Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
           expect(existing_customer).not_to have_received(:update)
         end
+
+        it 'does not update or create customer if save_customer=false' do
+          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+        end
       end
 
       describe 'with successful subscription' do
@@ -280,6 +298,15 @@ describe Payment do
         it 'creates a new customer with the right attributes' do
           Payment.write_transaction(bt_result, page_id, member_id, nil)
           expect(Payment::BraintreeCustomer).to have_received(:create).with(customer_params)
+        end
+
+        it 'does not update or create customer if save_customer=false' do
+          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
         end
       end
 
@@ -348,6 +375,15 @@ describe Payment do
           Payment.write_transaction(bt_result, page_id, member_id, nil)
           expect(Payment::BraintreeCustomer).to have_received(:create).with(customer_params)
         end
+
+        it 'does not update or create customer if save_customer=false' do
+          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+        end
       end
 
       describe 'with unsuccessful transaction' do
@@ -374,6 +410,15 @@ describe Payment do
           Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
           expect(existing_customer).not_to have_received(:update)
         end
+
+        it 'does not update or create customer if save_customer=false' do
+          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+        end
       end
 
       describe 'with successful subscription' do
@@ -398,6 +443,15 @@ describe Payment do
         it 'creates a new customer with the right attributes' do
           Payment.write_transaction(bt_result, page_id, member_id, nil)
           expect(Payment::BraintreeCustomer).to have_received(:create).with(customer_params)
+        end
+
+        it 'does not update or create customer if save_customer=false' do
+          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
+          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          expect(Payment::BraintreeCustomer).not_to have_received(:create)
+          expect(existing_customer).not_to have_received(:update)
         end
       end
 

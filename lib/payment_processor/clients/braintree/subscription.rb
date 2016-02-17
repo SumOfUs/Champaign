@@ -73,7 +73,7 @@ module PaymentProcessor
           @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true)
 
           Payment.write_customer(customer_result.customer, payment_method, @action.member_id, existing_customer)
-          Payment.write_transaction(subscription_result, @page_id, @action.member_id, existing_customer)
+          Payment.write_transaction(subscription_result, @page_id, @action.member_id, existing_customer, false)
           Payment.write_subscription(subscription_result, @page_id, @currency)
         end
 
