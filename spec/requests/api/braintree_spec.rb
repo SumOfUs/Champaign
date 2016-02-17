@@ -89,10 +89,11 @@ describe "Braintree API" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).to match a_string_matching(four_digits)
-              expect( customer.reload.card_last_4 ).not_to eq previous_last_4
+              customer.reload
+              expect( customer.card_vault_token ).to match a_string_matching(token_format)
+              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.card_last_4 ).to match a_string_matching(four_digits)
+              expect( customer.card_last_4 ).not_to eq previous_last_4
             end
 
             it "posts donation action to queue with key data" do
@@ -219,9 +220,10 @@ describe "Braintree API" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).to eq 'PYPL'
+              customer.reload
+              expect( customer.card_vault_token ).to match a_string_matching(token_format)
+              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.card_last_4 ).to eq 'PYPL'
             end
 
             it "stores PYPL as card_num on the Action" do
@@ -590,10 +592,11 @@ describe "Braintree API" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).to match a_string_matching(four_digits)
-              expect( customer.reload.card_last_4 ).not_to eq previous_last_4
+              customer.reload
+              expect( customer.card_vault_token ).to match a_string_matching(token_format)
+              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.card_last_4 ).to match a_string_matching(four_digits)
+              expect( customer.card_last_4 ).not_to eq previous_last_4
             end
 
             it "posts donation action to queue with key data" do
@@ -730,9 +733,10 @@ describe "Braintree API" do
               previous_token = customer.card_vault_token
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-              expect( customer.reload.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.reload.card_vault_token ).not_to eq previous_token
-              expect( customer.reload.card_last_4 ).to eq 'PYPL'
+              customer.reload
+              expect( customer.card_vault_token ).to match a_string_matching(token_format)
+              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.card_last_4 ).to eq 'PYPL'
             end
 
             it "stores PYPL as card_num on the Action" do
