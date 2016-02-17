@@ -62,8 +62,9 @@ gem 'action_parameter'
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'
 
-# logger for debugging AWS
+# Logging and log management
 gem 'logger'
+gem 'lograge'
 
 # # Caching for production
 # gem 'rack-cache'
