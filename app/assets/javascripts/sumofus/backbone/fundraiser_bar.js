@@ -20,7 +20,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
-    'click .fundraiser-bar__open-button': 'reveal',
     'click .fundraiser-bar__close-button': 'hide',
   },
 
@@ -52,6 +51,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.buttonText = I18n.t('form.submit');
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
+    $('.fundraiser-bar__open-button').on('click', () => this.reveal());
   },
 
   initializeSkipping (options){

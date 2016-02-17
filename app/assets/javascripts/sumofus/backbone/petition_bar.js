@@ -7,7 +7,6 @@ const PetitionBar = Backbone.View.extend(_.extend(
   el: '.petition-bar',
 
   events: {
-    'click .petition-bar__open-button': 'reveal',
     'click .petition-bar__close-button': 'hide',
     'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'handleSuccess',
@@ -35,6 +34,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
+    $('.petition-bar__open-button').on('click', () => this.reveal());
   },
 
   initializePrefill(options) {
