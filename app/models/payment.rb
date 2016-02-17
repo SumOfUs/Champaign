@@ -4,8 +4,8 @@ module Payment
       'payment_'
     end
 
-    def write_transaction(bt_result, page_id, member_id)
-      BraintreeTransactionBuilder.build(bt_result, page_id, member_id)
+    def write_transaction(bt_result, page_id, member_id, existing_customer)
+      BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer)
     end
 
     def write_subscription(subscription_result, page_id, currency)
@@ -91,14 +91,15 @@ module Payment
     #
     #
 
-    def self.build(bt_result, page_id, member_id)
-      new(bt_result, page_id, member_id).build
+    def self.build(bt_result, page_id, member_id, existing_customer)
+      new(bt_result, page_id, member_id, existing_customer).build
     end
 
-    def initialize(bt_result, page_id, member_id)
+    def initialize(bt_result, page_id, member_id, existing_customer)
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
+      @existing_customer = existing_customer
     end
 
     def build
@@ -107,18 +108,14 @@ module Payment
 
       # it would be good to DRY this up and use CustomerBuilder, but we don't
       # have a Braintree::PaymentMethod to pass it :(
-      if existing_customer.present?
-        existing_customer.update(customer_attrs)
+      if @existing_customer.present?
+        @existing_customer.update(customer_attrs)
       else
         Payment::BraintreeCustomer.create(customer_attrs)
       end
     end
 
     private
-
-    def existing_customer
-      @existing_customer ||= Payment.customer(transaction.customer_details.email)
-    end
 
     def transaction_attrs
       {

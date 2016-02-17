@@ -38,9 +38,9 @@ module PaymentProcessor
           @result = ::Braintree::Transaction.sale(options)
           if @result.success?
             @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: result, is_subscription: false)
-            Payment.write_transaction(result, @page_id, @action.member_id)
+            Payment.write_transaction(result, @page_id, @action.member_id, existing_customer)
           else
-            Payment.write_transaction(result, @page_id, nil)
+            Payment.write_transaction(result, @page_id, nil, existing_customer)
           end
         end
 

@@ -217,7 +217,7 @@ module PaymentProcessor
                   end
 
                   it 'calls Payment.write_transaction with the right params' do
-                    expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id)
+                    expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id, customer)
                   end
 
                   it 'calls Payment.write_subscription with the right params' do
@@ -352,7 +352,7 @@ module PaymentProcessor
                 end
 
                 it 'calls Payment.write_transaction with the right params' do
-                  expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id)
+                  expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id, nil)
                 end
 
                 it 'calls Payment.write_subscription with the right params' do
