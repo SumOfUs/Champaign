@@ -26,11 +26,11 @@ const PetitionBar = Backbone.View.extend(_.extend(
     this.initializePrefill(options);
     this.initializeSticky();
     this.updateThermometer(options.thermometer);
-    this.expandBlurb();
+    this.policeHeights();
     this.followUpUrl = options.followUpUrl;
     if (!this.isMobile()) {
       this.selectizeCountry();
-      $(window).on('resize', () => this.expandBlurb());
+      $(window).on('resize', () => this.policeHeights());
     }
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
@@ -74,17 +74,25 @@ const PetitionBar = Backbone.View.extend(_.extend(
       .addClass('petition-bar__mobile-view--open');
   },
 
-  expandBlurb: function() {
-    let height = this.$('.petition-bar__top').outerHeight();
+  policeHeights: function() {
+    // move the blurb up into the correct position
+    let topHeight = this.$('.petition-bar__top').outerHeight();
     if (this.isSticky){
-      this.$el.parent('.sticky-wrapper').css('top', `-${height}px`);
+      this.$el.parent('.sticky-wrapper').css('top', `-${topHeight}px`);
     } else if(!this.$el.hasClass('stuck-right')){
-      this.$el.css('top', `-${height}px`);
+      this.$el.css('top', `-${topHeight}px`);
     }
 
-    // german is so damn long the absolute position title wraps
+    // make sure the title is in the write place if it wraps
     const $title = $('.petition-bar__title-bar');
     $title.css('top', `-${$title.outerHeight()}px`);
+
+    // if the page is too short for the form, make it scroll overflow
+    let maxHeight = window.innerHeight - topHeight;
+    if(this.$el.hasClass('stuck-right')){
+      maxHeight -= $title.outerHeight();
+    }
+    this.$('.petition-bar__main').css('max-height', `${maxHeight}px`);
   },
 
   updateThermometer: function(thermometer) {

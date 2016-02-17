@@ -44,15 +44,25 @@
     overflow: visible;
     position: relative;
     min-height: 68px;
+    &.fundraiser-bar__top {
+      height: 162px;
+      @include box-sizing(border-box);
+    }
   }
   &__main {
     background: $chalk-gray;
     padding: $padding;
 
     position: absolute;
+    overflow: scroll;
 
     width: 100%;
     @include box-sizing(border-box);
+    &.fundraiser-bar__main {
+      @media(min-width: $mobile-width) {
+        max-height: calc(100vh - 162px);
+      }
+    }
   }
   &__title-bar {
     position: absolute;
