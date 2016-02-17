@@ -67,7 +67,8 @@ module Payment
           card_bin:         @bt_payment_method.bin,
           cardholder_name:  @bt_payment_method.cardholder_name,
           card_debit:       @bt_payment_method.debit,
-          card_last_4:      @bt_payment_method.last_4
+          card_last_4:      @bt_payment_method.last_4,
+          card_unique_number_identifier: @bt_payment_method.unique_number_identifier
         }
       else
         {
@@ -138,6 +139,9 @@ module Payment
 
     def customer_attrs
       {
+        # NOTE: we do NOT store card_unique_number_identifier because
+        # that is only returned on Braintree::CreditCard, not on
+        # Braintree::Transaction::CreditCardDetails
         card_type:        card.card_type,
         card_bin:         card.bin,
         cardholder_name:  card.cardholder_name,

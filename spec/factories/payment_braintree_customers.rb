@@ -6,7 +6,7 @@ FactoryGirl.define do
     card_debit "MyString"
     card_last_4 { Faker::Number.number(4) }
     card_vault_token "MyString"
-    card_unqiue_number_identifier "MyString"
+    card_unique_number_identifier{ "cuni#{Faker::Number.number(6)}" }
     email { Faker::Internet.email }
     first_name "MyString"
     last_name "MyString"
