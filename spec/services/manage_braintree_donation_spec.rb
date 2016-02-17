@@ -25,8 +25,8 @@ describe ManageBraintreeDonation do
   end
 
   let(:page) { create(:page, slug: 'test') }
-  let!(:user) { create(:member, email: 'bob@example.com', country: 'United States')}
-  let(:data) { {email: user.email, page_id: page.id} }
+  let!(:user) { create(:member, email: 'bob@example.com', country: 'US', name: 'Stringer Bell')}
+  let(:data) { {email: user.email, page_id: page.id, name: user.name} }
   let(:transaction_attributes) {
     {
         transaction: {
@@ -38,30 +38,30 @@ describe ManageBraintreeDonation do
             created_at: Time.now,
             updated_at: Time.now,
             credit_card_details: {
-                token: nil,
-                bin: '41111',
-                last_4: '1111',
-                card_type: 'Visa',
-                expiration_date: '01/2016',
-                cardholder_name: nil,
-                customer_location: 'US',
-                prepaid: 'Unknown',
-                healthcare: 'Unknown',
-                durbin_regulated: 'Unknown',
-                debit: 'Unknown',
-                commercial: 'Unknown',
-                payroll: 'Unknown',
-                country_of_issuance: 'Unknown'
+              token: nil,
+              bin: '41111',
+              last_4: '1111',
+              card_type: 'Visa',
+              expiration_date: '01/2016',
+              cardholder_name: nil,
+              customer_location: 'US',
+              prepaid: 'Unknown',
+              healthcare: 'Unknown',
+              durbin_regulated: 'Unknown',
+              debit: 'Unknown',
+              commercial: 'Unknown',
+              payroll: 'Unknown',
+              country_of_issuance: 'Unknown'
             },
             customer_details: {
-                id: '12345',
-                first_name: 'Eric Boersma',
-                last_name: nil,
-                email: user.email
+              id: '12345',
+              first_name: 'Eric Boersma',
+              last_name: nil,
+              email: user.email
             },
             subscription_details: {
-                billing_period_start_date: nil,
-                billing_period_end_date: nil
+              billing_period_start_date: nil,
+              billing_period_end_date: nil
             }
         }
 
@@ -91,7 +91,7 @@ describe ManageBraintreeDonation do
     {
         donationpage: {
             name: 'test-donation',
-            payment_account: 'Default Import Stub'
+            payment_account: 'Braintree GBP'
         },
         order: {
             amount: '1.0',
@@ -103,7 +103,12 @@ describe ManageBraintreeDonation do
         },
         user: {
             email: user.email,
-            country: 'United States',
+            first_name: user.first_name,
+            last_name: user.last_name,
+            country: 'US'
+        },
+        action: {
+            source: nil
         }
     }
   }
@@ -117,6 +122,22 @@ describe ManageBraintreeDonation do
 
   before do
     allow(ChampaignQueue).to receive(:push)
+  end
+
+  describe 'source' do
+    it 'passes source if passed' do
+      expect(ChampaignQueue).to receive(:push).with(a_hash_including(
+        params: a_hash_including( action: { source: 'fb' } )
+      ))
+      ManageBraintreeDonation.create(params: data.merge(source: 'fb'), braintree_result: result)
+    end
+
+    it 'passes nil if source not passed' do
+      expect(ChampaignQueue).to receive(:push).with(a_hash_including(
+        params: a_hash_including( action: { source: nil } )
+      ))
+      ManageBraintreeDonation.create(params: data, braintree_result: result)
+    end
   end
 
   it 'creates the right kind of request' do
@@ -133,20 +154,27 @@ describe ManageBraintreeDonation do
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end
 
-  it 'can handle not having a credit card number' do
+  it 'passes along a nil credit card number' do
     result.transaction.credit_card_details.last_4 = nil
     expect(result.transaction.credit_card_details.last_4).to eq(nil)
+    full_donation_options[:order][:card_num] = nil
+    expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
+    ManageBraintreeDonation.create(params: data, braintree_result: result)
+  end
+
+  it 'passes Paypal when thats the appropriate payment_instrument_type' do
+    result.transaction.payment_instrument_type = 'paypal_account'
     full_donation_options[:order][:card_num] = ManageBraintreeDonation::PAYPAL_IDENTIFIER
+    full_donation_options[:donationpage][:payment_account] = "PayPal GBP"
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end
 
   it 'can handle a subscription event and send the proper information' do
-    result.transactions = []
-    result.transactions[0] = result.transaction
+    result.subscription = instance_double('Braintree::Subscription', transactions: [result.transaction])
     deleted_transaction = result.delete_field('transaction')
     expect(result.transaction).to eq(nil)
-    expect(result.transactions[0]).to eq(deleted_transaction)
+    expect(result.subscription.transactions[0]).to eq(deleted_transaction)
     expect(ChampaignQueue).to receive(:push).with(expected_queue_message)
     ManageBraintreeDonation.create(params: data, braintree_result: result)
   end

@@ -1,6 +1,21 @@
+require 'rails_helper'
 require 'spec_helper'
 
 describe NameSplitter do
+
+  it 'returns empty strings if name is nil' do
+    splitter = NameSplitter.new(full_name: nil)
+    expect(splitter.first_name).to eq("")
+    expect(splitter.last_name).to eq("")
+  end
+
+
+  it 'returns empty strings if name is empty string' do
+    splitter = NameSplitter.new(full_name: '')
+    expect(splitter.first_name).to eq("")
+    expect(splitter.last_name).to eq("")
+  end
+
   it 'splits names in two if there are only two elements' do
     first_name = 'Eric'
     last_name = 'Boersma'

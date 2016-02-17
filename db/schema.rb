@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208164639) do
+ActiveRecord::Schema.define(version: 20160216182308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,7 +209,7 @@ ActiveRecord::Schema.define(version: 20160208164639) do
     t.string   "card_debit"
     t.string   "card_last_4"
     t.string   "card_vault_token"
-    t.string   "card_unqiue_number_identifier"
+    t.string   "card_unique_number_identifier"
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
@@ -223,11 +223,12 @@ ActiveRecord::Schema.define(version: 20160208164639) do
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
-    t.string   "price"
     t.string   "merchant_account_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "page_id"
+    t.decimal  "amount",              precision: 10, scale: 2
+    t.string   "currency"
   end
 
   add_index "payment_braintree_subscriptions", ["page_id"], name: "index_payment_braintree_subscriptions_on_page_id", using: :btree
@@ -235,17 +236,18 @@ ActiveRecord::Schema.define(version: 20160208164639) do
   create_table "payment_braintree_transactions", force: :cascade do |t|
     t.string   "transaction_id"
     t.string   "transaction_type"
-    t.string   "status"
-    t.string   "amount"
     t.datetime "transaction_created_at"
     t.string   "payment_method_token"
     t.string   "customer_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "merchant_account_id"
     t.string   "currency"
     t.integer  "page_id"
     t.string   "payment_instrument_type"
+    t.integer  "status"
+    t.decimal  "amount",                  precision: 10, scale: 2
+    t.string   "processor_response_code"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree

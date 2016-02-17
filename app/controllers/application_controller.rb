@@ -49,4 +49,11 @@ class ApplicationController < ActionController::Base
   def set_default_locale
     I18n.locale = I18n.default_locale
   end
+
+  def write_member_cookie(member_id)
+    cookies.signed[:member_id] = {
+      value: member_id,
+      expires: 2.years.from_now
+    }
+  end
 end

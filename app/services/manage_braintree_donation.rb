@@ -14,11 +14,15 @@ class ManageBraintreeDonation
 
   def create
     ChampaignQueue.push(queue_message)
+
     # We need a way to cross-reference this action at a later date to find out what page
     # with which we will associate ongoing donations, in the event this is a subscription.
     @params[:card_num] = card_num
     @params[:is_subscription] = @is_subscription
     @params[:amount] = transaction.amount
+    @params[:currency] = transaction.currency_iso_code
+    @params[:transaction_id] = transaction.id
+    @params[:subscription_id] = subscription_id if subscription_id.present?
     build_action
   end
 
@@ -26,60 +30,80 @@ class ManageBraintreeDonation
 
   def queue_message
     {
-        type: 'donation',
-        params: organize_params
+      type: 'donation',
+      params: organize_params
     }
   end
 
   def organize_params
     {
-        donationpage: {
-            name:             "#{page.slug}-donation",
-            payment_account:  'Default Import Stub'
-        },
-        order: {
-            amount:         transaction.amount.to_s,
-            card_num:       card_num,
-            card_code:      '007',
-            exp_date_month: expire_month,
-            exp_date_year:  expire_year,
-            currency:       transaction.currency_iso_code
-        },
-        user: {
-            email:    member.email,
-            country:  member.country
-        }
+      donationpage: {
+        name:             "#{page.slug}-donation",
+        payment_account:  get_payment_account
+      },
+      order: {
+        amount:         transaction.amount.to_s,
+        card_num:       card_num,
+        card_code:      '007',
+        exp_date_month: expire_month,
+        exp_date_year:  expire_year,
+        currency:       transaction.currency_iso_code
+      },
+      action: {
+        source:         @params[:source] # falls back to nil
+      },
+      user: user_params
     }
   end
 
-  def transaction
-    return @transaction if @transaction
+  def user_params
+    form_data = @params.select{ |k, v| !k.to_s.match(/(page_id|form_id|name|full_name)/) }
+    form_data.symbolize_keys.merge(
+      first_name: member.first_name,
+      last_name:  member.last_name,
+      email:    member.email,
+      country:  member.country
+    )
+  end
 
-    # We don't use the `is_subscription` flag here because there are multiple ways that it's possible for
-    # a subscription to be structured. That's more for future information retrieval, not for identifying the
-    # internal structure of the braintree result we're searching through to manage notifications.
-    if @braintree_result.transaction.present?
-      # This is a one-off donation, so we can just use the built in transaction and send the data to the queue.
-      @transaction = @braintree_result.transaction
-    elsif @braintree_result.transactions.present?
-      # This is a "start" subscription event, so we have an array of transactions. We can safely withdraw the most recent
-      # transaction and use that information to send to the queue.
-      @transaction = @braintree_result.transactions.last
-    elsif @braintree_result.subscription.transactions.present?
-      # This is an event which is notifying us that we're getting a transaction which is based on a recurring
-      # donation being charged after the first event. Braintree will send us this data in webhook form. Like
-      # with a subscription start event, we can grab the last transaction and run with it.
-      @transaction = @braintree_result.subscription.transactions.last
-    end
-    @transaction
+  # ActionKit can accept one of the following:
+  #
+  # PayPal USD
+  # PayPal GBP
+  # PayPal CAD
+  # PayPal EUR
+  # PayPal AUD
+  #
+  # Braintree USD
+  # Braintree CAD
+  # Braintree AUD
+  # Braintree GBP
+  # Braintree EUR
+  #
+  def get_payment_account
+    provider = is_paypal? ? 'PayPal' : 'Braintree'
+    "#{provider} #{transaction.currency_iso_code}"
+  end
+
+  def transaction
+    @transaction ||= 
+      if @braintree_result.transaction.present?
+        @braintree_result.transaction
+      elsif @braintree_result.subscription.transactions.present?
+        @braintree_result.subscription.transactions.last
+      end
+  end
+
+  def subscription_id
+    @braintree_result.subscription.try(:id)
   end
 
   def card_num
-    # At the moment, we only accept two forms of payment from Braintree: PayPal and Credit Card. If we don't have
-    # Credit Card info along for the ride, we can safely assume at this time that it's a PayPal transaction and that's
-    # what we do here.
-    given_num = transaction.credit_card_details.last_4
-    given_num.nil? ? ManageBraintreeDonation::PAYPAL_IDENTIFIER: given_num
+    is_paypal? ? PAYPAL_IDENTIFIER : transaction.credit_card_details.last_4
+  end
+
+  def is_paypal?
+    transaction.payment_instrument_type == "paypal_account"
   end
 
   def expire_month
