@@ -43,4 +43,8 @@ describe PostalValidator do
     expect(PostalValidator.valid?(valid_de, country_code: :UK)).to be(false)
     expect(PostalValidator.valid?(valid_fr, country_code: :UK)).to be(false)
   end
+
+  it 'successfully validates letter-based postal codes with lower-case letters' do
+    expect(PostalValidator.valid?(valid_uk.downcase, country_code: :UK)).to be(true)
+  end
 end
