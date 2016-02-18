@@ -106,7 +106,7 @@ module Payment
     def build
       return unless transaction.present?
       ::Payment::BraintreeTransaction.create(transaction_attrs)
-      return unless @bt_result.success? && @save_customer
+      return unless successful? && @save_customer
 
       # it would be good to DRY this up and use CustomerBuilder, but we don't
       # have a Braintree::PaymentMethod to pass it :(
@@ -161,11 +161,17 @@ module Payment
     end
 
     def status
-      if @bt_result.success?
+      if successful?
         Payment::BraintreeTransaction.statuses[:success]
       else
         Payment::BraintreeTransaction.statuses[:failure]
       end
+    end
+
+    def successful?
+      return @bt_result.success? if @bt_result.respond_to?(:success?)
+      return true if @bt_result.class == Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully
+      false
     end
 
     def last_4
