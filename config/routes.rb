@@ -108,7 +108,7 @@ Rails.application.routes.draw do
     namespace :braintree do
       get 'token'
       post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
-      post 'braintree/webhook', action: 'webhook'
+      post 'webhook', action: 'webhook'
     end
 
     resources :pages do
