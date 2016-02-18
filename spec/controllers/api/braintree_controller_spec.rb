@@ -177,25 +177,35 @@ describe Api::BraintreeController do
   end
 
   describe 'POST webhook' do
-    let(:braintree_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully, 'test_id') }
-    let(:member) { double(:member, email: 'test@email.com', country: 'United States') }
-    let(:action) { double(:action, id: 1, member_id: 1, page_id: 1) }
+    let(:supported_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully, 'test_id') }
+    let(:unsupported_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionCanceled, 'test_id') }
 
-    before do
-      allow(Action).to receive(:where).and_return([action])
-      allow(Member).to receive(:find).and_return(member)
-      allow(ManageBraintreeDonation).to receive(:create) { action }
+    before :each do
+      allow(PaymentProcessor::Clients::Braintree::WebhookHandler).to receive(:handle)
     end
 
-    it 'successfully parses a webhook and returns a successful response' do
-      post :webhook, braintree_webhook
-      expect(response.body).to eq( {success: true}.to_json )
+    it 'parses a supported webhook and passes it to the Webhook handler' do
+      post :webhook, supported_webhook
+      expect(PaymentProcessor::Clients::Braintree::WebhookHandler).to have_received(:handle).with(
+        instance_of(Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully)
+      )
     end
 
-    it 'returns a successful response when presented with an unsupported Notification Kind' do
-      uncovered_webhook = Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionCanceled, 'canceled_id')
-      post :webhook, uncovered_webhook
-      expect(response.body).to eq( {success:true}.to_json )
+    it 'parse an unsupported_webhook and passes it to the Webhook handler' do
+      post :webhook, unsupported_webhook
+      expect(PaymentProcessor::Clients::Braintree::WebhookHandler).to have_received(:handle).with(
+        instance_of(Braintree::WebhookNotification::Kind::SubscriptionCanceled)
+      )
+    end
+
+    it 'responds 200 to supported_webhook' do
+      post :webhook, supported_webhook
+      expect(response.status).to eq 200
+    end
+
+    it 'responds 200 to unsupported_webhook' do
+      post :webhook, unsupported_webhook
+      expect(response.status).to eq 200
     end
   end
 end
