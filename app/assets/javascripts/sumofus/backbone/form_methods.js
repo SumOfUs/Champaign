@@ -98,7 +98,12 @@ const FormMethods = {
     if($action_kit_hidden) {
       $action_kit_hidden.attr('name', 'referring_akid');
     }
-  }
+  },
+
+  showInputLabel(event) {
+    $('label[for="' + event.target.name +'"]').fadeIn().removeClass('hidden-irrelevant');
+  },
+
 };
 
 module.exports = FormMethods;

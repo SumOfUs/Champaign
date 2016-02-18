@@ -22,6 +22,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .fundraiser-bar__open-button': 'reveal',
     'click .fundraiser-bar__close-button': 'hide',
+    'focus .form__group > input': 'showInputLabel',
   },
 
   // options: object with any of the following keys
