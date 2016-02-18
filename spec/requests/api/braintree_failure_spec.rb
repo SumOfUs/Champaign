@@ -102,34 +102,108 @@ describe "Braintree API" do
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
           end
+
           describe "with Paypal" do
-            # include_examples "creates nothing"
-            it "does not update the member"
-            it "creates a Transaction associated with the page storing relevant info"
-            it "serializes errors in JSON"
+            let(:paypal_params) {
+              params.merge(payment_method_nonce: 'fake-paypal-future-nonce', merchant_account_id: 'EUR')
+            }
+
+            subject do
+              VCR.use_cassette('transaction paypal processor declined') do
+                post api_braintree_transaction_path(page.id), paypal_params
+              end
+            end
+
+            include_examples 'creates nothing'
+
+            it "does not update the member" do
+              expect{ subject }.not_to change{ member.reload }
+            end
+            it "creates a Transaction associated with the page storing relevant info" do
+              expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
+              transaction = Payment::BraintreeTransaction.last
+              expect(transaction.page).to eq page
+              expect(transaction.amount).to eq 2002
+              expect(transaction.currency).to eq 'EUR'
+              expect(transaction.merchant_account_id).to eq 'EUR'
+              expect(transaction.payment_instrument_type).to eq 'paypal_account'
+              expect(transaction.transaction_type).to eq 'sale'
+              expect(transaction.customer_id).to eq nil
+              expect(transaction.status).to eq 'failure'
+              expect(transaction.processor_response_code).to eq '2002'
+              expect(transaction.payment_method_token).to eq nil
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
+            end
+
+            it "serializes errors in JSON" do
+              subject
+              errors = {success: false, errors: [{declined: true, code: "2002", message: "Limit Exceeded"}]}
+              expect( response.body ).to eq errors.to_json
+            end
           end
         end
         describe "when BraintreeCustomer exists" do
           describe "with Paypal" do
-            # include_examples "creates nothing"
-            it "does not update the member"
-            it "does not update the BraintreeCustomer in the database"
-            it "creates a Transaction associated with the page storing relevant info"
-            it "serializes errors in JSON"
-          end
-          describe "with Paypal" do
-            # include_examples "creates nothing"
-            it "does not update the member"
-            it "creates a Transaction associated with the page storing relevant info"
-            it "serializes errors in JSON"
+            let(:paypal_params) {
+              params.merge(payment_method_nonce: 'fake-paypal-future-nonce', merchant_account_id: 'EUR')
+            }
+            let!(:braintree_customer) {
+              create(:payment_braintree_customer)
+            }
+
+            subject do
+              VCR.use_cassette('transaction paypal processor declined') do
+                post api_braintree_transaction_path(page.id), paypal_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not update the member" do
+              expect{ subject }.not_to change{ member.reload }
+            end
+            it "does not update the BraintreeCustomer in the database" do
+              expect{ subject }.not_to change{ braintree_customer.reload }
+            end
+            it "creates a Transaction associated with the page storing relevant info" do
+              expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
+              transaction = Payment::BraintreeTransaction.last
+              expect(transaction.page).to eq page
+              expect(transaction.amount).to eq 2002
+              expect(transaction.currency).to eq 'EUR'
+              expect(transaction.merchant_account_id).to eq 'EUR'
+              expect(transaction.payment_instrument_type).to eq 'paypal_account'
+              expect(transaction.transaction_type).to eq 'sale'
+              expect(transaction.customer_id).to eq nil
+              expect(transaction.status).to eq 'failure'
+              expect(transaction.processor_response_code).to eq '2002'
+              expect(transaction.payment_method_token).to eq nil
+              expect(transaction.transaction_id).to match a_string_matching(token_format)
+            end
+
+            it "serializes errors in JSON" do
+              subject
+              errors = {success: false, errors: [{declined: true, code: "2002", message: "Limit Exceeded"}]}
+              expect( response.body ).to eq errors.to_json
+            end
           end
         end
       end
       describe "when Member is new" do
         describe "when BraintreeCustomer is new" do
           describe "with basic params" do
-            # include_examples "creates nothing"
-            it "responds with 422 and errors"
+
+            subject do
+              VCR.use_cassette("transaction processor declined") do
+                post api_braintree_transaction_path(page.id), params
+              end
+            end
+            include_examples "creates nothing"
+            it "responds with 422 and errors" do
+              subject
+              expect( response.status ).to eq 422
+              expect( response.body ). to eq('{"success":false,"errors":[{"declined":true,"code":"2002","message":"Limit Exceeded"}]}')
+            end
           end
         end
       end
