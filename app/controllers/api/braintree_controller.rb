@@ -15,6 +15,7 @@ class Api::BraintreeController < ApplicationController
     if builder.result.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
       id = recurring? ? { subscription_id: builder.result.subscription.id } : { transaction_id: builder.result.transaction.id }
+
       render json: { success: true }.merge(id)
     else
       errors = raise_unless_user_error(builder.result)

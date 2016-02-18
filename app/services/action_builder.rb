@@ -1,11 +1,23 @@
-module ActionBuilder
+require_relative 'action_queue'
 
-  def build_action
-    Action.create(
+module ActionBuilder
+  def build_action(extra_attrs = {})
+    subscribed_member = !existing_member?
+
+    action = Action.create({
       member: member,
       page: page,
-      form_data: @params
-    )
+      form_data: @params,
+
+      # indicates if action subscribed the member
+      subscribed_member: subscribed_member
+    }.merge(extra_attrs))
+
+
+    ActionQueue::Pusher.push(action)
+    Analytics::Page.increment(page.id, new_member: subscribed_member)
+
+    action
   end
 
   def previous_action
@@ -30,9 +42,12 @@ module ActionBuilder
       @user.name = @params[:name]
     end
 
-    @params[:actionkit_user_id] = actionkit_user_id(@params[:akid]) if @params.has_key? :akid
+    @user.assign_attributes(
+      filtered_params.tap do |data|
+        data[:actionkit_user_id] = actionkit_user_id(@params[:akid]) if @params.has_key?(:akid)
+      end
+    )
 
-    @user.assign_attributes(filtered_params)
     @user.save if @user.changed
     @user
   end
