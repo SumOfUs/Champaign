@@ -2,22 +2,20 @@ module PaymentProcessor
   module Clients
     module Braintree
       class WebhookHandler
-        # = Braintree::Transaction
+        # = Braintree::WebhookHandler
         #
-        # Wrapper around Braintree's Ruby SDK. This class essentially just stuffs parameters
-        # into the keys that are expected by Braintree's class.
+        # This class serves to record data passed in by Braintree's webhook service.
+        # Currently, this just means that when a subscription is charged, it will create
+        # a Payment::BraintreeTransaction and push the original action to the Queue.
         #
         # == Usage
         #
-        # Call <tt>PaymentProcessor::Clients::Braintree::Transaction.make_transaction</tt>
+        # Call <tt>PaymentProcessor::Clients::Braintree::WebhookHandler.handle</tt>
         #
         # === Options
         #
-        # * +:nonce+    - Braintree token that references a payment method provided by the client (required)
-        # * +:amount+   - Billing amount (required)
-        # * +:currency+ - Billing currency (required)
-        # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
-        # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
+        # * +:notification+    - Braintree::Notification object. only those of kind 'subscription_charged_successfully'
+        #                        will be processed. All others will simply be logged to the Rails logger.l)
         def self.handle(notification)
           new(notification).handle
         end
