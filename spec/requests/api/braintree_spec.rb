@@ -310,6 +310,7 @@ describe "Braintree API" do
               expect( customer.customer_id ).not_to be_blank
               expect( customer.card_last_4 ).to eq '1881'
               expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.email ).to eq user_params[:email]
             end
 
             it "posts donation action to queue with key data" do
@@ -437,6 +438,7 @@ describe "Braintree API" do
               expect(customer.customer_id).not_to be_blank
               expect(customer.card_last_4).to eq 'PYPL'
               expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.email ).to eq user_params[:email]
             end
 
             it "stores PYPL as card_num on the Action" do
@@ -856,6 +858,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
               expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.email ).to eq user_params[:email]
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
 
@@ -999,6 +1002,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
               expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.email ).to eq user_params[:email]
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
