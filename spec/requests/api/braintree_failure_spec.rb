@@ -29,6 +29,13 @@ shared_examples "creates nothing" do
     expect( response.status ).to eq 422
   end
 end
+shared_examples "processor errors" do
+  it "serializes processor errors in JSON" do
+    subject
+    errors = {success: false, errors: [{declined: true, code: "2002", message: "Limit Exceeded"}]}
+    expect( response.body ).to eq errors.to_json
+  end
+end
 
 describe "Braintree API" do
 
@@ -75,15 +82,10 @@ describe "Braintree API" do
             end
 
             include_examples "creates nothing"
+            include_examples "processor errors"
 
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
-            end
-
-            it "serializes errors in JSON" do
-              subject
-              errors = {success: false, errors: [{declined: true, code: "2002", message: "Limit Exceeded"}]}
-              expect( response.body ).to eq errors.to_json
             end
 
             it "creates a Transaction associated with the page storing relevant info" do
@@ -104,9 +106,9 @@ describe "Braintree API" do
           end
 
           describe "with Paypal" do
-            let(:paypal_params) {
+            let(:paypal_params) do
               params.merge(payment_method_nonce: 'fake-paypal-future-nonce', merchant_account_id: 'EUR')
-            }
+            end
 
             subject do
               VCR.use_cassette('transaction paypal processor declined') do
@@ -115,6 +117,7 @@ describe "Braintree API" do
             end
 
             include_examples 'creates nothing'
+            include_examples "processor errors"
 
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
@@ -134,12 +137,6 @@ describe "Braintree API" do
               expect(transaction.payment_method_token).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
-
-            it "serializes errors in JSON" do
-              subject
-              errors = {success: false, errors: [{declined: true, code: "2002", message: "Limit Exceeded"}]}
-              expect( response.body ).to eq errors.to_json
-            end
           end
         end
         describe "when BraintreeCustomer exists" do
@@ -158,6 +155,7 @@ describe "Braintree API" do
             end
 
             include_examples "creates nothing"
+            include_examples "processor errors"
 
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
@@ -180,12 +178,6 @@ describe "Braintree API" do
               expect(transaction.payment_method_token).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
-
-            it "serializes errors in JSON" do
-              subject
-              errors = {success: false, errors: [{declined: true, code: "2002", message: "Limit Exceeded"}]}
-              expect( response.body ).to eq errors.to_json
-            end
           end
         end
       end
@@ -198,56 +190,183 @@ describe "Braintree API" do
                 post api_braintree_transaction_path(page.id), params
               end
             end
+
             include_examples "creates nothing"
-            it "responds with 422 and errors" do
-              subject
-              expect( response.status ).to eq 422
-              expect( response.body ). to eq('{"success":false,"errors":[{"declined":true,"code":"2002","message":"Limit Exceeded"}]}')
-            end
+            include_examples "processor errors"
           end
         end
       end
     end
     describe "making a subscription" do
+
+      let(:subscription_params){ params.merge(recurring: true) }
+
       describe "when Member exists" do
+
+        let!(:member) { create :member, email: user[:email], postal: nil }
+
         describe "when BraintreeCustomer exists" do
+
+          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
+
           describe "when it fails updating the Customer" do
-            # include_examples "creates nothing"
-            it "does not update the customer"
-            it "does not create a Transaction"
-            it "serializes errors in JSON"
+            let(:failing_params) {
+              subscription_params.merge(user: user.merge(name: 'John Johnny '*60, amount: 12))
+            }
+
+            subject do
+              VCR.use_cassette('customer update failure') do
+                post api_braintree_transaction_path(page.id), failing_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not update the customer" do
+              expect{ subject }.not_to change{ customer.reload }
+            end
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
+
+            it "serializes errors in JSON" do
+              subject
+              errors = {success: false, errors: [{code: "81608", attribute: "first_name", message: "First name is too long."}, {code: "81613", attribute: "last_name", message: "Last name is too long."}]}
+              expect( response.body ).to eq errors.to_json
+            end
           end
+
           describe "when it fails creating the PaymentMethod" do
-            # include_examples "creates nothing"
-            it "does not update the customer"
-            it "does not create a Transaction"
-            it "serializes errors in JSON"
+            let(:failing_params) {
+              subscription_params.merge(user: user.merge(street_address: 'Del colegio Verde Sonrisa, una cuadra arriba, una cuadra al sur, la casa amarilla en la esquina, numero 166 '*3, amount: 12))
+            }
+
+            subject do
+              VCR.use_cassette('payment method create failure') do
+                post api_braintree_transaction_path(page.id), failing_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not update the customer" do
+              expect{ subject }.not_to change{ customer.reload }
+            end
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
+
+            it "serializes errors in JSON" do
+              subject
+              errors = {success: false, errors: [{code: "81812", attribute: "street_address", message: "Street address is too long."}]}
+              expect( response.body ).to eq errors.to_json
+            end
           end
           describe "when it fails creating the Subscription" do
-            # include_examples "creates nothing"
-            it "does not update the customer"
-            it "does not create a Transaction"
-            it "serializes errors in JSON"
+
+            subject do
+              VCR.use_cassette('subscription create failure with existing customer') do
+                post api_braintree_transaction_path(page.id), subscription_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not update the customer" do
+              expect{ subject }.not_to change{ customer.reload }
+            end
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
+
+            include_examples "processor errors"
           end
         end
         describe "when BraintreeCustomer is new" do
           describe "when it fails creating the Customer" do
-            # include_examples "creates nothing"
-            it "does not create a Transaction"
-            it "serializes errors in JSON"
+            let(:failing_params) {
+              subscription_params.merge(user: user.merge(name: 'John Johnny '*60, amount: 12))
+            }
+
+            subject do
+              VCR.use_cassette('customer create failure') do
+                post api_braintree_transaction_path(page.id), failing_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
+
+            it "serializes errors in JSON" do
+              subject
+              errors = {success: false, errors: [{code: "81608", attribute: "first_name", message: "First name is too long."}, {code: "81613", attribute: "last_name", message: "Last name is too long."}, {code: "81805", attribute: "first_name", message: "First name is too long."}, {code: "81806", attribute: "last_name", message: "Last name is too long."}]}
+              expect( response.body ).to eq errors.to_json
+            end
           end
+
           describe "when it fails creating the Subscription" do
-            # include_examples "creates nothing"
-            it "does not create a Transaction"
-            it "serializes errors in JSON"
+
+            subject do
+              VCR.use_cassette('subscription create failure') do
+                post api_braintree_transaction_path(page.id), subscription_params
+              end
+            end
+
+            include_examples "creates nothing"
+            include_examples "processor errors"
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
           end
         end
       end
       describe "when Member is new" do
         describe "when BraintreeCustomer is new" do
-          describe "with basic params" do
-            # include_examples "creates nothing"
-            it "serializes errors in JSON"
+          describe "when it fails creating the Customer" do
+            let(:failing_params) {
+              subscription_params.merge(user: user.merge(name: 'John Johnny '*60, amount: 12))
+            }
+
+            subject do
+              VCR.use_cassette('customer create failure') do
+                post api_braintree_transaction_path(page.id), failing_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
+
+            it "serializes errors in JSON" do
+              subject
+              errors = {success: false, errors: [{code: "81608", attribute: "first_name", message: "First name is too long."}, {code: "81613", attribute: "last_name", message: "Last name is too long."}, {code: "81805", attribute: "first_name", message: "First name is too long."}, {code: "81806", attribute: "last_name", message: "Last name is too long."}]}
+              expect( response.body ).to eq errors.to_json
+            end
+          end
+
+          describe "when it fails creating the Subscription" do
+
+            subject do
+              VCR.use_cassette('subscription create failure') do
+                post api_braintree_transaction_path(page.id), subscription_params
+              end
+            end
+
+            include_examples "creates nothing"
+            include_examples "processor errors"
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+            end
           end
         end
       end
