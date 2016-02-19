@@ -6,6 +6,7 @@ module PaymentProcessor
       describe WebhookHandler do
         describe '.handle' do
 
+          let(:subscription) { instance_double('Payment::BraintreeSubscription', action: action) }
           let(:action) { build :action, page_id: 1, member_id: 2 }
           before :each do
             allow(Payment).to receive(:write_transaction)
@@ -24,15 +25,12 @@ module PaymentProcessor
             describe 'when Action is found' do
 
               before :each do
-                allow(Action).to receive(:where).and_return([action])
+                allow(Payment::BraintreeSubscription).to receive(:find_by).and_return(subscription)
                 WebhookHandler.handle(notification)
               end
 
               it 'looks up action by subscription_id' do
-                expect(Action).to have_received(:where).with('form_data @> ?', {
-                  is_subscription: true,
-                  subscription_id: notification.subscription.id
-                }.to_json)
+                expect(Payment::BraintreeSubscription).to have_received(:find_by).with(subscription_id: 's09870')
               end
 
               it 'pushes the action to ActionQueue::Pusher' do
@@ -53,7 +51,7 @@ module PaymentProcessor
             describe 'when Action is not found' do
 
               before :each do
-                allow(Action).to receive(:where).and_return([])
+                allow(Payment::BraintreeSubscription).to receive(:find_by).and_return(nil)
                 WebhookHandler.handle(notification)
               end
 
@@ -80,12 +78,12 @@ module PaymentProcessor
             end
 
             before :each do
-              allow(Action).to receive(:where)
+              allow(Payment::BraintreeSubscription).to receive(:find_by)
               WebhookHandler.handle(notification)
             end
 
             it 'does not look up the action' do
-              expect(Action).not_to have_received(:where)
+              expect(Payment::BraintreeSubscription).not_to have_received(:find_by)
             end
 
             it 'does not write to Payment.write_transaction' do
