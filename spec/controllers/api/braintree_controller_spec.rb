@@ -186,15 +186,19 @@ describe Api::BraintreeController do
 
     it 'parses a supported webhook and passes it to the Webhook handler' do
       post :webhook, supported_webhook
-      expect(PaymentProcessor::Clients::Braintree::WebhookHandler).to have_received(:handle).with(
-        instance_of(Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully)
+      expect(
+        PaymentProcessor::Clients::Braintree::WebhookHandler
+      ).to have_received(:handle).with(
+        an_instance_of(Braintree::WebhookNotification)
       )
     end
 
     it 'parse an unsupported_webhook and passes it to the Webhook handler' do
       post :webhook, unsupported_webhook
-      expect(PaymentProcessor::Clients::Braintree::WebhookHandler).to have_received(:handle).with(
-        instance_of(Braintree::WebhookNotification::Kind::SubscriptionCanceled)
+      expect(
+        PaymentProcessor::Clients::Braintree::WebhookHandler
+      ).to have_received(:handle).with(
+        an_instance_of(Braintree::WebhookNotification)
       )
     end
 
