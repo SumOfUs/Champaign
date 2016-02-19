@@ -194,6 +194,20 @@ describe "Braintree API" do
             include_examples "creates nothing"
             include_examples "processor errors"
           end
+
+          describe "with invalid currency" do
+            before do
+              params[:currency] = 'JPN'
+            end
+
+            it 'raises relevant error' do
+             expect{
+                VCR.use_cassette("transaction not handled currency") do
+                  post api_braintree_transaction_path(page.id), params
+                end
+              }.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
+            end
+          end
         end
       end
     end
