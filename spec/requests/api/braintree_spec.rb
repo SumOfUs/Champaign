@@ -1056,6 +1056,16 @@ describe "Braintree API" do
       end
     end
   end
+
+  describe "fetching a token" do
+    it 'gets a client token' do
+      VCR.use_cassette("braintree_client_token") do
+        expect{ get api_braintree_token_path }.not_to raise_error
+
+        body = JSON.parse(response.body).with_indifferent_access
+        expect(body).to have_key(:token)
+        expect(body[:token].to_s).to match a_string_matching(/[a-zA-Z0-9=]{5,5000}/)
+      end
+    end
+  end
 end
-
-
