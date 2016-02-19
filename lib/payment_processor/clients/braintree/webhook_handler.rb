@@ -48,10 +48,10 @@ module PaymentProcessor
 
         # this method should only be called if @notification.subscription is a subscription object
         def original_action
-          @action ||= Action.where('form_data @> ?', {
-            is_subscription: true,
+          return @action unless @action.blank?
+          @action = Payment::BraintreeSubscription.find_by(
             subscription_id: @notification.subscription.id
-          }.to_json).first
+          ).try(:action)
         end
       end
     end
