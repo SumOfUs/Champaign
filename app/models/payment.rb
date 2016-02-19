@@ -82,13 +82,17 @@ module Payment
   class BraintreeTransactionBuilder
     #
     # Stores and associates a Braintree transaction as +Payment::BraintreeTransaction+. Builder will also
-    # create an instance of +Payment::BraintreeCustomer+, if it doesn't already exist.
+    # create or update an instance of +Payment::BraintreeCustomer+, if save_customer is passed
     #
     # === Options
     #
-    # * +:action+      - The ActiveRecord model of the corresponding action.
     # * +:bt_result+   - A Braintree::Transaction response object or a Braintree::Subscription response
     #                    (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    #                    or a Braintree::WebhookNotification
+    # * +:page_id+     - the id of the Page to associate with the transaction record
+    # * +:member_id+   - the member_id to associate with the customer record
+    # * +:existing_customer+ - if passed, this customer is updated instead of creating a new one
+    # * +:save_customer+     - optional, default true. whether to save the customer info too
     #
     #
 
