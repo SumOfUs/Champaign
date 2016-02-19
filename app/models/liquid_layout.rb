@@ -10,6 +10,9 @@ class LiquidLayout < ActiveRecord::Base
   validates :experimental, inclusion: {in: [true, false]}
 
   scope :campaigner_friendly, -> { where(experimental: false) }
+  scope :with_default_layouts, -> { where.not(default_follow_up_layout: nil) }
+  scope :primary_layouts, -> {where(primary_layout: true)}
+  scope :post_action_layouts, -> { where(post_action_layout: true)}
 
   def plugin_refs
     # pass depth of -1 to allow layouts one more level of nesting than partials
