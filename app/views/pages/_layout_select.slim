@@ -2,11 +2,22 @@
 -# f: form builder
 -# offer_redirect: boolean, whether to offer a redirect
 - offer_redirect ||= false
+- layout_types = (field == :liquid_layout_id) ? 'primary' : 'follow-up'
+= check_box_tag layout_types, 'Show all', false, {class: 'layout-type-checkbox'}
+
 .radio-group.btn-group-vertical.layout-settings__button-group role="group"
   - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
     - liquid_matters = (!offer_redirect || f.object.follow_up_plan.to_sym == :with_liquid)
+    - # TODO: if layout_types is 'follow-up' and follow_up_liquid_layout_id is nil, use default_follow_up_layout
+    - # if that is nil, fall back to redirect
     - active_class = (ll.id == f.object.send(field) && liquid_matters) ? 'active' : ''
-    = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class}"
+    - primary_layout_class = 'primary-layout'
+    - post_action_layout_class = 'post-action-layout'
+    - # Hide primary layouts if the form is for follow-up layouts, and hide follow-up layouts if it's for primary layouts
+    - (layout_types == 'primary' ? post_action_layout_class : primary_layout_class) << ' hidden'
+    - primary_layout = ll.primary_layout ? primary_layout_class : ''
+    - post_action_layout = ll.post_action_layout ? post_action_layout_class : ''
+    = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class} #{primary_layout} #{post_action_layout}"
       = f.radio_button field, ll.id, class: 'hidden-irrelevant'
       span.layout-settings__title= ll.title
       span.layout-settings__description= ll.description
