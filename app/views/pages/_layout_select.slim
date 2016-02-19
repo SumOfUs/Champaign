@@ -3,8 +3,10 @@
 -# offer_redirect: boolean, whether to offer a redirect
 - offer_redirect ||= false
 - layout_types = (field == :liquid_layout_id) ? 'primary' : 'follow-up'
-= check_box_tag layout_types, 'Show all', false, {class: 'layout-type-checkbox'}
-
+.checkbox
+  = check_box_tag layout_types, 'Show all', false, {class: 'layout-type-checkbox'}
+  = label_tag layout_types do
+    | Currently viewing #{layout_types} layouts. Show all layouts instead?
 .radio-group.btn-group-vertical.layout-settings__button-group role="group"
   - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
     - liquid_matters = (!offer_redirect || f.object.follow_up_plan.to_sym == :with_liquid)
