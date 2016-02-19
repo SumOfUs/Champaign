@@ -20,6 +20,7 @@ describe "Braintree API" do
 
   before :each do
     allow(ChampaignQueue).to receive(:push)
+    allow(Analytics::Page).to receive(:increment)
   end
 
   describe 'making a transaction' do
@@ -50,6 +51,11 @@ describe "Braintree API" do
               VCR.use_cassette("transaction success basic existing customer") do
                 post api_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
             end
 
             it "creates an Action associated with the Page and Member" do
@@ -478,6 +484,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
+              subject
+            end
+
             it "creates an Action associated with the Page and Member" do
               expect{ subject }.to change{ Action.count }.by 1
               expect(Action.last.page).to eq page
@@ -541,6 +552,11 @@ describe "Braintree API" do
               VCR.use_cassette("subscription success basic existing customer") do
                 post api_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
             end
 
             it "creates an Action associated with the Page and Member" do
@@ -712,6 +728,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
+            end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -778,6 +799,11 @@ describe "Braintree API" do
               VCR.use_cassette("subscription success basic new customer") do
                 post api_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
             end
 
             it "creates an Action associated with the Page and Member" do
@@ -855,9 +881,9 @@ describe "Braintree API" do
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
-                    source: 'fb',
                     first_name: 'Bernie',
-                    last_name: 'Sanders'
+                    last_name: 'Sanders',
+                    source: 'fb'
                   },
                   action: {
                     source: 'fb'
@@ -946,6 +972,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
+            end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -1016,6 +1047,11 @@ describe "Braintree API" do
               VCR.use_cassette("subscription success basic new customer") do
                 post api_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
+              subject
             end
 
             it "creates an Action associated with the Page and Member" do
