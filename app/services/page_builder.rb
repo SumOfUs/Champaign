@@ -12,6 +12,7 @@ class PageBuilder
   end
 
   def save_and_enqueue
+    set_follow_up_plan
     QueueManager.push(page, job_type: :create) if page.save
     page
   end
@@ -21,5 +22,13 @@ class PageBuilder
   def page
     @page ||= Page.new(@params)
   end
+
+  def set_follow_up_plan
+    follow_up_layout = page.liquid_layout.default_follow_up_layout
+    if not follow_up_layout.blank?
+      page.follow_up_liquid_layout = follow_up_layout
+    end
+  end
+
 end
 
