@@ -31,7 +31,7 @@ module PaymentProcessor
           when 'subscription_charged_successfully'
             handle_subscription_charged
           else
-            Rails.logger.info("Unsupported Braintree::WebhookNotification received of type #{@notification.kind}")
+            Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{@notification.kind}'")
           end
         end
 
@@ -39,7 +39,7 @@ module PaymentProcessor
 
         def handle_subscription_charged
           if original_action.blank?
-            Rails.logger.info("Failed to handle Braintree::WebhookNotification for subscription_id #{@notification.subscription_id}")
+            Rails.logger.info("Failed to handle Braintree::WebhookNotification for subscription_id '#{@notification.subscription.id}'")
             return
           end
           Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, nil, false)
