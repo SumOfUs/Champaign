@@ -8,12 +8,13 @@ module Payment
       BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer)
     end
 
-    def write_subscription(subscription_result, page_id, currency)
+    def write_subscription(subscription_result, page_id, action_id, currency)
       if subscription_result.success?
         Payment::BraintreeSubscription.create({
           subscription_id:        subscription_result.subscription.id,
           amount:                 subscription_result.subscription.price,
           merchant_account_id:    subscription_result.subscription.merchant_account_id,
+          action_id:              action_id,
           currency:               currency,
           page_id:                page_id
         })
@@ -170,7 +171,9 @@ module Payment
 
     def successful?
       return @bt_result.success? if @bt_result.respond_to?(:success?)
-      return true if @bt_result.class == Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully
+      if @bt_result.is_a?(Braintree::WebhookNotification) && @bt_result.kind == 'subscription_charged_successfully'
+        return true
+      end
       false
     end
 

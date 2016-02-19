@@ -35,19 +35,20 @@ describe Payment do
     end
 
     it 'saves relevant fields when successful' do
-      Payment.write_subscription(success_result, 'my_page_id', 'my_currency')
+      Payment.write_subscription(success_result, 'my_page_id', 'my_action_id', 'my_currency')
       expect(Payment::BraintreeSubscription).to have_received(:create).with({
         subscription_id:        'lol',
         amount:                 12,
         merchant_account_id:    'EUR',
         currency:               'my_currency',
-        page_id:                'my_page_id'
+        page_id:                'my_page_id',
+        action_id:              'my_action_id'
       })
     end
 
     it 'does not record when unsuccessful' do
       expect{
-        Payment.write_subscription(failure_result, 'my_page_id', 'my_currency')
+        Payment.write_subscription(failure_result, 'my_page_id', 'my_action_id', 'my_currency')
       }.not_to change{ Payment::BraintreeSubscription.count }
       expect(Payment::BraintreeSubscription).not_to have_received(:create)
     end
