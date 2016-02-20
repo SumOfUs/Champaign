@@ -2,7 +2,6 @@
 -# f: form builder
 -# offer_redirect: boolean, whether to offer a redirect
 - offer_redirect ||= false
-- layout_types = specify_layout_types(field)
 .radio-group.btn-group-vertical.layout-settings__button-group role="group"
   - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
     = f.label field, value: ll.id, class: construct_layout_select_class(ll, offer_redirect, f, field)
@@ -18,6 +17,6 @@
       span.layout-settings__description
         = f.select :follow_up_page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.follow_up_page_id), {}, html_options= {class: 'selectize-container', multiple: false}
 .checkbox
-  = check_box_tag layout_types, 'Show all', false, {class: 'layout-type-checkbox'}
-  = label_tag layout_types do
+  = check_box_tag specify_layout_types(field), 'Show all', false, {class: 'layout-type-checkbox'}
+  = label_tag specify_layout_types(field) do
     | Show all layouts
