@@ -155,7 +155,7 @@ module Payment
     end
 
     def transaction
-      @bt_result.transaction || @bt_result.subscription.transactions.first
+      @bt_result.transaction || @bt_result.subscription.try(:transactions).try(:first)
     end
 
     def card
