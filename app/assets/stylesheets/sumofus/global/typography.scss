@@ -33,11 +33,6 @@ a {
 
 .typography {
   &__highlight {
-  }
-
-  &__dark-highlight {
-  }
-  &__highlight {
     display: inline;
     border-style: solid;
     border-width: 0.25em 0;
@@ -54,6 +49,8 @@ a {
       z-index: 1;
       white-space: pre-wrap;
       padding-right: 0.25em;
+
+      @include hyphenate;
     }
 
     &--simple {
