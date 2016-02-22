@@ -29,6 +29,10 @@ de:
       expiration: Ablaufdatum
       expiration_format: MM/JJ
       postalCode: Postleitzahl
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: Die Kartenprüfnummer
+      number: Die Kreditkartennummer
+      expiration: Das Ablaufdatum
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
@@ -46,7 +50,7 @@ de:
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
   errors:
-    probably_invalid: Das sieht nicht richtig aus.
+    probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig
     this_field: Dieses Feld
   validation:
