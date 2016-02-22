@@ -4,7 +4,8 @@
 - offer_redirect ||= false
 .radio-group.btn-group-vertical.layout-settings__button-group role="group"
   - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
-    = f.label field, value: ll.id, class: construct_layout_select_class(ll, offer_redirect, f, field)
+    - layout_select_classes = construct_layout_select_class(ll, f.object, field)
+    = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{layout_select_classes}"
       = f.radio_button field, ll.id, class: 'hidden-irrelevant'
       span.layout-settings__title= ll.title
       span.layout-settings__description= ll.description
