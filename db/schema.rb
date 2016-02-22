@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160216182308) do
+ActiveRecord::Schema.define(version: 20160218175900) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,10 +141,13 @@ ActiveRecord::Schema.define(version: 20160216182308) do
   create_table "liquid_layouts", force: :cascade do |t|
     t.string   "title"
     t.text     "content"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.text     "description"
-    t.boolean  "experimental", default: false, null: false
+    t.boolean  "experimental",                default: false, null: false
+    t.integer  "default_follow_up_layout_id"
+    t.boolean  "primary_layout"
+    t.boolean  "post_action_layout"
   end
 
   create_table "liquid_partials", force: :cascade do |t|
