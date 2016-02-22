@@ -57,7 +57,8 @@ module Payment
       card_attrs.merge({
         card_vault_token: @bt_payment_method.token,
         customer_id:      @bt_customer.id,
-        member_id:        @member_id
+        member_id:        @member_id,
+        email:            @bt_customer.email
       })
     end
 
@@ -153,12 +154,13 @@ module Payment
         card_last_4:      last_4,
         card_vault_token: payment_method_token,
         customer_id:      transaction.customer_details.id,
+        email:            transaction.customer_details.email,
         member_id:        @member_id
       }
     end
 
     def transaction
-      @bt_result.transaction || @bt_result.subscription.transactions.first
+      @bt_result.transaction || @bt_result.subscription.try(:transactions).try(:first)
     end
 
     def card
