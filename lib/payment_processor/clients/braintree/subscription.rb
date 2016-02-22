@@ -74,7 +74,7 @@ module PaymentProcessor
 
           Payment.write_customer(customer_result.customer, payment_method, @action.member_id, existing_customer)
           Payment.write_transaction(subscription_result, @page_id, @action.member_id, existing_customer, false)
-          Payment.write_subscription(subscription_result, @page_id, @currency)
+          Payment.write_subscription(subscription_result, @page_id, @action.id, @currency)
         end
 
         # we make 2 or 3 requests to braintree. if any of them fails, set it as the result

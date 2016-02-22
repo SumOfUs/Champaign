@@ -19,7 +19,7 @@ module PaymentProcessor
               }
             }
           end
-          let(:action) { instance_double('Action', member_id: 654) }
+          let(:action) { instance_double('Action', member_id: 654, id: 77) }
           let(:customer_token) { 'asdfghjkl' }
           let(:payment_method_token) { 'qwertyuiop' }
           let(:customer_success) { instance_double('Braintree::SuccessResult', success?: true, customer: double(payment_methods: [double(token: customer_token)])) }
@@ -221,7 +221,7 @@ module PaymentProcessor
                   end
 
                   it 'calls Payment.write_subscription with the right params' do
-                    expect(Payment).to have_received(:write_subscription).with(subscription_success, '12', 'AUD')
+                    expect(Payment).to have_received(:write_subscription).with(subscription_success, '12', 77, 'AUD')
                   end
                 end
               end
@@ -356,7 +356,7 @@ module PaymentProcessor
                 end
 
                 it 'calls Payment.write_subscription with the right params' do
-                  expect(Payment).to have_received(:write_subscription).with(subscription_success, '12', 'AUD')
+                  expect(Payment).to have_received(:write_subscription).with(subscription_success, '12', 77, 'AUD')
                 end
               end
             end

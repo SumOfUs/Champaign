@@ -602,6 +602,7 @@ describe "Braintree API" do
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
+              expect(subscription.action).to eq Action.last
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
@@ -849,6 +850,7 @@ describe "Braintree API" do
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
+              expect(subscription.action).to eq Action.last
             end
 
             it "creates a Payment::BraintreeCustomer with new token, customer_id, and last_4" do
