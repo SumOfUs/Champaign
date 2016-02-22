@@ -24,7 +24,7 @@ module LayoutSelectHelper
   end
 
   def check_active(liquid_layout, page, field)
-    if field == :follow_up_liquid_layout_id && page.follow_up_plan.to_sym == :with_liquid
+    if field == :follow_up_liquid_layout_id && page.follow_up_plan.to_sym == :with_page
       return '' # the redirect option will be the active one in this case
     end
     # page.send(field) calls either page.liquid_layout_id or page.follow_up_liquid_layout_id
