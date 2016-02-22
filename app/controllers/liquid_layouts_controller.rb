@@ -65,6 +65,6 @@ class LiquidLayoutsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def liquid_layout_params
-      params.require(:liquid_layout).permit(:title, :content, :description, :experimental)
+      params.require(:liquid_layout).permit(:title, :content, :description, :experimental, :primary_layout, :post_action_layout)
     end
 end

@@ -13,6 +13,14 @@
     = f.label :experimental
       = f.check_box :experimental
       = "#{t('liquid.experimental')} #{t('liquid.experimental_explanation')}"
+  .checkbox
+    = f.label :primary_layout
+      = f.check_box :primary_layout
+      = "#{t('liquid.primary_layout')} #{t('liquid.experimental_explanation')}"
+  .checkbox
+    = f.label :post_action_layout
+      = f.check_box :post_action_layout
+      = "#{t('liquid.post_action_layout')} #{t('liquid.experimental_explanation')}"
 
   .form-group
     button.btn.btn-default Save
