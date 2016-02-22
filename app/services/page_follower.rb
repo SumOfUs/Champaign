@@ -26,11 +26,11 @@ class PageFollower
   private
 
   def path_to_follow_up_page
-    page_path(@follow_up_page_slug) unless @follow_up_page_slug.blank?
+    member_facing_page_path(@follow_up_page_slug) unless @follow_up_page_slug.blank?
   end
 
   def path_to_follow_up_layout
-    follow_up_page_path(@page_slug) unless @page_slug.blank? || @follow_up_liquid_layout_id.blank?
+    follow_up_member_facing_page_path(@page_slug) unless @page_slug.blank? || @follow_up_liquid_layout_id.blank?
   end
 end
 
