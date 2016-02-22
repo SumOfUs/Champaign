@@ -29,6 +29,7 @@ shared_examples "creates nothing" do
     expect( response.status ).to eq 422
   end
 end
+
 shared_examples "processor errors" do
   it "serializes processor errors in JSON" do
     subject
@@ -70,8 +71,83 @@ describe "Braintree API" do
   describe "unsuccessfuly" do
     describe "making a transaction" do
       describe "when Member exists" do
-
         let!(:member) { create :member, email: user[:email], postal: nil }
+
+        describe "with invalid user fields" do
+          let(:user) do
+            {
+              form_id:  form.id,
+              name:     'a' * 365,
+              email:    'bob@example.com',
+              postal:   'invalid postal code',
+              address1: 'Lynda Vista',
+              country:  'US'
+            }
+          end
+
+          describe 'with credit card' do
+            subject do
+              VCR.use_cassette("transaction invalid user") do
+                post api_braintree_transaction_path(page.id), params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+              subject
+            end
+
+            it "does not update the member" do
+              expect{ subject }.not_to change{ member.reload }
+            end
+
+            it "returns error messages in JSON body" do
+              subject
+
+              expected = ["First name is too long.",
+                          "Postal code may contain no more than 9 letter or number characters."]
+
+              actual = error_messages_from_response(response)
+
+              expect(actual).to match_array(expected)
+            end
+          end
+
+          describe "with Paypal" do
+            let(:paypal_params) do
+              params.merge(payment_method_nonce: 'fake-paypal-future-nonce', merchant_account_id: 'EUR')
+            end
+
+            subject do
+              VCR.use_cassette("transaction invalid user with paypal") do
+                post api_braintree_transaction_path(page.id), paypal_params
+              end
+            end
+
+            include_examples "creates nothing"
+
+            it "does not create a Transaction" do
+              expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+              subject
+            end
+
+            it "does not update the member" do
+              expect{ subject }.not_to change{ member.reload }
+            end
+
+            it "returns error messages in JSON body" do
+              subject
+
+              expected = ["First name is too long."]
+
+              actual = error_messages_from_response(response)
+
+              expect(actual).to match_array(expected)
+            end
+          end
+        end
 
         describe "when BraintreeCustomer is new" do
           describe "with basic params" do
@@ -122,6 +198,7 @@ describe "Braintree API" do
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
             end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -139,6 +216,7 @@ describe "Braintree API" do
             end
           end
         end
+
         describe "when BraintreeCustomer exists" do
           describe "with Paypal" do
             let(:paypal_params) {
@@ -160,9 +238,11 @@ describe "Braintree API" do
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
             end
+
             it "does not update the BraintreeCustomer in the database" do
               expect{ subject }.not_to change{ braintree_customer.reload }
             end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -181,6 +261,7 @@ describe "Braintree API" do
           end
         end
       end
+
       describe "when Member is new" do
         describe "when BraintreeCustomer is new" do
           describe "with basic params" do
