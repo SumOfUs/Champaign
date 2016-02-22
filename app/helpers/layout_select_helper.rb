@@ -4,7 +4,7 @@ module LayoutSelectHelper
     hidden = check_hidden(liquid_layout, field)
     active = check_active(liquid_layout, page, field)
     post_action_layout = liquid_layout.post_action_layout ? 'post-action-layout' : ''
-    primary_layout = liquid_layout.primary_layout ? 'primary_layout' : ''
+    primary_layout = liquid_layout.primary_layout ? 'primary-layout' : ''
     "#{hidden} #{active} #{primary_layout} #{post_action_layout}"
   end
 

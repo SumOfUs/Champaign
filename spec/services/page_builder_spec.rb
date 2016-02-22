@@ -49,7 +49,7 @@ describe PageBuilder do
   it 'sets no follow up layout for a page created with a layout that has no default post-action layout' do
     params[:liquid_layout_id] = follow_up_template.id
     PageBuilder.create(params)
-    expect Page.first.follow_up_liquid_layout_id.to be nil
+    expect(Page.first.follow_up_liquid_layout_id).to be nil
     # follow up page hasn't yet been set at this step and should be nil
     expect(Page.first.follow_up_page).to be nil
   end
