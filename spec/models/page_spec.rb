@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe Page do
 
-  let(:english)       { create :language }
-  let(:liquid_layout) { create :liquid_layout }
-  let(:page)          { create :page }
+  let(:english)          { create :language }
+  let!(:follow_up_layout) { create :liquid_layout }
+  let!(:liquid_layout)    { create :liquid_layout, default_follow_up_layout: follow_up_layout }
+  let(:page)             { create :page }
 
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
@@ -319,6 +320,26 @@ describe Page do
     it 'defaults to :with_liquid' do
       new_page = create :page
       expect(page.follow_up_plan).to eq 'with_liquid'
+    end
+
+    context 'a page with a layout that has a default follow-up layout' do
+      it 'uses the correct layout for the follow-up page' do
+        new_page = PageBuilder.create(page_params)
+        expect(liquid_layout.default_follow_up_layout).to be follow_up_layout
+        expect(new_page.follow_up_liquid_layout_id).to be follow_up_layout.id
+        # follow-up plan is 'with liquid'
+        expect(new_page.follow_up_plan).to eq "with_liquid"
+      end
+    end
+    context 'a page with a layout with no default follow-up layout' do
+      it 'does not have a follow_up_liquid_layout_id' do
+        liquid_layout.default_follow_up_layout = nil
+        liquid_layout.save
+        new_page = PageBuilder.create(page_params)
+        expect(new_page.follow_up_liquid_layout_id).to be nil
+        # follow up page hasn't yet been set at this step and should be nil
+        expect(new_page.follow_up_page).to be nil
+      end
     end
   end
 
