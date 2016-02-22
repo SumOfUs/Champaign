@@ -44,6 +44,10 @@ Rails.application.routes.draw do
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
   end
 
+  resources :pages, path: 'a', as: 'member_facing_page', only: [:edit, :show] do
+    get 'follow-up', on: :member, action: 'follow_up'
+  end
+
   resources :forms do
     resources :form_elements do
       post :sort, on: :collection
