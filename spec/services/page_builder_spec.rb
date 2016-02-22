@@ -53,4 +53,10 @@ describe PageBuilder do
     # follow up page hasn't yet been set at this step and should be nil
     expect(Page.first.follow_up_page).to be nil
   end
+
+  it 'creates no page and throws no error for when there is an attempt to create a page without a liquid layout' do
+    params[:liquid_layout_id] = nil
+    expect{ subject }.not_to raise_error
+    expect{ subject }.not_to change{ Page.count }
+  end
 end
