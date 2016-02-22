@@ -9,6 +9,9 @@
   .form-group
     = f.label :content, "Markup"
     = f.text_area :content, class: 'form-control syntax-highlighting'
+  .form-group
+    = f.label :default_follow_up_layout_id, t('liquid.default_follow_up_layout')
+    = f.select :default_follow_up_layout_id, options_from_collection_for_select(LiquidLayout.all, 'id', 'title', f.object.default_follow_up_layout_id), {include_blank: 'None'}, {class: 'selectize-container', multiple: false}
   .checkbox
     = f.label :experimental
       = f.check_box :experimental
