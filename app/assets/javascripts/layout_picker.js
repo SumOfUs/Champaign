@@ -30,28 +30,20 @@ const setupOnce = require('setup_once');
     },
 
     showRelevantLayouts(e) {
-      let $target = $(e.target);
+      const $target = $(e.target);
+      const inverseClass = this.inverseLayoutClass($target.attr('id'));
+      const layoutRows = $target.closest('.form-group').find(inverseClass);
       if ($target.is(':checked')) {
-        this.showInverseLayouts($target);
+        layoutRows.removeClass('hidden');
+      } else {
+        layoutRows.addClass('hidden');
       }
-      else {
-        this.hideInverseLayouts($target);
-      }
-    },
-
-    showInverseLayouts(target) {
-      target.closest('.form-group').find(this.inverseLayoutClass(target.attr('id'))).removeClass('hidden');
-    },
-
-    hideInverseLayouts(target) {
-      target.closest('.form-group').find(this.inverseLayoutClass(target.attr('id'))).addClass('hidden');
     },
 
     inverseLayoutClass(layout_select_id) {
       if (layout_select_id==='primary') {
         return '.post-action-layout'
-      }
-      else if (layout_select_id==='follow-up') {
+      } else if (layout_select_id==='follow-up') {
         return '.primary-layout'
       }
     }
