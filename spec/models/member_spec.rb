@@ -50,6 +50,49 @@ describe Member do
     end
   end
 
+  describe 'validations' do
+    describe 'email' do
+      before do
+        create(:member, email: 'foo@example.com')
+      end
+
+      it 'must be unique' do
+        member = build(:member, email: 'foo@example.com')
+        expect(member).to be_invalid
+        expect(member.errors[:email]).to eq(["has already been taken"])
+      end
+
+      it 'can be nil' do
+        expect{
+          create(:member, email: nil)
+          create(:member, email: nil)
+        }.to_not raise_error
+      end
+    end
+  end
+
+  describe 'email' do
+    it 'is downcased on create' do
+      member = create(:member, email: 'FOO@ExAmPle.CoM')
+      expect(member.email).to eq('foo@example.com')
+    end
+
+    it 'is downcased on save' do
+      member = create(:member, email: 'foo@example.com')
+      member.update(email: 'FOO@EXAMPLE.ORG')
+      expect(member.email).to eq('foo@example.org')
+    end
+
+    it 'is fine with nil' do
+      expect{
+        create(:member, email: nil)
+      }.to change{Member.count}.
+      from(0).to(1)
+
+      expect(Member.last.email).to be nil
+    end
+  end
+
   describe 'liquid_data' do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member

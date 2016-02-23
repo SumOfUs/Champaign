@@ -108,7 +108,7 @@ describe "Api Actions" do
 
       context 'existing member' do
 
-        let(:member) { create :member, actionkit_user_id: '1234', email: params[:email]}
+        let!(:member) { create :member, actionkit_user_id: '1234', email: params[:email]}
 
         it 'does not overwrite existing actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params

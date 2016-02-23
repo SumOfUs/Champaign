@@ -2,6 +2,9 @@ class Member < ActiveRecord::Base
   has_one :customer, class_name: "Payment::BraintreeCustomer"
   has_paper_trail on: [:update, :destroy]
 
+  validates :email, uniqueness: true, allow_nil: true
+  before_save { self.email.try(:downcase!) }
+
   def self.find_from_request(akid: nil, id: nil)
     if akid.present?
       actionkit_user_id = AkidParser.parse(akid)[:actionkit_user_id]
