@@ -7,7 +7,7 @@
     = render 'shared/error_messages', target: @page
 
     .form-group
-      = f.label :title, t('.title_label')
+      = label_with_tooltip(f, :title, t('pages.edit.title'), t('tooltips.title'))
       = f.text_field :title, class: 'form-control'
 
     .form-group.slug-field style='display:none;'
@@ -30,7 +30,7 @@
       = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, {}, class: "form-control"
 
     .form-group
-      = f.label :liquid_layout_id, t('.layout_select')
+      = label_with_tooltip(f, :liquid_layout_id, t('pages.edit.layout_select'), t('tooltips.page_layout'))
       .layout-settings
         = render 'layout_select', field: :liquid_layout_id, f: f
 
