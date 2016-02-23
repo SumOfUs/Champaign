@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160218175900) do
+ActiveRecord::Schema.define(version: 20160219174402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,9 +31,11 @@ ActiveRecord::Schema.define(version: 20160218175900) do
     t.string   "link"
     t.boolean  "created_user"
     t.boolean  "subscribed_user"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.jsonb    "form_data"
+    t.boolean  "subscribed_member", default: true
+    t.boolean  "donation",          default: false
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
@@ -232,9 +234,12 @@ ActiveRecord::Schema.define(version: 20160218175900) do
     t.integer  "page_id"
     t.decimal  "amount",              precision: 10, scale: 2
     t.string   "currency"
+    t.integer  "action_id"
   end
 
+  add_index "payment_braintree_subscriptions", ["action_id"], name: "index_payment_braintree_subscriptions_on_action_id", using: :btree
   add_index "payment_braintree_subscriptions", ["page_id"], name: "index_payment_braintree_subscriptions_on_page_id", using: :btree
+  add_index "payment_braintree_subscriptions", ["subscription_id"], name: "index_payment_braintree_subscriptions_on_subscription_id", using: :btree
 
   create_table "payment_braintree_transactions", force: :cascade do |t|
     t.string   "transaction_id"
@@ -249,8 +254,8 @@ ActiveRecord::Schema.define(version: 20160218175900) do
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
+    t.decimal  "amount",                  precision: 10, scale: 2
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree

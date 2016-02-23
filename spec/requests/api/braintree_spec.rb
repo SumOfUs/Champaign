@@ -20,6 +20,7 @@ describe "Braintree API" do
 
   before :each do
     allow(ChampaignQueue).to receive(:push)
+    allow(Analytics::Page).to receive(:increment)
   end
 
   describe 'making a transaction' do
@@ -50,6 +51,11 @@ describe "Braintree API" do
               VCR.use_cassette("transaction success basic existing customer") do
                 post api_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
             end
 
             it "creates an Action associated with the Page and Member" do
@@ -304,6 +310,7 @@ describe "Braintree API" do
               expect( customer.customer_id ).not_to be_blank
               expect( customer.card_last_4 ).to eq '1881'
               expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.email ).to eq user_params[:email]
             end
 
             it "posts donation action to queue with key data" do
@@ -431,6 +438,7 @@ describe "Braintree API" do
               expect(customer.customer_id).not_to be_blank
               expect(customer.card_last_4).to eq 'PYPL'
               expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.email ).to eq user_params[:email]
             end
 
             it "stores PYPL as card_num on the Action" do
@@ -476,6 +484,11 @@ describe "Braintree API" do
               VCR.use_cassette("transaction success basic new customer") do
                 post api_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
+              subject
             end
 
             it "creates an Action associated with the Page and Member" do
@@ -543,6 +556,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
+            end
+
             it "creates an Action associated with the Page and Member" do
               expect{ subject }.to change{ Action.count }.by 1
               expect(Action.last.page).to eq page
@@ -586,6 +604,7 @@ describe "Braintree API" do
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
+              expect(subscription.action).to eq Action.last
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
@@ -712,6 +731,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
+            end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -780,6 +804,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
+            end
+
             it "creates an Action associated with the Page and Member" do
               expect{ subject }.to change{ Action.count }.by 1
               expect(Action.last.page).to eq page
@@ -823,6 +852,7 @@ describe "Braintree API" do
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
+              expect(subscription.action).to eq Action.last
             end
 
             it "creates a Payment::BraintreeCustomer with new token, customer_id, and last_4" do
@@ -830,6 +860,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
               expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.email ).to eq user_params[:email]
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
 
@@ -855,9 +886,9 @@ describe "Braintree API" do
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
-                    source: 'fb',
                     first_name: 'Bernie',
-                    last_name: 'Sanders'
+                    last_name: 'Sanders',
+                    source: 'fb'
                   },
                   action: {
                     source: 'fb'
@@ -946,6 +977,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
+              subject
+            end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -968,6 +1004,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
               expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.email ).to eq user_params[:email]
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
@@ -1018,6 +1055,11 @@ describe "Braintree API" do
               end
             end
 
+            it 'increments redis counters' do
+              expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
+              subject
+            end
+
             it "creates an Action associated with the Page and Member" do
               expect{ subject }.to change{ Action.count }.by 1
               expect(Action.last.page).to eq page
@@ -1052,6 +1094,16 @@ describe "Braintree API" do
       end
     end
   end
+
+  describe "fetching a token" do
+    it 'gets a client token' do
+      VCR.use_cassette("braintree_client_token") do
+        expect{ get api_braintree_token_path }.not_to raise_error
+
+        body = JSON.parse(response.body).with_indifferent_access
+        expect(body).to have_key(:token)
+        expect(body[:token].to_s).to match a_string_matching(/[a-zA-Z0-9=]{5,5000}/)
+      end
+    end
+  end
 end
-
-

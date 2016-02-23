@@ -35,19 +35,20 @@ describe Payment do
     end
 
     it 'saves relevant fields when successful' do
-      Payment.write_subscription(success_result, 'my_page_id', 'my_currency')
+      Payment.write_subscription(success_result, 'my_page_id', 'my_action_id', 'my_currency')
       expect(Payment::BraintreeSubscription).to have_received(:create).with({
         subscription_id:        'lol',
         amount:                 12,
         merchant_account_id:    'EUR',
         currency:               'my_currency',
-        page_id:                'my_page_id'
+        page_id:                'my_page_id',
+        action_id:              'my_action_id'
       })
     end
 
     it 'does not record when unsuccessful' do
       expect{
-        Payment.write_subscription(failure_result, 'my_page_id', 'my_currency')
+        Payment.write_subscription(failure_result, 'my_page_id', 'my_action_id', 'my_currency')
       }.not_to change{ Payment::BraintreeSubscription.count }
       expect(Payment::BraintreeSubscription).not_to have_received(:create)
     end
@@ -55,7 +56,7 @@ describe Payment do
 
   describe '.write_customer' do
 
-    let(:bt_customer) { instance_double('Braintree::Customer', id: 'fuds7' )}
+    let(:bt_customer) { instance_double('Braintree::Customer', id: 'fuds7', email: 'skeebadee@boop.beep' )}
     let(:member_id){ 3 }
 
     before :each do
@@ -86,6 +87,7 @@ describe Payment do
           cardholder_name:  bt_payment_method.cardholder_name,
           card_debit:       bt_payment_method.debit,
           card_last_4:      bt_payment_method.last_4,
+          email:            bt_customer.email,
           card_unique_number_identifier: bt_payment_method.unique_number_identifier,
         }
       end
@@ -115,6 +117,7 @@ describe Payment do
           customer_id:      bt_customer.id,
           member_id:        member_id,
           card_vault_token: bt_payment_method.token,
+          email:            bt_customer.email,
           card_last_4:      'PYPL',
         }
       end
@@ -192,6 +195,7 @@ describe Payment do
           card_last_4:      credit_card_details.last_4,
           card_vault_token: credit_card_token,
           customer_id:      transaction.customer_details.id,
+          email:            transaction.customer_details.email,
           member_id:        member_id
         }
       end
@@ -346,6 +350,7 @@ describe Payment do
           card_vault_token: paypal_token,
           customer_id:      transaction.customer_details.id,
           card_last_4:      'PYPL',
+          email:            transaction.customer_details.email,
           member_id:        member_id
         }
       end

@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <customer>
+          <first-name>John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny</first-name>
+          <last-name>John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny</last-name>
+          <email>bob@example.com</email>
+          <payment-method-nonce>fake-valid-nonce</payment-method-nonce>
+          <credit-card>
+            <billing-address>
+              <first-name>John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny</first-name>
+              <last-name>John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny</last-name>
+              <postal-code>12345</postal-code>
+              <street-address>Lynda Vista</street-address>
+              <country-code-alpha2>US</country-code-alpha2>
+            </billing-address>
+          </credit-card>
+        </customer>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 19 Feb 2016 21:08:22 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 4a2b0529-eb6e-4fe3-a022-5de09d087d37
+      X-Runtime:
+      - '0.076044'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAEaEx1YAA+xXPW/bMBDd/SsI7bTspA080EqmDEW2Nl2Lk3i2ifBDICkj
+        +velFEuWZMUfCVpk8GKQd8/E472744ndvypJtmidMHoZzaeziKDODBd6vYye
+        fz3SRXSfTBjkgqK1xlKLLjfaYTIhhNUmVy3bDfFljssIrIUyineurHDeKLRv
+        23Fs42u8+311gOGYLOZ3swWL63XXCd5bkRYed+e5UqVGRslKWOf/aFDI4hbT
+        +6dC52CNyWOFJBWSiMDKGCKNXk9Z3AD23OIBuSNk57cXkJVwJtcn+BjV3da1
+        +8wiF55mYPnwOqMq1u5USBlygwLnIRNcj+FRUcdj1Y3XYvb9MF6fE/iDIo8K
+        fc4F7i68wCnRe/zPFv4d+sMEqCzvyBmuMUyOYOoUcfcsloMF1XSBg1KvRaIV
+        7+SH2WhS/eiSXNf/bM3iTswbGapUu6rwX1XYh7x99hQImaQmfcBXULnEaWZU
+        qKXa3IByKBVqTxX6jeFUG51hsoIXpFuQYmdg8SjseG8/1ryvZfoVyvRaql+k
+        VN8q0TgPktZP+vzm9luYT7qmLtR5i+jbynoqNQfyWwQwiwe+/qhYaG/L+jwK
+        Mt/ATfL8s5oiDu2nn+3g4rgVGVIXrGGip4ITLeQy8rbA3hy3slDw0DtstoHQ
+        RMZxZ4wB+7f/1Jw1GZ9fJpfBO+NOmJlGvkr+AgAA//8DAJE7UzjSDAAA
+    http_version: 
+  recorded_at: Fri, 19 Feb 2016 21:08:22 GMT
+recorded_with: VCR 3.0.0
