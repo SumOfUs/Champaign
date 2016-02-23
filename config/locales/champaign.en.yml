@@ -69,6 +69,8 @@ en:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
     thermometer_offset: "Number of fake signatures to add to true count"
+    fundraiser:
+      donation_band: "This determines the amounts displayed on the page to an unknown user without any information in their URL. Generally, you will want to stick with an option designed for non-donors."
     petition:
       text: "Appears above the form - this is what the member is signing on to"
       target: "Appears just above the page title and with the petition text"
@@ -226,7 +228,7 @@ en:
     thermometer:
       offset: "Offset"
     fundraiser:
-      donation_band: "Default Donation Band for unknown user:"
+      donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"
 
   ak_logs:
