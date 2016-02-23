@@ -12,7 +12,7 @@ describe "pages" do
         post pages_path, page: page_params.merge(liquid_layout_id: liquid_layout.id)
       }.to change{ Page.count }.by 1
       page = Page.last
-      expect(PageFollower.new_from_page(page).follow_up_path).to eq "/pages/#{page.slug}/follow-up"
+      expect(PageFollower.new_from_page(page).follow_up_path).to eq "/a/#{page.slug}/follow-up"
     end
 
     it 'has a blank follow-up url if liquid layout has no default follow-up url' do
