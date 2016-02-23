@@ -15,17 +15,35 @@ class Api::BraintreeController < ApplicationController
     if builder.result.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
       id = recurring? ? { subscription_id: builder.result.subscription.id } : { transaction_id: builder.result.transaction.id }
-
       render json: { success: true }.merge(id)
     else
-      errors = client::ErrorProcessing.new(builder.result).process
+      errors = raise_unless_user_error(builder.result)
       render json: { success: false, errors: errors }, status: 422
     end
   end
 
   def webhook
     webhook_notification = Braintree::WebhookNotification.parse(params[:bt_signature], params[:bt_payload])
-    client::WebhookHandler.handle(webhook_notification)
+
+    if webhook_notification.kind == Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully
+      card_num = webhook_notification.subscription.transactions.last.credit_card_details.last_4
+      query_params = {
+          is_subscription: true,
+          email: webhook_notification.subscription.transactions.last.customer_details.email,
+          card_num: card_num.nil? ? ManageBraintreeDonation::PAYPAL_IDENTIFIER : card_num,
+          amount: webhook_notification.subscription.transactions.last.amount.to_s
+      }
+      action = Action.where('form_data @> ?', query_params.to_json).last
+      member = Member.find(action.member_id)
+
+      params = {
+        email:   member.email,
+        country: member.country,
+        page_id: action.page_id
+      }
+
+      ManageBraintreeDonation.create(params: params, braintree_result: webhook_notification, is_subscription: true)
+    end
     render json: {success: true}
   end
 
@@ -43,6 +61,10 @@ class Api::BraintreeController < ApplicationController
 
   def client
     PaymentProcessor::Clients::Braintree
+  end
+
+  def raise_unless_user_error(result)
+    client::ErrorProcessing.new(result).process
   end
 
   def page

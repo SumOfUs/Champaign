@@ -56,8 +56,7 @@ module Payment
       card_attrs.merge({
         card_vault_token: @bt_payment_method.token,
         customer_id:      @bt_customer.id,
-        member_id:        @member_id,
-        email:            @bt_customer.email
+        member_id:        @member_id
       })
     end
 
@@ -82,17 +81,13 @@ module Payment
   class BraintreeTransactionBuilder
     #
     # Stores and associates a Braintree transaction as +Payment::BraintreeTransaction+. Builder will also
-    # create or update an instance of +Payment::BraintreeCustomer+, if save_customer is passed
+    # create an instance of +Payment::BraintreeCustomer+, if it doesn't already exist.
     #
     # === Options
     #
+    # * +:action+      - The ActiveRecord model of the corresponding action.
     # * +:bt_result+   - A Braintree::Transaction response object or a Braintree::Subscription response
     #                    (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
-    #                    or a Braintree::WebhookNotification
-    # * +:page_id+     - the id of the Page to associate with the transaction record
-    # * +:member_id+   - the member_id to associate with the customer record
-    # * +:existing_customer+ - if passed, this customer is updated instead of creating a new one
-    # * +:save_customer+     - optional, default true. whether to save the customer info too
     #
     #
 
@@ -111,7 +106,7 @@ module Payment
     def build
       return unless transaction.present?
       ::Payment::BraintreeTransaction.create(transaction_attrs)
-      return unless successful? && @save_customer
+      return unless @bt_result.success? && @save_customer
 
       # it would be good to DRY this up and use CustomerBuilder, but we don't
       # have a Braintree::PaymentMethod to pass it :(
@@ -153,13 +148,12 @@ module Payment
         card_last_4:      last_4,
         card_vault_token: payment_method_token,
         customer_id:      transaction.customer_details.id,
-        email:            transaction.customer_details.email,
         member_id:        @member_id
       }
     end
 
     def transaction
-      @bt_result.transaction || @bt_result.subscription.try(:transactions).try(:first)
+      @bt_result.transaction || @bt_result.subscription.transactions.first
     end
 
     def card
@@ -167,17 +161,11 @@ module Payment
     end
 
     def status
-      if successful?
+      if @bt_result.success?
         Payment::BraintreeTransaction.statuses[:success]
       else
         Payment::BraintreeTransaction.statuses[:failure]
       end
-    end
-
-    def successful?
-      return @bt_result.success? if @bt_result.respond_to?(:success?)
-      return true if @bt_result.class == Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully
-      false
     end
 
     def last_4

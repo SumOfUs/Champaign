@@ -2,21 +2,18 @@ doctype html
 html
   head
     title  = @page.title
+    = render partial: 'shared/optimizely_snippet'
     meta name="viewport" content="width=device-width, initial-scale=1.0"
     meta name="description" content=t('branding.description')
     = stylesheet_link_tag "sumofus"
     = javascript_include_tag "sumofus"
-    = render partial: 'shared/optimizely_snippet'
     = render partial: 'shared/js_locale'
+    script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
     = csrf_meta_tags
     = favicon_link_tag 'sumofus/favicon.ico'
     = metamagic
-
 
   body
     = yield
 
     .mobile-indicator
-
-    script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
-

@@ -15,27 +15,6 @@ describe ActionBuilder do
     end
   end
 
-  subject { MockActionBuilder.new(page_id: page.id, email: member.email).build_action }
-
-  context 'with existing member' do
-    it 'increments cache counter with new_member as false' do
-      expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
-      subject
-    end
-  end
-
-  context 'with new member' do
-    it 'increments cache counter with new_member as true' do
-      expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
-      MockActionBuilder.new(page_id: page.id, email: 'new@example.com').build_action
-    end
-  end
-
-  it 'enqueues action' do
-    expect(ChampaignQueue).to receive(:push)
-    subject
-  end
-
   it 'correctly finds the expected page' do
     mab = MockActionBuilder.new(page_id: page.id)
     expect(mab.page).to eq(page)
@@ -132,7 +111,9 @@ describe ActionBuilder do
         mab = MockActionBuilder.new(ActionController::Parameters.new(porky_params))
         expect(mab.filtered_params).to eq params
       end
-    end
-  end
-end
 
+    end
+
+  end
+
+end

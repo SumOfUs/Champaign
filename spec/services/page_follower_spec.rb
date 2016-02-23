@@ -16,7 +16,7 @@ describe PageFollower do
       describe 'while liquid_layout is blank' do
         it 'returns page path when page is passed' do
           result = PageFollower.new(plan, page_id, nil, follow_up_page_id).follow_up_path
-          expect(result).to eq member_facing_page_path(follow_up_page_id)
+          expect(result).to eq page_path(follow_up_page_id)
         end
 
         it 'returns nil when page is blank' do
@@ -29,12 +29,12 @@ describe PageFollower do
       describe 'while liquid_layout is passed' do
         it 'returns liquid_layout path when page is passed' do
           result = PageFollower.new(plan, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-          expect(result).to eq follow_up_member_facing_page_path(page_id)
+          expect(result).to eq follow_up_page_path(page_id)
         end
 
         it 'returns liquid_layout path when page is blank' do
           result = PageFollower.new(plan, page_id, follow_up_layout_id, nil).follow_up_path
-          expect(result).to eq follow_up_member_facing_page_path(page_id)
+          expect(result).to eq follow_up_page_path(page_id)
         end
 
       end
@@ -53,7 +53,7 @@ describe PageFollower do
 
         it 'returns liquid_layout path when liquid_layout is passed' do
           result = PageFollower.new(plan, page_id, follow_up_layout_id, nil).follow_up_path
-          expect(result).to eq follow_up_member_facing_page_path(page_id)
+          expect(result).to eq follow_up_page_path(page_id)
         end
 
       end
@@ -61,17 +61,17 @@ describe PageFollower do
       describe 'while page is passed' do
         it 'returns page path when liquid_layout is passed' do
           result = PageFollower.new(plan, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-          expect(result).to eq member_facing_page_path(follow_up_page_id)
+          expect(result).to eq page_path(follow_up_page_id)
         end
 
         it 'returns page path when liquid_layout is passed and plan is a string' do
           result = PageFollower.new(plan.to_s, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-          expect(result).to eq member_facing_page_path(follow_up_page_id)
+          expect(result).to eq page_path(follow_up_page_id)
         end
 
         it 'returns page path when liquid_layout is blank' do
           result = PageFollower.new(plan, page_id, nil, follow_up_page_id).follow_up_path
-          expect(result).to eq member_facing_page_path(follow_up_page_id)
+          expect(result).to eq page_path(follow_up_page_id)
         end
       end
     end
@@ -104,7 +104,7 @@ describe PageFollower do
     end
 
     it 'returns the instance for call chaining' do
-      expect(PageFollower.new_from_page(page).follow_up_path).to eq follow_up_member_facing_page_path('astro-droid')
+      expect(PageFollower.new_from_page(page).follow_up_path).to eq follow_up_page_path('astro-droid')
     end
   end
 

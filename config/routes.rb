@@ -44,10 +44,6 @@ Rails.application.routes.draw do
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
   end
 
-  resources :pages, path: 'a', as: 'member_facing_page', only: [:edit, :show] do
-    get 'follow-up', on: :member, action: 'follow_up'
-  end
-
   resources :forms do
     resources :form_elements do
       post :sort, on: :collection
@@ -112,7 +108,7 @@ Rails.application.routes.draw do
     namespace :braintree do
       get 'token'
       post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
-      post 'webhook', action: 'webhook'
+      post 'braintree/webhook', action: 'webhook'
     end
 
     resources :pages do

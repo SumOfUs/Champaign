@@ -44,7 +44,6 @@ en:
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: 'must be a two letter country code'
     is_invalid_postal: 'must be a valid postal code'
-    is_invalid_length: 'must be less than 250 characters long'
 
   menu:
     pages: 'Pages'

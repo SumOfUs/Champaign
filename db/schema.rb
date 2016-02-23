@@ -31,11 +31,9 @@ ActiveRecord::Schema.define(version: 20160218175900) do
     t.string   "link"
     t.boolean  "created_user"
     t.boolean  "subscribed_user"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.jsonb    "form_data"
-    t.boolean  "subscribed_member", default: true
-    t.boolean  "donation",          default: false
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
@@ -251,8 +249,8 @@ ActiveRecord::Schema.define(version: 20160218175900) do
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.string   "processor_response_code"
     t.decimal  "amount",                  precision: 10, scale: 2
+    t.string   "processor_response_code"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree

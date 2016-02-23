@@ -55,7 +55,7 @@ describe Payment do
 
   describe '.write_customer' do
 
-    let(:bt_customer) { instance_double('Braintree::Customer', id: 'fuds7', email: 'skeebadee@boop.beep' )}
+    let(:bt_customer) { instance_double('Braintree::Customer', id: 'fuds7' )}
     let(:member_id){ 3 }
 
     before :each do
@@ -86,7 +86,6 @@ describe Payment do
           cardholder_name:  bt_payment_method.cardholder_name,
           card_debit:       bt_payment_method.debit,
           card_last_4:      bt_payment_method.last_4,
-          email:            bt_customer.email,
           card_unique_number_identifier: bt_payment_method.unique_number_identifier,
         }
       end
@@ -116,7 +115,6 @@ describe Payment do
           customer_id:      bt_customer.id,
           member_id:        member_id,
           card_vault_token: bt_payment_method.token,
-          email:            bt_customer.email,
           card_last_4:      'PYPL',
         }
       end
@@ -194,7 +192,6 @@ describe Payment do
           card_last_4:      credit_card_details.last_4,
           card_vault_token: credit_card_token,
           customer_id:      transaction.customer_details.id,
-          email:            transaction.customer_details.email,
           member_id:        member_id
         }
       end
@@ -349,7 +346,6 @@ describe Payment do
           card_vault_token: paypal_token,
           customer_id:      transaction.customer_details.id,
           card_last_4:      'PYPL',
-          email:            transaction.customer_details.email,
           member_id:        member_id
         }
       end

@@ -160,19 +160,5 @@ describe FormValidator do
       end
     end
   end
-
-  describe 'text length validation' do
-    let!(:name) { create :form_element, form: form, required: false, label: 'Name', name: 'name' }
-    let!(:address) { create :form_element, form: form, required: false, label: 'Address ', name: 'address1' }
-    let(:params){  {form_id: form.id, name: 'a'*250, address1: 'b'*249 } }
-
-    it 'name is too long' do
-      expect(subject.errors[:name].first).to match(/less than 250/)
-    end
-
-    it 'address1 is not too long' do
-      expect(subject.errors[:address1]).to be_empty
-    end
-  end
 end
 
