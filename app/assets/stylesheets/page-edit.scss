@@ -430,3 +430,7 @@ body.page-edit-body {
 .well .tooltip__trigger, .tooltip--white .tooltip__trigger {
   background: white;
 }
+
+.checkbox input[type="checkbox"].layout-type-checkbox {
+  margin-left: 0px;
+}

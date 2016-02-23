@@ -10,6 +10,8 @@ describe LiquidLayout do
   it { is_expected.to respond_to :experimental }
   it { is_expected.to respond_to :description }
   it { is_expected.to respond_to :pages }
+  it { is_expected.to respond_to :default_follow_up_layout }
+  it { is_expected.to respond_to :default_follow_up_layout_id }
   it { is_expected.to respond_to :partial_names }
   it { is_expected.to respond_to :partial_refs }
 

@@ -6,6 +6,7 @@ const setupOnce = require('setup_once');
 
     events: {
       'click .radio-group__option': 'updateSelected',
+      'change .layout-type-checkbox': 'showRelevantLayouts'
     },
 
     updateSelected(e) {
@@ -27,6 +28,25 @@ const setupOnce = require('setup_once');
         this.$('#page_follow_up_plan_with_liquid').prop('checked', true);
       }
     },
+
+    showRelevantLayouts(e) {
+      const $target = $(e.target);
+      const layoutClasses = this.getLayoutClasses($target.attr('id'));
+      const layoutRows = $target.closest('.form-group').find(layoutClasses.inverse_class).not(layoutClasses.own_class);
+      if ($target.is(':checked')) {
+        layoutRows.removeClass('hidden');
+      } else {
+        layoutRows.addClass('hidden');
+      }
+    },
+
+    getLayoutClasses(layout_select_id) {
+      if (layout_select_id==='primary') {
+        return {inverse_class: '.post-action-layout', own_class: '.primary-layout'}
+      } else if (layout_select_id==='follow-up') {
+        return {inverse_class: '.primary-layout', own_class: '.post-action-layout'}
+      }
+    }
 
   });
 

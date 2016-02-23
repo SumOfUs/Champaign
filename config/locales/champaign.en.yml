@@ -139,6 +139,11 @@ en:
   liquid:
     experimental: Experimental
     experimental_explanation: (experimental templates are not available to campaigners)
+    primary_layout: Make available as a primary layout
+    primary_layout_explanation: (as opposed to a follow-up layout)
+    post_action_layout: Make available as a follow-up layout
+    post_action_explanation: (follow-up layouts are rendered after a user takes an action)
+    default_follow_up_layout: Default template to render to follow-up after this one
 
   campaigns:
     new:
