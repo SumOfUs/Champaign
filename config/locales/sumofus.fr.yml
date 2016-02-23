@@ -29,6 +29,10 @@ fr:
       expiration: Date d’expiration
       expiration_format: mm/an
       postalCode: Code postal
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: Le CVV
+      number: Le numéro de votre carte
+      expiration: La date d’expiration
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
@@ -46,7 +50,7 @@ fr:
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
   errors:
-    probably_invalid: Cela n’a pas l’air d’être correct
+    probably_invalid: semble invalide
     is_invalid: est invalide
     this_field: Ce champ
   validation:

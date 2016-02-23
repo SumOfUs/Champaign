@@ -10,7 +10,7 @@
         = f.label :title, t('plugins.fundraiser.title')
         = f.text_field :title, class: 'form-control'
       .form-group
-        = f.label :donation_band, t('plugins.fundraiser.donation_band')
+        = label_with_tooltip(f, :donation_band, t('plugins.fundraiser.donation_band'), t('tooltips.fundraiser.donation_band'))
         = f.select :donation_band_id, DonationBand.all.collect { |d| [d.name, d.id] }, {}, {class: 'form-control form-select'}
 
     .well

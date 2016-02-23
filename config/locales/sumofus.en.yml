@@ -29,6 +29,10 @@ en:
       expiration: Expiration date
       expiration_format: mm/yy
       postalCode: Postal code
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: CVV
+      number: Card number
+      expiration: Expiration date
   petition:
     sign_it: Sign the petition
     target_prefix: TO

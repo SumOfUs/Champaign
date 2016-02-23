@@ -13,6 +13,16 @@
   }
 }
 
+@mixin hyphenate() {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 /**
  * Fix for vw, vh, vmin, vmax on iOS 7.
  * http://caniuse.com/#feat=viewport-units
