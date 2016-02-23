@@ -7,7 +7,7 @@ describe ManageAction do
   end
 
   let(:page) { create(:page) }
-  let(:data) { { email: 'bob@example.com', page_id: page.id } }
+  let(:data) { { email: 'bob@example.com', page_id: page.id, referring_akid: '123.456.xyz' } }
   let(:first_name) { { first_name: 'Bobtholomew' } }
   let(:extraneous) { { is_delta_shareholder: true, eye_color: 'hazel' } }
 
@@ -18,27 +18,22 @@ describe ManageAction do
   describe '.create' do
     subject { ManageAction.create(data) }
 
-    it 'increments counter as new member' do
-      expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
-      subject
-    end
-
     it 'creates an action' do
       expect(subject).to be_a Action
     end
 
     it 'posts action to queue' do
-      expect(ChampaignQueue).to receive(:push).
-        with({
-        type: "action", params: {
-          slug: page.slug,
-          body: {
-            email: "bob@example.com",
-            page_id: page.id
-          }
+      expected = {
+        type: "action",
+        params: {
+          page:           "#{page.slug}-petition",
+          email:          "bob@example.com",
+          page_id:        page.id,
+          referring_akid: '123.456.xyz'
         }
-      })
+      }
 
+      expect(ChampaignQueue).to receive(:push).with( expected )
       subject
     end
 
@@ -75,14 +70,8 @@ describe ManageAction do
     end
 
     describe 'existing member' do
-
       before :each do
         @existing = create :member, email: data[:email]
-      end
-
-      it 'increments counter not as new member' do
-        expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
-        subject
       end
 
       it 'does not change the number of members' do

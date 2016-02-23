@@ -128,5 +128,51 @@ describe FormValidator do
       end
     end
   end
+
+  context 'with zip as data type' do
+    let(:element) { create :form_element, :postal, form: form }
+    let(:country_element) { create :form_element, :country, form: form}
+    let(:us_postal) { '12345' }
+    let(:uk_postal) { 'CR0 3RL' }
+    let(:params) { { form_id: element.form_id, postal: us_postal } }
+
+    context 'is valid' do
+      it 'without a country code' do
+        expect(subject).to be_valid
+      end
+
+      it 'with a valid country code in the UK' do
+        params.merge!(postal: uk_postal, country: :UK)
+        expect(subject).to be_valid
+      end
+    end
+
+    context 'is invalid' do
+      it 'with an incorrect code' do
+        params.merge!(postal: 'Not a valid zip')
+        expect(subject).to_not be_valid
+      end
+
+      it 'with a valid code but incorrect country code' do
+        country_element
+        params.merge!(country: :UK)
+        expect(subject).to_not be_valid
+      end
+    end
+  end
+
+  describe 'text length validation' do
+    let!(:name) { create :form_element, form: form, required: false, label: 'Name', name: 'name' }
+    let!(:address) { create :form_element, form: form, required: false, label: 'Address ', name: 'address1' }
+    let(:params){  {form_id: form.id, name: 'a'*250, address1: 'b'*249 } }
+
+    it 'name is too long' do
+      expect(subject.errors[:name].first).to match(/less than 250/)
+    end
+
+    it 'address1 is not too long' do
+      expect(subject.errors[:address1]).to be_empty
+    end
+  end
 end
 

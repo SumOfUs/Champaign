@@ -28,6 +28,8 @@
 //= require typeahead.jquery
 //= require speakingurl
 //= require quill
+//= require datatables
+//= require datatables/dataTables.bootstrap
 
 //= require show_errors
 //= require dropzone_image_upload
@@ -39,6 +41,7 @@ require('ajax')
 require('page');
 require("plugins_toggle");
 require("sidebar");
+require("tooltips");
 require("collection_editor");
 require('shares_editor');
 require('layout_picker');

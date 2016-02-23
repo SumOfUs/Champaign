@@ -31,14 +31,22 @@ FactoryGirl.define do
       end
     end
 
-   factory :form_with_all_except_check do
-     after :create do |form, evaluator|
-       create :form_element, form: form, name: 'email', label: 'Email', data_type: 'email', required: true
-       create :form_element, form: form, name: 'name', label: 'Full name', data_type: 'text', required: true
-       create :form_element, form: form, name: 'country', label: 'Country', data_type: 'country', required: true
-       create :form_element, form: form, name: 'phone', label: 'Phone number', data_type: 'phone', required: true
-     end
-   end
+    factory :form_with_all_except_check do
+      after :create do |form, evaluator|
+        create :form_element, form: form, name: 'email', label: 'Email', data_type: 'email', required: true
+        create :form_element, form: form, name: 'name', label: 'Full name', data_type: 'text', required: true
+        create :form_element, form: form, name: 'country', label: 'Country', data_type: 'country', required: true
+        create :form_element, form: form, name: 'phone', label: 'Phone number', data_type: 'phone', required: true
+      end
+    end
+
+    factory :form_with_name_email_and_country do
+      after :create do |form, evaluator|
+        create :form_element, form: form, name: 'email', label: 'Email', data_type: 'email', required: true
+        create :form_element, form: form, name: 'name', label: 'Full name', data_type: 'text', required: true
+        create :form_element, form: form, name: 'country', label: 'Country', data_type: 'country', required: true
+      end
+    end
 
     factory :form_with_fields do
       after(:create) do |form, evaluator|

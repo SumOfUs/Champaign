@@ -25,14 +25,16 @@
       height: 67px;
       @include box-sizing(border-box);
       padding: 21px;
-      max-width: 100%;
+      width: 100%;
     }
-    form, .petition-bar__petition-text, .thermometer,
-    .fundraiser-bar__steps, .fundraiser-bar__step-panel {
-      max-width: 290px;
-    }
-    .fundraiser-bar__steps {
-      margin-left: 0;
+    @media(min-width: $mobile-width) {
+      form, .petition-bar__petition-text, .thermometer,
+      .fundraiser-bar__steps, .fundraiser-bar__step-panel {
+        max-width: 290px;
+      }
+      .fundraiser-bar__steps {
+        margin-left: 0;
+      }
     }
   }
   &__top {
@@ -42,15 +44,25 @@
     overflow: visible;
     position: relative;
     min-height: 68px;
+    &.fundraiser-bar__top {
+      height: 162px;
+      @include box-sizing(border-box);
+    }
   }
   &__main {
     background: $chalk-gray;
     padding: $padding;
 
     position: absolute;
+    overflow: visible;
 
     width: 100%;
     @include box-sizing(border-box);
+    &.fundraiser-bar__main {
+      @media(min-width: $mobile-width) {
+        max-height: calc(100vh - 162px);
+      }
+    }
   }
   &__title-bar {
     position: absolute;
@@ -78,7 +90,7 @@
     background: $teal;
     color: white;
     &.petition-bar__title {
-      max-width: 280px;
+      width: 85%;
     }
   }
 

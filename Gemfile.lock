@@ -246,6 +246,10 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     logger (1.2.8)
+    lograge (0.3.6)
+      actionpack (>= 3)
+      activesupport (>= 3)
+      railties (>= 3)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     lumberjack (1.0.9)
@@ -328,7 +332,10 @@ GEM
     rails-assets-braintree-web (2.15.4)
     rails-assets-chai-jquery (2.0.1)
     rails-assets-d3 (3.5.12)
+    rails-assets-datatables (1.10.10)
+      rails-assets-jquery (>= 1.7.0)
     rails-assets-dropzone (4.0.1)
+    rails-assets-jquery (2.2.0)
     rails-assets-mailcheck (1.1.1)
     rails-assets-moment (2.11.1)
     rails-assets-odometer (0.4.7)
@@ -494,6 +501,7 @@ DEPENDENCIES
   jquery-rails
   liquid
   logger
+  lograge
   magic_lamp
   metamagic
   money
@@ -509,6 +517,7 @@ DEPENDENCIES
   rails-assets-braintree-web!
   rails-assets-chai-jquery!
   rails-assets-d3!
+  rails-assets-datatables!
   rails-assets-dropzone!
   rails-assets-mailcheck!
   rails-assets-moment!

@@ -62,8 +62,9 @@ gem 'action_parameter'
 gem 'aws-sdk', '~> 2'
 gem 'aws-sdk-v1'
 
-# logger for debugging AWS
+# Logging and log management
 gem 'logger'
+gem 'lograge'
 
 # # Caching for production
 # gem 'rack-cache'
@@ -156,5 +157,8 @@ source 'https://rails-assets.org' do
 
   # Parse, validate, manipulate, and display dates in javascript.
   gem 'rails-assets-moment'
+
+  # make tables kick ass
+  gem 'rails-assets-datatables'
 end
 

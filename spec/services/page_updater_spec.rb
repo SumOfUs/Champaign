@@ -10,26 +10,85 @@ describe PageUpdater do
   let(:liquid_layout) { create :liquid_layout, :default }
   let(:page) { create :page, liquid_layout: liquid_layout }
   let(:url) { 'sumofus.org/my-path' }
-  let(:pupdater) { PageUpdater.new(page, url) }
   let(:simple_changes) { {page: {title: 'howdy folks!', content: 'Did they get you to trade'}} }
   let(:breaking_changes) { {page: {title: nil, content: 'your heros for ghosts'}} }
   let(:thermo_plugin) { page.plugins.select{|p| p.name == "Thermometer"}.first }
   let(:petition_plugin) { page.plugins.select{|p| p.name == "Petition"}.first }
 
-  subject{ pupdater }
+  subject(:pupdater) { PageUpdater.new(page, url) }
 
   it { is_expected.to respond_to :update }
   it { is_expected.to respond_to :errors }
   it { is_expected.to respond_to :refresh? }
 
-  describe 'update' do
+  before do
+    allow(QueueManager).to receive(:push)
+  end
 
-    it 'returns true if successful' do
-      expect(pupdater.update(simple_changes)).to eq true
+  describe 'update' do
+    describe 'enqueue for ActionKit' do
+      context 'it occurs if' do
+        it 'title change' do
+          expect(QueueManager).to receive(:push)
+          subject.update(page: { title: "Something new" })
+        end
+
+        it 'language change' do
+          expect(QueueManager).to receive(:push)
+          subject.update(page: { language_id: create(:language).id })
+        end
+
+        it 'tag additions' do
+          expect(QueueManager).to receive(:push)
+          subject.update(page: { tags: [create(:tag)] })
+        end
+
+        it 'tag deletions' do
+          page.update(tags: [create(:tag)])
+          expect(QueueManager).to receive(:push)
+          subject.update(page: { tags: [] })
+        end
+      end
+
+      context 'it does not occur if' do
+        it 'content change' do
+          expect(QueueManager).not_to receive(:push)
+          subject.update(page: { content: 'new content' })
+        end
+
+        it 'plugin change' do
+          expect(QueueManager).not_to receive(:push)
+          subject.update({ plugins_petition: { cta: "change", id: petition_plugin.id, name: petition_plugin.name}})
+        end
+
+        it 'does not save' do
+          allow(page).to receive(:save){ false }
+          expect(QueueManager).not_to receive(:push)
+          subject.update(page: { title: "Something new" })
+        end
+      end
     end
 
-    it 'returns false if errors' do
-      expect(pupdater.update(breaking_changes)).to eq false
+    context 'on success' do
+      it 'returns true' do
+        expect(subject.update(simple_changes)).to be(true)
+      end
+
+      it 'enqueues page for update' do
+        expect(QueueManager).to receive(:push).with(page, job_type: :update_pages)
+        subject.update(simple_changes)
+      end
+    end
+
+    context 'with errors' do
+      it 'returns false' do
+        expect(pupdater.update(breaking_changes)).to be(false)
+      end
+
+      it 'does not enqueue' do
+        expect(QueueManager).to_not receive(:push)
+        subject.update(breaking_changes)
+      end
     end
 
     it 'can update one plugin' do
@@ -64,7 +123,7 @@ describe PageUpdater do
     it "updates the page even if it can't update the plugins" do
       params = {plugins_thermometer: {offset: -100, id: thermo_plugin.id, name: thermo_plugin.name}, page: {content: 'cold comfort for change'}}
       expect(pupdater.update(params)).to eq false
-      expect(thermo_plugin.reload.offset).not_to eq -100
+      expect(thermo_plugin.reload.offset).not_to eq(-100)
       expect(page.reload.content).to eq "cold comfort for change"
     end
 
@@ -169,7 +228,8 @@ describe PageUpdater do
 
   describe 'refresh?' do
 
-    let(:alt_liquid_layout) { create :liquid_layout, :thermometer }
+    let(:ll_different_plugins) { create :liquid_layout, :thermometer }
+    let(:ll_same_plugins) { create :liquid_layout, :default, title: 'Swoop swoop' }
 
     it 'returns false before update called' do
       expect(pupdater.refresh?).to eq false
@@ -185,14 +245,14 @@ describe PageUpdater do
       expect(pupdater.refresh?).to eq false
     end
 
-    it 'returns true if liquid_layout_id was changed' do
-      pupdater.update({page: {liquid_layout_id: alt_liquid_layout.id}})
+    it 'returns true if new liquid_layout has different plugins' do
+      pupdater.update({page: {liquid_layout_id: ll_different_plugins.id}})
       expect(pupdater.refresh?).to eq true
     end
 
-    it 'returns true if liquid_layout was changed' do
-      pupdater.update({page: {liquid_layout: alt_liquid_layout}})
-      expect(pupdater.refresh?).to eq true
+    it 'returns false if new liquid_layout has the same plugins' do
+      pupdater.update({page: {liquid_layout_id: ll_same_plugins.id}})
+      expect(pupdater.refresh?).to eq false
     end
   end
 end

@@ -36,6 +36,10 @@ ActiveRecord::Migration.maintain_test_schema!
 VCR.configure do |config|
   config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
   config.hook_into :webmock
+  config.default_cassette_options = {
+    match_requests_on: [:uri, :body, :method]
+  }
+
 
   # The filter_sensitive_data configuration option prevents
   # sensitive data from being written to your cassette files.
@@ -43,6 +47,8 @@ VCR.configure do |config|
   %w{merchant_id public_key private_key}.each do |env|
     config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }
   end
+
+  config.filter_sensitive_data("<shareprogress_api_key>") { ENV["SHARE_PROGRESS_API_KEY"] }
 end
 
 

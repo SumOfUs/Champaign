@@ -6,13 +6,14 @@ de:
   branding:
     tagline: Menschen vor Profit!
     license: Creative Commons Namensnennung 3.0 Unported Lizenz
+    description: "SumOfUs.org ist eine weltweite Bewegung engagierter Menschen wie Ihnen, die sich zusammen dafür einsetzen, dass Konzerne für ihr Handeln zur Verantwortung gezogen werden. Gemeinsam ebnen wir so den Weg für eine neue, nachhaltige Weltwirtschaft."
   fundraiser:
     amount: Summe
     details: Kontaktdaten
     payment: Zahlung
     donate: "%{amount} Spenden"
     error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
-    currency_in: Beträge werden in Euro angezeigt.
+    currency_in: "Beträge werden in %{currency} angezeigt"
     switch_currency: Währung ändern
     proceed_to_details: Weiter zu Kontaktdaten
     proceed_to_payment: Weiter zur Zahlung
@@ -28,6 +29,10 @@ de:
       expiration: Ablaufdatum
       expiration_format: MM/JJ
       postalCode: Postleitzahl
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: Die Kartenprüfnummer
+      number: Die Kreditkartennummer
+      expiration: Das Ablaufdatum
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
@@ -36,7 +41,7 @@ de:
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
   form:
     welcome_back: Willkommen zurück
-    switch_user: Das sind nicht Sie?
+    switch_user: Nicht Sie?
     processing: In Bearbeitung...
     submit: Abschicken
   thermometer:
@@ -45,7 +50,7 @@ de:
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
   errors:
-    probably_invalid: Das sieht nicht richtig aus.
+    probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig
     this_field: Dieses Feld
   validation:

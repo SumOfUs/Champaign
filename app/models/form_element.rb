@@ -15,6 +15,7 @@ class FormElement < ActiveRecord::Base
     email
     phone
     country
+    postal
   }
 
   private

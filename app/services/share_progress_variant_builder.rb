@@ -9,6 +9,10 @@ class ShareProgressVariantBuilder
     new(params, variant_type, page, nil, id).update
   end
 
+  def self.destroy(params:, variant_type:, page:, id:)
+    new(params, variant_type, page, nil, id).destroy
+  end
+
   def initialize(params, variant_type, page, url=nil, id=nil)
     @page = page
     @params = params
@@ -37,9 +41,7 @@ class ShareProgressVariantBuilder
   def create
     variant = variant_class.new(@params)
     variant.page = @page
-
     return variant unless variant.valid?
-
     button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
 
@@ -48,6 +50,19 @@ class ShareProgressVariantBuilder
       variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
     else
       add_sp_errors_to_variant(sp_button, variant)
+    end
+    variant
+  end
+
+  def destroy
+    variant = variant_class.find(@id)
+    button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
+    sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
+    sp_variant = sp_variant_class.new(id: variant.sp_id, button: sp_button)
+    if sp_variant.destroy
+      variant.destroy
+    else
+      add_sp_errors_to_variant(sp_variant, variant)
     end
     variant
   end
@@ -114,6 +129,10 @@ class ShareProgressVariantBuilder
         }
       ]
     }
+  end
+
+  def sp_variant_class
+    "ShareProgress::#{@variant_type.to_s.classify}Variant".constantize
   end
 
   def variant_class

@@ -4,9 +4,8 @@
 - offer_redirect ||= false
 .radio-group.btn-group-vertical.layout-settings__button-group role="group"
   - LiquidLayout.campaigner_friendly.sort_by(&:title).each do |ll|
-    - liquid_matters = (!offer_redirect || f.object.follow_up_plan.to_sym == :with_liquid)
-    - active_class = (ll.id == f.object.send(field) && liquid_matters) ? 'active' : ''
-    = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{active_class}"
+    - layout_select_classes = construct_layout_select_class(ll, f.object, field)
+    = f.label field, value: ll.id, class: "btn btn-default radio-group__option #{layout_select_classes}"
       = f.radio_button field, ll.id, class: 'hidden-irrelevant'
       span.layout-settings__title= ll.title
       span.layout-settings__description= ll.description
@@ -17,4 +16,8 @@
       = f.radio_button :follow_up_plan, :with_liquid, class: 'hidden-irrelevant'
       span.layout-settings__title Redirect to another page
       span.layout-settings__description
-        = f.select :follow_up_page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.follow_up_page_id), {}, html_options= {class: 'selectize-container', multiple: false}
+        = f.select :follow_up_page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.follow_up_page_id), {}, {class: 'selectize-container', multiple: false}
+.checkbox
+  = check_box_tag specify_layout_types(field), 'Show all', false, {class: 'layout-type-checkbox'}
+  = label_tag specify_layout_types(field) do
+    | Show all layouts

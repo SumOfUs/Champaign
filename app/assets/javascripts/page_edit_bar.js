@@ -15,7 +15,7 @@ let PageModel = Backbone.Model.extend({
       }
     } else {
       this.lastSaved = data;
-      Backbone.Model.prototype.save.apply(this, arguments)
+      Backbone.Model.prototype.save.call(this, data, _.extend({patch: true}, callbacks));
     }
   }
 
@@ -29,7 +29,7 @@ let PageEditBar = Backbone.View.extend({
   events: {
     'click .page-edit-bar__save-button': 'save',
     'click .page-edit-bar__error-message': 'findError',
-    'click .page-edit-bar__toggle-autosave>.toggle-button': 'toggleAutosave',
+    'change .page-edit-bar__toggle-autosave .onoffswitch__checkbox': 'toggleAutosave',
   },
 
   initialize: function() {
@@ -100,7 +100,11 @@ let PageEditBar = Backbone.View.extend({
     $.publish('quill_editor:submit'); // for quill to update content
     if (!this.outstandingSaveRequest) {
       this.disableSubmit();
-      this.model.save(this.readData(), {success: this.saved(), error: this.saveFailed(), unchanged: this.saveUnchanged()});
+      this.model.save(this.readData(), {
+          success: this.saved(),
+          error: this.saveFailed(),
+          unchanged: this.saveUnchanged()
+      });
     }
   },
 
@@ -146,7 +150,6 @@ let PageEditBar = Backbone.View.extend({
   },
 
   toggleAutosave: function(e) {
-    if (e) { e.preventDefault(); }
     this.autosave = !this.autosave;
     this.$('.page-edit-bar__toggle-autosave').find('.toggle-button').toggleClass('btn-primary');
     if(this.autosave) {

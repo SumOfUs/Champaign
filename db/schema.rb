@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160125211650) do
+ActiveRecord::Schema.define(version: 20160219174402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,9 +31,11 @@ ActiveRecord::Schema.define(version: 20160125211650) do
     t.string   "link"
     t.boolean  "created_user"
     t.boolean  "subscribed_user"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.jsonb    "form_data"
+    t.boolean  "subscribed_member", default: true
+    t.boolean  "donation",          default: false
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
@@ -119,10 +121,11 @@ ActiveRecord::Schema.define(version: 20160125211650) do
   add_index "images", ["page_id"], name: "index_images_on_page_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
-    t.string   "code",       null: false
-    t.string   "name",       null: false
+    t.string   "code",          null: false
+    t.string   "name",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "actionkit_uri"
   end
 
   create_table "links", force: :cascade do |t|
@@ -140,10 +143,13 @@ ActiveRecord::Schema.define(version: 20160125211650) do
   create_table "liquid_layouts", force: :cascade do |t|
     t.string   "title"
     t.text     "content"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.text     "description"
-    t.boolean  "experimental", default: false, null: false
+    t.boolean  "experimental",                default: false, null: false
+    t.integer  "default_follow_up_layout_id"
+    t.boolean  "primary_layout"
+    t.boolean  "post_action_layout"
   end
 
   create_table "liquid_partials", force: :cascade do |t|
@@ -208,7 +214,7 @@ ActiveRecord::Schema.define(version: 20160125211650) do
     t.string   "card_debit"
     t.string   "card_last_4"
     t.string   "card_vault_token"
-    t.string   "card_unqiue_number_identifier"
+    t.string   "card_unique_number_identifier"
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
@@ -222,29 +228,34 @@ ActiveRecord::Schema.define(version: 20160125211650) do
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
-    t.string   "price"
     t.string   "merchant_account_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "page_id"
+    t.decimal  "amount",              precision: 10, scale: 2
+    t.string   "currency"
+    t.integer  "action_id"
   end
 
+  add_index "payment_braintree_subscriptions", ["action_id"], name: "index_payment_braintree_subscriptions_on_action_id", using: :btree
   add_index "payment_braintree_subscriptions", ["page_id"], name: "index_payment_braintree_subscriptions_on_page_id", using: :btree
+  add_index "payment_braintree_subscriptions", ["subscription_id"], name: "index_payment_braintree_subscriptions_on_subscription_id", using: :btree
 
   create_table "payment_braintree_transactions", force: :cascade do |t|
     t.string   "transaction_id"
     t.string   "transaction_type"
-    t.string   "status"
-    t.string   "amount"
     t.datetime "transaction_created_at"
     t.string   "payment_method_token"
     t.string   "customer_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "merchant_account_id"
     t.string   "currency"
     t.integer  "page_id"
     t.string   "payment_instrument_type"
+    t.integer  "status"
+    t.string   "processor_response_code"
+    t.decimal  "amount",                  precision: 10, scale: 2
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree

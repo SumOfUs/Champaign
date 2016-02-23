@@ -6,13 +6,14 @@ fr:
   branding:
     tagline: L’humain avant le profit
     license: Creative Commons Attribution 3.0 Unported License.
+    description: "SumOfUs est un mouvement mondial de personnes comme vous, qui travaillent ensemble afin de responsabiliser les entreprises et de tracer une nouvelle voie durable pour l’économie mondiale."
   fundraiser:
     amount: Montant
     details: Détails
     payment: Paiement
     donate: "Donner %{amount}" # utilisé dans le bouton de validation, eg 'Donner 15€'
     error_intro: Votre don n’a pas pu être effectué!
-    currency_in: Monnaie en # USD
+    currency_in: "Monnaie en %{currency}"
     switch_currency: Changer de monnaie
     proceed_to_details: Remplir les informations
     proceed_to_payment: Procéder au versement
@@ -28,6 +29,10 @@ fr:
       expiration: Date d’expiration
       expiration_format: mm/an
       postalCode: Code postal
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: Le CVV
+      number: Le numéro de votre carte
+      expiration: La date d’expiration
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
@@ -45,7 +50,7 @@ fr:
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
   errors:
-    probably_invalid: Cela n’a pas l’air d’être correct
+    probably_invalid: semble invalide
     is_invalid: est invalide
     this_field: Ce champ
   validation:

@@ -20,7 +20,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
-    'click .fundraiser-bar__open-button': 'reveal',
     'click .fundraiser-bar__close-button': 'hide',
   },
 
@@ -33,6 +32,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    donationBands: an object with three letter currency codes as keys
   //    location: a hash of location values inferred from the user's request
   //    member: an object with fields that will prefill the form
+  //    akid: the actionkitid (akid) to save with the user request
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options = {}) {
@@ -47,8 +47,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.pageId = options.pageId;
     if (!this.isMobile()) {
       this.selectizeCountry();
+      $(window).on('resize', () => this.policeHeights());
     }
     this.buttonText = I18n.t('form.submit');
+    this.insertActionKitId(options.akid);
+    this.insertSource(options.source);
+    $('.fundraiser-bar__open-button').on('click', () => this.reveal());
   },
 
   initializeSkipping (options){
@@ -111,7 +115,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   resetCustom (e) {
     let $field = this.$(e.target);
-    let currencySymbols = /^[\$\£\€]*$/;
+    let currencySymbols = /^[\$\u20ac\u00a3]*$/; // \u00a3 is £, \u20ac is €
     if (currencySymbols.test($field.val())) {
       $field[0].value = '';
       this.$('.fundraiser-bar__first-continue').slideUp(200);
@@ -125,7 +129,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   advanceToDetails (e) {
     let amount = this.$(e.target).data('amount') || this.$('.fundraiser-bar__custom-field').val();
     if (typeof amount == 'string') {
-      amount = amount.replace(/[\$\£\€]/g, '');
+      // \u00a3 is £, \u20ac is €
+      amount = amount.replace(/[\$\u20ac\u00a3]/g, '');
     }
     this.setDonationAmount(amount);
     if (this.donationAmount > 0) {
@@ -159,6 +164,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.changeStepPanel(targetStep);
     this.changeStepNumber(targetStep);
     this.currentStep = targetStep;
+    this.policeHeights();
   },
 
   changeStepPanel (targetStep) {
@@ -183,6 +189,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         }
       });
     });
+  },
+
+  policeHeights() {
+    const $main = this.$('.fundraiser-bar__main');
+    const overflow = $main[0].scrollHeight > $main.outerHeight() ? 'scroll' : 'visible';
+    $main.css('overflow', overflow);
   },
 
   // for testing without waiting on braintree API
@@ -239,6 +251,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       _.each(messages, (error_message) => {
         $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
       });
+
+      this.policeHeights();
     }
   },
 

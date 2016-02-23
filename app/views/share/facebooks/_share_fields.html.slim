@@ -1,10 +1,10 @@
 .form-group
   = form.label :title, t('share.facebook.form.title')
-  = form.text_field :title, class: 'form-control'
+  = form.text_field :title, class: 'form-control', maxlength: 100
 
 .form-group
   = form.label :description, t('share.facebook.form.description')
-  = form.text_area :description, class: 'form-control', rows: 3
+  = form.text_area :description, class: 'form-control', rows: 3, maxlength: 260
 
 .form-group
   = form.label :image_id, t('share.facebook.form.image')

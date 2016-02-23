@@ -13,7 +13,17 @@ class ApplicationController < ActionController::Base
     pages_url
   end
 
+  def health_check
+    render plain: health_check_haiku, status: 200
+  end
+
   private
+
+  def health_check_haiku
+    "Health check is passing,\n"\
+    "don't terminate the instance.\n"\
+    "Response: 200."
+  end
 
   def set_locale(code)
     begin
@@ -38,5 +48,12 @@ class ApplicationController < ActionController::Base
 
   def set_default_locale
     I18n.locale = I18n.default_locale
+  end
+
+  def write_member_cookie(member_id)
+    cookies.signed[:member_id] = {
+      value: member_id,
+      expires: 2.years.from_now
+    }
   end
 end

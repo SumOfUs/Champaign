@@ -1,5 +1,5 @@
 class ShareAnalytics
-  def self.call(page, type, share)
+  def self.data(page, type, share)
     new(page, type, share).data
   end
 
@@ -10,13 +10,12 @@ class ShareAnalytics
   end
 
   def data
-    puts raw_data
-    raw_data.select{|share| share['id'] == share.sp_id}
+    raw_data.select{|s| s['id'] == @share.sp_id.to_i }
   end
 
   def raw_data
-    if button.analytics
-      JSON.parse(analytics)['response'][0]['share_tests'][@type]
+    if button.try(:analytics)
+      JSON.parse(button.analytics)['response'][0]['share_tests'][@type]
     else
       []
     end

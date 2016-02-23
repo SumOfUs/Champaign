@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe Page do
 
-  let(:english)       { create :language }
-  let(:liquid_layout) { create :liquid_layout }
-  let(:page)          { create :page }
+  let(:english)          { create :language }
+  let!(:follow_up_layout) { create :liquid_layout }
+  let!(:liquid_layout)    { create :liquid_layout, default_follow_up_layout: follow_up_layout }
+  let(:page)             { create :page }
 
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }

@@ -5,7 +5,7 @@ describe ShareProgressVariantBuilder do
 
   let(:sp_variants)   { [{id: 123}] }
 
-  let(:page){ create(:page) }
+  let!(:page){ create(:page) }
 
   let(:success_sp_button) do
     double(:button,
@@ -132,7 +132,7 @@ describe ShareProgressVariantBuilder do
 
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
-    let!(:button){ create(:share_button, sp_type: 'facebook', page: page) }
+    let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
     let(:params) { {title: 'Bar' } }
 
     subject(:update_variant) do
@@ -188,5 +188,75 @@ describe ShareProgressVariantBuilder do
       end
     end
   end
+
+  context '.destroy' do
+
+    subject(:destroy_variant) do
+      ShareProgressVariantBuilder.destroy(
+          params: params,
+          variant_type: 'facebook',
+          page: page,
+          id: share.id
+      )
+    end
+
+    describe 'success' do
+
+      let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
+      let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
+      let(:params) { {title: 'Bar' } }
+
+      before do
+        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+      end
+
+      it 'returns an object with no errors' do
+        VCR.use_cassette('shareprogress_destroy_variant_success', :match_requests_on => [:host, :path]) do
+          expect(ShareProgress::Button).to receive(:new)
+          result = destroy_variant
+          expect(result.errors[:base]).to eq []
+        end
+      end
+
+      it 'removes the variant from local storage' do
+        VCR.use_cassette('shareprogress_destroy_variant_success', :match_requests_on => [:host, :path]) do
+          expect(ShareProgress::Button).to receive(:new)
+          expect(Share::Facebook.find(share.id)).to eq(share)
+          destroy_variant
+          expect { Share::Facebook.find(share.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
+
+    describe 'failure' do
+
+      let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
+      let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
+      let(:params) { {title: 'Bar' } }
+
+      before do
+        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+      end
+
+      it 'returns errors from ShareProgress' do
+        VCR.use_cassette('shareprogress_destroy_variant_fail') do
+          expect(ShareProgress::Button).to receive(:new)
+          result = destroy_variant
+          expect(result.errors[:base]).to eq(["{\"id\"=>[\"can't be blank\"]}"])
+        end
+      end
+
+      it 'does not remove the variant from local storage' do
+        VCR.use_cassette('shareprogress_destroy_variant_fail') do
+          expect(Share::Facebook.find(share.id)).to eq(share)
+          destroy_variant
+          expect(Share::Facebook.find(share.id)).to eq(share)
+        end
+      end
+
+    end
+
+  end
+
 end
 

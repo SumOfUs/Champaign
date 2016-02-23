@@ -7,10 +7,7 @@ class Api::ActionsController < ApplicationController
 
     if validator.valid?
       action = ManageAction.create(@action_params)
-      cookies.signed[:member_id] = {
-        value: action.member.id,
-        expires: 1.hour.from_now
-      }
+      write_member_cookie(action.member_id)
       render json: {}, status: 200
     else
       render json: {errors: validator.errors}, status: 422
@@ -29,14 +26,16 @@ class Api::ActionsController < ApplicationController
   private
 
   def action_params
-    params.permit(fields + base_params )
+    @action_params = params.
+      permit( fields + base_params )
   end
 
   def base_params
-    %w{page_id form_id name}
+    %w{page_id form_id name source akid referring_akid}
   end
 
   def fields
     Form.find(params[:form_id]).form_elements.map(&:name)
   end
 end
+

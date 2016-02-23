@@ -1,4 +1,4 @@
-shared_examples "plugin with form" do
+shared_examples "plugin with form" do |plugin_type|
 
   let(:form) { create :form_with_email }
 
@@ -35,6 +35,29 @@ shared_examples "plugin with form" do
   it "serializes outstanding_fields with a form and values that match" do
     subject.form = form
     expect( subject.liquid_data({form_values: {email: 'neal@test.com'}})[:outstanding_fields]).to eq []
+  end
+
+  it 'deletes the form when it is deleted' do
+    subject.form = form
+    subject.save!
+    expect{ subject.destroy! }.not_to raise_error
+    expect{ form.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
+  it 'auto-creates a master form and current form with default fields' do
+    # it creates two forms cause it creates the master form if it doesn't exist
+    expect{ @p = create plugin_type }.to change{ Form.count }.by 2
+    expect( @p.form.form_elements.map(&:name)).to match_array(['email','name','country','postal'])
+    expect(Form.all.map(&:master)).to match_array([true, false])
+
+    # now master already exists, just makes one form
+    expect{ create plugin_type }.to change{ Form.count }.by 1
+  end
+
+  it 'will not auto-override the form passed to the factory' do
+    my_form = create :form_with_email_and_name
+    expect{ @p = create plugin_type, form: my_form }.to change{ Form.count }.by 0
+    expect( @p.form.form_elements.map(&:name)).to match_array(['email', 'name'])
   end
 
   describe '#update_form' do

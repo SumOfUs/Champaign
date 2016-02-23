@@ -134,7 +134,7 @@ describe LiquidRenderer do
     end
 
     it 'has a follow_up_url' do
-      expect(subject.fetch('follow_up_url')).to match(/pages\/[a-z0-9\-]+\/follow\-up/)
+      expect(subject.fetch('follow_up_url')).to match(/a\/[a-z0-9\-]+\/follow\-up/)
     end
   end
 
@@ -168,7 +168,7 @@ describe LiquidRenderer do
 
       it "checks with the member's liquid data" do
         form = create :form_with_email_and_name
-        create :plugins_fundraiser, page: page, form: form
+        fundraiser = create :plugins_fundraiser, page: page, form: form
         member = create :member, name: 'Humphrey Bogart', email: 'psycho@killer.com'
         expect(member.liquid_data.keys).to include(:name)
         expect(member.attributes.keys).not_to include(:name)

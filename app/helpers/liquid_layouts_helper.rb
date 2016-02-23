@@ -1,2 +1,0 @@
-module LiquidLayoutsHelper
-end

@@ -41,7 +41,7 @@
             </div>
             <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
             <div class="fundraiser-bar__switch-currency">
-              {{ 'fundraiser.currency_in' | t }} <span class="fundraiser-bar__current-currency">USD</span>.
+              <span class="fundraiser-bar__current-currency">{{ 'fundraiser.currency_in, currency: USD' | t }}</span>.
               <a class="fundraiser-bar__engage-currency-switcher">{{ 'fundraiser.switch_currency' | t }}.</a>
               <select class="fundraiser-bar__currency-selector" style="display: none;"></select>
             </div>
@@ -97,12 +97,6 @@
       </div>
     </div>
 
-    <div class="fundraiser-bar__mobile-ui">
-      <div class="fundraiser-bar__mobile-ui__bottom-bar">
-        <button class="button fundraiser-bar__open-button">{{ plugins.fundraiser[ref].title }}</button>
-      </div>
-    </div>
-
     <script type="text/javascript">
       $(document).ready(function(){
         window.sumofus.myFundraiserBar = new window.sumofus.FundraiserBar({
@@ -111,6 +105,8 @@
           currency:         window.sumofus.personalization.urlParams.currency || window.sumofus.personalization.location.currency,
           donationBands:    window.sumofus.personalization.donationBands,
           amount:           window.sumofus.personalization.urlParams.amount,
+          akid:             window.sumofus.personalization.urlParams.akid,
+          source:           window.sumofus.personalization.urlParams.source,
           member:           window.sumofus.personalization.member,
           location:         window.sumofus.personalization.location,
           outstandingFields:window.sumofus.personalization.outstandingFields

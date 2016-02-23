@@ -23,11 +23,15 @@ const FormMethods = {
   clearForm(){
     let $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
-    $fields_holder.find('input, select').val('');
+    $fields_holder.find('input[type="text"], input[type="email"], input[type="tel"], select').val('');
+    $fields_holder.find('input[type="checkbox"]').attr('checked', false);
+
     $fields_holder.find('select').each((ii, el)=>{ el.selectedIndex = -1; });
     $fields_holder.find('.selectized').each((ii, el)=>{ el.selectize.clear(); });
     $fields_holder.parents('form').trigger('reset');
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
+    this.renameActionKitIdToReferringId();
+    this.policeHeights();
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
@@ -64,6 +68,38 @@ const FormMethods = {
     this.$(`.${plugin_type}-bar__welcome-name`).text(member.welcome_name);
     this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
   },
+
+  insertActionKitId(akid) {
+    let $form = this.$('form.action');
+
+    if(akid && $form) {
+      this.insertHiddenInput('akid', akid, $form)
+    }
+  }
+  ,
+
+  insertSource(source) {
+    let $form = this.$('form.action');
+
+    if(source && $form) {
+      this.insertHiddenInput('source', source, $form)
+    }
+  },
+
+  insertHiddenInput(name, value, element) {
+    $('<input>').attr({
+      type: 'hidden',
+      name: name,
+      value: value
+    }).appendTo(element);
+  },
+
+  renameActionKitIdToReferringId() {
+    let $action_kit_hidden = $('input[name="akid"]');
+    if($action_kit_hidden) {
+      $action_kit_hidden.attr('name', 'referring_akid');
+    }
+  }
 };
 
 module.exports = FormMethods;

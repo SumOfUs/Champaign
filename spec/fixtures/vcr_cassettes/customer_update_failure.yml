@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: put
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers/test
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <customer>
+          <first-name>John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny</first-name>
+          <last-name>John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny John Johnny</last-name>
+          <email>bob@example.com</email>
+        </customer>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 19 Feb 2016 21:40:13 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - f9ce0756-3411-4756-848d-253e980e9777
+      X-Runtime:
+      - '0.368596'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAL2Lx1YAA+xUTU/EIBC991cQ7i27MTE9UNbTHoxHPRvaHSsJMA2wZvvv
+        LbVfmuqqiZ72QmZ4D3iZxwzfnYwmL+C8QlvQbbahBGyFB2Xrgj7c79Oc7kTC
+        ZaNScA5d6sA3aD2IhBDeb/kYTgkJbQMFlc7JlrIBqo4+oAH3lq5zR2xE5zxe
+        gAcQ+fZ6k3PWx0tQhuBUeQww3OdbU6Km4kk5Hx6tNMDZxHl30oD3sgaxj0wS
+        mUR1qhCJRltnnI2EWRv7IO4LsdurH4jV8pta7+TvpA7p6BZberLEeCOdNP4z
+        5/qipvF9cYvPlsTFtuQS/1nM2aLmow3xu1xc+FcX5pJPU8xIpUWJ5Q2cpGk0
+        ZBWarpf67dU2m3vr3OxJzvZ5NyhWpvIrAAAA//8DAAO5b2fSBQAA
+    http_version: 
+  recorded_at: Fri, 19 Feb 2016 21:40:14 GMT
+recorded_with: VCR 3.0.0

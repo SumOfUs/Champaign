@@ -24,5 +24,11 @@ FactoryGirl.define do
       name      'country'
       data_type 'country'
     end
+
+    trait :postal do
+      label     'Postal'
+      name      'postal'
+      data_type 'postal'
+    end
   end
 end

@@ -10,7 +10,7 @@
           tr
             th Title
             th Description
-            th Experimental
+            th Experimental?
             th
 
         tbody
@@ -18,8 +18,7 @@
             tr
               td = liquid_layout.title
               td = liquid_layout.description
-              td
-                span class=(liquid_layout.experimental? ? 'tick' : 'cross')
+              td = (liquid_layout.experimental? ? 'Experimental' : 'Live')
               td = link_to 'Edit', edit_liquid_layout_path(liquid_layout)
 
 

@@ -32,18 +32,14 @@
       </div>
     </div>
 
-    <div class="petition-bar__mobile-ui">
-      <div class="petition-bar__mobile-ui__bottom-bar">
-        <button class="button petition-bar__open-button">{{ plugins.petition[ref].cta }}</button>
-      </div>
-    </div>
-
     <script type="text/javascript">
       $(document).ready(function(){
         window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
           member:           window.sumofus.personalization.member,
           outstandingFields:window.sumofus.personalization.outstandingFields,
           location:         window.sumofus.personalization.location,
+          akid:             window.sumofus.personalization.urlParams.akid,
+          source:           window.sumofus.personalization.urlParams.source,
           thermometer:      window.sumofus.personalization.thermometer,
           followUpUrl:      "{{ follow_up_url }}"
         });
