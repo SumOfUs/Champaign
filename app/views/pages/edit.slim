@@ -25,10 +25,10 @@ section.page-edit-step#sources data-icon='link'
   h1.page-edit-step__title = t('.sources')
   = render 'link_form', page: @page
 
-section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=page_url(@page)
+section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=member_facing_page_url(@page)
   h1.page-edit-step__title
     = t('.view')
-    = link_to @page, target: "_blank"  do
+    = link_to member_facing_page_path(@page), target: "_blank"  do
       button.btn-primary.btn.pull-right
         = t('.show')
 
