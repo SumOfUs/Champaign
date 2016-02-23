@@ -47,6 +47,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.pageId = options.pageId;
     if (!this.isMobile()) {
       this.selectizeCountry();
+      $(window).on('resize', () => this.policeHeights());
     }
     this.buttonText = I18n.t('form.submit');
     this.insertActionKitId(options.akid);
@@ -163,6 +164,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.changeStepPanel(targetStep);
     this.changeStepNumber(targetStep);
     this.currentStep = targetStep;
+    this.policeHeights();
   },
 
   changeStepPanel (targetStep) {
@@ -187,6 +189,12 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         }
       });
     });
+  },
+
+  policeHeights() {
+    const $main = this.$('.fundraiser-bar__main');
+    const overflow = $main[0].scrollHeight > $main.outerHeight() ? 'scroll' : 'visible';
+    $main.css('overflow', overflow);
   },
 
   // for testing without waiting on braintree API
@@ -243,6 +251,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       _.each(messages, (error_message) => {
         $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
       });
+
+      this.policeHeights();
     }
   },
 

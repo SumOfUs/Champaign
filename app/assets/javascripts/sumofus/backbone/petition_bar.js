@@ -92,6 +92,8 @@ const PetitionBar = Backbone.View.extend(_.extend(
     if(this.$el.hasClass('stuck-right')){
       maxHeight -= $title.outerHeight();
     }
+    const overflow = (this.$('.petition-bar__main')[0].scrollHeight > maxHeight) ? 'scroll' : 'visible'
+    this.$('.petition-bar__main').css('overflow', overflow);
     this.$('.petition-bar__main').css('max-height', `${maxHeight}px`);
   },
 

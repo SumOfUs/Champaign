@@ -31,6 +31,7 @@ const FormMethods = {
     $fields_holder.parents('form').trigger('reset');
     $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
     this.renameActionKitIdToReferringId();
+    this.policeHeights();
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
