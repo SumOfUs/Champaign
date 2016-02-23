@@ -54,7 +54,7 @@
     padding: $padding;
 
     position: absolute;
-    overflow: scroll;
+    overflow: visible;
 
     width: 100%;
     @include box-sizing(border-box);

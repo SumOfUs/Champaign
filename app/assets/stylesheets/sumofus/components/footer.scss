@@ -34,6 +34,9 @@
     float: right;
     font-size: 10px;
     padding-top: 10px;
+    &--left {
+      float: left;
+    }
   }
 
   &__license, &__tagline {
