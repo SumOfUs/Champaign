@@ -50,6 +50,9 @@ fr:
     signatures: signatures #, par exemple '225 signatures'
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
+    send_email: Envoyer un courriel
+    share: Partager
+    tweet: Tweet
   errors:
     probably_invalid: semble invalide
     is_invalid: est invalide

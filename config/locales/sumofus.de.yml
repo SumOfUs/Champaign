@@ -50,6 +50,9 @@ de:
     signatures: Unterschriften
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
+    send_email: E-Mail senden
+    share: Teilen
+    tweet: Twittern
   errors:
     probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig
