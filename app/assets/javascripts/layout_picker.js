@@ -31,22 +31,22 @@ const setupOnce = require('setup_once');
 
     showRelevantLayouts(e) {
       const $target = $(e.target);
-      const layoutClasses = this.getLayoutClasses($target.attr('id'));
-      const layoutRows = $target.closest('.form-group').find(layoutClasses.inverse_class).not(layoutClasses.own_class);
+      let $allRows = $target.closest('.form-group').find('.radio-group__option');
       if ($target.is(':checked')) {
-        layoutRows.removeClass('hidden');
+        $allRows.removeClass('hidden');
       } else {
-        layoutRows.addClass('hidden');
+        const layoutClass = this.getLayoutClass($target.attr('id'));
+        $allRows.not(layoutClass).addClass('hidden');
       }
     },
 
-    getLayoutClasses(layout_select_id) {
-      if (layout_select_id==='primary') {
-        return {inverse_class: '.post-action-layout', own_class: '.primary-layout'}
-      } else if (layout_select_id==='follow-up') {
-        return {inverse_class: '.primary-layout', own_class: '.post-action-layout'}
+    getLayoutClass(layout_select_id) {
+      if (layout_select_id === 'primary') {
+        return '.primary-layout';
+      } else if (layout_select_id === 'follow-up') {
+        return '.post-action-layout';
       }
-    }
+    },
 
   });
 
