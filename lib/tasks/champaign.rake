@@ -71,4 +71,23 @@ namespace :champaign do
     end
     puts "Finished adding campaigner tags."
   end
+
+  desc 'Import legacy actions into your database from a specified file'
+  task seed_legacy_actions: :environment do
+    if ARGV[1].nil?
+      abort('Requires a valid path to a file containing the legacy actions to seed.')
+    end
+
+    file_handle = File.open(ARGV[1], 'r')
+    data = file_handle.read
+    file_handle.close
+
+    parsed_data = JSON.load data
+    count = 0
+    parsed_data.each_pair do |k, v|
+      count += 1
+    end
+
+    p count
+  end
 end
