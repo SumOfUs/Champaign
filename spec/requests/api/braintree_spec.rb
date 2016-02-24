@@ -13,6 +13,7 @@ describe "Braintree API" do
       email: "itsme@feelthebern.org",
       postal: "11225",
       address1: '25 Elm Drive',
+      akid: '1234.5678.9910',
       source: 'fb',
       country: "US"
     }
@@ -124,6 +125,7 @@ describe "Braintree API" do
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
+                    akid: '1234.5678.9910',
                     source: 'fb',
                     first_name: 'Bernie',
                     last_name: 'Sanders'
@@ -334,6 +336,7 @@ describe "Braintree API" do
                     email: "itsme@feelthebern.org",
                     country: "US",
                     postal: "11225",
+                    akid: '1234.5678.9910',
                     source: 'fb',
                     address1: '25 Elm Drive',
                     first_name: 'Bernie',
@@ -640,6 +643,7 @@ describe "Braintree API" do
                     country: "US",
                     postal: "11225",
                     address1: '25 Elm Drive',
+                    akid: '1234.5678.9910',
                     source: 'fb',
                     first_name: 'Bernie',
                     last_name: 'Sanders'
@@ -888,6 +892,7 @@ describe "Braintree API" do
                     address1: '25 Elm Drive',
                     first_name: 'Bernie',
                     last_name: 'Sanders',
+                    akid: '1234.5678.9910',
                     source: 'fb'
                   },
                   action: {

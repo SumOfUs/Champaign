@@ -71,6 +71,7 @@ module ActionQueue
           last_name:  member.last_name,
           email:      member.email,
           country:    member.country,
+          akid:       data[:akid],
           postal:     data[:postal],
           address1:   data[:address1],
           source:     data[:source]

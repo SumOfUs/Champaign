@@ -4,7 +4,6 @@ describe ActionBuilder do
   let(:page) { create :page }
   let(:member) { create :member }
   let(:found_action) { Action.where(member: member, page: page).first }
-  let(:test_params) { {test: 'yes', foo: 'bar'}}
 
   # Create a class which includes the ActionBuilder.
   class MockActionBuilder
@@ -111,7 +110,7 @@ describe ActionBuilder do
 
     describe 'filters irrelevant' do
 
-      let(:porky_params) { params.merge(page_id: page.id, form_id: '3', blerg: false) }
+      let(:porky_params) { params.merge(page_id: page.id, form_id: '3', blerg: false, akid: '1234.514.lQVxcW') }
 
       it 'keys as symbols' do
         mab = MockActionBuilder.new(porky_params)
@@ -131,6 +130,12 @@ describe ActionBuilder do
       it 'keys as action parameters' do
         mab = MockActionBuilder.new(ActionController::Parameters.new(porky_params))
         expect(mab.filtered_params).to eq params
+      end
+
+      it 'but passes them through to form_data' do
+        mab = MockActionBuilder.new(porky_params)
+        expect{ mab.build_action }.to change{ Action.count }.by 1
+        expect(Action.last.form_data).to match a_hash_including(params.stringify_keys)
       end
     end
   end
