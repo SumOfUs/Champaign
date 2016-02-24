@@ -24,6 +24,7 @@ fr:
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"
     confirmation: Don reçu
+    donate_now: Don maintenant
     fields:
       cvv: CVV
       number: Numéro de votre carte
