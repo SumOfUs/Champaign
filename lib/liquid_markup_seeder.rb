@@ -63,6 +63,8 @@ module LiquidMarkupSeeder
     return unless view.is_a? LiquidLayout
     ltf = LiquidTagFinder.new(view.content)
     view.experimental = ltf.experimental?
+    view.primary_layout = ltf.primary_layout?
+    view.post_action_layout = ltf.post_action_layout?
     view.description = ltf.description
   end
 end

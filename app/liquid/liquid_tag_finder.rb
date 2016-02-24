@@ -61,12 +61,27 @@ class LiquidTagFinder
     string_search(/description: *(.+)/i, string_comments.flatten)
   end
 
+  # Looks for a liquid comment like {% comment %} Experimental: true {% endcomment %}
+  def experimental?
+    has_comment?('experimental')
+  end
+
+  # Looks for a liquid comment like {% comment %} Primary layout: true {% endcomment %}
+  def primary_layout?
+    has_comment?('primary layout')
+  end
+
+  # Looks for a liquid comment like {% comment %} Post-action layout: true {% endcomment %}
+  def post_action_layout?
+    has_comment?('post-action layout')
+  end
+
   # Looks for a liquid comment like
-  #   {% comment %} Experimental: true {% endcomment %}
+  #   {% comment %} Key: true {% endcomment %}
   # If the tag is found and the value is +true+, this returns +true+.
   # Otherwise it returns +false+.
-  def experimental?
-    status = string_search(/experimental: *(.+)/i, string_comments.flatten)
+  def has_comment?(key)
+    status = string_search(/#{Regexp.quote(key)}: *(.+)/i, string_comments.flatten)
     status.present? ? status.match(/true/i).present? : false
   end
 
