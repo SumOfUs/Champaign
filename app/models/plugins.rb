@@ -27,15 +27,10 @@ module Plugins
     end
 
     def translate_defaults(defaults, locale)
-      translated = {}
-      defaults.each do |key, val|
-        if val.is_a? String
-          translated[key] = I18n.t(val, locale: locale)
-        else
-          translated[key] = val
-        end
+      defaults.inject({}) do |translated, (key, val)|
+        translated[key] = val.is_a?(String) ? I18n.t(val, locale: locale) : val
+        translated
       end
-      translated
     end
 
     def data_for_view(page, supplemental_data={})
