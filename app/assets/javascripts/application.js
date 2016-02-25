@@ -27,14 +27,14 @@
 //= require syntax-highlighting
 //= require typeahead.jquery
 //= require speakingurl
-//= require quill
+//= require summernote
 //= require datatables
 //= require datatables/dataTables.bootstrap
 
 //= require show_errors
 //= require dropzone_image_upload
 //= require selectize_config.js
-//= require configure_quill_editor
+//= require configure_wysiwyg
 //= require_tree ./plugins/admin
 
 require('ajax')

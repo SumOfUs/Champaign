@@ -12,8 +12,4 @@
 
       .form-group
         = f.label :content, t('pages.edit.content')
-        = render 'shared/quill_editor'
-
-
-javascript:
-  $.publish("quill_editor:setup");
+        = render 'shared/wysiwyg'
