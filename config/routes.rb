@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   get '/tags/search/:search', to: 'tags#search'
   post '/tags/add', to: 'tags#add_tag_to_page'
   delete '/tags/remove', to: 'tags#remove_tag_from_page'
+
+  # Custom health check route
   get '/health', to: 'application#health_check'
+
+  # For crawlers
+  get '/robots.:format', to: 'application#robots'
 
   # Resource Versioning
   get '/versions/show/:model/:id', to: 'versions#show'
