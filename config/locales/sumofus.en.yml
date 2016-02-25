@@ -51,6 +51,9 @@ en:
     signatures: signatures # as in '225 signatures'
   share:
     cta: Share the campaign with your friends to triple your impact!
+    send_email: Send Email
+    share: Share
+    tweet: Tweet
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid
