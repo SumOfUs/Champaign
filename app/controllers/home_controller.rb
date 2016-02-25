@@ -4,6 +4,14 @@ class HomeController < ApplicationController
     # left blank on purpose
   end
 
+  # Devise hooks into this method to determine where to redirect after a user signs in.
+  # Because we redirect the root path to sumofus.org (which is not handled by this app),
+  # we need to send the user to a page controlled by Champaign. In this case, the Page Index
+  # works as a standard start point for campaigners.
+  def after_sign_in_path_for(user)
+    pages_url
+  end
+
   def health_check
     render plain: health_check_haiku, status: 200
   end
