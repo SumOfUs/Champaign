@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   delete '/tags/remove', to: 'tags#remove_tag_from_page'
 
   # Custom health check route
-  get '/health', to: 'application#health_check'
+  get '/health', to: 'home#health_check'
 
   # For crawlers
-  get '/robots.:format', to: 'application#robots'
+  get '/robots.:format' => 'home#robots'
 
   # Resource Versioning
   get '/versions/show/:model/:id', to: 'versions#show'
