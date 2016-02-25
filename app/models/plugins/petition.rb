@@ -5,7 +5,7 @@ class Plugins::Petition < ActiveRecord::Base
 
   validates :cta, presence: true, allow_blank: false
 
-  DEFAULTS = { cta: 'Sign the Petition' }
+  DEFAULTS = { cta: 'petition.sign_it' }
 
   def liquid_data(supplemental_data={})
     attributes.merge(form_liquid_data(supplemental_data))

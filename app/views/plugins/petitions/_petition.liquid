@@ -7,7 +7,7 @@
             <a class="petition-bar__close-button">&#x2715;</a>
           </div>
           <div class="petition-bar__title-bar">
-            <h2 class="petition-bar__title">{{ 'petition.sign_it' | t }}</h2>
+            <h2 class="petition-bar__title">{{ plugins.petition[ref].cta }}</h2>
           </div>
           <div class="petition-bar__target">
             {% unless plugins.petition[ref].target == blank %}
