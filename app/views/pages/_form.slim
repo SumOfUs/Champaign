@@ -11,5 +11,5 @@
         = f.text_field :title
 
       .form-group
-        = f.label :content, t('pages.edit.content')
+        = label_with_tooltip(f, :content, t('pages.edit.content'), t('tooltips.content'))
         = render 'shared/wysiwyg'

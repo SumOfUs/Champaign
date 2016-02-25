@@ -14,16 +14,18 @@
         ['insert', ['link', 'picture', 'video']],
         ['view', ['fullscreen', 'codeview', 'help']]
       ],
+      height: 280,
       fontSizes: ['8', '10', '11', '12', '14', '16', '20', '24', '36', '72'],
     });
-    $contentField = $('#page_content'),
+    $contentField = $('#page_content');
+
+    $editor.summernote('fontSize', '16'); // default
+    $editor.summernote('code', $contentField.val());
 
     updateContentBeforeSave = function(){
       var content = $editor.summernote('code');
       $contentField.val(content);
     };
-
-    $editor.summernote('code', $contentField.val());
 
     $.subscribe("wysiwyg:submit", updateContentBeforeSave);
   }
