@@ -23,7 +23,7 @@ de:
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "SumOfUs ist eine eingetragene Non-Profit-Organisation (501(c)4) mit Sitz in Washington DC, USA. Spenden an SumOfUs können nicht von der Steuer abgesetzt werden. Für mehr Informationen schreiben Sie uns bitte eine E-Mail an info@sumofus.org."
-    confirmation: Donation received # FIXME - STILL IN ENGLISH!
+    confirmation: Spende erhalten
     fields:
       cvv: Kartenprüfnummer
       number: Kreditkartennummer
@@ -51,8 +51,8 @@ de:
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
     send_email: E-Mail senden
-    share: Teilen
-    tweet: Twittern
+    share: Facebook
+    tweet: Twitter
   errors:
     probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig
