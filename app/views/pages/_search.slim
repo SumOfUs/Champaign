@@ -5,7 +5,7 @@
       / pass params[:search] that contains all search options for filtering.
       = label_tag 'search[content_search]', 'Contain the following text: ', class: 'control-label col-lg-3'
       .col-lg-3
-        input type='text' class='form-control' id='search[content_search]' name='search[content_search]' value=@search_params[:content_search]
+        input type='text' class='form-control' placeholder='A long time ago in a galaxy far far away...' id='search[content_search]' name='search[content_search]' value=@search_params[:content_search]
 
       = label_tag 'search[campaign]', 'Belong to one of these campaigns:', class: 'control-label col-lg-3'
       .col-lg-3
@@ -37,3 +37,6 @@
       .col-md-12
         = submit_tag 'Filter by these criteria', class: 'btn btn-primary page-filter__submit', id: 'search_button'
         = button_tag 'Reset filters', type: 'button',  class: 'btn btn-danger page-filter__reset', id: 'filter_reset_button'
+
+  javascript:
+    $.publish('search:load')
