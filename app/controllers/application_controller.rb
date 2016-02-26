@@ -13,17 +13,7 @@ class ApplicationController < ActionController::Base
     pages_url
   end
 
-  def health_check
-    render plain: health_check_haiku, status: 200
-  end
-
   private
-
-  def health_check_haiku
-    "Health check is passing,\n"\
-    "don't terminate the instance.\n"\
-    "Response: 200."
-  end
 
   def set_locale(code)
     begin
@@ -34,7 +24,7 @@ class ApplicationController < ActionController::Base
       # if it's one explicitly registered under +i18n.available_locales+
     end
   end
-  
+
   def localize_from_page_id
     page = Page.find_by(id: params[:page_id])
     localize_by_page_language(page)

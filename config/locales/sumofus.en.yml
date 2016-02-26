@@ -24,6 +24,7 @@ en:
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
     confirmation: Donation received
+    donate_now: Donate now
     fields:
       cvv: CVV
       number: Card number

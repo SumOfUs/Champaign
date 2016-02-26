@@ -27,7 +27,7 @@
 //= require syntax-highlighting
 //= require typeahead.jquery
 //= require speakingurl
-//= require quill
+//= require summernote
 //= require datatables
 //= require datatables/dataTables.bootstrap
 
@@ -36,6 +36,7 @@
 //= require selectize_config.js
 //= require search.js
 //= require configure_quill_editor
+//= require configure_wysiwyg
 //= require_tree ./plugins/admin
 
 require('ajax')
