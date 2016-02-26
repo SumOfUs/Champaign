@@ -7,6 +7,8 @@ form
         input.form-control placeholder=label
       - when 'country'
         = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes), class: "form-control"
+      - when 'paragraph'
+        textarea.form-control placeholder=label
       - when 'checkbox'
         = check_box_tag element.name
         '&nbsp;
