@@ -46,7 +46,7 @@ describe 'pages/' do
 
   describe "index" do
     it 'renders without error' do
-      3.times { create(:page) }
+      3.times { build(:page) }
       assign :pages, Page.all
       assign :search_params, {}
       expect{ render template: "pages/index" }.not_to raise_error

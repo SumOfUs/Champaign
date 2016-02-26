@@ -34,6 +34,7 @@
 //= require show_errors
 //= require dropzone_image_upload
 //= require selectize_config.js
+//= require search.js
 //= require configure_quill_editor
 //= require_tree ./plugins/admin
 
