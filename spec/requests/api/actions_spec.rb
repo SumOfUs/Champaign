@@ -34,7 +34,8 @@ describe "Api Actions" do
           form_id: form.id.to_s,
           source: 'fb',
           akid:   '123.456.fcvd',
-          referring_akid: '123.456.xyz'
+          referring_akid: '123.456.xyz',
+          user_en: 1
         }
       }
     end
@@ -145,7 +146,8 @@ describe "Api Actions" do
                       email: 'hello@example.com',
                       page_id: page.id.to_s,
                       form_id: form.id.to_s,
-                      akid: invalid_akid
+                      akid: invalid_akid,
+                      user_en: 1
                   }
               }.to_json
           }
