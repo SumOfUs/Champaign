@@ -5,6 +5,8 @@
 
   .row
     .col-md-12
+      = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-md'
+    .col-md-12
       h3.page-filter__title
       table.table-bordered.table-striped.table#pages-table
         thead
@@ -30,7 +32,6 @@
               td = link_to t('.stats'), analytics_page_path(page)
       #search-filter
         = render partial: 'search'
-      = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
 
 javascript:
   $(document).ready(function(){
