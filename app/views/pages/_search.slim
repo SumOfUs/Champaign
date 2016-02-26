@@ -5,32 +5,35 @@
       / pass params[:search] that contains all search options for filtering.
       = label_tag 'search[content_search]', 'Contain the following text: ', class: 'control-label col-lg-3'
       .col-lg-3
-        input type='text' class='form-control' placeholder='Once upon a time in a world far, far away...' id='search[content_search]' name='search[content_search]'
+        input type='text' class='form-control' id='search[content_search]' name='search[content_search]' value=@search_params[:content_search]
 
       = label_tag 'search[campaign]', 'Belong to one of these campaigns:', class: 'control-label col-lg-3'
       .col-lg-3
-        = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'name'),
-                     html_options= {class: 'selectize-container', multiple: true}
+        = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'name', @search_params[:campaign]),
+                     html_options= {class: 'selectize-container selectize-tag', multiple: true}
     .page-filter__row
       = label_tag 'search[layout]', 'Use one of these layouts:', class: 'control-label col-lg-3'
       .col-lg-3
-        = select_tag 'search[layout]', options_from_collection_for_select(LiquidLayout.all, 'id', 'title'),
+        = select_tag 'search[layout]', options_from_collection_for_select(LiquidLayout.all, 'id', 'title', @search_params[:layout]),
                      html_options= {class: 'selectize-container', multiple: true}
 
       = label_tag 'search[language]', 'Belong to one of these languages: ', class: 'control-label col-lg-3'
       .col-lg-3
-        = select_tag 'search[language]', options_from_collection_for_select(Language.all, 'id', 'name'),
+        = select_tag 'search[language]', options_from_collection_for_select(Language.all, 'id', 'name', @search_params[:language]),
                      html_options= {:class => 'selectize-container', multiple: true}
     .page-filter__row
       = label_tag 'search[tags]', 'Contain all of these tags:', class: 'control-label col-lg-3'
       .col-lg-3
-        = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'name'),
+        = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'name', @search_params[:tags]),
                      html_options= {class: 'selectize-container', multiple: true}
 
       = label_tag 'search[plugin_type]', 'Contain all of these plugins:', class: 'control-label col-lg-3'
       .col-lg-3
-        = select_tag 'search[plugin_type]', options_from_collection_for_select(Plugins.registered, 'to_s', lambda { |plugin| plugin.name.demodulize }),
+        = select_tag 'search[plugin_type]', options_from_collection_for_select(Plugins.registered, 'to_s',
+                                                                               lambda { |plugin| plugin.name.demodulize },
+                                                                               @search_params[:plugin_type]),
                      html_options= {class: 'selectize-container', multiple: true}
 
       .col-md-12
         = submit_tag 'Filter by these criteria', class: 'btn btn-primary page-filter__submit', id: 'search_button'
+        = button_tag 'Reset filters', type: 'button',  class: 'btn btn-danger page-filter__reset', id: 'filter_reset_button'
