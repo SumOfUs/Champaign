@@ -12,6 +12,10 @@ module ActionQueue
       ChampaignQueue.push(payload)
     end
 
+    def page
+      @page ||= @action.page
+    end
+
     class_methods do
       def push(action)
         new(action).push
@@ -33,7 +37,9 @@ module ActionQueue
         type: 'action',
         params: {
           page: "#{@action.page.slug}-petition"
-        }.merge(@action.form_data)
+        }.merge(@action.form_data).
+          merge( UserLanguageISO.for(page.language) )
+
       }.deep_symbolize_keys
     end
   end
@@ -80,10 +86,6 @@ module ActionQueue
 
     def member
       @member ||= @action.member
-    end
-
-    def page
-      @page ||= @action.page
     end
 
     # ActionKit can accept one of the following:
