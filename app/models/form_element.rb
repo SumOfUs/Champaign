@@ -11,6 +11,7 @@ class FormElement < ActiveRecord::Base
   # Array of possible field types.
   VALID_TYPES = %w{
     text
+    paragraph
     checkbox
     email
     phone
