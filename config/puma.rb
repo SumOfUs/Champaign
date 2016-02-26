@@ -1,4 +1,4 @@
-workers Integer(ENV['WEB_CONCURRENCY'] || 1)
+workers Integer(ENV['PUMA_WORKERS'] || 1)
 threads_count = Integer(ENV['MAX_THREADS'] || 1)
 threads 1, threads_count
 
