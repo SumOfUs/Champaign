@@ -75,11 +75,15 @@ module ActionQueue
           postal:     data[:postal],
           address1:   data[:address1],
           source:     data[:source]
-      }
+      }.merge(UserLanguageISO.for(page.language) )
     end
 
     def member
       @member ||= @action.member
+    end
+
+    def page
+      @page ||= @action.page
     end
 
     # ActionKit can accept one of the following:
