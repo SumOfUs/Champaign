@@ -6,7 +6,9 @@ class PagesController < ApplicationController
   before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up, :analytics]
 
   def index
-    @pages = Search::PageSearcher.new(params).search
+    # Filter the desired pages by search parameters, and sort them descending by their date of update.
+    @pages = Search::PageSearcher.new(params).search.sort_by(&:updated_at).reverse!
+    @search_params = params[:search].present? ? params[:search] : {}
   end
 
   def analytics

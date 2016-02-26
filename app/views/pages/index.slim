@@ -5,12 +5,9 @@
 
   .row
     .col-md-12
+      = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-md'
+    .col-md-12
       h3.page-filter__title
-        = link_to '#search-filter', data: {toggle: 'collapse'}, 'class' => 'pull-right' do
-          i.glyphicon.glyphicon-search
-          = t('pages.index.filter')
-      #search-filter.collapse
-        = render partial: 'search'
       table.table-bordered.table-striped.table#pages-table
         thead
           tr
@@ -33,11 +30,6 @@
               td = link_to t('pages.edit.view'), member_facing_page_path(page)
               td = link_to t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
+      #search-filter
+        = render partial: 'search'
 
-
-      = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-sm'
-
-javascript:
-  $(document).ready(function(){
-    $('#pages-table').DataTable();
-  });
