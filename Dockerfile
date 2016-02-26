@@ -15,4 +15,4 @@ EXPOSE 3000
 ADD . /myapp
 RUN RAILS_ENV=production bundle exec rake assets:precompile
 
-CMD bundle exec puma -b tcp://0.0.0.0 -p 3000 -t 5:16
+CMD bundle exec puma -C config/puma.rb
