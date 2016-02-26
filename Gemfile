@@ -70,6 +70,9 @@ gem 'lograge'
 # gem 'rack-cache'
 # gem 'redis-rack-cache'
 
+# Cross browser rich text editor
+gem 'summernote-rails'
+
 # Gem for user agent / browser detection
 gem 'browser'
 
@@ -139,9 +142,6 @@ source 'https://rails-assets.org' do
 
   # Generate a slug – transliteration with a lot of options
   gem 'rails-assets-speakingurl'
-
-  # Cross browser rich text editor
-  gem 'rails-assets-quill'
 
   # braintree js
   gem 'rails-assets-braintree-web'

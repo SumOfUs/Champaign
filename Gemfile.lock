@@ -339,7 +339,6 @@ GEM
     rails-assets-mailcheck (1.1.1)
     rails-assets-moment (2.11.1)
     rails-assets-odometer (0.4.7)
-    rails-assets-quill (0.20.0)
     rails-assets-speakingurl (6.0.0)
     rails-assets-underscore (1.8.3)
     rails-deprecated_sanitizer (1.0.3)
@@ -433,6 +432,8 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    summernote-rails (0.8.1.1)
+      railties (>= 3.1)
     teaspoon (1.1.1)
       railties (>= 3.2.5, < 5)
     teaspoon-mocha (2.3.3)
@@ -522,7 +523,6 @@ DEPENDENCIES
   rails-assets-mailcheck!
   rails-assets-moment!
   rails-assets-odometer!
-  rails-assets-quill!
   rails-assets-speakingurl!
   rails-assets-underscore!
   rails-observers
@@ -539,6 +539,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets-rails (< 3.0)
+  summernote-rails
   teaspoon
   teaspoon-mocha
   terminal-notifier-guard
