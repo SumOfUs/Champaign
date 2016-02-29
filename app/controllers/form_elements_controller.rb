@@ -9,8 +9,7 @@ class FormElementsController < ApplicationController
         format.html { render partial: 'element', locals: { form: @form, element: @form_element }, status: :ok }
       else
         format.html { render :new }
-        format.js { render 'errors' }
-        format.json { render json: @liquid_layout.errors, status: :unprocessable_entity }
+        format.js { render json: { errors: @form_element.errors, name: :form_element }, status: :unprocessable_entity }
       end
     end
   end

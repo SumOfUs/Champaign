@@ -82,7 +82,7 @@ en:
     form_elements:
       data_type: 'This changes what user inputs the field will accept'
       label: 'This is the label of the field presented to the petition signer.'
-      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own and it will be automatically prefixed with 'action_'"
+      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own. AK's 'action_' prefix will be added automatically if you don't include it."
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."

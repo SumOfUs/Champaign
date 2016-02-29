@@ -9,6 +9,7 @@
 //   - Use for autocompleting for setting the field's name value
 
 const setupOnce = require('setup_once');
+const ErrorDisplay = require('show_errors');
 
 (function(){
   let CollectionEditor = Backbone.View.extend({
@@ -99,6 +100,8 @@ const setupOnce = require('setup_once');
 
     newElementAdded: function(e, resp, c) {
       this.$('.list-group').append(resp);
+      this.$('#form_element_label, #form_element_name').val('');
+      ErrorDisplay.clearErrors(this.$('form#new_collection_element'));
       this.makeSortable();
     },
 
