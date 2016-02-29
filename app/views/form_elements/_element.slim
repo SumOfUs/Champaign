@@ -2,11 +2,13 @@ li.list-group-item data-id=element.id
   span.sort
     i.glyphicon.glyphicon-sort
   = element.label
+  span.secondary-label
+    = "(#{element.name})"
 
   .control-bar
     - if element.required
-      span.label.label-primary required
-    span.label.label-info = element.data_type
+      span.label.label-warning required
+    span.label.label-primary = element.data_type
 
     = link_to form_form_element_path(form, element),
       { method: :delete,
