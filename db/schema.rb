@@ -254,8 +254,8 @@ ActiveRecord::Schema.define(version: 20160219174402) do
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.string   "processor_response_code"
     t.decimal  "amount",                  precision: 10, scale: 2
+    t.string   "processor_response_code"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
