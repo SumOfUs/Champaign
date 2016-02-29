@@ -109,7 +109,7 @@ const HostedFieldsMethods = {
 
   translateFieldName(fieldName) {
     if (['expiration', 'cvv', 'number', 'postalCode'].indexOf(this.standardizeFieldName(fieldName)) > -1) {
-      return I18n.t(`fundraiser.fields.${fieldName}`)
+      return I18n.t(`fundraiser.field_names.${fieldName}`)
     } else {
       return fieldName;
     }

@@ -44,7 +44,8 @@ module ActionBuilder
 
     @user.assign_attributes(
       filtered_params.tap do |data|
-        data[:actionkit_user_id] = actionkit_user_id(@params[:akid]) if @params.has_key?(:akid)
+        id = AkidParser.parse(@params[:akid])[:actionkit_user_id]
+        data[:actionkit_user_id] = id unless id.blank?
       end
     )
 
@@ -63,10 +64,6 @@ module ActionBuilder
 
   def page
     @page ||= Page.find(@params[:page_id])
-  end
-
-  def actionkit_user_id(akid)
-    AkidParser.parse(akid)[:actionkit_user_id]
   end
 end
 

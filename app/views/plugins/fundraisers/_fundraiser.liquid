@@ -85,21 +85,17 @@
                 </div>
                 <div class="form__group">
                   <hr class="fundraiser-bar__step-connector fundraiser-bar__step-connector--static" />
-                  <label class="checkbox-label">
-                    <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> {{ 'fundraiser.make_recurring' | t }}
-                  </label>
                 </div>
+              </div>
+              <div class="form__group">
+                <label class="checkbox-label">
+                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> {{ 'fundraiser.make_recurring' | t }}
+                </label>
               </div>
               <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
             </form>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="fundraiser-bar__mobile-ui">
-      <div class="fundraiser-bar__mobile-ui__bottom-bar">
-        <button class="button fundraiser-bar__open-button">{{ plugins.fundraiser[ref].title }}</button>
       </div>
     </div>
 

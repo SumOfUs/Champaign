@@ -12,6 +12,10 @@ module ActionQueue
       ChampaignQueue.push(payload)
     end
 
+    def page
+      @page ||= @action.page
+    end
+
     class_methods do
       def push(action)
         new(action).push
@@ -33,7 +37,9 @@ module ActionQueue
         type: 'action',
         params: {
           page: "#{@action.page.slug}-petition"
-        }.merge(@action.form_data)
+        }.merge(@action.form_data).
+          merge( UserLanguageISO.for(page.language) )
+
       }.deep_symbolize_keys
     end
   end
@@ -71,10 +77,11 @@ module ActionQueue
           last_name:  member.last_name,
           email:      member.email,
           country:    member.country,
+          akid:       data[:akid],
           postal:     data[:postal],
           address1:   data[:address1],
           source:     data[:source]
-      }
+      }.merge(UserLanguageISO.for(page.language) )
     end
 
     def member

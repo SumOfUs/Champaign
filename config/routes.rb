@@ -10,7 +10,12 @@ Rails.application.routes.draw do
   get '/tags/search/:search', to: 'tags#search'
   post '/tags/add', to: 'tags#add_tag_to_page'
   delete '/tags/remove', to: 'tags#remove_tag_from_page'
-  get '/health', to: 'application#health_check'
+
+  # Custom health check route
+  get '/health', to: 'home#health_check'
+
+  # For crawlers
+  get '/robots.:format' => 'home#robots'
 
   # Resource Versioning
   get '/versions/show/:model/:id', to: 'versions#show'
@@ -42,6 +47,10 @@ Rails.application.routes.draw do
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
+  end
+
+  resources :pages, path: 'a', as: 'member_facing_page', only: [:edit, :show] do
+    get 'follow-up', on: :member, action: 'follow_up'
   end
 
   resources :forms do
@@ -108,7 +117,7 @@ Rails.application.routes.draw do
     namespace :braintree do
       get 'token'
       post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
-      post 'braintree/webhook', action: 'webhook'
+      post 'webhook', action: 'webhook'
     end
 
     resources :pages do

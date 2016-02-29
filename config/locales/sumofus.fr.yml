@@ -23,12 +23,18 @@ fr:
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"
+    confirmation: Don reçu
+    donate_now: Don maintenant
     fields:
       cvv: CVV
       number: Numéro de votre carte
       expiration: Date d’expiration
       expiration_format: mm/an
       postalCode: Code postal
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: Le CVV
+      number: Le numéro de votre carte
+      expiration: La date d’expiration
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
@@ -45,8 +51,11 @@ fr:
     signatures: signatures #, par exemple '225 signatures'
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
+    send_email: Envoyer un courriel
+    share: Partager
+    tweet: Tweet
   errors:
-    probably_invalid: Cela n’a pas l’air d’être correct
+    probably_invalid: semble invalide
     is_invalid: est invalide
     this_field: Ce champ
   validation:

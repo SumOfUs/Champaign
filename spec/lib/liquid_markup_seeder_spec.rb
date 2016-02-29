@@ -32,12 +32,16 @@ describe LiquidMarkupSeeder do
     let(:view) { build :liquid_layout }
     let(:description) { "{% comment %} description: something sweet {%endcomment%}" }
     let(:experimental) { "{% comment %} experimental: true {% endcomment %}" }
+    let(:post_action) { "{% comment %} Post-action layout: true {% endcomment %}" }
+    let(:primary) { "{% comment %} Primary layout: true {% endcomment %}" }
 
-    it 'sets experimental and description if they are included' do
-      view.content = description + experimental
+    it 'sets experimental, post-action, primary, and description if they are included' do
+      view.content = description + experimental + post_action + primary
       subject.set_metadata_fields(view)
       expect(view.description).to eq "something sweet"
       expect(view.experimental).to eq true
+      expect(view.primary_layout).to eq true
+      expect(view.post_action_layout).to eq true
     end
 
     it 'sets to nil if not included' do

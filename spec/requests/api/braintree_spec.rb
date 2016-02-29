@@ -13,8 +13,43 @@ describe "Braintree API" do
       email: "itsme@feelthebern.org",
       postal: "11225",
       address1: '25 Elm Drive',
+      akid: '1234.5678.9910',
       source: 'fb',
       country: "US"
+    }
+  end
+
+  let(:donation_push_params) do
+    {
+      type: "donation",
+      params: {
+        donationpage: {
+          name: "cash-rules-everything-around-me-donation",
+          payment_account: "Braintree EUR"
+        },
+        order: {
+          amount: amount.to_s,
+          card_num: "1881",
+          card_code: "007",
+          exp_date_month: "12",
+          exp_date_year: "2020",
+          currency: "EUR"
+        },
+        user: {
+          email: "itsme@feelthebern.org",
+          country: "US",
+          postal: "11225",
+          address1: '25 Elm Drive',
+          first_name: 'Bernie',
+          last_name: 'Sanders',
+          akid: '1234.5678.9910',
+          source: 'fb',
+          user_en: 1
+        },
+        action: {
+          source: 'fb'
+        }
+      }
     }
   end
 
@@ -104,35 +139,7 @@ describe "Braintree API" do
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    address1: '25 Elm Drive',
-                    source: 'fb',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -310,39 +317,12 @@ describe "Braintree API" do
               expect( customer.customer_id ).not_to be_blank
               expect( customer.card_last_4 ).to eq '1881'
               expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.email ).to eq user_params[:email]
             end
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    source: 'fb',
-                    address1: '25 Elm Drive',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -437,6 +417,7 @@ describe "Braintree API" do
               expect(customer.customer_id).not_to be_blank
               expect(customer.card_last_4).to eq 'PYPL'
               expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.email ).to eq user_params[:email]
             end
 
             it "stores PYPL as card_num on the Action" do
@@ -602,6 +583,7 @@ describe "Braintree API" do
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
+              expect(subscription.action).to eq Action.last
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
@@ -617,35 +599,7 @@ describe "Braintree API" do
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    address1: '25 Elm Drive',
-                    source: 'fb',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -849,6 +803,7 @@ describe "Braintree API" do
               expect(subscription.merchant_account_id).to eq 'EUR'
               expect(subscription.subscription_id).to match a_string_matching(token_format)
               expect(subscription.page).to eq page
+              expect(subscription.action).to eq Action.last
             end
 
             it "creates a Payment::BraintreeCustomer with new token, customer_id, and last_4" do
@@ -856,40 +811,13 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
               expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.email ).to eq user_params[:email]
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    address1: '25 Elm Drive',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders',
-                    source: 'fb'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -999,6 +927,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
               expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect( customer.email ).to eq user_params[:email]
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
 
@@ -1088,6 +1017,17 @@ describe "Braintree API" do
       end
     end
   end
-end
 
+  describe "fetching a token" do
+    it 'gets a client token' do
+      VCR.use_cassette("braintree_client_token") do
+        expect{ get api_braintree_token_path }.not_to raise_error
+
+        body = JSON.parse(response.body).with_indifferent_access
+        expect(body).to have_key(:token)
+        expect(body[:token].to_s).to match a_string_matching(/[a-zA-Z0-9=]{5,5000}/)
+      end
+    end
+  end
+end
 

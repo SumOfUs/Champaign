@@ -257,27 +257,44 @@ describe LiquidTagFinder do
 
     it 'returns true if experimental is "true"' do
       tag = '{% comment %} experimental: true {% endcomment %}'
-      description = LiquidTagFinder.new(tag+base_content).experimental?
-      expect(description).to eq true
+      expect(LiquidTagFinder.new(tag+base_content).experimental?).to eq true
     end
 
     it 'returns true if experimental is "TRUE"' do
       tag = '{% comment %} experimental: TRUE {% endcomment %}'
-      description = LiquidTagFinder.new(tag+base_content).experimental?
-      expect(description).to eq true
+      expect(LiquidTagFinder.new(tag+base_content).experimental?).to eq true
     end
 
     it 'returns false if experimental is 1' do
       tag = '{% comment %} experimental: 1 {% endcomment %}'
-      description = LiquidTagFinder.new(tag+base_content).experimental?
-      expect(description).to eq false
+      expect(LiquidTagFinder.new(tag+base_content).experimental?).to eq false
     end
 
     it 'returns false if experimental tag is absent' do
-      description = LiquidTagFinder.new(base_content).experimental?
-      expect(description).to eq false
+      expect(LiquidTagFinder.new(base_content).experimental?).to eq false
+    end
+  end
+
+  describe 'primary_layout?' do
+    it 'returns true if primary layout is "true"' do
+      tag = '{% comment %} Primary layout: true {% endcomment %}'
+      expect(LiquidTagFinder.new(tag+base_content).primary_layout?).to eq true
     end
 
+    it 'returns false if primary_layout tag is absent' do
+      expect(LiquidTagFinder.new(base_content).primary_layout?).to eq false
+    end
+  end
+
+  describe 'post_action_layout?' do
+    it 'returns true if post-action layout is "true"' do
+      tag = '{% comment %} Post-action layout: true {% endcomment %}'
+      expect(LiquidTagFinder.new(tag+base_content).post_action_layout?).to eq true
+    end
+
+    it 'returns false if post_action_layout tag is absent' do
+      expect(LiquidTagFinder.new(base_content).post_action_layout?).to eq false
+    end
   end
 
 end

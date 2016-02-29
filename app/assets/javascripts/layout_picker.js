@@ -6,6 +6,7 @@ const setupOnce = require('setup_once');
 
     events: {
       'click .radio-group__option': 'updateSelected',
+      'change .layout-type-checkbox': 'showRelevantLayouts'
     },
 
     updateSelected(e) {
@@ -25,6 +26,25 @@ const setupOnce = require('setup_once');
       const $input = $target.find(`#${$target.attr('for')}`);
       if ($input.attr('name') === 'page[follow_up_liquid_layout_id]') {
         this.$('#page_follow_up_plan_with_liquid').prop('checked', true);
+      }
+    },
+
+    showRelevantLayouts(e) {
+      const $target = $(e.target);
+      let $allRows = $target.closest('.form-group').find('.radio-group__option');
+      if ($target.is(':checked')) {
+        $allRows.removeClass('hidden');
+      } else {
+        const layoutClass = this.getLayoutClass($target.attr('id'));
+        $allRows.not(layoutClass).addClass('hidden');
+      }
+    },
+
+    getLayoutClass(layout_select_id) {
+      if (layout_select_id === 'primary') {
+        return '.primary-layout';
+      } else if (layout_select_id === 'follow-up') {
+        return '.post-action-layout';
       }
     },
 

@@ -13,6 +13,8 @@ describe Payment::BraintreeSubscription do
   it { is_expected.to respond_to :updated_at }
   it { is_expected.to respond_to :page_id }
   it { is_expected.to respond_to :page }
+  it { is_expected.to respond_to :action }
+  it { is_expected.to respond_to :action_id }
 
   it { is_expected.to_not respond_to :customer_id }
   it { is_expected.to_not respond_to :price }

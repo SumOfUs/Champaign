@@ -27,4 +27,9 @@ module HelperFunctions
       {tag_name: '@Austria', actionkit_uri: '/rest/v1/tag/1042/'}
     ])
   end
+
+  def error_messages_from_response(response)
+    JSON.parse(response.body)['errors'].inject([]){|memo, error| memo << error['message'] }.uniq
+  end
+
 end

@@ -8,6 +8,11 @@
   border-top: 2px solid $dingy-gray;
   @include box-sizing(border-box);
 
+  @media(max-width: $mobile-width) {
+    // the action button covers it anyway
+    display: none;
+  }
+
   &--stuck-to-bottom {
     position: absolute;
     bottom: 0;
@@ -29,6 +34,9 @@
     float: right;
     font-size: 10px;
     padding-top: 10px;
+    &--left {
+      float: left;
+    }
   }
 
   &__license, &__tagline {

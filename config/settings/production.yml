@@ -71,3 +71,5 @@ redis:
 geocoder:
   host: <%= ENV["GEOCODER_HOST"] %>
 
+# Enable access in robots.txt?
+robots: <%= ENV["DISABLE_ROBOTS"] == "true" ? "staging" : "production" %>

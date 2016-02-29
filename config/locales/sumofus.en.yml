@@ -23,12 +23,18 @@ en:
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
+    confirmation: Donation received
+    donate_now: Donate now
     fields:
       cvv: CVV
       number: Card number
       expiration: Expiration date
       expiration_format: mm/yy
       postalCode: Postal code
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: CVV
+      number: Card number
+      expiration: Expiration date
   petition:
     sign_it: Sign the petition
     target_prefix: TO
@@ -45,6 +51,9 @@ en:
     signatures: signatures # as in '225 signatures'
   share:
     cta: Share the campaign with your friends to triple your impact!
+    send_email: Send Email
+    share: Share
+    tweet: Tweet
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid
