@@ -18,6 +18,7 @@ class FormElement < ActiveRecord::Base
     country
     postal
   }
+  validates :data_type, inclusion: { in: VALID_TYPES }
 
   private
 
@@ -27,8 +28,10 @@ class FormElement < ActiveRecord::Base
   end
 
   def set_name
-    unless ActionKitFields::ACTIONKIT_FIELDS_WHITELIST.include?(name)
-      self.name = "action_#{name}" unless name =~  ActionKitFields::VALID_PREFIX_RE
+    unless name.blank? || ActionKitFields::ACTIONKIT_FIELDS_WHITELIST.include?(name)
+      if !(name =~ ActionKitFields::VALID_PREFIX_RE) && !(name =~ /^(action_)+$/)
+        self.name = "action_#{name}"
+      end
     end
   end
 end
