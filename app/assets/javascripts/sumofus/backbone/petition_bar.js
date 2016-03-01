@@ -10,6 +10,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
     'click .petition-bar__close-button': 'hide',
     'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'handleSuccess',
+    'focus .form__group > input': 'showInputLabel',
   },
 
   // options: object with any of the following keys

@@ -9,10 +9,13 @@
       <div class="form__group petition-bar__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
+          <label for="{{field.name}}" class="hidden-irrelevant">{{field.label}}</label>
           <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
         {% when 'email' %}
+          <label for="{{field.name}}" class="hidden-irrelevant">{{field.label}}</label>
           <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" />
         {% when 'phone' %}
+          <label for="{{field.name}}" class="hidden-irrelevant">{{field.label}}</label>
           <input type="tel" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
         {% when 'checkbox' %}
           <label class="checkbox-label">
@@ -20,6 +23,7 @@
             <input type="checkbox" name="{{field.name}}" class="form__content" value="1" /> {{ field.label }}
           </label>
         {% when 'country' %}
+          <label for="{{field.name}}" class="hidden-irrelevant">{{field.label}}</label>
           <select name="{{field.name}}" class="petition-bar__country-selector form__content" placeholder="{{field.label}}">
             <option></option>
             {{ country_option_tags }}
