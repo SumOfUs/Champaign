@@ -63,4 +63,4 @@ fr:
     is_invalid_email: n’est pas une adresse email valide
     is_invalid_phone: 'peut uniquement comprendre des chiffres, tirets, plus, et des parenthèses'
     is_invalid_country: doit comprendre un code pays valide
-    is_invalid_length: 'must be less than %{length} characters long' # FIXME: still in English
+    is_invalid_length: 'doit contenir moins de %{length} caractères'
