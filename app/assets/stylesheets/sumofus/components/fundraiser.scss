@@ -26,7 +26,7 @@
     &--static {
       position: static;
       float: none;
-      margin: 20px auto;
+      margin: 15px auto 9px;
     }
   }
   &__amount-button {
@@ -166,13 +166,6 @@
     left: 26px;
     color: #f8492e;
     font-size: 30px;
-  }
-  &__fine-print {
-    font-size: 12px;
-    color: $slate-gray;
-    line-height: 16px;
-    width: 100%;
-    float: left;
   }
   &__first-continue {
     margin-bottom: 20px;

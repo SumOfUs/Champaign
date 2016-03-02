@@ -41,6 +41,8 @@ de:
     confirmation: Ihr Name wurde übermittelt
     excited_confirmation: Ihr Name wurde übermittelt!
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
+    fine_print: "SumOfUs schützt %{privacy_link} und hält Sie auf dem Laufenden über diese und andere Kampagnen."
+    privacy_link: Ihre Daten
   form:
     welcome_back: Willkommen zurück
     switch_user: Nicht Sie?
