@@ -49,7 +49,10 @@ Rails.application.configure do
 
   # get some more information out
   config.log_level = :debug
-  # config.logger = Logger.new(STDOUT) # this is now redundant and causes double-logging
+
+  if Settings.instantiate_stdout_logger
+    config.logger = Logger.new(STDOUT)
+  end
 
   # sets location of ImageMagick for Paperclip. Get it by the terminal command 'which convert'.
   Paperclip.options[:command_path] = '/usr/bin/'

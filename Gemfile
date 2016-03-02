@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
-gem 'rails', '4.2.5'
+gem 'rails', '~> 4.2', '>= 4.2.5.1'
 gem 'rails-observers'
 gem 'readthis'
 gem 'hiredis'
@@ -93,9 +93,12 @@ gem 'config'
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
 
+group :development do
+  gem 'web-console', '~> 2.0'
+end
+
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'rspec-rails'
   gem 'capybara' # Capybara for integration testing
