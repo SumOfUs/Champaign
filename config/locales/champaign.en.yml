@@ -44,7 +44,7 @@ en:
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: 'must be a two letter country code'
     is_invalid_postal: 'must be a valid postal code'
-    is_invalid_length: 'must be less than 250 characters long'
+    is_invalid_length: 'must be less than %{length} characters long'
 
   menu:
     pages: 'Pages'
@@ -82,7 +82,7 @@ en:
     form_elements:
       data_type: 'This changes what user inputs the field will accept'
       label: 'This is the label of the field presented to the petition signer.'
-      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own and it will be automatically prefixed with 'data_'"
+      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own. AK's 'action_' prefix will be added automatically if you don't include it."
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -224,7 +224,7 @@ en:
     petition:
       petition_description: "Petition Text"
       choose_form_template: "Use a form template"
-      customise_form: "Customise your petition form"
+      customise_form: "Customize your form"
       add_new_field: "Add a new field"
       add_field: "Add field"
       apply_template: "Apply template"

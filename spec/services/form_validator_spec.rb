@@ -39,6 +39,12 @@ describe FormValidator do
         params.merge!(address1: "")
         expect(subject).to_not be_valid
       end
+
+      it "with paragraph data type and empty string" do
+        element.update_attributes(data_type: 'paragraph')
+        params.merge!(address1: "")
+        expect(subject).to_not be_valid
+      end
     end
   end
 
@@ -161,17 +167,43 @@ describe FormValidator do
     end
   end
 
-  describe 'text length validation' do
-    let!(:name) { create :form_element, form: form, required: false, label: 'Name', name: 'name' }
-    let!(:address) { create :form_element, form: form, required: false, label: 'Address ', name: 'address1' }
-    let(:params){  {form_id: form.id, name: 'a'*250, address1: 'b'*249 } }
+  describe 'with text as data type' do
+    let(:element) { create :form_element, form: form, required: false, label: 'Address', name: 'address1' }
+    let(:params){  {form_id: element.form_id, address1: 'b'*249 } }
 
-    it 'name is too long' do
-      expect(subject.errors[:name].first).to match(/less than 250/)
+    it 'is valid with a 249 character string' do
+      expect(subject.errors).to be_empty
     end
 
-    it 'address1 is not too long' do
-      expect(subject.errors[:address1]).to be_empty
+    it 'is invalid with a 250 character string' do
+      params.merge!(address1: 'b'*250)
+      expect(subject.errors).not_to be_empty
+      expect(subject.errors[:address1].first).to match(/less than 250/)
+    end
+  end
+
+  describe 'with comment as data type' do
+    let(:element) { create :form_element, :paragraph, form: form, required: false, label: 'Address', name: 'address1' }
+    let(:params){  {form_id: element.form_id, address1: 'b'*9_999 } }
+
+    it 'is valid with a 9,999 character string' do
+      expect(subject.errors).to be_empty
+    end
+
+    it 'is valid with a nil when element not required' do
+      params.merge!(address1: nil)
+      expect(subject.errors).to be_empty
+    end
+
+    it 'is valid with an empty string when element not required' do
+      params.merge!(address1: '')
+      expect(subject.errors).to be_empty
+    end
+
+    it 'is invalid with a 10,000 character string' do
+      params.merge!(address1: 'b'*10_000)
+      expect(subject.errors).not_to be_empty
+      expect(subject.errors[:address1].first).to match(/less than 10000/)
     end
   end
 end

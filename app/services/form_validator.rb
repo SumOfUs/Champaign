@@ -1,5 +1,7 @@
 class FormValidator
   attr_reader :errors
+  MAX_TEXT_LENGTH = 250
+  MAX_PARAGRAPH_LENGTH = 10_000
 
   def initialize(params)
     @params = params.symbolize_keys
@@ -18,20 +20,13 @@ class FormValidator
   def validate
     form.form_elements.each do |element|
       validate_field(element)
-      validate_length(element) if element.data_type.inquiry.text?
     end
-  end
-
-  def validate_length(element)
-    return unless @params[:name]
-
-    name = element.name.to_sym
-    @errors[name] << I18n.t('validation.is_invalid_length') if @params.fetch(name, []).size >= 250
   end
 
   def validate_field(form_element)
     el_name = form_element.name.to_sym
 
+    validate_length(   form_element, el_name)
     validate_required( form_element, el_name)
     validate_country(  form_element, el_name)
     validate_phone(    form_element, el_name)
@@ -40,6 +35,14 @@ class FormValidator
   end
 
   private
+
+  def validate_length(form_element, el_name)
+    if form_element.data_type == "text" && (@params[el_name] || []).size >= MAX_TEXT_LENGTH
+      @errors[el_name] << I18n.t('validation.is_invalid_length', length: MAX_TEXT_LENGTH)
+    elsif form_element.data_type == "paragraph" && (@params[el_name] || []).size >= MAX_PARAGRAPH_LENGTH
+      @errors[el_name] << I18n.t('validation.is_invalid_length', length: MAX_PARAGRAPH_LENGTH)
+    end
+  end
 
   def validate_required(form_element, el_name)
     if form_element.required? && @params[el_name].blank?

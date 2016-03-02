@@ -63,3 +63,4 @@ de:
     is_invalid_email: ist keine gültige E-Mail-Adresse
     is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
     is_invalid_country: muss eine gültige Ländervorwahl sein
+    is_invalid_length: 'darf maximal %{length} Zeichen enthalten'

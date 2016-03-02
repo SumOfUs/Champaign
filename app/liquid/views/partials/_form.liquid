@@ -9,7 +9,9 @@
       <div class="form__group petition-bar__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
+          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" maxlength="249" />
+        {% when 'paragraph' %}
+          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form-control form__content" id="" maxlength="9999"></textarea>
         {% when 'email' %}
           <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" />
         {% when 'phone' %}

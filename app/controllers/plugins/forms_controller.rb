@@ -1,8 +1,8 @@
 class Plugins::FormsController < ApplicationController
 
   def create
-    master = Form.find params[:master_id]
-    plugin = Plugins.find_for params[:plugin_type], params[:plugin_id]
+    master = Form.find permitted_params[:master_id]
+    plugin = Plugins.find_for permitted_params[:plugin_type], permitted_params[:plugin_id]
     new_form = attach_duplicate_form(master, plugin)
 
     respond_to do |format|
@@ -14,7 +14,7 @@ class Plugins::FormsController < ApplicationController
   end
 
   def show
-    plugin = Plugins.find_for params[:plugin_type], params[:plugin_id]
+    plugin = Plugins.find_for permitted_params[:plugin_type], permitted_params[:plugin_id]
     render partial: 'plugins/shared/preview', locals: { plugin: plugin }
   end
 
@@ -24,6 +24,10 @@ class Plugins::FormsController < ApplicationController
     new_form = FormDuplicator.duplicate(form)
     plugin.update_form(new_form)
     new_form
+  end
+
+  def permitted_params
+    params.permit(:plugin_id, :plugin_type, :master_id)
   end
 end
 

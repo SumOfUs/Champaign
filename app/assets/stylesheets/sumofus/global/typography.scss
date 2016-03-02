@@ -76,7 +76,8 @@ a {
 }
 
 .body-text {
-  p, span {
+  line-height: 1.6em;
+  p, span, div {
     line-height: 1.6em;
   }
 }

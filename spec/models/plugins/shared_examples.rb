@@ -70,12 +70,25 @@ shared_examples "plugin with form" do |plugin_type|
 
     it 'deletes original form' do
       old_form = subject.form
-
-      subject.update_form(new_form)
+      expect{
+        subject.update_form(new_form)
+      }.to change{ Form.count }.by -1
 
       expect{
         old_form.reload
       }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "deletes the original form's form_elements" do
+      el_count = subject.form.form_elements.size
+      expect(el_count).to be > 0
+      expect{ subject.update_form(new_form) }.to change{ FormElement.count }.by(-el_count)
+    end
+
+    it 'does nothing if new_form is nil' do
+      old_form = subject.form
+      expect{ subject.update_form(nil) }.not_to change{ Form.count }
+      expect(subject.form).to eq old_form
     end
   end
 end
