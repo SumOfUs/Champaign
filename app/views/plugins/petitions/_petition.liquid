@@ -19,15 +19,17 @@
           </p>
         </div>
         <div class="petition-bar__main">
-
           <div class="mobile-hide">
             {% include 'Thermometer' %}
           </div>
-          {% include 'Form',
-            cta: plugins.petition[ref].cta,
-            form_id: plugins.petition[ref].form_id,
-            outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
-            fields: plugins.petition[ref].fields %}
+          {% include 'No Script' %}
+          <div class="script-dependent">
+            {% include 'Form',
+              cta: plugins.petition[ref].cta,
+              form_id: plugins.petition[ref].form_id,
+              outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
+              fields: plugins.petition[ref].fields %}
+          </div>
         </div>
       </div>
     </div>

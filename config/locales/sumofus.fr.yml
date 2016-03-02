@@ -1,6 +1,7 @@
 fr:
   page:
     more_info: Plus d’informations
+    no_script: "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action."
   basics:
     or: ou
   branding:
