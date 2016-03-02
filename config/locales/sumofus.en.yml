@@ -41,6 +41,8 @@ en:
     confirmation: Name submitted
     excited_confirmation: Name submitted!
     thank_you: 'Thanks for adding your name to "%{petition_title}"!'
+    fine_print: "SumOfUs will protect %{privacy_link}, and keep you updated about this and similar campaigns."
+    privacy_link: your privacy
   form:
     welcome_back: Welcome back
     switch_user: Not you?
@@ -63,3 +65,4 @@ en:
     is_invalid_email: is not a valid email address
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: must be a valid country code
+    is_invalid_length: 'must be less than %{length} characters long'

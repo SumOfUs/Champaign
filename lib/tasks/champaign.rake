@@ -10,4 +10,3 @@ namespace :champaign do
     puts "Seeding is done."
   end
 end
-

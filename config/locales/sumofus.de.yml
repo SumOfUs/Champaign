@@ -41,6 +41,8 @@ de:
     confirmation: Ihr Name wurde übermittelt
     excited_confirmation: Ihr Name wurde übermittelt!
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
+    fine_print: "SumOfUs schützt %{privacy_link} und hält Sie auf dem Laufenden über diese und andere Kampagnen."
+    privacy_link: Ihre Daten
   form:
     welcome_back: Willkommen zurück
     switch_user: Nicht Sie?
@@ -63,3 +65,4 @@ de:
     is_invalid_email: ist keine gültige E-Mail-Adresse
     is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
     is_invalid_country: muss eine gültige Ländervorwahl sein
+    is_invalid_length: 'darf maximal %{length} Zeichen enthalten'

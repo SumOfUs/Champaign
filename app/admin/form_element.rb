@@ -1,5 +1,5 @@
 ActiveAdmin.register FormElement do
-  permit_params :label, :data_type, :field_type, :default_value, :required, :visible, :name, :position
+  permit_params :label, :data_type, :default_value, :required, :visible, :name, :position
 
   index do
     selectable_column

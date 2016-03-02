@@ -69,17 +69,15 @@ class ActionKitFields < ActiveModel::Validator
 
   def validate(record)
     @name = record.name
-
-    unless valid_name
-      record.errors[:name] << "#{record.name} is not a permitted ActionKit name."
+    unless has_valid_form
+      record.errors[:name] << "'#{record.name}' is not a permitted ActionKit name."
+    end
+    unless has_valid_characters
+      record.errors[:name] << "'#{record.name}' may only contain numbers, underscores, and lowercase letters."
     end
   end
 
   private
-
-  def valid_name
-    has_valid_characters && has_valid_form
-  end
 
   # Does the name match an existing ActionKit field name, else
   # does it have a valid prefix ( +action_+, or +user_+ ).

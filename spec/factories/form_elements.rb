@@ -30,5 +30,11 @@ FactoryGirl.define do
       name      'postal'
       data_type 'postal'
     end
+
+    trait :paragraph do
+      label     'Your thoughts'
+      name      'comment'
+      data_type 'paragraph'
+    end
   end
 end

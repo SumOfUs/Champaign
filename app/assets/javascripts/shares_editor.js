@@ -10,7 +10,6 @@ let setupOnce = require('setup_once');
       'click .shares-editor__new-type-toggle .btn': 'switchVariantForm',
       'click .shares-editor__view-toggle .btn': 'switchView',
       'ajax:success form.shares-editor__new-form': 'clearFormAndConformView',
-      "click button:contains('Done').shares-editor__toggle-edit": 'updateShareRows'
     },
 
     initialize: function(){
@@ -100,18 +99,10 @@ let setupOnce = require('setup_once');
       }
     },
 
-    updateShareRows: function(e) {
-      let data = {id: 34, refresh: false}
-      this.updateSummaryRows()
-    },
-
     updateSummaryRows: function(){
-      console.log('updateSummaryRows called');
       // this only updates existing shares. new ones are appended by
       // code in view/share/shares/create.js.erb, using rails UJS
-      console.log(e, data)
       return (e, data) => { // closure for `this` in callback
-        console.log(e,data);
         $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
           _.each(rows, (row) => {
             let $row = $(row.html);
@@ -122,8 +113,7 @@ let setupOnce = require('setup_once');
             $row = $original.replaceWith($row);
             $row = $(`#${$row.prop('id')}`);
             if (!this.editRow($row).hasClass('hidden-closed')) {
-              let $btn = $row.find('.shares-editor__toggle-edit');
-              $btn.text('Done');
+              $row.find('.shares-editor__toggle-edit').text('Done');
             }
           })
         });
