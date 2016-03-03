@@ -5,7 +5,11 @@ class ImagesController < ApplicationController
     @image = @page.images.create( image_params )
 
     respond_to do |format|
-      format.js { render partial: 'images/thumbnail', locals: { image: @image } }
+      if @image.errors.empty?
+        format.js { render partial: 'images/thumbnail', locals: { image: @image } }
+      else
+        format.js { render json: @image.errors.full_messages.first, status: 422 }
+      end
     end
   end
 
