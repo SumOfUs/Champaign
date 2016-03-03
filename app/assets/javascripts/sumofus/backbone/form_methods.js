@@ -37,6 +37,12 @@ const FormMethods = {
   completePrefill(prefillValues, unvalidatedPrefillValues) {
     this.$('.petition-bar__field-container').addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
+
+    // DESIRED BUT WEIRD BEHAVIOR - UNHIDE CHECKBOXES
+    this.$('.petition-bar__field-container').
+         find('.checkbox-label').
+         parents('.petition-bar__field-container').
+         removeClass('form__group--prefilled');
   },
 
   // prefillValues - an object mapping form names to prefill values
