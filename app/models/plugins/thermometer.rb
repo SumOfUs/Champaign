@@ -22,7 +22,7 @@ class Plugins::Thermometer < ActiveRecord::Base
       percentage: current_progress,
       remaining: number_with_delimiter(goal - current_total),
       signatures: number_with_delimiter(current_total),
-      goal_k: goal >= 1000 ? "#{(goal / 1000).to_i}k" : goal.to_s
+      goal_k: abbreviate_number(goal)
     )
   end
 
@@ -35,6 +35,13 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   private
+
+  def abbreviate_number(number)
+    return number.to_s if number < 1000
+    return "#{(goal / 1000).to_i}k" if number < 1_000_000
+    locale = page.try(:language).try(:code)
+    return "%g #{I18n.t('thermometer.million', locale: locale)}" % (goal / 1_000_000.0).round(1)
+  end
 
   def goal_should_update
     current_total >= goal
@@ -68,20 +75,20 @@ class Plugins::Thermometer < ActiveRecord::Base
     case
     when count < 500
       100
-    when count < 10000
+    when count < 10_000
       1000
-    when count < 25000
+    when count < 25_000
       5000
-    when count < 100000
-      25000
-    when count < 250000
-      50000
-    when count < 1000000
-      250000
-    when count < 2000000
-      500000
+    when count < 100_000
+      25_000
+    when count < 250_000
+      50_000
+    when count < 1_000_000
+      250_000
+    when count < 2_000_000
+      500_000
     else
-      1000000
+      1_000_000
     end
   end
 end

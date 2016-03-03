@@ -51,6 +51,7 @@ en:
   thermometer:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
+    million: million
   share:
     cta: Share the campaign with your friends to triple your impact!
     send_email: Send Email

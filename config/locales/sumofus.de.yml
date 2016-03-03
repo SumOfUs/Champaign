@@ -51,6 +51,7 @@ de:
   thermometer:
     signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
     signatures: Unterschriften
+    million: Millionen
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
     send_email: E-Mail senden

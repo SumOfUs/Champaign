@@ -51,6 +51,7 @@ fr:
   thermometer:
     signatures_until_goal: "%{remaining} signatures jusqu'à %{goal}"
     signatures: signatures #, par exemple '225 signatures'
+    million: million
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
     send_email: Envoyer un courriel
