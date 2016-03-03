@@ -1,4 +1,4 @@
 .hidden-irrelevant, .hidden-deleted {
-  display: none;
+  display: none !important;
   visibility: hidden;
 }
