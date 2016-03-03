@@ -39,8 +39,8 @@ de:
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
-    confirmation: Ihr Name wurde übermittelt
-    excited_confirmation: Ihr Name wurde übermittelt!
+    confirmation: Ihre Unterschrift wurde der Petition hinzugefügt
+    excited_confirmation: Ihre Unterschrift wurde der Petition hinzugefügt!
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
   form:
     welcome_back: Willkommen zurück
