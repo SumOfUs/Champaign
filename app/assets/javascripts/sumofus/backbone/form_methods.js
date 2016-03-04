@@ -38,9 +38,14 @@ const FormMethods = {
     this.$('.petition-bar__field-container').addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
 
-    // DESIRED BUT WEIRD BEHAVIOR - UNHIDE CHECKBOXES
-    this.$('.petition-bar__field-container').
-         find('.checkbox-label').
+    // DESIRED BUT WEIRD BEHAVIOR - UNHIDE CHECKBOXES AND EMPTY FIELDS
+    let $empties = this.$('.petition-bar__field-container').
+                        find('input, textarea, select').
+                        filter(function(){
+                          return $(this).val().length === 0
+                        });
+    let $checkboxes = this.$('.petition-bar__field-container').find('.checkbox-label');
+    $.merge($empties, $checkboxes).
          parents('.petition-bar__field-container').
          removeClass('form__group--prefilled');
   },
