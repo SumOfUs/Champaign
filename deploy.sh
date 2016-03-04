@@ -45,13 +45,13 @@ function check_application_status() {
     | jq -r '.Environments[].Status')
 }
 
-STATUS="$(stack_status $STACK_NAME)"
+STATUS="$(stack_status $AWS_ENVIRONMENT_NAME)"
 
 echo -n "."
 while [[ "$STATUS" != "Ready" ]]
 do
   sleep 15s
-  STATUS="$(stack_status $STACK_NAME)"
+  STATUS="$(stack_status $AWS_ENVIRONMENT_NAME)"
   if [ "$STATUS" = "Degraded" ]; then
       echo ""
       echo "Your application appears to have deployed, but its status is currently degraded. Have a look at what's up."
