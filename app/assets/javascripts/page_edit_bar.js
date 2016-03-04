@@ -121,11 +121,17 @@ let PageEditBar = Backbone.View.extend({
       if (data.refresh){ location.reload(); }
       this.enableSubmit();
       $.publish('page:saved', data);
-      let now = new Date();
       $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
       $('.page-edit-bar__error-message').text('');
-      $('.page-edit-bar__last-saved').text(`Last saved at ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+      $('.page-edit-bar__last-saved').text(`Last saved at ${this.currentTime()}`);
     }
+  },
+
+  currentTime: function() {
+    const now = new Date();
+    const minutes = (`0${now.getMinutes()}`).slice(-2); // for leading zero
+    const seconds = (`0${now.getSeconds()}`).slice(-2); // for leading zero
+    return `${now.getHours()}:${minutes}:${seconds}`
   },
 
   saveFailed: function() {
