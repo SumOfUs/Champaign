@@ -25,6 +25,7 @@ en:
     fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
     confirmation: Donation received
     donate_now: Donate now
+    loading: Loading encrypted <br> payment portal
     fields:
       cvv: CVV
       number: Card number

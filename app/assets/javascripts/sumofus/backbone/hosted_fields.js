@@ -9,6 +9,7 @@ const HostedFieldsMethods = {
       id: "hosted-fields",
       onPaymentMethodReceived: this.paymentMethodReceived(),
       onError: this.handleErrors(),
+      onReady: this.hideSpinner(),
       paypal: {
         container: 'hosted-fields__paypal',
         onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
@@ -57,6 +58,13 @@ const HostedFieldsMethods = {
   setupFields() {
     return (clientToken) => {
       braintree.setup(clientToken, "custom", this.braintreeSettings());
+    }
+  },
+
+  hideSpinner() {
+    return (clientToken) => {
+      this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
+      this.$('#hosted-fields').removeClass('hidden-closed');
     }
   },
 
