@@ -17,7 +17,11 @@ let PageModel = Backbone.Model.extend({
       this.lastSaved = data;
       Backbone.Model.prototype.save.call(this, data, _.extend({patch: true}, callbacks));
     }
-  }
+  },
+
+  setLastSaved: function(data) {
+    this.lastSaved = data;
+  },
 
 });
 
@@ -175,14 +179,26 @@ let PageEditBar = Backbone.View.extend({
     const SAVE_PERIOD = 5000; // milliseconds
     const shouldAutosave = (this.$('.page-edit-bar__toggle-autosave').data('autosave') == true);
     this.autosave = true;
+    this.model.setLastSaved(this.readData());
     if (shouldAutosave != this.autosave) {
       this.toggleAutosave();
     }
     window.setInterval(() => {
       if(this.autosave) {
         this.save();
+      } else {
+        this.showUnsavedAlert();
       }
     }, SAVE_PERIOD)
+  },
+
+  showUnsavedAlert: function() {
+    let $lastSaved = $('.page-edit-bar__last-saved');
+    const noNotice = $lastSaved.find('.page-edit-bar__unsaved-notice').length < 1;
+    const unsavedDataExists = !_.isEqual(this.model.lastSaved, this.readData());
+    if (noNotice && unsavedDataExists){
+      $lastSaved.append('<div class="page-edit-bar__unsaved-notice">You have unsaved changes.</div>');
+    }
   },
 
 });
