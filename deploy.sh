@@ -39,3 +39,30 @@ aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICA
 echo 'Updating environment...'
 aws elasticbeanstalk update-environment --environment-name $AWS_ENVIRONMENT_NAME \
     --version-label $SHA1
+
+function check_application_status() {
+  echo $(aws elasticbeanstalk describe-environments --environment-names $1  2>/dev/null \
+    | jq -r '.Environments[].Status')
+}
+
+STATUS="$(stack_status $STACK_NAME)"
+
+echo -n "."
+while [[ "$STATUS" != "Ready" ]]
+do
+  sleep 15s
+  STATUS="$(stack_status $STACK_NAME)"
+  if [ "$STATUS" = "Degraded" ]; then
+      echo ""
+      echo "Your application appears to have deployed, but its status is currently degraded. Have a look at what's up."
+      exit 1
+  fi
+  echo -n "."
+done
+
+echo "Triggering NewRelic deploy event"
+curl -X POST -H "x-api-key: $NEWRELIC_LICENSE_KEY" \
+-d "deployment[app_name]=$AWS_APPLICATION_NAME" \
+-d "Deploying version $SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
+
+echo "All done!"
