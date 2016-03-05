@@ -20,16 +20,14 @@ mv temp .ebextensions/04_newrelic.config
 envsubst '$ENV_URL' <.ebextensions/05_nginx_proxy.config >temp
 mv temp .ebextensions/05_nginx_proxy.config
 
-echo 'Shipping source bundle to S3...'
-zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
-SOURCE_BUNDLE=$SHA1-config.zip
-
 echo 'Shipping static assets to S3...'
 id=$(docker create soutech/champaign_web:$SHA1)
 docker cp $id:/myapp/public/assets statics
-
 aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
 
+echo 'Shipping source bundle to S3...'
+zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
+SOURCE_BUNDLE=$SHA1-config.zip
 aws configure set default.region $AWS_REGION
 aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE
 
