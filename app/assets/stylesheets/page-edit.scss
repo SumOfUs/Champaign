@@ -154,6 +154,13 @@ body.page-edit-body {
     color: $page-edit-text-color;
     font-size: 12px;
   }
+  &__unsaved-notice {
+    display: inline-block;
+    background: $brand-danger;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: white;
+  }
   @media(min-width: 950px) {
     // put toggles and label inline
 

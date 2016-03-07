@@ -31,6 +31,8 @@
 //= require datatables
 //= require datatables/dataTables.bootstrap
 
+//= require i18n
+//= require i18n/translations
 //= require show_errors
 //= require dropzone_image_upload
 //= require selectize_config
