@@ -31,36 +31,53 @@ SOURCE_BUNDLE=$SHA1-config.zip
 aws configure set default.region $AWS_REGION
 aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE
 
+function check_application_status() {
+    echo $(aws elasticbeanstalk describe-environments --environment-names $1  2>/dev/null \
+    | jq -r '.Environments[].Status')
+}
+
+function wait_until_ready() {
+    while [[ "$STATUS" != "Ready" ]]
+    do
+        sleep 15s
+        STATUS="$(check_application_status $AWS_ENVIRONMENT_NAME)"
+        echo -n "."
+    done
+}
+
+function check_application_version() {
+    echo $(aws elasticbeanstalk describe-environments --environment-names $1  2>/dev/null \
+    | jq -r '.Environments[].VersionLabel')
+}
+
 echo 'Creating new application version...'
 aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICATION_NAME" \
   --version-label $SHA1 --source-bundle S3Bucket=$EB_BUCKET,S3Key=$SOURCE_BUNDLE
+
+STATUS="$(check_application_status $AWS_ENVIRONMENT_NAME)"
+
+if [ "$STATUS" != "Ready" ]; then
+    echo -e "\Waiting for application state to clear up for deployment. "
+    echo -n "."
+    wait_until_ready
+fi
+
 echo 'Updating environment...'
 aws elasticbeanstalk update-environment --environment-name $AWS_ENVIRONMENT_NAME \
     --version-label $SHA1
 
-function check_application_status() {
-  echo $(aws elasticbeanstalk describe-environments --environment-names $1  2>/dev/null \
-    | jq -r '.Environments[].Status')
-}
-
 STATUS="$(check_application_status $AWS_ENVIRONMENT_NAME)"
+echo -e "\Waiting for deploy to finish. "
+wait_until_ready
 
-echo -n "."
-while [[ "$STATUS" != "Ready" ]]
-do
-  sleep 15s
-  STATUS="$(check_application_status $AWS_ENVIRONMENT_NAME)"
-  if [ "$STATUS" = "Degraded" ]; then
-      echo ""
-      echo "Your application appears to have deployed, but its status is currently degraded. Have a look at what's up."
-      exit 1
-  fi
-  echo -n "."
-done
-
-echo "Triggering NewRelic deploy event"
-curl -X POST -H "x-api-key: $NEWRELIC_LICENSE_KEY" \
--d "deployment[app_name]=$AWS_APPLICATION_NAME" \
--d "Deploying version $SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
-
-echo "All done!"
+VERSION_LABEL="$(check_application_version $SHA1)"
+if [ "$VERSION_LABEL" == "$SHA1" ]; then
+    echo -e "\Application deployed succesfully. Triggering NewRelic deploy event."
+    curl -X POST -H "x-api-key: $NEWRELIC_LICENSE_KEY" \
+    -d "deployment[app_name]=$AWS_APPLICATION_NAME" \
+    -d "Deploying version $SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
+    echo "All done!"
+else
+    echo -e "\Deploy failed - application version reverted. Check out deployment logs for details."
+    exit 1
+fi
