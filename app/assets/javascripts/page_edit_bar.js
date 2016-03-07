@@ -123,7 +123,7 @@ let PageEditBar = Backbone.View.extend({
       $.publish('page:saved', data);
       $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
       $('.page-edit-bar__error-message').text('');
-      $('.page-edit-bar__last-saved').text(`Last saved at ${this.currentTime()}`);
+      $('.page-edit-bar__last-saved').text(I18n.t('pages.edit.last_saved_at', {time: this.currentTime()}));
     }
   },
 
@@ -141,10 +141,10 @@ let PageEditBar = Backbone.View.extend({
       $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
       if(data.status == 422) {
         ErrorDisplay.show(e, data);
-        $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
+        $('.page-edit-bar__error-message').text(I18n.t('pages.edit.user_error'));
         $.publish('page:errors');
       } else {
-        $('.page-edit-bar__error-message').text("The server unexpectedly messed up saving your work.");
+        $('.page-edit-bar__error-message').text(I18n.t('pages.edit.unknown_error'));
       }
     }
   },
@@ -171,13 +171,13 @@ let PageEditBar = Backbone.View.extend({
 
   disableSubmit: function(){
     this.outstandingSaveRequest = true;
-    this.$saveBtn.text('Saving...');
+    this.$saveBtn.text(I18n.t('pages.edit.saving'));
     this.$saveBtn.addClass('disabled');
   },
 
   enableSubmit: function(){
     this.outstandingSaveRequest = false;
-    this.$saveBtn.text('Save my work');
+    this.$saveBtn.text(I18n.t('pages.edit.save_work'));
     this.$saveBtn.removeClass('disabled');
   },
 
@@ -203,7 +203,7 @@ let PageEditBar = Backbone.View.extend({
     const noNotice = $lastSaved.find('.page-edit-bar__unsaved-notice').length < 1;
     const unsavedDataExists = !_.isEqual(this.model.lastSaved, this.readData());
     if (noNotice && unsavedDataExists){
-      $lastSaved.append('<div class="page-edit-bar__unsaved-notice">You have unsaved changes.</div>');
+      $lastSaved.append(`<div class="page-edit-bar__unsaved-notice">${I18n.t('pages.edit.unsaved_changes')}</div>`);
     }
   },
 
