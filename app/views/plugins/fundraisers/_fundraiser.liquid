@@ -65,11 +65,15 @@
           </div>
           <div class="fundraiser-bar__step-panel form--big script-dependent" data-step="3">
             <div class="fundraiser-bar__welcome-text hidden-irrelevant">
-              {{ 'form.welcome_back' | t }},
-              <span class="fundraiser-bar__welcome-name"></span>! <br />
+              <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
+              <span class="fundraiser-bar__welcome-name"></span> <br />
               <a href="javascript:;" class=" fundraiser-bar__clear-form">{{ 'form.switch_user' | t }}</a>
             </div>
-            <form action='/' id="hosted-fields">
+            <div class="fundraiser-bar__fields-loading">
+              <i class="fa fa-spin fa-cog"></i>
+              {{ 'fundraiser.loading' | t }}
+            </div>
+            <form action='/' id="hosted-fields" class="hidden-closed">
               <div class="form__group">
                 <div id="hosted-fields__paypal"></div>
               </div>

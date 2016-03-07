@@ -123,12 +123,20 @@ describe("Petition", function() {
           expect(vals).to.eql( ['starman@bowie.com', 'David Bowie', 'GB', "213-7212-9087"]);
         });
 
-        it('hides the form fields', function(){
-          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
+        it('hides form fields when all filled', function(){
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals });
           var classed = $('.petition-bar__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([true, true, true, true]);
+        });
+
+        it('does not hide empty form fields', function(){
+          suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
+          var classed = $('.petition-bar__field-container').map(function(ii, el){
+            return $(el).hasClass('form__group--prefilled');
+          }).toArray();
+          expect(classed).to.eql([true, false, false, false]);
         });
 
         it('reveals the form fields properly', function(){

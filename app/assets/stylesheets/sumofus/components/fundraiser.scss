@@ -138,6 +138,24 @@
     width: 100%;
     position: relative;
   }
+  &__fields-loading {
+    width: calc(100% - 16px);
+    background: $overcast-gray;
+    padding: 26px;
+    position: relative;
+    left: -26px;
+    padding-left: 42px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    text-transform: uppercase;
+    .fa {
+      float: left;
+      font-size: 26px;
+      margin-right: 13px;
+      margin-top: 6px;
+    }
+  }
   &__submit-button span{
     vertical-align: middle;
     &.fa {
