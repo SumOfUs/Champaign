@@ -138,7 +138,7 @@ shared_examples "shares" do |share_class, service|
             params: params,
             variant_type: service.to_sym,
             page: page,
-            url: "http://test.host/pages/1"
+            url: "http://test.host/a/1"
           )
       end
 
@@ -161,7 +161,6 @@ shared_examples "shares" do |share_class, service|
         expect(share).not_to have_received(:valid?)
       end
     end
-
   end
 end
 

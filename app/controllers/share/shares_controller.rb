@@ -41,7 +41,7 @@ class Share::SharesController < ApplicationController
       params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
-      url: page_url(@page)
+      url: member_facing_page_url(@page)
     )
 
     respond_to do |format|
