@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ImagesController do
   let(:page)  { instance_double('Page', valid?: true) }
-  let(:image) { double('image', content: 'foo') }
+  let(:image) { double('image', content: 'foo', errors: []) }
 
   before do
     allow(Page).to receive(:find){ page }
@@ -10,7 +10,7 @@ describe ImagesController do
 
   describe 'POST #create' do
     before do
-      allow(page).to receive_message_chain(:images, :create)
+      allow(page).to receive_message_chain(:images, :create).and_return(image)
     end
 
     subject { post :create, page_id: '1', image: { content: 'foo' }, format: :js }
@@ -23,6 +23,14 @@ describe ImagesController do
     it 'creates image' do
       expect(page).to receive_message_chain(:images, :create).with(content: 'foo')
       subject
+    end
+
+    it 'responds with errors if unsuccessful' do
+      image = instance_double('Image', id: nil, errors: instance_double('ActiveRecord::Errors', empty?: false, full_messages: ['Content type is invalid', 'File is too large']))
+      allow(page).to receive_message_chain(:images, :create).and_return(image)
+      post :create, page_id: '1', image: { content: 'foo' }, format: :js
+      expect(response.status).to eq 422
+      expect(response.body).to eq 'Content type is invalid'
     end
   end
 

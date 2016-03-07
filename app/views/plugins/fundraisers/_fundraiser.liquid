@@ -49,9 +49,6 @@
             <button class="fundraiser-bar__first-continue button" style="display:none;">
               {{ 'fundraiser.proceed_to_details' | t }}
             </button>
-            <div class="fundraiser-bar__fine-print">
-              {{ 'fundraiser.fine_print' | t }}
-            </div>
           </div>
           <div class="fundraiser-bar__step-panel script-dependent" data-step="2">
             {% capture cta %}{{ 'fundraiser.proceed_to_payment' | t }}{% endcapture %}
@@ -61,6 +58,10 @@
               form_url_postscript: '/validate',
               outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
               fields: plugins.fundraiser[ref].fields %}
+            <div class="fundraiser-bar__fine-print">
+              {% capture privacy_link %}<a href="https://sumofus.org/privacy" target="_blank">{{ 'petition.privacy_link' | t }}</a>{% endcapture %}
+              {{ 'petition.fine_print' | val: 'privacy_link', privacy_link | t }}
+            </div>
           </div>
           <div class="fundraiser-bar__step-panel form--big script-dependent" data-step="3">
             <div class="fundraiser-bar__welcome-text hidden-irrelevant">
@@ -95,6 +96,9 @@
               </div>
               <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
             </form>
+            <div class="fundraiser-bar__fine-print">
+              {{ 'fundraiser.fine_print' | t }}
+            </div>
           </div>
         </div>
       </div>

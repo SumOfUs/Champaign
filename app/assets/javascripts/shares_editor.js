@@ -106,7 +106,7 @@ let setupOnce = require('setup_once');
         $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
           _.each(rows, (row) => {
             let $row = $(row.html);
-            $original = $(`#${$row.prop('id')}`);
+            let $original = $(`#${$row.prop('id')}`);
             if ($original.hasClass('hidden-closed')) {
               $row.addClass('hidden-closed');
             }

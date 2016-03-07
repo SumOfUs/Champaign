@@ -42,6 +42,8 @@ fr:
     confirmation: Nom envoyé
     excited_confirmation: Nom envoyé!
     thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
+    fine_print: "SumOfUs protège %{privacy_link} et vous tiendra au courant de campagnes similaires."
+    privacy_link: vos informations personnelles
   form:
     welcome_back: Bienvenue
     switch_user: Ce n’est pas vous?
