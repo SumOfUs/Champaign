@@ -25,7 +25,7 @@ fr:
     fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"
     confirmation: Don reçu
     donate_now: Don maintenant
-    loading: "Loading encrypted payment portal..." # FIXME: Still in English!
+    loading: "Chargement du portail sécurisé de paiement"
     fields:
       cvv: CVV
       number: Numéro de votre carte

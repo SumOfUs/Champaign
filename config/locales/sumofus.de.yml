@@ -25,7 +25,7 @@ de:
     fine_print: "SumOfUs ist eine eingetragene Non-Profit-Organisation (501(c)4) mit Sitz in Washington DC, USA. Spenden an SumOfUs können nicht von der Steuer abgesetzt werden. Für mehr Informationen schreiben Sie uns bitte eine E-Mail an info@sumofus.org."
     confirmation: Spende erhalten
     donate_now: Spenden Sie jetzt
-    loading: Loading encrypted payment portal...
+    loading: Unser sicheres Spenden formular wird geladen
     fields:
       cvv: Kartenprüfnummer
       number: Kreditkartennummer
