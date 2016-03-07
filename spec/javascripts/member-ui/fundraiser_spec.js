@@ -113,11 +113,11 @@ describe("Fundraiser", function() {
           expect($('input[name="email"]').val()).to.eql('neal@test.com');
         });
 
-        it('hides the form fields', function(){
+        it('hides the form fields with values passed', function(){
             var classed = $('.petition-bar__field-container').map(function(ii, el){
               return $(el).hasClass('form__group--prefilled');
             }).toArray();
-            expect(classed).to.eql([true, true]);
+            expect(classed).to.eql([true, false]);
         });
 
         it('displays the second step when user requests', function(){
@@ -129,7 +129,7 @@ describe("Fundraiser", function() {
         });
 
         it('clears prefilled fields when second step displayed', function(){
-          var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
+          var input = $('.fundraiser-bar__step-panel[data-step="2"] input[name="email"]');
           input.parents('.form__group').addClass('form__group--prefilled');
           expect(input.val()).to.equal('neal@test.com');
           $('.fundraiser-bar__amount-button').first().click();
