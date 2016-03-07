@@ -2,12 +2,12 @@
   <div class="fundraiser-bar {{ extra_class }}">
     <div class="fundraiser-bar__mobile-view fundraiser-bar__mobile-view--closed">
       <div class="fundraiser-bar__content">
-        <div class="fundraiser-bar__top">
+        <div class="fundraiser-bar__top script-dependent__for-height">
           <div class="fundraiser-bar__mobile-ui">
             <a class="fundraiser-bar__close-button">&#x2715;</a>
           </div>
           <h2>{{ plugins.fundraiser[ref].title }}</h2>
-          <div class="fundraiser-bar__steps">
+          <div class="fundraiser-bar__steps script-dependent">
             <hr class="fundraiser-bar__step-connector" />
             <div class="fundraiser-bar__step-label" data-step="1">
               <div class="fundraiser-bar__step-number fundraiser-bar__step-number--past">1</div>
@@ -30,13 +30,14 @@
           </div>
         </div>
         <div class="fundraiser-bar__main form--big">
+          {% include 'No Script' %}
           <div class="fundraiser-bar__errors hidden-closed">
             <span class="fa fa-exclamation-triangle"></span>
             <div class="fundraiser-bar__error-intro">
               {{ 'fundraiser.error_intro' | t }}
             </div>
           </div>
-          <div class="fundraiser-bar__step-panel" data-step="1">
+          <div class="fundraiser-bar__step-panel script-dependent" data-step="1">
             <div class="fundraiser-bar__amount-buttons">
             </div>
             <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
@@ -49,7 +50,7 @@
               {{ 'fundraiser.proceed_to_details' | t }}
             </button>
           </div>
-          <div class="fundraiser-bar__step-panel" data-step="2">
+          <div class="fundraiser-bar__step-panel script-dependent" data-step="2">
             {% capture cta %}{{ 'fundraiser.proceed_to_payment' | t }}{% endcapture %}
             {% include 'Form',
               cta: cta,
@@ -62,7 +63,7 @@
               {{ 'petition.fine_print' | val: 'privacy_link', privacy_link | t }}
             </div>
           </div>
-          <div class="fundraiser-bar__step-panel form--big" data-step="3">
+          <div class="fundraiser-bar__step-panel form--big script-dependent" data-step="3">
             <div class="fundraiser-bar__welcome-text hidden-irrelevant">
               {{ 'form.welcome_back' | t }},
               <span class="fundraiser-bar__welcome-name"></span>! <br />
