@@ -57,7 +57,7 @@ aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICA
 STATUS="$(check_application_status $AWS_ENVIRONMENT_NAME)"
 
 if [ "$STATUS" != "Ready" ]; then
-    echo -e "\Waiting for application state to clear up for deployment. "
+    echo -e "Waiting for application state to clear up for deployment. "
     echo -n "."
     wait_until_ready
 fi
@@ -67,17 +67,17 @@ aws elasticbeanstalk update-environment --environment-name $AWS_ENVIRONMENT_NAME
     --version-label $SHA1
 
 STATUS="$(check_application_status $AWS_ENVIRONMENT_NAME)"
-echo -e "\Waiting for deploy to finish. "
+echo -e "Waiting for deploy to finish. "
 wait_until_ready
 
-VERSION_LABEL="$(check_application_version $SHA1)"
+VERSION_LABEL="$(check_application_version $AWS_ENVIRONMENT_NAME)"
 if [ "$VERSION_LABEL" == "$SHA1" ]; then
-    echo -e "\Application deployed succesfully. Triggering NewRelic deploy event."
+    echo -e "Application deployed succesfully. Triggering NewRelic deploy event."
     curl -X POST -H "x-api-key: $NEWRELIC_LICENSE_KEY" \
     -d "deployment[app_name]=$AWS_APPLICATION_NAME" \
     -d "Deploying version $SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
     echo "All done!"
 else
-    echo -e "\Deploy failed - application version reverted. Check out deployment logs for details."
+    echo -e "Deploy failed - application version reverted. Check out deployment logs for details."
     exit 1
 fi
