@@ -202,8 +202,12 @@ let PageEditBar = Backbone.View.extend({
     let $lastSaved = $('.page-edit-bar__last-saved');
     const noNotice = $lastSaved.find('.page-edit-bar__unsaved-notice').length < 1;
     const unsavedDataExists = !_.isEqual(this.model.lastSaved, this.readData());
-    if (noNotice && unsavedDataExists){
-      $lastSaved.append(`<div class="page-edit-bar__unsaved-notice">${I18n.t('pages.edit.unsaved_changes')}</div>`);
+    if (unsavedDataExists){
+      if (noNotice) {
+        $lastSaved.append(`<div class="page-edit-bar__unsaved-notice">${I18n.t('pages.edit.unsaved_changes')}</div>`);
+      }
+    } else {
+      $lastSaved.find('.page-edit-bar__unsaved-notice').remove();
     }
   },
 
