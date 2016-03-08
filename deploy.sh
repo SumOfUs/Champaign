@@ -56,14 +56,15 @@ function get_version() {
     | jq -r '.Environments[].VersionLabel')
 }
 
-function version_exists() {
-    # Finds the specified version among versions for the AWS application, and checks that it is not empty
-    ! [[ -z $(echo $(aws elasticbeanstalk describe-application-versions --application-name \
-    "$AWS_APPLICATION_NAME" --version-label "$SHA1" 2>/dev/null)) ]]
+function count_versions() {
+    # Get all applications with the specified version label and look at the length of the ApplicationVersions array
+    echo $(aws elasticbeanstalk describe-application-versions --application-name $AWS_APPLICATION_NAME --version-label $SHA1 2>/dev/null | jq -r '.ApplicationVersions | length')
 }
 
 function create_version() {
-    if ! version_exists; then
+    if [[ $(count_versions) -ne 0 ]]; then
+        echo 'Application version already exists. Deploying existing application version.'
+    else
         echo 'Creating new application version...'
         aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICATION_NAME" \
           --version-label $SHA1 --source-bundle S3Bucket=$EB_BUCKET,S3Key=$SOURCE_BUNDLE
