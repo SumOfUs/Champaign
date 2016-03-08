@@ -33,6 +33,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    location: a hash of location values inferred from the user's request
   //    member: an object with fields that will prefill the form
   //    akid: the actionkitid (akid) to save with the user request
+  //    recurringDefault: either 'donation', 'recurring', or 'only_recurring'
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options = {}) {
@@ -52,7 +53,22 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.buttonText = I18n.t('form.submit');
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
+    this.initializeRecurring(options.recurringDefault);
     $('.fundraiser-bar__open-button').on('click', () => this.reveal());
+  },
+
+  initializeRecurring (recurringDefault) {
+    const $checkbox = this.$('input.fundraiser-bar__recurring');
+    switch(recurringDefault) {
+      case 'only_recurring':
+        $checkbox.parents('.form__group').addClass('hidden-irrelevant');
+        // deliberate fall-through to next case (no break)
+      case 'recurring':
+        $checkbox.prop('checked', true);
+        break;
+      default:
+        $checkbox.prop('checked', false);
+    }
   },
 
   initializeSkipping (options){
