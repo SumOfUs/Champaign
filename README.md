@@ -1,6 +1,6 @@
 # Champaign
 
-Champaign is a digital campaigning platform built by SumOfUs. It is under development and currently offers very little functionality. If you're interested in collaborating on the project with us, have ideas or recommendations, please get in touch! 
+Champaign is a digital campaigning platform built by SumOfUs. It is now production ready in its most minimal form! If you're interested in collaborating on the project with us, have ideas or recommendations, please get in touch. 
 
 ## Installation
 
