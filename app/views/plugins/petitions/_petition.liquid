@@ -7,7 +7,7 @@
             <a class="petition-bar__close-button">&#x2715;</a>
           </div>
           <div class="petition-bar__title-bar">
-            <h2 class="petition-bar__title">{{ 'petition.sign_it' | t }}</h2>
+            <h2 class="petition-bar__title">{{ plugins.petition[ref].cta }}</h2>
           </div>
           <div class="petition-bar__target">
             {% unless plugins.petition[ref].target == blank %}
@@ -19,15 +19,21 @@
           </p>
         </div>
         <div class="petition-bar__main">
-
           <div class="mobile-hide">
             {% include 'Thermometer' %}
           </div>
-          {% include 'Form',
-            cta: plugins.petition[ref].cta,
-            form_id: plugins.petition[ref].form_id,
-            outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
-            fields: plugins.petition[ref].fields %}
+          {% include 'No Script' %}
+          <div class="script-dependent">
+            {% include 'Form',
+              cta: plugins.petition[ref].cta,
+              form_id: plugins.petition[ref].form_id,
+              outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
+              fields: plugins.petition[ref].fields %}
+            <div class="petition-bar__fine-print">
+              {% capture privacy_link %}<a href="https://sumofus.org/privacy" target="_blank">{{ 'petition.privacy_link' | t }}</a>{% endcapture %}
+              {{ 'petition.fine_print' | val: 'privacy_link', privacy_link | t }}
+            </div>
+          </div>
         </div>
       </div>
     </div>

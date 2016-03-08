@@ -13,7 +13,7 @@ module Plugins
       plugin_class = class_from_name(plugin_name)
       existing = plugin_class.where(ref: ref, page_id: page.id)
       return true unless existing.empty?
-      plugin = plugin_class.new(plugin_class.const_get(:DEFAULTS))
+      plugin = plugin_class.new(translate_defaults(plugin_class.const_get(:DEFAULTS), page.language.try(:code)))
       plugin.page_id = page.id
       plugin.active = true
       plugin.ref = ref if ref.present?
@@ -24,6 +24,13 @@ module Plugins
       [ Plugins::Petition,
         Plugins::Thermometer,
         Plugins::Fundraiser ]
+    end
+
+    def translate_defaults(defaults, locale)
+      defaults.inject({}) do |translated, (key, val)|
+        translated[key] = val.is_a?(String) ? I18n.t(val, locale: locale) : val
+        translated
+      end
     end
 
     def data_for_view(page, supplemental_data={})

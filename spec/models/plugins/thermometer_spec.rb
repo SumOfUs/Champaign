@@ -30,6 +30,17 @@ describe Plugins::Thermometer do
     expect(thermometer.liquid_data[:goal_k]).to eq '200k'
   end
 
+  it 'serializes the goal with millions if over 1 million' do
+    thermometer.update_attributes(goal: 1_500_000)
+    expect(thermometer.liquid_data[:goal_k]).to eq '1.5 million'
+  end
+
+  it 'serializes the goal in millions translated if language available' do
+    test_page.language = build :language, code: 'de'
+    thermometer.update_attributes(goal: 1_000_000)
+    expect(thermometer.liquid_data[:goal_k]).to eq '1 Millionen'
+  end
+
   it 'serializes the goal as a number if under 1000' do
     thermometer.update_attributes(goal: 700)
     expect(thermometer.liquid_data[:goal_k]).to eq '700'

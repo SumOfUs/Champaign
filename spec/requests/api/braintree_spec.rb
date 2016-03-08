@@ -19,6 +19,40 @@ describe "Braintree API" do
     }
   end
 
+  let(:donation_push_params) do
+    {
+      type: "donation",
+      params: {
+        donationpage: {
+          name: "cash-rules-everything-around-me-donation",
+          payment_account: "Braintree EUR"
+        },
+        order: {
+          amount: amount.to_s,
+          card_num: "1881",
+          card_code: "007",
+          exp_date_month: "12",
+          exp_date_year: "2020",
+          currency: "EUR"
+        },
+        user: {
+          email: "itsme@feelthebern.org",
+          country: "US",
+          postal: "11225",
+          address1: '25 Elm Drive',
+          first_name: 'Bernie',
+          last_name: 'Sanders',
+          akid: '1234.5678.9910',
+          source: 'fb',
+          user_en: 1
+        },
+        action: {
+          source: 'fb'
+        }
+      }
+    }
+  end
+
   before :each do
     allow(ChampaignQueue).to receive(:push)
     allow(Analytics::Page).to receive(:increment)
@@ -105,36 +139,7 @@ describe "Braintree API" do
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    address1: '25 Elm Drive',
-                    akid: '1234.5678.9910',
-                    source: 'fb',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -317,36 +322,7 @@ describe "Braintree API" do
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    akid: '1234.5678.9910',
-                    source: 'fb',
-                    address1: '25 Elm Drive',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -623,36 +599,7 @@ describe "Braintree API" do
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    address1: '25 Elm Drive',
-                    akid: '1234.5678.9910',
-                    source: 'fb',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -870,36 +817,7 @@ describe "Braintree API" do
 
             it "posts donation action to queue with key data" do
               subject
-              expect( ChampaignQueue ).to have_received(:push).with({
-                type: "donation",
-                params: {
-                  donationpage: {
-                    name: "cash-rules-everything-around-me-donation",
-                    payment_account: "Braintree EUR"
-                  },
-                  order: {
-                    amount: amount.to_s,
-                    card_num: "1881",
-                    card_code: "007",
-                    exp_date_month: "12",
-                    exp_date_year: "2020",
-                    currency: "EUR"
-                  },
-                  user: {
-                    email: "itsme@feelthebern.org",
-                    country: "US",
-                    postal: "11225",
-                    address1: '25 Elm Drive',
-                    first_name: 'Bernie',
-                    last_name: 'Sanders',
-                    akid: '1234.5678.9910',
-                    source: 'fb'
-                  },
-                  action: {
-                    source: 'fb'
-                  }
-                }
-              })
+              expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
             end
 
             it "increments action count on page" do
@@ -1112,3 +1030,4 @@ describe "Braintree API" do
     end
   end
 end
+

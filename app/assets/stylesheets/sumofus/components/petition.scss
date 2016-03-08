@@ -115,15 +115,42 @@
   }
 
   &__welcome-text {
-    float: left;
     font-size: 14px;
-    line-height: 14px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    display: block;
+    max-width: 500px;
+    overflow: hidden;
+    padding: 16px;
+    border-top: 1px solid $dingy-gray;
+    border-bottom: 1px solid $dingy-gray;
+    @include box-sizing(border-box);
+    position: relative;
+  }
+  &__user-icon {
+    font-size: 26px;
+    position: absolute;
+    top: 20px;
+  }
+
+  &__welcome-name {
+    margin-left: 36px;
+    font-weight: bold;
   }
 
   &__clear-form {
     margin-top: 6px;
     display: block;
+    margin-left: 36px;
+    font-size: 12px;
+  }
+
+  &__fine-print {
+    font-size: 12px;
+    color: $slate-gray;
+    line-height: 16px;
+    width: 100%;
+    float: left;
+    margin-top: 10px;
   }
 
   &__mobile-ui {

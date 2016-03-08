@@ -1,6 +1,7 @@
 de:
   page:
     more_info: Mehr Informationen
+    no_script: "Vielen Dank für Ihr Interesse an diesem Thema. Leider können Sie nur unterzeichnen, wenn Javascript in Ihrem Browser aktiviert ist. Bitte aktivieren Sie Javascript oder versuchen Sie es noch einmal mit einem anderen Browser, der Javascript erlaubt."
   basics:
     or: oder
   branding:
@@ -23,7 +24,9 @@ de:
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "SumOfUs ist eine eingetragene Non-Profit-Organisation (501(c)4) mit Sitz in Washington DC, USA. Spenden an SumOfUs können nicht von der Steuer abgesetzt werden. Für mehr Informationen schreiben Sie uns bitte eine E-Mail an info@sumofus.org."
-    confirmation: Donation received # FIXME - STILL IN ENGLISH!
+    confirmation: Spende erhalten
+    donate_now: Spenden Sie jetzt
+    loading: Unser sicheres Spenden formular wird geladen
     fields:
       cvv: Kartenprüfnummer
       number: Kreditkartennummer
@@ -37,9 +40,11 @@ de:
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
-    confirmation: Ihr Name wurde übermittelt
-    excited_confirmation: Ihr Name wurde übermittelt!
+    confirmation: Ihre Unterschrift wurde der Petition hinzugefügt
+    excited_confirmation: Ihre Unterschrift wurde der Petition hinzugefügt!
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
+    fine_print: "SumOfUs schützt %{privacy_link} und hält Sie auf dem Laufenden über diese und andere Kampagnen."
+    privacy_link: Ihre Daten
   form:
     welcome_back: Willkommen zurück
     switch_user: Nicht Sie?
@@ -48,8 +53,12 @@ de:
   thermometer:
     signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
     signatures: Unterschriften
+    million: Millionen
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
+    send_email: E-Mail senden
+    share: Facebook
+    tweet: Twitter
   errors:
     probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig
@@ -59,3 +68,4 @@ de:
     is_invalid_email: ist keine gültige E-Mail-Adresse
     is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
     is_invalid_country: muss eine gültige Ländervorwahl sein
+    is_invalid_length: 'darf maximal %{length} Zeichen enthalten'

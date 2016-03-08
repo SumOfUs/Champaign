@@ -106,7 +106,11 @@ let setupOnce = require('setup_once');
         $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
           _.each(rows, (row) => {
             let $row = $(row.html);
-            $row = $(`#${$row.prop('id')}`).replaceWith($row);
+            let $original = $(`#${$row.prop('id')}`);
+            if ($original.hasClass('hidden-closed')) {
+              $row.addClass('hidden-closed');
+            }
+            $row = $original.replaceWith($row);
             $row = $(`#${$row.prop('id')}`);
             if (!this.editRow($row).hasClass('hidden-closed')) {
               $row.find('.shares-editor__toggle-edit').text('Done');

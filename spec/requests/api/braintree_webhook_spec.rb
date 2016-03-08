@@ -111,7 +111,8 @@ describe "Braintree API" do
                 source: 'fb',
                 akid: '1234.5678.9910',
                 first_name: 'Bernie',
-                last_name: 'Sanders'
+                last_name: 'Sanders',
+                user_en: 1
               },
               action: {
                 source: 'fb'
@@ -164,7 +165,8 @@ describe "Braintree API" do
                 source: 'fb',
                 akid: '1234.5678.9910',
                 first_name: 'Bernie',
-                last_name: 'Sanders'
+                last_name: 'Sanders',
+                user_en: 1
               },
               action: {
                 source: 'fb'

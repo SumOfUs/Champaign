@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219174402) do
+ActiveRecord::Schema.define(version: 20160229225740) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20160219174402) do
     t.integer  "form_id"
     t.string   "label"
     t.string   "data_type"
-    t.string   "field_type"
     t.string   "default_value"
     t.boolean  "required"
     t.boolean  "visible"
@@ -182,11 +181,11 @@ ActiveRecord::Schema.define(version: 20160219174402) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -254,8 +253,8 @@ ActiveRecord::Schema.define(version: 20160219174402) do
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.string   "processor_response_code"
     t.decimal  "amount",                  precision: 10, scale: 2
+    t.string   "processor_response_code"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree

@@ -34,13 +34,22 @@ describe 'pages/' do
     allow(view).to receive(:user_signed_in?).and_return(true)
   end
 
-  include_examples "view smoke test", :page, [:index, :new, :show]
+  include_examples "view smoke test", :page, [:new, :show]
 
   describe "edit" do
     it 'renders without error' do
       assign :page, build(:page, id: 1)
       assign :variations, [build(:share_facebook, id: 1)]
       expect{ render template: "pages/edit" }.not_to raise_error
+    end
+  end
+
+  describe "index" do
+    it 'renders without error' do
+      3.times { build(:page) }
+      assign :pages, Page.all
+      assign :search_params, {}
+      expect{ render template: "pages/index" }.not_to raise_error
     end
   end
 end

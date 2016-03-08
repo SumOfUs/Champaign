@@ -154,6 +154,13 @@ body.page-edit-body {
     color: $page-edit-text-color;
     font-size: 12px;
   }
+  &__unsaved-notice {
+    display: inline-block;
+    background: $brand-danger;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: white;
+  }
   @media(min-width: 950px) {
     // put toggles and label inline
 
@@ -335,29 +342,48 @@ body.page-edit-body {
   }
 }
 
-.navbar--dark {
-  background-color: $page-edit-bar-color;
-  color: $page-edit-text-color;
-  margin: 0;
-  padding: 0 40px 0 0;
-  z-index: 200;
-  .nav > li > a {
+.navbar {
+  &--dark {
+    background-color: $page-edit-bar-color;
     color: $page-edit-text-color;
-    text-decoration: none;
+    margin: 0;
+    padding: 0 40px 0 0;
+    z-index: 200;
+    .nav > li > a {
+      color: $page-edit-text-color;
+      text-decoration: none;
 
-    &:hover, &:focus {
-      background-color: $save-box-color;
-      color: white;
+      &:hover, &:focus {
+        background-color: $save-box-color;
+        color: white;
+      }
+    }
+    .nav {
+      background-color: $page-edit-bar-color;
+    }
+    .icon-bar {
+      background-color: white;
+    }
+    @media(min-width: 600px) {
+      height: 50px;
+    }
+    @media(max-width: 600px) {
+      padding-right: 0;
     }
   }
-  .icon-bar {
-    background-color: white;
-  }
-  @media(min-width: 600px) {
-    height: 50px;
-  }
-  @media(max-width: 600px) {
-    padding-right: 0;
+  &--fixed {
+    @media(min-width: 600px) {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      right: 0;
+    }
+    &__spacer {
+      @media(min-width: 600px) {
+        height: 50px;
+        width: 100%;
+      }
+    }
   }
 }
 

@@ -4,7 +4,7 @@ class Plugins::Fundraiser < ActiveRecord::Base
   belongs_to :page, touch: true
   belongs_to :donation_band
 
-  DEFAULTS = { title: 'Donate now' }
+  DEFAULTS = { title: 'fundraiser.donate_now' }
 
   def liquid_data(supplemental_data={})
     donation_band_name = supplemental_data[:donation_band]

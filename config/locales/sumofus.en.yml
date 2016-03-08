@@ -1,6 +1,7 @@
 en:
   page:
     more_info: More information
+    no_script: "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action."
   basics:
     or: or
   branding:
@@ -24,6 +25,8 @@ en:
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
     confirmation: Donation received
+    donate_now: Donate now
+    loading: Loading secure <br> payment portal
     fields:
       cvv: CVV
       number: Card number
@@ -40,6 +43,8 @@ en:
     confirmation: Name submitted
     excited_confirmation: Name submitted!
     thank_you: 'Thanks for adding your name to "%{petition_title}"!'
+    fine_print: "SumOfUs will protect %{privacy_link}, and keep you updated about this and similar campaigns."
+    privacy_link: your privacy
   form:
     welcome_back: Welcome back
     switch_user: Not you?
@@ -48,8 +53,12 @@ en:
   thermometer:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
+    million: million
   share:
     cta: Share the campaign with your friends to triple your impact!
+    send_email: Send Email
+    share: Share
+    tweet: Tweet
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid
@@ -59,3 +68,4 @@ en:
     is_invalid_email: is not a valid email address
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: must be a valid country code
+    is_invalid_length: 'must be less than %{length} characters long'

@@ -1,6 +1,7 @@
 fr:
   page:
     more_info: Plus d’informations
+    no_script: "Merci de votre intérêt pour ce problème ! Malheureusement, vous ne pouvez pas réaliser cette action tant que Javascript n'est pas activé sur votre navigateur. Merci d'activer Javascript ou d'utiliser un navigateur avec Javascript actif pour pouvoir réaliser cette action."
   basics:
     or: ou
   branding:
@@ -24,6 +25,8 @@ fr:
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"
     confirmation: Don reçu
+    donate_now: Don maintenant
+    loading: "Chargement du portail sécurisé de paiement"
     fields:
       cvv: CVV
       number: Numéro de votre carte
@@ -40,6 +43,8 @@ fr:
     confirmation: Nom envoyé
     excited_confirmation: Nom envoyé!
     thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
+    fine_print: "SumOfUs protège %{privacy_link} et vous tiendra au courant de campagnes similaires."
+    privacy_link: vos informations personnelles
   form:
     welcome_back: Bienvenue
     switch_user: Ce n’est pas vous?
@@ -48,8 +53,12 @@ fr:
   thermometer:
     signatures_until_goal: "%{remaining} signatures jusqu'à %{goal}"
     signatures: signatures #, par exemple '225 signatures'
+    million: million
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
+    send_email: Envoyer un courriel
+    share: Partager
+    tweet: Tweet
   errors:
     probably_invalid: semble invalide
     is_invalid: est invalide
@@ -59,3 +68,4 @@ fr:
     is_invalid_email: n’est pas une adresse email valide
     is_invalid_phone: 'peut uniquement comprendre des chiffres, tirets, plus, et des parenthèses'
     is_invalid_country: doit comprendre un code pays valide
+    is_invalid_length: 'doit contenir moins de %{length} caractères'

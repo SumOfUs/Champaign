@@ -17,7 +17,11 @@ let PageModel = Backbone.Model.extend({
       this.lastSaved = data;
       Backbone.Model.prototype.save.call(this, data, _.extend({patch: true}, callbacks));
     }
-  }
+  },
+
+  setLastSaved: function(data) {
+    this.lastSaved = data;
+  },
 
 });
 
@@ -97,7 +101,7 @@ let PageEditBar = Backbone.View.extend({
   },
 
   save: function() {
-    $.publish('quill_editor:submit'); // for quill to update content
+    $.publish('wysiwyg:submit'); // for summernote to update content
     if (!this.outstandingSaveRequest) {
       this.disableSubmit();
       this.model.save(this.readData(), {
@@ -117,11 +121,17 @@ let PageEditBar = Backbone.View.extend({
       if (data.refresh){ location.reload(); }
       this.enableSubmit();
       $.publish('page:saved', data);
-      let now = new Date();
       $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
       $('.page-edit-bar__error-message').text('');
-      $('.page-edit-bar__last-saved').text(`Last saved at ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`);
+      $('.page-edit-bar__last-saved').text(I18n.t('pages.edit.last_saved_at', {time: this.currentTime()}));
     }
+  },
+
+  currentTime: function() {
+    const now = new Date();
+    const minutes = (`0${now.getMinutes()}`).slice(-2); // for leading zero
+    const seconds = (`0${now.getSeconds()}`).slice(-2); // for leading zero
+    return `${now.getHours()}:${minutes}:${seconds}`
   },
 
   saveFailed: function() {
@@ -131,10 +141,10 @@ let PageEditBar = Backbone.View.extend({
       $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
       if(data.status == 422) {
         ErrorDisplay.show(e, data);
-        $('.page-edit-bar__error-message').text("The server didn't like something you entered. Click here to see the error.");
+        $('.page-edit-bar__error-message').text(I18n.t('pages.edit.user_error'));
         $.publish('page:errors');
       } else {
-        $('.page-edit-bar__error-message').text("The server unexpectedly messed up saving your work.");
+        $('.page-edit-bar__error-message').text(I18n.t('pages.edit.unknown_error'));
       }
     }
   },
@@ -161,13 +171,13 @@ let PageEditBar = Backbone.View.extend({
 
   disableSubmit: function(){
     this.outstandingSaveRequest = true;
-    this.$saveBtn.text('Saving...');
+    this.$saveBtn.text(I18n.t('pages.edit.saving'));
     this.$saveBtn.addClass('disabled');
   },
 
   enableSubmit: function(){
     this.outstandingSaveRequest = false;
-    this.$saveBtn.text('Save my work');
+    this.$saveBtn.text(I18n.t('pages.edit.save_work'));
     this.$saveBtn.removeClass('disabled');
   },
 
@@ -175,14 +185,30 @@ let PageEditBar = Backbone.View.extend({
     const SAVE_PERIOD = 5000; // milliseconds
     const shouldAutosave = (this.$('.page-edit-bar__toggle-autosave').data('autosave') == true);
     this.autosave = true;
+    this.model.setLastSaved(this.readData());
     if (shouldAutosave != this.autosave) {
       this.toggleAutosave();
     }
     window.setInterval(() => {
       if(this.autosave) {
         this.save();
+      } else {
+        this.showUnsavedAlert();
       }
     }, SAVE_PERIOD)
+  },
+
+  showUnsavedAlert: function() {
+    let $lastSaved = $('.page-edit-bar__last-saved');
+    const noNotice = $lastSaved.find('.page-edit-bar__unsaved-notice').length < 1;
+    const unsavedDataExists = !_.isEqual(this.model.lastSaved, this.readData());
+    if (unsavedDataExists){
+      if (noNotice) {
+        $lastSaved.append(`<div class="page-edit-bar__unsaved-notice">${I18n.t('pages.edit.unsaved_changes')}</div>`);
+      }
+    } else {
+      $lastSaved.find('.page-edit-bar__unsaved-notice').remove();
+    }
   },
 
 });

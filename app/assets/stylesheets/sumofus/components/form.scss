@@ -5,7 +5,7 @@
     margin-bottom: 5px;
     position: relative;
 
-    input {
+    input, textarea {
       &.has-error {
         border-color: $orange;
       }
@@ -19,6 +19,7 @@
       color: $orange;
       font-size: 14px;
       float: right;
+      text-align: right;
     }
     &--prefilled {
       display: none;
@@ -32,7 +33,7 @@
     }
   }
   &--big {
-    input, select, .selectize-control.single .selectize-input, .hosted-fields__host {
+    input, select, textarea, .selectize-control.single .selectize-input, .hosted-fields__host {
       @include rem(font-size, 1rem, true);
       @include box-sizing(border-box);
       border: 2px solid white;
@@ -61,6 +62,11 @@
     label.checkbox-label {
       margin: 10px 0 4px;
       font-size: 14px;
+    }
+
+    textarea {
+      line-height: 1.4em;
+      height: 120px;
     }
 
     .selectize-dropdown.single {

@@ -22,12 +22,10 @@ module Plugins::HasForm
   end
 
   def update_form(new_form)
-    if form
-      form.form_elements.destroy_all
-      form.destroy
-    end
-
+    return if new_form.blank?
+    old_form = form
     update(form: new_form)
+    old_form.destroy if old_form.present?
   end
 
   private

@@ -1,7 +1,7 @@
 <form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action'>
   <div class="petition-bar__welcome-text hidden-irrelevant">
-    {{ 'form.welcome_back' | t }},
-    <span class="petition-bar__welcome-name"></span>! <br />
+    <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
+    <span class="petition-bar__welcome-name"></span> <br />
     <a href="javascript:;" class=" petition-bar__clear-form">{{ 'form.switch_user' | t }}</a>
   </div>
   <input type='hidden' name='form_id' value='{{ form_id }}' />
@@ -9,7 +9,9 @@
       <div class="form__group petition-bar__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
+          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" maxlength="249" />
+        {% when 'paragraph' %}
+          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form-control form__content" id="" maxlength="9999"></textarea>
         {% when 'email' %}
           <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" />
         {% when 'phone' %}

@@ -29,7 +29,8 @@ describe ManageAction do
           page:           "#{page.slug}-petition",
           email:          "bob@example.com",
           page_id:        page.id,
-          referring_akid: '123.456.xyz'
+          referring_akid: '123.456.xyz',
+          user_en: 1
         }
       }
 
