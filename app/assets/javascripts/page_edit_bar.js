@@ -199,6 +199,7 @@ let PageEditBar = Backbone.View.extend({
   },
 
   showUnsavedAlert: function() {
+    $.publish('wysiwyg:submit'); // update wysiwyg
     let $lastSaved = $('.page-edit-bar__last-saved');
     const noNotice = $lastSaved.find('.page-edit-bar__unsaved-notice').length < 1;
     const unsavedDataExists = !_.isEqual(this.model.lastSaved, this.readData());
