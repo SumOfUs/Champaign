@@ -7,7 +7,7 @@ module Shares
     # It makes it much easier to override the content and style
     # of the sharing buttons
     def get_all(page)
-      all_buttons(page).inject({}) do |shares, button|
+      buttons_with_variants(page).inject({}) do |shares, button|
         css_class = class_from_html(button.sp_button_html)
         shares[button.sp_type] = css_class unless css_class.blank?
         shares
@@ -15,7 +15,7 @@ module Shares
     end
 
     def get_all_html(page)
-      all_buttons(page).inject({}) do |shares, button|
+      buttons_with_variants(page).inject({}) do |shares, button|
         shares[button.sp_type] = button.sp_button_html.html_safe unless button.sp_button_html.blank?
         shares
       end
@@ -23,8 +23,9 @@ module Shares
 
     private
 
-    def all_buttons(page)
-      Share::Button.where(page_id: page.id)
+    def buttons_with_variants(page)
+      # Find all buttons that have share variants and that have a corresponding page_id
+      Share::Button.find(Share::Variant.all.map { |variant| variant.button_id }).select { |button| button.page_id = page.id }
     end
 
     def class_from_html(html)
