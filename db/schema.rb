@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229225740) do
+ActiveRecord::Schema.define(version: 20160308201945) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,11 +263,12 @@ ActiveRecord::Schema.define(version: 20160229225740) do
     t.string   "title"
     t.string   "ref"
     t.integer  "page_id"
-    t.boolean  "active",           default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.boolean  "active",            default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "form_id"
     t.integer  "donation_band_id"
+    t.integer  "recurring_default", default: 0,     null: false
   end
 
   add_index "plugins_fundraisers", ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id", using: :btree

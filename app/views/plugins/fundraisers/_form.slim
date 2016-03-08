@@ -12,6 +12,9 @@
       .form-group
         = label_with_tooltip(f, :donation_band, t('plugins.fundraiser.donation_band'), t('tooltips.fundraiser.donation_band'))
         = f.select :donation_band_id, DonationBand.all.collect { |d| [d.name, d.id] }, {}, {class: 'form-control form-select'}
+      .form-group
+        = f.label :recurring_default
+        = f.select :recurring_default, Plugins::Fundraiser.recurring_defaults.keys.to_a.map { |key| [t("plugins.fundraiser.recurring_default.#{key}"), key] }, {}, {class: 'form-control form-select'}
 
     .well
       = render partial: 'plugins/shared/apply_form_template', locals: { plugin: plugin }

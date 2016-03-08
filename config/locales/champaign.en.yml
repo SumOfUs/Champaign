@@ -243,6 +243,10 @@ en:
     fundraiser:
       donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"
+      recurring_default:
+        donation: 'Default to one-time donation'
+        recurring: 'Default to recurring donation'
+        only_recurring: 'Only allow recurring donations'
 
   ak_logs:
     index:
