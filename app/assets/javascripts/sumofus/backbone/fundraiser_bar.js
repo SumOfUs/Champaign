@@ -19,6 +19,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'ajax:success form.action': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
+    'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .fundraiser-bar__close-button': 'hide',
   },
@@ -50,10 +51,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.selectizeCountry();
       $(window).on('resize', () => this.policeHeights());
     }
-    this.buttonText = I18n.t('form.submit');
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
     this.initializeRecurring(options.recurringDefault);
+    this.updateButton();
     $('.fundraiser-bar__open-button').on('click', () => this.reveal());
   },
 
@@ -158,14 +159,23 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     let parsed = parseFloat(amount);
     if (parsed > 0){
       this.donationAmount = parsed;
+      this.updateButton();
+    } else {
+      this.changeStep(1);
+    }
+  },
+
+  updateButton () {
+    if (this.donationAmount > 0) {
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
-      this.buttonText = `<span class="fa fa-lock"></span><span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>`;
+      let monthly = this.readRecurring() ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
+      this.buttonText = `<span class="fa fa-lock"></span>
+                         <span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>
+                         ${monthly}`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
       this.$('.fundraiser-bar__submit-button').html(this.buttonText);
-    } else {
-      this.changeStep(1);
     }
   },
 
