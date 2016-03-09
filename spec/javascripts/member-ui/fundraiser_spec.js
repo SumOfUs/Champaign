@@ -357,6 +357,80 @@ describe("Fundraiser", function() {
       });
     });
 
+    describe('recurring default', function(){
+      describe('is "recurring"', function(){
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'recurring'});
+        });
+
+        it('checks the recurring box', function(){
+          expect($('input.fundraiser-bar__recurring').prop('checked')).to.eq(true);
+        });
+
+        it('does not hide the recurring box', function(){
+          expect($('input.fundraiser-bar__recurring').parents('.form__group')).not.to.have.class('hidden-irrelevant');
+        });
+
+        it('adds "/ month" the button text', function(){
+          expect($('.fundraiser-bar__submit-button').text().trim().replace(/\s+/g, ' ')).to.eq('Donate $3 / month');
+        });
+      });
+
+      describe('is "only_recurring"', function(){
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'only_recurring'});
+        });
+
+        it('checks the recurring box', function(){
+          expect($('input.fundraiser-bar__recurring').prop('checked')).to.eq(true);
+        });
+
+        it('hides the recurring box', function(){
+          expect($('input.fundraiser-bar__recurring').parents('.form__group')).to.have.class('hidden-irrelevant');
+        });
+
+        it('adds "/ month" the button text', function(){
+          expect($('.fundraiser-bar__submit-button').text().trim().replace(/\s+/g, ' ')).to.eq('Donate $3 / month');
+        });
+      });
+
+      describe('is "one_off"', function(){
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'one_off'});
+        });
+
+        it('leaves the recurring box unchecked', function(){
+          expect($('input.fundraiser-bar__recurring').prop('checked')).to.eq(false);
+        });
+
+        it('does not hide the recurring box', function(){
+          expect($('input.fundraiser-bar__recurring').parents('.form__group')).not.to.have.class('hidden-irrelevant');
+        });
+
+        it('does not add "/ month" the button text', function(){
+          expect($('.fundraiser-bar__submit-button').text().trim().replace(/\s+/g, ' ')).to.eq('Donate $3');
+        });
+      });
+
+      describe('is an empty string', function(){
+        beforeEach(function(){
+          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: ''});
+        });
+
+        it('leaves the recurring box unchecked', function(){
+          expect($('input.fundraiser-bar__recurring').prop('checked')).to.eq(false);
+        });
+
+        it('does not hide the recurring box', function(){
+          expect($('input.fundraiser-bar__recurring').parents('.form__group')).not.to.have.class('hidden-irrelevant');
+        });
+
+        it('does not add "/ month" the button text', function(){
+          expect($('.fundraiser-bar__submit-button').text().trim().replace(/\s+/g, ' ')).to.eq('Donate $3');
+        });
+      });
+    });
+
     describe('degenerate arguments', function(){
 
       describe('it starts on first step when amount', function(){
