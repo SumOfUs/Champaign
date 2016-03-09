@@ -7,6 +7,17 @@ class Api::ActionsController < ApplicationController
 
     if validator.valid?
       action = ManageAction.create(@action_params)
+
+      Analytics.log({
+        page: {
+          title: page.title,
+          id:    page.id
+        },
+        member: {
+          full_name: action.member.full_name
+        }
+      })
+
       write_member_cookie(action.member_id)
       render json: {}, status: 200
     else
