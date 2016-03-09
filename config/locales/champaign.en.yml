@@ -73,6 +73,7 @@ en:
     thermometer_offset: "Number of fake signatures to add to true count"
     fundraiser:
       donation_band: "This determines the amounts displayed on the page to an unknown user without any information in their URL. Generally, you will want to stick with an option designed for non-donors."
+      recurring_default: 'This sets whether the recurring donation checkbox is checked and/or hidden by default. If the url param recurring_default=recurring, recurring_default=only_recurring or recurring_default=one_off is passed, that will override the behavior specified here.'
     petition:
       text: "Appears above the form - this is what the member is signing on to"
       target: "Appears just above the page title and with the petition text"
@@ -243,8 +244,9 @@ en:
     fundraiser:
       donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"
-      recurring_default:
-        donation: 'Default to one-time donation'
+      recurring_default: 'Default to recurring donation?'
+      recurring_defaults:
+        one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
 

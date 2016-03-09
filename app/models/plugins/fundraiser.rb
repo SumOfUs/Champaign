@@ -1,7 +1,7 @@
 class Plugins::Fundraiser < ActiveRecord::Base
   include Plugins::HasForm
 
-  enum recurring_default: [:donation, :recurring, :only_recurring]
+  enum recurring_default: [:one_off, :recurring, :only_recurring]
 
   belongs_to :page, touch: true
   belongs_to :donation_band
