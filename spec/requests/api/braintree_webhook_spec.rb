@@ -105,7 +105,7 @@ describe "Braintree API" do
               },
               user: {
                 email: "itsme@feelthebern.org",
-                country: "US",
+                country: "United States",
                 postal: "11225",
                 address1: '25 Elm Drive',
                 source: 'fb',
@@ -159,7 +159,7 @@ describe "Braintree API" do
               },
               user: {
                 email: "itsme@feelthebern.org",
-                country: "US",
+                country: "United States",
                 postal: "11225",
                 address1: '25 Elm Drive',
                 source: 'fb',
