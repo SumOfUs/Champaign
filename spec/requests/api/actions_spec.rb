@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe "Api Actions" do
+  RSpec::Matchers.define :country_field_set_as do |country|
+    match do |actual|
+      JSON.parse(actual[:message_body])['params']['country'] === country
+    end
+  end
+
   let(:sqs_client) { double }
 
   before do
@@ -9,17 +15,20 @@ describe "Api Actions" do
     allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
   end
 
+  let(:page) { create(:page) }
+  let(:form) { create(:form_with_email) }
+
   describe "POST#create" do
     let(:page) { create(:page) }
-    let(:form) { create(:form_with_email) }
+    let(:form) { create(:form_with_email_and_optional_country) }
 
     let(:params) do
       {
-          email:    'hello@example.com',
-          form_id:  form.id,
-          source:   'fb',
-          akid:     '123.456.fcvd',
-          referring_akid: '123.456.xyz'
+        email:    'hello@example.com',
+        form_id:  form.id,
+        source:   'fb',
+        akid:     '123.456.fcvd',
+        referring_akid: '123.456.xyz'
       }
     end
 
@@ -45,6 +54,18 @@ describe "Api Actions" do
         queue_url: 'http://example.com',
         message_body: message_body.to_json
       }
+    end
+
+    describe 'country' do
+      before do
+        message_body[:params][:country] = 'United States'
+        params[:country] = 'US'
+        post "/api/pages/#{page.id}/actions", params
+      end
+
+      it 'posts full country name to queue' do
+        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("United States"))
+      end
     end
 
     describe 'akid manipulation' do
@@ -97,8 +118,6 @@ describe "Api Actions" do
 
   ['long_string_with_underscore', '1234.5678', '2', '?&=', '2..2', '..2'].each do |invalid_akid|
     describe "invalid akid '#{invalid_akid}'" do
-      let(:page) { create(:page) }
-      let(:form) { create(:form_with_email) }
       let(:params) do
         {
             email: 'hello@example.com',

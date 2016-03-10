@@ -16,6 +16,14 @@ module ActionQueue
       @page ||= @action.page
     end
 
+    def country(iso_code)
+      ISO3166::Country.new(iso_code).try(:name)
+    end
+
+    def member
+      @member ||= @action.member
+    end
+
     class_methods do
       def push(action)
         new(action).push
@@ -38,8 +46,9 @@ module ActionQueue
         params: {
           page: "#{@action.page.slug}-petition"
         }.merge(@action.form_data).
-          merge( UserLanguageISO.for(page.language) )
-
+          merge( UserLanguageISO.for(page.language) ).tap do |params|
+            params[:country] = country(member.country) if member.country.present?
+          end
       }.deep_symbolize_keys
     end
   end
@@ -76,16 +85,12 @@ module ActionQueue
           first_name: member.first_name,
           last_name:  member.last_name,
           email:      member.email,
-          country:    member.country,
+          country:    country(member.country),
           akid:       data[:akid],
           postal:     data[:postal],
           address1:   data[:address1],
           source:     data[:source]
       }.merge(UserLanguageISO.for(page.language) )
-    end
-
-    def member
-      @member ||= @action.member
     end
 
     # ActionKit can accept one of the following:
