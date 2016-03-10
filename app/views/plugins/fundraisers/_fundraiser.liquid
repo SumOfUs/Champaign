@@ -120,6 +120,7 @@
           source:           window.sumofus.personalization.urlParams.source,
           member:           window.sumofus.personalization.member,
           location:         window.sumofus.personalization.location,
+          recurringDefault: window.sumofus.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
           outstandingFields:window.sumofus.personalization.outstandingFields
         });
       });
