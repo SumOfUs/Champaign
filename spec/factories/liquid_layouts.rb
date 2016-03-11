@@ -30,6 +30,24 @@ FactoryGirl.define do
       title 'Experimental template'
       experimental true
     end
+
+    trait :post_action_share_layout do
+      title 'post action share template'
+      content %{
+              <div class="share-buttons">
+                {% unless shares['facebook'] == blank %}
+                  <div class="share-buttons__button button--facebook {{ shares['facebook'] }}"></div>
+                {% endunless %}
+                {% unless shares['twitter'] == blank %}
+                  <div class="share-buttons__button button--twitter {{ shares['twitter'] }}"></div>
+                {% endunless %}
+                {% unless shares['email'] == blank %}
+                  <div class="share-buttons__simple-email-link {{ shares['email'] }}"></div>
+                {% endunless %}
+              </div>
+              }
+
+    end
   end
 
 end

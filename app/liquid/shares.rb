@@ -25,7 +25,7 @@ module Shares
 
     def buttons_with_variants(page)
       # Find all buttons that have share variants and that have a corresponding page_id
-      Share::Button.find(Share::Variant.all.map { |variant| variant.button_id }).select { |button| button.page_id = page.id }
+      Share::Button.find(Share::Variant.all.map { |variant| variant.button_id }).select { |button| button.page_id == page.id }
     end
 
     def class_from_html(html)
