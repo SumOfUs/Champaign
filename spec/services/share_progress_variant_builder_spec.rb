@@ -29,7 +29,7 @@ describe ShareProgressVariantBuilder do
         params: params,
         variant_type: 'facebook',
         page: page,
-        url: 'http://example.com/foo',
+        url: 'http://example.com/foo'
       )
     end
 

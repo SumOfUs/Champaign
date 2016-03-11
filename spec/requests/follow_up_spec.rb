@@ -53,7 +53,7 @@ describe 'rendering a post action share page' do
       expect(response.body).to include(email_variant_div)
     end
 
-    it 'renders only the remaining buttons if  the facebook button is deleted' do
+    it 'renders only the remaining buttons if the facebook button is deleted' do
       facebook_variant.delete
       subject
       expect(response.body).to_not include(facebook_variant_div)
