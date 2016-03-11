@@ -27,7 +27,7 @@ describe AkidParser do
       it 'returns unpopulated response' do
         valid_akids.each do |akid|
           expect(
-            subject.parse(akid, 'kethcup')
+            subject.parse(akid, 'ketchup')
           ).to include( { actionkit_user_id: nil, mailing_id: nil })
         end
       end

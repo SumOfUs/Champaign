@@ -23,7 +23,7 @@ ak_api_url: <%= ENV['AK_API_URL'] %>
 ak_username: <%= ENV['AK_USERNAME'] %>
 ak_password: <%= ENV['AK_PASSWORD'] %>
 action_kit:
-  akid_secret: <%= ENV['AKID_SECRET']
+  akid_secret: <%= ENV['AKID_SECRET'] %>
 
 
 # CloudFront config Variables.
