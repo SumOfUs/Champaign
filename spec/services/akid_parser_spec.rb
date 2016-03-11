@@ -1,11 +1,6 @@
 require 'rails_helper'
 
 describe AkidParser do
-  let(:valid_mailing_id) {'14203'}
-  let(:valid_actionkit_user_id) {'7145943'}
-  let(:valid_akid) {"#{valid_mailing_id}.#{valid_actionkit_user_id}.Si3iNO"}
-  let(:valid_return) { {mailing_id: valid_mailing_id, actionkit_user_id: valid_actionkit_user_id}}
-  let(:invalid_return) { {mailing_id: nil, actionkit_user_id: nil} }
   subject { AkidParser }
 
   context 'valid akids' do
@@ -40,6 +35,12 @@ describe AkidParser do
 
     it 'returns unpopulated response' do
       crazy_akids.each do |akid|
+        expect(
+          subject.parse(akid, 'kethcup')
+        ).to include( { actionkit_user_id: nil, mailing_id: nil })
+      end
+
+      akids_bad_hash.each do |akid|
         expect(
           subject.parse(akid, 'kethcup')
         ).to include( { actionkit_user_id: nil, mailing_id: nil })
