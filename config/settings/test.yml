@@ -80,3 +80,7 @@
 
      robots: 'staging'
 
+
+     action_kit:
+       akid_secret: "secret_sauce"
+

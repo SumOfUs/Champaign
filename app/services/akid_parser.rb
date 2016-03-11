@@ -1,27 +1,40 @@
+require 'digest'
+require 'base64'
+
 class AkidParser
   class << self
-    def parse(akid)
-      new(akid).parse
+    def parse(akid, secret)
+      new(akid, secret).parse
     end
   end
 
-  def initialize(akid)
-    @akid = akid
+  def initialize(akid, secret)
+    @akid = akid.try(:split,'.') || []
+    @secret = secret
   end
 
   def parse
-    return empty_response if @akid.blank? || invalid?
-    mailing_id, actionkit_user_id = @akid.split('.')
-    {mailing_id: mailing_id, actionkit_user_id: actionkit_user_id}
+    if invalid?
+      response
+    else
+      response(@akid[0], @akid[1])
+    end
   end
 
   def invalid?
-    @akid.count('.') != 2
+    sha256 != @akid.last
   end
 
   private
 
-  def empty_response
-    {actionkit_user_id: nil, mailing_id: nil}
+  def sha256
+    Base64.urlsafe_encode64(
+      Digest::SHA256.digest( "#{@secret}.#{@akid[0]}.#{@akid[1]}" )
+    )[0..5]
+  end
+
+  def response(mailing_id = nil, user_id = nil)
+    {actionkit_user_id: user_id, mailing_id: mailing_id}
   end
 end
+

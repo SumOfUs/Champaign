@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Member do
 
-  let(:ak_user_id) { '7145943'}
-  let(:akid) { "14203.#{ak_user_id}.Si3iNOw"}
+  let(:ak_user_id) { '5678'}
+  let(:akid) { ".#{ak_user_id}.hIdbLl" }
   let(:fake_akid) { '12345.1234567.RzxR1d' }
 
   let!(:user_with_akid) { create :member, actionkit_user_id: ak_user_id }

@@ -27,8 +27,8 @@ describe "Api Actions" do
         email:    'hello@example.com',
         form_id:  form.id,
         source:   'fb',
-        akid:     '123.456.fcvd',
-        referring_akid: '123.456.xyz'
+        akid:      '1234.5678.tKK7gX',
+        referring_akid:  '1234.5678.tKK7gX'
       }
     end
 
@@ -42,8 +42,8 @@ describe "Api Actions" do
           page_id: page.id.to_s,
           form_id: form.id.to_s,
           source: 'fb',
-          akid:   '123.456.fcvd',
-          referring_akid: '123.456.xyz',
+          akid:   '1234.5678.tKK7gX',
+          referring_akid: '1234.5678.tKK7gX',
           user_en: 1
         }
       }
@@ -80,12 +80,12 @@ describe "Api Actions" do
 
         it 'saves akid on action' do
           expect(
-              Action.where('form_data @> ?', {akid: '123.456.fcvd'}.to_json).first
+            Action.where('form_data @> ?', {akid: '1234.5678.tKK7gX'}.to_json).first
           ).to eq(page.actions.first)
         end
 
         it 'saves actionkit_user_id on member' do
-          expect(Member.last.actionkit_user_id).to eq '456'
+          expect(Member.last.actionkit_user_id).to eq('5678')
         end
 
         it 'posts action to SQS Queue' do
@@ -98,7 +98,7 @@ describe "Api Actions" do
 
         it 'overwrites existing actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params
-          expect(member.reload.actionkit_user_id).to eq '456'
+          expect(member.reload.actionkit_user_id).to eq '5678'
         end
       end
 
@@ -106,7 +106,7 @@ describe "Api Actions" do
 
     describe 'referring akid' do
       before do
-        params[:referring_akid] = '123.456.xyz'
+        params[:referring_akid] = '1234.5678.tKK7gX'
       end
 
       it 'posts a referring akid' do
