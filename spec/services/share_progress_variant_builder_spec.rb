@@ -48,6 +48,11 @@ describe ShareProgressVariantBuilder do
         create_variant
       end
 
+      it 'creates a variant that is associated with a button' do
+        variant = create_variant
+        expect(variant.button_id).to_not be(nil)
+      end
+
       it 'persists variant locally' do
         create_variant
         variant = Share::Facebook.first

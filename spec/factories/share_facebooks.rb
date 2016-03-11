@@ -3,6 +3,7 @@ FactoryGirl.define do
     title "MyString"
     description "MyText"
     page
+    button_id 1
   end
 end
 

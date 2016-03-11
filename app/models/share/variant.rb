@@ -16,4 +16,10 @@ module Share::Variant
     self.class.name.demodulize.underscore
   end
 
+  def self.all
+    [Share::Facebook, Share::Twitter, Share::Email].inject([]) do |variations, share_class|
+      variations += share_class.all
+    end
+  end
+
 end
