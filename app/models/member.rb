@@ -8,7 +8,8 @@ class Member < ActiveRecord::Base
   def self.find_from_request(akid: nil, id: nil)
     if akid.present?
       actionkit_user_id = AkidParser.parse(akid)[:actionkit_user_id]
-      member = find_by(actionkit_user_id: actionkit_user_id)
+      #member = find_by(actionkit_user_id: actionkit_user_id)
+      member = where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first
       return member if member.present?
     end
     id.present? ? find_by(id: id) : nil

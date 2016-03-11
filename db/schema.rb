@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160308201945) do
+ActiveRecord::Schema.define(version: 20160311123938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160308201945) do
     t.jsonb    "form_data"
     t.boolean  "subscribed_member", default: true
     t.boolean  "donation",          default: false
+    t.string   "ip_address"
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
@@ -173,6 +174,9 @@ ActiveRecord::Schema.define(version: 20160308201945) do
     t.string   "actionkit_user_id"
   end
 
+  add_index "members", ["actionkit_user_id"], name: "index_members_on_actionkit_user_id", using: :btree
+  add_index "members", ["email"], name: "index_members_on_email", using: :btree
+
   create_table "pages", force: :cascade do |t|
     t.integer  "language_id"
     t.integer  "campaign_id"
@@ -181,11 +185,11 @@ ActiveRecord::Schema.define(version: 20160308201945) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -253,8 +257,8 @@ ActiveRecord::Schema.define(version: 20160308201945) do
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
+    t.decimal  "amount",                  precision: 10, scale: 2
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
