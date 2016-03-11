@@ -29,7 +29,7 @@ describe ShareProgressVariantBuilder do
         params: params,
         variant_type: 'facebook',
         page: page,
-        url: 'http://example.com/foo'
+        url: 'http://example.com/foo',
       )
     end
 
@@ -46,6 +46,11 @@ describe ShareProgressVariantBuilder do
         }
         expect(ShareProgress::Button).to receive(:new).with( hash_including(expected_arguments) ){ success_sp_button }
         create_variant
+      end
+
+      it 'creates a variant that is associated with a button' do
+        variant = create_variant
+        expect(variant.button_id).to_not be(nil)
       end
 
       it 'persists variant locally' do
