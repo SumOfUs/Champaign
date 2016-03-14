@@ -36,7 +36,6 @@ ActiveRecord::Schema.define(version: 20160311123938) do
     t.jsonb    "form_data"
     t.boolean  "subscribed_member", default: true
     t.boolean  "donation",          default: false
-    t.string   "ip_address"
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
