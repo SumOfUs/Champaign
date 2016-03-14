@@ -81,7 +81,7 @@ describe Payment do
         {
           customer_id:      bt_customer.id,
           member_id:        member_id,
-          card_vault_token: bt_payment_method.token,
+          default_payment_method_token: bt_payment_method.token,
           card_type:        bt_payment_method.card_type,
           card_bin:         bt_payment_method.bin,
           cardholder_name:  bt_payment_method.cardholder_name,
@@ -116,7 +116,7 @@ describe Payment do
         {
           customer_id:      bt_customer.id,
           member_id:        member_id,
-          card_vault_token: bt_payment_method.token,
+          default_payment_method_token: bt_payment_method.token,
           email:            bt_customer.email,
           card_last_4:      'PYPL',
         }
@@ -193,7 +193,7 @@ describe Payment do
           cardholder_name:  credit_card_details.cardholder_name,
           card_debit:       credit_card_details.debit,
           card_last_4:      credit_card_details.last_4,
-          card_vault_token: credit_card_token,
+          default_payment_method_token: credit_card_token,
           customer_id:      transaction.customer_details.id,
           email:            transaction.customer_details.email,
           member_id:        member_id
@@ -347,7 +347,7 @@ describe Payment do
           card_bin:         nil,
           cardholder_name:  nil,
           card_debit:       "Unknown",
-          card_vault_token: paypal_token,
+          default_payment_method_token: paypal_token,
           customer_id:      transaction.customer_details.id,
           card_last_4:      'PYPL',
           email:            transaction.customer_details.email,

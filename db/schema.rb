@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311123938) do
+ActiveRecord::Schema.define(version: 20160314221437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,13 @@ ActiveRecord::Schema.define(version: 20160311123938) do
     t.string   "resource"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "braintree_payment_method_tokens", force: :cascade do |t|
+    t.string   "customer_id"
+    t.string   "braintree_payment_method_token"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -215,7 +222,7 @@ ActiveRecord::Schema.define(version: 20160311123938) do
     t.string   "cardholder_name"
     t.string   "card_debit"
     t.string   "card_last_4"
-    t.string   "card_vault_token"
+    t.string   "default_payment_method_token"
     t.string   "card_unique_number_identifier"
     t.string   "email"
     t.string   "first_name"
