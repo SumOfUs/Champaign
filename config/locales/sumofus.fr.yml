@@ -38,6 +38,11 @@ fr:
       cvv: Le CVV
       number: Le numéro de votre carte
       expiration: La date d’expiration
+    generic:
+      title: "Merci d’avoir agi ! Pouvez-vous faire un don afin de faire progresser le combat? "
+      target: Vous
+      ask: "Pouvez-vous faire un don afin d’aider SumOfUs à continuer de combattre le pouvoir grandissant des grandes entreprises dans le monde ?"
+      body: "Merci d’avoir agi avec SumOfUs ! Votre action aide à combattre le pouvoir des grandes entreprises dans le monde. Il reste cependant beaucoup à faire. SumOfUs dépend presque entièrement de petits dons faits par des personnes comme vous. Chaque petit don compte.Votre don signifie que nous pouvons défier les multinationales les plus puissantes et les plus malveillantes ainsi que leur faire rendre des comptes. Pourriez-vous faire un don afin de nous aider à continuer le combat aujourd’hui?"
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à

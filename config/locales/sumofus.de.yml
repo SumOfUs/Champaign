@@ -38,6 +38,11 @@ de:
       cvv: Die Kartenprüfnummer
       number: Die Kreditkartennummer
       expiration: Das Ablaufdatum
+    generic:
+      title: "Vielen Dank für Ihre Unterschrift! Können Sie unsere Arbeit bitte mit einer Spende unterstützen?"
+      target: Sie
+      ask: "Helfen Sie SumOfUs im weltweiten Kampf gegen die Macht von Großkonzernen mit einer Spende!"
+      body: "Vielen Dank, dass Sie die Petition unterschrieben haben. Das war großartig! Jede Stimme zählt, wenn wir uns weltweit mit Großkonzernen anlegen. Doch es gibt noch viel zu tun! Dafür benötigen wir Geld. SumOfUs finanziert sich fast ausschließlich aus den Spenden unserer Mitglieder – und jeder kleine Beitrag hilft. Dank Ihrer Spende können wir es mit den größten und skrupellosesten Konzernen aufnehmen und sie zur Verantwortung ziehen. Unterstützen Sie uns bitte heute mit einer Spende!"
   petition:
     sign_it: Petition Unterschreiben
     target_prefix: AN
