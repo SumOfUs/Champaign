@@ -51,6 +51,11 @@ de:
     switch_user: Nicht Sie?
     processing: In Bearbeitung...
     submit: Abschicken
+    default:
+      name: VOLLSTÄNDIGER NAME
+      email: E-MAIL
+      country: LAND
+      postal: PLZ
   thermometer:
     signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
     signatures: Unterschriften

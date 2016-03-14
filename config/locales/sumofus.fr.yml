@@ -51,6 +51,11 @@ fr:
     switch_user: Ce n’est pas vous?
     processing: En cours de traitement...
     submit: Envoyer
+    default:
+      name: NOM COMPLET
+      email: ADRESSE EMAIL
+      country: PAYS
+      postal: CODE POSTAL
   thermometer:
     signatures_until_goal: "%{remaining} signatures jusqu'à %{goal}"
     signatures: signatures #, par exemple '225 signatures'

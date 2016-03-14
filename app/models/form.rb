@@ -6,10 +6,10 @@ class Form < ActiveRecord::Base
   DEFAULT_NAME = 'Basic'
 
   DEFAULT_FIELDS = [
-    { label: 'Email Address',  name: 'email',   required: true,  data_type: 'email'   },
-    { label: 'Full Name',      name: 'name',    required: true,  data_type: 'text'    },
-    { label: 'Country',        name: 'country', required: true,  data_type: 'country' },
-    { label: 'Postal Code',    name: 'postal',  required: false, data_type: 'postal'    }
+    { label: 'form.default.email',   name: 'email',   required: true,  data_type: 'email'   },
+    { label: 'form.default.name',    name: 'name',    required: true,  data_type: 'text'    },
+    { label: 'form.default.country', name: 'country', required: true,  data_type: 'country' },
+    { label: 'form.default.postal',  name: 'postal',  required: false, data_type: 'postal'  }
   ]
 
   has_paper_trail on: [:update, :destroy]

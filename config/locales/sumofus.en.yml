@@ -51,6 +51,11 @@ en:
     switch_user: Not you?
     processing: Processing...
     submit: Submit
+    default:
+      name: Full name
+      email: Email Address
+      country: Country
+      postal: Postal Code
   thermometer:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
