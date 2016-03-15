@@ -2,16 +2,47 @@ require 'open-uri'
 
 namespace :sumofus do
   desc 'Import legacy actions into your database from a specified file'
-  task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |task, args|
 
+  task :check_legacy_actions, [:action_file] => :environment do |task, args|
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
+    else
+      puts "Loading page data"
+      page_data_handle = open(args[:action_file])
+      page_data = JSON.load(page_data_handle.read)
+      page_data_handle.close
+      puts "Page data loaded"
+    end
+
+    puts "Errors listed below, empty means no errors:"
+    page_data.each_pair do |k, entry|
+      begin
+        p = Page.find(entry['slug']) # raises if not found
+        puts "Page at <#{entry['slug']}> has no image" if p.images.size < 1
+        if p.language.code.to_s.downcase != entry['language'].to_s.downcase
+          puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
+        end
+        form = p.plugins.select{ |p| p.class.name == "Plugins::Petition" }.first.form
+        expected_form_name = "Basic (#{entry['language'].upcase})"
+        if form.name != expected_form_name
+          puts "Page at <#{entry['slug']}> has form #{form.name}, should be #{expected_form_name}"
+        end
+      rescue ActiveRecord::RecordNotFound
+        puts "Page is missing: <#{entry['slug']}> with expected title \"#{entry['title']}\""
+      end
+    end
+  end
+
+  task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |task, args|
+
+    if args[:page_img_file].blank?
+      abort('Requires a valid url to a file containing a default header image to attach to the page.')
     else
       page_image_handle = open(args[:page_img_file])
     end
 
-    if args[:page_img_file].blank?
-      abort('Requires a valid url to a file containing a default header image to attach to the page.')
+    if args[:action_file].blank?
+      abort('Requires a valid url to a file containing the legacy actions to seed.')
     else
       puts "Loading page data"
       page_data_handle = open(args[:action_file])
@@ -89,10 +120,10 @@ namespace :sumofus do
     start_timestamp = Time.now
 
     existing_image = nil
-    petition_layout_id = LiquidLayout.where(title: 'Petition With Small Image').first.id
-    fundraiser_layout_id = LiquidLayout.where(title: 'Fundraiser With Large Image').first.id
+    petition_layout = LiquidLayout.where(title: 'Petition With Small Image').first
+    fundraiser_layout = LiquidLayout.where(title: 'Fundraiser With Large Image').first
 
-    post_action_pages = create_post_action_pages(fundraiser_layout_id, follow_image_handle)
+    post_action_pages = create_post_action_pages(fundraiser_layout.id, follow_image_handle)
     titles = unique_titles(page_data)
 
     duplicate_titles(titles).each do |title|
@@ -102,7 +133,7 @@ namespace :sumofus do
     end
 
     page_data.each_pair do |k, entry|
-      page = Page.find_or_initialize_by(slug: entry['slug'], liquid_layout_id: petition_layout_id)
+      page = Page.find_or_initialize_by(slug: entry['slug'], liquid_layout_id: petition_layout.id)
       page.content = manage_newlines(entry['page_content'])
       page.language_id = language_ids[entry['language']]
       page.active = true
@@ -111,6 +142,11 @@ namespace :sumofus do
       page.follow_up_page = post_action_pages[entry['language']]
       puts "Adding page \"#{page.title}\" at <#{page.slug}>"
       page.save!
+
+      # update plugins
+      page.plugins.map(&:destroy)
+      PagePluginSwitcher.new(page).switch(petition_layout)
+
       Page.reset_counters(page.id, :actions)
       Page.update_counters(page.id, action_count: entry['signature_count'])
       thermometer = Plugins::Thermometer.where(page_id: page.id).first
