@@ -1,4 +1,7 @@
 - meta optimization_tags: @page.meta_tags
+
+/Twitter Meta Tags for proper behavior there
+- meta twitter: {card: 'summary_large_image', domain: 'http://sumofus.org', site: @page.meta_twitter_handle, creator: @page.meta_twitter_handle, title: @page.title, description: truncate(@page.content, length: 140), img: {src: @page.primary_image.content.url}}
 = @rendered
 = render 'personalization', data: @data
 = render 'campaigner_overlay', page: @page

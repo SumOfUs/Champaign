@@ -332,5 +332,20 @@ describe Page do
     end
   end
 
+  describe 'meta twitter handle' do
+    let(:en_handle) { '@sumofus' }
+    let(:fr_handle) { '@sumofus_fr' }
+    let(:de_handle) { '@sumofus_de' }
+    let(:english_page) { create :page, language: (create :language, code: 'en') }
+    let(:french_page)  { create :page, language: (create :language, code: 'fr') }
+    let(:german_page)  { create :page, language: (create :language, code: 'de') }
+
+    it 'correctly associates the expected handle with the expected page type' do
+      expect(english_page.meta_twitter_handle).to eq(en_handle)
+      expect(french_page.meta_twitter_handle).to eq(fr_handle)
+      expect(german_page.meta_twitter_handle).to eq(de_handle)
+    end
+  end
+
 end
 

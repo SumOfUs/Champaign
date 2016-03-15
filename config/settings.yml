@@ -53,6 +53,7 @@
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
      facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
      share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+     meta_twitter_handles: { en: '@sumofus', fr: '@sumofus_fr', de: '@sumofus_de' }
 
 # Braintree connection information. Used for taking donations.
      braintree:
