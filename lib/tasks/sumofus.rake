@@ -59,24 +59,63 @@ namespace :sumofus do
       @language_ids
     end
 
+    def clean_title(entry)
+      title = entry['title'].blank? ? entry['petition_ask'] : entry['title']
+      title.chomp(' ').chomp('!').chomp('.')
+    end
+
+    def duplicate_titles(titles)
+      titles.map do |title, variations|
+        variations.size > 1 ? title : nil
+      end.compact
+    end
+
+    def unique_titles(page_data)
+      titles = Hash.new({})
+      # byebug
+      page_data.each_pair do |k, entry|
+        title = clean_title(entry)
+        slug = entry['slug']
+        case titles[title].size
+        when 1
+          titles[title][slug] = "#{title} now"
+        when 2
+          titles[title][slug] = "#{title} now!"
+        when 3
+          titles[title][slug] = "#{title} today"
+        else # includes 0 case
+          titles[title] = {}
+          titles[title][slug] = title
+        end
+      end
+      titles
+    end
+
     count, existing_image = 0, nil
     petition_layout_id = LiquidLayout.where(title: 'Petition With Small Image').first.id
     fundraiser_layout_id = LiquidLayout.where(title: 'Fundraiser With Large Image').first.id
 
     post_action_pages = create_post_action_pages(fundraiser_layout_id, follow_image_handle)
+    titles = unique_titles(page_data)
+
+    duplicate_titles(titles).each do |title|
+      Page.where(title: title).each do |p|
+        p.update_attributes(title: titles[title][p.slug])
+      end
+    end
 
     page_data.each_pair do |k, entry|
-      title = entry['title'].blank? ? entry['petition_ask'] : entry['title']
-      page = Page.find_or_create_by!(title: title, liquid_layout_id: petition_layout_id)
+      page = Page.find_or_initialize_by(slug: entry['slug'], liquid_layout_id: petition_layout_id)
       page.content = manage_newlines(entry['page_content'])
-      Page.reset_counters(page.id, :actions)
-      Page.update_counters(page.id, action_count: entry['signature_count'])
       page.language_id = Language.where(code: entry['language']).first.id
       page.active = true
-      page.slug = entry['slug']
+      page.title = titles[clean_title(entry)][entry['slug']]
       page.follow_up_plan = :with_page
       page.follow_up_page = post_action_pages[entry['language']]
+      puts "Adding page \"#{page.title}\" at <#{page.slug}>"
       page.save!
+      Page.reset_counters(page.id, :actions)
+      Page.update_counters(page.id, action_count: entry['signature_count'])
       thermometer = Plugins::Thermometer.where(page_id: page.id).first
       thermometer.goal = entry['thermometer_target']
       thermometer.save!
@@ -91,7 +130,6 @@ namespace :sumofus do
           Image.new(page: page, content: existing_image.content)
         end
       end
-      puts "Added page \"#{page.title}\" at <#{page.slug}>"
       count +=1
     end
 
