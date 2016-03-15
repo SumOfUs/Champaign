@@ -91,6 +91,9 @@ namespace :sumofus do
       titles
     end
 
+    pages_before = Page.count
+    start_timestamp = Time.now
+
     count, existing_image = 0, nil
     petition_layout_id = LiquidLayout.where(title: 'Petition With Small Image').first.id
     fundraiser_layout_id = LiquidLayout.where(title: 'Fundraiser With Large Image').first.id
@@ -127,7 +130,7 @@ namespace :sumofus do
         if existing_image.blank?
           existing_image = page.images.create(content: page_image_handle)
         else
-          Image.new(page: page, content: existing_image.content)
+          Image.create(page: page, content: existing_image.content)
         end
       end
       count +=1
@@ -136,6 +139,9 @@ namespace :sumofus do
     follow_image_handle.close if follow_image_handle != page_image_handle
     page_image_handle.close
 
-    puts "#{count} pages added to the database"
+    updated_count = Page.where('updated_at > ?', start_timestamp).where('created_at <= ?', start_timestamp).size
+    created_count = Page.count - pages_before
+
+    puts "#{created_count} pages added, #{updated_count} pages updated, #{page_data.size - updated_count - created_count} skipped"
   end
 end
