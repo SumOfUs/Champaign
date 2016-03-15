@@ -51,12 +51,7 @@ namespace :sumofus do
     end
 
     def language_ids
-      return @language_ids unless @language_ids.blank?
-      @language_ids = {}
-      Language.all.each do |l|
-        @language_ids[l.code] = l.id
-      end
-      @language_ids
+      @language_ids ||= Language.all.pluck(:code, :id).to_h
     end
 
     def clean_title(entry)
@@ -72,7 +67,6 @@ namespace :sumofus do
 
     def unique_titles(page_data)
       titles = Hash.new({})
-      # byebug
       page_data.each_pair do |k, entry|
         title = clean_title(entry)
         slug = entry['slug']
@@ -94,7 +88,7 @@ namespace :sumofus do
     pages_before = Page.count
     start_timestamp = Time.now
 
-    count, existing_image = 0, nil
+    existing_image = nil
     petition_layout_id = LiquidLayout.where(title: 'Petition With Small Image').first.id
     fundraiser_layout_id = LiquidLayout.where(title: 'Fundraiser With Large Image').first.id
 
@@ -110,7 +104,7 @@ namespace :sumofus do
     page_data.each_pair do |k, entry|
       page = Page.find_or_initialize_by(slug: entry['slug'], liquid_layout_id: petition_layout_id)
       page.content = manage_newlines(entry['page_content'])
-      page.language_id = Language.where(code: entry['language']).first.id
+      page.language_id = language_ids[entry['language']]
       page.active = true
       page.title = titles[clean_title(entry)][entry['slug']]
       page.follow_up_plan = :with_page
@@ -133,7 +127,6 @@ namespace :sumofus do
           Image.create(page: page, content: existing_image.content)
         end
       end
-      count +=1
     end
 
     follow_image_handle.close if follow_image_handle != page_image_handle
