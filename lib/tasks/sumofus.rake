@@ -15,17 +15,48 @@ namespace :sumofus do
     end
 
     puts "Errors listed below, empty means no errors:"
+
+    ['en', 'fr', 'de'].map do |locale|
+      expected_title = I18n.t('fundraiser.generic.title', locale: locale)
+      page = Page.find_by(title: expected_title)
+      if page.blank?
+        puts "Missing follow-up page for #{locale} (expected title: #{expected_title})"
+      else
+        if page.try(:language).try(:code) != locale
+          puts "Follow-up for #{locale} has language #{page.try(:language).try(:code)}"
+        end
+        form = page.plugins.select{ |p| p.class.name == "Plugins::Fundraiser" }.first.form
+        expected_form_name = "Basic (#{locale.upcase})"
+        if form.name != expected_form_name
+          puts "Follow-up for #{locale} has form #{form.name}, should be #{expected_form_name}"
+        end
+      end
+    end
+
     page_data.each_pair do |k, entry|
       begin
-        p = Page.find(entry['slug']) # raises if not found
-        puts "Page at <#{entry['slug']}> has no image" if p.images.size < 1
-        if p.language.code.to_s.downcase != entry['language'].to_s.downcase
+        # check existence, images, and language
+        page = Page.find(entry['slug']) # raises if not found
+        puts "Page at <#{entry['slug']}> has no image" if page.images.size < 1
+        if page.language.code.to_s.downcase != entry['language'].to_s.downcase
           puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
         end
-        form = p.plugins.select{ |p| p.class.name == "Plugins::Petition" }.first.form
+
+        # check form
+        form = page.plugins.select{ |p| p.class.name == "Plugins::Petition" }.first.form
         expected_form_name = "Basic (#{entry['language'].upcase})"
         if form.name != expected_form_name
           puts "Page at <#{entry['slug']}> has form #{form.name}, should be #{expected_form_name}"
+        end
+
+        # check follow-up
+        if page.follow_up_plan.to_sym != :with_page
+          puts "Page at <#{entry['slug']}> has follow_up_plan #{page.follow_up_plan}, should be with_page"
+        end
+        follow_title = page.follow_up_page.try(:title)
+        expected_title = I18n.t('fundraiser.generic.title', locale: entry['language'])
+        if follow_title != expected_title
+          puts "Page at <#{entry['slug']}> has follow_up page with title #{follow_title}, should be #{expected_title}"
         end
       rescue ActiveRecord::RecordNotFound
         puts "Page is missing: <#{entry['slug']}> with expected title \"#{entry['title']}\""
