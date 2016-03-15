@@ -13,7 +13,6 @@ module ActionBuilder
       subscribed_member: subscribed_member
     }.merge(extra_attrs))
 
-
     ActionQueue::Pusher.push(action)
     Analytics::Page.increment(page.id, new_member: subscribed_member)
 
@@ -44,7 +43,7 @@ module ActionBuilder
 
     @user.assign_attributes(
       filtered_params.tap do |data|
-        id = AkidParser.parse(@params[:akid])[:actionkit_user_id]
+        id = AkidParser.parse(@params[:akid], Settings.action_kit.akid_secret)[:actionkit_user_id]
         data[:actionkit_user_id] = id unless id.blank?
       end
     )

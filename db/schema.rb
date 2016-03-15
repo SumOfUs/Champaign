@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229225740) do
+ActiveRecord::Schema.define(version: 20160311123938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,9 @@ ActiveRecord::Schema.define(version: 20160229225740) do
     t.string   "actionkit_user_id"
   end
 
+  add_index "members", ["actionkit_user_id"], name: "index_members_on_actionkit_user_id", using: :btree
+  add_index "members", ["email"], name: "index_members_on_email", using: :btree
+
   create_table "pages", force: :cascade do |t|
     t.integer  "language_id"
     t.integer  "campaign_id"
@@ -181,11 +184,11 @@ ActiveRecord::Schema.define(version: 20160229225740) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -253,8 +256,8 @@ ActiveRecord::Schema.define(version: 20160229225740) do
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
+    t.decimal  "amount",                  precision: 10, scale: 2
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
@@ -263,11 +266,12 @@ ActiveRecord::Schema.define(version: 20160229225740) do
     t.string   "title"
     t.string   "ref"
     t.integer  "page_id"
-    t.boolean  "active",           default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.boolean  "active",            default: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "form_id"
     t.integer  "donation_band_id"
+    t.integer  "recurring_default", default: 0,     null: false
   end
 
   add_index "plugins_fundraisers", ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id", using: :btree

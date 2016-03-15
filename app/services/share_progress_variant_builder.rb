@@ -43,6 +43,7 @@ class ShareProgressVariantBuilder
     variant.page = @page
     return variant unless variant.valid?
     button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
+    variant.button = button
     sp_button = ShareProgress::Button.new( share_progress_button_params(variant, button) )
 
     if sp_button.save

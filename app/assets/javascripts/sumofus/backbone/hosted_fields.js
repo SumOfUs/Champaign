@@ -65,6 +65,7 @@ const HostedFieldsMethods = {
     return (clientToken) => {
       this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
       this.$('#hosted-fields').removeClass('hidden-closed');
+      this.policeHeights();
     }
   },
 

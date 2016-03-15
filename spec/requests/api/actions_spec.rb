@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 describe "Api Actions" do
+  RSpec::Matchers.define :country_field_set_as do |country|
+    match do |actual|
+      JSON.parse(actual[:message_body])['params']['country'] === country
+    end
+  end
+
   let(:sqs_client) { double }
 
   before do
@@ -9,17 +15,20 @@ describe "Api Actions" do
     allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
   end
 
+  let(:page) { create(:page) }
+  let(:form) { create(:form_with_email) }
+
   describe "POST#create" do
     let(:page) { create(:page) }
-    let(:form) { create(:form_with_email) }
+    let(:form) { create(:form_with_email_and_optional_country) }
 
     let(:params) do
       {
-          email:    'hello@example.com',
-          form_id:  form.id,
-          source:   'fb',
-          akid:     '123.456.fcvd',
-          referring_akid: '123.456.xyz'
+        email:    'hello@example.com',
+        form_id:  form.id,
+        source:   'fb',
+        akid:      '1234.5678.tKK7gX',
+        referring_akid:  '1234.5678.tKK7gX'
       }
     end
 
@@ -33,8 +42,8 @@ describe "Api Actions" do
           page_id: page.id.to_s,
           form_id: form.id.to_s,
           source: 'fb',
-          akid:   '123.456.fcvd',
-          referring_akid: '123.456.xyz',
+          akid:   '1234.5678.tKK7gX',
+          referring_akid: '1234.5678.tKK7gX',
           user_en: 1
         }
       }
@@ -45,6 +54,18 @@ describe "Api Actions" do
         queue_url: 'http://example.com',
         message_body: message_body.to_json
       }
+    end
+
+    describe 'country' do
+      before do
+        message_body[:params][:country] = 'United States'
+        params[:country] = 'US'
+        post "/api/pages/#{page.id}/actions", params
+      end
+
+      it 'posts full country name to queue' do
+        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("United States"))
+      end
     end
 
     describe 'akid manipulation' do
@@ -59,12 +80,12 @@ describe "Api Actions" do
 
         it 'saves akid on action' do
           expect(
-              Action.where('form_data @> ?', {akid: '123.456.fcvd'}.to_json).first
+            Action.where('form_data @> ?', {akid: '1234.5678.tKK7gX'}.to_json).first
           ).to eq(page.actions.first)
         end
 
         it 'saves actionkit_user_id on member' do
-          expect(Member.last.actionkit_user_id).to eq '456'
+          expect(Member.last.actionkit_user_id).to eq('5678')
         end
 
         it 'posts action to SQS Queue' do
@@ -77,7 +98,7 @@ describe "Api Actions" do
 
         it 'overwrites existing actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params
-          expect(member.reload.actionkit_user_id).to eq '456'
+          expect(member.reload.actionkit_user_id).to eq '5678'
         end
       end
 
@@ -85,7 +106,7 @@ describe "Api Actions" do
 
     describe 'referring akid' do
       before do
-        params[:referring_akid] = '123.456.xyz'
+        params[:referring_akid] = '1234.5678.tKK7gX'
       end
 
       it 'posts a referring akid' do
@@ -97,8 +118,6 @@ describe "Api Actions" do
 
   ['long_string_with_underscore', '1234.5678', '2', '?&=', '2..2', '..2'].each do |invalid_akid|
     describe "invalid akid '#{invalid_akid}'" do
-      let(:page) { create(:page) }
-      let(:form) { create(:form_with_email) }
       let(:params) do
         {
             email: 'hello@example.com',

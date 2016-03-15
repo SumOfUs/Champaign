@@ -42,4 +42,9 @@ describe Plugins::Fundraiser do
     expect(serialized[:donation_bands]).to eq(expected_converted_values)
   end
 
+  it 'serializes the recurring_default as its name string' do
+    fundraiser.only_recurring!
+    expect( fundraiser.liquid_data[:recurring_default] ).to eq 'only_recurring'
+  end
+
 end
