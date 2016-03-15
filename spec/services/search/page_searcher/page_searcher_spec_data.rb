@@ -30,7 +30,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
   let!(:content_tag_plugin_layout_match) {
     create(:page,
            title: 'a non-matching title',
-           language: build(:language, code: 'SWE', name: 'Swedish'),
+           language: build(:language, code: 'de', name: 'German'),
            tags: [tag],
            content: test_text,
            liquid_layout: layout,

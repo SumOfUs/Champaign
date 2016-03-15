@@ -2,50 +2,206 @@ require 'open-uri'
 
 namespace :sumofus do
   desc 'Import legacy actions into your database from a specified file'
-  task seed_legacy_actions: :environment do
-    if ARGV[1].nil?
+
+  task :check_legacy_actions, [:action_file] => :environment do |task, args|
+    if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
+    else
+      puts "Loading page data"
+      page_data_handle = open(args[:action_file])
+      page_data = JSON.load(page_data_handle.read)
+      page_data_handle.close
+      puts "Page data loaded"
     end
 
-    if ARGV[2].nil?
+    puts "Errors listed below, empty means no errors:"
+
+    ['en', 'fr', 'de'].map do |locale|
+      expected_title = I18n.t('fundraiser.generic.title', locale: locale)
+      page = Page.find_by(title: expected_title)
+      if page.blank?
+        puts "Missing follow-up page for #{locale} (expected title: #{expected_title})"
+      else
+        if page.try(:language).try(:code) != locale
+          puts "Follow-up for #{locale} has language #{page.try(:language).try(:code)}"
+        end
+        form = page.plugins.select{ |p| p.class.name == "Plugins::Fundraiser" }.first.form
+        expected_form_name = "Basic (#{locale.upcase})"
+        if form.name != expected_form_name
+          puts "Follow-up for #{locale} has form #{form.name}, should be #{expected_form_name}"
+        end
+      end
+    end
+
+    page_data.each_pair do |k, entry|
+      begin
+        # check existence, images, and language
+        page = Page.find(entry['slug']) # raises if not found
+        puts "Page at <#{entry['slug']}> has no image" if page.images.size < 1
+        if page.language.code.to_s.downcase != entry['language'].to_s.downcase
+          puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
+        end
+
+        # check form
+        form = page.plugins.select{ |p| p.class.name == "Plugins::Petition" }.first.form
+        expected_form_name = "Basic (#{entry['language'].upcase})"
+        if form.name != expected_form_name
+          puts "Page at <#{entry['slug']}> has form #{form.name}, should be #{expected_form_name}"
+        end
+
+        # check follow-up
+        if page.follow_up_plan.to_sym != :with_page
+          puts "Page at <#{entry['slug']}> has follow_up_plan #{page.follow_up_plan}, should be with_page"
+        end
+        follow_title = page.follow_up_page.try(:title)
+        expected_title = I18n.t('fundraiser.generic.title', locale: entry['language'])
+        if follow_title != expected_title
+          puts "Page at <#{entry['slug']}> has follow_up page with title #{follow_title}, should be #{expected_title}"
+        end
+      rescue ActiveRecord::RecordNotFound
+        puts "Page is missing: <#{entry['slug']}> with expected title \"#{entry['title']}\""
+      end
+    end
+  end
+
+  task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |task, args|
+
+    if args[:page_img_file].blank?
       abort('Requires a valid url to a file containing a default header image to attach to the page.')
+    else
+      page_image_handle = open(args[:page_img_file])
     end
 
-    file_handle = open(ARGV[1])
-    data = file_handle.read
-    file_handle.close
+    if args[:action_file].blank?
+      abort('Requires a valid url to a file containing the legacy actions to seed.')
+    else
+      puts "Loading page data"
+      page_data_handle = open(args[:action_file])
+      page_data = JSON.load(page_data_handle.read)
+      page_data_handle.close
+      puts "Page data loaded"
+    end
 
-    image_handle = open(ARGV[2])
+    if args[:follow_img_file].blank?
+      follow_image_handle = open(args[:page_img_file])
+    else
+      follow_image_handle = open(args[:follow_img_file])
+    end
 
-    parsed_data = JSON.load data
-    count = 0
-    layout_id = LiquidLayout.where(title: 'Petition With Small Image').first.id
-    parsed_data.each_pair do |k, entry|
-      count +=1
+    def create_post_action_pages(layout_id, image_handle)
+      pages = {}
+      ['en', 'fr', 'de'].map do |locale|
+        page = Page.find_or_initialize_by(title: I18n.t('fundraiser.generic.title', locale: locale))
+        page.liquid_layout_id = layout_id
+        page.language_id = language_ids[locale]
+        page.content = I18n.t('fundraiser.generic.body', locale: locale)
+        page.save!
+        page.images.create!(content: image_handle) if page.images.empty?
+        pages[locale] = page
+      end
+      pages
+    end
+
+    def manage_newlines(content)
+      content.
+        gsub(/(?:\n\r?|\r\n?)/, '<br>').
+        gsub(/<br *\/*>/, '<br>').
+        gsub(/<div><br>\t&nbsp;<\/div>/, '<br>').
+        gsub(/(<br>)*\s*<\/p>\s*(<br>)*\s*<p>\s*(<br>)*/, '</p><br><p>').
+        gsub(/(<br>)*\s*<\/div>\s*(<br>)*\s*<div>\s*(<br>)*/, '</p><br><p>').
+        gsub(/(\s*<br>\s*){3,}/, '<br><br>')
+    end
+
+    def language_ids
+      @language_ids ||= Language.all.pluck(:code, :id).to_h
+    end
+
+    def clean_title(entry)
       title = entry['title'].blank? ? entry['petition_ask'] : entry['title']
-      page = Page.find_or_create_by!(title: title, liquid_layout_id: layout_id)
-      page.content = entry['page_content'].gsub(/(?:\n\r?|\r\n?)/, '<br>')
+      title.chomp(' ').chomp('!').chomp('.')
+    end
+
+    def duplicate_titles(titles)
+      titles.map do |title, variations|
+        variations.size > 1 ? title : nil
+      end.compact
+    end
+
+    def unique_titles(page_data)
+      titles = Hash.new({})
+      page_data.each_pair do |k, entry|
+        title = clean_title(entry)
+        slug = entry['slug']
+        case titles[title].size
+        when 1
+          titles[title][slug] = "#{title} now"
+        when 2
+          titles[title][slug] = "#{title} now!"
+        when 3
+          titles[title][slug] = "#{title} today"
+        else # includes 0 case
+          titles[title] = {}
+          titles[title][slug] = title
+        end
+      end
+      titles
+    end
+
+    pages_before = Page.count
+    start_timestamp = Time.now
+
+    existing_image = nil
+    petition_layout = LiquidLayout.where(title: 'Petition With Small Image').first
+    fundraiser_layout = LiquidLayout.where(title: 'Fundraiser With Large Image').first
+
+    post_action_pages = create_post_action_pages(fundraiser_layout.id, follow_image_handle)
+    titles = unique_titles(page_data)
+
+    duplicate_titles(titles).each do |title|
+      Page.where(title: title).each do |p|
+        p.update_attributes(title: titles[title][p.slug])
+      end
+    end
+
+    page_data.each_pair do |k, entry|
+      page = Page.find_or_initialize_by(slug: entry['slug'], liquid_layout_id: petition_layout.id)
+      page.content = manage_newlines(entry['page_content'])
+      page.language_id = language_ids[entry['language']]
+      page.active = true
+      page.title = titles[clean_title(entry)][entry['slug']]
+      page.follow_up_plan = :with_page
+      page.follow_up_page = post_action_pages[entry['language']]
+      puts "Adding page \"#{page.title}\" at <#{page.slug}>"
+      page.save!
+
+      # update plugins
+      page.plugins.map(&:destroy)
+      PagePluginSwitcher.new(page).switch(petition_layout)
+
       Page.reset_counters(page.id, :actions)
       Page.update_counters(page.id, action_count: entry['signature_count'])
-      page.language_id = Language.where(code: entry['language']).first.id
-      page.active = true
-      page.slug = entry['slug']
-      page.save
       thermometer = Plugins::Thermometer.where(page_id: page.id).first
       thermometer.goal = entry['thermometer_target']
-      thermometer.save
-      petition_form = Plugins::Petition.where(page_id: page.id).first
-      petition_form.description = entry['petition_ask'].gsub('"', '').gsub('Petition Text:', '')
-      petition_form.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').gsub(/:/, '')
-      petition_form.save
+      thermometer.save!
+      petition = Plugins::Petition.where(page_id: page.id).first
+      petition.description = entry['petition_ask'].gsub('"', '').gsub('Petition Text:', '')
+      petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').gsub(/:/, '')
+      petition.save!
       if page.images.count == 0
-        page.images.create(content: image_handle)
+        if existing_image.blank?
+          existing_image = page.images.create(content: page_image_handle)
+        else
+          Image.create(page: page, content: existing_image.content)
+        end
       end
-
     end
 
-    image_handle.close
+    follow_image_handle.close if follow_image_handle != page_image_handle
+    page_image_handle.close
 
-    p "#{count} pages added to the database"
+    updated_count = Page.where('updated_at > ?', start_timestamp).where('created_at <= ?', start_timestamp).size
+    created_count = Page.count - pages_before
+
+    puts "#{created_count} pages added, #{updated_count} pages updated, #{page_data.size - updated_count - created_count} skipped"
   end
 end

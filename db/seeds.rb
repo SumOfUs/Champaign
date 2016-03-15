@@ -15,7 +15,9 @@ end
 
 
 # Forms
-DefaultFormBuilder.create
+['en', 'fr', 'de'].each do |locale|
+  DefaultFormBuilder.create(locale: locale)
+end
 
 # Create tags and their associations to ActionKit
 all_tags = [

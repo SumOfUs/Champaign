@@ -3,8 +3,15 @@ shared_examples "plugin with form" do |plugin_type|
   let(:form) { create :form_with_email }
 
   it 'has a default form' do
-    expect(subject.form.name).to eq('Basic')
+    expect(subject.form.name).to eq('Basic (EN)')
     expect(subject.form.master?).to be false
+  end
+
+  it 'translates default form if page has a language' do
+    german = create :language, code: 'de'
+    page = create :page, language: german
+    plugin = create plugin_type, page: page
+    expect(plugin.form.name).to eq 'Basic (DE)'
   end
 
   it "can accept random supplemental data to liquid_data method" do

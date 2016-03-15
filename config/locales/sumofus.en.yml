@@ -38,6 +38,11 @@ en:
       cvv: CVV
       number: Card number
       expiration: Expiration date
+    generic:
+      title: "Thanks for taking action! Can you chip in to continue the fight?"
+      target: You
+      ask: "Can you donate to help SumOfUs continue to fight corporate power around the world?"
+      body: "Thanks for taking action with SumOfUs. You’re awesome! Your action helps fight corporate power all over the world. But there's still lots of work to be done. SumOfUs is funded almost entirely by small donations from people in our community just like you, so every little donation counts. Your donation means that we can take on the biggest, baddest corporations and hold them accountable. Will you provide a donation to help us keep fighting today?"
   petition:
     sign_it: Sign the petition
     target_prefix: TO
@@ -51,6 +56,11 @@ en:
     switch_user: Not you?
     processing: Processing...
     submit: Submit
+    default:
+      name: Full name
+      email: Email Address
+      country: Country
+      postal: Postal Code
   thermometer:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
