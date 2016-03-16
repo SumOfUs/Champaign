@@ -57,10 +57,6 @@ class Page < ActiveRecord::Base
     tag_names << plugin_names
   end
 
-  def meta_twitter_handle
-    Settings.meta_twitter_handles[language.code.to_sym]
-  end
-
   private
 
   def switch_plugins
