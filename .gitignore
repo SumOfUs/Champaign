@@ -16,6 +16,7 @@
 .env.web
 champaign.iml
 out/*
+coverage/
 
 # Ignore uploads
 public/uploads*

@@ -117,10 +117,10 @@ group :development, :test do
 
 end
 
-
 group :test do
   gem 'webmock'
   gem 'timecop'
+  gem 'coveralls', require: false
 end
 
 # Rails Assets - reference any Bower components that you need as gems.
