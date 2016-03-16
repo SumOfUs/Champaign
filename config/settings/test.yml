@@ -76,6 +76,7 @@
 
      redis:
        host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
+
        port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
 
      robots: 'staging'
@@ -83,3 +84,4 @@
      action_kit:
        akid_secret: "secret_sauce"
 
+     host: https://example.com

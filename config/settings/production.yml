@@ -75,3 +75,6 @@ geocoder:
 
 # Enable access in robots.txt?
 robots: <%= ENV["DISABLE_ROBOTS"] == "true" ? "staging" : "production" %>
+
+# Defines domain for page URLs
+host: <%= ENV["CHAMPAIGN_PAGE_HOST"] %>
