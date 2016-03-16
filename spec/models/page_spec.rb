@@ -331,6 +331,5 @@ describe Page do
       expect(page.plugin_names).to match_array(plugin_names)
     end
   end
-
 end
 

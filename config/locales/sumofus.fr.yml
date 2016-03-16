@@ -70,6 +70,7 @@ fr:
     send_email: Envoyer un courriel
     share: Partager
     tweet: Tweet
+    twitter_handle: '@sumofus_fr'
   errors:
     probably_invalid: semble invalide
     is_invalid: est invalide
