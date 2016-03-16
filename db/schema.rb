@@ -65,13 +65,6 @@ ActiveRecord::Schema.define(version: 20160314221437) do
     t.datetime "updated_at",      null: false
   end
 
-  create_table "braintree_payment_method_tokens", force: :cascade do |t|
-    t.string   "customer_id"
-    t.string   "braintree_payment_method_token"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-  end
-
   create_table "campaigns", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -234,6 +227,13 @@ ActiveRecord::Schema.define(version: 20160314221437) do
   end
 
   add_index "payment_braintree_customers", ["member_id"], name: "index_payment_braintree_customers_on_member_id", using: :btree
+
+  create_table "payment_braintree_payment_method_tokens", force: :cascade do |t|
+    t.string   "braintree_customer_id"
+    t.string   "braintree_payment_method_token"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
