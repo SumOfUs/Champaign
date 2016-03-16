@@ -146,28 +146,33 @@ describe PagesController do
       expect(assigns(:rendered)).to eq(renderer.render)
     end
 
-    it 'raises 404 if user not logged in and page unpublished' do
+    it 'redirects to sumofus.org if user not logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:active?){ false }
-      expect{ get :show, id: '1' }.to raise_error ActiveRecord::RecordNotFound
+      expect( get :show, id: '1' ).to redirect_to('//sumofus.org')
     end
 
-    it 'does not raise 404 if user not logged in and page published' do
+    it 'does not redirect to sumofus.org if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:active?){ true }
-      expect{ get :show, id: '1' }.not_to raise_error
+      expect( get :show, id: '1' ).not_to be_redirect
     end
 
-    it 'does not raise 404 if user logged in and page unpublished' do
+    it 'does not redirect to sumofus.org if user logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { true }
       allow(page).to receive(:active?){ false }
-      expect{ get :show, id: '1' }.not_to raise_error
+      expect( get :show, id: '1' ).not_to be_redirect
     end
 
-    it 'does not raise 404 if user logged in and page published' do
+    it 'does not redirect to sumofus.org if user logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { true }
       allow(page).to receive(:active?){ true }
-      expect{ get :show, id: '1' }.not_to raise_error
+      expect( get :show, id: '1' ).not_to be_redirect
+    end
+
+    it 'redirects to sumofus.org if page is not found' do
+      allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+      expect( get :show, id: '1000000' ).to redirect_to('//sumofus.org')
     end
 
     context 'on pages with localization' do
@@ -232,28 +237,33 @@ describe PagesController do
       expect(assigns(:rendered)).to eq(renderer.render)
     end
 
-    it 'raises 404 if user not logged in and page unpublished' do
+    it 'redirects to sumofus.org if user not logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:active?){ false }
-      expect{ get :show, id: '1' }.to raise_error ActiveRecord::RecordNotFound
+      expect( get :follow_up, id: '1' ).to redirect_to('//sumofus.org')
     end
 
-    it 'does not raise 404 if user not logged in and page published' do
+    it 'does not redirect to sumofus.org if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to       receive(:active?){ true }
-      expect{ get :show, id: '1' }.not_to raise_error
+      allow(page).to receive(:active?){ true }
+      expect( get :follow_up, id: '1' ).not_to be_redirect
     end
 
-    it 'does not raise 404 if user logged in and page unpublished' do
+    it 'does not redirect to sumofus.org if user logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { true }
       allow(page).to receive(:active?){ false }
-      expect{ get :show, id: '1' }.not_to raise_error
+      expect( get :follow_up, id: '1' ).not_to be_redirect
     end
 
-    it 'does not raise 404 if user logged in and page published' do
+    it 'does not redirect to sumofus.org if user logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { true }
       allow(page).to receive(:active?){ true }
-      expect{ get :show, id: '1' }.not_to raise_error
+      expect( get :follow_up, id: '1' ).not_to be_redirect
+    end
+
+    it 'raises 404 if page is not found' do
+      allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+      expect{ get :follow_up, id: '1000000' }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
