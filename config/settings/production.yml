@@ -22,6 +22,8 @@ ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
 ak_api_url: <%= ENV['AK_API_URL'] %>
 ak_username: <%= ENV['AK_USERNAME'] %>
 ak_password: <%= ENV['AK_PASSWORD'] %>
+action_kit:
+  akid_secret: <%= ENV['AKID_SECRET'] %>
 
 
 # CloudFront config Variables.
@@ -73,3 +75,6 @@ geocoder:
 
 # Enable access in robots.txt?
 robots: <%= ENV["DISABLE_ROBOTS"] == "true" ? "staging" : "production" %>
+
+# Defines domain for page URLs
+host: <%= ENV["CHAMPAIGN_PAGE_HOST"] %>

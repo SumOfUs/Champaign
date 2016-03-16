@@ -32,8 +32,9 @@ module Plugins::HasForm
 
   def create_form
     return if form.present? && !form.form_elements.empty?
+    locale = try(:page).try(:language).try(:code) || I18n.default_locale
     self.form = FormDuplicator.duplicate(
-      DefaultFormBuilder.create
+      DefaultFormBuilder.create(locale: locale)
     )
   end
 

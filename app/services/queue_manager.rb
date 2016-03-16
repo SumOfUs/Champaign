@@ -1,4 +1,6 @@
 class QueueManager
+  include Rails.application.routes.url_helpers
+
   attr_reader :page, :job_type
 
   def self.push(page, job_type:)
@@ -13,7 +15,10 @@ class QueueManager
   def push_to_queue
     case job_type
     when :update_pages
-      to_queue(petition_uri: page.ak_petition_resource_uri, donation_uri: page.ak_donation_resource_uri)
+      to_queue(
+        petition_uri: page.ak_petition_resource_uri,
+        donation_uri: page.ak_donation_resource_uri
+      )
     when :create
       to_queue
     else
@@ -42,7 +47,9 @@ class QueueManager
       name:     page.slug,
       title:    page.title,
       language: page.language.try(:actionkit_uri),
-      tags:     tags
+      tags:     tags,
+      url:      member_facing_page_url(page, host: Settings.host),
+      hosted_with_id: 2
     }
   end
 
