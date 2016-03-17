@@ -2,6 +2,7 @@
 
 /Twitter Meta Tags for proper behavior there
 - meta twitter: {card: 'summary_large_image', domain: 'http://sumofus.org', site: t('share.twitter_handle'), creator: t('share.twitter_handle'), title: @page.title, description: truncate(@page.content, length: 140), img: {src: @page.primary_image.try(:content).try(:url)}}
+- meta og: {site_name: 'SumOfUs', image:  @page.primary_image.try(:content).try(:url), title: @page.title, url: page_url(@page), description: truncate(@page.content, length: 260), type: 'website', article: {publisher: 'https://www.facebook.com/SumOfUs-181924628560212/'}, image: {width: '', height: ''}}
 = @rendered
 = render 'personalization', data: @data
 = render 'campaigner_overlay', page: @page
