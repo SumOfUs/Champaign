@@ -31,6 +31,8 @@ FactoryGirl.define do
         end
         # Make sure that the token described in customer.default_payment_method_token is a part of the customer's
         # newly generated braintree payment method tokens.
+
+        # TODO: Make this use a payment method token rather than a string
         tokens.last[:braintree_payment_method_token] = customer.default_payment_method_token
         tokens.map { |t| FactoryGirl.create(:braintree_payment_method_token, t) }
       end
