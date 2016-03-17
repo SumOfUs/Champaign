@@ -40,8 +40,8 @@ module Payment
 
     def initialize(bt_customer, bt_payment_method, member_id, existing_customer)
       @bt_customer = bt_customer
-      @bt_payment_method = Payment::BraintreePaymentMethodToken.find_or_create_by(
-          customer_id: @bt_customer.id,
+      @bt_payment_method = Payment::BraintreePaymentMethodToken.find_or_create_by!(
+          braintree_customer_id: @bt_customer.id,
           braintree_payment_method_token: bt_payment_method.token)
       @existing_customer = existing_customer
       @member_id = member_id
@@ -119,8 +119,10 @@ module Payment
       # it would be good to DRY this up and use CustomerBuilder, but we don't
       # have a Braintree::PaymentMethod to pass it :(
       if @existing_customer.present?
+        pp "@EXISTING_CUSTOMER IS PRESENT", @existing_customer, customer_attrs
         @existing_customer.update(customer_attrs)
       else
+        pp "CREATE CUSTOMER WITH", customer_attrs
         Payment::BraintreeCustomer.create(customer_attrs)
       end
     end
@@ -137,8 +139,10 @@ module Payment
         merchant_account_id:     transaction.merchant_account_id,
         processor_response_code: transaction.processor_response_code,
         currency:                transaction.currency_iso_code,
+        # We won't have customer_id unless we store the customer in vault
         customer_id:             transaction.customer_details.id,
         status:                  status,
+        # Payment method token should be changed to payment_method_token_id pointing to BraintreePaymentMethodTokens
         payment_method_token:    payment_method_token,
         page_id:                 @page_id
       }
@@ -154,7 +158,7 @@ module Payment
         cardholder_name:  card.cardholder_name,
         card_debit:       card.debit,
         card_last_4:      last_4,
-        default_payment_method_token: payment_method_token,
+        default_payment_method_token_id: @bt_payment_method.id,
         customer_id:      transaction.customer_details.id,
         email:            transaction.customer_details.email,
         member_id:        @member_id
