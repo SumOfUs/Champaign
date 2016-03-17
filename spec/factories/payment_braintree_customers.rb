@@ -5,7 +5,7 @@ FactoryGirl.define do
     cardholder_name { Faker::Name.name }
     card_debit "MyString"
     card_last_4 { Faker::Number.number(4) }
-    default_payment_method_token "MyString"
+    default_payment_method_token { FactoryGirl.build(:braintree_payment_method_token) }
     card_unique_number_identifier{ "cuni#{Faker::Number.number(6)}" }
     email { Faker::Internet.email }
     first_name "MyString"

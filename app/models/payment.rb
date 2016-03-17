@@ -40,7 +40,9 @@ module Payment
 
     def initialize(bt_customer, bt_payment_method, member_id, existing_customer)
       @bt_customer = bt_customer
-      @bt_payment_method = bt_payment_method
+      @bt_payment_method = Payment::BraintreePaymentMethodToken.find_or_create_by(
+          customer_id: @bt_customer.id,
+          braintree_payment_method_token: bt_payment_method.token)
       @existing_customer = existing_customer
       @member_id = member_id
     end
@@ -55,7 +57,7 @@ module Payment
 
     def customer_attrs
       card_attrs.merge({
-        default_payment_method_token: @bt_payment_method.token,
+        default_payment_method_token_id: @bt_payment_method.id,
         customer_id:      @bt_customer.id,
         member_id:        @member_id,
         email:            @bt_customer.email
