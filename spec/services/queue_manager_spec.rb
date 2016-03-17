@@ -13,7 +13,7 @@ describe QueueManager do
         language: page.language.actionkit_uri,
         tags: [],
         url: 'https://example.com/a/i-am-a-slug',
-        hosted_with_id: 2
+        hosted_with: '/rest/v1/hostingplatform/2/'
       }
     }
   end

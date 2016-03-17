@@ -49,7 +49,7 @@ class QueueManager
       language: page.language.try(:actionkit_uri),
       tags:     tags,
       url:      member_facing_page_url(page, host: Settings.host),
-      hosted_with_id: 2
+      hosted_with: '/rest/v1/hostingplatform/2/'
     }
   end
 
