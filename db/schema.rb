@@ -215,14 +215,14 @@ ActiveRecord::Schema.define(version: 20160314221437) do
     t.string   "cardholder_name"
     t.string   "card_debit"
     t.string   "card_last_4"
-    t.string   "default_payment_method_token"
+    t.string   "default_payment_method_token_id"
     t.string   "card_unique_number_identifier"
     t.string   "email"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "customer_id"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "member_id"
   end
 
