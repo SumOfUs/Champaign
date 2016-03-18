@@ -11,7 +11,9 @@ describe QueueManager do
         name: 'i-am-a-slug',
         title: 'boo',
         language: page.language.actionkit_uri,
-        tags: []
+        tags: [],
+        url: 'https://example.com/a/i-am-a-slug',
+        hosted_with: '/rest/v1/hostingplatform/2/'
       }
     }
   end

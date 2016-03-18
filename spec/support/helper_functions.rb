@@ -14,12 +14,9 @@ module HelperFunctions
     Tag.create!([
       {tag_name: '*Welcome_Sequence', actionkit_uri: '/rest/v1/tag/1000/'},
       {tag_name: '#Animal_Rights', actionkit_uri: '/rest/v1/tag/944/'},
-      {tag_name: '!French', actionkit_uri: '/rest/v1/tag/1130/'},
-      {tag_name: '!German', actionkit_uri: '/rest/v1/tag/1132/'},
       {tag_name: '#Net_Neutrality', actionkit_uri: '/rest/v1/tag/1078/'},
       {tag_name: '*FYI_and_VIP', actionkit_uri: '/rest/v1/tag/980/'},
       {tag_name: '@Germany', actionkit_uri: '/rest/v1/tag/1036/'},
-      {tag_name: '!English', actionkit_uri: '/rest/v1/tag/1282/'},
       {tag_name: '@NewZealand', actionkit_uri: '/rest/v1/tag/1140/'},
       {tag_name: '@France', actionkit_uri: '/rest/v1/tag/1128/'},
       {tag_name: '#Sexism', actionkit_uri: '/rest/v1/tag/1208/'},
