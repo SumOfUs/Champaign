@@ -16,7 +16,7 @@
         description: truncate(strip_tags(CGI.unescapeHTML(@page.content)), length: 260),
         type: 'website',
         article: {publisher: 'https://www.facebook.com/SumOfUs-181924628560212/'},
-        image: {width: '', height: ''}}
+        image: {width: '1200', height: '630', url: @page.primary_image.try(:content).try(:url)}}
 
 = @rendered
 = render 'personalization', data: @data
