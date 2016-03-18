@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
+
+  devise_for :members
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
 

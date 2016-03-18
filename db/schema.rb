@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311123938) do
+ActiveRecord::Schema.define(version: 20160316194728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 20160311123938) do
   end
 
   create_table "members", force: :cascade do |t|
-    t.string   "email"
+    t.string   "email",                  default: "", null: false
     t.string   "country"
     t.string   "first_name"
     t.string   "last_name"
@@ -168,13 +168,28 @@ ActiveRecord::Schema.define(version: 20160311123938) do
     t.string   "title"
     t.string   "address1"
     t.string   "address2"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "actionkit_user_id"
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
   end
 
   add_index "members", ["actionkit_user_id"], name: "index_members_on_actionkit_user_id", using: :btree
+  add_index "members", ["confirmation_token"], name: "index_members_on_confirmation_token", unique: true, using: :btree
   add_index "members", ["email"], name: "index_members_on_email", using: :btree
+  add_index "members", ["reset_password_token"], name: "index_members_on_reset_password_token", unique: true, using: :btree
 
   create_table "pages", force: :cascade do |t|
     t.integer  "language_id"
@@ -184,11 +199,11 @@ ActiveRecord::Schema.define(version: 20160311123938) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "compiled_html"
-    t.string   "status",                     default: "pending"
-    t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
     t.boolean  "active",                     default: false
+    t.string   "status",                     default: "pending"
+    t.text     "messages"
     t.integer  "liquid_layout_id"
     t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
