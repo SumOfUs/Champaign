@@ -21,7 +21,6 @@ class CountriesExtension
     sx: "Sint Maarten",
     sy: "Syria",
     tz: "Tanzania",
-    us: "United States of America",
     ve: "Venezuela",
     va: "Vatican",
     vg: "British Virgin Islands",

@@ -17,7 +17,7 @@ module ActionQueue
     end
 
     def country(iso_code)
-      ( ISO3166::Country.search(iso_code).try(:translations) || {} ).fetch('en')
+      ( ISO3166::Country.search(iso_code).try(:translations) || {} )['en']
     end
 
     def member
