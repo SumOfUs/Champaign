@@ -27,7 +27,7 @@ describe FormElement do
 
       it 'prefixes custom names' do
         expect(
-          FormElement.create(label: 'My label!', form: form, name: 'foo_bar').name
+          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'email').name
         ).to eq('action_foo_bar')
       end
 
@@ -37,6 +37,9 @@ describe FormElement do
         ).to eq('action_box_foo_bar')
         expect(
             FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'paragraph').name
+        ).to eq('action_textentry_foo_bar')
+        expect(
+            FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'text').name
         ).to eq('action_textentry_foo_bar')
       end
 
