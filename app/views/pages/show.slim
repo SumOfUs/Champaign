@@ -6,14 +6,14 @@
         site: t('share.twitter_handle'),
         creator: t('share.twitter_handle'),
         title: @page.title,
-        description: sanitize(truncate(@page.content, length: 140)),
+        description: truncate(strip_tags(CGI.unescapeHTML(@page.content)), length: 140),
         img: {src: @page.primary_image.try(:content).try(:url)}}
 
 /Facebook Meta Tags for proper behavior there, too
 - meta og: { site_name: 'SumOfUs',
         image:  @page.primary_image.try(:content).try(:url),
         title: @page.title, url: page_url(@page),
-        description: sanitize(truncate(@page.content, length: 260)),
+        description: truncate(strip_tags(CGI.unescapeHTML(@page.content)), length: 260),
         type: 'website',
         article: {publisher: 'https://www.facebook.com/SumOfUs-181924628560212/'},
         image: {width: '', height: ''}}
