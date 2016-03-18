@@ -4,7 +4,21 @@ Rails.application.routes.draw do
 
   devise_for :members
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
+  devise_for :users, path_names: { sign_up: ''}
+
+  get "/auth/:provider", to: 'authentications#passthru', as: 'omniauth_authorize'
+
+  devise_scope :user do
+    get "/users/auth/:provider", to: 'authentications#user_passthru', as: 'user_omniauth_authorize'
+    # devise requires these be scoped to :user or :member in routes.rb, but we just override 
+    # the value of request.env["devise.mapping"] in the controller action
+    get "/auth/:action/callback", controller: "authentications", constraints: { action: /google_oauth2/ }
+    post "/auth/:action/callback", controller: "authentications", constraints: { action: /google_oauth2/ }
+  end
+
+  devise_scope :member do
+    get "/members/auth/:provider", to: 'authentications#member_passthru', as: 'member_omniauth_authorize'
+  end
 
   root 'pages#index'
 
