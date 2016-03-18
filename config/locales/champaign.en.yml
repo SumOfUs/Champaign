@@ -70,6 +70,11 @@ en:
     shares:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
+      shares: "The number of people that shared this version"
+      successful_shares: "The number of the shares that got at least one person to take action"
+      conversion_rate: "The percentage of the shares that got at least one person to take action"
+      traffic_allocation: "As one share starts to win, more traffic will be automatically directed to that share. This shows current traffic allocation between different shares."
+      winner: "If a share performs better than the others with statistical significance, it is declared the winner."
     thermometer_offset: "Number of fake signatures to add to true count"
     fundraiser:
       donation_band: "This determines the amounts displayed on the page to an unknown user without any information in their URL. Generally, you will want to stick with an option designed for non-donors."
