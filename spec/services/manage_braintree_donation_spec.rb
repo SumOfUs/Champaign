@@ -40,7 +40,7 @@ describe ManageBraintreeDonation do
   let(:page) { create(:page, slug: 'foo-bar') }
 
   let(:params) do
-    { page_id: page.id, country: 'Bolivia', email: 'foo@example.com', name: 'Bob Murphy' }
+    { page_id: page.id, country: 'BO', email: 'foo@example.com', name: 'Bob Murphy' }
   end
 
   subject {
@@ -68,7 +68,7 @@ describe ManageBraintreeDonation do
       {
         name:    "Bob Murphy",
         email:   "foo@example.com",
-        country: "Bolivia",
+        country: "BO",
         page_id:  page.id,
         card_num: "1881",
         currency: /^\w{3}$/,

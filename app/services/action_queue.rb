@@ -17,33 +17,7 @@ module ActionQueue
     end
 
     def country(iso_code)
-      # ActionKit uses some country names which don't match up to their official
-      # ISO names. So, we need to do some replacement on those names.
-      names_to_replace = {
-          "Bolivia, Plurinational State of" => 'Bolivia',
-          "Iran, Islamic Republic Of" => 'Iran',
-          "Korea, Republic of" => 'South Korea',
-          "Korea, Democratic People's Republic Of" => 'North Korea',
-          "Lao People's Democratic Republic" => 'Laos',
-          "Macao" => 'Macau',
-          "Macedonia, the Former Yugoslav Republic Of" => 'Macedonia',
-          "Micronesia, Federated States Of" => 'Micronesia',
-          "Moldova, Republic of" => 'Moldova',
-          "Palestine, State of" => 'Palestine',
-          "Russian Federation" => 'Russia',
-          "Saint Martin (French part)" => 'Saint Martin',
-          "Sint Maarten (Dutch part)" => 'Sint Maarten',
-          "Syrian Arab Republic" => 'Syria',
-          "Tanzania, United Republic of" => 'Tanzania',
-          "Venezuela, Bolivarian Republic of" => 'Venezuela'
-      }
-
-      country_name = ISO3166::Country.find_country_by_alpha2(iso_code).try(:name)
-      if names_to_replace.has_key?(country_name)
-        country_name = names_to_replace[country_name]
-      end
-
-      country_name
+      ( ISO3166::Country.search(iso_code).try(:translations) || {} )['en']
     end
 
     def member

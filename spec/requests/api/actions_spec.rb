@@ -58,127 +58,22 @@ describe "Api Actions" do
 
     describe 'country' do
       before do
-        message_body[:params][:country] = 'United States'
-        params[:country] = 'US'
+        params[:country] = 'FR'
         post "/api/pages/#{page.id}/actions", params
       end
 
       it 'posts full country name to queue' do
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("United States"))
+        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("France"))
       end
     end
 
     describe 'edge case country names' do
-      it 'successfully posts Bolivia to the queue' do
-        message_body[:params][:country] = 'Bolivia'
-        params[:country] = 'BO'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Bolivia'))
-      end
-
-      it 'successfully posts Iran to the queue' do
-        message_body[:params][:country] = 'Iran'
-        params[:country] = 'IR'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Iran'))
-      end
-
-      it 'successfully posts South Korea to the queue' do
-        message_body[:params][:country] = 'South Korea'
-        params[:country] = 'KR'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('South Korea'))
-      end
-
-      it 'successfully posts North Korea to the queue' do
-        message_body[:params][:country] = 'North Korea'
-        params[:country] = 'KP'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('North Korea'))
-      end
-
-      it 'successfully posts Laos to the queue' do
-        message_body[:params][:country] = 'Laos'
-        params[:country] = 'LA'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Laos'))
-      end
-
-      it 'successfully posts Macau to the queue' do
-        message_body[:params][:country] = 'Macau'
-        params[:country] = 'MO'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Macau'))
-      end
-
-      it 'successfully posts Macedonia to the queue' do
-        message_body[:params][:country] = 'Macedonia'
-        params[:country] = 'MK'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Macedonia'))
-      end
-
-      it 'successfully posts Micronesia to the queue' do
-        message_body[:params][:country] = 'Micronesia'
-        params[:country] = 'FM'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Micronesia'))
-      end
-
-      it 'successfully posts Moldova to the queue' do
-        message_body[:params][:country] = 'Moldova'
-        params[:country] = 'MD'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Moldova'))
-      end
-
-      it 'successfully posts Palestine to the queue' do
-        message_body[:params][:country] = 'Palestine'
-        params[:country] = 'PS'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Palestine'))
-      end
-
-      it 'successfully posts Russia to the queue' do
-        message_body[:params][:country] = 'Russia'
-        params[:country] = 'RU'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Russia'))
-      end
-
-      it 'successfully posts Saint Martin to the queue' do
-        message_body[:params][:country] = 'Saint Martin'
-        params[:country] = 'MF'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Saint Martin'))
-      end
-
-      it 'successfully posts Sint Maarten to the queue' do
-        message_body[:params][:country] = 'Sint Maarten'
-        params[:country] = 'SX'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Sint Maarten'))
-      end
-
-      it 'successfully posts Syria to the queue' do
-        message_body[:params][:country] = 'Syria'
-        params[:country] = 'SY'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Syria'))
-      end
-
-      it 'successfully posts Tanzania to the queue' do
-        message_body[:params][:country] = 'Tanzania'
-        params[:country] = 'TZ'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Tanzania'))
-      end
-
-      it 'successfully posts Venezuela to the queue' do
-        message_body[:params][:country] = 'Venezuela'
-        params[:country] = 'VE'
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as('Venezuela'))
+      CountriesExtension::COUNTRIES.each do |code, name|
+        it "successfully posts #{name}" do
+          params[:country] = code.upcase
+          post "/api/pages/#{page.id}/actions", params
+          expect(sqs_client).to have_received(:send_message).with(country_field_set_as(name))
+        end
       end
     end
 
