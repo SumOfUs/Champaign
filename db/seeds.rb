@@ -82,9 +82,9 @@ all_tags = [
     {name: 'BexS', actionkit_uri: '/rest/v1/tag/1388/'},
     {name: 'MichaelS', actionkit_uri: '/rest/v1/tag/1160/'},
     {name: 'DeborahL', actionkit_uri: '/rest/v1/tag/1661/'},
-    {name: 'KatieF', actionkit_uri: '/rest/v1/tag/1662/'}
-    {name: 'ChristianB', actionkit_uri: '/rest/v1/tag/1383/'}
-    {name: 'OliverD', actionkit_uri: '/rest/v1/tag/1384/'}
+    {name: 'KatieF', actionkit_uri: '/rest/v1/tag/1662/'},
+    {name: 'ChristianB', actionkit_uri: '/rest/v1/tag/1383/'},
+    {name: 'OliverD', actionkit_uri: '/rest/v1/tag/1384/'},
     {name: 'MarieL', actionkit_uri: '/rest/v1/tag/1250/'}
 ]
 all_tags.each do |tag|
