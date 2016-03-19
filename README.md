@@ -1,6 +1,8 @@
 # Champaign
 
-Champaign is a digital campaigning platform built by SumOfUs. It is now production ready in its most minimal form! If you're interested in collaborating on the project with us, have ideas or recommendations, please get in touch. 
+[![Circle CI](https://circleci.com/gh/SumOfUs/Champaign/tree/master.svg?style=shield)](https://circleci.com/gh/SumOfUs/Champaign/tree/master) [![Coverage Status](https://coveralls.io/repos/github/SumOfUs/Champaign/badge.svg?branch=master)](https://coveralls.io/github/SumOfUs/Champaign?branch=master)
+
+Champaign is a digital campaigning platform built by SumOfUs. It is now production ready and we are in the process of migrating all our campaigning operations from ActionSweet to Champaign. If you're interested in collaborating on the project with us, or have ideas or recommendations, please get in touch!
 
 ## Installation
 

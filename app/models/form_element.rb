@@ -30,7 +30,13 @@ class FormElement < ActiveRecord::Base
   def set_name
     unless name.blank? || ActionKitFields::ACTIONKIT_FIELDS_WHITELIST.include?(name)
       if !(name =~ ActionKitFields::VALID_PREFIX_RE) && !(name =~ /^(action_)+$/)
-        self.name = "action_#{name}"
+        if data_type == 'paragraph' || data_type == 'text'
+          self.name = "action_textentry_#{name}"
+        elsif data_type == 'checkbox'
+          self.name = "action_box_#{name}"
+        else
+          self.name = "action_#{name}"
+        end
       end
     end
   end
