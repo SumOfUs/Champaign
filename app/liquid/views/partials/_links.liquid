@@ -8,7 +8,24 @@
       {{ link.source }}.
     {% endunless %}
     {% unless link.date == blank %}
-      {{ link.date | date: "%-d %B, %Y" }}.
+      {{ link.date | date: "%-d" }}
+      {% comment %} i18n of the month {% endcomment %}
+      {% assign m = link.date | date: "%-m" %}
+        {% case m %}
+          {% when '1' %}{{ 'links.january' | t }}
+          {% when '2' %}{{ 'links.february' | t }}
+          {% when '3' %}{{ 'links.march' | t }}
+          {% when '4' %}{{ 'links.april' | t }}
+          {% when '5' %}{{ 'links.may' | t }}
+          {% when '6' %}{{ 'links.june' | t }}
+          {% when '7' %}{{ 'links.july' | t }}
+          {% when '8' %}{{ 'links.august' | t }}
+          {% when '9' %}{{ 'links.september' | t }}
+          {% when '10' %}{{ 'links.october' | t }}
+          {% when '11' %}{{ 'links.november' | t }}
+          {% when '12' %}{{ 'links.december' | t }}
+        {% endcase %}
+      {{ link.date | date: "%Y" }}.
     {% endunless %}
   </div>
 {% endfor %}  
