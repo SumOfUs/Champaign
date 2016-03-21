@@ -81,3 +81,8 @@ fr:
     is_invalid_phone: 'peut uniquement comprendre des chiffres, tirets, plus, et des parenthèses'
     is_invalid_country: doit comprendre un code pays valide
     is_invalid_length: 'doit contenir moins de %{length} caractères'
+  footer:
+    home: Accueil
+    about: Nous Connaitre
+    privacy_policy: Mentions Légales
+    contact: Contact

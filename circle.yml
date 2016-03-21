@@ -39,7 +39,7 @@ deployment:
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
   testing:
     # Change the branch value to your branch name to push up your branch to the testing server automatically.
-    branch: twitter-meta
+    branch: page-updates
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web

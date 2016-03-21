@@ -81,3 +81,8 @@ de:
     is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
     is_invalid_country: muss eine gültige Ländervorwahl sein
     is_invalid_length: 'darf maximal %{length} Zeichen enthalten'
+  footer:
+    home: Start
+    about: Über Uns
+    privacy_policy: Datenschutz
+    contact: Kontakt (Impressum)
