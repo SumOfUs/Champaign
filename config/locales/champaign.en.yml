@@ -87,8 +87,8 @@ en:
     add_source: "Only URL and Title are required. These appear as citations at the bottom of the page."
     form_elements:
       data_type: 'This changes what user inputs the field will accept'
-      label: 'This is the label of the field presented to the petition signer.'
-      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own. AK's 'action_' prefix will be added automatically if you don't include it."
+      label: 'This is the label of the field presented to the signer.'
+      name: "The field name to be stored in ActionKit. Select a standard AK field from the suggestions, or enter your own. If entering your own, add _customer or _shareholder to company names, or _other for others. Examples: apple_customer, shell_shareholder, journalist_other"
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
