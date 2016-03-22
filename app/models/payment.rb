@@ -51,10 +51,12 @@ module Payment
       else
         @existing_customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
-      @existing_customer.default_payment_method_token = Payment::BraintreePaymentMethodToken.find_or_create_by!(
+      new_token = Payment::BraintreePaymentMethodToken.find_or_create_by!(
           braintree_customer_id: @existing_customer.id,
           braintree_payment_method_token: @bt_payment_method.token
       )
+      @existing_customer.default_payment_method_token = new_token
+      @existing_customer.save
     end
 
     def customer_attrs

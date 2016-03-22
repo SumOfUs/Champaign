@@ -5,7 +5,7 @@ FactoryGirl.define do
     cardholder_name { Faker::Name.name }
     card_debit "MyString"
     card_last_4 { Faker::Number.number(4) }
-    default_payment_method_token { FactoryGirl.build(:braintree_payment_method_token) }
+    default_payment_method_token nil
     card_unique_number_identifier{ "cuni#{Faker::Number.number(6)}" }
     email { Faker::Internet.email }
     first_name "MyString"
@@ -23,9 +23,9 @@ FactoryGirl.define do
       # evaluator, which stores all values from the factory, including transient
       after(:create) do |customer, evaluator|
         tokens = []
-        evaluator.payment_methods.times do |p|
+        evaluator.payment_methods.times do |i|
           tokens.push({
-                          braintree_payment_method_token: Faker::Lorem.word,
+                          braintree_payment_method_token: Faker::Lorem.characters(i+4),
                           braintree_customer_id: customer.id
                       })
         end
