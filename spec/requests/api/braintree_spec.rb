@@ -836,7 +836,7 @@ describe "Braintree API" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
-              expect(customer.default_payment_method_token).to match a_string_matching(token_format)
+              expect(customer.default_payment_method_token.braintree_payment_method_token).to match a_string_matching(token_format)
               expect( customer.email ).to eq user_params[:email]
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
@@ -952,7 +952,6 @@ describe "Braintree API" do
             end
 
             it "creates a Payment::BraintreeCustomer with customer_id and PYPL for last 4" do
-              byebug
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
@@ -1045,6 +1044,47 @@ describe "Braintree API" do
           end
         end
       end
+
+      context "storing multiple payment method tokens" do
+
+        let(:basic_params) do
+          {
+              currency: 'EUR',
+              payment_method_nonce: 'fake-valid-nonce',
+              # amount: amount, # should override for each casette to avoid duplicates
+              recurring: false
+          }
+        end
+
+        let(:params) { basic_params.merge(user: user_params, amount: 5) }
+
+        subject do
+          VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
+            post api_braintree_transaction_path(page.id), params
+          end
+        end
+
+        let!(:member) { create :member, email: user_params[:email], postal: nil }
+        let!(:customer) {
+          create :payment_braintree_customer, :with_payment_method_tokens,
+                 member: member,
+                 customer_id: 'new id string',
+                 card_last_4: '4843',
+                 payment_methods: 3
+        }
+        it "supports storing multiple braintree payment method tokens" do
+          original_token = customer.default_payment_method_token
+          expect( customer.braintree_payment_method_tokens.length ).to eq 3
+          expect( customer.braintree_payment_method_tokens ).to include(original_token)
+          expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+          expect{ subject }.to change{ customer.braintree_payment_method_tokens.length }.by 1
+          customer.reload
+          expect( customer.default_payment_method_token ).not_to eq original_token
+          expect( customer.braintree_payment_method_tokens ).to include(original_token, customer.default_payment_method_token)
+
+        end
+      end
+
     end
   end
 
@@ -1060,25 +1100,5 @@ describe "Braintree API" do
     end
   end
 
-  describe "storing multiple payment method tokens" do
-    let!(:member) { create :member, email: user_params[:email], postal: nil }
-    let!(:customer) {
-      create :payment_braintree_customer, :with_payment_method_tokens,
-             member: member,
-             customer_id: 'test',
-             card_last_4: '4843',
-             payment_methods: 3
-    }
-    it "supports storing multiple braintree payment method tokens" do
-      original_token = customer.default_payment_method_token
-      expect( customer.braintree_payment_method_tokens.length ).to eq 3
-      expect( customer.braintree_payment_method_tokens ).to include(original_token)
-      # expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-      # customer.reload
-      # expect( customer.default_payment_method_token ).not_to eq original_token
-      # expect( customer.braintree_payment_method_tokens ).to include(original_token, customer.default_payment_method_token)
-
-    end
-  end
 end
 
