@@ -46,17 +46,19 @@ module Payment
     end
 
     def build
-      pp "@bt_payment_method", @bt_payment_method
       if @existing_customer.present?
         @existing_customer.update(customer_attrs)
       else
-        Payment::BraintreeCustomer.create(customer_attrs)
+        @existing_customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
+      @existing_customer.default_payment_method_token = Payment::BraintreePaymentMethodToken.find_or_create_by!(
+          braintree_customer_id: @existing_customer.id,
+          braintree_payment_method_token: @bt_payment_method.token
+      )
     end
 
     def customer_attrs
       card_attrs.merge({
-        default_payment_method_token_id: @bt_payment_method.id,
         customer_id:      @bt_customer.id,
         member_id:        @member_id,
         email:            @bt_customer.email
@@ -106,10 +108,10 @@ module Payment
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
+      @existing_customer = Payment::BraintreeCustomer.find_or_create_by!(member_id: @member_id)
       @bt_payment_method = Payment::BraintreePaymentMethodToken.find_or_create_by!(
-          braintree_customer_id: transaction.customer_details.id,
+          braintree_customer_id: @existing_customer.id,
           braintree_payment_method_token: payment_method_token)
-      @existing_customer = existing_customer
       @save_customer = save_customer
     end
 
@@ -117,14 +119,7 @@ module Payment
       return unless transaction.present?
       ::Payment::BraintreeTransaction.create(transaction_attrs)
       return unless successful? && @save_customer
-
-      # it would be good to DRY this up and use CustomerBuilder, but we don't
-      # have a Braintree::PaymentMethod to pass it :(
-      if @existing_customer.present?
-        @existing_customer.update(customer_attrs)
-      else
-        Payment::BraintreeCustomer.create(customer_attrs)
-      end
+      @existing_customer.update(customer_attrs)
     end
 
     private
