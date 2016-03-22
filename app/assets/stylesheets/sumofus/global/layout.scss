@@ -10,7 +10,7 @@ html {
   @include centered-to-full(1080px);
 
   &--accomodates-stuck-footer {
-    margin-bottom: 100px;
+    margin-bottom: 150px;
   }
   &__fixed-right {
     position: fixed;
