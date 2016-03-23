@@ -26,7 +26,7 @@ FactoryGirl.define do
         evaluator.payment_methods.times do |i|
           tokens.push({
                           braintree_payment_method_token: Faker::Lorem.characters(i+4),
-                          braintree_customer_id: customer.id
+                          payment_braintree_customer_id: customer.id
                       })
         end
         # Make sure that the token described in customer.default_payment_method_token is a part of the customer's
