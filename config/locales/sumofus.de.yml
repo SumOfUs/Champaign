@@ -88,5 +88,5 @@ de:
     contact: Kontakt (Impressum)
   time:
     formats:
-      default: "%-d %B, %Y"
+      default: "%-d. %B %Y"
 
