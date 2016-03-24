@@ -52,7 +52,7 @@ module Payment
         @existing_customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
       new_token = Payment::BraintreePaymentMethodToken.find_or_create_by!(
-          payment_braintree_customer_id: @existing_customer.id,
+          customer_id: @existing_customer.customer_id,
           braintree_payment_method_token: @bt_payment_method.token
       )
       @existing_customer.default_payment_method_token = new_token
@@ -110,9 +110,11 @@ module Payment
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
-      @existing_customer = Payment::BraintreeCustomer.find_or_create_by!(member_id: @member_id)
+      @existing_customer = Payment::BraintreeCustomer.find_or_create_by!(
+          member_id: @member_id,
+          customer_id: transaction.customer_details.id)
       @bt_payment_method = Payment::BraintreePaymentMethodToken.find_or_create_by!(
-          payment_braintree_customer_id: @existing_customer.id,
+          customer_id: @existing_customer.customer_id,
           braintree_payment_method_token: payment_method_token)
       @save_customer = save_customer
     end

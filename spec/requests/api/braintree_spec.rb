@@ -1045,77 +1045,74 @@ describe "Braintree API" do
           end
         end
       end
+    end
+  end
 
-      context "storing multiple payment method tokens" do
+  describe "storing multiple payment method tokens" do
 
-        context "existing customer" do
-          let(:basic_params) do
-            {
-                currency: 'EUR',
-                payment_method_nonce: 'fake-valid-mastercard-nonce',
-                recurring: false
-            }
-          end
+    context "existing customer" do
+      let(:basic_params) do
+        {
+            currency: 'EUR',
+            payment_method_nonce: 'fake-valid-mastercard-nonce',
+            recurring: false
+        }
+      end
 
-          let(:params) { basic_params.merge(user: user_params, amount: 5) }
+      let(:params) { basic_params.merge(user: user_params, amount: 5) }
 
-          subject do
-            VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
-              post api_braintree_transaction_path(page.id), params
-            end
-          end
-
-          let!(:member) { create :member, email: user_params[:email], postal: nil }
-          let!(:customer) {
-            create :payment_braintree_customer, :with_payment_method_tokens,
-                   member: member,
-                   customer_id: 'test',
-                   card_last_4: '4843',
-                   payment_methods: 3
-          }
-          it "supports storing multiple braintree payment method tokens" do
-            original_token = customer.default_payment_method_token
-            expect( customer.braintree_payment_method_tokens.length ).to eq 3
-            expect( customer.braintree_payment_method_tokens ).to include(original_token)
-            expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-            customer.reload
-            expect( customer.braintree_payment_method_tokens.length ).to eq 4
-            expect( customer.default_payment_method_token ).not_to eq original_token
-            expect( customer.braintree_payment_method_tokens ).to include(original_token, customer.default_payment_method_token)
-          end
-
-          it "does not duplicate payment method token if the same token is used" do
-            original_token = customer.default_payment_method_token
-            expect( customer.braintree_payment_method_tokens.length ).to eq 3
-            expect( customer.braintree_payment_method_tokens ).to include(original_token)
-            expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
-            customer.reload
-            expect( customer.braintree_payment_method_tokens.length ).to eq 4
-            expect( customer.default_payment_method_token ).not_to eq original_token
-            expect( customer.braintree_payment_method_tokens ).to include(original_token, customer.default_payment_method_token)
-            new_token = customer.default_payment_method_token
-            VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens_second_request") do
-              post api_braintree_transaction_path(page.id), params
-            end
-            customer.reload
-            # THIS FAILS - If the customer uses the same nonce again, a new token gets created in the vault - we have
-            # no functionality for using the existing token right now.
-            expect( customer.braintree_payment_method_tokens.length ).to eq 4
-            expect( customer.default_payment_method_token ).to eq new_token
-            expect( Payment::BraintreeTransaction.where(payment_method_token_id: new_token.id).length ).to eq 2
-          end
+      subject do
+        VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
+          post api_braintree_transaction_path(page.id), params
         end
+      end
 
-        context "new customer" do
-          let(:params) { basic_params.merge(user: user_params, amount: amount) }
-          subject do
-            VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
-              post api_braintree_transaction_path(page.id), params
-            end
-          end
+      let!(:member) { create :member, email: user_params[:email], postal: nil }
+      let!(:customer) {
+        create :payment_braintree_customer, :with_payment_method_tokens,
+               member: member,
+               customer_id: 'test',
+               card_last_4: '4843',
+               payment_methods: 3
+      }
+      it "supports storing multiple braintree payment method tokens" do
+        original_token = customer.default_payment_method_token
+        expect( customer.braintree_payment_method_tokens.length ).to eq 3
+        expect( customer.braintree_payment_method_tokens ).to include(original_token)
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+        customer.reload
+        expect( customer.braintree_payment_method_tokens.length ).to eq 4
+        expect( customer.default_payment_method_token ).not_to eq original_token
+        expect( customer.braintree_payment_method_tokens ).to include(original_token, customer.default_payment_method_token)
+      end
 
-          it "creates "
+      it "does not duplicate payment method token if the same token is used" do
+        original_token = customer.default_payment_method_token
+        expect( customer.braintree_payment_method_tokens.length ).to eq 3
+        expect( customer.braintree_payment_method_tokens ).to include(original_token)
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+        customer.reload
+        expect( customer.braintree_payment_method_tokens.length ).to eq 4
+        expect( customer.default_payment_method_token ).not_to eq original_token
+        expect( customer.braintree_payment_method_tokens ).to include(original_token, customer.default_payment_method_token)
+        new_token = customer.default_payment_method_token
+        VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens_second_request") do
+          post api_braintree_transaction_path(page.id), params
+        end
+        customer.reload
+        # THIS FAILS - If the customer uses the same nonce again, a new token gets created in the vault - we have
+        # no functionality for using the existing token right now.
+        expect( customer.braintree_payment_method_tokens.length ).to eq 4
+        expect( customer.default_payment_method_token ).to eq new_token
+        expect( Payment::BraintreeTransaction.where(payment_method_token_id: new_token.id).length ).to eq 2
+      end
+    end
 
+    context "new customer" do
+      let(:params) { basic_params.merge(user: user_params, amount: amount) }
+      subject do
+        VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
+          post api_braintree_transaction_path(page.id), params
         end
       end
 
