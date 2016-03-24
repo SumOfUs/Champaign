@@ -113,9 +113,9 @@ describe LiquidI18n do
     end
 
     {
-      en: "1 December, 2016",
-      fr: "1 décembre, 2016",
-      de: "1 Dezember, 2016"
+      en: "1 December 2016",
+      fr: "1 décembre 2016",
+      de: "1. Dezember 2016"
     }.each do |locale, translation|
       it "localises date for #{locale}" do
         I18n.locale = locale
