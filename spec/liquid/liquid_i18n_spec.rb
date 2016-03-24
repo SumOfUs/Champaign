@@ -105,5 +105,26 @@ describe LiquidI18n do
       expect(subject.val(subject.val('rebel-bass', 'king', 'pin'), 'time', 'flies')).to eq "rebel-bass, king: pin, time: flies"
     end
   end
+
+
+  describe '#date_for_link' do
+    after(:all) do
+      I18n.locale = I18n.default_locale
+    end
+
+    {
+      en: "1 December, 2016",
+      fr: "1 décembre, 2016",
+      de: "1 Dezember, 2016"
+    }.each do |locale, translation|
+      it "localises date for #{locale}" do
+        I18n.locale = locale
+
+        expect(
+          subject.i18n_date('2016-12-01')
+        ).to eq(translation)
+      end
+    end
+  end
 end
 

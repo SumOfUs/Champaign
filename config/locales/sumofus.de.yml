@@ -86,16 +86,7 @@ de:
     about: Über Uns
     privacy_policy: Datenschutz
     contact: Kontakt (Impressum)
-  links:
-    january: Januar
-    february: Februar
-    march: März
-    april: April
-    may: Mai
-    june: Juni
-    july: Juli
-    august: August
-    september: September
-    october: Oktober
-    november: November
-    december: Dezember
+  time:
+    formats:
+      default: "%-d %B, %Y"
+

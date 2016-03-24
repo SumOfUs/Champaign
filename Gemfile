@@ -40,6 +40,7 @@ gem 'slim-rails'
 gem 'liquid'
 gem 'remotipart', '~> 1.2'
 gem "i18n-js", ">= 3.0.0.rc12"
+gem 'rails-i18n', '~> 4.0.0'
 
 # Use Devise for Authentication
 gem 'devise'

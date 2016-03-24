@@ -86,16 +86,8 @@ fr:
     about: Nous Connaitre
     privacy_policy: Mentions Légales
     contact: Contact
-  links:
-    january: janvier
-    february: février
-    march: mars
-    april: avril
-    may: mai
-    june: juin
-    july: juillet
-    august: août
-    september: septembre
-    october: octobre
-    november: novembre
-    december: décembre
+  time:
+    formats:
+      default: "%-d %B, %Y"
+
+
