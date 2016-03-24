@@ -48,7 +48,7 @@ en:
     target_prefix: TO
     confirmation: Name submitted
     excited_confirmation: Name submitted!
-    thank_you: 'Thanks for adding your name to "%{petition_title}"!'
+    thank_you: 'Thanks for adding your name to "%{petition_title}"'
     fine_print: "SumOfUs will protect %{privacy_link}, and keep you updated about this and similar campaigns."
     privacy_link: your privacy
   form:
@@ -86,4 +86,7 @@ en:
     about: About
     privacy_policy: Privacy Policy
     contact: Contact
+  time:
+    formats:
+      default: "%-d %B %Y"
 
