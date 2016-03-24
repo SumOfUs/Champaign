@@ -88,5 +88,5 @@ en:
     contact: Contact
   time:
     formats:
-      default: "%-d %B, %Y"
+      default: "%-d %B %Y"
 
