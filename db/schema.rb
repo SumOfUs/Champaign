@@ -229,7 +229,7 @@ ActiveRecord::Schema.define(version: 20160322224507) do
   add_index "payment_braintree_customers", ["member_id"], name: "index_payment_braintree_customers_on_member_id", using: :btree
 
   create_table "payment_braintree_payment_method_tokens", force: :cascade do |t|
-    t.integer  "payment_braintree_customer_id"
+    t.string   "customer_id"
     t.string   "braintree_payment_method_token"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false

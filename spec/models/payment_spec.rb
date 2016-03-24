@@ -57,7 +57,7 @@ describe Payment do
   describe '.write_customer' do
 
     let(:bt_customer) { instance_double('Braintree::Customer', id: 'fuds7', email: 'skeebadee@boop.beep' )}
-    let(:member_id){ 3 }
+    let!(:member) { create :member, id: 3 }
 
     before :each do
       allow(Payment::BraintreeCustomer).to receive(:create)
@@ -77,23 +77,23 @@ describe Payment do
           unique_number_identifier: 'fsdjk',
         )
       end
+
       let(:expected_params) do
         {
           customer_id:      bt_customer.id,
-          member_id:        member_id,
-          default_payment_method_token: bt_payment_method.token,
+          member_id:        member.id,
+          email:            bt_customer.email,
           card_type:        bt_payment_method.card_type,
           card_bin:         bt_payment_method.bin,
           cardholder_name:  bt_payment_method.cardholder_name,
           card_debit:       bt_payment_method.debit,
           card_last_4:      bt_payment_method.last_4,
-          email:            bt_customer.email,
           card_unique_number_identifier: bt_payment_method.unique_number_identifier,
         }
       end
 
       it 'writes the correct attributes if no existing customer' do
-        Payment.write_customer(bt_customer, bt_payment_method, member_id, nil)
+        Payment.write_customer(bt_customer, bt_payment_method, member.id, nil)
         expect(Payment::BraintreeCustomer).to have_received(:create).with(expected_params)
       end
 
