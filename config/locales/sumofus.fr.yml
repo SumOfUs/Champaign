@@ -86,3 +86,8 @@ fr:
     about: Nous Connaitre
     privacy_policy: Mentions Légales
     contact: Contact
+  time:
+    formats:
+      default: "%-d %B %Y"
+
+

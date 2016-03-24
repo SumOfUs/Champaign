@@ -86,4 +86,7 @@ en:
     about: About
     privacy_policy: Privacy Policy
     contact: Contact
+  time:
+    formats:
+      default: "%-d %B %Y"
 

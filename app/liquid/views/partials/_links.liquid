@@ -8,7 +8,8 @@
       {{ link.source }}.
     {% endunless %}
     {% unless link.date == blank %}
-      {{ link.date | date: "%-d %B, %Y" }}.
+      {{ link.date | i18n_date }}.
     {% endunless %}
   </div>
-{% endfor %}  
+{% endfor %}
+

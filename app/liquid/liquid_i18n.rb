@@ -45,6 +45,10 @@ module LiquidI18n
     end
   end
 
+  def i18n_date(date, format = :default)
+    I18n.l( Time.parse(date), format: format.to_sym )
+  end
+
   def val(base, key, value)
     "#{base}, #{key}: #{value}"
   end
