@@ -236,4 +236,1132 @@ http_interactions:
         c9NkjPTZkzKGXOCfm78AAAD//wMAh0hu6PYZAAA=
     http_version: 
   recorded_at: Wed, 23 Mar 2016 22:23:18 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>109488</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:29 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 6f0d0340-f8f7-4c3a-9fce-809c1168b91f
+      X-Runtime:
+      - '0.148983'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAHP9VYAA7RUS2/bMAy+91cYviuOsxZIAUUdsAcwYKdt2XWgZboRphck
+        Oaj//STXr6TOgB12E7+PFKmPpOjTi5LZGZ0XRh/ycrPNM9Tc1EI/H/Ljj89k
+        nz+xOwpWEHTOOOLQW6M9srssoz3k03EystBZPOTgHHR5MVDBgfbAQ0zyiqy7
+        j9zIznZEYlHIHsuHckuL/rwkIQQnqjbgcJ/vVGVkznjrg1HofomaFpPTRahC
+        7+EZ2YfBNfvyMRM+E/oMUtQbWowOc3HFRXWD6Sd7THr9nFVtUvxlAC2u5Fom
+        oBYcKP8XXUGZVge22253myjVYI6shU6hDkRhOJmaaKM5sgZ+I4mMBUmaNrQO
+        XwlarLqPd8WK+QkiC5ynJETU7NPxW1LsLTEGGZuq9QttfFspEUgTh8tjCBJT
+        RhZcG/Ovc4vYYGKxQpMztDIQo4lvOY8NG+Nv8pP4VwWtda8RzgeiQSGrTEWL
+        hT07SRixRnh+QkeLGVpMggIh0zXv8QWUlbjhRsUO9/CNiYhIJaSMO/mfirLG
+        h9j7fq3K3bv7h9j5BbTU2yHGvta1SyJ+7XQN2U8RXZPWF9wc1M+A6/q7CEh7
+        gh07fk9b/BafFLh68NSWNEvl9vF+v59VWs5XWjHmQcbm98dbKzXv0T/8AHGd
+        Vj7CPwAAAP//AwDw4JBRRQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:29 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>105649</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:29 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 156ce274-f526-4e0e-9b7e-0e468c01dd49
+      X-Runtime:
+      - '0.114829'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAHP9VYAA7RUyY7bMAy9z1cYviuO00nRARRNgS5AgZ7apteClumJUG2Q
+        5GD895U83pJxCvTQm/geKVKPpOjjs5LZGZ0XRh/ycrPNM9Tc1EI/HfLjj8/k
+        Xf7I7ihYQdA544hDb432yO6yjPaQT8fJyEJn8ZCDc9DlxUAFB9oDDzHJC7Lu
+        PnIjO9sRiUUheyj35ZYW/XlJQghOVG3A4T7fqcrInPHWB6PQ/RI1LSani1CF
+        3sMTsg+Da/blYyZ8JvQZpKg3tBgd5uKKi+oG00/2mPT6OavapPjLAFpcybVM
+        QC04UP4vuoIyrQ5st93uNlGqwRxZC51CHYjCcDI10UZzZA38RhIZC5I0bWgd
+        vhC0WHUf74oV8xNEFjhPSYio2afjt6TYa2IMMjZV6xfa+LZSIpAmDpfHECSm
+        jCy4NuZf5xaxwcRihSZnaGUgRhPfch4bNsbf5Cfxrwpa614jnA9Eg0JWmYoW
+        C3t2kjBijfD8hI4WM7SYBAVCpmve4zMoK3HDjYod7uEbExGRSkgZd/I/FWWN
+        D7H3/VqVuzf3+9j5BbTU2yHGvta1SyJ+7XQN2U8RXZPWF9wc1M+A6/q7CEh7
+        gh07fk9b/BqfFLh68NSWNEvldv/2/mFWaTlfacWYBxmb3x9vrdS8R//wA8R1
+        WvkI/wAAAP//AwCP+H2PRQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:29 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>359037</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:29 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 57a0d275-4118-442c-bf29-a436609344ff
+      X-Runtime:
+      - '0.066160'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAHP9VYAA7RUyY7bMAy9z1cYvivO0qAdQNEM0AUo0FPb9FrQMj0RRhsk
+        ORj/fSWPt2ScAj30Jr5HitQjKfrwomR2RueF0Yd8s1rnGWpuKqGfDvnx5xfy
+        IX9gdxSsIOicccSht0Z7ZHdZRjvIp+NoZKG1eMjBOWjzoqeCA+2Bh5jkFVl2
+        H7iBneyIxKKQ3W/2mzUtuvOchBCcKJuA/X2+VaWROeOND0ah+y0qWoxOF6EK
+        vYcnZB971+zrp0z4TOgzSFGtaDE4TMUVF9X1ph/tIen1cxa1SfGXAbS4kmue
+        gFpwoPxfdAVlGh3Ydr3erqJUvTmwFlqFOhCF4WQqoo3myGp4RhIZC5LUTWgc
+        vhK0WHQf7ooV8xNEFjhPSYio2Ofj96TYW2IIMjZV62fa+KZUIpA6DpfHECSm
+        jCy4JuZf5maxwcRihSZnaGQgRhPfcB4bNsTf5Efxrwpa6l4tnA9Eg0JWmpIW
+        M3tykjBgtfD8hI4WEzSbBAVCpmse8QWUlbjiRsUOd/CNiYhIKaSMO/mfirLG
+        h9j7bq022927fez8DJrr7RBjX6vKJRG/tbqC7JeIrknrC24K6mbAtd1dBKQ9
+        wZYdf6QtfouPClw9eGxLmqXd/n69ez+pNJ+vtGLMg4zN7463Vmrao3/4AeI6
+        LXyEfwAAAP//AwACqySwRQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:29 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>551725</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:30 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 468d4aa3-8b90-47da-9d32-87b821d1daec
+      X-Runtime:
+      - '0.111711'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAALP9VYAA7RUyY7bMAy9z1cYviuO3RptAUUzQBegQE9t02tBy/REGC2G
+        JAfjv6/k8ZaMU6CH3sT3SJF6JEXvn5VMzmidMPqQ5rt9mqDmphb68ZAef34h
+        79N7dkehFQStNZZYdK3RDtldktABcvE4G4nvWzykYC30aTZS3oJ2wH1I8oJs
+        u0/cxC52QEJRyD7kZb6n2XBek+C9FVXncbzP9aoyMmW8c94otL9FTbPZ6SJU
+        oXPwiOzj6Jp8/ZQIlwh9BinqHc0mh6W47KK60XSzPSW9fs6mNjH+MoBmV3Kt
+        E9AWLCj3F11BmU57Vuz3xS5INZoT20KvUHui0J9MTbTRHFkDT0gC04IkTec7
+        iy8EzTbdp7tCxfwEgQXOYxIiavb5+D0q9pqYgkwbq3UrbVxXKeFJE4bLofcS
+        Y0bmbRfyb3OrWG9CsUKTM3TSE6OJ6zgPDZvib/Kz+FcFbXWvEdZ5okEhq0xF
+        s5W9OEmYsEY4fkJLswVaTYICIeM1D/gMqpW440aFDg/wjYkISCWkDDv5n4pq
+        jfOh98Na5cWbt2Xo/Apa620RQ1/r2kYRv/W6huSXCK5R6wtuCRpmwPbDXQRk
+        e4KCHX/ELX6NzwpcPXhuS5ylsszfFeWi0nq+4ooxBzI0fzjeWqllj/7hBwjr
+        tPER/gEAAP//AwDTYC1dRQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:30 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>435464</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:30 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - c495bf93-37a4-423e-b26c-7cdd90aba098
+      X-Runtime:
+      - '0.103887'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAALP9VYAA7RUS2/bMAy+91cYvitO0mTYAEUtsAcwYKdt2XWgZboRqhck
+        Oaj//STXr6TOgB12E7+PFKmPpOjDi5LZGZ0XRh/yzWqdZ6i5qYR+OuTHn1/I
+        +/yB3VGwgqBzxhGH3hrtkd1lGe0gn46jkYXW4iEH56DNi54KDrQHHmKSV2TZ
+        feAGdrIjEotC9mGz36xp0Z3nJITgRNkE7O/zrSqNzBlvfDAK3W9R0WJ0ughV
+        6D08IfvYu2ZfP2XCZ0KfQYpqRYvBYSquuKiuN/1oD0mvn7OoTYq/DKDFlVzz
+        BNSCA+X/oiso0+jAtuv1dhWl6s2BtdAq1IEoDCdTEW00R1bDM5LIWJCkbkLj
+        8JWgxaL7cFesmJ8gssB5SkJExT4fvyfF3hJDkLGpWj/TxjelEoHUcbg8hiAx
+        ZWTBNTH/MjeLDSYWKzQ5QyMDMZr4hvPYsCH+Jj+Kf1XQUvdq4XwgGhSy0pS0
+        mNmTk4QBq4XnJ3S0mKDZJCgQMl3ziC+grMQVNyp2uINvTERESiFl3Mn/VJQ1
+        PsTed2u12d7v9rHzM2iut0OMfa0ql0T81uoKsl8iuiatL7gpqJsB13Z3EZD2
+        BFt2/JG2+C0+KnD14LEtaZZ29/vdu92k0ny+0ooxDzI2vzveWqlpj/7hB4jr
+        tPAR/gEAAP//AwB6APUTRQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:30 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>658681</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:30 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - edb9db86-9bc9-43c9-8071-890a8e268a57
+      X-Runtime:
+      - '0.138755'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAALP9VYAA7RUS2/bMAy+91cYviuOs6XIAEUtsAcwYKdt2XWgZboRqhck
+        Oaj//SQ3fiR1Buywm/h9pEh9JEUfXpTMTui8MHqfl6t1nqHmphb6aZ8ffn4h
+        u/yB3VGwgqBzxhGH3hrtkd1lGe0hn46jkYXO4j4H56DLizMVHGgPPMQkr8iy
+        +8AN7GRHJBaF7EO5Lde06M9zEkJwomoDnu/znaqMzBlvfTAK3W9R02J0ughV
+        6D08Ift4ds2+fsqEz4Q+gRT1ihaDw1RccVHd2fSjPSS9fs6iNin+MoAWV3LN
+        E1ALDpT/i66gTKsD26zXm1WU6mwOrIVOoQ5EYTiammijObIGnpFExoIkTRta
+        h68ELRbdh7tixfwIkQXOUxIiavb58D0p9pYYgoxN1fqZNr6tlAikicPlMQSJ
+        KSMLro35l7lZbDCxWKHJCVoZiNHEt5zHhg3xN/lR/KuClrrXCOcD0aCQVaai
+        xcyenCQMWCM8P6KjxQTNJkGBkOmaR3wBZSWuuFGxwz18YyIiUgkp407+p6Ks
+        8SH2vl+rcvPu/TZ2fgbN9XaIsa917ZKI3zpdQ/ZLRNek9QU3BfUz4Lr+LgLS
+        HmHDDj/SFr/FRwWuHjy2Jc3S/XZ3vysnlebzlVaMeZCx+f3x1kpNe/QPP0Bc
+        p4WP8A8AAAD//wMAlgy0+EUFAAA=
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:30 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>677130</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:31 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 40d18033-b985-412d-97a5-5e53a39d59b5
+      X-Runtime:
+      - '0.092695'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAPP9VYAA7RUS2/bMAy+91cYviu203XdAEUdsAcwYKdt6XWgZboRphck
+        Oaj//SQ3fiR1Buywm/h9pEh9JEUfnpXMjui8MHqXV5syz1Bz0wj9tMv3P7+Q
+        d/kDu6FgBUHnjCMOvTXaI7vJMjpAPh0nIwu9xV0OzkGfFycqONAeeIhJXpB1
+        95Eb2dmOSCwK2fvqrippMZyXJITgRN0FPN3ne1UbmTPe+WAUul+iocXkdBaq
+        0Ht4Qvbx5Jp9/ZQJnwl9BCmaDS1Gh7m44qy6k+kne0x6+ZxVbVL8eQAtLuRa
+        JqAWHCj/F11BmU4Hti3L7SZKdTJH1kKvUAeiMBxMQ7TRHFkLv5FExoIkbRc6
+        hy8ELVbdx7tixfwAkQXOUxIiGvZ5/z0p9poYg4xN1fqFNr6rlQikjcPlMQSJ
+        KSMLrov517lFbDCxWKHJEToZiNHEd5zHho3xV/lJ/IuC1rrXCucD0aCQ1aam
+        xcKenSSMWCs8P6CjxQwtJkGBkOmaD/gMykrccKNihwf4ykREpBZSxp38T0VZ
+        40Ps/bBW1fb2zV3s/AJa6u0QY1+bxiURv/W6gexRRNek9Rk3Bw0z4PrhLgLS
+        HmDL9j/SFr/GJwUuHjy1Jc3S2/v76racVVrOV1ox5kHG5g/Hays179E//ABx
+        nVY+wj8AAAD//wMAjeTJS0UFAAA=
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:31 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>968673</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:31 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - dcabb0b8-fc6b-412f-846b-75c289bc7fa8
+      X-Runtime:
+      - '0.095174'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAPP9VYAA7RUS2/bMAy+91cYvitO0rVrAUUtsAcwYKdt6XWgZboRqhck
+        Oaj//STXr6TOgB12E7+PFKmPpOjDq5LZEZ0XRu/yzWqdZ6i5qYR+3uX7X1/J
+        Xf7ArihYQdA544hDb432yK6yjHaQT8fRyEJrcZeDc9DmRU8FB9oDDzHJG7Ls
+        PnADO9kRiUUhu9/cbNa06M5zEkJwomwC9vf5VpVG5ow3PhiF7reoaDE6nYQq
+        9B6ekX3qXbNvnzPhM6GPIEW1osXgMBVXnFTXm360h6Tnz1nUJsWfBtDiTK55
+        AmrBgfJ/0RWUaXRg2/V6u4pS9ebAWmgV6kAUhoOpiDaaI6vhBUlkLEhSN6Fx
+        +EbQYtF9uCtWzA8QWeA8JSGiYl/2P5Ji74khyNhUrZ9p45tSiUDqOFweQ5CY
+        MrLgmph/mZvFBhOLFZocoZGBGE18w3ls2BB/kR/FPytoqXu1cD4QDQpZaUpa
+        zOzJScKA1cLzAzpaTNBsEhQIma55xFdQVuKKGxU73MEXJiIipZAy7uR/Ksoa
+        H2Lvu7XabK8/3MTOz6C53g4x9rWqXBLxe6sryJ5EdE1an3BTUDcDru3uIiDt
+        AbZs/zNt8Xt8VODswWNb0izd397dfryeVJrPV1ox5kHG5nfHSys17dE//ABx
+        nRY+wj8AAAD//wMA8AXWO0UFAAA=
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:31 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>273839</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:31 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - e3c46f82-508d-43f1-9c94-91024b5c29f2
+      X-Runtime:
+      - '0.075188'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAPP9VYAA7RUS2/bMAy+91cYvitOnBVrAUUtsAcwYKdt2bWgZboRphck
+        Oaj//SQ3fiR1BuzQm/h9pEh9JEUfXpTMjui8MHqXb1brPEPNTS308y7f//pK
+        7vIHdkPBCoLOGUccemu0R3aTZbSHfDqORhY6i7scnIMuL05UcKA98BCTvCLL
+        7gM3sJMdkVgUsvvN7WZNi/48JyEEJ6o24Ok+36nKyJzx1gej0D2Jmhaj01mo
+        Qu/hGdmnk2v27XMmfCb0EaSoV7QYHKbiirPqTqYf7SHp5XMWtUnx5wG0uJBr
+        noBacKD8P3QFZVodWLlel6so1ckcWAudQh2IwnAwNdFGc2QN/EESGQuSNG1o
+        Hb4StFh0H+6KFfMDRBY4T0mIqNmX/Y+k2FtiCDI2Vetn2vi2UiKQJg6XxxAk
+        powsuDbmX+ZmscHEYoUmR2hlIEYT33IeGzbEX+VH8S8KWupeI5wPRINCVpmK
+        FjN7cpIwYI3w/ICOFhM0mwQFQqZrHvEFlJW44kbFDvfwlYmISCWkjDv5TkVZ
+        40Psfb9Wm3L74TZ2fgbN9XaIsa917ZKI3ztdQ/ZbRNek9Rk3BfUz4Lr+LgLS
+        HqBk+59pi9/iowIXDx7bkmap/Li9295PKs3nK60Y8yBj8/vjtZWa9ug/foC4
+        Tgsf4V8AAAD//wMANmRRWEUFAAA=
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:31 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>218731</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:31 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 223d999c-85b9-4892-852e-6eb16d6aaf22
+      X-Runtime:
+      - '0.082418'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAPP9VYAA7RUS2/bMAy+91cYviuO3RXrAEUtsAcwYKdt2XWgZboRqhck
+        Oaj//SQ3fiR1Buywm/h9pEh9JEUfXpTMjui8MHqXl5ttnqHmphH6aZfvf34h
+        9/kDu6FgBUHnjCMOvTXaI7vJMjpAPh0nIwu9xV0OzkGfFycqONAeeIhJXpF1
+        95Eb2dmOSCwK2YfyrtzSYjgvSQjBiboLeLrP96o2Mme888EodL9FQ4vJ6SxU
+        offwhOzjyTX7+ikTPhP6CFI0G1qMDnNxxVl1J9NP9pj08jmr2qT48wBaXMi1
+        TEAtOFD+L7qCMp0OrNpuq02U6mSOrIVeoQ5EYTiYhmijObIWnpFExoIkbRc6
+        h68ELVbdx7tixfwAkQXOUxIiGvZ5/z0p9pYYg4xN1fqFNr6rlQikjcPlMQSJ
+        KSMLrov517lFbDCxWKHJEToZiNHEd5zHho3xV/lJ/IuC1rrXCucD0aCQ1aam
+        xcKenSSMWCs8P6CjxQwtJkGBkOmaR3wBZSVuuFGxwwN8ZSIiUgsp407+p6Ks
+        8SH2flirsrp9dxc7v4CWejvE2NemcUnEb71uIPslomvS+oybg4YZcP1wFwFp
+        D1Cx/Y+0xW/xSYGLB09tSbNUlffvb8tZpeV8pRVjHmRs/nC8tlLzHv3DDxDX
+        aeUj/AMAAP//AwBE1OBSRQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:31 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>276955</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:32 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - a084b14e-4004-4ee8-aec5-fd404c95385c
+      X-Runtime:
+      - '0.065985'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAATP9VYAA7RUS4/TMBC+76+IcnfTBgqs5HqReEhInIByRRNnsrXwS7ZT
+        bf49djavdlMkDtw83zfjGX8zY/rwpGR2RueF0Yd8t9nmGWpuaqEfD/nxx2fy
+        Ln9gdxSsIOicccSht0Z7ZHdZRnvIp+NkZKGzeMjBOejyYqCCA+2Bh5jkGVl3
+        H7mRne2IxKKQ3e/2uy0t+vOShBCcqNqAw32+U5WROeOtD0ah+yVqWkxOF6EK
+        vYdHZB8G1+zLx0z4TOgzSFFvaDE6zMUVF9UNpp/sMen1c1a1SfGXAbS4kmuZ
+        gFpwoPxfdAVlWh1Yud2WmyjVYI6shU6hDkRhOJmaaKM5sgZ+I4mMBUmaNrQO
+        nwlarLqPd8WK+QkiC5ynJETU7NPxW1LsJTEGGZuq9QttfFspEUgTh8tjCBJT
+        RhZcG/Ovc4vYYGKxQpMztDIQo4lvOY8NG+Nv8pP4VwWtda8RzgeiQSGrTEWL
+        hT07SRixRnh+QkeLGVpMggIh0zXv8QmUlbjhRsUO9/CNiYhIJaSMO/mfirLG
+        h9j7fq125avX+9j5BbTU2yHGvta1SyJ+7XQN2U8RXZPWF9wc1M+A6/q7CEh7
+        gpIdv6ctfolPClw9eGpLmqXy7Zv7/X5WaTlfacWYBxmb3x9vrdS8R//wA8R1
+        WvkI/wAAAP//AwAVg1nERQUAAA==
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:32 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>bob</first-name>
+            <last-name>fischer</last-name>
+            <postal-code>12345</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <customer-id>583781</customer-id>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Fri, 25 Mar 2016 23:51:32 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - be05a39e-1ebb-4e7c-937a-5189a580f807
+      X-Runtime:
+      - '0.082608'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAATP9VYAA7RUS2/bMAy+91cYviuO0wXLAEUtsAcwYKdt2XWgZboRqhck
+        Oaj//SQ3fiR1Buywm/h9pEh9JEUfXpTMTui8MHqfl6t1nqHmphb6aZ8ffn4h
+        u/yB3VGwgqBzxhGH3hrtkd1lGe0hn46jkYXO4j4H56DLizMVHGgPPMQkr8iy
+        +8AN7GRHJBaF7EO5Lde06M9zEkJwomoDnu/znaqMzBlvfTAK3W9R02J0ughV
+        6D08Ift4ds2+fsqEz4Q+gRT1ihaDw1RccVHd2fSjPSS9fs6iNin+MoAWV3LN
+        E1ALDpT/i66gTKsD26zXm1WU6mwOrIVOoQ5EYTiammijObIGnpFExoIkTRta
+        h68ELRbdh7tixfwIkQXOUxIiavb58D0p9pYYgoxN1fqZNr6tlAikicPlMQSJ
+        KSMLro35l7lZbDCxWKHJCVoZiNHEt5zHhg3xN/lR/KuClrrXCOcD0aCQVaai
+        xcyenCQMWCM8P6KjxQTNJkGBkOmaR3wBZSWuuFGxwz18YyIiUgkp407+p6Ks
+        8SH2vl+rcnP/bhs7P4PmejvE2Ne6dknEb52uIfslomvS+oKbgvoZcF1/FwFp
+        j7Bhhx9pi9/iowJXDx7bkmZpu7t/vysnlebzlVaMeZCx+f3x1kpNe/QPP0Bc
+        p4WP8A8AAAD//wMAl9i6aEUFAAA=
+    http_version: 
+  recorded_at: Fri, 25 Mar 2016 23:51:32 GMT
 recorded_with: VCR 3.0.0
