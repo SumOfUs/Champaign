@@ -176,7 +176,7 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq nil
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
-              expect(transaction.payment_method_token).to eq nil
+              expect(transaction.payment_method_token_id).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
           end
@@ -211,7 +211,6 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq nil
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
-              byebug
               expect(transaction.payment_method_token_id).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
@@ -256,7 +255,7 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq nil
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
-              expect(transaction.payment_method_token).to eq nil
+              expect(transaction.payment_method_token_id).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
           end
