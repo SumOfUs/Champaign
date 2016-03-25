@@ -110,17 +110,17 @@ module Payment
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
+      @save_customer = save_customer
+    end
+
+    def build
+      return unless transaction.present?
       @existing_customer = Payment::BraintreeCustomer.find_or_create_by!(
           member_id: @member_id,
           customer_id: transaction.customer_details.id)
       @bt_payment_method = Payment::BraintreePaymentMethodToken.find_or_create_by!(
           customer_id: @existing_customer.customer_id,
           braintree_payment_method_token: payment_method_token)
-      @save_customer = save_customer
-    end
-
-    def build
-      return unless transaction.present?
       ::Payment::BraintreeTransaction.create(transaction_attrs)
       return unless successful? && @save_customer
       @existing_customer.update(customer_attrs)
