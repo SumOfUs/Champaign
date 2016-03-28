@@ -83,13 +83,13 @@ describe Member do
       expect(member.email).to eq('foo@example.org')
     end
 
-    it 'is fine with nil' do
+    it 'coerces nil to empty string' do
       expect{
         create(:member, email: nil)
       }.to change{Member.count}.
       from(0).to(1)
 
-      expect(Member.last.email).to be nil
+      expect(Member.last.email).to eq ""
     end
   end
 
