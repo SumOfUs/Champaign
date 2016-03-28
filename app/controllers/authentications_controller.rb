@@ -1,9 +1,10 @@
 class AuthenticationsController < Devise::OmniauthCallbacksController
   def google_oauth2
     # we override the devise mapping because routing sets it to user
-    request.env["devise.mapping"] = Devise.mappings[session[:authenticating].to_sym]
+    user_type = session[:authenticating].to_sym
+    request.env["devise.mapping"] = Devise.mappings[user_type]
 
-    @user = ConnectWithOauthProvider.connect(request.env["omniauth.auth"])
+    @user = ConnectWithOauthProvider.connect(request.env["omniauth.auth"], user_type)
 
     flash[:notice] = I18n.t "devise.omniauth_callbacks.success", kind: "Google"
     sign_in_and_redirect @user, event: :authentication

@@ -1,7 +1,6 @@
 class Member < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable
+         :recoverable, :rememberable, :trackable, :validatable
 
   has_one :customer, class_name: "Payment::BraintreeCustomer"
   has_paper_trail on: [:update, :destroy]
