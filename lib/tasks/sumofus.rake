@@ -7,7 +7,7 @@ namespace :sumofus do
     # the actionkit_uri still needs to be confirmed
     return @tag unless @tag.blank?
     @tag = Tag.find_or_create_by(name: 'Actionsweet_Legacy')
-    @tag.update_attributes(actionkit_uri: '/rest/v1/tag/1170/')
+    @tag.update_attributes(actionkit_uri: '/rest/v1/tag/1693/')
     @tag
   end
 
