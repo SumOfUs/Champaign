@@ -3,7 +3,8 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create, :follow_up]
-  before_action :get_page, only: [:show, :edit, :update, :destroy, :follow_up, :analytics]
+  before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics]
+  before_action :get_page_or_homepage, only: [:show]
 
   def index
     # Filter the desired pages by search parameters, and sort them descending by their date of update.
@@ -57,7 +58,7 @@ class PagesController < ApplicationController
   private
 
   def render_liquid(layout)
-    raise ActiveRecord::RecordNotFound unless @page.active? || user_signed_in?
+    return redirect_to(Settings.homepage_url) unless @page.active? || user_signed_in?
     localize_by_page_language(@page)
 
     @rendered = renderer(layout).render
@@ -80,6 +81,12 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find(params[:id])
+  end
+
+  def get_page_or_homepage
+    @page = Page.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to Settings.homepage_url
   end
 
   def page_params

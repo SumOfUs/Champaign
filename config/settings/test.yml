@@ -16,6 +16,7 @@
      secret_key_base: 'a fake secret key'
      omniauth_client_secret: 'a fake client secret'
      omniauth_client_id: 'a fake client_id'
+     homepage_url: '//sumofus.org'
      oauth_domain_whitelist:
        - 'example.com'
 
