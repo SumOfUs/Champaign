@@ -88,7 +88,7 @@ describe "Braintree API" do
           describe 'with credit card' do
             subject do
               VCR.use_cassette("transaction invalid user") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -122,7 +122,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("transaction invalid user with paypal") do
-                post api_braintree_transaction_path(page.id), paypal_params
+                post api_payment_braintree_transaction_path(page.id), paypal_params
               end
             end
 
@@ -153,7 +153,7 @@ describe "Braintree API" do
           describe "with basic params" do
             subject do
               VCR.use_cassette("transaction processor declined") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -188,7 +188,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('transaction paypal processor declined') do
-                post api_braintree_transaction_path(page.id), paypal_params
+                post api_payment_braintree_transaction_path(page.id), paypal_params
               end
             end
 
@@ -228,7 +228,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('transaction paypal processor declined') do
-                post api_braintree_transaction_path(page.id), paypal_params
+                post api_payment_braintree_transaction_path(page.id), paypal_params
               end
             end
 
@@ -268,7 +268,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("transaction processor declined") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -284,7 +284,7 @@ describe "Braintree API" do
             it 'raises relevant error' do
              expect{
                 VCR.use_cassette("transaction not handled currency") do
-                  post api_braintree_transaction_path(page.id), params
+                  post api_payment_braintree_transaction_path(page.id), params
                 end
               }.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
             end
@@ -311,7 +311,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('customer update failure') do
-                post api_braintree_transaction_path(page.id), failing_params
+                post api_payment_braintree_transaction_path(page.id), failing_params
               end
             end
 
@@ -339,7 +339,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('payment method create failure') do
-                post api_braintree_transaction_path(page.id), failing_params
+                post api_payment_braintree_transaction_path(page.id), failing_params
               end
             end
 
@@ -363,7 +363,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('subscription create failure with existing customer') do
-                post api_braintree_transaction_path(page.id), subscription_params
+                post api_payment_braintree_transaction_path(page.id), subscription_params
               end
             end
 
@@ -388,7 +388,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('customer create failure') do
-                post api_braintree_transaction_path(page.id), failing_params
+                post api_payment_braintree_transaction_path(page.id), failing_params
               end
             end
 
@@ -409,7 +409,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('subscription create failure') do
-                post api_braintree_transaction_path(page.id), subscription_params
+                post api_payment_braintree_transaction_path(page.id), subscription_params
               end
             end
 
@@ -431,7 +431,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('customer create failure') do
-                post api_braintree_transaction_path(page.id), failing_params
+                post api_payment_braintree_transaction_path(page.id), failing_params
               end
             end
 
@@ -452,7 +452,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette('subscription create failure') do
-                post api_braintree_transaction_path(page.id), subscription_params
+                post api_payment_braintree_transaction_path(page.id), subscription_params
               end
             end
 
