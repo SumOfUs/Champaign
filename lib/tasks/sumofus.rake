@@ -3,6 +3,14 @@ require 'open-uri'
 namespace :sumofus do
   desc 'Import legacy actions into your database from a specified file'
 
+  def legacy_tag
+    # the actionkit_uri still needs to be confirmed
+    return @tag unless @tag.blank?
+    @tag = Tag.find_or_create_by(name: 'Actionsweet_Legacy')
+    @tag.update_attributes(actionkit_uri: '/rest/v1/tag/1693/')
+    @tag
+  end
+
   task :check_legacy_actions, [:action_file] => :environment do |task, args|
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
@@ -57,6 +65,12 @@ namespace :sumofus do
         expected_title = I18n.t('fundraiser.generic.title', locale: entry['language'])
         if follow_title != expected_title
           puts "Page at <#{entry['slug']}> has follow_up page with title #{follow_title}, should be #{expected_title}"
+        end
+
+        # check that it has the legacy tag
+        relevant_tags = page.tags.select{ |t| t.id == legacy_tag.id }
+        if relevant_tags != [legacy_tag]
+          puts "Page at <#{entry['slug']}> has tags #{page.tags.map(&:attributes)}, should include #{legacy_tag.attributes}"
         end
       rescue ActiveRecord::RecordNotFound
         puts "Page is missing: <#{entry['slug']}> with expected title \"#{entry['title']}\""
@@ -171,7 +185,8 @@ namespace :sumofus do
       page.title = titles[clean_title(entry)][entry['slug']]
       page.follow_up_plan = :with_page
       page.follow_up_page = post_action_pages[entry['language']]
-      puts "Adding page \"#{page.title}\" at <#{page.slug}>"
+      page.tags += [legacy_tag] unless page.tags.include? legacy_tag
+      puts "Processing page \"#{page.title}\" at <#{page.slug}>"
       page.save!
 
       # update plugins
