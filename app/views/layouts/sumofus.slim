@@ -8,6 +8,7 @@ html
     = javascript_include_tag "sumofus"
     = render partial: 'shared/optimizely_snippet'
     = render partial: 'shared/js_locale'
+    = render partial: 'shared/google_analytics_snippet'
     = csrf_meta_tags
     = favicon_link_tag 'sumofus/favicon.ico'
     = metamagic
@@ -19,4 +20,5 @@ html
     .mobile-indicator
 
     script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
+
 
