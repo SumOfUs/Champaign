@@ -114,10 +114,13 @@ Rails.application.routes.draw do
   #   resources :photos, concerns: :toggleable
 
   namespace :api do
-    namespace :braintree do
-      get 'token'
-      post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
-      post 'webhook', action: 'webhook'
+    namespace :payment do
+      namespace :braintree do
+        get 'token'
+        post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
+        post 'webhook', action: 'webhook'
+        post 'delete_payment_method', action: 'delete_payment_method'
+      end
     end
 
     resources :pages do
