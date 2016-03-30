@@ -1,0 +1,18 @@
+th
+th = "Content"
+th
+  = t('share.analytics.shares')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.shares'), space_left: true }
+th
+  = t('share.analytics.successful_shares')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.successful_shares'), space_left: true }
+th
+  = t('share.analytics.conversion_rate')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.conversion_rate'), space_left: true }
+th
+  = t('share.analytics.weight')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.traffic_allocation'), space_left: true }
+th
+  = t('share.analytics.winner')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.winner'), space_left: true }
+th
