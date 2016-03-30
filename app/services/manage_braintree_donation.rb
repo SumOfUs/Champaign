@@ -20,15 +20,19 @@ class ManageBraintreeDonation
 
     # We need a way to cross-reference this action at a later date to find out what page
     # with which we will associate ongoing donations, in the event this is a subscription.
-    @params.merge!({
-      amount:               transaction.amount.to_s,
-      card_num:             card_num,
-      currency:             transaction.currency_iso_code,
-      transaction_id:       transaction.id,
-      subscription_id:      subscription_id,
-      is_subscription:      @is_subscription,
-      card_expiration_date: transaction.credit_card_details.expiration_date
-    })
+    @params.merge!(
+      {
+        amount:               transaction.amount.to_s,
+        card_num:             card_num,
+        currency:             transaction.currency_iso_code,
+        transaction_id:       transaction.id,
+        subscription_id:      subscription_id,
+        is_subscription:      @is_subscription,
+        card_expiration_date: transaction.credit_card_details.expiration_date
+      }.tap do |params|
+        params[:recurrence_number] = 0 if @is_subscription
+      end
+  )
 
     build_action(donation: true)
   end

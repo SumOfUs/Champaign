@@ -74,9 +74,24 @@ module ActionQueue
           },
           action: {
             source: data[:source]
-          },
+          }.tap do |action|
+            if @action.form_data['is_subscription']
+              action[:skip_confirmation] = 1 if @action.form_data['recurrence_number'].to_i > 0
+              action[:fields] = action_fields
+            end
+          end,
+
           user: user_data
         }
+      }
+    end
+
+    def action_fields
+      {
+        recurring_id:      @action.member_id,
+        recurrence_number: @action.form_data['recurrence_number'],
+        exp_date:          @action.form_data['card_expiration_date'],
+        card_number:       @action.form_data['card_num']
       }
     end
 

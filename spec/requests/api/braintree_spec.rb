@@ -47,7 +47,13 @@ describe "Braintree API" do
           user_en: 1
         },
         action: {
-          source: 'fb'
+          source: 'fb',
+          fields: {
+            recurring_id: 1,
+            recurrence_number: 0,
+            exp_date: "12/2020",
+            card_number: "1881"
+          }
         }
       }
     }
@@ -59,6 +65,10 @@ describe "Braintree API" do
   end
 
   describe 'making a transaction' do
+    before do
+      donation_push_params[:params][:action].delete(:fields)
+    end
+
     describe 'successfully' do
 
       let(:basic_params) do
@@ -292,6 +302,7 @@ describe "Braintree API" do
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
+              expect(form_data).to_not include('recurrence_number')
             end
 
             it "creates a Transaction associated with the page storing relevant info" do
@@ -521,6 +532,10 @@ describe "Braintree API" do
 
         let!(:member) { create :member, email: user_params[:email], postal: nil }
 
+        before do
+          donation_push_params[:params][:action][:fields][:recurring_id] = member.id
+        end
+
         context 'when BraintreeCustomer exists' do
 
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
@@ -529,6 +544,7 @@ describe "Braintree API" do
 
             let(:amount) { 823.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
+
             subject do
               VCR.use_cassette("subscription success basic existing customer") do
                 post api_braintree_transaction_path(page.id), params
@@ -550,6 +566,7 @@ describe "Braintree API" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
+              expect(form_data['recurrence_number']).to eq(0)
               expect(form_data['is_subscription']).to eq true
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'

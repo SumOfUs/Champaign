@@ -7,10 +7,10 @@ class Api::BraintreeController < ApplicationController
 
   def transaction
     builder = if recurring?
-                client::Subscription.make_subscription(payment_options)
-              else
-                client::Transaction.make_transaction(payment_options)
-              end
+      client::Subscription.make_subscription(payment_options)
+    else
+      client::Transaction.make_transaction(payment_options)
+    end
 
     if builder.result.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
