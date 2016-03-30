@@ -644,8 +644,12 @@ describe("Fundraiser", function() {
       it('disables the button when the form submits', function(){
         var $button = $('.fundraiser-bar__submit-button');
         expect($button).not.to.have.class('button--disabled');
+        expect( $button.prop('disabled') ).to.eq(false);
+
         $button.click();
+
         expect($button).to.have.class('button--disabled');
+        expect( $button.prop('disabled') ).to.eq(true);
       });
 
       it('sends the nonce to the server after receiving it from braintree', function(){
