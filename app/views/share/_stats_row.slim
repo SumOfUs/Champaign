@@ -1,6 +1,7 @@
+- only_stats = false unless defined?(only_stats) && only_stats
 - analytics = ShareAnalytics.data(page, share_type, share )[0]
 
-tr.shares-editor__stats-row.hidden-closed
+tr.shares-editor__stats-row class="#{only_stats ? '' : 'hidden-closed'}"
   td
     - case share_type
     - when "twitter"
@@ -19,5 +20,6 @@ tr.shares-editor__stats-row.hidden-closed
   - else
     td colspan=5
       = t('share.analytics.no_data')
-  td.shares-editor__button-cell = render 'share/btn_edit_share'
-
+  td.shares-editor__button-cell
+    - unless only_stats
+      = render 'share/btn_edit_share'
