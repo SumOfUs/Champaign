@@ -16,6 +16,13 @@
       ],
       height: 280,
       fontSizes: ['8', '10', '11', '12', '14', '16', '20', '24', '36', '72'],
+      codemirror: {
+        theme: 'default',
+        mode: "text/html",
+        lineNumbers: true,
+        tabMode: 'indent',
+        lineWrapping: true
+      }
     });
     $contentField = $('#page_content');
 

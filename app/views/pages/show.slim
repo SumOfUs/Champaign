@@ -11,7 +11,6 @@
 
 /Facebook Meta Tags for proper behavior there, too
 - meta og: { site_name: 'SumOfUs',
-        image:  @page.primary_image.try(:content).try(:url),
         title: @page.title, url: page_url(@page),
         description: truncate(strip_tags(CGI.unescapeHTML(@page.content)), length: 260),
         type: 'website',

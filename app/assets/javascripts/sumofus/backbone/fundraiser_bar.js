@@ -297,11 +297,17 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   disableButton (e) {
     this.$('.fundraiser-bar__errors').addClass('hidden-closed');
-    this.$('.fundraiser-bar__submit-button').text(I18n.t('form.processing')).addClass('button--disabled');
+    this.$('.fundraiser-bar__submit-button').
+      text(I18n.t('form.processing')).
+      addClass('button--disabled').
+      prop('disabled', true);
   },
 
   enableButton () {
-    this.$('.fundraiser-bar__submit-button').html(this.buttonText).removeClass('button--disabled');
+    this.$('.fundraiser-bar__submit-button').
+      html(this.buttonText).
+      removeClass('button--disabled').
+      prop('disabled', false);
   },
 
   redirectTo (url) {

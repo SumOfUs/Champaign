@@ -1,5 +1,5 @@
 doctype html
-html
+html lang="#{@page.language.try(:code).try(:downcase)}"
   head
     title  = @page.title
     meta name="viewport" content="width=device-width, initial-scale=1.0"

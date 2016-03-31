@@ -16,6 +16,7 @@ module PaymentProcessor
         #
         # * +:notification+    - Braintree::Notification object. only those of kind 'subscription_charged_successfully'
         #                        will be processed. All others will simply be logged to the Rails logger.l)
+
         def self.handle(notification)
           new(notification).handle
         end
@@ -40,6 +41,9 @@ module PaymentProcessor
             Rails.logger.info("Failed to handle Braintree::WebhookNotification for subscription_id '#{@notification.subscription.id}'")
             return
           end
+
+          original_action.form_data['recurrence_number'] += 1
+          original_action.save
           Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, nil, false)
           ActionQueue::Pusher.push(original_action)
         end
