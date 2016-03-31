@@ -140,7 +140,7 @@ module Payment
         merchant_account_id:     transaction.merchant_account_id,
         processor_response_code: transaction.processor_response_code,
         currency:                transaction.currency_iso_code,
-        customer_id:             transaction.customer_details.id,
+        customer_id:             @existing_customer.customer_id,
         status:                  status,
         payment_method_token_id: @local_payment_method_id,
         page_id:                 @page_id
