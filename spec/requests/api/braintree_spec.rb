@@ -51,8 +51,7 @@ describe "Braintree API" do
           fields: {
             recurring_id: 1,
             recurrence_number: 0,
-            exp_date: "12/2020",
-            card_number: "1881"
+            exp_date: "1220"
           }
         }
       }

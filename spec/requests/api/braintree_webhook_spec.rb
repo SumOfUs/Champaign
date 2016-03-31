@@ -121,8 +121,7 @@ describe "Braintree API" do
                 fields: {
                   recurring_id: Member.last.id,
                   recurrence_number: 1,
-                  exp_date: "12/2020",
-                  card_number: "1881"
+                  exp_date: "1220"
                 }
               }
             }
@@ -182,8 +181,7 @@ describe "Braintree API" do
                 fields: {
                   recurring_id: Member.last.id,
                   recurrence_number: 1,
-                  exp_date: "/",
-                  card_number: "PYPL"
+                  exp_date: (Time.now + 5.years).strftime("%-m%y")
                 }
               }
             }

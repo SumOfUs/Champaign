@@ -90,8 +90,7 @@ module ActionQueue
       {
         recurring_id:      @action.member_id,
         recurrence_number: @action.form_data['recurrence_number'],
-        exp_date:          @action.form_data['card_expiration_date'],
-        card_number:       @action.form_data['card_num']
+        exp_date:          "#{expire_month}#{expire_year.to_s.gsub(/^(\d\d)(\d\d)/,'\2')}"
       }
     end
 
