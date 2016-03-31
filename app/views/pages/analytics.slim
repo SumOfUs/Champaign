@@ -30,7 +30,13 @@
           .analytics-chart.mini-new.mini
             svg.chart
 
+  table.table
+    thead.shares-editor__stats-heading
+      = render 'share_analytics_header'
 
+    tbody
+      - @page.shares.each do |variation|
+        = render variation, page: @page, only_stats: true
 
 javascript:
   $( function() {
