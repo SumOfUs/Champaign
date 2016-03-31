@@ -146,7 +146,8 @@ describe Payment do
 
   describe '.write_transaction' do
 
-    let(:page_id){ 4567 }
+    let!(:page_id){ 4567 }
+    let!(:page) { create :page, id: 4567 }
     let(:member) { create :member, id: 5678 }
     let(:new_member) { create :member, id: 1234 }
     let(:existing_customer){ build :payment_braintree_customer }
@@ -180,15 +181,16 @@ describe Payment do
         currency:                transaction.currency_iso_code,
         customer_id:             transaction.customer_details.id,
         status:                  status,
-        payment_method_token_id: credit_card_token.id,
+        # Since we always create a new payment method token before the transaction, the id of the new token will with
+        # the current implementation always be that of the last token created.
+        payment_method_token_id: Payment::BraintreePaymentMethodToken.last.id,
         page_id:                 page_id
       }
     end
 
     before :each do
       allow(Payment::BraintreeCustomer).to receive(:create)
-      allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!)
-      allow(Payment::BraintreeTransaction).to receive(:create)
+      allow(Payment::BraintreeTransaction).to receive(:create!)
       allow(existing_customer).to receive(:update)
     end
 
@@ -203,7 +205,9 @@ describe Payment do
           cardholder_name:  credit_card_details.cardholder_name,
           card_debit:       credit_card_details.debit,
           card_last_4:      credit_card_details.last_4,
-          default_payment_method_token: credit_card_token,
+          # We always make a new payment method token, and the default payment method token gets updated to the latest
+          # payment method token - so the updated token id is that of the most previously created token.
+          default_payment_method_token_id: Payment::BraintreePaymentMethodToken.last.id,
           customer_id:      transaction.customer_details.id,
           email:            transaction.customer_details.email,
           member_id:        member.id
@@ -227,15 +231,16 @@ describe Payment do
 
         it 'creates a transaction with the right attributes if an existing customer' do
           Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
           Payment.write_transaction(bt_result, page_id, member.id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'updates the existing_customer with the right attributes' do
+          allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!).and_return(existing_customer)
           Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).to have_received(:update).with(customer_params)
         end
@@ -257,12 +262,12 @@ describe Payment do
 
         it 'creates a transaction with the right attributes if an existing customer' do
           Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
           Payment.write_transaction(bt_result, page_id, member.id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'does not create a new customer' do
@@ -291,15 +296,16 @@ describe Payment do
 
         it 'creates a transaction with the right attributes if an existing customer' do
           Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
           Payment.write_transaction(bt_result, page_id, member.id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'updates the existing_customer with the right attributes' do
+          allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!).and_return(existing_customer)
           Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).to have_received(:update).with(customer_params)
         end
@@ -320,17 +326,17 @@ describe Payment do
         let(:status) { Payment::BraintreeTransaction.statuses[:failure] }
 
         it 'does not create a transaction' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
-          expect(Payment::BraintreeTransaction).not_to have_received(:create)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
+          expect(Payment::BraintreeTransaction).not_to have_received(:create!)
         end
 
         it 'does not create a new customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
         end
 
         it 'does not update existing_customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).not_to have_received(:update)
         end
       end
@@ -347,11 +353,11 @@ describe Payment do
           card_bin:         nil,
           cardholder_name:  nil,
           card_debit:       "Unknown",
-          default_payment_method_token: paypal_token,
+          default_payment_method_token_id: Payment::BraintreePaymentMethodToken.last.id,
           customer_id:      transaction.customer_details.id,
           card_last_4:      'PYPL',
           email:            transaction.customer_details.email,
-          member_id:        member_id
+          member_id:        member.id
         }
       end
       let(:credit_card_details) { double('Braintree::Transaction::CreditCardDetails', card_type: nil, last_4: nil, bin: nil, cardholder_name: nil, debit: "Unknown") }
@@ -360,32 +366,37 @@ describe Payment do
       describe 'with successful transaction' do
         let(:bt_result){ instance_double('Braintree::SuccessResult', transaction: transaction, success?: true) }
         let(:status) { Payment::BraintreeTransaction.statuses[:success] }
+        let(:new_customer) { build :payment_braintree_customer}
 
         it 'creates a transaction with the right attributes if an existing customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'updates the existing_customer with the right attributes' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
+          allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!).and_return(existing_customer)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).to have_received(:update).with(customer_params)
         end
 
         it 'creates a new customer with the right attributes' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
-          expect(Payment::BraintreeCustomer).to have_received(:create).with(customer_params)
+          allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!).and_return(new_customer)
+          allow(new_customer).to receive(:update)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
+          expect(Payment::BraintreeCustomer).to have_received(:find_or_create_by!)
+          expect(new_customer).to have_received(:update).with(customer_params)
         end
 
         it 'does not update or create customer if save_customer=false' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          Payment.write_transaction(bt_result, page_id, member.id, nil, false)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
           expect(existing_customer).not_to have_received(:update)
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer, false)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
           expect(existing_customer).not_to have_received(:update)
         end
@@ -397,64 +408,69 @@ describe Payment do
         let(:status) { Payment::BraintreeTransaction.statuses[:failure] }
 
         it 'creates a transaction with the right attributes if an existing customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'does not create a new customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
         end
 
         it 'does not update existing_customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).not_to have_received(:update)
         end
 
         it 'does not update or create customer if save_customer=false' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          Payment.write_transaction(bt_result, page_id, member.id, nil, false)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
           expect(existing_customer).not_to have_received(:update)
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer, false)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
           expect(existing_customer).not_to have_received(:update)
         end
       end
 
       describe 'with successful subscription' do
+        let(:new_customer) { build :payment_braintree_customer }
         let(:bt_result){ instance_double('Braintree::SuccessResult', subscription: double(transactions: [transaction]), success?: true, transaction: nil) }
         let(:status) { Payment::BraintreeTransaction.statuses[:success] }
 
         it 'creates a transaction with the right attributes if an existing customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create).with(transaction_params)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
         end
 
         it 'updates the existing_customer with the right attributes' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
+          allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!).and_return(existing_customer)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).to have_received(:update).with(customer_params)
         end
 
         it 'creates a new customer with the right attributes' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
-          expect(Payment::BraintreeCustomer).to have_received(:create).with(customer_params)
+          allow(Payment::BraintreeCustomer).to receive(:find_or_create_by!).and_return(new_customer)
+          allow(new_customer).to receive(:update)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
+          expect(Payment::BraintreeCustomer).to have_received(:find_or_create_by!)
+          expect(new_customer).to have_received(:update).with(customer_params)
         end
 
         it 'does not update or create customer if save_customer=false' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil, false)
+          Payment.write_transaction(bt_result, page_id, member.id, nil, false)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
           expect(existing_customer).not_to have_received(:update)
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer, false)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer, false)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
           expect(existing_customer).not_to have_received(:update)
         end
@@ -466,17 +482,17 @@ describe Payment do
         let(:status) { Payment::BraintreeTransaction.statuses[:failure] }
 
         it 'does not create a transaction' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
-          expect(Payment::BraintreeTransaction).not_to have_received(:create)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
+          expect(Payment::BraintreeTransaction).not_to have_received(:create!)
         end
 
         it 'does not create a new customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, nil)
+          Payment.write_transaction(bt_result, page_id, member.id, nil)
           expect(Payment::BraintreeCustomer).not_to have_received(:create)
         end
 
         it 'does not update existing_customer' do
-          Payment.write_transaction(bt_result, page_id, member_id, existing_customer)
+          Payment.write_transaction(bt_result, page_id, member.id, existing_customer)
           expect(existing_customer).not_to have_received(:update)
         end
       end
