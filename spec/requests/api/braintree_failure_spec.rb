@@ -7,9 +7,6 @@ shared_examples "creates nothing" do
   it "does not create a Member" do
     expect{ subject }.not_to change{ Member.count }
   end
-  it "does not create a BraintreeCustomer" do
-    expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
-  end
   it "does not create a BraintreeSubscription" do
     expect{ subject }.not_to change{ Payment::BraintreeSubscription.count }
   end
@@ -94,6 +91,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not create a Transaction" do
               expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
               subject
@@ -128,6 +129,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not create a Transaction" do
               expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
               subject
@@ -160,8 +165,17 @@ describe "Braintree API" do
             include_examples "creates nothing"
             include_examples "processor errors"
 
+            it "creates a new BraintreeCustomer" do
+              expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
+              expect(Payment::BraintreeCustomer.last.default_payment_method).to eq nil
+            end
+
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
+            end
+
+            it "creates a transaction" do
+              expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
             end
 
             it "creates a Transaction associated with the page storing relevant info" do
@@ -173,10 +187,10 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.customer_id).to eq nil
+              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
-              expect(transaction.payment_method_token_id).to eq nil
+              expect(transaction.payment_method_id).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
           end
@@ -195,6 +209,10 @@ describe "Braintree API" do
             include_examples 'creates nothing'
             include_examples "processor errors"
 
+            it "creates a BraintreeCustomer" do
+              expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
+            end
+
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
             end
@@ -208,10 +226,10 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.customer_id).to eq nil
+              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
-              expect(transaction.payment_method_token_id).to eq nil
+              expect(transaction.payment_method_id).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
           end
@@ -219,11 +237,12 @@ describe "Braintree API" do
 
         describe "when BraintreeCustomer exists" do
           describe "with Paypal" do
+            let!(:member) { create :member, email: user[:email], postal: nil }
             let(:paypal_params) {
               params.merge(payment_method_nonce: 'fake-paypal-future-nonce', merchant_account_id: 'EUR')
             }
             let!(:braintree_customer) {
-              create(:payment_braintree_customer)
+              create(:payment_braintree_customer, email: user[:email], customer_id: 'test', member_id: member.id)
             }
 
             subject do
@@ -234,6 +253,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
             include_examples "processor errors"
+
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
 
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
@@ -252,10 +275,10 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.customer_id).to eq nil
+              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
-              expect(transaction.payment_method_token_id).to eq nil
+              expect(transaction.payment_method_id).to eq nil
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
           end
@@ -274,6 +297,17 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
             include_examples "processor errors"
+
+            it "creates a BraintreeCustomer that's associated with the member but has no customer_id passed from Braintree" do
+              # This is a crappy scenario. Failing a transaction when both the member and the customer are new will
+              # not create a new member, because a member gets created only on a successful action. The customer will be
+              # created locally, but will have a member_id of nil, and so the transaction will have a useless payment_braintree_customer_id.
+              # A sub-optimal scenario to be sure, but the scenario on production is equivalent before this change (only that the
+              # customer_id in the transaction is nil, not that the customer's member_id is nil).
+              expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
+              expect(Payment::BraintreeCustomer.last.member_id).to eq nil
+              expect(Payment::BraintreeCustomer.last.customer_id).to eq nil
+            end
           end
 
           describe "with invalid currency" do
@@ -317,6 +351,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not update the customer" do
               expect{ subject }.not_to change{ customer.reload }
             end
@@ -345,6 +383,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not update the customer" do
               expect{ subject }.not_to change{ customer.reload }
             end
@@ -369,6 +411,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not update the customer" do
               expect{ subject }.not_to change{ customer.reload }
             end
@@ -394,6 +440,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not create a Transaction" do
               expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
             end
@@ -415,6 +465,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
             include_examples "processor errors"
+
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
 
             it "does not create a Transaction" do
               expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
@@ -437,6 +491,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
 
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not create a Transaction" do
               expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
             end
@@ -458,6 +516,10 @@ describe "Braintree API" do
 
             include_examples "creates nothing"
             include_examples "processor errors"
+
+            it "does not create a BraintreeCustomer" do
+              expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
+            end
 
             it "does not create a Transaction" do
               expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }

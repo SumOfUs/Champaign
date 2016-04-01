@@ -5,14 +5,14 @@ FactoryGirl.define do
     cardholder_name { Faker::Name.name }
     card_debit "MyString"
     card_last_4 { Faker::Number.number(4) }
-    default_payment_method_token nil
+    default_payment_method nil
     card_unique_number_identifier{ "cuni#{Faker::Number.number(6)}" }
     email { Faker::Internet.email }
     first_name "MyString"
     last_name "MyString"
     customer_id { Faker::Number.number(6) }
 
-    trait :with_payment_method_tokens do
+    trait :with_payment_methods do
       # payment_methods is declared as a transient attribute and available in
       # attributes on the factory, as well as the callback via the evaluator
       transient do
@@ -25,13 +25,13 @@ FactoryGirl.define do
         tokens = []
         evaluator.payment_methods.times do |i|
           tokens.push({
-                          braintree_payment_method_token: Faker::Lorem.characters(i+4),
+                          token: Faker::Lorem.characters(i+4),
                           customer_id: customer.customer_id
                       })
         end
-        # Make sure that the token described in customer.default_payment_method_token is a part of the customer's
+        # Make sure that the token described in customer.default_payment_method is a part of the customer's
         # newly generated braintree payment method tokens.
-        customer.default_payment_method_token = tokens.map { |t| FactoryGirl.create(:braintree_payment_method_token, t) }.last
+        customer.default_payment_method = tokens.map { |t| FactoryGirl.create(:braintree_payment_method, t) }.last
       end
 
     end

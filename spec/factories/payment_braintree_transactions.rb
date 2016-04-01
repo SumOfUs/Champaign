@@ -5,7 +5,7 @@ FactoryGirl.define do
     status 0
     amount 12.34
     transaction_created_at "2015-11-17 16:46:19"
-    payment_method_token_id { "asdf#{Faker::Number.number(10)}" }
-    customer_id { "c#{Faker::Number.number(4)}" }
+    payment_method_id { "asdf#{Faker::Number.number(10)}" }
+    payment_braintree_customer_id { Faker::Number.number(4) }
   end
 end

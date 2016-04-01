@@ -166,8 +166,8 @@ describe Payment do
         paypal_details: paypal_details
       ) 
     end
-    let!(:paypal_token) { create :braintree_payment_method_token,  braintree_payment_method_token: 'pp_token' }
-    let!(:credit_card_token) { create :braintree_payment_method_token,  braintree_payment_method_token: 'cc_token' }
+    let!(:paypal_token) { create :braintree_payment_method,  token: 'pp_token' }
+    let!(:credit_card_token) { create :braintree_payment_method,  token: 'cc_token' }
 
     let(:transaction_params) do
       {
@@ -179,11 +179,11 @@ describe Payment do
         merchant_account_id:     transaction.merchant_account_id,
         processor_response_code: transaction.processor_response_code,
         currency:                transaction.currency_iso_code,
-        customer_id:             transaction.customer_details.id,
+        payment_braintree_customer_id:             transaction.customer_details.id,
         status:                  status,
         # Since we always create a new payment method token before the transaction, the id of the new token will with
         # the current implementation always be that of the last token created.
-        payment_method_token_id: Payment::BraintreePaymentMethodToken.last.id,
+        payment_method_token_id: Payment::BraintreePaymentMethod.last.id,
         page_id:                 page_id
       }
     end
@@ -207,7 +207,7 @@ describe Payment do
           card_last_4:      credit_card_details.last_4,
           # We always make a new payment method token, and the default payment method token gets updated to the latest
           # payment method token - so the updated token id is that of the most previously created token.
-          default_payment_method_token_id: Payment::BraintreePaymentMethodToken.last.id,
+          default_payment_method_id: Payment::BraintreePaymentMethod.last.id,
           customer_id:      transaction.customer_details.id,
           email:            transaction.customer_details.email,
           member_id:        member.id
@@ -353,7 +353,7 @@ describe Payment do
           card_bin:         nil,
           cardholder_name:  nil,
           card_debit:       "Unknown",
-          default_payment_method_token_id: Payment::BraintreePaymentMethodToken.last.id,
+          default_payment_method_id: Payment::BraintreePaymentMethod.last.id,
           customer_id:      transaction.customer_details.id,
           card_last_4:      'PYPL',
           email:            transaction.customer_details.email,
