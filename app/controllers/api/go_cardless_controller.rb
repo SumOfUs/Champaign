@@ -14,7 +14,9 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def payment_complete
-    # this is a standin until tuuli's namespacing PR is merged and we can use 1 payment endpoint
+    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
+
+    render json: {success: builder.result.success?, params: params}
   end
 
   private
