@@ -148,9 +148,9 @@ describe Payment do
 
     let!(:page_id){ 4567 }
     let!(:page) { create :page, id: 4567 }
-    let(:member) { create :member, id: 5678 }
-    let(:new_member) { create :member, id: 1234 }
-    let(:existing_customer){ build :payment_braintree_customer }
+    let!(:member) { create :member, id: 5678 }
+    let(:new_member) { create :member, id: 1234, email: 'guybrush@threepwood.com' }
+    let!(:existing_customer){ create :payment_braintree_customer, member_id: member.id, customer_id: '123' }
     let(:transaction) do
       instance_double('Braintree::Transaction',
         id: 'sfjdjkl',
@@ -166,25 +166,59 @@ describe Payment do
         paypal_details: paypal_details
       ) 
     end
+    let(:new_customer_transaction) do
+      instance_double('Braintree::Transaction',
+      id: 'asdfg',
+      type: 'payment',
+      payment_instrument_type: payment_instrument_type,
+      amount: '432.12',
+      created_at: 2.minutes.ago,
+      merchant_account_id: 'EUR',
+      processor_response_code: 1000,
+      currency_iso_code: 'EUR',
+      customer_details: double(id: '123456', email: 'guybrush@threepwood.com'),
+      credit_card_details: credit_card_details,
+      paypal_details: paypal_details
+      )
+    end
     let!(:paypal_token) { create :braintree_payment_method,  token: 'pp_token' }
     let!(:credit_card_token) { create :braintree_payment_method,  token: 'cc_token' }
 
     let(:transaction_params) do
       {
-        transaction_id:          transaction.id,
-        transaction_type:        transaction.type,
-        payment_instrument_type: transaction.payment_instrument_type,
-        amount:                  transaction.amount,
-        transaction_created_at:  transaction.created_at,
-        merchant_account_id:     transaction.merchant_account_id,
-        processor_response_code: transaction.processor_response_code,
-        currency:                transaction.currency_iso_code,
-        payment_braintree_customer_id:             transaction.customer_details.id,
-        status:                  status,
+        transaction_id:                  transaction.id,
+        transaction_type:                transaction.type,
+        payment_instrument_type:         transaction.payment_instrument_type,
+        amount:                          transaction.amount,
+        transaction_created_at:          transaction.created_at,
+        merchant_account_id:             transaction.merchant_account_id,
+        processor_response_code:         transaction.processor_response_code,
+        currency:                        transaction.currency_iso_code,
+        customer_id:                     existing_customer.customer_id,
+        status:                          status,
         # Since we always create a new payment method token before the transaction, the id of the new token will with
         # the current implementation always be that of the last token created.
-        payment_method_token_id: Payment::BraintreePaymentMethod.last.id,
+        payment_method_id: Payment::BraintreePaymentMethod.last.id,
         page_id:                 page_id
+      }
+    end
+
+    let(:new_customer_transaction_params) do
+      {
+          transaction_id:                  new_customer_transaction.id,
+          transaction_type:                new_customer_transaction.type,
+          payment_instrument_type:         new_customer_transaction.payment_instrument_type,
+          amount:                          new_customer_transaction.amount,
+          transaction_created_at:          new_customer_transaction.created_at,
+          merchant_account_id:             new_customer_transaction.merchant_account_id,
+          processor_response_code:         new_customer_transaction.processor_response_code,
+          currency:                        new_customer_transaction.currency_iso_code,
+          customer_id:                     '123456',
+          status:                          status,
+          # Since we always create a new payment method token before the transaction, the id of the new token will with
+          # the current implementation always be that of the last token created.
+          payment_method_id: Payment::BraintreePaymentMethod.last.id,
+          page_id:                 page_id
       }
     end
 
@@ -227,6 +261,8 @@ describe Payment do
 
       describe 'with successful transaction' do
         let(:bt_result){ instance_double('Braintree::SuccessResult', transaction: transaction, success?: true) }
+        let(:new_customer_bt_result) { instance_double('Braintree::SuccessResult', transaction: new_customer_transaction, success?: true) }
+
         let(:status) { Payment::BraintreeTransaction.statuses[:success] }
 
         it 'creates a transaction with the right attributes if an existing customer' do
@@ -235,8 +271,8 @@ describe Payment do
         end
 
         it 'creates a transaction with the right attributes if a new customer' do
-          Payment.write_transaction(bt_result, page_id, member.id, nil)
-          expect(Payment::BraintreeTransaction).to have_received(:create!).with(transaction_params)
+          Payment.write_transaction(new_customer_bt_result, page_id, member.id, nil)
+          expect(Payment::BraintreeTransaction).to have_received(:create!).with(new_customer_transaction_params)
         end
 
         it 'updates the existing_customer with the right attributes' do

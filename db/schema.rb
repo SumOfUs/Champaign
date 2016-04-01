@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160331210556) do
+ActiveRecord::Schema.define(version: 20160331210529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -255,15 +255,15 @@ ActiveRecord::Schema.define(version: 20160331210556) do
     t.string   "transaction_type"
     t.datetime "transaction_created_at"
     t.integer  "payment_method_id"
-    t.integer  "payment_braintree_customer_id"
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.string   "customer_id"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "merchant_account_id"
     t.string   "currency"
     t.integer  "page_id"
     t.string   "payment_instrument_type"
     t.integer  "status"
-    t.decimal  "amount",                        precision: 10, scale: 2
+    t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
   end
 

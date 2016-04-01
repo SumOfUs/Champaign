@@ -127,7 +127,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq customer.id
+              expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -232,7 +232,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq customer.id
+              expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -317,7 +317,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -418,7 +418,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -588,7 +588,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq customer.id
+              expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -720,7 +720,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq customer.id
+              expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -813,7 +813,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -943,7 +943,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
