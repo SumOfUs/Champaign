@@ -120,6 +120,11 @@ Rails.application.routes.draw do
       post 'webhook', action: 'webhook'
     end
 
+    namespace :go_cardless do
+      get 'start_flow'
+      get 'payment_complete'
+    end
+
     resources :pages do
       resource  :analytics
       resources :actions do
