@@ -117,10 +117,13 @@ module Payment
     def build
       return unless transaction.present?
       # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
-      # though, because trasnaction.customer_details.id is nil for failed transactionso so the transaction FK to the customer
-      # will also be nil.
+      # though, because trasnaction.customer_details.id is nil for failed transaction.
+      pp 'customer details', transaction.customer_details
       @customer = @existing_customer || Payment::BraintreeCustomer.find_or_create_by!(
           member_id: @member_id,
+          # TODO: This is a problem for webhook notifications. At least in the example notification in the specs,
+          # there are no customer details, so a new customer will always be created with an existing member_id
+          # and a nil customer_id. This won't fly.
           customer_id: transaction.customer_details.id)
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
