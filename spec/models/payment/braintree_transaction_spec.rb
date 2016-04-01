@@ -10,7 +10,7 @@ describe Payment::BraintreeTransaction do
   it { is_expected.to respond_to :amount }
   it { is_expected.to respond_to :transaction_created_at }
   it { is_expected.to respond_to :payment_method }
-  it { is_expected.to respond_to :payment_braintree_customer_id }
+  it { is_expected.to respond_to :customer_id }
   it { is_expected.to respond_to :created_at }
   it { is_expected.to respond_to :updated_at }
   it { is_expected.to respond_to :merchant_account_id }

@@ -170,6 +170,12 @@ describe "Braintree API" do
               expect(Payment::BraintreeCustomer.last.default_payment_method).to eq nil
             end
 
+            it "creates a new BraintreeCustomer with nil for customer_id, and does not create a new customer on the second attempt" do
+              expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
+              expect(Payment::BraintreeCustomer.last.customer_id).to eq nil
+              expect{ subject }.to_not change{ Payment::BraintreeCustomer.count }
+            end
+
             it "does not update the member" do
               expect{ subject }.not_to change{ member.reload }
             end
@@ -187,7 +193,8 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
+              expect(transaction.customer_id).to eq nil
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
               expect(transaction.payment_method_id).to eq nil
@@ -226,7 +233,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq nil
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
               expect(transaction.payment_method_id).to eq nil
@@ -275,7 +282,7 @@ describe "Braintree API" do
               expect(transaction.merchant_account_id).to eq 'EUR'
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
-              expect(transaction.payment_braintree_customer_id).to eq Payment::BraintreeCustomer.last.id
+              expect(transaction.customer_id).to eq braintree_customer.customer_id
               expect(transaction.status).to eq 'failure'
               expect(transaction.processor_response_code).to eq '2002'
               expect(transaction.payment_method_id).to eq nil
@@ -301,7 +308,7 @@ describe "Braintree API" do
             it "creates a BraintreeCustomer that's associated with the member but has no customer_id passed from Braintree" do
               # This is a crappy scenario. Failing a transaction when both the member and the customer are new will
               # not create a new member, because a member gets created only on a successful action. The customer will be
-              # created locally, but will have a member_id of nil, and so the transaction will have a useless payment_braintree_customer_id.
+              # created locally, but will have a member_id of nil, and so the transaction will have a useless customer_id.
               # A sub-optimal scenario to be sure, but the scenario on production is equivalent before this change (only that the
               # customer_id in the transaction is nil, not that the customer's member_id is nil).
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
