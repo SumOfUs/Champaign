@@ -9,8 +9,8 @@ describe Payment::BraintreeTransaction do
   it { is_expected.to respond_to :transaction_type }
   it { is_expected.to respond_to :amount }
   it { is_expected.to respond_to :transaction_created_at }
-  it { is_expected.to respond_to :payment_method_token }
-  it { is_expected.to respond_to :customer_id }
+  it { is_expected.to respond_to :payment_method }
+  it { is_expected.to respond_to :payment_braintree_customer_id }
   it { is_expected.to respond_to :created_at }
   it { is_expected.to respond_to :updated_at }
   it { is_expected.to respond_to :merchant_account_id }
@@ -21,8 +21,6 @@ describe Payment::BraintreeTransaction do
   it { is_expected.to respond_to :status }
   it { is_expected.to respond_to :success? }
   it { is_expected.to respond_to :failure? }
-
-  it { is_expected.to_not respond_to :customer }
 
   it 'handles money properly' do
     create :payment_braintree_transaction, amount: 12.41

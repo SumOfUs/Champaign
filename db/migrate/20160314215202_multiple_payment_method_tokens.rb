@@ -1,8 +1,8 @@
 class MultiplePaymentMethodTokens < ActiveRecord::Migration
   def change
-    create_table :payment_braintree_payment_method_tokens do |t|
+    create_table :payment_braintree_payment_methods do |t|
       t.string :customer_id
-      t.string :braintree_payment_method_token
+      t.string :token
       t.timestamps null: false
     end
   end

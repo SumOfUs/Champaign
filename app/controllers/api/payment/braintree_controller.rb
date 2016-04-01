@@ -31,7 +31,7 @@ class Api::Payment::BraintreeController < ApplicationController
 
   def delete_payment_method
     # TODO: Delete payment method on Vault, and if that's successful, destroy it locally.
-    if Payment::BraintreePaymentMethodToken.find(params[:id]).destroy
+    if Payment::BraintreePaymentMethod.find(params[:id]).destroy
       render json: { success: true }, status: 200
     else
       render json: { success: false }, status: 400

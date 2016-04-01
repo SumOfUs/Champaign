@@ -51,11 +51,11 @@ module Payment
       else
         @existing_customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
-      new_token = Payment::BraintreePaymentMethodToken.find_or_create_by!(
+      new_token = Payment::BraintreePaymentMethod.find_or_create_by!(
           customer_id: @existing_customer.customer_id,
-          braintree_payment_method_token: @bt_payment_method.token
+          token: @bt_payment_method.token
       )
-      @existing_customer.default_payment_method_token = new_token
+      @existing_customer.default_payment_method = new_token
       @existing_customer.save
     end
 
@@ -111,18 +111,22 @@ module Payment
       @page_id = page_id
       @member_id = member_id
       @save_customer = save_customer
+      @existing_customer = existing_customer
     end
 
     def build
       return unless transaction.present?
-      @existing_customer = Payment::BraintreeCustomer.find_or_create_by!(
+      # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
+      # though, because trasnaction.customer_details.id is nil for failed transactionso so the transaction FK to the customer
+      # will also be nil.
+      @customer = @existing_customer || Payment::BraintreeCustomer.find_or_create_by!(
           member_id: @member_id,
           customer_id: transaction.customer_details.id)
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
-      @local_payment_method_id = payment_method_token.blank? ? nil : Payment::BraintreePaymentMethodToken.find_or_create_by!(
+      @local_payment_method_id = payment_method_token.blank? ? nil : Payment::BraintreePaymentMethod.find_or_create_by!(
           customer_id: @existing_customer.customer_id,
-          braintree_payment_method_token: payment_method_token).id
+          token: payment_method_token).id
       ::Payment::BraintreeTransaction.create!(transaction_attrs)
       return unless successful? && @save_customer
       @existing_customer.update(customer_attrs)
@@ -132,18 +136,18 @@ module Payment
 
     def transaction_attrs
       {
-        transaction_id:          transaction.id,
-        transaction_type:        transaction.type,
-        payment_instrument_type: transaction.payment_instrument_type,
-        amount:                  transaction.amount,
-        transaction_created_at:  transaction.created_at,
-        merchant_account_id:     transaction.merchant_account_id,
-        processor_response_code: transaction.processor_response_code,
-        currency:                transaction.currency_iso_code,
-        customer_id:             @existing_customer.customer_id,
-        status:                  status,
-        payment_method_token_id: @local_payment_method_id,
-        page_id:                 @page_id
+        transaction_id:                  transaction.id,
+        transaction_type:                transaction.type,
+        payment_instrument_type:         transaction.payment_instrument_type,
+        amount:                          transaction.amount,
+        transaction_created_at:          transaction.created_at,
+        merchant_account_id:             transaction.merchant_account_id,
+        processor_response_code:         transaction.processor_response_code,
+        currency:                        transaction.currency_iso_code,
+        payment_braintree_customer_id:   @customer.id,
+        status:                          status,
+        payment_method_id:               @local_payment_method_id,
+        page_id:                         @page_id
       }
     end
 
@@ -152,15 +156,15 @@ module Payment
         # NOTE: we do NOT store card_unique_number_identifier because
         # that is only returned on Braintree::CreditCard, not on
         # Braintree::Transaction::CreditCardDetails
-        card_type:        card.card_type,
-        card_bin:         card.bin,
-        cardholder_name:  card.cardholder_name,
-        card_debit:       card.debit,
-        card_last_4:      last_4,
-        default_payment_method_token_id: @local_payment_method_id,
-        customer_id:      transaction.customer_details.id,
-        email:            transaction.customer_details.email,
-        member_id:        @member_id
+        card_type:                 card.card_type,
+        card_bin:                  card.bin,
+        cardholder_name:           card.cardholder_name,
+        card_debit:                card.debit,
+        card_last_4:               last_4,
+        default_payment_method_id: @local_payment_method_id,
+        customer_id:               transaction.customer_details.id,
+        email:                     transaction.customer_details.email,
+        member_id:                 @member_id
       }
     end
 
