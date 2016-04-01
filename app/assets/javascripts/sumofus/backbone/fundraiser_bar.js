@@ -22,6 +22,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .fundraiser-bar__close-button': 'hide',
+    'click .hosted-fields__go-cardless': 'submitDirectDebit',
   },
 
   // options: object with any of the following keys
@@ -235,14 +236,28 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
   },
 
+  donationData() {
+    return {
+      amount:       this.donationAmount,
+      user:         this.serializeUserForm(),
+      currency:     this.currency,
+      recurring:    this.readRecurring()
+    }
+  },
+
+  submitDirectDebit() {
+    let data = this.donationData();
+    data.provider = 'GC';
+    let url = `/api/go_cardless/start_flow?${$.param(data)}`;
+    console.log('url:',url);
+    window.open(url);
+  },
+
   submitDonation () {
-    $.post(`/api/braintree/pages/${this.pageId}/transaction`, {
-      payment_method_nonce: this.nonce,
-      amount:               this.donationAmount,
-      user:                 this.serializeUserForm(),
-      currency:             this.currency,
-      recurring:            this.readRecurring()
-    }).done(this.transactionSuccess()).
+    let data = this.donationData();
+    data.payment_method_nonce = this.nonce;
+    $.post(`/api/braintree/pages/${this.pageId}/transaction`, data).
+      done(this.transactionSuccess()).
       error(this.transactionFailed());
   },
 

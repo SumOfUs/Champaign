@@ -221,6 +221,21 @@ $fundraiser-top-height: 162px;
       padding-right: 52px;
     }
   }
+  &__go-cardless {
+    background: #5092DA;
+    padding: 4px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    display: block;
+    height: 52px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 19px;
+    font-weight: bold;
+    text-align: center;
+    font-style: italic;
+  }
   &__card-type {
     position: absolute;
     right: 8px;
