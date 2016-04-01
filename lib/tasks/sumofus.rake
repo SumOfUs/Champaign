@@ -11,6 +11,28 @@ namespace :sumofus do
     @tag
   end
 
+  task :add_ak_uris_to_pages, [] => :environment do |task, args|
+
+    def read_from_ak_url(url)
+      scrape_uri = URI(url)
+      http = Net::HTTP.new(scrape_uri.host, scrape_uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
+      request = Net::HTTP::Get.new(scrape_uri.request_uri)
+      request.basic_auth(Settings.ak_username, Settings.ak_password)
+      JSON.parse(http.request(request).body)
+    end
+
+    Page.all.each do |page|
+      next unless page.ak_petition_resource_uri.blank?
+      data = read_from_ak_url("https://act.sumofus.org/rest/v1/petitionpage/?name=#{page.slug}")
+      puts data, data.has_key?('objects')
+      next unless data.has_key?('objects') && !data['objects'].empty?
+      puts "setting ak_petition_resource_uri to #{data['objects'].first['resource_uri']}"
+      page.update_attributes(ak_petition_resource_uri: data['objects'].first['resource_uri'])
+    end
+  end
+
   task :check_legacy_actions, [:action_file] => :environment do |task, args|
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
@@ -43,11 +65,14 @@ namespace :sumofus do
 
     page_data.each_pair do |k, entry|
       begin
-        # check existence, images, and language
+        # check existence, images, ak_petition_resource_uri, and language
         page = Page.find(entry['slug']) # raises if not found
         puts "Page at <#{entry['slug']}> has no image" if page.images.size < 1
         if page.language.code.to_s.downcase != entry['language'].to_s.downcase
           puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
+        end
+        if page.ak_petition_resource_uri.blank?
+          puts "Page at <#{entry['slug']}> has a blank ak_petition_resource_uri"
         end
 
         # check form
