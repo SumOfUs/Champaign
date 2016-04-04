@@ -1,10 +1,8 @@
 <h1 class="centered-overlay__title">Log in</h1>
 
-<%- if devise_mapping.omniauthable? %>
-  <section class="col-xs-12">
-    <%= link_to "Sign in with your SumOfUs email", omniauth_authorize_path(resource_name, 'google_oauth2'), class: 'btn btn-primary btn-lg' %><br />
-  </section>
-<% end -%>
+<section class="col-xs-12">
+  <%= link_to "Sign in with your SumOfUs email", user_omniauth_authorize_path('google_oauth2'), class: 'btn btn-primary btn-lg' %><br />
+</section>
 
 <section class="col-xs-12">
   <h4>or log in with a password</h4>

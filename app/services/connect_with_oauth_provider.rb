@@ -2,16 +2,17 @@
 class Champaign::NotWhitelisted < StandardError; end;
 
 class ConnectWithOauthProvider
-  def self.connect(data)
-    new(data).connect
+  def self.connect(data, type)
+    new(data, type).connect
   end
 
-  def initialize(resp)
+  def initialize(resp, type)
     @resp = resp
+    @type = type.to_sym
   end
 
   def connect
-    raise Champaign::NotWhitelisted unless whitelisted
+    raise Champaign::NotWhitelisted unless whitelisted || is_member?
 
     return connected_user if user_already_connected
 
@@ -28,11 +29,11 @@ class ConnectWithOauthProvider
   end
 
   def connected_user
-    @connected_user ||= User.find_by(provider: @resp.provider, uid: @resp.uid)
+    @connected_user ||= user_class.find_by(provider: @resp.provider, uid: @resp.uid)
   end
 
   def disconnected_user
-    @disconnected_user ||= User.find_by(email: @resp.info.email)
+    @disconnected_user ||= user_class.find_by(email: @resp.info.email)
   end
 
   def updated_disconnected_user
@@ -41,7 +42,7 @@ class ConnectWithOauthProvider
   end
 
   def create_user
-    @created_user ||= User.create!(
+    @created_user ||= user_class.create!(
       provider: @resp.provider,
       email: @resp.info.email,
       uid: @resp.uid,
@@ -55,6 +56,14 @@ class ConnectWithOauthProvider
 
   def whitelist
     Settings.oauth_domain_whitelist
+  end
+
+  def user_class
+    is_member? ? Member : User
+  end
+
+  def is_member?
+    @type == :member
   end
 
   alias_method :user_exists_but_disconnected, :disconnected_user

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-describe 'Omniauth with Devise' do
+describe 'Omniauth with Devise', :pending do
+  # I want to beef up this spec quite a bit so I'm just marking it pending for now
   def login_with_google(email = 'cesar@example.com')
     login_with_oauth2(:google_oauth2, {
       uid:      '12345',
@@ -34,7 +35,7 @@ describe 'Omniauth with Devise' do
   end
 
   context 'not whitelisted' do
-    it 'redirects home' do
+    it 'redirects to login screen' do
       login_with_google('not@whitelisted.com')
       expect(response).to redirect_to(new_user_session_path)
       expect(flash.now[:error]).to eq("You're not authorised to authenticate with that account.")

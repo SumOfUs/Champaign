@@ -1,9 +1,14 @@
 class Member < ActiveRecord::Base
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable
+
   has_one :customer, class_name: "Payment::BraintreeCustomer"
   has_paper_trail on: [:update, :destroy]
 
-  validates :email, uniqueness: true, allow_nil: true
+  validates :email, uniqueness: true, allow_blank: true
   before_save { self.email.try(:downcase!) }
+  before_validation { self.email ||= "" }
+
 
   def self.find_from_request(akid: nil, id: nil)
     actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
