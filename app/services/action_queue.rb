@@ -40,11 +40,19 @@ module ActionQueue
   class PetitionAction
     include Enqueable
 
+    def get_page_name
+      if page.status.inquiry.imported?
+        page.slug
+      else
+        "#{page.slug}-petition"
+      end
+    end
+
     def payload
       {
         type: 'action',
         params: {
-          page: "#{@action.page.slug}-petition"
+          page: get_page_name,
         }.merge(@action.form_data).
           merge( UserLanguageISO.for(page.language) ).tap do |params|
             params[:country] = country(member.country) if member.country.present?

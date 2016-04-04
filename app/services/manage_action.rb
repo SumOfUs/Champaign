@@ -13,16 +13,4 @@ class ManageAction
     return previous_action if previous_action.present?
     build_action
   end
-
-  private
-
-  def queue_message
-    {
-      type: 'action',
-      params: {
-        page: "#{page.slug}-petition"
-      }.merge(@params)
-    }
-  end
 end
-
