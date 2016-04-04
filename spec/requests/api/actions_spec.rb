@@ -56,6 +56,19 @@ describe "Api Actions" do
       }
     end
 
+    context 'for imported page' do
+      let(:page) { create(:page, status: 'imported') }
+
+      before do
+        message_body[:params][:page] = page.slug
+        post "/api/pages/#{page.id}/actions", params
+      end
+
+      it 'posts action to SQS Queue' do
+        expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
+      end
+    end
+
     describe 'country' do
       before do
         params[:country] = 'FR'
