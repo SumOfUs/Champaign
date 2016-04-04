@@ -44,7 +44,7 @@ module ActionQueue
       {
         type: 'action',
         params: {
-          page: "#{@action.page.slug}-petition"
+          page: page.slug,
         }.merge(@action.form_data).
           merge( UserLanguageISO.for(page.language) ).tap do |params|
             params[:country] = country(member.country) if member.country.present?
@@ -61,7 +61,7 @@ module ActionQueue
         type:  'donation',
         params: {
           donationpage: {
-            name:             "#{@action.page.slug}-donation",
+            name: page.slug,
             payment_account:  get_payment_account
           },
           order: {

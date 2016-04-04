@@ -26,7 +26,7 @@ describe ManageAction do
       expected = {
         type: "action",
         params: {
-          page:           "#{page.slug}-petition",
+          page:           page.slug,
           email:          "bob@example.com",
           page_id:        page.id,
           referring_akid: '123.456.xyz',

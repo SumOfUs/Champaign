@@ -10,7 +10,7 @@ class Api::ActionsController < ApplicationController
       write_member_cookie(action.member_id)
       render json: {}, status: 200
     else
-      render json: {errors: validator.errors}, status: 422
+      render json: { errors: validator.errors }, status: 422
     end
   end
 
@@ -19,7 +19,7 @@ class Api::ActionsController < ApplicationController
     if validator.valid?
       render json: {}, status: 200
     else
-      render json: {errors: validator.errors}, status: 422
+      render json: { errors: validator.errors }, status: 422
     end
   end
 
@@ -38,4 +38,3 @@ class Api::ActionsController < ApplicationController
     Form.find(params[:form_id]).form_elements.map(&:name)
   end
 end
-

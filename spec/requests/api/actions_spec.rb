@@ -19,7 +19,6 @@ describe "Api Actions" do
   let(:form) { create(:form_with_email) }
 
   describe "POST#create" do
-    let(:page) { create(:page) }
     let(:form) { create(:form_with_email_and_optional_country) }
 
     let(:params) do
@@ -37,8 +36,8 @@ describe "Api Actions" do
         type: "action",
 
         params: {
-          page:   "#{page.slug}-petition",
-          email:  "hello@example.com",
+          page:   page.slug,
+          email:  'hello@example.com',
           page_id: page.id.to_s,
           form_id: form.id.to_s,
           source: 'fb',
@@ -170,12 +169,12 @@ describe "Api Actions" do
               message_body: {
                   type: 'action',
                   params: {
-                      page: "#{page.slug}-petition",
-                      email: 'hello@example.com',
-                      page_id: page.id.to_s,
-                      form_id: form.id.to_s,
-                      akid: invalid_akid,
-                      user_en: 1
+                    page: page.slug,
+                    email: 'hello@example.com',
+                    page_id: page.id.to_s,
+                    form_id: form.id.to_s,
+                    akid: invalid_akid,
+                    user_en: 1
                   }
               }.to_json
           }

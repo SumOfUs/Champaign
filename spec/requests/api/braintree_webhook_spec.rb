@@ -93,7 +93,7 @@ describe "Braintree API" do
             type: "donation",
             params: {
               donationpage: {
-                name: "cash-rules-everything-around-me-donation",
+                name: "cash-rules-everything-around-me",
                 payment_account: "Braintree EUR"
               },
               order: {
@@ -153,7 +153,7 @@ describe "Braintree API" do
             type: "donation",
             params: {
               donationpage: {
-                name: "cash-rules-everything-around-me-donation",
+                name: "cash-rules-everything-around-me",
                 payment_account: "PayPal EUR"
               },
               order: {
