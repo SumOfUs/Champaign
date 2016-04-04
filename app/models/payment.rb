@@ -53,8 +53,8 @@ module Payment
       end
 
       Payment::BraintreePaymentMethod.find_or_create_by!(
-        customer_id: @existing_customer.customer_id,
-        token: @bt_payment_method.token
+        customer: @existing_customer,
+        token:    @bt_payment_method.token
       )
 
       @existing_customer.save
@@ -128,8 +128,9 @@ module Payment
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
       @local_payment_method_id = payment_method_token.blank? ? nil : Payment::BraintreePaymentMethod.find_or_create_by!(
-          customer_id: @customer.customer_id,
+          customer: @customer,
           token: payment_method_token).id
+
       ::Payment::BraintreeTransaction.create!(transaction_attrs)
       return unless successful? && @save_customer
       @customer.update(customer_attrs)
