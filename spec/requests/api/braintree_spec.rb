@@ -1067,21 +1067,23 @@ describe "Braintree API" do
         end
       end
 
-      let!(:member) { create :member, email: user_params[:email], postal: nil }
-      let!(:customer) {
-        create :payment_braintree_customer, :with_payment_methods,
-               member: member,
-               customer_id: 'test',
-               card_last_4: '4843',
-               payment_methods: 3
-      }
+      let!(:member)   { create :member, email: user_params[:email], postal: nil }
+      let!(:customer) { create(:payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843') }
+
+      before do
+        3.times do
+          Payment::BraintreePaymentMethod.create(customer_id: customer.customer_id)
+        end
+      end
+
       it "supports storing multiple braintree payment method tokens" do
         original_token = customer.default_payment_method
-        expect( customer.braintree_payment_methods.length ).to eq 3
+        expect( customer.braintree_payment_methods.length ).to eq(3)
         expect( customer.braintree_payment_methods ).to include(original_token)
-        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by(0)
+
         customer.reload
-        expect( customer.braintree_payment_methods.length ).to eq 4
+        expect( customer.braintree_payment_methods.length ).to eq(4)
         expect( customer.default_payment_method ).not_to eq original_token
         expect( customer.braintree_payment_methods ).to include(original_token, customer.default_payment_method)
       end
@@ -1089,26 +1091,29 @@ describe "Braintree API" do
       # This spec describes he rather weird expected behavior at the moment, where we create a payment method token every time.
       it "always creates a new payment method token, even if the same payment method is used" do
         original_token = customer.default_payment_method
-        expect( customer.braintree_payment_methods.length ).to eq 3
+
+        expect( customer.braintree_payment_methods.length ).to eq(3)
         expect( customer.braintree_payment_methods ).to include(original_token)
-        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by(0)
         customer.reload
-        expect( customer.braintree_payment_methods.length ).to eq 4
+        expect( customer.braintree_payment_methods.length ).to eq(4)
         expect( customer.default_payment_method ).not_to eq original_token
         expect( customer.braintree_payment_methods ).to include(original_token, customer.default_payment_method)
         new_token = customer.default_payment_method
+
         VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens_second_request") do
           post api_payment_braintree_transaction_path(page.id), params
         end
+
         customer.reload
         # The same payment method was used, the payment method tokens get incremented anyway. Similarly the default
         # payment method token gets updated to the new token corresponding to the old payment method.
-        expect( customer.braintree_payment_methods.length ).to eq 5
+        expect( customer.braintree_payment_methods.length ).to eq(5)
         expect( customer.default_payment_method ).to_not eq new_token
         expect( customer.braintree_payment_methods ).to include(original_token, new_token, customer.default_payment_method)
         # Each token only has one payment associated with them.
-        expect( Payment::BraintreeTransaction.where(payment_method_id: new_token.id).length ).to eq 1
-        expect( Payment::BraintreeTransaction.where(payment_method_id: customer.default_payment_method.id).length ).to eq 1
+        expect( Payment::BraintreeTransaction.where(payment_method_id: new_token.id).length ).to eq(1)
+        expect( Payment::BraintreeTransaction.where(payment_method_id: customer.default_payment_method.id).length ).to eq(1)
       end
     end
 
@@ -1134,6 +1139,4 @@ describe "Braintree API" do
       end
     end
   end
-
 end
-

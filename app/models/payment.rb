@@ -51,11 +51,12 @@ module Payment
       else
         @existing_customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
-      new_token = Payment::BraintreePaymentMethod.find_or_create_by!(
-          customer_id: @existing_customer.customer_id,
-          token: @bt_payment_method.token
+
+      Payment::BraintreePaymentMethod.find_or_create_by!(
+        customer_id: @existing_customer.customer_id,
+        token: @bt_payment_method.token
       )
-      @existing_customer.default_payment_method = new_token
+
       @existing_customer.save
     end
 
@@ -118,7 +119,6 @@ module Payment
       return unless transaction.present?
       # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
       # though, because trasnaction.customer_details.id is nil for failed transaction.
-      pp 'customer details', transaction.customer_details
       @customer = @existing_customer || Payment::BraintreeCustomer.find_or_create_by!(
           member_id: @member_id,
           # TODO: This is a problem for webhook notifications. At least in the example notification in the specs,
@@ -164,7 +164,6 @@ module Payment
         cardholder_name:           card.cardholder_name,
         card_debit:                card.debit,
         card_last_4:               last_4,
-        default_payment_method_id: @local_payment_method_id,
         customer_id:               transaction.customer_details.id,
         email:                     transaction.customer_details.email,
         member_id:                 @member_id
