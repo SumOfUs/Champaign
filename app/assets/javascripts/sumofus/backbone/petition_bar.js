@@ -75,6 +75,10 @@ const PetitionBar = Backbone.View.extend(_.extend(
   },
 
   policeHeights: function() {
+    if (this.isMobile()) {
+      return;
+    }
+
     // move the blurb up into the correct position
     let topHeight = this.$('.petition-bar__top').outerHeight();
     if (this.isSticky){
