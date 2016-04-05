@@ -47,7 +47,12 @@ describe "Braintree API" do
           user_en: 1
         },
         action: {
-          source: 'fb'
+          source: 'fb',
+          fields: {
+            recurring_id: 1,
+            recurrence_number: 0,
+            exp_date: "1220"
+          }
         }
       }
     }
@@ -59,6 +64,10 @@ describe "Braintree API" do
   end
 
   describe 'making a transaction' do
+    before do
+      donation_push_params[:params][:action].delete(:fields)
+    end
+
     describe 'successfully' do
 
       let(:basic_params) do
@@ -213,6 +222,20 @@ describe "Braintree API" do
               end
             end
 
+            xit 'works' do
+              customer = Payment::BraintreeCustomer.create
+              method = Payment::BraintreePaymentMethod.create(customer: customer)
+
+              transaction = Payment::BraintreeTransaction.create(payment_method: method)
+              transaction_2 = Payment::BraintreeTransaction.create(payment_method: method)
+
+              expect(transaction.payment_method).to eq(method)
+
+              expect(method.transactions.count).to eq(2)
+              expect(method.customer).to eq(customer)
+              expect(customer.payment_methods).to eq([method])
+            end
+
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
@@ -226,8 +249,7 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq customer.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+              expect(transaction.payment_method.token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -295,6 +317,7 @@ describe "Braintree API" do
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
               expect(form_data['transaction_id']).to eq Payment::BraintreeTransaction.last.transaction_id
+              expect(form_data).to_not include('recurrence_number')
             end
 
             it "creates a Transaction associated with the page storing relevant info" do
@@ -526,6 +549,10 @@ describe "Braintree API" do
 
         let!(:member) { create :member, email: user_params[:email], postal: nil }
 
+        before do
+          donation_push_params[:params][:action][:fields][:recurring_id] = member.id
+        end
+
         context 'when BraintreeCustomer exists' do
 
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
@@ -534,6 +561,7 @@ describe "Braintree API" do
 
             let(:amount) { 823.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
+
             subject do
               VCR.use_cassette("subscription success basic existing customer") do
                 post api_payment_braintree_transaction_path(page.id), params
@@ -555,6 +583,7 @@ describe "Braintree API" do
               expect{ subject }.to change{ Action.count }.by 1
               form_data = Action.last.form_data
               expect(form_data['card_num']).to eq '1881'
+              expect(form_data['recurrence_number']).to eq(0)
               expect(form_data['is_subscription']).to eq true
               expect(form_data['amount']).to eq amount.to_s
               expect(form_data['currency']).to eq 'EUR'
@@ -1051,48 +1080,53 @@ describe "Braintree API" do
         end
       end
 
-      let!(:member) { create :member, email: user_params[:email], postal: nil }
-      let!(:customer) {
-        create :payment_braintree_customer, :with_payment_methods,
-               member: member,
-               customer_id: 'test',
-               card_last_4: '4843',
-               payment_methods: 3
-      }
+      let!(:member)   { create :member, email: user_params[:email], postal: nil }
+      let!(:customer) { create(:payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843') }
+
+      before do
+        3.times do
+          Payment::BraintreePaymentMethod.create(customer: customer)
+        end
+      end
+
       it "supports storing multiple braintree payment method tokens" do
         original_token = customer.default_payment_method
-        expect( customer.braintree_payment_methods.length ).to eq 3
-        expect( customer.braintree_payment_methods ).to include(original_token)
-        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+        expect( customer.payment_methods.length ).to eq(3)
+        expect( customer.payment_methods ).to include(original_token)
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by(0)
+
         customer.reload
-        expect( customer.braintree_payment_methods.length ).to eq 4
+        expect( customer.payment_methods.length ).to eq(4)
         expect( customer.default_payment_method ).not_to eq original_token
-        expect( customer.braintree_payment_methods ).to include(original_token, customer.default_payment_method)
+        expect( customer.payment_methods ).to include(original_token, customer.default_payment_method)
       end
 
       # This spec describes he rather weird expected behavior at the moment, where we create a payment method token every time.
       it "always creates a new payment method token, even if the same payment method is used" do
         original_token = customer.default_payment_method
-        expect( customer.braintree_payment_methods.length ).to eq 3
-        expect( customer.braintree_payment_methods ).to include(original_token)
-        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+
+        expect( customer.payment_methods.length ).to eq(3)
+        expect( customer.payment_methods ).to include(original_token)
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by(0)
         customer.reload
-        expect( customer.braintree_payment_methods.length ).to eq 4
+        expect( customer.payment_methods.length ).to eq(4)
         expect( customer.default_payment_method ).not_to eq original_token
-        expect( customer.braintree_payment_methods ).to include(original_token, customer.default_payment_method)
+        expect( customer.payment_methods ).to include(original_token, customer.default_payment_method)
         new_token = customer.default_payment_method
+
         VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens_second_request") do
           post api_payment_braintree_transaction_path(page.id), params
         end
+
         customer.reload
         # The same payment method was used, the payment method tokens get incremented anyway. Similarly the default
         # payment method token gets updated to the new token corresponding to the old payment method.
-        expect( customer.braintree_payment_methods.length ).to eq 5
+        expect( customer.payment_methods.length ).to eq(5)
         expect( customer.default_payment_method ).to_not eq new_token
-        expect( customer.braintree_payment_methods ).to include(original_token, new_token, customer.default_payment_method)
+        expect( customer.payment_methods ).to include(original_token, new_token, customer.default_payment_method)
         # Each token only has one payment associated with them.
-        expect( Payment::BraintreeTransaction.where(payment_method_id: new_token.id).length ).to eq 1
-        expect( Payment::BraintreeTransaction.where(payment_method_id: customer.default_payment_method.id).length ).to eq 1
+        expect( Payment::BraintreeTransaction.where(payment_method_id: new_token.id).length ).to eq(1)
+        expect( Payment::BraintreeTransaction.where(payment_method_id: customer.default_payment_method.id).length ).to eq(1)
       end
     end
 
@@ -1120,4 +1154,3 @@ describe "Braintree API" do
   end
 
 end
-

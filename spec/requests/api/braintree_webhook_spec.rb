@@ -18,6 +18,7 @@ describe "Braintree API" do
       country: "US"
     }
   end
+
   let(:setup_params) do
     {
       currency: 'EUR',
@@ -115,7 +116,13 @@ describe "Braintree API" do
                 user_en: 1
               },
               action: {
-                source: 'fb'
+                source: 'fb',
+                skip_confirmation: 1,
+                fields: {
+                  recurring_id: Member.last.id,
+                  recurrence_number: 1,
+                  exp_date: "1220"
+                }
               }
             }
           })
@@ -169,7 +176,13 @@ describe "Braintree API" do
                 user_en: 1
               },
               action: {
-                source: 'fb'
+                source: 'fb',
+                skip_confirmation: 1,
+                fields: {
+                  recurring_id: Member.last.id,
+                  recurrence_number: 1,
+                  exp_date: (Time.now + 5.years).strftime("%-m%y")
+                }
               }
             }
           })

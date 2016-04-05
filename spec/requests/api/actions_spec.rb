@@ -58,13 +58,22 @@ describe "Api Actions" do
 
     describe 'country' do
       before do
-        message_body[:params][:country] = 'United States'
-        params[:country] = 'US'
+        params[:country] = 'FR'
         post "/api/pages/#{page.id}/actions", params
       end
 
       it 'posts full country name to queue' do
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("United States"))
+        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("France"))
+      end
+    end
+
+    describe 'edge case country names' do
+      CountriesExtension::COUNTRIES.each do |code, name|
+        it "successfully posts #{name}" do
+          params[:country] = code.upcase
+          post "/api/pages/#{page.id}/actions", params
+          expect(sqs_client).to have_received(:send_message).with(country_field_set_as(name))
+        end
       end
     end
 

@@ -21,8 +21,8 @@ describe UserLanguageISO do
     expect(subject.for( build(:language, :spanish ))).to eq({user_es: 1})
   end
 
-  it 'returns nothing for sweedish' do
-    expect(subject.for( build(:language, code: 'swe' ))).to eq({})
+  it 'returns nothing for swedish' do
+    expect(subject.for( build(:language, code: 'sv' ))).to eq({})
   end
 end
 

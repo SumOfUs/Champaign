@@ -40,6 +40,7 @@ gem 'slim-rails'
 gem 'liquid'
 gem 'remotipart', '~> 1.2'
 gem "i18n-js", ">= 3.0.0.rc12"
+gem 'rails-i18n', '~> 4.0.0'
 
 # Use Devise for Authentication
 gem 'devise'
@@ -117,10 +118,10 @@ group :development, :test do
 
 end
 
-
 group :test do
   gem 'webmock'
   gem 'timecop'
+  gem 'coveralls', require: false
 end
 
 # Rails Assets - reference any Bower components that you need as gems.

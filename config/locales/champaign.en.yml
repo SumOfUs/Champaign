@@ -70,7 +70,12 @@ en:
     shares:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
-    thermometer_offset: "Number of fake signatures to add to true count"
+      shares: "The number of people that shared this version"
+      successful_shares: "The number of the shares that got at least one person to take action"
+      conversion_rate: "The percentage of the shares that got at least one person to take action"
+      traffic_allocation: "As one share starts to win, more traffic will be automatically directed to that share. This shows current traffic allocation between different shares."
+      winner: "If a share performs better than the others with statistical significance, it is declared the winner."
+    thermometer_offset: "Number of fake signatures to add to true signature count. No commas or spaces."
     fundraiser:
       donation_band: "This determines the amounts displayed on the page to an unknown user without any information in their URL. Generally, you will want to stick with an option designed for non-donors."
       recurring_default: 'This sets whether the recurring donation checkbox is checked and/or hidden by default. If the url param recurring_default=recurring, recurring_default=only_recurring or recurring_default=one_off is passed, that will override the behavior specified here.'
@@ -82,8 +87,8 @@ en:
     add_source: "Only URL and Title are required. These appear as citations at the bottom of the page."
     form_elements:
       data_type: 'This changes what user inputs the field will accept'
-      label: 'This is the label of the field presented to the petition signer.'
-      name: "This is how the field is stored in ActionKit. Select a canonical AK field from the suggestions, or enter your own. AK's 'action_' prefix will be added automatically if you don't include it."
+      label: 'This is the label of the field presented to the signer.'
+      name: "The field name to be stored in ActionKit. Select a standard AK field from the suggestions, or enter your own. If entering your own, add _customer or _shareholder to company names, or _other for others. Examples: apple_customer, shell_shareholder, journalist_other"
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."

@@ -15,18 +15,17 @@ end
 
 
 # Forms
-DefaultFormBuilder.create
+['en', 'fr', 'de'].each do |locale|
+  DefaultFormBuilder.create(locale: locale)
+end
 
 # Create tags and their associations to ActionKit
 all_tags = [
     {name: '*Welcome_Sequence', actionkit_uri: '/rest/v1/tag/1000/'},
     {name: '#Animal_Rights', actionkit_uri: '/rest/v1/tag/944/'},
-    {name: '!French', actionkit_uri: '/rest/v1/tag/1130/'},
-    {name: '!German', actionkit_uri: '/rest/v1/tag/1132/'},
     {name: '#Net_Neutrality', actionkit_uri: '/rest/v1/tag/1078/'},
     {name: '*FYI_and_VIP', actionkit_uri: '/rest/v1/tag/980/'},
     {name: '@Germany', actionkit_uri: '/rest/v1/tag/1036/'},
-    {name: '!English', actionkit_uri: '/rest/v1/tag/1282/'},
     {name: '@NewZealand', actionkit_uri: '/rest/v1/tag/1140/'},
     {name: '@France', actionkit_uri: '/rest/v1/tag/1128/'},
     {name: '#Sexism', actionkit_uri: '/rest/v1/tag/1208/'},
@@ -83,7 +82,10 @@ all_tags = [
     {name: 'BexS', actionkit_uri: '/rest/v1/tag/1388/'},
     {name: 'MichaelS', actionkit_uri: '/rest/v1/tag/1160/'},
     {name: 'DeborahL', actionkit_uri: '/rest/v1/tag/1661/'},
-    {name: 'KatieF', actionkit_uri: '/rest/v1/tag/1662/'}
+    {name: 'KatieF', actionkit_uri: '/rest/v1/tag/1662/'},
+    {name: 'ChristianB', actionkit_uri: '/rest/v1/tag/1383/'},
+    {name: 'OliverD', actionkit_uri: '/rest/v1/tag/1384/'},
+    {name: 'MarieL', actionkit_uri: '/rest/v1/tag/1250/'}
 ]
 all_tags.each do |tag|
   Tag.create!(tag)

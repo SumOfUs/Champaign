@@ -16,6 +16,7 @@
      secret_key_base: 'a fake secret key'
      omniauth_client_secret: 'a fake client secret'
      omniauth_client_id: 'a fake client_id'
+     homepage_url: '//sumofus.org'
      oauth_domain_whitelist:
        - 'example.com'
 
@@ -76,6 +77,7 @@
 
      redis:
        host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
+
        port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
 
      robots: 'staging'
@@ -83,3 +85,4 @@
      action_kit:
        akid_secret: "secret_sauce"
 
+     host: https://example.com

@@ -30,7 +30,7 @@
     @media(min-width: $mobile-width) {
       form, .petition-bar__petition-text, .thermometer,
       .fundraiser-bar__steps, .fundraiser-bar__step-panel,
-      .petition-bar__fine-print {
+      .petition-bar__fine-print, .petition-bar__target {
         max-width: 290px;
       }
       .fundraiser-bar__steps {
@@ -107,6 +107,7 @@
   &__target {
     margin: 0 0 8px;
     font-weight: bold;
+    line-height: 1.2em;
     @include rem(font-size, 1rem, true);
   }
 
@@ -120,6 +121,8 @@
     margin-bottom: 15px;
     display: block;
     max-width: 500px;
+    width: 100%;
+    float: left;
     overflow: hidden;
     padding: 16px;
     border-top: 1px solid $dingy-gray;
