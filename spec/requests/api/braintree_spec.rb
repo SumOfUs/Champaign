@@ -222,20 +222,6 @@ describe "Braintree API" do
               end
             end
 
-            xit 'works' do
-              customer = Payment::BraintreeCustomer.create
-              method = Payment::BraintreePaymentMethod.create(customer: customer)
-
-              transaction = Payment::BraintreeTransaction.create(payment_method: method)
-              transaction_2 = Payment::BraintreeTransaction.create(payment_method: method)
-
-              expect(transaction.payment_method).to eq(method)
-
-              expect(method.transactions.count).to eq(2)
-              expect(method.customer).to eq(customer)
-              expect(customer.payment_methods).to eq([method])
-            end
-
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
