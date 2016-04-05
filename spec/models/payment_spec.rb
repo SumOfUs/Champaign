@@ -66,7 +66,7 @@ describe Payment do
     describe 'paid with credit card' do
 
       let(:bt_payment_method) do
-        instance_double('Braintree::CreditCard', 
+        instance_double('Braintree::CreditCard',
           class: Braintree::CreditCard,
           token: '4we1sd',
           card_type: 'Visa',
@@ -151,6 +151,7 @@ describe Payment do
     let!(:member) { create :member, id: 5678 }
     let(:new_member) { create :member, id: 1234, email: 'guybrush@threepwood.com' }
     let!(:existing_customer){ create :payment_braintree_customer, member_id: member.id, customer_id: '123' }
+
     let(:transaction) do
       instance_double('Braintree::Transaction',
         id: 'sfjdjkl',
@@ -164,8 +165,9 @@ describe Payment do
         customer_details: double(id: '123', email: 'wink@nod.com'),
         credit_card_details: credit_card_details,
         paypal_details: paypal_details
-      ) 
+      )
     end
+
     let(:new_customer_transaction) do
       instance_double('Braintree::Transaction',
       id: 'asdfg',
@@ -239,9 +241,6 @@ describe Payment do
           cardholder_name:  credit_card_details.cardholder_name,
           card_debit:       credit_card_details.debit,
           card_last_4:      credit_card_details.last_4,
-          # We always make a new payment method token, and the default payment method token gets updated to the latest
-          # payment method token - so the updated token id is that of the most previously created token.
-          default_payment_method_id: Payment::BraintreePaymentMethod.last.id,
           customer_id:      transaction.customer_details.id,
           email:            transaction.customer_details.email,
           member_id:        member.id
@@ -389,7 +388,6 @@ describe Payment do
           card_bin:         nil,
           cardholder_name:  nil,
           card_debit:       "Unknown",
-          default_payment_method_id: Payment::BraintreePaymentMethod.last.id,
           customer_id:      transaction.customer_details.id,
           card_last_4:      'PYPL',
           email:            transaction.customer_details.email,
