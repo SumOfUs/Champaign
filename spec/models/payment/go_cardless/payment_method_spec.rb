@@ -17,6 +17,12 @@ describe Payment::GoCardless::PaymentMethod do
   it { is_expected.to respond_to :customer }
   it { is_expected.to respond_to :customer_id }
 
+  describe 'associations' do
+    it 'associates customer with a GoCardless::Customer' do
+      expect{ payment_method.customer = build :payment_go_cardless_customer }.not_to raise_error
+    end
+  end
+
   describe 'validation' do
     before :each do
       expect(payment_method).to be_valid

@@ -38,6 +38,16 @@ describe Payment::GoCardless::Subscription do
     expect(Payment::GoCardless::Subscription.last.amount.class).to eq BigDecimal
   end
 
+  describe 'associations' do
+    it 'associates customer with a GoCardless::Customer' do
+      expect{ subscription.customer = build :payment_go_cardless_customer }.not_to raise_error
+    end
+
+    it 'associates payment_method with a GoCardless::PaymentMethod' do
+      expect{ subscription.payment_method = build :payment_go_cardless_payment_method }.not_to raise_error
+    end
+  end
+
   describe 'validation' do
     before :each do
       expect(subscription).to be_valid

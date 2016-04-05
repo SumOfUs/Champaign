@@ -1,5 +1,5 @@
 class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
-  belongs_to :customer, class_name: 'Payment::Braintree::Customer'
+  belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
 
   enum status: [:pending_submission,
                 :submitted,

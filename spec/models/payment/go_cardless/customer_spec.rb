@@ -30,6 +30,26 @@ describe Payment::GoCardless::Customer do
   it { is_expected.to_not respond_to :region }
   it { is_expected.to_not respond_to :swedish_identity_number }
 
+  describe 'associations' do
+    it "associates transactions with GoCardless::Transactions's" do
+      expect{
+        customer.transactions = [build(:payment_go_cardless_transaction), build(:payment_go_cardless_transaction)]
+      }.not_to raise_error
+    end
+
+    it "associates payment_methods with GoCardless::PaymentMethod's" do
+      expect{
+        customer.payment_methods = [build(:payment_go_cardless_payment_method), build(:payment_go_cardless_payment_method)]
+      }.not_to raise_error
+    end
+
+    it "associates subscriptions with GoCardless::Subscription's" do
+      expect{
+        customer.subscriptions = [build(:payment_go_cardless_subscription), build(:payment_go_cardless_subscription)]
+      }.not_to raise_error
+    end
+  end
+
   describe 'validation' do
     before :each do
       expect(customer).to be_valid

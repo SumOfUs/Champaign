@@ -1,8 +1,8 @@
 class Payment::GoCardless::Transaction < ActiveRecord::Base
   belongs_to :page
   belongs_to :action
-  belongs_to :customer, class_name: 'Payment::Braintree::Customer'
-  belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'
+  belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
+  belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
 
   enum status: [:pending_customer_approval,
                 :pending_submission,
