@@ -213,16 +213,4 @@ describe Api::Payment::BraintreeController do
     end
   end
 
-  describe 'POST destroy_payment_method' do
-    let(:member) { build :member, email: 'guybrush@threepwood.com' }
-    let(:customer) { build :payment_braintree_customer, member_id: member.id}
-    let(:token) { create :braintree_payment_method, customer_id: customer.id }
-
-    it 'deletes the payment method' do
-      post :delete_payment_method, {id: token.id} do
-        expect(response.status).to eq 200
-        expect(::Payment::BraintreePaymentMethod). to have_received(:destroy).with(token.id)
-      end
-    end
-  end
 end

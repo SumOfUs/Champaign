@@ -29,24 +29,15 @@ class Api::Payment::BraintreeController < ApplicationController
     render json: {success: true}
   end
 
-  def delete_payment_method
-    # TODO: Delete payment method on Vault, and if that's successful, destroy it locally.
-    if Payment::BraintreePaymentMethod.find(params[:id]).destroy
-      render json: { success: true }, status: 200
-    else
-      render json: { success: false }, status: 400
-    end
-  end
-
   private
 
   def payment_options
     {
-        nonce: params[:payment_method_nonce],
-        amount: params[:amount].to_f,
-        user: params[:user],
-        currency: params[:currency],
-        page_id: params[:page_id]
+      nonce: params[:payment_method_nonce],
+      amount: params[:amount].to_f,
+      user: params[:user],
+      currency: params[:currency],
+      page_id: params[:page_id]
     }
   end
 
