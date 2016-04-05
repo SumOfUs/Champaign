@@ -128,6 +128,7 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -233,6 +234,7 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
               expect(transaction.payment_method.token).to match a_string_matching(token_format)
@@ -588,6 +590,7 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
@@ -720,6 +723,7 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
