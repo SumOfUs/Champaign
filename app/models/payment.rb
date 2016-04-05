@@ -40,22 +40,21 @@ module Payment
 
     def initialize(bt_customer, bt_payment_method, member_id, existing_customer)
       @bt_customer = bt_customer
-      @existing_customer = existing_customer
+      @customer = existing_customer
       @member_id = member_id
       @bt_payment_method = bt_payment_method
     end
 
     def build
-      if @existing_customer.present?
-        @existing_customer.update(customer_attrs)
+      if @customer.present?
+        @customer.update_attributes(customer_attrs)
       else
-        @existing_customer = Payment::BraintreeCustomer.create(customer_attrs)
+        @customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
       Payment::BraintreePaymentMethod.find_or_create_by!(
-        customer: @existing_customer,
+        customer: @customer,
         token:    @bt_payment_method.token
       )
-      @existing_customer.save
     end
 
     def customer_attrs
@@ -116,12 +115,10 @@ module Payment
     def build
       return unless transaction.present?
       # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
-      # though, because trasnaction.customer_details.id is nil for failed transaction.
+      # though, because transaction.customer_details.id is nil for failed transaction.
+      # For webhooks, @existing_customer will be present.
       @customer = @existing_customer || Payment::BraintreeCustomer.find_or_create_by!(
           member_id: @member_id,
-          # TODO: This is a problem for webhook notifications. At least in the example notification in the specs,
-          # there are no customer details, so a new customer will always be created with an existing member_id
-          # and a nil customer_id. This won't fly.
           customer_id: transaction.customer_details.id)
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.

@@ -103,9 +103,9 @@ describe Payment do
 
       it 'writes the correct attributes with existing customer' do
         customer = build :payment_braintree_customer
-        allow(customer).to receive(:update)
+        allow(customer).to receive(:update_attributes)
         Payment.write_customer(bt_customer, bt_payment_method, member.id, customer)
-        expect(customer).to have_received(:update).with(expected_params)
+        expect(customer).to have_received(:update_attributes).with(expected_params)
       end
     end
 
@@ -136,9 +136,9 @@ describe Payment do
 
       it 'writes the correct attributes with existing customer' do
         customer = build :payment_braintree_customer
-        allow(customer).to receive(:update)
+        allow(customer).to receive(:update_attributes)
         Payment.write_customer(bt_customer, bt_payment_method, member.id, customer)
-        expect(customer).to have_received(:update).with(expected_params)
+        expect(customer).to have_received(:update_attributes).with(expected_params)
       end
     end
 
@@ -169,17 +169,17 @@ describe Payment do
 
     let(:new_customer_transaction) do
       instance_double('Braintree::Transaction',
-      id: 'asdfg',
-      type: 'payment',
-      payment_instrument_type: payment_instrument_type,
-      amount: '432.12',
-      created_at: 2.minutes.ago,
-      merchant_account_id: 'EUR',
-      processor_response_code: 1000,
-      currency_iso_code: 'EUR',
-      customer_details: double(id: '123456', email: 'guybrush@threepwood.com'),
-      credit_card_details: credit_card_details,
-      paypal_details: paypal_details
+        id: 'asdfg',
+        type: 'payment',
+        payment_instrument_type: payment_instrument_type,
+        amount: '432.12',
+        created_at: 2.minutes.ago,
+        merchant_account_id: 'EUR',
+        processor_response_code: 1000,
+        currency_iso_code: 'EUR',
+        customer_details: double(id: '123456', email: 'guybrush@threepwood.com'),
+        credit_card_details: credit_card_details,
+        paypal_details: paypal_details
       )
     end
     let!(:paypal_token) { create :braintree_payment_method,  token: 'pp_token' }

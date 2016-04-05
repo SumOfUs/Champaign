@@ -119,7 +119,6 @@ Rails.application.routes.draw do
         get 'token'
         post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
         post 'webhook', action: 'webhook'
-        post 'delete_payment_method', action: 'delete_payment_method'
       end
     end
 
