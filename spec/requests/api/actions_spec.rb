@@ -116,7 +116,7 @@ describe "Api Actions" do
       end
       let(:tablet_headers) do
         {
-            'HTTP_USER_AGENT' => 'Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10',
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)',
             'HTTP_ACCEPT' => '*/*',
             'HTTP_ACCEPT_LANGUAGE' => 'en',
             'HTTP_ACCEPT_ENCODING' => '*'
@@ -168,7 +168,8 @@ describe "Api Actions" do
       end
 
       it 'correctly identifies tablet browsers' do
-        message_body[:params][:mobile] = 'tablet'
+        # Tablet browsers also show up as mobile in our parsing gem.
+        message_body[:params][:mobile] = 'mobile'
         post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(mobile_headers)
         expect(sqs_client).to have_received(:send_message).with(expected_params)
       end
