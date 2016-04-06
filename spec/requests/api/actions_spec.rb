@@ -175,7 +175,8 @@ describe "Api Actions" do
       end
 
       it 'correctly identifies desktop browsers' do
-
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(desktop_headers)
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
       end
     end
 
