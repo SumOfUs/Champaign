@@ -13,7 +13,12 @@ module Donations
         value = value.to_f
 
         if value < 20
-          value.round(0)
+          value = value.round(0)
+          if value.zero?
+            1.to_f
+          else
+            value
+          end
         else
           (value.to_f / 5).round * 5
         end
