@@ -1,5 +1,6 @@
 class Member < ActiveRecord::Base
   has_one :customer, class_name: "Payment::BraintreeCustomer"
+  has_one :go_cardless_customer, class_name: "Payment::GoCardless::Customer"
   has_paper_trail on: [:update, :destroy]
 
   validates :email, uniqueness: true, allow_nil: true

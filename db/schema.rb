@@ -228,6 +228,15 @@ ActiveRecord::Schema.define(version: 20160404203052) do
 
   add_index "payment_braintree_customers", ["member_id"], name: "index_payment_braintree_customers_on_member_id", using: :btree
 
+  create_table "payment_braintree_payment_methods", force: :cascade do |t|
+    t.string   "token"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "customer_id"
+  end
+
+  add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
+
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
     t.string   "merchant_account_id"
@@ -258,9 +267,11 @@ ActiveRecord::Schema.define(version: 20160404203052) do
     t.integer  "status"
     t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
+    t.integer  "payment_method_id"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
+  add_index "payment_braintree_transactions", ["payment_method_id"], name: "braintree_payment_method_index", using: :btree
 
   create_table "payment_go_cardless_customers", force: :cascade do |t|
     t.string   "go_cardless_id"
