@@ -43,6 +43,19 @@ describe("Petition", function() {
       });
     });
 
+    describe('submissionCallback', function(){
+      it('calls submissionCallback on success', function(){
+        var callback = sinon.spy();
+        new window.sumofus.PetitionBar({submissionCallback: callback});
+        actionPath = /\/api\/pages\/[0-9]+\/actions/;
+        server = sinon.fakeServer.create();
+        server.respondWith("POST", actionPath, [200, { "Content-Type": "application/json" }, '{}' ]);
+        $('.petition-bar__submit-button').click();
+        server.respond();
+        expect(callback.called).to.eq(true);
+      })
+    });
+
     describe('thermometer', function(){
 
       beforeEach(function(){

@@ -9,7 +9,7 @@
       toolbar: [
         ['style', ['bold', 'italic', 'underline', 'clear']],
         ['font', ['fontname', 'fontsize']],
-        ['para', ['paragraph']],
+        ['para', ['ul', 'ol', 'paragraph']],
         ['color', ['color']],
         ['insert', ['link', 'picture', 'video']],
         ['view', ['fullscreen', 'codeview', 'help']]

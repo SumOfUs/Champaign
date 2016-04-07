@@ -17,6 +17,7 @@ class FormElement < ActiveRecord::Base
     phone
     country
     postal
+    hidden
   }
   validates :data_type, inclusion: { in: VALID_TYPES }
 

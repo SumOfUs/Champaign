@@ -10,6 +10,8 @@
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
           <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" maxlength="249" />
+        {% when 'hidden' %}
+          <input type="hidden" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}">
         {% when 'paragraph' %}
           <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form-control form__content" id="" maxlength="9999"></textarea>
         {% when 'email' %}
