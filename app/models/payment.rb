@@ -47,7 +47,7 @@ module Payment
 
     def build
       if @customer.present?
-        @customer.update_attributes(customer_attrs)
+        @customer.update(customer_attrs)
       else
         @customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
@@ -66,15 +66,17 @@ module Payment
     end
 
     def card_attrs
-      if @bt_payment_method.class == Braintree::CreditCard
-        {
-          card_type:        @bt_payment_method.card_type,
-          card_bin:         @bt_payment_method.bin,
-          cardholder_name:  @bt_payment_method.cardholder_name,
-          card_debit:       @bt_payment_method.debit,
-          card_last_4:      @bt_payment_method.last_4,
-          card_unique_number_identifier: @bt_payment_method.unique_number_identifier
-        }
+      if @bt_payment_method.is_a? Braintree::CreditCard
+        @bt_payment_method.instance_eval do
+          {
+            card_type:        card_type,
+            card_bin:         bin,
+            cardholder_name:  cardholder_name,
+            card_debit:       debit,
+            card_last_4:      last_4,
+            card_unique_number_identifier: unique_number_identifier
+          }
+        end
       else
         {
           card_last_4: 'PYPL' # for now, assume PayPal if not CC
@@ -174,11 +176,7 @@ module Payment
     end
 
     def status
-      if successful?
-        Payment::BraintreeTransaction.statuses[:success]
-      else
-        Payment::BraintreeTransaction.statuses[:failure]
-      end
+      Payment::BraintreeTransaction.statuses[(successful? ? :success : :failure)]
     end
 
     def successful?

@@ -67,7 +67,7 @@ describe Payment do
 
       let(:bt_payment_method) do
         instance_double('Braintree::CreditCard',
-          class: Braintree::CreditCard,
+          is_a?: Braintree::CreditCard,
           token: '4we1sd',
           card_type: 'Visa',
           bin: 'binn',
@@ -103,9 +103,9 @@ describe Payment do
 
       it 'writes the correct attributes with existing customer' do
         customer = build :payment_braintree_customer
-        allow(customer).to receive(:update_attributes)
+        allow(customer).to receive(:update)
         Payment.write_customer(bt_customer, bt_payment_method, member.id, customer)
-        expect(customer).to have_received(:update_attributes).with(expected_params)
+        expect(customer).to have_received(:update).with(expected_params)
       end
     end
 
@@ -136,9 +136,9 @@ describe Payment do
 
       it 'writes the correct attributes with existing customer' do
         customer = build :payment_braintree_customer
-        allow(customer).to receive(:update_attributes)
+        allow(customer).to receive(:update)
         Payment.write_customer(bt_customer, bt_payment_method, member.id, customer)
-        expect(customer).to have_received(:update_attributes).with(expected_params)
+        expect(customer).to have_received(:update).with(expected_params)
       end
     end
 
