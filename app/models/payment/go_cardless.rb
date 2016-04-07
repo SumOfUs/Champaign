@@ -99,15 +99,6 @@ module Payment::GoCardless
                                                                            customer_id: @existing_customer.id
                                                                          })
       ::Payment::GoCardlessTransaction.create(transaction_attrs)
-      return unless successful? && @save_customer
-
-      # it would be good to DRY this up and use CustomerBuilder, but we don't
-      # have a Braintree::PaymentMethod to pass it :(
-      if @existing_customer.present?
-        @existing_customer.update(customer_attrs)
-      else
-        Payment::BraintreeCustomer.create(customer_attrs)
-      end
     end
 
    private
@@ -122,7 +113,7 @@ module Payment::GoCardless
         reference: @gc_payment.reference,
         amount_refunded: @gc_payment.amount_refunded,
         page_id: @page_id,
-        # Braintree transactions don't belong to actions, but subcriptions do. Which way do we want to keep this?
+        # Braintree transactions don't belong to actions, but subscriptions do. Which way do we want to keep this?
         action_id: ,
         customer_id: @existing_customer.id,
         payment_method_id: @mandate.id,
