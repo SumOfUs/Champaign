@@ -4,14 +4,17 @@ form
       - label = "#{element.label}#{element.required ? '*' : ''}"
       - case element.data_type
       - when 'text', 'email', 'phone', 'postal'
-        input.form-control placeholder=label
+        input.form-control placeholder=label value=element.default_value
       - when 'country'
-        = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes), class: "form-control"
+        = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes), class: "form-control", selected: element.default_value
       - when 'hidden'
-        i= "Hidden tag: #{element.name}"
+        - tag_explanation = "Hidden tag: #{element.name}."
+        - tag_explanation += " Default value: #{element.default_value}" unless element.default_value.blank?
+        i = tag_explanation
       - when 'paragraph'
         textarea.form-control placeholder=label
+          =element.default_value
       - when 'checkbox'
-        = check_box_tag element.name
+        = check_box_tag element.name, 1, element.default_value.present?
         '&nbsp;
         = label

@@ -9,19 +9,24 @@
       <div class="form__group petition-bar__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" maxlength="249" />
+          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" maxlength="249" value="{{ field.default_value }}" />
         {% when 'hidden' %}
-          <input type="hidden" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}">
+          <input type="hidden" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'paragraph' %}
-          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form-control form__content" id="" maxlength="9999"></textarea>
+          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form-control form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
         {% when 'email' %}
-          <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" />
+          <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'phone' %}
-          <input type="tel" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" />
+          <input type="tel" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}"  value="{{ field.default_value }}" />
         {% when 'checkbox' %}
+          {% if field.default_value == blank %}
+            {% assign checked = '' %}
+          {% else %}
+            {% assign checked = 'checked' %}
+          {% endif %}
           <label class="checkbox-label">
             <input name="{{field.name}}" type="hidden" value="0" />
-            <input type="checkbox" name="{{field.name}}" class="form__content" value="1" /> {{ field.label }}
+            <input type="checkbox" name="{{field.name}}" class="form__content" value="1" {{ checked }}/> {{ field.label }}
           </label>
         {% when 'country' %}
           <select name="{{field.name}}" class="petition-bar__country-selector form__content" placeholder="{{field.label}}">
