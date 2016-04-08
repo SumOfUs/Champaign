@@ -31,7 +31,11 @@
         {% when 'country' %}
           <select name="{{field.name}}" class="petition-bar__country-selector form__content" placeholder="{{field.label}}">
             <option></option>
-            {{ country_option_tags }}
+            {% if field.default_value == blank %}
+              {{ country_option_tags }}
+            {% else %}
+              {{ country_option_tags | select_option: field.default_value }}
+            {% endif %}
           </select>
         {% endcase %}
       </div>
