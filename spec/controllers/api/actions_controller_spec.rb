@@ -29,7 +29,7 @@ describe Api::ActionsController do
       end
 
       it "delegates to Action with params" do
-        expected_params = { page_id: '2', form_id: '3', foo: 'bar'}.stringify_keys
+        expected_params = { foo: 'bar', page_id: '2', form_id: '3', mobile: 'desktop', referer: nil }.stringify_keys
 
         expect(ManageAction).to have_received(:create).
           with(expected_params)
