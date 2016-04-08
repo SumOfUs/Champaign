@@ -7,9 +7,10 @@ class Api::GoCardlessController < ApplicationController
     success_url = "#{request.base_url}/api/go_cardless/payment_complete?#{string_params}"
 
     redirect_flow = client.redirect_flows.create(params: {
-      session_token: session.id,
+      session_token: 'iamatoken', # session.id,
       success_redirect_url: success_url
     })
+
     redirect_to redirect_flow.redirect_url
   end
 
