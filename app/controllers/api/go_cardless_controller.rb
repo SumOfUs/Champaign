@@ -15,7 +15,8 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def payment_complete
-    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
+    # builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
+    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, 'iamatoken')
 
     render json: {success: builder.result.success?, params: params}
   end

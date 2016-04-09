@@ -26,15 +26,12 @@ module PaymentProcessor
       end
 
       def initialize(params, session_id)
-        @params = params
-        @session_id = session_id
+        @redirect_flow_id = params[:redirect_flow_id]
+        @session_token = session_id
       end
 
       def transaction
-        params = @params
-        redirect_flow_id = params[:redirect_flow_id]
-
-        completed_redirect_flow = client.redirect_flows.complete(redirect_flow_id, params: { session_token: @session_id })
+        completed_redirect_flow = client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
 
         mandate = client.mandates.get(completed_redirect_flow.links.mandate)
 
