@@ -86,6 +86,7 @@ fr:
     about: Nous Connaitre
     privacy_policy: Mentions Légales
     contact: Contact
+    controlshift: Lancez votre propre pétition
   time:
     formats:
       default: "%-d %B %Y"
