@@ -86,6 +86,7 @@ en:
     about: About
     privacy_policy: Privacy Policy
     contact: Contact
+    controlshift: Start your own campaign
   time:
     formats:
       default: "%-d %B %Y"
