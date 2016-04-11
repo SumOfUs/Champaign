@@ -125,7 +125,7 @@ const HostedFieldsMethods = {
   },
 
   getClientToken(callback) {
-    $.get('/api/braintree/token', function(resp, success){
+    $.get('/api/payment/braintree/token', function(resp, success){
       callback(resp.token);
     });
   },

@@ -10,6 +10,99 @@ http_interactions:
         <transaction>
           <amount>2002.0</amount>
           <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+          <merchant-account-id>sumofus2_EUR</merchant-account-id>
+          <options>
+            <submit-for-settlement type="boolean">true</submit-for-settlement>
+            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+          </options>
+          <customer>
+            <first-name>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</first-name>
+            <last-name></last-name>
+            <email>bob@example.com</email>
+          </customer>
+          <billing>
+            <first-name>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</first-name>
+            <last-name></last-name>
+            <postal-code>invalid postal code</postal-code>
+            <street-address>Lynda Vista</street-address>
+            <country-code-alpha2>US</country-code-alpha2>
+          </billing>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Tue, 22 Mar 2016 23:15:32 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - close
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - f158b40c-28c7-49fb-9423-02f5e7363560
+      X-Runtime:
+      - '0.069049'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIABTS8VYAA+xVO3PbMAze8yt42mkpHnoeaKZLM3Vq6645SIJsXvnQ8eGL
+        /n1J2XpYkXPXDu0STtT3ASQIQB/Y06uS5IzWCaP32eOmyAjqytRCH/fZ4ccz
+        3WVP/IFBKyhaayy16FqjHfIHQlgPubQdP4jvWtxnYC10WX6lvAXtoPLxkgvy
+        rnkkq+C8UWgHYN1+Ygd+jqRjTI189/ip2LG839/S4L0VZfB4PdV1qjQy442w
+        zr9oUMjy0Wbhq9A5OCJ/TrYk2RIRozOGSKOPG5YPBvMY80WQV8CN785vH87y
+        RebmDqwFC8q9k2JQJmjPt0Wx3RTxKZfPgW2hU6g9VehPpqba6Ap5A7+QRqYF
+        SZvgg8ULwfJV8+GsGHF1gshCVaVLqKi5C8o0wW1fvhy+pXS8tRi8TZvCdrO8
+        uFAq4WkTG86h9xLT1dzbEANZ52a+3sSohaZnCNJTo6kLVRWrMfjf5ccqLAJa
+        a8e+R2iqO4eP9e8Wy2eZn8oh4YoRLeQ+S5We5CSpgwIheWnKz/gKqpW4qYyK
+        f1MP3/n7IlIKKaMUftT9v6+/rHtrnI9S1ou/0GeQoiYXjCQsytrMYK4hFjFq
+        VV3bJAxfO10D+SmiadKPG25y6nXNdv1ZFGR7gi0/fE+T5y0+ttyiw1iaRNyB
+        jKH123tzYBL/PxhFcQasDPLfAAAA//8DAJLw5sIFCAAA
+    http_version: 
+  recorded_at: Tue, 22 Mar 2016 23:15:32 GMT
+- request:
+    method: post
+    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <amount>2002.0</amount>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
           <merchant-account-id>EUR</merchant-account-id>
           <options>
             <submit-for-settlement type="boolean">true</submit-for-settlement>
@@ -46,7 +139,7 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Mon, 22 Feb 2016 13:40:08 GMT
+      - Wed, 23 Mar 2016 22:23:19 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
@@ -71,15 +164,15 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - bc4f949e-0fcd-4b1a-a413-07a103b6e573
+      - 466b735c-4682-476d-96ef-c2edf392f823
       X-Runtime:
-      - '0.120278'
+      - '0.123390'
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIALgPy1YAA+xVPZPbIBDt71cw6rF0LjIuMJcmV6VK4rSZFVrbTPgaQJ7T
+        H4sIAFcX81YAA+xVPZPbIBDt71cw6rF0LjIuMJcmV6VK4rSZFVrbTPgaQJ7T
         vw/I1od19s3kiqQ5KnhvF5bd5cGeXrQiJ/RBWrMtHldVQdAI20hz2Ba7H890
         UzzxBwZOUvTeeuoxOGsC8gdCWA+FPB0XJHYOtwV4D11RXqjowQQQMR1yRt40
         T6RoQ7Qa/QDctp/YgZ8jeRvbIN88fqo2rOzn1zTE6GXdRrzsGjpdW1XwvfQh
@@ -92,5 +185,5 @@ http_interactions:
         APkpk2nWjytucup1zXf9XhSUO8Ka777nD+c1PrbcosNY/oB4AJVC66f35H/S
         /L/4gZL03/i//wAAAP//AwBj8bO6/AcAAA==
     http_version: 
-  recorded_at: Mon, 22 Feb 2016 13:40:08 GMT
+  recorded_at: Wed, 23 Mar 2016 22:23:19 GMT
 recorded_with: VCR 3.0.0

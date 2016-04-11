@@ -656,7 +656,7 @@ describe("Fundraiser", function() {
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
-        expect(request.url).to.eq("/api/braintree/pages/1/transaction");
+        expect(request.url).to.eq("/api/payment/braintree/pages/1/transaction");
 
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
       });
@@ -680,7 +680,7 @@ describe("Fundraiser", function() {
       });
 
       it('loads the follow-up url after success from the server', function(){
-        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         suite.server.respond();
@@ -689,7 +689,7 @@ describe("Fundraiser", function() {
 
       it('displays a generic validation error when server 500', function(){
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
-        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [500, { "Content-Type": "application/json" }, 'Failure!' ]);
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         suite.server.respond();
@@ -700,7 +700,7 @@ describe("Fundraiser", function() {
 
       it('shows a specific error for card decline', function(){
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
-        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         suite.server.respond();
@@ -711,7 +711,7 @@ describe("Fundraiser", function() {
 
       it('shows the errors for any other error', function(){
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
-        suite.server.respondWith('POST', "/api/braintree/pages/1/transaction",
+        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
         suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
         suite.server.respond();
