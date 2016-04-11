@@ -49,6 +49,7 @@ VCR.configure do |config|
   end
 
   config.filter_sensitive_data("<shareprogress_api_key>") { ENV["SHARE_PROGRESS_API_KEY"] }
+  config.filter_sensitive_data("<gocardless_token>") { Settings.gocardless.token }
 end
 
 
