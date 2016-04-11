@@ -37,6 +37,9 @@ class Api::GoCardlessController < ApplicationController
     render json: {success: builder.result.success?, params: params}
   end
 
+  def webhook
+  end
+
   private
 
   def success_url
