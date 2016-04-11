@@ -86,6 +86,7 @@ de:
     about: Über Uns
     privacy_policy: Datenschutz
     contact: Kontakt (Impressum)
+    controlshift: #intentionally left blank
   time:
     formats:
       default: "%-d. %B %Y"
