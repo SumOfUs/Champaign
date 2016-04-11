@@ -57,7 +57,7 @@ fr:
     processing: En cours de traitement...
     submit: Envoyer
     default:
-      name: NOM COMPLET
+      name: PRENOM ET NOM
       email: ADRESSE EMAIL
       country: PAYS
       postal: CODE POSTAL
@@ -68,8 +68,8 @@ fr:
   share:
     cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
     send_email: Envoyer un courriel
-    share: Partager
-    tweet: Tweet
+    share: Partagez
+    tweet: Tweetez
     twitter_handle: '@sumofus_fr'
   errors:
     probably_invalid: semble invalide
