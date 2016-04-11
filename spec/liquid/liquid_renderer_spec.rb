@@ -186,7 +186,13 @@ describe LiquidRenderer do
 
     describe 'donation_bands' do
 
-      let(:stubbed_conversion) { {"GBP"=>[0, 1, 2, 3, 4], "EUR"=>[0, 1, 2, 3, 4], "AUD"=>[0, 1, 2, 3, 4], "NZD"=>[0, 1, 2, 3, 4], "CAD"=>[0, 1, 2, 3, 4]} }
+      let(:stubbed_amounts) { [1, 2, 3, 4, 5] }
+      let(:stubbed_conversion) do
+        %w{GBP EUR AUD NZD CAD}.inject({}) do |memo, a|
+          memo[a] = stubbed_amounts
+          memo
+        end
+      end
 
       before :each do
         allow(PaymentProcessor::Currency).to receive(:convert)

@@ -46,4 +46,30 @@ class ApplicationController < ActionController::Base
       expires: 2.years.from_now
     }
   end
+
+  def mobile_value
+    device = MobileDetect.new({
+        HTTP_USER_AGENT: request.user_agent,
+        HTTP_ACCEPT: request.accept,
+        HTTP_ACCEPT_LANGUAGE: request.accept_language,
+        HTTP_ACCEPT_ENCODING: request.accept_encoding
+    }, request.user_agent)
+
+    device_hash = {
+        mobile: nil
+    }
+    if device.mobile?
+      device_hash[:mobile] = 'mobile'
+    elsif device.tablet?
+      device_hash[:mobile] = 'tablet'
+    else
+      device_hash[:mobile] = 'desktop'
+    end
+
+    device_hash
+  end
+
+  def referer_url
+    {referer: request.referer}
+  end
 end

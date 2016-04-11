@@ -44,6 +44,8 @@ describe "Api Actions" do
           source: 'fb',
           akid:   '1234.5678.tKK7gX',
           referring_akid: '1234.5678.tKK7gX',
+          mobile: 'desktop',
+          referer: nil,
           user_en: 1
         }
       }
@@ -56,6 +58,19 @@ describe "Api Actions" do
       }
     end
 
+    context 'for imported page' do
+      let(:page) { create(:page, status: 'imported') }
+
+      before do
+        message_body[:params][:page] = page.slug
+        post "/api/pages/#{page.id}/actions", params
+      end
+
+      it 'posts action to SQS Queue' do
+        expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
+      end
+    end
+
     describe 'country' do
       before do
         params[:country] = 'FR'
@@ -64,6 +79,117 @@ describe "Api Actions" do
 
       it 'posts full country name to queue' do
         expect(sqs_client).to have_received(:send_message).with(country_field_set_as("France"))
+      end
+    end
+
+    describe 'referer URI' do
+      let(:referer) { 'www.google.com' }
+
+      before do
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}
+      end
+
+      it 'responds with success' do
+        expect(response).to be_success
+      end
+
+      it 'includes the referer URI in the queue message' do
+        expected_params = {
+            queue_url: 'http://example.com',
+
+            message_body: {
+                type: 'action',
+                params: {
+                    page:   "#{page.slug}-petition",
+                    email:  "hello@example.com",
+                    page_id: page.id.to_s,
+                    form_id: form.id.to_s,
+                    source: 'fb',
+                    akid:   '1234.5678.tKK7gX',
+                    referring_akid: '1234.5678.tKK7gX',
+                    mobile: 'desktop',
+                    referer: referer,
+                    user_en: 1,
+                }
+            }.to_json
+        }
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
+      end
+    end
+
+    describe 'mobile detection' do
+      let(:referer) { 'www.google.com' }
+      let(:mobile_headers) do
+        {
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPad; CPU OS 9_0 like Mac OS X) AppleWebKit/601.1.16 (KHTML, like Gecko) Version/8.0 Mobile/13A171a Safari/600.1.4',
+            'HTTP_ACCEPT' => '*/*',
+            'HTTP_ACCEPT_LANGUAGE' => 'en',
+            'HTTP_ACCEPT_ENCODING' => '*'
+        }
+      end
+      let(:tablet_headers) do
+        {
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)',
+            'HTTP_ACCEPT' => '*/*',
+            'HTTP_ACCEPT_LANGUAGE' => 'en',
+            'HTTP_ACCEPT_ENCODING' => '*'
+        }
+      end
+      let(:desktop_headers) do
+        {
+            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136',
+            'HTTP_ACCEPT' => '*/*',
+            'HTTP_ACCEPT_LANGUAGE' => 'en',
+            'HTTP_ACCEPT_ENCODING' => '*'
+        }
+      end
+      let(:message_body) do
+        {
+            type: 'action',
+            params: {
+                page:   "#{page.slug}-petition",
+                email:  "hello@example.com",
+                page_id: page.id.to_s,
+                form_id: form.id.to_s,
+                source: 'fb',
+                akid:   '1234.5678.tKK7gX',
+                referring_akid: '1234.5678.tKK7gX',
+                mobile: 'desktop',
+                referer: referer,
+                user_en: 1,
+            }
+        }
+      end
+
+      let(:expected_params) do
+        {
+            queue_url: 'http://example.com',
+            message_body: message_body.to_json
+        }
+      end
+
+
+      it 'correctly uses desktop as the default' do
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
+      end
+
+      it 'correctly identifies mobile browsers' do
+        message_body[:params][:mobile] = 'mobile'
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(mobile_headers)
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
+      end
+
+      it 'correctly identifies tablet browsers' do
+        # Tablet browsers also show up as mobile in our parsing gem.
+        message_body[:params][:mobile] = 'mobile'
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(mobile_headers)
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
+      end
+
+      it 'correctly identifies desktop browsers' do
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(desktop_headers)
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
       end
     end
 
@@ -175,7 +301,9 @@ describe "Api Actions" do
                       page_id: page.id.to_s,
                       form_id: form.id.to_s,
                       akid: invalid_akid,
-                      user_en: 1
+                      mobile: 'desktop',
+                      referer: nil,
+                      user_en: 1,
                   }
               }.to_json
           }

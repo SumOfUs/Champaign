@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::BraintreeController do
+describe Api::Payment::BraintreeController do
 
   let(:action) { instance_double("Action", member_id: 79) }
 
@@ -212,5 +212,5 @@ describe Api::BraintreeController do
       expect(response.status).to eq 200
     end
   end
-end
 
+end

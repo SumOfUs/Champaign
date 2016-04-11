@@ -272,6 +272,7 @@ ActiveRecord::Schema.define(version: 20160404203052) do
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
   add_index "payment_braintree_transactions", ["payment_method_id"], name: "braintree_payment_method_index", using: :btree
+<<<<<<< HEAD
 
   create_table "payment_go_cardless_customers", force: :cascade do |t|
     t.string   "go_cardless_id"
@@ -342,6 +343,8 @@ ActiveRecord::Schema.define(version: 20160404203052) do
   add_index "payment_go_cardless_transactions", ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id", using: :btree
   add_index "payment_go_cardless_transactions", ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id", using: :btree
   add_index "payment_go_cardless_transactions", ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id", using: :btree
+=======
+>>>>>>> development
 
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"
