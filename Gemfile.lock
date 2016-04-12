@@ -199,6 +199,8 @@ GEM
     geocoder (1.2.11)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    gocardless_pro (1.0.3)
+      faraday (>= 0.8.9, < 0.10)
     google_currency (3.2.0)
       money (~> 6.5.0)
     guard (2.12.9)
@@ -514,6 +516,7 @@ DEPENDENCIES
   font-awesome-sass
   friendly_id
   geocoder
+  gocardless_pro
   google_currency
   guard-rspec
   hiredis

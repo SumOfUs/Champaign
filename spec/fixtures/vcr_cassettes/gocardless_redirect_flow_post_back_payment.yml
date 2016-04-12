@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows/RE000044PXTW1DMX04G13KP3NNQDD1TA/actions/complete
+    body:
+      encoding: UTF-8
+      string: '{"data":{"session_token":"iamatoken"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Fri, 08 Apr 2016 21:15:57 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=da28642a6b796459352f837a443cedd261460150157; expires=Sat, 08-Apr-17
+        21:15:57 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - 21972e30-de43-4356-91b2-997b19598971
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Fri, 08 Apr 2016 21:16:00 GMT
+      Cf-Ray:
+      - 2908bcd36298281c-SJC
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Customer has not yet completed the payment pages","errors":[{"reason":"redirect_flow_incomplete","message":"Customer
+        has not yet completed the payment pages"}],"documentation_url":"https://developer.gocardless.com/pro#redirect_flow_incomplete","type":"invalid_state","request_id":"21972e30-de43-4356-91b2-997b19598971","code":422}}'
+    http_version: 
+  recorded_at: Fri, 08 Apr 2016 21:15:58 GMT
+recorded_with: VCR 3.0.0
