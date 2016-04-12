@@ -26,7 +26,7 @@ module PaymentProcessor
       end
 
       def initialize(params, session_id)
-        @amount = params[:amount].to_i * 100 # Price in pence/cents
+        @amount = (params[:amount].to_f * 100).to_i # Price in pence/cents
         @redirect_flow_id = params[:redirect_flow_id]
         @session_token = session_id
       end
@@ -55,14 +55,14 @@ module PaymentProcessor
       end
 
       def subscription_params
-        transaction_params.merge{
+        transaction_params.merge({
           name: "donation",
           interval_unit: "monthly",
           day_of_month:  "1",
           metadata: {
             order_no: SecureRandom.uuid
           }
-        }
+        })
       end
 
       def mandate
