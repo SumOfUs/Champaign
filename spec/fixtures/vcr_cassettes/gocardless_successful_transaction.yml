@@ -1,0 +1,205 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/mandates/MD0000PSV8N7FR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 11 Apr 2016 23:54:28 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d0685ddc4f0bcb2cc0fb613a30e7442701460418867; expires=Tue, 11-Apr-17
+        23:54:27 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"4c88788054ca1fce56c441c68c171b3c"
+      X-Request-Id:
+      - c316c26c-2317-4cce-93f7-76770bd5bd81
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Mon, 11 Apr 2016 23:55:00 GMT
+      Cf-Ray:
+      - 29225d211ac607a3-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-04-15","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Mon, 11 Apr 2016 23:54:28 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/payments
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"amount":1000.0,"currency":"GBP","description":"Donation
+        to SumOfUs","links":{"mandate":"MD0000PSV8N7FR"}}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 11 Apr 2016 23:54:29 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d77809fe2a5f0b03bda15c78574bdb6ef1460418868; expires=Tue, 11-Apr-17
+        23:54:28 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - cef57adf-b184-42e5-8dc9-7cb094be871a
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '998'
+      Ratelimit-Reset:
+      - Mon, 11 Apr 2016 23:55:00 GMT
+      Cf-Ray:
+      - 29225d28bfc1032a-MIA
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"One of your parameters was incorrectly typed","errors":[{"message":"1000.0
+        is not a string or integer.","field":"amount","request_pointer":"/payments/amount"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"cef57adf-b184-42e5-8dc9-7cb094be871a","code":422}}'
+    http_version: 
+  recorded_at: Mon, 11 Apr 2016 23:54:29 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/payments
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"amount":1000,"currency":"GBP","description":"Donation
+        to SumOfUs","links":{"mandate":"MD0000PSV8N7FR"}}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Mon, 11 Apr 2016 23:57:23 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d89f586085d3f7060e9451c245e5292d21460419043; expires=Tue, 11-Apr-17
+        23:57:23 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/payments/PM00017D02PAFH
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"b91723d3f26ccb0bc5b960c729ca1df3"
+      X-Request-Id:
+      - bde12715-5702-4985-9920-4543485012f6
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Mon, 11 Apr 2016 23:58:00 GMT
+      Cf-Ray:
+      - 2922616ac84d2e87-MIA
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"id":"PM00017D02PAFH","created_at":"2016-04-11T23:57:23.492Z","charge_date":"2016-04-15","amount":1000,"description":"Donation
+        to SumOfUs","currency":"GBP","status":"pending_submission","amount_refunded":0,"reference":null,"metadata":{},"links":{"mandate":"MD0000PSV8N7FR","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Mon, 11 Apr 2016 23:57:23 GMT
+recorded_with: VCR 3.0.0
