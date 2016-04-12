@@ -35,7 +35,7 @@ module PaymentProcessor
         transaction = client.payments.create(params: transaction_params)
         # TODO: persist transaction locally
         action = build_action
-        Payment::GoCardless.write_transaction(transaction, @page_id, @member, existing_customer, true)
+        Payment::GoCardless.write_transaction(transaction, @page_id, @member.id, @member.go_cardless_customer, true)
       end
 
     end
