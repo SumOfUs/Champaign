@@ -44,7 +44,8 @@ module PaymentProcessor
 
           original_action.form_data['recurrence_number'] += 1
           original_action.save
-          Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, nil, false)
+          customer = Payment::BraintreeCustomer.find_by(member_id: original_action.member_id)
+          Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
           ActionQueue::Pusher.push(original_action)
         end
 

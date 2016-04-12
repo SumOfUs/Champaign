@@ -7,8 +7,8 @@ describe Donations::Utils do
   describe '.round' do
     it 'returns only integers' do
       expect(
-        subject.round(['1.02', '2.04', '3.02', '4.01'])
-       ).to eq [1, 2, 3, 4]
+        subject.round(['1.02', '2.04', '3.02', '4.01', '0.45', '0', '0.00'])
+      ).to eq [1, 2, 3, 4, 1, 1, 1]
     end
 
     it 'rounds values above 20 to the nearest 5' do
@@ -115,4 +115,3 @@ describe Donations::Utils do
     end
   end
 end
-

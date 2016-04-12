@@ -56,7 +56,7 @@ describe Plugins do
 
         it 'works for fundraisers' do
           Plugins.create_for_page('fundraiser', page, nil)
-          expect(Plugins::Fundraiser.last.title).to eq 'Spenden Sie jetzt'
+          expect(Plugins::Fundraiser.last.title).to eq 'Spenden Sie jetzt!'
         end
 
         it 'works for thermometers' do

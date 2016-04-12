@@ -256,7 +256,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   submitDonation () {
     let data = this.donationData();
     data.payment_method_nonce = this.nonce;
-    $.post(`/api/braintree/pages/${this.pageId}/transaction`, data).
+    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data).
       done(this.transactionSuccess()).
       error(this.transactionFailed());
   },

@@ -6,6 +6,8 @@ class Api::ActionsController < ApplicationController
     validator = FormValidator.new(@action_params)
 
     if validator.valid?
+      @action_params.merge!(mobile_value)
+      @action_params.merge!(referer_url)
       action = ManageAction.create(@action_params)
       write_member_cookie(action.member_id)
       render json: {}, status: 200

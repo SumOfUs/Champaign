@@ -40,22 +40,25 @@ module Payment
 
     def initialize(bt_customer, bt_payment_method, member_id, existing_customer)
       @bt_customer = bt_customer
-      @bt_payment_method = bt_payment_method
-      @existing_customer = existing_customer
+      @customer = existing_customer
       @member_id = member_id
+      @bt_payment_method = bt_payment_method
     end
 
     def build
-      if @existing_customer.present?
-        @existing_customer.update(customer_attrs)
+      if @customer.present?
+        @customer.update(customer_attrs)
       else
-        Payment::BraintreeCustomer.create(customer_attrs)
+        @customer = Payment::BraintreeCustomer.create(customer_attrs)
       end
+      Payment::BraintreePaymentMethod.find_or_create_by!(
+        customer: @customer,
+        token:    @bt_payment_method.token
+      )
     end
 
     def customer_attrs
       card_attrs.merge({
-        card_vault_token: @bt_payment_method.token,
         customer_id:      @bt_customer.id,
         member_id:        @member_id,
         email:            @bt_customer.email
@@ -63,15 +66,17 @@ module Payment
     end
 
     def card_attrs
-      if @bt_payment_method.class == Braintree::CreditCard
-        {
-          card_type:        @bt_payment_method.card_type,
-          card_bin:         @bt_payment_method.bin,
-          cardholder_name:  @bt_payment_method.cardholder_name,
-          card_debit:       @bt_payment_method.debit,
-          card_last_4:      @bt_payment_method.last_4,
-          card_unique_number_identifier: @bt_payment_method.unique_number_identifier
-        }
+      if @bt_payment_method.is_a? Braintree::CreditCard
+        @bt_payment_method.instance_eval do
+          {
+            card_type:        card_type,
+            card_bin:         bin,
+            cardholder_name:  cardholder_name,
+            card_debit:       debit,
+            card_last_4:      last_4,
+            card_unique_number_identifier: unique_number_identifier
+          }
+        end
       else
         {
           card_last_4: 'PYPL' # for now, assume PayPal if not CC
@@ -105,40 +110,44 @@ module Payment
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
-      @existing_customer = existing_customer
       @save_customer = save_customer
+      @existing_customer = existing_customer
     end
 
     def build
       return unless transaction.present?
-      ::Payment::BraintreeTransaction.create(transaction_attrs)
+      # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
+      # though, because transaction.customer_details.id is nil for failed transaction.
+      # For webhooks, @existing_customer will be present.
+      @customer = @existing_customer || Payment::BraintreeCustomer.find_or_create_by!(
+          member_id: @member_id,
+          customer_id: transaction.customer_details.id)
+      # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
+      # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
+      @local_payment_method_id = payment_method_token.blank? ? nil : Payment::BraintreePaymentMethod.find_or_create_by!(
+          customer: @customer,
+          token: payment_method_token).id
+      ::Payment::BraintreeTransaction.create!(transaction_attrs)
       return unless successful? && @save_customer
-
-      # it would be good to DRY this up and use CustomerBuilder, but we don't
-      # have a Braintree::PaymentMethod to pass it :(
-      if @existing_customer.present?
-        @existing_customer.update(customer_attrs)
-      else
-        Payment::BraintreeCustomer.create(customer_attrs)
-      end
+      @customer.update(customer_attrs)
     end
 
     private
 
     def transaction_attrs
       {
-        transaction_id:          transaction.id,
-        transaction_type:        transaction.type,
-        payment_instrument_type: transaction.payment_instrument_type,
-        amount:                  transaction.amount,
-        transaction_created_at:  transaction.created_at,
-        merchant_account_id:     transaction.merchant_account_id,
-        processor_response_code: transaction.processor_response_code,
-        currency:                transaction.currency_iso_code,
-        customer_id:             transaction.customer_details.id,
-        status:                  status,
-        payment_method_token:    payment_method_token,
-        page_id:                 @page_id
+        transaction_id:                  transaction.id,
+        transaction_type:                transaction.type,
+        payment_instrument_type:         transaction.payment_instrument_type,
+        amount:                          transaction.amount,
+        transaction_created_at:          transaction.created_at,
+        merchant_account_id:             transaction.merchant_account_id,
+        processor_response_code:         transaction.processor_response_code,
+        currency:                        transaction.currency_iso_code,
+        customer_id:                     @customer.customer_id,
+        status:                          status,
+        payment_method_id:               @local_payment_method_id,
+        page_id:                         @page_id
       }
     end
 
@@ -147,15 +156,14 @@ module Payment
         # NOTE: we do NOT store card_unique_number_identifier because
         # that is only returned on Braintree::CreditCard, not on
         # Braintree::Transaction::CreditCardDetails
-        card_type:        card.card_type,
-        card_bin:         card.bin,
-        cardholder_name:  card.cardholder_name,
-        card_debit:       card.debit,
-        card_last_4:      last_4,
-        card_vault_token: payment_method_token,
-        customer_id:      transaction.customer_details.id,
-        email:            transaction.customer_details.email,
-        member_id:        @member_id
+        card_type:                 card.card_type,
+        card_bin:                  card.bin,
+        cardholder_name:           card.cardholder_name,
+        card_debit:                card.debit,
+        card_last_4:               last_4,
+        customer_id:               transaction.customer_details.id,
+        email:                     transaction.customer_details.email,
+        member_id:                 @member_id
       }
     end
 
@@ -168,11 +176,7 @@ module Payment
     end
 
     def status
-      if successful?
-        Payment::BraintreeTransaction.statuses[:success]
-      else
-        Payment::BraintreeTransaction.statuses[:failure]
-      end
+      Payment::BraintreeTransaction.statuses[(successful? ? :success : :failure)]
     end
 
     def successful?
