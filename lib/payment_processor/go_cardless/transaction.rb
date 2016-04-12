@@ -32,12 +32,6 @@ module PaymentProcessor
         # TODO: persist transaction locally
       end
 
-      def subscription
-        # We're going to need to write some logic reconciling currency, quantity, and DD scheme
-        subscription = client.subscriptions.create(params: subscription_params)
-        # TODO: persist subscription locally
-      end
-
     end
   end
 end
