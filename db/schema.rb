@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404203052) do
+ActiveRecord::Schema.define(version: 20160412132247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -342,6 +342,16 @@ ActiveRecord::Schema.define(version: 20160404203052) do
   add_index "payment_go_cardless_transactions", ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id", using: :btree
   add_index "payment_go_cardless_transactions", ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id", using: :btree
   add_index "payment_go_cardless_transactions", ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id", using: :btree
+
+  create_table "payment_go_cardless_webhook_events", force: :cascade do |t|
+    t.string   "event_id"
+    t.string   "resource_type"
+    t.string   "action"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "payment_go_cardless_webhook_events", ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id", using: :btree
 
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"
