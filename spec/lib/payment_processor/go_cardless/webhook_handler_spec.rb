@@ -1,7 +1,7 @@
 require 'rails_helper'
 require "openssl"
 
-module PaymentProcessor::Clients::GoCardless
+module PaymentProcessor::GoCardless
   class WebhookSignature
 
     def initialize(secret:, body:, signature:)
