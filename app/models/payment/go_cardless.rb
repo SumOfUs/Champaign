@@ -114,7 +114,7 @@ module Payment::GoCardless
         amount_refunded: @gc_payment.amount_refunded,
         page_id: @page_id,
         # Braintree transactions don't belong to actions, but subscriptions do. Which way do we want to keep this?
-        action_id: ,
+        # action_id: ,
         customer_id: @existing_customer.id,
         payment_method_id: @mandate.id,
         status: status

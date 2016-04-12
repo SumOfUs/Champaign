@@ -4,7 +4,7 @@ module PaymentProcessor
 
       def transaction_params
         {
-          amount: @amount,
+          amount: amount,
           currency: currency,
           links: {
               mandate: mandate.id
@@ -25,14 +25,20 @@ module PaymentProcessor
       end
 
       def mandate
-        client.mandates.get(completed_redirect_flow.links.mandate)
+        @mandate ||= client.mandates.get(completed_redirect_flow.links.mandate)
+      end
+
+      def amount
+        # we let the donor pick any amount and currency, then convert it to the right currency
+        # for their bank according to the current exchange rate
+        @amount ||= PaymentProcessor::Currency.convert(@original_amount, currency, @original_currency).cents
       end
 
       def currency
-        case mandate.scheme
-          when "bacs" then "GBP"
-          when "sepa_core" then "EUR"
-        end
+        scheme = mandate.scheme.downcase
+        return 'GBP' if scheme == 'bacs'
+        return 'SEK' if scheme == 'autogiro'
+        return 'EUR'
       end
 
       def completed_redirect_flow
