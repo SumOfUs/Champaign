@@ -3,11 +3,11 @@ class Api::GoCardlessController < ApplicationController
 
   def start_flow
     # Generate a success URL. This is where GC will send the customer after they've paid.
-    string_params = request.url.split('?').last
+    string_params = request.url.split('?').last + "&page_id=#{params[:page_id]}"
     success_url = "#{request.base_url}/api/go_cardless/payment_complete?#{string_params}"
 
     redirect_flow = client.redirect_flows.create(params: {
-      session_token: 'iamatoken', # session.id,
+      session_token: session.id,
       success_redirect_url: success_url
     })
 
@@ -15,9 +15,8 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def payment_complete
-    # builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
-    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, 'iamatoken')
-
+    # If one-off payment
+    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
     render json: {success: builder.result.success?, params: params}
   end
 

@@ -1,6 +1,7 @@
 module PaymentProcessor
   module GoCardless
     class Transaction < Populator
+      include ActionBuilder
       # = GoCardless::Transaction
       #
       # Wrapper around GoCardless's Ruby SDK. This class essentially just stuffs parameters
@@ -22,7 +23,10 @@ module PaymentProcessor
       end
 
       def initialize(params, session_id)
+        @params = params
+        @page_id = params[:page_id]
         @amount = (params[:amount].to_f * 100).to_i # Price in pence/cents
+        @member = Member.find_or_create_by(email: params[:user][:email])
         @redirect_flow_id = params[:redirect_flow_id]
         @session_token = session_id
       end
@@ -30,6 +34,8 @@ module PaymentProcessor
       def transaction
         transaction = client.payments.create(params: transaction_params)
         # TODO: persist transaction locally
+        action = build_action
+        Payment::GoCardless.write_transaction(transaction, @page_id, @member, existing_customer, true)
       end
 
     end
