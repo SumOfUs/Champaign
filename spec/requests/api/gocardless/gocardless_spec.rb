@@ -39,7 +39,7 @@ describe "GoCardless API" do
 
   describe 'after successful redirect flow' do
 
-    let(:params) do
+    let(:base_params) do
       {
         amount: "10",
         currency: "USD",
@@ -55,6 +55,7 @@ describe "GoCardless API" do
         }
       }
     end
+
     let(:completed_flow) do
       GoCardlessPro::Resources::RedirectFlow.new({
         "id" => "RE00004631S7XT20JATGRP6QQ8VZEHRZ",
@@ -77,18 +78,78 @@ describe "GoCardless API" do
       allow_any_instance_of(GoCardlessPro::Client).to receive(:redirect_flows).and_return(redirect_flows)
     end
 
+    shared_examples 'donation action' do
+      it 'creates a PaymentMethod record that stores only the mandate id'
+      it 'creates an Action associated with the Page and Member'
+      it 'increments redis counters'
+      it 'leaves a cookie with the member_id'
+      it 'increments action count on Page'
+
+      it 'creates a Transaction record associated with the Page' do
+        expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
+      end
+    end
+
     describe 'transaction' do
 
-      describe 'successfully' do
-        subject do
-          VCR.use_cassette('gocardless successful transaction') do
-            get api_go_cardless_payment_complete_path, params
-          end
-        end
+      let(:params) { base_params.merge(recurring: false) }
 
-        it 'creates a transaction record' do
-          expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
+      subject do
+        VCR.use_cassette('gocardless successful transaction') do
+          get api_go_cardless_payment_complete_path, params
         end
+      end
+
+      shared_examples 'successful transaction' do
+        it 'passes the correct data to the GoCardless Payment SDK'
+        it 'posts donation action to queue with correct data'
+        it 'stores amount, currency, is_subscription, and transaction_id in form_data on the Action'
+        it 'responds successfully with transaction_id'
+      end
+
+      describe 'when Member exists' do
+
+        include_examples 'successful transaction'
+        include_examples 'donation action'
+        it "updates the Member's fields with any new data"
+      end
+
+      describe 'when Member is new' do
+        include_examples 'successful transaction'
+        include_examples 'donation action'
+        it "populates the Member’s fields with form data"
+      end
+    end
+
+    describe 'subscription' do
+
+      let(:params) { base_params.merge(recurring: true) }
+
+      subject do
+        # I don't want to create the cassette yet
+        # VCR.use_cassette('gocardless successful subscription') do
+        #   get api_go_cardless_payment_complete_path, params
+        # end
+      end
+
+      shared_examples 'successful subscription' do
+        it 'passes the correct data to the GoCardless Subscription SDK'
+        it 'posts donation action to queue with correct data'
+        it 'stores amount, currency, is_subscription, subscription_id, and transaction_id in form_data on the Action'
+        it 'responds successfully with subscription_id'
+      end
+
+      describe 'when Member exists' do
+
+        include_examples 'successful subscription'
+        include_examples 'donation action'
+        it "updates the Member's fields with any new data"
+      end
+
+      describe 'when Member is new' do
+        include_examples 'successful subscription'
+        include_examples 'donation action'
+        it "populates the Member’s fields with form data"
       end
     end
 
