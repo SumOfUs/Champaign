@@ -26,6 +26,25 @@ module PaymentProcessor::GoCardless
   end
 
   class WebhookHandler
+    class EventStore
+
+      class << self
+        def event_exists?(event)
+          if Payment::GoCardless::WebhookEvent.exists?(event_id: event[:id])
+            return true
+          else
+            Payment::GoCardless::WebhookEvent.create(
+              event_id: event[:id],
+              action: event[:action],
+              resource_type: event[:resource_type],
+              body: event.to_json
+            )
+
+            false
+          end
+        end
+      end
+    end
   end
 
   describe WebhookSignature do
@@ -50,6 +69,48 @@ module PaymentProcessor::GoCardless
 
       it 'does not validate signature' do
         expect(subject.valid?).to_not be(true)
+      end
+    end
+  end
+
+  describe WebhookHandler::EventStore do
+    let(:event) do
+      {
+        id: "EV0005H3ZZ0PFP",
+        rsource_type: "mandates",
+        action: "submitted",
+        details: {
+          foo: "bar"
+        }
+      }
+    end
+
+    subject { PaymentProcessor::GoCardless::WebhookHandler::EventStore }
+
+    it 'persists new events to DB' do
+      subject.event_exists?(event)
+
+      event = Payment::GoCardless::WebhookEvent.first
+
+      expect(
+        event.attributes
+      ).to include('event_id' => 'EV0005H3ZZ0PFP', 'action' => 'submitted')
+
+      expect(JSON.parse(event.body)).to include( 'details' => {'foo' => 'bar'})
+    end
+
+    describe '.event_exists?' do
+      context 'new event' do
+        it 'returns false' do
+          expect(subject.event_exists?(event)).to be(false)
+        end
+      end
+
+      context 'existing event' do
+        it 'returns true' do
+          subject.event_exists?(event)
+          expect(subject.event_exists?(event)).to be(true)
+        end
       end
     end
   end
