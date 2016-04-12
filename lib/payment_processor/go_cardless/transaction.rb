@@ -10,9 +10,7 @@ module PaymentProcessor
       #
       # Call <tt>PaymentProcessor::Clients::GoCardless::Transaction.make_transaction</tt>
       #
-      # === Options
-      #
-      # * +:nonce+    - GoCardless token that references a payment method provided by the client (required)
+      # === Options #
       # * +:amount+   - Billing amount (required)
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
@@ -20,44 +18,67 @@ module PaymentProcessor
       attr_reader :result, :action
 
       def self.make_transaction(params, session_id)
-        builder = new(params, session_id)
-        builder.transaction
-        builder
+        new(params, session_id).transaction
+      end
+
+      def self.make_subscription(params, session_id)
+        new(params, session_id).subscription
       end
 
       def initialize(params, session_id)
+        @amount = (params[:amount].to_f * 100).to_i # Price in pence/cents
         @redirect_flow_id = params[:redirect_flow_id]
         @session_token = session_id
       end
 
       def transaction
-        completed_redirect_flow = client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
+        transaction = client.payments.create(params: transaction_params)
+        # TODO: persist transaction locally
+      end
 
-        mandate = client.mandates.get(completed_redirect_flow.links.mandate)
-
+      def subscription
         # We're going to need to write some logic reconciling currency, quantity, and DD scheme
-        currency = case mandate.scheme
-                 when "bacs" then "GBP"
-                 when "sepa_core" then "EUR"
-                 end
+        subscription = client.subscriptions.create(params: subscription_params)
+        # TODO: persist subscription locally
+      end
 
+      private
 
-        subscription = client.subscriptions.create(params: {
-          amount: params[:amount] * 100, # Price in pence/cents
+      def transaction_params
+        {
+          amount: @amount,
           currency: currency,
+          links: {
+              mandate: mandate.id
+          }
+        }
+      end
+
+      def subscription_params
+        transaction_params.merge({
           name: "donation",
           interval_unit: "monthly",
           day_of_month:  "1",
           metadata: {
             order_no: SecureRandom.uuid
-          },
-          links: {
-            mandate: mandate.id
           }
         })
       end
 
-      private
+      def mandate
+        client.mandates.get(completed_redirect_flow.links.mandate)
+      end
+
+      def currency
+        case mandate.scheme
+          when "bacs" then "GBP"
+          when "sepa_core" then "EUR"
+        end
+      end
+
+      def completed_redirect_flow
+        client.redirect_flows.get(@redirect_flow_id) || client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
+      end
 
       def client
         GoCardlessPro::Client.new(
