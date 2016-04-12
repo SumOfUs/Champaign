@@ -24,7 +24,6 @@ module PaymentProcessor::GoCardless
       OpenSSL::Digest.new("sha256")
     end
   end
-
   class WebhookHandler
     class EventStore
 
@@ -162,32 +161,80 @@ module PaymentProcessor::GoCardless
         "metadata"=>{}}]
     end
 
-    describe "Mandates" do
+    describe "Mandates", :focus do
+      let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000PTV0CA1K' ) }
+
       before do
         WebhookHandler.process(events)
       end
 
-      # created
-      # submitted
-      # active
-      # reinstated
-      # cancelled
-      # failed
-      # expired
-      # resubmission_requested
-      #
+      it 'sets state to appropirate event' do
+        expect(payment_method.reload.active?).to be(true)
+      end
     end
 
     describe "Payments" do
-
     end
 
     describe "Payouts" do
-
     end
 
     describe "Subscriptions" do
-
     end
   end
 end
+
+module PaymentProcessor::GoCardless
+  class WebhookHandler
+    def self.process(events)
+      new(events).process
+    end
+
+    def initialize(events)
+      @events = events
+    end
+
+    def process
+      @events.each do |event|
+        ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event).process
+      end
+    end
+  end
+end
+
+module PaymentProcessor::GoCardless
+  class WebhookHandler
+    module IsAGcEvent
+      def initialize(event)
+        @event = event
+      end
+
+      def process; end
+
+      def mandate
+        @mandate ||= ::Payment::GoCardless::PaymentMethod.find_by(go_cardless_id: mandate_id)
+      end
+
+      def mandate_id
+        @event['links']['mandate']
+      end
+    end
+
+    class Mandate
+      include IsAGcEvent
+
+      def process
+        if mandate.may_run_activate?
+          mandate.run_activate!
+        end
+      end
+    end
+  end
+
+  class WebhookHandler
+    class Payment
+      include IsAGcEvent
+    end
+  end
+end
+
