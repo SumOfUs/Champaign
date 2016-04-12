@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412132247) do
+ActiveRecord::Schema.define(version: 20160412155532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20160412132247) do
     t.integer  "customer_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "aasm_state"
   end
 
   add_index "payment_go_cardless_payment_methods", ["customer_id"], name: "index_payment_go_cardless_payment_methods_on_customer_id", using: :btree

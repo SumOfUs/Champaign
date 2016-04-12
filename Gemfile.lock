@@ -37,6 +37,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    aasm (4.10.0)
     action_parameter (0.0.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -450,7 +451,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
-    statesman (2.0.1)
     summernote-rails (0.8.1.1)
       railties (>= 3.1)
     teaspoon (1.1.1)
@@ -492,6 +492,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   action_parameter
   activeadmin!
   aws-sdk (~> 2)
@@ -565,7 +566,6 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets-rails (< 3.0)
-  statesman
   summernote-rails
   teaspoon
   teaspoon-mocha

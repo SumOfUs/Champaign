@@ -116,7 +116,57 @@ module PaymentProcessor::GoCardless
   end
 
   describe WebhookHandler do
+    let(:events) do
+      [{"id"=>"EV0005H3ZZ0PFP",
+        "created_at"=>"2016-04-12T13:13:55.356Z",
+        "resource_type"=>"mandates",
+        "action"=>"submitted",
+        "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+        "details"=>
+      {"origin"=>"gocardless",
+       "cause"=>"mandate_submitted",
+       "description"=>"The mandate has been submitted to the banks."},
+       "metadata"=>{}},
+      {"id"=>"EV0005H400GF49",
+       "created_at"=>"2016-04-12T13:13:55.392Z",
+       "resource_type"=>"mandates",
+       "action"=>"active",
+       "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+       "details"=>
+      {"origin"=>"gocardless",
+       "cause"=>"mandate_activated",
+       "description"=>
+      "The time window after submission for the banks to refuse a mandate has ended without any errors being received, so this mandate is now active."},
+        "metadata"=>{}},
+      {"id"=>"EV0005H401H0QV",
+       "created_at"=>"2016-04-12T13:13:55.986Z",
+       "resource_type"=>"payments",
+       "action"=>"submitted",
+       "links"=>{"payment"=>"PM00017GFBX9NW"},
+       "details"=>
+      {"origin"=>"gocardless",
+       "cause"=>"payment_submitted",
+       "description"=>
+      "Payment submitted to the banks. As a result, it can no longer be cancelled."},
+        "metadata"=>{}},
+      {"id"=>"EV0005H402Z0V0",
+       "created_at"=>"2016-04-12T13:13:56.023Z",
+       "resource_type"=>"payments",
+       "action"=>"confirmed",
+       "links"=>{"payment"=>"PM00017GFBX9NW"},
+       "details"=>
+      {"origin"=>"gocardless",
+       "cause"=>"payment_confirmed",
+       "description"=>
+      "Enough time has passed since the payment was submitted for the banks to return an error, so this payment is now confirmed."},
+        "metadata"=>{}}]
+    end
+
     describe "Mandates" do
+      before do
+        WebhookHandler.process(events)
+      end
+
       # created
       # submitted
       # active
