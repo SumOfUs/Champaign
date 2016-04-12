@@ -10,9 +10,7 @@ module PaymentProcessor
       #
       # Call <tt>PaymentProcessor::Clients::GoCardless::Transaction.make_transaction</tt>
       #
-      # === Options
-      #
-      # * +:nonce+    - GoCardless token that references a payment method provided by the client (required)
+      # === Options #
       # * +:amount+   - Billing amount (required)
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
