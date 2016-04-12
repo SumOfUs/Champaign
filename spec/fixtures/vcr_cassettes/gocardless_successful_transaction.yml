@@ -202,4 +202,270 @@ http_interactions:
         to SumOfUs","currency":"GBP","status":"pending_submission","amount_refunded":0,"reference":null,"metadata":{},"links":{"mandate":"MD0000PSV8N7FR","creditor":"CR000045KKQEY8"}}}'
     http_version: 
   recorded_at: Mon, 11 Apr 2016 23:57:23 GMT
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/redirect_flows/RE00004631S7XT20JATGRP6QQ8VZEHRZ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Tue, 12 Apr 2016 22:04:40 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dada633fcce978d85423aa4dadf4457971460498679; expires=Wed, 12-Apr-17
+        22:04:39 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"d4ade51ab4268d5c473ae1834aca2df7"
+      X-Request-Id:
+      - 0eff6748-77f0-4d9d-9691-1802a5efa84c
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Tue, 12 Apr 2016 22:05:00 GMT
+      Cf-Ray:
+      - 2929f9ab312f2e6f-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"redirect_flows":{"id":"RE00004631S7XT20JATGRP6QQ8VZEHRZ","description":null,"session_token":"iamatoken","scheme":null,"success_redirect_url":"http://localhost:3000/api/go_cardless/payment_complete?amount=10&user%5Bform_id%5D=127&user%5Bemail%5D=nealjmd%40gmail.com&user%5Bname%5D=Neal+Donnelly&user%5Bcountry%5D=US&user%5Bpostal%5D=01060&currency=USD&recurring=false&provider=GC","created_at":"2016-04-11T19:15:07.713Z","links":{"creditor":"CR000045KKQEY8","mandate":"MD0000PSV8N7FR","customer":"CU0000RR39FMVB","customer_bank_account":"BA0000P8MREF5F"}}}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:04:40 GMT
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/redirect_flows/RE00004631S7XT20JATGRP6QQ8VZEHRZ
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Tue, 12 Apr 2016 22:04:41 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d4aa62e01a1c17aefb4e57b33d444f6281460498680; expires=Wed, 12-Apr-17
+        22:04:40 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"d4ade51ab4268d5c473ae1834aca2df7"
+      X-Request-Id:
+      - 7663f738-e2d9-4b65-a4b5-4a6d201460f2
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '998'
+      Ratelimit-Reset:
+      - Tue, 12 Apr 2016 22:05:00 GMT
+      Cf-Ray:
+      - 2929f9b3980a1828-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"redirect_flows":{"id":"RE00004631S7XT20JATGRP6QQ8VZEHRZ","description":null,"session_token":"iamatoken","scheme":null,"success_redirect_url":"http://localhost:3000/api/go_cardless/payment_complete?amount=10&user%5Bform_id%5D=127&user%5Bemail%5D=nealjmd%40gmail.com&user%5Bname%5D=Neal+Donnelly&user%5Bcountry%5D=US&user%5Bpostal%5D=01060&currency=USD&recurring=false&provider=GC","created_at":"2016-04-11T19:15:07.713Z","links":{"creditor":"CR000045KKQEY8","mandate":"MD0000PSV8N7FR","customer":"CU0000RR39FMVB","customer_bank_account":"BA0000P8MREF5F"}}}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:04:41 GMT
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/mandates/MD0000PSV8N7FR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Tue, 12 Apr 2016 22:04:42 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d12f4bf67fd7f986a70ed93c365cc16f31460498681; expires=Wed, 12-Apr-17
+        22:04:41 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"7125eda1c63366c8b35c92dd0cdc6f8d"
+      X-Request-Id:
+      - 05c544ae-e923-4487-830b-57e8382d1bc3
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '997'
+      Ratelimit-Reset:
+      - Tue, 12 Apr 2016 22:05:00 GMT
+      Cf-Ray:
+      - 2929f9b9b7a71828-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-04-18","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:04:42 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/payments
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"amount":1100,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"}}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Tue, 12 Apr 2016 22:04:43 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d7986037fda83723fc1e4ecf7c146cc661460498682; expires=Wed, 12-Apr-17
+        22:04:42 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/payments/PM00017H63J50F
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"12a311c368d3f444ec2807a15aca73ed"
+      X-Request-Id:
+      - 4692c625-750b-4576-9a2c-14d338cb85a4
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '996'
+      Ratelimit-Reset:
+      - Tue, 12 Apr 2016 22:05:00 GMT
+      Cf-Ray:
+      - 2929f9bfbcb32e9f-MIA
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"id":"PM00017H63J50F","created_at":"2016-04-12T22:04:43.320Z","charge_date":"2016-04-18","amount":1100,"description":null,"currency":"GBP","status":"pending_submission","amount_refunded":0,"reference":null,"metadata":{},"links":{"mandate":"MD0000PSV8N7FR","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Tue, 12 Apr 2016 22:04:43 GMT
 recorded_with: VCR 3.0.0
