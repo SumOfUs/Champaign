@@ -41,22 +41,22 @@ describe Payment::GoCardless::PaymentMethod do
 
     it 'can be created' do
       expect{
-        subject.has_been_created!
+        subject.run_create!
       }.to change{ subject.reload.created? }.from(false).to(true)
     end
 
     context 'can be submitted' do
       it 'from pending' do
         expect{
-          subject.has_been_submitted!
+          subject.run_submit!
         }.to change{ subject.reload.submitted? }.from(false).to(true)
       end
 
       it 'from created' do
-        subject.has_been_created!
+        subject.run_create!
 
         expect{
-          subject.has_been_submitted!
+          subject.run_submit!
         }.to change{ subject.reload.submitted? }.from(false).to(true)
       end
     end
@@ -64,32 +64,32 @@ describe Payment::GoCardless::PaymentMethod do
     context 'can be activated' do
       it 'from pending' do
         expect{
-          subject.has_been_activated!
+          subject.run_activate!
         }.to change{ subject.reload.active? }.from(false).to(true)
       end
 
       it 'from created' do
-        subject.has_been_created!
+        subject.run_create!
 
         expect{
-          subject.has_been_activated!
+          subject.run_activate!
         }.to change{ subject.reload.active? }.from(false).to(true)
       end
 
       it 'from submitted' do
-        subject.has_been_submitted!
+        subject.run_submit!
 
         expect{
-          subject.has_been_activated!
+          subject.run_activate!
         }.to change{ subject.reload.active? }.from(false).to(true)
       end
     end
 
     it 'can be cancelled' do
-      subject.has_been_activated!
+      subject.run_activate!
 
       expect{
-        subject.has_been_cancelled!
+        subject.run_cancel!
       }.to change{ subject.reload.cancelled? }.from(false).to(true)
     end
   end

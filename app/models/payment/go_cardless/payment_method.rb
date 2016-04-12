@@ -9,19 +9,19 @@ class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
     state :cancelled
     state :expired
 
-    event :has_been_created do
+    event :run_create do
       transitions from: [:pending], to: :created
     end
 
-    event :has_been_submitted do
+    event :run_submit do
       transitions from: [:pending, :created], to: :submitted
     end
 
-    event :has_been_activated do
+    event :run_activate do
       transitions from: [:pending, :created, :submitted], to: :active
     end
 
-    event :has_been_cancelled do
+    event :run_cancel do
       transitions from: [:active], to: :cancelled
     end
   end
