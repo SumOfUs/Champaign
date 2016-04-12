@@ -450,6 +450,7 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    statesman (2.0.1)
     summernote-rails (0.8.1.1)
       railties (>= 3.1)
     teaspoon (1.1.1)
@@ -564,6 +565,7 @@ DEPENDENCIES
   spring
   spring-commands-rspec
   sprockets-rails (< 3.0)
+  statesman
   summernote-rails
   teaspoon
   teaspoon-mocha

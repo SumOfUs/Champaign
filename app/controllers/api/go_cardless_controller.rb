@@ -3,11 +3,14 @@ class GoCardlessDirector
     @session_id = session_id
     @success_url = success_url
 
-    redirect_flow_instance
+  end
+
+  def redirect_url
+    redirect_flow_instance.redirect_url
   end
 
   def redirect_flow_instance
-    client.redirect_flows.create(params: {
+    @redirect_flow_instance ||= client.redirect_flows.create(params: {
       session_token:        @session_id,
       success_redirect_url: @success_url
     })
@@ -31,13 +34,18 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def payment_complete
-    # builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
-    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, 'iamatoken')
+    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
 
     render json: {success: builder.result.success?, params: params}
   end
 
   def webhook
+    pp params
+    puts
+    puts
+    puts
+
+    head :ok
   end
 
   private

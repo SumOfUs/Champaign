@@ -56,7 +56,15 @@ module PaymentProcessor::Clients::GoCardless
 
   describe WebhookHandler do
     describe "Mandates" do
-
+      # created
+      # submitted
+      # active
+      # reinstated
+      # cancelled
+      # failed
+      # expired
+      # resubmission_requested
+      #
     end
 
     describe "Payments" do
