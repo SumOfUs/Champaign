@@ -24,18 +24,22 @@ module PaymentProcessor
 
       def initialize(params, session_id)
         @params = params
-        @page_id = params[:page_id]
-        @amount = (params[:amount].to_f * 100).to_i # Price in pence/cents
-        @member = Member.find_or_create_by(email: params[:user][:email])
+        @original_amount = (params[:amount].to_f * 100).to_i # Price in pence/cents
+        @original_currency = params[:currency].upcase
         @redirect_flow_id = params[:redirect_flow_id]
         @session_token = session_id
       end
 
       def transaction
         transaction = client.payments.create(params: transaction_params)
-        # TODO: persist transaction locally
-        action = build_action
-        Payment::GoCardless.write_transaction(transaction, @page_id, @member.id, @member.go_cardless_customer, true)
+        build_action # This builds the action and generates the instance variables @page and @existing_member
+        Payment::GoCardless.write_transaction(transaction, @page.id, @existing_member.id, @existing_member.go_cardless_customer, true)
+      end
+
+      # This has been overridden for ActionBuilder used on line 37 to create an action and a member associated with it,
+      # if the member hasn't taken action before.
+      def existing_member
+        @existing_member ||= Member.find_or_initialize_by( email: @params[:user][:email] )
       end
 
     end

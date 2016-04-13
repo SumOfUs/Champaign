@@ -24,7 +24,7 @@ module ActionBuilder
   end
 
   def existing_member
-    @existing_member ||= Member.find_by( email: @params[:email] )
+    @existing_member ||= Member.find_or_initialize_by( email: @params[:email] )
   end
 
   def existing_member?
@@ -33,7 +33,7 @@ module ActionBuilder
 
   def member
     return @user if @user.present?
-    @user = existing_member || Member.new(email: @params[:email])
+    @user = existing_member
 
     if @params.has_key? :name
       @user.name = @params[:name]
