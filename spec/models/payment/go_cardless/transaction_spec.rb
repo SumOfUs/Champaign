@@ -58,4 +58,108 @@ describe Payment::GoCardless::Transaction do
       expect(transaction).to be_invalid
     end
   end
+
+ describe 'state' do
+    subject { create :payment_go_cardless_transaction }
+
+    it 'has initial state' do
+      expect(subject.pending_customer_approval?).to be(true)
+    end
+
+    context 'submission allowed' do
+      it 'from pending_customer_approval' do
+        expect{
+          subject.run_submit!
+        }.to change{ subject.reload.submitted? }.from(false).to(true)
+      end
+
+      it 'from pending_submission' do
+        subject.update(aasm_state: :pending_submission)
+
+        expect{
+          subject.run_submit!
+        }.to change{ subject.reload.submitted? }.from(false).to(true)
+      end
+    end
+
+    context 'confirmation allowed' do
+      it 'from pending_customer_approval' do
+        expect{
+          subject.run_confirm!
+        }.to change{ subject.reload.confirmed? }.from(false).to(true)
+      end
+
+      it 'from pending_submission' do
+        subject.update(aasm_state: :pending_submission)
+
+        expect{
+          subject.run_confirm!
+        }.to change{ subject.reload.confirmed? }.from(false).to(true)
+      end
+
+      it 'from submitted' do
+        subject.update(aasm_state: :submitted)
+
+        expect{
+          subject.run_confirm!
+        }.to change{ subject.reload.confirmed? }.from(false).to(true)
+      end
+    end
+
+    context 'pay out allowed' do
+      it 'from pending_customer_approval' do
+        expect{
+          subject.run_payout!
+        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+      end
+
+      it 'from pending_submission' do
+        subject.update(aasm_state: :pending_submission)
+
+        expect{
+          subject.run_payout!
+        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+      end
+
+      it 'from submitted' do
+        subject.update(aasm_state: :submitted)
+
+        expect{
+          subject.run_payout!
+        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+      end
+
+      it 'from confirmed' do
+        subject.update(aasm_state: :confirmed)
+
+        expect{
+          subject.run_payout!
+        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+      end
+    end
+
+    it 'can be cancelled' do
+      expect{
+        subject.run_cancel!
+      }.to change{ subject.reload.cancelled? }.from(false).to(true)
+    end
+
+    it 'can be denied' do
+      expect{
+        subject.run_deny!
+      }.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
+    end
+
+    it 'can be charged back' do
+      expect{
+        subject.run_charge_back!
+      }.to change{ subject.reload.charged_back? }.from(false).to(true)
+    end
+
+    it 'can be failed' do
+      expect{
+        subject.run_fail!
+      }.to change{ subject.reload.failed? }.from(false).to(true)
+    end
+  end
 end
