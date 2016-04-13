@@ -57,4 +57,46 @@ describe Payment::GoCardless::Subscription do
       expect(subscription).to be_invalid
     end
   end
+
+ describe 'state' do
+    subject { create :payment_go_cardless_subscription }
+
+    it 'has initial state' do
+      expect(subject.pending_customer_approval?).to be(true)
+    end
+
+    it 'can be finished' do
+      expect{
+        subject.run_finish!
+      }.to change{ subject.reload.finished? }.from(false).to(true)
+    end
+
+    it 'can be cancelled' do
+      expect{
+        subject.run_cancel!
+      }.to change{ subject.reload.cancelled? }.from(false).to(true)
+    end
+
+    it 'can be denied' do
+      expect{
+        subject.run_deny!
+      }.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
+    end
+
+    context 'can be activated' do
+      it 'from pending_customer_approval' do
+        expect{
+          subject.run_activate!
+        }.to change{ subject.reload.active? }.from(false).to(true)
+      end
+
+      it 'not from finished' do
+        subject.run_finish!
+
+        expect{
+          subject.run_activate!
+        }.to raise_error(AASM::InvalidTransition)
+      end
+    end
+  end
 end
