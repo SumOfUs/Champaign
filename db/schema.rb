@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404203052) do
+ActiveRecord::Schema.define(version: 20160413180301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -331,14 +331,12 @@ ActiveRecord::Schema.define(version: 20160404203052) do
     t.string   "reference"
     t.decimal  "amount_refunded"
     t.integer  "page_id"
-    t.integer  "action_id"
     t.integer  "payment_method_id"
     t.integer  "customer_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
   end
 
-  add_index "payment_go_cardless_transactions", ["action_id"], name: "index_payment_go_cardless_transactions_on_action_id", using: :btree
   add_index "payment_go_cardless_transactions", ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id", using: :btree
   add_index "payment_go_cardless_transactions", ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id", using: :btree
   add_index "payment_go_cardless_transactions", ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id", using: :btree
@@ -502,7 +500,6 @@ ActiveRecord::Schema.define(version: 20160404203052) do
   add_foreign_key "payment_go_cardless_subscriptions", "pages"
   add_foreign_key "payment_go_cardless_subscriptions", "payment_go_cardless_customers", column: "customer_id"
   add_foreign_key "payment_go_cardless_subscriptions", "payment_go_cardless_payment_methods", column: "payment_method_id"
-  add_foreign_key "payment_go_cardless_transactions", "actions"
   add_foreign_key "payment_go_cardless_transactions", "pages"
   add_foreign_key "payment_go_cardless_transactions", "payment_go_cardless_customers", column: "customer_id"
   add_foreign_key "payment_go_cardless_transactions", "payment_go_cardless_payment_methods", column: "payment_method_id"

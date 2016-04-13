@@ -4,18 +4,18 @@ module Payment::GoCardless
       'payment_go_cardless_'
     end
 
-    def write_transaction(response, page_id, member_id, existing_customer, save_customer=true)
-      GoCardlessTransactionBuilder.build(response, page_id, member_id, existing_customer, save_customer)
+    def write_transaction(gc_mandate, gc_payment, page_id, member, save_customer=true)
+      GoCardlessTransactionBuilder.build(gc_mandate, gc_payment, page_id, member, save_customer)
     end
 
-    def write_subscription(response, page_id, action_id, currency)
+    def write_subscription(gc_mandate, gc_subscription, page_id, member, save_customer=true)
       # TODO: implement
       # if response is successful...
       Payment::GoCardless::Subscription.create!({})
     end
 
-    def write_customer(response, member_id, existing_customer)
-      GoCardlessCustomerBuilder.build(response, member_id, existing_customer)
+    def write_customer(gc_customer, member)
+      GoCardlessCustomerBuilder.build(gc_customer, member)
     end
 
     def customer(email)
@@ -34,21 +34,20 @@ module Payment::GoCardless
       # * +:gc_customer+ - A GoCardless::Customer response object for getting a single customer by ID.
       #                    (see https://developer.gocardless.com/pro/2015-07-06/#customers-get-a-single-customer)
       # * +:member_id+   - the member_id to associate with the customer record
-      # * +:existing_customer+ - if passed, this customer is updated instead of creating a new one
       #
-      def self.build(gc_customer, member_id, existing_customer)
-        new(gc_customer, member_id, existing_customer).build
+      def self.build(gc_customer, member)
+        new(gc_customer, member).build
       end
 
-      def initialize(gc_customer, member_id, existing_customer)
+      def initialize(gc_customer, member)
         @gc_customer = gc_customer
-        @member_id = member_id
-        @existing_customer = existing_customer
+        @member = member
+        @customer = member.go_cardless_customer
       end
 
       def build
-        if @existing_customer.present?
-          @existing_customer.update(customer_attrs)
+        if @customer.present?
+          @customer.update(customer_attrs)
         else
           Payment::GoCardless::Customer.create!(customer_attrs)
         end
@@ -56,7 +55,7 @@ module Payment::GoCardless
 
       def customer_attrs
         {
-          member_id: @member_id,
+          member_id: @member.id,
           go_cardless_id: @gc_customer.id,
           email: @gc_customer.email,
           given_name: @gc_customer.given_name,
@@ -82,27 +81,42 @@ module Payment::GoCardless
       # * +:save_customer+     - optional, default true. whether to save the customer info too
       #
 
-      def self.build(gc_payment, page_id, member_id, existing_customer, save_customer)
-        new(gc_payment, page_id, member_id, existing_customer, save_customer).build
+      def self.build(gc_mandate, gc_payment, page_id, member, save_customer)
+        new(gc_mandate, gc_payment, page_id, member, save_customer).build
       end
 
-      def initialize(gc_payment, page_id, member_id, existing_customer, save_customer)
+      def initialize(gc_mandate, gc_payment, page_id, member, save_customer)
+        @gc_mandate = gc_mandate
         @gc_payment = gc_payment
         @page_id = page_id
-        @member_id = member_id
-        @existing_customer = existing_customer
+        @member = member
+        @customer = member.go_cardless_customer
         @save_customer = save_customer
       end
 
       def build
-        @mandate = ::Payment::GoCardless::PaymentMethod.find_or_create_by!({
+        if @customer.present?
+          @customer.update_attributes(customer_attrs)
+        else
+          @customer = ::Payment::GoCardless::Customer.create(customer_attrs)
+        end
+        @mandate = ::Payment::GoCardless::PaymentMethod.find_or_initialize_by({
            go_cardless_id: @gc_payment.links.mandate,
-           customer_id: @existing_customer.id
+           customer_id: @customer.id,
          })
-        ::Payment::GoCardlessTransaction.create(transaction_attrs)
+        @mandate.status = @gc_mandate.status.to_sym
+        @mandate.save
+        ::Payment::GoCardless::Transaction.create(transaction_attrs)
       end
 
      private
+
+      def customer_attrs
+        {
+          member_id: @member.id,
+          go_cardless_id: @gc_payment.metadata["customer_id"]
+        }
+      end
 
       def transaction_attrs
         {
@@ -114,9 +128,7 @@ module Payment::GoCardless
           reference: @gc_payment.reference,
           amount_refunded: @gc_payment.amount_refunded,
           page_id: @page_id,
-          # Braintree transactions don't belong to actions, but subscriptions do. Which way do we want to keep this?
-          # action_id: ,
-          customer_id: @existing_customer.id,
+          customer_id: @customer.id,
           payment_method_id: @mandate.id,
           status: status
         }

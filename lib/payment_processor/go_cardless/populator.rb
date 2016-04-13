@@ -8,6 +8,9 @@ module PaymentProcessor
           currency: currency,
           links: {
               mandate: mandate.id
+          },
+          metadata: {
+              customer_id: complete_redirect_flow.links.customer
           }
         }
       end
@@ -18,15 +21,13 @@ module PaymentProcessor
             name: "donation",
             interval_unit: "monthly",
             day_of_month:  "1",
-            metadata: {
-              order_no: SecureRandom.uuid
-            }
           })
       end
 
       def mandate
-        @mandate ||= client.mandates.get(completed_redirect_flow.links.mandate)
+        @mandate ||= client.mandates.get(complete_redirect_flow.links.mandate)
       end
+
 
       def amount
         # we let the donor pick any amount and currency, then convert it to the right currency
@@ -41,11 +42,11 @@ module PaymentProcessor
         return 'EUR'
       end
 
-      def completed_redirect_flow
-        client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
+      def complete_redirect_flow
+        @complete_redirect_flow ||= client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
         raise e unless e.message =~ /already completed/
-        client.redirect_flows.get(@redirect_flow_id)
+        @complete_redirect_flow = client.redirect_flows.get(@redirect_flow_id)
       end
 
       def client
