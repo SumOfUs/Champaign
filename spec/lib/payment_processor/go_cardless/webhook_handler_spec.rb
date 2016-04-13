@@ -92,7 +92,6 @@ module PaymentProcessor::GoCardless
 
       event = Payment::GoCardless::WebhookEvent.first
 
-      puts event.attributes
       expect(
         event.attributes
       ).to include('event_id' => 'EV0005H3ZZ0PFP', 'action' => 'submitted')
@@ -240,6 +239,7 @@ module PaymentProcessor::GoCardless
     end
 
     describe "Payments" do
+
     end
 
     describe "Payouts" do
