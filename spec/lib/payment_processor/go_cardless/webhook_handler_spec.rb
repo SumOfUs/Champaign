@@ -24,18 +24,19 @@ module PaymentProcessor::GoCardless
       OpenSSL::Digest.new("sha256")
     end
   end
+
   class WebhookHandler
     class EventStore
 
       class << self
         def event_exists?(event)
-          if Payment::GoCardless::WebhookEvent.exists?(event_id: event[:id])
+          if ::Payment::GoCardless::WebhookEvent.exists?(event_id: event['id'])
             return true
           else
-            Payment::GoCardless::WebhookEvent.create(
-              event_id: event[:id],
-              action: event[:action],
-              resource_type: event[:resource_type],
+            ::Payment::GoCardless::WebhookEvent.create(
+              event_id: event['id'],
+              action: event['action'],
+              resource_type: event['resource_type'],
               body: event.to_json
             )
 
@@ -81,7 +82,7 @@ module PaymentProcessor::GoCardless
         details: {
           foo: "bar"
         }
-      }
+      }.deep_stringify_keys!
     end
 
     subject { PaymentProcessor::GoCardless::WebhookHandler::EventStore }
@@ -91,6 +92,7 @@ module PaymentProcessor::GoCardless
 
       event = Payment::GoCardless::WebhookEvent.first
 
+      puts event.attributes
       expect(
         event.attributes
       ).to include('event_id' => 'EV0005H3ZZ0PFP', 'action' => 'submitted')
@@ -116,60 +118,124 @@ module PaymentProcessor::GoCardless
 
   describe WebhookHandler do
     let(:events) do
-      [{"id"=>"EV0005H3ZZ0PFP",
-        "created_at"=>"2016-04-12T13:13:55.356Z",
-        "resource_type"=>"mandates",
-        "action"=>"submitted",
-        "links"=>{"mandate"=>"MD0000PTV0CA1K"},
-        "details"=>
-      {"origin"=>"gocardless",
-       "cause"=>"mandate_submitted",
-       "description"=>"The mandate has been submitted to the banks."},
-       "metadata"=>{}},
-      {"id"=>"EV0005H400GF49",
-       "created_at"=>"2016-04-12T13:13:55.392Z",
-       "resource_type"=>"mandates",
-       "action"=>"active",
-       "links"=>{"mandate"=>"MD0000PTV0CA1K"},
-       "details"=>
-      {"origin"=>"gocardless",
-       "cause"=>"mandate_activated",
-       "description"=>
-      "The time window after submission for the banks to refuse a mandate has ended without any errors being received, so this mandate is now active."},
-        "metadata"=>{}},
-      {"id"=>"EV0005H401H0QV",
-       "created_at"=>"2016-04-12T13:13:55.986Z",
-       "resource_type"=>"payments",
-       "action"=>"submitted",
-       "links"=>{"payment"=>"PM00017GFBX9NW"},
-       "details"=>
-      {"origin"=>"gocardless",
-       "cause"=>"payment_submitted",
-       "description"=>
-      "Payment submitted to the banks. As a result, it can no longer be cancelled."},
-        "metadata"=>{}},
-      {"id"=>"EV0005H402Z0V0",
-       "created_at"=>"2016-04-12T13:13:56.023Z",
-       "resource_type"=>"payments",
-       "action"=>"confirmed",
-       "links"=>{"payment"=>"PM00017GFBX9NW"},
-       "details"=>
-      {"origin"=>"gocardless",
-       "cause"=>"payment_confirmed",
-       "description"=>
-      "Enough time has passed since the payment was submitted for the banks to return an error, so this payment is now confirmed."},
-        "metadata"=>{}}]
+      [
+        {
+          "id"=>"EV0005H3ZZ0PFP",
+          "created_at"=>"2016-04-12T13:13:55.356Z",
+          "resource_type"=>"mandates",
+          "action"=>"submitted",
+          "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+          "details"=> {
+            "origin"=>"gocardless",
+            "cause"=>"mandate_submitted",
+            "description"=>"The mandate has been submitted to the banks."
+          },
+          "metadata"=>{}
+        },
+
+        {
+          "id"=>"EV0005H3ZSREEW",
+          "created_at"=>"2016-04-12T13:13:50.266Z",
+          "resource_type"=>"mandates",
+          "action"=>"created",
+          "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+          "details"=>{
+            "origin"=>"api",
+            "cause"=>"mandate_created",
+            "description"=>"Mandate created via the API."
+          },
+          "metadata"=>{}
+        },
+
+        {
+          "id"=>"EV0005H400GF49",
+          "created_at"=>"2016-04-12T13:13:55.392Z",
+           "resource_type"=>"mandates",
+           "action"=>"active",
+           "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+           "details"=>{
+             "origin"=>"gocardless",
+             "cause"=>"mandate_activated",
+             "description"=> "The time window after submission for the banks to refuse a mandate has ended without any errors being received, so this mandate is now active."
+           },
+           "metadata"=>{}
+        },
+
+        {
+          "id"=>"EV0005H401H0QV",
+          "created_at"=>"2016-04-12T13:13:55.986Z",
+          "resource_type"=>"payments",
+          "action"=>"submitted",
+          "links"=>{"payment"=>"PM00017GFBX9NW"},
+          "details"=> {
+            "origin"=>"gocardless",
+           "cause"=>"payment_submitted",
+           "description"=> "Payment submitted to the banks. As a result, it can no longer be cancelled."
+          },
+          "metadata"=>{}
+        },
+
+        {
+          "id"=>"EV0005H402Z0V0",
+           "created_at"=>"2016-04-12T13:13:56.023Z",
+           "resource_type"=>"payments",
+           "action"=>"confirmed",
+           "links"=>{"payment"=>"PM00017GFBX9NW"},
+           "details"=> {
+             "origin"=>"gocardless",
+             "cause"=>"payment_confirmed",
+           "description"=> "Enough time has passed since the payment was submitted for the banks to return an error, so this payment is now confirmed."
+           },
+          "metadata"=>{}
+        }
+      ]
     end
 
-    describe "Mandates", :focus do
+    describe "Mandates" do
       let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000PTV0CA1K' ) }
 
-      before do
-        WebhookHandler.process(events)
+      describe 'general behaviour' do
+        before do
+          WebhookHandler.process(events)
+        end
+
+        it 'sets state to appropirate event' do
+          expect(payment_method.reload.active?).to be(true)
+        end
+
+        it 'persists events just once' do
+          expect(
+            Payment::GoCardless::WebhookEvent.all.map(&:event_id)
+          ).to match( events.map{|e| e['id'] } )
+        end
       end
 
-      it 'sets state to appropirate event' do
-        expect(payment_method.reload.active?).to be(true)
+      describe 'with repeated events' do
+        before do
+          events.concat(events)
+          WebhookHandler.process(events)
+        end
+
+        it 'persists events just once' do
+          expect(
+            Payment::GoCardless::WebhookEvent.all.map(&:event_id)
+          ).to match( events.map{|e| e['id'] }.uniq )
+        end
+
+        it 'sets state to appropirate event' do
+          expect(payment_method.reload.active?).to be(true)
+        end
+      end
+
+      describe 'with no active state' do
+        before do
+          events.delete_if{|a| a['action'] == 'active'}
+          WebhookHandler.process(events)
+        end
+
+        it 'sets state to appropirate event' do
+          expect(payment_method.reload.submitted?).to be(true)
+        end
       end
     end
 
@@ -196,8 +262,16 @@ module PaymentProcessor::GoCardless
 
     def process
       @events.each do |event|
-        ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event).process
+        process_event(event) unless already_processed?(event)
       end
+    end
+
+    def process_event(event)
+      ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event).process
+    end
+
+    def already_processed?(event)
+      @exists ||= ::PaymentProcessor::GoCardless::WebhookHandler::EventStore.event_exists?(event)
     end
   end
 end
@@ -224,8 +298,10 @@ module PaymentProcessor::GoCardless
       include IsAGcEvent
 
       def process
-        if mandate.may_run_activate?
-          mandate.run_activate!
+        action = ::Payment::GoCardless::PaymentMethod::STATE_FROM_ACTION[ @event['action'].to_sym ]
+
+        if mandate.send("may_run_#{action}?")
+          mandate.send("run_#{action}!")
         end
       end
     end

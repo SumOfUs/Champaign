@@ -1,6 +1,14 @@
 class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
   include AASM
 
+  STATE_FROM_ACTION = {
+    created:    :create,
+    submitted:  :submit,
+    active:     :activate,
+    cancelled:  :cancel,
+    expired:    :expire
+  }
+
   aasm do
     state :pending, initial: true
     state :created
@@ -23,6 +31,10 @@ class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
 
     event :run_cancel do
       transitions from: [:active], to: :cancelled
+    end
+
+    event :run_expire do
+      transitions from: [:active], to: :expired
     end
   end
 

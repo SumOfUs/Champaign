@@ -43,7 +43,6 @@ class Api::GoCardlessController < ApplicationController
     pp params
     puts
     puts
-    puts
 
     head :ok
   end
