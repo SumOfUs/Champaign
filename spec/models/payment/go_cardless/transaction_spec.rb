@@ -8,7 +8,6 @@ describe Payment::GoCardless::Transaction do
   it { is_expected.to respond_to :go_cardless_id }
   it { is_expected.to respond_to :amount }
   it { is_expected.to respond_to :currency }
-  it { is_expected.to respond_to :status }
   it { is_expected.to respond_to :charge_date }
   it { is_expected.to respond_to :amount_refunded }
   it { is_expected.to respond_to :reference }
@@ -54,62 +53,9 @@ describe Payment::GoCardless::Transaction do
       expect(transaction).to be_valid
     end
 
-    it 'rejects nil status' do
-      transaction.status = nil
-      expect(transaction).to be_invalid
-    end
-
     it 'rejects blank go_cardless_id' do
       transaction.go_cardless_id = ''
       expect(transaction).to be_invalid
-    end
-  end
-
-  describe 'status' do
-
-    it 'can be set to "pending_customer_approval"' do
-      transaction.status = "pending_customer_approval"
-      expect(transaction.pending_customer_approval?).to eq true
-    end
-
-    it 'can be set to pending_submission"' do
-      transaction.status = "pending_submission"
-      expect(transaction.pending_submission?).to eq true
-    end
-
-    it 'can be set to "submitted"' do
-      transaction.status = "submitted"
-      expect(transaction.submitted?).to eq true
-    end
-
-    it 'can be set to "confirmed"' do
-      transaction.status = "confirmed"
-      expect(transaction.confirmed?).to eq true
-    end
-
-    it 'can be set to "paid_out"' do
-      transaction.status = "paid_out"
-      expect(transaction.paid_out?).to eq true
-    end
-
-    it 'can be set to cancelled"' do
-      transaction.status = "cancelled"
-      expect(transaction.cancelled?).to eq true
-    end
-
-    it 'can be set to "customer_approval_denied"' do
-      transaction.status = "customer_approval_denied"
-      expect(transaction.customer_approval_denied?).to eq true
-    end
-
-    it 'can be set to "failed"' do
-      transaction.status = "failed"
-      expect(transaction.failed?).to eq true
-    end
-
-    it 'can be set to "charged_back"' do
-      transaction.status = "charged_back"
-      expect(transaction.charged_back?).to eq true
     end
   end
 end

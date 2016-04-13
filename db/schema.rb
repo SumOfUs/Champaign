@@ -315,6 +315,7 @@ ActiveRecord::Schema.define(version: 20160412155532) do
     t.integer  "customer_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "aasm_state"
   end
 
   add_index "payment_go_cardless_subscriptions", ["action_id"], name: "index_payment_go_cardless_subscriptions_on_action_id", using: :btree
@@ -337,6 +338,7 @@ ActiveRecord::Schema.define(version: 20160412155532) do
     t.integer  "customer_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "aasm_state"
   end
 
   add_index "payment_go_cardless_transactions", ["action_id"], name: "index_payment_go_cardless_transactions_on_action_id", using: :btree

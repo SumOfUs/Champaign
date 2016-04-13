@@ -8,7 +8,6 @@ describe Payment::GoCardless::Subscription do
   it { is_expected.to respond_to :go_cardless_id }
   it { is_expected.to respond_to :amount }
   it { is_expected.to respond_to :currency }
-  it { is_expected.to respond_to :status }
   it { is_expected.to respond_to :name }
   it { is_expected.to respond_to :created_at }
   it { is_expected.to respond_to :updated_at }
@@ -53,42 +52,9 @@ describe Payment::GoCardless::Subscription do
       expect(subscription).to be_valid
     end
 
-    it 'rejects nil status' do
-      subscription.status = nil
-      expect(subscription).to be_invalid
-    end
-
     it 'rejects blank go_cardless_id' do
       subscription.go_cardless_id = ''
       expect(subscription).to be_invalid
-    end
-  end
-
-  describe 'status' do
-
-    it 'can be set to "pending_customer_approval"' do
-      subscription.status = "pending_customer_approval"
-      expect(subscription.pending_customer_approval?).to eq true
-    end
-
-    it 'can be set to "customer_approval_denied"' do
-      subscription.status = "customer_approval_denied"
-      expect(subscription.customer_approval_denied?).to eq true
-    end
-
-    it 'can be set to "active"' do
-      subscription.status = "active"
-      expect(subscription.active?).to eq true
-    end
-
-    it 'can be set to "finished"' do
-      subscription.status = "finished"
-      expect(subscription.finished?).to eq true
-    end
-
-    it 'can be set to "cancelled"' do
-      subscription.status = "cancelled"
-      expect(subscription.cancelled?).to eq true
     end
   end
 end
