@@ -40,10 +40,6 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def webhook
-    pp params
-    puts
-    puts
-
     head :ok
   end
 

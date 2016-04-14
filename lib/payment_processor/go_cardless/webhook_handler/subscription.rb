@@ -2,7 +2,7 @@ module PaymentProcessor
   module GoCardless
     module WebhookHandler
       class Subscription
-        include IsAGcEvent
+        include Processable
 
         def action
           @action ||= ::Payment::GoCardless::Subscription::STATE_FROM_ACTION[ @event['action'].to_sym ]

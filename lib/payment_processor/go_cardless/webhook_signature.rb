@@ -11,12 +11,12 @@ module PaymentProcessor
       end
 
       def valid?
-        hexdiest == @signature
+        hexdigest == @signature
       end
 
       private
 
-      def hexdiest
+      def hexdigest
         OpenSSL::HMAC.hexdigest(digest, @secret, @body)
       end
 

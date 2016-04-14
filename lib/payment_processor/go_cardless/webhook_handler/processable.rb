@@ -1,7 +1,7 @@
 module PaymentProcessor
   module GoCardless
     module WebhookHandler
-      module IsAGcEvent
+      module Processable
         def initialize(event)
           @event = event
         end
