@@ -27,48 +27,6 @@ module PaymentProcessor::GoCardless
     end
   end
 
-  describe WebhookHandler::EventStore do
-    let(:event) do
-      {
-        id: "EV0005H3ZZ0PFP",
-        rsource_type: "mandates",
-        action: "submitted",
-        details: {
-          foo: "bar"
-        }
-      }.deep_stringify_keys!
-    end
-
-    subject { PaymentProcessor::GoCardless::WebhookHandler::EventStore }
-
-    it 'persists new events to DB' do
-      subject.event_exists?(event)
-
-      event = Payment::GoCardless::WebhookEvent.first
-
-      expect(
-        event.attributes
-      ).to include('event_id' => 'EV0005H3ZZ0PFP', 'action' => 'submitted')
-
-      expect(JSON.parse(event.body)).to include( 'details' => {'foo' => 'bar'})
-    end
-
-    describe '.event_exists?' do
-      context 'new event' do
-        it 'returns false' do
-          expect(subject.event_exists?(event)).to be(false)
-        end
-      end
-
-      context 'existing event' do
-        it 'returns true' do
-          subject.event_exists?(event)
-          expect(subject.event_exists?(event)).to be(true)
-        end
-      end
-    end
-  end
-
   describe WebhookHandler do
     let(:events) do
       [
@@ -116,6 +74,50 @@ module PaymentProcessor::GoCardless
       ]
     end
 
+    describe "ProcessEvents" do
+      let(:event) do
+        {
+          id: "EV0005H3ZZ0PFP",
+          resource_type: "mandates",
+          action: "submitted",
+          details: {
+            foo: "bar"
+          }
+        }.deep_stringify_keys!
+      end
+
+      subject{ WebhookHandler::ProcessEvents.new([event]) }
+
+      it 'persists new events to DB' do
+        subject.record_processing(event)
+
+        event = Payment::GoCardless::WebhookEvent.first
+
+        expect(
+          event.attributes
+        ).to include('event_id' => 'EV0005H3ZZ0PFP', 'action' => 'submitted')
+
+        expect(JSON.parse(event.body)).to include( 'details' => {'foo' => 'bar'})
+      end
+
+      describe 'already_processed?' do
+
+        context 'new event' do
+          it 'returns false' do
+            expect(subject.already_processed?(event)).to be(false)
+          end
+        end
+
+        context 'existing event' do
+          it 'returns true' do
+            expect(subject.already_processed?(event)).to be(false)
+            subject.record_processing(event)
+            expect(subject.already_processed?(event)).to be(true)
+          end
+        end
+      end
+    end
+
     describe "Mandates" do
       let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000PTV0CA1K' ) }
 
@@ -124,7 +126,7 @@ module PaymentProcessor::GoCardless
           WebhookHandler::ProcessEvents.process(events)
         end
 
-        it 'sets state to appropirate event' do
+        it 'sets state to appropriate event' do
           expect(payment_method.reload.active?).to be(true)
         end
 
@@ -147,7 +149,7 @@ module PaymentProcessor::GoCardless
           ).to match( events.map{|e| e['id'] }.uniq )
         end
 
-        it 'sets state to appropirate event' do
+        it 'sets state to appropriate event' do
           expect(payment_method.reload.active?).to be(true)
         end
       end
@@ -158,7 +160,7 @@ module PaymentProcessor::GoCardless
           WebhookHandler::ProcessEvents.process(events)
         end
 
-        it 'sets state to appropirate event' do
+        it 'sets state to appropriate event' do
           expect(payment_method.reload.submitted?).to be(true)
         end
       end
@@ -238,7 +240,7 @@ module PaymentProcessor::GoCardless
           WebhookHandler::ProcessEvents.process(positive_events)
         end
 
-        it 'sets state to appropirate event' do
+        it 'sets state to appropriate event' do
           expect(subscription.reload.active?).to be(true)
         end
 
@@ -261,7 +263,7 @@ module PaymentProcessor::GoCardless
           ).to match( events.map{|e| e['id'] }.uniq )
         end
 
-        it 'sets state to appropirate event' do
+        it 'sets state to appropriate event' do
           expect(subscription.reload.active?).to be(true)
         end
       end
