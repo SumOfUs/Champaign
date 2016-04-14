@@ -16,11 +16,15 @@ class Api::GoCardlessController < ApplicationController
 
   def payment_complete
     # If one-off payment
-    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
-    render json: {success: builder.result.success?, params: params}
+    builder.make_transaction(params, session.id)
+    render json: {success: builder.success?, params: params}
   end
 
   private
+
+  def builder
+    PaymentProcessor::GoCardless::Transaction
+  end
 
   def client
     GoCardlessPro::Client.new(

@@ -11,7 +11,7 @@ module Payment::GoCardless
     def write_subscription(gc_mandate, gc_subscription, page_id, member, save_customer=true)
       # TODO: implement
       # if response is successful...
-      Payment::GoCardless::Subscription.create!({})
+      Payment::GoCardless::Subscription.create!(subscription_attrs)
     end
 
     def write_customer(gc_customer, member)
@@ -131,6 +131,12 @@ module Payment::GoCardless
           customer_id: @customer.id,
           payment_method_id: @mandate.id,
           status: status
+        }
+      end
+
+      def subscription_attrs
+        {
+
         }
       end
 
