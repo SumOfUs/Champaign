@@ -66,7 +66,7 @@ fr:
     signatures: signatures #, par exemple '225 signatures'
     million: million
   share:
-    cta: Partagez la pétition avec vos ami(e)s afin de tripler votre impact!
+    cta: Partagez la campagne avec vos ami(e)s afin de tripler votre impact!
     send_email: Envoyer un courriel
     share: Partagez
     tweet: Tweetez
