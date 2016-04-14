@@ -236,7 +236,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   submitDonation () {
-    $.post(`/api/braintree/pages/${this.pageId}/transaction`, {
+    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
       payment_method_nonce: this.nonce,
       amount:               this.donationAmount,
       user:                 this.serializeUserForm(),

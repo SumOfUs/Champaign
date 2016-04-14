@@ -4,6 +4,9 @@ li.list-group-item data-id=element.id
   = element.label
   span.secondary-label
     = "(#{element.name})"
+  - unless element.default_value.blank?
+    span.secondary-label
+      = "(default: #{truncate(element.default_value, length: 20)})"
 
   .control-bar
     - if element.required

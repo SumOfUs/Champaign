@@ -93,7 +93,7 @@ describe "Braintree API" do
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
             subject do
               VCR.use_cassette("transaction success basic existing customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -121,7 +121,6 @@ describe "Braintree API" do
             it "creates a Transaction associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
               transaction = Payment::BraintreeTransaction.last
-
               expect(transaction.page).to eq page
               expect(transaction.amount).to eq amount
               expect(transaction.currency).to eq 'EUR'
@@ -129,19 +128,22 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
-              previous_token = customer.card_vault_token
+              previous_token = customer.default_payment_method
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
+              new_token = Payment::BraintreePaymentMethod.last
               customer.reload
-              expect( customer.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.default_payment_method ).to_not eq previous_token
+              expect( customer.default_payment_method ).to eq Payment::BraintreePaymentMethod.last
               expect( customer.card_last_4 ).to match a_string_matching(four_digits)
               expect( customer.card_last_4 ).not_to eq previous_last_4
             end
@@ -217,7 +219,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("transaction success paypal existing customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -232,19 +234,21 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(transaction.payment_method.token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "updates Payment::BraintreeCustomer with new token and PYPL for last_4" do
-              previous_token = customer.card_vault_token
+              previous_token = customer.default_payment_method
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
               customer.reload
-              expect( customer.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.default_payment_method.token ).to match a_string_matching(token_format)
+              expect( customer.default_payment_method ).to eq Payment::BraintreePaymentMethod.last
+              expect( customer.default_payment_method ).not_to eq previous_token
               expect( customer.card_last_4 ).to eq 'PYPL'
             end
 
@@ -283,7 +287,7 @@ describe "Braintree API" do
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
             subject do
               VCR.use_cassette("transaction success basic new customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -317,7 +321,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -326,7 +331,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect( customer.customer_id ).not_to be_blank
               expect( customer.card_last_4 ).to eq '1881'
-              expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.default_payment_method ).not_to be_blank
               expect( customer.email ).to eq user_params[:email]
             end
 
@@ -400,7 +405,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("transaction success paypal new customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -417,7 +422,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -426,7 +432,7 @@ describe "Braintree API" do
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).not_to be_blank
               expect(customer.card_last_4).to eq 'PYPL'
-              expect( customer.card_vault_token ).not_to be_blank
+              expect( customer.default_payment_method ).not_to be_blank
               expect( customer.email ).to eq user_params[:email]
             end
 
@@ -471,7 +477,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("transaction success basic new customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -546,7 +552,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("subscription success basic existing customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -584,9 +590,11 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'credit_card'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -603,12 +611,13 @@ describe "Braintree API" do
             end
 
             it "updates Payment::BraintreeCustomer with new token and last_4" do
-              previous_token = customer.card_vault_token
+              previous_token = customer.default_payment_method
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
               customer.reload
-              expect( customer.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.default_payment_method.token ).to match a_string_matching(token_format)
+              expect( customer.default_payment_method ).to eq Payment::BraintreePaymentMethod.last
+              expect( customer.default_payment_method ).not_to eq previous_token
               expect( customer.card_last_4 ).to match a_string_matching(four_digits)
               expect( customer.card_last_4 ).not_to eq previous_last_4
             end
@@ -694,7 +703,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("subscription success paypal existing customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -714,19 +723,23 @@ describe "Braintree API" do
               expect(transaction.payment_instrument_type).to eq 'paypal_account'
               expect(transaction.transaction_type).to eq 'sale'
               expect(transaction.customer_id).to eq customer.customer_id
+              expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
             it "updates Payment::BraintreeCustomer with new token and PYPL for last_4" do
-              previous_token = customer.card_vault_token
+              previous_token = customer.default_payment_method
               previous_last_4 = customer.card_last_4
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 0
               customer.reload
-              expect( customer.card_vault_token ).to match a_string_matching(token_format)
-              expect( customer.card_vault_token ).not_to eq previous_token
+              expect( customer.default_payment_method.token ).to match a_string_matching(token_format)
+              expect( customer.default_payment_method ).to eq Payment::BraintreePaymentMethod.last
+              expect( customer.default_payment_method ).not_to eq previous_token
+              expect( customer.card_last_4 ).to_not eq previous_last_4
               expect( customer.card_last_4 ).to eq 'PYPL'
             end
 
@@ -767,7 +780,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("subscription success basic new customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -806,7 +819,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -826,7 +840,7 @@ describe "Braintree API" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
-              expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect(customer.default_payment_method.token).to match a_string_matching(token_format)
               expect( customer.email ).to eq user_params[:email]
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
@@ -872,6 +886,7 @@ describe "Braintree API" do
             end
 
             it 'does not create payment method separately' do
+
               allow(Braintree::PaymentMethod).to receive(:create).and_call_original
               subject
               expect(Braintree::PaymentMethod).not_to have_received(:create)
@@ -912,7 +927,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("subscription success paypal new customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -934,7 +949,9 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::BraintreeCustomer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(transaction.payment_method_token).to match a_string_matching(token_format)
+              expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
+                         token).to match a_string_matching(token_format)
+              
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -942,7 +959,7 @@ describe "Braintree API" do
               expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by 1
               customer = Payment::BraintreeCustomer.last
               expect(customer.customer_id).to match a_string_matching(token_format)
-              expect(customer.card_vault_token).to match a_string_matching(token_format)
+              expect(customer.default_payment_method.token).to match a_string_matching(token_format)
               expect( customer.email ).to eq user_params[:email]
               expect( customer.reload.card_last_4 ).to eq 'PYPL'
             end
@@ -990,7 +1007,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("subscription success basic new customer") do
-                post api_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params
               end
             end
 
@@ -1034,10 +1051,90 @@ describe "Braintree API" do
     end
   end
 
+  describe "storing multiple payment method tokens" do
+
+    context "existing customer" do
+      let(:basic_params) do
+        {
+            currency: 'EUR',
+            payment_method_nonce: 'fake-valid-mastercard-nonce',
+            recurring: false
+        }
+      end
+
+      let(:params) { basic_params.merge(user: user_params, amount: 5) }
+
+      subject do
+        VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
+          post api_payment_braintree_transaction_path(page.id), params
+        end
+      end
+
+      let!(:member)   { create :member, email: user_params[:email], postal: nil }
+      let!(:customer) { create(:payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843') }
+
+      before do
+        3.times do
+          Payment::BraintreePaymentMethod.create(customer: customer)
+        end
+      end
+
+      it "supports storing multiple braintree payment method tokens" do
+        original_token = customer.default_payment_method
+        expect( customer.payment_methods.length ).to eq(3)
+        expect( customer.payment_methods ).to include(original_token)
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by(0)
+
+        customer.reload
+        expect( customer.payment_methods.length ).to eq(4)
+        expect( customer.default_payment_method ).not_to eq original_token
+        expect( customer.payment_methods ).to include(original_token, customer.default_payment_method)
+      end
+
+      # This spec describes he rather weird expected behavior at the moment, where we create a payment method token every time.
+      it "always creates a new payment method token, even if the same payment method is used" do
+        original_token = customer.default_payment_method
+
+        expect( customer.payment_methods.length ).to eq(3)
+        expect( customer.payment_methods ).to include(original_token)
+        expect{ subject }.to change{ Payment::BraintreeCustomer.count }.by(0)
+        customer.reload
+        expect( customer.payment_methods.length ).to eq(4)
+        expect( customer.default_payment_method ).not_to eq original_token
+        expect( customer.payment_methods ).to include(original_token, customer.default_payment_method)
+        new_token = customer.default_payment_method
+
+        VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens_second_request") do
+          post api_payment_braintree_transaction_path(page.id), params
+        end
+
+        customer.reload
+        # The same payment method was used, the payment method tokens get incremented anyway. Similarly the default
+        # payment method token gets updated to the new token corresponding to the old payment method.
+        expect( customer.payment_methods.length ).to eq(5)
+        expect( customer.default_payment_method ).to_not eq new_token
+        expect( customer.payment_methods ).to include(original_token, new_token, customer.default_payment_method)
+        # Each token only has one payment associated with them.
+        expect( Payment::BraintreeTransaction.where(payment_method_id: new_token.id).length ).to eq(1)
+        expect( Payment::BraintreeTransaction.where(payment_method_id: customer.default_payment_method.id).length ).to eq(1)
+      end
+    end
+
+    context "new customer" do
+      let(:params) { basic_params.merge(user: user_params, amount: amount) }
+      subject do
+        VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do
+          post api_payment_braintree_transaction_path(page.id), params
+        end
+      end
+
+    end
+  end
+
   describe "fetching a token" do
     it 'gets a client token' do
       VCR.use_cassette("braintree_client_token") do
-        expect{ get api_braintree_token_path }.not_to raise_error
+        expect{ get api_payment_braintree_token_path }.not_to raise_error
 
         body = JSON.parse(response.body).with_indifferent_access
         expect(body).to have_key(:token)
@@ -1045,5 +1142,5 @@ describe "Braintree API" do
       end
     end
   end
-end
 
+end

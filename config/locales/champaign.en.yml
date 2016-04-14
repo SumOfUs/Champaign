@@ -89,6 +89,7 @@ en:
       data_type: 'This changes what user inputs the field will accept'
       label: 'This is the label of the field presented to the signer.'
       name: "The field name to be stored in ActionKit. Select a standard AK field from the suggestions, or enter your own. If entering your own, add _customer or _shareholder to company names, or _other for others. Examples: apple_customer, shell_shareholder, journalist_other"
+      default_value: "The field will be pre-populated with whatever you write here. Write '1' or 'checked' to pre-check checkboxes. Countries should be two character country code."
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -189,9 +190,12 @@ en:
     label: 'Label (user-facing)'
     data_type: 'Field type'
     name: 'Name (internal-facing)'
+    default_value: 'Default value'
+    add_default_value: 'Add default value'
     required: 'Required'
     label_suggestion: "eg. Street Address"
     name_suggestion: "eg. address1"
+    default_value_suggestion: 'eg. 10 Downing St.'
 
   links:
     forms:

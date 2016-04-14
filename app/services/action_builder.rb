@@ -3,7 +3,6 @@ require_relative 'action_queue'
 module ActionBuilder
   def build_action(extra_attrs = {})
     subscribed_member = !existing_member?
-
     action = Action.create({
       member: member,
       page: page,
@@ -34,7 +33,6 @@ module ActionBuilder
 
   def member
     return @user if @user.present?
-
     @user = existing_member || Member.new(email: @params[:email])
 
     if @params.has_key? :name

@@ -182,8 +182,6 @@ body.page-edit-body {
   }
 }
 
-
-
 .page-edit-step__title, .edit-block__title, .centered-overlay__title {
   position: absolute;
   top: 0;
@@ -214,6 +212,10 @@ body.page-edit-body {
 
   &--just-title {
     padding: 35px;
+  }
+
+  a {
+    cursor: pointer;
   }
 
   .two-ninths.form-group {

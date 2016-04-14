@@ -63,7 +63,12 @@ const FormMethods = {
       let $field = $(field);
       let name = $field.prop('name');
       if (unvalidatedPrefillValues.hasOwnProperty(name)) {
-        $field.val(unvalidatedPrefillValues[name]);
+        // weird edge case handling - if the name field is country and the country code is
+        // the 'Reserved' country code, don't prefill since it's not a real code.
+        let isUnknownCountry = (name.match('country') && unvalidatedPrefillValues[name] == 'RD')
+        if (!isUnknownCountry) {
+          $field.val(unvalidatedPrefillValues[name]);
+        }
       }
       if (prefillValues.hasOwnProperty(name) && fieldsToSkipPrefill.indexOf(name) === -1) {
         $field.val(prefillValues[name]);
