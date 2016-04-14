@@ -45,7 +45,7 @@ module PaymentProcessor
       def complete_redirect_flow
         @complete_redirect_flow ||= client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
-        raise e unless e.message =~ /already completed/
+        @errors = e.errors unless e.message =~ /already completed/
         @complete_redirect_flow = client.redirect_flows.get(@redirect_flow_id)
       end
 
@@ -54,6 +54,20 @@ module PaymentProcessor
           access_token: Settings.gocardless.token,
           environment: Settings.gocardless.environment.to_sym
         )
+      end
+
+      def self.success?
+        @errors.blank?
+      end
+
+      def find_or_update_member(params)
+        splitter = NameSplitter.new(full_name: params[:user][:name])
+        member_params = params[:user].except!(:form_id, :name).merge({
+                                                                         first_name: splitter.first_name,
+                                                                         last_name: splitter.last_name
+                                                                     })
+        # Raises ActiveModel::ForbiddenAttributesError
+        Member.find_or_create_by( email: member_params[:email] ).update_attributes(member_params)
       end
     end
   end

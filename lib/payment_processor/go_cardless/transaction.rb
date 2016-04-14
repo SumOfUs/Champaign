@@ -15,7 +15,7 @@ module PaymentProcessor
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
       # * +:customer+ - Instance of existing GoCardless customer. Must respond to +customer_id+ (optional)
-      attr_reader :result, :action
+      attr_reader :success, :action
 
       def self.make_transaction(params, session_id)
         new(params, session_id).transaction
@@ -27,7 +27,7 @@ module PaymentProcessor
         @original_currency = params[:currency].upcase
         @redirect_flow_id = params[:redirect_flow_id]
         @session_token = session_id
-        @existing_member = Member.find_or_create_by( email: params[:user][:email] )
+        @existing_member = find_or_update_member(params)
       end
 
       def transaction
