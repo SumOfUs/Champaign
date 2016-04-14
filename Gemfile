@@ -31,6 +31,8 @@ gem 'sprockets-rails', '< 3.0'
 gem 'braintree', '~> 2.54.0'
 gem "gocardless_pro"
 
+gem "aasm"
+
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 

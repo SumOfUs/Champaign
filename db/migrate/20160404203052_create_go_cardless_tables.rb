@@ -17,7 +17,6 @@ class CreateGoCardlessTables < ActiveRecord::Migration
     create_table :payment_go_cardless_payment_methods do |t|
       t.string :go_cardless_id
       t.string :reference
-      t.integer :status
       t.string :scheme
       t.date   :next_possible_charge_date
 

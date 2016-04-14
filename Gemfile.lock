@@ -37,6 +37,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    aasm (4.10.0)
     action_parameter (0.0.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -491,6 +492,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   action_parameter
   activeadmin!
   aws-sdk (~> 2)
