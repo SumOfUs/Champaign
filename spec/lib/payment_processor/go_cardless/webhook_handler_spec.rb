@@ -158,34 +158,6 @@ module PaymentProcessor::GoCardless
              "description"=> "The time window after submission for the banks to refuse a mandate has ended without any errors being received, so this mandate is now active."
            },
            "metadata"=>{}
-        },
-
-        {
-          "id"=>"EV0005H401H0QV",
-          "created_at"=>"2016-04-12T13:13:55.986Z",
-          "resource_type"=>"payments",
-          "action"=>"submitted",
-          "links"=>{"payment"=>"PM00017GFBX9NW"},
-          "details"=> {
-            "origin"=>"gocardless",
-           "cause"=>"payment_submitted",
-           "description"=> "Payment submitted to the banks. As a result, it can no longer be cancelled."
-          },
-          "metadata"=>{}
-        },
-
-        {
-          "id"=>"EV0005H402Z0V0",
-           "created_at"=>"2016-04-12T13:13:56.023Z",
-           "resource_type"=>"payments",
-           "action"=>"confirmed",
-           "links"=>{"payment"=>"PM00017GFBX9NW"},
-           "details"=> {
-             "origin"=>"gocardless",
-             "cause"=>"payment_confirmed",
-           "description"=> "Enough time has passed since the payment was submitted for the banks to return an error, so this payment is now confirmed."
-           },
-          "metadata"=>{}
         }
       ]
     end
@@ -238,15 +210,122 @@ module PaymentProcessor::GoCardless
       end
     end
 
-    describe "Payments" do
-
-    end
-
-    describe "Payouts" do
-    end
-
     describe "Subscriptions" do
+      let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000PTV0CA1K' ) }
+      let!(:subscription)   { create(:payment_go_cardless_subscription,   go_cardless_id: 'index_ID_123', payment_method: payment_method) }
+
+      let(:events) do
+        [
+          {"id"=>"EVTESTAV3T2NVP",
+              "created_at"=>"2016-04-14T11:27:42.565Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"created",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"api",
+                "cause"=>"subscription_created",
+                "description"=>"Subscription created via the API."},
+              "metadata"=>{}},
+
+          {"id"=>"EVTESTJG8GPP7G",
+              "created_at"=>"2016-04-14T11:32:20.343Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"customer_approval_granted",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"customer",
+                "cause"=>"customer_approval_granted",
+                "description"=>"The customer granted approval for this subscription"},
+              "metadata"=>{}},
+
+          {"id"=>"EVTESTDE3FM5V8",
+              "created_at"=>"2016-04-14T11:41:54.311Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"customer_approval_denied",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"customer",
+                "cause"=>"customer_approval_denied",
+                "description"=>"The customer denied approval for this subscription"},
+              "metadata"=>{}},
+
+          {"id"=>"EVTEST4VAXTFZD",
+              "created_at"=>"2016-04-14T11:43:00.208Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"payment_created",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"gocardless",
+                "cause"=>"payment_created",
+                "description"=>"Payment created by a subscription."},
+              "metadata"=>{}},
+
+          {"id"=>"EVTESTX92MH5D4",
+              "created_at"=>"2016-04-14T11:46:58.634Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"cancelled",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"api",
+                "cause"=>"mandate_cancelled",
+                "description"=>
+                 "The subscription was cancelled because its mandate was cancelled by an API call."},
+              "metadata"=>{}}
+        ]
+      end
+
+      let(:positive_events) do
+        events.delete_if{|a| ['cancelled', 'customer_approval_denied'].include? a['action']}
+      end
+
+
+      describe 'general behaviour' do
+        before do
+          WebhookHandler.process(positive_events)
+        end
+
+        it 'sets state to appropirate event' do
+          expect(subscription.reload.active?).to be(true)
+        end
+
+        it 'persists events just once' do
+          expect(
+            Payment::GoCardless::WebhookEvent.all.map(&:event_id)
+          ).to match( events.map{|e| e['id'] } )
+        end
+      end
+
+      describe 'with repeated events' do
+        before do
+          positive_events.concat(positive_events)
+          WebhookHandler.process(positive_events)
+        end
+
+        it 'persists events just once' do
+          expect(
+            Payment::GoCardless::WebhookEvent.all.map(&:event_id)
+          ).to match( events.map{|e| e['id'] }.uniq )
+        end
+
+        it 'sets state to appropirate event' do
+          expect(subscription.reload.active?).to be(true)
+        end
+      end
+
+      describe 'with cancelled event' do
+        before do
+          WebhookHandler.process(events)
+        end
+
+        it 'sets state to cancelled' do
+          expect(subscription.reload.cancelled?).to be(true)
+        end
+      end
     end
+
+    describe "Payments" do; end
+
+    describe "Payouts" do; end
   end
 end
 
@@ -283,10 +362,22 @@ module PaymentProcessor::GoCardless
         @event = event
       end
 
-      def process; end
+      def process
+        if record.send("may_run_#{action}?")
+          record.send("run_#{action}!")
+        end
+      end
+    end
 
-      def mandate
-        @mandate ||= ::Payment::GoCardless::PaymentMethod.find_by(go_cardless_id: mandate_id)
+    class Mandate
+      include IsAGcEvent
+
+      def action
+        @action ||= ::Payment::GoCardless::PaymentMethod::STATE_FROM_ACTION[ @event['action'].to_sym ]
+      end
+
+      def record
+        @record ||= ::Payment::GoCardless::PaymentMethod.find_by(go_cardless_id: mandate_id)
       end
 
       def mandate_id
@@ -294,15 +385,19 @@ module PaymentProcessor::GoCardless
       end
     end
 
-    class Mandate
+    class Subscription
       include IsAGcEvent
 
-      def process
-        action = ::Payment::GoCardless::PaymentMethod::STATE_FROM_ACTION[ @event['action'].to_sym ]
+      def action
+        @action ||= ::Payment::GoCardless::Subscription::STATE_FROM_ACTION[ @event['action'].to_sym ]
+      end
 
-        if mandate.send("may_run_#{action}?")
-          mandate.send("run_#{action}!")
-        end
+      def record
+        @record ||= ::Payment::GoCardless::Subscription.find_by(go_cardless_id: subscription_id)
+      end
+
+      def subscription_id
+        @event['links']['subscription']
       end
     end
   end
@@ -313,4 +408,3 @@ module PaymentProcessor::GoCardless
     end
   end
 end
-

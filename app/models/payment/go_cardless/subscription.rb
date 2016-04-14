@@ -6,15 +6,28 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
 
-   aasm do
-    state :pending_customer_approval, initial: true
+  STATE_FROM_ACTION = {
+    created:                    :create,
+    cancelled:                  :cancel,
+    payment_created:            :payment_create,
+    customer_approval_granted:  :approve,
+    customer_approval_denied:   :deny
+  }
+
+  aasm do
+    state :pending, initial: true
+    state :created
     state :customer_approval_denied
     state :active
     state :finished
     state :cancelled
 
-    event :run_activate do
-      transitions from: [:pending_customer_approval], to: :active
+    event :run_create do
+      transitions from: [:pending], to: :created
+    end
+
+    event :run_approve do
+      transitions from: [:pending, :created], to: :active
     end
 
     event :run_cancel do
@@ -27,6 +40,12 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
 
     event :run_deny do
       transitions to: :customer_approval_denied
+    end
+
+    event :run_payment_create do
+      puts "PAYMENT CREATED"
+      transitions from: :active, to: :active
+
     end
   end
 
