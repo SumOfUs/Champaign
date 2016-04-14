@@ -1,7 +1,7 @@
 class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
   include AASM
 
-  STATE_FROM_ACTION = {
+  ACTION_FROM_STATE = {
     created:    :create,
     submitted:  :submit,
     active:     :activate,

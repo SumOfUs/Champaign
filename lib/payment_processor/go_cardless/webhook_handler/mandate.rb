@@ -5,7 +5,7 @@ module PaymentProcessor
         include Processable
 
         def action
-          @action ||= ::Payment::GoCardless::PaymentMethod::STATE_FROM_ACTION[ @event['action'].to_sym ]
+          @action ||= ::Payment::GoCardless::PaymentMethod::ACTION_FROM_STATE[ @event['action'].to_sym ]
         end
 
         def record

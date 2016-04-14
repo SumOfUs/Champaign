@@ -6,7 +6,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
 
-  STATE_FROM_ACTION = {
+  ACTION_FROM_STATE = {
     created:                    :create,
     cancelled:                  :cancel,
     payment_created:            :payment_create,
@@ -53,6 +53,15 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   validates :go_cardless_id, presence: true, allow_blank: false
 
   def charge!
-    puts "HAS BEEN CHARGED"
+    if action.blank?
+      # create the action
+      # ManageGoCardlessDonation.create(attributes)
+    else
+      action.form_data['recurrence_number'] += 1
+      action.save
+      # this API needs to be reconciled with what tuuli's writing
+      # Payment::GoCardless.write_transaction(payment_method, gc_payment, page_id, member, false)
+      ActionQueue::Pusher.push(action)
+    end
   end
 end
