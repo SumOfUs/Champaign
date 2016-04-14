@@ -321,6 +321,42 @@ module PaymentProcessor::GoCardless
           expect(subscription.reload.cancelled?).to be(true)
         end
       end
+
+      describe 'with created payment event', :focus do
+        let(:events) do
+          [
+            {"id"=>"EVTESTJG8GPP7G",
+              "created_at"=>"2016-04-14T11:32:20.343Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"customer_approval_denied",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"customer",
+                "cause"=>"customer_approval_granted",
+                "description"=>"The customer granted approval for this subscription"},
+              "metadata"=>{}},
+
+            {"id"=>"EVTEST4VAXTFZD",
+              "created_at"=>"2016-04-14T11:43:00.208Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"payment_created",
+              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"gocardless",
+                "cause"=>"payment_created",
+                "description"=>"Payment created by a subscription."},
+              "metadata"=>{}}
+          ]
+        end
+
+        before do
+          WebhookHandler.process(events)
+        end
+
+        it 'state stays as active', :focus do
+          expect(subscription.reload.active?).to be(true)
+        end
+      end
     end
 
     describe "Payments" do; end

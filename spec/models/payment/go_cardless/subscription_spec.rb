@@ -69,7 +69,6 @@ describe Payment::GoCardless::Subscription do
       expect{
         subject.run_create!
       }.to change{ subject.reload.created? }.from(false).to(true)
-
     end
 
     it 'can be finished' do
@@ -103,6 +102,23 @@ describe Payment::GoCardless::Subscription do
         expect{
           subject.run_approve!
         }.to raise_error(AASM::InvalidTransition)
+      end
+    end
+
+    describe "charging" do
+      before do
+        subject.run_approve!
+      end
+
+      it 'payment can be created' do
+        expect{
+          subject.run_payment_create!
+        }.to_not change{ subject.reload.active? }.from(true)
+      end
+
+      it 'calls charge!' do
+        expect(subject).to receive(:charge!)
+        subject.run_payment_create!
       end
     end
   end

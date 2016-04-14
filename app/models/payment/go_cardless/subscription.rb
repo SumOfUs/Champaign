@@ -43,11 +43,16 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     end
 
     event :run_payment_create do
-      puts "PAYMENT CREATED"
+      after do
+        charge!
+      end
       transitions from: :active, to: :active
-
     end
   end
 
   validates :go_cardless_id, presence: true, allow_blank: false
+
+  def charge!
+    puts "HAS BEEN CHARGED"
+  end
 end
