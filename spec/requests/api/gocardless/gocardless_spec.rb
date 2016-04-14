@@ -21,7 +21,7 @@ describe "GoCardless API" do
 
     let(:go_cardless_params) do
       {
-        session_token: session.id,
+        session_token: 'iamatoken',
         redirect_flow_id: 'RE000044PXTW1DMX04G13KP3NNQDD1TA'
       }
     end
