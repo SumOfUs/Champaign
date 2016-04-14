@@ -1,52 +1,6 @@
 require 'rails_helper'
-require "openssl"
 
 module PaymentProcessor::GoCardless
-  class WebhookSignature
-
-    def initialize(secret:, body:, signature:)
-      @secret = secret
-      @body = body
-      @signature = signature
-    end
-
-    def valid?
-      hexdiest == @signature
-    end
-
-    private
-
-    def hexdiest
-      OpenSSL::HMAC.hexdigest(digest, @secret, @body)
-    end
-
-    def digest
-      OpenSSL::Digest.new("sha256")
-    end
-  end
-
-  class WebhookHandler
-    class EventStore
-
-      class << self
-        def event_exists?(event)
-          if ::Payment::GoCardless::WebhookEvent.exists?(event_id: event['id'])
-            return true
-          else
-            ::Payment::GoCardless::WebhookEvent.create(
-              event_id: event['id'],
-              action: event['action'],
-              resource_type: event['resource_type'],
-              body: event.to_json
-            )
-
-            false
-          end
-        end
-      end
-    end
-  end
-
   describe WebhookSignature do
     subject { WebhookSignature.new(secret: secret, signature: signature, body: body) }
 
@@ -167,7 +121,7 @@ module PaymentProcessor::GoCardless
 
       describe 'general behaviour' do
         before do
-          WebhookHandler.process(events)
+          WebhookHandler::ProcessEvents.process(events)
         end
 
         it 'sets state to appropirate event' do
@@ -184,7 +138,7 @@ module PaymentProcessor::GoCardless
       describe 'with repeated events' do
         before do
           events.concat(events)
-          WebhookHandler.process(events)
+          WebhookHandler::ProcessEvents.process(events)
         end
 
         it 'persists events just once' do
@@ -201,7 +155,7 @@ module PaymentProcessor::GoCardless
       describe 'with no active state' do
         before do
           events.delete_if{|a| a['action'] == 'active'}
-          WebhookHandler.process(events)
+          WebhookHandler::ProcessEvents.process(events)
         end
 
         it 'sets state to appropirate event' do
@@ -281,7 +235,7 @@ module PaymentProcessor::GoCardless
 
       describe 'general behaviour' do
         before do
-          WebhookHandler.process(positive_events)
+          WebhookHandler::ProcessEvents.process(positive_events)
         end
 
         it 'sets state to appropirate event' do
@@ -298,7 +252,7 @@ module PaymentProcessor::GoCardless
       describe 'with repeated events' do
         before do
           positive_events.concat(positive_events)
-          WebhookHandler.process(positive_events)
+          WebhookHandler::ProcessEvents.process(positive_events)
         end
 
         it 'persists events just once' do
@@ -314,7 +268,7 @@ module PaymentProcessor::GoCardless
 
       describe 'with cancelled event' do
         before do
-          WebhookHandler.process(events)
+          WebhookHandler::ProcessEvents.process(events)
         end
 
         it 'sets state to cancelled' do
@@ -322,13 +276,13 @@ module PaymentProcessor::GoCardless
         end
       end
 
-      describe 'with created payment event', :focus do
+      describe 'with created payment event' do
         let(:events) do
           [
             {"id"=>"EVTESTJG8GPP7G",
               "created_at"=>"2016-04-14T11:32:20.343Z",
               "resource_type"=>"subscriptions",
-              "action"=>"customer_approval_denied",
+              "action"=>"customer_approval_granted",
               "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
               "details"=>
                {"origin"=>"customer",
@@ -350,10 +304,10 @@ module PaymentProcessor::GoCardless
         end
 
         before do
-          WebhookHandler.process(events)
+          WebhookHandler::ProcessEvents.process(events)
         end
 
-        it 'state stays as active', :focus do
+        it 'state stays as active' do
           expect(subscription.reload.active?).to be(true)
         end
       end
@@ -365,82 +319,3 @@ module PaymentProcessor::GoCardless
   end
 end
 
-module PaymentProcessor::GoCardless
-  class WebhookHandler
-    def self.process(events)
-      new(events).process
-    end
-
-    def initialize(events)
-      @events = events
-    end
-
-    def process
-      @events.each do |event|
-        process_event(event) unless already_processed?(event)
-      end
-    end
-
-    def process_event(event)
-      ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event).process
-    end
-
-    def already_processed?(event)
-      @exists ||= ::PaymentProcessor::GoCardless::WebhookHandler::EventStore.event_exists?(event)
-    end
-  end
-end
-
-module PaymentProcessor::GoCardless
-  class WebhookHandler
-    module IsAGcEvent
-      def initialize(event)
-        @event = event
-      end
-
-      def process
-        if record.send("may_run_#{action}?")
-          record.send("run_#{action}!")
-        end
-      end
-    end
-
-    class Mandate
-      include IsAGcEvent
-
-      def action
-        @action ||= ::Payment::GoCardless::PaymentMethod::STATE_FROM_ACTION[ @event['action'].to_sym ]
-      end
-
-      def record
-        @record ||= ::Payment::GoCardless::PaymentMethod.find_by(go_cardless_id: mandate_id)
-      end
-
-      def mandate_id
-        @event['links']['mandate']
-      end
-    end
-
-    class Subscription
-      include IsAGcEvent
-
-      def action
-        @action ||= ::Payment::GoCardless::Subscription::STATE_FROM_ACTION[ @event['action'].to_sym ]
-      end
-
-      def record
-        @record ||= ::Payment::GoCardless::Subscription.find_by(go_cardless_id: subscription_id)
-      end
-
-      def subscription_id
-        @event['links']['subscription']
-      end
-    end
-  end
-
-  class WebhookHandler
-    class Payment
-      include IsAGcEvent
-    end
-  end
-end
