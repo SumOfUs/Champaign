@@ -222,9 +222,8 @@ $fundraiser-top-height: 162px;
       padding-right: 52px;
     }
   }
-  &__go-cardless {
-    background: #5092DA;
-    padding: 4px 0;
+  &__direct-debit {
+    background: $paypal;
     border-radius: 4px;
     cursor: pointer;
     color: white;
@@ -232,10 +231,19 @@ $fundraiser-top-height: 162px;
     height: 52px;
     overflow: hidden;
     box-sizing: border-box;
-    padding: 19px;
+    padding: 15px;
     font-weight: bold;
     text-align: center;
     font-style: italic;
+  }
+  &__direct-debit-logo {
+    width: 35px;
+    height: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url(asset-path('champaign/direct_debit_logo'));
+    background-size: contain;
+    background-repeat: no-repeat;
   }
   &__card-type {
     position: absolute;
@@ -247,7 +255,7 @@ $fundraiser-top-height: 162px;
     border-radius: 3px;
   }
   &__or {
-    margin: 5px auto 8px;
+    margin: 6px auto 1px;
     display: table;
     text-transform: uppercase;
     font-size: 14px;
