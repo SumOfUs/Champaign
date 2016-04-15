@@ -29,14 +29,12 @@ class Api::GoCardlessController < ApplicationController
 
   def start_flow
     flow = GoCardlessDirector.new(session.id, success_url)
-
     redirect_to flow.redirect_url
   end
 
   def payment_complete
-    builder = PaymentProcessor::GoCardless::Transaction.make_transaction(params, session.id)
-
-    render json: {success: builder.result.success?, params: params}
+    builder.make_transaction(params, session.id)
+    render json: {success: builder.success?, params: params}
   end
 
   def webhook
@@ -45,8 +43,15 @@ class Api::GoCardlessController < ApplicationController
 
   private
 
+  def builder
+    PaymentProcessor::GoCardless::Transaction
+  end
+
   def success_url
-    local_params = URI.parse(request.url).query
+    local_params =  Rack::Utils.parse_query(
+      URI.parse(request.url).query
+    ).merge( params.slice(:page_id) ).to_query
+
     "#{request.base_url}/api/go_cardless/payment_complete?#{local_params}"
   end
 end

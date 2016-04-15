@@ -14,11 +14,11 @@ describe Api::GoCardlessController do
       subject
     end
 
-    subject { get :start_flow, foo: 'bar' }
+    subject { get :start_flow, page_id: '1', foo: 'bar' }
 
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new).
-        with('fake_session_id', "http://test.host/api/go_cardless/payment_complete?foo=bar")
+        with('fake_session_id', "http://test.host/api/go_cardless/payment_complete?foo=bar&page_id=1")
     end
 
     it 'redirects' do

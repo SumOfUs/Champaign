@@ -2,7 +2,6 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   include AASM
 
   belongs_to :page
-  belongs_to :action
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
 
