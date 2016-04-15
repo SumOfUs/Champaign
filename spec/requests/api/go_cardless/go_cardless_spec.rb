@@ -5,7 +5,7 @@ describe "GoCardless API" do
   describe "triggering a redirect flow" do
 
     subject do
-      VCR.use_cassette("gocardless redirect flow request success") do
+      VCR.use_cassette("go_cardless redirect flow request success") do
         get api_go_cardless_start_flow_path
       end
     end
@@ -27,7 +27,7 @@ describe "GoCardless API" do
     end
 
     subject do
-      VCR.use_cassette("gocardless redirect_flow_post_back_payment") do
+      VCR.use_cassette("go_cardless redirect_flow_post_back_payment") do
         get api_go_cardless_payment_complete_path, go_cardless_params
       end
     end
@@ -158,7 +158,7 @@ describe "GoCardless API" do
       it 'creates a Transaction record associated with the Page' do
         expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
         payment = Payment::GoCardless::Transaction.last
-        expect(payment.go_cardless_id).to match(/^PA[0-9A-Z]+/)
+        expect(payment.go_cardless_id).to match(/^PM[0-9A-Z]+/)
         expect(payment.currency).to eq 'GBP'
         expect(payment.amount).to gbp_amount
       end
@@ -167,21 +167,36 @@ describe "GoCardless API" do
     describe 'transaction' do
 
       let(:params) { base_params.merge(recurring: false) }
+      let(:converted_money) { instance_double(Money, cents: 9001) }
 
       subject do
-        VCR.use_cassette('gocardless successful transaction') do
+        VCR.use_cassette('go_cardless successful transaction') do
           get api_go_cardless_payment_complete_path, params
         end
       end
 
       shared_examples 'successful transaction' do
         it 'passes the correct data to the GoCardless Payment SDK' do
+          allow(PaymentProcessor::Currency).to receive(:convert).and_return converted_money
           allow_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).and_call_original
-          expect_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).with({
-            amount: gbp_amount,
-            currency: 'GBP'
-            # TODO: fill in remaining values here!
-          })
+          expect_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).with(
+              params: {
+                  payments: {
+                      amount: converted_money.cents,
+                      currency: 'GBP',
+                      links: {
+                          mandate: /[0-9A-Z]+/
+                      },
+                      metadata: {
+                          customer_id: /[0-9A-Z]+/
+                      }
+                  }
+              }
+          )
+          # This should work otherwise, but the key "payments" is a string whereas all other keys are symbols.
+          # It might be an issue with it being a hash with indifferent access - but how do I fix it for the spec?
+          # got: ({:params=>{"payments"=>{:amount=>9001, :currency=>"GBP", :links=>{:mandate=>"MD0000PSV8N7FR"}, :metadata=>{:customer_id=>"CU0000RR39FMVB"}}}})
+
           subject
         end
 
@@ -221,6 +236,7 @@ describe "GoCardless API" do
           expect(member.country).to be_blank
           expect(member.postal).to be_blank
           expect{ subject }.not_to change{ Member.count }
+          member.reload
           expect(member.country).to eq "US"
           expect(member.postal).to eq "01060"
         end
@@ -247,7 +263,7 @@ describe "GoCardless API" do
 
       subject do
         # I don't want to create the cassette yet
-        # VCR.use_cassette('gocardless successful subscription') do
+        # VCR.use_cassette('go_cardless successful subscription') do
         #   get api_go_cardless_payment_complete_path, params
         # end
       end
@@ -298,6 +314,7 @@ describe "GoCardless API" do
           expect(member.country).to be_blank
           expect(member.postal).to be_blank
           expect{ subject }.not_to change{ Member.count }
+          member.reload
           expect(member.country).to eq "US"
           expect(member.postal).to eq "01060"
         end
