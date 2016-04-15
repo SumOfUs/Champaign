@@ -60,14 +60,15 @@ module PaymentProcessor
         @errors.blank?
       end
 
-      def find_or_update_member(params)
+      def create_or_update_member(params)
         splitter = NameSplitter.new(full_name: params[:user][:name])
-        member_params = params[:user].except!(:form_id, :name).merge({
+        member_params = params[:user].except(:form_id, :name).merge({
                                                                          first_name: splitter.first_name,
                                                                          last_name: splitter.last_name
                                                                      })
-        # Raises ActiveModel::ForbiddenAttributesError
-        Member.find_or_create_by( email: member_params[:email] ).update_attributes(member_params)
+        member = Member.find_or_create_by(email: member_params[:email])
+        member.update_attributes(member_params.permit(:first_name, :last_name, :country, :postal, :email))
+        member
       end
     end
   end
