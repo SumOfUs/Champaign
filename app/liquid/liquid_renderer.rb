@@ -39,7 +39,8 @@ class LiquidRenderer
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
       thermometer: thermometer,
-      action_count: @page.action_count
+      action_count: @page.action_count,
+      show_direct_debit: show_direct_debit?
     }.deep_stringify_keys
   end
 
@@ -67,6 +68,11 @@ class LiquidRenderer
 
   def member_data
     @member.try(:liquid_data)
+  end
+
+  def show_direct_debit?
+    recurring_default = @url_params[:recurring_default] || isolate_from_plugin_data(:recurring_default).first
+    DirectDebitDecider.decide([@location.try(:country_code), @member.try(:country)], recurring_default)
   end
 
   def outstanding_fields
