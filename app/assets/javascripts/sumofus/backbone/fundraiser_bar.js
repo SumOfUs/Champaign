@@ -22,7 +22,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .fundraiser-bar__close-button': 'hide',
-    'click .hosted-fields__go-cardless': 'submitDirectDebit',
+    'click .hosted-fields__direct-debit': 'submitDirectDebit',
   },
 
   // options: object with any of the following keys
@@ -31,6 +31,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    outstandingFields: the names of step 2 form fields that aren't satisfied by
   //      the values in the member hash.
+  //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
   //    location: a hash of location values inferred from the user's request
   //    member: an object with fields that will prefill the form
@@ -54,6 +55,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
+    this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
     $('.fundraiser-bar__open-button').on('click', () => this.reveal());
@@ -339,6 +341,14 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.$('.fundraiser-bar__mobile-view')
       .removeClass('fundraiser-bar__mobile-view--closed')
       .addClass('fundraiser-bar__mobile-view--open');
+  },
+
+  displayDirectDebit: function(show) {
+    if (show === true) {
+      $('.hosted-fields__direct-debit-container').removeClass('hidden-irrelevant');
+    } else {
+      $('.hosted-fields__direct-debit-container').addClass('hidden-irrelevant');
+    }
   },
 
 }));
