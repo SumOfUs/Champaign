@@ -8,6 +8,9 @@ module PaymentProcessor
           currency: currency,
           links: {
               mandate: mandate.id
+          },
+          metadata: {
+              customer_id: complete_redirect_flow.links.customer
           }
         }
       end
@@ -18,15 +21,13 @@ module PaymentProcessor
             name: "donation",
             interval_unit: "monthly",
             day_of_month:  "1",
-            metadata: {
-              order_no: SecureRandom.uuid
-            }
           })
       end
 
       def mandate
-        @mandate ||= client.mandates.get(completed_redirect_flow.links.mandate)
+        @mandate ||= client.mandates.get(complete_redirect_flow.links.mandate)
       end
+
 
       def amount
         # we let the donor pick any amount and currency, then convert it to the right currency
@@ -41,11 +42,11 @@ module PaymentProcessor
         return 'EUR'
       end
 
-      def completed_redirect_flow
-        client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
+      def complete_redirect_flow
+        @complete_redirect_flow ||= client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
-        raise e unless e.message =~ /already completed/
-        client.redirect_flows.get(@redirect_flow_id)
+        @errors = e.errors unless e.message =~ /already completed/
+        @complete_redirect_flow = client.redirect_flows.get(@redirect_flow_id)
       end
 
       def client
@@ -53,6 +54,20 @@ module PaymentProcessor
           access_token: Settings.gocardless.token,
           environment: Settings.gocardless.environment.to_sym
         )
+      end
+
+      def self.success?
+        @errors.blank?
+      end
+
+      def find_or_update_member(params)
+        splitter = NameSplitter.new(full_name: params[:user][:name])
+        member_params = params[:user].except!(:form_id, :name).merge({
+                                                                         first_name: splitter.first_name,
+                                                                         last_name: splitter.last_name
+                                                                     })
+        # Raises ActiveModel::ForbiddenAttributesError
+        Member.find_or_create_by( email: member_params[:email] ).update_attributes(member_params)
       end
     end
   end
