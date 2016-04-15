@@ -33,7 +33,6 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def payment_complete
-    # If one-off payment
     builder.make_transaction(params, session.id)
     render json: {success: builder.success?, params: params}
   end
@@ -48,15 +47,11 @@ class Api::GoCardlessController < ApplicationController
     PaymentProcessor::GoCardless::Transaction
   end
 
-  def client
-    GoCardlessPro::Client.new(
-      access_token: Settings.gocardless.token,
-      environment: Settings.gocardless.environment.to_sym
-    )
-  end
-
   def success_url
-    local_params = URI.parse(request.url).query + "&page_id=#{params[:page_id]}"
+    local_params =  Rack::Utils.parse_query(
+      URI.parse(request.url).query
+    ).merge( params.slice(:page_id) ).to_query
+
     "#{request.base_url}/api/go_cardless/payment_complete?#{local_params}"
   end
 end
