@@ -8,7 +8,6 @@ describe Payment::GoCardless::Subscription do
   it { is_expected.to respond_to :go_cardless_id }
   it { is_expected.to respond_to :amount }
   it { is_expected.to respond_to :currency }
-  it { is_expected.to respond_to :status }
   it { is_expected.to respond_to :name }
   it { is_expected.to respond_to :created_at }
   it { is_expected.to respond_to :updated_at }
@@ -53,42 +52,74 @@ describe Payment::GoCardless::Subscription do
       expect(subscription).to be_valid
     end
 
-    it 'rejects nil status' do
-      subscription.status = nil
-      expect(subscription).to be_invalid
-    end
-
     it 'rejects blank go_cardless_id' do
       subscription.go_cardless_id = ''
       expect(subscription).to be_invalid
     end
   end
 
-  describe 'status' do
+ describe 'state' do
+    subject { create :payment_go_cardless_subscription }
 
-    it 'can be set to "pending_customer_approval"' do
-      subscription.status = "pending_customer_approval"
-      expect(subscription.pending_customer_approval?).to eq true
+    it 'has initial state' do
+      expect(subject.pending?).to be(true)
     end
 
-    it 'can be set to "customer_approval_denied"' do
-      subscription.status = "customer_approval_denied"
-      expect(subscription.customer_approval_denied?).to eq true
+    it 'can be created' do
+      expect{
+        subject.run_create!
+      }.to change{ subject.reload.created? }.from(false).to(true)
     end
 
-    it 'can be set to "active"' do
-      subscription.status = "active"
-      expect(subscription.active?).to eq true
+    it 'can be finished' do
+      expect{
+        subject.run_finish!
+      }.to change{ subject.reload.finished? }.from(false).to(true)
     end
 
-    it 'can be set to "finished"' do
-      subscription.status = "finished"
-      expect(subscription.finished?).to eq true
+    it 'can be cancelled' do
+      expect{
+        subject.run_cancel!
+      }.to change{ subject.reload.cancelled? }.from(false).to(true)
     end
 
-    it 'can be set to "cancelled"' do
-      subscription.status = "cancelled"
-      expect(subscription.cancelled?).to eq true
+    it 'can be denied' do
+      expect{
+        subject.run_deny!
+      }.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
+    end
+
+    context 'can be activated' do
+      it 'from pending' do
+        expect{
+          subject.run_approve!
+        }.to change{ subject.reload.active? }.from(false).to(true)
+      end
+
+      it 'not from finished' do
+        subject.run_finish!
+
+        expect{
+          subject.run_approve!
+        }.to raise_error(AASM::InvalidTransition)
+      end
+    end
+
+    describe "charging" do
+      before do
+        subject.run_approve!
+      end
+
+      it 'payment can be created' do
+        expect{
+          subject.run_payment_create!
+        }.to_not change{ subject.reload.active? }.from(true)
+      end
+
+      it 'calls charge!' do
+        expect(subject).to receive(:charge!)
+        subject.run_payment_create!
+      end
     end
   end
 end

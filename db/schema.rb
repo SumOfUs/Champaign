@@ -297,6 +297,7 @@ ActiveRecord::Schema.define(version: 20160413180301) do
     t.integer  "customer_id"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.string   "aasm_state"
   end
 
   add_index "payment_go_cardless_payment_methods", ["customer_id"], name: "index_payment_go_cardless_payment_methods_on_customer_id", using: :btree
@@ -314,6 +315,7 @@ ActiveRecord::Schema.define(version: 20160413180301) do
     t.integer  "customer_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "aasm_state"
   end
 
   add_index "payment_go_cardless_subscriptions", ["action_id"], name: "index_payment_go_cardless_subscriptions_on_action_id", using: :btree
@@ -335,11 +337,23 @@ ActiveRecord::Schema.define(version: 20160413180301) do
     t.integer  "customer_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "aasm_state"
   end
 
   add_index "payment_go_cardless_transactions", ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id", using: :btree
   add_index "payment_go_cardless_transactions", ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id", using: :btree
   add_index "payment_go_cardless_transactions", ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id", using: :btree
+
+  create_table "payment_go_cardless_webhook_events", force: :cascade do |t|
+    t.string   "event_id"
+    t.string   "resource_type"
+    t.string   "action"
+    t.text     "body"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "payment_go_cardless_webhook_events", ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id", using: :btree
 
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"
