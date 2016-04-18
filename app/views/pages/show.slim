@@ -20,3 +20,8 @@
 = @rendered
 = render 'personalization', data: @data
 = render 'campaigner_overlay', page: @page
+
+javascript:
+  $(document).ready(function() {
+    #{@page.javascript.try(:html_safe)}
+  });
