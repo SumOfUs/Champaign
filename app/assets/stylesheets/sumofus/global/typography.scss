@@ -83,11 +83,6 @@ a {
   p, ul, ol {
     margin-bottom: 18px;
   }
-  p+br {
-    // don't display <br> tags that follow
-    // immediately on <p> tags, cause they have margin
-    display: none
-  }
   ul, ol {
     padding-left: 40px;
   }
