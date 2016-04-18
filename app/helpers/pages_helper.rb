@@ -90,4 +90,50 @@ module PagesHelper
       'glyphicon-menu-down'
     end
   end
+
+  def twitter_meta(page, share_card={})
+    {
+      card: 'summary_large_image',
+      domain: 'http://sumofus.org',
+      site: t('share.twitter_handle'),
+      creator: t('share.twitter_handle'),
+      title: page.title,
+      description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 140),
+      image: page.primary_image.try(:content).try(:url)
+    }.merge(share_card) do |key, v1, v2|
+      v2.blank? ? v1 : v2
+    end
+  end
+
+  def facebook_meta(page, share_card={})
+    {
+      site_name: 'SumOfUs',
+      title: page.title,
+      description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 260),
+      url: page_url(page),
+      type: 'website',
+      article: { publisher: 'https://www.facebook.com/SumOfUs-181924628560212/' },
+      image: {
+        width: '1200',
+        height: '630',
+        url: page.primary_image.try(:content).try(:url)
+      }
+    }.merge(share_card) do |key, v1, v2|
+      if key == :image
+        v2.blank? ? v1 : v1.merge(url: v2)
+      else
+        v2.blank? ? v1 : v2
+      end
+    end
+  end
+
+  def share_card(page)
+    share = Share::Facebook.where(page_id: page.id).last
+    return {} if share.blank?
+    {
+      title: share.title,
+      description: share.description,
+      image: Image.find_by(id: share.image_id).try(:content).try(:url)
+    }
+  end
 end

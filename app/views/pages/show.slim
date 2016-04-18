@@ -1,21 +1,7 @@
+- share_card = share_card(@page)
+- meta twitter: twitter_meta(@page, share_card)
+- meta og: facebook_meta(@page, share_card)
 - meta optimization_tags: @page.meta_tags
-
-/Twitter Meta Tags for proper behavior there
-- meta twitter: {card: 'summary_large_image',
-        domain: 'http://sumofus.org',
-        site: t('share.twitter_handle'),
-        creator: t('share.twitter_handle'),
-        title: @page.title,
-        description: truncate(strip_tags(CGI.unescapeHTML(@page.content)), length: 140),
-        image: @page.primary_image.try(:content).try(:url) }
-
-/Facebook Meta Tags for proper behavior there, too
-- meta og: { site_name: 'SumOfUs',
-        title: @page.title, url: page_url(@page),
-        description: truncate(strip_tags(CGI.unescapeHTML(@page.content)), length: 260),
-        type: 'website',
-        article: {publisher: 'https://www.facebook.com/SumOfUs-181924628560212/'},
-        image: {width: '1200', height: '630', url: @page.primary_image.try(:content).try(:url)}}
 
 = @rendered
 = render 'personalization', data: @data
