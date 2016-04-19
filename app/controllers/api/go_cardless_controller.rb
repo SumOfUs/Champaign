@@ -54,4 +54,5 @@ class Api::GoCardlessController < ApplicationController
 
     "#{request.base_url}/api/go_cardless/payment_complete?#{local_params}"
   end
+
 end

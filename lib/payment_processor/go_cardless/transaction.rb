@@ -27,7 +27,7 @@ module PaymentProcessor
         @original_currency = params[:currency].upcase
         @redirect_flow_id = params[:redirect_flow_id]
         @session_token = session_id
-        @existing_member = find_or_update_member(params)
+        @existing_member = create_or_update_member(params)
       end
 
       def transaction

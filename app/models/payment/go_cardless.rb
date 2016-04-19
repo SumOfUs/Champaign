@@ -130,7 +130,6 @@ module Payment::GoCardless
           page_id: @page_id,
           customer_id: @customer.id,
           payment_method_id: @mandate.id,
-          status: status
         }
       end
 
@@ -140,9 +139,6 @@ module Payment::GoCardless
         }
       end
 
-      def status
-        Payment::GoCardless::Transaction.statuses[@gc_payment.status.to_sym]
-      end
     end
   end
 end
