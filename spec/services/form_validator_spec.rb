@@ -50,7 +50,7 @@ describe FormValidator do
 
   context "with email as data_type" do
     let(:element) { create :form_element, :email, form: form }
-    let(:params){ {form_id: element.form_id, email: 'foo@example.com' } }
+    let(:params){ {form_id: element.form_id, email: "foo@example.com".force_encoding('ASCII-8BIT')} }
 
     context "is valid" do
       it "with regular address" do
@@ -76,6 +76,11 @@ describe FormValidator do
 
       it "with two @ symbols" do
         params.merge!(email: "this@that@other.com")
+        expect(subject).to_not be_valid
+      end
+
+      it 'with ascii' do
+        params.merge!(email: "this\xC2@other.com")
         expect(subject).to_not be_valid
       end
     end

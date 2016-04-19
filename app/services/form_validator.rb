@@ -58,7 +58,7 @@ class FormValidator
   end
 
   def validate_email(form_element, el_name)
-    email = @params[el_name]
+    email = @params[el_name].try(:encode!, 'UTF-8', invalid: :replace, undef: :replace)
     if form_element.data_type == "email" && email.present? && !is_email(email)
       @errors[el_name] << I18n.t("validation.is_invalid_email")
     end
@@ -81,7 +81,7 @@ class FormValidator
   end
 
   def is_email(candidate)
-    (/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate).present?
+    ( /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate ).present?
   end
 
   def is_phone(candidate)
