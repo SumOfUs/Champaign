@@ -50,7 +50,7 @@ describe FormValidator do
 
   context "with email as data_type" do
     let(:element) { create :form_element, :email, form: form }
-    let(:params){ {form_id: element.form_id, email: "foo@example.com".force_encoding('ASCII-8BIT')} }
+    let(:params){ {form_id: element.form_id, email: "foo@example.com"} }
 
     context "is valid" do
       it "with regular address" do
