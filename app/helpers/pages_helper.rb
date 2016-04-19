@@ -94,7 +94,7 @@ module PagesHelper
   def twitter_meta(page, share_card={})
     {
       card: 'summary_large_image',
-      domain: 'http://sumofus.org',
+      domain: Settings.homepage_url,
       site: t('share.twitter_handle'),
       creator: t('share.twitter_handle'),
       title: page.title,
@@ -112,7 +112,7 @@ module PagesHelper
       description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 260),
       url: page_url(page),
       type: 'website',
-      article: { publisher: 'https://www.facebook.com/SumOfUs-181924628560212/' },
+      article: { publisher: Settings.facebook_url },
       image: {
         width: '1200',
         height: '630',
