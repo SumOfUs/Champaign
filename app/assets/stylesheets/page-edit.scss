@@ -182,6 +182,15 @@ body.page-edit-body {
   }
 }
 
+.javascript-editor {
+  &__toggle {
+    float: right;
+  }
+  .CodeMirror {
+    height: 136px;
+  }
+}
+
 .page-edit-step__title, .edit-block__title, .centered-overlay__title {
   position: absolute;
   top: 0;
