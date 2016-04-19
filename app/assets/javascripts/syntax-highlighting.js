@@ -6,9 +6,11 @@
 
 $(function(){
   $('.syntax-highlighting').each(function(idx, el){
-    CodeMirror.fromTextArea(el, {
-      mode: 'htmlmixed',
+    var mode = $(el).data('highlight-mode') || 'htmlmixed';
+    var cm = CodeMirror.fromTextArea(el, {
+      mode: mode,
       theme: '3024-night'
     });
+    $.subscribe('wysiwyg:submit', cm.save);
   });
 });

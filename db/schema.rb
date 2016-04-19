@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160314215202) do
+ActiveRecord::Schema.define(version: 20160418211612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,7 @@ ActiveRecord::Schema.define(version: 20160314215202) do
     t.string   "ak_donation_resource_uri"
     t.integer  "follow_up_plan",             default: 0,         null: false
     t.integer  "follow_up_page_id"
+    t.text     "javascript"
   end
 
   add_index "pages", ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id", using: :btree

@@ -13,3 +13,13 @@
       .form-group
         = label_with_tooltip(f, :content, t('pages.edit.content'), t('tooltips.content'))
         = render 'shared/wysiwyg'
+
+      .form-group
+        - js_hidden = ''
+        - if page.javascript.blank?
+          a data-target=".javascript-editor" data-toggle="collapse" class="javascript-editor__toggle"
+            = t('pages.edit.add_javascript')
+          - js_hidden = 'collapse'
+        .javascript-editor class="#{js_hidden}"
+          = label_with_tooltip(f, :javascript, t('pages.edit.javascript'), t('tooltips.javascript'))
+          = f.text_area :javascript, class: 'form-control syntax-highlighting', 'data-highlight-mode' => 'javascript'

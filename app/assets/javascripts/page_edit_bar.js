@@ -101,7 +101,7 @@ let PageEditBar = Backbone.View.extend({
   },
 
   save: function() {
-    $.publish('wysiwyg:submit'); // for summernote to update content
+    $.publish('wysiwyg:submit'); // for summernote + codemirror to update content
     if (!this.outstandingSaveRequest) {
       this.disableSubmit();
       this.model.save(this.readData(), {
