@@ -1134,4 +1134,137 @@ http_interactions:
       string: '{"payments":{"id":"PM00017SXSS6Z4","created_at":"2016-04-15T23:18:59.028Z","charge_date":"2016-04-21","amount":9001,"description":null,"currency":"GBP","status":"pending_submission","amount_refunded":0,"reference":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"links":{"mandate":"MD0000PSV8N7FR","creditor":"CR000045KKQEY8"}}}'
     http_version: 
   recorded_at: Fri, 15 Apr 2016 23:18:59 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/payments
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"amount":1155.0,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"}}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Tue, 19 Apr 2016 20:26:11 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d3e7f68ec68ccac7d9bfab00c008bc72f1461097571; expires=Wed, 19-Apr-17
+        20:26:11 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - 15732bb2-5076-46a5-a771-c8371bc4097c
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Tue, 19 Apr 2016 20:27:00 GMT
+      Cf-Ray:
+      - 2963170d10c907c7-MIA
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"One of your parameters was incorrectly typed","errors":[{"message":"1155.0
+        is not a string or integer.","field":"amount","request_pointer":"/payments/amount"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"15732bb2-5076-46a5-a771-c8371bc4097c","code":422}}'
+    http_version: 
+  recorded_at: Tue, 19 Apr 2016 20:26:11 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/payments
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"amount":1155,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"}}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Tue, 19 Apr 2016 20:27:31 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d6aca36f5bf43b9aa0c5f1bc2b64efb9e1461097650; expires=Wed, 19-Apr-17
+        20:27:30 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/payments/PM000181BGH1Y8
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"715a2bceed540752741818fb7edbc6db"
+      X-Request-Id:
+      - bf4ab90e-89b2-4330-b8c6-9b1fc88e7b4b
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Tue, 19 Apr 2016 20:28:00 GMT
+      Cf-Ray:
+      - 296318fe1e6d17f8-MIA
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"id":"PM000181BGH1Y8","created_at":"2016-04-19T20:27:31.336Z","charge_date":"2016-04-25","amount":1155,"description":null,"currency":"GBP","status":"pending_submission","amount_refunded":0,"reference":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"links":{"mandate":"MD0000PSV8N7FR","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Tue, 19 Apr 2016 20:27:31 GMT
 recorded_with: VCR 3.0.0

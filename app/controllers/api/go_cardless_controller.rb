@@ -33,7 +33,11 @@ class Api::GoCardlessController < ApplicationController
   end
 
   def payment_complete
-    builder.make_transaction(params, session.id)
+    builder = if recurring?
+                client::Subscription.make_subscription(params, session.id)
+              else
+                client::Transaction.make_transaction(params, session.id)
+              end
     render json: {success: builder.success?, params: params}
   end
 
@@ -43,16 +47,20 @@ class Api::GoCardlessController < ApplicationController
 
   private
 
-  def builder
-    PaymentProcessor::GoCardless::Transaction
-  end
-
   def success_url
     local_params =  Rack::Utils.parse_query(
       URI.parse(request.url).query
     ).merge( params.slice(:page_id) ).to_query
 
     "#{request.base_url}/api/go_cardless/payment_complete?#{local_params}"
+  end
+
+  def client
+    PaymentProcessor::GoCardless
+  end
+
+  def recurring?
+    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
   end
 
 end

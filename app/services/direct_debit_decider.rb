@@ -8,7 +8,6 @@ class DirectDebitDecider
   end
 
   def initialize(member_countries, recurring_default)
-    puts member_countries
     @member_countries = member_countries.map{ |country| country.to_s.upcase.to_sym }
     recurring_default = recurring_default.try(:to_sym)
     @recurring = (recurring_default == :only_recurring || recurring_default == :recurring)
