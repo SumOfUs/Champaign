@@ -12,7 +12,7 @@ module PaymentProcessor
       def initialize(amount:, currency:, user:, page_id:, redirect_flow_id:, session_token:)
         @page_id = page_id
         @original_amount_in_cents = (amount.to_f * 100).to_i # Price in pence/cents
-        @original_currency = currency.upcase
+        @original_currency = currency.try(:upcase)
         @redirect_flow_id = redirect_flow_id
         @user = user
         @session_token = session_token
@@ -30,7 +30,7 @@ module PaymentProcessor
       end
 
       def subscription_id
-        @local_subscription.try(:subscription_id)
+        @local_subscription.try(:go_cardless_id)
       end
 
       private

@@ -81,6 +81,20 @@ describe "GoCardless API" do
         }
       }
     end
+    let(:sdk_params) do
+      {
+        params: {
+          amount: (gbp_amount * 100).to_i,
+          currency: 'GBP',
+          links: {
+            mandate: mandate_id # a_string_matching(/\AMD[0-9A-Z]+\z/)
+          },
+          metadata: {
+            customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
+          }
+        }
+      }
+    end
     let(:redirect_flow_id) { "RE00004631S7XT20JATGRP6QQ8VZEHRZ" }
     let(:creditor_id)      { "CR000045KKQEY8" }
     let(:mandate_id)       { "MD0000PSV8N7FR" }
@@ -144,7 +158,9 @@ describe "GoCardless API" do
       end
 
       it 'increments redis counters' do
-        expect(Analytics::Page).to receive(:increment).with(page.id, new_member: member.blank?)
+        allow(Analytics::Page).to receive(:increment).and_return(7777)
+        subject
+        expect(Analytics::Page).to have_received(:increment).with(page.id, new_member: member.blank?)
       end
 
       it 'leaves a cookie with the member_id' do
@@ -174,22 +190,9 @@ describe "GoCardless API" do
 
       shared_examples 'successful transaction' do
         it 'passes the correct data to the GoCardless Payment SDK' do
-          allow(PaymentProcessor::Currency).to receive(:convert).and_return converted_money
-          allow_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).and_call_original
-          expect_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).with(
-            params: {
-              'payments' => {
-                amount: converted_money.cents,
-                currency: 'GBP',
-                links: {
-                  mandate: a_string_matching(/\AMD[0-9A-Z]+\z/)
-                },
-                metadata: {
-                  customer_id: a_string_matching(/\ACU[0-9A-Z]+\z/)
-                }
-              }
-            }
-          )
+          payment_service = instance_double(GoCardlessPro::Services::PaymentsService, create: double(id: 'asdf'))
+          allow_any_instance_of(GoCardlessPro::Client).to receive(:payments).and_return(payment_service)
+          expect(payment_service).to receive(:create).with(sdk_params)
           subject
         end
 
@@ -269,13 +272,15 @@ describe "GoCardless API" do
       end
 
       shared_examples 'successful subscription' do
-        it 'passes the correct data to the GoCardless Subscription SDK' do
-          allow_any_instance_of(GoCardlessPro::Services::SubscriptionsService).to receive(:create).and_call_original
-          expect_any_instance_of(GoCardlessPro::Services::SubscriptionsService).to receive(:create).with({
-            amount: gbp_amount,
-            currency: 'GBP'
-            # TODO: fill in remaining values here!
-          })
+        it 'passes the correct data to the GoCardless Payment SDK' do
+          sdk_params[:params] = sdk_params[:params].merge(
+            name: "donation",
+            interval_unit: "monthly",
+            day_of_month: "1"
+          )
+          subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
+          allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
+          expect(subscriptions_service).to receive(:create).with(sdk_params)
           subject
         end
 

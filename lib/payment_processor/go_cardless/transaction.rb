@@ -30,20 +30,20 @@ module PaymentProcessor
 
       def self.make_transaction(params)
         builder = new(params)
-        builder.transaction
+        builder.transact
         builder
       end
 
       def initialize(amount:, currency:, user:, page_id:, redirect_flow_id:, session_token:)
         @page_id = page_id
         @original_amount_in_cents = (amount.to_f * 100).to_i # Price in pence/cents
-        @original_currency = currency.upcase
+        @original_currency = currency.try(:upcase)
         @redirect_flow_id = redirect_flow_id
         @user = user
         @session_token = session_token
       end
 
-      def transaction
+      def transact
         transaction = client.payments.create(params: transaction_params)
 
         @local_transaction = Payment::GoCardless.write_transaction(transaction.id, amount_in_whole_currency, currency, @page_id)
