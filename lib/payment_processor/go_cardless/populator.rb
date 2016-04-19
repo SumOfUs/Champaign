@@ -67,17 +67,6 @@ module PaymentProcessor
       def success?
         @errors.blank?
       end
-
-      def create_or_update_member(params)
-        splitter = NameSplitter.new(full_name: params[:user][:name])
-        member_params = params[:user].except(:form_id, :name).merge({
-                                                                         first_name: splitter.first_name,
-                                                                         last_name: splitter.last_name
-                                                                     })
-        member = Member.find_or_create_by(email: member_params[:email])
-        member.update_attributes(member_params.permit(:first_name, :last_name, :country, :postal, :email))
-        member
-      end
     end
   end
 end

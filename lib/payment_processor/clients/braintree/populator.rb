@@ -39,6 +39,10 @@ module PaymentProcessor
         def existing_customer
           @existing_customer ||= Payment.customer(@user[:email])
         end
+
+        def success?
+          @result.success?
+        end
       end
     end
   end

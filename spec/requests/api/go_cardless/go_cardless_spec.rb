@@ -35,7 +35,7 @@ describe "GoCardless API" do
 
     subject do
       VCR.use_cassette("go_cardless redirect_flow_post_back_payment") do
-        get api_go_cardless_payment_complete_path, go_cardless_params
+        get api_go_cardless_transaction_path, go_cardless_params
       end
     end
 
@@ -168,7 +168,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful transaction') do
-          get api_go_cardless_payment_complete_path, params
+          get api_go_cardless_transaction_path, params
         end
       end
 
@@ -264,7 +264,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful subscription') do
-          get api_go_cardless_payment_complete_path, params
+          get api_go_cardless_transaction_path, params
         end
       end
 

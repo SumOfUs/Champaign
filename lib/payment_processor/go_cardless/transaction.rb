@@ -28,31 +28,34 @@ module PaymentProcessor
 
       attr_reader :errors, :action
 
-      def self.make_transaction(params, session_id)
-        builder = new(params, session_id)
+      def self.make_transaction(params)
+        builder = new(params)
         builder.transaction
         builder
       end
 
-      def initialize(params, session_id)
-        @page_id = params[:page_id]
-        @original_amount_in_cents = (params[:amount].to_f * 100).to_i # Price in pence/cents
-        @original_currency = params[:currency].upcase
-        @redirect_flow_id = params[:redirect_flow_id]
-        @user = params[:user]
-        @session_token = session_id
-        @member = create_or_update_member(params)
+      def initialize(amount:, currency:, user:, page_id:, redirect_flow_id:, session_token:)
+        @page_id = page_id
+        @original_amount_in_cents = (amount.to_f * 100).to_i # Price in pence/cents
+        @original_currency = currency.upcase
+        @redirect_flow_id = redirect_flow_id
+        @user = user
+        @session_token = session_token
       end
 
       def transaction
         transaction = client.payments.create(params: transaction_params)
 
-        @local_customer = Payment::GoCardless.write_customer(customer_id, @member_id)
-        @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
         @local_transaction = Payment::GoCardless.write_transaction(transaction.id, amount_in_whole_currency, currency, @page_id)
         @action = ManageDonation.create(params: action_params)
+        @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
+        @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
       rescue GoCardlessPro::Error => e
         @errors = e.errors
+      end
+
+      def transaction_id
+        @local_transaction.try(:go_cardless_id)
       end
 
       private

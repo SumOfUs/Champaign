@@ -124,7 +124,7 @@ Rails.application.routes.draw do
 
     namespace :go_cardless do
       get ':page_id/start_flow', action: 'start_flow'
-      get 'payment_complete'
+      get 'transaction'
       post 'webhook'
     end
 
