@@ -1,17 +1,4 @@
 require 'rails_helper'
-"eac5bd1740841f39111333d572f525f1f03cdacc04b0ecc43e17a3da4787a011"
-{"events"=>
- [{"id"=>"EVTEST6RQPRR7D",
-   "created_at"=>"2016-04-20T10:32:34.696Z",
-   "resource_type"=>"subscriptions",
-   "action"=>"payment_created",
-   "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-   "details"=>
- {"origin"=>"gocardless",
-  "cause"=>"payment_created",
-  "description"=>"Payment created by a subscription."},
-  "metadata"=>{}}]
-}
 
 describe "subscriptions" do
   let(:events) do
@@ -74,9 +61,4 @@ describe "subscriptions" do
       expect(response.status).to eq(427)
     end
   end
-
 end
-
-
-
-

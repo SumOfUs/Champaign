@@ -73,7 +73,6 @@ class LiquidRenderer
   def show_direct_debit?
     recurring_default = @url_params[:recurring_default] || isolate_from_plugin_data(:recurring_default).first
     DirectDebitDecider.decide([@location.try(:country_code), @member.try(:country)], recurring_default)
-    true
   end
 
   def outstanding_fields
