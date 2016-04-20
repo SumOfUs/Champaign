@@ -1,29 +1,3 @@
-class GoCardlessDirector
-  def initialize(session_id, success_url)
-    @session_id = session_id
-    @success_url = success_url
-
-  end
-
-  def redirect_url
-    redirect_flow_instance.redirect_url
-  end
-
-  def redirect_flow_instance
-    @redirect_flow_instance ||= client.redirect_flows.create(params: {
-      session_token:        @session_id,
-      success_redirect_url: @success_url
-    })
-  end
-
-  def client
-    @client ||= GoCardlessPro::Client.new(
-      access_token: Settings.gocardless.token,
-      environment:  Settings.gocardless.environment.to_sym
-    )
-  end
-end
-
 class Api::GoCardlessController < PaymentController
   skip_before_action :verify_authenticity_token
 
@@ -33,6 +7,8 @@ class Api::GoCardlessController < PaymentController
   end
 
   def webhook
+    pp request.headers['HTTP_WEBHOOK_SIGNATURE']
+    pp params
     head :ok
   end
 
@@ -61,3 +37,5 @@ class Api::GoCardlessController < PaymentController
     }
   end
 end
+
+
