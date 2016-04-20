@@ -33,14 +33,27 @@ describe "subscriptions" do
   let!(:subscription) { create :payment_go_cardless_subscription, go_cardless_id: 'index_ID_123' }
 
   describe "with valid signature" do
-    it 'processes events' do
-      headers = {
+    let(:headers) do
+      {
         'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json',
         'HTTP_WEBHOOK_SIGNATURE' => 'eac5bd1740841f39111333d572f525f1f03cdacc04b0ecc43e17a3da4787a011'
       }
+    end
 
+    it 'processes events' do
       post('/api/go_cardless/webhook', events, headers)
       expect(subscription.reload.aasm_state).to eq('active')
+    end
+
+    context 'with payment_created event' do
+      before do
+        post('/api/go_cardless/webhook', events, headers)
+      end
+
+      it 'updates action' do
+        expect(subscription.action.form_data).to eq('d')
+      end
+
     end
   end
 
