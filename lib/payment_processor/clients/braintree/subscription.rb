@@ -49,6 +49,10 @@ module PaymentProcessor
           end
         end
 
+        def subscription_id
+          @result.try(:subscription).try(:id)
+        end
+
         private
 
         # if the customer was updated, we have to create the payment method separately,

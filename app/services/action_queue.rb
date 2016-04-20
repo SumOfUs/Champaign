@@ -151,7 +151,7 @@ module ActionQueue
     end
 
     def split_expire_date
-      if data[:card_expiration_date] == '/'
+      if data[:card_expiration_date] == '/' || data[:card_expiration_date].blank?
         # We weren't given an expiration, probably because it's a PayPal transaction, so set a fake expiration five years
         # in the future.
         [Time.now.month.to_s, (Time.now.year + 5).to_s]

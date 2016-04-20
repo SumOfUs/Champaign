@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe "GoCardless API" do
+  let(:usd_amount) { 9.99 }
+  let(:gbp_amount) { 11.55 }
+  before :each do
+    allow_any_instance_of(Money).to receive(:exchange_to).and_return(
+      instance_double(Money, cents: (gbp_amount*100).to_i)
+    )
+  end
 
   describe "triggering a redirect flow" do
 
@@ -28,7 +35,7 @@ describe "GoCardless API" do
 
     subject do
       VCR.use_cassette("go_cardless redirect_flow_post_back_payment") do
-        get api_go_cardless_payment_complete_path, go_cardless_params
+        get api_go_cardless_transaction_path, go_cardless_params
       end
     end
 
@@ -74,14 +81,26 @@ describe "GoCardless API" do
         }
       }
     end
+    let(:sdk_params) do
+      {
+        params: {
+          amount: (gbp_amount * 100).to_i,
+          currency: 'GBP',
+          links: {
+            mandate: mandate_id # a_string_matching(/\AMD[0-9A-Z]+\z/)
+          },
+          metadata: {
+            customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
+          }
+        }
+      }
+    end
     let(:redirect_flow_id) { "RE00004631S7XT20JATGRP6QQ8VZEHRZ" }
     let(:creditor_id)      { "CR000045KKQEY8" }
     let(:mandate_id)       { "MD0000PSV8N7FR" }
     let(:customer_id)      { "CU0000RR39FMVB" }
     let(:customer_bank_account_id) { "BA0000P8MREF5F" }
 
-    let(:usd_amount) { 11 }
-    let(:gbp_amount) { 15 } # probably needs to be changed
     let(:page) { create :page }
     let(:email) { "nealjmd@gmail.com" }
 
@@ -139,7 +158,9 @@ describe "GoCardless API" do
       end
 
       it 'increments redis counters' do
-        expect(Analytics::Page).to receive(:increment).with(page.id, new_member: member.blank?)
+        allow(Analytics::Page).to receive(:increment).and_return(7777)
+        subject
+        expect(Analytics::Page).to have_received(:increment).with(page.id, new_member: member.blank?)
       end
 
       it 'leaves a cookie with the member_id' do
@@ -154,14 +175,6 @@ describe "GoCardless API" do
       it 'increments action count on Page' do
         expect{ subject }.to change{ page.reload.action_count }.by 1
       end
-
-      it 'creates a Transaction record associated with the Page' do
-        expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
-        payment = Payment::GoCardless::Transaction.last
-        expect(payment.go_cardless_id).to match(/^PM[0-9A-Z]+/)
-        expect(payment.currency).to eq 'GBP'
-        expect(payment.amount).to gbp_amount
-      end
     end
 
     describe 'transaction' do
@@ -171,32 +184,15 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful transaction') do
-          get api_go_cardless_payment_complete_path, params
+          get api_go_cardless_transaction_path, params
         end
       end
 
       shared_examples 'successful transaction' do
         it 'passes the correct data to the GoCardless Payment SDK' do
-          allow(PaymentProcessor::Currency).to receive(:convert).and_return converted_money
-          allow_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).and_call_original
-          expect_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).with(
-              params: {
-                  payments: {
-                      amount: converted_money.cents,
-                      currency: 'GBP',
-                      links: {
-                          mandate: /[0-9A-Z]+/
-                      },
-                      metadata: {
-                          customer_id: /[0-9A-Z]+/
-                      }
-                  }
-              }
-          )
-          # This should work otherwise, but the key "payments" is a string whereas all other keys are symbols.
-          # It might be an issue with it being a hash with indifferent access - but how do I fix it for the spec?
-          # got: ({:params=>{"payments"=>{:amount=>9001, :currency=>"GBP", :links=>{:mandate=>"MD0000PSV8N7FR"}, :metadata=>{:customer_id=>"CU0000RR39FMVB"}}}})
-
+          payment_service = instance_double(GoCardlessPro::Services::PaymentsService, create: double(id: 'asdf'))
+          allow_any_instance_of(GoCardlessPro::Client).to receive(:payments).and_return(payment_service)
+          expect(payment_service).to receive(:create).with(sdk_params)
           subject
         end
 
@@ -210,7 +206,7 @@ describe "GoCardless API" do
           expect{ subject }.to change{ Action.count }.by 1
           form_data = Action.last.form_data
           expect(form_data['is_subscription']).to eq false
-          expect(form_data['amount'].to_i).to gbp_amount
+          expect(form_data['amount']).to eq gbp_amount.to_s
           expect(form_data['currency']).to eq 'GBP'
           expect(form_data['transaction_id']).to eq Payment::GoCardless::Transaction.last.go_cardless_id
           
@@ -223,10 +219,18 @@ describe "GoCardless API" do
           expect(response.status).to eq 200
           expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
         end
+
+        it 'creates a Transaction record associated with the Page' do
+          expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
+          payment = Payment::GoCardless::Transaction.last
+          expect(payment.go_cardless_id).to match(/^PM[0-9A-Z]+/)
+          expect(payment.currency).to eq 'GBP'
+          expect(payment.amount).to eq gbp_amount
+        end
       end
 
       describe 'when Member exists' do
-        let(:member) { create :member, email: email }
+        let!(:member) { create :member, email: email }
 
         include_examples 'successful transaction'
         include_examples 'donation action'
@@ -262,20 +266,21 @@ describe "GoCardless API" do
       let(:params) { base_params.merge(recurring: true) }
 
       subject do
-        # I don't want to create the cassette yet
-        # VCR.use_cassette('go_cardless successful subscription') do
-        #   get api_go_cardless_payment_complete_path, params
-        # end
+        VCR.use_cassette('go_cardless successful subscription') do
+          get api_go_cardless_transaction_path, params
+        end
       end
 
       shared_examples 'successful subscription' do
-        it 'passes the correct data to the GoCardless Subscription SDK' do
-          allow_any_instance_of(GoCardlessPro::Services::SubscriptionsService).to receive(:create).and_call_original
-          expect_any_instance_of(GoCardlessPro::Services::SubscriptionsService).to receive(:create).with({
-            amount: gbp_amount,
-            currency: 'GBP'
-            # TODO: fill in remaining values here!
-          })
+        it 'passes the correct data to the GoCardless Payment SDK' do
+          sdk_params[:params] = sdk_params[:params].merge(
+            name: "donation",
+            interval_unit: "monthly",
+            day_of_month: "1"
+          )
+          subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
+          allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
+          expect(subscriptions_service).to receive(:create).with(sdk_params)
           subject
         end
 
@@ -285,14 +290,14 @@ describe "GoCardless API" do
           expect( ChampaignQueue ).to receive(:push).with(donation_push_params)
         end
 
-        it 'stores amount, currency, is_subscription, subscription_id, and transaction_id in form_data on the Action' do
+        it 'stores amount, currency, is_subscription, and subscription_id in form_data on the Action' do
           expect{ subject }.to change{ Action.count }.by 1
           form_data = Action.last.form_data
           expect(form_data['is_subscription']).to eq true
-          expect(form_data['amount'].to_i).to gbp_amount
+          expect(form_data['amount']).to eq gbp_amount.to_s
           expect(form_data['currency']).to eq 'GBP'
           expect(form_data['subscription_id']).to eq Payment::GoCardless::Subscription.last.go_cardless_id
-          expect(form_data['transaction_id']).to eq Payment::GoCardless::Transaction.last.go_cardless_id
+          expect(form_data).not_to have_key('transaction_id')
         end
 
         it 'responds successfully with subscription_id' do
@@ -301,10 +306,14 @@ describe "GoCardless API" do
           expect(response.status).to eq 200
           expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
         end
+
+        it 'does not yet create a transaction record' do
+          expect{ subject }.not_to change{ Payment::GoCardless::Transaction.count }
+        end
       end
 
       describe 'when Member exists' do
-        let(:member) { create :member, email: email }
+        let!(:member) { create :member, email: email }
 
         include_examples 'successful subscription'
         include_examples 'donation action'

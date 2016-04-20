@@ -22,7 +22,7 @@ module PaymentProcessor
 
         def self.make_transaction(nonce:, amount:, currency:, user:, page_id:)
           builder = new(nonce, amount, currency, user, page_id)
-          builder.transaction
+          builder.transact
           builder
         end
 
@@ -34,7 +34,7 @@ module PaymentProcessor
           @page_id = page_id
         end
 
-        def transaction
+        def transact
           @result = ::Braintree::Transaction.sale(options)
           if @result.success?
             @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: result, is_subscription: false)
@@ -42,6 +42,10 @@ module PaymentProcessor
           else
             Payment.write_transaction(result, @page_id, nil, existing_customer)
           end
+        end
+
+        def transaction_id
+          @result.try(:transaction).try(:id)
         end
 
         private
