@@ -46,7 +46,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
       after do
         charge!
       end
-      transitions from: :active, to: :active
+      transitions to: :active
     end
   end
 

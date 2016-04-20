@@ -7,9 +7,20 @@ class Api::GoCardlessController < PaymentController
   end
 
   def webhook
-    pp request.headers['HTTP_WEBHOOK_SIGNATURE']
-    pp params
-    head :ok
+    signature = request.headers['HTTP_WEBHOOK_SIGNATURE']
+    validator = PaymentProcessor::GoCardless::WebhookSignature.new(
+      secret: 'monkey',
+      signature: signature,
+      body: { events: params[:events] }.to_json
+    )
+
+    if validator.valid?
+      PaymentProcessor::GoCardless::WebhookHandler::ProcessEvents.process(params[:events])
+      head :ok
+    else
+      head status: 427
+    end
+
   end
 
   private
