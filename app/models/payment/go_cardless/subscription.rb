@@ -46,7 +46,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
       after do
         charge!
       end
-      transitions from: :active, to: :active
+      transitions to: :active
     end
   end
 
@@ -56,6 +56,9 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     if action.blank?
       # create the action
       # ManageGoCardlessDonation.create(attributes)
+      #
+      # WE should have an action at this point. I
+      # think we should log if one isn't found.
     else
       action.form_data['recurrence_number'] += 1
       action.save
