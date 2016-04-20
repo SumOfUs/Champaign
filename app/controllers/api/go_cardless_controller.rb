@@ -2,7 +2,10 @@ class Api::GoCardlessController < PaymentController
   skip_before_action :verify_authenticity_token
 
   def start_flow
-    flow = GoCardlessDirector.new(session.id, success_url)
+    # session.id is nil until something is stored in the session, so might
+    # as well make it explicit what we're using the id for.
+    session[:go_cardless_session_id] = SecureRandom.uuid
+    flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url)
     redirect_to flow.redirect_url
   end
 
@@ -44,7 +47,7 @@ class Api::GoCardlessController < PaymentController
       user: params[:user],
       page_id: params[:page_id],
       redirect_flow_id: params[:redirect_flow_id],
-      session_token: session.id
+      session_token: session[:go_cardless_session_id]
     }
   end
 end
