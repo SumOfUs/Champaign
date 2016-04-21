@@ -29,8 +29,23 @@
     $editor.summernote('fontSize', '16'); // default
     $editor.summernote('code', $contentField.val());
 
+    // In order to make an iframe size down with the containing column
+    // or to fit on screen on mobile, you have to apply style to the iframe
+    // and to the containing element. This adds a class to the containing element
+    // that our CSS is looking for.
+    encapsulateIframes = function(html) {
+      if( html.indexOf('iframe') === -1 ) {
+        return html; // don't do anything if there's no iframe
+      }
+      var $html = $(html);
+      // addClass is idempotent so we just call it every time we save
+      $html.find('iframe').parent().addClass('iframe-responsive-container');
+      // this little goof is just cause jquery doesn't have $el.outerHtml();
+      return $('<div></div>').append($html).html();
+    }
+
     updateContentBeforeSave = function(){
-      var content = $editor.summernote('code');
+      var content = encapsulateIframes($editor.summernote('code'));
       $contentField.val(content);
     };
 
