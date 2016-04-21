@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Champaign
+    title= content_for?(:title) ? content_for(:title) : 'Champaign'
     meta name="viewport" content="width=device-width, initial-scale=1.0"
 
     = stylesheet_link_tag    "application", media: 'all'
