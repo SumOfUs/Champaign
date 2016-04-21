@@ -24,7 +24,7 @@ class LiquidLayoutsController < ApplicationController
 
     respond_to do |format|
       if @liquid_layout.save
-        format.html { redirect_to @liquid_layout, notice: 'Liquid layout was successfully created.' }
+        format.html { redirect_to edit_liquid_layout_path(@liquid_layout), notice: 'Liquid layout was successfully created.' }
         format.json { render :show, status: :created, location: @liquid_layout }
       else
         format.html { render :new }

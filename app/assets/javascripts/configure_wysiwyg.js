@@ -33,7 +33,7 @@
     // or to fit on screen on mobile, you have to apply style to the iframe
     // and to the containing element. This adds a class to the containing element
     // that our CSS is looking for.
-    encapsulateIframes = function(html) {
+    var encapsulateIframes = function(html) {
       if( html.indexOf('iframe') === -1 ) {
         return html; // don't do anything if there's no iframe
       }
@@ -44,7 +44,7 @@
       return $('<div></div>').append($html).html();
     }
 
-    updateContentBeforeSave = function(){
+    var updateContentBeforeSave = function(){
       var content = encapsulateIframes($editor.summernote('code'));
       $contentField.val(content);
     };
