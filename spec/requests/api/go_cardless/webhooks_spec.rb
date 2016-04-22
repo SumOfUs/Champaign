@@ -19,7 +19,7 @@ describe "subscriptions" do
 
   let!(:page)         { create(:page) }
   let!(:member)       { create(:member) }
-  let!(:action)       { create(:action, member: member, page: page) }
+  let!(:action)       { create(:action, member: member, page: page, donation: true, form_data: {amount: 100, currency: 'GBP', payment_provider: 'go_cardless'}) }
   let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100) }
 
   describe "with valid signature" do
@@ -37,11 +37,12 @@ describe "subscriptions" do
 
     context 'with payment_created event' do
       before do
+        allow(ChampaignQueue).to receive(:push)
         post('/api/go_cardless/webhook', events, headers)
       end
 
       it 'updates action with recurrence number' do
-        expect(subscription.action.reload.form_data).to eq( 'recurrence_number' => 1 )
+        expect(subscription.action.reload.form_data).to include( 'recurrence_number' => 1 )
       end
 
       describe 'transaction' do
@@ -61,6 +62,16 @@ describe "subscriptions" do
          expect(
             subject.confirmed?
           ).to be(true)
+        end
+      end
+
+      describe "Posting to queue" do
+        it 'posts to queue' do
+          expect( ChampaignQueue ).to have_received(:push).with(
+            a_hash_including(
+              params: a_hash_including({ order: { amount: 100, currency: 'GBP'}})
+            )
+          )
         end
       end
     end
