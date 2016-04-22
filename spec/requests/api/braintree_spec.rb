@@ -51,6 +51,7 @@ describe "Braintree API" do
           fields: {
             recurring_id: 1,
             recurrence_number: 0,
+            payment_provider: 'braintree',
             exp_date: "1220"
           }
         }

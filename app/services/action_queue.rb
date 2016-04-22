@@ -24,6 +24,7 @@ module ActionQueue
       @member ||= @action.member
     end
 
+
     class_methods do
       def push(action)
         new(action).push
@@ -31,14 +32,59 @@ module ActionQueue
     end
   end
 
+  module Donatable
+    def action_fields
+      {
+        recurring_id:      @action.member_id,
+        recurrence_number: @action.form_data['recurrence_number'],
+        payment_provider:  @action.form_data['payment_provider'],
+        exp_date:          "#{expire_month}#{expire_year.to_s.gsub(/^(\d\d)(\d\d)/,'\2')}"
+      }
+    end
+
+    def user_data
+      {
+          first_name: member.first_name,
+          last_name:  member.last_name,
+          email:      member.email,
+          country:    country(member.country),
+          akid:       data[:akid],
+          postal:     data[:postal],
+          address1:   data[:address1],
+          source:     data[:source]
+      }.merge(UserLanguageISO.for(page.language) )
+    end
+
+    def data
+      @action.form_data.symbolize_keys
+    end
+
+    def extra_fields_for_subscription
+      {}.tap do |action|
+        if @action.form_data['is_subscription']
+          action[:skip_confirmation] = 1 if @action.form_data['recurrence_number'].to_i > 0
+          action[:fields] = action_fields
+        end
+      end
+    end
+  end
+
   class Pusher
     def self.push(action)
-      action.donation? ? DonationAction.push(action) : PetitionAction.push(action)
+      if action.donation
+        if action.form_data.fetch('payment_provider', '').inquiry.go_cardless?
+          DirectDebitAction.push(action)
+        else
+          DonationAction.push(action)
+        end
+      else
+        PetitionAction.push(action)
+      end
     end
   end
 
   class PetitionAction
-    include Enqueable
+    include Donatable
 
     def get_page_name
       if page.status.inquiry.imported?
@@ -61,8 +107,38 @@ module ActionQueue
     end
   end
 
+  class DirectDebitAction
+    include Enqueable
+    include Donatable
+
+    def payload
+      {
+        type:  'donation',
+        params: {
+          donationpage: {
+            name:             "#{@action.page.slug}-donation",
+            payment_account:  get_payment_account
+          },
+          order: {
+            amount:    data[:amount],
+            currency:  data[:currency]
+          },
+          action: {
+            source: data[:source]
+          }.merge(extra_fields_for_subscription),
+          user: user_data
+        }
+      }
+    end
+
+    def get_payment_account
+      "GoCardless #{data[:currency]}"
+    end
+  end
+
   class DonationAction
     include Enqueable
+    include Donatable
 
     def payload
       {
@@ -82,37 +158,10 @@ module ActionQueue
           },
           action: {
             source: data[:source]
-          }.tap do |action|
-            if @action.form_data['is_subscription']
-              action[:skip_confirmation] = 1 if @action.form_data['recurrence_number'].to_i > 0
-              action[:fields] = action_fields
-            end
-          end,
-
+          }.merge(extra_fields_for_subscription),
           user: user_data
         }
       }
-    end
-
-    def action_fields
-      {
-        recurring_id:      @action.member_id,
-        recurrence_number: @action.form_data['recurrence_number'],
-        exp_date:          "#{expire_month}#{expire_year.to_s.gsub(/^(\d\d)(\d\d)/,'\2')}"
-      }
-    end
-
-    def user_data
-      {
-          first_name: member.first_name,
-          last_name:  member.last_name,
-          email:      member.email,
-          country:    country(member.country),
-          akid:       data[:akid],
-          postal:     data[:postal],
-          address1:   data[:address1],
-          source:     data[:source]
-      }.merge(UserLanguageISO.for(page.language) )
     end
 
     # ActionKit can accept one of the following:
@@ -136,10 +185,6 @@ module ActionQueue
 
     def is_paypal?
       data[:card_num] == "PYPL"
-    end
-
-    def data
-      @action.form_data.symbolize_keys
     end
 
     def expire_month

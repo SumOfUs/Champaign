@@ -1,5 +1,39 @@
 class Payment::GoCardless::Subscription < ActiveRecord::Base
+
+  class Charge
+    attr_reader :subscription, :event
+
+    delegate :action, :amount, :currency, to: :subscription
+
+    def initialize(subscription, event = {})
+      @event = event
+      @subscription = subscription
+    end
+
+    def call
+      if action.blank?
+        # create the action
+        # ManageGoCardlessDonation.create(attributes)
+        #
+        # WE should have an action at this point. I
+        # think we should log if one isn't found.
+      else
+        number_of_payments = action.form_data.fetch('recurrence_number', 0) + 1
+        action.form_data['recurrence_number'] = number_of_payments
+        action.save
+
+        transaction = Payment::GoCardless.write_transaction(event['links']['payment'], amount, currency, action.page.id)
+        transaction.run_confirm!
+        ActionQueue::Pusher.push(action)
+      end
+    end
+  end
+end
+
+class Payment::GoCardless::Subscription < ActiveRecord::Base
   include AASM
+
+  validates :go_cardless_id, presence: true, allow_blank: false
 
   belongs_to :page
   belongs_to :action
@@ -43,28 +77,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     end
 
     event :run_payment_create do
-      after do
-        charge!
-      end
-      transitions to: :active
-    end
-  end
-
-  validates :go_cardless_id, presence: true, allow_blank: false
-
-  def charge!
-    if action.blank?
-      # create the action
-      # ManageGoCardlessDonation.create(attributes)
-      #
-      # WE should have an action at this point. I
-      # think we should log if one isn't found.
-    else
-      action.form_data['recurrence_number'] += 1
-      action.save
-      # this API needs to be reconciled with what tuuli's writing
-      # Payment::GoCardless.write_transaction(payment_method, gc_payment, page_id, member, false)
-      ActionQueue::Pusher.push(action)
+      transitions to: :active, after: Payment::GoCardless::Subscription::Charge
     end
   end
 end

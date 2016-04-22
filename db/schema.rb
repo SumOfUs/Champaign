@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413180301) do
+ActiveRecord::Schema.define(version: 20160422125408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20160413180301) do
     t.boolean  "subscribed_user"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.jsonb    "form_data"
+    t.jsonb    "form_data",         default: {}
     t.boolean  "subscribed_member", default: true
     t.boolean  "donation",          default: false
   end
@@ -63,6 +63,12 @@ ActiveRecord::Schema.define(version: 20160413180301) do
     t.string   "resource"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+  end
+
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -197,6 +203,7 @@ ActiveRecord::Schema.define(version: 20160413180301) do
     t.string   "ak_donation_resource_uri"
     t.integer  "follow_up_plan",             default: 0,         null: false
     t.integer  "follow_up_page_id"
+    t.text     "javascript"
   end
 
   add_index "pages", ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id", using: :btree

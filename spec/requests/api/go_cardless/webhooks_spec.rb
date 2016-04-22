@@ -17,7 +17,10 @@ describe "subscriptions" do
     }.to_json
   end
 
-  let!(:subscription) { create :payment_go_cardless_subscription, go_cardless_id: 'index_ID_123' }
+  let!(:page)         { create(:page) }
+  let!(:member)       { create(:member) }
+  let!(:action)       { create(:action, member: member, page: page, donation: true, form_data: {amount: 100, currency: 'GBP', payment_provider: 'go_cardless'}) }
+  let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100) }
 
   describe "with valid signature" do
     let(:headers) do
@@ -34,13 +37,43 @@ describe "subscriptions" do
 
     context 'with payment_created event' do
       before do
+        allow(ChampaignQueue).to receive(:push)
         post('/api/go_cardless/webhook', events, headers)
       end
 
-      it 'updates action' do
-        expect(subscription.action.form_data).to eq('d')
+      it 'updates action with recurrence number' do
+        expect(subscription.action.reload.form_data).to include( 'recurrence_number' => 1 )
       end
 
+      describe 'transaction' do
+        subject { Payment::GoCardless::Transaction.first }
+
+        it 'has correct attributes' do
+          expect(
+            subject.attributes.symbolize_keys
+          ).to include({
+            go_cardless_id: 'payment_ID_123',
+            page_id: page.id,
+            amount: 100
+          })
+        end
+
+        it 'is confirmed' do
+         expect(
+            subject.confirmed?
+          ).to be(true)
+        end
+      end
+
+      describe "Posting to queue" do
+        it 'posts to queue' do
+          expect( ChampaignQueue ).to have_received(:push).with(
+            a_hash_including(
+              params: a_hash_including({ order: { amount: 100, currency: 'GBP'}})
+            )
+          )
+        end
+      end
     end
   end
 
@@ -57,7 +90,6 @@ describe "subscriptions" do
       }
 
       post('/api/go_cardless/webhook', events, headers)
-
       expect(response.status).to eq(427)
     end
   end
