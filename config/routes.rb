@@ -113,6 +113,9 @@ Rails.application.routes.draw do
   #   resources :posts, concerns: :toggleable
   #   resources :photos, concerns: :toggleable
 
+  # legacy route
+  get '/api/braintree/token', to: 'api/payment/braintree#token'
+
   namespace :api do
     namespace :payment do
       namespace :braintree do

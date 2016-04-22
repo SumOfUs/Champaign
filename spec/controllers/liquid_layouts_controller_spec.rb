@@ -84,9 +84,9 @@ describe LiquidLayoutsController do
         expect(assigns(:liquid_layout)).to be_persisted
       end
 
-      it "redirects to the created liquid_layout" do
+      it "redirects to the edit page for the created liquid_layout" do
         post :create, {:liquid_layout => valid_attributes}
-        expect(response).to redirect_to(LiquidLayout.last)
+        expect(response).to redirect_to(edit_liquid_layout_path(LiquidLayout.last))
       end
     end
 

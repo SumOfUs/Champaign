@@ -5,20 +5,6 @@
   @include background-size(cover);
   overflow: hidden;
   position: relative;
-
-  &--translucent {
-    &::after {
-      opacity: 0.15;
-      content: "";
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      position: absolute;
-      z-index: -1;
-      @include background-size(cover);
-    }
-  }
 }
 
 .cover-photo {
@@ -41,6 +27,17 @@
     position: absolute;
     bottom: 40px;
     width: 100%;
+  }
+  &__title {
+    @media(max-width: 900px) {
+      font-size: 36px;
+    }
+    @media(max-width: 700px) {
+      font-size: 32px;
+    }
+    @media(max-width: 500px) {
+      font-size: 27px;
+    }
   }
   &__target {
     &:empty {

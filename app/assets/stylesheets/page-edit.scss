@@ -9,6 +9,14 @@ body.page-edit-body {
   background-color: $page-edit-bar-color;
 }
 
+.note-editable {
+  // don't pad the paragraphs in the WYSIWYG or the output
+  ol, ul, p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
+
 .page-edit-bar, .sidebar {
   width: 20%;
   height: 100%;
@@ -179,6 +187,15 @@ body.page-edit-body {
       margin: 0 0 0 4%;
       float: left;
     }
+  }
+}
+
+.javascript-editor {
+  &__toggle {
+    float: right;
+  }
+  .CodeMirror {
+    height: 136px;
   }
 }
 

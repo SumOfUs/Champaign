@@ -80,13 +80,10 @@ a {
   p, span, div {
     line-height: 1.6em;
   }
+  // don't pad the paragraphs in the WYSIWYG or the output
   p, ul, ol {
-    margin-bottom: 18px;
-  }
-  p+br {
-    // don't display <br> tags that follow
-    // immediately on <p> tags, cause they have margin
-    display: none
+    margin-top: 0;
+    margin-bottom: 0;
   }
   ul, ol {
     padding-left: 40px;
