@@ -1,9 +1,9 @@
 class Payment::GoCardless::Subscription < ActiveRecord::Base
 
   class Charge
-    attr_reader :subscription
+    attr_reader :subscription, :event
 
-    delegate :action, to: :subscription
+    delegate :action, :amount, :currency, to: :subscription
 
     def initialize(subscription, event = {})
       @event = event
@@ -21,11 +21,9 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
         number_of_payments = action.form_data.fetch('recurrence_number', 0) + 1
         action.form_data['recurrence_number'] = number_of_payments
         action.save
-        # this API needs to be reconciled with what tuuli's writing
-        #Payment::GoCardless.write_transaction(payment_method, gc_payment, page_id, member, false)
 
-        #def write_transaction(transaction_gc_id, amount, currency, page_id)
-
+        transaction = Payment::GoCardless.write_transaction(event['links']['payment'], amount, currency, action.page.id)
+        transaction.run_confirm!
         ActionQueue::Pusher.push(action)
       end
     end

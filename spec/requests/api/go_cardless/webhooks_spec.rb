@@ -20,7 +20,7 @@ describe "subscriptions" do
   let!(:page)         { create(:page) }
   let!(:member)       { create(:member) }
   let!(:action)       { create(:action, member: member, page: page) }
-  let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action) }
+  let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100) }
 
   describe "with valid signature" do
     let(:headers) do
@@ -44,8 +44,24 @@ describe "subscriptions" do
         expect(subscription.action.reload.form_data).to eq( 'recurrence_number' => 1 )
       end
 
-      it 'creates a new transaction' do
-        expect(Payment::GoCardless::Transaction.count).to eq(1)
+      describe 'transaction' do
+        subject { Payment::GoCardless::Transaction.first }
+
+        it 'has correct attributes' do
+          expect(
+            subject.attributes.symbolize_keys
+          ).to include({
+            go_cardless_id: 'payment_ID_123',
+            page_id: page.id,
+            amount: 100
+          })
+        end
+
+        it 'is confirmed' do
+         expect(
+            subject.confirmed?
+          ).to be(true)
+        end
       end
     end
   end
@@ -63,7 +79,6 @@ describe "subscriptions" do
       }
 
       post('/api/go_cardless/webhook', events, headers)
-
       expect(response.status).to eq(427)
     end
   end
