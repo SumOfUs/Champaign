@@ -72,7 +72,7 @@ module ActionQueue
   class Pusher
     def self.push(action)
       if action.donation
-        if action.form_data['payment_provider'].inquiry.go_cardless?
+        if action.form_data.fetch('payment_provider', '').inquiry.go_cardless?
           DirectDebitAction.push(action)
         else
           DonationAction.push(action)
