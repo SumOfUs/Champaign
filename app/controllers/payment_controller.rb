@@ -17,8 +17,11 @@ class PaymentController < ApplicationController
         format.json { render json: { success: true }.merge(id) }
       end
     else
-      errors = client::ErrorProcessing.new(builder.result).process
-      render json: { success: false, errors: errors }, status: 422
+      @errors = client::ErrorProcessing.new(builder.errors).process
+      respond_to do |format|
+        format.html { render :errors }
+        format.json { render json: { success: false, errors: @errors }, status: 422 }
+      end
     end
   end
 

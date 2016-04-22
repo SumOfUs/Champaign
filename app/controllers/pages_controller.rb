@@ -39,7 +39,8 @@ class PagesController < ApplicationController
   end
 
   def follow_up
-    render_liquid(@page.follow_up_liquid_layout, :follow_up)
+    liquid_layout = @page.follow_up_liquid_layout || @page.liquid_layout
+    render_liquid(liquid_layout, :follow_up)
   end
 
   def update
