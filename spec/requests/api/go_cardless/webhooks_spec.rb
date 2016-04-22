@@ -17,7 +17,10 @@ describe "subscriptions" do
     }.to_json
   end
 
-  let!(:subscription) { create :payment_go_cardless_subscription, go_cardless_id: 'index_ID_123' }
+  let!(:page)         { create(:page) }
+  let!(:member)       { create(:member) }
+  let!(:action)       { create(:action, member: member, page: page) }
+  let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action) }
 
   describe "with valid signature" do
     let(:headers) do
@@ -37,10 +40,13 @@ describe "subscriptions" do
         post('/api/go_cardless/webhook', events, headers)
       end
 
-      it 'updates action' do
-        expect(subscription.action.form_data).to eq('d')
+      it 'updates action with recurrence number' do
+        expect(subscription.action.reload.form_data).to eq( 'recurrence_number' => 1 )
       end
 
+      it 'creates a new transaction' do
+        expect(Payment::GoCardless::Transaction.count).to eq(1)
+      end
     end
   end
 

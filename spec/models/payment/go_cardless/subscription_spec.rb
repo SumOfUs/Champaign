@@ -117,7 +117,10 @@ describe Payment::GoCardless::Subscription do
       end
 
       it 'calls charge!' do
-        expect(subject).to receive(:charge!)
+        expect_any_instance_of(
+          Payment::GoCardless::Subscription::Charge
+        ).to receive(:call)
+
         subject.run_payment_create!
       end
     end

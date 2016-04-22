@@ -8,7 +8,7 @@ module PaymentProcessor
 
         def process
           if record.send("may_run_#{action}?")
-            record.send("run_#{action}!")
+            record.send("run_#{action}!", @event)
           end
         end
       end
