@@ -8,6 +8,7 @@ class Api::GoCardlessController < PaymentController
 
   def webhook
     signature = request.headers['HTTP_WEBHOOK_SIGNATURE']
+
     validator = PaymentProcessor::GoCardless::WebhookSignature.new(
       secret: 'monkey',
       signature: signature,
@@ -20,7 +21,6 @@ class Api::GoCardlessController < PaymentController
     else
       head status: 427
     end
-
   end
 
   private
