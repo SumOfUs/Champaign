@@ -331,26 +331,35 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     window.location.href = url;
   },
 
-  hide: function() {
+  hide() {
     this.$('.fundraiser-bar__mobile-view')
       .addClass('fundraiser-bar__mobile-view--closed')
       .removeClass('fundraiser-bar__mobile-view--open');
   },
 
-  reveal: function() {
+  reveal() {
     this.$('.fundraiser-bar__mobile-view')
       .removeClass('fundraiser-bar__mobile-view--closed')
       .addClass('fundraiser-bar__mobile-view--open');
   },
 
-  displayDirectDebit: function(show) {
+  displayDirectDebit(show) {
     if (show === true) {
       $('.hosted-fields__direct-debit-container').removeClass('hidden-irrelevant');
+      this.handleInterTabFollowUp();
     } else {
       $('.hosted-fields__direct-debit-container').addClass('hidden-irrelevant');
     }
   },
 
+  handleInterTabFollowUp() {
+    $(window).on('message', (e) => {
+      if (e.originalEvent.data === 'follow_up:loaded') {
+        this.redirectTo(this.followUpUrl);
+        e.originalEvent.source.close();
+      }
+    });
+  },
 }));
 
 module.exports = FundraiserBar;

@@ -1,0 +1,6 @@
+= render partial: 'show'
+
+javascript:
+  if (window.opener !== null) {
+    window.opener.postMessage('follow_up:loaded', '*');
+  }

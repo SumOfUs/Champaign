@@ -35,11 +35,11 @@ class PagesController < ApplicationController
   end
 
   def show
-    render_liquid(@page.liquid_layout)
+    render_liquid(@page.liquid_layout, :show)
   end
 
   def follow_up
-    render_liquid(@page.follow_up_liquid_layout)
+    render_liquid(@page.follow_up_liquid_layout, :follow_up)
   end
 
   def update
@@ -57,13 +57,13 @@ class PagesController < ApplicationController
 
   private
 
-  def render_liquid(layout)
+  def render_liquid(layout, view)
     return redirect_to(Settings.homepage_url) unless @page.active? || user_signed_in?
     localize_by_page_language(@page)
 
     @rendered = renderer(layout).render
     @data = renderer(layout).personalization_data
-    render :show, layout: 'sumofus'
+    render view, layout: 'sumofus'
   end
 
   def renderer(layout)

@@ -12,7 +12,10 @@ class PaymentController < ApplicationController
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
       id = recurring? ? { subscription_id: builder.subscription_id } : { transaction_id: builder.transaction_id }
 
-      render json: { success: true }.merge(id)
+      respond_to do |format|
+        format.html { redirect_to follow_up_page_path(page) }
+        format.json { render json: { success: true }.merge(id) }
+      end
     else
       errors = client::ErrorProcessing.new(builder.result).process
       render json: { success: false, errors: errors }, status: 422
@@ -23,5 +26,9 @@ class PaymentController < ApplicationController
 
   def recurring?
     @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
+  end
+
+  def page
+    @page ||= Page.find(params[:page_id])
   end
 end
