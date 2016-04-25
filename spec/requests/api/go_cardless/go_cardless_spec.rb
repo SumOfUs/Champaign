@@ -175,6 +175,11 @@ describe "GoCardless API" do
       it 'increments action count on Page' do
         expect{ subject }.to change{ page.reload.action_count }.by 1
       end
+
+      it "redirects to the page's follow-up path" do
+        subject
+        expect(response.status).to redirect_to(follow_up_page_path(page))
+      end
     end
 
     describe 'transaction' do
@@ -211,13 +216,6 @@ describe "GoCardless API" do
           expect(form_data['transaction_id']).to eq Payment::GoCardless::Transaction.last.go_cardless_id
           
           expect(form_data).not_to have_key('subscription_id')
-        end
-
-        it 'responds successfully with transaction_id' do
-          subject
-          transaction_id = Payment::GoCardless::Transaction.last.go_cardless_id
-          expect(response.status).to eq 200
-          expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
         end
 
         it 'creates a Transaction record associated with the Page' do
@@ -298,13 +296,6 @@ describe "GoCardless API" do
           expect(form_data['currency']).to eq 'GBP'
           expect(form_data['subscription_id']).to eq Payment::GoCardless::Subscription.last.go_cardless_id
           expect(form_data).not_to have_key('transaction_id')
-        end
-
-        it 'responds successfully with subscription_id' do
-          subject
-          subscription_id = Payment::GoCardless::Subscription.last.go_cardless_id
-          expect(response.status).to eq 200
-          expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
         end
 
         it 'does not yet create a transaction record' do

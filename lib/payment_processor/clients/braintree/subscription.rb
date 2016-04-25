@@ -23,7 +23,7 @@ module PaymentProcessor
         # * +:currency+ - Billing currency (required)
         # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
         # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
-        attr_reader :result, :action
+        attr_reader :action
 
         def self.make_subscription(nonce:, amount:, currency:, user:, page_id:)
           builder = new(nonce, amount, currency, user, page_id)
@@ -51,6 +51,10 @@ module PaymentProcessor
 
         def subscription_id
           @result.try(:subscription).try(:id)
+        end
+
+        def errors
+          @result.try(:errors)
         end
 
         private
