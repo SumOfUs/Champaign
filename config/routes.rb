@@ -126,8 +126,8 @@ Rails.application.routes.draw do
     end
 
     namespace :go_cardless do
-      get ':page_id/start_flow', action: 'start_flow'
-      get 'transaction'
+      get 'pages/:page_id/start_flow', action: 'start_flow'
+      get 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
       post 'webhook'
     end
 

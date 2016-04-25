@@ -30,7 +30,7 @@ class Api::GoCardlessController < PaymentController
       URI.parse(request.url).query
     ).merge( params.slice(:page_id) ).to_query
 
-    "#{request.base_url}/api/go_cardless/transaction?#{local_params}"
+    "#{request.base_url}/api/go_cardless/pages/#{page.id}/transaction?#{local_params}"
   end
 
   def client

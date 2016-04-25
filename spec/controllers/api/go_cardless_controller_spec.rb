@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 describe Api::GoCardlessController do
+  let(:page) { double(:page, id: '1') }
+
   before do
+    allow(Page).to receive(:find) { page }
     allow(request.session).to receive(:id) { 'fake_session_id' }
   end
 
@@ -18,7 +21,7 @@ describe Api::GoCardlessController do
 
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new).
-        with('fake_session_id', "http://test.host/api/go_cardless/transaction?foo=bar&page_id=1")
+        with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1")
       end
 
     it 'redirects' do
@@ -34,7 +37,7 @@ describe Api::GoCardlessController do
       subject
     end
 
-    subject { get :transaction, foo: 'bar' }
+    subject { get :transaction, foo: 'bar', page_id: '1' }
 
     it 'creates GC transaction' do
       expect(PaymentProcessor::GoCardless::Transaction).to(

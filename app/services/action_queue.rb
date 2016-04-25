@@ -85,6 +85,7 @@ module ActionQueue
 
   class PetitionAction
     include Donatable
+    include Enqueable
 
     def get_page_name
       if page.status.inquiry.imported?
