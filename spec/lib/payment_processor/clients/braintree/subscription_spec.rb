@@ -100,8 +100,8 @@ module PaymentProcessor
                 expect(::Braintree::Subscription).not_to have_received(:create)
               end
 
-              it "has '#result' as the error result from Braintree::Customer.update" do
-                expect(@builder.result).to eq failure
+              it "is not successful" do
+                expect(@builder.success?).to be(false)
               end
 
               it "has '#action' as nil" do
@@ -136,8 +136,8 @@ module PaymentProcessor
                   expect(::Braintree::Subscription).not_to have_received(:create)
                 end
 
-                it "has '#result' as the error result from Braintree::Customer.update" do
-                  expect(@builder.result).to eq failure
+                it "is not successful" do
+                  expect(@builder.success?).to be(false)
                 end
 
                 it "has '#action' as nil" do
@@ -168,8 +168,8 @@ module PaymentProcessor
                     expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
                   end
 
-                  it "has '#result' as the error result from Braintree::Subscription.create" do
-                    expect(@builder.result).to eq failure
+                  it "is not successful" do
+                    expect(@builder.success?).to be(false)
                   end
 
                   it "has '#action' as nil" do
@@ -202,8 +202,8 @@ module PaymentProcessor
                     expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
                   end
 
-                  it "has '#result' as the success result from Braintree::Subscription.create" do
-                    expect(@builder.result).to eq subscription_success
+                  it "is successful" do
+                    expect(@builder.success?).to be(true)
                   end
 
                   it "has '#action' as the result from ManageBraintreeDonation.create" do
@@ -271,8 +271,8 @@ module PaymentProcessor
                 expect(::Braintree::Subscription).not_to have_received(:create)
               end
 
-              it "has '#result' as the error result from Braintree::Customer.update" do
-                expect(@builder.result).to eq failure
+              it "is not successful" do
+                expect(@builder.success?).to be(false)
               end
 
               it "has '#action' as nil" do
@@ -303,8 +303,8 @@ module PaymentProcessor
                   expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
                 end
 
-                it "has '#result' as the error result from Braintree::Subscription.create" do
-                  expect(@builder.result).to eq failure
+                it "is not successful" do
+                  expect(@builder.success?).to be(false)
                 end
 
                 it "has '#action' as nil" do
@@ -337,8 +337,8 @@ module PaymentProcessor
                   expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
                 end
 
-                it "has '#result' as the success result from Braintree::Subscription.create" do
-                  expect(@builder.result).to eq subscription_success
+                it "is successful" do
+                  expect(@builder.success?).to be(true)
                 end
 
                 it "has '#action' as the result from ManageBraintreeDonation.create" do
