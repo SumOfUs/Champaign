@@ -17,8 +17,6 @@ describe Payment::GoCardless::Transaction do
   # Associations
   it { is_expected.to respond_to :page }
   it { is_expected.to respond_to :page_id }
-  it { is_expected.to respond_to :action }
-  it { is_expected.to respond_to :action_id }
   it { is_expected.to respond_to :payment_method }
   it { is_expected.to respond_to :payment_method_id }
   it { is_expected.to respond_to :customer }
