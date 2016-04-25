@@ -35,6 +35,9 @@ module PaymentProcessor
         FILTER = -> (error) { USER_ERROR_CODES.include?( error.code.to_i ) }
 
         def initialize(errors)
+          # TODO: a lot of this class still expects @response.
+          # 76 failures on lib/payment_processor/clients/braintree/error_processing.rb
+          #
           @errors = errors
         end
 
