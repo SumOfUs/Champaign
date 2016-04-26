@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe "GoCardless API" do
+  let(:page) { create :page }
+
   let(:usd_amount) { 9.99 }
   let(:gbp_amount) { 11.55 }
   before :each do
@@ -38,7 +40,7 @@ describe "GoCardless API" do
 
     subject do
       VCR.use_cassette("go_cardless redirect_flow_post_back_payment") do
-        get api_go_cardless_transaction_path, go_cardless_params
+        get api_go_cardless_transaction_path(page.id), go_cardless_params
       end
     end
 
@@ -104,7 +106,6 @@ describe "GoCardless API" do
     let(:customer_id)      { "CU0000RR39FMVB" }
     let(:customer_bank_account_id) { "BA0000P8MREF5F" }
 
-    let(:page) { create :page }
     let(:email) { "nealjmd@gmail.com" }
 
     let(:base_params) do
@@ -114,7 +115,6 @@ describe "GoCardless API" do
         provider: "GC",
         recurring: "false",
         redirect_flow_id: redirect_flow_id,
-        page_id: page.id,
         user: {
           country: "US",
           email: email,
@@ -192,7 +192,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful transaction') do
-          get api_go_cardless_transaction_path, params
+          get api_go_cardless_transaction_path(page.id), params
         end
       end
 
@@ -269,7 +269,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful subscription') do
-          get api_go_cardless_transaction_path, params
+          get api_go_cardless_transaction_path(page.id), params
         end
       end
 
