@@ -6,7 +6,7 @@ describe PaymentProcessor::Currency do
     VCR.use_cassette('money_google_bank') do
       expect(
         PaymentProcessor::Currency.convert(100, 'eur').format
-      ).to match( /€0\.\d\d/ )
+      ).to match( /€0[.,]\d\d/ )
     end
   end
 
