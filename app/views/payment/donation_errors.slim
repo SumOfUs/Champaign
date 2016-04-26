@@ -1,0 +1,17 @@
+h3= t('fundraiser.error_intro')
+
+- if @errors.size == 1
+  p
+    - if @errors.first.has_key? :attribute
+      = "#{@errors.first[:attribute]} #{@errors.first[:message]}"
+    - else
+      = @errors.first[:message]
+- else
+  ul
+    @errors.each do |e|
+      li= e.has_key? :attribute ? "#{e[:attribute]} #{e[:message]}" : e[:message]
+
+javascript:
+  if (window.opener !== null) {
+    window.opener.postMessage({event: "donation:error", errors: #{@errors.to_json}}, '*');
+  }
