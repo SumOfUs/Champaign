@@ -49,15 +49,14 @@ class ApplicationController < ActionController::Base
 
   def mobile_value
     device = MobileDetect.new({
-        HTTP_USER_AGENT: request.user_agent,
-        HTTP_ACCEPT: request.accept,
-        HTTP_ACCEPT_LANGUAGE: request.accept_language,
-        HTTP_ACCEPT_ENCODING: request.accept_encoding
-    }, request.user_agent)
+      HTTP_USER_AGENT:      request.user_agent.try(:force_encoding, 'utf-8'),
+      HTTP_ACCEPT:          request.accept.try(:force_encoding, 'utf-8'),
+      HTTP_ACCEPT_LANGUAGE: request.accept_language.try(:force_encoding, 'utf-8'),
+      HTTP_ACCEPT_ENCODING: request.accept_encoding.try(:force_encoding, 'utf-8')
+    }, request.user_agent.try(:force_encoding, 'utf-8'))
 
-    device_hash = {
-        mobile: nil
-    }
+    device_hash = {}
+
     if device.mobile?
       device_hash[:mobile] = 'mobile'
     elsif device.tablet?
