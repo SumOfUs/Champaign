@@ -64,6 +64,10 @@ module PaymentProcessor
         )
       end
 
+      def result
+        @error
+      end
+
       def success?
         @errors.blank?
       end

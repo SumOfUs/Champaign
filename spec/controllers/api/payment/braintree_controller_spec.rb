@@ -113,7 +113,7 @@ describe Api::Payment::BraintreeController do
 
       describe 'with recurring: true' do
 
-        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Subscription', success?: false, errors: {}) }
+        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Subscription', success?: false, result: {}) }
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
@@ -145,7 +145,7 @@ describe Api::Payment::BraintreeController do
       describe 'without recurring' do
 
         let(:transaction) { instance_double('Braintree::Transaction', id: 't1234')}
-        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Transaction', success?: false, errors: {}) }
+        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Transaction', success?: false, result: {}) }
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
