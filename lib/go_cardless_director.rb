@@ -1,8 +1,11 @@
 class GoCardlessDirector
-  def initialize(session_id, success_url)
+  attr_reader :error
+
+  def initialize(session_id, success_url, params)
     @session_id = session_id
     @success_url = success_url
-
+    @params = params
+    redirect_flow_instance # so we know if it's a success
   end
 
   def redirect_url

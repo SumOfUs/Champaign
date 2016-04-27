@@ -250,7 +250,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   submitDirectDebit() {
     let data = this.donationData();
     data.provider = 'GC';
-    let url = `/api/go_cardless/${this.pageId}/start_flow?${$.param(data)}`;
+    let url = `/api/go_cardless/pages/${this.pageId}/start_flow?${$.param(data)}`;
     console.log('url:',url);
     window.open(url);
   },
@@ -277,9 +277,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   transactionFailed () {
     return (data, status) => {
       this.enableButton();
-      let $errors = this.$('.fundraiser-bar__errors');
-      $errors.removeClass('hidden-closed');
-      $errors.find('.fundraiser-bar__error-detail').remove();
       if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
         var messages = data.responseJSON.errors.map(function(error){
           if (error.declined) {
@@ -291,12 +288,18 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       } else {
         var messages = [I18n.t('fundraiser.unknown_error')];
       }
-      _.each(messages, (error_message) => {
-        $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
-      });
-
+      this.showErrors(messages);
       this.policeHeights();
     }
+  },
+
+  showErrors(messages) {
+    let $errors = this.$('.fundraiser-bar__errors');
+    $errors.removeClass('hidden-closed');
+    $errors.find('.fundraiser-bar__error-detail').remove();
+    _.each(messages, (error_message) => {
+      $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
+    });
   },
 
   serializeUserForm () {
@@ -354,9 +357,17 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   handleInterTabFollowUp() {
     $(window).on('message', (e) => {
-      if (e.originalEvent.data === 'follow_up:loaded') {
-        this.redirectTo(this.followUpUrl);
-        e.originalEvent.source.close();
+      if (typeof(e.originalEvent.data) === 'object'){
+        if (e.originalEvent.data.event === 'follow_up:loaded') {
+          this.redirectTo(this.followUpUrl);
+          e.originalEvent.source.close();
+        } else if (e.originalEvent.data.event === 'donation:error') {
+          let messages = e.originalEvent.data.errors.map(function(error){
+            return error.message;
+          });
+          this.showErrors(messages);
+          e.originalEvent.source.close();
+        }
       }
     });
   },
