@@ -5,11 +5,11 @@ describe Api::GoCardlessController do
 
   before do
     allow(Page).to receive(:find) { page }
-    allow(request.session).to receive(:id) { 'fake_session_id' }
+    allow(SecureRandom).to receive(:uuid) { 'fake_session_id' }
   end
 
   describe 'GET #start_flow' do
-    let(:director) { double(:director, redirect_url: "http://example.com/redirect_url") }
+    let(:director) { double(:director, success?: true, redirect_url: "http://example.com/redirect_url") }
 
     before do
       allow(GoCardlessDirector).to receive(:new){ director }
@@ -21,7 +21,7 @@ describe Api::GoCardlessController do
 
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new).
-        with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1")
+        with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1", controller.params)
       end
 
     it 'redirects' do
@@ -41,7 +41,7 @@ describe Api::GoCardlessController do
 
     it 'creates GC transaction' do
       expect(PaymentProcessor::GoCardless::Transaction).to(
-        have_received(:make_transaction).with(hash_including({session_token: 'fake_session_id'}))
+        have_received(:make_transaction).with(hash_including({page_id: '1'}))
       )
     end
   end
