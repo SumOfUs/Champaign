@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 describe Api::Payment::BraintreeController do
+  before do
+    allow(Page).to receive(:find){ page }
+  end
 
+  let(:page) { instance_double("Page") }
   let(:action) { instance_double("Action", member_id: 79) }
 
   describe "GET token" do
@@ -21,8 +25,8 @@ describe Api::Payment::BraintreeController do
   end
 
   describe "POST transaction" do
-
     let(:client) { PaymentProcessor::Clients::Braintree }
+
     let(:params) do
       {
         payment_method_nonce: 'wqeuinv-50238-FIERN',
@@ -32,6 +36,7 @@ describe Api::Payment::BraintreeController do
         page_id: '12'
       }
     end
+
     let(:payment_options) do
       {
         nonce: params[:payment_method_nonce],
@@ -41,10 +46,10 @@ describe Api::Payment::BraintreeController do
         page_id: params[:page_id]
       }
     end
+
     before :each do
       request.accept = "application/json" # ask for json
     end
-
 
     describe 'successfully' do
 
@@ -104,7 +109,6 @@ describe Api::Payment::BraintreeController do
     end
 
     describe 'unsuccessfully' do
-      
       let(:errors) { instance_double('PaymentProcessor::Clients::Braintree::ErrorProcessing', process: {my_error: 'foo'}) }
 
       before :each do
@@ -113,7 +117,7 @@ describe Api::Payment::BraintreeController do
 
       describe 'with recurring: true' do
 
-        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Subscription', success?: false, result: {}) }
+        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Subscription', success?: false, error_container: {}) }
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
@@ -145,7 +149,7 @@ describe Api::Payment::BraintreeController do
       describe 'without recurring' do
 
         let(:transaction) { instance_double('Braintree::Transaction', id: 't1234')}
-        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Transaction', success?: false, result: {}) }
+        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Transaction', success?: false, error_container: {}) }
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
