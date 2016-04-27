@@ -5,8 +5,13 @@ class Api::GoCardlessController < PaymentController
     # session.id is nil until something is stored in the session, so might
     # as well make it explicit what we're using the id for.
     session[:go_cardless_session_id] = SecureRandom.uuid
-    flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url)
-    redirect_to flow.redirect_url
+    flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url, params)
+    if flow.success?
+      redirect_to flow.redirect_url
+    else
+      @errors = client::ErrorProcessing.new(flow.error).process
+      render 'payment/donation_errors', layout: 'sumofus'
+    end
   end
 
   def webhook

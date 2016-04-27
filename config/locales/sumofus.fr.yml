@@ -28,6 +28,9 @@ fr:
     confirmation: Don reçu
     donate_now: Don maintenant
     loading: "Chargement du portail sécurisé de paiement"
+    debit:
+      recurring: "(FR) You are setting up a monthly donation of %{amount} to SumOfUs"
+      one_time: "(FR) You are donating %{amount} to SumOfUs"
     fields:
       cvv: CVV
       number: Numéro de votre carte
