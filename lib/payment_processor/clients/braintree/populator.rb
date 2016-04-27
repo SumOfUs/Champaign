@@ -43,6 +43,10 @@ module PaymentProcessor
         def success?
           @result.success?
         end
+
+        def error_container
+          @result
+        end
       end
     end
   end

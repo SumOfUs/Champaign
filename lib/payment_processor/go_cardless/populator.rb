@@ -64,12 +64,12 @@ module PaymentProcessor
         )
       end
 
-      def result
+      def error_container
         @error
       end
 
       def success?
-        @errors.blank?
+        @error.blank?
       end
     end
   end
