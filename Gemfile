@@ -95,7 +95,7 @@ gem 'config'
 gem 'metamagic'
 
 # For mobile device detction
-gem 'mobile-detect'
+gem 'mobile-detect', git: 'https://github.com/SumOfUs/mobile_detect'
 
 group :development, :test do
   gem 'byebug'

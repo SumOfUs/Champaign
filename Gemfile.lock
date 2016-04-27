@@ -17,6 +17,12 @@ GIT
       sass-rails
 
 GIT
+  remote: https://github.com/SumOfUs/mobile_detect
+  revision: 7de7a8595b687914fb73a998bb901762c587d378
+  specs:
+    mobile-detect (0.2.0)
+
+GIT
   remote: https://github.com/SumOfUs/share_progress
   revision: 0c48b479ac4b90b90baa0b0f4edb2fa907fd0e72
   branch: master
@@ -273,7 +279,6 @@ GEM
     mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minitest (5.8.3)
-    mobile-detect (0.2.0)
     money (6.5.1)
       i18n (>= 0.6.4, <= 0.7.0)
     multi_json (1.11.2)
@@ -525,7 +530,7 @@ DEPENDENCIES
   lograge
   magic_lamp
   metamagic
-  mobile-detect
+  mobile-detect!
   money
   newrelic_rpm
   omniauth-google-oauth2
