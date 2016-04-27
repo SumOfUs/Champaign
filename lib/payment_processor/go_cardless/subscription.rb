@@ -44,7 +44,8 @@ module PaymentProcessor
           subscription_id:      @local_subscription.go_cardless_id,
           is_subscription:      true,
           recurrence_number:    0,
-          card_expiration_date: nil
+          card_expiration_date: nil,
+          payment_provider: 'go_cardless'
         )
       end
 

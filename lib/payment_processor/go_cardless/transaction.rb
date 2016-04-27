@@ -62,13 +62,13 @@ module PaymentProcessor
 
       def action_params
         @user.merge!(
-          page_id:              @page_id,
-          amount:               amount_in_whole_currency.to_s,
-          card_num:             mandate.id,
-          currency:             currency,
-          transaction_id:       @local_transaction.go_cardless_id,
-          is_subscription:      false,
-          card_expiration_date: nil
+          page_id:          @page_id,
+          amount:           amount_in_whole_currency.to_s,
+          card_num:         mandate.id,
+          currency:         currency,
+          transaction_id:   @local_transaction.go_cardless_id,
+          is_subscription:  false,
+          payment_provider: 'go_cardless'
         )
       end
 

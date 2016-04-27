@@ -5,6 +5,7 @@ describe "GoCardless API" do
 
   let(:usd_amount) { 9.99 }
   let(:gbp_amount) { 11.55 }
+
   before :each do
     allow_any_instance_of(Money).to receive(:exchange_to).and_return(
       instance_double(Money, cents: (gbp_amount*100).to_i)
@@ -57,8 +58,8 @@ describe "GoCardless API" do
         type: "donation",
         params: {
           donationpage: {
-            name: page.slug,
-            payment_account: "GoCardless" # check this
+            name: "#{page.slug}-donation",
+            payment_account: "GoCardless GBP"
           },
           order: {
             amount: gbp_amount.to_s,
@@ -71,21 +72,17 @@ describe "GoCardless API" do
             address1: '25 Elm Drive',
             first_name: 'Bernie',
             last_name: 'Sanders',
-            akid: '1234.5678.9910',
+            akid: '123.456.789',
             source: 'fb',
             user_en: 1
           },
           action: {
-            source: 'fb',
-            fields: {
-              recurring_id: 1,
-              recurrence_number: 0,
-              exp_date: "1220"
-            }
+            source: 'fb'
           }
         }
       }
     end
+
     let(:sdk_params) do
       {
         params: {
@@ -106,7 +103,7 @@ describe "GoCardless API" do
     let(:customer_id)      { "CU0000RR39FMVB" }
     let(:customer_bank_account_id) { "BA0000P8MREF5F" }
 
-    let(:email) { "nealjmd@gmail.com" }
+    let(:email) { "test@example.com" }
 
     let(:base_params) do
       {
@@ -116,11 +113,14 @@ describe "GoCardless API" do
         recurring: "false",
         redirect_flow_id: redirect_flow_id,
         user: {
+          name: "Bernie Sanders",
+          email: "test@example.com",
+          postal: "11225",
+          address1: '25 Elm Drive',
+          akid: '123.456.789',
+          source: 'fb',
           country: "US",
-          email: email,
-          form_id: "127",
-          name: "Neal Donnelly",
-          postal: "01060"
+          form_id: "127"
         }
       }
     end
@@ -171,7 +171,7 @@ describe "GoCardless API" do
         subject
 
         # we can't access signed cookies in request specs, so check for hashed value
-        expect(cookies['member_id']).not_to eq nil
+        expect(cookies['member_id']).not_to be_nil
         expect(cookies['member_id'].length).to be > 20
       end
 
@@ -206,19 +206,17 @@ describe "GoCardless API" do
 
         it 'posts donation action to queue with correct data' do
           allow( ChampaignQueue ).to receive(:push)
-          # make any changes to donation_push_params here
           expect( ChampaignQueue ).to receive(:push).with(donation_push_params)
           subject
         end
 
         it 'stores amount, currency, is_subscription, and transaction_id in form_data on the Action' do
-          expect{ subject }.to change{ Action.count }.by 1
+          expect{ subject }.to change{ Action.count }.by(1)
           form_data = Action.last.form_data
-          expect(form_data['is_subscription']).to eq false
-          expect(form_data['amount']).to eq gbp_amount.to_s
-          expect(form_data['currency']).to eq 'GBP'
-          expect(form_data['transaction_id']).to eq Payment::GoCardless::Transaction.last.go_cardless_id
-          
+          expect(form_data['is_subscription']).to be(false)
+          expect(form_data['amount']).to eq(gbp_amount.to_s)
+          expect(form_data['currency']).to eq('GBP')
+          expect(form_data['transaction_id']).to eq(Payment::GoCardless::Transaction.last.go_cardless_id)
           expect(form_data).not_to have_key('subscription_id')
         end
 
@@ -244,7 +242,7 @@ describe "GoCardless API" do
           expect{ subject }.not_to change{ Member.count }
           member.reload
           expect(member.country).to eq "US"
-          expect(member.postal).to eq "01060"
+          expect(member.postal).to eq "11225"
         end
       end
 
@@ -258,7 +256,7 @@ describe "GoCardless API" do
           expect{ subject }.to change{ Member.count }.by 1
           member = Member.last
           expect(member.country).to eq "US"
-          expect(member.postal).to eq "01060"
+          expect(member.postal).to eq "11225"
         end
       end
     end
@@ -288,9 +286,16 @@ describe "GoCardless API" do
 
         it 'posts donation action to queue with correct data' do
           allow( ChampaignQueue ).to receive(:push)
-          # make any changes to donation_push_params here
-          expect( ChampaignQueue ).to receive(:push).with(donation_push_params)
+
           subject
+
+          donation_push_params[:params][:action][:fields] = {
+            recurring_id: Member.first.id,
+            recurrence_number: 0,
+            payment_provider: "go_cardless"
+          }
+
+          expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
         end
 
         it 'stores amount, currency, is_subscription, and subscription_id in form_data on the Action' do
@@ -321,7 +326,7 @@ describe "GoCardless API" do
           expect{ subject }.not_to change{ Member.count }
           member.reload
           expect(member.country).to eq "US"
-          expect(member.postal).to eq "01060"
+          expect(member.postal).to eq "11225"
         end
       end
 
@@ -335,7 +340,7 @@ describe "GoCardless API" do
           expect{ subject }.to change{ Member.count }.by 1
           member = Member.last
           expect(member.country).to eq "US"
-          expect(member.postal).to eq "01060"
+          expect(member.postal).to eq "11225"
         end
       end
     end
