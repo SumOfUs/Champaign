@@ -1,0 +1,17 @@
+.donation-error
+  h3.donation-error__header= t('fundraiser.error_intro', locale: @page.language.code)
+
+  - if @errors.size == 1
+    p = @errors.first[:message]
+  - else
+    ul
+      - @errors.each do |e|
+        li= e.has_key? :attribute ? "#{e[:attribute]} #{e[:message]}" : e[:message]
+
+  p
+   = link_to @page.title, @page
+
+  javascript:
+    if (window.opener !== null) {
+      window.opener.postMessage({event: "donation:error", errors: #{@errors.to_json.html_safe}}, '*');
+    }

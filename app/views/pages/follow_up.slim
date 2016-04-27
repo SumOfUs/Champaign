@@ -2,5 +2,5 @@
 
 javascript:
   if (window.opener !== null) {
-    window.opener.postMessage('follow_up:loaded', '*');
+    window.opener.postMessage({event: 'follow_up:loaded'}, '*');
   }

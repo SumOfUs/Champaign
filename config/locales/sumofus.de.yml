@@ -28,6 +28,9 @@ de:
     confirmation: Spende erhalten
     donate_now: Spenden Sie jetzt!
     loading: Unser sicheres Spenden formular wird geladen
+    debit:
+      recurring: "(DE) You are setting up a monthly donation of %{amount} to SumOfUs"
+      one_time: "(DE) You are donating %{amount} to SumOfUs"
     fields:
       cvv: Kartenprüfnummer
       number: Kreditkartennummer

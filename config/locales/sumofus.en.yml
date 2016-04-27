@@ -28,6 +28,9 @@ en:
     confirmation: Donation received
     donate_now: Donate now
     loading: Loading secure <br> payment portal
+    debit:
+      recurring: "You are setting up a monthly donation of %{amount} to SumOfUs"
+      one_time: "You are donating %{amount} to SumOfUs"
     fields:
       cvv: CVV
       number: Card number

@@ -1,0 +1,71 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"7db81c1e-af47-4c8f-aa25-4b2cfc6aa20f","success_redirect_url":"http://www.example.com/api/go_cardless/transaction?page_id=integrate-value-added-mindshare"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Wed, 20 Apr 2016 19:16:45 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dc18d505069847e3ead491cb11e43829c1461179805; expires=Thu, 20-Apr-17
+        19:16:45 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004CTBF4R0624H9F877AW5GPNJJT
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"aba79d69b7a5be12df34a47526798ac3"
+      X-Request-Id:
+      - 42a6e49f-4f76-4807-9ac9-c7d1684c2fb4
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Wed, 20 Apr 2016 19:17:00 GMT
+      Cf-Ray:
+      - 296aeeb5f0a007a3-MIA
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"id":"RE00004CTBF4R0624H9F877AW5GPNJJT","description":null,"session_token":"7db81c1e-af47-4c8f-aa25-4b2cfc6aa20f","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/transaction?page_id=integrate-value-added-mindshare","created_at":"2016-04-20T19:16:45.564Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004CTBF4R0624H9F877AW5GPNJJT"}}'
+    http_version: 
+  recorded_at: Wed, 20 Apr 2016 19:16:45 GMT
+recorded_with: VCR 3.0.0

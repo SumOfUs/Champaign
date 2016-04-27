@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe "GoCardless API" do
+  let(:page) { create :page }
+
   let(:usd_amount) { 9.99 }
   let(:gbp_amount) { 11.55 }
   before :each do
@@ -9,19 +11,22 @@ describe "GoCardless API" do
     )
   end
 
-  describe "triggering a redirect flow" do
+  describe "redirect flow" do
+
+    let(:page) { create :page }
 
     subject do
       VCR.use_cassette("go_cardless redirect flow request success") do
-        get api_go_cardless_start_flow_path
+        get api_go_cardless_path(page)
       end
     end
 
-    it "redirects to a GoCardless hosted a redirect flow page" do
+    it "redirects to a GoCardless-hosted page" do
       subject
       expect(response.status).to be 302
-      expect(response.body).to include "You are being <a href=\"https://pay-sandbox.gocardless.com/flow/RE000044PXTW1DMX04G13KP3NNQDD1TA\">redirected</a>"
+      expect(response.body).to match /You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/
     end
+
   end
 
   describe "GoCardless posting back from a redirect flow with not having completed the form" do
@@ -35,7 +40,7 @@ describe "GoCardless API" do
 
     subject do
       VCR.use_cassette("go_cardless redirect_flow_post_back_payment") do
-        get api_go_cardless_transaction_path, go_cardless_params
+        get api_go_cardless_transaction_path(page.id), go_cardless_params
       end
     end
 
@@ -101,7 +106,6 @@ describe "GoCardless API" do
     let(:customer_id)      { "CU0000RR39FMVB" }
     let(:customer_bank_account_id) { "BA0000P8MREF5F" }
 
-    let(:page) { create :page }
     let(:email) { "nealjmd@gmail.com" }
 
     let(:base_params) do
@@ -111,7 +115,6 @@ describe "GoCardless API" do
         provider: "GC",
         recurring: "false",
         redirect_flow_id: redirect_flow_id,
-        page_id: page.id,
         user: {
           country: "US",
           email: email,
@@ -189,7 +192,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful transaction') do
-          get api_go_cardless_transaction_path, params
+          get api_go_cardless_transaction_path(page.id), params
         end
       end
 
@@ -202,9 +205,10 @@ describe "GoCardless API" do
         end
 
         it 'posts donation action to queue with correct data' do
-          subject
+          allow( ChampaignQueue ).to receive(:push)
           # make any changes to donation_push_params here
           expect( ChampaignQueue ).to receive(:push).with(donation_push_params)
+          subject
         end
 
         it 'stores amount, currency, is_subscription, and transaction_id in form_data on the Action' do
@@ -265,7 +269,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette('go_cardless successful subscription') do
-          get api_go_cardless_transaction_path, params
+          get api_go_cardless_transaction_path(page.id), params
         end
       end
 
@@ -283,9 +287,10 @@ describe "GoCardless API" do
         end
 
         it 'posts donation action to queue with correct data' do
-          subject
+          allow( ChampaignQueue ).to receive(:push)
           # make any changes to donation_push_params here
           expect( ChampaignQueue ).to receive(:push).with(donation_push_params)
+          subject
         end
 
         it 'stores amount, currency, is_subscription, and subscription_id in form_data on the Action' do

@@ -1,7 +1,7 @@
 module PaymentProcessor
   module GoCardless
     class Subscription < Populator
-      attr_reader :result, :action
+      attr_reader :error, :action
 
       def self.make_subscription(params)
         builder = new(params)
@@ -26,7 +26,7 @@ module PaymentProcessor
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
         @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
       rescue GoCardlessPro::Error => e
-        @errors = e.errors
+        @error = e
       end
 
       def subscription_id
