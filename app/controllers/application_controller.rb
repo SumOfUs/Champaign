@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class ApplicationController < ActionController::Base
   before_filter :set_default_locale
 
@@ -49,11 +51,11 @@ class ApplicationController < ActionController::Base
 
   def mobile_value
     device = MobileDetect.new({
-      HTTP_USER_AGENT:      request.user_agent.try(:force_encoding, 'utf-8'),
-      HTTP_ACCEPT:          request.accept.try(:force_encoding, 'utf-8'),
-      HTTP_ACCEPT_LANGUAGE: request.accept_language.try(:force_encoding, 'utf-8'),
-      HTTP_ACCEPT_ENCODING: request.accept_encoding.try(:force_encoding, 'utf-8')
-    }, request.user_agent.try(:force_encoding, 'utf-8'))
+      HTTP_USER_AGENT:      request.user_agent,
+      HTTP_ACCEPT:          request.accept,
+      HTTP_ACCEPT_LANGUAGE: request.accept_language,
+      HTTP_ACCEPT_ENCODING: request.accept_encoding
+    }, request.user_agent)
 
     device_hash = {}
 
