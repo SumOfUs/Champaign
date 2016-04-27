@@ -94,9 +94,6 @@ gem 'config'
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
 
-# For mobile device detction
-gem 'mobile-detect'
-
 group :development, :test do
   gem 'byebug'
   gem 'web-console', '~> 2.0'
