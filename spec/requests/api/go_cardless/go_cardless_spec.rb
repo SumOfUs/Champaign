@@ -30,26 +30,6 @@ describe "GoCardless API" do
 
   end
 
-  describe "GoCardless posting back from a redirect flow with not having completed the form" do
-
-    let(:go_cardless_params) do
-      {
-        session_token: 'iamatoken',
-        redirect_flow_id: 'RE000044PXTW1DMX04G13KP3NNQDD1TA'
-      }
-    end
-
-    subject do
-      VCR.use_cassette("go_cardless redirect_flow_post_back_payment") do
-        get api_go_cardless_transaction_path(page.id), go_cardless_params
-      end
-    end
-
-    it "responds with an error because customer has not filled the payment form" do
-      expect { subject }.to raise_error(GoCardlessPro::InvalidStateError)
-    end
-  end
-
   describe 'after successful redirect flow' do
 
     let(:donation_push_params) do

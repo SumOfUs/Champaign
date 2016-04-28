@@ -558,4 +558,354 @@ http_interactions:
         are donating $0.00 to SumOfUs","session_token":"27544ff9-eb11-4abd-b37b-354b7ccfff86","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/pages/2/transaction?page_id=utilize-virtual-web-readiness","created_at":"2016-04-27T18:29:17.314Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004H283MVPJ98AW6CRW06F7RAFDS"}}'
     http_version: 
   recorded_at: Wed, 27 Apr 2016 18:29:17 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"0cb27444-239e-49c0-bb29-e3916904e716","description":"You
+        are donating $0.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/230/transaction?page_id=disintermediate-synergistic-niches"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Thu, 28 Apr 2016 21:13:55 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dfb355ccf622afa717cddfed883a382501461878035; expires=Fri, 28-Apr-17
+        21:13:55 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004HF4Z5ZQK9T3BMM64J3TS31H1X
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"06486f79a353928d6a1200dbe8ec2e59"
+      X-Request-Id:
+      - 394e9512-77c3-4801-b6f2-72483b0d41c2
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Thu, 28 Apr 2016 21:14:00 GMT
+      Cf-Ray:
+      - 29ad855993382198-EWR
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"id":"RE00004HF4Z5ZQK9T3BMM64J3TS31H1X","description":"You
+        are donating $0.00 to SumOfUs","session_token":"0cb27444-239e-49c0-bb29-e3916904e716","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/pages/230/transaction?page_id=disintermediate-synergistic-niches","created_at":"2016-04-28T21:13:55.785Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004HF4Z5ZQK9T3BMM64J3TS31H1X"}}'
+    http_version: 
+  recorded_at: Thu, 28 Apr 2016 21:13:55 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"7dd71e0c-05f3-464b-be1f-96729601560b","description":"You
+        are donating $0.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/2/transaction?page_id=drive-user-centric-interfaces"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Thu, 28 Apr 2016 21:31:54 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=db1ed9e79286d0f21d506e93146827d211461879114; expires=Fri, 28-Apr-17
+        21:31:54 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004HF5N46JK64PD6QH8QVSVX82Z3
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"3fb5f5d0139ffddf5be06c3edc59be22"
+      X-Request-Id:
+      - d7505eee-c131-4bc9-8f88-e763b14f5e8c
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Thu, 28 Apr 2016 21:32:00 GMT
+      Cf-Ray:
+      - 29ad9fb1fb0121ec-EWR
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"id":"RE00004HF5N46JK64PD6QH8QVSVX82Z3","description":"You
+        are donating $0.00 to SumOfUs","session_token":"7dd71e0c-05f3-464b-be1f-96729601560b","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/pages/2/transaction?page_id=drive-user-centric-interfaces","created_at":"2016-04-28T21:31:54.896Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004HF5N46JK64PD6QH8QVSVX82Z3"}}'
+    http_version: 
+  recorded_at: Thu, 28 Apr 2016 21:31:54 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"45510589-aabd-45a9-80b6-2e160299319e","description":"You
+        are donating $0.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/45/transaction?page_id=e-enable-value-added-niches"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Thu, 28 Apr 2016 21:33:45 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d2bd3bda1e38adc510f7c2d3efd98e88c1461879224; expires=Fri, 28-Apr-17
+        21:33:44 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004HF703HPSAQY9D3FZQN4D2B5KK
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"7f2c3c68d14e35f15ae23fee85f03436"
+      X-Request-Id:
+      - 8ae1a2e3-ae30-4b9d-b736-d21c63750ee0
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Thu, 28 Apr 2016 21:34:00 GMT
+      Cf-Ray:
+      - 29ada26227c621c2-EWR
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"id":"RE00004HF703HPSAQY9D3FZQN4D2B5KK","description":"You
+        are donating $0.00 to SumOfUs","session_token":"45510589-aabd-45a9-80b6-2e160299319e","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/pages/45/transaction?page_id=e-enable-value-added-niches","created_at":"2016-04-28T21:33:44.996Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004HF703HPSAQY9D3FZQN4D2B5KK"}}'
+    http_version: 
+  recorded_at: Thu, 28 Apr 2016 21:33:44 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"397383cd-0d43-4bd0-9a86-02edf581ba1b","description":"You
+        are donating $0.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/7/transaction?page_id=innovate-scalable-functionalities"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Thu, 28 Apr 2016 21:34:07 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d791b7bb0168b41aedd427ddea913aa561461879246; expires=Fri, 28-Apr-17
+        21:34:06 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004HF8WFDRCPVBSVFBH9P97ZQBEQ
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"d05e9a515e9615317495ec97aab62c5c"
+      X-Request-Id:
+      - cb9c7090-a2cd-4e11-9856-c7b11512290f
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Thu, 28 Apr 2016 21:35:00 GMT
+      Cf-Ray:
+      - 29ada2ecea6d219e-EWR
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"id":"RE00004HF8WFDRCPVBSVFBH9P97ZQBEQ","description":"You
+        are donating $0.00 to SumOfUs","session_token":"397383cd-0d43-4bd0-9a86-02edf581ba1b","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/pages/7/transaction?page_id=innovate-scalable-functionalities","created_at":"2016-04-28T21:34:07.199Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004HF8WFDRCPVBSVFBH9P97ZQBEQ"}}'
+    http_version: 
+  recorded_at: Thu, 28 Apr 2016 21:34:06 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"51ced8bb-54a8-4ec6-b5cb-c8ebf4e02fbe","description":"You
+        are donating $0.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/1061/transaction?page_id=exploit-one-to-one-e-markets"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Thu, 28 Apr 2016 21:40:00 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d319275818da174393b25cb96925759551461879599; expires=Fri, 28-Apr-17
+        21:39:59 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004HF9JZ137RBJG49ECC32PW8T3Y
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"396352841ce22cdea8caba21ebbfd500"
+      X-Request-Id:
+      - 47a42c5a-cc60-431b-a464-8cab2c26d176
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Thu, 28 Apr 2016 21:41:00 GMT
+      Cf-Ray:
+      - 29adab8be69c0eeb-EWR
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"id":"RE00004HF9JZ137RBJG49ECC32PW8T3Y","description":"You
+        are donating $0.00 to SumOfUs","session_token":"51ced8bb-54a8-4ec6-b5cb-c8ebf4e02fbe","scheme":null,"success_redirect_url":"http://www.example.com/api/go_cardless/pages/1061/transaction?page_id=exploit-one-to-one-e-markets","created_at":"2016-04-28T21:40:00.317Z","links":{"creditor":"CR000045KKQEY8"},"redirect_url":"https://pay-sandbox.gocardless.com/flow/RE00004HF9JZ137RBJG49ECC32PW8T3Y"}}'
+    http_version: 
+  recorded_at: Thu, 28 Apr 2016 21:39:59 GMT
 recorded_with: VCR 3.0.0

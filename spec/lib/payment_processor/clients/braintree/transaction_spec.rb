@@ -73,17 +73,23 @@ module PaymentProcessor
           end
 
           describe 'result' do
-            ## TODO: Need to confirm we're happy with this changed behaviour.
-            #
-            it 'does NOT return the Braintree result object when successful' do
+            it 'returns the Braintree result object' do
               builder = subject.make_transaction(required_options)
-              expect{builder.result}.to raise_error(NoMethodError)
+              expect(builder.result).to eq(transaction)
+            end
+          end
+
+          describe 'error_container' do
+
+            it 'returns the Braintree result object when success' do
+              builder = subject.make_transaction(required_options)
+              expect(builder.result).to eq(transaction)
             end
 
-            it 'returns the Braintree result object when unsuccessful' do
+            it 'returns the Braintree result object when failure' do
               allow(::Braintree::Transaction).to receive(:sale){ failure }
               builder = subject.make_transaction(required_options)
-              expect(builder.success?).to be(false)
+              expect(builder.result).to eq(failure)
             end
           end
 
