@@ -75,7 +75,7 @@ gem 'lograge'
 gem 'summernote-rails'
 
 # Gem for user agent / browser detection
-gem 'browser'
+gem 'browser', '~> 2.0', '>= 2.0.3'
 
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 

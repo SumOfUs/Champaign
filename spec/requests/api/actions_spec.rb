@@ -44,7 +44,7 @@ describe "Api Actions" do
           source: 'fb',
           akid:   '1234.5678.tKK7gX',
           referring_akid: '1234.5678.tKK7gX',
-          mobile: 'desktop',
+          mobile: nil,
           referer: nil,
           user_en: 1
         }
@@ -82,6 +82,46 @@ describe "Api Actions" do
       end
     end
 
+    describe 'known device type' do
+
+      user_agents = {
+          mobile: "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257",
+          desktop: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36",
+          tablet: "Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25"
+      }
+
+      user_agents.each do |device, agent|
+
+        let!(:parameters) do
+          {
+            type: "action",
+            params: {
+              page:   "#{page.slug}-petition",
+              email:  "hello@example.com",
+              page_id: page.id.to_s,
+              form_id: form.id.to_s,
+              source: 'fb',
+              akid:   '1234.5678.tKK7gX',
+              referring_akid: '1234.5678.tKK7gX',
+              mobile: device.to_s,
+              referer: nil,
+              user_en: 1
+            }
+          }
+        end
+
+        it "posts the action with the appropriate device type for #{device}" do
+          parameters[:params][:page] = page.slug
+          post "/api/pages/#{page.id}/actions", params, { "HTTP_USER_AGENT" => agent }
+          expect(sqs_client).to have_received(:send_message).with({
+                                                                      queue_url: 'http://example.com',
+                                                                      message_body: parameters.to_json
+                                                                  })
+        end
+
+      end
+    end
+
     describe 'referer URI' do
       let(:referer) { 'www.google.com' }
 
@@ -107,7 +147,7 @@ describe "Api Actions" do
                     source: 'fb',
                     akid:   '1234.5678.tKK7gX',
                     referring_akid: '1234.5678.tKK7gX',
-                    mobile: 'desktop',
+                    mobile: null,
                     referer: referer,
                     user_en: 1,
                 }
@@ -150,7 +190,7 @@ describe "Api Actions" do
             source: 'fb',
             akid:   '1234.5678.tKK7gX',
             referring_akid: '1234.5678.tKK7gX',
-            mobile: 'desktop',
+            mobile: null,
             referer: referer,
             user_en: 1,
           }
@@ -302,7 +342,7 @@ describe "Api Actions" do
                       page_id: page.id.to_s,
                       form_id: form.id.to_s,
                       akid: invalid_akid,
-                      mobile: 'desktop',
+                      mobile: null,
                       referer: nil,
                       user_en: 1,
                   }
