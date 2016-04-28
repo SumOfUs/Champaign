@@ -33,15 +33,6 @@ module ActionQueue
   end
 
   module Donatable
-    def action_fields
-      {
-        recurring_id:      @action.member_id,
-        recurrence_number: @action.form_data['recurrence_number'],
-        payment_provider:  @action.form_data['payment_provider'],
-        exp_date:          "#{expire_month}#{expire_year.to_s.gsub(/^(\d\d)(\d\d)/,'\2')}"
-      }
-    end
-
     def user_data
       {
           first_name: member.first_name,
@@ -135,6 +126,14 @@ module ActionQueue
     def get_payment_account
       "GoCardless #{data[:currency]}"
     end
+
+    def action_fields
+      {
+        recurring_id:      @action.member_id,
+        recurrence_number: @action.form_data['recurrence_number'],
+        payment_provider:  @action.form_data['payment_provider'],
+      }
+    end
   end
 
   class DonationAction
@@ -165,6 +164,14 @@ module ActionQueue
       }
     end
 
+    def action_fields
+      {
+        recurring_id:      @action.member_id,
+        recurrence_number: @action.form_data['recurrence_number'],
+        payment_provider:  @action.form_data['payment_provider'],
+        exp_date:          "#{expire_month}#{expire_year.to_s.gsub(/^(\d\d)(\d\d)/,'\2')}"
+      }
+    end
     # ActionKit can accept one of the following:
     #
     # PayPal USD
