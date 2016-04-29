@@ -3,13 +3,22 @@
     font-size: 42px;
     font-weight: normal;
     margin: 20px 0 10px;
-  }
-  &__thanks {
+    
     @media(max-width: 450px) {
       font-size: 24px;
-      line-height: 32px;
-      font-weight: normal;
-      color: $slate-gray;
+      line-height: 28px;
+    }
+  }
+  &__thanks {
+
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: normal;
+    color: $slate-gray;
+ 
+    @media(max-width: 450px) {
+      font-size: 12px;
+      line-height: 18px;
     }
   }
 }
