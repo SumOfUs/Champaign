@@ -3,12 +3,12 @@ class Api::GoCardlessController < PaymentController
 
   def start_flow
     session[:go_cardless_session_id] = SecureRandom.uuid
-    flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url, params)
+    @flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url, params)
 
-    if flow.success?
-      redirect_to flow.redirect_url
+    if @flow.success?
+      redirect_to @flow.redirect_url
     else
-      @errors = client::ErrorProcessing.new(flow.error).process
+      @errors = client::ErrorProcessing.new(@flow.error).process
       render 'payment/donation_errors', layout: 'sumofus'
     end
   end

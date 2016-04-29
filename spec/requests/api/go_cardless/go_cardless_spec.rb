@@ -14,43 +14,40 @@ describe "GoCardless API" do
 
   describe "redirect flow" do
 
-    let(:page) { create :page }
-
-    subject do
-      VCR.use_cassette("go_cardless redirect flow request success") do
-        get api_go_cardless_path(page)
-      end
-    end
+    let(:page) { create :page, slug: 'implement-synergistic-cooperation', id: 1 }
 
     describe 'successful' do
 
       before :each do
-        allow_any_instance_of(
-          GoCardlessPro::Services::RedirectFlowsService
-        ).to receive(:create).and_call_original
+        allow(SecureRandom).to receive(:uuid).and_return('the-session-id')
       end
 
-      it 'sets the go_cardless_session_id and passes that to the redirect flow', :focus do
-        allow(SecureRandom).to receive(:uuid).and_return('the-session-id')
-        expect_any_instance_of(
-          GoCardlessPro::Services::RedirectFlowsService
-        ).to receive(:create).with(
-          a_hash_including( params: a_hash_including(session_token: 'the-session-id') )
-        )
+      subject do
+        VCR.use_cassette("go_cardless redirect flow request success") do
+          get api_go_cardless_path(page, { amount: 3, currency: 'EUR' })
+        end
+      end
+
+      it 'sets the go_cardless_session_id and passes that to the redirect flow' do
         subject
         expect(request.session[:go_cardless_session_id]).to eq 'the-session-id'
+        expect(assigns(:flow).redirect_flow_instance.session_token).to eq 'the-session-id'
       end
 
       it 'passes all url params to the redirect url' do
-
-      end
-
-      it 'passes the page id to the redirect url' do
-
+        subject
+        success_redirect_params =  Rack::Utils.parse_query(
+          URI.parse(assigns(:flow).redirect_flow_instance.success_redirect_url).query
+        )
+        request.params.each_pair do |key, val|
+          next if key =~ /controller|action/
+          expect(success_redirect_params[key]).to eq val
+        end
       end
 
       it 'passes the description to go_cardless' do
-
+        subject
+        expect(assigns(:flow).redirect_flow_instance.description).to match /You are donating €3.00 to SumOfUs/
       end
 
       it "redirects to a page hosted on GoCardless" do
@@ -61,8 +58,29 @@ describe "GoCardless API" do
     end
 
     describe 'unsuccessful' do
-      it 'renders payment/donation_errors in the sumofus template'
-      it 'assigns errors to be the relevant error message'
+
+      before :each do
+        allow(SecureRandom).to receive(:uuid).and_return(nil)
+      end
+
+      subject do
+        VCR.use_cassette("go_cardless redirect flow request failure") do
+          get api_go_cardless_path(page, { amount: 5, currency: 'EUR' })
+        end
+      end
+
+      it 'renders payment/donation_errors in the sumofus template' do
+        subject
+        expect(response).to render_template 'payment/donation_errors'
+      end
+
+      it 'assigns errors to be the relevant error message' do
+        subject
+        expect(assigns(:errors)).to eq([{
+          code: 422,
+          message: "Our technical team has been notified. Please double check your info or try a different payment method."
+        }])
+      end
     end
 
   end
