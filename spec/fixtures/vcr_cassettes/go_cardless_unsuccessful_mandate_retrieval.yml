@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/mandates/MA000000
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Fri, 29 Apr 2016 22:09:33 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dc4cd0777d637236d94438c913bb419f31461967772; expires=Sat, 29-Apr-17
+        22:09:32 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - 44df16b9-fa44-4e50-8727-a1d899a8d882
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Fri, 29 Apr 2016 22:10:00 GMT
+      Cf-Ray:
+      - 29b61434a3f20322-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"error":{"message":"Resource not found","errors":[{"reason":"resource_not_found","message":"Resource
+        not found"}],"documentation_url":"https://developer.gocardless.com/pro#resource_not_found","type":"invalid_api_usage","request_id":"44df16b9-fa44-4e50-8727-a1d899a8d882","code":404}}'
+    http_version: 
+  recorded_at: Fri, 29 Apr 2016 22:09:33 GMT
+recorded_with: VCR 3.0.0

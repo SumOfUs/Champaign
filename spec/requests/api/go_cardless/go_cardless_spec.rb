@@ -387,7 +387,7 @@ describe "GoCardless API" do
       end
     end
 
-    context 'unsuccessful', :focus do
+    context 'unsuccessful' do
 
       shared_examples 'correctly handles errors' do
 
@@ -433,11 +433,6 @@ describe "GoCardless API" do
           expect{ subject }.not_to change{ page.reload.action_count }
         end
 
-        it 'assigns errors to relevant errors' do
-          subject
-          expect(assigns(:errors)).to eq(bad_request_errors)
-        end
-
         it 'assigns page to current page' do
           subject
           expect(assigns(:page)).to eq page
@@ -449,12 +444,57 @@ describe "GoCardless API" do
         end
       end
 
+      shared_examples 'displays bad request errors' do
+        it 'assigns errors to relevant errors' do
+          subject
+          expect(assigns(:errors)).to eq(bad_request_errors)
+        end
+      end
+
+      shared_examples 'displays bad id errors' do
+        it 'assigns errors to relevant errors' do
+          subject
+          expect(assigns(:errors)).to eq([bad_request_errors.first.merge(code: 404)])
+        end
+      end
+
       describe 'mandate retrieval' do
 
+        before :each do
+          # to make the mandate get fail
+          allow_any_instance_of(GoCardlessPro::Resources::RedirectFlow).to receive(:links).and_return(
+            double(customer: 'CU00000000', mandate: 'MA000000')
+          )
+        end
+
+        let(:params) { base_params.merge(recurring: false) }
+
+        subject do
+          VCR.use_cassette('go_cardless unsuccessful mandate retrieval') do
+            get api_go_cardless_transaction_path(page.id), params
+          end
+        end
+
+        include_examples 'correctly handles errors'
+        include_examples 'displays bad id errors'
       end
 
       describe 'redirect flow completion' do
 
+        before :each do
+          allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_call_original
+        end
+
+        let(:params) { base_params.merge(recurring: false, redirect_flow_id: 'RE000033300000') }
+
+        subject do
+          VCR.use_cassette('go_cardless unsuccessful flow completion') do
+            get api_go_cardless_transaction_path(page.id), params
+          end
+        end
+
+        include_examples 'correctly handles errors'
+        include_examples 'displays bad id errors'
       end
 
       describe 'transaction' do
@@ -473,6 +513,7 @@ describe "GoCardless API" do
         end
 
         include_examples 'correctly handles errors'
+        include_examples 'displays bad request errors'
 
       end
 
@@ -492,8 +533,8 @@ describe "GoCardless API" do
         end
 
         include_examples 'correctly handles errors'
+        include_examples 'displays bad request errors'
       end
-
     end
 
   end
