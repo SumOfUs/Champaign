@@ -22,10 +22,47 @@ describe "GoCardless API" do
       end
     end
 
-    it "redirects to a GoCardless-hosted page" do
-      subject
-      expect(response.status).to be 302
-      expect(response.body).to match /You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/
+    describe 'successful' do
+
+      before :each do
+        allow_any_instance_of(
+          GoCardlessPro::Services::RedirectFlowsService
+        ).to receive(:create).and_call_original
+      end
+
+      it 'sets the go_cardless_session_id and passes that to the redirect flow', :focus do
+        allow(SecureRandom).to receive(:uuid).and_return('the-session-id')
+        expect_any_instance_of(
+          GoCardlessPro::Services::RedirectFlowsService
+        ).to receive(:create).with(
+          a_hash_including( params: a_hash_including(session_token: 'the-session-id') )
+        )
+        subject
+        expect(request.session[:go_cardless_session_id]).to eq 'the-session-id'
+      end
+
+      it 'passes all url params to the redirect url' do
+
+      end
+
+      it 'passes the page id to the redirect url' do
+
+      end
+
+      it 'passes the description to go_cardless' do
+
+      end
+
+      it "redirects to a page hosted on GoCardless" do
+        subject
+        expect(response.status).to be 302
+        expect(response.body).to match /You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/
+      end
+    end
+
+    describe 'unsuccessful' do
+      it 'renders payment/donation_errors in the sumofus template'
+      it 'assigns errors to be the relevant error message'
     end
 
   end
