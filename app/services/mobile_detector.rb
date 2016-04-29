@@ -10,14 +10,13 @@ class MobileDetector
   end
 
   def detect
-    pp @browser, device
     { mobile: device }
   end
 
   private
 
   def device
-    return if @browser.ua.blank?
+    return 'unknown' if @browser.ua.blank?
     if @browser.device.mobile?
       'mobile'
     elsif @browser.device.tablet?

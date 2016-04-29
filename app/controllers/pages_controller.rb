@@ -68,7 +68,7 @@ class PagesController < ApplicationController
 
   def renderer(layout)
     @renderer ||= LiquidRenderer.new(@page, {
-      # location: request.location,
+      location: request.location,
       member: recognized_member,
       layout: layout,
       url_params: params
