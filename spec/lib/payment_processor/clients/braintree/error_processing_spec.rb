@@ -5,7 +5,6 @@ module PaymentProcessor
     module Braintree
       describe ErrorProcessing do
 
-        # TODO: Class no longer receives transaction result (it now takes errors)
         subject { described_class.new(braintree_transaction_result) }
 
         describe '#process' do
