@@ -24,8 +24,8 @@ describe "GoCardless API" do
 
     it "redirects to a GoCardless-hosted page" do
       subject
-      expect(response.status).to be 302
-      expect(response.body).to match /You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/
+      expect(response.status).to be(302)
+      expect(response.body).to match(/You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/)
     end
 
   end
@@ -36,6 +36,9 @@ describe "GoCardless API" do
       {
         # This is just copied from BT and needs to be changed
         type: "donation",
+        payment_provider: "go_cardless",
+        transaction_id: payment_id_regexp,
+        subscription: false,
         params: {
           donationpage: {
             name: "#{page.slug}-donation",
@@ -77,6 +80,7 @@ describe "GoCardless API" do
         }
       }
     end
+
     let(:redirect_flow_id) { "RE00004631S7XT20JATGRP6QQ8VZEHRZ" }
     let(:creditor_id)      { "CR000045KKQEY8" }
     let(:mandate_id)       { "MD0000PSV8N7FR" }
@@ -84,6 +88,8 @@ describe "GoCardless API" do
     let(:customer_bank_account_id) { "BA0000P8MREF5F" }
 
     let(:email) { "test@example.com" }
+    let(:payment_id_regexp) { /^PM[0-9A-Z]+/ }
+    let(:subscription_id_regexp) { /^SB[0-9A-Z]+/ }
 
     let(:base_params) do
       {
@@ -203,7 +209,7 @@ describe "GoCardless API" do
         it 'creates a Transaction record associated with the Page' do
           expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
           payment = Payment::GoCardless::Transaction.last
-          expect(payment.go_cardless_id).to match(/^PM[0-9A-Z]+/)
+          expect(payment.go_cardless_id).to match(payment_id_regexp)
           expect(payment.currency).to eq 'GBP'
           expect(payment.amount).to eq gbp_amount
         end
@@ -242,6 +248,12 @@ describe "GoCardless API" do
     end
 
     describe 'subscription' do
+      before do
+        donation_push_params.merge!(
+          transaction_id: subscription_id_regexp,
+          subscription: true
+        )
+      end
 
       let(:params) { base_params.merge(recurring: true) }
 

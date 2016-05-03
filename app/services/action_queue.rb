@@ -106,6 +106,9 @@ module ActionQueue
     def payload
       {
         type:  'donation',
+        payment_provider: 'go_cardless',
+        transaction_id: @action.form_data['transaction_id'] ||  @action.form_data['subscription_id'],
+        subscription: @action.form_data['is_subscription'],
         params: {
           donationpage: {
             name:             "#{@action.page.slug}-donation",
