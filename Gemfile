@@ -75,7 +75,7 @@ gem 'lograge'
 gem 'summernote-rails'
 
 # Gem for user agent / browser detection
-gem 'browser'
+gem 'browser', '~> 2.0', '>= 2.0.3'
 
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 
@@ -93,9 +93,6 @@ gem 'config'
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
-
-# For mobile device detction
-gem 'mobile-detect'
 
 group :development, :test do
   gem 'byebug'
