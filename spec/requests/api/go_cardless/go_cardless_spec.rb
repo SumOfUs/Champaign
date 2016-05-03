@@ -267,8 +267,7 @@ describe "GoCardless API" do
         it 'passes the correct data to the GoCardless Payment SDK' do
           sdk_params[:params] = sdk_params[:params].merge(
             name: "donation",
-            interval_unit: "monthly",
-            day_of_month: "1"
+            interval_unit: "monthly"
           )
           subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
           allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)

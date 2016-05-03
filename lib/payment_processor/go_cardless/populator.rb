@@ -19,8 +19,7 @@ module PaymentProcessor
         transaction_params.merge(
           {
             name: "donation",
-            interval_unit: "monthly",
-            day_of_month:  "1",
+            interval_unit: "monthly"
           }
         )
       end
