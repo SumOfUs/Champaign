@@ -449,6 +449,13 @@ describe "GoCardless API" do
           subject
           expect(assigns(:errors)).to eq(bad_request_errors)
         end
+
+        it 'assigns errors to relevant errors in the correct language' do
+          page.update_attributes(language: create(:language, code: :fr))
+          french_message = "Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement."
+          subject
+          expect(assigns(:errors)).to eq([bad_request_errors[0].merge(message: french_message)])
+        end
       end
 
       shared_examples 'displays bad id errors' do

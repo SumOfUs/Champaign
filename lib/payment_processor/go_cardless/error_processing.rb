@@ -2,7 +2,8 @@ module PaymentProcessor
   module GoCardless
     class ErrorProcessing
 
-      def initialize(error)
+      def initialize(error, locale: nil)
+        @locale = locale || I18n.default_locale
         @error = error
       end
 
@@ -34,14 +35,14 @@ module PaymentProcessor
       # encounter our generic 500 page.
       def handle_api_usage_error
         log_error(@error.backtrace.slice(0, 3).join("\n"))
-        [{code: @error.code, message: I18n.t('fundraiser.unknown_error')}]
+        [{code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale)}]
       end
 
       # this type of error is returned when GC has a 500
       def handle_gc_internal_error
         # TODO - pass page language through to I18n.t
         log_error("#{@error.message}. Please report to GoCardless support staff.")
-        [{code: @error.code, message: I18n.t('fundraiser.unknown_error')}]
+        [{code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale)}]
       end
 
       # state error is generally a user error, such as a user trying to do something twice in
