@@ -17,7 +17,7 @@ class PaymentController < ApplicationController
         format.json { render json: { success: true }.merge(id) }
       end
     else
-      @errors = client::ErrorProcessing.new(builder.error_container).process
+      @errors = client::ErrorProcessing.new(builder.error_container, locale: locale).process
 
       @page = page
 
@@ -36,5 +36,9 @@ class PaymentController < ApplicationController
 
   def page
     @page ||= Page.find(params[:page_id])
+  end
+
+  def locale
+    page.try(:language).try(:code)
   end
 end

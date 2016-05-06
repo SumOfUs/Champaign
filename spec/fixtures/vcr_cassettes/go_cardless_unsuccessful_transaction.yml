@@ -1,0 +1,134 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/mandates/MD0000PSV8N7FR
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Fri, 29 Apr 2016 21:03:04 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d81444c27a28a55e082c9027899729caa1461963784; expires=Sat, 29-Apr-17
+        21:03:04 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"a91cc9c40d680264075b084007d0c0fc"
+      X-Request-Id:
+      - 4677640a-2bf3-45a9-8b57-93ebc92adaca
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Fri, 29 Apr 2016 21:04:00 GMT
+      Cf-Ray:
+      - 29b5b2d32e612eb1-MIA
+    body:
+      encoding: ASCII-8BIT
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-05-06","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Fri, 29 Apr 2016 21:03:04 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/payments
+    body:
+      encoding: UTF-8
+      string: '{"payments":{"amount":1155,"currency":"GBP","links":{"mandate":null},"metadata":{"customer_id":"CU0000RR39FMVB"}}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Server:
+      - cloudflare-nginx
+      Date:
+      - Fri, 29 Apr 2016 21:03:05 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d93cc0beea3c736fb4df43eba940293521461963785; expires=Sat, 29-Apr-17
+        21:03:05 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - 8ba90945-2ba3-417f-84ad-a4a5e75532c5
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '998'
+      Ratelimit-Reset:
+      - Fri, 29 Apr 2016 21:04:00 GMT
+      Cf-Ray:
+      - 29b5b2db163a17f8-MIA
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"One of your parameters was incorrectly typed","errors":[{"message":"nil
+        is not a string.","field":"mandate_id","request_pointer":"/payments/links/mandate"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"8ba90945-2ba3-417f-84ad-a4a5e75532c5","code":422}}'
+    http_version: 
+  recorded_at: Fri, 29 Apr 2016 21:03:05 GMT
+recorded_with: VCR 3.0.0

@@ -24,7 +24,7 @@
         lineWrapping: true
       }
     });
-    $contentField = $('#page_content');
+    var $contentField = $('#page_content');
 
     $editor.summernote('fontSize', '16'); // default
     $editor.summernote('code', $contentField.val());
