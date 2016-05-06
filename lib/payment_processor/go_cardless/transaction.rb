@@ -15,7 +15,7 @@ module PaymentProcessor
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
       # * +:customer+ - Instance of existing GoCardless customer. Must respond to +go_cardless_id+ (optional)
-      # 
+      #
         # def payment_options
         #   {
         #     nonce: params[:payment_method_nonce],

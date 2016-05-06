@@ -24,10 +24,8 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - cloudflare-nginx
       Date:
-      - Fri, 29 Apr 2016 21:16:12 GMT
+      - Fri, 06 May 2016 22:23:06 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -35,16 +33,16 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=def27a7294556b16cfbce0d9e66c077501461964571; expires=Sat, 29-Apr-17
-        21:16:11 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=da2263b3f88c61a63063f56664e18842b1462573386; expires=Sat, 06-May-17
+        22:23:06 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       Etag:
-      - W/"a91cc9c40d680264075b084007d0c0fc"
+      - W/"e823549e30dcba8072873e7ae7cc3d06"
       X-Request-Id:
-      - fc6a416f-3a8a-4e58-a9f9-0ccf5fea5b7a
+      - f3dba7eb-e123-4863-b9da-5932b8d8edc4
       Vary:
       - Origin
       X-Xss-Protection:
@@ -58,20 +56,22 @@ http_interactions:
       Ratelimit-Remaining:
       - '999'
       Ratelimit-Reset:
-      - Fri, 29 Apr 2016 21:17:00 GMT
+      - Fri, 06 May 2016 22:24:00 GMT
+      Server:
+      - cloudflare-nginx
       Cf-Ray:
-      - 29b5c60c42fb079d-MIA
+      - 29efd5b00b7c2ec9-MIA
     body:
       encoding: ASCII-8BIT
-      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-05-06","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-05-12","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
     http_version: 
-  recorded_at: Fri, 29 Apr 2016 21:16:12 GMT
+  recorded_at: Fri, 06 May 2016 22:23:06 GMT
 - request:
     method: post
     uri: https://api-sandbox.gocardless.com/subscriptions
     body:
       encoding: UTF-8
-      string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":null},"metadata":{"customer_id":"CU0000RR39FMVB"},"name":"donation","interval_unit":"monthly","day_of_month":"1"}}'
+      string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":null},"metadata":{"customer_id":"CU0000RR39FMVB"},"name":"donation","interval_unit":"monthly"}}'
     headers:
       User-Agent:
       - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
@@ -90,10 +90,8 @@ http_interactions:
       code: 422
       message: Unprocessable Entity
     headers:
-      Server:
-      - cloudflare-nginx
       Date:
-      - Fri, 29 Apr 2016 21:16:16 GMT
+      - Fri, 06 May 2016 22:23:07 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -101,14 +99,14 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dba43f04d5ede4e9f14e26695d55a95651461964576; expires=Sat, 29-Apr-17
-        21:16:16 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=df60a0a9d5c2e145d403c736413d171d91462573387; expires=Sat, 06-May-17
+        22:23:07 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       X-Request-Id:
-      - bc3c5670-a828-45d7-9b4a-338dfa57fed8
+      - 69c852db-9662-4639-8e58-36d5d5ab20c5
       Vary:
       - Origin
       X-Xss-Protection:
@@ -122,13 +120,15 @@ http_interactions:
       Ratelimit-Remaining:
       - '998'
       Ratelimit-Reset:
-      - Fri, 29 Apr 2016 21:17:00 GMT
+      - Fri, 06 May 2016 22:24:00 GMT
+      Server:
+      - cloudflare-nginx
       Cf-Ray:
-      - 29b5c62994021828-MIA
+      - 29efd5b5d9902e9f-MIA
     body:
       encoding: UTF-8
       string: '{"error":{"message":"One of your parameters was incorrectly typed","errors":[{"message":"nil
-        is not a string.","field":"mandate_id","request_pointer":"/subscriptions/links/mandate"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"bc3c5670-a828-45d7-9b4a-338dfa57fed8","code":422}}'
+        is not a string.","field":"mandate_id","request_pointer":"/subscriptions/links/mandate"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"69c852db-9662-4639-8e58-36d5d5ab20c5","code":422}}'
     http_version: 
-  recorded_at: Fri, 29 Apr 2016 21:16:18 GMT
+  recorded_at: Fri, 06 May 2016 22:23:07 GMT
 recorded_with: VCR 3.0.0

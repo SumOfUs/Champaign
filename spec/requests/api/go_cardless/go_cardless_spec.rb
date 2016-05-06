@@ -86,7 +86,6 @@ describe "GoCardless API" do
         expect(assigns(:errors)).to eq(bad_request_errors)
       end
     end
-
   end
 
   describe 'after successful redirect flow' do
@@ -95,6 +94,9 @@ describe "GoCardless API" do
       {
         # This is just copied from BT and needs to be changed
         type: "donation",
+        payment_provider: "go_cardless",
+        transaction_id: payment_id_regexp,
+        subscription: false,
         params: {
           donationpage: {
             name: "#{page.slug}-donation",
@@ -136,6 +138,7 @@ describe "GoCardless API" do
         }
       }
     end
+
     let(:redirect_flow_id) { "RE00004631S7XT20JATGRP6QQ8VZEHRZ" }
     let(:creditor_id)      { "CR000045KKQEY8" }
     let(:mandate_id)       { "MD0000PSV8N7FR" }
@@ -143,6 +146,8 @@ describe "GoCardless API" do
     let(:customer_bank_account_id) { "BA0000P8MREF5F" }
 
     let(:email) { "test@example.com" }
+    let(:payment_id_regexp) { /^PM[0-9A-Z]+/ }
+    let(:subscription_id_regexp) { /^SB[0-9A-Z]+/ }
 
     let(:base_params) do
       {
@@ -264,7 +269,7 @@ describe "GoCardless API" do
           it 'creates a Transaction record associated with the Page' do
             expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
             payment = Payment::GoCardless::Transaction.last
-            expect(payment.go_cardless_id).to match(/^PM[0-9A-Z]+/)
+            expect(payment.go_cardless_id).to match(payment_id_regexp)
             expect(payment.currency).to eq 'GBP'
             expect(payment.amount).to eq gbp_amount
           end
@@ -306,6 +311,13 @@ describe "GoCardless API" do
 
         let(:params) { base_params.merge(recurring: true) }
 
+        before do
+          donation_push_params.merge!(
+            transaction_id: subscription_id_regexp,
+            subscription: true
+          )
+        end
+
         subject do
           VCR.use_cassette('go_cardless successful subscription') do
             get api_go_cardless_transaction_path(page.id), params
@@ -316,8 +328,7 @@ describe "GoCardless API" do
           it 'passes the correct data to the GoCardless Payment SDK' do
             sdk_params[:params] = sdk_params[:params].merge(
               name: "donation",
-              interval_unit: "monthly",
-              day_of_month: "1"
+              interval_unit: "monthly"
             )
             subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
