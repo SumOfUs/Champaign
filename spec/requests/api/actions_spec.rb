@@ -44,7 +44,7 @@ describe "Api Actions" do
           source: 'fb',
           akid:   '1234.5678.tKK7gX',
           referring_akid: '1234.5678.tKK7gX',
-          mobile: 'desktop',
+          mobile: 'unknown',
           referer: nil,
           user_en: 1
         }
@@ -82,6 +82,41 @@ describe "Api Actions" do
       end
     end
 
+    describe 'known device type' do
+
+      user_agents = {
+          mobile: "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257",
+          desktop: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36",
+          tablet: "Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25"
+      }
+
+      user_agents.each_pair do |device, agent|
+
+        it "posts the action with the appropriate device type for #{device}" do
+          parameters = {
+              type: "action",
+              params: {
+                  page:   "#{page.slug}-petition",
+                  email:  "hello@example.com",
+                  page_id: page.id.to_s,
+                  form_id: form.id.to_s,
+                  source: 'fb',
+                  akid:   '1234.5678.tKK7gX',
+                  referring_akid: '1234.5678.tKK7gX',
+                  mobile: device.to_s,
+                  referer: nil,
+                  user_en: 1
+              }
+          }
+          post "/api/pages/#{page.id}/actions", params, { "HTTP_USER_AGENT" => agent }
+          expect(sqs_client).to have_received(:send_message).with({
+                                                                      queue_url: 'http://example.com',
+                                                                      message_body: parameters.to_json
+                                                                  })
+        end
+      end
+    end
+
     describe 'referer URI' do
       let(:referer) { 'www.google.com' }
 
@@ -107,7 +142,7 @@ describe "Api Actions" do
                     source: 'fb',
                     akid:   '1234.5678.tKK7gX',
                     referring_akid: '1234.5678.tKK7gX',
-                    mobile: 'desktop',
+                    mobile: 'unknown',
                     referer: referer,
                     user_en: 1,
                 }
@@ -119,57 +154,54 @@ describe "Api Actions" do
 
     describe 'mobile detection' do
       let(:referer) { 'www.google.com' }
-      let(:mobile_headers) do
+      let(:en_accept) do
         {
-            'HTTP_USER_AGENT' => 'Mozilla/5.0 (iPad; CPU OS 9_0 like Mac OS X) AppleWebKit/601.1.16 (KHTML, like Gecko) Version/8.0 Mobile/13A171a Safari/600.1.4',
-            'HTTP_ACCEPT' => '*/*',
-            'HTTP_ACCEPT_LANGUAGE' => 'en',
-            'HTTP_ACCEPT_ENCODING' => '*'
+          'HTTP_ACCEPT' => '*/*',
+          'HTTP_ACCEPT_LANGUAGE' => 'en',
+          'HTTP_ACCEPT_ENCODING' => '*'
         }
+      end
+      let(:mobile_headers) do
+        en_accept.merge('HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257')
       end
       let(:tablet_headers) do
-        {
-            'HTTP_USER_AGENT' => 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)',
-            'HTTP_ACCEPT' => '*/*',
-            'HTTP_ACCEPT_LANGUAGE' => 'en',
-            'HTTP_ACCEPT_ENCODING' => '*'
-        }
+        en_accept.merge('HTTP_USER_AGENT' => 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)')
       end
       let(:desktop_headers) do
-        {
-            'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136',
-            'HTTP_ACCEPT' => '*/*',
-            'HTTP_ACCEPT_LANGUAGE' => 'en',
-            'HTTP_ACCEPT_ENCODING' => '*'
-        }
+        en_accept.merge('HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136')
       end
+      let(:ascii_headers) do
+        en_accept.merge('HTTP_USER_AGENT' => "#{desktop_headers['HTTP_USER_AGENT']}é".force_encoding(Encoding::ASCII_8BIT))
+      end
+
       let(:message_body) do
         {
-            type: 'action',
-            params: {
-                page:   "#{page.slug}-petition",
-                email:  "hello@example.com",
-                page_id: page.id.to_s,
-                form_id: form.id.to_s,
-                source: 'fb',
-                akid:   '1234.5678.tKK7gX',
-                referring_akid: '1234.5678.tKK7gX',
-                mobile: 'desktop',
-                referer: referer,
-                user_en: 1,
-            }
+          type: 'action',
+          params: {
+            page:   "#{page.slug}-petition",
+            email:  "hello@example.com",
+            page_id: page.id.to_s,
+            form_id: form.id.to_s,
+            source: 'fb',
+            akid:   '1234.5678.tKK7gX',
+            referring_akid: '1234.5678.tKK7gX',
+            mobile: 'unknown',
+            referer: referer,
+            user_en: 1,
+          }
         }
       end
 
       let(:expected_params) do
         {
-            queue_url: 'http://example.com',
-            message_body: message_body.to_json
+          queue_url: 'http://example.com',
+          message_body: message_body.to_json
         }
       end
 
 
-      it 'correctly uses desktop as the default' do
+      it 'marks device as unknown if the request has no user agent' do
+        message_body[:params][:mobile] = 'unknown'
         post "/api/pages/#{page.id}/actions", params, {referer: referer}
         expect(sqs_client).to have_received(:send_message).with(expected_params)
       end
@@ -181,14 +213,20 @@ describe "Api Actions" do
       end
 
       it 'correctly identifies tablet browsers' do
-        # Tablet browsers also show up as mobile in our parsing gem.
-        message_body[:params][:mobile] = 'mobile'
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(mobile_headers)
+        message_body[:params][:mobile] = 'tablet'
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(tablet_headers)
         expect(sqs_client).to have_received(:send_message).with(expected_params)
       end
 
       it 'correctly identifies desktop browsers' do
+        message_body[:params][:mobile] = 'desktop'
         post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(desktop_headers)
+        expect(sqs_client).to have_received(:send_message).with(expected_params)
+      end
+
+      it 'can handle ASCII-8BIT headers without error' do
+        message_body[:params][:mobile] = 'desktop'
+        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(ascii_headers)
         expect(sqs_client).to have_received(:send_message).with(expected_params)
       end
     end
@@ -301,7 +339,7 @@ describe "Api Actions" do
                       page_id: page.id.to_s,
                       form_id: form.id.to_s,
                       akid: invalid_akid,
-                      mobile: 'desktop',
+                      mobile: 'unknown',
                       referer: nil,
                       user_en: 1,
                   }
