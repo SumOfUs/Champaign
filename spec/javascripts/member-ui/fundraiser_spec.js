@@ -720,22 +720,26 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
       });
 
-      it('grays out the paypal button once a card number are entered', function(){
+      it('grays out the paypal and direct debit buttons once a card number is entered', function(){
         event = {type: 'fieldStateChange', target: {fieldKey: 'number'}, isEmpty: true};
         suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).not.to.have.class('paypal--grayed-out');
+        expect($('#hosted-fields__paypal')).not.to.have.class('hosted-fields--grayed-out');
+        expect($('.hosted-fields__direct-debit-container')).not.to.have.class('hosted-fields--grayed-out');
         event.isEmpty = false
         suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).to.have.class('paypal--grayed-out');
+        expect($('#hosted-fields__paypal')).to.have.class('hosted-fields--grayed-out');
+        expect($('.hosted-fields__direct-debit-container')).to.have.class('hosted-fields--grayed-out');
       });
 
-      it('restores color to the paypal button after the card digits are deleted', function(){
+      it('restores color to the paypal and direct debit buttons after the card digits are deleted', function(){
         event = {type: 'fieldStateChange', target: {fieldKey: 'number'}, isEmpty: false};
         suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).to.have.class('paypal--grayed-out');
+        expect($('#hosted-fields__paypal')).to.have.class('hosted-fields--grayed-out');
+        expect($('.hosted-fields__direct-debit-container')).to.have.class('hosted-fields--grayed-out');
         event.isEmpty = true
         suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).not.to.have.class('paypal--grayed-out');
+        expect($('#hosted-fields__paypal')).not.to.have.class('hosted-fields--grayed-out');
+        expect($('.hosted-fields__direct-debit-container')).not.to.have.class('hosted-fields--grayed-out');
       });
 
       it('hides the credit card field when paypal calls onSuccess', function(){
