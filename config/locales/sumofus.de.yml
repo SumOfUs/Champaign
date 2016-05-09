@@ -31,6 +31,7 @@ de:
     debit:
       recurring: "(DE) You are setting up a monthly donation of %{amount} to SumOfUs"
       one_time: "(DE) You are donating %{amount} to SumOfUs"
+      direct_debit: Lastschrift
     fields:
       cvv: Kartenprüfnummer
       number: Kreditkartennummer

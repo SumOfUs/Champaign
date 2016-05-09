@@ -280,8 +280,8 @@ $fundraiser-top-height: 162px;
       margin: 0 auto;
     }
   }
-  .paypal--grayed-out {
-    #braintree-paypal-button, #braintree-paypal-button img {
+  .hosted-fields--grayed-out {
+    #braintree-paypal-button, #braintree-paypal-button img, .hosted-fields__direct-debit {
       @include filter(grayscale(100%));
       &:hover, &:hover img {
         @include filter(grayscale(0%));

@@ -31,6 +31,7 @@ fr:
     debit:
       recurring: "(FR) You are setting up a monthly donation of %{amount} to SumOfUs"
       one_time: "(FR) You are donating %{amount} to SumOfUs"
+      direct_debit: "Prélèvement SEPA"
     fields:
       cvv: CVV
       number: Numéro de votre carte
