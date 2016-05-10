@@ -30,7 +30,7 @@ describe Api::GoCardlessController do
     end
   end
 
-  describe "POST transaction", :focus do
+  describe "POST transaction" do
     let(:client) { PaymentProcessor::GoCardless }
 
     let(:params) do

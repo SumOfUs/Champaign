@@ -66,7 +66,7 @@ module PaymentProcessor
           amount:           amount_in_whole_currency.to_s,
           card_num:         mandate.id,
           currency:         currency,
-          transaction_id:   @local_transaction.go_cardless_id,
+          transaction_id:   transaction_id,
           is_subscription:  false,
           payment_provider: 'go_cardless'
         )
