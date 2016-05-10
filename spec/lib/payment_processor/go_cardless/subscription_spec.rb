@@ -3,11 +3,11 @@ require_relative 'transaction_and_subscription_examples'
 
 module PaymentProcessor
   module GoCardless
-    describe Transaction do
-      describe '.make_transaction' do
+    describe Subscription do
+      describe '.make_subscription' do
 
         before do
-          allow(Payment::GoCardless).to receive(:write_transaction).and_return(local_transaction)
+          allow(Payment::GoCardless).to receive(:write_subscription).and_return(local_subscription)
           allow(Payment::GoCardless).to receive(:write_customer).and_return(local_customer)
           allow(Payment::GoCardless).to receive(:write_mandate).and_return(local_mandate)
           allow(PaymentProcessor::Currency).to receive(:convert).and_return(double(cents: amount_in_euros*100))
@@ -15,13 +15,13 @@ module PaymentProcessor
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_return(completed_flow)
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:get).and_return(completed_flow)
           allow_any_instance_of(GoCardlessPro::Services::MandatesService).to receive(:get).and_return(mandate)
-          allow_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).and_return(payment)
+          allow_any_instance_of(GoCardlessPro::Services::SubscriptionsService).to receive(:create).and_return(subscription)
 
           allow(ManageDonation).to receive(:create){ action }
         end
 
         let(:action) { instance_double('Action', member_id: 2) }
-        let(:local_transaction) { instance_double('Payment::GoCardless::Transaction', go_cardless_id: 'PA00000') }
+        let(:local_subscription) { instance_double('Payment::GoCardless::Subscription', go_cardless_id: 'SU00000') }
         let(:local_customer) { instance_double('Payment::GoCardless::Customer', id: 7) }
         let(:local_mandate) { instance_double('Payment::GoCardless::PaymentMethod') }
 
@@ -37,7 +37,7 @@ module PaymentProcessor
             id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now
           )
         end
-        let(:payment) { instance_double('GoCardlessPro::Resources::Payment', id: 'PA00000') }
+        let(:subscription) { instance_double('GoCardlessPro::Resources::Subscription', id: 'SU00000') }
 
         let(:amount_in_dollars){ 12.5 }
         let(:amount_in_euros){ 10.98 }
@@ -53,20 +53,22 @@ module PaymentProcessor
           }
         end
 
-        subject { described_class.make_transaction(required_options) }
+        subject { described_class.make_subscription(required_options) }
 
-        include_examples 'transaction and subscription', :make_transaction
+        include_examples 'transaction and subscription', :make_subscription
 
         describe 'calling the GC SDK' do
-          it 'creates a transaction with the right params' do
+          it 'creates a subscription with the right params' do
             expect_any_instance_of(
-              GoCardlessPro::Services::PaymentsService
+              GoCardlessPro::Services::SubscriptionsService
             ).to receive(:create).with(
               params: {
                 amount: amount_in_euros * 100,
                 currency: 'EUR',
                 links: { mandate: 'MA00000' },
-                metadata: { customer_id: 'CU00000' }
+                metadata: { customer_id: 'CU00000' },
+                name: 'donation',
+                interval_unit: 'monthly'
               }
             )
             subject
@@ -74,9 +76,9 @@ module PaymentProcessor
         end
 
         describe 'bookkeeping' do
-          it 'delegates to Payment::GoCardless.write_transaction' do
-            expect(Payment::GoCardless).to receive(:write_transaction).with(
-              local_transaction.go_cardless_id, amount_in_euros, 'EUR', page_id)
+          it 'delegates to Payment::GoCardless.write_subscription' do
+            expect(Payment::GoCardless).to receive(:write_subscription).with(
+              local_subscription.go_cardless_id, amount_in_euros, 'EUR', page_id)
             subject
           end
 
@@ -88,9 +90,11 @@ module PaymentProcessor
               amount: amount_in_euros.to_s,
               card_num: "MA00000",
               currency: "EUR",
-              transaction_id: "PA00000",
-              is_subscription: false,
-              payment_provider: "go_cardless"  
+              subscription_id: "SU00000",
+              is_subscription: true,
+              payment_provider: "go_cardless",
+              recurrence_number: 0,
+              card_expiration_date: nil
             })
             subject
           end
