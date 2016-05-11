@@ -13,8 +13,6 @@ module Payment::GoCardless
     def write_mandate(mandate_gc_id, scheme, next_possible_charge_date, customer_id)
       local_mandate = Payment::GoCardless::PaymentMethod.find_or_initialize_by(go_cardless_id: mandate_gc_id)
       local_mandate.update_attributes(scheme: scheme, next_possible_charge_date: next_possible_charge_date, customer_id: customer_id)
-      # action = Payment::GoCardless::PaymentMethod::ACTION_FROM_STATE[ status.to_sym ]
-      # local_mandate.send("run_#{action}!")
       local_mandate
     end
 

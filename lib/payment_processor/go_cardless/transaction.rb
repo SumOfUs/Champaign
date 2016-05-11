@@ -4,7 +4,8 @@ module PaymentProcessor
       # = GoCardless::Transaction
       #
       # Wrapper around GoCardless's Ruby SDK. This class essentially just stuffs parameters
-      # into the keys that are expected by GoCardless's class.
+      # into the keys that are expected by GoCardless's class. Most of the good stuff happens
+      # in the Populator class, which is inherited by this and Transaction.
       #
       # == Usage
       #
@@ -14,17 +15,10 @@ module PaymentProcessor
       # * +:amount+   - Billing amount (required)
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
-      # * +:customer+ - Instance of existing GoCardless customer. Must respond to +go_cardless_id+ (optional)
+      # * +:page_id+  - The ID of the page to associate the transaction with (required)
+      # * +:redirect_flow_id+  - The GoCardless ID of the redirect flow to complete (required)
+      # * +:session_token+     - The session id for the redirect flow (required)
       #
-        # def payment_options
-        #   {
-        #     nonce: params[:payment_method_nonce],
-        #     amount: params[:amount].to_f,
-        #     user: params[:user],
-        #     currency: params[:currency],
-        #     page_id: params[:page_id]
-        #   }
-        # end
 
       attr_reader :error, :action
 
@@ -66,7 +60,7 @@ module PaymentProcessor
           amount:           amount_in_whole_currency.to_s,
           card_num:         mandate.id,
           currency:         currency,
-          transaction_id:   @local_transaction.go_cardless_id,
+          transaction_id:   transaction_id,
           is_subscription:  false,
           payment_provider: 'go_cardless'
         )

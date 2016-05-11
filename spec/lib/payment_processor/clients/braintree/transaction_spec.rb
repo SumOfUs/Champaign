@@ -83,13 +83,13 @@ module PaymentProcessor
 
             it 'returns the Braintree result object when success' do
               builder = subject.make_transaction(required_options)
-              expect(builder.result).to eq(transaction)
+              expect(builder.error_container).to eq(transaction)
             end
 
             it 'returns the Braintree result object when failure' do
               allow(::Braintree::Transaction).to receive(:sale){ failure }
               builder = subject.make_transaction(required_options)
-              expect(builder.result).to eq(failure)
+              expect(builder.error_container).to eq(failure)
             end
           end
 
