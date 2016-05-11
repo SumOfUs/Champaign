@@ -1,6 +1,24 @@
 module PaymentProcessor
   module GoCardless
     class Subscription < Populator
+      # = GoCardless::Subscription
+      #
+      # Wrapper around GoCardless's Ruby SDK. This class essentially just stuffs parameters
+      # into the keys that are expected by GoCardless's class. Most of the good stuff happens
+      # in the Populator class, which is inherited by this and Transaction.
+      #
+      # == Usage
+      #
+      # Call <tt>PaymentProcessor::Clients::GoCardless::Subscription.make_subscription</tt>
+      #
+      # === Options #
+      # * +:amount+   - Billing amount (required)
+      # * +:currency+ - Billing currency (required)
+      # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
+      # * +:page_id+  - The ID of the page to associate the transaction with (required)
+      # * +:redirect_flow_id+  - The GoCardless ID of the redirect flow to complete (required)
+      # * +:session_token+     - The session id for the redirect flow (required)
+      #
       attr_reader :error, :action
 
       def self.make_subscription(params)

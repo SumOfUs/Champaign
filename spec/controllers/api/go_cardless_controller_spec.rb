@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe Api::GoCardlessController do
   let(:page) { double(:page, id: '1') }
+  let(:action) { instance_double("Action", member_id: 79) }
 
   before do
     allow(Page).to receive(:find) { page }
@@ -29,22 +30,149 @@ describe Api::GoCardlessController do
     end
   end
 
-  describe 'GET #payment_complete' do
-    let(:builder) { double(:builder, success?: true, transaction_id: '456', action: double(member_id: '123')) }
+  describe "POST transaction" do
+    let(:client) { PaymentProcessor::GoCardless }
 
-    before do
-      allow(PaymentProcessor::GoCardless::Transaction).to receive(:make_transaction){ builder }
-      subject
+    let(:params) do
+      {
+        amount: '40.19',
+        user: { email: 'snake@hips.com', name: 'Snake Hips' },
+        currency: 'EUR',
+        page_id: '12',
+        redirect_flow_id: 'RE2109123',
+        session_token: "4f592f2a-2bc2-4028-8a8c-19b222e2faa7"
+      }
     end
 
-    subject { get :transaction, foo: 'bar', page_id: '1' }
-
-    it 'creates GC transaction' do
-      expect(PaymentProcessor::GoCardless::Transaction).to(
-        have_received(:make_transaction).with(hash_including({page_id: '1'}))
-      )
+    let(:payment_options) do
+      {
+        amount: params[:amount],
+        currency: params[:currency],
+        user: params[:user],
+        page_id: params[:page_id],
+        redirect_flow_id: params[:redirect_flow_id],
+        session_token: request.session[:go_cardless_session_id]
+      }
     end
+
+    describe 'successfully' do
+
+      shared_examples 'success tasks' do
+        it 'has status 302' do
+          expect(response.status).to eq 302
+        end
+
+        it 'responds by redirecting to the follow up page' do
+          expect(response).to redirect_to(follow_up_page_path(page))
+        end
+
+        it 'sets the member cookie' do
+          expect(cookies.signed['member_id']).to eq action.member_id
+        end
+      end
+
+      describe 'with recurring: true' do
+
+        let(:builder){ instance_double('PaymentProcessor::GoCardless::Subscription', action: action, success?: true, subscription_id: 'SU243980') }
+
+        before do
+          allow(client::Subscription).to receive(:make_subscription).and_return(builder)
+          post :transaction, params.merge(recurring: true)
+        end
+
+        it 'calls Subscription.make_subscription' do
+          expect(client::Subscription).to have_received(:make_subscription).with(payment_options)
+        end
+
+        include_examples 'success tasks'
+      end
+
+      describe 'without recurring' do
+
+        let(:builder){ instance_double('PaymentProcessor::GoCardless::Transaction', action: action, success?: true, transaction_id: 'PA235890') }
+
+        before :each do
+          allow(client::Transaction).to receive(:make_transaction).and_return(builder)
+          post :transaction, params
+        end
+
+        it 'calls Transaction.make_transaction' do
+          expect(client::Transaction).to have_received(:make_transaction).with(payment_options)
+        end
+
+        include_examples 'success tasks'
+      end
+    end
+
+    describe 'unsuccessfully' do
+      let(:errors) { instance_double('PaymentProcessor::GoCardless::ErrorProcessing', process: [{my_error: 'foo'}]) }
+
+      before :each do
+        allow(client::ErrorProcessing).to receive(:new).and_return(errors)
+      end
+
+      shared_examples 'failure tasks' do
+
+        it 'calls the error processor' do
+          expect(client::ErrorProcessing).to have_received(:new)
+          expect(errors).to have_received(:process)
+        end
+
+        it 'has status 200' do
+          # we expect 200 because it's rendering the error page, not an API response
+          expect(response.status).to eq 200
+        end
+
+        it 'renders payment/donation_errors' do
+          expect(response.body).to render_template('payment/donation_errors')
+        end
+
+        it 'assigns @page and @errors' do
+          expect(assigns(:page)).to eq page
+          expect(assigns(:errors)).to eq errors.process
+        end
+
+        it 'does not set the member cookie' do
+          expect(cookies.signed['member_id']).to eq nil
+        end
+      end
+
+      describe 'with recurring: true' do
+
+        let(:builder){ instance_double('PaymentProcessor::GoCardless::Subscription', success?: false, error_container: {}) }
+
+        before do
+          allow(client::Subscription).to receive(:make_subscription).and_return(builder)
+          post :transaction, params.merge(recurring: true)
+        end
+
+        it 'calls Subscription.make_subscription' do
+          expect(client::Subscription).to have_received(:make_subscription).with(payment_options)
+        end
+
+        include_examples 'failure tasks'
+      end
+
+      describe 'without recurring' do
+
+        let(:transaction) { instance_double('Braintree::Transaction', id: 't1234')}
+        let(:builder){ instance_double('PaymentProcessor::GoCardless::Transaction', success?: false, error_container: {}) }
+
+        before :each do
+          allow(client::Transaction).to receive(:make_transaction).and_return(builder)
+          post :transaction, params
+        end
+
+        it 'calls Transaction.make_transaction' do
+          expect(client::Transaction).to have_received(:make_transaction).with(payment_options)
+        end
+
+        include_examples 'failure tasks'
+      end
+    end
+
   end
+
 
   describe 'POST #webhook' do
     let(:validator) { double(valid?: true) }
