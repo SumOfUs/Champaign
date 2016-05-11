@@ -243,10 +243,27 @@ describe "GoCardless API" do
         end
 
         shared_examples 'successful transaction' do
+
+          let(:transaction_sdk_params) do
+            {
+              params: {
+                amount: (gbp_amount * 100).to_i,
+                currency: 'GBP',
+                links: {
+                    mandate: mandate_id # a_string_matching(/\AMD[0-9A-Z]+\z/)
+                },
+                metadata: {
+                    customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
+                },
+                charge_date: "2016-05-20"
+              }
+            }
+          end
+
           it 'passes the correct data to the GoCardless Payment SDK' do
             payment_service = instance_double(GoCardlessPro::Services::PaymentsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:payments).and_return(payment_service)
-            expect(payment_service).to receive(:create).with(sdk_params)
+            expect(payment_service).to receive(:create).with(transaction_sdk_params)
             subject
           end
 

@@ -9,7 +9,7 @@ http_interactions:
         €5.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/1/transaction?amount=5\u0026currency=EUR\u0026page_id=implement-synergistic-cooperation"}}'
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -25,10 +25,8 @@ http_interactions:
       code: 422
       message: Unprocessable Entity
     headers:
-      Server:
-      - cloudflare-nginx
       Date:
-      - Fri, 29 Apr 2016 20:13:36 GMT
+      - Mon, 09 May 2016 22:08:00 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -36,14 +34,14 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d4b1f079f5c85f5f6c2bb25dc357f1c6e1461960815; expires=Sat, 29-Apr-17
-        20:13:35 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=da176bd3adb2c90deb233d5d05e0cea231462831680; expires=Tue, 09-May-17
+        22:08:00 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       X-Request-Id:
-      - a6e6687b-54c4-49e1-ab90-1d502a76ac20
+      - e7a17111-95ef-446e-9b4b-218bb4bb1d59
       Vary:
       - Origin
       X-Xss-Protection:
@@ -55,15 +53,17 @@ http_interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '998'
+      - '999'
       Ratelimit-Reset:
-      - Fri, 29 Apr 2016 20:14:00 GMT
+      - Mon, 09 May 2016 22:09:00 GMT
+      Server:
+      - cloudflare-nginx
       Cf-Ray:
-      - 29b56a5b34172ec9-MIA
+      - 2a0877b2ae6511b9-SJC
     body:
       encoding: UTF-8
       string: '{"error":{"message":"One of your parameters was incorrectly typed","errors":[{"message":"nil
-        is not a string.","field":"session_token","request_pointer":"/redirect_flows/session_token"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"a6e6687b-54c4-49e1-ab90-1d502a76ac20","code":422}}'
+        is not a string.","field":"session_token","request_pointer":"/redirect_flows/session_token"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"e7a17111-95ef-446e-9b4b-218bb4bb1d59","code":422}}'
     http_version: 
-  recorded_at: Fri, 29 Apr 2016 20:13:35 GMT
+  recorded_at: Mon, 09 May 2016 22:08:00 GMT
 recorded_with: VCR 3.0.0
