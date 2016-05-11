@@ -2,7 +2,7 @@ module PaymentProcessor
   module GoCardless
     class Populator
 
-      def transaction_params
+      def request_params
         {
           amount: amount_in_cents,
           currency: currency,
@@ -12,11 +12,17 @@ module PaymentProcessor
           metadata: {
             customer_id: customer_id
           }
-        }.merge(charge_date)
+        }
+      end
+
+      def transaction_params
+        request_params.merge({
+          charge_date: charge_date
+        })
       end
 
       def subscription_params
-        transaction_params.merge(
+        request_params.merge(
           {
             name: "donation",
             interval_unit: "monthly"
@@ -64,7 +70,7 @@ module PaymentProcessor
       end
 
       def charge_date
-        return {} unless mandate.scheme.downcase == 'bacs'
+        return mandate.next_possible_charge_date unless mandate.scheme.downcase == 'bacs'
         mandate_date = Date.parse(mandate.next_possible_charge_date)
         # GBP needs to be charged on 20th of the month. Use the next possible 20th day allowed by the mandate.
         if mandate_date.day <= 20
@@ -74,7 +80,7 @@ module PaymentProcessor
           # if the mandate becomes available only after the 20th this month, charge on the 20th of next month
           month = mandate_date.month + 1
         end
-        { charge_date: Date.new(mandate_date.year, month, 20).to_s }
+        Date.new(mandate_date.year, month, Settings.gocardless.gbp_charge_day.to_i).to_s
       end
 
       def error_container
