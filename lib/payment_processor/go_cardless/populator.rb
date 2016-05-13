@@ -70,17 +70,16 @@ module PaymentProcessor
       end
 
       def charge_date
-        return mandate.next_possible_charge_date unless mandate.scheme.downcase == 'bacs'
         mandate_date = Date.parse(mandate.next_possible_charge_date)
+        return mandate_date.to_s unless mandate.scheme.downcase == 'bacs'
         # GBP needs to be charged on 20th of the month. Use the next possible 20th day allowed by the mandate.
         if mandate_date.day <= 20
           # if mandate becomes available before the 20th of this month, charge the payment on the 20th of this month
-          month = mandate_date.month
+          Date.new(mandate_date.year, mandate_date.month, Settings.gocardless.gbp_charge_day.to_i).to_s
         else
           # if the mandate becomes available only after the 20th this month, charge on the 20th of next month
-          month = mandate_date.month + 1
+          Date.new(mandate_date.year, mandate_date.month + 1, Settings.gocardless.gbp_charge_day.to_i).to_s
         end
-        Date.new(mandate_date.year, month, Settings.gocardless.gbp_charge_day.to_i).to_s
       end
 
       def error_container
