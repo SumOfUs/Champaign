@@ -243,6 +243,7 @@ en:
     petition:
       petition_description: "Petition Text"
       choose_form_template: "Use a form template"
+      form_template_placeholder: '-- select form template --'
       customise_form: "Customize your form"
       add_new_field: "Add a new field"
       add_field: "Add field"
