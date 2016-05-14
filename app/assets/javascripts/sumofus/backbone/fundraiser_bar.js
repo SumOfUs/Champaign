@@ -1,10 +1,12 @@
-const StickyMethods = require('sumofus/backbone/sticky_methods');
-const FormMethods   = require('sumofus/backbone/form_methods');
+const SmartSticky = require('sumofus/backbone/smart_sticky');
+const ActionForm  = require('sumofus/backbone/action_form');
 const CurrencyMethods     = require('sumofus/backbone/currency_methods');
 const HostedFieldsMethods = require('sumofus/backbone/hosted_fields');
+const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
+const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
 
 const FundraiserBar = Backbone.View.extend(_.extend(
-  StickyMethods, FormMethods, HostedFieldsMethods, CurrencyMethods, {
+   CurrencyMethods, {
 
   el: '.fundraiser-bar',
 
@@ -21,7 +23,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
-    'click .fundraiser-bar__close-button': 'hide',
   },
 
   // options: object with any of the following keys
@@ -39,9 +40,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
-    this.initializeSticky();
-    this.initializeBraintree();
-    this.handleFormErrors();
+    this.mySticky = new SmartSticky({el: '.fundraiser-bar', extraClass: 'fundraiser'});
+    this.myActionForm = new ActionForm({el: this.el});
+    this.hostedFields = new BraintreeHostedFields();
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
@@ -51,11 +52,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       this.selectizeCountry();
       $(window).on('resize', () => this.policeHeights());
     }
-    this.insertActionKitId(options.akid);
-    this.insertSource(options.source);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
-    $('.fundraiser-bar__open-button').on('click', () => this.reveal());
   },
 
   initializeRecurring (recurringDefault) {
@@ -78,23 +76,18 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
     this.hidingStepTwo = false;
     let amountKnown = (options.amount > 0); // non-numbers with > are always false
-    let formComplete = this.formCanAutocomplete(options.outstandingFields, options.member);
-    this.hideSteps(amountKnown, formComplete, options.member, options.location, options.outstandingFields);
+    let formComplete = this.myActionForm.prefillAsPossible(options);
+    this.hideSteps(amountKnown, formComplete, options.member);
   },
 
-  hideSteps (amountKnown, formComplete, member, location, fieldsToSkipPrefill) {
+  hideSteps (amountKnown, formComplete, member) {
     if (amountKnown && formComplete) {
       this.changeStep(3);
       this.hideSecondStep(member);
-      this.completePrefill(member, location);
     } else if (formComplete) {
       this.hideSecondStep(member);
-      this.completePrefill(member, location);
     } else if (amountKnown) {
       this.changeStep(2);
-      this.partialPrefill(member, location, fieldsToSkipPrefill);
-    } else {
-      this.partialPrefill(member, location, fieldsToSkipPrefill);
     }
   },
 
@@ -102,9 +95,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
-    if (this.formFieldCount() > 0) { // don't offer to reveal fields if nothing to show
-      this.showFormClearer('fundraiser', member);
-    }
     this.hidingStepTwo = true;
   },
 
@@ -312,18 +302,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
   redirectTo (url) {
     window.location.href = url;
-  },
-
-  hide: function() {
-    this.$('.fundraiser-bar__mobile-view')
-      .addClass('fundraiser-bar__mobile-view--closed')
-      .removeClass('fundraiser-bar__mobile-view--open');
-  },
-
-  reveal: function() {
-    this.$('.fundraiser-bar__mobile-view')
-      .removeClass('fundraiser-bar__mobile-view--closed')
-      .addClass('fundraiser-bar__mobile-view--open');
   },
 
 }));

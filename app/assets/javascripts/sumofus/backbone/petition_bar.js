@@ -1,13 +1,13 @@
-const StickyMethods = require('sumofus/backbone/sticky_methods');
-const FormMethods = require('sumofus/backbone/form_methods');
+const SmartSticky = require('sumofus/backbone/smart_sticky');
+const ActionForm = require('sumofus/backbone/action_form');
+const OverlayToggle = require('sumofus/backbone/overlay_toggle');
+const MobileCheck = require('sumofus/backbone/mobile_check');
 
-const PetitionBar = Backbone.View.extend(_.extend(
-  StickyMethods, FormMethods, {
+const PetitionBar = Backbone.View.extend({
 
   el: '.petition-bar',
 
   events: {
-    'click .petition-bar__close-button': 'hide',
     'click .petition-bar__clear-form': 'clearForm',
     'ajax:success form.action': 'handleSuccess',
   },
@@ -24,35 +24,19 @@ const PetitionBar = Backbone.View.extend(_.extend(
   //    cosmetic: if true, then it will adjust heights and make the bar sticky scroll
   initialize(options = {}) {
     this.petitionTextMinHeight = 120; // pixels
-    this.handleFormErrors();
-    this.initializePrefill(options);
+    this.myActionForm = new ActionForm({el: this.el});
+    this.myActionForm.prefillAsPossible(options);
+    this.myActionForm = new OverlayToggle();
     this.updateThermometer(options.thermometer);
     this.followUpUrl = options.followUpUrl;
     this.submissionCallback = options.submissionCallback;
-    if (!this.isMobile()) {
-      this.selectizeCountry();
-    }
     this.cosmetic = options.cosmetic || false;
     if (this.cosmetic) {
-      this.initializeSticky();
+      this.mySticky = new SmartSticky({el: '.petition-bar', extraClass: 'petition'});
       this.policeHeights();
-      if (!this.isMobile()) {
+      if (!MobileCheck.isMobile()) {
         $(window).on('resize', () => this.policeHeights());
       }
-    }
-    this.insertActionKitId(options.akid);
-    this.insertSource(options.source);
-    $('.petition-bar__open-button').on('click', () => this.reveal());
-  },
-
-  initializePrefill(options) {
-    if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
-      this.completePrefill(options.member, options.location);
-      if (this.formFieldCount() > 0) {
-        this.showFormClearer('petition', options.member);
-      }
-    } else {
-      this.partialPrefill(options.member, options.location, options.outstandingFields);
     }
   },
 
@@ -70,20 +54,8 @@ const PetitionBar = Backbone.View.extend(_.extend(
     }
   },
 
-  isMobile() {
-    return $('.mobile-indicator').is(':visible');
-  },
-
-  hide: function() {
-    this.$('.petition-bar__mobile-view')
-      .addClass('petition-bar__mobile-view--closed')
-      .removeClass('petition-bar__mobile-view--open');
-  },
-
-  reveal: function() {
-    this.$('.petition-bar__mobile-view')
-      .removeClass('petition-bar__mobile-view--closed')
-      .addClass('petition-bar__mobile-view--open');
+  isSticky: function() {
+    this.$el.parent.hasClass('sticky-wrapper');
   },
 
   policeHeights: function() {
@@ -93,7 +65,7 @@ const PetitionBar = Backbone.View.extend(_.extend(
 
     // move the blurb up into the correct position
     let topHeight = this.$('.petition-bar__top').outerHeight();
-    if (this.isSticky){
+    if (this.isSticky()){
       this.$el.parent('.sticky-wrapper').css('top', `-${topHeight}px`);
     } else if(!this.$el.hasClass('stuck-right')){
       this.$el.css('top', `-${topHeight}px`);
@@ -125,6 +97,6 @@ const PetitionBar = Backbone.View.extend(_.extend(
     $('.thermometer__mercury').css('width', `${thermometer.percentage}%`);
   }
 
-}));
+});
 
 module.exports = PetitionBar;

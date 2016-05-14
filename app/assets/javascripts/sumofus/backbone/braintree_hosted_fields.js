@@ -1,6 +1,6 @@
-const HostedFieldsMethods = {
+const BraintreeHostedFields = Backbone.View.extend({
 
-  initializeBraintree() {
+  initialize() {
     this.getClientToken(this.setupFields());
   },
 
@@ -34,26 +34,30 @@ const HostedFieldsMethods = {
             "font-size": "16px",
           },
         },
-        onFieldEvent: (event) => {
-          if (event.type === "fieldStateChange"){
-            if (event.isPotentiallyValid) {
-              this.clearError(event.target.fieldKey);
-            } else {
-              this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
-            }
-            if (event.target.fieldKey == 'number') {
-              if (event.isEmpty) {
-                this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
-              } else {
-                this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
-              }
-            }
-            this.showCardType(event.card);
-          }
-        },
+        onFieldEvent: this.fieldUpdate(),
       },
     };
   },
+
+  fieldUpdate() {
+    return (event) => {
+      if (event.type === "fieldStateChange"){
+        if (event.isPotentiallyValid) {
+          this.clearError(event.target.fieldKey);
+        } else {
+          this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
+        }
+        if (event.target.fieldKey == 'number') {
+          if (event.isEmpty) {
+            this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
+          } else {
+            this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
+          }
+        }
+        this.showCardType(event.card);
+      }
+    }
+  }
 
   setupFields() {
     return (clientToken) => {
@@ -129,6 +133,6 @@ const HostedFieldsMethods = {
       callback(resp.token);
     });
   },
-};
+});
 
-module.exports = HostedFieldsMethods;
+module.exports = BraintreeHostedFields;

@@ -1,6 +1,37 @@
 let ErrorDisplay = require('show_errors');
+let MobileCheck = require('sumofus/backbone/mobile_check');
 
-const FormMethods = {
+const ActionForm = Backbone.View.extend({
+
+  // TODO: change petition-bar to action-form
+  events: {
+    'click .petition-bar__clear-form': 'clearForm',
+  },
+
+  initialize(options) {
+    this.el = options.el;
+    this.handleFormErrors();
+    this.insertActionKitId(options.akid);
+    this.insertSource(options.source);
+    if (MobileCheck.isMobile()) {
+      this.selectizeCountry();
+    }
+  },
+
+  // prefills based on outstandingFields and member, returns true or false to indicate
+  // the form can now be safely hidden from the user
+  prefillAsPossible(options) {
+    if (this.formCanAutocomplete(options.outstandingFields, options.member)) {
+      this.completePrefill(options.member, options.location);
+      if (this.formFieldCount() > 0) {
+        this.showFormClearer(options.member);
+      }
+      return true
+    } else {
+      this.partialPrefill(options.member, options.location, options.outstandingFields);
+      return false
+    }
+  },
 
   handleFormErrors() {
     this.$('form').on('ajax:error', (e, d) => { ErrorDisplay.show(e, d); });
@@ -80,9 +111,10 @@ const FormMethods = {
     return this.$('.petition-bar__field-container').length;
   },
 
-  showFormClearer(plugin_type, member) {
-    this.$(`.${plugin_type}-bar__welcome-name`).text(member.welcome_name);
-    this.$(`.${plugin_type}-bar__welcome-text`).removeClass('hidden-irrelevant');
+  showFormClearer(member) {
+    // TODO: change petition-bar to action-form
+    this.$('.petition-bar__welcome-name').text(member.welcome_name);
+    this.$('.petition-bar__welcome-text').removeClass('hidden-irrelevant');
   },
 
   insertActionKitId(akid) {
@@ -91,8 +123,7 @@ const FormMethods = {
     if(akid && $form) {
       this.insertHiddenInput('akid', akid, $form)
     }
-  }
-  ,
+  },
 
   insertSource(source) {
     let $form = this.$('form.action');
@@ -116,6 +147,6 @@ const FormMethods = {
       $action_kit_hidden.attr('name', 'referring_akid');
     }
   }
-};
+});
 
-module.exports = FormMethods;
+module.exports = ActionForm;
