@@ -100,11 +100,14 @@ module PaymentProcessor
               }
             end
 
-            it 'creates a transaction with the right params and charge date' do
+            before do
               allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_return(completed_gbp_flow)
               allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:get).and_return(completed_gbp_flow)
               allow_any_instance_of(GoCardlessPro::Services::MandatesService).to receive(:get).and_return(gbp_mandate)
               allow(PaymentProcessor::Currency).to receive(:convert).and_return(double(cents: amount_in_gbp*100))
+            end
+
+            it 'creates a transaction with the right params and charge date' do
 
               expect_any_instance_of(
                   GoCardlessPro::Services::PaymentsService
@@ -114,7 +117,43 @@ module PaymentProcessor
                            currency: 'GBP',
                            links: { mandate: 'MA9999' },
                            metadata: { customer_id: 'CU00000' },
+                           # Get charge day from the Settings class for GBP donations.
                            charge_date: "2016-06-#{Settings.gocardless.gbp_charge_day}"
+                       }
+                   )
+              described_class.make_transaction(gbp_options)
+            end
+
+            it 'uses the gbp charge day that is specified in the Settings class' do
+              Settings.gocardless.gbp_charge_day = '08'
+
+              expect_any_instance_of(
+                  GoCardlessPro::Services::PaymentsService
+              ).to receive(:create).with(
+                       params: {
+                           amount: amount_in_gbp * 100,
+                           currency: 'GBP',
+                           links: { mandate: 'MA9999' },
+                           metadata: { customer_id: 'CU00000' },
+                           # Get charge day from the Settings class for GBP donations.
+                           charge_date: "2016-06-08"
+                       }
+                   )
+              described_class.make_transaction(gbp_options)
+            end
+
+            it "uses the next possible charge date of the mandate if GBP charge date is not defined" do
+              Settings.gocardless.gbp_charge_day = nil
+
+              expect_any_instance_of(
+                  GoCardlessPro::Services::PaymentsService
+              ).to receive(:create).with(
+                       params: {
+                           amount: amount_in_gbp * 100,
+                           currency: 'GBP',
+                           links: { mandate: 'MA9999' },
+                           metadata: { customer_id: 'CU00000' },
+                           charge_date: gbp_mandate.next_possible_charge_date
                        }
                    )
               described_class.make_transaction(gbp_options)
