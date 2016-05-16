@@ -173,8 +173,44 @@ module ActionQueue
     include Donatable
 
     def payload
+      if data[:is_subscription]
+        subscription_payload
+      else
+        transaction_payload
+      end
+    end
+
+    def subscription_payload
       {
-        type:  'donation',
+        type:  'donation-subscription',
+        payment_provider: 'braintree',
+        params: {
+          donationpage: {
+            name:             "#{@action.page.slug}-donation",
+            payment_account:  get_payment_account
+          },
+          order: {
+            amount:         data[:amount],
+            card_num:       data[:card_num],
+            card_code:      '007',
+            exp_date_month: expire_month,
+            exp_date_year:  expire_year,
+            currency:       data[:currency],
+            recurring_id:   data[:subscription_id]
+          },
+          action: {
+            source: data[:source]
+          },
+          user: user_data
+        }
+      }
+    end
+
+
+    def transaction_payload
+      {
+        type:  'donation-transaction',
+        payment_provider: 'braintree',
         params: {
           donationpage: {
             name:             "#{@action.page.slug}-donation",
@@ -190,10 +226,11 @@ module ActionQueue
           },
           action: {
             source: data[:source]
-          }.merge(extra_fields_for_subscription),
+          },
           user: user_data
         }
       }
+
     end
 
     def action_fields

@@ -89,41 +89,6 @@ describe "GoCardless API" do
   end
 
   describe 'after successful redirect flow' do
-
-    let(:donation_push_params) do
-      {
-        # This is just copied from BT and needs to be changed
-        type: "donation",
-        payment_provider: "go_cardless",
-        transaction_id: payment_id_regexp,
-        subscription: false,
-        params: {
-          donationpage: {
-            name: "#{page.slug}-donation",
-            payment_account: "GoCardless GBP"
-          },
-          order: {
-            amount: gbp_amount.to_s,
-            currency: "GBP"
-          },
-          user: {
-            email: email,
-            country: "United States",
-            postal: "11225",
-            address1: '25 Elm Drive',
-            first_name: 'Bernie',
-            last_name: 'Sanders',
-            akid: '123.456.789',
-            source: 'fb',
-            user_en: 1
-          },
-          action: {
-            source: 'fb'
-          }
-        }
-      }
-    end
-
     let(:sdk_params) do
       {
         params: {
@@ -266,7 +231,6 @@ describe "GoCardless API" do
             }
           }
         end
-
 
         subject do
           VCR.use_cassette('go_cardless successful transaction') do
