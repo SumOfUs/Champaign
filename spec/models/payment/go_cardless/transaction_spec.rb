@@ -14,7 +14,6 @@ describe Payment::GoCardless::Transaction do
   it { is_expected.to respond_to :created_at }
   it { is_expected.to respond_to :updated_at }
 
-  # Associations
   it { is_expected.to respond_to :page }
   it { is_expected.to respond_to :page_id }
   it { is_expected.to respond_to :payment_method }
@@ -46,6 +45,17 @@ describe Payment::GoCardless::Transaction do
     end
   end
 
+  describe 'subscription' do
+    let(:subscription) { create(:payment_go_cardless_subscription) }
+
+    it 'can belong to a subscription' do
+      transaction = subscription.transactions.create(go_cardless_id: '1234')
+      subscription.transactions
+      expect(transaction.reload.subscription).to eq(subscription)
+      expect(subscription.transactions).to eq([transaction])
+    end
+  end
+
   describe 'validation' do
     before :each do
       expect(transaction).to be_valid
@@ -57,7 +67,7 @@ describe Payment::GoCardless::Transaction do
     end
   end
 
- describe 'state' do
+  describe 'state' do
     subject { create :payment_go_cardless_transaction }
 
     it 'has initial state' do

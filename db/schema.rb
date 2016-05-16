@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422125408) do
+ActiveRecord::Schema.define(version: 20160516190642) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,12 +63,6 @@ ActiveRecord::Schema.define(version: 20160422125408) do
     t.string   "resource"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-  end
-
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -275,10 +269,12 @@ ActiveRecord::Schema.define(version: 20160422125408) do
     t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
     t.integer  "payment_method_id"
+    t.integer  "subscription_id"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
   add_index "payment_braintree_transactions", ["payment_method_id"], name: "braintree_payment_method_index", using: :btree
+  add_index "payment_braintree_transactions", ["subscription_id"], name: "braintree_transaction_subscription", using: :btree
 
   create_table "payment_go_cardless_customers", force: :cascade do |t|
     t.string   "go_cardless_id"
@@ -298,7 +294,6 @@ ActiveRecord::Schema.define(version: 20160422125408) do
   create_table "payment_go_cardless_payment_methods", force: :cascade do |t|
     t.string   "go_cardless_id"
     t.string   "reference"
-    t.integer  "status"
     t.string   "scheme"
     t.date     "next_possible_charge_date"
     t.integer  "customer_id"
@@ -345,11 +340,13 @@ ActiveRecord::Schema.define(version: 20160422125408) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "aasm_state"
+    t.integer  "subscription_id"
   end
 
   add_index "payment_go_cardless_transactions", ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id", using: :btree
   add_index "payment_go_cardless_transactions", ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id", using: :btree
   add_index "payment_go_cardless_transactions", ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id", using: :btree
+  add_index "payment_go_cardless_transactions", ["subscription_id"], name: "go_cardless_transaction_subscription", using: :btree
 
   create_table "payment_go_cardless_webhook_events", force: :cascade do |t|
     t.string   "event_id"

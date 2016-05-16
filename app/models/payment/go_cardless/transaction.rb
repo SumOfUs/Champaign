@@ -4,6 +4,8 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   belongs_to :page
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
+  belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
+
 
   aasm do
     state :pending_customer_approval, initial: true
