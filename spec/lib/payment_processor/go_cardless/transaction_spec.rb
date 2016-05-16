@@ -159,6 +159,13 @@ module PaymentProcessor
               described_class.make_transaction(gbp_options)
             end
 
+            it "logs an error if the charge day is invalid" do
+              Settings.gocardless.gbp_charge_day = 100
+              expect(Rails.logger).to receive(:error).with("With 2016-5-#{Settings.gocardless.gbp_charge_day.to_i}, \
+your GBP charge date is invalid! Resorting to the mandate's next possible charge date.")
+              described_class.make_transaction(gbp_options)
+            end
+
           end
         end
 

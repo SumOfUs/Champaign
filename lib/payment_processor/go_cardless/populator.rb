@@ -70,22 +70,30 @@ module PaymentProcessor
       end
 
       def charge_date
-        mandate_date = Date.parse(mandate.next_possible_charge_date)
         if Settings.gocardless.gbp_charge_day.blank? || mandate.scheme.downcase != 'bacs'
-          return mandate_date.to_s
+          return mandate.next_possible_charge_date
         end
-        gbp_date = Settings.gocardless.gbp_charge_day.to_i
-        if gbp_date > 31
-          Rails.logger.error("Your GBP charge date is invalid! Your GoCardless transaction might not get processed.")
-        end
-        # GBP needs to be charged on the specified date. Use the next possible time that date is possible.
-        if mandate_date.day <= gbp_date
-          # if mandate becomes available before the specified date this month,
-          # charge the payment on the desired date.
-          Date.new(mandate_date.year, mandate_date.month, gbp_date).to_s
+
+        mandate_date = Date.parse(mandate.next_possible_charge_date)
+        gbp_date = create_gbp_date(mandate_date)
+
+        if mandate_date <= gbp_date
+          # if mandate becomes available before the specified date this month, charge the payment on the desired date.
+          gbp_date.to_s
         else
-          # if the mandate becomes available only after the date this month, charge on the date next month
-          Date.new(mandate_date.year, mandate_date.month + 1, gbp_date).to_s
+          # if the mandate becomes available only after the date this month, charge on the desired date next month.
+          gbp_date.next_month.to_s
+        end
+      end
+
+      def create_gbp_date(mandate_date)
+        begin
+          # GBP needs to be charged on the specified date. Use the next possible time that date is possible.
+          Date.new(mandate_date.year, mandate_date.month, Settings.gocardless.gbp_charge_day.to_i)
+        rescue ArgumentError
+          Rails.logger.error("With #{mandate_date.year}-#{mandate_date.month}-#{Settings.gocardless.gbp_charge_day.to_i}, \
+your GBP charge date is invalid! Resorting to the mandate's next possible charge date.")
+          mandate_date
         end
       end
 
