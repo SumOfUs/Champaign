@@ -49,8 +49,6 @@ a {
       z-index: 1;
       white-space: pre-wrap;
       padding-right: 0.25em;
-
-      @include hyphenate;
     }
 
     &--simple {
