@@ -42,19 +42,26 @@ module PaymentProcessor
             return
           end
 
-          original_action.form_data['recurrence_number'] += 1
-          original_action.save
-          customer = Payment::BraintreeCustomer.find_by(member_id: original_action.member_id)
-          Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
-          ActionQueue::Pusher.push(original_action)
+          # Original transaction was made with the subscription
+          if subscription.transactions.count == 1
+            customer = Payment::BraintreeCustomer.find_by(member_id: original_action.member_id)
+            Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
+
+            ChampaignQueue.push(
+              type: 'subscription-payment',
+              recurring_id: original_action.form_data['subscription_id']
+            )
+          end
+
         end
 
         # this method should only be called if @notification.subscription is a subscription object
         def original_action
-          return @action unless @action.blank?
-          @action = Payment::BraintreeSubscription.find_by(
-            subscription_id: @notification.subscription.id
-          ).try(:action)
+          @action ||= subscription.try(:action)
+        end
+
+        def subscription
+           @subscription ||= Payment::BraintreeSubscription.find_by(subscription_id: @notification.subscription.id)
         end
       end
     end

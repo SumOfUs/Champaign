@@ -127,6 +127,8 @@ module Payment
       @local_payment_method_id = payment_method_token.blank? ? nil : Payment::BraintreePaymentMethod.find_or_create_by!(
           customer: @customer,
           token: payment_method_token).id
+
+
       ::Payment::BraintreeTransaction.create!(transaction_attrs)
       return unless successful? && @save_customer
       @customer.update(customer_attrs)
@@ -148,7 +150,11 @@ module Payment
         status:                          status,
         payment_method_id:               @local_payment_method_id,
         page_id:                         @page_id
-      }
+      }.tap do |data|
+        if transaction.subscription_id
+          data[:subscription] = Payment::BraintreeSubscription.find_by_subscription_id(transaction.subscription_id)
+        end
+      end
     end
 
     def customer_attrs
