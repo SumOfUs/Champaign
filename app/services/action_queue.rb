@@ -103,24 +103,53 @@ module ActionQueue
     include Enqueable
     include Donatable
 
+
     def payload
+      if data[:is_subscription]
+        subscription_payload
+      else
+        transaction_payload
+      end
+    end
+
+    def subscription_payload
       {
-        type:  'donation',
+        type:  'donation-subscription',
         payment_provider: 'go_cardless',
-        transaction_id: @action.form_data['transaction_id'] ||  @action.form_data['subscription_id'],
-        subscription: @action.form_data['is_subscription'],
         params: {
           donationpage: {
             name:             "#{@action.page.slug}-donation",
             payment_account:  get_payment_account
           },
           order: {
-            amount:    data[:amount],
-            currency:  data[:currency]
+            amount:       data[:amount],
+            currency:     data[:currency],
+            recurring_id: data[:subscription_id]
           },
           action: {
             source: data[:source]
-          }.merge(extra_fields_for_subscription),
+          },
+          user: user_data
+        }
+      }
+    end
+
+    def transaction_payload
+      {
+        type:  'donation-transaction',
+        payment_provider: 'go_cardless',
+        params: {
+          donationpage: {
+            name:             "#{@action.page.slug}-donation",
+            payment_account:  get_payment_account
+          },
+          order: {
+            amount:       data[:amount],
+            currency:     data[:currency]
+          },
+          action: {
+            source: data[:source]
+          },
           user: user_data
         }
       }

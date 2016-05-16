@@ -236,6 +236,38 @@ describe "GoCardless API" do
         let(:params) { base_params.merge(recurring: false) }
         let(:converted_money) { instance_double(Money, cents: 9001) }
 
+        let(:donation_push_params) do
+          {
+            type: "donation-transaction",
+            payment_provider: "go_cardless",
+            params: {
+              donationpage: {
+                name: "#{page.slug}-donation",
+                payment_account: "GoCardless GBP"
+              },
+              order: {
+                amount: gbp_amount.to_s,
+                currency: "GBP"
+              },
+              user: {
+                email: email,
+                country: "United States",
+                postal: "11225",
+                address1: '25 Elm Drive',
+                first_name: 'Bernie',
+                last_name: 'Sanders',
+                akid: '123.456.789',
+                source: 'fb',
+                user_en: 1
+              },
+              action: {
+                source: 'fb'
+              }
+            }
+          }
+        end
+
+
         subject do
           VCR.use_cassette('go_cardless successful transaction') do
             get api_go_cardless_transaction_path(page.id), params
@@ -307,16 +339,42 @@ describe "GoCardless API" do
         end
       end
 
-      describe 'subscription' do
+      describe 'subscription'  do
 
         let(:params) { base_params.merge(recurring: true) }
 
-        before do
-          donation_push_params.merge!(
-            transaction_id: subscription_id_regexp,
-            subscription: true
-          )
+        let(:donation_push_params) do
+          {
+            type: "donation-subscription",
+            payment_provider: "go_cardless",
+            params: {
+              donationpage: {
+                name: "#{page.slug}-donation",
+                payment_account: "GoCardless GBP"
+              },
+              order: {
+                amount: gbp_amount.to_s,
+                currency: "GBP",
+                recurring_id: subscription_id_regexp
+              },
+              user: {
+                email: email,
+                country: "United States",
+                postal: "11225",
+                address1: '25 Elm Drive',
+                first_name: 'Bernie',
+                last_name: 'Sanders',
+                akid: '123.456.789',
+                source: 'fb',
+                user_en: 1
+              },
+              action: {
+                source: 'fb'
+              }
+            }
+          }
         end
+
 
         subject do
           VCR.use_cassette('go_cardless successful subscription') do
@@ -340,13 +398,6 @@ describe "GoCardless API" do
             allow( ChampaignQueue ).to receive(:push)
 
             subject
-
-            donation_push_params[:params][:action][:fields] = {
-              recurring_id: Member.first.id,
-              recurrence_number: 0,
-              payment_provider: "go_cardless"
-            }
-
             expect( ChampaignQueue ).to have_received(:push).with(donation_push_params)
           end
 
