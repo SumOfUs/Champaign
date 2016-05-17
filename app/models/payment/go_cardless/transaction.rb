@@ -51,8 +51,4 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   end
 
   validates :go_cardless_id, presence: true, allow_blank: false
-
-  def record_action
-    # ManageGoCardlessDonation.create(attributes)
-  end
 end

@@ -11,8 +11,6 @@ module PaymentProcessor::GoCardless
 
       def process
         @events.each do |event|
-          # when an event comes in, we check if we've seen it before
-          # if we haven't, we act on it and note that we've now seen it
           next if already_processed?(event)
           process_event(event)
           record_processing(event)
