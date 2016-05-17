@@ -20,7 +20,7 @@ describe "subscriptions" do
   let!(:page)         { create(:page) }
   let!(:member)       { create(:member) }
   let!(:action)       { create(:action, member: member, page: page, donation: true, form_data: {amount: 100, currency: 'GBP', payment_provider: 'go_cardless'}) }
-  let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100) }
+  let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100, page: page) }
 
   describe "with valid signature" do
     let(:headers) do
@@ -37,16 +37,13 @@ describe "subscriptions" do
 
     context 'with payment_created event' do
       before do
+        subscription.transactions.create!(go_cardless_id: 'PM123')
         allow(ChampaignQueue).to receive(:push)
         post('/api/go_cardless/webhook', events, headers)
       end
 
-      it 'updates action with recurrence number' do
-        expect(subscription.action.reload.form_data).to include( 'recurrence_number' => 1 )
-      end
-
       describe 'transaction' do
-        subject { Payment::GoCardless::Transaction.first }
+        subject { Payment::GoCardless::Transaction.last }
 
         it 'has correct attributes' do
           expect(
@@ -60,18 +57,16 @@ describe "subscriptions" do
 
         it 'is confirmed' do
          expect(
-            subject.confirmed?
+            subject.pending_customer_approval?
           ).to be(true)
         end
       end
 
       describe "Posting to queue" do
-        it 'posts to queue' do
-          expect( ChampaignQueue ).to have_received(:push).with(
-            a_hash_including(
-              params: a_hash_including({ order: { amount: 100, currency: 'GBP'}})
-            )
-          )
+        context 'with existing transaction' do
+          it 'posts to queue' do
+            expect( ChampaignQueue ).to have_received(:push).with(type: "subscription-payment", recurring_id: "index_ID_123")
+          end
         end
       end
     end
