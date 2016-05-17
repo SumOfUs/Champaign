@@ -4,7 +4,7 @@ h4
 p = t('plugins.petition.form_template_explanation')
 = form_tag plugins_form_create_path(plugin_id: plugin.id, plugin_type: plugin.name), method: :post, remote: true, class: 'petition', id: 'change-form-template'  do
   .form-group
-    = select_tag :master_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {prompt: t('plugins.petition.form_template_placeholder'), class: 'form-control form-select'}
+    = select_tag :master_id, options_from_collection_for_select(Form.masters.all, 'id', 'name'), {prompt: "-- #{t('plugins.petition.form_template_placeholder')} --", class: 'form-control form-select'}
 
   .form-group
     = submit_tag t('plugins.petition.apply_template'), class: 'btn btn-default xhr-feedback'
