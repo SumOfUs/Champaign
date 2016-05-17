@@ -23,9 +23,6 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
     end
 
     event :run_confirm do
-      after do
-        record_action
-      end
       transitions from: [:pending_customer_approval, :pending_submission, :submitted], to: :confirmed
     end
 
