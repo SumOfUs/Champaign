@@ -114,7 +114,7 @@ module ActionQueue
 
     def subscription_payload
       {
-        type:  'donation-subscription',
+        type:  'donation',
         payment_provider: 'go_cardless',
         params: {
           donationpage: {
@@ -136,7 +136,7 @@ module ActionQueue
 
     def transaction_payload
       {
-        type:  'donation-transaction',
+        type:  'donation',
         payment_provider: 'go_cardless',
         params: {
           donationpage: {
@@ -182,7 +182,7 @@ module ActionQueue
 
     def subscription_payload
       {
-        type:  'donation-subscription',
+        type:  'donation',
         payment_provider: 'braintree',
         params: {
           donationpage: {
@@ -209,7 +209,7 @@ module ActionQueue
 
     def transaction_payload
       {
-        type:  'donation-transaction',
+        type:  'donation',
         payment_provider: 'braintree',
         params: {
           donationpage: {

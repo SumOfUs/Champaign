@@ -203,7 +203,7 @@ describe "GoCardless API" do
 
         let(:donation_push_params) do
           {
-            type: "donation-transaction",
+            type: "donation",
             payment_provider: "go_cardless",
             params: {
               donationpage: {
@@ -309,7 +309,7 @@ describe "GoCardless API" do
 
         let(:donation_push_params) do
           {
-            type: "donation-subscription",
+            type: "donation",
             payment_provider: "go_cardless",
             params: {
               donationpage: {
