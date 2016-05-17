@@ -43,7 +43,7 @@ module PaymentProcessor
           end
 
           # Original transaction was made with the subscription
-          if subscription.transactions.count == 1
+          if subscription.transactions.count > 0
             customer = Payment::BraintreeCustomer.find_by(member_id: original_action.member_id)
             Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
 

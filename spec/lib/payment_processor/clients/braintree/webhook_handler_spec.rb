@@ -6,12 +6,13 @@ module PaymentProcessor
       describe WebhookHandler do
         describe '.handle' do
 
-          let(:subscription) { instance_double('Payment::BraintreeSubscription', action: action) }
-          let(:action) { create(:action, form_data: {recurrence_number: 0 }) }
+          let(:subscription) { instance_double('Payment::BraintreeSubscription', transactions: transactions, action: action) }
+          let(:transactions) { [double] }
+          let(:action) { create(:action, form_data: { subscription_id: '1234' }) }
 
           before :each do
             allow(Payment).to receive(:write_transaction)
-            allow(ActionQueue::Pusher).to receive(:push)
+            allow(ChampaignQueue).to receive(:push)
             allow(Rails.logger).to receive(:info)
           end
 
@@ -34,8 +35,19 @@ module PaymentProcessor
                 expect(Payment::BraintreeSubscription).to have_received(:find_by).with(subscription_id: 's09870')
               end
 
-              it 'pushes the action to ActionQueue::Pusher' do
-                expect(ActionQueue::Pusher).to have_received(:push).with(action)
+              context 'with existing transactions' do
+                it 'pushes the transaction to be queued' do
+                  expect(ChampaignQueue).to have_received(:push).
+                    with({type: "subscription-payment", recurring_id: "1234"})
+                end
+              end
+
+              context 'with no existing transactions' do
+                let(:transactions) { [] }
+
+                it 'pushes the transaction to be queued' do
+                  expect(ChampaignQueue).not_to have_received(:push)
+                end
               end
 
               it 'records to Payment.write_transaction' do
@@ -50,7 +62,6 @@ module PaymentProcessor
             end
 
             describe 'when Action is not found' do
-
               before :each do
                 allow(Payment::BraintreeSubscription).to receive(:find_by).and_return(nil)
                 WebhookHandler.handle(notification)
@@ -60,8 +71,8 @@ module PaymentProcessor
                 expect(Payment).not_to have_received(:write_transaction)
               end
 
-              it 'does not push to ActionQueue::Pusher' do
-                expect(ActionQueue::Pusher).not_to have_received(:push)
+              it 'does not push to ChampaignQueue' do
+                expect(ChampaignQueue).not_to have_received(:push)
               end
 
               it 'logs the failed handling' do
@@ -91,8 +102,8 @@ module PaymentProcessor
               expect(Payment).not_to have_received(:write_transaction)
             end
 
-            it 'does not push to ActionQueue::Pusher' do
-              expect(ActionQueue::Pusher).not_to have_received(:push)
+            it 'does not push to ChampaignQueue' do
+              expect(ChampaignQueue).not_to have_received(:push)
             end
 
             it 'logs the failed handling' do
