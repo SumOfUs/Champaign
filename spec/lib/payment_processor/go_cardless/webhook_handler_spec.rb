@@ -141,8 +141,9 @@ module PaymentProcessor::GoCardless
     end
 
     describe "Subscriptions" do
+      let(:page) { create(:page) }
       let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000PTV0CA1K' ) }
-      let!(:subscription)   { create(:payment_go_cardless_subscription,   go_cardless_id: 'index_ID_123', payment_method: payment_method) }
+      let!(:subscription)   { create(:payment_go_cardless_subscription,   go_cardless_id: 'index_ID_123', payment_method: payment_method, page: page) }
 
       let(:events) do
         [

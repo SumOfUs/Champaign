@@ -106,22 +106,25 @@ describe Payment::GoCardless::Subscription do
     end
 
     describe "charging" do
+      subject { create :payment_go_cardless_subscription }
+
+      let(:event) { {'links' => {'payment' => 'PM1234'}} }
+      let(:charger) { double }
+
       before do
         subject.run_approve!
       end
 
-      it 'payment can be created' do
-        expect{
-          subject.run_payment_create!
-        }.to_not change{ subject.reload.active? }.from(true)
-      end
-
       it 'calls charge!' do
-        expect_any_instance_of(
+        expect(
           Payment::GoCardless::Subscription::Charge
+        ).to receive(:new).with(subject, event){ charger }
+
+        expect(
+          charger
         ).to receive(:call)
 
-        subject.run_payment_create!
+        subject.run_payment_create!(event)
       end
     end
   end

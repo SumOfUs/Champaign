@@ -4,6 +4,8 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   belongs_to :page
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
+  belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
+
 
   aasm do
     state :pending_customer_approval, initial: true
@@ -21,9 +23,6 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
     end
 
     event :run_confirm do
-      after do
-        record_action
-      end
       transitions from: [:pending_customer_approval, :pending_submission, :submitted], to: :confirmed
     end
 
@@ -49,8 +48,4 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   end
 
   validates :go_cardless_id, presence: true, allow_blank: false
-
-  def record_action
-    # ManageGoCardlessDonation.create(attributes)
-  end
 end

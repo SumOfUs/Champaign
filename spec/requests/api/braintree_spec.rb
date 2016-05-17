@@ -22,6 +22,7 @@ describe "Braintree API" do
   let(:donation_push_params) do
     {
       type: "donation",
+      payment_provider: 'braintree',
       params: {
         donationpage: {
           name: "cash-rules-everything-around-me-donation",
@@ -47,13 +48,7 @@ describe "Braintree API" do
           user_en: 1
         },
         action: {
-          source: 'fb',
-          fields: {
-            recurring_id: 1,
-            recurrence_number: 0,
-            payment_provider: 'braintree',
-            exp_date: "1220"
-          }
+          source: 'fb'
         }
       }
     }
@@ -133,7 +128,7 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+                     token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -323,7 +318,7 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+                     token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -424,7 +419,7 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+                     token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -534,12 +529,48 @@ describe "Braintree API" do
         }
       end
 
+
+      let(:donation_push_params) do
+        {
+          type: "donation",
+          payment_provider: 'braintree',
+          params: {
+            donationpage: {
+              name: "cash-rules-everything-around-me-donation",
+              payment_account: "Braintree EUR"
+            },
+            order: {
+              amount: amount.to_s,
+              card_num: "1881",
+              card_code: "007",
+              exp_date_month: "12",
+              exp_date_year: "2020",
+              currency: "EUR"
+            },
+            user: {
+              email: "itsme@feelthebern.org",
+              country: "United States",
+              postal: "11225",
+              address1: '25 Elm Drive',
+              first_name: 'Bernie',
+              last_name: 'Sanders',
+              akid: '1234.5678.9910',
+              source: 'fb',
+              user_en: 1
+            },
+            action: {
+              source: 'fb'
+            }
+          }
+        }
+      end
+
       context 'when Member exists' do
 
         let!(:member) { create :member, email: user_params[:email], postal: nil }
 
         before do
-          donation_push_params[:params][:action][:fields][:recurring_id] = member.id
+          donation_push_params[:params][:order][:recurring_id] = /[a-z0-9]{6}/
         end
 
         context 'when BraintreeCustomer exists' do
@@ -595,7 +626,7 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+                     token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -728,7 +759,7 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+                     token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -821,7 +852,7 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
+                     token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -951,8 +982,8 @@ describe "Braintree API" do
               expect(transaction.status).to eq 'success'
 
               expect(Payment::BraintreePaymentMethod.find(transaction.payment_method_id).
-                         token).to match a_string_matching(token_format)
-              
+                     token).to match a_string_matching(token_format)
+
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -1057,9 +1088,9 @@ describe "Braintree API" do
     context "existing customer" do
       let(:basic_params) do
         {
-            currency: 'EUR',
-            payment_method_nonce: 'fake-valid-mastercard-nonce',
-            recurring: false
+          currency: 'EUR',
+          payment_method_nonce: 'fake-valid-mastercard-nonce',
+          recurring: false
         }
       end
 

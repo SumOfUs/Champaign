@@ -3,7 +3,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   class Charge
     attr_reader :subscription, :event
 
-    delegate :action, :amount, :currency, to: :subscription
+    delegate :page, :amount, :currency, to: :subscription
 
     def initialize(subscription, event = {})
       @event = event
@@ -11,20 +11,16 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     end
 
     def call
-      if action.blank?
-        # create the action
-        # ManageGoCardlessDonation.create(attributes)
-        #
-        # WE should have an action at this point. I
-        # think we should log if one isn't found.
-      else
-        number_of_payments = action.form_data.fetch('recurrence_number', 0) + 1
-        action.form_data['recurrence_number'] = number_of_payments
-        action.save
+      Payment::GoCardless.write_transaction(event['links']['payment'], amount, currency, page.id, subscription)
 
-        transaction = Payment::GoCardless.write_transaction(event['links']['payment'], amount, currency, action.page.id)
-        transaction.run_confirm!
-        ActionQueue::Pusher.push(action)
+      # Hack - ActionKit creates a transaction along with a recurring donation action, so when
+      # we eventually create our first transaction we don't need to pass this on.
+      #
+      if subscription.transactions.count > 1
+        ChampaignQueue.push(
+          type: 'subscription-payment',
+          recurring_id: @subscription.go_cardless_id
+        )
       end
     end
   end
@@ -39,6 +35,8 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   belongs_to :action
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
+  has_many   :transactions,   class_name: 'Payment::GoCardless::Transaction', foreign_key: :subscription_id
+
 
   ACTION_FROM_STATE = {
     created:                    :create,
