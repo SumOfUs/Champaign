@@ -13,8 +13,9 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     def call
       Payment::GoCardless.write_transaction(event['links']['payment'], amount, currency, page.id, subscription)
 
-      # Hack - ActionKit creates a transaction with the subscription, so when
-      # we create our first.
+      # Hack - ActionKit creates a transaction along with a recurring donation action, so when
+      # we eventually create our first transaction we don't need to pass this on.
+      #
       if subscription.transactions.count > 1
         ChampaignQueue.push(
           type: 'subscription-payment',
