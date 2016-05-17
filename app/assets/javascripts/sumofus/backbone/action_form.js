@@ -9,11 +9,21 @@ const ActionForm = Backbone.View.extend({
     'click .action-form__clear-form': 'clearForm',
   },
 
+  // options: object with any of the following keys
+  //    akid: the actionkitid (akid) to save with the user request
+  //    source: the referring source to save
+  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
+  //      the values in the member hash.
+  //    member: an object with fields that will prefill the form
+  //    location: a hash of location values inferred from the user's request
+  //    prefill: boolean, whether to prefill
   initialize(options) {
     this.handleFormErrors();
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
-    this.prefillAsPossible(options);
+    if (options.prefill) {
+      this.prefillAsPossible(options);
+    }
     if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
     }
@@ -28,6 +38,7 @@ const ActionForm = Backbone.View.extend({
       if (this.formFieldCount() > 0) {
         this.showFormClearer(options.member);
       }
+      this.$el.data('prefilled', true);
       return true
     } else {
       this.partialPrefill(options.member, options.location, options.outstandingFields);

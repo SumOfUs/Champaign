@@ -40,24 +40,21 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        var options = {
+        var sou = window.sumofus; // convenience binding
+        sou.myPetition    = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
+        sou.myActionForm  = new sou.ActionForm({
           member:           window.sumofus.personalization.member,
           outstandingFields:window.sumofus.personalization.outstandingFields,
           location:         window.sumofus.personalization.location,
           akid:             window.sumofus.personalization.urlParams.akid,
           source:           window.sumofus.personalization.urlParams.source,
-          thermometer:      window.sumofus.personalization.thermometer,
-          cosmetic:         true,
-          followUpUrl:      "{{ follow_up_url }}"
-        }
-        var sou = window.sumofus; // convenience binding
-        sou.myPetitionBar = new sou.PetitionBar(options);
-        sou.myActionForm  = new sou.ActionForm(options);
+          prefill:          true
+        });
 
         sou.myOverlayToggle = new sou.OverlayToggle();
         sou.mySticky        = new sou.DesktopSticky({extra_class: 'petition'});
-        sou.myThermometer   = new sou.Thermometer(options.thermometer);
-        sou.mySidebar       = new sou.Sidebar();
+        sou.myThermometer   = new sou.Thermometer(window.sumofus.personalization.thermometer);
+        sou.mySidebar       = new sou.Sidebar({petitionTextMinHeight: 120});
       });
     </script>
   </div>

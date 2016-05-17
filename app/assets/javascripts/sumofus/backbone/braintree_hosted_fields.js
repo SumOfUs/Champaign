@@ -1,5 +1,7 @@
 const BraintreeHostedFields = Backbone.View.extend({
 
+  el: '.hosted-fields-view',
+
   initialize() {
     this.getClientToken(this.setupFields());
   },
@@ -7,7 +9,7 @@ const BraintreeHostedFields = Backbone.View.extend({
   braintreeSettings() {
     return {
       id: "hosted-fields",
-      onPaymentMethodReceived: this.paymentMethodReceived(),
+      onPaymentMethodReceived: this.paymentMethodReceived,
       onError: this.handleErrors(),
       onReady: this.hideSpinner(),
       paypal: {
@@ -67,15 +69,18 @@ const BraintreeHostedFields = Backbone.View.extend({
 
   hideSpinner() {
     return (clientToken) => {
+      console.log(this.el);
+      console.log(this.$el);
       this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
       this.$('#hosted-fields').removeClass('hidden-closed');
-      this.policeHeights();
+      console.log('helloooo');
+      $.publish('sidebar:height_change');
     }
   },
 
   handleErrors() {
     return (error) => {
-      this.enableButton();
+      $.publish('fundraiser:server_error');
       if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
         _.each(error.details.invalidFieldKeys, (key) => {
           this.showError(this.translateKey(key), I18n.t('errors.is_invalid'));
@@ -132,6 +137,10 @@ const BraintreeHostedFields = Backbone.View.extend({
     $.get('/api/payment/braintree/token', function(resp, success){
       callback(resp.token);
     });
+  },
+
+  paymentMethodReceived (data) {
+    $.publish('fundraiser:nonce_received', data.nonce);
   },
 });
 

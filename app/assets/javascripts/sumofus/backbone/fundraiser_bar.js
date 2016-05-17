@@ -39,21 +39,19 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
-    this.mySticky = new DesktopSticky({el: '.fundraiser-bar', extraClass: 'fundraiser'});
-    this.myActionForm = new ActionForm({el: this.el});
-    this.hostedFields = new BraintreeHostedFields();
-    this.overlayToggle = new OverlayToggle();
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
     if (!this.isMobile()) {
-      this.selectizeCountry();
       $(window).on('resize', () => this.policeHeights());
     }
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
+    $.subscribe('fundraiser:server_error', () => { this.enableButton() });
+    $.subscribe('sidebar:height_change', () => { this.policeHeights() })
+    this.listenToSubmitDonation();
   },
 
   initializeRecurring (recurringDefault) {
@@ -76,22 +74,22 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
     this.hidingStepTwo = false;
     let amountKnown = (options.amount > 0); // non-numbers with > are always false
-    let formComplete = this.myActionForm.prefillAsPossible(options);
-    this.hideSteps(amountKnown, formComplete, options.member);
+    let formComplete = this.$('.action-form').data('prefilled');
+    this.hideSteps(amountKnown, formComplete);
   },
 
-  hideSteps (amountKnown, formComplete, member) {
+  hideSteps (amountKnown, formComplete) {
     if (amountKnown && formComplete) {
       this.changeStep(3);
-      this.hideSecondStep(member);
+      this.hideSecondStep();
     } else if (formComplete) {
-      this.hideSecondStep(member);
+      this.hideSecondStep();
     } else if (amountKnown) {
       this.changeStep(2);
     }
   },
 
-  hideSecondStep (member) {
+  hideSecondStep() {
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
@@ -218,22 +216,17 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.paymentMethodReceived()(fakeData);
   },
 
-  paymentMethodReceived () {
-    return (data) => {
-      this.nonce = data.nonce;
-      this.submitDonation();
-    }
-  },
-
-  submitDonation () {
-    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
-      payment_method_nonce: this.nonce,
-      amount:               this.donationAmount,
-      user:                 this.serializeUserForm(),
-      currency:             this.currency,
-      recurring:            this.readRecurring()
-    }).done(this.transactionSuccess()).
-      error(this.transactionFailed());
+  listenToSubmitDonation () {
+    $.subscribe('', (nonce) => {
+      $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
+        payment_method_nonce: this.nonce,
+        amount:               this.donationAmount,
+        user:                 this.serializeUserForm(),
+        currency:             this.currency,
+        recurring:            this.readRecurring()
+      }).done(this.transactionSuccess()).
+        error(this.transactionFailed());
+    });
   },
 
   transactionSuccess () {
