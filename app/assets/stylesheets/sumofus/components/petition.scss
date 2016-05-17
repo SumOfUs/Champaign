@@ -1,4 +1,4 @@
-.petition-bar, .fundraiser-bar {
+.petition-bar, .fundraiser-bar, .action-form {
 
   color: $navy;
 
@@ -156,7 +156,10 @@
     float: left;
     margin-top: 10px;
   }
+}
 
+
+.overlay-toggle {
   &__mobile-ui {
 
     @media(min-width: $mobile-width) {
@@ -188,9 +191,8 @@
   }
 }
 
-
 @media(max-width: $mobile-width) {
-  .petition-bar__mobile-view, .fundraiser-bar__mobile-view {
+  .overlay-toggle__mobile-view {
     position: fixed;
     width: 100%;
     padding: 0 4%;

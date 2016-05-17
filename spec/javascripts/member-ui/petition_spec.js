@@ -22,7 +22,7 @@ describe("Petition", function() {
       voter: true,
       hair_color: 'dyed'
     };
-    suite.inputs = $('.petition-bar__field-container').find('input.form__content, select.form__content');
+    suite.inputs = $('.action-form__field-container').find('input.form__content, select.form__content');
   });
 
   describe('instantiation', function(){
@@ -50,7 +50,7 @@ describe("Petition", function() {
         actionPath = /\/api\/pages\/[0-9]+\/actions/;
         server = sinon.fakeServer.create();
         server.respondWith("POST", actionPath, [200, { "Content-Type": "application/json" }, '{}' ]);
-        $('.petition-bar__submit-button').click();
+        $('.action-form__submit-button').click();
         server.respond();
         expect(callback.called).to.eq(true);
       })
@@ -105,7 +105,7 @@ describe("Petition", function() {
         });
 
         it('does not display the clearer', function(){
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.action-form__welcome-text')).to.have.class('hidden-irrelevant');
         });
       });
 
@@ -117,17 +117,17 @@ describe("Petition", function() {
         });
 
         it('displays the clearer when form has fields', function(){
-          expect($('.petition-bar .petition-bar__field-container').length).to.be.at.least(1);
+          expect($('.action-form .action-form__field-container').length).to.be.at.least(1);
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals });
-          expect($('.petition-bar__welcome-text')).not.to.have.class('hidden-irrelevant');
-          expect($('.petition-bar__welcome-name')).to.have.text('David Bowie');
+          expect($('.action-form__welcome-text')).not.to.have.class('hidden-irrelevant');
+          expect($('.action-form__welcome-name')).to.have.text('David Bowie');
         });
 
         it('does not display the clearer when form has no fields', function(){
-          $('.petition-bar__field-container').remove();
-          expect($('.petition-bar .petition-bar__field-container').length).to.eq(0);
+          $('.action-form__field-container').remove();
+          expect($('.action-form .action-form__field-container').length).to.eq(0);
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals });
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.action-form__welcome-text')).to.have.class('hidden-irrelevant');
         });
 
         it('prefills with values of member', function(){
@@ -138,7 +138,7 @@ describe("Petition", function() {
 
         it('hides form fields when all filled', function(){
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals });
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([true, true, true, true]);
@@ -146,7 +146,7 @@ describe("Petition", function() {
 
         it('does not hide empty form fields', function(){
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([true, false, false, false]);
@@ -154,8 +154,8 @@ describe("Petition", function() {
 
         it('reveals the form fields properly', function(){
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
-          $('.petition-bar__clear-form').click();
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          $('.action-form__clear-form').click();
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);
@@ -163,7 +163,7 @@ describe("Petition", function() {
 
         it('clears prefilled fields properly', function(){
           suite.petitionBar = new window.sumofus.PetitionBar({ outstandingFields: [], member: suite.fullVals });
-          $('.petition-bar__clear-form').click();
+          $('.action-form__clear-form').click();
           var vals = suite.inputs.map(function(ii, el){ return $(el).val(); }).toArray();
           expect(vals).to.eql( ['', '', '', '']);
         });
@@ -191,7 +191,7 @@ describe("Petition", function() {
 
           it('renames the hidden field when the "Not you?" is clicked', function() {
             suite.petitionBar = new window.sumofus.PetitionBar({outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'}});
-            $('.petition-bar__clear-form').click();
+            $('.action-form__clear-form').click();
             expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
           });
         });
@@ -222,7 +222,7 @@ describe("Petition", function() {
 
         it('does not hide the form fields', function(){
           suite.petitionBar = new window.sumofus.PetitionBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);
@@ -243,7 +243,7 @@ describe("Petition", function() {
 
         it('does not hide the form fields', function(){
           suite.petitionBar = new window.sumofus.PetitionBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);
@@ -260,7 +260,7 @@ describe("Petition", function() {
         });
 
         it('does not display the clearer', function(){
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.action-form__welcome-text')).to.have.class('hidden-irrelevant');
         });
 
         it('does not prefill', function(){
@@ -268,7 +268,7 @@ describe("Petition", function() {
         });
 
         it('does not hide the form fields', function(){
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);
@@ -282,8 +282,8 @@ describe("Petition", function() {
         });
 
         it('does not display the clearer', function(){
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.action-form__welcome-text')).to.have.class('hidden-irrelevant');
+          expect($('.action-form__welcome-text')).to.have.class('hidden-irrelevant');
         });
 
         it('prefills with values of member', function(){
@@ -292,7 +292,7 @@ describe("Petition", function() {
         });
 
         it('does not hide the form fields', function(){
-          var classed = $('.petition-bar__field-container').map(function(ii, el){
+          var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
           expect(classed).to.eql([false, false, false, false]);

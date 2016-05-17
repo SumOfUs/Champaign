@@ -57,7 +57,7 @@ const BraintreeHostedFields = Backbone.View.extend({
         this.showCardType(event.card);
       }
     }
-  }
+  },
 
   setupFields() {
     return (clientToken) => {

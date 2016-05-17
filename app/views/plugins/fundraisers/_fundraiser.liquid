@@ -1,10 +1,10 @@
 {% if plugins.fundraiser[ref].active %}
   <div class="fundraiser-bar {{ extra_class }}">
-    <div class="fundraiser-bar__mobile-view fundraiser-bar__mobile-view--closed">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="fundraiser-bar__content">
         <div class="fundraiser-bar__top script-dependent__for-height">
-          <div class="fundraiser-bar__mobile-ui">
-            <a class="fundraiser-bar__close-button">&#x2715;</a>
+          <div class="overlay-toggle__mobile-ui">
+            <a class="overlay-toggle__close-button">&#x2715;</a>
           </div>
           <h2>{{ plugins.fundraiser[ref].title }}</h2>
           <div class="fundraiser-bar__steps script-dependent">

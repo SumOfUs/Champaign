@@ -1,16 +1,16 @@
 const OverlayToggle = Backbone.View.extend({
 
-  el: 'overlay-toggle',
+  el: '.overlay-toggle',
 
   events: {
     'click .overlay-toggle__close-button': 'hide',
-  }
+  },
 
   initialize() {
     // we bing this event globally because the button to open the
     // overlay probably isn't inside the overlay
-    $('.overlay-toggle__open-button').on('click', () => this.reveal());
-  }
+    $('.overlay-toggle__open-button').on('click', () => { this.reveal() });
+  },
 
   hide() {
     this.$('.overlay-toggle__mobile-view')
@@ -24,3 +24,5 @@ const OverlayToggle = Backbone.View.extend({
       .addClass('overlay-toggle__mobile-view--open');
   },
 });
+
+module.exports = OverlayToggle;

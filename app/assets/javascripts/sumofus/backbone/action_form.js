@@ -3,19 +3,21 @@ let MobileCheck = require('sumofus/backbone/mobile_check');
 
 const ActionForm = Backbone.View.extend({
 
-  // TODO: change petition-bar to action-form
+  el: 'form.action-form',
+
   events: {
-    'click .petition-bar__clear-form': 'clearForm',
+    'click .action-form__clear-form': 'clearForm',
   },
 
   initialize(options) {
-    this.el = options.el;
     this.handleFormErrors();
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
-    if (MobileCheck.isMobile()) {
+    this.prefillAsPossible(options);
+    if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
     }
+    $.subscribe('form:clear', () => { this.clearForm() });
   },
 
   // prefills based on outstandingFields and member, returns true or false to indicate
@@ -34,11 +36,11 @@ const ActionForm = Backbone.View.extend({
   },
 
   handleFormErrors() {
-    this.$('form').on('ajax:error', (e, d) => { ErrorDisplay.show(e, d); });
+    this.$el.on('ajax:error', (e, d) => { ErrorDisplay.show(e, d); });
   },
 
   selectizeCountry() {
-    $('.petition-bar__country-selector').selectize();
+    this.$('.action-form__country-selector').selectize();
   },
 
   clearFormErrors() {
@@ -60,24 +62,24 @@ const ActionForm = Backbone.View.extend({
     $fields_holder.find('select').each((ii, el)=>{ el.selectedIndex = -1; });
     $fields_holder.find('.selectized').each((ii, el)=>{ el.selectize.clear(); });
     $fields_holder.parents('form').trigger('reset');
-    $('.petition-bar__welcome-text').addClass('hidden-irrelevant');
+    $('.action-form__welcome-text').addClass('hidden-irrelevant');
     this.renameActionKitIdToReferringId();
-    this.policeHeights();
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
-    this.$('.petition-bar__field-container').addClass('form__group--prefilled');
+    this.$('.action-form__field-container').addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
 
     // DESIRED BUT WEIRD BEHAVIOR - UNHIDE CHECKBOXES AND EMPTY FIELDS
-    let $empties = this.$('.petition-bar__field-container').
+    let $empties = this.$('.action-form__field-container').
                         find('input, textarea, select').
-                        filter(function(){
-                          return $(this).val().length === 0
+                        filter(function(ii, el){
+                          let val = $(this).val();
+                          return val === null || val.length === 0
                         });
-    let $checkboxes = this.$('.petition-bar__field-container').find('.checkbox-label');
+    let $checkboxes = this.$('.action-form__field-container').find('.checkbox-label');
     $.merge($empties, $checkboxes).
-         parents('.petition-bar__field-container').
+         parents('.action-form__field-container').
          removeClass('form__group--prefilled');
   },
 
@@ -90,7 +92,7 @@ const ActionForm = Backbone.View.extend({
   partialPrefill(prefillValues, unvalidatedPrefillValues = {}, fieldsToSkipPrefill = []) {
     if(!_.isObject(prefillValues)) { return; }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
-    this.$('.petition-bar__field-container input, select').each((ii, field) => {
+    this.$('.action-form__field-container input, select').each((ii, field) => {
       let $field = $(field);
       let name = $field.prop('name');
       if (unvalidatedPrefillValues.hasOwnProperty(name)) {
@@ -108,28 +110,23 @@ const ActionForm = Backbone.View.extend({
   },
 
   formFieldCount() {
-    return this.$('.petition-bar__field-container').length;
+    return this.$('.action-form__field-container').length;
   },
 
   showFormClearer(member) {
-    // TODO: change petition-bar to action-form
-    this.$('.petition-bar__welcome-name').text(member.welcome_name);
-    this.$('.petition-bar__welcome-text').removeClass('hidden-irrelevant');
+    this.$('.action-form__welcome-name').text(member.welcome_name);
+    this.$('.action-form__welcome-text').removeClass('hidden-irrelevant');
   },
 
   insertActionKitId(akid) {
-    let $form = this.$('form.action');
-
-    if(akid && $form) {
-      this.insertHiddenInput('akid', akid, $form)
+    if(akid && this.$el) {
+      this.insertHiddenInput('akid', akid, this.$el)
     }
   },
 
   insertSource(source) {
-    let $form = this.$('form.action');
-
-    if(source && $form) {
-      this.insertHiddenInput('source', source, $form)
+    if(source && this.$el) {
+      this.insertHiddenInput('source', source, this.$el)
     }
   },
 

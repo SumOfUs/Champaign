@@ -1,7 +1,6 @@
-const SmartSticky = require('sumofus/backbone/smart_sticky');
+const DesktopSticky = require('sumofus/backbone/desktop_sticky');
 const ActionForm  = require('sumofus/backbone/action_form');
 const CurrencyMethods     = require('sumofus/backbone/currency_methods');
-const HostedFieldsMethods = require('sumofus/backbone/hosted_fields');
 const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
 const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
 
@@ -18,7 +17,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .fundraiser-bar__clear-form': 'showSecondStep',
-    'ajax:success form.action': 'advanceToPayment',
+    'ajax:success form.action-form': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'change input.fundraiser-bar__recurring': 'updateButton',
@@ -40,9 +39,10 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize (options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
-    this.mySticky = new SmartSticky({el: '.fundraiser-bar', extraClass: 'fundraiser'});
+    this.mySticky = new DesktopSticky({el: '.fundraiser-bar', extraClass: 'fundraiser'});
     this.myActionForm = new ActionForm({el: this.el});
     this.hostedFields = new BraintreeHostedFields();
+    this.overlayToggle = new OverlayToggle();
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
@@ -273,7 +273,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   serializeUserForm () {
-    let list = this.$('form.action').serializeArray();
+    let list = this.$('form.action-form').serializeArray();
     let serialized = {}
     $.each(list, function(ii, field){
       serialized[field.name] = field.value;

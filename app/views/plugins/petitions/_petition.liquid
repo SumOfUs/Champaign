@@ -1,10 +1,10 @@
 {% if plugins.petition[ref].active %}
-  <div class="petition-bar {{ extra_class }}">
-    <div class="petition-bar__mobile-view petition-bar__mobile-view--closed">
+  <div class="petition-bar overlay-toggle desktop-sticky {{ extra_class }}">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="petition-bar__content">
         <div class="petition-bar__top">
-          <div class="petition-bar__mobile-ui">
-            <a class="petition-bar__close-button">&#x2715;</a>
+          <div class="overlay-toggle__mobile-ui">
+            <a class="overlay-toggle__close-button">&#x2715;</a>
           </div>
           <div class="petition-bar__title-bar">
             <h2 class="petition-bar__title">{{ plugins.petition[ref].cta }}</h2>
@@ -40,7 +40,7 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
+        var options = {
           member:           window.sumofus.personalization.member,
           outstandingFields:window.sumofus.personalization.outstandingFields,
           location:         window.sumofus.personalization.location,
@@ -49,7 +49,15 @@
           thermometer:      window.sumofus.personalization.thermometer,
           cosmetic:         true,
           followUpUrl:      "{{ follow_up_url }}"
-        });
+        }
+        var sou = window.sumofus; // convenience binding
+        sou.myPetitionBar = new sou.PetitionBar(options);
+        sou.myActionForm  = new sou.ActionForm(options);
+
+        sou.myOverlayToggle = new sou.OverlayToggle();
+        sou.mySticky        = new sou.DesktopSticky({extra_class: 'petition'});
+        sou.myThermometer   = new sou.Thermometer(options.thermometer);
+        sou.mySidebar       = new sou.Sidebar();
       });
     </script>
   </div>
