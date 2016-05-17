@@ -151,7 +151,7 @@ module Payment
         payment_method_id:               @local_payment_method_id,
         page_id:                         @page_id
       }.tap do |data|
-        if transaction.subscription_id
+        if transaction.try(:subscription_id)
           data[:subscription] = Payment::BraintreeSubscription.find_by_subscription_id(transaction.subscription_id)
         end
       end
