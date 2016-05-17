@@ -8,7 +8,7 @@ http_interactions:
       string: '{"data":{"session_token":null}}'
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -24,10 +24,8 @@ http_interactions:
       code: 404
       message: Not Found
     headers:
-      Server:
-      - cloudflare-nginx
       Date:
-      - Fri, 29 Apr 2016 22:02:23 GMT
+      - Mon, 09 May 2016 22:07:55 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -35,14 +33,14 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dfd75ceccbc016b65dffea79c56d433741461967343; expires=Sat, 29-Apr-17
-        22:02:23 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=df4550f171a6eaf379f530ee386dc62701462831674; expires=Tue, 09-May-17
+        22:07:54 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       X-Request-Id:
-      - fc1739ff-d234-4e4c-a1ac-e39ad90b8f27
+      - 7a3106a7-f488-4296-8ce6-e873d38f57a1
       Vary:
       - Origin
       X-Xss-Protection:
@@ -54,15 +52,17 @@ http_interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '999'
+      - '993'
       Ratelimit-Reset:
-      - Fri, 29 Apr 2016 22:03:00 GMT
+      - Mon, 09 May 2016 22:08:00 GMT
+      Server:
+      - cloudflare-nginx
       Cf-Ray:
-      - 29b609b6ccbb032a-MIA
+      - 2a08778d2c912846-SJC
     body:
       encoding: ASCII-8BIT
       string: '{"error":{"message":"Resource not found","errors":[{"reason":"resource_not_found","message":"Resource
-        not found"}],"documentation_url":"https://developer.gocardless.com/pro#resource_not_found","type":"invalid_api_usage","request_id":"fc1739ff-d234-4e4c-a1ac-e39ad90b8f27","code":404}}'
+        not found"}],"documentation_url":"https://developer.gocardless.com/pro#resource_not_found","type":"invalid_api_usage","request_id":"7a3106a7-f488-4296-8ce6-e873d38f57a1","code":404}}'
     http_version: 
-  recorded_at: Fri, 29 Apr 2016 22:02:25 GMT
+  recorded_at: Mon, 09 May 2016 22:07:55 GMT
 recorded_with: VCR 3.0.0

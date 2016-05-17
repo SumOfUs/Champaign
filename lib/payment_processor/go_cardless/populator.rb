@@ -2,7 +2,7 @@ module PaymentProcessor
   module GoCardless
     class Populator
 
-      def transaction_params
+      def request_params
         {
           amount: amount_in_cents,
           currency: currency,
@@ -15,8 +15,14 @@ module PaymentProcessor
         }
       end
 
+      def transaction_params
+        request_params.merge({
+          charge_date: charge_date
+        })
+      end
+
       def subscription_params
-        transaction_params.merge(
+        request_params.merge(
           {
             name: "donation",
             interval_unit: "monthly"
@@ -61,6 +67,34 @@ module PaymentProcessor
           access_token: Settings.gocardless.token,
           environment: Settings.gocardless.environment.to_sym
         )
+      end
+
+      def charge_date
+        if Settings.gocardless.gbp_charge_day.blank? || mandate.scheme.downcase != 'bacs'
+          return mandate.next_possible_charge_date
+        end
+
+        mandate_date = Date.parse(mandate.next_possible_charge_date)
+        gbp_date = create_gbp_date(mandate_date)
+
+        if mandate_date <= gbp_date
+          # if mandate becomes available before the specified date this month, charge the payment on the desired date.
+          gbp_date.to_s
+        else
+          # if the mandate becomes available only after the date this month, charge on the desired date next month.
+          gbp_date.next_month.to_s
+        end
+      end
+
+      def create_gbp_date(mandate_date)
+        begin
+          # GBP needs to be charged on the specified date. Use the next possible time that date is possible.
+          Date.new(mandate_date.year, mandate_date.month, Settings.gocardless.gbp_charge_day.to_i)
+        rescue ArgumentError
+          Rails.logger.error("With #{mandate_date.year}-#{mandate_date.month}-#{Settings.gocardless.gbp_charge_day.to_i}, \
+your GBP charge date is invalid! Resorting to the mandate's next possible charge date.")
+          mandate_date
+        end
       end
 
       def error_container

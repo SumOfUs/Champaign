@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -25,7 +25,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Fri, 06 May 2016 22:22:55 GMT
+      - Mon, 09 May 2016 22:07:49 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -33,16 +33,16 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=df256905c7c8b3863f1f9ece9d10fd3191462573375; expires=Sat, 06-May-17
-        22:22:55 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=d62cb7ddd15ba4b1fd9a9d4e638c7d18f1462831669; expires=Tue, 09-May-17
+        22:07:49 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       Etag:
-      - W/"e823549e30dcba8072873e7ae7cc3d06"
+      - W/"ad98d45b0277617fb13beb84d343ea77"
       X-Request-Id:
-      - 9c2add04-5b12-4271-98ff-135e7c19c5a4
+      - 4a69ff26-0adf-4ddc-b852-be986b799848
       Vary:
       - Origin
       X-Xss-Protection:
@@ -54,18 +54,83 @@ http_interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '999'
+      - '997'
       Ratelimit-Reset:
-      - Fri, 06 May 2016 22:23:00 GMT
+      - Mon, 09 May 2016 22:08:00 GMT
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 29efd56b5b6d07b5-MIA
+      - 2a08776c343f0d8b-SJC
     body:
       encoding: ASCII-8BIT
-      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-05-12","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-05-13","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
     http_version: 
-  recorded_at: Fri, 06 May 2016 22:22:55 GMT
+  recorded_at: Mon, 09 May 2016 22:07:49 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/subscriptions
+    body:
+      encoding: UTF-8
+      string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"},"charge_date":"2016-05-20","name":"donation","interval_unit":"monthly"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Mon, 09 May 2016 22:07:50 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d08ffbb3beba8df040f9ddf6a8107f3a81462831670; expires=Tue, 09-May-17
+        22:07:50 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - 01e2dbc0-4dd5-4610-a3a7-49bde1cb504a
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '996'
+      Ratelimit-Reset:
+      - Mon, 09 May 2016 22:08:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2a087772046a065d-SJC
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Invalid document structure","errors":[{"message":"\"charge_date\"
+        is not a permitted key.","request_pointer":"/subscriptions"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_document_structure","type":"invalid_api_usage","request_id":"01e2dbc0-4dd5-4610-a3a7-49bde1cb504a","code":400}}'
+    http_version: 
+  recorded_at: Mon, 09 May 2016 22:07:50 GMT
 - request:
     method: post
     uri: https://api-sandbox.gocardless.com/subscriptions
@@ -74,7 +139,7 @@ http_interactions:
       string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"},"name":"donation","interval_unit":"monthly"}}'
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin14 faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -91,7 +156,7 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Fri, 06 May 2016 22:22:56 GMT
+      - Tue, 10 May 2016 21:55:08 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -99,18 +164,18 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d803055cba7a7a70da25db27905ed3ba11462573376; expires=Sat, 06-May-17
-        22:22:56 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=de57e40fc1ef1a6a246c593135be281c41462917307; expires=Wed, 10-May-17
+        21:55:07 GMT; path=/; domain=.gocardless.com; HttpOnly
       Location:
-      - https://api-sandbox.gocardless.com/subscriptions/SB00002VAVKXCA
+      - https://api-sandbox.gocardless.com/subscriptions/SB00002WZCV7VC
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       Etag:
-      - W/"19608a4b8e6f4c43fb5ff501b2909a53"
+      - W/"9b8614f264534481e590916f665160a9"
       X-Request-Id:
-      - 0b833721-6091-47fd-8c5c-3e4e744a4f36
+      - 8b71e26a-7381-47e6-a5ac-f10fe7344b64
       Vary:
       - Origin
       X-Xss-Protection:
@@ -122,16 +187,16 @@ http_interactions:
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '998'
+      - '999'
       Ratelimit-Reset:
-      - Fri, 06 May 2016 22:23:00 GMT
+      - Tue, 10 May 2016 21:56:00 GMT
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 29efd5717c8c17f8-MIA
+      - 2a10a23422861ed1-SJC
     body:
       encoding: UTF-8
-      string: '{"subscriptions":{"id":"SB00002VAVKXCA","created_at":"2016-05-06T22:22:56.658Z","amount":1155,"currency":"GBP","status":"active","name":"donation","start_date":"2016-05-12","end_date":null,"interval":1,"interval_unit":"monthly","day_of_month":null,"month":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"payment_reference":null,"upcoming_payments":[{"charge_date":"2016-05-12","amount":1155},{"charge_date":"2016-06-13","amount":1155},{"charge_date":"2016-07-12","amount":1155},{"charge_date":"2016-08-12","amount":1155},{"charge_date":"2016-09-12","amount":1155},{"charge_date":"2016-10-12","amount":1155},{"charge_date":"2016-11-14","amount":1155},{"charge_date":"2016-12-12","amount":1155},{"charge_date":"2017-01-12","amount":1155},{"charge_date":"2017-02-13","amount":1155}],"links":{"mandate":"MD0000PSV8N7FR"}}}'
+      string: '{"subscriptions":{"id":"SB00002WZCV7VC","created_at":"2016-05-10T21:55:08.191Z","amount":1155,"currency":"GBP","status":"active","name":"donation","start_date":"2016-05-16","end_date":null,"interval":1,"interval_unit":"monthly","day_of_month":null,"month":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"payment_reference":null,"upcoming_payments":[{"charge_date":"2016-05-16","amount":1155},{"charge_date":"2016-06-16","amount":1155},{"charge_date":"2016-07-18","amount":1155},{"charge_date":"2016-08-16","amount":1155},{"charge_date":"2016-09-16","amount":1155},{"charge_date":"2016-10-17","amount":1155},{"charge_date":"2016-11-16","amount":1155},{"charge_date":"2016-12-16","amount":1155},{"charge_date":"2017-01-16","amount":1155},{"charge_date":"2017-02-16","amount":1155}],"links":{"mandate":"MD0000PSV8N7FR"}}}'
     http_version: 
-  recorded_at: Fri, 06 May 2016 22:22:56 GMT
+  recorded_at: Tue, 10 May 2016 21:55:08 GMT
 recorded_with: VCR 3.0.0
