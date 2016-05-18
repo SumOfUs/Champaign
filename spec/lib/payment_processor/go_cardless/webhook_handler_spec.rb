@@ -2,6 +2,8 @@ require 'rails_helper'
 
 module PaymentProcessor::GoCardless
   describe WebhookHandler do
+    let(:page) { create(:page) }
+
     let(:events) do
       [
         {
@@ -100,7 +102,7 @@ module PaymentProcessor::GoCardless
           WebhookHandler::ProcessEvents.process(events)
         end
 
-        it 'sets state to appropriate event' do
+        it 'sets updates state on payment method record' do
           expect(payment_method.reload.active?).to be(true)
         end
 
@@ -141,9 +143,10 @@ module PaymentProcessor::GoCardless
     end
 
     describe "Subscriptions" do
-      let(:page) { create(:page) }
+      let(:pending_first)   { true }
+      let(:action)          { create(:action, page: page, form_data: { recurrence_number: 1 }) }
       let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000PTV0CA1K' ) }
-      let!(:subscription)   { create(:payment_go_cardless_subscription,   go_cardless_id: 'index_ID_123', payment_method: payment_method, page: page) }
+      let!(:subscription)   { create(:payment_go_cardless_subscription,   go_cardless_id: 'index_ID_123', payment_method: payment_method, action: action, page: page) }
 
       let(:events) do
         [
@@ -212,6 +215,7 @@ module PaymentProcessor::GoCardless
 
       describe 'general behaviour' do
         before do
+          allow( ChampaignQueue ).to receive(:push)
           WebhookHandler::ProcessEvents.process(positive_events)
         end
 
@@ -254,7 +258,7 @@ module PaymentProcessor::GoCardless
       end
 
       describe 'with created payment event' do
-        let(:events) do
+        let(:first_events) do
           [
             {"id"=>"EVTESTJG8GPP7G",
               "created_at"=>"2016-04-14T11:32:20.343Z",
@@ -280,19 +284,121 @@ module PaymentProcessor::GoCardless
           ]
         end
 
+
+        let(:second_events) do
+          [
+            {"id"=>"XEVTESTJG8GPP7G",
+              "created_at"=>"2016-04-14T11:32:20.343Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"customer_approval_granted",
+              "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"customer",
+                "cause"=>"customer_approval_granted",
+                "description"=>"The customer granted approval for this subscription"},
+              "metadata"=>{}},
+
+            {"id"=>"XEVTEST4VAXTFZD",
+              "created_at"=>"2016-04-14T11:43:00.208Z",
+              "resource_type"=>"subscriptions",
+              "action"=>"payment_created",
+              "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
+              "details"=>
+               {"origin"=>"gocardless",
+                "cause"=>"payment_created",
+                "description"=>"Payment created by a subscription."},
+              "metadata"=>{}}
+          ]
+        end
+
+
         before do
-          WebhookHandler::ProcessEvents.process(events)
+          allow( ChampaignQueue ).to receive(:push)
+          WebhookHandler::ProcessEvents.process(first_events)
         end
 
         it 'state stays as active' do
           expect(subscription.reload.active?).to be(true)
         end
+
+        context 'first created payment' do
+          it "doesn't post to queue" do
+            expect( ChampaignQueue ).not_to have_received(:push)
+          end
+        end
+
+        context 'second created payment' do
+          before do
+            WebhookHandler::ProcessEvents.process(second_events)
+          end
+
+          it "posts to queue" do
+            expect( ChampaignQueue ).to have_received(:push)
+              .with({type: "subscription-payment", recurring_id: "index_ID_123" })
+          end
+        end
       end
     end
 
-    describe "Payments" do; end
+    describe "Payments" do
+      context 'from subscription' do
+        let(:events) do
+          [
+            {"id"=>"EV0005XF2PEPV3",
+            "created_at"=>"2016-05-05T12:42:55.781Z",
+            "resource_type"=>"mandates",
+            "action"=>"created",
+            "links"=>{"mandate"=>"MD0000QSNJZ13N"},
+            "details"=>
+             {"origin"=>"api",
+              "cause"=>"mandate_created",
+              "description"=>"Mandate created via the API."},
+            "metadata"=>{}},
+           {"id"=>"EV0005XF2QKCY7",
+            "created_at"=>"2016-05-05T12:42:56.480Z",
+            "resource_type"=>"subscriptions",
+            "action"=>"created",
+            "links"=>{"subscription"=>"SB00002TX3VY2P"},
+            "details"=>
+             {"origin"=>"api",
+              "cause"=>"subscription_created",
+              "description"=>"Subscription created via the API."},
+            "metadata"=>{}},
+           {"id"=>"EV0005XF2RY3Z2",
+            "created_at"=>"2016-05-05T12:42:56.733Z",
+            "resource_type"=>"payments",
+            "action"=>"created",
+            "links"=>{"subscription"=>"SB00002TX3VY2P", "payment"=>"PM00019VHGW3W1"},
+            "details"=>
+             {"origin"=>"gocardless",
+              "cause"=>"payment_created",
+              "description"=>"Payment created by a subscription"},
+            "metadata"=>{}},
+           {"id"=>"EV0005XF2S9FZA",
+            "created_at"=>"2016-05-05T12:42:56.765Z",
+            "resource_type"=>"subscriptions",
+            "action"=>"payment_created",
+            "links"=>{"payment"=>"PM00019VHGW3W1", "subscription"=>"SB00002TX3VY2P"},
+            "details"=>
+             {"origin"=>"gocardless",
+              "cause"=>"payment_created",
+              "description"=>"Payment created by a subscription."},
+            "metadata"=>{}}
+          ]
+        end
 
-    describe "Payouts" do; end
+        let!(:action)         { create(:action, :with_member_and_page) }
+        let!(:payment_method) { create(:payment_go_cardless_payment_method, go_cardless_id: 'MD0000QSNJZ13N' ) }
+        let!(:subscription)   { create(:payment_go_cardless_subscription,   go_cardless_id: 'SB00002TX3VY2P', page: page, action: action ) }
+
+        before do
+          WebhookHandler::ProcessEvents.process(events)
+        end
+
+        it 'creates a transaction record' do
+          expect(Payment::GoCardless::Transaction.count).to eq(1)
+        end
+      end
+    end
   end
 end
-

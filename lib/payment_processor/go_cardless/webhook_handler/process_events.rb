@@ -1,3 +1,5 @@
+require_relative 'payment'
+
 module PaymentProcessor::GoCardless
   module WebhookHandler
     class ProcessEvents

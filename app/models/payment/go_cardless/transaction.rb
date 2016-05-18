@@ -6,32 +6,36 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
   belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
 
+  validates :go_cardless_id, presence: true, allow_blank: false
+
+  ACTION_FROM_STATE = {
+    submitted:     :submit,
+    confirmed:     :confirm,
+    cancelled:     :cancel,
+    failed:        :fail,
+    charged_back:  :charge_back,
+    paid_out:      :pay_out
+  }
 
   aasm do
-    state :pending_customer_approval, initial: true
-    state :pending_submission
+    state :created, initial: true
     state :submitted
     state :confirmed
     state :paid_out
     state :cancelled
-    state :customer_approval_denied
     state :failed
     state :charged_back
 
     event :run_submit do
-      transitions from: [:pending_customer_approval, :pending_submission], to: :submitted
+      transitions from: :created, to: :submitted
     end
 
     event :run_confirm do
-      transitions from: [:pending_customer_approval, :pending_submission, :submitted], to: :confirmed
+      transitions from: [:created, :submitted], to: :confirmed
     end
 
     event :run_payout do
-      transitions from: [:pending_customer_approval, :pending_submission, :submitted, :confirmed], to: :paid_out
-    end
-
-    event :run_deny do
-      transitions to: :customer_approval_denied
+      transitions from: [:created, :submitted, :confirmed], to: :paid_out
     end
 
     event :run_cancel do
@@ -46,6 +50,4 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
       transitions to: :charged_back
     end
   end
-
-  validates :go_cardless_id, presence: true, allow_blank: false
 end
