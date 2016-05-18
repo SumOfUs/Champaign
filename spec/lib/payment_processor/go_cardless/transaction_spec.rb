@@ -62,16 +62,16 @@ module PaymentProcessor
           context 'with EUR' do
             it 'creates a transaction with the right params and charge date' do
               expect_any_instance_of(
-                  GoCardlessPro::Services::PaymentsService
+                GoCardlessPro::Services::PaymentsService
               ).to receive(:create).with(
-                       params: {
-                           amount: amount_in_euros * 100,
-                           currency: 'EUR',
-                           links: { mandate: 'MA00000' },
-                           metadata: { customer_id: 'CU00000' },
-                           charge_date: mandate.next_possible_charge_date
-                       }
-                   )
+                params: {
+                 amount: amount_in_euros * 100,
+                 currency: 'EUR',
+                 links: { mandate: 'MA00000' },
+                 metadata: { customer_id: 'CU00000' },
+                 charge_date: mandate.next_possible_charge_date
+                }
+              )
               subject
             end
           end
@@ -186,7 +186,7 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
               currency: "EUR",
               transaction_id: "PA00000",
               is_subscription: false,
-              payment_provider: "go_cardless"  
+              payment_provider: "go_cardless"
             })
             subject
           end
