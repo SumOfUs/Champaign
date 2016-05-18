@@ -29,13 +29,13 @@ module PaymentProcessor
 
         let(:completed_flow) do
           instance_double('GoCardlessPro::Resources::RedirectFlow', 
-            links: double(customer: 'CU00000', mandate: 'MA00000')
-          )
+                          links: double(customer: 'CU00000', mandate: 'MA00000')
+                         )
         end
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
-            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s
-          )
+                          id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s
+                         )
         end
 
         let(:payment) { instance_double('GoCardlessPro::Resources::Payment', id: 'PA00000') }
@@ -62,16 +62,16 @@ module PaymentProcessor
           context 'with EUR' do
             it 'creates a transaction with the right params and charge date' do
               expect_any_instance_of(
-                  GoCardlessPro::Services::PaymentsService
+                GoCardlessPro::Services::PaymentsService
               ).to receive(:create).with(
-                       params: {
-                           amount: amount_in_euros * 100,
-                           currency: 'EUR',
-                           links: { mandate: 'MA00000' },
-                           metadata: { customer_id: 'CU00000' },
-                           charge_date: mandate.next_possible_charge_date
-                       }
-                   )
+                params: {
+                  amount: amount_in_euros * 100,
+                  currency: 'EUR',
+                  links: { mandate: 'MA00000' },
+                  metadata: { customer_id: 'CU00000' },
+                  charge_date: mandate.next_possible_charge_date
+                }
+              )
               subject
             end
           end
@@ -82,21 +82,21 @@ module PaymentProcessor
             let(:completed_gbp_flow) do
               instance_double('GoCardlessPro::Resources::RedirectFlow',
                               links: double(customer: 'CU00000', mandate: 'MA9999')
-              )
+                             )
             end
             let(:gbp_mandate) do
               instance_double('GoCardlessPro::Resources::Mandate',
                               id: 'MA9999', scheme: 'bacs', next_possible_charge_date: '2016-05-22'
-              )
+                             )
             end
             let(:gbp_options) do
               {
-                  amount: amount_in_gbp,
-                  currency: 'GBP',
-                  user: { email: "bob@example.com", name: 'Bob' },
-                  page_id: page_id,
-                  redirect_flow_id: 'RE00000',
-                  session_token: "4f592f2a-2bc2-4028-8a8c-19b222e2faa7"
+                amount: amount_in_gbp,
+                currency: 'GBP',
+                user: { email: "bob@example.com", name: 'Bob' },
+                page_id: page_id,
+                redirect_flow_id: 'RE00000',
+                session_token: "4f592f2a-2bc2-4028-8a8c-19b222e2faa7"
               }
             end
 
@@ -110,17 +110,17 @@ module PaymentProcessor
             it 'creates a transaction with the right params and charge date' do
 
               expect_any_instance_of(
-                  GoCardlessPro::Services::PaymentsService
+                GoCardlessPro::Services::PaymentsService
               ).to receive(:create).with(
-                       params: {
-                           amount: amount_in_gbp * 100,
-                           currency: 'GBP',
-                           links: { mandate: 'MA9999' },
-                           metadata: { customer_id: 'CU00000' },
-                           # Get charge day from the Settings class for GBP donations.
-                           charge_date: "2016-06-#{Settings.gocardless.gbp_charge_day}"
-                       }
-                   )
+                params: {
+                  amount: amount_in_gbp * 100,
+                  currency: 'GBP',
+                  links: { mandate: 'MA9999' },
+                  metadata: { customer_id: 'CU00000' },
+                  # Get charge day from the Settings class for GBP donations.
+                  charge_date: "2016-06-#{Settings.gocardless.gbp_charge_day}"
+                }
+              )
               described_class.make_transaction(gbp_options)
             end
 
@@ -128,17 +128,17 @@ module PaymentProcessor
               Settings.gocardless.gbp_charge_day = '08'
 
               expect_any_instance_of(
-                  GoCardlessPro::Services::PaymentsService
+                GoCardlessPro::Services::PaymentsService
               ).to receive(:create).with(
-                       params: {
-                           amount: amount_in_gbp * 100,
-                           currency: 'GBP',
-                           links: { mandate: 'MA9999' },
-                           metadata: { customer_id: 'CU00000' },
-                           # Get charge day from the Settings class for GBP donations.
-                           charge_date: "2016-06-08"
-                       }
-                   )
+                params: {
+                  amount: amount_in_gbp * 100,
+                  currency: 'GBP',
+                  links: { mandate: 'MA9999' },
+                  metadata: { customer_id: 'CU00000' },
+                  # Get charge day from the Settings class for GBP donations.
+                  charge_date: "2016-06-08"
+                }
+              )
               described_class.make_transaction(gbp_options)
             end
 
@@ -146,16 +146,16 @@ module PaymentProcessor
               Settings.gocardless.gbp_charge_day = nil
 
               expect_any_instance_of(
-                  GoCardlessPro::Services::PaymentsService
+                GoCardlessPro::Services::PaymentsService
               ).to receive(:create).with(
-                       params: {
-                           amount: amount_in_gbp * 100,
-                           currency: 'GBP',
-                           links: { mandate: 'MA9999' },
-                           metadata: { customer_id: 'CU00000' },
-                           charge_date: gbp_mandate.next_possible_charge_date
-                       }
-                   )
+                params: {
+                  amount: amount_in_gbp * 100,
+                  currency: 'GBP',
+                  links: { mandate: 'MA9999' },
+                  metadata: { customer_id: 'CU00000' },
+                  charge_date: gbp_mandate.next_possible_charge_date
+                }
+              )
               described_class.make_transaction(gbp_options)
             end
 
@@ -186,7 +186,7 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
               currency: "EUR",
               transaction_id: "PA00000",
               is_subscription: false,
-              payment_provider: "go_cardless"  
+              payment_provider: "go_cardless"
             })
             subject
           end

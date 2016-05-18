@@ -125,7 +125,7 @@ module ActionQueue
             amount:       data[:amount],
             currency:     data[:currency],
             recurring_id: data[:subscription_id]
-          },
+          }.merge(fake_card_info),
           action: {
             source: data[:source]
           },
@@ -146,12 +146,21 @@ module ActionQueue
           order: {
             amount:       data[:amount],
             currency:     data[:currency]
-          },
+          }.merge(fake_card_info),
           action: {
             source: data[:source]
           },
           user: user_data
         }
+      }
+    end
+
+    def fake_card_info
+      {
+        card_num:       "4111111111111111",
+        card_code:      "007",
+        exp_date_month: "01",
+        exp_date_year:  "99"
       }
     end
 
