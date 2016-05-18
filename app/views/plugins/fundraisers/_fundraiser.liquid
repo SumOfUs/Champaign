@@ -1,5 +1,5 @@
 {% if plugins.fundraiser[ref].active %}
-  <div class="fundraiser-bar {{ extra_class }}">
+  <div class="fundraiser-bar sidebar desktop-sticky {{ extra_class }}">
     <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="fundraiser-bar__content">
         <div class="fundraiser-bar__top script-dependent__for-height">
@@ -64,10 +64,10 @@
             </div>
           </div>
           <div class="fundraiser-bar__step-panel form--big script-dependent hosted-fields-view" data-step="3">
-            <div class="fundraiser-bar__welcome-text hidden-irrelevant">
+            <div class="action-form__welcome-text hidden-irrelevant">
               <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
-              <span class="fundraiser-bar__welcome-name"></span> <br />
-              <a href="javascript:;" class=" fundraiser-bar__clear-form">{{ 'form.switch_user' | t }}</a>
+              <span class="action-form__welcome-name"></span> <br />
+              <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
             </div>
             <div class="fundraiser-bar__fields-loading">
               <i class="fa fa-spin fa-cog"></i>
@@ -111,33 +111,26 @@
     <script type="text/javascript">
       $(document).ready(function(){
         var sou = window.sumofus; // convenience binding
-        var options = {
-          pageId:           "{{ id }}",
-          followUpUrl:      "{{ follow_up_url }}",
-          currency:         window.sumofus.personalization.urlParams.currency || window.sumofus.personalization.location.currency,
-          donationBands:    window.sumofus.personalization.donationBands,
-          amount:           window.sumofus.personalization.urlParams.amount,
-          akid:             window.sumofus.personalization.urlParams.akid,
-          source:           window.sumofus.personalization.urlParams.source,
-          member:           window.sumofus.personalization.member,
-          location:         window.sumofus.personalization.location,
-          recurringDefault: window.sumofus.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-          outstandingFields:window.sumofus.personalization.outstandingFields
-        }
         sou.myActionForm  = new sou.ActionForm({
-          member:           window.sumofus.personalization.member,
-          outstandingFields:window.sumofus.personalization.outstandingFields,
-          location:         window.sumofus.personalization.location,
-          akid:             window.sumofus.personalization.urlParams.akid,
-          source:           window.sumofus.personalization.urlParams.source,
+          member:            sou.personalization.member,
+          outstandingFields: sou.personalization.outstandingFields,
+          location:          sou.personalization.location,
+          akid:              sou.personalization.urlParams.akid,
+          source:            sou.personalization.urlParams.source,
           prefill:          true
         });
-
-        sou.myFundraiser = new sou.FundraiserBar(options);
-        sou.mySticky     = new sou.DesktopSticky({extraClass: 'fundraiser'});
-        sou.hostedFields = new sou.BraintreeHostedFields();
+        sou.myFundraiser = new sou.FundraiserBar({
+          pageId:           "{{ id }}",
+          followUpUrl:      "{{ follow_up_url }}",
+          currency:         sou.personalization.urlParams.currency || sou.personalization.location.currency,
+          donationBands:    sou.personalization.donationBands,
+          amount:           sou.personalization.urlParams.amount,
+          recurringDefault: sou.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+        });
+        sou.mySidebar     = new sou.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
+        sou.mySticky      = new sou.DesktopSticky({extraClass: 'fundraiser'});
+        sou.hostedFields  = new sou.BraintreeHostedFields();
         sou.overlayToggle = new sou.OverlayToggle();
-
       });
     </script>
   </div>

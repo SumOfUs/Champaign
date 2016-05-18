@@ -149,6 +149,7 @@
     font-weight: bold;
     line-height: 20px;
     text-transform: uppercase;
+    float: left;
     .fa {
       float: left;
       font-size: 26px;
@@ -190,16 +191,9 @@
   }
 }
 
-$fundraiser-top-height: 162px;
-
 .sticky-wrapper {
   position: relative;
-
-  &.fundraiser {
-    top: $fundraiser-top-height * -1;
-  }
 }
-
 
 .hosted-fields {
   &__host {

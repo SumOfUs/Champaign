@@ -1,5 +1,5 @@
 {% if plugins.petition[ref].active %}
-  <div class="petition-bar overlay-toggle desktop-sticky {{ extra_class }}">
+  <div class="petition-bar sidebar overlay-toggle desktop-sticky {{ extra_class }}">
     <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="petition-bar__content">
         <div class="petition-bar__top">
@@ -41,7 +41,6 @@
     <script type="text/javascript">
       $(document).ready(function(){
         var sou = window.sumofus; // convenience binding
-        sou.myPetition    = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
         sou.myActionForm  = new sou.ActionForm({
           member:           window.sumofus.personalization.member,
           outstandingFields:window.sumofus.personalization.outstandingFields,
@@ -51,10 +50,11 @@
           prefill:          true
         });
 
+        sou.myPetition    = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
         sou.myOverlayToggle = new sou.OverlayToggle();
         sou.mySticky        = new sou.DesktopSticky({extra_class: 'petition'});
         sou.myThermometer   = new sou.Thermometer(window.sumofus.personalization.thermometer);
-        sou.mySidebar       = new sou.Sidebar({petitionTextMinHeight: 120});
+        sou.mySidebar       = new sou.Sidebar({petitionTextMinHeight: 120, baseClass: 'petition-bar'});
       });
     </script>
   </div>

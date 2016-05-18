@@ -2,14 +2,16 @@ const MobileCheck = require('sumofus/backbone/mobile_check');
 
 const Sidebar = Backbone.View.extend({
 
-  el: '.petition-bar',
+  el: '.sidebar',
 
   initialize(options = {}) {
     this.petitionTextMinHeight = options.petitionTextMinHeight || 120; // pixels
-    this.policeHeights();
+    this.baseClass = options.baseClass;
     if (!MobileCheck.isMobile()) {
       $(window).on('resize', () => this.policeHeights());
     }
+    $.subscribe('sidebar:height_change', () => { this.policeHeights() })
+    this.policeHeights();
   },
 
   isSticky: function() {
@@ -20,29 +22,41 @@ const Sidebar = Backbone.View.extend({
     if (MobileCheck.isMobile()) {
       return;
     }
+    this.positionBarTop();
+    this.positionBarTitle();
+    this.checkOverflow();
+  },
 
-    // move the blurb up into the correct position
-    let topHeight = this.$('.petition-bar__top').outerHeight();
-    if (this.isSticky()){
-      this.$el.parent('.sticky-wrapper').css('top', `-${topHeight}px`);
-      this.$el.css('top', 0);
-    } else if(!this.$el.hasClass('stuck-right')){
-      this.$el.css('top', `-${topHeight}px`);
-    }
-
-    // make sure the title is in the right place if it wraps
-    const $title = $('.petition-bar__title-bar');
-    $title.css('top', `-${$title.outerHeight()}px`);
-
+  checkOverflow() {
     // if the page is too short for the form, make it scroll overflow
-    let maxHeight = window.innerHeight - topHeight;
+    let maxHeight = window.innerHeight - this.topHeight;
     if(this.$el.hasClass('stuck-right')){
       maxHeight -= $title.outerHeight();
     }
-    const overflow = (this.$('.petition-bar__main')[0].scrollHeight > maxHeight) ? 'scroll' : 'visible'
-    this.$('.petition-bar__main').css('overflow', overflow);
-    this.$('.petition-bar__main').css('max-height', `${maxHeight}px`);
+    let main = this.$(`.${this.baseClass}__main`);
+    const overflow = (main[0].scrollHeight > maxHeight) ? 'scroll' : 'visible'
+    main.css('overflow', overflow);
+    main.css('max-height', `${maxHeight}px`);
   },
+
+  positionBarTop(){
+    // move the blurb up into the correct position
+    this.topHeight = this.$(`.${this.baseClass}__top`).outerHeight();
+    if (this.isSticky()){
+      this.$el.parent('.sticky-wrapper').css('top', `-${this.topHeight}px`);
+      this.$el.css('top', 0);
+    } else if(!this.$el.hasClass('stuck-right')){
+      this.$el.css('top', `-${this.topHeight}px`);
+    }
+  },
+
+  positionBarTitle(){
+    // make sure the title is in the right place if it wraps
+    const $title = $(`.${this.baseClass}__title-bar`);
+    if ($title.length) {
+      $title.css('top', `-${$title.outerHeight()}px`);
+    }
+  }
 
 });
 

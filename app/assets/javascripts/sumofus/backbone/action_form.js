@@ -125,8 +125,9 @@ const ActionForm = Backbone.View.extend({
   },
 
   showFormClearer(member) {
-    this.$('.action-form__welcome-name').text(member.welcome_name);
-    this.$('.action-form__welcome-text').removeClass('hidden-irrelevant');
+    // don't bind to this.$ so it can be anywhere on the page
+    $('.action-form__welcome-name').text(member.welcome_name);
+    $('.action-form__welcome-text').removeClass('hidden-irrelevant');
   },
 
   insertActionKitId(akid) {

@@ -16,7 +16,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
-    'click .fundraiser-bar__clear-form': 'showSecondStep',
+    'click .action-form__clear-form': 'showSecondStep',
     'ajax:success form.action-form': 'advanceToPayment',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
@@ -28,12 +28,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    followUpUrl: the url to redirect to after success
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
-  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
-  //      the values in the member hash.
   //    donationBands: an object with three letter currency codes as keys
-  //    location: a hash of location values inferred from the user's request
-  //    member: an object with fields that will prefill the form
-  //    akid: the actionkitid (akid) to save with the user request
   //    recurringDefault: either 'donation', 'recurring', or 'only_recurring'
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
@@ -44,13 +39,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.followUpUrl = options.followUpUrl;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
-    if (!this.isMobile()) {
-      $(window).on('resize', () => this.policeHeights());
-    }
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
     $.subscribe('fundraiser:server_error', () => { this.enableButton() });
-    $.subscribe('sidebar:height_change', () => { this.policeHeights() })
     this.listenToSubmitDonation();
   },
 
@@ -101,13 +92,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.$('.fundraiser-bar__welcome-text').addClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'visible');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(3);
-    this.clearForm();
+    $.publish('form:clear');
     this.hidingStepTwo = false;
     this.changeStep(2);
-  },
-
-  isMobile () {
-    return $('.mobile-indicator').is(':visible');
   },
 
   primeCustom (e) {
@@ -178,7 +165,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.changeStepPanel(targetStep);
     this.changeStepNumber(targetStep);
     this.currentStep = targetStep;
-    this.policeHeights();
+    $.publish('sidebar:height_change');
   },
 
   changeStepPanel (targetStep) {
@@ -203,12 +190,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         }
       });
     });
-  },
-
-  policeHeights() {
-    const $main = this.$('.fundraiser-bar__main');
-    const overflow = $main[0].scrollHeight > $main.outerHeight() ? 'scroll' : 'visible';
-    $main.css('overflow', overflow);
   },
 
   // for testing without waiting on braintree API
@@ -261,7 +242,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
       });
 
-      this.policeHeights();
+      $.publish('sidebar:height_change');
     }
   },
 

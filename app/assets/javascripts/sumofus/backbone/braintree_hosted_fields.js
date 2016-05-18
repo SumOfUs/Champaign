@@ -69,11 +69,8 @@ const BraintreeHostedFields = Backbone.View.extend({
 
   hideSpinner() {
     return (clientToken) => {
-      console.log(this.el);
-      console.log(this.$el);
       this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
       this.$('#hosted-fields').removeClass('hidden-closed');
-      console.log('helloooo');
       $.publish('sidebar:height_change');
     }
   },
