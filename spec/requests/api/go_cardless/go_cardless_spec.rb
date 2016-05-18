@@ -212,8 +212,8 @@ describe "GoCardless API" do
               },
               order: {
                 amount: gbp_amount.to_s,
-                currency: "GBP",
-                card_num:       "4111111111111111",
+                currency:       "GBP",
+                card_num:       "DDEB",
                 card_code:      "007",
                 exp_date_month: "01",
                 exp_date_year:  "99"
@@ -341,7 +341,7 @@ describe "GoCardless API" do
                 amount: gbp_amount.to_s,
                 currency: "GBP",
                 recurring_id: subscription_id_regexp,
-                card_num:       "4111111111111111",
+                card_num:       "DDEB",
                 card_code:      "007",
                 exp_date_month: "01",
                 exp_date_year:  "99"

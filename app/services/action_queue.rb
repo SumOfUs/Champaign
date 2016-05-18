@@ -157,7 +157,7 @@ module ActionQueue
 
     def fake_card_info
       {
-        card_num:       "4111111111111111",
+        card_num:       "DDEB",
         card_code:      "007",
         exp_date_month: "01",
         exp_date_year:  "99"
