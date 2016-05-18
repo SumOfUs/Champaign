@@ -1,5 +1,4 @@
 class Payment::GoCardless::Subscription < ActiveRecord::Base
-
   class Charge
     attr_reader :subscription, :event
 
@@ -33,10 +32,9 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
 
   belongs_to :page
   belongs_to :action
-  belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
+  belongs_to :customer,       class_name: 'Payment::GoCardless::Customer'
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
   has_many   :transactions,   class_name: 'Payment::GoCardless::Transaction', foreign_key: :subscription_id
-
 
   ACTION_FROM_STATE = {
     created:                    :create,

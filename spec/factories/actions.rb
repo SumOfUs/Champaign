@@ -5,6 +5,10 @@ FactoryGirl.define do
     link "MyString"
     created_user false
     subscribed_user false
-  end
 
+    trait :with_member_and_page do
+      member
+      page
+    end
+  end
 end

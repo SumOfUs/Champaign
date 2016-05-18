@@ -55,9 +55,9 @@ describe "subscriptions" do
           })
         end
 
-        it 'is confirmed' do
+        it 'is created' do
          expect(
-            subject.pending_customer_approval?
+            subject.created?
           ).to be(true)
         end
       end

@@ -71,7 +71,7 @@ describe Payment::GoCardless::Transaction do
     subject { create :payment_go_cardless_transaction }
 
     it 'has initial state' do
-      expect(subject.pending_customer_approval?).to be(true)
+      expect(subject.created?).to be(true)
     end
 
     context 'submission allowed' do
@@ -150,12 +150,6 @@ describe Payment::GoCardless::Transaction do
       expect{
         subject.run_cancel!
       }.to change{ subject.reload.cancelled? }.from(false).to(true)
-    end
-
-    it 'can be denied' do
-      expect{
-        subject.run_deny!
-      }.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
     end
 
     it 'can be charged back' do
