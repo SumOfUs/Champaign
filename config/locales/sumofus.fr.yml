@@ -29,8 +29,8 @@ fr:
     donate_now: Don maintenant
     loading: "Chargement du portail sécurisé de paiement"
     debit:
-      recurring: "(FR) You are setting up a monthly donation of %{amount} to SumOfUs"
-      one_time: "(FR) You are donating %{amount} to SumOfUs"
+      recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
+      one_time: "Vous souhaitez donner %{amount} à SumOfUs."
       direct_debit: "Prélèvement SEPA"
     fields:
       cvv: CVV
