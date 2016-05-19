@@ -109,4 +109,22 @@ describe Member do
       expect(m.liquid_data[:welcome_name]).to eq 'me@sexualintellectual.com'
     end
   end
+
+  describe 'go_cardless_customer' do
+
+    let(:member){ create :member }
+
+    it 'can have one go_cardless_customer' do
+      customer = create :payment_go_cardless_customer, member_id: member.id
+      expect(member.reload.go_cardless_customers.to_a).to eq [customer]
+    end
+
+    it 'can have several go_cardless_customers' do
+      customers = []
+      3.times do
+        customers << create(:payment_go_cardless_customer, member_id: member.id)
+      end
+      expect(member.reload.go_cardless_customers.to_a).to match_array customers
+    end
+  end
 end
