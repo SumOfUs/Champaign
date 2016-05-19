@@ -1,9 +1,12 @@
 const BraintreeHostedFields = Backbone.View.extend({
 
   el: '.hosted-fields-view',
+  TOKEN_WAIT_BEFORE_RETRY: 1500, // ms
+  TOKEN_RETRY_LIMIT: 5,
 
   initialize() {
     this.getClientToken(this.setupFields());
+    this.tokenRetries = 0;
   },
 
   braintreeSettings() {
@@ -133,6 +136,16 @@ const BraintreeHostedFields = Backbone.View.extend({
   getClientToken(callback) {
     $.get('/api/payment/braintree/token', function(resp, success){
       callback(resp.token);
+    }).fail((error) => {
+      // this code tries to fetch the token again and again
+      // when fetching the token fails
+      this.tokenRetries += 1;
+      if (this.tokenRetries < this.TOKEN_RETRY_LIMIT) {
+        window.setTimeout(() => {
+          this.getClientToken(callback);
+        }, this.TOKEN_WAIT_BEFORE_RETRY);
+      }
+
     });
   },
 

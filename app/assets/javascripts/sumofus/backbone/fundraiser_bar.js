@@ -198,7 +198,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   listenToSubmitDonation () {
-    $.subscribe('', (nonce) => {
+    $.subscribe('fundraiser:nonce_received', (nonce) => {
       $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
         payment_method_nonce: this.nonce,
         amount:               this.donationAmount,
