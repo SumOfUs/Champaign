@@ -32,6 +32,7 @@ deployment:
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
+    # Change the branch value to your branch name to push up your branch to the staging server automatically.
     branch: going-cardless
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
@@ -39,7 +40,7 @@ deployment:
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
   testing:
     # Change the branch value to your branch name to push up your branch to the testing server automatically.
-    branch: page-updates
+    branch: going-cardless
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
