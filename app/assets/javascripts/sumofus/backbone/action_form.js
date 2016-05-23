@@ -7,6 +7,7 @@ const ActionForm = Backbone.View.extend({
 
   events: {
     'click .action-form__clear-form': 'clearForm',
+    'ajax:success form.action-form': 'handleSuccess',
   },
 
   // options: object with any of the following keys
@@ -155,6 +156,10 @@ const ActionForm = Backbone.View.extend({
     if($action_kit_hidden) {
       $action_kit_hidden.attr('name', 'referring_akid');
     }
+  },
+
+  handleSuccess(){
+    $.publish('form:submitted');
   }
 });
 
