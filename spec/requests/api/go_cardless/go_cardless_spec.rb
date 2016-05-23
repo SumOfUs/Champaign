@@ -307,6 +307,15 @@ describe "GoCardless API" do
             expect(member.country).to eq "US"
             expect(member.postal).to eq "11225"
           end
+
+          it 'adds the first Customer to the Member' do
+            expect{ subject }.to change{ member.reload.go_cardless_customers.size }.from(0).to(1)
+          end
+
+          it 'can add a second Customer to the Member' do
+            create :payment_go_cardless_customer, member_id: member.id
+            expect{ subject }.to change{ member.go_cardless_customers.size }.from(1).to(2)
+          end
         end
 
         describe 'when Member is new' do
@@ -320,6 +329,11 @@ describe "GoCardless API" do
             member = Member.last
             expect(member.country).to eq "US"
             expect(member.postal).to eq "11225"
+          end
+
+          it "associates the Member with a Customer" do
+            expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by 1
+            expect(Payment::GoCardless::Customer.last.member_id).to eq Member.last.id
           end
         end
       end
@@ -363,7 +377,6 @@ describe "GoCardless API" do
             }
           }
         end
-
 
         subject do
           VCR.use_cassette('go_cardless successful subscription') do
@@ -420,6 +433,15 @@ describe "GoCardless API" do
             expect(member.country).to eq "US"
             expect(member.postal).to eq "11225"
           end
+
+          it 'adds the first customer to the member' do
+            expect{ subject }.to change{ member.reload.go_cardless_customers.size }.from(0).to(1)
+          end
+
+          it 'can add a second customer to the member' do
+            create :payment_go_cardless_customer, member_id: member.id
+            expect{ subject }.to change{ member.go_cardless_customers.size }.from(1).to(2)
+          end
         end
 
         describe 'when Member is new' do
@@ -433,6 +455,11 @@ describe "GoCardless API" do
             member = Member.last
             expect(member.country).to eq "US"
             expect(member.postal).to eq "11225"
+          end
+
+          it "associates the Member with a Customer" do
+            expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by 1
+            expect(Payment::GoCardless::Customer.last.member_id).to eq Member.last.id
           end
         end
       end

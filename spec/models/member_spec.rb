@@ -116,15 +116,12 @@ describe Member do
 
     it 'can have one go_cardless_customer' do
       customer = create :payment_go_cardless_customer, member_id: member.id
-      expect(member.reload.go_cardless_customers.to_a).to eq [customer]
+      expect(member.reload.go_cardless_customers).to match_array [customer]
     end
 
     it 'can have several go_cardless_customers' do
-      customers = []
-      3.times do
-        customers << create(:payment_go_cardless_customer, member_id: member.id)
-      end
-      expect(member.reload.go_cardless_customers.to_a).to match_array customers
+      customers = 3.times.map { create(:payment_go_cardless_customer, member_id: member.id) }
+      expect(member.reload.go_cardless_customers).to match_array customers
     end
   end
 end
