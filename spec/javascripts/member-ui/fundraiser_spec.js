@@ -632,12 +632,10 @@ describe("Fundraiser", function() {
     describe('third panel', function() {
 
       beforeEach(function(){
-        suite.server.respondWith("POST", this.validatePath, ["200", {}, ""]);
         $('.fundraiser-bar__custom-field').val('$22');
         $('.fundraiser-bar__first-continue').click();
-        $('.petition-bar__submit-button').click();
+        $('form.action-form').trigger('ajax:success');
 
-        suite.server.respond();
         expect(helpers.currentStepOf(3)).to.eq(3);
       });
 
@@ -653,7 +651,7 @@ describe("Fundraiser", function() {
       });
 
       it('sends the nonce to the server after receiving it from braintree', function(){
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
         expect(request.url).to.eq("/api/payment/braintree/pages/1/transaction");
@@ -662,18 +660,18 @@ describe("Fundraiser", function() {
       });
 
       it("sends 'recurring' as false by default", function(){
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=false"]);
       });
 
       it("sends 'recurring' as true if it's checked", function(){
         $('input.fundraiser-bar__recurring').click();
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=true"]);
       });
 
       it('submits the currency and amount to the server', function(){
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         request = helpers.last(suite.server.requests);
         bodyPairs = decodeURI(request.requestBody).split('&');
         expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
@@ -682,7 +680,7 @@ describe("Fundraiser", function() {
       it('loads the follow-up url after success from the server', function(){
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
       });
@@ -691,7 +689,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [500, { "Content-Type": "application/json" }, 'Failure!' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(1);
@@ -702,7 +700,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(1);
@@ -713,7 +711,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        $.publish('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(2);

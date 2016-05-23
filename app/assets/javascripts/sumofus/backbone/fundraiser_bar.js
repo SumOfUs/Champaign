@@ -17,7 +17,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
     'click .action-form__clear-form': 'showSecondStep',
-    'ajax:success form.action-form': 'advanceToPayment',
+    'ajax:success form.action-form': 'advanceToNextStep',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'change input.fundraiser-bar__recurring': 'updateButton',
@@ -114,7 +114,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     };
   },
 
-  advanceToPayment (e, data) {
+  advanceToNextStep (e, data) {
     this.changeStep(this.currentStep+1);
   },
 
@@ -190,11 +190,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         }
       });
     });
-  },
-
-  // for testing without waiting on braintree API
-  fakeNonceSuccess (fakeData) {
-    this.paymentMethodReceived()(fakeData);
   },
 
   listenToSubmitDonation () {
