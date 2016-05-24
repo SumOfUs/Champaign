@@ -15,18 +15,23 @@ describe("Petition", function() {
       suite.callback = sinon.spy();
     });
 
+    afterEach(function(){
+      suite.petition.undelegateEvents();
+      Backbone.off();
+    });
+
     it('redirects to the followUpUrl if it is supplied', function(){
       suite.petition = new window.sumofus.Petition({followUpUrl: suite.followUpUrl});
       sinon.stub(suite.petition, 'redirectTo');
-      $.publish('form:submitted');
+      Backbone.trigger('form:submitted');
       expect(suite.petition.redirectTo).to.have.been.calledWith(suite.followUpUrl);
       suite.petition.redirectTo.restore();
     });
 
     it('calls the callback function if it is supplied', function(){
       var callback = sinon.spy();
-      new window.sumofus.Petition({submissionCallback: callback});
-      $.publish('form:submitted');
+      suite.petition = new window.sumofus.Petition({submissionCallback: callback});
+      Backbone.trigger('form:submitted');
       expect(callback.called).to.eq(true);
     });
 
@@ -34,7 +39,7 @@ describe("Petition", function() {
       var callback = sinon.spy();
       suite.petition = new window.sumofus.Petition({submissionCallback: callback, followUpUrl: suite.followUpUrl});
       sinon.stub(suite.petition, 'redirectTo');
-      $.publish('form:submitted');
+      Backbone.trigger('form:submitted');
       expect(suite.petition.redirectTo).to.have.been.calledWith(suite.followUpUrl);
       expect(callback.called).to.eq(true);
       suite.petition.redirectTo.restore();
@@ -43,7 +48,7 @@ describe("Petition", function() {
     it('sends an alert if neither callback nor followUpUrl passed', function(){
       window.alert = sinon.spy();
       suite.petition = new window.sumofus.Petition();
-      $.publish('form:submitted');
+      Backbone.trigger('form:submitted');
       expect(window.alert.called).to.eq(true);
     });
   });

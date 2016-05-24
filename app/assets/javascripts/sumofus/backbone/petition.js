@@ -1,6 +1,12 @@
+const GlobalEvents = require('sumofus/backbone/global_events');
+
 const Petition = Backbone.View.extend({
 
   el: '.petition-bar',
+
+  globalEvents: {
+    'form:submitted': 'handleSuccess',
+  },
 
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
@@ -8,7 +14,7 @@ const Petition = Backbone.View.extend({
   initialize(options = {}) {
     this.followUpUrl = options.followUpUrl;
     this.submissionCallback = options.submissionCallback;
-    $.subscribe('form:submitted', () => { this.handleSuccess(); });
+    GlobalEvents.bindEvents(this);
   },
 
   handleSuccess(e, data) {
