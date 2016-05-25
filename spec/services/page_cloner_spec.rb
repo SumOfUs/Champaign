@@ -14,12 +14,12 @@ describe PageCloner do
 
   it 'clones links' do
     expect(cloned_page.links).not_to eq(page.links)
-    expect(cloned_page.links.count).to eq(1)
+    expect(cloned_page.links.size).to eq(1)
   end
 
   it 'clones tag associations' do
     expect(cloned_page.tags).to eq(page.tags)
-    expect(cloned_page.tags.count).to eq(1)
+    expect(cloned_page.tags.size).to eq(1)
   end
 
   it 'associates with the same language' do
@@ -47,11 +47,11 @@ describe PageCloner do
       page.update(primary_image: primary_image)
     end
 
-    it 'clones image' do
-      expect(cloned_page.images.first).not_to eq(page.images.first)
+    it 'clones images' do
+      expect(cloned_page.images.count).to eq(page.reload.images.count)
     end
 
-    it 'clones primary image' do
+    it 'associates primary image' do
       expect(page.primary_image).to eq(primary_image)
       expect(cloned_page.primary_image).not_to eq(primary_image)
     end
@@ -69,10 +69,13 @@ describe PageCloner do
     end
 
     def get_plugin(type)
-      [
-        page.plugins.select{|plugin| plugin.is_a?(type)}.first,
-        cloned_page.plugins.select{|plugin| plugin.is_a?(type)}.first
-      ]
+      [ page.plugins.select{|plugin| plugin.is_a?(type)}.first,
+        cloned_page.plugins.select{|plugin| plugin.is_a?(type)}.first ]
+    end
+
+    it 'clones plugins' do
+      expect(cloned_page.plugins.count).to eq(3)
+      expect(cloned_page.plugins).not_to match(page.plugins)
     end
 
     it 'clones petition' do

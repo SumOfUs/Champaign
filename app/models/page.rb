@@ -57,6 +57,13 @@ class Page < ActiveRecord::Base
     tag_names << plugin_names
   end
 
+  def dup
+    clone = super
+    clone.primary_image = nil
+    clone.title = "#{title} #{Time.now.to_s}"
+    clone
+  end
+
   private
 
   def switch_plugins
