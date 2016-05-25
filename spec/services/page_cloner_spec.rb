@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PageCloner do
   let!(:tag)  { create(:tag) }
   let(:campaign) { create(:campaign) }
-  let(:page)  { create(:page, tags: [tag], campaign: campaign) }
+  let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar') }
   let!(:link) { create(:link, page: page) }
 
   subject(:cloned_page) { PageCloner.clone!(page) }
@@ -32,10 +32,23 @@ describe PageCloner do
   end
 
   describe 'title and slug' do
-    # TODO: not sure what's best here.
+    context 'no title is passed in' do
+      it 'clones title' do
+        expect(cloned_page.title).to eq('foo bar')
+      end
 
-    it 'appends timestamp to title' do
-      expect(cloned_page.title).to match(/\d{4}-\d{1,2}-\d{1,2}/)
+      it 'clones slug with appended count' do
+        expect(cloned_page.slug).to eq('foo-bar-1')
+      end
+    end
+
+    context 'new title passed in' do
+      subject(:cloned_page) { PageCloner.clone!(page, "The English Patient") }
+
+      it 'assigns new title' do
+        expect(cloned_page.title).to eq('The English Patient')
+        expect(cloned_page.slug).to  eq('the-english-patient')
+      end
     end
   end
 

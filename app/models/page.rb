@@ -17,13 +17,13 @@ class Page < ActiveRecord::Base
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
 
-  validates :title, presence: true, uniqueness: true
+  validates :title, presence: true
   validates :liquid_layout, presence: true
   validate  :primary_image_is_owned
 
   after_save :switch_plugins
 
-  friendly_id :title, use: [:finders, :slugged]
+  friendly_id :slug_candidates, use: [:finders, :slugged]
 
   def liquid_data
     attributes.merge(link_list: links.map(&:attributes))
@@ -60,8 +60,19 @@ class Page < ActiveRecord::Base
   def dup
     clone = super
     clone.primary_image = nil
-    clone.title = "#{title} #{Time.now.to_s}"
+    clone.slug = nil
     clone
+  end
+
+  def number_of_pages_with_matching_title
+    Page.where(title: title).count
+  end
+
+  def slug_candidates
+    [
+      :title,
+      [:title, :number_of_pages_with_matching_title]
+    ]
   end
 
   private

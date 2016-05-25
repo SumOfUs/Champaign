@@ -1,12 +1,13 @@
 class PageCloner
-  attr_reader :page, :cloned_page
+  attr_reader :page, :cloned_page, :title
 
-  def self.clone!(page)
-    new(page).clone!
+  def self.clone!(page, title = nil)
+    new(page, title).clone!
   end
 
-  def initialize(page)
+  def initialize(page, title = nil)
     @page = page
+    @title = title
   end
 
   def clone!
@@ -22,6 +23,8 @@ class PageCloner
 
   def clone_page
     @cloned_page = page.dup
+    @cloned_page.title = @title if @title
+
     yield(self)
 
     @cloned_page.save
