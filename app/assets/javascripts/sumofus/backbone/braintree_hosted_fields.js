@@ -5,7 +5,7 @@ const BraintreeHostedFields = Backbone.View.extend({
   TOKEN_RETRY_LIMIT: 5,
 
   initialize() {
-    this.getClientToken(this.setupFields());
+    this.getClientToken(this.setupFields.bind(this));
     this.tokenRetries = 0;
   },
 
@@ -13,8 +13,8 @@ const BraintreeHostedFields = Backbone.View.extend({
     return {
       id: "hosted-fields",
       onPaymentMethodReceived: this.paymentMethodReceived,
-      onError: this.handleErrors(),
-      onReady: this.hideSpinner(),
+      onError: this.handleErrors.bind(this),
+      onReady: this.hideSpinner.bind(this),
       paypal: {
         container: 'hosted-fields__paypal',
         onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
@@ -39,53 +39,45 @@ const BraintreeHostedFields = Backbone.View.extend({
             "font-size": "16px",
           },
         },
-        onFieldEvent: this.fieldUpdate(),
+        onFieldEvent: this.fieldUpdate.bind(this),
       },
     };
   },
 
-  fieldUpdate() {
-    return (event) => {
-      if (event.type === "fieldStateChange"){
-        if (event.isPotentiallyValid) {
-          this.clearError(event.target.fieldKey);
+  fieldUpdate(event) {
+    if (event.type === "fieldStateChange"){
+      if (event.isPotentiallyValid) {
+        this.clearError(event.target.fieldKey);
+      } else {
+        this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
+      }
+      if (event.target.fieldKey == 'number') {
+        if (event.isEmpty) {
+          this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
         } else {
-          this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
+          this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
         }
-        if (event.target.fieldKey == 'number') {
-          if (event.isEmpty) {
-            this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
-          } else {
-            this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
-          }
-        }
-        this.showCardType(event.card);
       }
+      this.showCardType(event.card);
     }
   },
 
-  setupFields() {
-    return (clientToken) => {
-      braintree.setup(clientToken, "custom", this.braintreeSettings());
-    }
+  setupFields(clientToken) {
+    braintree.setup(clientToken, "custom", this.braintreeSettings());
   },
 
-  hideSpinner() {
-    return (clientToken) => {
-      this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
-      this.$('#hosted-fields').removeClass('hidden-closed');
-      $.publish('sidebar:height_change');
-    }
+  hideSpinner(clientToken) {
+    this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
+    this.$('#hosted-fields').removeClass('hidden-closed');
+    Backbone.trigger('sidebar:height_change');
   },
 
-  handleErrors() {
-    return (error) => {
-      $.publish('fundraiser:server_error');
-      if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
-        _.each(error.details.invalidFieldKeys, (key) => {
-          this.showError(this.translateKey(key), I18n.t('errors.is_invalid'));
-        });
-      }
+  handleErrors(error) {
+    Backbone.trigger('fundraiser:server_error');
+    if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
+      _.each(error.details.invalidFieldKeys, (key) => {
+        this.showError(key, I18n.t('errors.is_invalid'));
+      });
     }
   },
 
@@ -150,7 +142,7 @@ const BraintreeHostedFields = Backbone.View.extend({
   },
 
   paymentMethodReceived (data) {
-    $.publish('fundraiser:nonce_received', data.nonce);
+    Backbone.trigger('fundraiser:nonce_received', data.nonce);
   },
 });
 

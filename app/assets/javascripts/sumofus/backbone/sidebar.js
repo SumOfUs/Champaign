@@ -1,8 +1,13 @@
+const GlobalEvents = require('sumofus/backbone/global_events');
 const MobileCheck = require('sumofus/backbone/mobile_check');
 
 const Sidebar = Backbone.View.extend({
 
   el: '.sidebar',
+
+  globalEvents: {
+    'sidebar:height_change': 'policeHeights',
+  },
 
   initialize(options = {}) {
     this.petitionTextMinHeight = options.petitionTextMinHeight || 120; // pixels
@@ -10,7 +15,7 @@ const Sidebar = Backbone.View.extend({
     if (!MobileCheck.isMobile()) {
       $(window).on('resize', () => this.policeHeights());
     }
-    $.subscribe('sidebar:height_change', () => { this.policeHeights() })
+    GlobalEvents.bindEvents(this);
     this.policeHeights();
   },
 

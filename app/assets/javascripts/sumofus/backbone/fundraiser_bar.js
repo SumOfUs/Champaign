@@ -3,6 +3,7 @@ const ActionForm  = require('sumofus/backbone/action_form');
 const CurrencyMethods     = require('sumofus/backbone/currency_methods');
 const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
 const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
+const GlobalEvents = require('sumofus/backbone/global_events');
 
 const FundraiserBar = Backbone.View.extend(_.extend(
    CurrencyMethods, {
@@ -24,6 +25,11 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
   },
 
+  globalEvents: {
+    'fundraiser:server_error': 'enableButton',
+    'fundraiser:nonce_received': 'submitDonation',
+  },
+
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
   //    currency: the three letter capitalized currency code to use
@@ -41,8 +47,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.pageId = options.pageId;
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
-    $.subscribe('fundraiser:server_error', () => { this.enableButton() });
-    this.listenToSubmitDonation();
+    GlobalEvents.bindEvents(this);
   },
 
   initializeRecurring (recurringDefault) {
@@ -92,7 +97,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.$('.fundraiser-bar__welcome-text').addClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'visible');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(3);
-    $.publish('form:clear');
+    Backbone.trigger('form:clear');
     this.hidingStepTwo = false;
     this.changeStep(2);
   },
@@ -165,7 +170,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.changeStepPanel(targetStep);
     this.changeStepNumber(targetStep);
     this.currentStep = targetStep;
-    $.publish('sidebar:height_change');
+    Backbone.trigger('sidebar:height_change');
   },
 
   changeStepPanel (targetStep) {
@@ -192,53 +197,47 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     });
   },
 
-  listenToSubmitDonation () {
-    $.subscribe('fundraiser:nonce_received', (nonce) => {
-      $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
-        payment_method_nonce: this.nonce,
-        amount:               this.donationAmount,
-        user:                 this.serializeUserForm(),
-        currency:             this.currency,
-        recurring:            this.readRecurring()
-      }).done(this.transactionSuccess()).
-        error(this.transactionFailed());
-    });
+  submitDonation (nonce) {
+    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
+      payment_method_nonce: this.nonce,
+      amount:               this.donationAmount,
+      user:                 this.serializeUserForm(),
+      currency:             this.currency,
+      recurring:            this.readRecurring()
+    }).done(this.transactionSuccess.bind(this)).
+      error(this.transactionFailed.bind(this));
   },
 
-  transactionSuccess () {
-    return (data, status) => {
-      if (this.followUpUrl) {
-        this.redirectTo(this.followUpUrl);
-      } else {
-        // this should never happen, but just in case.
-        alert(I18n.t('fundraiser.thank_you'));
-      }
+  transactionSuccess(data, status) {
+    if (this.followUpUrl) {
+      this.redirectTo(this.followUpUrl);
+    } else {
+      // this should never happen, but just in case.
+      alert(I18n.t('fundraiser.thank_you'));
     }
   },
 
-  transactionFailed () {
-    return (data, status) => {
-      this.enableButton();
-      let $errors = this.$('.fundraiser-bar__errors');
-      $errors.removeClass('hidden-closed');
-      $errors.find('.fundraiser-bar__error-detail').remove();
-      if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
-        var messages = data.responseJSON.errors.map(function(error){
-          if (error.declined) {
-            return I18n.t('fundraiser.card_declined')
-          } else {
-            return error.message;
-          }
-        });
-      } else {
-        var messages = [I18n.t('fundraiser.unknown_error')];
-      }
-      _.each(messages, (error_message) => {
-        $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
+  transactionFailed(data, status) {
+    this.enableButton();
+    let $errors = this.$('.fundraiser-bar__errors');
+    $errors.removeClass('hidden-closed');
+    $errors.find('.fundraiser-bar__error-detail').remove();
+    if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
+      var messages = data.responseJSON.errors.map(function(error){
+        if (error.declined) {
+          return I18n.t('fundraiser.card_declined')
+        } else {
+          return error.message;
+        }
       });
-
-      $.publish('sidebar:height_change');
+    } else {
+      var messages = [I18n.t('fundraiser.unknown_error')];
     }
+    _.each(messages, (error_message) => {
+      $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
+    });
+
+    Backbone.trigger('sidebar:height_change');
   },
 
   serializeUserForm () {
