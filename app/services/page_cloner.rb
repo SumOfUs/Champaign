@@ -25,7 +25,9 @@ class PageCloner
     @cloned_page = page.dup
     @cloned_page.title = @title if @title
 
-    yield(self)
+    ActiveRecord::Base.transaction do
+      yield(self)
+    end
 
     @cloned_page.save
     @cloned_page
