@@ -15,6 +15,8 @@ class Api::PagesController < ApplicationController
 
   def duplicate
     new_page = PageCloner.clone(@page, params[:title])
+    QueueManager.push(new_page, job_type: :create)
+
     render json: new_page
   end
 

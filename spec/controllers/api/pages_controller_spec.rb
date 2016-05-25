@@ -7,6 +7,7 @@ describe Api::PagesController do
 
     before do
       allow(PageCloner).to receive(:clone){ dup }
+      allow(QueueManager).to receive(:push)
       allow(Page).to receive(:find){ page }
     end
 
@@ -32,6 +33,10 @@ describe Api::PagesController do
           expect(PageCloner).to have_received(:clone).with(page, 'Foo Bar')
         end
       end
+    end
+
+    it 'posts page to queue' do
+      expect(QueueManager).to have_received(:push).with(dup, job_type: :create)
     end
 
     it 'renders json' do
