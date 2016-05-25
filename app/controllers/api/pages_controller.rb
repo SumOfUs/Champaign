@@ -13,6 +13,11 @@ class Api::PagesController < ApplicationController
     end
   end
 
+  def duplicate
+    new_page = PageCloner.clone(@page, params[:title])
+    render json: new_page
+  end
+
   def share_rows
     render json: (@page.shares.map do |s|
       {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
@@ -51,6 +56,4 @@ class Api::PagesController < ApplicationController
   def get_page
     @page = Page.find(params[:id])
   end
-
 end
-
