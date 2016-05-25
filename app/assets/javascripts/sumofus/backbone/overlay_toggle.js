@@ -7,7 +7,7 @@ const OverlayToggle = Backbone.View.extend({
   },
 
   initialize() {
-    // we bing this event globally because the button to open the
+    // we bind this event globally because the button to open the
     // overlay probably isn't inside the overlay
     $('.overlay-toggle__open-button').on('click', () => { this.reveal() });
   },

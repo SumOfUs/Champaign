@@ -1,5 +1,6 @@
 let ErrorDisplay = require('show_errors');
 let MobileCheck = require('sumofus/backbone/mobile_check');
+const GlobalEvents = require('sumofus/backbone/global_events');
 
 const ActionForm = Backbone.View.extend({
 
@@ -7,7 +8,12 @@ const ActionForm = Backbone.View.extend({
 
   events: {
     'click .action-form__clear-form': 'clearForm',
-    'ajax:success form.action-form': 'handleSuccess',
+    'ajax:success': 'handleSuccess',
+    'ajax:error': ErrorDisplay.show,
+  },
+
+  globalEvents: {
+    'form:clear': 'clearForm',
   },
 
   // options: object with any of the following keys
@@ -17,18 +23,17 @@ const ActionForm = Backbone.View.extend({
   //      the values in the member hash.
   //    member: an object with fields that will prefill the form
   //    location: a hash of location values inferred from the user's request
-  //    prefill: boolean, whether to prefill
-  initialize(options) {
-    this.handleFormErrors();
+  //    skipPrefill: boolean, will not prefill if true
+  initialize(options={}) {
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
-    if (options.prefill) {
+    if (!options.skipPrefill) {
       this.prefillAsPossible(options);
     }
     if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
     }
-    $.subscribe('form:clear', () => { this.clearForm() });
+    GlobalEvents.bindEvents(this);
   },
 
   // prefills based on outstandingFields and member, returns true or false to indicate
@@ -45,10 +50,6 @@ const ActionForm = Backbone.View.extend({
       this.partialPrefill(options.member, options.location, options.outstandingFields);
       return false
     }
-  },
-
-  handleFormErrors() {
-    this.$el.on('ajax:error', (e, d) => { ErrorDisplay.show(e, d); });
   },
 
   selectizeCountry() {
@@ -76,6 +77,7 @@ const ActionForm = Backbone.View.extend({
     $fields_holder.parents('form').trigger('reset');
     $('.action-form__welcome-text').addClass('hidden-irrelevant');
     this.renameActionKitIdToReferringId();
+    Backbone.trigger('sidebar:height_change');
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
@@ -159,7 +161,7 @@ const ActionForm = Backbone.View.extend({
   },
 
   handleSuccess(){
-    $.publish('form:submitted');
+    Backbone.trigger('form:submitted');
   }
 });
 
