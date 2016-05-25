@@ -1,8 +1,8 @@
 class PageCloner
   attr_reader :page, :cloned_page, :title
 
-  def self.clone!(page, title = nil)
-    new(page, title).clone!
+  def self.clone(page, title = nil)
+    new(page, title).clone
   end
 
   def initialize(page, title = nil)
@@ -10,7 +10,7 @@ class PageCloner
     @title = title
   end
 
-  def clone!
+  def clone
     clone_page do
       links
       plugins

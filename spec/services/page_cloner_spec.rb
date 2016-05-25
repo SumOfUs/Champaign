@@ -6,7 +6,7 @@ describe PageCloner do
   let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar') }
   let!(:link) { create(:link, page: page) }
 
-  subject(:cloned_page) { PageCloner.clone!(page) }
+  subject(:cloned_page) { PageCloner.clone(page) }
 
   it 'clones page' do
     expect(cloned_page.id).not_to eq(page.id)
@@ -43,7 +43,7 @@ describe PageCloner do
     end
 
     context 'new title passed in' do
-      subject(:cloned_page) { PageCloner.clone!(page, "The English Patient") }
+      subject(:cloned_page) { PageCloner.clone(page, "The English Patient") }
 
       it 'assigns new title' do
         expect(cloned_page.title).to eq('The English Patient')
