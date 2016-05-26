@@ -7,6 +7,7 @@ const GlobalEvents = {
       const method = view[methodName];
       if (method) {
         Backbone.on(eventName, method, view);
+        $.subscribe(eventName, method.bind(view));
       }
     }
   },
