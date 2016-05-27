@@ -46,7 +46,7 @@ module PaymentProcessor
                 let(:transactions) { [] }
 
                 it 'pushes the transaction to be queued' do
-                  expect(ChampaignQueue).not_to have_received(:push)
+                  expect(ChampaignQueue).to have_received(:push)
                 end
               end
 
