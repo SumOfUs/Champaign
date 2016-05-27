@@ -49,6 +49,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.followUpUrl = options.followUpUrl;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
+    this.directDebitOpened = false;
     if (!this.isMobile()) {
       this.selectizeCountry();
       $(window).on('resize', () => this.policeHeights());
@@ -252,6 +253,8 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     data.provider = 'GC';
     let url = `/api/go_cardless/pages/${this.pageId}/start_flow?${$.param(data)}`;
     console.log('url:',url);
+    $.publish('direct_debit:opened');
+    this.directDebitOpened = true;
     window.open(url);
   },
 
@@ -261,6 +264,9 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data).
       done(this.transactionSuccess()).
       error(this.transactionFailed());
+    if(this.directDebitOpened){
+      $.publish('direct_debit:donated_via_other');
+    }
   },
 
   transactionSuccess () {
@@ -361,6 +367,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         if (e.originalEvent.data.event === 'follow_up:loaded') {
           this.redirectTo(this.followUpUrl);
           e.originalEvent.source.close();
+          $.publish('direct_debit:donated');
         } else if (e.originalEvent.data.event === 'donation:error') {
           let messages = e.originalEvent.data.errors.map(function(error){
             return error.message;
