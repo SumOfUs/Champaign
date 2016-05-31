@@ -17,7 +17,7 @@ require("sumofus/scroll");
 window.sumofus = {};
 window.sumofus.Petition      = require('sumofus/backbone/petition');
 window.sumofus.ActionForm    = require('sumofus/backbone/action_form');
-window.sumofus.FundraiserBar = require('sumofus/backbone/fundraiser_bar');
+window.sumofus.Fundraiser    = require('sumofus/backbone/fundraiser');
 window.sumofus.OverlayToggle = require('sumofus/backbone/overlay_toggle');
 window.sumofus.Thermometer   = require('sumofus/backbone/thermometer');
 window.sumofus.DesktopSticky = require('sumofus/backbone/desktop_sticky');

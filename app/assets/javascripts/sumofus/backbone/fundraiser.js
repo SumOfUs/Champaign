@@ -5,7 +5,7 @@ const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
 const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
 const GlobalEvents = require('sumofus/backbone/global_events');
 
-const FundraiserBar = Backbone.View.extend(_.extend(
+const Fundraiser = Backbone.View.extend(_.extend(
    CurrencyMethods, {
 
   el: '.fundraiser-bar',
@@ -274,4 +274,4 @@ const FundraiserBar = Backbone.View.extend(_.extend(
 
 }));
 
-module.exports = FundraiserBar;
+module.exports = Fundraiser;

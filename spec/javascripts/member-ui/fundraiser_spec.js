@@ -29,12 +29,12 @@ describe("Fundraiser", function() {
 
     describe('currency', function(){
       it('sets the default currency if currency passed', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'GBP'});
+        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'GBP'});
         expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
       });
 
       it('sets the default currency if currency passed as lowercase', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'gbp'});
+        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'gbp'});
         expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
       });
 
@@ -44,7 +44,7 @@ describe("Fundraiser", function() {
           USD: [6, 7, 8, 9, 10],
           GBP: [7, 14, 21, 28, 35]
         };
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
+        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'EUR', donationBands: donationBands});
         var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
         expect(displayedAmounts).to.include.members(donationBands['EUR']);
       });
@@ -59,7 +59,7 @@ describe("Fundraiser", function() {
 
       describe('amount is not passed', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar();
+          suite.fundraiser = new window.sumofus.Fundraiser();
         });
 
         it('displays the second step when user clears form', function(){
@@ -87,7 +87,7 @@ describe("Fundraiser", function() {
 
       describe('amount is greater than 0', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({amount: 17});
+          suite.fundraiser = new window.sumofus.Fundraiser({amount: 17});
         });
 
         it('skips to the third step', function(){
@@ -114,7 +114,7 @@ describe("Fundraiser", function() {
 
       describe('amount is not passed', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar();
+          suite.fundraiser = new window.sumofus.Fundraiser();
         });
 
         it('starts on the first step', function(){
@@ -128,7 +128,7 @@ describe("Fundraiser", function() {
 
       describe('amount is greater than 0', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({amount: 17});
+          suite.fundraiser = new window.sumofus.Fundraiser({amount: 17});
         });
 
         it('skips to the second step', function(){
@@ -150,29 +150,29 @@ describe("Fundraiser", function() {
 
       describe('it starts on first step when amount', function(){
         it('is negative', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: -1 });
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: -1 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is zero', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: 0 });
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: 0 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is a string', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "hi" });
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: "hi" });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is null', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: null });
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: null });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is an array', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: [3, 4, 5] });
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: [3, 4, 5] });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
       });
 
       it ('starts on second step when amount is numeric string', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "3" });
+        suite.fundraiser = new window.sumofus.Fundraiser({ amount: "3" });
         expect(helpers.currentStepOf(3)).to.eq(2)
       });
     });
@@ -180,7 +180,7 @@ describe("Fundraiser", function() {
     describe('recurring default', function(){
       describe('is "recurring"', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'recurring'});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'recurring'});
         });
 
         it('checks the recurring box', function(){
@@ -198,7 +198,7 @@ describe("Fundraiser", function() {
 
       describe('is "only_recurring"', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'only_recurring'});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'only_recurring'});
         });
 
         it('checks the recurring box', function(){
@@ -216,7 +216,7 @@ describe("Fundraiser", function() {
 
       describe('is "one_off"', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'one_off'});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'one_off'});
         });
 
         it('leaves the recurring box unchecked', function(){
@@ -234,7 +234,7 @@ describe("Fundraiser", function() {
 
       describe('is an empty string', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: ''});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: ''});
         });
 
         it('leaves the recurring box unchecked', function(){
@@ -257,13 +257,13 @@ describe("Fundraiser", function() {
     beforeEach(function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
-      suite.fundraiserBar = new window.sumofus.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
-      sinon.stub(suite.fundraiserBar, 'redirectTo');
+      suite.fundraiser = new window.sumofus.Fundraiser({ pageId: '1', followUpUrl: suite.follow_up_url });
+      sinon.stub(suite.fundraiser, 'redirectTo');
       suite.server.respond(); // respond to request for token
     });
 
     afterEach(function() {
-      suite.fundraiserBar.redirectTo.restore();
+      suite.fundraiser.redirectTo.restore();
     });
 
     describe('loading and first panel', function(){
@@ -321,7 +321,7 @@ describe("Fundraiser", function() {
       });
 
       it('changes the buttons to the right band when currency changes', function(){
-        suite.fundraiserBar.donationBands['GBP'] = [1, 2, 3, 4, 5, 6, 7];
+        suite.fundraiser.donationBands['GBP'] = [1, 2, 3, 4, 5, 6, 7];
         $('.fundraiser-bar__currency-selector').val('GBP').change();
         var $buttons = $('.fundraiser-bar__amount-button');
         var texts = $buttons.map(function(ii, el){ return $(el).text() }).toArray();
@@ -446,7 +446,7 @@ describe("Fundraiser", function() {
           [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
         Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
-        expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
+        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.follow_up_url);
       });
 
       it('displays a generic validation error when server 500', function(){
