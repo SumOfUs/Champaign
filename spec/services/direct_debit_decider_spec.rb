@@ -14,6 +14,16 @@ describe DirectDebitDecider do
           expect(decision).to eq(true)
         end
 
+        it 'returns true when country list is just AT' do
+          decision = DirectDebitDecider.decide(['AT'], recurring_default)
+          expect(decision).to eq(true)
+        end
+
+        it 'returns true when country list is just ES' do
+          decision = DirectDebitDecider.decide(['ES'], recurring_default)
+          expect(decision).to eq(true)
+        end
+
         it 'returns true when country list is DE and GB' do
           decision = DirectDebitDecider.decide(['DE', 'GB'], recurring_default)
           expect(decision).to eq(true)
@@ -51,6 +61,11 @@ describe DirectDebitDecider do
 
         it "returns #{recurring} when country list is GB and others" do
           decision = DirectDebitDecider.decide(['US', 'FR', 'GB', 'IN'], recurring_default)
+          expect(decision).to eq(recurring)
+        end
+
+        it "returns #{recurring} when country list is NL" do
+          decision = DirectDebitDecider.decide(['NL'], recurring_default)
           expect(decision).to eq(recurring)
         end
 
