@@ -137,7 +137,6 @@ const BraintreeHostedFields = Backbone.View.extend({
           this.getClientToken(callback);
         }, this.TOKEN_WAIT_BEFORE_RETRY);
       }
-
     });
   },
 
