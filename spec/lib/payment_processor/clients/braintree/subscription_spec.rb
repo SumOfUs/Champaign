@@ -31,7 +31,6 @@ module PaymentProcessor
 
           before :each do
             allow(Payment).to receive(:write_customer)
-            allow(Payment).to receive(:write_transaction)
             allow(Payment).to receive(:write_subscription)
             allow(::Braintree::Customer).to receive(:update)
             allow(::Braintree::Customer).to receive(:create)
@@ -110,7 +109,6 @@ module PaymentProcessor
 
               it 'does not record anything' do
                 expect(Payment).not_to have_received(:write_customer)
-                expect(Payment).not_to have_received(:write_transaction)
                 expect(Payment).not_to have_received(:write_subscription)
               end
             end
@@ -146,7 +144,6 @@ module PaymentProcessor
 
                 it 'does not record anything' do
                   expect(Payment).not_to have_received(:write_customer)
-                  expect(Payment).not_to have_received(:write_transaction)
                   expect(Payment).not_to have_received(:write_subscription)
                 end
               end
@@ -178,7 +175,6 @@ module PaymentProcessor
 
                   it 'does not record anything' do
                     expect(Payment).not_to have_received(:write_customer)
-                    expect(Payment).not_to have_received(:write_transaction)
                     expect(Payment).not_to have_received(:write_subscription)
                   end
                 end
@@ -214,10 +210,6 @@ module PaymentProcessor
                     expect(Payment).to have_received(:write_customer).with(
                       customer_success.customer, payment_success.payment_method, action.member_id, customer
                     )
-                  end
-
-                  it 'calls Payment.write_transaction with the right params' do
-                    expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id, customer, false)
                   end
 
                   it 'calls Payment.write_subscription with the right params' do
@@ -281,7 +273,6 @@ module PaymentProcessor
 
               it 'does not record anything' do
                 expect(Payment).not_to have_received(:write_customer)
-                expect(Payment).not_to have_received(:write_transaction)
                 expect(Payment).not_to have_received(:write_subscription)
               end
             end
@@ -313,7 +304,6 @@ module PaymentProcessor
 
                 it 'does not record anything' do
                   expect(Payment).not_to have_received(:write_customer)
-                  expect(Payment).not_to have_received(:write_transaction)
                   expect(Payment).not_to have_received(:write_subscription)
                 end
               end
@@ -349,10 +339,6 @@ module PaymentProcessor
                   expect(Payment).to have_received(:write_customer).with(
                     customer_success.customer, customer_success.customer.payment_methods.first, action.member_id, nil
                   )
-                end
-
-                it 'calls Payment.write_transaction with the right params' do
-                  expect(Payment).to have_received(:write_transaction).with(subscription_success, '12', action.member_id, nil, false)
                 end
 
                 it 'calls Payment.write_subscription with the right params' do

@@ -43,13 +43,14 @@ module PaymentProcessor
           end
 
           customer = Payment::BraintreeCustomer.find_by(member_id: original_action.member_id)
-          Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
+
+          record = Payment.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
+          record.update(subscription: subscription)
 
           ChampaignQueue.push(
             type: 'subscription-payment',
             recurring_id: original_action.form_data['subscription_id']
           )
-
         end
 
         # this method should only be called if @notification.subscription is a subscription object

@@ -7,11 +7,12 @@ module PaymentProcessor
         describe '.handle' do
 
           let(:subscription) { instance_double('Payment::BraintreeSubscription', transactions: transactions, action: action) }
-          let(:transactions) { [double] }
+          let(:transaction)  { double(:transaction, update: true) }
+          let(:transactions) { [transaction] }
           let(:action) { create(:action, form_data: { subscription_id: '1234' }) }
 
           before :each do
-            allow(Payment).to receive(:write_transaction)
+            allow(Payment).to receive(:write_transaction) { transaction }
             allow(ChampaignQueue).to receive(:push)
             allow(Rails.logger).to receive(:info)
           end
