@@ -54,4 +54,13 @@ describe("Braintree hosted fields", function() {
       expect($('.hosted-fields__credit-card-fields')).not.to.have.css('display','none');
     });
   });
+
+  it('displays the fields container when token received', function(){
+    expect($('.fundraiser-bar__fields-loading')).not.to.have.class('hidden-closed');
+    expect($('#hosted-fields')).to.have.class('hidden-closed');
+    suite.hostedFields = new window.sumofus.BraintreeHostedFields();
+    suite.hostedFields.braintreeSettings().onReady();
+    expect($('.fundraiser-bar__fields-loading')).to.have.class('hidden-closed');
+    expect($('#hosted-fields')).not.to.have.class('hidden-closed');
+  });
 });
