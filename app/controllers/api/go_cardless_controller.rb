@@ -17,7 +17,7 @@ class Api::GoCardlessController < PaymentController
     signature = request.headers['HTTP_WEBHOOK_SIGNATURE']
 
     validator = PaymentProcessor::GoCardless::WebhookSignature.new(
-      secret: 'monkey',
+      secret: Settings.gocardless.secret,
       signature: signature,
       body: { events: params[:events] }.to_json
     )

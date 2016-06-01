@@ -87,4 +87,6 @@ ga_tracking_code: <%= ENV['GA_TRACKING_CODE'] %>
 gocardless:
   token: <%= ENV['GOCARDLESS_TOKEN'] %>
   environment: <%= ENV['GOCARDLESS_ENVIRONMENT'] %>
+  gbp_charge_day: 20
+  secret: <%= ENV['GOCARDLESS_SECRET'] %>
 

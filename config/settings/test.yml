@@ -82,6 +82,7 @@
        token: <%= ENV["GOCARDLESS_TOKEN"] %>
        environment: 'sandbox'
        gbp_charge_day: 20
+       secret: 'monkey'
 
      redis:
        host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
