@@ -129,9 +129,12 @@ module Payment
           token: payment_method_token).id
 
 
-      ::Payment::BraintreeTransaction.create!(transaction_attrs)
-      return unless successful? && @save_customer
-      @customer.update(customer_attrs)
+      record = ::Payment::BraintreeTransaction.create!(transaction_attrs)
+
+      return false unless successful?
+
+      @customer.update(customer_attrs) if @save_customer
+      record
     end
 
     private
@@ -174,7 +177,7 @@ module Payment
     end
 
     def transaction
-      @bt_result.transaction || @bt_result.subscription.try(:transactions).try(:first)
+      @bt_result.try(:transaction) || @bt_result.try(:subscription).try(:transactions).try(:first)
     end
 
     def card

@@ -82,6 +82,8 @@ describe "Braintree API" do
           VCR.use_cassette("subscription success basic new customer") do
             post api_payment_braintree_transaction_path(page.id), params
           end
+
+          @subscription = Payment::BraintreeSubscription.last
         end
 
         it 'creates a Payment::BraintreeTransaction record with the right params' do
@@ -96,8 +98,12 @@ describe "Braintree API" do
           })
 
           subject
+        end
 
-          expect(Payment::BraintreeTransaction.count).to eq(2)
+        it 'creates transaction on subscription' do
+          subject
+          expect(Payment::BraintreeTransaction.count).to eq(1)
+          expect(@subscription.reload.transactions.count).to eq(1)
         end
 
         include_examples "has no unintended consequences"
