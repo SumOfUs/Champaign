@@ -6,7 +6,7 @@ const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields'
 const GlobalEvents = require('sumofus/backbone/global_events');
 
 const Fundraiser = Backbone.View.extend(_.extend(
-   CurrencyMethods, {
+  CurrencyMethods, {
 
   el: '.fundraiser-bar',
 
@@ -32,6 +32,8 @@ const Fundraiser = Backbone.View.extend(_.extend(
 
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
+  //    submissionCallback: a function to call after success, receives the
+  //      arguments received by the ajax call posting the donation
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    donationBands: an object with three letter currency codes as keys
@@ -43,6 +45,7 @@ const Fundraiser = Backbone.View.extend(_.extend(
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
+    this.submissionCallback = options.submissionCallback;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
     this.initializeRecurring(options.recurringDefault);
@@ -209,10 +212,15 @@ const Fundraiser = Backbone.View.extend(_.extend(
   },
 
   transactionSuccess(data, status) {
+    let hasCallbackFunction = (typeof this.submissionCallback === 'function');
+    if (hasCallbackFunction) {
+      this.submissionCallback(data, status);
+    }
     if (this.followUpUrl) {
       this.redirectTo(this.followUpUrl);
-    } else {
-      // this should never happen, but just in case.
+    }
+    if (!this.followUpUrl && !hasCallbackFunction) {
+      // only do this option if no redirect or callback supplied
       alert(I18n.t('fundraiser.thank_you'));
     }
   },

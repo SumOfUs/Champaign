@@ -50,7 +50,6 @@ describe("Fundraiser", function() {
       });
     });
 
-
     describe('action-form is prefilled', function(){
 
       beforeEach(function(){
@@ -250,6 +249,58 @@ describe("Fundraiser", function() {
         });
       });
     });
+
+    describe('submission success', function(){
+
+      suite.triggerSuccess = function(){
+        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
+          [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        suite.server.respond();
+      }
+
+      beforeEach(function(){
+        suite.followUpUrl = "/pages/636/follow-up";
+        suite.callback = sinon.spy();
+      });
+
+      afterEach(function(){
+        suite.fundraiser.undelegateEvents();
+        Backbone.off();
+      });
+
+      it('redirects to the followUpUrl if it is supplied', function(){
+        suite.fundraiser = new window.sumofus.Fundraiser({followUpUrl: suite.followUpUrl, pageId: '1'});
+        sinon.stub(suite.fundraiser, 'redirectTo');
+        suite.triggerSuccess();
+        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
+        suite.fundraiser.redirectTo.restore();
+      });
+
+      it('calls the callback function if it is supplied', function(){
+        var callback = sinon.spy();
+        suite.fundraiser = new window.sumofus.Fundraiser({submissionCallback: callback, pageId: '1'});
+        suite.triggerSuccess();
+        expect(callback.called).to.eq(true);
+      });
+
+      it('calls the callback function and redirects to the followUpUrl if both supplied', function(){
+        var callback = sinon.spy();
+        suite.fundraiser = new window.sumofus.Fundraiser({submissionCallback: callback, followUpUrl: suite.followUpUrl, pageId: '1'});
+        sinon.stub(suite.fundraiser, 'redirectTo');
+        suite.triggerSuccess();
+        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
+        expect(callback.called).to.eq(true);
+        suite.fundraiser.redirectTo.restore();
+      });
+
+      it('sends an alert if neither callback nor followUpUrl passed', function(){
+        window.alert = sinon.spy();
+        suite.fundraiser = new window.sumofus.Fundraiser({pageId: '1'});
+        suite.triggerSuccess();
+        expect(window.alert.called).to.eq(true);
+      });
+    });
   });
 
   describe('interactions', function(){
@@ -439,14 +490,6 @@ describe("Fundraiser", function() {
         request = helpers.last(suite.server.requests);
         bodyPairs = decodeURI(request.requestBody).split('&');
         expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
-      });
-
-      it('loads the follow-up url after success from the server', function(){
-        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
-          [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
-        suite.server.respond();
-        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.follow_up_url);
       });
 
       it('displays a generic validation error when server 500', function(){
