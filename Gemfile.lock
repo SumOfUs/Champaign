@@ -312,7 +312,6 @@ GEM
       mime-types
       mimemagic (= 0.3.0)
     pg (0.18.2)
-    phantomjs (1.9.8.0)
     polyamorous (1.2.0)
       activerecord (>= 3.0)
     pry (0.10.1)
@@ -530,7 +529,6 @@ DEPENDENCIES
   paper_trail
   paperclip
   pg
-  phantomjs
   puma (~> 2.15.3)
   rails (= 4.2.5)
   rails-assets-backbone!
