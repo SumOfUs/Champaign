@@ -252,7 +252,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     let data = this.donationData();
     data.provider = 'GC';
     let url = `/api/go_cardless/pages/${this.pageId}/start_flow?${$.param(data)}`;
-    console.log('url:',url);
     $.publish('direct_debit:opened');
     this.directDebitOpened = true;
     window.open(url);

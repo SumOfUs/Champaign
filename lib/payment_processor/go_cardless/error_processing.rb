@@ -40,7 +40,6 @@ module PaymentProcessor
 
       # this type of error is returned when GC has a 500
       def handle_gc_internal_error
-        # TODO - pass page language through to I18n.t
         log_error("#{@error.message}. Please report to GoCardless support staff.")
         [{code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale)}]
       end
