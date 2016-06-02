@@ -18,11 +18,11 @@ module PaymentProcessor
         # * +:currency+ - Billing currency (required)
         # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
         # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
-        attr_reader :result, :action
+        attr_reader :action, :result
 
         def self.make_transaction(nonce:, amount:, currency:, user:, page_id:)
           builder = new(nonce, amount, currency, user, page_id)
-          builder.transaction
+          builder.transact
           builder
         end
 
@@ -34,14 +34,18 @@ module PaymentProcessor
           @page_id = page_id
         end
 
-        def transaction
+        def transact
           @result = ::Braintree::Transaction.sale(options)
           if @result.success?
-            @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: result, is_subscription: false)
-            Payment.write_transaction(result, @page_id, @action.member_id, existing_customer)
+            @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: @result, is_subscription: false)
+            Payment.write_transaction(@result, @page_id, @action.member_id, existing_customer)
           else
-            Payment.write_transaction(result, @page_id, nil, existing_customer)
+            Payment.write_transaction(@result, @page_id, nil, existing_customer)
           end
+        end
+
+        def transaction_id
+          @result.try(:transaction).try(:id)
         end
 
         private

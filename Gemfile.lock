@@ -37,6 +37,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    aasm (4.10.0)
     action_parameter (0.0.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -199,6 +200,8 @@ GEM
     geocoder (1.2.11)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    gocardless_pro (1.0.3)
+      faraday (>= 0.8.9, < 0.10)
     google_currency (3.2.0)
       money (~> 6.5.0)
     guard (2.12.9)
@@ -488,6 +491,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   action_parameter
   activeadmin!
   aws-sdk (~> 2)
@@ -513,6 +517,7 @@ DEPENDENCIES
   font-awesome-sass
   friendly_id
   geocoder
+  gocardless_pro
   google_currency
   guard-rspec
   hiredis

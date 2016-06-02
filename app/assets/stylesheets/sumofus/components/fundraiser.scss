@@ -149,6 +149,7 @@
     font-weight: bold;
     line-height: 20px;
     text-transform: uppercase;
+    overflow: hidden;
     .fa {
       float: left;
       font-size: 26px;
@@ -221,6 +222,29 @@ $fundraiser-top-height: 162px;
       padding-right: 52px;
     }
   }
+  &__direct-debit {
+    background: $paypal;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    display: block;
+    height: 52px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+    font-style: italic;
+  }
+  &__direct-debit-logo {
+    width: 35px;
+    height: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url(asset-path('champaign/direct_debit_logo'));
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
   &__card-type {
     position: absolute;
     right: 8px;
@@ -231,7 +255,7 @@ $fundraiser-top-height: 162px;
     border-radius: 3px;
   }
   &__or {
-    margin: 5px auto 8px;
+    margin: 6px auto 1px;
     display: table;
     text-transform: uppercase;
     font-size: 14px;
@@ -256,8 +280,8 @@ $fundraiser-top-height: 162px;
       margin: 0 auto;
     }
   }
-  .paypal--grayed-out {
-    #braintree-paypal-button, #braintree-paypal-button img {
+  .hosted-fields--grayed-out {
+    #braintree-paypal-button, #braintree-paypal-button img, .hosted-fields__direct-debit {
       @include filter(grayscale(100%));
       &:hover, &:hover img {
         @include filter(grayscale(0%));

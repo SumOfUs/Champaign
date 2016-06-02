@@ -23,7 +23,7 @@ module PaymentProcessor
         # * +:currency+ - Billing currency (required)
         # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
         # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
-        attr_reader :result, :action
+        attr_reader :action, :result
 
         def self.make_subscription(nonce:, amount:, currency:, user:, page_id:)
           builder = new(nonce, amount, currency, user, page_id)
@@ -47,6 +47,10 @@ module PaymentProcessor
             subscription_result = create_subscription_on_braintree(payment_method)
             record_in_local_database(payment_method, customer_result, subscription_result)
           end
+        end
+
+        def subscription_id
+          @result.try(:subscription).try(:id)
         end
 
         private
@@ -73,7 +77,6 @@ module PaymentProcessor
           @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true)
 
           Payment.write_customer(customer_result.customer, payment_method, @action.member_id, existing_customer)
-          Payment.write_transaction(subscription_result, @page_id, @action.member_id, existing_customer, false)
           Payment.write_subscription(subscription_result, @page_id, @action.id, @currency)
         end
 

@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows/RE000033300000/actions/complete
+    body:
+      encoding: UTF-8
+      string: '{"data":{"session_token":null}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Mon, 09 May 2016 22:07:55 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=df4550f171a6eaf379f530ee386dc62701462831674; expires=Tue, 09-May-17
+        22:07:54 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - 7a3106a7-f488-4296-8ce6-e873d38f57a1
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '993'
+      Ratelimit-Reset:
+      - Mon, 09 May 2016 22:08:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2a08778d2c912846-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: '{"error":{"message":"Resource not found","errors":[{"reason":"resource_not_found","message":"Resource
+        not found"}],"documentation_url":"https://developer.gocardless.com/pro#resource_not_found","type":"invalid_api_usage","request_id":"7a3106a7-f488-4296-8ce6-e873d38f57a1","code":404}}'
+    http_version: 
+  recorded_at: Mon, 09 May 2016 22:07:55 GMT
+recorded_with: VCR 3.0.0
