@@ -38,18 +38,19 @@ module PaymentProcessor
       end
 
       def transact
-        transaction = client.payments.create(params: transaction_params)
+        @transaction = client.payments.create(params: transaction_params)
 
-        @local_transaction = Payment::GoCardless.write_transaction(transaction.id, amount_in_whole_currency, currency, @page_id)
         @action = ManageDonation.create(params: action_params)
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
         @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
+        @local_transaction = Payment::GoCardless.write_transaction(@transaction.id, amount_in_whole_currency, 
+          currency, @transaction.charge_date, @page_id, @local_customer.id, @local_mandate.id)
       rescue GoCardlessPro::Error => e
         @error = e
       end
 
       def transaction_id
-        @local_transaction.try(:go_cardless_id)
+        @transaction.try(:id)
       end
 
       private

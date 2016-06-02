@@ -51,7 +51,11 @@ describe "subscriptions" do
           ).to include({
             go_cardless_id: 'payment_ID_123',
             page_id: page.id,
-            amount: 100
+            amount: 100,
+            charge_date: Date.new(2016, 4, 20),
+            customer_id: subscription.customer_id,
+            payment_method_id: subscription.payment_method_id,
+            subscription_id: subscription.id
           })
         end
 
