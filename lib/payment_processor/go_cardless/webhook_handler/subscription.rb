@@ -9,10 +9,10 @@ module PaymentProcessor
         end
 
         def record
-          @record ||= ::Payment::GoCardless::Subscription.find_by(go_cardless_id: subscription_id)
+          @record ||= ::Payment::GoCardless::Subscription.find_by(go_cardless_id: resource_id)
         end
 
-        def subscription_id
+        def resource_id
           @event['links']['subscription']
         end
       end
