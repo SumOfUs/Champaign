@@ -230,7 +230,8 @@ describe "GoCardless API" do
                 user_en: 1
               },
               action: {
-                source: 'fb'
+                source: 'fb',
+                skip_confirmation: 1
               }
             }
           }
@@ -372,7 +373,8 @@ describe "GoCardless API" do
                 user_en: 1
               },
               action: {
-                source: 'fb'
+                source: 'fb',
+                skip_confirmation: 1
               }
             }
           }
