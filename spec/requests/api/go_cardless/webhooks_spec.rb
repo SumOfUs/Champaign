@@ -65,7 +65,7 @@ describe "subscriptions" do
       describe "Posting to queue" do
         context 'with existing transaction' do
           it 'posts to queue' do
-            expect( ChampaignQueue ).to have_received(:push).with(type: "subscription-payment", recurring_id: "index_ID_123")
+            expect( ChampaignQueue ).to have_received(:push).with({ type: "subscription-payment", params: { recurring_id: "index_ID_123"} })
           end
         end
       end

@@ -49,7 +49,9 @@ module PaymentProcessor
 
           ChampaignQueue.push(
             type: 'subscription-payment',
-            recurring_id: original_action.form_data['subscription_id']
+            params: {
+              recurring_id: original_action.form_data['subscription_id']
+            }
           )
         end
 

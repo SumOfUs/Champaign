@@ -39,7 +39,7 @@ module PaymentProcessor
               context 'with existing transactions' do
                 it 'pushes the transaction to be queued' do
                   expect(ChampaignQueue).to have_received(:push).
-                    with({type: "subscription-payment", recurring_id: "1234"})
+                    with({type: "subscription-payment", params: { recurring_id: "1234" }})
                 end
               end
 

@@ -94,7 +94,9 @@ describe "Braintree API" do
         it 'pushes to the queue with the right params' do
           expect(ChampaignQueue).to receive(:push).with({
             type: "subscription-payment",
-            recurring_id: /[a-z0-9]{6}/
+            params: {
+              recurring_id: /[a-z0-9]{6}/
+            }
           })
 
           subject
@@ -127,7 +129,9 @@ describe "Braintree API" do
         it 'pushes to the queue with the right params' do
           expect(ChampaignQueue).to receive(:push).with({
             type: "subscription-payment",
-            recurring_id: /[a-z0-9]{6}/
+            params: {
+              recurring_id: /[a-z0-9]{6}/
+            }
           })
 
           subject

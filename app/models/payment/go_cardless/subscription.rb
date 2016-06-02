@@ -14,7 +14,9 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
 
       ChampaignQueue.push(
         type: 'subscription-payment',
-        recurring_id: @subscription.go_cardless_id
+        params: {
+          recurring_id: @subscription.go_cardless_id
+        }
       )
     end
   end
