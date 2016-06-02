@@ -29,6 +29,17 @@ describe Payment::BraintreeTransaction do
     expect(Payment::BraintreeTransaction.last.amount.class).to eq BigDecimal
   end
 
+  describe 'subscription' do
+    let(:subscription) { create(:payment_braintree_subscription) }
+
+    it 'can belong to a subscription' do
+      transaction = subscription.transactions.create()
+      subscription.transactions
+      expect(transaction.reload.subscription).to eq(subscription)
+      expect(subscription.transactions).to eq([transaction])
+    end
+  end
+
   describe '#status' do
 
     it 'can be set with a string' do

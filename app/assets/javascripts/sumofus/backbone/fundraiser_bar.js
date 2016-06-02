@@ -22,6 +22,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .fundraiser-bar__close-button': 'hide',
+    'click .hosted-fields__direct-debit': 'submitDirectDebit',
   },
 
   // options: object with any of the following keys
@@ -30,6 +31,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    outstandingFields: the names of step 2 form fields that aren't satisfied by
   //      the values in the member hash.
+  //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
   //    location: a hash of location values inferred from the user's request
   //    member: an object with fields that will prefill the form
@@ -47,12 +49,14 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.followUpUrl = options.followUpUrl;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
+    this.directDebitOpened = false;
     if (!this.isMobile()) {
       this.selectizeCountry();
       $(window).on('resize', () => this.policeHeights());
     }
     this.insertActionKitId(options.akid);
     this.insertSource(options.source);
+    this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
     $('.fundraiser-bar__open-button').on('click', () => this.reveal());
@@ -235,15 +239,33 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
   },
 
+  donationData() {
+    return {
+      amount:       this.donationAmount,
+      user:         this.serializeUserForm(),
+      currency:     this.currency,
+      recurring:    this.readRecurring()
+    }
+  },
+
+  submitDirectDebit() {
+    let data = this.donationData();
+    data.provider = 'GC';
+    let url = `/api/go_cardless/pages/${this.pageId}/start_flow?${$.param(data)}`;
+    $.publish('direct_debit:opened');
+    this.directDebitOpened = true;
+    window.open(url);
+  },
+
   submitDonation () {
-    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
-      payment_method_nonce: this.nonce,
-      amount:               this.donationAmount,
-      user:                 this.serializeUserForm(),
-      currency:             this.currency,
-      recurring:            this.readRecurring()
-    }).done(this.transactionSuccess()).
+    let data = this.donationData();
+    data.payment_method_nonce = this.nonce;
+    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data).
+      done(this.transactionSuccess()).
       error(this.transactionFailed());
+    if(this.directDebitOpened){
+      $.publish('direct_debit:donated_via_other');
+    }
   },
 
   transactionSuccess () {
@@ -260,9 +282,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   transactionFailed () {
     return (data, status) => {
       this.enableButton();
-      let $errors = this.$('.fundraiser-bar__errors');
-      $errors.removeClass('hidden-closed');
-      $errors.find('.fundraiser-bar__error-detail').remove();
       if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
         var messages = data.responseJSON.errors.map(function(error){
           if (error.declined) {
@@ -274,12 +293,18 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       } else {
         var messages = [I18n.t('fundraiser.unknown_error')];
       }
-      _.each(messages, (error_message) => {
-        $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
-      });
-
+      this.showErrors(messages);
       this.policeHeights();
     }
+  },
+
+  showErrors(messages) {
+    let $errors = this.$('.fundraiser-bar__errors');
+    $errors.removeClass('hidden-closed');
+    $errors.find('.fundraiser-bar__error-detail').remove();
+    _.each(messages, (error_message) => {
+      $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
+    });
   },
 
   serializeUserForm () {
@@ -314,18 +339,44 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     window.location.href = url;
   },
 
-  hide: function() {
+  hide() {
     this.$('.fundraiser-bar__mobile-view')
       .addClass('fundraiser-bar__mobile-view--closed')
       .removeClass('fundraiser-bar__mobile-view--open');
   },
 
-  reveal: function() {
+  reveal() {
     this.$('.fundraiser-bar__mobile-view')
       .removeClass('fundraiser-bar__mobile-view--closed')
       .addClass('fundraiser-bar__mobile-view--open');
   },
 
+  displayDirectDebit(show) {
+    if (show === true) {
+      $('.hosted-fields__direct-debit-container').removeClass('hidden-irrelevant');
+      this.handleInterTabFollowUp();
+    } else {
+      $('.hosted-fields__direct-debit-container').addClass('hidden-irrelevant');
+    }
+  },
+
+  handleInterTabFollowUp() {
+    $(window).on('message', (e) => {
+      if (typeof(e.originalEvent.data) === 'object'){
+        if (e.originalEvent.data.event === 'follow_up:loaded') {
+          this.redirectTo(this.followUpUrl);
+          e.originalEvent.source.close();
+          $.publish('direct_debit:donated');
+        } else if (e.originalEvent.data.event === 'donation:error') {
+          let messages = e.originalEvent.data.errors.map(function(error){
+            return error.message;
+          });
+          this.showErrors(messages);
+          e.originalEvent.source.close();
+        }
+      }
+    });
+  },
 }));
 
 module.exports = FundraiserBar;

@@ -55,6 +55,7 @@
      facebook_app_id: 'fake_app_id'
      share_progress_api_key: 'fake_api_key'
 
+# Braintree payment processor
      braintree:
        merchant_id: "test_id"
        public_key:  "test_public_key"
@@ -75,6 +76,13 @@
          AUD: 'AUD'
          CAD: 'CAD'
          NZD: 'NZD'
+
+# GoCardless payment processor
+     gocardless:
+       token: <%= ENV["GOCARDLESS_TOKEN"] %>
+       environment: 'sandbox'
+       gbp_charge_day: 20
+       secret: 'monkey'
 
      redis:
        host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>

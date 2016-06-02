@@ -39,7 +39,8 @@ class LiquidRenderer
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
       thermometer: thermometer,
-      action_count: @page.action_count
+      action_count: @page.action_count,
+      show_direct_debit: show_direct_debit?
     }.deep_stringify_keys
   end
 
@@ -47,7 +48,7 @@ class LiquidRenderer
 
   # the plugin serialization has lots of data that does not change
   # from request to request, but it has some. it's used in both
-  # markup_data, which is used to create the cached html, and in 
+  # markup_data, which is used to create the cached html, and in
   # personalization_data, which is not cached.
   def plugin_data
     @plugin_data ||= Plugins.data_for_view(@page, {form_values: member_data, donation_band: @url_params[:donation_band]})
@@ -67,6 +68,11 @@ class LiquidRenderer
 
   def member_data
     @member.try(:liquid_data)
+  end
+
+  def show_direct_debit?
+    recurring_default = @url_params[:recurring_default] || isolate_from_plugin_data(:recurring_default).first
+    DirectDebitDecider.decide([@location.try(:country_code), @member.try(:country)], recurring_default)
   end
 
   def outstanding_fields

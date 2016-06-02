@@ -1,26 +1,8 @@
-class Api::Payment::BraintreeController < ApplicationController
+class Api::Payment::BraintreeController < PaymentController
   skip_before_action :verify_authenticity_token
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }
-  end
-
-  def transaction
-    builder = if recurring?
-                client::Subscription.make_subscription(payment_options)
-              else
-                client::Transaction.make_transaction(payment_options)
-              end
-
-    if builder.result.success?
-      write_member_cookie(builder.action.member_id) unless builder.action.blank?
-      id = recurring? ? { subscription_id: builder.result.subscription.id } : { transaction_id: builder.result.transaction.id }
-
-      render json: { success: true }.merge(id)
-    else
-      errors = client::ErrorProcessing.new(builder.result).process
-      render json: { success: false, errors: errors }, status: 422
-    end
   end
 
   def webhook

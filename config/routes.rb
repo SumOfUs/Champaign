@@ -118,11 +118,17 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :payment do
-      namespace :braintree do
+      namespace :braintree, defaults: {format: 'json'} do
         get 'token'
         post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
         post 'webhook', action: 'webhook'
       end
+    end
+
+    namespace :go_cardless do
+      get 'pages/:page_id/start_flow', action: 'start_flow'
+      get 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
+      post 'webhook'
     end
 
     resources :pages do
