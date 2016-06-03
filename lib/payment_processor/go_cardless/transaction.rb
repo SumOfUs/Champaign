@@ -43,8 +43,16 @@ module PaymentProcessor
         @action = ManageDonation.create(params: action_params)
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
         @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
-        @local_transaction = Payment::GoCardless.write_transaction(@transaction.id, amount_in_whole_currency, 
-          currency, @transaction.charge_date, @page_id, @local_customer.id, @local_mandate.id)
+
+        @local_transaction = Payment::GoCardless.write_transaction(
+          uuid: @transaction.id,
+          amount: amount_in_whole_currency,
+          currency: currency,
+          charge_date: @transaction.charge_date,
+          page_id: @page_id,
+          customer_id: @local_customer.id,
+          payment_method_id: @local_mandate.id
+        )
       rescue GoCardlessPro::Error => e
         @error = e
       end
