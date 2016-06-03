@@ -61,11 +61,13 @@ module PaymentProcessor::GoCardless
           }
         }.deep_stringify_keys!
       end
+      let(:handler) { instance_double(PaymentProcessor::GoCardless::WebhookHandler::Mandate, resource_id: 'MA00000')}
+
 
       subject{ WebhookHandler::ProcessEvents.new([event]) }
 
       it 'persists new events to DB' do
-        subject.record_processing(event)
+        subject.record_processing(event, handler)
 
         event = Payment::GoCardless::WebhookEvent.first
 
@@ -87,7 +89,7 @@ module PaymentProcessor::GoCardless
         context 'existing event' do
           it 'returns true' do
             expect(subject.already_processed?(event)).to be(false)
-            subject.record_processing(event)
+            subject.record_processing(event, handler)
             expect(subject.already_processed?(event)).to be(true)
           end
         end
