@@ -172,7 +172,15 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
         describe 'bookkeeping' do
           it 'delegates to Payment::GoCardless.write_transaction' do
             expect(Payment::GoCardless).to receive(:write_transaction).with(
-              local_transaction.go_cardless_id, amount_in_euros, 'EUR', payment.charge_date, page_id, local_customer.id, local_mandate.id)
+              uuid: local_transaction.go_cardless_id,
+              amount: amount_in_euros,
+              currency: 'EUR',
+              charge_date: payment.charge_date,
+              page_id: page_id,
+              customer_id: local_customer.id,
+              payment_method_id: local_mandate.id
+            )
+
             subject
           end
 
