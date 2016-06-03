@@ -61,8 +61,8 @@ module PaymentProcessor::GoCardless
           }
         }.deep_stringify_keys!
       end
-      let(:handler) { instance_double(PaymentProcessor::GoCardless::WebhookHandler::Mandate, resource_id: 'MA00000')}
 
+      let(:handler) { instance_double(PaymentProcessor::GoCardless::WebhookHandler::Mandate, resource_id: 'MA00000')}
 
       subject{ WebhookHandler::ProcessEvents.new([event]) }
 
@@ -106,6 +106,15 @@ module PaymentProcessor::GoCardless
 
         it 'sets updates state on payment method record' do
           expect(payment_method.reload.active?).to be(true)
+        end
+
+        it 'persists event' do
+          expect(
+            Payment::GoCardless::WebhookEvent.first.attributes
+          ).to include({
+            resource_id: 'MD0000PTV0CA1K',
+            resource_type: 'mandates'
+          }.stringify_keys)
         end
 
         it 'persists events just once' do

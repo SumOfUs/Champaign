@@ -34,7 +34,6 @@ module PaymentProcessor::GoCardless
           event_id:      event['id'],
           action:        event['action'],
           resource_type: event['resource_type'],
-          # TODO: get this working...
           resource_id:   handler.resource_id,
           body:          event.to_json
         )

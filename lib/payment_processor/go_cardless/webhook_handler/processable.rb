@@ -10,8 +10,6 @@ module PaymentProcessor
           if action and record.try("may_run_#{action}?")
             record.send("run_#{action}!", @event)
           end
-
-          self
         end
       end
     end
