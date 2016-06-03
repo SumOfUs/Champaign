@@ -111,7 +111,6 @@ group :development, :test do
   gem 'teaspoon'
   gem 'teaspoon-mocha'
   gem 'magic_lamp'
-  gem 'phantomjs'
   gem 'guard-rspec', require: false
 
   # For Mac OS

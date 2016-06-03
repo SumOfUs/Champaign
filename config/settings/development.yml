@@ -1,3 +1,77 @@
-homepage_url: 'http://sumofus.org'
-facebook_url: 'https://www.facebook.com/SumOfUs-181924628560212/'
-host: "http://localhost"
+# General Champaign settings.
+secret_key_base: secret_key_base
+omniauth_client_secret: omniauth_client_secret
+omniauth_client_id: omniauth_client_id
+liquid_templating_source: db
+oauth_domain_whitelist:
+  - 'your-domain.org'
+
+# AWS Config Variables.
+aws_access_key_id: 'fake-aws-access-key-id'
+aws_secret_access_key: 'fake-aws-secret-access-key'
+aws_region: 'aws-region'
+sqs_queue_url: 'sqs-queue-url'
+s3_host_name: 's3-host'
+ak_processor_url: 'url of your worker that subscribes to your SQS and ships messages to AK'
+action_kit:
+  akid_secret: secret-sauce
+
+# Direct ActionKit Connection variables.
+ak_api_url: actionkit_api_url
+ak_username: username
+ak_password: password
+
+
+# CloudFront config Variables.
+cloudfront_url: your-cloudfront-url
+s3_asset_bucket: your-asset-bucket
+rails_serve_static_assets: true
+compile_static: true
+
+# NewRelic Connection information.
+newrelic_license_key: 'fake-newrelic-agent'
+
+# Social media connection information.
+share_progress_api_key: share progress api key
+
+# Braintree
+braintree:
+  merchant_id: braintree merchant ID
+  public_key: braintree public key
+  private_key: braintree private key
+
+  # use the sandbox environment
+  environment: sandbox
+
+  merchants:
+    EUR: 'braintree merchant for EUR' # for irish account. 'SumOfUs_EUR' for USA
+    GBP: 'braintree merchant for GBP' # for irish account. 'SumOfUs_GBP' for USA
+    USD: 'braintree merchant for USD'
+    AUD: 'braintree merchant for AUD'
+    CAD: 'braintree merchant for CAD'
+    NZD: 'braintree merchant for NZD'
+
+  subscription_plans:
+    EUR: 'EUR subscription plan id'
+    GBP: 'GBP subscription plan id'
+    USD: 'USD subscription plan id'
+    AUD: 'AUD subscription plan id'
+    CAD: 'CAD subscription plan id'
+    NZD: 'NZD subscription plan id'
+
+# GoCardless
+gocardless:
+  token: 'your gocardless sandbox token'
+  environment: 'sandbox'
+  gbp_charge_day: the date of month you want your gbp transactions
+
+redis:
+  host:
+  port:
+
+geocoder:
+  host: 'no host'
+
+robots: 'staging'
+
+instantiate_stdout_logger: true
