@@ -1,0 +1,17 @@
+- content_for(:title, "Clone Page")
+
+= render "pages/sidebar", action: :new
+
+.edit-block
+  = form_for Page.new, url: clone_pages_path, class: '' do |f|
+
+    .form-group
+      = f.label :title, t('.labels.title')
+      = f.text_field :title, class: 'form-control', value: @page.title
+    .form-group
+      = f.submit t('.clone'), class: 'btn btn-sm btn-primary submit-new-page'
+      span.loading style='display:none;'
+        span.glyphicon.glyphicon-refresh.glyphicon-refresh-animate
+
+      = hidden_field_tag :id, @page.id
+

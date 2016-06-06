@@ -95,7 +95,7 @@ en:
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
-  clone_page:
+  clone_pages:
     new:
       clone: "Clone Page"
       labels:

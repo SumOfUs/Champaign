@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   resources :campaigns
   resources :donation_bands, except: [:show, :destroy]
 
-  resources :page_cloner
+  resources :clone_pages
 
   resources :pages do
     namespace :share do
