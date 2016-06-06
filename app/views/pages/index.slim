@@ -41,16 +41,7 @@
               td = link_to t('pages.edit.view'), member_facing_page_path(page)
               td = link_to t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
-              td = link_to 'Clone', '#', class: 'clone-page'
+              td = link_to 'Clone', new_page_cloner_path(id: page)
       #search-filter
         = render partial: 'search'
 
-
-
-
-javascript:
-  $('a.clone-page').on('click', function(e){
-    e.preventDefault();
-    console.log("foo bar");
-    $('#clone-page').modal();
-  });
