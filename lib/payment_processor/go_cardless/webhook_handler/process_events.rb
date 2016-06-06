@@ -1,4 +1,6 @@
 require_relative 'payment'
+require_relative 'subscription'
+require_relative 'mandate'
 
 module PaymentProcessor::GoCardless
   module WebhookHandler
@@ -24,17 +26,21 @@ module PaymentProcessor::GoCardless
       end
 
       def process_event(event)
-        processor = ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event)
-        processor.process
-        processor
+        klass_name = event["resource_type"].classify
+
+        if ::PaymentProcessor::GoCardless::WebhookHandler.const_defined?(klass_name)
+          processor = ::PaymentProcessor::GoCardless::WebhookHandler.const_get(klass_name).new(event)
+          processor.process
+          processor
+        end
       end
 
-      def record_processing(event, handler)
+      def record_processing(event, handler = nil)
         ::Payment::GoCardless::WebhookEvent.create(
           event_id:      event['id'],
           action:        event['action'],
           resource_type: event['resource_type'],
-          resource_id:   handler.resource_id,
+          resource_id:   handler.try(:resource_id),
           body:          event.to_json
         )
       end
