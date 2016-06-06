@@ -26,7 +26,11 @@ module PaymentProcessor
           {
             name: "donation",
             interval_unit: "monthly"
-          }
+          }.tap do |params|
+            if bacs?
+              params[:start_date] = subscription_start_date
+            end
+          end
         )
       end
 
@@ -55,6 +59,10 @@ module PaymentProcessor
         return 'EUR'
       end
 
+      def bacs?
+        mandate.scheme.downcase.inquiry.bacs?
+      end
+
       def complete_redirect_flow
         @complete_redirect_flow ||= client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
@@ -67,6 +75,16 @@ module PaymentProcessor
           access_token: Settings.gocardless.token,
           environment: Settings.gocardless.environment.to_sym
         )
+      end
+
+      def subscription_start_date
+        date = Date.today.change(day:20)
+
+        if Time.now.day >= settings_charge_day
+          date += 1.month
+        end
+
+        date
       end
 
       def charge_date
@@ -84,6 +102,10 @@ module PaymentProcessor
           # if the mandate becomes available only after the date this month, charge on the desired date next month.
           gbp_date.next_month.to_s
         end
+      end
+
+      def settings_charge_day
+        @settings_charge_day ||= Settings.gocardless.gbp_charge_day.to_i
       end
 
       def create_gbp_date(mandate_date)
