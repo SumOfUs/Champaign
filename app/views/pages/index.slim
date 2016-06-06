@@ -5,6 +5,15 @@
   h1.edit-block__title= t('.title')
 
   .row
+    .modal#clone-page.fade
+      .modal-dialog
+        .modal.content
+          .modal-header
+            Hello
+          .modal-body
+            form
+              input.form-control
+
     .col-md-12
       = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-md'
     .col-md-12
@@ -20,6 +29,7 @@
             th
             th
             th
+            th
         tbody
           - @pages.each do |page|
             tr
@@ -31,6 +41,16 @@
               td = link_to t('pages.edit.view'), member_facing_page_path(page)
               td = link_to t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
+              td = link_to 'Clone', '#', class: 'clone-page'
       #search-filter
         = render partial: 'search'
 
+
+
+
+javascript:
+  $('a.clone-page').on('click', function(e){
+    e.preventDefault();
+    console.log("foo bar");
+    $('#clone-page').modal();
+  });
