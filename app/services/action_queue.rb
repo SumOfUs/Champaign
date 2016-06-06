@@ -127,7 +127,8 @@ module ActionQueue
             recurring_id: data[:subscription_id]
           }.merge(fake_card_info),
           action: {
-            source: data[:source]
+            source: data[:source],
+            skip_confirmation: 1
           },
           user: user_data
         }
@@ -148,7 +149,8 @@ module ActionQueue
             currency:     data[:currency]
           }.merge(fake_card_info),
           action: {
-            source: data[:source]
+            source: data[:source],
+            skip_confirmation: 1
           },
           user: user_data
         }

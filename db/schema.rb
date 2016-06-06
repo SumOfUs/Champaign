@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160516190642) do
+ActiveRecord::Schema.define(version: 20160602165235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -355,6 +355,7 @@ ActiveRecord::Schema.define(version: 20160516190642) do
     t.text     "body"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.string   "resource_id"
   end
 
   add_index "payment_go_cardless_webhook_events", ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id", using: :btree

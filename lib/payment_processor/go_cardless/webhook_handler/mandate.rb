@@ -9,10 +9,10 @@ module PaymentProcessor
         end
 
         def record
-          @record ||= ::Payment::GoCardless::PaymentMethod.find_by(go_cardless_id: mandate_id)
+          @record ||= ::Payment::GoCardless::PaymentMethod.find_by(go_cardless_id: resource_id)
         end
 
-        def mandate_id
+        def resource_id
           @event['links']['mandate']
         end
       end
