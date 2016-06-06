@@ -23,12 +23,12 @@ module PaymentProcessor
         let(:action) { instance_double('Action', member_id: 2) }
         let(:local_transaction) { instance_double('Payment::GoCardless::Transaction', go_cardless_id: 'PA00000') }
         let(:local_customer) { instance_double('Payment::GoCardless::Customer', id: 7) }
-        let(:local_mandate) { instance_double('Payment::GoCardless::PaymentMethod') }
+        let(:local_mandate) { instance_double('Payment::GoCardless::PaymentMethod', id: 1234) }
 
         let(:gc_error) { GoCardlessPro::ValidationError.new('invalid') }
 
         let(:completed_flow) do
-          instance_double('GoCardlessPro::Resources::RedirectFlow', 
+          instance_double('GoCardlessPro::Resources::RedirectFlow',
                           links: double(customer: 'CU00000', mandate: 'MA00000')
                          )
         end
@@ -38,7 +38,7 @@ module PaymentProcessor
                          )
         end
 
-        let(:payment) { instance_double('GoCardlessPro::Resources::Payment', id: 'PA00000') }
+        let(:payment) { instance_double('GoCardlessPro::Resources::Payment', id: 'PA00000', charge_date: '2016-05-20') }
 
         let(:amount_in_dollars){ 12.5 }
         let(:amount_in_euros){ 10.98 }
@@ -172,7 +172,15 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
         describe 'bookkeeping' do
           it 'delegates to Payment::GoCardless.write_transaction' do
             expect(Payment::GoCardless).to receive(:write_transaction).with(
-              local_transaction.go_cardless_id, amount_in_euros, 'EUR', page_id)
+              uuid: local_transaction.go_cardless_id,
+              amount: amount_in_euros,
+              currency: 'EUR',
+              charge_date: payment.charge_date,
+              page_id: page_id,
+              customer_id: local_customer.id,
+              payment_method_id: local_mandate.id
+            )
+
             subject
           end
 

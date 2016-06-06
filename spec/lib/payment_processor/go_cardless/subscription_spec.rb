@@ -20,10 +20,10 @@ module PaymentProcessor
           allow(ManageDonation).to receive(:create){ action }
         end
 
-        let(:action) { instance_double('Action', member_id: 2) }
-        let(:local_subscription) { instance_double('Payment::GoCardless::Subscription', go_cardless_id: 'SU00000') }
+        let(:action) { instance_double('Action', member_id: 2, id: 1234) }
+        let(:local_subscription) { instance_double('Payment::GoCardless::Subscription', go_cardless_id: 'SU00000', id: 567) }
         let(:local_customer) { instance_double('Payment::GoCardless::Customer', id: 7) }
-        let(:local_mandate) { instance_double('Payment::GoCardless::PaymentMethod') }
+        let(:local_mandate) { instance_double('Payment::GoCardless::PaymentMethod', id: 543) }
 
         let(:gc_error) { GoCardlessPro::ValidationError.new('invalid') }
 
@@ -78,7 +78,7 @@ module PaymentProcessor
         describe 'bookkeeping' do
           it 'delegates to Payment::GoCardless.write_subscription' do
             expect(Payment::GoCardless).to receive(:write_subscription).with(
-              local_subscription.go_cardless_id, amount_in_euros, 'EUR', page_id)
+              local_subscription.go_cardless_id, amount_in_euros, 'EUR', page_id, action.id, local_customer.id, local_mandate.id)
             subject
           end
 
