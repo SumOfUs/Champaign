@@ -153,6 +153,33 @@ module PaymentProcessor::GoCardless
       end
     end
 
+    describe 'Non application events' do
+      let(:non_applicable_events) do
+        [
+          {"id"=>"XEVTESTJG8GPP7I",
+            "created_at"=>"2016-04-14T11:32:20.343Z",
+            "resource_type"=>"payouts",
+            "action"=>"customer_approval_granted",
+            "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
+            "details"=>
+             {"origin"=>"customer",
+              "cause"=>"customer_approval_granted",
+              "description"=>"The customer granted approval for this subscription"},
+            "metadata"=>{}
+         }
+        ]
+      end
+
+      it 'stores event' do
+        WebhookHandler::ProcessEvents.process(non_applicable_events)
+        expect(Payment::GoCardless::WebhookEvent.first.attributes).to include({
+          event_id: "XEVTESTJG8GPP7I",
+          resource_id: nil
+        }.stringify_keys)
+      end
+
+    end
+
     describe "Subscriptions" do
       let(:pending_first)   { true }
       let(:action)          { create(:action, page: page, form_data: { recurrence_number: 1 }) }
@@ -321,7 +348,6 @@ module PaymentProcessor::GoCardless
               "metadata"=>{}}
           ]
         end
-
 
         before do
           allow( ChampaignQueue ).to receive(:push)
