@@ -28,7 +28,7 @@ module PaymentProcessor
             interval_unit: "monthly"
           }.tap do |params|
             if bacs?
-              params[:start_date] = subscription_start_date
+              params[:start_date] = Helper.next_available_date(Settings.gocardless.gbp_charge_day.to_i)
             end
           end
         )
@@ -77,18 +77,8 @@ module PaymentProcessor
         )
       end
 
-      def subscription_start_date
-        date = Date.today.change(day:20)
-
-        if Time.now.day >= settings_charge_day
-          date += 1.month
-        end
-
-        date
-      end
-
       def charge_date
-        if Settings.gocardless.gbp_charge_day.blank? || mandate.scheme.downcase != 'bacs'
+        if Settings.gocardless.gbp_charge_day.blank? || !bacs?
           return mandate.next_possible_charge_date
         end
 

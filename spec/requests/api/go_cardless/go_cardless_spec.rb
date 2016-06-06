@@ -401,19 +401,15 @@ describe "GoCardless API" do
 
         shared_examples 'successful subscription' do
           it 'passes the correct data to the GoCardless Payment SDK' do
-
             sdk_params[:params] = sdk_params[:params].merge(
               name: "donation",
               interval_unit: "monthly",
-              start_date: Date.parse("2016/02/20")
+              start_date: instance_of(Date)
             )
             subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
             expect(subscriptions_service).to receive(:create).with(sdk_params)
-
-            Timecop.freeze('2016/01/21') do
-              subject
-            end
+            subject
           end
 
           it 'posts donation action to queue with correct data' do
