@@ -2,7 +2,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   class Charge
     attr_reader :subscription, :event
 
-    delegate :page, :amount, :currency, to: :subscription
+    delegate :page_id, :amount, :currency, :payment_method_id, :customer_id, to: :subscription
 
     def initialize(subscription, event = {})
       @event = event
@@ -10,7 +10,16 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     end
 
     def call
-      Payment::GoCardless.write_transaction(event['links']['payment'], amount, currency, page.id, subscription)
+      Payment::GoCardless.write_transaction(
+        uuid: event['links']['payment'],
+        amount: amount,
+        currency: currency,
+        charge_date: event['created_at'],
+        page_id: page_id,
+        customer_id: customer_id,
+        payment_method_id: payment_method_id,
+        subscription: subscription
+      )
 
       ChampaignQueue.push(
         type: 'subscription-payment',

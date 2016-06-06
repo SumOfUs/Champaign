@@ -1,6 +1,11 @@
 class Api::ActionsController < ApplicationController
   before_filter :localize_from_page_id
 
+  rescue_from ActionController::InvalidAuthenticityToken do |exception|
+    reset_session
+    raise
+  end
+
   def create
     @action_params = action_params
     validator = FormValidator.new(@action_params)

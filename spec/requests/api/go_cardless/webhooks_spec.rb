@@ -35,6 +35,14 @@ describe "subscriptions" do
       expect(subscription.reload.aasm_state).to eq('active')
     end
 
+    context 'with missing subscription' do
+      it 'stores event' do
+        Payment::GoCardless::Subscription.delete_all
+        post('/api/go_cardless/webhook', events, headers)
+        expect(Payment::GoCardless::WebhookEvent.first.resource_id).to eq("index_ID_123")
+      end
+    end
+
     context 'with payment_created event' do
       before do
         subscription.transactions.create!(go_cardless_id: 'PM123')
@@ -51,7 +59,11 @@ describe "subscriptions" do
           ).to include({
             go_cardless_id: 'payment_ID_123',
             page_id: page.id,
-            amount: 100
+            amount: 100,
+            charge_date: Date.new(2016, 4, 20),
+            customer_id: subscription.customer_id,
+            payment_method_id: subscription.payment_method_id,
+            subscription_id: subscription.id
           })
         end
 

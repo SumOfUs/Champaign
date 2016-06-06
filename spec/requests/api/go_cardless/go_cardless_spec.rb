@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe "GoCardless API" do
   let(:page) { create :page }
-
   let(:usd_amount) { 9.99 }
   let(:gbp_amount) { 11.55 }
 
@@ -20,11 +19,9 @@ describe "GoCardless API" do
   end
 
   describe "redirect flow" do
-
     let(:page) { create :page, slug: 'implement-synergistic-cooperation', id: 1 }
 
     describe 'successful' do
-
       before :each do
         allow(SecureRandom).to receive(:uuid).and_return('the-session-id')
       end
@@ -54,13 +51,13 @@ describe "GoCardless API" do
 
       it 'passes the description to go_cardless' do
         subject
-        expect(assigns(:flow).redirect_flow_instance.description).to match /You are donating €3.00 to SumOfUs/
+        expect(assigns(:flow).redirect_flow_instance.description).to match(/You are donating €3.00 to SumOfUs/)
       end
 
       it "redirects to a page hosted on GoCardless" do
         subject
         expect(response.status).to be 302
-        expect(response.body).to match /You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/
+        expect(response.body).to match(/You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/)
       end
     end
 
@@ -158,10 +155,13 @@ describe "GoCardless API" do
     context 'successful' do
 
       shared_examples 'donation action' do
-        it 'creates a PaymentMethod record that stores the mandate id' do
-          expect{ subject }.to change{ Payment::GoCardless::PaymentMethod.count }.by 1
+        it 'creates a PaymentMethod record with relevant data and associations' do
+          expect{ subject }.to change{ Payment::GoCardless::PaymentMethod.count }.by(1)
           mandate = Payment::GoCardless::PaymentMethod.last
           expect(mandate.go_cardless_id).to eq mandate_id
+          expect(mandate.scheme).to eq 'bacs'
+          expect(mandate.next_possible_charge_date).not_to be_blank
+          expect(mandate.customer).not_to be_blank
         end
 
         it 'creates an Action associated with the Page and Member' do
@@ -187,12 +187,19 @@ describe "GoCardless API" do
         end
 
         it 'increments action count on Page' do
-          expect{ subject }.to change{ page.reload.action_count }.by 1
+          expect{ subject }.to change{ page.reload.action_count }.by(1)
         end
 
         it "redirects to the page's follow-up path" do
           subject
           expect(response.status).to redirect_to(follow_up_page_path(page))
+        end
+
+        it "creates a Customer record with relevant data and associations" do
+          expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by(1)
+          customer = Payment::GoCardless::Customer.last
+          expect(customer.go_cardless_id).to eq customer_id
+          expect(customer.member).not_to be_blank
         end
       end
 
@@ -230,7 +237,8 @@ describe "GoCardless API" do
                 user_en: 1
               },
               action: {
-                source: 'fb'
+                source: 'fb',
+                skip_confirmation: 1
               }
             }
           }
@@ -250,10 +258,10 @@ describe "GoCardless API" do
                 amount: (gbp_amount * 100).to_i,
                 currency: 'GBP',
                 links: {
-                    mandate: mandate_id # a_string_matching(/\AMD[0-9A-Z]+\z/)
+                  mandate: mandate_id # a_string_matching(/\AMD[0-9A-Z]+\z/)
                 },
                 metadata: {
-                    customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
+                  customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
                 },
                 charge_date: "2016-05-20"
               }
@@ -261,7 +269,7 @@ describe "GoCardless API" do
           end
 
           it 'passes the correct data to the GoCardless Payment SDK' do
-            payment_service = instance_double(GoCardlessPro::Services::PaymentsService, create: double(id: 'asdf'))
+            payment_service = instance_double(GoCardlessPro::Services::PaymentsService, create: double(id: 'asdf', charge_date: '2016-05-20'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:payments).and_return(payment_service)
             expect(payment_service).to receive(:create).with(transaction_sdk_params)
             subject
@@ -283,12 +291,18 @@ describe "GoCardless API" do
             expect(form_data).not_to have_key('subscription_id')
           end
 
-          it 'creates a Transaction record associated with the Page' do
+          it 'creates a Transaction record with associations and data' do
             expect{ subject }.to change{ Payment::GoCardless::Transaction.count }.by 1
             payment = Payment::GoCardless::Transaction.last
             expect(payment.go_cardless_id).to match(payment_id_regexp)
             expect(payment.currency).to eq 'GBP'
             expect(payment.amount).to eq gbp_amount
+            expect(payment.charge_date).not_to be_blank
+            expect(payment.page).to eq page
+            expect(payment.payment_method).not_to be_blank
+            expect(payment.customer).not_to be_blank
+            expect(payment.subscription_id).to be_nil
+            expect(payment.aasm_state).to eq "created"
           end
         end
 
@@ -325,14 +339,14 @@ describe "GoCardless API" do
           include_examples 'donation action'
 
           it "populates the Member’s fields with form data" do
-            expect{ subject }.to change{ Member.count }.by 1
+            expect{ subject }.to change{ Member.count }.by(1)
             member = Member.last
             expect(member.country).to eq "US"
             expect(member.postal).to eq "11225"
           end
 
           it "associates the Member with a Customer" do
-            expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by 1
+            expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by(1)
             expect(Payment::GoCardless::Customer.last.member_id).to eq Member.last.id
           end
         end
@@ -372,7 +386,8 @@ describe "GoCardless API" do
                 user_en: 1
               },
               action: {
-                source: 'fb'
+                source: 'fb',
+                skip_confirmation: 1
               }
             }
           }
@@ -404,9 +419,9 @@ describe "GoCardless API" do
           end
 
           it 'stores amount, currency, is_subscription, and subscription_id in form_data on the Action' do
-            expect{ subject }.to change{ Action.count }.by 1
+            expect{ subject }.to change{ Action.count }.by(1)
             form_data = Action.last.form_data
-            expect(form_data['is_subscription']).to eq true
+            expect(form_data['is_subscription']).to be true
             expect(form_data['amount']).to eq gbp_amount.to_s
             expect(form_data['currency']).to eq 'GBP'
             expect(form_data['subscription_id']).to eq Payment::GoCardless::Subscription.last.go_cardless_id
@@ -415,6 +430,19 @@ describe "GoCardless API" do
 
           it 'does not yet create a transaction record' do
             expect{ subject }.not_to change{ Payment::GoCardless::Transaction.count }
+          end
+
+          it 'creates a Subscription record with associations and data' do
+            expect{ subject }.to change{ Payment::GoCardless::Subscription.count }.by(1)
+            subscription = Payment::GoCardless::Subscription.last
+            expect(subscription.go_cardless_id).to match(subscription_id_regexp)
+            expect(subscription.currency).to eq 'GBP'
+            expect(subscription.amount).to eq gbp_amount
+            expect(subscription.page).to eq page
+            expect(subscription.payment_method).to be_a Payment::GoCardless::PaymentMethod
+            expect(subscription.customer).to be_a Payment::GoCardless::Customer
+            expect(subscription.action).to eq Action.last
+            expect(subscription.aasm_state).to eq "pending"
           end
         end
 
@@ -458,7 +486,7 @@ describe "GoCardless API" do
           end
 
           it "associates the Member with a Customer" do
-            expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by 1
+            expect{ subject }.to change{ Payment::GoCardless::Customer.count }.by(1)
             expect(Payment::GoCardless::Customer.last.member_id).to eq Member.last.id
           end
         end
@@ -621,7 +649,5 @@ describe "GoCardless API" do
         include_examples 'displays bad request errors'
       end
     end
-
   end
-
 end

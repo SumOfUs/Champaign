@@ -14,8 +14,8 @@ module PaymentProcessor::GoCardless
       def process
         @events.each do |event|
           next if already_processed?(event)
-          process_event(event)
-          record_processing(event)
+          handler = process_event(event)
+          record_processing(event, handler)
         end
       end
 
@@ -24,15 +24,18 @@ module PaymentProcessor::GoCardless
       end
 
       def process_event(event)
-        ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event).process
+        processor = ::PaymentProcessor::GoCardless::WebhookHandler.const_get(event["resource_type"].classify).new(event)
+        processor.process
+        processor
       end
 
-      def record_processing(event)
+      def record_processing(event, handler)
         ::Payment::GoCardless::WebhookEvent.create(
-          event_id: event['id'],
-          action: event['action'],
+          event_id:      event['id'],
+          action:        event['action'],
           resource_type: event['resource_type'],
-          body: event.to_json
+          resource_id:   handler.resource_id,
+          body:          event.to_json
         )
       end
     end
