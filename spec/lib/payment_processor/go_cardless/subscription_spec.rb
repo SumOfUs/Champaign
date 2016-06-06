@@ -32,11 +32,13 @@ module PaymentProcessor
             links: double(customer: 'CU00000', mandate: 'MA00000')
           )
         end
+
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
             id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now
           )
         end
+
         let(:subscription) { instance_double('GoCardlessPro::Resources::Subscription', id: 'SU00000') }
 
         let(:amount_in_dollars){ 12.5 }
@@ -56,6 +58,28 @@ module PaymentProcessor
         subject { described_class.make_subscription(required_options) }
 
         include_examples 'transaction and subscription', :make_subscription
+
+        describe 'charge date' do
+          subject { described_class.make_subscription(required_options) }
+
+          let(:mandate) do
+            instance_double('GoCardlessPro::Resources::Mandate',
+              id: 'MA00000',
+              scheme: 'bacs',
+              next_possible_charge_date: 1.day.from_now )
+          end
+
+          it 'sets start date for bacs' do
+            required_options
+            expect_any_instance_of(
+              GoCardlessPro::Services::SubscriptionsService
+            ).to receive(:create).with(
+              params: hash_including(start_date: instance_of(Date))
+            )
+
+            subject
+          end
+        end
 
         describe 'calling the GC SDK' do
           it 'creates a subscription with the right params' do
