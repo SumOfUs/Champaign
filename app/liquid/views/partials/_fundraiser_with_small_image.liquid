@@ -1,0 +1,22 @@
+{% include 'Small Header' %}
+
+<div class="center-content center-content--accomodates-stuck-footer">
+  <div class="center-content__big-column">
+
+    <div class="body-text main-feature">
+      {{ content }}
+
+      {% unless link_list == blank %}
+        <hr class="stubby-hr" />
+        <h3>{{ 'page.more_info' | t }}</h3>
+        {% include 'Links' %}
+      {% endunless %}
+    </div>
+  </div>
+  <div class="center-content__fixed-right">
+    {% include 'Fundraiser', extra_class: 'stuck-right' %}
+  </div>
+</div>
+
+{% include 'Fundraiser Mobile Footer' %}
+{% include 'Small Image Footer' %}

@@ -159,7 +159,7 @@
 
   &__mobile-ui {
 
-    @media(min-width: $mobile-width) {
+    @media(min-width: $mobile-width + 1) {
       display: none;
     }
 
