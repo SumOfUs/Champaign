@@ -52,6 +52,6 @@ class ApplicationController < ActionController::Base
   end
 
   def referer_url
-    {referer: request.referer}
+    {action_referer: request.referer}
   end
 end

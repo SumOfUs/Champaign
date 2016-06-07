@@ -74,12 +74,19 @@
               {{ 'fundraiser.loading' | t }}
             </div>
             <form action='/' id="hosted-fields" class="hidden-closed">
+              <div class="form__group hosted-fields__direct-debit-container hosted-fields__button-container">
+                <div class="hosted-fields__direct-debit">
+                  <i class="hosted-fields__direct-debit-logo"></i>
+                  {{ 'fundraiser.debit.direct_debit' | t }}
+                </div>
+                <div class="hosted-fields__or">{{ 'basics.or' | t }}</div>
+              </div>
               <div class="form__group">
-                <div id="hosted-fields__paypal"></div>
+                <div id="hosted-fields__paypal" class="hosted-fields__button-container"></div>
+                <div class="hosted-fields__or">{{ 'basics.or' | t }}</div>
               </div>
               <div class="hosted-fields__credit-card-fields">
                 <div class="form__group">
-                  <div class="hosted-fields__or">{{ 'basics.or' | t }}</div>
                   <div class="hosted-fields__host hosted-fields__number"></div>
                   <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
                 </div>
@@ -122,6 +129,7 @@
         sou.myFundraiser = new sou.Fundraiser({
           pageId:           "{{ id }}",
           followUpUrl:      "{{ follow_up_url }}",
+          showDirectDebit:  sou.personalization.showDirectDebit,
           currency:         sou.personalization.urlParams.currency || sou.personalization.location.currency,
           donationBands:    sou.personalization.donationBands,
           amount:           sou.personalization.urlParams.amount,

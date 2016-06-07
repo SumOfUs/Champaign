@@ -53,9 +53,9 @@ const BraintreeHostedFields = Backbone.View.extend({
       }
       if (event.target.fieldKey == 'number') {
         if (event.isEmpty) {
-          this.$('#hosted-fields__paypal').removeClass('paypal--grayed-out');
+          this.$('.hosted-fields__button-container').removeClass('hosted-fields--grayed-out');
         } else {
-          this.$('#hosted-fields__paypal').addClass('paypal--grayed-out');
+          this.$('.hosted-fields__button-container').addClass('hosted-fields--grayed-out');
         }
       }
       this.showCardType(event.card);

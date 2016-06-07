@@ -524,7 +524,6 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__error-detail').length).to.equal(2);
         expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
       });
-
     });
   });
 });

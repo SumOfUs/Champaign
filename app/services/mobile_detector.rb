@@ -10,7 +10,7 @@ class MobileDetector
   end
 
   def detect
-    { mobile: device }
+    { action_mobile: device }
   end
 
   private

@@ -1,0 +1,53 @@
+class Payment::GoCardless::Transaction < ActiveRecord::Base
+  include AASM
+
+  belongs_to :page
+  belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
+  belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
+  belongs_to :subscription, class_name:   'Payment::GoCardless::Subscription'
+
+  validates :go_cardless_id, presence: true, allow_blank: false
+
+  ACTION_FROM_STATE = {
+    submitted:     :submit,
+    confirmed:     :confirm,
+    cancelled:     :cancel,
+    failed:        :fail,
+    charged_back:  :charge_back,
+    paid_out:      :pay_out
+  }
+
+  aasm do
+    state :created, initial: true
+    state :submitted
+    state :confirmed
+    state :paid_out
+    state :cancelled
+    state :failed
+    state :charged_back
+
+    event :run_submit do
+      transitions from: :created, to: :submitted
+    end
+
+    event :run_confirm do
+      transitions from: [:created, :submitted], to: :confirmed
+    end
+
+    event :run_payout do
+      transitions from: [:created, :submitted, :confirmed], to: :paid_out
+    end
+
+    event :run_cancel do
+      transitions to: :cancelled
+    end
+
+    event :run_fail do
+      transitions to: :failed
+    end
+
+    event :run_charge_back do
+      transitions to: :charged_back
+    end
+  end
+end

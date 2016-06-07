@@ -14,6 +14,7 @@
 //= require_directory ./plugins
 
 require("sumofus/scroll");
+require("sumofus/ga_event_reporting");
 window.sumofus = {};
 window.sumofus.Petition      = require('sumofus/backbone/petition');
 window.sumofus.ActionForm    = require('sumofus/backbone/action_form');

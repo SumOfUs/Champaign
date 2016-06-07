@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/redirect_flows
+    body:
+      encoding: UTF-8
+      string: '{"redirect_flows":{"session_token":"the-session-id","description":"You
+        are donating €3.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/1/transaction?amount=3\u0026currency=EUR\u0026page_id=implement-synergistic-cooperation"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Mon, 09 May 2016 22:08:00 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d55dd2e73e9926b6aa920398f60a927651462831679; expires=Tue, 09-May-17
+        22:07:59 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Location:
+      - https://api-sandbox.gocardless.com/redirect_flows/RE00004N7BQMAA31WYN2D1NQE31FT82Q
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"43d7ff1c337132a0ede01cd26960cabd"
+      X-Request-Id:
+      - 39c4806c-0c79-4dd7-b03f-a2a466a0a015
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '989'
+      Ratelimit-Reset:
+      - Mon, 09 May 2016 22:08:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2a0877aeb05a0daf-SJC
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        eyJyZWRpcmVjdF9mbG93cyI6eyJpZCI6IlJFMDAwMDRON0JRTUFBMzFXWU4y
+        RDFOUUUzMUZUODJRIiwiZGVzY3JpcHRpb24iOiJZb3UgYXJlIGRvbmF0aW5n
+        IOKCrDMuMDAgdG8gU3VtT2ZVcyIsInNlc3Npb25fdG9rZW4iOiJ0aGUtc2Vz
+        c2lvbi1pZCIsInNjaGVtZSI6bnVsbCwic3VjY2Vzc19yZWRpcmVjdF91cmwi
+        OiJodHRwOi8vd3d3LmV4YW1wbGUuY29tL2FwaS9nb19jYXJkbGVzcy9wYWdl
+        cy8xL3RyYW5zYWN0aW9uP2Ftb3VudD0zJmN1cnJlbmN5PUVVUiZwYWdlX2lk
+        PWltcGxlbWVudC1zeW5lcmdpc3RpYy1jb29wZXJhdGlvbiIsImNyZWF0ZWRf
+        YXQiOiIyMDE2LTA1LTA5VDIyOjA3OjU5LjkyNloiLCJsaW5rcyI6eyJjcmVk
+        aXRvciI6IkNSMDAwMDQ1S0tRRVk4In0sInJlZGlyZWN0X3VybCI6Imh0dHBz
+        Oi8vcGF5LXNhbmRib3guZ29jYXJkbGVzcy5jb20vZmxvdy9SRTAwMDA0TjdC
+        UU1BQTMxV1lOMkQxTlFFMzFGVDgyUSJ9fQ==
+    http_version: 
+  recorded_at: Mon, 09 May 2016 22:08:00 GMT
+recorded_with: VCR 3.0.0

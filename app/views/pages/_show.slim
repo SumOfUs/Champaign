@@ -1,0 +1,13 @@
+- share_card = share_card(@page)
+- meta twitter: twitter_meta(@page, share_card)
+- meta og: facebook_meta(@page, share_card)
+- meta optimization_tags: @page.meta_tags
+
+= @rendered
+= render 'personalization', data: @data
+= render 'campaigner_overlay', page: @page
+
+javascript:
+  $(document).ready(function() {
+    #{@page.javascript.try(:html_safe)}
+  });

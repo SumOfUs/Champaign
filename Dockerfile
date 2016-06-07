@@ -9,7 +9,7 @@ WORKDIR /myapp
 ADD Gemfile* /myapp/
 ADD package.json /myapp/
 
-RUN bundle install --jobs 4 && npm install
+RUN bundle install --jobs 4 && npm install && npm install -g phantomjs-prebuilt
 
 EXPOSE 3000
 ADD . /myapp

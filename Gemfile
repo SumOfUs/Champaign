@@ -27,8 +27,11 @@ gem 'google_currency'
 # see https://github.com/modeset/teaspoon/issues/443
 gem 'sprockets-rails', '< 3.0'
 
-# Braintree as a payment processor
+# Braintree and GoCardless as payment processors
 gem 'braintree', '~> 2.54.0'
+gem "gocardless_pro"
+
+gem "aasm"
 
 # they still haven't released sprockets 3 support, but it's merged on master
 gem "compass-rails", git: 'https://github.com/compass/compass-rails'
@@ -108,7 +111,6 @@ group :development, :test do
   gem 'teaspoon'
   gem 'teaspoon-mocha'
   gem 'magic_lamp'
-  gem 'phantomjs'
   gem 'guard-rspec', require: false
 
   # For Mac OS

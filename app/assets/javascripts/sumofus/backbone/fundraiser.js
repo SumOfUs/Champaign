@@ -23,6 +23,7 @@ const Fundraiser = Backbone.View.extend(_.extend(
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
+    'click .hosted-fields__direct-debit': 'submitDirectDebit',
   },
 
   globalEvents: {
@@ -36,6 +37,7 @@ const Fundraiser = Backbone.View.extend(_.extend(
   //      arguments received by the ajax call posting the donation
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
+  //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
   //    recurringDefault: either 'donation', 'recurring', or 'only_recurring'
   //    pageId: the ID of the plugin's page database record.
@@ -48,6 +50,8 @@ const Fundraiser = Backbone.View.extend(_.extend(
     this.submissionCallback = options.submissionCallback;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
+    this.directDebitOpened = false;
+    this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
     GlobalEvents.bindEvents(this);
@@ -200,15 +204,33 @@ const Fundraiser = Backbone.View.extend(_.extend(
     });
   },
 
-  submitDonation(nonce) {
-    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, {
-      payment_method_nonce: nonce,
-      amount:               this.donationAmount,
-      user:                 this.serializeUserForm(),
-      currency:             this.currency,
-      recurring:            this.readRecurring()
-    }).done(this.transactionSuccess.bind(this)).
+  donationData() {
+    return {
+      amount:       this.donationAmount,
+      user:         this.serializeUserForm(),
+      currency:     this.currency,
+      recurring:    this.readRecurring()
+    }
+  },
+
+  submitDirectDebit() {
+    let data = this.donationData();
+    data.provider = 'GC';
+    let url = `/api/go_cardless/pages/${this.pageId}/start_flow?${$.param(data)}`;
+    $.publish('direct_debit:opened');
+    this.directDebitOpened = true;
+    window.open(url);
+  },
+
+  submitDonation (nonce) {
+    let data = this.donationData();
+    data.payment_method_nonce = nonce;
+    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data).
+      done(this.transactionSuccess.bind(this)).
       error(this.transactionFailed.bind(this));
+    if(this.directDebitOpened){
+      $.publish('direct_debit:donated_via_other');
+    }
   },
 
   transactionSuccess(data, status) {
@@ -241,14 +263,20 @@ const Fundraiser = Backbone.View.extend(_.extend(
     } else {
       var messages = [I18n.t('fundraiser.unknown_error')];
     }
-    _.each(messages, (error_message) => {
-      $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
-    });
-
+    this.showErrors(messages);
     Backbone.trigger('sidebar:height_change');
   },
 
-  serializeUserForm() {
+  showErrors(messages) {
+    let $errors = this.$('.fundraiser-bar__errors');
+    $errors.removeClass('hidden-closed');
+    $errors.find('.fundraiser-bar__error-detail').remove();
+    _.each(messages, (error_message) => {
+      $errors.append(`<div class="fundraiser-bar__error-detail">${error_message}</div>`);
+    });
+  },
+
+  serializeUserForm () {
     let list = this.$('form.action-form').serializeArray();
     let serialized = {}
     $.each(list, function(ii, field){
@@ -280,6 +308,32 @@ const Fundraiser = Backbone.View.extend(_.extend(
     window.location.href = url;
   },
 
+  displayDirectDebit(show) {
+    if (show === true) {
+      $('.hosted-fields__direct-debit-container').removeClass('hidden-irrelevant');
+      this.handleInterTabFollowUp();
+    } else {
+      $('.hosted-fields__direct-debit-container').addClass('hidden-irrelevant');
+    }
+  },
+
+  handleInterTabFollowUp() {
+    $(window).on('message', (e) => {
+      if (typeof(e.originalEvent.data) === 'object'){
+        if (e.originalEvent.data.event === 'follow_up:loaded') {
+          this.redirectTo(this.followUpUrl);
+          e.originalEvent.source.close();
+          $.publish('direct_debit:donated');
+        } else if (e.originalEvent.data.event === 'donation:error') {
+          let messages = e.originalEvent.data.errors.map(function(error){
+            return error.message;
+          });
+          this.showErrors(messages);
+          e.originalEvent.source.close();
+        }
+      }
+    });
+  },
 }));
 
 module.exports = Fundraiser;

@@ -10,6 +10,14 @@ describe PaymentProcessor::Currency do
     end
   end
 
+  it 'can convert from GBP to EUR' do
+    VCR.use_cassette('money_google_bank') do
+      expect(
+        PaymentProcessor::Currency.convert(1000, 'eur', 'gbp').cents
+      ).to be > 1_000
+    end
+  end
+
   it 'raises with invalid currency' do
     expect{
       PaymentProcessor::Currency.convert(100.23, 'zzz').format

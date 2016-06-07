@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418211612) do
+ActiveRecord::Schema.define(version: 20160602165235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 20160418211612) do
     t.boolean  "subscribed_user"
     t.datetime "created_at",                        null: false
     t.datetime "updated_at",                        null: false
-    t.jsonb    "form_data"
+    t.jsonb    "form_data",         default: {}
     t.boolean  "subscribed_member", default: true
     t.boolean  "donation",          default: false
   end
@@ -269,10 +269,96 @@ ActiveRecord::Schema.define(version: 20160418211612) do
     t.decimal  "amount",                  precision: 10, scale: 2
     t.string   "processor_response_code"
     t.integer  "payment_method_id"
+    t.integer  "subscription_id"
   end
 
   add_index "payment_braintree_transactions", ["page_id"], name: "index_payment_braintree_transactions_on_page_id", using: :btree
   add_index "payment_braintree_transactions", ["payment_method_id"], name: "braintree_payment_method_index", using: :btree
+  add_index "payment_braintree_transactions", ["subscription_id"], name: "braintree_transaction_subscription", using: :btree
+
+  create_table "payment_go_cardless_customers", force: :cascade do |t|
+    t.string   "go_cardless_id"
+    t.string   "email"
+    t.string   "given_name"
+    t.string   "family_name"
+    t.string   "postal_code"
+    t.string   "country_code"
+    t.string   "language"
+    t.integer  "member_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "payment_go_cardless_customers", ["member_id"], name: "index_payment_go_cardless_customers_on_member_id", using: :btree
+
+  create_table "payment_go_cardless_payment_methods", force: :cascade do |t|
+    t.string   "go_cardless_id"
+    t.string   "reference"
+    t.string   "scheme"
+    t.date     "next_possible_charge_date"
+    t.integer  "customer_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.string   "aasm_state"
+  end
+
+  add_index "payment_go_cardless_payment_methods", ["customer_id"], name: "index_payment_go_cardless_payment_methods_on_customer_id", using: :btree
+
+  create_table "payment_go_cardless_subscriptions", force: :cascade do |t|
+    t.string   "go_cardless_id"
+    t.decimal  "amount"
+    t.string   "currency"
+    t.integer  "status"
+    t.string   "name"
+    t.string   "payment_reference"
+    t.integer  "page_id"
+    t.integer  "action_id"
+    t.integer  "payment_method_id"
+    t.integer  "customer_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "aasm_state"
+  end
+
+  add_index "payment_go_cardless_subscriptions", ["action_id"], name: "index_payment_go_cardless_subscriptions_on_action_id", using: :btree
+  add_index "payment_go_cardless_subscriptions", ["customer_id"], name: "index_payment_go_cardless_subscriptions_on_customer_id", using: :btree
+  add_index "payment_go_cardless_subscriptions", ["page_id"], name: "index_payment_go_cardless_subscriptions_on_page_id", using: :btree
+  add_index "payment_go_cardless_subscriptions", ["payment_method_id"], name: "index_payment_go_cardless_subscriptions_on_payment_method_id", using: :btree
+
+  create_table "payment_go_cardless_transactions", force: :cascade do |t|
+    t.string   "go_cardless_id"
+    t.date     "charge_date"
+    t.decimal  "amount"
+    t.string   "description"
+    t.string   "currency"
+    t.integer  "status"
+    t.string   "reference"
+    t.decimal  "amount_refunded"
+    t.integer  "page_id"
+    t.integer  "payment_method_id"
+    t.integer  "customer_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "aasm_state"
+    t.integer  "subscription_id"
+  end
+
+  add_index "payment_go_cardless_transactions", ["customer_id"], name: "index_payment_go_cardless_transactions_on_customer_id", using: :btree
+  add_index "payment_go_cardless_transactions", ["page_id"], name: "index_payment_go_cardless_transactions_on_page_id", using: :btree
+  add_index "payment_go_cardless_transactions", ["payment_method_id"], name: "index_payment_go_cardless_transactions_on_payment_method_id", using: :btree
+  add_index "payment_go_cardless_transactions", ["subscription_id"], name: "go_cardless_transaction_subscription", using: :btree
+
+  create_table "payment_go_cardless_webhook_events", force: :cascade do |t|
+    t.string   "event_id"
+    t.string   "resource_type"
+    t.string   "action"
+    t.text     "body"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "resource_id"
+  end
+
+  add_index "payment_go_cardless_webhook_events", ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id", using: :btree
 
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"
@@ -427,6 +513,15 @@ ActiveRecord::Schema.define(version: 20160418211612) do
   add_foreign_key "payment_braintree_customers", "members"
   add_foreign_key "payment_braintree_subscriptions", "pages"
   add_foreign_key "payment_braintree_transactions", "pages"
+  add_foreign_key "payment_go_cardless_customers", "members"
+  add_foreign_key "payment_go_cardless_payment_methods", "payment_go_cardless_customers", column: "customer_id"
+  add_foreign_key "payment_go_cardless_subscriptions", "actions"
+  add_foreign_key "payment_go_cardless_subscriptions", "pages"
+  add_foreign_key "payment_go_cardless_subscriptions", "payment_go_cardless_customers", column: "customer_id"
+  add_foreign_key "payment_go_cardless_subscriptions", "payment_go_cardless_payment_methods", column: "payment_method_id"
+  add_foreign_key "payment_go_cardless_transactions", "pages"
+  add_foreign_key "payment_go_cardless_transactions", "payment_go_cardless_customers", column: "customer_id"
+  add_foreign_key "payment_go_cardless_transactions", "payment_go_cardless_payment_methods", column: "payment_method_id"
   add_foreign_key "plugins_fundraisers", "donation_bands"
   add_foreign_key "plugins_fundraisers", "forms"
   add_foreign_key "plugins_fundraisers", "pages"
