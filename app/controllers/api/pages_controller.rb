@@ -19,6 +19,17 @@ class Api::PagesController < ApplicationController
     end)
   end
 
+  def show
+    byebug
+    if params[:id].blank?
+      render json: Pages.last(100).reverse
+    end
+  end
+
+  def show_featured
+    render json: Pages.where(featured: true)
+  end
+
   private
 
   def all_params
@@ -46,10 +57,6 @@ class Api::PagesController < ApplicationController
     # note that its `parse_query`, not `parse_nested_query`, so we get
     # {'page[title]' => "can't be blank" }
     Rack::Utils.parse_query(errors.to_query)
-  end
-
-  def get_page
-    @page = Page.find(params[:id])
   end
 
 end
