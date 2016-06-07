@@ -1,3 +1,5 @@
+class ClonePageError < StandardError; end
+
 class PageCloner
   attr_reader :page, :cloned_page, :title
 
@@ -23,9 +25,10 @@ class PageCloner
 
   def clone_page
     @cloned_page = page.dup
-    @cloned_page.title = @title if @title
+    @cloned_page.title = @title unless @title.blank?
 
     ActiveRecord::Base.transaction do
+      @cloned_page.save
       yield(self)
     end
 
@@ -43,6 +46,8 @@ class PageCloner
   end
 
   def plugins
+    cloned_page.plugins.each(&:destroy)
+
     page.plugins.each do |plugin|
       plugin.dup.tap do |clone|
         clone.page = cloned_page

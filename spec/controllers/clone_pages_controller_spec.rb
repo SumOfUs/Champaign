@@ -1,12 +1,56 @@
 require 'rails_helper'
 
-RSpec.describe PageClonerController, type: :controller do
+describe ClonePagesController do
+  let(:page) { double }
+  let(:user) { double }
+
+  before do
+    allow(Page).to receive(:find){ page }
+    allow(request.env['warden']).to receive(:authenticate!) { user }
+  end
 
   describe "GET #new" do
-    it "returns http success" do
-      get :new
-      expect(response).to have_http_status(:success)
+    before do
+      get :new, id: '1'
+    end
+
+    it "finds page" do
+      expect(Page).to have_received(:find).with('1')
+    end
+
+    it 'assigns page' do
+      expect( assigns(:page) ).to eq(page)
+    end
+
+    it 'renders new' do
+      expect(response).to render_template(:new)
     end
   end
 
+  describe 'POST #create' do
+    let(:cloned_page) { build('page', slug: 'foo-bar') }
+
+    before do
+      allow(PageCloner).to receive(:clone){ cloned_page }
+      allow(QueueManager).to receive(:push)
+
+      post :create, id: '1', page: { title: 'foo' }
+    end
+
+    it "finds page" do
+      expect(Page).to have_received(:find).with('1')
+    end
+
+    it 'clones page' do
+      expect(PageCloner).to have_received(:clone).with(page, 'foo')
+    end
+
+    it 'posts page to queue' do
+      expect(QueueManager).to have_received(:push).with(cloned_page, job_type: :create)
+    end
+
+    it 'redirects to cloned page' do
+      expect(response).to redirect_to('/pages/foo-bar/edit')
+    end
+  end
 end
