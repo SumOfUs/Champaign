@@ -29,14 +29,15 @@
     width: 100%;
   }
   &__title {
+    font-size: 36px;
     @media(max-width: 900px) {
-      font-size: 36px;
+      font-size: 34px;
     }
     @media(max-width: 700px) {
-      font-size: 32px;
+      font-size: 30px;
     }
     @media(max-width: 500px) {
-      font-size: 27px;
+      font-size: 25px;
     }
   }
   &__target {
@@ -44,12 +45,16 @@
       display: none;
     }
   }
+  $cover-photo-mobile-height: 220px;
   &--small {
     height: 390px;
     overflow: hidden;
     position: relative;
     @include background-size(cover);
     background-position: center;
+    @media(max-width: $mobile-width) {
+      height: $cover-photo-mobile-height;
+    }
   }
   &__titles {
     @media(max-width: $mobile-width) {
@@ -57,7 +62,7 @@
     }
   }
   @media(max-width: $mobile-width) {
-    height: 220px;
+    height: $cover-photo-mobile-height;
   }
 }
 .mobile-title {
@@ -67,6 +72,7 @@
   padding: 20px 0;
   background: $teal;
   color: white;
+  float: left;
   h1 {
     line-height: 1.1em;
   }
