@@ -334,6 +334,14 @@ describe("Fundraiser", function() {
         expect($el).to.have.value('$');
       });
 
+      it('changes the filled in currency symbol when clicking in', function(){
+        $('.fundraiser-bar__currency-selector').val('GBP').change();
+        var $el = $('.fundraiser-bar__custom-field');
+        expect($el).to.have.value('');
+        $el.focus();
+        expect($el).to.have.value('£');
+      });
+
       it('reveals the "next" button when a custom amount is entered', function(){
         var $next = $('.fundraiser-bar__first-continue');
         var $input = $('.fundraiser-bar__custom-field');
@@ -393,14 +401,6 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__current-currency').text()).to.equal('Values shown in USD');
         $('.fundraiser-bar__currency-selector').val('AUD').change();
         expect($('.fundraiser-bar__current-currency').text()).to.equal('Values shown in AUD');
-      });
-
-      it('changes the filled in currency symbol when clicking in', function(){
-        $('.fundraiser-bar__currency-selector').val('GBP').change();
-        var $el = $('.fundraiser-bar__custom-field');
-        expect($el).to.have.value('');
-        $el.focus();
-        expect($el).to.have.value('£');
       });
 
       it('displays the amount over step 1 with correct currency after moving on', function(){
