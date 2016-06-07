@@ -51,6 +51,25 @@
     @include background-size(cover);
     background-position: center;
   }
+  &__titles {
+    @media(max-width: $mobile-width) {
+      display: none;
+    }
+  }
+  @media(max-width: $mobile-width) {
+    height: 220px;
+  }
+}
+.mobile-title {
+  @media(min-width: $mobile-width + 1) {
+    display: none;
+  }
+  padding: 20px 0;
+  background: $teal;
+  color: white;
+  h1 {
+    line-height: 1.1em;
+  }
 }
 
 .cover-photo--small, .header-logo__left-constraint {
