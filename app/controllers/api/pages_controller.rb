@@ -1,7 +1,7 @@
 require 'rack'
 
 class Api::PagesController < ApplicationController
-  before_action :get_page
+  before_action :get_page, :only => :share_rows
   layout false
 
   def update
@@ -20,14 +20,19 @@ class Api::PagesController < ApplicationController
   end
 
   def show
-    byebug
-    if params[:id].blank?
-      render json: Pages.last(100).reverse
+    begin
+      if params[:id].blank?
+        render json: Page.last(100).reverse
+      else
+        render json: Page.find(params[:id])
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { errors: "No record was found with that slug or ID." }, status: 404
     end
   end
 
   def show_featured
-    render json: Pages.where(featured: true)
+    render json: Page.where(featured: true)
   end
 
   private
@@ -57,5 +62,9 @@ class Api::PagesController < ApplicationController
     # note that its `parse_query`, not `parse_nested_query`, so we get
     # {'page[title]' => "can't be blank" }
     Rack::Utils.parse_query(errors.to_query)
+  end
+
+  def get_page
+    @page = Page.find(params[:id])
   end
 end
