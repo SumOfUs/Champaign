@@ -28,6 +28,17 @@ module Plugins::HasForm
     old_form.destroy if old_form.present?
   end
 
+  def dup
+    clone = super
+    clone.save
+
+    if clone.form
+      clone.form.form_elements = form.form_elements.map{|e| e.dup}
+    end
+
+    clone
+  end
+
   private
 
   def create_form

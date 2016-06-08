@@ -43,10 +43,7 @@ let PageEditBar = Backbone.View.extend({
     this.setupAutosave();
     this.$saveBtn = this.$('.page-edit-bar__save-button');
     $('body').scrollspy({ target: '.scrollspy', offset: 150});
-  },
-
-  isMobile: function() {
-    return $('.mobile-indicator').is(':visible');
+    this.policeHeights();
   },
 
   addStepsToSidebar: function() {
@@ -112,23 +109,24 @@ let PageEditBar = Backbone.View.extend({
     }
   },
 
-  saved: function(e, data) { // closure for `this` cause it's an event callback
+  saved: function(e, data) {
     if (data.refresh){ location.reload(); }
     this.enableSubmit();
     $.publish('page:saved', data);
     $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
     $('.page-edit-bar__error-message').text('');
     $('.page-edit-bar__last-saved').text(I18n.t('pages.edit.last_saved_at', {time: this.currentTime()}));
+    this.policeHeights();
   },
 
   currentTime: function() {
     const now = new Date();
     const minutes = (`0${now.getMinutes()}`).slice(-2); // for leading zero
     const seconds = (`0${now.getSeconds()}`).slice(-2); // for leading zero
-    return `${now.getHours()}:${minutes}:${seconds}`
+    return `${now.getHours()}:${minutes}:${seconds}`;
   },
 
-  saveFailed: function(e, data) { // closure for `this` cause it's an event callback
+  saveFailed: function(e, data) {
     console.error("Save failed with", e, data);
     this.enableSubmit();
     $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
@@ -139,6 +137,7 @@ let PageEditBar = Backbone.View.extend({
     } else {
       $('.page-edit-bar__error-message').text(I18n.t('pages.edit.unknown_error'));
     }
+    this.policeHeights();
   },
 
   findError: function(){
@@ -159,6 +158,7 @@ let PageEditBar = Backbone.View.extend({
     } else {
       this.$('.page-edit-bar__btn-holder').removeClass('page-edit-bar__btn-holder--hidden');
     }
+    window.setTimeout(() => { this.policeHeights(); }, 200);
   },
 
   disableSubmit: function(){
@@ -202,6 +202,15 @@ let PageEditBar = Backbone.View.extend({
     } else {
       $lastSaved.find('.page-edit-bar__unsaved-notice').remove();
     }
+  },
+
+  policeHeights: function() {
+    if($(window).width() <= 600){ return; }
+    var height = $(window).height() -
+      this.$('.page-edit-bar__logo').height() -
+      this.$('.page-edit-bar__save-box').height() -
+      this.$('.page-edit-bar__btn-holder').outerHeight();
+    this.$('.page-edit-bar__step-list').css('height', `${height}px`);
   },
 
 });

@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   ActiveAdmin.routes(self)
   # We remove the sign_up path name so as not to allow users to sign in with username and password.
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
@@ -33,6 +32,8 @@ Rails.application.routes.draw do
   # Standard resources
   resources :campaigns
   resources :donation_bands, except: [:show, :destroy]
+
+  resources :clone_pages
 
   resources :pages do
     namespace :share do
@@ -136,6 +137,7 @@ Rails.application.routes.draw do
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
       end
+
       get 'share-rows', on: :member, action: 'share_rows'
     end
   end

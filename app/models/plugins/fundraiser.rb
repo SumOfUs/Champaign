@@ -19,4 +19,3 @@ class Plugins::Fundraiser < ActiveRecord::Base
     )
   end
 end
-

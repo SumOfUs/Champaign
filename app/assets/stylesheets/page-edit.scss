@@ -52,6 +52,7 @@ body.page-edit-body {
   &__step-list {
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
 
     li {
       border-top: 1px solid $save-box-color;

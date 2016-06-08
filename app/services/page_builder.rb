@@ -29,6 +29,4 @@ class PageBuilder
       page.follow_up_liquid_layout = follow_up_layout
     end
   end
-
 end
-

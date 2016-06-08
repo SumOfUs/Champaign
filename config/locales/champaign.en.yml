@@ -21,6 +21,7 @@
 
 en:
   common:
+    cancel: 'Cancel'
     name: 'Name'
     active: 'Active'
     edit: 'Edit'
@@ -58,6 +59,8 @@ en:
     sign_up: 'Sign up'
     sign_google: 'Sign in with Google'
     donation_bands: 'Donation Bands'
+    clone: 'Clone'
+    statistics: 'Statistics'
 
   tooltips:
     title: "This is the the signer-facing external title that appears on the page and in Google results. It's also how the page is identified internally in Champaign."
@@ -95,6 +98,12 @@ en:
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
+  clone_pages:
+    new:
+      title: "Clone Page"
+      labels:
+        title: "Edit Page Title"
+        submit: "Clone!"
   pages:
     index:
       new: "Create a new page"
@@ -132,6 +141,7 @@ en:
       sources: 'Sources'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
+      clone_page: 'Clone this page'
       layout_select: 'Page layout'
       follow_up_layout_select: 'Follow-up action'
       no_layout: 'None selected'

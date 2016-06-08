@@ -8,8 +8,8 @@ shared_examples "plugin with form" do |plugin_type|
   end
 
   it 'translates default form if page has a language' do
-    german = create :language, code: 'de'
-    page = create :page, language: german
+    german = create(:language, code: 'de')
+    page = create(:page, language: german)
     plugin = create plugin_type, page: page
     expect(plugin.form.name).to eq 'Basic (DE)'
   end
@@ -99,4 +99,3 @@ shared_examples "plugin with form" do |plugin_type|
     end
   end
 end
-
