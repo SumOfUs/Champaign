@@ -2,21 +2,60 @@ require 'rails_helper'
 
 describe "api/pages" do
 
-  describe 'GET featured' do
-    let!(:popular_page) { create :page, title: 'I am a featured page, AMA', featured: true }
-    let!(:less_cool_page) { create :page, title: 'I am not so popular. Sob.'}
+  def json
+    JSON.parse(response.body)
+  end
 
-    it 'gets only the featured page' do
-      get api_pages_path
-    end
+  before :each do
+    # I'm rounding the time. Ruby deals with time in nanoseconds whereas the database deals with time in microsecond
+    # precision. If I don't round the time, the expectation comparing the JSON response expects data from the DB
+    # with nanosecond precision.
+    @time_now = Time.at(Time.now.to_i)
+    allow(Time).to receive(:now).and_return(@time_now)
   end
 
   describe 'GET pages' do
-    let!(:popular_page) { create :page, title: 'I am a featured page, AMA', featured: true }
-    let!(:less_cool_page) { create :page, title: 'I am not so popular. Sob.'}
+    let!(:featured_pages) { create_list :page, 50, featured: true }
+    let!(:mvp_pages) { create_list :page, 50, featured: false }
+    let!(:last_featured_page) { create :page, title: 'I am the latest featured page', featured: true, slug: 'garden_slug' }
+    let!(:last_mvp_page) { create :page, title: 'I am the latest test page', featured: false}
 
-    it 'gets 100 most recent pages if requested without an id' do
+    it 'gets a hundred of both featured and unfeatured pages in a reversed order if requested without an id' do
+      get api_pages_path
+      expect(response).to be_success
+      # Includes both featured and unfeatured pages.
+      expect(json).to include last_featured_page.as_json
+      expect(json).to include last_mvp_page.as_json
+      # Limits its reach to the latest hundred pages if there are more than a hundred pages to search through.
+      expect(json).to match Page.last(100).reverse.as_json
+    end
+
+    it 'gets a single page if searched by an id of a page that exists' do
+      get api_pages_path(:id => last_mvp_page.id.to_s)
+      expect(response).to be_success
+      expect(json).to match last_mvp_page.as_json
+    end
+
+    it 'gets a single page if searched by a slug of a page that exists' do
+      get api_pages_path(:id => last_featured_page.slug)
+      expect(response).to be_success
+      expect(json).to match last_featured_page.as_json
+    end
+
+    it 'returns an error if searching for an ID or slug of a page that does not exist' do
+      get api_pages_path(:id => last_featured_page.slug + '_epidemic')
+      expect(response.status).to eq(404)
+      expect(json).to match({"errors" => "No record was found with that slug or ID."})
+    end
+  end
+  describe 'GET featured' do
+    let!(:featured_pages) { create_list :page, 50, featured: true }
+    let!(:mvp_pages) { create_list :page, 50, featured: false }
+    it 'gets only featured pages' do
       get api_pages_featured_path
+      expect(response).to be_success
+      expect(json).to match featured_pages.as_json
+      mvp_pages.map{|mvp_page| expect(json).to_not include mvp_page.as_json}
     end
   end
 end
