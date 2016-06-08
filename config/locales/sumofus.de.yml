@@ -91,10 +91,10 @@ de:
     privacy_policy: Datenschutz
     contact: Kontakt (Impressum)
     controlshift: '' #intentionally left blank
-    home_url: https://sumofus.org/
-    about_url: https://sumofus.org/about
+    home_url: http://de.sumofus.org/
+    about_url: http://de.sumofus.org/uber-uns
     privacy_policy_url: https://sumofus.org/de/datenschutz/
-    contact_url: https://sumofus.org/contact
+    contact_url: http://de.sumofus.org/impressum
   time:
     formats:
       default: "%-d. %B %Y"
