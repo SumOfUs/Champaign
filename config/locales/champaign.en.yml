@@ -141,6 +141,7 @@ en:
       sources: 'Sources'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
+      clone_page: 'Clone this page'
       layout_select: 'Page layout'
       follow_up_layout_select: 'Follow-up action'
       no_layout: 'None selected'
