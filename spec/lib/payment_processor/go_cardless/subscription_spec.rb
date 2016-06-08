@@ -15,6 +15,7 @@ module PaymentProcessor
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_return(completed_flow)
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:get).and_return(completed_flow)
           allow_any_instance_of(GoCardlessPro::Services::MandatesService).to receive(:get).and_return(mandate)
+          allow_any_instance_of(GoCardlessPro::Services::CustomerBankAccountsService).to receive(:get).and_return(bank_account)
           allow_any_instance_of(GoCardlessPro::Services::SubscriptionsService).to receive(:create).and_return(subscription)
 
           allow(ManageDonation).to receive(:create){ action }
@@ -29,13 +30,19 @@ module PaymentProcessor
 
         let(:completed_flow) do
           instance_double('GoCardlessPro::Resources::RedirectFlow', 
-            links: double(customer: 'CU00000', mandate: 'MA00000')
+            links: double(customer: 'CU00000', mandate: 'MA00000', customer_bank_account: 'BA00000')
           )
         end
 
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
             id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now
+          )
+        end
+
+        let(:bank_account) do
+          instance_double('GoCardlessPro::Resources::CustomerBankAccount',
+            id: 'BA00000', bank_name: 'BARCLAYS', account_number_ending: '11'
           )
         end
 
@@ -118,7 +125,9 @@ module PaymentProcessor
               is_subscription: true,
               payment_provider: "go_cardless",
               recurrence_number: 0,
-              card_expiration_date: nil
+              card_expiration_date: nil,
+              bank_name: "BARCLAYS",
+              account_number_ending: '11'
             })
             subject
           end
