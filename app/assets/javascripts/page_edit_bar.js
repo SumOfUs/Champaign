@@ -105,26 +105,20 @@ let PageEditBar = Backbone.View.extend({
     if (!this.outstandingSaveRequest) {
       this.disableSubmit();
       this.model.save(this.readData(), {
-          success: this.saved(),
-          error: this.saveFailed(),
-          unchanged: this.saveUnchanged()
+          success: this.saved.bind(this),
+          error: this.saveFailed.bind(this),
+          unchanged: this.enableSubmit.bind(this)
       });
     }
   },
 
-  saveUnchanged: function (){
-    return () => { this.enableSubmit(); }
-  },
-
-  saved: function() {
-    return (e, data) => { // closure for `this` cause it's an event callback
-      if (data.refresh){ location.reload(); }
-      this.enableSubmit();
-      $.publish('page:saved', data);
-      $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
-      $('.page-edit-bar__error-message').text('');
-      $('.page-edit-bar__last-saved').text(I18n.t('pages.edit.last_saved_at', {time: this.currentTime()}));
-    }
+  saved: function(e, data) { // closure for `this` cause it's an event callback
+    if (data.refresh){ location.reload(); }
+    this.enableSubmit();
+    $.publish('page:saved', data);
+    $('.page-edit-bar__save-box').removeClass('page-edit-bar__save-box--has-error');
+    $('.page-edit-bar__error-message').text('');
+    $('.page-edit-bar__last-saved').text(I18n.t('pages.edit.last_saved_at', {time: this.currentTime()}));
   },
 
   currentTime: function() {
@@ -134,18 +128,16 @@ let PageEditBar = Backbone.View.extend({
     return `${now.getHours()}:${minutes}:${seconds}`
   },
 
-  saveFailed: function() {
-    return (e, data) => { // closure for `this` cause it's an event callback
-      console.log("save failed with", e, data);
-      this.enableSubmit();
-      $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
-      if(data.status == 422) {
-        ErrorDisplay.show(e, data);
-        $('.page-edit-bar__error-message').text(I18n.t('pages.edit.user_error'));
-        $.publish('page:errors');
-      } else {
-        $('.page-edit-bar__error-message').text(I18n.t('pages.edit.unknown_error'));
-      }
+  saveFailed: function(e, data) { // closure for `this` cause it's an event callback
+    console.error("Save failed with", e, data);
+    this.enableSubmit();
+    $('.page-edit-bar__save-box').addClass('page-edit-bar__save-box--has-error')
+    if(data.status == 422) {
+      ErrorDisplay.show(e, data);
+      $('.page-edit-bar__error-message').text(I18n.t('pages.edit.user_error'));
+      $.publish('page:errors');
+    } else {
+      $('.page-edit-bar__error-message').text(I18n.t('pages.edit.unknown_error'));
     }
   },
 
