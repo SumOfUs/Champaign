@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :page do
-    title    { Faker::Company.bs }
+    sequence(:title) {|n| "#{Faker::Company.bs}#{n.to_s}" }
     slug     nil # Used by friendly_id  http://norman.github.io/friendly_id/
     active   true
     featured false
