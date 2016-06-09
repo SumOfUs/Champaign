@@ -125,12 +125,11 @@ module ActionQueue
             amount:       data[:amount],
             currency:     data[:currency],
             recurring_id: data[:subscription_id],
-            bank_name:    data[:bank_name],
-            account_number_ending: data[:account_number_ending]
           }.merge(fake_card_info),
           action: {
-            source: data[:source],
-            skip_confirmation: 1
+            action_bank_name: data[:bank_name],
+            action_account_number_ending: data[:account_number_ending],
+            source: data[:source]
           },
           user: user_data
         }
@@ -149,12 +148,11 @@ module ActionQueue
           order: {
             amount:       data[:amount],
             currency:     data[:currency],
-            bank_name:    data[:bank_name],
-            account_number_ending: data[:account_number_ending]
           }.merge(fake_card_info),
           action: {
-            source: data[:source],
-            skip_confirmation: 1
+            action_bank_name:    data[:bank_name],
+            action_account_number_ending: data[:account_number_ending],
+            source: data[:source]
           },
           user: user_data
         }
