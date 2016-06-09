@@ -220,8 +220,6 @@ describe "GoCardless API" do
               order: {
                 amount: gbp_amount.to_s,
                 currency:       "GBP",
-                bank_name:      'BARCLAYS BANK PLC',
-                account_number_ending: '11',
                 card_num:       "DDEB",
                 card_code:      "007",
                 exp_date_month: "01",
@@ -240,7 +238,8 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                skip_confirmation: 1
+                action_bank_name:      'BARCLAYS BANK PLC',
+                action_account_number_ending: '11'
               }
             }
           }
@@ -374,9 +373,7 @@ describe "GoCardless API" do
                 card_num:       "DDEB",
                 card_code:      "007",
                 exp_date_month: "01",
-                exp_date_year:  "99",
-                bank_name:      'BARCLAYS BANK PLC',
-                account_number_ending: '11'
+                exp_date_year:  "99"
               },
               user: {
                 email: email,
@@ -391,7 +388,8 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                skip_confirmation: 1
+                action_bank_name:      'BARCLAYS BANK PLC',
+                action_account_number_ending: '11'
               }
             }
           }
