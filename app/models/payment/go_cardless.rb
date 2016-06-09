@@ -16,11 +16,8 @@ module Payment::GoCardless
       local_mandate
     end
 
-    #def write_transaction(transaction_gc_id, amount, currency, charge_date, page_id, customer_id, payment_method_id, subscription=nil)
     def write_transaction(uuid:, amount:, currency:, charge_date:, page_id:, customer_id:, payment_method_id:, subscription: nil)
-
       local_transaction = Payment::GoCardless::Transaction.find_or_initialize_by(go_cardless_id: uuid)
-
       local_transaction.update(
         amount: amount,
         currency: currency,

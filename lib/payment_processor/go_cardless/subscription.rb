@@ -64,7 +64,9 @@ module PaymentProcessor
           is_subscription:      true,
           recurrence_number:    0,
           card_expiration_date: nil,
-          payment_provider: 'go_cardless'
+          bank_name:            bank_account.bank_name,
+          account_number_ending:bank_account.account_number_ending,
+          payment_provider:     'go_cardless'
         )
       end
 

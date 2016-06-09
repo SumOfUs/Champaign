@@ -15,6 +15,7 @@ module PaymentProcessor
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_return(completed_flow)
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:get).and_return(completed_flow)
           allow_any_instance_of(GoCardlessPro::Services::MandatesService).to receive(:get).and_return(mandate)
+          allow_any_instance_of(GoCardlessPro::Services::CustomerBankAccountsService).to receive(:get).and_return(bank_account)
           allow_any_instance_of(GoCardlessPro::Services::PaymentsService).to receive(:create).and_return(payment)
 
           allow(ManageDonation).to receive(:create){ action }
@@ -29,13 +30,18 @@ module PaymentProcessor
 
         let(:completed_flow) do
           instance_double('GoCardlessPro::Resources::RedirectFlow',
-                          links: double(customer: 'CU00000', mandate: 'MA00000')
-                         )
+            links: double(customer: 'CU00000', mandate: 'MA00000', customer_bank_account: 'BA00000')
+          )
         end
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
-                          id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s
-                         )
+            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s
+          )
+        end
+        let(:bank_account) do
+          instance_double('GoCardlessPro::Resources::CustomerBankAccount',
+            id: 'BA00000', bank_name: 'BARCLAYS', account_number_ending: '11'
+          )
         end
 
         let(:payment) { instance_double('GoCardlessPro::Resources::Payment', id: 'PA00000', charge_date: '2016-05-20') }
@@ -81,7 +87,7 @@ module PaymentProcessor
             let(:amount_in_gbp) { 11.11 }
             let(:completed_gbp_flow) do
               instance_double('GoCardlessPro::Resources::RedirectFlow',
-                              links: double(customer: 'CU00000', mandate: 'MA9999')
+                              links: double(customer: 'CU00000', mandate: 'MA9999', customer_bank_account: 'BA00000')
                              )
             end
             let(:gbp_mandate) do
@@ -194,7 +200,9 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
               currency: "EUR",
               transaction_id: "PA00000",
               is_subscription: false,
-              payment_provider: "go_cardless"
+              payment_provider: "go_cardless",
+              bank_name: "BARCLAYS",
+              account_number_ending: '11'
             })
             subject
           end
