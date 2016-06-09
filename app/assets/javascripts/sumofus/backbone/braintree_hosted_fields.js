@@ -1,15 +1,20 @@
-const HostedFieldsMethods = {
+const BraintreeHostedFields = Backbone.View.extend({
 
-  initializeBraintree() {
-    this.getClientToken(this.setupFields());
+  el: '.hosted-fields-view',
+  TOKEN_WAIT_BEFORE_RETRY: 1500, // ms
+  TOKEN_RETRY_LIMIT: 5,
+
+  initialize() {
+    this.getClientToken(this.setupFields.bind(this));
+    this.tokenRetries = 0;
   },
 
   braintreeSettings() {
     return {
       id: "hosted-fields",
-      onPaymentMethodReceived: this.paymentMethodReceived(),
-      onError: this.handleErrors(),
-      onReady: this.hideSpinner(),
+      onPaymentMethodReceived: this.paymentMethodReceived,
+      onError: this.handleErrors.bind(this),
+      onReady: this.hideSpinner.bind(this),
       paypal: {
         container: 'hosted-fields__paypal',
         onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
@@ -34,49 +39,45 @@ const HostedFieldsMethods = {
             "font-size": "16px",
           },
         },
-        onFieldEvent: (event) => {
-          if (event.type === "fieldStateChange"){
-            if (event.isPotentiallyValid) {
-              this.clearError(event.target.fieldKey);
-            } else {
-              this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
-            }
-            if (event.target.fieldKey == 'number') {
-              if (event.isEmpty) {
-                this.$('.hosted-fields__button-container').removeClass('hosted-fields--grayed-out');
-              } else {
-                this.$('.hosted-fields__button-container').addClass('hosted-fields--grayed-out');
-              }
-            }
-            this.showCardType(event.card);
-          }
-        },
+        onFieldEvent: this.fieldUpdate.bind(this),
       },
     };
   },
 
-  setupFields() {
-    return (clientToken) => {
-      braintree.setup(clientToken, "custom", this.braintreeSettings());
+  fieldUpdate(event) {
+    if (event.type === "fieldStateChange"){
+      if (event.isPotentiallyValid) {
+        this.clearError(event.target.fieldKey);
+      } else {
+        this.showError(event.target.fieldKey, I18n.t('errors.probably_invalid'));
+      }
+      if (event.target.fieldKey == 'number') {
+        if (event.isEmpty) {
+          this.$('.hosted-fields__button-container').removeClass('hosted-fields--grayed-out');
+        } else {
+          this.$('.hosted-fields__button-container').addClass('hosted-fields--grayed-out');
+        }
+      }
+      this.showCardType(event.card);
     }
+  },
+
+  setupFields(clientToken) {
+    braintree.setup(clientToken, "custom", this.braintreeSettings());
   },
 
   hideSpinner() {
-    return (clientToken) => {
-      this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
-      this.$('#hosted-fields').removeClass('hidden-closed');
-      this.policeHeights();
-    }
+    this.$('.fundraiser-bar__fields-loading').addClass('hidden-closed');
+    this.$('#hosted-fields').removeClass('hidden-closed');
+    Backbone.trigger('sidebar:height_change');
   },
 
-  handleErrors() {
-    return (error) => {
-      this.enableButton();
-      if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
-        _.each(error.details.invalidFieldKeys, (key) => {
-          this.showError(this.translateKey(key), I18n.t('errors.is_invalid'));
-        });
-      }
+  handleErrors(error) {
+    Backbone.trigger('fundraiser:server_error');
+    if (error.details !== undefined && error.details.invalidFieldKeys !== undefined) {
+      _.each(error.details.invalidFieldKeys, (key) => {
+        this.showError(key, I18n.t('errors.is_invalid'));
+      });
     }
   },
 
@@ -127,8 +128,21 @@ const HostedFieldsMethods = {
   getClientToken(callback) {
     $.get('/api/payment/braintree/token', function(resp, success){
       callback(resp.token);
+    }).fail((error) => {
+      // this code tries to fetch the token again and again
+      // when fetching the token fails
+      this.tokenRetries += 1;
+      if (this.tokenRetries < this.TOKEN_RETRY_LIMIT) {
+        window.setTimeout(() => {
+          this.getClientToken(callback);
+        }, this.TOKEN_WAIT_BEFORE_RETRY);
+      }
     });
   },
-};
 
-module.exports = HostedFieldsMethods;
+  paymentMethodReceived (data) {
+    Backbone.trigger('fundraiser:nonce_received', data.nonce);
+  },
+});
+
+module.exports = BraintreeHostedFields;

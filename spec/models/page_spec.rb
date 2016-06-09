@@ -41,8 +41,7 @@ describe Page do
   it { is_expected.not_to respond_to :secondary_liquid_layout }
 
   describe 'tags' do
-
-    before :each do
+    before(:all) do
       3.times do create :tag end
     end
 
@@ -83,15 +82,15 @@ describe Page do
       end
 
       it 'should destroy the page' do
-        expect{ @page.destroy }.to change{ Page.count }.by -1
+        expect{ @page.destroy }.to change{ Page.count }.by(-1)
       end
 
       it 'should destroy the join table records' do
-        expect{ @page.destroy }.to change{ PagesTag.count }.by -2
+        expect{ @page.destroy }.to change{ PagesTag.count }.by(-2)
       end
 
       it 'should not destroy the tag' do
-        expect{ @page.destroy }.to change{ Tag.count }.by 0
+        expect{ @page.destroy }.to change{ Tag.count }.by(0)
       end
     end
 
@@ -110,7 +109,7 @@ describe Page do
       end
 
       it 'should destroy the old join table records and make a new one' do
-        expect{ @page.update! tag_ids: @new_ids }.to change{ PagesTag.count }.by -1
+        expect{ @page.update! tag_ids: @new_ids }.to change{ PagesTag.count }.by(-1)
       end
     end
   end
@@ -230,7 +229,6 @@ describe Page do
   end
 
   describe 'shares' do
-
     it 'can find a twitter variant' do
       twitter_share = create :share_twitter, page: page
       expect(page.shares).to eq [twitter_share]
@@ -281,6 +279,26 @@ describe Page do
     end
   end
 
+  describe '#dup' do
+    let(:image) { create(:image, page: page) }
+
+    before do
+      page.update(primary_image: image)
+    end
+
+    subject{ page.dup }
+
+    it 'sets slug to nil' do
+      expect(page.slug).not_to be_nil
+      expect(subject.slug).to be_nil
+    end
+
+    it 'sets primary_image to nil' do
+      expect(page.primary_image).to eq(image)
+      expect(subject.primary_image).to be_nil
+    end
+  end
+
   describe 'friendly_id' do
     let!(:page) { create(:page, title: 'simple slug') }
 
@@ -291,16 +309,23 @@ describe Page do
 
     context 'finder' do
       it 'finds by slug' do
-        expect(Page.find('simple-slug')).to eq page
+        expect(Page.find('simple-slug')).to eq(page)
       end
 
       it 'finds by id' do
-        expect(Page.find(page.id)).to eq page
+        expect(Page.find(page.id)).to eq(page)
       end
 
       it 'finds using friendly.find' do
         expect(Page.friendly.find('simple-slug')).to eq(page)
         expect(Page.friendly.find(page.id)).to       eq(page)
+      end
+    end
+
+    context 'duplicate title' do
+      it 'appends count to slug' do
+        other_page = create(:page, title: 'simple slug')
+        expect(other_page.slug).to eq('simple-slug-1')
       end
     end
 
@@ -327,7 +352,7 @@ describe Page do
   describe 'plugins' do
     it 'correctly lists the names of plugins' do
       page = create :page
-      plugins = [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_thermometer, page: page)]
+      [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_thermometer, page: page)]
       plugin_names = %w(petition fundraiser thermometer)
       expect(page.plugin_names).to match_array(plugin_names)
     end

@@ -19,6 +19,6 @@ class Image < ActiveRecord::Base
   validates_attachment_content_type :content, content_type: %w(image/tiff image/jpeg image/jpg image/png image/x-png image/gif)
 
   belongs_to :page, touch: true
-  has_one :page_using_as_primary, class_name: 'Page', dependent: :nullify, foreign_key: :primary_image_id
-  has_many :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
+  has_one    :page_using_as_primary, class_name: 'Page', dependent: :nullify, foreign_key: :primary_image_id
+  has_many   :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
 end

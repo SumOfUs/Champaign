@@ -1,4 +1,4 @@
-.petition-bar, .fundraiser-bar {
+.petition-bar, .fundraiser-bar, .action-form {
 
   color: $navy;
 
@@ -46,7 +46,6 @@
     position: relative;
     min-height: 68px;
     &.fundraiser-bar__top {
-      height: 162px;
       @include box-sizing(border-box);
     }
   }
@@ -59,11 +58,6 @@
 
     width: 100%;
     @include box-sizing(border-box);
-    &.fundraiser-bar__main {
-      @media(min-width: $mobile-width) {
-        max-height: calc(100vh - 162px);
-      }
-    }
   }
   &__title-bar {
     position: absolute;
@@ -156,10 +150,13 @@
     float: left;
     margin-top: 10px;
   }
+}
 
+
+.overlay-toggle {
   &__mobile-ui {
 
-    @media(min-width: $mobile-width) {
+    @media(min-width: $mobile-width + 1) {
       display: none;
     }
 
@@ -188,9 +185,8 @@
   }
 }
 
-
 @media(max-width: $mobile-width) {
-  .petition-bar__mobile-view, .fundraiser-bar__mobile-view {
+  .overlay-toggle__mobile-view {
     position: fixed;
     width: 100%;
     padding: 0 4%;

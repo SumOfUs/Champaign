@@ -75,3 +75,6 @@ geocoder:
 robots: 'staging'
 
 instantiate_stdout_logger: true
+
+# Defines domain for page URLs
+host: 'http://example.com'

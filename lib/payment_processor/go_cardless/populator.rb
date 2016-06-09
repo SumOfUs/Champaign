@@ -38,6 +38,10 @@ module PaymentProcessor
         @mandate ||= client.mandates.get(complete_redirect_flow.links.mandate)
       end
 
+      def bank_account
+        @bank_account ||= client.customer_bank_accounts.get(complete_redirect_flow.links.customer_bank_account)
+      end
+
       def customer_id
         complete_redirect_flow.links.customer
       end
