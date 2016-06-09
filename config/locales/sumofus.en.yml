@@ -91,6 +91,10 @@ en:
     privacy_policy: Privacy Policy
     contact: Contact
     controlshift: Start your own campaign
+    home_url: https://sumofus.org/
+    about_url: https://sumofus.org/about
+    privacy_policy_url: https://sumofus.org/privacy
+    contact_url: https://sumofus.org/contact
   time:
     formats:
       default: "%-d %B %Y"
