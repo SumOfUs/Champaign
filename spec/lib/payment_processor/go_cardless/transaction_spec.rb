@@ -35,7 +35,7 @@ module PaymentProcessor
         end
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
-            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s
+            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s, reference: 'SOU-00000'
           )
         end
         let(:bank_account) do
@@ -87,13 +87,13 @@ module PaymentProcessor
             let(:amount_in_gbp) { 11.11 }
             let(:completed_gbp_flow) do
               instance_double('GoCardlessPro::Resources::RedirectFlow',
-                              links: double(customer: 'CU00000', mandate: 'MA9999', customer_bank_account: 'BA00000')
-                             )
+                links: double(customer: 'CU00000', mandate: 'MA9999', customer_bank_account: 'BA00000')
+              )
             end
             let(:gbp_mandate) do
               instance_double('GoCardlessPro::Resources::Mandate',
-                              id: 'MA9999', scheme: 'bacs', next_possible_charge_date: '2016-05-22'
-                             )
+                id: 'MA9999', scheme: 'bacs', next_possible_charge_date: '2016-05-22', reference: 'SOU-00000'
+              )
             end
             let(:gbp_options) do
               {
@@ -202,6 +202,7 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
               is_subscription: false,
               payment_provider: "go_cardless",
               bank_name: "BARCLAYS",
+              mandate_reference: 'SOU-00000',
               account_number_ending: '11'
             })
             subject

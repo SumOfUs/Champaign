@@ -238,7 +238,8 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                action_bank_name:      'BARCLAYS BANK PLC',
+                action_mandate_reference: 'OMAR-JMEKNM53MREX3',
+                action_bank_name: 'BARCLAYS BANK PLC',
                 action_account_number_ending: '11'
               }
             }
@@ -388,7 +389,8 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                action_bank_name:      'BARCLAYS BANK PLC',
+                action_mandate_reference: 'OMAR-JMEKNM53MREX3',
+                action_bank_name: 'BARCLAYS BANK PLC',
                 action_account_number_ending: '11'
               }
             }

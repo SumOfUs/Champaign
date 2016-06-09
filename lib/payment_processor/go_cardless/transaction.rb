@@ -71,6 +71,7 @@ module PaymentProcessor
           transaction_id:   transaction_id,
           is_subscription:  false,
           payment_provider: 'go_cardless',
+          mandate_reference:mandate.reference,
           bank_name:        bank_account.bank_name,
           account_number_ending: bank_account.account_number_ending
         )
