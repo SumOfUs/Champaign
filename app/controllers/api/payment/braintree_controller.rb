@@ -17,7 +17,7 @@ class Api::Payment::BraintreeController < PaymentController
     {
       nonce: params[:payment_method_nonce],
       amount: params[:amount].to_f,
-      user: params[:user],
+      user: params[:user].merge(mobile_value),
       currency: params[:currency],
       page_id: params[:page_id]
     }

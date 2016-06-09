@@ -49,6 +49,14 @@ module ActionQueue
     def data
       @action.form_data.symbolize_keys
     end
+
+    def action_fields
+      @action_fields ||= {}.tap do |fields|
+        data.keys.select{|k| k =~ /^action_/}.each do |key|
+          fields[key] = data[key]
+        end
+      end
+    end
   end
 
   class Pusher
@@ -144,11 +152,11 @@ module ActionQueue
 
     def action_data
       {
-        fields: {
-          account_number_ending:  data[:account_number_ending],
-          mandate_reference:      data[:mandate_reference],
-          bank_name:              data[:bank_name]
-        },
+        fields: action_fields.merge(
+          action_account_number_ending:  data[:account_number_ending],
+          action_mandate_reference:      data[:mandate_reference],
+          action_bank_name:              data[:bank_name],
+        ),
         source: data[:source]
       }
     end
@@ -198,7 +206,8 @@ module ActionQueue
             recurring_id:   data[:subscription_id]
           },
           action: {
-            source: data[:source]
+            source: data[:source],
+            fields: action_fields
           },
           user: user_data
         }
@@ -224,7 +233,8 @@ module ActionQueue
             currency:       data[:currency]
           },
           action: {
-            source: data[:source]
+            source: data[:source],
+            fields: action_fields
           },
           user: user_data
         }
