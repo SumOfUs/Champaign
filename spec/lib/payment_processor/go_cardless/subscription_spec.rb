@@ -36,7 +36,7 @@ module PaymentProcessor
 
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
-            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now
+            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now, reference: 'SOU-00000'
           )
         end
 
@@ -73,7 +73,9 @@ module PaymentProcessor
             instance_double('GoCardlessPro::Resources::Mandate',
               id: 'MA00000',
               scheme: 'bacs',
-              next_possible_charge_date: 1.day.from_now )
+              reference: 'SOU-00000',
+              next_possible_charge_date: 1.day.from_now
+            )
           end
 
           it 'sets start date for bacs' do
@@ -126,6 +128,7 @@ module PaymentProcessor
               payment_provider: "go_cardless",
               recurrence_number: 0,
               card_expiration_date: nil,
+              mandate_reference: 'SOU-00000',
               bank_name: "BARCLAYS",
               account_number_ending: '11'
             })
