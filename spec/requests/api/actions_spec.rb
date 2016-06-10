@@ -1,25 +1,27 @@
 require 'rails_helper'
 
 describe "Api Actions" do
-  RSpec::Matchers.define :country_field_set_as do |country|
-    match do |actual|
-      JSON.parse(actual[:message_body])['params']['country'] === country
-    end
-  end
-
   let(:sqs_client) { double }
 
   before do
-    allow(Aws::SQS::Client).to receive(:new) { sqs_client }
-    allow(sqs_client).to receive(:send_message)
-    allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+    allow(ChampaignQueue).to receive(:push)
   end
 
-  let(:page) { create(:page) }
+  let(:page) { create(:page,  title: 'Foo Bar') }
   let(:form) { create(:form_with_email) }
 
+  let(:headers) do
+    {
+      'HTTP_ACCEPT'           => '*/*',
+      'HTTP_ACCEPT_LANGUAGE'  => 'en',
+      'HTTP_ACCEPT_ENCODING'  => '*',
+      'HTTP_USER_AGENT'       => 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257',
+      'referer'               => 'www.google.com'
+    }
+  end
+
   describe "POST#create" do
-    let(:page) { create(:page) }
+    let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
     let(:form) { create(:form_with_email_and_optional_country) }
 
     let(:params) do
@@ -27,224 +29,68 @@ describe "Api Actions" do
         email:    'hello@example.com',
         form_id:  form.id,
         source:   'fb',
-        akid:      '1234.5678.tKK7gX',
-        referring_akid:  '1234.5678.tKK7gX'
+        country:  'FR',
+        akid:     '1234.5678.tKK7gX',
+        referring_akid: '1234.5678.tKK7gX',
+        name: "Bob Mash"
       }
     end
 
     let(:message_body) do
       {
         type: "action",
+        meta: hash_including({
+          title:      "Foo Bar",
+          uri:        "/a/foo-bar",
+          slug:       'foo-bar',
+          first_name: 'Bob',
+          last_name:  'Mash',
+          created_at: be_within(1.second).of(Time.now),
+          country: 'France',
+          subscribed_member: true
+        }),
 
-        params: {
-          page:   "#{page.slug}-petition",
-          email:  "hello@example.com",
+        params: hash_including({
+          page:    'foo-bar-petition',
+          email:  'hello@example.com',
+          name:   'Bob Mash',
           page_id: page.id.to_s,
           form_id: form.id.to_s,
           source: 'fb',
           akid:   '1234.5678.tKK7gX',
           referring_akid: '1234.5678.tKK7gX',
-          action_mobile: 'unknown',
-          action_referer: nil,
+          action_mobile: 'mobile',
+          action_referer: 'www.google.com',
           user_en: 1
-        }
+        })
       }
     end
 
-    let(:expected_queue_payload) do
-      {
-        queue_url: 'http://example.com',
-        message_body: message_body.to_json
-      }
-    end
-
-    context 'for imported page' do
-      let(:page) { create(:page, status: 'imported') }
-
+    describe 'queue' do
       before do
-        message_body[:params][:page] = page.slug
-        post "/api/pages/#{page.id}/actions", params
+        post "/api/pages/#{page.id}/actions", params, headers
       end
 
-      it 'posts action to SQS Queue' do
-        expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
-      end
-    end
-
-    describe 'country' do
-      before do
-        params[:country] = 'FR'
-        post "/api/pages/#{page.id}/actions", params
-      end
-
-      it 'posts full country name to queue' do
-        expect(sqs_client).to have_received(:send_message).with(country_field_set_as("France"))
+      it 'pushes action to queue' do
+        expect(ChampaignQueue).to have_received(:push).with(message_body)
       end
     end
 
-    describe 'known device type' do
-
-      user_agents = {
-        mobile: "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257",
-        desktop: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36",
-        tablet: "Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25"
-      }
-
-      user_agents.each_pair do |device, agent|
-
-        it "posts the action with the appropriate device type for #{device}" do
-          parameters = {
-            type: "action",
-            params: {
-              page:   "#{page.slug}-petition",
-              email:  "hello@example.com",
-              page_id: page.id.to_s,
-              form_id: form.id.to_s,
-              source: 'fb',
-              akid:   '1234.5678.tKK7gX',
-              referring_akid: '1234.5678.tKK7gX',
-              action_mobile: device.to_s,
-              action_referer: nil,
-              user_en: 1
-            }
-          }
-          post "/api/pages/#{page.id}/actions", params, { "HTTP_USER_AGENT" => agent }
-          expect(sqs_client).to have_received(:send_message).with({
-            queue_url: 'http://example.com',
-            message_body: parameters.to_json
-          })
-        end
-      end
-    end
-
-    describe 'referer URI' do
-      let(:referer) { 'www.google.com' }
-
-      before do
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}
-      end
-
-      it 'responds with success' do
-        expect(response).to be_success
-      end
-
-      it 'includes the referer URI in the queue message' do
-        expected_params = {
-          queue_url: 'http://example.com',
-
-          message_body: {
-            type: 'action',
-            params: {
-              page:   "#{page.slug}-petition",
-              email:  "hello@example.com",
-              page_id: page.id.to_s,
-              form_id: form.id.to_s,
-              source: 'fb',
-              akid:   '1234.5678.tKK7gX',
-              referring_akid: '1234.5678.tKK7gX',
-              action_mobile: 'unknown',
-              action_referer: referer,
-              user_en: 1,
-            }
-          }.to_json
-        }
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
-      end
-    end
-
-    describe 'mobile detection' do
-      let(:referer) { 'www.google.com' }
-
-      let(:en_accept) do
-        {
-          'HTTP_ACCEPT' => '*/*',
-          'HTTP_ACCEPT_LANGUAGE' => 'en',
-          'HTTP_ACCEPT_ENCODING' => '*'
-        }
-      end
-
-      let(:mobile_headers) do
-        en_accept.merge('HTTP_USER_AGENT' => 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257')
-      end
-
-      let(:tablet_headers) do
-        en_accept.merge('HTTP_USER_AGENT' => 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch)')
-      end
-
-      let(:desktop_headers) do
-        en_accept.merge('HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136')
-      end
-
-      let(:ascii_headers) do
-        en_accept.merge('HTTP_USER_AGENT' => "#{desktop_headers['HTTP_USER_AGENT']}é".force_encoding(Encoding::ASCII_8BIT))
-      end
-
-      let(:message_body) do
-        {
-          type: 'action',
-          params: {
-            page:   "#{page.slug}-petition",
-            email:  "hello@example.com",
-            page_id: page.id.to_s,
-            form_id: form.id.to_s,
-            source: 'fb',
-            akid:   '1234.5678.tKK7gX',
-            referring_akid: '1234.5678.tKK7gX',
-            action_mobile: 'unknown',
-            action_referer: referer,
-            user_en: 1,
-          }
-        }
-      end
-
-      let(:expected_params) do
-        {
-          queue_url: 'http://example.com',
-          message_body: message_body.to_json
-        }
-      end
-
-      def set_device(device)
-        message_body[:params][:action_mobile] = device
-      end
-
-      it 'marks device as unknown if the request has no user agent' do
-        set_device('unknown')
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
-      end
-
-      it 'correctly identifies mobile browsers' do
-        set_device('mobile')
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(mobile_headers)
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
-      end
-
-      it 'correctly identifies tablet browsers' do
-        set_device('tablet')
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(tablet_headers)
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
-      end
-
-      it 'correctly identifies desktop browsers' do
-        set_device('desktop')
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(desktop_headers)
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
-      end
-
-      it 'can handle ASCII-8BIT headers without error' do
-        set_device('desktop')
-        post "/api/pages/#{page.id}/actions", params, {referer: referer}.merge(ascii_headers)
-        expect(sqs_client).to have_received(:send_message).with(expected_params)
-      end
-    end
-
+    ## TODO: Over testing... Should be a unit test
+    #
     describe 'edge case country names' do
       CountriesExtension::COUNTRIES.each do |code, name|
         it "successfully posts #{name}" do
           params[:country] = code.upcase
           post "/api/pages/#{page.id}/actions", params
-          expect(sqs_client).to have_received(:send_message).with(country_field_set_as(name))
+
+          expect(ChampaignQueue).to have_received(:push).with(
+            hash_including(
+              params: hash_including(
+                country: name
+              )
+            )
+          )
         end
       end
     end
@@ -268,10 +114,6 @@ describe "Api Actions" do
         it 'saves actionkit_user_id on member' do
           expect(Member.last.actionkit_user_id).to eq('5678')
         end
-
-        it 'posts action to SQS Queue' do
-          expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
-        end
       end
 
       context 'existing member' do
@@ -283,19 +125,10 @@ describe "Api Actions" do
         end
       end
     end
-
-    describe 'referring akid' do
-      before do
-        params[:referring_akid] = '1234.5678.tKK7gX'
-      end
-
-      it 'posts a referring akid' do
-        post "/api/pages/#{page.id}/actions", params
-        expect(sqs_client).to have_received(:send_message).with(expected_queue_payload)
-      end
-    end
   end
 
+  # TODO: Over testing. This should be a unit test.
+  #
   ['long_string_with_underscore', '1234.5678', '2', '?&=', '2..2', '..2'].each do |invalid_akid|
     describe "invalid akid '#{invalid_akid}'" do
       let(:params) do
@@ -335,24 +168,21 @@ describe "Api Actions" do
         end
 
         it 'does not include a referring_user_uri in the queue message' do
-          expected_params = {
-            queue_url: 'http://example.com',
+          expected_params = hash_including(
+            type: 'action',
+            params: {
+              page: "foo-bar-petition",
+              email: 'hello@example.com',
+              page_id: page.id.to_s,
+              form_id: form.id.to_s,
+              akid: invalid_akid,
+              action_mobile: 'unknown',
+              action_referer: nil,
+              user_en: 1
+            }
+          )
 
-            message_body: {
-              type: 'action',
-              params: {
-                page: "#{page.slug}-petition",
-                email: 'hello@example.com',
-                page_id: page.id.to_s,
-                form_id: form.id.to_s,
-                akid: invalid_akid,
-                action_mobile: 'unknown',
-                action_referer: nil,
-                user_en: 1,
-              }
-            }.to_json
-          }
-          expect(sqs_client).to have_received(:send_message).with(expected_params)
+          expect(ChampaignQueue).to have_received(:push).with(expected_params)
         end
       end
     end

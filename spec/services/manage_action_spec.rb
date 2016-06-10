@@ -6,7 +6,7 @@ describe ManageAction do
     allow(Analytics::Page).to receive(:increment)
   end
 
-  let(:page) { create(:page) }
+  let(:page) { create(:page, title: 'Foo Bar') }
   let(:data) { { email: 'bob@example.com', page_id: page.id, referring_akid: '123.456.xyz' } }
   let(:first_name) { { first_name: 'Bobtholomew' } }
   let(:extraneous) { { is_delta_shareholder: true, eye_color: 'hazel' } }
@@ -25,6 +25,9 @@ describe ManageAction do
     it 'posts action to queue' do
       expected = {
         type: "action",
+        meta: hash_including(
+          title: 'Foo Bar'
+        ),
         params: {
           page:           "#{page.slug}-petition",
           email:          "bob@example.com",
