@@ -39,7 +39,6 @@ module PaymentProcessor
 
       def transact
         @transaction = client.payments.create(params: transaction_params)
-
         @action = ManageDonation.create(params: action_params)
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
         @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
@@ -71,7 +70,10 @@ module PaymentProcessor
           currency:         currency,
           transaction_id:   transaction_id,
           is_subscription:  false,
-          payment_provider: 'go_cardless'
+          payment_provider: 'go_cardless',
+          mandate_reference:mandate.reference,
+          bank_name:        bank_account.bank_name,
+          account_number_ending: bank_account.account_number_ending
         )
       end
 

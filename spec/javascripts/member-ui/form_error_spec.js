@@ -13,7 +13,7 @@ describe("Inline form errors", function() {
   beforeEach(function(){
     MagicLamp.wish("pages/petition");
     suite.server = sinon.fakeServer.create();
-    suite.petitionBar = new window.sumofus.PetitionBar(); // binds the form events
+    suite.form = new window.sumofus.ActionForm(); // binds the form events
   });
 
   afterEach(function(){
@@ -31,7 +31,7 @@ describe("Inline form errors", function() {
       suite.server.respondWith("POST", suite.actionPath,
                                [422, { "Content-Type": "application/json" },
                               '{"errors":{"email":["is not a valid email address"], "name":["is required"]}}' ]);
-      $('.petition-bar__submit-button').click();
+      $('.action-form__submit-button').click();
       suite.server.respond();
     });
 
@@ -58,7 +58,7 @@ describe("Inline form errors", function() {
       suite.server.respondWith("POST", suite.actionPath,
                                [422, { "Content-Type": "application/json" },
                               '{"errors":{"email":["is not a valid email address"]}}' ]);
-      $('.petition-bar__submit-button').click();
+      $('.action-form__submit-button').click();
       suite.server.respond();
     });
 
@@ -94,7 +94,7 @@ describe("Inline form errors", function() {
       suite.server.respondWith("POST", suite.actionPath,
                                [422, { "Content-Type": "application/json" },
                               '{"errors":{"email":["is not a valid email address"], "name":["is required"]}}' ]);
-      $('.petition-bar__submit-button').click();
+      $('.action-form__submit-button').click();
       suite.server.respond();
     });
 
@@ -103,7 +103,7 @@ describe("Inline form errors", function() {
       suite.server.respondWith("POST", suite.actionPath,
                                [422, { "Content-Type": "application/json" },
                               '{"errors":{"email":["is too hot to handle"], "name":["is required"]}}' ]);
-      $('.petition-bar__submit-button').click();
+      $('.action-form__submit-button').click();
       suite.server.respond();
       expect($('input[name="email"].has-error').siblings('.error-msg').text()).to.eq('This field is too hot to handle');
     });
@@ -111,19 +111,10 @@ describe("Inline form errors", function() {
     it('does not change anything if error is identical', function(){
       expect($('input[name="email"].has-error').siblings('.error-msg')).to.have.length(1);
       expect($('input[name="email"].has-error').siblings('.error-msg').text()).to.eq('This field is not a valid email address');
-      $('.petition-bar__submit-button').click();
+      $('.action-form__submit-button').click();
       suite.server.respond();
       expect($('input[name="email"].has-error').siblings('.error-msg')).to.have.length(1);
       expect($('input[name="email"].has-error').siblings('.error-msg').text()).to.eq('This field is not a valid email address');
-    });
-
-    it('clears the error on success', function(){
-      expect($('input[name="email"].has-error').siblings('.error-msg')).to.have.length(1);
-      suite.server.respondWith("POST", suite.actionPath, [200, { "Content-Type": "application/json" }, '{}' ]);
-      $('.petition-bar__submit-button').click();
-      suite.server.respond();
-      expect($('input[name="email"]').siblings('.error-msg')).to.have.length(0);
-      expect($('input[name="email"]')).not.to.have.class('has-error');
     });
   });
 

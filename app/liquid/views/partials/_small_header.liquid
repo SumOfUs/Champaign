@@ -1,6 +1,6 @@
 <div class="header-logo header-logo--dark checks-top checks-top--at-top">
   <div class="header-logo__left-constraint">
-    <a href="http://sumofus.org/">
+      <a href="{{ 'footer.home_url' | t }}">
       <div class="header-logo__logo sumofus-logo--negative"></div>
     </a>
     <div class="header-logo__tagline sumofus-logo--tagline">{{ 'branding.tagline' | t }}</div>
@@ -23,3 +23,5 @@
     </div>
   </div>
 </div>
+
+{% include 'Mobile Title' %}

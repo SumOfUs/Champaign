@@ -51,6 +51,4 @@ class Api::PagesController < ApplicationController
   def get_page
     @page = Page.find(params[:id])
   end
-
 end
-

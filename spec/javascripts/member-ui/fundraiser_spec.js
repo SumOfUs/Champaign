@@ -27,148 +27,66 @@ describe("Fundraiser", function() {
 
   describe('instantiation', function(){
 
-    it('sets the default currency if currency passed', function(){
-      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'GBP'});
-      expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
-    });
-
-    it('sets the default currency if currency passed as lowercase', function(){
-      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'gbp'});
-      expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
-    });
-
-    it('displays the values from the correct passed currency band', function(){
-      var donationBands = {
-        EUR: [1, 2, 3, 4, 5],
-        USD: [6, 7, 8, 9, 10],
-        GBP: [7, 14, 21, 28, 35]
-      };
-      suite.fundraiserBar = new window.sumofus.FundraiserBar({ currency: 'EUR', donationBands: donationBands});
-      var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
-      expect(displayedAmounts).to.include.members(donationBands['EUR']);
-    });
-
-    describe('outstanding fields is empty', function(){
-
-      describe('member is not passed', function(){
-
-        it('hides the second step if there are no fields', function(){
-          $('.fundraiser-bar .petition-bar__field-container').remove();
-          expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
-          $('.fundraiser-bar__amount-button').first().click();
-          expect(helpers.currentStepOf(3)).to.eq(3);
-        });
-
-        describe('amount is not passed', function(){
-
-          beforeEach(function(){
-            suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [] });
-          });
-
-          it('does not prefill values', function(){
-            var vals = $('.petition-bar__field-container').map(function(ii, el){ return $(el).val() }).toArray();
-            expect(vals).to.eql(['', '']);
-          });
-
-          it('does not hide the second step if there are fields', function(){
-            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-          });
-
-          it('starts on the first step', function(){
-            expect(helpers.currentStepOf(3)).to.eq(1);
-          });
-        });
-
+    describe('currency', function(){
+      it('sets the default currency if currency passed', function(){
+        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'GBP'});
+        expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
       });
 
-      it('ignores extraneous member values', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com', oogle: 'boogle'} });
-        expect($('input[name="email"]').val()).to.eql('neal@test.com');
+      it('sets the default currency if currency passed as lowercase', function(){
+        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'gbp'});
+        expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
       });
 
-      it('does not display the clearer when form has no fields', function(){
-        $('.fundraiser-bar .petition-bar__field-container').remove();
-        expect($('.fundraiser-bar .petition-bar__field-container').length).to.equal(0);
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com'} });
-        expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
-        expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
+      it('displays the values from the correct passed currency band', function(){
+        var donationBands = {
+          EUR: [1, 2, 3, 4, 5],
+          USD: [6, 7, 8, 9, 10],
+          GBP: [7, 14, 21, 28, 35]
+        };
+        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'EUR', donationBands: donationBands});
+        var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
+        expect(displayedAmounts).to.include.members(donationBands['EUR']);
+      });
+    });
+
+    describe('action-form is prefilled', function(){
+
+      beforeEach(function(){
+        $('.fundraiser-bar .action-form').data('prefilled', true);
       });
 
-      describe('member is passed', function(){
-
+      describe('amount is not passed', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], member: {email: 'neal@test.com', welcome_name: 'Neal'} });
+          suite.fundraiser = new window.sumofus.Fundraiser();
         });
 
-        it('displays the clearer when form has fields', function(){
-          expect($('.fundraiser-bar .petition-bar__field-container').length).to.be.at.least(1);
-          expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
-          expect($('.fundraiser-bar__welcome-text')).not.to.have.class('hidden-irrelevant');
-          expect($('.fundraiser-bar__welcome-name')).to.have.text('Neal');
-        });
-
-        it('prefills with values of member', function(){
-          expect($('input[name="email"]').val()).to.eql('neal@test.com');
-        });
-
-        it('hides the form fields with values passed', function(){
-            var classed = $('.petition-bar__field-container').map(function(ii, el){
-              return $(el).hasClass('form__group--prefilled');
-            }).toArray();
-            expect(classed).to.eql([true, false]);
-        });
-
-        it('displays the second step when user requests', function(){
+        it('displays the second step when user clears form', function(){
           $('.fundraiser-bar__amount-button').first().click();
           expect(helpers.currentStepOf(3)).to.eq(3);
-          $('.fundraiser-bar__clear-form').click();
+          $('.action-form__clear-form').click();
           expect(helpers.currentStepOf(3)).to.eq(2);
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
 
-        it('clears prefilled fields when second step displayed', function(){
-          var input = $('.fundraiser-bar__step-panel[data-step="2"] input[name="email"]');
-          input.parents('.form__group').addClass('form__group--prefilled');
-          expect(input.val()).to.equal('neal@test.com');
+        it('starts on the first step', function(){
+          expect(helpers.currentStepOf(3)).to.eq(1);
+        });
+
+        it('hides the second step', function(){
+          expect($('.fundraiser-bar__step-label[data-step="2"]')).to.have.css('visibility', 'hidden');
+        });
+
+        it('skips to the third step when an amount is clicked', function(){
           $('.fundraiser-bar__amount-button').first().click();
-          $('.fundraiser-bar__clear-form').click();
-          expect(input.val()).to.equal('');
+          expect(helpers.currentStepOf(3)).to.eq(3);
         });
+
       });
 
-      describe('member and akid are passed', function(){
-
+      describe('amount is greater than 0', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], akid: '1234.1234.1234', member: {email: 'neal@test.com', welcome_name: 'Neal'} });
-        });
-
-        it('appends a hidden field with the akid to the form', function() {
-          expect($('input[name="akid"]').val()).to.eq('1234.1234.1234');
-        });
-        it('renames the hidden field when the "Not you?" is clicked', function() {
-          $('.fundraiser-bar__clear-form').click();
-          expect($('input[name="referring_akid"]').val()).to.eq('1234.1234.1234');
-        });
-      });
-
-      describe('source params are correctly handled', function() {
-        it('appends a hidden field with the source to the form', function() {
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], source: 'facebook' });
-          expect($('input[name="source"]').val()).to.eq('facebook');
-        });
-
-        it('appends nothing when no source is present', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({outstandingFields: []});
-          expect($('input[name="source"]').length).to.eq(0);
-        });
-      });
-
-      describe('amount is greater than zero', function(){
-
-        beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], amount: 11, member: {} });
+          suite.fundraiser = new window.sumofus.Fundraiser({amount: 17});
         });
 
         it('skips to the third step', function(){
@@ -176,7 +94,7 @@ describe("Fundraiser", function() {
         });
 
         it('displays the correct amount', function(){
-          expect($('.fundraiser-bar__display-amount').text()).to.eq('$11');
+          expect($('.fundraiser-bar__display-amount').text()).to.eq('$17');
         });
 
         it('hides the second step', function(){
@@ -184,120 +102,18 @@ describe("Fundraiser", function() {
         });
 
         it('displays the second step when user requests', function(){
-          $('.fundraiser-bar__clear-form').click();
+          $('.action-form__clear-form').click();
           expect(helpers.currentStepOf(3)).to.eq(2);
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-        });
-
-        it('clears prefilled fields when second step displayed', function(){
-          var input = $('.fundraiser-bar__step-panel[data-step="2"] input').last();
-          input.parents('.form__group').addClass('form__group--prefilled');
-          input.val('cheerio!');
-          expect(input.val()).to.equal('cheerio!');
-          $('.fundraiser-bar__amount-button').first().click();
-          $('.fundraiser-bar__clear-form').click();
-          expect(input.val()).to.equal('');
-        });
-      });
-    });
-
-    describe('outstanding fields is not passed', function(){
-
-      describe('amount is not passed', function(){
-
-        describe('member is not passed', function(){
-
-          beforeEach(function(){
-            suite.fundraiserBar = new window.sumofus.FundraiserBar({});
-          });
-
-          it('starts on the first step', function(){
-            expect(helpers.currentStepOf(3)).to.eq(1);
-          });
-
-          it('displays the second step', function(){
-            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-          });
-
-          it('does not display the clearer', function(){
-            expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
-            expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
-          });
-
-          it('does not prefill', function(){
-            expect($('input[name="email"]').val()).to.eql('');
-          });
-
-          it('does not hide the form fields', function(){
-            var classed = $('.petition-bar__field-container').map(function(ii, el){
-              return $(el).hasClass('form__group--prefilled');
-            }).toArray();
-            expect(classed).to.eql([false, false]);
-          });
-
-          it('does not append a hidden akid field', function() {
-            expect($('input[name="akid"]').length).to.eq(0);
-          });
-        });
-
-        describe('member is passed', function(){
-
-          beforeEach(function(){
-            suite.fundraiserBar = new window.sumofus.FundraiserBar({member: {email: 'neal@test.com'}});
-          });
-
-          it('starts on the first step', function(){
-            expect(helpers.currentStepOf(3)).to.eq(1);
-          });
-
-          it('displays the second step', function(){
-            expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-          });
-
-          it('does not display the clearer', function(){
-            expect($('.petition-bar__welcome-text')).to.have.class('hidden-irrelevant');
-            expect($('.fundraiser-bar__welcome-text')).to.have.class('hidden-irrelevant');
-          });
-
-          it('prefills with values of member', function(){
-            expect($('input[name="email"]').val()).to.eql('neal@test.com');
-          });
-
-          it('does not hide the form fields', function(){
-            var classed = $('.petition-bar__field-container').map(function(ii, el){
-              return $(el).hasClass('form__group--prefilled');
-            }).toArray();
-            expect(classed).to.eql([false, false]);
-          });
-        });
-      });
-
-      describe('amount is greater than zero ', function(){
-
-        beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({amount: 17});
-        });
-
-        it('skips to the second step', function(){
-          expect(helpers.currentStepOf(3)).to.eq(2);
-        });
-
-        it('displays the correct amount', function(){
-          expect($('.fundraiser-bar__display-amount').text()).to.eq('$17');
-        });
-
-        it('displays the second step', function(){
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
       });
     });
-
-    describe('outstanding fields has elements', function(){
+ 
+    describe('action-form is not prefilled', function(){
 
       describe('amount is not passed', function(){
-
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email'] });
+          suite.fundraiser = new window.sumofus.Fundraiser();
         });
 
         it('starts on the first step', function(){
@@ -309,10 +125,9 @@ describe("Fundraiser", function() {
         });
       });
 
-      describe('amount is greater than zero', function(){
-
+      describe('amount is greater than 0', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['email'], amount: 17 });
+          suite.fundraiser = new window.sumofus.Fundraiser({amount: 17});
         });
 
         it('skips to the second step', function(){
@@ -326,41 +141,45 @@ describe("Fundraiser", function() {
         it('displays the second step', function(){
           expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
         });
+
+      });
+    });
+
+    describe('amount is degenerate', function(){
+
+      describe('it starts on first step when amount', function(){
+        it('is negative', function(){
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: -1 });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is zero', function(){
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: 0 });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is a string', function(){
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: "hi" });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is null', function(){
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: null });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
+        it('is an array', function(){
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: [3, 4, 5] });
+          expect(helpers.currentStepOf(3)).to.eq(1)
+        });
       });
 
-      it('prefills with values of member', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
-        expect($('input[name="email"]').val()).to.eql('neal@test.com');
-      });
-
-      it('does not prefill if value is in outstandingFields', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['email'], amount: 17 });
-        expect($('input[name="email"]').val()).to.eql('');
-      });
-
-      it('uses location country when country in outstandingFields', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: ['country'], member: {country: 'GB'}, location: {country: 'NI'} });
-        expect($('[name="country"]').val()).to.eq('NI');
-      });
-
-      it('uses location country', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: [], location: {country: 'NI'}, member: {} });
-        expect($('[name="country"]').val()).to.eq('NI');
-      });
-
-      it('does not hide the form fields', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
-        var classed = $('.petition-bar__field-container').map(function(ii, el){
-          return $(el).hasClass('form__group--prefilled');
-        }).toArray();
-        expect(classed).to.eql([false, false]);
+      it ('starts on second step when amount is numeric string', function(){
+        suite.fundraiser = new window.sumofus.Fundraiser({ amount: "3" });
+        expect(helpers.currentStepOf(3)).to.eq(2)
       });
     });
 
     describe('recurring default', function(){
       describe('is "recurring"', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'recurring'});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'recurring'});
         });
 
         it('checks the recurring box', function(){
@@ -378,7 +197,7 @@ describe("Fundraiser", function() {
 
       describe('is "only_recurring"', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'only_recurring'});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'only_recurring'});
         });
 
         it('checks the recurring box', function(){
@@ -396,7 +215,7 @@ describe("Fundraiser", function() {
 
       describe('is "one_off"', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: 'one_off'});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'one_off'});
         });
 
         it('leaves the recurring box unchecked', function(){
@@ -414,7 +233,7 @@ describe("Fundraiser", function() {
 
       describe('is an empty string', function(){
         beforeEach(function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: '3', recurringDefault: ''});
+          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: ''});
         });
 
         it('leaves the recurring box unchecked', function(){
@@ -431,60 +250,57 @@ describe("Fundraiser", function() {
       });
     });
 
-    describe('degenerate arguments', function(){
+    describe('submission success', function(){
 
-      describe('it starts on first step when amount', function(){
-        it('is negative', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: -1 });
-          expect(helpers.currentStepOf(3)).to.eq(1)
-        });
-        it('is zero', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: 0 });
-          expect(helpers.currentStepOf(3)).to.eq(1)
-        });
-        it('is a string', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "hi" });
-          expect(helpers.currentStepOf(3)).to.eq(1)
-        });
-        it('is null', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: null });
-          expect(helpers.currentStepOf(3)).to.eq(1)
-        });
-        it('is an array', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: [3, 4, 5] });
-          expect(helpers.currentStepOf(3)).to.eq(1)
-        });
+      suite.triggerSuccess = function(){
+        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
+          [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        suite.server.respond();
+      }
+
+      beforeEach(function(){
+        suite.followUpUrl = "/pages/636/follow-up";
+        suite.callback = sinon.spy();
       });
 
-      it ('starts on second step when amount is numeric string', function(){
-        suite.fundraiserBar = new window.sumofus.FundraiserBar({ amount: "3" });
-        expect(helpers.currentStepOf(3)).to.eq(2)
+      afterEach(function(){
+        suite.fundraiser.undelegateEvents();
+        Backbone.off();
       });
 
-      describe('shows second step when outstandingFields', function(){
-        it('is an object', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: {first: 'second'} });
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-        });
-        it('is null', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: null });
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-        });
-        it('is a number', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 0 });
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-        });
-        it('is a string', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: 'yooo' });
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-        });
-        it('is a numeric string', function(){
-          suite.fundraiserBar = new window.sumofus.FundraiserBar({ outstandingFields: '5' });
-          expect($('.fundraiser-bar__step-label[data-step="2"]')).not.to.have.css('visibility', 'hidden');
-        });
+      it('redirects to the followUpUrl if it is supplied', function(){
+        suite.fundraiser = new window.sumofus.Fundraiser({followUpUrl: suite.followUpUrl, pageId: '1'});
+        sinon.stub(suite.fundraiser, 'redirectTo');
+        suite.triggerSuccess();
+        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
+        suite.fundraiser.redirectTo.restore();
+      });
+
+      it('calls the callback function if it is supplied', function(){
+        var callback = sinon.spy();
+        suite.fundraiser = new window.sumofus.Fundraiser({submissionCallback: callback, pageId: '1'});
+        suite.triggerSuccess();
+        expect(callback.called).to.eq(true);
+      });
+
+      it('calls the callback function and redirects to the followUpUrl if both supplied', function(){
+        var callback = sinon.spy();
+        suite.fundraiser = new window.sumofus.Fundraiser({submissionCallback: callback, followUpUrl: suite.followUpUrl, pageId: '1'});
+        sinon.stub(suite.fundraiser, 'redirectTo');
+        suite.triggerSuccess();
+        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
+        expect(callback.called).to.eq(true);
+        suite.fundraiser.redirectTo.restore();
+      });
+
+      it('sends an alert if neither callback nor followUpUrl passed', function(){
+        window.alert = sinon.spy();
+        suite.fundraiser = new window.sumofus.Fundraiser({pageId: '1'});
+        suite.triggerSuccess();
+        expect(window.alert.called).to.eq(true);
       });
     });
-
   });
 
   describe('interactions', function(){
@@ -492,13 +308,13 @@ describe("Fundraiser", function() {
     beforeEach(function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
-      suite.fundraiserBar = new window.sumofus.FundraiserBar({ pageId: '1', followUpUrl: suite.follow_up_url });
-      sinon.stub(suite.fundraiserBar, 'redirectTo');
+      suite.fundraiser = new window.sumofus.Fundraiser({ pageId: '1', followUpUrl: suite.follow_up_url });
+      sinon.stub(suite.fundraiser, 'redirectTo');
       suite.server.respond(); // respond to request for token
     });
 
     afterEach(function() {
-      suite.fundraiserBar.redirectTo.restore();
+      suite.fundraiser.redirectTo.restore();
     });
 
     describe('loading and first panel', function(){
@@ -516,6 +332,14 @@ describe("Fundraiser", function() {
         expect($el).to.have.value('');
         $el.focus();
         expect($el).to.have.value('$');
+      });
+
+      it('changes the filled in currency symbol when clicking in', function(){
+        $('.fundraiser-bar__currency-selector').val('GBP').change();
+        var $el = $('.fundraiser-bar__custom-field');
+        expect($el).to.have.value('');
+        $el.focus();
+        expect($el).to.have.value('£');
       });
 
       it('reveals the "next" button when a custom amount is entered', function(){
@@ -556,7 +380,7 @@ describe("Fundraiser", function() {
       });
 
       it('changes the buttons to the right band when currency changes', function(){
-        suite.fundraiserBar.donationBands['GBP'] = [1, 2, 3, 4, 5, 6, 7];
+        suite.fundraiser.donationBands['GBP'] = [1, 2, 3, 4, 5, 6, 7];
         $('.fundraiser-bar__currency-selector').val('GBP').change();
         var $buttons = $('.fundraiser-bar__amount-button');
         var texts = $buttons.map(function(ii, el){ return $(el).text() }).toArray();
@@ -577,14 +401,6 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__current-currency').text()).to.equal('Values shown in USD');
         $('.fundraiser-bar__currency-selector').val('AUD').change();
         expect($('.fundraiser-bar__current-currency').text()).to.equal('Values shown in AUD');
-      });
-
-      it('changes the filled in currency symbol when clicking in', function(){
-        $('.fundraiser-bar__currency-selector').val('GBP').change();
-        var $el = $('.fundraiser-bar__custom-field');
-        expect($el).to.have.value('');
-        $el.focus();
-        expect($el).to.have.value('£');
       });
 
       it('displays the amount over step 1 with correct currency after moving on', function(){
@@ -610,7 +426,7 @@ describe("Fundraiser", function() {
       });
 
       it('makes a request to validate the form', function(){
-        $('.petition-bar__submit-button').click();
+        $('.action-form__submit-button').click();
         var request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
         expect(request.url).to.match(suite.validatePath);
@@ -618,13 +434,13 @@ describe("Fundraiser", function() {
 
       it('moves to panel 3 if validation passes', function(){
         $('.petition-bar__submit-button').click();
-        helpers.last(suite.server.requests).respond(200, { "Content-Type": "application/json" }, '{}');
+        $('form.action-form').trigger('ajax:success');
         expect(helpers.currentStepOf(3)).to.eq(3);
       });
 
       it('stays on panel 2 if validation fails', function(){
         $('.petition-bar__submit-button').click();
-        helpers.last(suite.server.requests).respond(422, { "Content-Type": "application/json" }, '{ "errors": {} }');
+        $('form.action-form').trigger('ajax:error');
         expect(helpers.currentStepOf(3)).to.eq(2);
       });
     });
@@ -632,12 +448,10 @@ describe("Fundraiser", function() {
     describe('third panel', function() {
 
       beforeEach(function(){
-        suite.server.respondWith("POST", this.validatePath, ["200", {}, ""]);
         $('.fundraiser-bar__custom-field').val('$22');
         $('.fundraiser-bar__first-continue').click();
-        $('.petition-bar__submit-button').click();
+        $('form.action-form').trigger('ajax:success');
 
-        suite.server.respond();
         expect(helpers.currentStepOf(3)).to.eq(3);
       });
 
@@ -653,45 +467,36 @@ describe("Fundraiser", function() {
       });
 
       it('sends the nonce to the server after receiving it from braintree', function(){
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
         expect(request.url).to.eq("/api/payment/braintree/pages/1/transaction");
-
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
       });
 
       it("sends 'recurring' as false by default", function(){
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=false"]);
       });
 
       it("sends 'recurring' as true if it's checked", function(){
         $('input.fundraiser-bar__recurring').click();
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=true"]);
       });
 
       it('submits the currency and amount to the server', function(){
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         request = helpers.last(suite.server.requests);
         bodyPairs = decodeURI(request.requestBody).split('&');
         expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
-      });
-
-      it('loads the follow-up url after success from the server', function(){
-        suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
-          [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
-        suite.server.respond();
-        expect(suite.fundraiserBar.redirectTo).to.have.been.calledWith(suite.follow_up_url);
       });
 
       it('displays a generic validation error when server 500', function(){
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [500, { "Content-Type": "application/json" }, 'Failure!' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(1);
@@ -702,7 +507,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(1);
@@ -713,48 +518,12 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
-        suite.fundraiserBar.fakeNonceSuccess({nonce: helpers.btNonce});
+        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(2);
         expect($('.fundraiser-bar__error-detail').first().text()).to.equal("Amount cannot be negative.")
       });
-
-      it('grays out the paypal and direct debit buttons once a card number is entered', function(){
-        event = {type: 'fieldStateChange', target: {fieldKey: 'number'}, isEmpty: true};
-        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).not.to.have.class('hosted-fields--grayed-out');
-        expect($('.hosted-fields__direct-debit-container')).not.to.have.class('hosted-fields--grayed-out');
-        event.isEmpty = false
-        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).to.have.class('hosted-fields--grayed-out');
-        expect($('.hosted-fields__direct-debit-container')).to.have.class('hosted-fields--grayed-out');
-      });
-
-      it('restores color to the paypal and direct debit buttons after the card digits are deleted', function(){
-        event = {type: 'fieldStateChange', target: {fieldKey: 'number'}, isEmpty: false};
-        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).to.have.class('hosted-fields--grayed-out');
-        expect($('.hosted-fields__direct-debit-container')).to.have.class('hosted-fields--grayed-out');
-        event.isEmpty = true
-        suite.fundraiserBar.braintreeSettings().hostedFields.onFieldEvent(event);
-        expect($('#hosted-fields__paypal')).not.to.have.class('hosted-fields--grayed-out');
-        expect($('.hosted-fields__direct-debit-container')).not.to.have.class('hosted-fields--grayed-out');
-      });
-
-      it('hides the credit card field when paypal calls onSuccess', function(){
-        expect($('.hosted-fields__credit-card-fields')).not.to.have.css('display','none');
-        suite.fundraiserBar.braintreeSettings().paypal.onSuccess('fake-nonce', 'user@test.com');
-        expect($('.hosted-fields__credit-card-fields')).to.have.css('display','none');
-      });
-
-      it('shows the credit card fields when paypal canceled', function(){
-        suite.fundraiserBar.braintreeSettings().paypal.onSuccess('fake-nonce', 'user@test.com');
-        expect($('.hosted-fields__credit-card-fields')).to.have.css('display','none');
-        suite.fundraiserBar.braintreeSettings().paypal.onCancelled();
-        expect($('.hosted-fields__credit-card-fields')).not.to.have.css('display','none');
-      });
-
     });
   });
 });

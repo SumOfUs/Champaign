@@ -16,6 +16,7 @@ describe "GoCardless API" do
     allow_any_instance_of(Money).to receive(:exchange_to).and_return(
       instance_double(Money, cents: (gbp_amount*100).to_i)
     )
+    allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'tablet'})
   end
 
   describe "redirect flow" do
@@ -126,6 +127,7 @@ describe "GoCardless API" do
           akid: '123.456.789',
           source: 'fb',
           country: "US",
+          action_registered_voter: '1',
           form_id: "127"
         }
       }
@@ -238,7 +240,13 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                skip_confirmation: 1
+                fields: {
+                  action_registered_voter: '1',
+                  action_mobile: 'tablet',
+                  action_mandate_reference: 'OMAR-JMEKNM53MREX3',
+                  action_bank_name: 'BARCLAYS BANK PLC',
+                  action_account_number_ending: '11'
+                }
               }
             }
           }
@@ -387,7 +395,13 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                skip_confirmation: 1
+                fields: {
+                  action_registered_voter: '1',
+                  action_mobile: 'tablet',
+                  action_mandate_reference: 'OMAR-JMEKNM53MREX3',
+                  action_bank_name: 'BARCLAYS BANK PLC',
+                  action_account_number_ending: '11'
+                }
               }
             }
           }

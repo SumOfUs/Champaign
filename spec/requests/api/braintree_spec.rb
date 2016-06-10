@@ -15,6 +15,7 @@ describe "Braintree API" do
       address1: '25 Elm Drive',
       akid: '1234.5678.9910',
       source: 'fb',
+      action_registered_voter: '1',
       country: "US"
     }
   end
@@ -48,7 +49,11 @@ describe "Braintree API" do
           user_en: 1
         },
         action: {
-          source: 'fb'
+          source: 'fb',
+          fields: {
+            action_registered_voter: '1',
+            action_mobile: 'desktop'
+          }
         }
       }
     }
@@ -57,12 +62,10 @@ describe "Braintree API" do
   before :each do
     allow(ChampaignQueue).to receive(:push)
     allow(Analytics::Page).to receive(:increment)
+    allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'desktop'})
   end
 
   describe 'making a transaction' do
-    before do
-      donation_push_params[:params][:action].delete(:fields)
-    end
 
     describe 'successfully' do
 
@@ -559,7 +562,11 @@ describe "Braintree API" do
               user_en: 1
             },
             action: {
-              source: 'fb'
+              source: 'fb',
+              fields: {
+                action_registered_voter: '1',
+                action_mobile: 'desktop'
+              }
             }
           }
         }

@@ -1,4 +1,5 @@
 let setupOnce = require('setup_once');
+const GlobalEvents = require('sumofus/backbone/global_events');
 
 (function(){
 
@@ -12,14 +13,16 @@ let setupOnce = require('setup_once');
       'ajax:success form.shares-editor__new-form': 'clearFormAndConformView',
     },
 
+    globalEvents: {
+      'page:saved':      'updateSummaryRows',
+      'page:errors':     'openEditorForErrors',
+      'image:success':   'addImageSelectors',
+      'image:destroyed': 'pruneImageSelectors',
+    },
+
     initialize: function(){
       this.view = "summary";
-      $.subscribe('page:errors', this.openEditorForErrors());
-      $.subscribe('page:saved', this.updateSummaryRows());
-
-      // this is the kind of DOM housekeeping that makes me want to use react
-      $.subscribe('image:success', this.addImageSelectors());
-      $.subscribe('image:destroyed', this.pruneImageSelectors());
+      GlobalEvents.bindEvents(this);
     },
 
     deleteVariant: function(e) {
@@ -93,47 +96,37 @@ let setupOnce = require('setup_once');
       this.setView(this.view); // make new rows conform
     },
 
-    openEditorForErrors: function(){
-      return () => { // closure for this in callback
-        this.openEditor(this.$('.has-error').parents('.shares-editor__edit-row'));
-      }
+    openEditorForErrors: function() {
+      this.openEditor(this.$('.has-error').parents('.shares-editor__edit-row'));
     },
 
-    updateSummaryRows: function(){
+    updateSummaryRows: function(e, data) {
       // this only updates existing shares. new ones are appended by
       // code in view/share/shares/create.js.erb, using rails UJS
-      return (e, data) => { // closure for `this` in callback
-        $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
-          _.each(rows, (row) => {
-            let $row = $(row.html);
-            let $original = $(`#${$row.prop('id')}`);
-            if ($original.hasClass('hidden-closed')) {
-              $row.addClass('hidden-closed');
-            }
-            $row = $original.replaceWith($row);
-            $row = $(`#${$row.prop('id')}`);
-            if (!this.editRow($row).hasClass('hidden-closed')) {
-              $row.find('.shares-editor__toggle-edit').text('Done');
-            }
-          })
-        });
-      }
+      $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
+        _.each(rows, (row) => {
+          let $row = $(row.html);
+          let $original = $(`#${$row.prop('id')}`);
+          if ($original.hasClass('hidden-closed')) {
+            $row.addClass('hidden-closed');
+          }
+          $row = $original.replaceWith($row);
+          $row = $(`#${$row.prop('id')}`);
+          if (!this.editRow($row).hasClass('hidden-closed')) {
+            $row.find('.shares-editor__toggle-edit').text('Done');
+          }
+        })
+      });
     },
 
-    addImageSelectors: function(){
-      return (e, file, id, html) => { // closure for `this` in callback
-        let newOption = `<option value='${id}'>${file.name}</option>`;
-        this.$('.shares-editor__image-selector').append(newOption);
-      }
+    addImageSelectors: function(e, file, id, html) {
+      let newOption = `<option value='${id}'>${file.name}</option>`;
+      this.$('.shares-editor__image-selector').append(newOption);
     },
 
-    pruneImageSelectors: function(){
-      return (e, id) => { // closure for `this` in callback
-        this.$(`option[value="${id}"]`).remove()
-      }
+    pruneImageSelectors: function(e, id) {
+      this.$(`option[value="${id}"]`).remove();
     },
-
-
   });
 
   $.subscribe("shares:edit", function(){

@@ -1,10 +1,10 @@
 {% if plugins.petition[ref].active %}
-  <div class="petition-bar {{ extra_class }}">
-    <div class="petition-bar__mobile-view petition-bar__mobile-view--closed">
+  <div class="petition-bar sidebar overlay-toggle desktop-sticky {{ extra_class }}">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="petition-bar__content">
         <div class="petition-bar__top">
-          <div class="petition-bar__mobile-ui">
-            <a class="petition-bar__close-button">&#x2715;</a>
+          <div class="overlay-toggle__mobile-ui">
+            <a class="overlay-toggle__close-button">&#x2715;</a>
           </div>
           <div class="petition-bar__title-bar">
             <h2 class="petition-bar__title">{{ plugins.petition[ref].cta }}</h2>
@@ -40,16 +40,21 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        window.sumofus.myPetitionBar = new window.sumofus.PetitionBar({
+        var sou = window.sumofus; // convenience binding
+        sou.myActionForm  = new sou.ActionForm({
           member:           window.sumofus.personalization.member,
           outstandingFields:window.sumofus.personalization.outstandingFields,
           location:         window.sumofus.personalization.location,
           akid:             window.sumofus.personalization.urlParams.akid,
           source:           window.sumofus.personalization.urlParams.source,
-          thermometer:      window.sumofus.personalization.thermometer,
-          cosmetic:         true,
-          followUpUrl:      "{{ follow_up_url }}"
+          prefill:          true
         });
+
+        sou.myPetition    = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
+        sou.myOverlayToggle = new sou.OverlayToggle();
+        sou.mySticky        = new sou.DesktopSticky({extra_class: 'petition'});
+        sou.myThermometer   = new sou.Thermometer(window.sumofus.personalization.thermometer);
+        sou.mySidebar       = new sou.Sidebar({petitionTextMinHeight: 120, baseClass: 'petition-bar'});
       });
     </script>
   </div>

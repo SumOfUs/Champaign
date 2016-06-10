@@ -48,7 +48,7 @@ class Api::GoCardlessController < PaymentController
     {
       amount: params[:amount],
       currency: params[:currency],
-      user: params[:user],
+      user: params[:user].merge(mobile_value),
       page_id: params[:page_id],
       redirect_flow_id: params[:redirect_flow_id],
       session_token: session[:go_cardless_session_id]

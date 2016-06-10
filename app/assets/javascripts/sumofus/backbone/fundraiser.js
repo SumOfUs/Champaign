@@ -1,10 +1,12 @@
-const StickyMethods = require('sumofus/backbone/sticky_methods');
-const FormMethods   = require('sumofus/backbone/form_methods');
+const DesktopSticky = require('sumofus/backbone/desktop_sticky');
+const ActionForm  = require('sumofus/backbone/action_form');
 const CurrencyMethods     = require('sumofus/backbone/currency_methods');
-const HostedFieldsMethods = require('sumofus/backbone/hosted_fields');
+const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
+const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
+const GlobalEvents = require('sumofus/backbone/global_events');
 
-const FundraiserBar = Backbone.View.extend(_.extend(
-  StickyMethods, FormMethods, HostedFieldsMethods, CurrencyMethods, {
+const Fundraiser = Backbone.View.extend(_.extend(
+  CurrencyMethods, {
 
   el: '.fundraiser-bar',
 
@@ -15,54 +17,47 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
-    'click .fundraiser-bar__clear-form': 'showSecondStep',
-    'ajax:success form.action': 'advanceToPayment',
+    'click .action-form__clear-form': 'showSecondStep',
+    'ajax:success form.action-form': 'advanceToNextStep',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
-    'click .fundraiser-bar__close-button': 'hide',
     'click .hosted-fields__direct-debit': 'submitDirectDebit',
+  },
+
+  globalEvents: {
+    'fundraiser:server_error': 'enableButton',
+    'fundraiser:nonce_received': 'submitDonation',
   },
 
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
+  //    submissionCallback: a function to call after success, receives the
+  //      arguments received by the ajax call posting the donation
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
-  //    outstandingFields: the names of step 2 form fields that aren't satisfied by
-  //      the values in the member hash.
   //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
-  //    location: a hash of location values inferred from the user's request
-  //    member: an object with fields that will prefill the form
-  //    akid: the actionkitid (akid) to save with the user request
   //    recurringDefault: either 'donation', 'recurring', or 'only_recurring'
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
-  initialize (options = {}) {
+  initialize(options = {}) {
     this.initializeCurrency(options.currency, options.donationBands)
-    this.initializeSticky();
-    this.initializeBraintree();
-    this.handleFormErrors();
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
+    this.submissionCallback = options.submissionCallback;
     this.initializeSkipping(options);
     this.pageId = options.pageId;
     this.directDebitOpened = false;
-    if (!this.isMobile()) {
-      this.selectizeCountry();
-      $(window).on('resize', () => this.policeHeights());
-    }
-    this.insertActionKitId(options.akid);
-    this.insertSource(options.source);
     this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
-    $('.fundraiser-bar__open-button').on('click', () => this.reveal());
+    GlobalEvents.bindEvents(this);
   },
 
-  initializeRecurring (recurringDefault) {
+  initializeRecurring(recurringDefault) {
     const $checkbox = this.$('input.fundraiser-bar__recurring');
     switch(recurringDefault) {
       case 'only_recurring':
@@ -76,57 +71,45 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
   },
 
-  initializeSkipping (options){
+  initializeSkipping(options){
     if (options.amount > 0) {
       this.setDonationAmount(options.amount);
     }
     this.hidingStepTwo = false;
     let amountKnown = (options.amount > 0); // non-numbers with > are always false
-    let formComplete = this.formCanAutocomplete(options.outstandingFields, options.member);
-    this.hideSteps(amountKnown, formComplete, options.member, options.location, options.outstandingFields);
+    let formComplete = this.$('.action-form').data('prefilled');
+    this.hideSteps(amountKnown, formComplete);
   },
 
-  hideSteps (amountKnown, formComplete, member, location, fieldsToSkipPrefill) {
+  hideSteps(amountKnown, formComplete) {
     if (amountKnown && formComplete) {
       this.changeStep(3);
-      this.hideSecondStep(member);
-      this.completePrefill(member, location);
+      this.hideSecondStep();
     } else if (formComplete) {
-      this.hideSecondStep(member);
-      this.completePrefill(member, location);
+      this.hideSecondStep();
     } else if (amountKnown) {
       this.changeStep(2);
-      this.partialPrefill(member, location, fieldsToSkipPrefill);
-    } else {
-      this.partialPrefill(member, location, fieldsToSkipPrefill);
     }
   },
 
-  hideSecondStep (member) {
+  hideSecondStep() {
     this.$('.fundraiser-bar__steps').addClass('fundraiser-bar__steps--two-step');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'hidden');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(2);
-    if (this.formFieldCount() > 0) { // don't offer to reveal fields if nothing to show
-      this.showFormClearer('fundraiser', member);
-    }
     this.hidingStepTwo = true;
   },
 
-  showSecondStep () {
+  showSecondStep() {
     this.$('.fundraiser-bar__steps').removeClass('fundraiser-bar__steps--two-step');
     this.$('.fundraiser-bar__welcome-text').addClass('hidden-irrelevant');
     this.$('.fundraiser-bar__step-label[data-step="2"]').css('visibility', 'visible');
     this.$('.fundraiser-bar__step-number[data-step="3"]').text(3);
-    this.clearForm();
+    Backbone.trigger('form:clear');
     this.hidingStepTwo = false;
     this.changeStep(2);
   },
 
-  isMobile () {
-    return $('.mobile-indicator').is(':visible');
-  },
-
-  primeCustom (e) {
+  primeCustom(e) {
     let $field = this.$(e.target);
     if ($field.val() == '') {
       $field[0].value = this.CURRENCY_SYMBOLS[this.currency];
@@ -134,7 +117,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     this.$('.fundraiser-bar__first-continue').slideDown(200);
   },
 
-  resetCustom (e) {
+  resetCustom(e) {
     let $field = this.$(e.target);
     let currencySymbols = /^[\$\u20ac\u00a3]*$/; // \u00a3 is £, \u20ac is €
     if (currencySymbols.test($field.val())) {
@@ -143,11 +126,11 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     };
   },
 
-  advanceToPayment (e, data) {
+  advanceToNextStep (e, data) {
     this.changeStep(this.currentStep+1);
   },
 
-  advanceToDetails (e) {
+  advanceToDetails(e) {
     let amount = this.$(e.target).data('amount') || this.$('.fundraiser-bar__custom-field').val();
     if (typeof amount == 'string') {
       // \u00a3 is £, \u20ac is €
@@ -159,7 +142,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
   },
 
-  setDonationAmount (amount) {
+  setDonationAmount(amount) {
     let parsed = parseFloat(amount);
     if (parsed > 0){
       this.donationAmount = parsed;
@@ -169,7 +152,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
   },
 
-  updateButton () {
+  updateButton() {
     if (this.donationAmount > 0) {
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
@@ -183,26 +166,26 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     }
   },
 
-  triggerStepChange (e) {
+  triggerStepChange(e) {
     const targetStep = this.$(e.target).parent().data('step');
     if (targetStep < this.currentStep) {
       this.changeStep(targetStep);
     }
   },
 
-  changeStep (targetStep) {
+  changeStep(targetStep) {
     this.changeStepPanel(targetStep);
     this.changeStepNumber(targetStep);
     this.currentStep = targetStep;
-    this.policeHeights();
+    Backbone.trigger('sidebar:height_change');
   },
 
-  changeStepPanel (targetStep) {
+  changeStepPanel(targetStep) {
     this.$('.fundraiser-bar__step-panel').addClass('hidden-closed');
     this.$(`.fundraiser-bar__step-panel[data-step="${targetStep}"]`).removeClass('hidden-closed');
   },
 
-  changeStepNumber (targetStep) {
+  changeStepNumber(targetStep) {
     $.each(['number', 'name'], (ii, part) => {
       this.$(`.fundraiser-bar__step-${part}`).
         removeClass(`fundraiser-bar__step-${part}--past`).
@@ -219,24 +202,6 @@ const FundraiserBar = Backbone.View.extend(_.extend(
         }
       });
     });
-  },
-
-  policeHeights() {
-    const $main = this.$('.fundraiser-bar__main');
-    const overflow = $main[0].scrollHeight > $main.outerHeight() ? 'scroll' : 'visible';
-    $main.css('overflow', overflow);
-  },
-
-  // for testing without waiting on braintree API
-  fakeNonceSuccess (fakeData) {
-    this.paymentMethodReceived()(fakeData);
-  },
-
-  paymentMethodReceived () {
-    return (data) => {
-      this.nonce = data.nonce;
-      this.submitDonation();
-    }
   },
 
   donationData() {
@@ -257,45 +222,49 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     window.open(url);
   },
 
-  submitDonation () {
+  submitDonation (nonce) {
     let data = this.donationData();
-    data.payment_method_nonce = this.nonce;
+    data.payment_method_nonce = nonce;
     $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data).
-      done(this.transactionSuccess()).
-      error(this.transactionFailed());
+      done(this.transactionSuccess.bind(this)).
+      error(this.transactionFailed.bind(this));
     if(this.directDebitOpened){
       $.publish('direct_debit:donated_via_other');
     }
   },
 
-  transactionSuccess () {
-    return (data, status) => {
-      if (this.followUpUrl) {
-        this.redirectTo(this.followUpUrl);
-      } else {
-        // this should never happen, but just in case.
-        alert(I18n.t('fundraiser.thank_you'));
-      }
+  transactionSuccess(data, status) {
+    let hasCallbackFunction = (typeof this.submissionCallback === 'function');
+    if (hasCallbackFunction) {
+      this.submissionCallback(data, status);
+    }
+    if (this.followUpUrl) {
+      this.redirectTo(this.followUpUrl);
+    }
+    if (!this.followUpUrl && !hasCallbackFunction) {
+      // only do this option if no redirect or callback supplied
+      alert(I18n.t('fundraiser.thank_you'));
     }
   },
 
-  transactionFailed () {
-    return (data, status) => {
-      this.enableButton();
-      if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
-        var messages = data.responseJSON.errors.map(function(error){
-          if (error.declined) {
-            return I18n.t('fundraiser.card_declined')
-          } else {
-            return error.message;
-          }
-        });
-      } else {
-        var messages = [I18n.t('fundraiser.unknown_error')];
-      }
-      this.showErrors(messages);
-      this.policeHeights();
+  transactionFailed(data, status) {
+    this.enableButton();
+    let $errors = this.$('.fundraiser-bar__errors');
+    $errors.removeClass('hidden-closed');
+    $errors.find('.fundraiser-bar__error-detail').remove();
+    if (data.status == 422 && data.responseJSON && data.responseJSON.errors) {
+      var messages = data.responseJSON.errors.map(function(error){
+        if (error.declined) {
+          return I18n.t('fundraiser.card_declined')
+        } else {
+          return error.message;
+        }
+      });
+    } else {
+      var messages = [I18n.t('fundraiser.unknown_error')];
     }
+    this.showErrors(messages);
+    Backbone.trigger('sidebar:height_change');
   },
 
   showErrors(messages) {
@@ -308,7 +277,7 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 
   serializeUserForm () {
-    let list = this.$('form.action').serializeArray();
+    let list = this.$('form.action-form').serializeArray();
     let serialized = {}
     $.each(list, function(ii, field){
       serialized[field.name] = field.value;
@@ -316,11 +285,11 @@ const FundraiserBar = Backbone.View.extend(_.extend(
     return serialized;
   },
 
-  readRecurring () {
+  readRecurring() {
     return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
   },
 
-  disableButton (e) {
+  disableButton(e) {
     this.$('.fundraiser-bar__errors').addClass('hidden-closed');
     this.$('.fundraiser-bar__submit-button').
       text(I18n.t('form.processing')).
@@ -328,27 +297,15 @@ const FundraiserBar = Backbone.View.extend(_.extend(
       prop('disabled', true);
   },
 
-  enableButton () {
+  enableButton() {
     this.$('.fundraiser-bar__submit-button').
       html(this.buttonText).
       removeClass('button--disabled').
       prop('disabled', false);
   },
 
-  redirectTo (url) {
+  redirectTo(url) {
     window.location.href = url;
-  },
-
-  hide() {
-    this.$('.fundraiser-bar__mobile-view')
-      .addClass('fundraiser-bar__mobile-view--closed')
-      .removeClass('fundraiser-bar__mobile-view--open');
-  },
-
-  reveal() {
-    this.$('.fundraiser-bar__mobile-view')
-      .removeClass('fundraiser-bar__mobile-view--closed')
-      .addClass('fundraiser-bar__mobile-view--open');
   },
 
   displayDirectDebit(show) {
@@ -379,4 +336,4 @@ const FundraiserBar = Backbone.View.extend(_.extend(
   },
 }));
 
-module.exports = FundraiserBar;
+module.exports = Fundraiser;

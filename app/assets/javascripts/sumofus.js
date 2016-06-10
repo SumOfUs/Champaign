@@ -16,6 +16,12 @@
 require("sumofus/scroll");
 require("sumofus/ga_event_reporting");
 window.sumofus = {};
-window.sumofus.PetitionBar = require('sumofus/backbone/petition_bar');
-window.sumofus.FundraiserBar = require('sumofus/backbone/fundraiser_bar');
-window.sumofus.CampaignerOverlay = require('sumofus/backbone/campaigner_overlay');
+window.sumofus.Petition      = require('sumofus/backbone/petition');
+window.sumofus.ActionForm    = require('sumofus/backbone/action_form');
+window.sumofus.Fundraiser    = require('sumofus/backbone/fundraiser');
+window.sumofus.OverlayToggle = require('sumofus/backbone/overlay_toggle');
+window.sumofus.Thermometer   = require('sumofus/backbone/thermometer');
+window.sumofus.DesktopSticky = require('sumofus/backbone/desktop_sticky');
+window.sumofus.Sidebar       = require('sumofus/backbone/sidebar');
+window.sumofus.CampaignerOverlay     = require('sumofus/backbone/campaigner_overlay');
+window.sumofus.BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');

@@ -12,8 +12,8 @@ let ErrorDisplay = {
     // otherwise, search in all the forms on the page.
     let $form = ($(e.target) && $(e.target).length) ? $(e.target) : $('form');
     let response = $.parseJSON(data.responseText);
-    this.clearErrors($form);
-    $.each(response.errors, (f, m) => { this.showError(f, m, $form, response) });
+    ErrorDisplay.clearErrors($form);
+    $.each(response.errors, (f, m) => { ErrorDisplay.showError(f, m, $form, response) });
   },
 
   clearErrors($form) {
@@ -22,10 +22,10 @@ let ErrorDisplay = {
   },
 
   showError(field_name, msgs, $form, response) {
-    let $field = this.findField(field_name, $form, response);
+    let $field = ErrorDisplay.findField(field_name, $form, response);
     $field.addClass('has-error').parent().addClass('has-error');
-    $field.parent().append(this.errorMsg(field_name, msgs));
-    $field.on('change', (e) => { this.hideError(e) })
+    $field.parent().append(ErrorDisplay.errorMsg(field_name, msgs));
+    $field.on('change', (e) => { ErrorDisplay.hideError(e) })
   },
 
   errorMsg(field_name, msgs) {

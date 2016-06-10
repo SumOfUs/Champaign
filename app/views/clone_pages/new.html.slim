@@ -1,0 +1,16 @@
+= render "pages/sidebar", action: :new
+
+.edit-block
+  h1.page-edit-step__title
+    = t('.title')
+  = form_for Page.new, url: clone_pages_path, class: '' do |f|
+
+    .form-group
+      = f.label :title, t('.labels.title')
+      = f.text_field :title, class: 'form-control', value: @page.title
+    .form-group
+      p
+        = f.submit t('.labels.submit'), class: 'btn btn-sm btn-primary submit-new-page'
+        = link_to t('common.cancel'), :back, class: 'btn btn-sm'
+      = hidden_field_tag :id, @page.id
+
