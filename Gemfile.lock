@@ -18,10 +18,10 @@ GIT
 
 GIT
   remote: https://github.com/SumOfUs/share_progress
-  revision: 0c48b479ac4b90b90baa0b0f4edb2fa907fd0e72
+  revision: f0bf6adc386996355bd3a9f706f7953d63f11c29
   branch: master
   specs:
-    share_progress (0.1.2)
+    share_progress (0.2.0)
       httparty (>= 0.13)
 
 GIT
@@ -574,4 +574,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.11.2
+   1.12.5

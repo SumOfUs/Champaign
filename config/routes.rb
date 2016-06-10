@@ -147,9 +147,7 @@ Rails.application.routes.draw do
       get 'share-rows', on: :member, action: 'share_rows'
     end
 
-    namespace :members do
-      post '/:email', action: 'create', :format => false
-    end
+    resources :members 
   end
   # Example resource route within a namespace:
   #   namespace :admin do
