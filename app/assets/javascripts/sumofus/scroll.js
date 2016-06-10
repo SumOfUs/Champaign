@@ -2,6 +2,7 @@ $(document).ready(function(){
 
   $('.checks-top').each(function(ii, el){
     let $el = $(el);
+    if($('.mobile-indicator').is(':visible')){ return; }
     $( window ).on('scroll', function(){
       var position = $(window).scrollTop();
       if (position == 0) {
