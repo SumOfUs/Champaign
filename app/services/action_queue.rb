@@ -9,7 +9,7 @@ module ActionQueue
     end
 
     def push
-      ChampaignQueue.push(payload)
+      ChampaignQueue.push(payload.merge(meta))
     end
 
     def page
@@ -24,6 +24,20 @@ module ActionQueue
       @member ||= @action.member
     end
 
+    def meta
+      {
+        meta: {
+          title:      page.title,
+          uri:        "/a/#{page.slug}",
+          slug:       page.slug,
+          first_name: member.first_name,
+          last_name:  member.last_name,
+          created_at: @action.created_at,
+          country:    country(member.country),
+          subscribed_member: @action.subscribed_member
+        }
+      }
+    end
 
     class_methods do
       def push(action)
@@ -35,14 +49,14 @@ module ActionQueue
   module Donatable
     def user_data
       {
-          first_name: member.first_name,
-          last_name:  member.last_name,
-          email:      member.email,
-          country:    country(member.country),
-          akid:       data[:akid],
-          postal:     data[:postal],
-          address1:   data[:address1],
-          source:     data[:source]
+        first_name: member.first_name,
+        last_name:  member.last_name,
+        email:      member.email,
+        country:    country(member.country),
+        akid:       data[:akid],
+        postal:     data[:postal],
+        address1:   data[:address1],
+        source:     data[:source]
       }.merge(UserLanguageISO.for(page.language) )
     end
 

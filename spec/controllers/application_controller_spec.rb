@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe ApplicationController do
-
   context 'localization' do
-
     around(:each) do |spec|
       I18n.locale = I18n.default_locale
       spec.run
@@ -11,7 +9,6 @@ describe ApplicationController do
     end
 
     describe 'localize_from_page_id' do
-
       let(:english) { create :language, code: 'en' }
       let!(:page) { create :page, language: english }
 
@@ -40,7 +37,6 @@ describe ApplicationController do
     end
 
     describe 'set_locale' do
-
       it 'sets the locale if it is a known locale' do
         expect(I18n.locale).to eq :en
         expect{ controller.send(:set_locale, 'fr') }.not_to raise_error
@@ -59,7 +55,28 @@ describe ApplicationController do
         expect(I18n.locale).to eq :en
       end
     end
-
   end
 
+  describe '#mobile_value' do
+    controller do
+      def index
+        render nothing: true
+      end
+    end
+
+    [
+      { device: :mobile,  agent: "Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257"},
+      { device: :desktop, agent: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36"},
+      { device: :tablet,  agent: "Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25"},
+      { device: :desktop, agent: "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136é".force_encoding(Encoding::ASCII_8BIT), note: '(ASCII-8BIT header)'},
+      { device: :unknown, agent: ""}
+    ].each do |req|
+      it "detects headers for #{req[:device]} #{req.fetch(:note, '')}" do
+        request.headers['HTTP_USER_AGENT'] = req[:agent]
+        get :index
+
+        expect(controller.mobile_value).to eq({ action_mobile: req[:device].to_s })
+      end
+    end
+  end
 end
