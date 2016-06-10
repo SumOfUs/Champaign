@@ -20,9 +20,22 @@ describe "Braintree API" do
     }
   end
 
+  let(:meta) do
+    hash_including({
+      title:      'Cash rules everything around me',
+      uri:        '/a/cash-rules-everything-around-me',
+      slug:       'cash-rules-everything-around-me',
+      first_name: 'Bernie',
+      last_name:  'Sanders',
+      created_at: be_within(1.second).of(Time.now),
+      country: 'United States'
+    })
+  end
+
   let(:donation_push_params) do
     {
       type: "donation",
+      meta: meta,
       payment_provider: 'braintree',
       params: {
         donationpage: {
@@ -537,6 +550,7 @@ describe "Braintree API" do
         {
           type: "donation",
           payment_provider: 'braintree',
+          meta: meta,
           params: {
             donationpage: {
               name: "cash-rules-everything-around-me-donation",

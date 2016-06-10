@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "GoCardless API" do
-  let(:page) { create :page }
+  let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
   let(:usd_amount) { 9.99 }
   let(:gbp_amount) { 11.55 }
 
@@ -12,10 +12,23 @@ describe "GoCardless API" do
     }]
   end
 
+  let(:meta) do
+    hash_including({
+      title:      'Foo Bar',
+      uri:        '/a/foo-bar',
+      slug:       'foo-bar',
+      first_name: 'Bernie',
+      last_name:  'Sanders',
+      created_at: be_within(1.second).of(Time.now),
+      country: 'United States'
+    })
+  end
+
   before :each do
     allow_any_instance_of(Money).to receive(:exchange_to).and_return(
       instance_double(Money, cents: (gbp_amount*100).to_i)
     )
+
     allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'tablet'})
   end
 
@@ -214,6 +227,7 @@ describe "GoCardless API" do
           {
             type: "donation",
             payment_provider: "go_cardless",
+            meta: meta,
             params: {
               donationpage: {
                 name: "#{page.slug}-donation",
@@ -368,6 +382,7 @@ describe "GoCardless API" do
           {
             type: "donation",
             payment_provider: "go_cardless",
+            meta: meta,
             params: {
               donationpage: {
                 name: "#{page.slug}-donation",
