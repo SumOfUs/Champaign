@@ -50,11 +50,10 @@ module ActionQueue
       @action.form_data.symbolize_keys
     end
 
-    def extra_fields_for_subscription
-      {}.tap do |action|
-        if @action.form_data['is_subscription']
-          action[:skip_confirmation] = 1 if @action.form_data['recurrence_number'].to_i > 0
-          action[:fields] = action_fields
+    def action_fields
+      @action_fields ||= {}.tap do |fields|
+        data.keys.select{|k| k =~ /^action_/}.each do |key|
+          fields[key] = data[key]
         end
       end
     end
@@ -153,9 +152,11 @@ module ActionQueue
 
     def action_data
       {
-        action_account_number_ending: data[:account_number_ending],
-        action_mandate_reference: data[:mandate_reference],
-        action_bank_name: data[:bank_name],
+        fields: action_fields.merge(
+          action_account_number_ending:  data[:account_number_ending],
+          action_mandate_reference:      data[:mandate_reference],
+          action_bank_name:              data[:bank_name],
+        ),
         source: data[:source]
       }
     end
@@ -171,14 +172,6 @@ module ActionQueue
 
     def get_payment_account
       "GoCardless #{data[:currency]}"
-    end
-
-    def action_fields
-      {
-        recurring_id:      @action.member_id,
-        recurrence_number: @action.form_data['recurrence_number'],
-        payment_provider:  @action.form_data['payment_provider'],
-      }
     end
   end
 
@@ -213,7 +206,8 @@ module ActionQueue
             recurring_id:   data[:subscription_id]
           },
           action: {
-            source: data[:source]
+            source: data[:source],
+            fields: action_fields
           },
           user: user_data
         }
@@ -239,7 +233,8 @@ module ActionQueue
             currency:       data[:currency]
           },
           action: {
-            source: data[:source]
+            source: data[:source],
+            fields: action_fields
           },
           user: user_data
         }
@@ -247,14 +242,6 @@ module ActionQueue
 
     end
 
-    def action_fields
-      {
-        recurring_id:      @action.member_id,
-        recurrence_number: @action.form_data['recurrence_number'],
-        payment_provider:  @action.form_data['payment_provider'],
-        exp_date:          "#{expire_month}#{expire_year.to_s.gsub(/^(\d\d)(\d\d)/,'\2')}"
-      }
-    end
     # ActionKit can accept one of the following:
     #
     # PayPal USD
