@@ -35,4 +35,14 @@ class Member < ActiveRecord::Base
       welcome_name: full_name.blank? ? email : full_name
     })
   end
+
+  def send_to_ak
+    ChampaignQueue.push(
+      type: 'create_member',
+      params: {
+          email: email
+      }
+    )
+  end
+
 end
