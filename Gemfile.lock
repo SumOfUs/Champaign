@@ -354,7 +354,7 @@ GEM
     rails-assets-datatables (1.10.12)
       rails-assets-jquery (>= 1.7.0)
     rails-assets-dropzone (4.3.0)
-    rails-assets-jquery (3.0.0)
+    rails-assets-jquery (2.2.0)
     rails-assets-mailcheck (1.1.1)
     rails-assets-moment (2.13.0)
     rails-assets-odometer (0.4.7)
