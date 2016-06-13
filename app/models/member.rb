@@ -40,7 +40,11 @@ class Member < ActiveRecord::Base
     ChampaignQueue.push(
       type: 'create_member',
       params: {
-          email: email
+          email: email,
+          name: name,
+          country: country,
+          postal: postal,
+
       }
     )
   end
