@@ -10,6 +10,7 @@ describe ShareProgressVariantBuilder do
   let(:success_sp_button) do
     double(:button,
            save: true,
+           button_template: 'sp_fb_large',
            id: '1',
            share_button_html: '<div />',
            page_url: 'http://example.com/foo',
