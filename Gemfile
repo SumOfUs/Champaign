@@ -97,9 +97,12 @@ gem 'config'
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
 
+group :development do
+  gem 'web-console', '~> 2.0'
+end
+
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'rspec-rails'
   gem 'capybara' # Capybara for integration testing
