@@ -1,16 +1,19 @@
 require 'rails_helper'
+require 'webmock'
 
 describe ActionKit::Helper do
+
+  WebMock.enable!
 
   describe "#check_petition_name_is_available" do
     before do
       response_body_happy = { meta: { total_count: 0 } }
       response_body_sad = { meta: { total_count: 1 } }
 
-      stub_request(:get, "https://ak_username:ak_password@act.sumofus.org/rest/v1/petitionpage/?_limit=1&name=foo-bar").
+      stub_request(:get, "https://act.sumofus.org/rest/v1/petitionpage/?_limit=1&name=foo-bar").
         to_return(status: 200, body: response_body_happy.to_json )
 
-      stub_request(:get, "https://ak_username:ak_password@act.sumofus.org/rest/v1/petitionpage/?_limit=1&name=i-already-exist").
+      stub_request(:get, "https://act.sumofus.org/rest/v1/petitionpage/?_limit=1&name=i-already-exist").
         to_return(status: 200, body: response_body_sad.to_json )
     end
 
