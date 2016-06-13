@@ -3,6 +3,7 @@ const BraintreeHostedFields = Backbone.View.extend({
   el: '.hosted-fields-view',
   TOKEN_WAIT_BEFORE_RETRY: 1500, // ms
   TOKEN_RETRY_LIMIT: 5,
+  SELECTOR_TO_HIDE_ON_PAYPAL_SUCCESS: '.hosted-fields__credit-card-fields, .hosted-fields__direct-debit-container',
 
   initialize() {
     this.getClientToken(this.setupFields.bind(this));
@@ -17,8 +18,8 @@ const BraintreeHostedFields = Backbone.View.extend({
       onReady: this.hideSpinner.bind(this),
       paypal: {
         container: 'hosted-fields__paypal',
-        onCancelled: () => { this.$('.hosted-fields__credit-card-fields').slideDown(); },
-        onSuccess: () => { this.$('.hosted-fields__credit-card-fields').slideUp(); },
+        onCancelled: () => { this.$(this.SELECTOR_TO_HIDE_ON_PAYPAL_SUCCESS).slideDown(); },
+        onSuccess: () => { this.$(this.SELECTOR_TO_HIDE_ON_PAYPAL_SUCCESS).slideUp(); },
         locale: I18n.currentLocale(),
       },
       hostedFields: {
