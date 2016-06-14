@@ -334,4 +334,69 @@ http_interactions:
         SAMWELL","bank_name":"BARCLAYS BANK PLC","currency":"GBP","country_code":"GB","metadata":{},"enabled":true,"links":{"customer":"CU0000RR39FMVB"}}}'
     http_version: 
   recorded_at: Wed, 08 Jun 2016 21:42:50 GMT
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/subscriptions
+    body:
+      encoding: UTF-8
+      string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"},"name":"donation","interval_unit":"monthly","start_date":"2016-05-20"}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Tue, 14 Jun 2016 22:29:50 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=db36fb2aca604d3d2f1673509d7194e981465943390; expires=Wed, 14-Jun-17
+        22:29:50 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      X-Request-Id:
+      - f7395433-2d3a-41b7-bb10-71a0261ba244
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Tue, 14 Jun 2016 22:30:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2b31392cc5e82840-SJC
+    body:
+      encoding: UTF-8
+      string: '{"error":{"message":"Validation failed","errors":[{"field":"start_date","message":"must
+        be on or after mandate''s next_possible_customer_charge_date","request_pointer":"/subscriptions/start_date"}],"documentation_url":"https://developer.gocardless.com/pro#validation_failed","type":"validation_failed","request_id":"f7395433-2d3a-41b7-bb10-71a0261ba244","code":422}}'
+    http_version: 
+  recorded_at: Tue, 14 Jun 2016 22:29:50 GMT
 recorded_with: VCR 3.0.0

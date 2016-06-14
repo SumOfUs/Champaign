@@ -433,7 +433,7 @@ describe "GoCardless API" do
             sdk_params[:params] = sdk_params[:params].merge(
               name: "donation",
               interval_unit: "monthly",
-              start_date: instance_of(Date)
+              start_date: "2016-05-20"
             )
             subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
