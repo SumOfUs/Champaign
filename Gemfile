@@ -84,7 +84,6 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 
 gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
-gem 'typhoeus'
 
 # Gem for vanity urls
 gem 'friendly_id'
