@@ -95,3 +95,9 @@
        akid_secret: "secret_sauce"
 
      host: https://example.com
+
+# CircleCI test settings
+  # This will load the entire application. If code is not eager loaded constants are loaded on demand.
+  # Constant autoloading is not thread-safe, so if eager loading is not enabled multi-threading should not be allowed.
+  # This should take care of the Rack Mutex error on CircleCI.
+     eager_load_for_specs: true
