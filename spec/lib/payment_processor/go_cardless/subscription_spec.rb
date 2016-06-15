@@ -36,7 +36,7 @@ module PaymentProcessor
 
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
-            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now, reference: 'SOU-00000'
+            id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s, reference: 'SOU-00000'
           )
         end
 
@@ -69,24 +69,90 @@ module PaymentProcessor
         describe 'charge date' do
           subject { described_class.make_subscription(required_options) }
 
-          let(:mandate) do
-            instance_double('GoCardlessPro::Resources::Mandate',
-              id: 'MA00000',
-              scheme: 'bacs',
-              reference: 'SOU-00000',
-              next_possible_charge_date: 1.day.from_now
+          let(:amount_in_gbp) { 11.11 }
+          let(:completed_gbp_flow) do
+            instance_double('GoCardlessPro::Resources::RedirectFlow',
+                            links: double(customer: 'CU00000', mandate: 'MA9999', customer_bank_account: 'BA00000')
             )
           end
-
-          it 'sets start date for bacs' do
-            required_options
-            expect_any_instance_of(
-              GoCardlessPro::Services::SubscriptionsService
-            ).to receive(:create).with(
-              params: hash_including(start_date: instance_of(Date))
+          let(:gbp_mandate) do
+            instance_double('GoCardlessPro::Resources::Mandate',
+                            id: 'MA9999', scheme: 'bacs', next_possible_charge_date: '2016-06-20', reference: 'SOU-00000'
             )
+          end
+          let(:gbp_options) do
+            {
+                amount: amount_in_gbp,
+                currency: 'GBP',
+                user: { email: "bob@example.com", name: 'Bob' },
+                page_id: page_id,
+                redirect_flow_id: 'RE00000',
+                session_token: "4f592f2a-2bc2-4028-8a8c-19b222e2faa7"
+            }
+          end
 
-            subject
+          before do
+            allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_return(completed_gbp_flow)
+            allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:get).and_return(completed_gbp_flow)
+            allow_any_instance_of(GoCardlessPro::Services::MandatesService).to receive(:get).and_return(gbp_mandate)
+            allow(PaymentProcessor::Currency).to receive(:convert).and_return(double(cents: amount_in_gbp*100))
+          end
+
+          it 'creates a subscription with the right params and charge date' do
+            expect_any_instance_of(
+                GoCardlessPro::Services::SubscriptionsService
+            ).to receive(:create).with(
+               params: {
+                 amount: amount_in_gbp * 100,
+                 currency: 'GBP',
+                 links: { mandate: 'MA9999' },
+                 metadata: { customer_id: 'CU00000' },
+                 name: 'donation',
+                 interval_unit: 'monthly',
+                 # Get charge day from the Settings class for GBP donations.
+                 start_date: "2016-06-#{Settings.gocardless.gbp_charge_day}"
+               }
+             )
+            described_class.make_subscription(gbp_options)
+          end
+
+          it 'uses the gbp charge day that is specified in the Settings class' do
+            Settings.gocardless.gbp_charge_day = '08'
+
+            expect_any_instance_of(
+                GoCardlessPro::Services::SubscriptionsService
+            ).to receive(:create).with(
+              params: {
+                amount: amount_in_gbp * 100,
+                currency: 'GBP',
+                links: { mandate: 'MA9999' },
+                metadata: { customer_id: 'CU00000' },
+                name: 'donation',
+                interval_unit: 'monthly',
+                # Get charge day from the Settings class for GBP donations.
+                start_date: '2016-07-08'
+              }
+            )
+            described_class.make_subscription(gbp_options)
+          end
+
+          it "uses the next possible charge date of the mandate if GBP charge date is not defined" do
+            Settings.gocardless.gbp_charge_day = nil
+
+            expect_any_instance_of(
+                GoCardlessPro::Services::SubscriptionsService
+            ).to receive(:create).with(
+               params: {
+                 amount: amount_in_gbp * 100,
+                 currency: 'GBP',
+                 links: { mandate: 'MA9999' },
+                 metadata: { customer_id: 'CU00000' },
+                 name: 'donation',
+                 interval_unit: 'monthly',
+                 start_date: gbp_mandate.next_possible_charge_date
+               }
+             )
+            described_class.make_subscription(gbp_options)
           end
         end
 
@@ -101,7 +167,8 @@ module PaymentProcessor
                 links: { mandate: 'MA00000' },
                 metadata: { customer_id: 'CU00000' },
                 name: 'donation',
-                interval_unit: 'monthly'
+                interval_unit: 'monthly',
+                start_date: 1.day.from_now.to_date.to_s
               }
             )
             subject
