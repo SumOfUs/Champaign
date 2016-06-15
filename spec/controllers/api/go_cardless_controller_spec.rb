@@ -7,6 +7,7 @@ describe Api::GoCardlessController do
   before do
     allow(Page).to receive(:find) { page }
     allow(SecureRandom).to receive(:uuid) { 'fake_session_id' }
+    allow(MobileDetector).to receive(:detect) { {action_mobile: 'tablet'} }
   end
 
   describe 'GET #start_flow' do
@@ -36,7 +37,7 @@ describe Api::GoCardlessController do
     let(:params) do
       {
         amount: '40.19',
-        user: { email: 'snake@hips.com', name: 'Snake Hips' },
+        user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet'},
         currency: 'EUR',
         page_id: '12',
         redirect_flow_id: 'RE2109123',

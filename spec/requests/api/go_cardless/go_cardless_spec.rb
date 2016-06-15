@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "GoCardless API" do
-  let(:page) { create :page }
+  let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
   let(:usd_amount) { 9.99 }
   let(:gbp_amount) { 11.55 }
 
@@ -12,10 +12,25 @@ describe "GoCardless API" do
     }]
   end
 
+  let(:meta) do
+    hash_including({
+      title:      'Foo Bar',
+      uri:        '/a/foo-bar',
+      slug:       'foo-bar',
+      first_name: 'Bernie',
+      last_name:  'Sanders',
+      action_id:  instance_of(Fixnum),
+      created_at: be_within(1.second).of(Time.now),
+      country: 'United States'
+    })
+  end
+
   before :each do
     allow_any_instance_of(Money).to receive(:exchange_to).and_return(
       instance_double(Money, cents: (gbp_amount*100).to_i)
     )
+
+    allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'tablet'})
   end
 
   describe "redirect flow" do
@@ -126,6 +141,7 @@ describe "GoCardless API" do
           akid: '123.456.789',
           source: 'fb',
           country: "US",
+          action_registered_voter: '1',
           form_id: "127"
         }
       }
@@ -212,6 +228,7 @@ describe "GoCardless API" do
           {
             type: "donation",
             payment_provider: "go_cardless",
+            meta: meta,
             params: {
               donationpage: {
                 name: "#{page.slug}-donation",
@@ -220,8 +237,6 @@ describe "GoCardless API" do
               order: {
                 amount: gbp_amount.to_s,
                 currency:       "GBP",
-                bank_name:      'BARCLAYS BANK PLC',
-                account_number_ending: '11',
                 card_num:       "DDEB",
                 card_code:      "007",
                 exp_date_month: "01",
@@ -240,7 +255,13 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                skip_confirmation: 1
+                fields: {
+                  action_registered_voter: '1',
+                  action_mobile: 'tablet',
+                  action_mandate_reference: 'OMAR-JMEKNM53MREX3',
+                  action_bank_name: 'BARCLAYS BANK PLC',
+                  action_account_number_ending: '11'
+                }
               }
             }
           }
@@ -265,7 +286,7 @@ describe "GoCardless API" do
                 metadata: {
                   customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
                 },
-                charge_date: "2016-05-20"
+                charge_date: "2016-06-20"
               }
             }
           end
@@ -362,6 +383,7 @@ describe "GoCardless API" do
           {
             type: "donation",
             payment_provider: "go_cardless",
+            meta: meta,
             params: {
               donationpage: {
                 name: "#{page.slug}-donation",
@@ -374,9 +396,7 @@ describe "GoCardless API" do
                 card_num:       "DDEB",
                 card_code:      "007",
                 exp_date_month: "01",
-                exp_date_year:  "99",
-                bank_name:      'BARCLAYS BANK PLC',
-                account_number_ending: '11'
+                exp_date_year:  "99"
               },
               user: {
                 email: email,
@@ -391,7 +411,13 @@ describe "GoCardless API" do
               },
               action: {
                 source: 'fb',
-                skip_confirmation: 1
+                fields: {
+                  action_registered_voter: '1',
+                  action_mobile: 'tablet',
+                  action_mandate_reference: 'OMAR-JMEKNM53MREX3',
+                  action_bank_name: 'BARCLAYS BANK PLC',
+                  action_account_number_ending: '11'
+                }
               }
             }
           }
@@ -408,7 +434,7 @@ describe "GoCardless API" do
             sdk_params[:params] = sdk_params[:params].merge(
               name: "donation",
               interval_unit: "monthly",
-              start_date: instance_of(Date)
+              start_date: "2016-06-20"
             )
             subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)

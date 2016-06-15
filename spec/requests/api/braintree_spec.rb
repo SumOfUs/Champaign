@@ -15,13 +15,28 @@ describe "Braintree API" do
       address1: '25 Elm Drive',
       akid: '1234.5678.9910',
       source: 'fb',
+      action_registered_voter: '1',
       country: "US"
     }
+  end
+
+  let(:meta) do
+    hash_including({
+      title:      'Cash rules everything around me',
+      uri:        '/a/cash-rules-everything-around-me',
+      slug:       'cash-rules-everything-around-me',
+      first_name: 'Bernie',
+      last_name:  'Sanders',
+      created_at: be_within(1.second).of(Time.now),
+      country: 'United States',
+      action_id: instance_of(Fixnum)
+    })
   end
 
   let(:donation_push_params) do
     {
       type: "donation",
+      meta: meta,
       payment_provider: 'braintree',
       params: {
         donationpage: {
@@ -48,7 +63,11 @@ describe "Braintree API" do
           user_en: 1
         },
         action: {
-          source: 'fb'
+          source: 'fb',
+          fields: {
+            action_registered_voter: '1',
+            action_mobile: 'desktop'
+          }
         }
       }
     }
@@ -57,12 +76,10 @@ describe "Braintree API" do
   before :each do
     allow(ChampaignQueue).to receive(:push)
     allow(Analytics::Page).to receive(:increment)
+    allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'desktop'})
   end
 
   describe 'making a transaction' do
-    before do
-      donation_push_params[:params][:action].delete(:fields)
-    end
 
     describe 'successfully' do
 
@@ -534,6 +551,7 @@ describe "Braintree API" do
         {
           type: "donation",
           payment_provider: 'braintree',
+          meta: meta,
           params: {
             donationpage: {
               name: "cash-rules-everything-around-me-donation",
@@ -559,7 +577,11 @@ describe "Braintree API" do
               user_en: 1
             },
             action: {
-              source: 'fb'
+              source: 'fb',
+              fields: {
+                action_registered_voter: '1',
+                action_mobile: 'desktop'
+              }
             }
           }
         }
@@ -1111,5 +1133,4 @@ describe "Braintree API" do
       end
     end
   end
-
 end

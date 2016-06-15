@@ -1,0 +1,63 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://act.sumofus.org/rest/v1/petitionpage/?_limit=1&name=foo-bar
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic dHV1bGk6a2VlcHNlY3JldHNvdXRvZnJlcG8=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 14 Jun 2016 18:46:53 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '690'
+      Connection:
+      - keep-alive
+      X-Machine-Id:
+      - web-g02-03.actionkit.com
+      Vary:
+      - Accept,Cookie,Accept-Encoding,User-Agent
+      Cache-Control:
+      - no-cache
+      Set-Cookie:
+      - sid=y96zj05w9hwe1gu0hsmvpv5cv61vado4; expires=Wed, 15-Jun-2016 02:46:53 GMT;
+        httponly; Max-Age=28800; Path=/
+    body:
+      encoding: ASCII-8BIT
+      string: '{"meta": {"limit": 1, "next": null, "offset": 0, "previous": null,
+        "total_count": 1}, "objects": [{"actions": "/rest/v1/petitionaction/?page=8651",
+        "allow_multiple_responses": true, "batch_delivery_minimum": 5, "batch_delivery_subject":
+        "", "batch_delivery_template": "", "batch_delivery_threshold": 30, "created_at":
+        "2015-09-30T16:53:08", "delivery_template": "<p>Dear {{ target.title_full
+        }},</p>\n<p>I just signed a petition saying:</p>\n<p>\"REPLACEME: {{ form.statement_text
+        }}\"<br><br>\n{% if action.custom_fields.comment %}\n{{ action.custom_fields.comment
+        }}<br><br>\n{% endif %}\n{{ user.name }}<br>\n{% if user.city %}\n{{ user.city
+        }}, {{ user.state }}\n{% else %}\n{% if user.state %}\n{{ user.state }}\n{%
+        endif %}\n{% endif %}\n</p>\n", "fields": {}, "followup": null, "goal": null,
+        "goal_type": "actions", "hidden": false, "hosted_with": "/rest/v1/hostingplatform/1/",
+        "id": 8651, "immediate_email_subject": "", "language": null, "list": "/rest/v1/list/1/",
+        "multilingual_campaign": null, "name": "foo-bar", "never_spam_check": false,
+        "notes": "", "one_click": false, "real_actions": true, "recognize": "once",
+        "required_fields": [], "resource_uri": "/rest/v1/petitionpage/8651/", "send_immediate_email":
+        false, "send_immediate_email_delivery_blocked_at": null, "send_immediate_email_override_limit":
+        false, "send_immediate_fax": false, "status": "active", "tags": [], "target_groups":
+        [], "title": "Foo Bar [Petition]", "type": "Petition", "updated_at": "2015-09-30T16:53:08",
+        "url": ""}]}'
+    http_version: 
+  recorded_at: Tue, 14 Jun 2016 18:46:53 GMT
+recorded_with: VCR 3.0.3

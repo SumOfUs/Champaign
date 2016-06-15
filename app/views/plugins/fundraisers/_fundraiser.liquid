@@ -1,5 +1,5 @@
 {% if plugins.fundraiser[ref].active %}
-  <div class="fundraiser-bar sidebar desktop-sticky {{ extra_class }}">
+  <div class="fundraiser-bar sidebar overlay-toggle desktop-sticky {{ extra_class }}">
     <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="fundraiser-bar__content">
         <div class="fundraiser-bar__top script-dependent__for-height">
@@ -79,13 +79,13 @@
                   <i class="hosted-fields__direct-debit-logo"></i>
                   {{ 'fundraiser.debit.direct_debit' | t }}
                 </div>
-                <div class="hosted-fields__or">{{ 'basics.or' | t }}</div>
+                <div class="hosted-fields__or hosted-fields__or--bottom">{{ 'basics.or' | t }}</div>
               </div>
               <div class="form__group">
                 <div id="hosted-fields__paypal" class="hosted-fields__button-container"></div>
-                <div class="hosted-fields__or">{{ 'basics.or' | t }}</div>
               </div>
               <div class="hosted-fields__credit-card-fields">
+                <div class="hosted-fields__or hosted-fields__or--top">{{ 'basics.or' | t }}</div>
                 <div class="form__group">
                   <div class="hosted-fields__host hosted-fields__number"></div>
                   <span class="hosted-fields__card-type fa hidden-irrelevant"></span>
