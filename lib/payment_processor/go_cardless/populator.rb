@@ -25,12 +25,9 @@ module PaymentProcessor
         request_params.merge(
           {
             name: "donation",
-            interval_unit: "monthly"
-          }.tap do |params|
-            if bacs?
-              params[:start_date] = Helper.next_available_date(Settings.gocardless.gbp_charge_day.to_i)
-            end
-          end
+            interval_unit: "monthly",
+            start_date: charge_date
+          }
         )
       end
 
