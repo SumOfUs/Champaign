@@ -34,6 +34,7 @@ module ActionQueue
           last_name:  member.last_name,
           created_at: @action.created_at,
           country:    country(member.country),
+          action_id:  @action.id,
           subscribed_member: @action.subscribed_member
         }
       }
