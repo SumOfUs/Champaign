@@ -84,7 +84,6 @@ gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 
 
 gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
-gem 'typhoeus'
 
 # Gem for vanity urls
 gem 'friendly_id'
@@ -97,9 +96,12 @@ gem 'config'
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
 
+group :development do
+  gem 'web-console', '~> 2.0'
+end
+
 group :development, :test do
   gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'rspec-rails'
   gem 'capybara' # Capybara for integration testing
