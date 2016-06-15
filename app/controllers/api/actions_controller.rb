@@ -1,10 +1,6 @@
 class Api::ActionsController < ApplicationController
   before_filter :localize_from_page_id
-
-  rescue_from ActionController::InvalidAuthenticityToken do |exception|
-    reset_session
-    raise
-  end
+  skip_before_action :verify_authenticity_token
 
   def create
     @action_params = action_params
@@ -45,4 +41,3 @@ class Api::ActionsController < ApplicationController
     Form.find(params[:form_id]).form_elements.map(&:name)
   end
 end
-
