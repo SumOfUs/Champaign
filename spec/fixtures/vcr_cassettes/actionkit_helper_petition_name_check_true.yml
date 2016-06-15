@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://act.sumofus.org/rest/v1/petitionpage/?_limit=1&name=i-dont-exist-anywhere-im-a-total-snowflake
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic dHV1bGk6a2VlcHNlY3JldHNvdXRvZnJlcG8=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 14 Jun 2016 18:46:51 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '96'
+      Connection:
+      - keep-alive
+      X-Machine-Id:
+      - web-g02-02.actionkit.com
+      Vary:
+      - Accept,Cookie,Accept-Encoding,User-Agent
+      Cache-Control:
+      - no-cache
+      Set-Cookie:
+      - sid=ukbnafughpoi9juumhmkgpc0eg9ea9q5; expires=Wed, 15-Jun-2016 02:46:51 GMT;
+        httponly; Max-Age=28800; Path=/
+    body:
+      encoding: ASCII-8BIT
+      string: '{"meta": {"limit": 1, "next": null, "offset": 0, "previous": null,
+        "total_count": 0}, "objects": []}'
+    http_version: 
+  recorded_at: Tue, 14 Jun 2016 18:46:51 GMT
+recorded_with: VCR 3.0.3
