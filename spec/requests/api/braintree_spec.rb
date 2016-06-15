@@ -28,7 +28,8 @@ describe "Braintree API" do
       first_name: 'Bernie',
       last_name:  'Sanders',
       created_at: be_within(1.second).of(Time.now),
-      country: 'United States'
+      country: 'United States',
+      action_id: instance_of(Fixnum)
     })
   end
 
@@ -1132,5 +1133,4 @@ describe "Braintree API" do
       end
     end
   end
-
 end

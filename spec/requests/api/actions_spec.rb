@@ -47,7 +47,8 @@ describe "Api Actions" do
           last_name:  'Mash',
           created_at: be_within(1.second).of(Time.now),
           country: 'France',
-          subscribed_member: true
+          subscribed_member: true,
+          action_id: instance_of(Fixnum)
         }),
 
         params: hash_including({

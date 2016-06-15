@@ -21,7 +21,12 @@ describe Api::ActionsController do
 
     describe "successful" do
       before do
+        allow(controller).to receive(:verify_authenticity_token)
         post :create, { page_id: 2, form_id: 3, foo: 'bar' }
+      end
+
+      it 'does not verify authenticity token' do
+        expect(controller).not_to have_received(:verify_authenticity_token)
       end
 
       it "finds form" do

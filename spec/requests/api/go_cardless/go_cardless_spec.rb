@@ -19,6 +19,7 @@ describe "GoCardless API" do
       slug:       'foo-bar',
       first_name: 'Bernie',
       last_name:  'Sanders',
+      action_id:  instance_of(Fixnum),
       created_at: be_within(1.second).of(Time.now),
       country: 'United States'
     })
