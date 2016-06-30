@@ -32,7 +32,7 @@ describe "api/members" do
       allow(ChampaignQueue).to receive (:push)
       subject
       expect(ChampaignQueue).to have_received(:push).with(
-        type: 'create_member',
+        type: 'subscribe_member',
         params: {
           email: existing_member.email,
           name: existing_member.name,

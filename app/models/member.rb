@@ -38,12 +38,12 @@ class Member < ActiveRecord::Base
 
   def send_to_ak
     ChampaignQueue.push(
-      type: 'create_member',
+      type: 'subscribe_member',
       params: {
-          email: email,
-          name: name,
-          country: country,
-          postal: postal,
+        email: email,
+        name: name,
+        country: country,
+        postal: postal,
 
       }
     )
