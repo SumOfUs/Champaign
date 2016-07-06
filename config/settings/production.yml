@@ -90,3 +90,4 @@ gocardless:
   gbp_charge_day: 20
   secret: <%= ENV['GOCARDLESS_SECRET'] %>
 
+home_page_url: <%= ENV['HOME_PAGE_URL'] %>
