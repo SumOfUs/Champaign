@@ -1,7 +1,11 @@
 class HomeController < ApplicationController
 
   def index
-    # left blank on purpose
+    if user_signed_in?
+      redirect_to pages_path
+    else
+      redirect_to Settings.home_page_url
+    end
   end
 
   def health_check
