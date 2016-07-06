@@ -4,7 +4,7 @@ class HomeController < ApplicationController
     if user_signed_in?
       redirect_to pages_path
     else
-      redirect_to Settings.home_page_url, status: 301
+      redirect_to Settings.home_page_url
     end
   end
 
