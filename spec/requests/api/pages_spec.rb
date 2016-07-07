@@ -1,3 +1,4 @@
+require_relative 'shared_language_pages.rb'
 require 'rails_helper'
 
 describe "api/pages" do
@@ -6,23 +7,6 @@ describe "api/pages" do
     JSON.parse(response.body)
   end
 
-  let(:shared_language_pages) {
-    let(:german) { create :language, traits: :german }
-    let(:french) { create :language, traits: :french }
-    let(:english) { create :language, traits: :english }
-    let(:spanish) { create :language, traits: :spanish }
-
-    # TODO: MAKE INTO SHARED EXAMPLES FOR FEATURED AND PAGE SHOW SPECS
-    page_hash = {}
-    Language.all.each do |language|
-      let!(:ordinray) { create_list :page, 10, language: language, featured: false }
-      let!(:featured) { create_list :page, 10, language: language, featured: true }
-      page_hash[language.code.to_sym] = {
-          ordinary: ordinary,
-          featured: featured
-      }
-    end
-  }
 
   before :each do
     # I'm rounding the time. Ruby deals with time in nanoseconds whereas the database deals with time in microsecond
@@ -79,17 +63,20 @@ describe "api/pages" do
     end
 
     describe 'with languages that exist' do
-      shared_language_pages
 
-      Language.all.each do |language|
-        it "in #{language.name}, it gets pages only in that language" do
-          get api_pages_path, { language: language.code }
-          expect(json).to_match Page.last(100).reverse.as_json
+      include_context "shared language pages" do
+        #Language.all.each returns [] because the fixtures aren't available outside an `it` block. Since this loops
+        #over an empty array, no specs are actually run.
+        Language.all.each do |language|
+          it "in #{language.name}, it gets pages only in that language" do
+            get api_pages_path, { language: language.code }
+            expect(json).to_include @page_hash[language.code][:featured].as_json
+            expect(json).to_include @page_hash[language.code][:ordinary].as_json
+          end
         end
       end
 
     end
-
   end
 
   describe 'GET featured' do
@@ -105,6 +92,7 @@ describe "api/pages" do
     end
 
     context 'with languages' do
+
       describe 'with language that does not exist' do
         it 'returns json with error' do
           get api_pages_featured_path, {language: 'klingon'}
@@ -112,9 +100,18 @@ describe "api/pages" do
           expect(response.status).to eq(404)
         end
       end
+
       describe 'with languages that exist' do
-        shared_language_pages
+        include_context "shared language pages" do
+          Language.all.each do |language|
+            xit "in #{language.name}, it gets pages only in that language" do
+              get api_pages_path, { language: language.code }
+              expect(json).to_match @page_hash[language.code][:featured].as_json
+            end
+          end
+        end
       end
+
     end
 
   end
