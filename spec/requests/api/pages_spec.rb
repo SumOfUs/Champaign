@@ -12,15 +12,6 @@ describe "api/pages" do
     let(:english) { create :language, traits: :english }
     let(:spanish) { create :language, traits: :spanish }
 
-    # let!(:german_pages) { create_list :page, 10, language: german }
-    # let!(:featured_german_pages) { create_list :page, 10, language: german, featured: true }
-    # let!(:french_pages) { create_list :page, 10, language: french }
-    # let!(:featured_french_pages) { create_list :page, 10, language: french, featured: true }
-    # let!(:english_pages) { create_list :page, 10, language: english }
-    # let!(:featured_english_pages) { create_list :page, 10, language: english, featured: true }
-    # let!(:spanish_pages) { create_list :page, 10, language: spanish }
-    # let!(:featured_spanish_pages) { create_list :page, 10, language: spanish, featured: true }
-
     # TODO: MAKE INTO SHARED EXAMPLES FOR FEATURED AND PAGE SHOW SPECS
     page_hash = {}
     Language.all.each do |language|
@@ -31,26 +22,7 @@ describe "api/pages" do
           featured: featured
       }
     end
-    #
-    # let(:page_hash) {{
-    #   german: {
-    #     featured: featured_german_pages,
-    #     ordinary: german_pages,
-    #   },
-    #   french: {
-    #     featured: featured_french_pages,
-    #     ordinary: french_pages,
-    #   },
-    #   english: {
-    #     featured: featured_english_pages,
-    #     ordinary: english_pages,
-    #   },
-    #   spanish: {
-    #     featured: featured_spanish_pages,
-    #     ordinary: spanish_pages
-    #   }
-    # }}
-    }
+  }
 
   before :each do
     # I'm rounding the time. Ruby deals with time in nanoseconds whereas the database deals with time in microsecond
