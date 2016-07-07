@@ -1,7 +1,9 @@
 require 'rack'
 
 class Api::PagesController < ApplicationController
-  before_action :get_page, :only => :share_rows
+
+  before_action :set_language, only: [:show, :show_featured]
+
   layout false
 
   def update
@@ -14,28 +16,43 @@ class Api::PagesController < ApplicationController
   end
 
   def share_rows
+    get_page
     render json: (@page.shares.map do |s|
       {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
     end)
   end
 
   def show
-    begin
-      if params[:id].blank?
-        render json: Page.last(100).reverse
-      else
-        render json: Page.find(params[:id])
-      end
-    rescue ActiveRecord::RecordNotFound
-      render json: { errors: "No record was found with that slug or ID." }, status: 404
+    if !show_single_page
+      render json: Page.last(100).reverse
     end
   end
 
   def show_featured
-    render json: Page.where(featured: true)
+    if @language.blank?
+      render json: Page.where(featured: true)
+    end
+
   end
 
   private
+
+  def pages_by_language
+    @pages ||= Page.where(language: @language)
+  end
+
+  def show_single_page
+    begin
+      if params[:id].blank?
+        false
+      else
+        render json: get_page
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { errors: "No record was found with that slug or ID." }, status: 404
+    end
+
+  end
 
   def all_params
     # this method flattens a lot of nested data from one object per form element
@@ -66,5 +83,12 @@ class Api::PagesController < ApplicationController
 
   def get_page
     @page = Page.find(params[:id])
+  end
+
+  def set_language
+    @language ||= Language.find_by(code: params[:language])
+    if !params[:language].blank? && @language.blank?
+      render json: { errors: "The language you requested is not supported." }, status: 404
+    end
   end
 end
