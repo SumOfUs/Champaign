@@ -24,13 +24,19 @@ class Api::PagesController < ApplicationController
 
   def show
     if !show_single_page
-      render json: Page.last(100).reverse
+      if @language.blank?
+        render json: reduce_and_order(Page.all, 100)
+      else
+        render json: reduce_and_order(pages_by_language, 100)
+      end
     end
   end
 
   def show_featured
     if @language.blank?
       render json: Page.where(featured: true)
+    else
+      render json: pages_by_language.where(featured: true)
     end
 
   end
@@ -39,6 +45,10 @@ class Api::PagesController < ApplicationController
 
   def pages_by_language
     @pages ||= Page.where(language: @language)
+  end
+
+  def reduce_and_order(collection, count)
+    collection.last(count).reverse
   end
 
   def show_single_page

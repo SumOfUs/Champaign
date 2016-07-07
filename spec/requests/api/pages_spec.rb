@@ -65,13 +65,11 @@ describe "api/pages" do
     describe 'with languages that exist' do
 
       include_context "shared language pages" do
-        #Language.all.each returns [] because the fixtures aren't available outside an `it` block. Since this loops
-        #over an empty array, no specs are actually run.
-        Language.all.each do |language|
-          it "in #{language.name}, it gets pages only in that language" do
-            get api_pages_path, { language: language.code }
-            expect(json).to_include @page_hash[language.code][:featured].as_json
-            expect(json).to_include @page_hash[language.code][:ordinary].as_json
+        [:de,:fr,:en,:es].each do |language_code|
+          it "in #{language_code}, it gets pages only in that language" do
+            get api_pages_path, { language: language_code.to_s }
+            expect(json).to include(@page_hash[language_code][:featured].first.as_json)
+            expect(json).to include(@page_hash[language_code][:ordinary].first.as_json)
           end
         end
       end
@@ -103,10 +101,10 @@ describe "api/pages" do
 
       describe 'with languages that exist' do
         include_context "shared language pages" do
-          Language.all.each do |language|
-            xit "in #{language.name}, it gets pages only in that language" do
-              get api_pages_path, { language: language.code }
-              expect(json).to_match @page_hash[language.code][:featured].as_json
+          [:de,:fr,:en,:es].each.each do |language_code|
+            it "in #{language_code}, it gets pages only in that language" do
+              get api_pages_featured_path, { language: language_code.to_s }
+              expect(json).to match(@page_hash[language_code][:featured].as_json)
             end
           end
         end
