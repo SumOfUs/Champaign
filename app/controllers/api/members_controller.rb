@@ -3,7 +3,7 @@ class Api::MembersController < ApplicationController
   def create
     member = Member.find_or_initialize_by(email: member_params[:email])
     member.assign_attributes(member_params)
-    if member.save!
+    if member.save
       member.send_to_ak
       render json: { member: member }
     else

@@ -6,14 +6,15 @@ describe "api/members" do
     JSON.parse(response.body)
   end
 
+  let(:params)  {{ email: "newbie@test.org", country: "NZ", postal: "1A943", name: "Anahera Parata" }}
+
   subject do
-    post api_members_path, email: "newbie@test.org", country: "NZ", postal: "1A943", name: "Anahera Parata"
+    post api_members_path, params
   end
 
   describe 'POST api/members' do
 
     let!(:existing_member) { create :member, email: "oldie@test.org", name: "Oldie Goldie", country: "SWE", postal: 12880 }
-    let(:new_member) { create :member, email: "newbie@test.org", country: "NZ", postal: "1A943", name: "Anahera Parata" }
 
     it "creates a new member" do
       expect{subject}.to change {Member.count}.by(1)
@@ -32,16 +33,15 @@ describe "api/members" do
     end
 
     it "posts a message on the AK worker queue to create a new user in AK" do
-      allow(Member).to receive(:find_or_initialize_by).and_return(new_member)
       allow(ChampaignQueue).to receive (:push)
       subject
       expect(ChampaignQueue).to have_received(:push).with(
         type: 'subscribe_member',
         params: {
-          email: new_member.email,
-          name: new_member.name,
-          country: new_member.country,
-          postal: new_member.postal
+          email: params[:email],
+          name: params[:name],
+          country: params[:country],
+          postal: params[:postal]
         }
       )
     end
