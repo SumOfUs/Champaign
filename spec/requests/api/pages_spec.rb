@@ -34,19 +34,19 @@ describe "api/pages" do
       end
 
       it 'gets a single page if searched by an id of a page that exists' do
-        get api_pages_path(:id => last_mvp_page.id.to_s)
+        get api_pages_path(id: last_mvp_page.id.to_s)
         expect(response).to be_success
         expect(json).to match last_mvp_page.as_json
       end
 
       it 'gets a single page if searched by a slug of a page that exists' do
-        get api_pages_path(:id => last_featured_page.slug)
+        get api_pages_path(id: last_featured_page.slug)
         expect(response).to be_success
         expect(json).to match last_featured_page.as_json
       end
 
       it 'returns an error if searching for an ID or slug of a page that does not exist' do
-        get api_pages_path(:id => last_featured_page.slug + '_epidemic')
+        get api_pages_path(id: last_featured_page.slug + '_epidemic')
         expect(response.status).to eq(404)
         expect(json).to match({ "errors" => "No record was found with that slug or ID."})
       end
@@ -81,6 +81,7 @@ describe "api/pages" do
     context 'with no specified language' do
       let!(:featured_pages) { create_list :page, 50, featured: true }
       let!(:mvp_pages) { create_list :page, 50, featured: false }
+
       it 'gets only featured pages' do
         get api_pages_featured_path
         expect(response).to be_success
