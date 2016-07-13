@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PageCloner do
   let!(:tag)  { create(:tag) }
   let(:campaign) { create(:campaign) }
-  let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar') }
+  let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar', action_count: 12345) }
   let!(:link) { create(:link, page: page) }
 
   subject(:cloned_page) { PageCloner.clone(page) }
@@ -29,6 +29,15 @@ describe PageCloner do
 
   it 'associates with the same campaign' do
     expect(cloned_page.campaign).to eq(campaign)
+  end
+
+  it 'duplicates content' do
+    expect(cloned_page.content).to eq page.content
+  end
+
+  it 'sets the new pages action_count to 0' do
+    expect(page.action_count).not_to eq 0
+    expect(cloned_page.action_count).to eq 0
   end
 
   describe 'title and slug' do
