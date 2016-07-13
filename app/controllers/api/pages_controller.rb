@@ -7,18 +7,17 @@ class Api::PagesController < ApplicationController
   layout false
 
   def update
-    updater = PageUpdater.new(@page, page_url(@page))
+    updater = PageUpdater.new(page, page_url(page))
     if updater.update(all_params)
-      render json: { refresh: updater.refresh?, id: @page.id }, status: :ok
+      render json: { refresh: updater.refresh?, id: page.id }, status: :ok
     else
       render json: { errors: shallow_errors(updater.errors) }, status: 422
     end
   end
 
   def share_rows
-    get_page
-    render json: (@page.shares.map do |s|
-      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
+    render json: (page.shares.map do |s|
+      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: page})}
     end)
   end
 
@@ -44,7 +43,7 @@ class Api::PagesController < ApplicationController
   private
 
   def pages_by_language
-    @pages ||= Page.where(language: @language)
+    pages ||= Page.where(language: @language)
   end
 
   def reduce_and_order(collection, count)
@@ -56,7 +55,7 @@ class Api::PagesController < ApplicationController
       if params[:id].blank?
         false
       else
-        render json: get_page
+        render json: page
       end
     rescue ActiveRecord::RecordNotFound
       render json: { errors: "No record was found with that slug or ID." }, status: 404
@@ -91,8 +90,8 @@ class Api::PagesController < ApplicationController
     Rack::Utils.parse_query(errors.to_query)
   end
 
-  def get_page
-    @page = Page.find(params[:id])
+  def page
+    @page ||= Page.find(params[:id])
   end
 
   def set_language
