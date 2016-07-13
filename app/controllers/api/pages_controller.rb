@@ -22,22 +22,19 @@ class Api::PagesController < ApplicationController
   end
 
   def show
-    if !show_single_page
-      if @language.blank?
-        render json: reduce_and_order(Page.all, 100)
-      else
-        render json: reduce_and_order(pages_by_language, 100)
-      end
+    if params[:id].present?
+      render json: page
+    else
+      pages = @language.present? ? pages_by_language : Page.all
+      render json: reduce_and_order(pages, 100)
     end
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: "No record was found with that slug or ID." }, status: 404
   end
 
   def show_featured
-    if @language.blank?
-      render json: Page.where(featured: true)
-    else
-      render json: pages_by_language.where(featured: true)
-    end
-
+    page_scope = @language.present? ? pages_by_language : Page
+    render json: page_scope.where(featured: true)
   end
 
   private
@@ -48,19 +45,6 @@ class Api::PagesController < ApplicationController
 
   def reduce_and_order(collection, count)
     collection.last(count).reverse
-  end
-
-  def show_single_page
-    begin
-      if params[:id].blank?
-        false
-      else
-        render json: page
-      end
-    rescue ActiveRecord::RecordNotFound
-      render json: { errors: "No record was found with that slug or ID." }, status: 404
-    end
-
   end
 
   def all_params
