@@ -22,27 +22,25 @@ class Api::PagesController < ApplicationController
   end
 
   def index
-    pages = @language.present? ? pages_by_language : Page.all
-    render json: reduce_and_order(pages, 100)
+    render json: reduce_and_order(page_scope, 100)
   end
 
   def show
     render json: page
-    rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     render json: { errors: "No record was found with that slug or ID." }, status: 404
   end
 
   def show_featured
-    page_scope = @language.present? ? pages_by_language : Page.all
     render json: page_scope.where(featured: true)
   end
 
   private
 
-  def pages_by_language
-    Page.where(language: @language)
+  def page_scope
+    @language.present? ? Page.where(language: @language) : Page.all
   end
-
+  
   def reduce_and_order(collection, count)
     collection.last(count).reverse
   end
