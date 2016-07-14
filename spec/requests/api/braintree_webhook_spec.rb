@@ -172,7 +172,7 @@ describe "Braintree API" do
           Timecop.freeze do
             expect{
               subject
-            }.to change{ subscription.reload.cancelled_at }.from(nil).to(Time.now.utc)
+            }.to change{ subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
           end
         end
 
