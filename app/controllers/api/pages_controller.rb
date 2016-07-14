@@ -28,7 +28,7 @@ class Api::PagesController < ApplicationController
 
   def show
     render json: page
-    rescue ActiveRecord::RecordNotFound
+  rescue ActiveRecord::RecordNotFound
     render json: { errors: "No record was found with that slug or ID." }, status: 404
   end
 
