@@ -29,6 +29,8 @@ module PaymentProcessor
           case @notification.kind
           when 'subscription_charged_successfully'
             handle_subscription_charged
+          when 'subscription_canceled'
+            subscription.update(cancelled_at: Time.now)
           else
             Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{@notification.kind}'")
           end

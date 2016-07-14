@@ -63,6 +63,8 @@ describe "Braintree API" do
   end
 
   describe 'receiving a webhook' do
+    let(:subscription) { Payment::BraintreeSubscription.last }
+
     describe 'of a subscription charge' do
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
@@ -148,6 +150,7 @@ describe "Braintree API" do
           Payment::BraintreeSubscription.last.subscription_id
         )
       end
+
       subject{ post api_payment_braintree_webhook_path, notification }
 
       describe 'for a credit card' do
@@ -155,7 +158,6 @@ describe "Braintree API" do
         let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount ) }
 
         before :each do
-          # rather than set up a fake testing environment, let the success test set it up for us
           VCR.use_cassette("subscription success basic new customer") do
             post api_payment_braintree_transaction_path(page.id), params
           end
@@ -164,6 +166,14 @@ describe "Braintree API" do
         it 'does not post to the ChampaignQueue' do
           expect(ChampaignQueue).not_to receive(:push)
           subject
+        end
+
+        it 'sets cancelled_at on subscription record' do
+          Timecop.freeze do
+            expect{
+              subject
+            }.to change{ subscription.reload.cancelled_at }.from(nil).to(Time.now.utc)
+          end
         end
 
         it 'does not create a transaction' do

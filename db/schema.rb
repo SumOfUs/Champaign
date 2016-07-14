@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160603184500) do
+ActiveRecord::Schema.define(version: 20160714144121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,6 +247,7 @@ ActiveRecord::Schema.define(version: 20160603184500) do
     t.decimal  "amount",              precision: 10, scale: 2
     t.string   "currency"
     t.integer  "action_id"
+    t.datetime "cancelled_at"
   end
 
   add_index "payment_braintree_subscriptions", ["action_id"], name: "index_payment_braintree_subscriptions_on_action_id", using: :btree
