@@ -1,8 +1,6 @@
-require 'rack'
-
 class Api::PagesController < ApplicationController
-
   before_action :set_language, only: [:show, :show_featured]
+  before_action :get_page, except: [:show, :show_featured]
 
   layout false
 
@@ -16,7 +14,6 @@ class Api::PagesController < ApplicationController
   end
 
   def share_rows
-    get_page
     render json: (@page.shares.map do |s|
       {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
     end)
@@ -38,7 +35,6 @@ class Api::PagesController < ApplicationController
     else
       render json: pages_by_language.where(featured: true)
     end
-
   end
 
   private

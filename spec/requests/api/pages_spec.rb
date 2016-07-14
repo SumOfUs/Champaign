@@ -63,7 +63,6 @@ describe "api/pages" do
     end
 
     describe 'with languages that exist' do
-
       include_context "shared language pages" do
         [:de,:fr,:en,:es].each do |language_code|
           it "in #{language_code}, it gets pages only in that language" do
@@ -73,7 +72,6 @@ describe "api/pages" do
           end
         end
       end
-
     end
   end
 
@@ -91,7 +89,6 @@ describe "api/pages" do
     end
 
     context 'with languages' do
-
       describe 'with language that does not exist' do
         it 'returns json with error' do
           get api_pages_featured_path, {language: 'klingon'}
@@ -110,8 +107,6 @@ describe "api/pages" do
           end
         end
       end
-
     end
-
   end
 end
