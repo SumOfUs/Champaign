@@ -2,7 +2,7 @@ require 'rack'
 
 class Api::PagesController < ApplicationController
 
-  before_action :set_language, only: [:show, :show_featured]
+  before_action :set_language, only: [:show, :show_featured, :index]
 
   layout false
 
@@ -21,28 +21,26 @@ class Api::PagesController < ApplicationController
     end)
   end
 
+  def index
+    render json: reduce_and_order(page_scope, 100)
+  end
+
   def show
-    if params[:id].present?
-      render json: page
-    else
-      pages = @language.present? ? pages_by_language : Page.all
-      render json: reduce_and_order(pages, 100)
-    end
+    render json: page
   rescue ActiveRecord::RecordNotFound
     render json: { errors: "No record was found with that slug or ID." }, status: 404
   end
 
   def show_featured
-    page_scope = @language.present? ? pages_by_language : Page
     render json: page_scope.where(featured: true)
   end
 
   private
 
-  def pages_by_language
-    pages ||= Page.where(language: @language)
+  def page_scope
+    @language.present? ? Page.where(language: @language) : Page.all
   end
-
+  
   def reduce_and_order(collection, count)
     collection.last(count).reverse
   end
