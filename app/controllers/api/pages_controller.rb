@@ -1,13 +1,12 @@
-require 'rack'
-
 class Api::PagesController < ApplicationController
-
   before_action :set_language, only: [:show, :show_featured, :index]
+  rescue_from ActiveRecord::RecordNotFound, with: :render_errors
 
   layout false
 
   def update
     updater = PageUpdater.new(page, page_url(page))
+
     if updater.update(all_params)
       render json: { refresh: updater.refresh?, id: page.id }, status: :ok
     else
@@ -37,10 +36,14 @@ class Api::PagesController < ApplicationController
 
   private
 
+  def render_errors
+    render json: { errors: "No record was found with that slug or ID." }, status: 404
+  end
+
   def page_scope
     @language.present? ? Page.where(language: @language) : Page.all
   end
-  
+
   def reduce_and_order(collection, count)
     collection.last(count).reverse
   end
