@@ -57,7 +57,7 @@ module PaymentProcessor
           )
         end
 
-        # this method should only be called if @notification.subscription is a subscription object
+        # This method should only be called if @notification.subscription is a subscription object
         def original_action
           @action ||= subscription.try(:action)
         end
