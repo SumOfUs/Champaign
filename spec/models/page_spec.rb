@@ -381,6 +381,15 @@ describe Page do
         expect(Page.language(nil)).to eq([en_page, fr_page])
       end
     end
+
+    describe 'featured_only' do
+      let!(:featured_page) { create(:page, featured: true) }
+      let!(:page) { create(:page, featured: false) }
+
+      it 'finds featured' do
+        expect(Page.featured_only).to eq([featured_page])
+      end
+    end
   end
 end
 
