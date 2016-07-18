@@ -57,6 +57,10 @@ RSpec.configure do |config|
     raise "Fool, :focus shouldn't be pushed!" if ENV["CIRCLECI"]
   end
 
+  config.before(:all) do
+    I18n.locale = I18n.default_locale
+  end
+
   config.run_all_when_everything_filtered = true
 
   # Limits the available syntax to the non-monkey patched syntax that is

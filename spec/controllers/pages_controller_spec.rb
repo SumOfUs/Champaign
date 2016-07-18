@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 describe PagesController do
-
-  around(:each) do |spec|
-    I18n.locale = I18n.default_locale
-    spec.run
+  after do
     I18n.locale = I18n.default_locale
   end
 
@@ -18,7 +15,7 @@ describe PagesController do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
-    Settings.homepage_url = "http://nealdonnelly.com"
+    Settings.homepage_url = "http://example.com"
   end
 
   describe 'GET #index' do

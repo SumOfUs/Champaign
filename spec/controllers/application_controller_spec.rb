@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 describe ApplicationController do
-  context 'localization' do
-    around(:each) do |spec|
-      I18n.locale = I18n.default_locale
-      spec.run
-      I18n.locale = I18n.default_locale
-    end
+  after do
+    I18n.locale = I18n.default_locale
+  end
 
+  context 'localization' do
     describe 'localize_from_page_id' do
       let(:english) { create :language, code: 'en' }
       let!(:page) { create :page, language: english }
@@ -38,21 +36,21 @@ describe ApplicationController do
 
     describe 'set_locale' do
       it 'sets the locale if it is a known locale' do
-        expect(I18n.locale).to eq :en
-        expect{ controller.send(:set_locale, 'fr') }.not_to raise_error
-        expect(I18n.locale).to eq :fr
+        expect{
+          controller.send(:set_locale, 'fr')
+        }.to change{I18n.locale}.from(:en).to(:fr)
       end
 
       it 'does nothing when passed an unknown locale' do
-        expect(I18n.locale).to eq :en
-        expect{ controller.send(:set_locale, 'es') }.not_to raise_error
-        expect(I18n.locale).to eq :en
+        expect{
+          controller.send(:set_locale, 'es')
+        }.not_to change{I18n.locale}.from(:en)
       end
 
       it 'does nothing when passed a blank locale' do
-        expect(I18n.locale).to eq :en
-        expect{ controller.send(:set_locale, nil) }.not_to raise_error
-        expect(I18n.locale).to eq :en
+        expect{
+          controller.send(:set_locale, nil)
+        }.not_to change{ I18n.locale}.from(:en)
       end
     end
   end

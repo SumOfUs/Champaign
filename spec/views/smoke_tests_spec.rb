@@ -2,11 +2,6 @@ require 'rails_helper'
 require_relative 'shared_examples'
 
 describe 'renderin smoke tests' do
-
-  before :all do
-    I18n.locale = :en
-  end
-
   describe 'campaigns/' do
     include_examples "view smoke test", :campaign
   end

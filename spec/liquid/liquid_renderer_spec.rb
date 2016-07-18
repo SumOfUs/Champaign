@@ -29,7 +29,7 @@ describe LiquidRenderer do
 
     describe 'setting locale' do
 
-      after :each do
+      after do
         I18n.locale = I18n.default_locale
       end
 
@@ -151,7 +151,7 @@ describe LiquidRenderer do
         member
         donation_bands
         thermometer
-        action_count 
+        action_count
         show_direct_debit }
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)

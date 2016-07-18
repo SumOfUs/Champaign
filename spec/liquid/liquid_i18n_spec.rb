@@ -7,6 +7,10 @@ describe LiquidI18n do
   # we extend a generic class to call the filter
   subject { Class.new.extend(LiquidI18n) }
 
+  after(:all) do
+    I18n.locale = I18n.default_locale
+  end
+
   before :all do
     translations = {
       'liquidi18nspec' => {
@@ -106,12 +110,7 @@ describe LiquidI18n do
     end
   end
 
-
   describe '#date_for_link' do
-    after(:all) do
-      I18n.locale = I18n.default_locale
-    end
-
     {
       en: "1 December 2016",
       fr: "1 décembre 2016",
@@ -127,4 +126,3 @@ describe LiquidI18n do
     end
   end
 end
-

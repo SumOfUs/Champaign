@@ -1,15 +1,11 @@
 require "rails_helper"
 
 describe 'Localization for pages' do
-
-  around(:each) do |spec|
-    I18n.locale = I18n.default_locale
-    spec.run
+  after do
     I18n.locale = I18n.default_locale
   end
 
   Champaign::Application.config.i18n.available_locales.each do |locale|
-
     it "sets localization for a page in #{locale}" do
       page = create :page, language: (create :language, code: locale)
       get "/pages/#{page.id}"
@@ -26,7 +22,6 @@ describe 'Localization for pages' do
       expect(response).to be_successful
       expect(I18n.locale).to eq I18n.default_locale
     end
-
   end
 
   it "uses default locale for a page where localization isn't required" do
@@ -46,5 +41,4 @@ describe 'Localization for pages' do
     expect(response).to be_successful
     expect(I18n.locale).to eq :fr
   end
-
 end
