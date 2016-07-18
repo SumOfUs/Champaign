@@ -96,7 +96,7 @@ describe Member do
   describe 'liquid_data' do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member
-      expect(m.liquid_data.keys).to match_array(m.attributes.keys + [:name, :full_name, :welcome_name])
+      expect(m.liquid_data.keys).to match_array(m.attributes.keys + [:name, :full_name, :welcome_name, :is_donor, :is_recurring_donor])
     end
 
     it 'uses name as name if available' do
@@ -107,6 +107,54 @@ describe Member do
     it 'uses email as name is name unavailable' do
       m = create :member, name: '', email: 'me@sexualintellectual.com'
       expect(m.liquid_data[:welcome_name]).to eq 'me@sexualintellectual.com'
+    end
+
+    ['has', 'has not'].each do |signature_status|
+      describe "when member #{signature_status} signed a petition" do
+
+        let(:member){ create :member }
+
+        if signature_status == 'has'
+          let!(:p1) { create :action, member: member, donation: false }
+          let!(:p2) { create :action, member: member, donation: false }
+        end
+
+        describe 'and just one-off donations' do
+          let!(:d1) { create :action, member: member, donation: true }
+          let!(:d2) { create :action, member: member, donation: true }
+
+          it 'has is_donor true and is_recurring_donor false' do
+            expect(member.liquid_data[:is_donor]).to be true
+            expect(member.liquid_data[:is_recurring_donor]).to be false
+          end
+        end
+
+        describe 'and just a recurring donation' do
+          let!(:d1) { create :action, member: member, donation: true, form_data: {'is_subscription' => true} }
+
+          it 'has is_donor true and is_recurring_donor true' do
+            expect(member.liquid_data[:is_donor]).to be true
+            expect(member.liquid_data[:is_recurring_donor]).to be true
+          end
+        end
+
+        describe 'and both recurring and one-off donations' do
+          let!(:d1) { create :action, member: member, donation: true, form_data: {'is_subscription' => true} }
+          let!(:d2) { create :action, member: member, donation: true }
+
+          it 'has is_donor true and is_recurring_donor true' do
+            expect(member.liquid_data[:is_donor]).to be true
+            expect(member.liquid_data[:is_recurring_donor]).to be true
+          end
+        end
+
+        describe 'and no donations' do
+          it 'has is_donor false and is_recurring_donor false' do
+            expect(member.liquid_data[:is_donor]).to be false
+            expect(member.liquid_data[:is_recurring_donor]).to be false
+          end
+        end
+      end
     end
   end
 
