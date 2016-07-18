@@ -18,6 +18,7 @@ class PageCloner
       plugins
       tags
       images
+      actions
     end
   end
 
@@ -72,5 +73,9 @@ class PageCloner
         cloned_page.primary_image = new_image
       end
     end
+  end
+
+  def actions
+    cloned_page.action_count = 0
   end
 end

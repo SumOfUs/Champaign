@@ -82,7 +82,29 @@ module PaymentProcessor
             end
           end
 
+          describe 'with unknown event' do
+            let(:notification) do
+              instance_double('Braintree::WebhookNotification', kind: 'unknown',
+                subscription: instance_double('Braintree::Subscription', id: 's09870')
+              )
+            end
+
+            before :each do
+              allow(Payment::BraintreeSubscription).to receive(:find_by){ subscription }
+              WebhookHandler.handle(notification)
+            end
+
+            it 'does not push to ChampaignQueue' do
+              expect(ChampaignQueue).not_to have_received(:push)
+            end
+
+            it 'logs the failed handling' do
+              expect(Rails.logger).to have_received(:info).with("Unsupported Braintree::WebhookNotification received of type 'unknown'")
+            end
+          end
+
           describe 'with subscription cancelation' do
+            let(:subscription) { double(update: true ) }
 
             let(:notification) do
               instance_double('Braintree::WebhookNotification', kind: 'subscription_canceled',
@@ -91,24 +113,16 @@ module PaymentProcessor
             end
 
             before :each do
-              allow(Payment::BraintreeSubscription).to receive(:find_by)
+              allow(Payment::BraintreeSubscription).to receive(:find_by){ subscription }
               WebhookHandler.handle(notification)
             end
 
-            it 'does not look up the action' do
-              expect(Payment::BraintreeSubscription).not_to have_received(:find_by)
-            end
-
-            it 'does not write to Payment.write_transaction' do
-              expect(Payment).not_to have_received(:write_transaction)
+            it 'updates subscription' do
+              expect(subscription).to have_received(:update).with(cancelled_at: instance_of(Time))
             end
 
             it 'does not push to ChampaignQueue' do
               expect(ChampaignQueue).not_to have_received(:push)
-            end
-
-            it 'logs the failed handling' do
-              expect(Rails.logger).to have_received(:info).with("Unsupported Braintree::WebhookNotification received of type 'subscription_canceled'")
             end
           end
         end

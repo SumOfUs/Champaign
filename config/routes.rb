@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
+
+  if Settings.google_verification
+    match "/#{Settings.google_verification}.html", to: proc { |env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
+  end
+
   ActiveAdmin.routes(self)
-  # We remove the sign_up path name so as not to allow users to sign in with username and password.
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }, path_names: { sign_up: ''}
+
+  devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
 
   root to: 'home#index'
 
@@ -132,6 +137,10 @@ Rails.application.routes.draw do
       post 'webhook'
     end
 
+    namespace :pages do
+      get 'featured/', action: 'show_featured'
+    end
+
     resources :pages do
       resource  :analytics
       resources :actions do
@@ -140,6 +149,8 @@ Rails.application.routes.draw do
 
       get 'share-rows', on: :member, action: 'share_rows'
     end
+
+    resources :members 
   end
   # Example resource route within a namespace:
   #   namespace :admin do

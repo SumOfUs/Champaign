@@ -1,25 +1,52 @@
-require 'rack'
-
 class Api::PagesController < ApplicationController
-  before_action :get_page
+  before_action :set_language, only: [:show, :show_featured, :index]
+  rescue_from ActiveRecord::RecordNotFound, with: :render_errors
+
   layout false
 
   def update
-    updater = PageUpdater.new(@page, page_url(@page))
+    updater = PageUpdater.new(page, page_url(page))
+
     if updater.update(all_params)
-      render json: { refresh: updater.refresh?, id: @page.id }, status: :ok
+      render json: { refresh: updater.refresh?, id: page.id }, status: :ok
     else
       render json: { errors: shallow_errors(updater.errors) }, status: 422
     end
   end
 
   def share_rows
-    render json: (@page.shares.map do |s|
-      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
+    render json: (page.shares.map do |s|
+      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: page})}
     end)
   end
 
+  def index
+    render json: reduce_and_order(page_scope, 100)
+  end
+
+  def show
+    render json: page
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: "No record was found with that slug or ID." }, status: 404
+  end
+
+  def show_featured
+    render json: page_scope.where(featured: true)
+  end
+
   private
+
+  def render_errors
+    render json: { errors: "No record was found with that slug or ID." }, status: 404
+  end
+
+  def page_scope
+    @language.present? ? Page.where(language: @language) : Page.all
+  end
+
+  def reduce_and_order(collection, count)
+    collection.last(count).reverse
+  end
 
   def all_params
     # this method flattens a lot of nested data from one object per form element
@@ -48,7 +75,14 @@ class Api::PagesController < ApplicationController
     Rack::Utils.parse_query(errors.to_query)
   end
 
-  def get_page
-    @page = Page.find(params[:id])
+  def page
+    @page ||= Page.find(params[:id])
+  end
+
+  def set_language
+    @language ||= Language.find_by(code: params[:language])
+    if !params[:language].blank? && @language.blank?
+      render json: { errors: "The language you requested is not supported." }, status: 404
+    end
   end
 end
