@@ -84,6 +84,10 @@ host: <%= ENV["CHAMPAIGN_PAGE_HOST"] %>
 # Google Analytics Tracking Code
 ga_tracking_code: <%= ENV['GA_TRACKING_CODE'] %>
 
+# Google Verification Page
+google_verification: <%= ENV['GOOGLE_VERIFICATION_CODE'] %>
+
+
 gocardless:
   token: <%= ENV['GOCARDLESS_TOKEN'] %>
   environment: <%= ENV['GOCARDLESS_ENVIRONMENT'] %>
@@ -91,3 +95,5 @@ gocardless:
   secret: <%= ENV['GOCARDLESS_SECRET'] %>
 
 home_page_url: <%= ENV['HOME_PAGE_URL'] %>
+
+
