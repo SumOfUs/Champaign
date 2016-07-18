@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationController do
-  after do
-    I18n.locale = I18n.default_locale
-  end
-
   context 'localization' do
     describe 'localize_from_page_id' do
       let(:english) { create :language, code: 'en' }
