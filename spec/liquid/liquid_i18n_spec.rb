@@ -1,15 +1,10 @@
 require 'rails_helper'
 
 describe LiquidI18n do
-
   # to define a liquid filter, you make a module with instance methods that
   # gets included by liquid. You can't make them module_functions, so here
   # we extend a generic class to call the filter
   subject { Class.new.extend(LiquidI18n) }
-
-  after(:all) do
-    I18n.locale = I18n.default_locale
-  end
 
   before :all do
     translations = {

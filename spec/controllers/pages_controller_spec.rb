@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 describe PagesController do
-  after do
-    I18n.locale = I18n.default_locale
-  end
-
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
@@ -201,7 +197,6 @@ describe PagesController do
   end
 
   describe 'GET #follow-up' do
-
     before do
       allow(Page).to receive(:find){ page }
       allow(page).to receive(:update)

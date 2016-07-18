@@ -1,10 +1,6 @@
 require "rails_helper"
 
 describe 'Localization for pages' do
-  after do
-    I18n.locale = I18n.default_locale
-  end
-
   Champaign::Application.config.i18n.available_locales.each do |locale|
     it "sets localization for a page in #{locale}" do
       page = create :page, language: (create :language, code: locale)

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe LiquidRenderer do
-
   let!(:body_partial) { create :liquid_partial, title: 'body_text', content: '<p>{{ content }}</p>' }
   let(:liquid_layout) { create :liquid_layout, content: "<h1>{{ title }}</h1> {% include 'body_text' %}" }
   let(:page)          { create :page, liquid_layout: liquid_layout, content: 'sliiiiide to the left' }
@@ -28,11 +27,6 @@ describe LiquidRenderer do
     end
 
     describe 'setting locale' do
-
-      after do
-        I18n.locale = I18n.default_locale
-      end
-
       describe "leaves english as the locale when page" do
         it 'has no language' do
           page.language = nil
@@ -107,8 +101,8 @@ describe LiquidRenderer do
   describe "markup_data" do
     let(:page) do
       create(:page,
-        follow_up_liquid_layout: create(:liquid_layout),
-        follow_up_page:          create(:page))
+             follow_up_liquid_layout: create(:liquid_layout),
+             follow_up_page:          create(:page))
     end
 
     subject { renderer.markup_data }
@@ -366,7 +360,7 @@ describe LiquidRenderer do
 
       it 'is uses the first if multiple thermometer plugins' do
         t1 = create :plugins_thermometer, page: page, ref: 'secondary'
-        t2 = create :plugins_thermometer, page: page
+        create :plugins_thermometer, page: page
         expect(page.plugins.size).to eq 2
         t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
@@ -408,4 +402,3 @@ describe LiquidRenderer do
     end
   end
 end
-
