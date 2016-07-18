@@ -345,7 +345,7 @@ describe Page do
   describe 'follow_up_plan' do
     it 'defaults to :with_liquid' do
       new_page = create :page
-      expect(page.follow_up_plan).to eq 'with_liquid'
+      expect(new_page.follow_up_plan).to eq 'with_liquid'
     end
   end
 
@@ -355,6 +355,40 @@ describe Page do
       [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_thermometer, page: page)]
       plugin_names = %w(petition fundraiser thermometer)
       expect(page.plugin_names).to match_array(plugin_names)
+    end
+  end
+
+  describe 'scopes' do
+    describe 'published' do
+      let!(:published_page) { create(:page, active: true) }
+      let!(:page) { create(:page, active: false) }
+
+      it 'returns published (active) pages' do
+        expect(Page.published).to eq([published_page])
+      end
+    end
+
+    describe 'language' do
+      let!(:en_page) { create(:page, language: create(:language, :english)) }
+      let!(:fr_page) { create(:page, language: create(:language, :french)) }
+
+      it 'finds with matching language' do
+        expect(Page.language('en')).to eq([en_page])
+        expect(Page.language('fr')).to eq([fr_page])
+      end
+
+      it 'returns all if no language code is passed' do
+        expect(Page.language(nil)).to eq([en_page, fr_page])
+      end
+    end
+
+    describe 'featured_only' do
+      let!(:featured_page) { create(:page, featured: true) }
+      let!(:page) { create(:page, featured: false) }
+
+      it 'finds featured' do
+        expect(Page.featured_only).to eq([featured_page])
+      end
     end
   end
 end

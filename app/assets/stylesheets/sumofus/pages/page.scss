@@ -1,8 +1,11 @@
 .main-feature {
-  padding: 15px 0;
+  padding: 45px 0;
   min-height: 380px;
   &--close-top {
     padding-top: 30px;
+  }
+  @media(max-width: $mobile-width) {
+    padding-top: 25px;
   }
 }
 

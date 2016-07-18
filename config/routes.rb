@@ -134,8 +134,6 @@ Rails.application.routes.draw do
 
     namespace :pages do
       get 'featured/', action: 'show_featured'
-      get '/', action: 'show'
-      get '/:page_id', action: 'show'
     end
 
     resources :pages do

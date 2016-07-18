@@ -1,67 +1,51 @@
-require 'rack'
-
 class Api::PagesController < ApplicationController
-
-  before_action :set_language, only: [:show, :show_featured]
+  before_action :set_language, only: [:show, :show_featured, :index]
+  rescue_from ActiveRecord::RecordNotFound, with: :render_errors
 
   layout false
 
   def update
-    updater = PageUpdater.new(@page, page_url(@page))
+    updater = PageUpdater.new(page, page_url(page))
+
     if updater.update(all_params)
-      render json: { refresh: updater.refresh?, id: @page.id }, status: :ok
+      render json: { refresh: updater.refresh?, id: page.id }, status: :ok
     else
       render json: { errors: shallow_errors(updater.errors) }, status: 422
     end
   end
 
   def share_rows
-    get_page
-    render json: (@page.shares.map do |s|
-      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
+    render json: (page.shares.map do |s|
+      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: page})}
     end)
   end
 
+  def index
+    render json: reduce_and_order(page_scope, 100)
+  end
+
   def show
-    if !show_single_page
-      if @language.blank?
-        render json: reduce_and_order(Page.all, 100)
-      else
-        render json: reduce_and_order(pages_by_language, 100)
-      end
-    end
+    render json: page
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: "No record was found with that slug or ID." }, status: 404
   end
 
   def show_featured
-    if @language.blank?
-      render json: Page.where(featured: true)
-    else
-      render json: pages_by_language.where(featured: true)
-    end
-
+    render json: page_scope.where(featured: true)
   end
 
   private
 
-  def pages_by_language
-    @pages ||= Page.where(language: @language)
+  def render_errors
+    render json: { errors: "No record was found with that slug or ID." }, status: 404
+  end
+
+  def page_scope
+    @language.present? ? Page.where(language: @language) : Page.all
   end
 
   def reduce_and_order(collection, count)
     collection.last(count).reverse
-  end
-
-  def show_single_page
-    begin
-      if params[:id].blank?
-        false
-      else
-        render json: get_page
-      end
-    rescue ActiveRecord::RecordNotFound
-      render json: { errors: "No record was found with that slug or ID." }, status: 404
-    end
-
   end
 
   def all_params
@@ -91,8 +75,8 @@ class Api::PagesController < ApplicationController
     Rack::Utils.parse_query(errors.to_query)
   end
 
-  def get_page
-    @page = Page.find(params[:id])
+  def page
+    @page ||= Page.find(params[:id])
   end
 
   def set_language
