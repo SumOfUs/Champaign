@@ -63,8 +63,13 @@ class Page < ActiveRecord::Base
 
   def dup
     clone = super
-    clone.primary_image = nil
-    clone.slug = nil
+
+    clone.assign_attributes(
+      primary_image: nil,
+      slug: nil,
+      action_count: 0
+    )
+
     clone
   end
 
