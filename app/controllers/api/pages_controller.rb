@@ -1,3 +1,5 @@
+require 'jbuilder'
+
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
 
@@ -20,7 +22,7 @@ class Api::PagesController < ApplicationController
   end
 
   def index
-    render json: reduce_and_order(page_scope, 100)
+    @pages = reduce_and_order(page_scope, 100)
   end
 
   def show
@@ -30,7 +32,8 @@ class Api::PagesController < ApplicationController
   end
 
   def show_featured
-    render json: page_scope.where(featured: true)
+    @pages = page_scope.where(featured: true)
+    render "/api/pages/index"
   end
 
   private
@@ -40,7 +43,7 @@ class Api::PagesController < ApplicationController
   end
 
   def page_scope
-    params[:language].present? ? Page.language(params[:language]) : Page.all
+    @page_scope ||= params[:language].present? ? Page.language(params[:language]) : Page.all
   end
 
   def reduce_and_order(collection, count)
