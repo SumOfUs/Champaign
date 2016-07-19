@@ -54,10 +54,10 @@ describe "api/pages" do
 
     context 'with languages' do
       describe 'with language that does not exist' do
-        it 'returns json with error' do
+        it 'returns json matching an empty collection' do
           get api_pages_path, {language: 'klingon'}
-          expect(json).to match({"errors" => "The language you requested is not supported."})
-          expect(response.status).to eq(404)
+          expect(json).to match([])
+          expect(response.status).to eq(200)
         end
       end
     end
@@ -91,10 +91,10 @@ describe "api/pages" do
 
     context 'with languages' do
       describe 'with language that does not exist' do
-        it 'returns json with error' do
+        it 'returns json matching an empty collection' do
           get api_pages_featured_path, {language: 'klingon'}
-          expect(json).to match({"errors" => "The language you requested is not supported."})
-          expect(response.status).to eq(404)
+          expect(json).to match([])
+          expect(response.status).to eq(200)
         end
       end
 

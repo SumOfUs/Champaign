@@ -1,5 +1,4 @@
 class Api::PagesController < ApplicationController
-  before_action :set_language, only: [:show, :show_featured, :index]
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
 
   layout false
@@ -41,7 +40,7 @@ class Api::PagesController < ApplicationController
   end
 
   def page_scope
-    @language.present? ? Page.where(language: @language) : Page.all
+    params[:language].present? ? Page.language(params[:language]) : Page.all
   end
 
   def reduce_and_order(collection, count)
@@ -77,12 +76,5 @@ class Api::PagesController < ApplicationController
 
   def page
     @page ||= Page.find(params[:id])
-  end
-
-  def set_language
-    @language ||= Language.find_by(code: params[:language])
-    if !params[:language].blank? && @language.blank?
-      render json: { errors: "The language you requested is not supported." }, status: 404
-    end
   end
 end

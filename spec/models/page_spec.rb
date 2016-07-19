@@ -387,7 +387,7 @@ describe Page do
       let!(:page) { create(:page, featured: false) }
 
       it 'finds featured' do
-        expect(Page.featured_only).to match([featured_page])
+        expect(Page.featured).to match([featured_page])
       end
     end
   end

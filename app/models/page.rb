@@ -19,7 +19,7 @@ class Page < ActiveRecord::Base
 
   scope :language,       -> (code) { code ? joins(:language).where(languages: { code: code }) : all }
   scope :published,      -> { where(active: true) }
-  scope :featured_only,  -> { where(featured: true) }
+  scope :featured,  -> { where(featured: true) }
 
   validates :title, presence: true
   validates :liquid_layout, presence: true
