@@ -3,7 +3,7 @@ class Member < ActiveRecord::Base
   has_many :go_cardless_customers, class_name: "Payment::GoCardless::Customer"
   has_paper_trail on: [:update, :destroy]
 
-  validates :email, uniqueness: true, allow_nil: true
+  validates :email, uniqueness: true, allow_blank: false
   before_save { self.email.try(:downcase!) }
 
   def self.find_from_request(akid: nil, id: nil)
