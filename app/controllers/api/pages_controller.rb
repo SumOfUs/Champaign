@@ -24,17 +24,11 @@ class Api::PagesController < ApplicationController
 
   def index
     @pages = reduce_and_order(Page.language(params[:language]), 100)
-    # respond_to do |format|
-    #   format.json { render "/api/pages/index.json.jbuilder" }
-    # end
     render :index
   end
 
   def show
     page
-    # respond_to do |format|
-    #   format.json { render "/api/pages/show.json.jbuilder" }
-    # end
     render :show
   end
 
