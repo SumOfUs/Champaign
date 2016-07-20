@@ -124,4 +124,26 @@ describe Member do
       expect(member.reload.go_cardless_customers).to match_array customers
     end
   end
+
+  describe 'donor_status' do
+
+    let(:member){ create :member }
+
+    it 'defaults to nondonor' do
+      expect(member.donor_status).to eq 'nondonor'
+    end
+
+    it 'can be set to donor' do
+      expect{ member.donor! }.to change{ member.donor_status }.to 'donor'
+    end
+
+    it 'can be set to recurring_donor' do
+      expect{ member.recurring_donor! }.to change{ member.donor_status }.to 'recurring_donor'
+    end
+
+    it 'can be set to nondonor' do
+      member.donor!
+      expect{ member.nondonor! }.to change{ member.donor_status }.to 'nondonor'
+    end
+  end
 end
