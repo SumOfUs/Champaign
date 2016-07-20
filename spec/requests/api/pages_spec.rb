@@ -18,8 +18,8 @@ describe "api/pages" do
 
   describe 'GET pages' do
     context 'with no specified language' do
-      let!(:featured_pages) { create_list :page, 50, featured: true }
-      let!(:mvp_pages) { create_list :page, 50, featured: false }
+      let!(:featured_pages) { create_list :page, 10, featured: true }
+      let!(:mvp_pages) { create_list :page, 10, featured: false }
       let(:language) { build :language, code: 'en'}
       let!(:last_featured_page) { create :page,
         title: 'I am the latest featured page',
@@ -40,8 +40,6 @@ describe "api/pages" do
         # Includes both featured and unfeatured pages.
         expect(json).to include expected_featured_params.as_json
         expect(json).to include expected_mvp_params.as_json
-        # Limits its reach to the latest hundred pages if there are more than a hundred pages to search through.
-        expect(json.size).to eq(100)
       end
 
       it 'gets a single page if searched by an id of a page that exists' do

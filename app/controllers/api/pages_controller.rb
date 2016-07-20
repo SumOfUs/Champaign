@@ -23,7 +23,7 @@ class Api::PagesController < ApplicationController
   end
 
   def index
-    @pages = reduce_and_order(Page.language(params[:language]), 100)
+    @pages = Page.language(params[:language]).limit(100).order('created_at desc')
     render :index
   end
 
@@ -41,10 +41,6 @@ class Api::PagesController < ApplicationController
 
   def render_errors
     render json: { errors: "No record was found with that slug or ID." }, status: 404
-  end
-
-  def reduce_and_order(collection, count)
-    collection.last(count).reverse
   end
 
   def all_params
