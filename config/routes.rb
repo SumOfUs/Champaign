@@ -152,11 +152,10 @@ Rails.application.routes.draw do
 
     resources :members 
   end
-  # Example resource route within a namespace:
-  #   namespace :admin do
-  #     # Directs /admin/products/* to Admin::ProductsController
-  #     # (app/controllers/admin/products_controller.rb)
-  #     resources :products
-  #   end
+
+  # for CORS preflight check
+  match '*path', via: [:options], to:  lambda {|_| [204, {'Content-Type' => 'text/plain'}, []]}
+
+  # for JS test suite
   mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
 end

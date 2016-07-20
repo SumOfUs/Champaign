@@ -331,6 +331,7 @@ GEM
       slop (~> 3.4)
     puma (2.15.3)
     rack (1.6.4)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.5)
@@ -542,6 +543,7 @@ DEPENDENCIES
   paperclip
   pg
   puma (~> 2.15.3)
+  rack-cors
   rails (= 4.2.5)
   rails-assets-backbone!
   rails-assets-braintree-web!

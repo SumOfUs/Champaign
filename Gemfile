@@ -23,6 +23,9 @@ gem 'font-awesome-sass'
 gem 'money'
 gem 'google_currency'
 
+# to make parts of the API accessible to JS apps
+gem 'rack-cors', :require => 'rack/cors'
+
 # Sprockets 3 breaks Teaspoon.
 # see https://github.com/modeset/teaspoon/issues/443
 gem 'sprockets-rails', '< 3.0'
