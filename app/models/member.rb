@@ -2,6 +2,7 @@ class Member < ActiveRecord::Base
   has_one :customer, class_name: "Payment::BraintreeCustomer"
   has_many :go_cardless_customers, class_name: "Payment::GoCardless::Customer"
   has_paper_trail on: [:update, :destroy]
+  has_many :actions
 
   validates :email, uniqueness: true, allow_nil: true
   before_save { self.email.try(:downcase!) }
@@ -30,6 +31,8 @@ class Member < ActiveRecord::Base
   def liquid_data
     full_name = name
     attributes.merge({
+      is_donor: is_donor?,
+      is_recurring_donor: is_recurring_donor?,
       name: full_name,
       full_name: full_name,
       welcome_name: full_name.blank? ? email : full_name
@@ -47,6 +50,14 @@ class Member < ActiveRecord::Base
 
       }
     )
+  end
+
+  def is_donor?
+    actions.select(&:donation).present?
+  end
+
+  def is_recurring_donor?
+    actions.select{ |a| a.donation && a.form_data['is_subscription'] }.present?
   end
 
 end
