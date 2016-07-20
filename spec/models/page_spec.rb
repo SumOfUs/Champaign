@@ -3,9 +3,9 @@ require 'rails_helper'
 describe Page do
 
   let(:english)          { create :language }
-  let!(:follow_up_layout) { create :liquid_layout }
-  let!(:liquid_layout)    { create :liquid_layout, default_follow_up_layout: follow_up_layout }
-  let(:page)             { create :page }
+  let!(:follow_up_layout) { create :liquid_layout, title: 'Follow up layout' }
+  let!(:liquid_layout)    { create :liquid_layout, title: 'Liquid layout', default_follow_up_layout: follow_up_layout }
+  let(:page)             { create :page, liquid_layout: liquid_layout, follow_up_liquid_layout: follow_up_layout  }
 
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
@@ -166,7 +166,7 @@ describe Page do
   describe 'liquid_layout' do
 
     let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
-    let(:other_liquid_layout) { create :liquid_layout }
+    let(:other_liquid_layout) { create :liquid_layout, title: 'Other liquid layout' }
 
     before :each do
       allow(PagePluginSwitcher).to receive(:new).and_return(switcher)
@@ -177,18 +177,42 @@ describe Page do
       before :each do
         expect(page).to be_valid
         expect(page).to be_persisted
+        expect(page.follow_up_plan).to eq 'with_liquid'
       end
 
       it 'switches the layout plugins if layout changed' do
         page.liquid_layout = other_liquid_layout
         expect(PagePluginSwitcher).to receive(:new)
-        expect(switcher).to receive(:switch).with(other_liquid_layout)
+        expect(switcher).to receive(:switch).with(other_liquid_layout, follow_up_layout)
         expect(page.save).to eq true
       end
 
-      it 'does not switch the layout plugins if layout unchanged' do
+      it 'does not switch the layout plugins if no layouts or plan changed' do
         page.title = "just changin the title here"
         expect(switcher).not_to receive(:switch)
+        expect(page.save).to eq true
+      end
+
+      it 'switches if the follow up layout changed' do
+        page.follow_up_liquid_layout = other_liquid_layout
+        expect(PagePluginSwitcher).to receive(:new)
+        expect(switcher).to receive(:switch).with(liquid_layout, other_liquid_layout)
+        expect(page.save).to eq true
+      end
+
+      it 'switches if the follow up plan changed' do
+        page.follow_up_plan = 'with_page'
+        expect(PagePluginSwitcher).to receive(:new)
+        expect(switcher).to receive(:switch).with(liquid_layout, nil)
+        expect(page.save).to eq true
+      end
+
+      it 'switches if all the layouts and plan changed' do
+        page.follow_up_liquid_layout = other_liquid_layout
+        page.liquid_layout = other_liquid_layout
+        page.follow_up_plan = 'with_page'
+        expect(PagePluginSwitcher).to receive(:new)
+        expect(switcher).to receive(:switch).with(other_liquid_layout, nil)
         expect(page.save).to eq true
       end
     end
