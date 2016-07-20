@@ -18,19 +18,30 @@ describe "api/pages" do
 
   describe 'GET pages' do
     context 'with no specified language' do
-      let!(:featured_pages) { create_list :page, 5, featured: true }
-      let!(:mvp_pages) { create_list :page, 5, featured: false }
-      let!(:last_featured_page) { create :page, title: 'I am the latest featured page', featured: true, slug: 'garden_slug' }
-      let!(:last_mvp_page) { create :page, title: 'I am the latest test page', featured: false}
+      let!(:featured_pages) { create_list :page, 50, featured: true }
+      let!(:mvp_pages) { create_list :page, 50, featured: false }
+      let(:language) { build :language, code: 'en'}
+      let!(:last_featured_page) { create :page,
+        title: 'I am the latest featured page',
+        featured: true,
+        slug: 'garden_slug',
+        language: language }
+      let!(:last_mvp_page) { create :page,
+        title: 'I am the latest test page',
+        featured: false,
+        language: language}
 
       it 'gets a hundred of both featured and unfeatured pages in a reversed order if requested without an id' do
+        keys = [:id, :title, :slug, :content, :created_at, :updated_at, :active, :featured, :action_count, :language]
+        expected_featured_params = last_featured_page.slice(*keys).merge({language: 'en'})
+        expected_mvp_params = last_mvp_page.slice(*keys).merge({language: 'en'})
         get api_pages_path
         expect(response).to be_success
         # Includes both featured and unfeatured pages.
-        expect(json).to include last_featured_page.as_json
-        expect(json).to include last_mvp_page.as_json
+        expect(json).to include expected_featured_params.as_json
+        expect(json).to include expected_mvp_params.as_json
         # Limits its reach to the latest hundred pages if there are more than a hundred pages to search through.
-        expect(json.size).to eq(Page.count)
+        expect(json.size).to eq(100)
       end
 
       it 'gets a single page if searched by an id of a page that exists' do
@@ -67,9 +78,35 @@ describe "api/pages" do
       include_context "shared language pages" do
         [:de,:fr,:en,:es].each do |language_code|
           it "in #{language_code}, it gets pages only in that language" do
+            featured = @page_hash[language_code][:featured].first
+            ordinary = @page_hash[language_code][:ordinary].first
+            featured_params = {
+              id: featured.id,
+              title: featured.title,
+              slug: featured.slug,
+              content: featured.content,
+              created_at: featured.created_at,
+              updated_at: featured.updated_at,
+              active: featured.active,
+              featured: featured.featured,
+              action_count: featured.action_count,
+              language: language_code.to_s
+            }
+            ordinary_params = {
+              id: ordinary.id,
+              title: ordinary.title,
+              slug: ordinary.slug,
+              content: ordinary.content,
+              created_at: ordinary.created_at,
+              updated_at: ordinary.updated_at,
+              active: ordinary.active,
+              featured: ordinary.featured,
+              action_count: ordinary.action_count,
+              language: language_code.to_s
+            }
             get api_pages_path, { language: language_code.to_s }
-            expect(json).to include(@page_hash[language_code][:featured].first.as_json)
-            expect(json).to include(@page_hash[language_code][:ordinary].first.as_json)
+            expect(json).to include(featured_params.as_json)
+            expect(json).to include(ordinary_params.as_json)
           end
         end
       end
@@ -103,7 +140,7 @@ describe "api/pages" do
           [:de,:fr,:en,:es].each.each do |language_code|
             it "in #{language_code}, it gets pages only in that language" do
               get api_pages_featured_path, { language: language_code.to_s }
-              expect(json.first['language_id']).to match(@page_hash[language_code][:featured].first.language_id)
+              expect(json.first['language']).to match(@page_hash[language_code][:featured].first.language.code)
             end
           end
         end

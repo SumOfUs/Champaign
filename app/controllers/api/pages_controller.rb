@@ -2,6 +2,7 @@ require 'jbuilder'
 
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
+  respond_to :json
 
   layout false
 
@@ -22,28 +23,30 @@ class Api::PagesController < ApplicationController
   end
 
   def index
-    @pages = reduce_and_order(page_scope, 100)
+    @pages = reduce_and_order(Page.language(params[:language]), 100)
+    # respond_to do |format|
+    #   format.json { render "/api/pages/index.json.jbuilder" }
+    # end
+    render :index
   end
 
   def show
-    render json: page
-  rescue ActiveRecord::RecordNotFound
-    render json: { errors: "No record was found with that slug or ID." }, status: 404
+    page
+    # respond_to do |format|
+    #   format.json { render "/api/pages/show.json.jbuilder" }
+    # end
+    render :show
   end
 
   def show_featured
-    @pages = page_scope.where(featured: true)
-    render "/api/pages/index"
+    @pages = Page.language(params[:language]).featured
+    render :index
   end
 
   private
 
   def render_errors
     render json: { errors: "No record was found with that slug or ID." }, status: 404
-  end
-
-  def page_scope
-    @page_scope ||= params[:language].present? ? Page.language(params[:language]) : Page.all
   end
 
   def reduce_and_order(collection, count)

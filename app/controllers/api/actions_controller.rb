@@ -2,6 +2,8 @@ class Api::ActionsController < ApplicationController
   before_filter :localize_from_page_id
   skip_before_action :verify_authenticity_token
 
+  respond_to :json
+
   def create
     @action_params = action_params
     validator = FormValidator.new(@action_params)
@@ -34,7 +36,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w{page_id form_id name source akid referring_akid}
+    %w{page_id form_id name source akid referring_akid format}
   end
 
   def fields

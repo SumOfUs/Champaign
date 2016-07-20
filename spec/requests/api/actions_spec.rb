@@ -177,6 +177,7 @@ describe "Api Actions" do
               page_id: page.id.to_s,
               form_id: form.id.to_s,
               akid: invalid_akid,
+              format: 'json',
               action_mobile: 'unknown',
               action_referer: nil,
               user_en: 1

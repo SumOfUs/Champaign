@@ -31,7 +31,7 @@ describe Api::PagesController do
 
   describe 'GET show' do
     context 'for existing page' do
-      before { get :show, id: '2' }
+      before { get :show, id: '2', format: 'json' }
 
       it 'finds page' do
         expect(Page).to have_received(:find).with('2')
