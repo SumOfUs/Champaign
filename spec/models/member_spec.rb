@@ -96,7 +96,7 @@ describe Member do
   describe 'liquid_data' do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member
-      expect(m.liquid_data.keys).to match_array(m.attributes.keys + [:name, :full_name, :welcome_name])
+      expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) + [:name, :full_name, :welcome_name])
     end
 
     it 'uses name as name if available' do
@@ -107,6 +107,11 @@ describe Member do
     it 'uses email as name is name unavailable' do
       m = create :member, name: '', email: 'me@sexualintellectual.com'
       expect(m.liquid_data[:welcome_name]).to eq 'me@sexualintellectual.com'
+    end
+
+    it 'includes the donor_status as a string' do
+      m = create :member, donor_status: 'nondonor'
+      expect(m.liquid_data[:donor_status]).to eq 'nondonor'
     end
   end
 
