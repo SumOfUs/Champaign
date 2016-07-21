@@ -9,7 +9,8 @@ const ActionForm = Backbone.View.extend({
   events: {
     'click .action-form__clear-form': 'clearForm',
     'ajax:success': 'handleSuccess',
-    'ajax:error': ErrorDisplay.show,
+    'ajax:error': 'handleFailure',
+    'ajax:send': 'disableButton',
   },
 
   globalEvents: {
@@ -33,6 +34,8 @@ const ActionForm = Backbone.View.extend({
     if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
     }
+    this.$submitButton = this.$('.action-form__submit-button');
+    this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
   },
 
@@ -162,7 +165,22 @@ const ActionForm = Backbone.View.extend({
 
   handleSuccess(){
     Backbone.trigger('form:submitted');
-  }
+  },
+
+  handleFailure(e, data) {
+    ErrorDisplay.show(e, data);
+    this.enableButton();
+  },
+
+  disableButton() {
+    this.$submitButton.text(I18n.t('form.processing'));
+    this.$submitButton.addClass('button--disabled');
+  },
+
+  enableButton() {
+    this.$submitButton.text(this.buttonText);
+    this.$submitButton.removeClass('button--disabled');
+  },
 });
 
 module.exports = ActionForm;
