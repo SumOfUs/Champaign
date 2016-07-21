@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
+
+    resource :archive, only: [:create, :destroy], controller: 'page_archives'
   end
 
   resources :pages, path: 'a', as: 'member_facing_page', only: [:edit, :show] do

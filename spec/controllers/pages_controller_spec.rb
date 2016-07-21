@@ -4,7 +4,7 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
-  let(:page) { instance_double('Page', active?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
+  let(:page) { instance_double('Page', published?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data'}) }
 
   before do
@@ -142,25 +142,25 @@ describe PagesController do
 
     it 'redirects to homepage if user not logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:active?){ false }
+      allow(page).to receive(:published?){ false }
       expect( get :show, id: '1' ).to redirect_to(Settings.homepage_url)
     end
 
     it 'does not redirect to homepage if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:active?){ true }
+      allow(page).to receive(:published?){ true }
       expect( get :show, id: '1' ).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:active?){ false }
+      allow(page).to receive(:published?){ false }
       expect( get :show, id: '1' ).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:active?){ true }
+      allow(page).to receive(:published?){ true }
       expect( get :show, id: '1' ).not_to be_redirect
     end
 
@@ -170,8 +170,8 @@ describe PagesController do
     end
 
     context 'on pages with localization' do
-      let(:french_page)  { instance_double(Page, valid?: true, active?: true, language: language,         id: '42', liquid_layout: '5') }
-      let(:english_page) { instance_double(Page, valid?: true, active?: true, language: default_language, id: '66', liquid_layout: '5') }
+      let(:french_page)  { instance_double(Page, valid?: true, published?: true, language: language,         id: '42', liquid_layout: '5') }
+      let(:english_page) { instance_double(Page, valid?: true, published?: true, language: default_language, id: '66', liquid_layout: '5') }
 
       context 'with french' do
         subject { french_page }
@@ -250,28 +250,28 @@ describe PagesController do
     it 'redirects to homepage if user not logged in and page unpublished' do
       subject
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:active?){ false }
+      allow(page).to receive(:published?){ false }
       expect( get :follow_up, id: '1' ).to redirect_to(Settings.homepage_url)
     end
 
     it 'does not redirect to homepage if user not logged in and page published' do
       subject
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:active?){ true }
+      allow(page).to receive(:published?){ true }
       expect( get :follow_up, id: '1' ).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page unpublished' do
       subject
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:active?){ false }
+      allow(page).to receive(:published?){ false }
       expect( get :follow_up, id: '1' ).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page published' do
       subject
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:active?){ true }
+      allow(page).to receive(:published?){ true }
       expect( get :follow_up, id: '1' ).not_to be_redirect
     end
 

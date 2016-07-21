@@ -18,7 +18,7 @@ describe Page do
   it { is_expected.to be_valid }
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :slug }
-  it { is_expected.to respond_to :active }
+  it { is_expected.to respond_to :publish_status }
   it { is_expected.to respond_to :featured }
   it { is_expected.to respond_to :tags }
   it { is_expected.to respond_to :pages_tags }
@@ -384,10 +384,10 @@ describe Page do
 
   describe 'scopes' do
     describe 'published' do
-      let!(:published_page) { create(:page, active: true) }
-      let!(:page) { create(:page, active: false) }
+      let!(:published_page) { create(:page, publish_status: 'published') }
+      let!(:page) { create(:page, publish_status: 'unpublished') }
 
-      it 'returns published (active) pages' do
+      it 'returns published pages' do
         expect(Page.published).to eq([published_page])
       end
     end

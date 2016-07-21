@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :page do
     sequence(:title) {|n| "#{Faker::Company.bs}#{n.to_s}" }
     slug     nil # Used by friendly_id  http://norman.github.io/friendly_id/
-    active   true
+    publish_status :published
     featured false
     liquid_layout
     language

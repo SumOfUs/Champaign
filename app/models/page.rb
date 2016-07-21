@@ -3,6 +3,7 @@ class Page < ActiveRecord::Base
   has_paper_trail
 
   enum follow_up_plan: [:with_liquid, :with_page] # todo - :with_link
+  enum publish_status: [:published, :unpublished, :archived]
 
   belongs_to :language
   belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
@@ -23,6 +24,7 @@ class Page < ActiveRecord::Base
 
   validates :title, presence: true
   validates :liquid_layout, presence: true
+  validates :publish_status, presence: true
   validate  :primary_image_is_owned
 
   after_save :switch_plugins

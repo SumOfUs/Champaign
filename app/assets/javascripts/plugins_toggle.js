@@ -14,11 +14,11 @@ const setupOnce = require('setup_once');
     initialize: function(){
       this.$stateInput = this.$('.activation-toggle-field');
       this.$checkbox = this.$('.onoffswitch__checkbox');
-      this.state = JSON.parse(this.$stateInput.val());
+      this.state = this.$stateInput.val();
     },
 
     handleClick: function(e){
-      if (this.state == true && this.$stateInput.data('confirm-turning-off')){
+      if (this.state == 'published' && this.$stateInput.data('confirm-turning-off')){
         if (!window.confirm(this.$stateInput.data('confirm-turning-off'))) {
           this.toggleButton();
           return false;
@@ -40,7 +40,7 @@ const setupOnce = require('setup_once');
     },
 
     toggleState: function(){
-      this.state = !this.state;
+      this.state = this.state === 'published' ? 'unpublished' : 'published';
       this.$stateInput.val(this.state);
     },
   });
