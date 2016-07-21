@@ -49,6 +49,23 @@ describe PagePluginSwitcher do
         expect( created.ref ).to eq nil
       end
 
+      it 'can create a version of a plugin for each layout' do
+        expect{
+          switcher.switch(many_petition_layout, petition_ref_layout)
+        }.to change{
+          Plugins::Petition.count
+        }.from(1).to(4)
+        expect(page.plugins.map(&:class)).to match_array [Plugins::Petition]*4
+      end
+
+      it 'can share a plugin between the two layouts' do
+        expect {
+          switcher.switch(both_refless_layout, many_petition_layout)
+        }.to change {
+          Plugins::Petition.count
+        }.from(1).to(3)
+        expect(page.plugins.map(&:class)).to match_array([Plugins::Petition]*3 + [Plugins::Thermometer])
+      end
     end
 
     describe 'replacing' do

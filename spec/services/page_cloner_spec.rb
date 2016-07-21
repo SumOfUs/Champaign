@@ -6,7 +6,7 @@ describe PageCloner do
   let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar', content: 'Foo Bar', action_count: 12345) }
   let!(:link) { create(:link, page: page) }
 
-  subject(:cloned_page) { PageCloner.clone(page) }
+  subject(:cloned_page) { PageCloner.clone(page).reload }
 
   it 'clones page' do
     expect(cloned_page.id).not_to eq(page.id)

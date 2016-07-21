@@ -18,7 +18,6 @@ class PageCloner
       plugins
       tags
       images
-      actions
     end
   end
 
@@ -29,11 +28,10 @@ class PageCloner
     @cloned_page.title = @title unless @title.blank?
 
     ActiveRecord::Base.transaction do
-      @cloned_page.save
       yield(self)
+      @cloned_page.save
     end
 
-    @cloned_page.save
     @cloned_page
   end
 
@@ -73,9 +71,5 @@ class PageCloner
         cloned_page.primary_image = new_image
       end
     end
-  end
-
-  def actions
-    cloned_page.action_count = 0
   end
 end
