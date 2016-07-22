@@ -291,6 +291,12 @@ describe "GoCardless API" do
             }
           end
 
+          it 'sets the member status to donor' do
+            subject
+            member ||= Member.last # for examples with no pre-existing member
+            expect(member.donor_status).to eq 'donor'
+          end
+
           it 'passes the correct data to the GoCardless Payment SDK' do
             payment_service = instance_double(GoCardlessPro::Services::PaymentsService, create: double(id: 'asdf', charge_date: '2016-05-20'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:payments).and_return(payment_service)
@@ -352,6 +358,11 @@ describe "GoCardless API" do
           it 'can add a second Customer to the Member' do
             create :payment_go_cardless_customer, member_id: member.id
             expect{ subject }.to change{ member.go_cardless_customers.size }.from(1).to(2)
+          end
+
+          it 'does not change donor_status to donor if its already recurring_donor' do
+            member.recurring_donor!
+            expect{ subject }.not_to change{ member.donor_status }.from('recurring_donor')
           end
         end
 
@@ -474,6 +485,12 @@ describe "GoCardless API" do
             expect(subscription.customer).to be_a Payment::GoCardless::Customer
             expect(subscription.action).to eq Action.last
             expect(subscription.aasm_state).to eq "pending"
+          end
+
+          it 'sets the member status to recurring_donor' do
+            subject
+            member ||= Member.last # for examples with no pre-existing member
+            expect(member.donor_status).to eq 'recurring_donor'
           end
         end
 

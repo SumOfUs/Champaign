@@ -4,12 +4,5 @@ class Action < ActiveRecord::Base
 
   has_paper_trail on: [:update, :destroy]
 
-  after_create :update_member_donor_status
-
-  def update_member_donor_status
-    return unless donation
-    return if member.recurring_donor?
-    form_data['is_subscription'] ? member.recurring_donor! : member.donor!
-  end
 end
 
