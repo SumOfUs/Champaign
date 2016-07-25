@@ -8,6 +8,14 @@ FactoryGirl.define do
     language
     ak_petition_resource_uri "http://example.com/petition"
     ak_donation_resource_uri "http://example.com/donation"
+
+    trait :published do
+      publish_status :published
+    end
+
+    trait :unpublished do
+      publish_status :unpublished
+    end
   end
 end
 

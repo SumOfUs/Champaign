@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe PageService do
   describe '.list' do
-    let!(:en_page) { create(:page, active: true, language: create(:language, :english), created_at: 1.year.ago) }
-    let!(:en_unpublished) { create(:page, active: false, language: create(:language, :english)) }
-    let!(:fr_page) { create(:page, active: true, language: create(:language, :french))  }
+    let!(:en_page) { create(:page, :published, language: create(:language, :english), created_at: 1.year.ago) }
+    let!(:en_unpublished) { create(:page, :unpublished, language: create(:language, :english)) }
+    let!(:fr_page) { create(:page, :published, language: create(:language, :french))  }
 
     it 'returns pages by language' do
       expect(subject.list(language: 'fr')).to match_array([fr_page])
@@ -29,10 +29,10 @@ describe PageService do
   end
 
   describe '.list_featured' do
-    let!(:en_page) { create(:page, active: true, featured: true, language: create(:language, :english), created_at: 1.year.ago) }
-    let!(:en_unpublished) { create(:page, active: false, language: create(:language, :english)) }
-    let!(:en_unfeatured) { create(:page, active: true, language: create(:language, :english)) }
-    let!(:fr_page) { create(:page, active: true, featured: true, language: create(:language, :french))  }
+    let!(:en_page) { create(:page, :published, featured: true, language: create(:language, :english), created_at: 1.year.ago) }
+    let!(:en_unpublished) { create(:page, :unpublished, language: create(:language, :english)) }
+    let!(:en_unfeatured) { create(:page, :published, language: create(:language, :english)) }
+    let!(:fr_page) { create(:page, :published, featured: true, language: create(:language, :french))  }
 
     it 'returns featured pages by language' do
       expect(subject.list_featured(language: 'en')).to match_array([en_page])

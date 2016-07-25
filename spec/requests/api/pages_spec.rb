@@ -7,7 +7,7 @@ describe "api/pages" do
 
   describe 'GET index' do
     before do
-      create(:page, active: true, title: 'Foo', content: 'Bar')
+      create(:page, :published, title: 'Foo', content: 'Bar')
     end
 
     subject { JSON.parse(response.body) }
@@ -18,7 +18,7 @@ describe "api/pages" do
       expect(subject.size).to eq(1)
 
       expect(subject.first.keys).to match(
-        %w{id title slug content created_at updated_at active featured action_count language}
+        %w{id title slug content created_at updated_at publish_status featured action_count language}
       )
 
       expect(subject.first.symbolize_keys).to include({
@@ -30,7 +30,7 @@ describe "api/pages" do
 
   describe 'GET featured' do
     before do
-      create(:page, featured: true, active: true, title: 'Foo', content: 'Bar')
+      create(:page, :published, featured: true, title: 'Foo', content: 'Bar')
       create(:page, featured: false)
     end
 
@@ -42,7 +42,7 @@ describe "api/pages" do
       expect(subject.size).to eq(1)
 
       expect(subject.first.keys).to match(
-        %w{id title slug content created_at updated_at active featured action_count language}
+        %w{id title slug content created_at updated_at publish_status featured action_count language}
       )
 
       expect(subject.first.symbolize_keys).to include({
@@ -61,7 +61,7 @@ describe "api/pages" do
 
     it 'returns page' do
       expect(subject.keys).to match(
-        %w{id title slug content created_at updated_at active featured action_count language}
+        %w{id title slug content created_at updated_at publish_status featured action_count language}
       )
 
       expect(subject.symbolize_keys).to include({
