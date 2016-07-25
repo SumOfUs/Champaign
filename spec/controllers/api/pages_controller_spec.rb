@@ -8,6 +8,36 @@ describe Api::PagesController do
     allow(Page).to receive(:find){ page }
   end
 
+  describe 'GET index' do
+    before do
+      allow(PageService).to receive(:list)
+      get :index, language: 'en', format: :json
+    end
+
+    it 'gets list of pages' do
+      expect(PageService).to have_received(:list).with(hash_including({language: 'en'}))
+    end
+
+    it 'responds with json' do
+      expect(response.content_type).to eq("application/json")
+    end
+  end
+
+  describe 'GET featured' do
+    before do
+      allow(PageService).to receive(:list_featured)
+      get :featured, language: 'en', format: :json
+    end
+
+    it 'gets list of pages' do
+      expect(PageService).to have_received(:list_featured).with(hash_including({language: 'en'}))
+    end
+
+    it 'responds with json' do
+      expect(response.content_type).to eq("application/json")
+    end
+  end
+
   describe 'PUT update' do
     before do
       allow(PageUpdater).to receive(:new) { page_updater }
@@ -31,7 +61,7 @@ describe Api::PagesController do
 
   describe 'GET show' do
     context 'for existing page' do
-      before { get :show, id: '2' }
+      before { get :show, id: '2', format: 'json' }
 
       it 'finds page' do
         expect(Page).to have_received(:find).with('2')

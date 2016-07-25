@@ -402,7 +402,7 @@ describe Page do
       end
 
       it 'returns all if no language code is passed' do
-        expect(Page.language(nil)).to match([en_page, fr_page])
+        expect(Page.language(nil)).to match_array([en_page, fr_page])
       end
     end
 
@@ -411,7 +411,7 @@ describe Page do
       let!(:page) { create(:page, featured: false) }
 
       it 'finds featured' do
-        expect(Page.featured_only).to match([featured_page])
+        expect(Page.featured).to match([featured_page])
       end
     end
   end
