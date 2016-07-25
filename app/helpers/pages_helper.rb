@@ -136,4 +136,12 @@ module PagesHelper
       image: Image.find_by(id: share.image_id).try(:content).try(:url)
     }
   end
+
+  def archive_confirm_message(page)
+    msg = "Are you sure you want to archive this page?"
+    if page.published?
+      msg += " It will also be unpublished making it inaccessible except to logged-in campaigners."
+    end
+    msg
+  end
 end

@@ -38,7 +38,7 @@
                 - if page.archived?
                  = link_to t('pages.index.unarchive'), page_archive_path(page), method: :delete
                 - else
-                 = link_to t('pages.index.archive'), page_archive_path(page), method: :post
+                 = link_to t('pages.index.archive'), page_archive_path(page), method: :post, 'data-confirm' => archive_confirm_message(page)
 
 
       #search-filter
