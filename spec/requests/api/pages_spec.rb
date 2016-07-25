@@ -1,150 +1,73 @@
-require_relative 'shared_language_pages.rb'
 require 'rails_helper'
 
 describe "api/pages" do
-
   def json
     JSON.parse(response.body)
   end
 
-
-  before :each do
-    # I'm rounding the time. Ruby deals with time in nanoseconds whereas the database deals with time in microsecond
-    # precision. If I don't round the time, the expectation comparing the JSON response expects data from the DB
-    # with nanosecond precision.
-    @time_now = Time.at(Time.now.to_i)
-    allow(Time).to receive(:now).and_return(@time_now)
-  end
-
-  describe 'GET pages' do
-    context 'with no specified language' do
-      let!(:featured_pages) { create_list :page, 10, featured: true }
-      let!(:mvp_pages) { create_list :page, 10, featured: false }
-      let(:language) { build :language, code: 'en'}
-      let!(:last_featured_page) { create :page,
-        title: 'I am the latest featured page',
-        featured: true,
-        slug: 'garden_slug',
-        language: language }
-      let!(:last_mvp_page) { create :page,
-        title: 'I am the latest test page',
-        featured: false,
-        language: language}
-
-      it 'gets a hundred of both featured and unfeatured pages in a reversed order if requested without an id' do
-        keys = [:id, :title, :slug, :content, :created_at, :updated_at, :active, :featured, :action_count, :language]
-        expected_featured_params = last_featured_page.slice(*keys).merge({language: 'en'})
-        expected_mvp_params = last_mvp_page.slice(*keys).merge({language: 'en'})
-        get api_pages_path
-        expect(response).to be_success
-        # Includes both featured and unfeatured pages.
-        expect(json).to include expected_featured_params.as_json
-        expect(json).to include expected_mvp_params.as_json
-      end
-
-      it 'gets a single page if searched by an id of a page that exists' do
-        get api_page_path(id: last_mvp_page.id.to_s)
-        expect(response).to be_success
-        expect(json['id']).to match last_mvp_page.id
-      end
-
-      it 'gets a single page if searched by a slug of a page that exists' do
-        get api_page_path(id: last_featured_page.slug)
-        expect(response).to be_success
-        expect(json['id']).to match last_featured_page.id
-      end
-
-      it 'returns an error if searching for an ID or slug of a page that does not exist' do
-        get api_page_path(id: last_featured_page.slug + '_epidemic')
-        expect(response.status).to eq(404)
-        expect(json).to match({ "errors" => "No record was found with that slug or ID."})
-      end
+  describe 'GET index' do
+    before do
+      create(:page, active: true, title: 'Foo', content: 'Bar')
     end
 
-    context 'with languages' do
-      describe 'with language that does not exist' do
-        it 'returns json matching an empty collection' do
-          get api_pages_path, {language: 'klingon'}
-          expect(json).to match([])
-          expect(response.status).to eq(200)
-        end
-      end
-    end
+    subject { JSON.parse(response.body) }
 
-    describe 'with languages that exist' do
+    before { get('/api/pages.json') }
 
-      include_context "shared language pages" do
-        [:de,:fr,:en,:es].each do |language_code|
-          it "in #{language_code}, it gets pages only in that language" do
-            featured = @page_hash[language_code][:featured].first
-            ordinary = @page_hash[language_code][:ordinary].first
-            featured_params = {
-              id: featured.id,
-              title: featured.title,
-              slug: featured.slug,
-              content: featured.content,
-              created_at: featured.created_at,
-              updated_at: featured.updated_at,
-              active: featured.active,
-              featured: featured.featured,
-              action_count: featured.action_count,
-              language: language_code.to_s
-            }
-            ordinary_params = {
-              id: ordinary.id,
-              title: ordinary.title,
-              slug: ordinary.slug,
-              content: ordinary.content,
-              created_at: ordinary.created_at,
-              updated_at: ordinary.updated_at,
-              active: ordinary.active,
-              featured: ordinary.featured,
-              action_count: ordinary.action_count,
-              language: language_code.to_s
-            }
-            get api_pages_path, { language: language_code.to_s }
-            expect(json).to include(featured_params.as_json)
-            expect(json).to include(ordinary_params.as_json)
-          end
-        end
-      end
+    it 'returns list of pages' do
+      expect(subject.size).to eq(1)
 
+      expect(subject.first.keys).to match(
+        %w{id title slug content created_at updated_at active featured action_count language}
+      )
+
+      expect(subject.first.symbolize_keys).to include({
+        title: 'Foo',
+        content: 'Bar'
+      })
     end
   end
 
   describe 'GET featured' do
-    context 'with no specified language' do
-      let!(:featured_page) { create(:page, featured: true) }
-      let!(:mvp_page) { create(:page, featured: false) }
-
-      it 'gets only featured pages' do
-        get api_pages_featured_path
-        expect(json.size).to eq(1)
-        expect(json.first['id']).to eq(featured_page.id)
-      end
+    before do
+      create(:page, featured: true, active: true, title: 'Foo', content: 'Bar')
+      create(:page, featured: false)
     end
 
-    context 'with languages' do
-      describe 'with language that does not exist' do
-        it 'returns json matching an empty collection' do
-          get api_pages_featured_path, {language: 'klingon'}
-          expect(json).to match([])
-          expect(response.status).to eq(200)
-        end
-      end
+    subject { JSON.parse(response.body) }
 
-      describe 'with languages that exist' do
-        include_context "shared language pages" do
-          [:de,:fr,:en,:es].each.each do |language_code|
-            it "in #{language_code}, it gets pages only in that language" do
-              get api_pages_featured_path, { language: language_code.to_s }
-              expect(json.first['language']).to match(@page_hash[language_code][:featured].first.language.code)
-            end
-          end
-        end
-      end
+    before { get( featured_api_pages_path(format: :json)) }
 
+    it 'returns list of pages' do
+      expect(subject.size).to eq(1)
+
+      expect(subject.first.keys).to match(
+        %w{id title slug content created_at updated_at active featured action_count language}
+      )
+
+      expect(subject.first.symbolize_keys).to include({
+        title: 'Foo',
+        content: 'Bar'
+      })
     end
+  end
 
+  describe 'GET show' do
+    let(:page) { create(:page, title: 'Foo', content: 'Bar') }
+
+    subject { JSON.parse(response.body) }
+
+    before { get( api_page_path(page, format: :json) ) }
+
+    it 'returns page' do
+      expect(subject.keys).to match(
+        %w{id title slug content created_at updated_at active featured action_count language}
+      )
+
+      expect(subject.symbolize_keys).to include({
+        title: 'Foo',
+        id: page.id
+      })
+    end
   end
 end

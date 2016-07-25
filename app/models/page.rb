@@ -17,8 +17,8 @@ class Page < ActiveRecord::Base
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
 
-  scope :language,       -> (code) { code ? joins(:language).where(languages: { code: code }) : all }
-  scope :published,      -> { where(active: true) }
+  scope :language,  -> (code) { code ? joins(:language).where(languages: { code: code }) : all }
+  scope :published, -> { where(active: true) }
   scope :featured,  -> { where(featured: true) }
 
   validates :title, presence: true

@@ -137,19 +137,17 @@ Rails.application.routes.draw do
       post 'webhook'
     end
 
-    namespace :pages, defaults: {format: 'json'}  do
-      get 'featured/', action: 'show_featured'
-    end
+    resources :pages do
+      get 'share-rows', on: :member, action: 'share_rows'
+      get 'featured', on: :collection
 
-    resources :pages, defaults: {format: 'json'} do
       resource  :analytics
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
       end
-      get 'share-rows', on: :member, action: 'share_rows'
     end
 
-    resources :members 
+    resources :members
   end
   # Example resource route within a namespace:
   #   namespace :admin do
