@@ -21,7 +21,7 @@ class Api::PagesController < ApplicationController
   end
 
   def index
-    @pages = PageService.list(params)
+    @pages = PageService.list(language: params[:language], limit: params[:limit])
     render :index, format: :json
   end
 
@@ -30,7 +30,7 @@ class Api::PagesController < ApplicationController
   end
 
   def featured
-    @pages = PageService.list_featured(params)
+    @pages = PageService.list_featured(language: params[:language])
     render :index, format: :json
   end
 

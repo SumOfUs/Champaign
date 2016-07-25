@@ -378,7 +378,7 @@ describe Page do
       end
 
       it 'returns all if no language code is passed' do
-        expect(Page.language(nil)).to match([en_page, fr_page])
+        expect(Page.language(nil)).to match_array([en_page, fr_page])
       end
     end
 
