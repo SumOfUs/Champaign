@@ -189,7 +189,6 @@ ActiveRecord::Schema.define(version: 20160720201341) do
     t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
-    t.boolean  "active",                     default: false
     t.integer  "liquid_layout_id"
     t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -199,12 +198,14 @@ ActiveRecord::Schema.define(version: 20160720201341) do
     t.integer  "follow_up_plan",             default: 0,         null: false
     t.integer  "follow_up_page_id"
     t.text     "javascript"
+    t.integer  "publish_status",             default: 1,         null: false
   end
 
   add_index "pages", ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id", using: :btree
   add_index "pages", ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id", using: :btree
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree
   add_index "pages", ["primary_image_id"], name: "index_pages_on_primary_image_id", using: :btree
+  add_index "pages", ["publish_status"], name: "index_pages_on_publish_status", using: :btree
 
   create_table "pages_tags", force: :cascade do |t|
     t.integer "page_id"

@@ -21,18 +21,26 @@
             th
             th
             th
+            th
         tbody
           - @pages.each do |page|
             tr
               td = page.title
-              td = page.active? ? t('.published') : t('.unpublished')
+              td = t('.' + page.publish_status)
               td = page.created_at.strftime('%Y-%b-%d')
               td = page.updated_at.strftime('%Y-%b-%d')
               td = page.action_count
               td = link_to t('pages.edit.view'), member_facing_page_path(page)
-              td = link_to t('common.edit'), edit_page_path(page)
+              td = link_to_if !page.archived?, t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
-              td = link_to t('menu.clone'), new_clone_page_path(id: page.id)
+              td = link_to_if !page.archived?, t('menu.clone'), new_clone_page_path(id: page.id)
+              td
+                - if page.archived?
+                 = link_to t('pages.index.unarchive'), page_archive_path(page), method: :delete
+                - else
+                 = link_to t('pages.index.archive'), page_archive_path(page), method: :post, 'data-confirm' => archive_confirm_message(page)
+
+
       #search-filter
         = render partial: 'search'
 

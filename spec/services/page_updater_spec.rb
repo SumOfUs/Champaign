@@ -137,22 +137,26 @@ describe PageUpdater do
       expect{ pupdater.update(params) }.to raise_error ActiveRecord::RecordNotFound
     end
 
-    it 'updates the page active to true' do
-      page.active = false
-      page.save
-      expect(page.reload.active).to eq false
-      params = {page: {active: true} }
+    it 'updates the publish status to "published"' do
+      page.publish_status = 'unpublished'
+      page.save!
+      params = {page: {publish_status: 'published'} }
       expect( pupdater.update(params) ).to eq true
-      expect( page.reload.active).to eq true
+      expect( page.reload.publish_status).to eq 'published'
     end
 
-    it 'updates the page active to false' do
-      page.active = true
-      page.save
-      expect(page.reload.active).to eq true
-      params = {page: {active: false} }
+    it 'updates the pulish status to "unpublished"' do
+      page.publish_status = 'published'
+      page.save!
+      params = {page: {publish_status: 'unpublished'} }
       expect( pupdater.update(params) ).to eq true
-      expect( page.reload.active).to eq false
+      expect( page.reload.publish_status).to eq 'unpublished'
+    end
+
+    it 'updates the pulish status to "archived"' do
+      params = {page: {publish_status: 'archived'} }
+      expect( pupdater.update(params) ).to eq true
+      expect( page.reload.publish_status).to eq 'archived'
     end
 
     describe 'shares' do

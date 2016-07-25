@@ -7,9 +7,8 @@ class PagesController < ApplicationController
   before_action :get_page_or_homepage, only: [:show]
 
   def index
-    # Filter the desired pages by search parameters, and sort them descending by their date of update.
-    @pages = Search::PageSearcher.new(params).search.sort_by(&:updated_at).reverse!
-    @search_params = params[:search].present? ? params[:search] : {}
+    @search_params = search_params
+    @pages = Search::PageSearcher.new(@search_params).search.sort_by(&:updated_at).reverse!
   end
 
   def analytics
@@ -59,7 +58,7 @@ class PagesController < ApplicationController
   private
 
   def render_liquid(layout, view)
-    return redirect_to(Settings.homepage_url) unless @page.active? || user_signed_in?
+    return redirect_to(Settings.homepage_url) unless @page.published? || user_signed_in?
     localize_by_page_language(@page)
 
     @rendered = renderer(layout).render
@@ -105,5 +104,12 @@ class PagesController < ApplicationController
       :follow_up_liquid_layout_id,
       {:tag_ids => []} )
   end
+
+  def search_params
+    default_params = { publish_status: Page.publish_statuses.values_at(:published, :unpublished) }
+    params[:search] ||= {}
+    params[:search].reverse_merge default_params
+  end
+
 end
 

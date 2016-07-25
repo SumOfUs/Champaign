@@ -34,6 +34,12 @@
                                                                                @search_params[:plugin_type]),
                      html_options= {class: 'selectize-container', multiple: true}
 
+    .page-filter__row
+      = label_tag 'search[publish_status]', 'Publish status:', class: 'control-label col-lg-3'
+      .col-lg-3
+        = select_tag 'search[publish_status]', options_for_select(Page.publish_statuses.to_a, @search_params[:publish_status]),
+                     html_options= {class: 'selectize-container', multiple: true}
+
       .col-md-12
         = submit_tag 'Filter by these criteria', class: 'btn btn-primary page-filter__submit', id: 'search_button'
         = button_tag 'Reset filters', type: 'button',  class: 'btn btn-danger page-filter__reset', id: 'filter_reset_button'
