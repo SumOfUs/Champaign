@@ -64,6 +64,89 @@ describe ActionBuilder do
     expect(mab.previous_action).to eq(found_action)
   end
 
+  describe 'donor_status' do
+
+    let(:params) { { page_id: page.id, email: member.email } }
+    let(:mab) { mab = MockActionBuilder.new(params) }
+
+    describe 'when member is nondonor' do
+
+      it 'it starts as nondonor' do
+        expect(member.donor_status).to eq 'nondonor'
+      end
+
+      it 'stays nondonor when action is not donation' do
+        mab.build_action
+        expect(member.reload.donor_status).to eq 'nondonor'
+      end
+
+      it 'becomes donor when action is non-recurring donation' do
+        mab.build_action(donation: true)
+        expect(member.reload.donor_status).to eq 'donor'
+      end
+
+      it 'becomes recurring_donor when action is recurring donation' do
+        params.merge!(is_subscription: true)
+        mab.build_action(donation: true)
+        expect(member.reload.donor_status).to eq 'recurring_donor'
+      end
+    end
+
+    describe 'when member is donor' do
+      before :each do
+        member.donor!
+      end
+
+      it 'starts as donor' do
+        expect(member.donor_status).to eq 'donor'
+      end
+
+      it 'stays donor when action is not donation' do
+        mab.build_action
+        expect(member.reload.donor_status).to eq 'donor'
+      end
+
+      it 'stays donor when action is non-recurring donation' do
+        mab.build_action(donation: true)
+        expect(member.reload.donor_status).to eq 'donor'
+      end
+
+      it 'becomes recurring_donor when action is recurring donation' do
+        params.merge!(is_subscription: true)
+        mab.build_action(donation: true)
+        expect(member.reload.donor_status).to eq 'recurring_donor'
+      end
+    end
+
+    describe 'when member is recurring_donor' do
+
+      before :each do
+        member.recurring_donor!
+      end
+
+      it 'starts as recurring_donor' do
+        expect(member.donor_status).to eq 'recurring_donor'
+      end
+
+      it 'stays recurring_donor when action is not donation' do
+        mab.build_action
+        expect(member.reload.donor_status).to eq 'recurring_donor'
+      end
+
+      it 'stays recurring_donor when action is non-recurring donation' do
+        mab.build_action(donation: true)
+        expect(member.reload.donor_status).to eq 'recurring_donor'
+      end
+
+      it 'stays recurring_donor when action is recurring donation' do
+        params.merge!(is_subscription: true)
+        mab.build_action(donation: true)
+        expect(member.reload.donor_status).to eq 'recurring_donor'
+      end
+    end
+
+  end
+
   describe 'permitted_keys' do
 
     let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }

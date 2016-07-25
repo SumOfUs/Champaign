@@ -6,6 +6,8 @@ class Member < ActiveRecord::Base
   validates :email, uniqueness: true, allow_nil: true
   before_save { self.email.try(:downcase!) }
 
+  enum donor_status: [:nondonor, :donor, :recurring_donor]
+
   def self.find_from_request(akid: nil, id: nil)
     actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
 
@@ -29,7 +31,8 @@ class Member < ActiveRecord::Base
 
   def liquid_data
     full_name = name
-    attributes.merge({
+    attributes.symbolize_keys.merge({
+      donor_status: donor_status, # to get the string not enum int
       name: full_name,
       full_name: full_name,
       welcome_name: full_name.blank? ? email : full_name
