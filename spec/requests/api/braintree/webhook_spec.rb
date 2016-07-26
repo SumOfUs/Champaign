@@ -44,16 +44,16 @@ describe "Braintree API" do
       expect(Member.last).to eq member
     end
 
-    it 'does not modify the Payment::BraintreeSubscription' do
-      subscription = Payment::BraintreeSubscription.last
-      expect{ subject }.not_to change{ Payment::BraintreeSubscription.count }
-      expect(Payment::BraintreeSubscription.last).to eq subscription
+    it 'does not modify the Payment::Braintree::Subscription' do
+      subscription = Payment::Braintree::Subscription.last
+      expect{ subject }.not_to change{ Payment::Braintree::Subscription.count }
+      expect(Payment::Braintree::Subscription.last).to eq subscription
     end
 
-    it 'does not modify the Payment::BraintreeCustomer' do
-      customer = Payment::BraintreeCustomer.last
-      expect{ subject }.not_to change{ Payment::BraintreeCustomer.count }
-      expect(Payment::BraintreeCustomer.last).to eq customer
+    it 'does not modify the Payment::Braintree::Customer' do
+      customer = Payment::Braintree::Customer.last
+      expect{ subject }.not_to change{ Payment::Braintree::Customer.count }
+      expect(Payment::Braintree::Customer.last).to eq customer
     end
 
     it 'returns 200' do
@@ -63,13 +63,13 @@ describe "Braintree API" do
   end
 
   describe 'receiving a webhook' do
-    let(:subscription) { Payment::BraintreeSubscription.last }
+    let(:subscription) { Payment::Braintree::Subscription.last }
 
     describe 'of a subscription charge' do
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully,
-          Payment::BraintreeSubscription.last.subscription_id
+          Payment::Braintree::Subscription.last.subscription_id
         )
       end
 
@@ -85,12 +85,12 @@ describe "Braintree API" do
             post api_payment_braintree_transaction_path(page.id), params
           end
 
-          @subscription = Payment::BraintreeSubscription.last
+          @subscription = Payment::Braintree::Subscription.last
         end
 
-        it 'creates a Payment::BraintreeTransaction record with the right params' do
-          expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
-          expect(Payment::BraintreeTransaction.last.page_id).to eq(page.id)
+        it 'creates a Payment::Braintree::Transaction record with the right params' do
+          expect{ subject }.to change{ Payment::Braintree::Transaction.count }.by 1
+          expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
         end
 
         it 'pushes to the queue with the right params' do
@@ -106,7 +106,7 @@ describe "Braintree API" do
 
         it 'creates transaction on subscription' do
           subject
-          expect(Payment::BraintreeTransaction.count).to eq(1)
+          expect(Payment::Braintree::Transaction.count).to eq(1)
           expect(@subscription.reload.transactions.count).to eq(1)
         end
 
@@ -123,9 +123,9 @@ describe "Braintree API" do
           end
         end
 
-        it 'creates a Payment::BraintreeTransaction record with the right params' do
-          expect{ subject }.to change{ Payment::BraintreeTransaction.count }.by 1
-          expect(Payment::BraintreeTransaction.last.page_id).to eq(page.id)
+        it 'creates a Payment::Braintree::Transaction record with the right params' do
+          expect{ subject }.to change{ Payment::Braintree::Transaction.count }.by 1
+          expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
         end
 
         it 'pushes to the queue with the right params' do
@@ -147,7 +147,7 @@ describe "Braintree API" do
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionCanceled,
-          Payment::BraintreeSubscription.last.subscription_id
+          Payment::Braintree::Subscription.last.subscription_id
         )
       end
 
@@ -177,7 +177,7 @@ describe "Braintree API" do
         end
 
         it 'does not create a transaction' do
-          expect{ subject }.not_to change{ Payment::BraintreeTransaction.count }
+          expect{ subject }.not_to change{ Payment::Braintree::Transaction.count }
         end
 
         include_examples "has no unintended consequences"

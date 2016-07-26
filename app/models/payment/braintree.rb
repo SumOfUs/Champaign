@@ -1,7 +1,7 @@
-module Payment
+module Payment::Braintree
   class << self
     def table_name_prefix
-      'payment_'
+      'payment_braintree_'
     end
 
     def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer=true)
@@ -10,7 +10,7 @@ module Payment
 
     def write_subscription(subscription_result, page_id, action_id, currency)
       if subscription_result.success?
-        Payment::BraintreeSubscription.create({
+        Payment::Braintree::Subscription.create({
           subscription_id:        subscription_result.subscription.id,
           amount:                 subscription_result.subscription.price,
           merchant_account_id:    subscription_result.subscription.merchant_account_id,
@@ -26,7 +26,7 @@ module Payment
     end
 
     def customer(email)
-      customer = Payment::BraintreeCustomer.find_by(email: email)
+      customer = Payment::Braintree::Customer.find_by(email: email)
       return customer if customer.present?
       member = Member.find_by(email: email)
       member.try(:customer)
@@ -49,9 +49,9 @@ module Payment
       if @customer.present?
         @customer.update(customer_attrs)
       else
-        @customer = Payment::BraintreeCustomer.create(customer_attrs)
+        @customer = Payment::Braintree::Customer.create(customer_attrs)
       end
-      Payment::BraintreePaymentMethod.find_or_create_by!(
+      Payment::Braintree::PaymentMethod.find_or_create_by!(
         customer: @customer,
         token:    @bt_payment_method.token
       )
@@ -119,17 +119,17 @@ module Payment
       # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
       # though, because transaction.customer_details.id is nil for failed transaction.
       # For webhooks, @existing_customer will be present.
-      @customer = @existing_customer || Payment::BraintreeCustomer.find_or_create_by!(
+      @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
           member_id: @member_id,
           customer_id: transaction.customer_details.id)
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
-      @local_payment_method_id = payment_method_token.blank? ? nil : Payment::BraintreePaymentMethod.find_or_create_by!(
+      @local_payment_method_id = payment_method_token.blank? ? nil : Payment::Braintree::PaymentMethod.find_or_create_by!(
           customer: @customer,
           token: payment_method_token).id
 
 
-      record = ::Payment::BraintreeTransaction.create!(transaction_attrs)
+      record = ::Payment::Braintree::Transaction.create!(transaction_attrs)
 
       return false unless successful?
 
@@ -155,7 +155,7 @@ module Payment
         page_id:                         @page_id
       }.tap do |data|
         if transaction.try(:subscription_id)
-          data[:subscription] = Payment::BraintreeSubscription.find_by_subscription_id(transaction.subscription_id)
+          data[:subscription] = Payment::Braintree::Subscription.find_by_subscription_id(transaction.subscription_id)
         end
       end
     end
@@ -185,7 +185,7 @@ module Payment
     end
 
     def status
-      Payment::BraintreeTransaction.statuses[(successful? ? :success : :failure)]
+      Payment::Braintree::Transaction.statuses[(successful? ? :success : :failure)]
     end
 
     def successful?
@@ -212,4 +212,5 @@ module Payment
     end
   end
 end
+
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Payment::BraintreeCustomer do
+describe Payment::Braintree::Customer do
   describe '#member' do
     let(:member)   { create(:member) }
     let(:customer) { create(:payment_braintree_customer) }

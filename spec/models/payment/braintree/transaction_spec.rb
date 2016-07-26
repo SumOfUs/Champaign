@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Payment::BraintreeTransaction do
+describe Payment::Braintree::Transaction do
 
   let(:transaction) { create :payment_braintree_transaction }
   subject { transaction }
@@ -25,8 +25,8 @@ describe Payment::BraintreeTransaction do
   it 'handles money properly' do
     create :payment_braintree_transaction, amount: 12.41
     create :payment_braintree_transaction, amount: 10701.11
-    expect(Payment::BraintreeTransaction.all.map(&:amount).sum).to eq 10713.52
-    expect(Payment::BraintreeTransaction.last.amount.class).to eq BigDecimal
+    expect(Payment::Braintree::Transaction.all.map(&:amount).sum).to eq 10713.52
+    expect(Payment::Braintree::Transaction.last.amount.class).to eq BigDecimal
   end
 
   describe 'subscription' do

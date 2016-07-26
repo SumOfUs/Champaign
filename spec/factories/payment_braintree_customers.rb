@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :payment_braintree_customer, :class => 'Payment::BraintreeCustomer' do
+  factory :payment_braintree_customer, :class => 'Payment::Braintree::Customer' do
     card_type { Faker::Business.credit_card_type }
     card_bin ""
     cardholder_name { Faker::Name.name }
