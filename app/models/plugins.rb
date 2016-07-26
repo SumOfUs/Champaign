@@ -38,7 +38,7 @@ module Plugins
       plugins_data = page.plugins.inject({}) do |memo, plugin|
         if plugin
           plugin_name = plugin.name.underscore
-          memo[plugin_name] = {} unless memo.include? plugin_name
+          memo[plugin_name] = {} unless memo.include? plugin_name # ||=
           ref = plugin.ref.present? ? plugin.ref : default_ref
           memo[plugin_name][ref] = plugin.liquid_data(supplemental_data)
         end

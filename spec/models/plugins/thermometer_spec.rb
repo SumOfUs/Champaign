@@ -106,4 +106,26 @@ describe Plugins::Thermometer do
     thermometer.update_goal
     expect(thermometer.goal).to eq(75000)
   end
+
+  describe "inconsistent behaviour" do
+    context "given the action count gets to 500 and then the thermometer updates" do
+      it "the goal increments to 1000" do
+        test_page.update! action_count: 500
+        thermometer.liquid_data #trigger update
+        expect(thermometer.goal).to eq 1000
+
+        test_page.update! action_count: 501
+        thermometer.liquid_data #trigger update
+        expect(thermometer.goal).to eq 1000
+      end
+    end
+
+    context "given the action count gets to 501 and then the thermometer updates" do
+      it "increments the goal to 2000" do
+        test_page.update! action_count: 501
+        thermometer.liquid_data #trigger update
+        expect(thermometer.goal).to eq 2000
+      end
+    end
+  end
 end
