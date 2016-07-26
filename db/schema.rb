@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20160802225329) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -156,6 +155,19 @@ ActiveRecord::Schema.define(version: 20160802225329) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "member_authentications", force: :cascade do |t|
+    t.integer  "member_id"
+    t.string   "password_digest",       null: false
+    t.string   "facebook_uid"
+    t.string   "facebook_token"
+    t.datetime "facebook_token_expiry"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "member_authentications", ["facebook_uid"], name: "index_member_authentications_on_facebook_uid", using: :btree
+  add_index "member_authentications", ["member_id"], name: "index_member_authentications_on_member_id", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "email"
@@ -520,6 +532,7 @@ ActiveRecord::Schema.define(version: 20160802225329) do
   add_foreign_key "actions", "pages"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
+  add_foreign_key "member_authentications", "members"
   add_foreign_key "pages", "campaigns"
   add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"
