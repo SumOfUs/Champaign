@@ -98,4 +98,26 @@ en:
   time:
     formats:
       default: "%-d %B %Y"
+  baysanto:
+    intro:
+      title: "Bayer and Monsanto are seeking an illegal merger to become the world’s largest agroindustrial company"
+      details: "Stuck & Grunes, a leading legal firm specialized in mergers and acquisitions, found lorem ipsum dolor sit amet. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+      read_the_paper: "Read the white paper"
+    environmental:
+      title: "This deal isn’t just illegal, it’s a disaster in the making for our global food supply"
+      first_reason:
+        title: "Fragile monocultures"
+        details: Many scientists from around the world believe that neonics are a key factor in recent global bee die-offs. Many of the “bee-friendly" seedlings and plants sold to unsuspecting consumers in Ace Hardware and True Value stores may have been pre-treated with neonics at much higher among beekeepers and scientists.
+      second_reason:
+        title: "Disastrous pesticides"
+        details: Many scientists from around the world believe that neonics are a key factor in recent global bee die-offs. Many of the “bee-friendly" seedlings and plants sold to unsuspecting consumers in Ace Hardware and True Value stores may have been pre-treated with neonics at much higher among beekeepers and scientists.
+      third_reason:
+        title: "Fragile monocultures"
+        details: Many scientists from around the world believe that neonics are a key factor in recent global bee die-offs. Many of the “bee-friendly" seedlings and plants sold to unsuspecting consumers in Ace Hardware and True Value stores may have been pre-treated with neonics at much higher among beekeepers and scientists.
+    shareholder:
+      title: "What’s more, <br>only 7% of Bayer shareholders think the acquisition is a good strategic move"
+      details: "Bernstein and Company conducted an independent poll of Bayer shareholders and found that only 7% supported the acquisition. Bernstein has no connection to SumOfUs or other advocacy groups.<br><br> According to investment magazine the Motley Fool, “[Investors] immediately after the takeover offer was announced, castigated it as an 'immediate destruction' of shareholder value. That view seems to be shared by the investors surveyed by Bernstein, who by and large believe Bayer should focus on either healthcare (50% of respondents) or its pharma pipeline (39%)."
+      quote: "I fear that this acquisition will stop Bayer from focusing on its core strengths as a chemical company and focus too much on being evil."
+    action:
+      count_explanation: "people have already taken action to stop this deal."
 

@@ -1,0 +1,96 @@
+<div class="baysanto">
+  <div class="full-screen-block baysanto__intro-block">
+    <h1 class="hero-title hero-title--white">
+      {{ 'baysanto.intro.title' | t }}
+    </h1>
+    <div class="baysanto__white-body baysanto__intro-details">
+      {{ 'baysanto.intro.details' | t }}
+    </div>
+    <div class="baysanto__white-body baysanto__intro-details">
+      <a href="">{{ 'baysanto.intro.read_the_paper' | t }} &raquo;</a>
+    </div>
+  </div>
+  <div class="baysanto__magazine-block">
+    <div class="baysanto__magazine-body-text">
+      {{ content }}
+    </div>
+  </div>
+  <div class="baysanto__environmental-block">
+    <h2 class="baysanto__environmental-title">
+      {{ 'baysanto.environmental.title' | t }}
+    </h2>
+    <div class="baysanto__environmental-group">
+      <div class="baysanto__environmental-icon"></div>
+      <div class="baysanto__environmental-reason">
+        {{ 'baysanto.environmental.first_reason.title' | t }}
+      </div>
+      <div class="baysanto__environmental-details">
+        {{ 'baysanto.environmental.first_reason.details' | t }}
+      </div>
+    </div>
+    <div class="baysanto__environmental-group">
+      <div class="baysanto__environmental-icon"></div>
+      <div class="baysanto__environmental-reason">
+        {{ 'baysanto.environmental.second_reason.title' | t }}
+      </div>
+      <div class="baysanto__environmental-details">
+        {{ 'baysanto.environmental.second_reason.details' | t }}
+      </div>
+    </div>
+    <div class="baysanto__environmental-group">
+      <div class="baysanto__environmental-icon"></div>
+      <div class="baysanto__environmental-reason">
+        {{ 'baysanto.environmental.third_reason.title' | t }}
+      </div>
+      <div class="baysanto__environmental-details">
+        {{ 'baysanto.environmental.third_reason.details' | t }}
+      </div>
+    </div>
+  </div>
+  <div class="baysanto__shareholder-block">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var ctx = $('.baysanto__pie-chart > canvas');
+        var myDoughnutChart = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+            labels: ['good', 'bad'],
+            datasets: [{
+              data: [7, 93],
+              backgroundColor: ["#cd4b21", "#1f3670"],
+            }]
+          },
+          options: {
+            cutoutPercentage: 82,
+            rotation: 0,
+            responsive: false,
+            animation: { animateRotate: true },
+            legend:    { display: false },
+            tooltips:  { enabled: false }
+          }
+        });
+      });
+    </script>
+    <div class="baysanto__pie-chart"><canvas width='680' height="680"></canvas></div>
+    <div class="baysanto__shareholder-text">
+      <div class="baysanto__shareholder-title">
+        {{ 'baysanto.shareholder.title' | t }}
+      </div>
+      <div class="baysanto__shareholder-details">
+        {{ 'baysanto.shareholder.details' | t }}
+      </div>
+    </div>
+    <div class="baysanto__shareholder-quote">
+      "{{ 'baysanto.shareholder.quote' | t }}"
+    </div>
+  </div>
+</div>
+<div class="baysanto__action-block">
+  <div class="baysanto__action-count">527,389</div>
+  <div class="baysanto__action-count-explanation">
+    {{ 'baysanto.action.count_explanation' | t }}
+  </div>
+</div>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
