@@ -110,12 +110,15 @@ en:
       title: "Pages"
       filter: "Advanced Search"
       stats: "Stats"
-      publish_status: "Published?"
+      publish_status: "Publish status"
       published: 'Published'
       unpublished: 'Private'
+      archived: 'Archived'
       action_count: 'Actions'
       table:
         featured: "Featured"
+      archive: "Archive"
+      unarchive: "Unarchive"
     new:
       title: "Let's Get Started!"
       title_label: "Page Title"

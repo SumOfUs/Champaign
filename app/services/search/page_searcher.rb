@@ -1,7 +1,7 @@
 class Search::PageSearcher
 
   def initialize(params)
-    @queries = params[:search]
+    @queries = params
     @collection = Page.all
   end
 
@@ -23,6 +23,8 @@ class Search::PageSearcher
             search_by_campaign(query)
           when 'plugin_type'
             search_by_plugin_type(query)
+          when 'publish_status'
+            search_by_publish_status(query)
           when 'order_by'
             order_by(query)
         end
@@ -107,6 +109,10 @@ class Search::PageSearcher
     end
     # get pages that match ids of pages that contain the plugin type from the collection
     @collection = @collection.where(id: matches_by_plugins)
+  end
+
+  def search_by_publish_status(query)
+    @collection = @collection.where(publish_status: query)
   end
 
   def order_by(query)

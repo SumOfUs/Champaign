@@ -30,35 +30,32 @@ RSpec.shared_context 'multiple_search_data' do
   }
 
   let(:content_tag_language_params) {
-    { search: {
-        content_search: 'multimatch',
-        tags: [tag.id],
-        language: language.id
-    }
+    {
+      content_search: 'multimatch',
+      tags: [tag.id],
+      language: language.id
     }
   }
 
   let(:content_language_campaign_tags_params) {
-    { search: {
-        content_search: 'multimatch',
-        language: language.id,
-        campaign: campaign,
-        tags: [tag.id]
-    }
+    {
+      content_search: 'multimatch',
+      language: language.id,
+      campaign: campaign,
+      tags: [tag.id]
     }
   }
 
   let(:layout_tags_searcher_params) {
-    { search: {
-        tags: [tag.id],
-        layout: layout
-    }
+    {
+      tags: [tag.id],
+      layout: layout
     }
   }
 
   let(:content_language_campaign_tags_searcher) { Search::PageSearcher.new(content_language_campaign_tags_params) }
   let(:content_tag_language_searcher) { Search::PageSearcher.new(content_tag_language_params) }
-  let(:layout_searcher) { Search::PageSearcher.new({search: {layout: [create(:liquid_layout, title:'tricky layout')]} }) }
+  let(:layout_searcher) { Search::PageSearcher.new(layout: [create(:liquid_layout, title:'tricky layout')]) }
   let(:layout_tags_searcher) { Search::PageSearcher.new(layout_tags_searcher_params) }
 
 end

@@ -1,5 +1,5 @@
 - if user_signed_in? && page.present?
-  .campaigner-overlay.mobile-hide class="#{page.active? ? 'campaigner-overlay--active' : 'campaigner-overlay--inactive'}" data-status="#{page.active? ? 'active' : 'inactive'}"
+  .campaigner-overlay.mobile-hide class="#{page.published? ? 'campaigner-overlay--active' : 'campaigner-overlay--inactive'}" data-status="#{page.published? ? 'active' : 'inactive'}"
     .campaigner-overlay__close.fa.fa-close
     .campaigner-overlay__status.campaigner-overlay__info--active
       | Published
@@ -13,7 +13,7 @@
       = form_for page, url: api_page_path(page), remote: true do |ff|
         / we have nested page[page][active] to match the massive nested form submitted with the one-form
         = ff.fields_for :page do |f|
-          = f.hidden_field :active, class: 'campaigner-overlay__publish-field', value: !page.active?
+          = f.hidden_field :publish_status, class: 'campaigner-overlay__publish-field', value: page.published? ? "unpublished" : "published"
           = f.submit "Publish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--inactive'
           = f.submit "Unpublish", class: 'campaigner-overlay__toggle-publish campaigner-overlay__info--active', 'data-confirm' => "Are you sure you want to unpublish this page? It will become inaccessible except to logged-in campaigners."
       = link_to 'Edit', edit_page_path(page), class: 'campaigner-overlay__edit-link'

@@ -53,6 +53,8 @@ Rails.application.routes.draw do
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
+
+    resource :archive, only: [:create, :destroy], controller: 'page_archives'
   end
 
   resources :pages, path: 'a', as: 'member_facing_page', only: [:edit, :show] do
@@ -137,20 +139,17 @@ Rails.application.routes.draw do
       post 'webhook'
     end
 
-    namespace :pages do
-      get 'featured/', action: 'show_featured'
-    end
-
     resources :pages do
+      get 'share-rows', on: :member, action: 'share_rows'
+      get 'featured', on: :collection
+
       resource  :analytics
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
       end
-
-      get 'share-rows', on: :member, action: 'share_rows'
     end
 
-    resources :members 
+    resources :members
   end
   # Example resource route within a namespace:
   #   namespace :admin do

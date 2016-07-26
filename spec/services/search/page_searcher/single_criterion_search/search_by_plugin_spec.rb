@@ -24,30 +24,30 @@ describe 'Search ::' do
 
         describe 'returns all pages when searching' do
           it 'with an empty array' do
-            expect(Search::PageSearcher.new({search: {plugin_type: []}}).search).to match_array(Page.all)
+            expect(Search::PageSearcher.new(plugin_type: []).search).to match_array(Page.all)
           end
           it 'with nil' do
-            expect(Search::PageSearcher.new({search: {plugin_type: nil}}).search).to match_array(Page.all)
+            expect(Search::PageSearcher.new(plugin_type: nil).search).to match_array(Page.all)
           end
           it 'with empty string' do
-            expect(Search::PageSearcher.new({search: {plugin_type: ""}}).search).to match_array(Page.all)
+            expect(Search::PageSearcher.new(plugin_type: "").search).to match_array(Page.all)
           end
         end
 
         describe 'returns no pages when searching' do
           it 'with a plugin has been turned off on all of the pages' do
-            expect(Search::PageSearcher.new({search: {plugin_type: ['Plugins::Thermometer']}}).search).to match_array([])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer']).search).to match_array([])
           end
           it 'with a plugin that does not exist' do
-            expect(Search::PageSearcher.new({search: {plugin_type: ['Plugins::UnusedPlugin']}}).search).to match_array([])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::UnusedPlugin']).search).to match_array([])
           end
           it 'with several plugins where a page matches one but not the rest of them' do
-            expect(Search::PageSearcher.new({search: {plugin_type: ['Plugins::Thermometer', 'Plugins::UnusedPlugin']}}).search).to match_array([])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer', 'Plugins::UnusedPlugin']).search).to match_array([])
           end
 
           it 'with several plugins where at least one page matches by criteria but at least one of the requested plugins is deactivated' do
             default_page_thermometer.update(active: false)
-            expect(Search::PageSearcher.new({search: {plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']}}).search).to match_array([])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search).to match_array([])
           end
         end
 
@@ -61,7 +61,7 @@ describe 'Search ::' do
             expect(default_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.page).to eq(thermometer_page)
-            expect((Search::PageSearcher.new({search: {plugin_type: ['Plugins::Thermometer']}})).search).to match_array([default_page, thermometer_page])
+            expect((Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer'])).search).to match_array([default_page, thermometer_page])
           end
 
           it 'with several plugins, if a page exists where all of them are active' do
@@ -75,7 +75,7 @@ describe 'Search ::' do
             petition_page_thermometer.update(active: false)
             thermometer_page_thermometer.update(active: true)
 
-            expect(Search::PageSearcher.new({search: {plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']}}).search).to match_array([default_page])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search).to match_array([default_page])
           end
         end
       end

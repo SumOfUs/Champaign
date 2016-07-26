@@ -210,11 +210,13 @@ describe "Braintree API" do
               expect(member.first_name).not_to eq 'Bernie'
               expect(member.last_name).not_to eq 'Sanders'
               expect(member.postal).to eq nil
+              expect(member.donor_status).to eq 'nondonor'
               expect{ subject }.to change{ Member.count }.by 0
               member.reload
               expect(member.first_name).to eq 'Bernie'
               expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
+              expect(member.donor_status).to eq 'donor'
             end
 
             it 'responds successfully with transaction_id' do
@@ -520,6 +522,7 @@ describe "Braintree API" do
               expect(member.first_name).to eq 'Bernie'
               expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
+              expect(member.donor_status).to eq 'donor'
             end
 
             it 'responds successfully with transaction_id' do
@@ -719,11 +722,13 @@ describe "Braintree API" do
               expect(member.first_name).not_to eq 'Bernie'
               expect(member.last_name).not_to eq 'Sanders'
               expect(member.postal).to eq nil
+              expect(member.donor_status).to eq 'nondonor'
               expect{ subject }.to change{ Member.count }.by 0
               member.reload
               expect(member.first_name).to eq 'Bernie'
               expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
+              expect(member.donor_status).to eq 'recurring_donor'
             end
 
             it 'responds successfully with subscription_id' do
@@ -1028,6 +1033,7 @@ describe "Braintree API" do
               expect(member.first_name).to eq 'Bernie'
               expect(member.last_name).to eq 'Sanders'
               expect(member.postal).to eq '11225'
+              expect(member.donor_status).to eq 'recurring_donor'
             end
 
             it 'responds successfully with subscription_id' do

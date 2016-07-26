@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160714144121) do
+ActiveRecord::Schema.define(version: 20160720201341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,9 +168,10 @@ ActiveRecord::Schema.define(version: 20160714144121) do
     t.string   "title"
     t.string   "address1"
     t.string   "address2"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "actionkit_user_id"
+    t.integer  "donor_status",      default: 0, null: false
   end
 
   add_index "members", ["actionkit_user_id"], name: "index_members_on_actionkit_user_id", using: :btree
@@ -188,7 +189,6 @@ ActiveRecord::Schema.define(version: 20160714144121) do
     t.text     "messages"
     t.text     "content",                    default: ""
     t.boolean  "featured",                   default: false
-    t.boolean  "active",                     default: false
     t.integer  "liquid_layout_id"
     t.integer  "follow_up_liquid_layout_id"
     t.integer  "action_count",               default: 0
@@ -198,12 +198,14 @@ ActiveRecord::Schema.define(version: 20160714144121) do
     t.integer  "follow_up_plan",             default: 0,         null: false
     t.integer  "follow_up_page_id"
     t.text     "javascript"
+    t.integer  "publish_status",             default: 1,         null: false
   end
 
   add_index "pages", ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id", using: :btree
   add_index "pages", ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id", using: :btree
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree
   add_index "pages", ["primary_image_id"], name: "index_pages_on_primary_image_id", using: :btree
+  add_index "pages", ["publish_status"], name: "index_pages_on_publish_status", using: :btree
 
   create_table "pages_tags", force: :cascade do |t|
     t.integer "page_id"
