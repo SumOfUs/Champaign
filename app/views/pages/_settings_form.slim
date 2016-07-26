@@ -2,6 +2,9 @@
   = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
 
     .form-group
+      = label_with_tooltip(f, :campaign, t('pages.edit.campaign'), t('tooltips.campaign'))
+      = f.select :campaign_id, options_from_collection_for_select(Campaign.all.order(name: :asc), 'id', 'name', page.campaign_id), {include_blank: true}, class: 'form-control'
+    .form-group
       = label_with_tooltip(f, :tag_ids, t('pages.edit.tags'), t('tooltips.tags'))
       = f.select :tag_ids, options_from_collection_for_select(Tag.all, 'id', 'name', page.tag_ids), {}, html_options= {class: 'selectize-container', multiple: true}
 
