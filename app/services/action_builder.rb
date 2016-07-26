@@ -1,5 +1,3 @@
-require_relative 'action_queue'
-
 module ActionBuilder
   def build_action(extra_attrs = {})
     @extra_attrs = extra_attrs

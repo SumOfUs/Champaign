@@ -24,7 +24,7 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def client
-    PaymentProcessor::Clients::Braintree
+    PaymentProcessor::Braintree
   end
 
   def page
