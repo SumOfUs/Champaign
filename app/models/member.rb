@@ -23,6 +23,9 @@ class Member < ActiveRecord::Base
   has_one :customer,               class_name: 'Payment::Braintree::Customer'
   has_many :go_cardless_customers, class_name: 'Payment::GoCardless::Customer'
   has_paper_trail on: [:update, :destroy]
+  has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
+
+  delegate :authenticate, to: :authentication, allow_nil: true
 
   validates :email, uniqueness: true, allow_nil: true
   before_save { email.try(:downcase!) }

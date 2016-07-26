@@ -41,7 +41,7 @@ gem 'aasm'
 gem 'compass-rails', git: 'https://github.com/compass/compass-rails'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 gem 'slim-rails'
 gem 'liquid'
