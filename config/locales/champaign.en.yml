@@ -185,8 +185,6 @@ en:
     index:
       new: "Create a new campaign"
       title: "Campaigns"
-    show:
-      deactivated_notice: "The campaign you requested has been deactivated."
     create:
       notice: "Campaign has been created."
     update:
