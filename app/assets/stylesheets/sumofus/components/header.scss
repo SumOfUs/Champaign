@@ -16,7 +16,7 @@
 
     // when the element is not --at-top, the gradient is moved up and out of the way
     // and a background color is applied.
-    background-color: rgba(0,0,0,0.35);
+    background-color: rgba(0,0,0,0.45);
     background-position: 0 -80px;
     background-repeat: no-repeat;
     @include transition(background-color 0.40s ease-in-out, background-position 0.20s ease-out);
@@ -42,5 +42,11 @@
     @media(max-width: $mobile-width) {
       display: none;
     }
+  }
+  &__pull-right {
+    float: right;
+  }
+  &__pull-left {
+    float: left;
   }
 }

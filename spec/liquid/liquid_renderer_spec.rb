@@ -104,6 +104,11 @@ describe LiquidRenderer do
              follow_up_liquid_layout: create(:liquid_layout),
              follow_up_page:          create(:page))
     end
+    let(:fake_images) do
+      [instance_double(Image, content: nil, content_file_name: 'smile.jpg'),
+       instance_double(Image, content: nil, content_file_name: 'hearts.png')]
+    end
+    let(:empty_img_hash) { { 'urls' => { 'large' => '', 'small' => '', 'original' => '' } } }
 
     subject { renderer.markup_data }
 
@@ -116,6 +121,7 @@ describe LiquidRenderer do
         plugins
         ref
         images
+        named_images
         shares
         country_option_tags
         follow_up_url
@@ -129,6 +135,16 @@ describe LiquidRenderer do
 
     it 'has a follow_up_url' do
       expect(subject.fetch('follow_up_url')).to match(/a\/[a-z0-9\-]+\/follow\-up/)
+    end
+
+    it 'gives image urls in a list for images' do
+      allow(page).to receive(:images).and_return(fake_images)
+      expect(subject['images']).to eq [empty_img_hash, empty_img_hash]
+    end
+
+    it 'gives image urls in a hash for named_images' do
+      allow(page).to receive(:images).and_return(fake_images)
+      expect(subject['named_images']).to eq({ 'smile' => empty_img_hash, 'hearts' => empty_img_hash})
     end
   end
 
