@@ -86,7 +86,7 @@
     </div>
   </div>
   <div class="baysanto__action-block">
-    <div class="baysanto__action-count">527,389</div>
+    <div class="baysanto__action-count action-counter">527,389</div>
     <div class="baysanto__action-count-explanation">
       {{ 'baysanto.action.count_explanation' | t }}
     </div>
@@ -106,3 +106,9 @@
 </div>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var myCounter = new window.sumofus.ActionCounter({ slugs: []});
+  });
+</script>

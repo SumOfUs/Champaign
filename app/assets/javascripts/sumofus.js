@@ -23,5 +23,6 @@ window.sumofus.OverlayToggle = require('sumofus/backbone/overlay_toggle');
 window.sumofus.Thermometer   = require('sumofus/backbone/thermometer');
 window.sumofus.DesktopSticky = require('sumofus/backbone/desktop_sticky');
 window.sumofus.Sidebar       = require('sumofus/backbone/sidebar');
+window.sumofus.ActionCounter = require('sumofus/backbone/action_counter');
 window.sumofus.CampaignerOverlay     = require('sumofus/backbone/campaigner_overlay');
 window.sumofus.BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
