@@ -99,6 +99,9 @@ gem 'config'
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
 
+# JWT
+gem 'jwt'
+
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false
