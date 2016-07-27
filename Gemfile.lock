@@ -369,6 +369,7 @@ GEM
       rails-assets-jquery (>= 1.7.0)
     rails-assets-dropzone (4.3.0)
     rails-assets-jquery (2.2.0)
+    rails-assets-mailcheck (1.1.1)
     rails-assets-moment (2.13.0)
     rails-assets-odometer (0.4.7)
     rails-assets-speakingurl (9.0.0)
@@ -558,6 +559,7 @@ DEPENDENCIES
   i18n-js (>= 3.0.0.rc12)
   jbuilder (~> 2.0)
   jquery-rails
+  jwt
   liquid
   logger
   lograge
@@ -578,6 +580,7 @@ DEPENDENCIES
   rails-assets-d3!
   rails-assets-datatables!
   rails-assets-dropzone!
+  rails-assets-mailcheck!
   rails-assets-moment!
   rails-assets-odometer!
   rails-assets-speakingurl!

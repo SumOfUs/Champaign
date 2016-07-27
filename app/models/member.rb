@@ -73,4 +73,12 @@ class Member < ActiveRecord::Base
       }
     )
   end
+
+  def token_payload
+    {
+      id: id,
+      email: email,
+      authentication: authentication.try(:id),
+    }
+  end
 end
