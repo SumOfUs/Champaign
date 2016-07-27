@@ -18,6 +18,7 @@
 
   &__intro-block {
     background-color: #cd4b21;
+    background-size: cover;
     @include viewport-unit(padding-top, 15vh);
     @include viewport-unit(padding-bottom, 13vh);
   }
@@ -39,7 +40,7 @@
   &__magazine-block {
     background-color: white;
     @include viewport-unit(padding-top, 15vh);
-    @include viewport-unit(padding-bottom, 13vh);
+    padding-bottom: 0;
     color: $text-gray;
   }
   &__magazine-body-text {
@@ -103,12 +104,19 @@
     font-size: 14px;
     text-transform: uppercase;
   }
+  &__banner-between {
+    width: 100%;
+    max-height: 700px;
+    @include viewport-unit(margin-top, 11vh);
+    position: relative;
+    top: 10px;
+  }
 
   &__environmental {
     &-block {
       background-color: #808a11;
-      @include viewport-unit(padding-top, 15vh);
-      @include viewport-unit(padding-bottom, 13vh);
+      @include viewport-unit(padding-top, 5vh);
+      @include viewport-unit(padding-bottom, 15vh);
       color: white;
     }
     &-title {

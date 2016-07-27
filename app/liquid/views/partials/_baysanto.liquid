@@ -1,5 +1,5 @@
 <div class="baysanto">
-  <div class="full-screen-block baysanto__intro-block">
+  <div class="full-screen-block baysanto__intro-block" style="background-image: url({{ images[0].urls.large }})">
     <h1 class="hero-title hero-title--white">
       {{ 'baysanto.intro.title' | t }}
     </h1>
@@ -14,6 +14,7 @@
     <div class="baysanto__magazine-body-text">
       {{ content }}
     </div>
+    <img src="{{ images[1].urls.large }}" class="baysanto__banner-between">
   </div>
   <div class="baysanto__environmental-block">
     <h2 class="baysanto__environmental-title">
