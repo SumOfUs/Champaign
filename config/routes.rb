@@ -148,6 +148,12 @@ Rails.application.routes.draw do
       end
     end
 
+    namespace :auth, defaults: { format: 'json' } do
+      post :password
+      post :facebook
+      get :test_authentication
+    end
+
     resources :members
   end
   # Example resource route within a namespace:
