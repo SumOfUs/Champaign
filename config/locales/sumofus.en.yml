@@ -99,6 +99,12 @@ en:
     formats:
       default: "%-d %B %Y"
   baysanto:
+    header:
+      tagline: 'strong in opposition'
+      translate: 'Deutsch'
+      press_room: 'Press Room'
+      the_paper: 'Read the Paper'
+      cta: 'Take Action'
     intro:
       title: "Bayer and Monsanto are seeking an illegal merger to become the world’s largest agroindustrial company"
       details: "Stuck & Grunes, a leading legal firm specialized in mergers and acquisitions, found lorem ipsum dolor sit amet. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."

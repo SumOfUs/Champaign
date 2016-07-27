@@ -16,6 +16,31 @@
     line-height: 1.2em;
   }
 
+  &__header {
+    &-tagline {
+      font-size: 20px;
+      position: relative;
+      padding-left: 10px;
+      top: -1px;
+    }
+    &-logo {
+      float: left;
+      font-size: 30px;
+      line-height: 1em;
+      font-weight: bold;
+      position: relative;
+      top: -4px;
+    }
+    &-menu {
+      a {
+        color: white;
+        margin-left: 15px;
+        position: relative;
+        top: 3px;
+      }
+    }
+  }
+
   &__intro-block {
     background-color: #cd4b21;
     background-size: cover;

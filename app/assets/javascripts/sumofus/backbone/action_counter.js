@@ -26,7 +26,7 @@ const ActionCounter = Backbone.View.extend({
   },
 
   parseActionCount(){
-    let val = parseInt(this.$el.text().replace(/[^0-9]/, ''));
+    let val = parseInt(this.$el.first().text().replace(/[^0-9]/, ''));
     return isNaN(val) ? 0 : val;
   },
 

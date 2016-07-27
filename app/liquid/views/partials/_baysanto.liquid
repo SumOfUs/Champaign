@@ -1,4 +1,19 @@
 <div class="baysanto">
+  <div class="header-logo header-logo--dark checks-top checks-top--at-top">
+    <div class="header-logo__pull-left">
+      <div class="baysanto__header-logo action-counter">527,389</div>
+      <div class="header-logo__tagline baysanto__header-tagline">
+        {{ 'baysanto.header.tagline' | t }}
+      </div>
+    </div>
+    <div class="header-logo__pull-right baysanto__header-menu">
+      <a href="#take-action">{{ 'baysanto.header.translate' | t }}</a>
+      <a href="#take-action">{{ 'baysanto.header.press_room' | t }}</a>
+      <a href="#take-action">{{ 'baysanto.header.the_paper' | t }}</a>
+      <a href="#take-action">{{ 'baysanto.header.cta' | t }}</a>
+    </div>
+  </div>
+
   <div class="full-screen-block baysanto__intro-block" style="background-image: url({{ images[0].urls.large }})">
     <h1 class="hero-title hero-title--white">
       {{ 'baysanto.intro.title' | t }}
@@ -86,7 +101,7 @@
       "{{ 'baysanto.shareholder.quote' | t }}"
     </div>
   </div>
-  <div class="baysanto__action-block">
+  <div class="baysanto__action-block" id="take-action">
     <div class="baysanto__action-count action-counter">527,389</div>
     <div class="baysanto__action-count-explanation">
       {{ 'baysanto.action.count_explanation' | t }}
