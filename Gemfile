@@ -1,3 +1,4 @@
+# coding: utf-8
 source 'https://rubygems.org'
 ruby '2.3.0'
 
@@ -96,6 +97,9 @@ gem 'config'
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
+
+# JWT
+gem 'jwt'
 
 group :development do
   gem 'web-console', '~> 2.0'
