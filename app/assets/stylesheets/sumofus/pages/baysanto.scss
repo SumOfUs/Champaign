@@ -211,10 +211,37 @@
     }
     &-count-explanation {
       @include centered-to-full(450px, 2%);
-      text-align: center;
+      text-align: left;
       font-size: 20px;
       margin-top: 20px;
+      line-height: 1.3em;
     }
+    &-title {
+      font-size: $large-font-size;
+      font-weight: bold;
+      text-align: left;
+      margin-bottom: 45px;
+    }
+    &-opportunities {
+      width: 810px;
+      margin: 70px auto 0;
+      overflow: hidden;
+    }
+    &-opportunity {
+      $padding: 60px;
+      width: 340px;
+      float: left;
+      &--left {
+        padding-right: $padding;
+        border-right: 2px solid white;
+      }
+      &--right {
+        padding-left: $padding;
+      }
+    }
+  }
+  .action-form__welcome-text, .checkbox-label {
+    color: white;
   }
 }
 

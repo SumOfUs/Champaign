@@ -85,11 +85,23 @@
       "{{ 'baysanto.shareholder.quote' | t }}"
     </div>
   </div>
-</div>
-<div class="baysanto__action-block">
-  <div class="baysanto__action-count">527,389</div>
-  <div class="baysanto__action-count-explanation">
-    {{ 'baysanto.action.count_explanation' | t }}
+  <div class="baysanto__action-block">
+    <div class="baysanto__action-count">527,389</div>
+    <div class="baysanto__action-count-explanation">
+      {{ 'baysanto.action.count_explanation' | t }}
+    </div>
+    <div class="baysanto__action-count-explanation">
+      {{ 'baysanto.action.cta_blurb' | t }}
+    </div>
+    <div class="baysanto__action-opportunities">
+      <div class="baysanto__action-opportunity baysanto__action-opportunity--left">
+        <h2 class="baysanto__action-title">{{ 'baysanto.action.petition_title' | t}}</h2>
+        {% include 'Petition' %}
+      </div>
+      <div class="baysanto__action-opportunity baysanto__action-opportunity--right">
+        <h2 class="baysanto__action-title">{{ 'baysanto.action.tweet_title' | t}}</h2>
+      </div>
+    </div>
   </div>
 </div>
 
