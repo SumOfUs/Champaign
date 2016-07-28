@@ -145,10 +145,12 @@ Rails.application.routes.draw do
       end
     end
 
-    namespace :auth, defaults: { format: 'json' } do
-      post :password
-      post :facebook
-      get :test_authentication
+    namespace :stateless, defaults: { format: 'json' } do
+      namespace :auth do
+        post :password
+        post :facebook
+        get :test_authentication
+      end
     end
 
     resources :members
