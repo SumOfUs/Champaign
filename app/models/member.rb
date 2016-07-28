@@ -78,7 +78,7 @@ class Member < ActiveRecord::Base
     {
       id: id,
       email: email,
-      authentication: authentication.try(:id),
+      authentication_id: authentication.try(:id),
     }
   end
 end

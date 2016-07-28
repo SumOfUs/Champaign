@@ -200,4 +200,24 @@ describe Member do
       end
     end
   end
+
+  describe 'token_payload' do
+    let(:member) { create :member }
+
+    it 'returns the { id, email, authentication_id }' do
+      expect(member.token_payload).to include(:id, :email, :authentication_id)
+    end
+
+    it 'has a nil authentication_id if the user has no authentication' do
+      expect(member.token_payload[:authentication_id]).to eq(nil)
+    end
+
+    it 'contains their authentication_id if the user has an authentication' do
+      member.create_authentication
+
+      expect(member.token_payload[:authentication_id]).to(
+        eq(MemberAuthentication.last.id)
+      )
+    end
+  end
 end
