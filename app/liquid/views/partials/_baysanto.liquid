@@ -97,9 +97,43 @@
         {{ 'baysanto.shareholder.details' | t }}
       </div>
     </div>
-    <div class="baysanto__shareholder-quote">
-      "{{ 'baysanto.shareholder.quote' | t }}"
+    <div class="simple-carousel baysanto__shareholder-carousel">
+      <div class="simple-carousel__left">&laquo;</div>
+      <div class="baysanto__shareholder-quote simple-carousel__content">
+        &ldquo;<span class="simple-carousel__text">{{ 'baysanto.shareholder.quotes.first.quote' | t }}</span>&rdquo;
+      </div>
+      <div class="baysanto__shareholder-quoted">
+        - <span class="simple-carousel__attribution">{{ 'baysanto.shareholder.quotes.first.quoted' | t }}</span>, {{ 'baysanto.shareholder.bayer_shareholder' | t }}
+      </div>
+      <div class="simple-carousel__right">&raquo;</div>
     </div>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var quotes = [
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.first.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.first.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.second.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.second.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.third.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.third.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.fourth.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.fourth.quoted' | t }}"
+          },
+          {
+            text:        "{{ 'baysanto.shareholder.quotes.fifth.quote' | t }}",
+            attribution: "{{ 'baysanto.shareholder.quotes.fifth.quoted' | t }}"
+          },
+        ];
+        var mySimpleCarousel = new window.sumofus.SimpleCarousel({content: quotes});
+      });
+    </script>
   </div>
   <div class="baysanto__action-block" id="take-action">
     <div class="baysanto__action-count action-counter">527,389</div>
