@@ -38,7 +38,7 @@ module ExceptionHandler
 
   def expired_token
     render json: { error: { message: 'Token expired' } },
-           status: :bad_request
+           status: :unauthorized
   end
 
   def invalid_parameters(exception)
