@@ -10,7 +10,7 @@ module Api
         credentials = password_authentication_params
         member = Member.find_by(email: credentials[:email])
 
-        if member && member.authenticate(credentials[:password])
+        if member.try(:authenticate, credentials[:password])
           render status: :ok, json: {
             member: member,
             token: encode_jwt(member.token_payload),
