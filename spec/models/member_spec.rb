@@ -151,4 +151,54 @@ describe Member do
       expect{ member.nondonor! }.to change{ member.donor_status }.to 'nondonor'
     end
   end
+
+  describe 'authentication' do
+    let(:member) { create :member }
+
+    context 'when a member has no authentications' do
+      it 'returns `nil`' do
+        expect(member.authenticate('password')).to eq(nil)
+      end
+    end
+
+    context 'when a member has a password authentication' do
+      before do
+        member.create_authentication(password: 'password')
+      end
+
+      it 'returns the `:authentication` record when the password matches' do
+        expect(member.authenticate('password')).to be_a(MemberAuthentication)
+      end
+
+      it 'returns the `false` record when the password does not match' do
+        expect(member.authenticate('invalid_password')).to be(false)
+      end
+
+      it 'destroys their authentication when destroyed' do
+        MemberAuthentication.create(member: member)
+        member.destroy
+        expect(MemberAuthentication.find_by(member_id: member.id)).to be(nil)
+      end
+    end
+  end
+
+  describe 'token_payload' do
+    let(:member) { create :member }
+
+    it 'returns the { id, email, authentication_id }' do
+      expect(member.token_payload).to include(:id, :email, :authentication_id)
+    end
+
+    it 'has a nil authentication_id if the user has no authentication' do
+      expect(member.token_payload[:authentication_id]).to eq(nil)
+    end
+
+    it 'contains their authentication_id if the user has an authentication' do
+      member.create_authentication
+
+      expect(member.token_payload[:authentication_id]).to(
+        eq(MemberAuthentication.last.id)
+      )
+    end
+  end
 end

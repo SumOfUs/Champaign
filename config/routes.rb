@@ -149,6 +149,14 @@ Rails.application.routes.draw do
       end
     end
 
+    namespace :stateless, defaults: { format: 'json' } do
+      namespace :auth do
+        post :password
+        post :facebook
+        get :test_authentication
+      end
+    end
+
     resources :members
   end
   # Example resource route within a namespace:
