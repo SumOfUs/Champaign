@@ -30,12 +30,16 @@ describe 'API::Stateless Authentication' do
       expect(response.status).to eq(200)
     end
 
-    it 'returns a token and the member when authentication is successful' do
-      JWT_REGEX = /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.([a-zA-Z0-9\-_]+)?$/ 
+    it 'returns the member when authentication is successful' do
       credentials = { email: member.email, password: 'password' }
       post('/api/stateless/auth/password', credentials: credentials)
-      expect(json_ostruct.token).to match(JWT_REGEX)
       expect(json_ostruct.member.email).to eq(member.email)
+    end
+
+    it 'returns a valid JWT token when authentication is successful' do
+      credentials = { email: member.email, password: 'password' }
+      post('/api/stateless/auth/password', credentials: credentials)
+      expect { decode_jwt(json_ostruct.token) }.to_not raise_error
     end
   end
 
@@ -54,9 +58,8 @@ describe 'API::Stateless Authentication' do
     end
 
     it 'returns 200 OK if a valid token was provided' do
-      credentials = { email: member.email, password: 'password' }
-      post('/api/stateless/auth/password', credentials: credentials)
-      headers = { authorization: "Bearer #{json_ostruct.token}" }
+      token = encode_jwt(member.token_payload, 0.5)
+      headers = { authorization: "Bearer #{token}" }
       get('/api/stateless/auth/test_authentication', nil, headers)
 
       expect(response.status).to eq(200)
