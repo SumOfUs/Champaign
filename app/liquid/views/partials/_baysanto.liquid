@@ -14,29 +14,30 @@
     </div>
   </div>
 
-  <div class="full-screen-block baysanto__intro-block" style="background-image: url({{ images[0].urls.large }})">
+  <div class="full-screen-block baysanto__intro-block" style="background-image: url({{ named_images['cover-photo'].urls.large }})">
     <h1 class="hero-title hero-title--white">
       {{ 'baysanto.intro.title' | t }}
     </h1>
-    <div class="baysanto__white-body baysanto__intro-details">
+    <div class="baysanto__white-body baysanto__intro-details baysanto__intro-bg-contrast">
       {{ 'baysanto.intro.details' | t }}
     </div>
     <div class="baysanto__white-body baysanto__intro-details">
-      <a href="">{{ 'baysanto.intro.read_the_paper' | t }} &raquo;</a>
+      <a class="baysanto__intro-bg-contrast" href="">{{ 'baysanto.intro.read_the_paper' | t }} &raquo;</a>
     </div>
   </div>
   <div class="baysanto__magazine-block">
     <div class="baysanto__magazine-body-text">
       {{ content }}
     </div>
-    <img src="{{ images[1].urls.large }}" class="baysanto__banner-between">
+    <img src="{{ named_images['crop-dusting-banner'].urls.large }}" class="baysanto__banner-between">
   </div>
   <div class="baysanto__environmental-block">
     <h2 class="baysanto__environmental-title">
       {{ 'baysanto.environmental.title' | t }}
     </h2>
     <div class="baysanto__environmental-group">
-      <div class="baysanto__environmental-icon"></div>
+      <div class="baysanto__environmental-icon"
+           style="background-image: url({{ named_images['monoculture-icon'].urls.original  }})"></div>
       <div class="baysanto__environmental-reason">
         {{ 'baysanto.environmental.first_reason.title' | t }}
       </div>
@@ -45,7 +46,8 @@
       </div>
     </div>
     <div class="baysanto__environmental-group">
-      <div class="baysanto__environmental-icon"></div>
+      <div class="baysanto__environmental-icon"
+      style="background-image: url({{ named_images['pesticide-icon'].urls.original  }})"></div>
       <div class="baysanto__environmental-reason">
         {{ 'baysanto.environmental.second_reason.title' | t }}
       </div>
@@ -54,7 +56,8 @@
       </div>
     </div>
     <div class="baysanto__environmental-group">
-      <div class="baysanto__environmental-icon"></div>
+      <div class="baysanto__environmental-icon"
+      style="background-image: url({{ named_images['food-price-icon'].urls.original  }})"></div>
       <div class="baysanto__environmental-reason">
         {{ 'baysanto.environmental.third_reason.title' | t }}
       </div>
@@ -103,7 +106,7 @@
         &ldquo;<span class="simple-carousel__text">{{ 'baysanto.shareholder.quotes.first.quote' | t }}</span>&rdquo;
       </div>
       <div class="baysanto__shareholder-quoted">
-        - <span class="simple-carousel__attribution">{{ 'baysanto.shareholder.quotes.first.quoted' | t }}</span>, {{ 'baysanto.shareholder.bayer_shareholder' | t }}
+        &mdash; <span class="simple-carousel__attribution">{{ 'baysanto.shareholder.quotes.first.quoted' | t }}</span>, {{ 'baysanto.shareholder.bayer_shareholder' | t }}
       </div>
       <div class="simple-carousel__right">&raquo;</div>
     </div>

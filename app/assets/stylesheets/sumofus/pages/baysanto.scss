@@ -41,19 +41,29 @@
     }
   }
 
+  $bg-brown: #4c2c1b;
   &__intro-block {
-    background-color: #cd4b21;
+    background-color: $bg-brown;
     background-size: cover;
     @include viewport-unit(padding-top, 15vh);
     @include viewport-unit(padding-bottom, 13vh);
+    * {
+      text-shadow: 0px 0px 5px $bg-brown;
+    }
   }
   &__intro-details {
     @include centered-to-full(700px, 2%);
     @include viewport-unit(margin-top, 10vh);
+    line-height: 1.3em;
     a {
       font-weight: bold;
       color: white;
     }
+  }
+  &__intro-bg-contrast {
+    box-shadow: 0 0 20px rgba($bg-brown,0.75);
+    padding: 5px;
+    background: rgba($bg-brown,0.35);
   }
   &__white-body {
     color: white;
@@ -157,9 +167,10 @@
       position: relative;
     }
     &-icon {
-      background: white;
       width: 140px;
       height: 140px;
+      background-size: 100%;
+      background-repeat: no-repeat;
       position: absolute;
       left: 0;
       top: 60px;
@@ -216,6 +227,7 @@
       text-align: center;
       width: 100%;
       margin-top: 15px;
+      font-weight: bold;
     }
     &-carousel {
       @include centered-to-full(800px, 2%);
