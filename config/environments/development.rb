@@ -58,5 +58,17 @@ Rails.application.configure do
   Paperclip.options[:command_path] = '/usr/bin/'
 
   config.cache_store = :null_store
+
+  # allow cross domain requests in development from other localhosts
+  config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
+    allow do
+      origins /localhost:[0-9]+/
+
+      resource '*',
+        headers: :any,
+        methods: [:get, :post, :delete, :put, :patch, :options, :head],
+        max_age: 0
+    end
+  end
 end
 
