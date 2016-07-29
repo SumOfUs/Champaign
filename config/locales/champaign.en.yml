@@ -71,6 +71,7 @@ en:
     follow_up: "Choose what the follow-up page should look like, or redirect to another page after the action"
     image_upload: "Use this uploader for both the page image and any images for shares."
     main_image: "Select which image should appear at the top of the page."
+    campaign: "Action counters of pages belonging to the same campaign are consolidated."
     shares:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
@@ -136,6 +137,7 @@ en:
       show: "Show the page"
       view: 'View'
       tags: "Tags"
+      campaign: "Campaign"
       short_name: "Short Name (no spaces allowed)"
       action_kit_problem: "Whoops! We've had a problem creating your page on ActionKit. Here's what they're saying..."
       action_kit_page_status: "Status Code: %{status}"
@@ -183,8 +185,6 @@ en:
     index:
       new: "Create a new campaign"
       title: "Campaigns"
-    show:
-      deactivated_notice: "The campaign you requested has been deactivated."
     create:
       notice: "Campaign has been created."
     update:
