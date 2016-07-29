@@ -2,7 +2,7 @@
 module Requests
   # Utility methods for converting JSON strings to hashes and ostructs
   module RequestHelpers
-    def json
+    def json_ostruct
       JSON.parse(response.body, object_class: OpenStruct)
     end
 
