@@ -152,7 +152,20 @@
         {% include 'Petition' %}
       </div>
       <div class="baysanto__action-opportunity baysanto__action-opportunity--right">
-        <h2 class="baysanto__action-title">{{ 'baysanto.action.tweet_title' | t}}</h2>
+        <h2 class="baysanto__action-title">{{ 'baysanto.action.tweet_title' | t }}</h2>
+        <div class="twitter-preview baysanto__action-preview">
+          <div class="twitter-preview__image" style="background-image: url({{ primary_image.urls.large }})"></div>
+          <div class="twitter-preview__text-pane">
+            <div class="twitter-preview__title">{{ 'baysanto.action.share.link_preview_1' | t }}</div>
+            <div class="twitter-preview__description">{{ 'baysanto.action.share.link_preview_2' | t }}</div>
+            <div class="twitter-preview__url">{{ 'baysanto.action.share.link_preview_url' | t }}</div>
+          </div>
+        </div>
+        <div class="baysanto__action-tweet-text">
+          <div class="baysanto__action-giant-quote">&ldquo;</div>
+          {{ 'baysanto.action.share.tweet' | t }}
+        </div>
+        <button href="" class="button">{{ 'baysanto.action.share.cta' | t }}</button>
       </div>
     </div>
   </div>
