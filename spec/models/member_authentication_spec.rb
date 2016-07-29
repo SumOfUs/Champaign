@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe MemberAuthentication, type: :model do
-
+describe MemberAuthentication do
   let(:member) { create :member }
   let(:member_authentication) { create :member_authentication }
 
