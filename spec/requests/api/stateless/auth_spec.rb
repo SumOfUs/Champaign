@@ -30,9 +30,10 @@ describe 'API::Stateless Authentication' do
     end
 
     it 'returns a token and the member when authentication is successful' do
+      JWT_REGEX = /^[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.([a-zA-Z0-9\-_]+)?$/ 
       credentials = { email: member.email, password: 'password' }
       post('/api/stateless/auth/password', credentials: credentials)
-      expect(json.token).to be_a(String)
+      expect(json.token).to match(JWT_REGEX)
       expect(json.member.email).to eq(member.email)
     end
   end
