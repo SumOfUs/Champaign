@@ -3,6 +3,7 @@ require 'rails_helper'
 
 describe 'API::Stateless Authentication' do
   include Requests::RequestHelpers
+  include AuthToken
 
   let(:member) { create :member }
 
@@ -41,6 +42,14 @@ describe 'API::Stateless Authentication' do
   context 'When a route requires authentication' do
     it 'returns 401 Unauthorized if no valid token was provided' do
       get('/api/stateless/auth/test_authentication')
+      expect(response.status).to eq(401)
+    end
+
+    it 'returns 401 Unauthorized if the token is expired' do
+      token = encode_jwt(member.token_payload, -1)
+      headers = { authorization: "Bearer #{token}" }
+      get('/api/stateless/auth/test_authentication', nil, headers)
+
       expect(response.status).to eq(401)
     end
 
