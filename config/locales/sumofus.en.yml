@@ -106,20 +106,20 @@ en:
       the_paper: 'Read the Paper'
       cta: 'Take Action'
     intro:
-      title: "Bayer and Monsanto are seeking an illegal merger to become the world’s largest agroindustrial company"
-      details: "Stuck & Grunes, a leading law firm specialized in mergers and acquisitions,  raise significant concerns regarding the legality of a Bayer-Monsanto merger. The proposed merger would violate anti-trust regulation in the US and the EU as well as severely restricting choice and options for both farmers and consumers in a market already dominated by a few large players."
+      title: "A Bayer-Monsanto merger would violate anti-trust laws to create the largest agroindustrial company in the world"
+      details: "Konkurrenz Group, a leading law firm specialized in mergers and acquisitions,  raise significant concerns regarding the legality of a Bayer-Monsanto merger. The proposed merger would violate anti-trust regulation in the US and the EU as well as severely restricting choice and options for both farmers and consumers in a market already dominated by a few large players."
       read_the_paper: "Read the white paper"
     environmental:
-      title: "This merger isn’t just breaking the law, it’s a disaster in the making for our global food supply"
+      title: "This merger isn’t just breaking the law, it’s makes all of our food systems more vulnerable"
       first_reason:
         title: "Fragile monocultures"
-        details: When vast numbers of plants are genetically identical, any disease that threatens that one plant species threatens our entire food supply. Biodiversity is our best insurance against plant diseases, and relying on Bayer-Monsanto's patented seed strains leaves us much more vulnerable.
+        details: More corporate control over farming leads to food systems reliant on fewer and fewer specific types of seeds. If a disease targeted any of Bayer-Monsanto’s patented seed strains, it could spell disaster for our global food systems.
       second_reason:
         title: "Disastrous pesticides"
-        details: Bayer’s “neonic” pesticides are linked to mass bee die-offs, and Monsanto’s RoundUp kills the main food source for Monarch butterflies. We rely on both species to pollinate the crops that keep us alive. What’s more, independent experts of the WHO classified glyphosate, RoundUp's key ingredient, as a probable cause of cancer.
+        details: Bayer’s neonic pesticides are harming bee populations worldwide, and Monsanto’s Roundup kills the main food source for Monarch butterflies, which are now at risk of extinction. We rely on both species to pollinate our crops. What’s more, independent experts of the WHO classified glyphosate, RoundUp's key ingredient, as a probable cause of cancer.
       third_reason:
         title: "Rising food prices"
-        details: Consumers could be at the mercy of Bayer-Monsanto when it comes to food prices and choice. Higher seed and fertilizer prices for farmers translates into higher food prices for consumers – especially painful for low income families that can’t afford to pay more. We could also see less variety on our shelves, as Monsanto-Bayer would price out smaller, organic farmers. 
+        details: A Bayer-Monsanto mega corporation would have a lot of power over seed and fertilizer prices, which could in turn get passed onto consumers in the grocery aisles. Consumers could also be faced with fewer organic and non-GMO food options.
     shareholder:
       title: "What’s more, <br>only 7% of Bayer shareholders think the acquisition is a good strategic move"
       details: "Bernstein and Company conducted an independent poll of Bayer shareholders and found that only 7% supported the acquisition. Bernstein has no connection to SumOfUs or other advocacy groups.<br><br> According to investment magazine the Motley Fool, “[Investors] immediately after the takeover offer was announced, castigated it as an 'immediate destruction' of shareholder value. That view seems to be shared by the investors surveyed by Bernstein, who by and large believe Bayer should focus on either healthcare (50% of respondents) or its pharma pipeline (39%)."
@@ -127,19 +127,19 @@ en:
       quotes:
         first:
           quote: "As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate. That's bad for my profits."
-          quoted: Alan R.
+          quoted: J. Gruber
         second:
           quote: "As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value."
-          quoted: Beth G.
+          quoted: Angelos K.
         third:
           quote: "I hold Bayer stock but am NOT on board with this merger. Monsanto is a dangerous entity, ruining essential biodiversity. I've done my research and Monsanto is a liability for our entire future's food security. I will be selling my Bayer stock if this merger occurs."
-          quoted: Charlie H.
+          quoted: Oliva B.
         fourth:
-          quote: "4th - As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate."
-          quoted: Anne F.
+          quote: "I oppose this merger because Monsanto has a bad reputation and it would make Bayer's repuation worse. People would be less trusting of this company."
+          quoted: Rob B.
         fifth:
-          quote: "5th - As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value."
-          quoted: Heinrich L..
+          quote: "Monsanto will be a toxic burden to Bayer. The public's disdain of Monsanto will taint Bayer's reputation and share prices will drop. I will dump my shares in Bayer if there is a merger, just as I have already done with Monsanto. No merger please!"
+          quoted: Sharon L.
     action:
       count_explanation: "people have already taken action to stop this deal."
       cta_blurb: "Join them now, and call on anti-trust authorities in the US and EU to stop Bayer and Monsanto from creating a toxic mega corporation."
