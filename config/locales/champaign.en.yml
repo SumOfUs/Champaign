@@ -192,6 +192,7 @@ en:
       title: "Campaigns"
     create:
       notice: "Campaign has been created."
+      error: "There was an error, please try again."
     update:
       notice: "Campaign has been updated."
     destroy:

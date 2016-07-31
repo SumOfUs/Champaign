@@ -74,14 +74,15 @@ describe CampaignsController do
 
   describe "POST create" do
     let(:fake_params) { { 'name' => 'Foo'} }
+    let(:campaign) { double( :persisted? => true) }
 
     before do
-      allow(Campaign).to receive(:create) { campaign }
+      allow(CampaignCreator).to receive(:run) { campaign }
       post :create, campaign: fake_params
     end
 
-    it 'creates new campaign' do
-      expect(Campaign).to have_received(:create).with(fake_params)
+    it 'calls CampaignCreator.run' do
+      expect(CampaignCreator).to have_received(:run).with(fake_params)
     end
 
     it 'responds with notice' do
