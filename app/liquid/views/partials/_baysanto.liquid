@@ -1,7 +1,9 @@
 <div class="baysanto">
   <div class="header-logo header-logo--dark checks-top checks-top--at-top">
     <div class="header-logo__pull-left">
-      <div class="baysanto__header-logo action-counter baysanto__header-drop-2">527,389</div>
+      <div class="baysanto__header-logo action-counter baysanto__header-drop-2">
+        {{ plugins.thermometer['default'].signatures }}
+      </div>
       <div class="header-logo__tagline baysanto__header-tagline">
         {{ 'baysanto.header.tagline' | t }}
       </div>
@@ -139,7 +141,8 @@
     </script>
   </div>
   <div class="baysanto__action-block" id="take-action">
-    <div class="baysanto__action-count action-counter">527,389</div>
+    <div style="display:none;">{% include 'Thermometer', ref: '' %}</div>
+    <div class="baysanto__action-count action-counter">{{ plugins.thermometer['default'].signatures }}</div>
     <div class="baysanto__action-count-explanation">
       {{ 'baysanto.action.count_explanation' | t }}
     </div>
@@ -147,9 +150,32 @@
       {{ 'baysanto.action.cta_blurb' | t }}
     </div>
     <div class="baysanto__action-opportunities">
+      <script type="text/javascript">
+        $(document).ready(function(){
+          var sou = window.sumofus; // convenience binding
+          sou.myActionForm  = new sou.ActionForm({
+            member:           window.sumofus.personalization.member,
+            outstandingFields:window.sumofus.personalization.outstandingFields,
+            location:         window.sumofus.personalization.location,
+            akid:             window.sumofus.personalization.urlParams.akid,
+            source:           window.sumofus.personalization.urlParams.source,
+            prefill:          true
+          });
+
+          sou.myPetition     = new sou.Petition({
+            submissionCallback: function(){
+              $('form.action-form, .petition-bar__fine-print').addClass('hidden-closed');
+              $('.baysanto__action-follow-up').removeClass('hidden-closed');
+            }
+          });
+        });
+      </script>
       <div class="baysanto__action-opportunity baysanto__action-opportunity--left">
         <h2 class="baysanto__action-title">{{ 'baysanto.action.petition_title' | t}}</h2>
-        {% include 'Petition' %}
+        {% include 'Petition', skip_javascript: true %}
+        <div class="baysanto__action-follow-up hidden-closed">
+          {{ 'baysanto.action.thanks_for_signing' | t }}
+        </div>
       </div>
       <div class="baysanto__action-opportunity baysanto__action-opportunity--right">
         <h2 class="baysanto__action-title">{{ 'baysanto.action.tweet_title' | t }}</h2>
@@ -163,11 +189,16 @@
         </div>
         <div class="baysanto__action-tweet-text">
           <div class="baysanto__action-giant-quote">&ldquo;</div>
-          {{ 'baysanto.action.share.tweet' | t }}
+          {{ 'baysanto.action.share.tweet' | t }} {{ 'baysanto.action.share.link_preview_url' | t }}
         </div>
-        <button href="" class="button">{{ 'baysanto.action.share.cta' | t }}</button>
+        <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+        <a href="https://twitter.com/share" class="twitter-share-button button" data-size="large"
+          data-text="{{ 'baysanto.action.share.tweet' | t }}" data-related="SumOfUs" data-show-count="false">
+          {{ 'baysanto.action.share.cta' | t }}
+        </a>
       </div>
     </div>
+    {% include 'Share' %}
   </div>
 </div>
 
@@ -178,3 +209,24 @@
     var myCounter = new window.sumofus.ActionCounter({ slugs: []});
   });
 </script>
+
+<div class="simple-footer">
+  <div class="center-content">
+    <div class="center-content__one-column">
+      <div class="simple-footer__logo sumofus-logo--negative"></div>
+      <div class="simple-footer__tagline sumofus-logo--tagline">
+        {{ 'branding.tagline' | t }}
+      </div>
+      <div class="simple-footer__license">
+        &copy; 2016 SumOfUs, {{ 'branding.license' | t }}
+      </div>
+      <div class="simple-footer__links">
+        <a href="#take-action" class="simple-footer__link">{{ 'baysanto.header.translate' | t }}</a>
+        <a href="#take-action" class="simple-footer__link">{{ 'baysanto.header.press_room' | t }}</a>
+        <a href="#take-action" class="simple-footer__link">{{ 'baysanto.header.the_paper' | t }}</a>
+        <a href="{{ 'footer.privacy_policy_url' | t }}" class="simple-footer__link">{{ 'footer.privacy_policy' | t }}</a>
+        <a href="{{ 'footer.contact_url' | t }}" class="simple-footer__link">{{ 'footer.contact' | t }}</a>
+      </div>
+    </div>
+  </div>
+</div>
