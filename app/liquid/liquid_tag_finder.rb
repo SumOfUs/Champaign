@@ -66,6 +66,11 @@ class LiquidTagFinder
     has_comment?('experimental')
   end
 
+  # Looks for a liquid comment like {% comment %} Skip smoke tests: true {% endcomment %}
+  def skip_smoke_tests?
+    has_comment?('skip smoke tests')
+  end
+
   # Looks for a liquid comment like {% comment %} Primary layout: true {% endcomment %}
   def primary_layout?
     has_comment?('primary layout')

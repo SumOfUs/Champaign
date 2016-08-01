@@ -15,9 +15,6 @@ class CampaignsController < ApplicationController
   end
 
   def show
-    unless @campaign.active?
-      raise ActionController::RoutingError.new( t('campaigns.show.deactivated_notice') )
-    end
   end
 
   def edit

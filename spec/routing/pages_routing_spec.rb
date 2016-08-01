@@ -74,7 +74,7 @@ describe PagesController, type: :routing do
       end
 
       it "does not route to #index" do
-        expect(:get => "/a" ).not_to be_routable
+        expect(:get => "/a" ).to route_to('uris#show', path: 'a')
       end
 
       it "does not route to #create" do

@@ -18,11 +18,6 @@ FactoryGirl.define do
     admin true
   end
 
-  factory :campaign do
-    name { Faker::Company.bs }
-    active true
-  end
-
   factory :tag do
     sequence(:name) { |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" }
     actionkit_uri

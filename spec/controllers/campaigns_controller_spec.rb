@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe CampaignsController do
   let(:user) { instance_double('User', id: '1') }
-  let(:campaign) { instance_double('Campaign', active?: true) }
+  let(:campaign) { instance_double('Campaign') }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
@@ -65,28 +65,11 @@ describe CampaignsController do
       get :show, id: 1
     end
 
-    context "with inactive campaign" do
-      let(:campaign) { instance_double('Campaign', active?: false) }
-
-      it 'raises routing error' do
-        expect{
-          get :show, id: 1
-        }.to raise_error(ActionController::RoutingError)
-      end
+    it 'assigns campaign' do
+      get :show,  id: '1'
+      expect(assigns(:campaign)).to eq(campaign)
     end
 
-    context "with active campaign" do
-      let(:campaign) { instance_double('Campaign', active?: true) }
-
-      before do
-        get :show,  id: '1'
-      end
-
-      it 'assigns campaign' do
-        expect(assigns(:campaign)).to eq(campaign)
-      end
-
-    end
   end
 
   describe "POST create" do

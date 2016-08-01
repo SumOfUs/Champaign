@@ -26,7 +26,7 @@ describe Api::Payment::BraintreeController do
   end
 
   describe "POST transaction" do
-    let(:client) { PaymentProcessor::Clients::Braintree }
+    let(:client) { PaymentProcessor::Braintree }
 
     let(:params) do
       {
@@ -56,7 +56,7 @@ describe Api::Payment::BraintreeController do
 
       describe 'with recurring: true' do
 
-        let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Subscription', action: action, success?: true, subscription_id: 's1234') }
+        let(:builder){ instance_double('PaymentProcessor::Braintree::Subscription', action: action, success?: true, subscription_id: 's1234') }
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
@@ -184,13 +184,13 @@ describe Api::Payment::BraintreeController do
     let(:unsupported_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionCanceled, 'test_id') }
 
     before :each do
-      allow(PaymentProcessor::Clients::Braintree::WebhookHandler).to receive(:handle)
+      allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle)
     end
 
     it 'parses a supported webhook and passes it to the Webhook handler' do
       post :webhook, supported_webhook
       expect(
-        PaymentProcessor::Clients::Braintree::WebhookHandler
+        PaymentProcessor::Braintree::WebhookHandler
       ).to have_received(:handle).with(
         an_instance_of(Braintree::WebhookNotification)
       )
@@ -199,7 +199,7 @@ describe Api::Payment::BraintreeController do
     it 'parse an unsupported_webhook and passes it to the Webhook handler' do
       post :webhook, unsupported_webhook
       expect(
-        PaymentProcessor::Clients::Braintree::WebhookHandler
+        PaymentProcessor::Braintree::WebhookHandler
       ).to have_received(:handle).with(
         an_instance_of(Braintree::WebhookNotification)
       )
@@ -215,5 +215,4 @@ describe Api::Payment::BraintreeController do
       expect(response.status).to eq 200
     end
   end
-
 end

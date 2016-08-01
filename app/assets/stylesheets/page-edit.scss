@@ -236,6 +236,15 @@ body.page-edit-body {
     cursor: pointer;
   }
 
+  .four-ninths.form-group {
+    width: 43%;
+    margin-right: 1%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+
   .two-ninths.form-group {
     width: 21%;
     margin-right: 1%;
