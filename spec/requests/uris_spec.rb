@@ -4,7 +4,6 @@ describe 'URI masking' do
 
   let(:user) { instance_double('User', id: '1') }
   let(:page) { create :page }
-  let(:uri) { create :uri, domain: 'www.example.com', path: 'random', page: page }
 
 
   describe 'when no record matches' do
@@ -18,10 +17,19 @@ describe 'URI masking' do
     end
   end
 
-  it 'renders matching URI record' do
-    uri # lazy let
+  it 'renders matching URI record when path is not root' do
+    uri = create :uri, domain: 'www.example.com', path: 'random', page: page
     allow(LiquidRenderer).to receive(:new).and_call_original
     get '/random'
+    expect(response.status).to eq 200
+    expect(response).to render_template('pages/show')
+    expect(LiquidRenderer).to have_received(:new)
+  end
+
+  it 'renders matching URI record when path is root' do
+    create :uri, domain: 'www.example.com', path: '/', page: page
+    allow(LiquidRenderer).to receive(:new).and_call_original
+    get '/'
     expect(response.status).to eq 200
     expect(response).to render_template('pages/show')
     expect(LiquidRenderer).to have_received(:new)
