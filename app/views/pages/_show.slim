@@ -4,8 +4,8 @@
 - meta optimization_tags: @page.meta_tags
 
 = @rendered
-= render 'personalization', data: @data
-= render 'campaigner_overlay', page: @page
+= render 'pages/personalization', data: @data
+= render 'pages/campaigner_overlay', page: @page
 
 javascript:
   $(document).ready(function() {

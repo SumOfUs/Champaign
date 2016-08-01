@@ -304,3 +304,12 @@ en:
     name: 'Name:'
     amounts: 'Amounts:'
 
+  uris:
+    index:
+      title: "URI masks"
+      new: "Create a new URI mask"
+    domain: 'Domain'
+    path: 'Path'
+    page: 'Page'
+
+

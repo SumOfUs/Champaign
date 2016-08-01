@@ -57,28 +57,6 @@ class PagesController < ApplicationController
 
   private
 
-  def render_liquid(layout, view)
-    return redirect_to(Settings.homepage_url) unless @page.published? || user_signed_in?
-    localize_by_page_language(@page)
-
-    @rendered = renderer(layout).render
-    @data = renderer(layout).personalization_data
-    render view, layout: 'sumofus'
-  end
-
-  def renderer(layout)
-    @renderer ||= LiquidRenderer.new(@page, {
-      location: request.location,
-      member: recognized_member,
-      layout: layout,
-      url_params: params
-    })
-  end
-
-  def recognized_member
-    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
-  end
-
   def get_page
     @page = Page.find(params[:id])
   end
