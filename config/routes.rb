@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   end
 
   # Standard resources
+  resources :uris, except: [:new, :edit]
   resources :campaigns
   resources :donation_bands, except: [:show, :destroy]
 
