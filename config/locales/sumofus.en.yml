@@ -105,6 +105,7 @@ en:
       press_room: 'Press Room'
       the_paper: 'Read the Paper'
       cta: 'Take Action'
+      translate_link: '/de'
     intro:
       title: "A Bayer-Monsanto merger would violate anti-trust laws to create the largest agroindustrial company in the world"
       details: "Konkurrenz Group, a leading law firm specialized in mergers and acquisitions,  raise significant concerns regarding the legality of a Bayer-Monsanto merger. The proposed merger would violate anti-trust regulation in the US and the EU as well as severely restricting choice and options for both farmers and consumers in a market already dominated by a few large players."
@@ -123,23 +124,22 @@ en:
     shareholder:
       title: "What’s more, <br>only 7% of Bayer shareholders think the acquisition is a good strategic move"
       details: "Bernstein and Company conducted an independent poll of Bayer shareholders and found that only 7% supported the acquisition. Bernstein has no connection to SumOfUs or other advocacy groups.<br><br> According to investment magazine the Motley Fool, “[Investors] immediately after the takeover offer was announced, castigated it as an 'immediate destruction' of shareholder value. That view seems to be shared by the investors surveyed by Bernstein, who by and large believe Bayer should focus on either healthcare (50% of respondents) or its pharma pipeline (39%)."
-      bayer_shareholder: "Bayer shareholder"
       quotes:
         first:
           quote: "As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate. That's bad for my profits."
-          quoted: J. Gruber
+          quoted: J. Gruber, Bayer shareholder
         second:
           quote: "As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value."
-          quoted: Angelos K.
+          quoted: Angelos K., Bayer shareholder
         third:
           quote: "I hold Bayer stock but am NOT on board with this merger. Monsanto is a dangerous entity, ruining essential biodiversity. I've done my research and Monsanto is a liability for our entire future's food security. I will be selling my Bayer stock if this merger occurs."
-          quoted: Oliva B.
+          quoted: Oliva B., Bayer shareholder
         fourth:
           quote: "I oppose this merger because Monsanto has a bad reputation and it would make Bayer's repuation worse. People would be less trusting of this company."
-          quoted: Rob B.
+          quoted: Rob B., Bayer shareholder
         fifth:
           quote: "Monsanto will be a toxic burden to Bayer. The public's disdain of Monsanto will taint Bayer's reputation and share prices will drop. I will dump my shares in Bayer if there is a merger, just as I have already done with Monsanto. No merger please!"
-          quoted: Sharon L.
+          quoted: Sharon L., Bayer shareholder
     action:
       count_explanation: "people have already taken action to stop this deal."
       cta_blurb: "Join them now, and call on anti-trust authorities in the US and EU to stop Bayer and Monsanto from creating a toxic mega corporation."
@@ -151,5 +151,6 @@ en:
         link_preview_2: "New research by a leading M&A firm makes it clear"
         link_preview_url: "bayermonsantomerger.com"
         tweet: "A Bayer-Monsanto merger violates the law and is a disaster for our birds, bees and farmers @vestager @LorettaLynch"
+        tweet_link: https://bayermonsantomerger.com
         cta: "Tweet now"
 

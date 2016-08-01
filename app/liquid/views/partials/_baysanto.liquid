@@ -9,9 +9,9 @@
       </div>
     </div>
     <div class="header-logo__pull-right baysanto__header-menu">
-      <a href="/de">{{ 'baysanto.header.translate' | t }}</a>
+      <a href="{{ 'baysanto.header.translate_link' | t }}">{{ 'baysanto.header.translate' | t }}</a>
       <a href="/press">{{ 'baysanto.header.press_room' | t }}</a>
-      <a href="https://download.bayermonsantomerger.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" class="baysanto__header-drop-1">{{ 'baysanto.header.the_paper' | t }}</a>
+      <a href="https://s3-us-west-2.amazonaws.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" class="baysanto__header-drop-1" target="_blank">{{ 'baysanto.header.the_paper' | t }}</a>
       <a href="#take-action" class="baysanto__header-drop-3">{{ 'baysanto.header.cta' | t }}</a>
     </div>
   </div>
@@ -24,7 +24,7 @@
       {{ 'baysanto.intro.details' | t }}
     </div>
     <div class="baysanto__white-body baysanto__intro-details">
-      <a class="baysanto__intro-bg-contrast" href="">{{ 'baysanto.intro.read_the_paper' | t }} &raquo;</a>
+      <a class="baysanto__intro-bg-contrast" href="https://s3-us-west-2.amazonaws.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" target="_blank">{{ 'baysanto.intro.read_the_paper' | t }} &raquo;</a>
     </div>
   </div>
   <div class="baysanto__magazine-block">
@@ -108,7 +108,7 @@
         &ldquo;<span class="simple-carousel__text">{{ 'baysanto.shareholder.quotes.first.quote' | t }}</span>&rdquo;
       </div>
       <div class="baysanto__shareholder-quoted">
-        &mdash; <span class="simple-carousel__attribution">{{ 'baysanto.shareholder.quotes.first.quoted' | t }}</span>, {{ 'baysanto.shareholder.bayer_shareholder' | t }}
+        &mdash; <span class="simple-carousel__attribution">{{ 'baysanto.shareholder.quotes.first.quoted' | t }}</span>
       </div>
       <div class="simple-carousel__right">&raquo;</div>
     </div>
@@ -189,11 +189,11 @@
         </div>
         <div class="baysanto__action-tweet-text">
           <div class="baysanto__action-giant-quote">&ldquo;</div>
-          {{ 'baysanto.action.share.tweet' | t }} {{ 'baysanto.action.share.link_preview_url' | t }}
+          {{ 'baysanto.action.share.tweet' | t }} {{ 'baysanto.action.share.tweet_link' | t }}
         </div>
         <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
         <a href="https://twitter.com/share" class="twitter-share-button button" data-size="large"
-          data-text="{{ 'baysanto.action.share.tweet' | t }}" data-related="SumOfUs" data-show-count="false">
+          data-text="{{ 'baysanto.action.share.tweet' | t }}" data-url="{{ 'baysanto.action.share.tweet_link' | t }}" data-related="SumOfUs" data-show-count="false">
           {{ 'baysanto.action.share.cta' | t }}
         </a>
       </div>
@@ -217,7 +217,7 @@
   });
 </script>
 
-<div class="simple-footer">
+<div class="simple-footer simple-footer--dark">
   <div class="center-content">
     <div class="center-content__one-column">
       <div class="simple-footer__logo sumofus-logo--negative"></div>
@@ -228,9 +228,9 @@
         &copy; 2016 SumOfUs, {{ 'branding.license' | t }}
       </div>
       <div class="simple-footer__links">
-        <a href="#take-action" class="simple-footer__link">{{ 'baysanto.header.translate' | t }}</a>
-        <a href="#take-action" class="simple-footer__link">{{ 'baysanto.header.press_room' | t }}</a>
-        <a href="#take-action" class="simple-footer__link">{{ 'baysanto.header.the_paper' | t }}</a>
+        <a href="{{ 'baysanto.header.translate_link' | t }}" class="simple-footer__link">{{ 'baysanto.header.translate' | t }}</a>
+        <a href="/press" class="simple-footer__link">{{ 'baysanto.header.press_room' | t }}</a>
+        <a href="https://s3-us-west-2.amazonaws.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" class="simple-footer__link" target="_blank">{{ 'baysanto.header.the_paper' | t }}</a>
         <a href="{{ 'footer.privacy_policy_url' | t }}" class="simple-footer__link">{{ 'footer.privacy_policy' | t }}</a>
         <a href="{{ 'footer.contact_url' | t }}" class="simple-footer__link">{{ 'footer.contact' | t }}</a>
       </div>

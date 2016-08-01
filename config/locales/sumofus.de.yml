@@ -100,55 +100,56 @@ de:
       default: "%-d. %B %Y"
   baysanto:
     header:
-      tagline: 'de(people in opposition)'
-      translate: 'de(Deutsch)'
-      press_room: 'de(Press Room)'
-      the_paper: 'de(Read the Paper)'
-      cta: 'de(Take Action)'
+      tagline: 'Menschen engagieren sich bereits gegen die Übernahme'
+      translate: 'English'
+      press_room: 'Presse'
+      the_paper: 'Gutachten'
+      cta: 'Aktiv werden'
+      translate_link: '/'
     intro:
-      title: "de(A Bayer-Monsanto merger would violate anti-trust laws to create the largest agroindustrial company in the world)"
-      details: "de(Konkurrenz Group, a leading law firm specialized in mergers and acquisitions,  raise significant concerns regarding the legality of a Bayer-Monsanto merger. The proposed merger would violate anti-trust regulation in the US and the EU as well as severely restricting choice and options for both farmers and consumers in a market already dominated by a few large players.)"
-      read_the_paper: "de(Read the white paper)"
+      title: "Ein Zusammenschluss von Bayer und Monsanto würde gegen das Kartellrecht verstoßen und den größten Agrochemie-Konzern der Welt schaffen"
+      details: "Die Konkurrenz Group, eine der führenden Anwaltskanzleien im Bereich Firmenübernahmen und -fusionen, äußert massive Vorbehalte hinsichtlich der Rechtmäßigkeit eines Bayer-Monsanto-Deals. Die angestrebte Übernahme verstößt gegen Kartellrecht -- sowohl in der EU, als auch in den USA. Darüber hinaus würde sie in einem bereits stark konzentrierten Markt die Produktalternativen für Landwirteund Verbraucherinnen noch weiter reduzieren."
+      read_the_paper: "Das Gutachten lesen"
     environmental:
-      title: "de(This merger isn’t just breaking the law, it’s makes all of our food systems more vulnerable)"
+      title: "Diese Übernahme verstößt nicht nur gegen das Gesetz, sie wäre auch eine Katastrophe für die weltweite Nahrungsmittelversorgung"
       first_reason:
-        title: "de(Fragile monocultures)"
-        details: de(More corporate control over farming leads to food systems reliant on fewer and fewer specific types of seeds. If a disease targeted any of Bayer-Monsanto’s patented seed strains, it could spell disaster for our global food systems).
+        title: "Anfällige Monokulturen"
+        details: "Ein einzelner Schädling oder eine einzelne Krankheit könnten unsere gesamte Nahrungsversorgung in Gefahr bringen. Wenn wir uns systematisch von Bayer-Monsantos patentiertem Saatgut abhängig machen, ist unsere Landwirtschaft anfälliger und verliert ihre natürliche Widerstandsfähigkeit gegen Krankheiten."
       second_reason:
-        title: "de(Disastrous pesticides)"
-        details: de(Bayer’s neonic pesticides are harming bee populations worldwide, and Monsanto’s Roundup kills the main food source for Monarch butterflies, which are now at risk of extinction. We rely on both species to pollinate our crops. What’s more, independent experts of the WHO classified glyphosate, RoundUp's key ingredient, as a probable cause of cancer).
+        title: "Tödliche Pestizide"
+        details: "Bayer’s Pestizide aus der Klasse der Neonikotinoide werden mit dem Massensterben von Bienen in Verbindung gebracht. Monsantos Glyphosat zerstört die Nahrungsgrundlage von Schmetterlingen. Beide Spezies sind aber für uns Menschen überlebenswichtig: Sie bestäuben die Pflanzen, von denen wir uns ernähren. Und es kommt noch schlimmer: Glyphosat steht unter dem dringenden Verdacht, Krebs zu verursachen."
       third_reason:
-        title: "de(Rising food prices)"
-        details: de(A Bayer-Monsanto mega corporation would have a lot of power over seed and fertilizer prices, which could in turn get passed onto consumers in the grocery aisles. Consumers could also be faced with fewer organic and non-GMO food options).
+        title: "Der größte Agrochemie-Konzern der Welt"
+        details: "Unsere Auswahl an Lebensmitteln und deren Preise könnten bald von der Willkür des Bayer-Monsanto-Konzerns abhängen. Steigende Saatgut- und Düngerpreise führen zu höheren Preisen für uns Verbraucher -- gerade Familien mit niedrigem Einkommen würden besonders darunter leiden. Auch die Auswahl im Obst- und Gemüseregal könnte kleiner werden, wenn Bayer-Monsanto mit seinen Massenprodukten aus industrieller Landwirtschaft kleine Bio-Bauern vom Markt drängt."
     shareholder:
-      title: "de(What’s more, <br>only 7% of Bayer shareholders think the acquisition is a good strategic move)"
-      details: "de(Bernstein and Company conducted an independent poll of Bayer shareholders and found that only 7% supported the acquisition. Bernstein has no connection to SumOfUs or other advocacy groups.<br><br> According to investment magazine the Motley Fool, “[Investors] immediately after the takeover offer was announced, castigated it as an 'immediate destruction' of shareholder value. That view seems to be shared by the investors surveyed by Bernstein, who by and large believe Bayer should focus on either healthcare (50% of respondents) or its pharma pipeline (39)%)."
-      bayer_shareholder: "de(Bayer shareholder)"
+      title: "Nur 7 Prozent der<br> Bayer-Aktionäre halten die Monsanto-Übernahme für strategisch sinnvoll"
+      details: 'Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”' 
       quotes:
         first:
-          quote: "de(As a financial advisor, I oppose this merger because it centralizes food and prescription drugs so intensely that neither Bayer nor Monsanto will be good incubators for NEW ideas. It will be too big of a company and is likely to stagnate. That's bad for my profits.)"
-          quoted: de(J. Gruber)
+          quote: "Sehr geehrter Herr Baumann, im Sinne von uns allen kann ich nur an Ihr gewissen appellieren, den Menschen und der Umwelt nicht weiter so einen Schaden zuzumuten in dem Sie jetzt auch noch Monsanto (zB. als Hersteller von Glyphosat) als Unternehmen aufkaufen. Ich werde im Falle der Umsetzung in jedem Fall meine Aktion von Bayer veräussern."
+          quoted: Bayer-Aktionär
         second:
-          quote: "de(As a Bayer shareholder I see much bigger risks and future losses in the mid to long-term from this merger than actual benefits. Monsanto's business model in based on a single product that is going to be banned in the European market, which induces a great risk in shareholder value.)"
-          quoted: de(Angelos K).
+          quote: "Ein Deutsches Unternehmen sollte noch einen Funken Moral behalten, auch wenn kurzfristige Gewinne locken. Denn langfristig geht so ein Vorgehen auf Kosten aller. Es gibt auch Investoren, die die Gesamtsituation und nicht nur einen kurzen Spekulationsgewinn erwarten. Bitte bedenken Sie das."
+          quoted: Bayer-Aktionär
         third:
-          quote: "de(I hold Bayer stock but am NOT on board with this merger. Monsanto is a dangerous entity, ruining essential biodiversity. I've done my research and Monsanto is a liability for our entire future's food security. I will be selling my Bayer stock if this merger occurs.)"
-          quoted: de(Oliva B).
+          quote: "Bayer, also, der Kernbetrieb, hat - zugegebenermaßen vor längerer Zeit - mal mit Umweltschutz geworben. Ich halte es für absolut unverantwortlich, jetzt im Gegenteil in eine Richtung kompletten Ressourcen-Raubbaus ohne jegliche Bemühung um nachhaltige Entwicklung zu gehen. Ich habe längst meine Aktien verkauft - ein schwaches Signal, deswegen bekräftige ich es mit dieser Nachricht."
+          quoted: Bayer-Aktionär
         fourth:
-          quote: "de(I oppose this merger because Monsanto has a bad reputation and it would make Bayer's repuation worse. People would be less trusting of this company.)"
-          quoted: de(Rob B).
+          quote: "Ich bin absolut gegen Gen-Food und würde sofort gegen Bayer agieren - auch die Aktien und Fonds verkaufen - wenn Bayer Monsanto kauft."
+          quoted: Bayer-Aktionär
         fifth:
-          quote: "de(Monsanto will be a toxic burden to Bayer. The public's disdain of Monsanto will taint Bayer's reputation and share prices will drop. I will dump my shares in Bayer if there is a merger, just as I have already done with Monsanto. No merger please!)"
-          quoted: de(Sharon L).
+          quote: "Ein Deutsches Unternehmen sollte noch einen Funken Moral behalten, auch wenn kurzfristige Gewinne locken. Denn langfristig geht so ein Vorgehen auf Kosten aller. Es gibt auch Investoren, die die Gesamtsituation und nicht nur einen kurzen Spekulationsgewinn erwarten. Bitte bedenken Sie das."
+          quoted: Bayer-Aktionär
     action:
-      count_explanation: "de(people have already taken action to stop this deal.)"
-      cta_blurb: "de(Join them now, and call on anti-trust authorities in the US and EU to stop Bayer and Monsanto from creating a toxic mega corporation.)"
-      petition_title: "de(Sign the petition)"
-      tweet_title: "de(Tweet the paper)"
-      thanks_for_signing: "de(Thanks for signing! Now multiply your impact by spreading the word!)"
+      count_explanation: "Menschen engagieren sich bereits, um diese Übernahme zu verhindern."
+      cta_blurb: “Machen Sie mit -- rufen Sie die Kartellbehörden in Europa und den USA auf, Bayer und Monsanto zu stoppen und einen gefährlichen Mega-Konzern zu verhindern.”
+      petition_title: "Jetzt unterschreiben"
+      tweet_title: "Tweeten Sie an die Kartellbehörden"
+      thanks_for_signing: 'Vielen Dank, dass Sie "Bayer: Stoppen Sie die Übernahme von Monsanto!" mit Ihrer Unterschrift unterstützen.'
       share:
-        link_preview_1: "de(The Bayer Monsanto merger is in clear violation of anti-trust law)"
-        link_preview_2: "de(New research by a leading M&A firm makes it clear)"
-        link_preview_url: "de(bayermonsantomerger.com)"
-        tweet: "de(The proposed merger of Bayer and Monsanto is illegal. @DoJ @EU_anti_trust please take action. learn more at bayermonsantomerger.com)"
-        cta: "de(Tweet now)"
+        link_preview_1: "Bayers Übernahme von Monsanto verstößt gegen das Kartellrecht"
+        link_preview_2: "Neue Studie einer führenden Anwaltskanzlein zweifelt an der Legalität des Bayer-Monsanto-Deals"
+        link_preview_url: "bayermonsantomerger.com"
+        tweet: "Eine Bayer-Monsanto Fusion verstößt gegen Kartellrecht und ist ein Desaster für den Planeten @vestager @LorettaLynch"
+        tweet_link: http://bit.ly/2aVFqfg
+        cta: "Jetzt tweeten"
