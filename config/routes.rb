@@ -8,8 +8,6 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
 
-  root to: 'home#index'
-
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
   post '/tags/add', to: 'tags#add_tag_to_page'
@@ -158,5 +156,7 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  get '*path' => 'uris#show'
   mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
 end
