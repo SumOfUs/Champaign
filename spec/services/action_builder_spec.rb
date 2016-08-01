@@ -56,12 +56,54 @@ describe ActionBuilder do
   it 'correctly builds and returns actions' do
     mab = MockActionBuilder.new(page_id: page.id, email: member.email)
     expect(mab.build_action).to eq(found_action)
+    expect(found_action).not_to be_blank
   end
 
   it 'correctly builds and finds previous actions' do
     mab = MockActionBuilder.new(page_id: page.id, email: member.email)
     mab.build_action
     expect(mab.previous_action).to eq(found_action)
+    expect(found_action).not_to be_blank
+  end
+
+  describe 'previous_action' do
+    let!(:page2) { create :page }
+    let!(:page3) { create :page }
+    let!(:page4) { create :page }
+    let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }
+
+    it "returns nil if no previous action on any page" do
+      expect(mab.previous_action).to eq nil
+    end
+
+    it "returns nil if previous action on another page" do
+      create :action, page: page2, member: member
+      expect(mab.previous_action).to eq nil
+    end
+
+    it "returns nil if previous action on another page in a different campaign" do
+      create :campaign, pages: [page2, page3]
+      create :action, page: page2, member: member
+      expect(mab.previous_action).to eq nil
+    end
+
+    it "returns action on current page if one exists" do
+      action = create :action, page: page, member: member
+      expect(mab.previous_action).to eq action
+    end
+
+    it "returns action on other page in campaign if one campaign" do
+      create :campaign, pages: [page, page2, page3]
+      action = create :action, page: page3, member: member
+      expect(mab.previous_action).to eq action
+    end
+
+    it "returns action on other page in campaign if multiple campaigns" do
+      create :campaign, pages: [page, page2]
+      create :campaign, pages: [page3, page4]
+      action = create :action, page: page2, member: member
+      expect(mab.previous_action).to eq action
+    end
   end
 
   describe 'donor_status' do
