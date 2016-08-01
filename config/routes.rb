@@ -157,6 +157,6 @@ Rails.application.routes.draw do
   #     resources :products
   #   end
 
-  get '*path' => 'uris#show'
-  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
+  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp) && ENV['JS_TEST']
+  get '*path' => 'uris#show'unless defined?(MagicLamp) && ENV['JS_TEST']
 end
