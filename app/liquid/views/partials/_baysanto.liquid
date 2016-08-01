@@ -9,9 +9,9 @@
       </div>
     </div>
     <div class="header-logo__pull-right baysanto__header-menu">
-      <a href="#take-action">{{ 'baysanto.header.translate' | t }}</a>
-      <a href="#take-action">{{ 'baysanto.header.press_room' | t }}</a>
-      <a href="#take-action" class="baysanto__header-drop-1">{{ 'baysanto.header.the_paper' | t }}</a>
+      <a href="/de">{{ 'baysanto.header.translate' | t }}</a>
+      <a href="/press">{{ 'baysanto.header.press_room' | t }}</a>
+      <a href="https://download.bayermonsantomerger.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" class="baysanto__header-drop-1">{{ 'baysanto.header.the_paper' | t }}</a>
       <a href="#take-action" class="baysanto__header-drop-3">{{ 'baysanto.header.cta' | t }}</a>
     </div>
   </div>
@@ -206,7 +206,14 @@
 <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
 <script type="text/javascript">
   $(document).ready(function(){
-    var myCounter = new window.sumofus.ActionCounter({ slugs: []});
+    var myCounter = new window.sumofus.ActionCounter({ slugs: [
+      'bayer-stoppen-sie-die-uebernahme-von-monsanto',
+      'stop-the-bayer-monsanto-mega-merger',
+      'bloquez-l-acquisition-de-monsanto-par-bayer',
+      'bayer-monsanto-de',
+      'bayer-monsanto-merger',
+      'bayer-monsanto'
+    ]});
   });
 </script>
 
