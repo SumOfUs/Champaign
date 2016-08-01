@@ -10,7 +10,6 @@ const SimpleCarousel = Backbone.View.extend({
 
   initialize(options={}) {
     this.content = options.content;
-    console.log(this.content);
     this.currentIdx = 0;
     this.showCurrent();
     window.setInterval(this.cycle.bind(this), 1000);
@@ -34,8 +33,6 @@ const SimpleCarousel = Backbone.View.extend({
 
   showCurrent() {
     this.policeIdx();
-    console.log(this.currentIdx);
-    console.log(this.content[this.currentIdx]);
     this.$('.simple-carousel__text').text(this.content[this.currentIdx].text);
     this.$('.simple-carousel__attribution').text(this.content[this.currentIdx].attribution);
     this.lastMoved = Date.now();

@@ -89,6 +89,7 @@
   }
   &__magazine-body-text {
     @include centered-to-full(700px, 2%);
+    text-align: justify;
     * {
       line-height: 1.4em;
     }
@@ -102,6 +103,7 @@
     position: relative;
     margin-bottom: 14px;
     line-height: 1.2em;
+    text-align: left;
     $quote-jut-1: -75px;
     $quote-break-1: 900px;
     $quote-jut-2: -30px;
@@ -325,6 +327,7 @@
       &--left {
         padding-right: $padding;
         border-right: 2px solid white;
+        min-height: 500px;
       }
       &--right {
         padding-left: $padding;
@@ -336,6 +339,7 @@
         border: none;
         float: none;
         overflow: hidden;
+        min-height: 0;
       }
       @media(max-width: 400px) {
         padding-left: 2%;
