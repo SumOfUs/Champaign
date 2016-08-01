@@ -96,6 +96,29 @@ describe "Api Actions" do
       end
     end
 
+    describe 'existing action' do
+      let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email]}
+      let(:page2) { create :page }
+
+      subject{ post "/api/pages/#{page.id}/actions", params }
+
+      it 'creates a new action if existing action on a different page' do
+        create :action, member: member, page: page2
+        expect{ subject }.to change{ Action.count }.by 1
+      end
+
+      it 'does not create an action if existing action on this page' do
+        create :action, member: member, page: page
+        expect{ subject }.not_to change{ Action.count }
+      end
+
+      it 'does not create an action if existing action of different page in same campaign' do
+        create :action, member: member, page: page2
+        create :campaign, pages: [page, page2]
+        expect{ subject }.not_to change{ Action.count }
+      end
+    end
+
     describe 'akid manipulation' do
       context 'new member' do
         before do
