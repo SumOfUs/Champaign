@@ -2,6 +2,11 @@ require 'rails_helper'
 
 describe LinksController do
   let(:link) { instance_double('Link', save: true) }
+  let(:user) { instance_double('User', id: '1') }
+
+  before :each do
+    allow(request.env['warden']).to receive(:authenticate!) { user }
+  end
 
   describe 'POST #create' do
     let(:page) { instance_double('Page') }
