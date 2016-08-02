@@ -135,6 +135,25 @@ describe ManageAction do
         subject
       end
     end
+
+    context "page permits duplicate actions" do
+      before do
+        page.update(allow_duplicate_actions: true)
+        @action = ManageAction.create(data)
+      end
+
+      it 'returns new action' do
+        expect(subject).not_to eq @action
+        expect(subject).to be_an(Action)
+      end
+
+      it 'posts to queue' do
+        expect(ChampaignQueue).to receive(:push)
+
+        subject
+      end
+    end
+
   end
 end
 
