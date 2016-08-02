@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160726133545) do
+ActiveRecord::Schema.define(version: 20160731195009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,7 +69,6 @@ ActiveRecord::Schema.define(version: 20160726133545) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",     default: true
   end
 
   create_table "donation_bands", force: :cascade do |t|
@@ -214,6 +213,7 @@ ActiveRecord::Schema.define(version: 20160726133545) do
     t.integer  "publish_status",             default: 1,         null: false
   end
 
+  add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
   add_index "pages", ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id", using: :btree
   add_index "pages", ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id", using: :btree
   add_index "pages", ["liquid_layout_id"], name: "index_pages_on_liquid_layout_id", using: :btree
@@ -410,7 +410,6 @@ ActiveRecord::Schema.define(version: 20160726133545) do
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
     t.integer  "offset"
-    t.integer  "goal"
     t.integer  "page_id"
     t.boolean  "active",     default: false
     t.datetime "created_at",                 null: false
@@ -483,6 +482,16 @@ ActiveRecord::Schema.define(version: 20160726133545) do
     t.datetime "updated_at",    null: false
   end
 
+  create_table "uris", force: :cascade do |t|
+    t.string   "domain"
+    t.string   "path"
+    t.integer  "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "uris", ["page_id"], name: "index_uris_on_page_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -548,4 +557,5 @@ ActiveRecord::Schema.define(version: 20160726133545) do
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"
   add_foreign_key "share_twitters", "pages"
+  add_foreign_key "uris", "pages"
 end

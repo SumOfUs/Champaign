@@ -55,4 +55,26 @@ class ApplicationController < ActionController::Base
   def referer_url
     {action_referer: request.referer}
   end
+
+  def render_liquid(liquid_layout, view)
+    return redirect_to(Settings.homepage_url) unless @page.published? || user_signed_in?
+    localize_by_page_language(@page)
+
+    @rendered = renderer(liquid_layout).render
+    @data = renderer(liquid_layout).personalization_data
+    render "pages/#{view}", layout: 'sumofus'
+  end
+
+  def renderer(layout)
+    @renderer ||= LiquidRenderer.new(@page, {
+      location: request.location,
+      member: recognized_member,
+      layout: layout,
+      url_params: params
+    })
+  end
+
+  def recognized_member
+    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
+  end
 end

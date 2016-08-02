@@ -1,0 +1,27 @@
+= render 'shared/sidebar', action: :index, resource: :campaigns
+
+.edit-block
+  h1.edit-block__title= t('.title')
+  .row.inline-editor
+    .col-md-12
+
+      .collection-editor
+        ul.list-group
+          - @uris.each do |uri|
+            = render 'uri', uri: uri
+
+        h4
+          = t('.new')
+        = form_for Uri.new, remote: true, html: {class: 'form-inline', id: 'new_collection_element'}  do |f|
+          .form-group.two-ninths
+            = f.text_field :domain, class: 'form-control', placeholder: t('uris.domain')
+          .form-group.two-ninths
+            = f.text_field :path, class: 'form-control', placeholder: t('uris.path')
+          .form-group.four-ninths
+            = f.select :page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.page_id), {}, {class: 'selectize-container', multiple: false}
+          .form-group.one-ninth
+            = submit_tag t('common.save'), class: 'btn btn-primary xhr-feedback', 'data-disable-with' => t('common.saving')
+
+      javascript:
+        $.publish("collection:edit:loaded");
+

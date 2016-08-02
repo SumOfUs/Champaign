@@ -23,6 +23,15 @@ class LiquidRenderer
     @page.images.map{ |img| image_urls(img) }
   end
 
+  def named_images
+    named = {}
+    @page.images.each do |img|
+      key = img.content_file_name.split('.').first
+      named[key] = image_urls(img)
+    end
+    named
+  end
+
   # this is all of the data that is needed to render the
   # liquid page. the only parts that change on each request
   # are not used when rendering markup
@@ -61,6 +70,7 @@ class LiquidRenderer
       merge( @page.liquid_data ).
       merge( LiquidHelper.globals(page: @page) ).
       merge( images: images).
+      merge( named_images: named_images ).
       merge( primary_image: image_urls(@page.image_to_display)).
       merge( shares: Shares.get_all(@page)).
       merge( follow_up_url: follow_up_url)
@@ -115,8 +125,8 @@ class LiquidRenderer
   end
 
   def image_urls(img)
-    return { urls: { large: '', small: '' } } if img.blank? || img.content.blank?
-    { urls: { large: img.content.url(:large), small: img.content.url(:thumb) } }
+    return { urls: { large: '', small: '', original: '' } } if img.blank? || img.content.blank?
+    { urls: { large: img.content.url(:large), small: img.content.url(:thumb), original: img.content.url(:original) } }
   end
 
   def cache
