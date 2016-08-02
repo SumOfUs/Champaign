@@ -47,6 +47,10 @@
     float: left;
   }
 
+  &--dark {
+    background: #111;
+  }
+
   &__license {
     color: $dingy-gray;
     float: right;
