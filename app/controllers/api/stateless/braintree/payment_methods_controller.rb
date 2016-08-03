@@ -1,8 +1,21 @@
 # frozen_string_literal: true
-<<<<<<< HEAD
 
-=======
->>>>>>> 4f53a2d... Partial attempt at refactoring payment method creation
+module PaymentBraintreeService
+  extend self
+
+  def payment_methods_for_member(member)
+    customer(member).payment_methods.order('created_at desc')
+  end
+
+  def payment_method_for_member(member:, id:)
+    customer(member).payment_methods.find(id)
+  end
+
+  def customer(member)
+    Payment::Braintree::Customer.find_by!(member_id: member.id)
+  end
+end
+
 module Api
   module Stateless
     module Braintree
@@ -10,26 +23,23 @@ module Api
         before_filter :authenticate_request!
 
         def index
-<<<<<<< HEAD
-          @payment_methods = @current_member.braintree_customer.payment_methods
-=======
-          methods = @current_member.braintree_customer.payment_methods
-          #methods = ::Payment::Braintree::PaymentMethod.joins(:customer).where('payment_braintree_customers': { email: @current_member.email })
-          #byebug
-          render json: methods
->>>>>>> 4f53a2d... Partial attempt at refactoring payment method creation
+          @payment_methods = PaymentBraintreeService.payment_methods_for_member(@current_member)
         end
 
+        def destroy
+          @payment_method = PaymentBraintreeService.payment_method_for_member(member: @current_member, id: params[:id])
+
+          result = begin
+                     ::Braintree::PaymentMethod.delete(@payment_method.token)
+                   rescue ::Braintree::NotFoundError
+                     @payment_method.destroy
+                   end
+
+
+          @payment_method.destroy if result.success?
+          render json: { success: true }
+        end
       end
     end
   end
 end
-<<<<<<< HEAD
-=======
-
-
-#SELECT "payment_braintree_payment_methods".* FROM "payment_braintree_payment_methods" 
-#INNER JOIN "payment_braintree_customers" ON 
-#"payment_braintree_customers"."id" = "payment_braintree_payment_methods"."customer_id"
-#WHERE "customer"."email" = $1
->>>>>>> 4f53a2d... Partial attempt at refactoring payment method creation

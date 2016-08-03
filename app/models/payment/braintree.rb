@@ -110,7 +110,7 @@ module Payment::Braintree
     # === Options
     #
     # * +:bt_result+   - A Braintree::Transaction response object or a Braintree::Subscription response
-    #                    (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
+    #   i                 (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
     #                    or a Braintree::WebhookNotification
     # * +:page_id+     - the id of the Page to associate with the transaction record
     # * +:member_id+   - the member_id to associate with the customer record
@@ -142,8 +142,12 @@ module Payment::Braintree
 
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
+      if payment_method_token.nil? || @bt_result.transaction.nil?
+        @local_payment_method_id = nil
+      else
+        @local_payment_method_id = BraintreeServices::PaymentMethodBuilder.new(transaction: @bt_result.transaction, customer: @customer).create.id
+      end
 
-      @local_payment_method_id = BraintreeServices::PaymentMethodBuilder.new(transaction: @bt_result.transaction, customer: @customer).create.id
       record = ::Payment::Braintree::Transaction.create!(transaction_attrs)
 
       return false unless successful?
@@ -227,5 +231,4 @@ module Payment::Braintree
     end
   end
 end
-
 
