@@ -1,13 +1,14 @@
 const ActionCounter = Backbone.View.extend({
 
   el: '.action-counter',
-  ACTION_SOURCE: 'http://live-actions-production.cwctan5wfu.us-west-2.elasticbeanstalk.com',
 
   initialize(options={}) {
-    this.socket = io(this.ACTION_SOURCE);
-    this.socket.on('actions', this.handleMessage.bind(this));
-    this.actionCount = this.parseActionCount();
-    this.slugs = options.slugs || [];
+    if ((typeof options.actionSource) === (typeof "") && options.actionSource.length) {
+      this.socket = io(options.actionSource);
+      this.socket.on('actions', this.handleMessage.bind(this));
+      this.actionCount = this.parseActionCount();
+      this.slugs = options.slugs || [];
+    }
   },
 
   handleMessage(data) {

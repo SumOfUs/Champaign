@@ -1,5 +1,5 @@
 <div class="baysanto">
-  <div class="header-logo header-logo--dark checks-top checks-top--at-top">
+  <div class="header-logo header-logo--dark header-logo--over-form checks-top checks-top--at-top">
     <div class="header-logo__pull-left">
       <div class="baysanto__header-logo action-counter baysanto__header-drop-2">
         {{ plugins.thermometer['default'].signatures }}
@@ -172,7 +172,18 @@
       </script>
       <div class="baysanto__action-opportunity baysanto__action-opportunity--left">
         <h2 class="baysanto__action-title">{{ 'baysanto.action.petition_title' | t}}</h2>
+        <div class="baysanto__action-target">
+          {% unless plugins.petition[ref].target == blank %}
+            {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
+          {% endunless %}
+        </div>
+        <p class="baysanto__action-petition-text">
+          {{ plugins.petition[ref].description }}
+        </p>
         {% include 'Petition', skip_javascript: true %}
+        <div class="petition-bar__fine-print">
+          {{ 'baysanto.action.petition_link' | t }}
+        </div>
         <div class="baysanto__action-follow-up hidden-closed">
           {{ 'baysanto.action.thanks_for_signing' | t }}
         </div>
@@ -203,17 +214,21 @@
 </div>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
-<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+<!-- <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script> -->
 <script type="text/javascript">
   $(document).ready(function(){
-    var myCounter = new window.sumofus.ActionCounter({ slugs: [
-      'bayer-stoppen-sie-die-uebernahme-von-monsanto',
-      'stop-the-bayer-monsanto-mega-merger',
-      'bloquez-l-acquisition-de-monsanto-par-bayer',
-      'bayer-monsanto-de',
-      'bayer-monsanto-merger',
-      'bayer-monsanto'
-    ]});
+    // I'm leaving in commented out code to make it easy to activate this feature without a deploy
+    // var myCounter = new window.sumofus.ActionCounter({
+    //   slugs: [
+    //     'bayer-stoppen-sie-die-uebernahme-von-monsanto',
+    //     'stop-the-bayer-monsanto-mega-merger',
+    //     'bloquez-l-acquisition-de-monsanto-par-bayer',
+    //     'bayer-monsanto-de',
+    //     'bayer-monsanto-merger',
+    //     'bayer-monsanto'
+    //   ],
+    //   actionSource: '//live-actions-production.cwctan5wfu.us-west-2.elasticbeanstalk.com',
+    // });
   });
 </script>
 
