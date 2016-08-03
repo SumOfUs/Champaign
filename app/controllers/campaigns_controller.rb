@@ -14,7 +14,7 @@ class CampaignsController < ApplicationController
     if @campaign.persisted?
       redirect_to :campaigns, notice: t('campaigns.create.notice')
     else
-      flash[:error] = t('campaigns.create.error')
+      flash[:error] = t('campaigns.error')
       render :edit, status: :unprocessable_entity
     end
   end
@@ -26,8 +26,12 @@ class CampaignsController < ApplicationController
   end
 
   def update
-    @campaign.update campaign_params
-    redirect_to :campaigns, notice: t('campaigns.update.notice')
+    if CampaignUpdater.run(@campaign, campaign_params)
+      redirect_to :campaigns, notice: t('campaigns.update.notice')
+    else
+      flash[:error] = t('campaigns.error')
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   # Deactives campaign and its associated pages

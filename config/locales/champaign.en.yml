@@ -192,11 +192,11 @@ en:
       title: "Campaigns"
     create:
       notice: "Campaign has been created."
-      error: "There was an error, please try again."
     update:
       notice: "Campaign has been updated."
     destroy:
       notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
+    error: "There was an error, please try again."
 
   forms:
     index:
