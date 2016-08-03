@@ -111,7 +111,7 @@ en:
       details: "Konkurrenz Group, a leading law firm specialized in mergers and acquisitions,  raise significant concerns regarding the legality of a Bayer-Monsanto merger. The proposed merger would violate anti-trust regulation in the US and the EU as well as severely restricting choice and options for both farmers and consumers in a market already dominated by a few large players."
       read_the_paper: "Read the white paper"
     environmental:
-      title: "This merger isn’t just breaking the law, it’s makes all of our food systems more vulnerable"
+      title: "This merger isn’t just breaking the law, it makes all of our food systems more vulnerable"
       first_reason:
         title: "Fragile monocultures"
         details: More corporate control over farming leads to food systems reliant on fewer and fewer specific types of seeds. If a disease targeted any of Bayer-Monsanto’s patented seed strains, it could spell disaster for our global food systems.
@@ -146,6 +146,7 @@ en:
       petition_title: "Sign the petition"
       tweet_title: "Tweet the paper"
       thanks_for_signing: "Thanks for signing! Now multiply your impact by spreading the word!"
+      petition_link: 'Click <a href="//actions.sumofus.org/a/stop-the-bayer-monsanto-mega-merger">here</a> to read the original petition.'
       share:
         link_preview_1: "The Bayer Monsanto merger is in clear violation of anti-trust law"
         link_preview_2: "New research by a leading M&A firm makes it clear"

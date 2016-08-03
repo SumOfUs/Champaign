@@ -7,13 +7,16 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = stylesheet_link_tag "sumofus"
     = stylesheet_link_tag "liquid"
     = javascript_include_tag "sumofus"
-    = render partial: 'shared/optimizely_snippet'
+
+    - unless @page.optimizely_disabled?
+      = render partial: 'shared/optimizely_snippet'
     = render partial: 'shared/js_locale'
     = render partial: 'shared/google_analytics_snippet'
     = csrf_meta_tags
     = favicon_link_tag 'sumofus/favicon.ico'
     = metamagic
-    link rel="canonical" href=member_facing_page_url(@page)
+    - canonical_url = @page.canonical_url.blank? ? member_facing_page_url(@page) : @page.canonical_url
+    link rel="canonical" href=canonical_url
 
   body
     = yield

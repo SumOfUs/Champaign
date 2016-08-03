@@ -4,6 +4,7 @@ class Page < ActiveRecord::Base
 
   enum follow_up_plan: [:with_liquid, :with_page] # todo - :with_link
   enum publish_status: [:published, :unpublished, :archived]
+  enum optimizely_status: [:optimizely_enabled, :optimizely_disabled]
 
   belongs_to :language
   belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
@@ -25,6 +26,7 @@ class Page < ActiveRecord::Base
   validates :liquid_layout, presence: true
   validates :publish_status, presence: true
   validate  :primary_image_is_owned
+  validates :canonical_url, allow_blank: true, format: { with: /\Ahttps{0,1}:\/\/.+\..+/ }
 
   after_save :switch_plugins
 

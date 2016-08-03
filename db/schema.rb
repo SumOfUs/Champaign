@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160731195009) do
+ActiveRecord::Schema.define(version: 20160802225328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -198,6 +198,8 @@ ActiveRecord::Schema.define(version: 20160731195009) do
     t.integer  "follow_up_page_id"
     t.text     "javascript"
     t.integer  "publish_status",             default: 1,         null: false
+    t.integer  "optimizely_status",          default: 0,         null: false
+    t.string   "canonical_url"
   end
 
   add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
