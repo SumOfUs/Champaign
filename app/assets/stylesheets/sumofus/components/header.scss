@@ -27,6 +27,9 @@
       background-position: 0 0;
     }
   }
+  &--over-form {
+    z-index: 700;
+  }
 
   &--light {
     background: none;

@@ -142,10 +142,11 @@ de:
           quoted: Bayer-Aktionär
     action:
       count_explanation: "Menschen engagieren sich bereits, um diese Übernahme zu verhindern."
-      cta_blurb: “Machen Sie mit -- rufen Sie die Kartellbehörden in Europa und den USA auf, Bayer und Monsanto zu stoppen und einen gefährlichen Mega-Konzern zu verhindern.”
+      cta_blurb: "Machen Sie mit -- rufen Sie die Kartellbehörden in Europa und den USA auf, Bayer und Monsanto zu stoppen und einen gefährlichen Mega-Konzern zu verhindern."
       petition_title: "Jetzt unterschreiben"
       tweet_title: "Tweeten Sie an die Kartellbehörden"
       thanks_for_signing: 'Vielen Dank, dass Sie "Bayer: Stoppen Sie die Übernahme von Monsanto!" mit Ihrer Unterschrift unterstützen.'
+      petition_link: 'Klicken Sie <a href="//actions.sumofus.org/a/bayer-stoppen-sie-die-uebernahme-von-monsanto">hier</a> um die ursprüngliche Petition zu lesen.'
       share:
         link_preview_1: "Bayers Übernahme von Monsanto verstößt gegen das Kartellrecht"
         link_preview_2: "Neue Studie einer führenden Anwaltskanzlein zweifelt an der Legalität des Bayer-Monsanto-Deals"

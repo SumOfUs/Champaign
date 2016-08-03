@@ -171,6 +171,7 @@
       @include centered-to-full(700px, 2%);
       padding-bottom: 10px;
       text-align: center;
+      @include hyphenation();
     }
     &-group {
       padding-top: 60px;
@@ -259,7 +260,7 @@
     &-carousel {
       @include centered-to-full(800px, 2%);
       margin-top: 200px;
-      height: 250px;
+      height: 300px;
       @media(max-width: 670px) {
         margin-top: 100px;
       }
@@ -348,15 +349,15 @@
         @include box-sizing(border-box);
       }
     }
-    &-preview {
-      transform: scale(0.68);
-      transform-origin: top left;
+    &-petition-text {
+      margin-bottom: 15px;
+      font-size: 16px;
     }
     &-tweet-text {
-      font-size: 17px;
+      font-size: 16px;
       line-height: 1.3em;
       position: relative;
-      margin: -80px 0 20px;
+      margin: 20px 0 20px;
     }
     &-giant-quote {
       position: absolute;
@@ -364,8 +365,13 @@
       font-weight: bold;
       font-family: $helvetica;
       opacity: 0.3;
-      top: -60px;
+      top: -50px;
       left: -40px;
+    }
+    &-target {
+      margin: 0 0 8px 0;
+      font-weight: bold;
+      font-size: 16px;
     }
   }
   .action-form__welcome-text, .checkbox-label {
@@ -383,6 +389,9 @@
   }
   @media(max-width: 700px) {
     font-size: 42px;
+  }
+  @media(max-width: 500px) {
+    font-size: 32px;
   }
 }
 
@@ -419,7 +428,10 @@
 .twitter-preview {
   border: 1px solid #e1e8ed;
   border-radius: 6px;
-  width: 506px;
+  width: 340px;
+  @media(max-width: 370px) {
+    width: 100%;
+  }
   background: white;
   color: black;
   font-size: 14px;
@@ -429,7 +441,7 @@
     background-size: cover;
     border-bottom: 1px solid #e1e8ed;
     width: 100%;
-    height: 253px;
+    height: 173px;
   }
   &__text-pane {
     padding: 10px 14px;

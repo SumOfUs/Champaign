@@ -37,6 +37,12 @@ describe Page do
   it { is_expected.to respond_to :plugin_names }
   it { is_expected.to respond_to :meta_tags }
   it { is_expected.to respond_to :javascript }
+  it { is_expected.to respond_to :canonical_url }
+  it { is_expected.to respond_to :optimizely_status }
+  it { is_expected.to respond_to :optimizely_enabled? }
+  it { is_expected.to respond_to :optimizely_disabled? }
+  it { is_expected.to respond_to :optimizely_enabled! }
+  it { is_expected.to respond_to :optimizely_disabled! }
 
   it { is_expected.not_to respond_to :secondary_liquid_layout }
 
@@ -413,6 +419,33 @@ describe Page do
       it 'finds featured' do
         expect(Page.featured).to match([featured_page])
       end
+    end
+  end
+
+  describe 'canonical_url' do
+    it 'is valid as nil' do
+      page.canonical_url = nil
+      expect(page).to be_valid
+    end
+
+    it 'is valid as empty string' do
+      page.canonical_url = ''
+      expect(page).to be_valid
+    end
+
+    it 'is invalid as a url without a protocol' do
+      page.canonical_url = 'google.com'
+      expect(page).to be_invalid
+    end
+
+    it 'is invalid as a protocol without a url' do
+      page.canonical_url = 'https://lol'
+      expect(page).to be_invalid
+    end
+
+    it 'is valid as a url with a protocol' do
+      page.canonical_url = 'https://google.com'
+      expect(page).to be_valid
     end
   end
 end
