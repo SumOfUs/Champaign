@@ -18,11 +18,35 @@ describe 'API::Stateless PaymentMethods' do
     { authorization: "Bearer #{token}" }
   end
 
-  it 'returns payment methods for member' do
-    get '/api/stateless/braintree/payment_methods', nil, auth_headers
-    expect(response.status).to eq(200)
+  describe 'GET index' do
+    it 'returns payment methods for member' do
+      get '/api/stateless/braintree/payment_methods', nil, auth_headers
 
-    expect(json_hash.first.keys).to include('token', 'last_4', 'bin', 'email', 'expiration_date')
+      expect(response.status).to eq(200)
+      expect(json_hash.first.keys).to include('token', 'last_4', 'bin', 'email', 'expiration_date')
+    end
+  end
+
+  describe 'DELETE destroy' do
+    let(:success_object) { double(success?: true)}
+    before do
+      allow(::Braintree::PaymentMethod).to receive(:delete){ success_object }
+      delete "/api/stateless/braintree/payment_methods/#{method_a.id}", nil, auth_headers
+    end
+
+    it 'destroys record locally' do
+      expect(response.status).to eq(200)
+
+      expect(
+        Payment::Braintree::PaymentMethod.exists?(id: method_a.id)
+      ).to be false
+    end
+
+    it 'destroys record from Braintree' do
+      expect(::Braintree::PaymentMethod).to have_received(:delete).with(method_a.token)
+    end
   end
 end
+
+
 

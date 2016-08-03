@@ -248,11 +248,9 @@ ActiveRecord::Schema.define(version: 20160802225329) do
 
   create_table "payment_braintree_payment_methods", force: :cascade do |t|
     t.string   "token"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "customer_id"
-<<<<<<< HEAD
-=======
     t.string   "card_type"
     t.string   "bin"
     t.string   "cardholder_name"
@@ -260,7 +258,6 @@ ActiveRecord::Schema.define(version: 20160802225329) do
     t.string   "expiration_date"
     t.string   "instrument_type"
     t.string   "email"
->>>>>>> 4f53a2d... Partial attempt at refactoring payment method creation
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
@@ -542,7 +539,6 @@ ActiveRecord::Schema.define(version: 20160802225329) do
   add_foreign_key "actions", "pages"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
-  add_foreign_key "member_authentications", "members"
   add_foreign_key "pages", "campaigns"
   add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"
