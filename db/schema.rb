@@ -253,6 +253,9 @@ ActiveRecord::Schema.define(version: 20160802160705) do
     t.string   "bin"
     t.string   "cardholder_name"
     t.string   "last_4"
+    t.string   "expiration_date"
+    t.string   "instrument_type"
+    t.string   "email"
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
