@@ -10,8 +10,13 @@ class CampaignsController < ApplicationController
   end
 
   def create
-    @campaign = Campaign.create permitted_params
-    redirect_to :campaigns, notice: t('campaigns.create.notice')
+    @campaign = CampaignCreator.run campaign_params
+    if @campaign.persisted?
+      redirect_to :campaigns, notice: t('campaigns.create.notice')
+    else
+      flash[:error] = t('campaigns.error')
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -21,8 +26,12 @@ class CampaignsController < ApplicationController
   end
 
   def update
-    @campaign.update permitted_params
-    redirect_to :campaigns, notice: t('campaigns.update.notice')
+    if CampaignUpdater.run(@campaign, campaign_params)
+      redirect_to :campaigns, notice: t('campaigns.update.notice')
+    else
+      flash[:error] = t('campaigns.error')
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   # Deactives campaign and its associated pages
@@ -35,7 +44,7 @@ class CampaignsController < ApplicationController
 
   private
 
-  def permitted_params
+  def campaign_params
     params.require(:campaign).permit(:id, :name)
   end
 
