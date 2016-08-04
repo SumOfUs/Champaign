@@ -11,11 +11,14 @@ describe "Liquid page rendering" do
           language = create :language, code: language_code
           LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
           layout = LiquidLayout.find_by(title: title)
-          page = create :page, liquid_layout: layout, language: language
 
-          get "/pages/#{page.id}"
-          expect(response).to be_successful
-          expect(response).to render_template(:show)
+          unless LiquidTagFinder.new(layout.content).skip_smoke_tests?
+            page = create :page, liquid_layout: layout, language: language
+
+            get "/pages/#{page.id}"
+            expect(response).to be_successful
+            expect(response).to render_template(:show)
+          end
         end
       end
     end

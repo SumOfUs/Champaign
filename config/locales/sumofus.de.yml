@@ -98,4 +98,58 @@ de:
   time:
     formats:
       default: "%-d. %B %Y"
-
+  baysanto:
+    header:
+      tagline: 'Menschen engagieren sich bereits gegen die Übernahme'
+      translate: 'English'
+      press_room: 'Presse'
+      the_paper: 'Gutachten'
+      cta: 'Aktiv werden'
+      translate_link: '/'
+    intro:
+      title: "Ein Zusammenschluss von Bayer und Monsanto würde gegen das Kartellrecht verstoßen und den größten Agrochemie-Konzern der Welt schaffen"
+      details: "Die Konkurrenz Group, eine der führenden Anwaltskanzleien im Bereich Firmenübernahmen und -fusionen, äußert massive Vorbehalte hinsichtlich der Rechtmäßigkeit eines Bayer-Monsanto-Deals. Die angestrebte Übernahme verstößt gegen Kartellrecht -- sowohl in der EU, als auch in den USA. Darüber hinaus würde sie in einem bereits stark konzentrierten Markt die Produktalternativen für Landwirteund Verbraucherinnen noch weiter reduzieren."
+      read_the_paper: "Das Gutachten lesen"
+    environmental:
+      title: "Diese Übernahme verstößt nicht nur gegen das Gesetz, sie wäre auch eine Katastrophe für die weltweite Nahrungsmittelversorgung"
+      first_reason:
+        title: "Anfällige Monokulturen"
+        details: "Ein einzelner Schädling oder eine einzelne Krankheit könnten unsere gesamte Nahrungsversorgung in Gefahr bringen. Wenn wir uns systematisch von Bayer-Monsantos patentiertem Saatgut abhängig machen, ist unsere Landwirtschaft anfälliger und verliert ihre natürliche Widerstandsfähigkeit gegen Krankheiten."
+      second_reason:
+        title: "Tödliche Pestizide"
+        details: "Bayer’s Pestizide aus der Klasse der Neonikotinoide werden mit dem Massensterben von Bienen in Verbindung gebracht. Monsantos Glyphosat zerstört die Nahrungsgrundlage von Schmetterlingen. Beide Spezies sind aber für uns Menschen überlebenswichtig: Sie bestäuben die Pflanzen, von denen wir uns ernähren. Und es kommt noch schlimmer: Glyphosat steht unter dem dringenden Verdacht, Krebs zu verursachen."
+      third_reason:
+        title: "Der größte Agrochemie-Konzern der Welt"
+        details: "Unsere Auswahl an Lebensmitteln und deren Preise könnten bald von der Willkür des Bayer-Monsanto-Konzerns abhängen. Steigende Saatgut- und Düngerpreise führen zu höheren Preisen für uns Verbraucher -- gerade Familien mit niedrigem Einkommen würden besonders darunter leiden. Auch die Auswahl im Obst- und Gemüseregal könnte kleiner werden, wenn Bayer-Monsanto mit seinen Massenprodukten aus industrieller Landwirtschaft kleine Bio-Bauern vom Markt drängt."
+    shareholder:
+      title: "Nur 7 Prozent der<br> Bayer-Aktionäre halten die Monsanto-Übernahme für strategisch sinnvoll"
+      details: 'Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”' 
+      quotes:
+        first:
+          quote: "Sehr geehrter Herr Baumann, im Sinne von uns allen kann ich nur an Ihr gewissen appellieren, den Menschen und der Umwelt nicht weiter so einen Schaden zuzumuten in dem Sie jetzt auch noch Monsanto (zB. als Hersteller von Glyphosat) als Unternehmen aufkaufen. Ich werde im Falle der Umsetzung in jedem Fall meine Aktion von Bayer veräussern."
+          quoted: Bayer-Aktionär
+        second:
+          quote: "Ein Deutsches Unternehmen sollte noch einen Funken Moral behalten, auch wenn kurzfristige Gewinne locken. Denn langfristig geht so ein Vorgehen auf Kosten aller. Es gibt auch Investoren, die die Gesamtsituation und nicht nur einen kurzen Spekulationsgewinn erwarten. Bitte bedenken Sie das."
+          quoted: Bayer-Aktionär
+        third:
+          quote: "Bayer, also, der Kernbetrieb, hat - zugegebenermaßen vor längerer Zeit - mal mit Umweltschutz geworben. Ich halte es für absolut unverantwortlich, jetzt im Gegenteil in eine Richtung kompletten Ressourcen-Raubbaus ohne jegliche Bemühung um nachhaltige Entwicklung zu gehen. Ich habe längst meine Aktien verkauft - ein schwaches Signal, deswegen bekräftige ich es mit dieser Nachricht."
+          quoted: Bayer-Aktionär
+        fourth:
+          quote: "Ich bin absolut gegen Gen-Food und würde sofort gegen Bayer agieren - auch die Aktien und Fonds verkaufen - wenn Bayer Monsanto kauft."
+          quoted: Bayer-Aktionär
+        fifth:
+          quote: "Ein Deutsches Unternehmen sollte noch einen Funken Moral behalten, auch wenn kurzfristige Gewinne locken. Denn langfristig geht so ein Vorgehen auf Kosten aller. Es gibt auch Investoren, die die Gesamtsituation und nicht nur einen kurzen Spekulationsgewinn erwarten. Bitte bedenken Sie das."
+          quoted: Bayer-Aktionär
+    action:
+      count_explanation: "Menschen engagieren sich bereits, um diese Übernahme zu verhindern."
+      cta_blurb: “Machen Sie mit -- rufen Sie die Kartellbehörden in Europa und den USA auf, Bayer und Monsanto zu stoppen und einen gefährlichen Mega-Konzern zu verhindern.”
+      petition_title: "Jetzt unterschreiben"
+      tweet_title: "Tweeten Sie an die Kartellbehörden"
+      thanks_for_signing: 'Vielen Dank, dass Sie "Bayer: Stoppen Sie die Übernahme von Monsanto!" mit Ihrer Unterschrift unterstützen.'
+      share:
+        link_preview_1: "Bayers Übernahme von Monsanto verstößt gegen das Kartellrecht"
+        link_preview_2: "Neue Studie einer führenden Anwaltskanzlein zweifelt an der Legalität des Bayer-Monsanto-Deals"
+        link_preview_url: "bayermonsantomerger.com"
+        tweet: "Eine Bayer-Monsanto Fusion verstößt gegen Kartellrecht und ist ein Desaster für den Planeten @vestager @LorettaLynch"
+        tweet_link: http://bit.ly/2aVFqfg
+        cta: "Jetzt tweeten"

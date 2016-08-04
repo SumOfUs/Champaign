@@ -8,8 +8,6 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
 
-  root to: 'home#index'
-
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
   post '/tags/add', to: 'tags#add_tag_to_page'
@@ -35,6 +33,7 @@ Rails.application.routes.draw do
   end
 
   # Standard resources
+  resources :uris, except: [:new, :edit]
   resources :campaigns
   resources :donation_bands, except: [:show, :destroy]
 
@@ -150,6 +149,9 @@ Rails.application.routes.draw do
     end
 
     namespace :stateless, defaults: { format: 'json' } do
+      namespace :braintree do
+        resources :payment_methods
+      end
       namespace :auth do
         post :password
         post :facebook
@@ -165,5 +167,8 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
-  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp)
+
+  root to: 'uris#show'
+  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp) && ENV['JS_TEST']
+  get '*path' => 'uris#show'unless defined?(MagicLamp) && ENV['JS_TEST']
 end

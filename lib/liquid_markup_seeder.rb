@@ -2,7 +2,8 @@ module LiquidMarkupSeeder
   extend self
 
   def seed(quiet: false)
-    sort_by_partial_count(partials).each{ |path| create(path, quiet) }
+    partials.each{ |path| init_partial(path) }
+    partials.each{ |path| create(path, quiet) }
     layouts.each { |path| create(path, quiet) }
   end
 
@@ -19,6 +20,12 @@ module LiquidMarkupSeeder
     set_metadata_fields(view)
     saved = view.save
     puts "Failed to save: #{view.errors.full_messages}" unless saved || quiet
+  end
+
+  def init_partial(path)
+    title, klass = title_and_class(path)
+    existing = klass.constantize.find_by(title: title)
+    klass.constantize.create(title: title, content: 'temp') if existing.blank?
   end
 
   def titles
@@ -51,12 +58,6 @@ module LiquidMarkupSeeder
 
   def klass(file)
     file =~ /\_\w+\.liquid$/ ? 'LiquidPartial' : 'LiquidLayout'
-  end
-
-  def sort_by_partial_count(paths)
-    paths.sort_by do |path|
-      LiquidTagFinder.new(read(path)).partial_names.size
-    end
   end
 
   def set_metadata_fields(view)

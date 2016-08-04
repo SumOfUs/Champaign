@@ -51,10 +51,27 @@ module Payment::Braintree
       else
         @customer = Payment::Braintree::Customer.create(customer_attrs)
       end
-      Payment::Braintree::PaymentMethod.find_or_create_by!(
-        customer: @customer,
-        token:    @bt_payment_method.token
-      )
+
+      payment_method = Payment::Braintree::PaymentMethod.find_or_create_by!(token:  @bt_payment_method.token) do |pm|
+        pm.customer = @customer
+      end
+
+      case @bt_payment_method
+      when Braintree::PayPalAccount
+        payment_method.update({
+          email: @bt_payment_method.email,
+          instrument_type: 'paypal_account'
+        })
+      when Braintree::CreditCard
+        payment_method.update({
+          instrument_type: 'credit_card',
+          last_4: @bt_payment_method.last_4,
+          bin: @bt_payment_method.bin,
+          expiration_date: @bt_payment_method.expiration_date,
+          card_type: @bt_payment_method.card_type,
+          cardholder_name: @bt_payment_method.cardholder_name
+        })
+      end
     end
 
     def customer_attrs
@@ -122,13 +139,11 @@ module Payment::Braintree
       @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
           member_id: @member_id,
           customer_id: transaction.customer_details.id)
+
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
-      @local_payment_method_id = payment_method_token.blank? ? nil : Payment::Braintree::PaymentMethod.find_or_create_by!(
-          customer: @customer,
-          token: payment_method_token).id
 
-
+      @local_payment_method_id = BraintreeServices::PaymentMethodBuilder.new(transaction: @bt_result.transaction, customer: @customer).create.id
       record = ::Payment::Braintree::Transaction.create!(transaction_attrs)
 
       return false unless successful?

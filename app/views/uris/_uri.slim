@@ -1,0 +1,12 @@
+li.list-group-item data-id=uri.id
+  = "#{uri.domain}#{uri.path} -> "
+  = link_to uri.page.title, uri.page
+
+  .control-bar
+    = link_to uri,
+      { method: :delete,
+        remote: true,
+        data: { confirm: t('common.confirm') } } do
+      small
+        span.glyphicon.glyphicon-remove
+
