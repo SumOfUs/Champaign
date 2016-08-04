@@ -1,4 +1,4 @@
 json.array! @payment_methods do |method|
-  json.token 
+  json.(method, :instrument_type, :token, :last_4, :bin, :expiration_date)
 end
 
