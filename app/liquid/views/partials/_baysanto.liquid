@@ -10,7 +10,7 @@
     </div>
     <div class="header-logo__pull-right baysanto__header-menu">
       <a href="{{ 'baysanto.header.translate_link' | t }}">{{ 'baysanto.header.translate' | t }}</a>
-      <a href="/press">{{ 'baysanto.header.press_room' | t }}</a>
+      <a href="{{ 'baysanto.header.press_link' | t }}">{{ 'baysanto.header.press_room' | t }}</a>
       <a href="https://s3-us-west-2.amazonaws.com/sou-assets/Konkurrenz-findings-on-Bayer-Monsanto.pdf" class="baysanto__header-drop-1" target="_blank">{{ 'baysanto.header.the_paper' | t }}</a>
       <a href="#take-action" class="baysanto__header-drop-3">{{ 'baysanto.header.cta' | t }}</a>
     </div>
@@ -172,14 +172,6 @@
       </script>
       <div class="baysanto__action-opportunity baysanto__action-opportunity--left">
         <h2 class="baysanto__action-title">{{ 'baysanto.action.petition_title' | t}}</h2>
-        <div class="baysanto__action-target">
-          {% unless plugins.petition[ref].target == blank %}
-            {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
-          {% endunless %}
-        </div>
-        <p class="baysanto__action-petition-text">
-          {{ plugins.petition[ref].description }}
-        </p>
         {% include 'Petition', skip_javascript: true %}
         <div class="petition-bar__fine-print">
           {{ 'baysanto.action.petition_link' | t }}

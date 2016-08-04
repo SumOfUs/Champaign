@@ -1,5 +1,14 @@
 {% if plugins.petition[ref].active %}
   {% include 'No Script' %}
+  <div class="petition-bar__target">
+    {% unless plugins.petition[ref].target == blank %}
+      {{ 'petition.target_prefix' | t }}: {{ plugins.petition[ref].target }}
+    {% endunless %}
+  </div>
+  <p class="petition-bar__petition-text">
+    {{ plugins.petition[ref].description }}
+  </p>
+
   <div class="script-dependent">
     {% include 'Form',
       cta: plugins.petition[ref].cta,
