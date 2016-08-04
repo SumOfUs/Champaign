@@ -250,6 +250,16 @@ ActiveRecord::Schema.define(version: 20160802225328) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "customer_id"
+<<<<<<< HEAD
+=======
+    t.string   "card_type"
+    t.string   "bin"
+    t.string   "cardholder_name"
+    t.string   "last_4"
+    t.string   "expiration_date"
+    t.string   "instrument_type"
+    t.string   "email"
+>>>>>>> 4f53a2d... Partial attempt at refactoring payment method creation
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
