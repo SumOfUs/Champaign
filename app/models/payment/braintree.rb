@@ -14,6 +14,7 @@ module Payment::Braintree
           subscription_id:        subscription_result.subscription.id,
           amount:                 subscription_result.subscription.price,
           merchant_account_id:    subscription_result.subscription.merchant_account_id,
+          billing_day_of_month:   subscription_result.subscription.billing_day_of_month,
           action_id:              action_id,
           currency:               currency,
           page_id:                page_id
