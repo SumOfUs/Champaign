@@ -119,5 +119,15 @@ Rails.application.configure do
                  port: Settings.redis.port, drive: :hiredis }
   }
 
+  # In production, we only accept CORS request from sumofus.org or its subdomains.
+  config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
+    allow do
+      origins(/^(https?:\/\/)?([a-z0-9]+\.)?sumofus\.org$/i)
+      resource '*',
+               headers: :any,
+               methods: [:get, :post, :delete, :put, :patch, :options, :head],
+               max_age: 86400
+    end
+  end
 end
 

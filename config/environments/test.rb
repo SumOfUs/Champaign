@@ -52,5 +52,16 @@ Rails.application.configure do
   # Required for testing strong parameters for action_parameter gem
   config.action_controller.action_on_unpermitted_parameters = :raise
   config.cache_store = :null_store
+
+  # CORS
+  config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
+    allow do
+      origins(/^(https?:\/\/)?([a-z0-9]+\.)?sumofus\.org$/i)
+      resource '*',
+               headers: :any,
+               methods: [:get, :post, :delete, :put, :patch, :options, :head],
+               max_age: 86400
+    end
+  end
 end
 
