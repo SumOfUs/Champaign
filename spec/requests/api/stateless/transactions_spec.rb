@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 describe 'API::Stateless Subscriptions' do
-  include Requests::JsonHelpers
+  include Requests::RequestHelpers
   include AuthToken
+
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
   let!(:subscription) { create(:payment_braintree_subscription, customer: customer) }
@@ -47,8 +48,4 @@ describe 'API::Stateless Subscriptions' do
       }.as_json)
     end
   end
-
 end
-
-
-
