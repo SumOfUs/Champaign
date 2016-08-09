@@ -212,7 +212,6 @@ ActiveRecord::Schema.define(version: 20160802225329) do
     t.integer  "publish_status",             default: 1,         null: false
     t.integer  "optimizely_status",          default: 0,         null: false
     t.string   "canonical_url"
-    t.boolean  "allow_duplicate_actions",    default: false
   end
 
   add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
@@ -265,13 +264,15 @@ ActiveRecord::Schema.define(version: 20160802225329) do
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
     t.string   "merchant_account_id"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.integer  "page_id"
-    t.decimal  "amount",              precision: 10, scale: 2
+    t.decimal  "amount",               precision: 10, scale: 2
     t.string   "currency"
     t.integer  "action_id"
     t.datetime "cancelled_at"
+    t.string   "customer_id"
+    t.integer  "billing_day_of_month"
   end
 
   add_index "payment_braintree_subscriptions", ["action_id"], name: "index_payment_braintree_subscriptions_on_action_id", using: :btree
@@ -539,6 +540,7 @@ ActiveRecord::Schema.define(version: 20160802225329) do
   add_foreign_key "actions", "pages"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
+  add_foreign_key "member_authentications", "members"
   add_foreign_key "pages", "campaigns"
   add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"

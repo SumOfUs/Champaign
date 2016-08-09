@@ -4,7 +4,7 @@ describe "subscriptions/index" do
   let(:transaction) { double(id: 'abc', status: 'authorized', created_at: Time.now, amount: BigDecimal.new(2.00, 5)) }
   before do
     assign :subscriptions, [
-      double(id: 'xyz', billing_day_of_month: 1, created_at: Time.now, price: BigDecimal.new(2.00, 5), transactions: [transaction])
+      double(id: 'xyz', billing_day_of_month: 1, created_at: Time.now, amount: BigDecimal.new(2.00, 5), transactions: [transaction])
     ]
   end
 
@@ -16,7 +16,7 @@ describe "subscriptions/index" do
       id: 'xyz',
       billing_day_of_month: 1,
       created_at: /^\d{4}-\d{2}-\d{2}/,
-      price: '2.0',
+      amount: '2.0',
       transactions: [{
         id: 'abc',
         status: 'authorized',
