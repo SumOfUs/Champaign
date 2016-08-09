@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe QueueManager do
-  let(:page) { create(:page, slug: 'i-am-a-slug', title: 'boo') }
+  let(:campaign) { create(:campaign) }
+  let(:page) { create(:page, slug: 'i-am-a-slug', title: 'boo', campaign: campaign) }
 
   let(:expected_params) do
     {
@@ -13,7 +14,8 @@ describe QueueManager do
         language: page.language.actionkit_uri,
         tags: [],
         url: 'https://example.com/a/i-am-a-slug',
-        hosted_with: '/rest/v1/hostingplatform/2/'
+        hosted_with: '/rest/v1/hostingplatform/2/',
+        campaign_id: campaign.id
       }
     }
   end
