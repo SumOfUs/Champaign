@@ -119,6 +119,22 @@ describe "Api Actions" do
       end
     end
 
+    describe 'page allows duplicate actions' do
+      let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email]}
+
+      before do
+        page.update(allow_duplicate_actions: true)
+      end
+
+      subject{ post "/api/pages/#{page.id}/actions", params }
+
+      it 'creats an action if existing action on this page' do
+        create :action, member: member, page: page
+        expect{ subject }.to change{ Action.count }
+      end
+    end
+
+
     describe 'akid manipulation' do
       context 'new member' do
         before do

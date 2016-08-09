@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802225328) do
+ActiveRecord::Schema.define(version: 20160802225329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 20160802225328) do
     t.integer  "publish_status",             default: 1,         null: false
     t.integer  "optimizely_status",          default: 0,         null: false
     t.string   "canonical_url"
+    t.boolean  "allow_duplicate_actions",    default: false
   end
 
   add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
