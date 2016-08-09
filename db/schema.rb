@@ -11,7 +11,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160802225329) do
+ActiveRecord::Schema.define(version: 20160811123237) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -248,9 +249,16 @@ ActiveRecord::Schema.define(version: 20160802225329) do
 
   create_table "payment_braintree_payment_methods", force: :cascade do |t|
     t.string   "token"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "customer_id"
+    t.string   "card_type"
+    t.string   "bin"
+    t.string   "cardholder_name"
+    t.string   "last_4"
+    t.string   "expiration_date"
+    t.string   "instrument_type"
+    t.string   "email"
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
@@ -258,13 +266,15 @@ ActiveRecord::Schema.define(version: 20160802225329) do
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
     t.string   "merchant_account_id"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.integer  "page_id"
-    t.decimal  "amount",              precision: 10, scale: 2
+    t.decimal  "amount",               precision: 10, scale: 2
     t.string   "currency"
     t.integer  "action_id"
     t.datetime "cancelled_at"
+    t.string   "customer_id"
+    t.integer  "billing_day_of_month"
   end
 
   add_index "payment_braintree_subscriptions", ["action_id"], name: "index_payment_braintree_subscriptions_on_action_id", using: :btree
