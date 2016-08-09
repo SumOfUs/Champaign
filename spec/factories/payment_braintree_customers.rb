@@ -9,7 +9,7 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     first_name "MyString"
     last_name "MyString"
-    customer_id { Faker::Number.number(6) }
+    customer_id "#{Faker::Number.number(6)}"
 
     trait :with_payment_methods do
       # payment_methods is declared as a transient attribute and available in
