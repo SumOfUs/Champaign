@@ -56,11 +56,11 @@ Rails.application.configure do
   # CORS
   config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
     allow do
-      origins(/^(https?:\/\/)?([a-z0-9]+\.)?sumofus\.org$/i)
+      origins(/^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$/i)
       resource '*',
                headers: :any,
                methods: [:get, :post, :delete, :put, :patch, :options, :head],
-               max_age: 86400
+               max_age: 86_400
     end
   end
 end
