@@ -21,5 +21,7 @@ FactoryGirl.define do
     amount 79.41
     currency 'GBP'
     merchant_account_id 'GBP'
+    customer_id Faker::Number.number(4)
+    billing_day_of_month Faker::Number.between(1, 31)
   end
 end
