@@ -291,6 +291,18 @@ describe "Braintree API" do
               expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
             end
 
+            it 'persists payment_method' do
+              subject
+
+              payment_method = Payment::Braintree::PaymentMethod.first
+
+              expect(payment_method.attributes).to include({
+                token: token_format,
+                instrument_type: 'paypal_account',
+                email: 'payer@example.com'
+              }.stringify_keys)
+            end
+
           end
         end
 
@@ -304,6 +316,22 @@ describe "Braintree API" do
               VCR.use_cassette("transaction success basic new customer") do
                 post api_payment_braintree_transaction_path(page.id), params
               end
+            end
+
+            it 'persists payment method for customer' do
+              subject
+
+              payment_method = Payment::Braintree::PaymentMethod.first
+
+              expect(payment_method.attributes).to include({
+                last_4: '1881',
+                token: token_format,
+                card_type: 'Visa',
+                bin: /\d{6}/,
+                expiration_date: /\d{2}\/\d{4}/,
+                instrument_type: 'credit_card'
+              }.stringify_keys)
+
             end
 
             it "creates an Action associated with the Page and Member" do
@@ -930,6 +958,21 @@ describe "Braintree API" do
               expect(response.status).to eq 200
               expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
+
+
+            it 'persists payment_method' do
+              subject
+
+              payment_method = Payment::Braintree::PaymentMethod.first
+
+              expect(payment_method.attributes).to include({
+                token: token_format,
+                instrument_type: 'credit_card',
+                expiration_date: /\d{2}\/\d{4}/,
+                last_4: /\d{4}/,
+                bin: /\d{6}/
+              }.stringify_keys)
+            end
           end
 
           context 'with Paypal' do
@@ -950,6 +993,18 @@ describe "Braintree API" do
 
             it "does not create a transaction" do
               expect{ subject }.not_to change{ Payment::Braintree::Transaction.count }
+            end
+
+            it 'persists payment_method' do
+              subject
+
+              payment_method = Payment::Braintree::PaymentMethod.first
+
+              expect(payment_method.attributes).to include({
+                token: token_format,
+                instrument_type: 'paypal_account',
+                email: 'jane.doe@example.com'
+              }.stringify_keys)
             end
 
             it "creates a Payment::Braintree::Customer with customer_id and PYPL for last 4" do
