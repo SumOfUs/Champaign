@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'API::Stateless PaymentMethods' do
+describe 'API::Stateless Subscriptions' do
   include Requests::JsonHelpers
   include AuthToken
   let!(:member) { create(:member, email: 'test@example.com') }
@@ -23,7 +23,6 @@ describe 'API::Stateless PaymentMethods' do
       get '/api/stateless/braintree/subscriptions', nil, auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.first.keys).to include("id", "billing_day_of_month", "created_at", "amount", "transactions")
-      expect(json_hash.first)
       expect(json_hash.first["transactions"]).to include({
         id: transaction_a.id,
         status: transaction_a.status,
@@ -36,6 +35,28 @@ describe 'API::Stateless PaymentMethods' do
         amount: transaction_b.amount,
         created_at: transaction_b.created_at
       }.as_json)
+    end
+  end
+
+  describe 'DELETE destroy' do
+    let!(:cancel_this_subscription) { create(:payment_braintree_subscription, subscription_id: "4ts4r2", customer: customer) }
+    let!(:no_such_subscription) { create(:payment_braintree_subscription, subscription_id: "nosuchthing", customer: customer) }
+
+    it 'deletes the subscription locally and on Braintree' do
+      VCR.use_cassette("stateless api cancel subscription") do
+        delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
+        expect(response.status).to eq(200)
+        expect {::Payment::Braintree::Subscription.find(cancel_this_subscription.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    it 'returns success and deletes the subscription locally even if does not exist on Braintree' do
+      VCR.use_cassette("stateless api cancel subscription failure") do
+        delete "/api/stateless/braintree/subscriptions/#{no_such_subscription.id}", nil, auth_headers
+        expect(response.status).to eq(200)
+        expect {::Payment::Braintree::Subscription.find(no_such_subscription.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+      end
+
     end
   end
 
