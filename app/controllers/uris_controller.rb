@@ -8,26 +8,12 @@ class UrisController < ApplicationController
 
   def create
     @uri = Uri.new(permitted_params)
-
-    respond_to do |format|
-      if @uri.save
-        format.html { render partial: 'uri', locals: { uri: @uri }, status: :ok }
-      else
-        format.js { render json: { errors: @uri.errors, name: :uri }, status: :unprocessable_entity }
-      end
-    end
+    respond_to_create_or_update
   end
 
   def update
     @uri.assign_attributes(permitted_params)
-    
-    respond_to do |format|
-      if @uri.save
-        format.html { render partial: 'uri', locals: { uri: @uri }, status: :ok }
-      else
-        format.js { render json: { errors: @uri.errors, name: :uri }, status: :unprocessable_entity }
-      end
-    end
+    respond_to_create_or_update
   end
 
   def show
@@ -49,6 +35,16 @@ class UrisController < ApplicationController
   end
 
   private
+
+  def respond_to_create_or_update
+    respond_to do |format|
+      if @uri.save
+        format.html { render partial: 'uri', locals: { uri: @uri }, status: :ok }
+      else
+        format.js { render json: { errors: @uri.errors, name: :uri }, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def permitted_params
     params.require(:uri).permit(:domain, :path, :page_id, :status)

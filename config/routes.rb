@@ -149,7 +149,14 @@ Rails.application.routes.draw do
     end
 
     resources :members
+
+    # Respond to CORS Preflight requests (OPTIONS) with a
+    # 204 No Content
+    match '*path', via: :options, to: lambda { |_|
+      [204, { 'Content-Type' => 'text/plain' }, []]
+    }
   end
+
   # Example resource route within a namespace:
   #   namespace :admin do
   #     # Directs /admin/products/* to Admin::ProductsController

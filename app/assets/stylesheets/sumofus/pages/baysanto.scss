@@ -293,6 +293,16 @@
       color: white;
       @include viewport-unit(padding-top, 15vh);
       @include viewport-unit(padding-bottom, 13vh);
+
+      .petition-bar__petition-text {
+        margin-bottom: 15px;
+        font-size: 16px;
+      }
+      .petition-bar__target {
+        margin: 0 0 8px 0;
+        font-weight: bold;
+        font-size: 16px;
+      }
     }
     &-count {
       font-weight: bold;
@@ -349,10 +359,6 @@
         @include box-sizing(border-box);
       }
     }
-    &-petition-text {
-      margin-bottom: 15px;
-      font-size: 16px;
-    }
     &-tweet-text {
       font-size: 16px;
       line-height: 1.3em;
@@ -367,11 +373,6 @@
       opacity: 0.3;
       top: -50px;
       left: -40px;
-    }
-    &-target {
-      margin: 0 0 8px 0;
-      font-weight: bold;
-      font-size: 16px;
     }
   }
   .action-form__welcome-text, .checkbox-label {
