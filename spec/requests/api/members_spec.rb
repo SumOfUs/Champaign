@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe 'api/members' do
-  def json
-    JSON.parse(response.body)
-  end
+describe "api/members" do
 
   let(:params) { { email: 'newbie@test.org', country: 'NZ', postal: '1A943', name: 'Anahera Parata' } }
 
@@ -43,12 +40,11 @@ describe 'api/members' do
       )
     end
 
-    it 'creates a new member also if the only field we get is an email address' do
-      expect { post api_members_path, email: 'private@email.com' }.to change { Member.count }.by(1)
-      expect(Member.last).to have_attributes(email: 'private@email.com',
-                                             country: nil,
-                                             name: '',
-                                             postal: nil)
+    it "returns validation errors if we only receive a bad email address", :focus do
+      expect { post api_members_path, email: "private" }.not_to change{Member.count}
+      expect(response.code).to eq '422'
+      json = JSON.parse(response.body).deep_symbolize_keys
+      expect(json).to eq({errors: {name: ["is required"], email: ["is not a valid email address"] }})
     end
   end
 end
