@@ -1,5 +1,3 @@
-include ActionView::Helpers::NumberHelper
-
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page, touch: true
 
@@ -29,8 +27,8 @@ class Plugins::Thermometer < ActiveRecord::Base
   def liquid_data(supplemental_data={})
     attributes.merge(
       percentage: current_progress,
-      remaining: number_with_delimiter(goal - current_total),
-      signatures: number_with_delimiter(current_total),
+      remaining: ActionController::Base.helpers.number_with_delimiter(goal - current_total),
+      signatures: ActionController::Base.helpers.number_with_delimiter(current_total),
       goal_k: abbreviate_number(goal)
     )
   end
