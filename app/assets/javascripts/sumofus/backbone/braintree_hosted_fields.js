@@ -21,6 +21,7 @@ const BraintreeHostedFields = Backbone.View.extend({
         onCancelled: () => { this.$(this.SELECTOR_TO_HIDE_ON_PAYPAL_SUCCESS).slideDown(); },
         onSuccess: () => { this.$(this.SELECTOR_TO_HIDE_ON_PAYPAL_SUCCESS).slideUp(); },
         locale: I18n.currentLocale(),
+        singleUse: true,
       },
       hostedFields: {
         number: {
