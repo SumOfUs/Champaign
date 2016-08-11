@@ -10,19 +10,16 @@ module Api
 
         def destroy
           @subscription = PaymentHelper::Braintree.subscription_for_member(member: @current_member, id: params[:id])
-
-          begin
-            result = ::Braintree::Subscription.cancel(@subscription.subscription_id)
-            if result.success?
-              @subscription.destroy
-              render json: { success: true }
-            else
-              render json: { success: false, errors: result.errors}
-            end
+          result = ::Braintree::Subscription.cancel(@subscription.subscription_id)
+          if result.success?
+            @subscription.destroy
+            render json: { success: true }
+          else
+            render json: { success: false, errors: result.errors}
+          end
           rescue ::Braintree::NotFoundError
             @subscription.destroy
             render json: { success: true }
-          end
         end
       end
     end
