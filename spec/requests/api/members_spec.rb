@@ -40,7 +40,7 @@ describe "api/members" do
       )
     end
 
-    it "returns validation errors if we only receive a bad email address", :focus do
+    it "returns validation errors if we only receive a bad email address" do
       expect { post api_members_path, email: "private" }.not_to change{Member.count}
       expect(response.code).to eq '422'
       json = JSON.parse(response.body).deep_symbolize_keys
