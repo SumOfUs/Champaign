@@ -21,5 +21,9 @@ module PaymentHelper
     def subscription_for_member(member:, id:)
       customer(member).subscriptions.find(id)
     end
+
+    def transactions_for_member(member)
+      customer(member).transactions.where(subscription_id: nil)
+    end
   end
 end
