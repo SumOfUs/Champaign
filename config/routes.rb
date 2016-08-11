@@ -149,6 +149,12 @@ Rails.application.routes.draw do
     end
 
     namespace :stateless, defaults: { format: 'json' } do
+      namespace :braintree do
+        resources :payment_methods
+        resources :subscriptions
+        resources :transactions
+      end
+
       namespace :auth do
         post :password
         post :facebook
