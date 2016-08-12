@@ -75,6 +75,12 @@ en:
     share: Share
     tweet: Tweet
     twitter_handle: '@sumofus'
+    two_step:
+      cta: Now, will you share the campaign with your friends to help us win?
+      accept: 'Yes'
+      decline: 'No'
+      declined: "Not a sharer? No problem. Thanks for your support!"
+      accepted: "Thanks so much! The more of us we have, the stronger our movement."
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid

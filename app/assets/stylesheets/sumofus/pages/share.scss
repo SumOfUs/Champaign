@@ -71,3 +71,10 @@
     }
   }
 }
+
+.two-step {
+  &__button {
+    width: 145px;
+    float: left;
+  }
+}
