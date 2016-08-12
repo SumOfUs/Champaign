@@ -24,6 +24,12 @@ describe 'API::Stateless Members' do
       get "/api/stateless/members/#{member.id}", nil, auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.keys).to include('id', 'first_name', 'last_name', 'email')
+      expect(json_hash).to match({
+                                   id: member.id,
+                                   first_name: member.first_name,
+                                   last_name: member.last_name,
+                                   email: member.email
+                                 }.as_json)
     end
   end
 
