@@ -8,9 +8,10 @@
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-// our global styles, in the right order
-@import "global/colors";
-@import "global/mixins";
-@import "global/typography";
-@import "global/layout";
-@import "global/interactive";
+// champaign member facing styles
+@import "member-facing/**/*";
+
+// external assets
+<% if Settings.external_css_path.present? %>
+@import "<%= Settings.external_css_path %>"
+<% end %>
