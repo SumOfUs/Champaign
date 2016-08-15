@@ -8,8 +8,6 @@ class Member < ActiveRecord::Base
 
   delegate :authenticate, to: :authentication, allow_nil: true
 
-  delegate :authenticate, to: :authentication, allow_nil: true
-
   validates :email, uniqueness: true, allow_nil: true
   before_save { self.email.try(:downcase!) }
 
