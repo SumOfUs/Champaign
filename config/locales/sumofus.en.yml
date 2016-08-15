@@ -80,7 +80,7 @@ en:
       accept: 'Yes'
       decline: 'No'
       declined: "Not a sharer? No problem. Thanks for your support!"
-      accepted: "Thanks so much! The more of us we have, the stronger our movement."
+      accepted: "Thanks so much! The more of us who stand together, the stronger our movement."
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid
