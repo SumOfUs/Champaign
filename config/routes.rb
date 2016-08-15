@@ -154,6 +154,7 @@ Rails.application.routes.draw do
         resources :subscriptions
         resources :transactions
       end
+
       namespace :auth do
         post :password
         post :facebook

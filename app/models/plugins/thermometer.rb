@@ -1,5 +1,3 @@
-include ActionView::Helpers::NumberHelper
-
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page, touch: true
 
@@ -23,15 +21,14 @@ class Plugins::Thermometer < ActiveRecord::Base
   end
 
   def goal
-    GOALS.find { |goal| current_total < goal } ||
-      dynamic_goals.find { |goal| current_total < goal }
+    GOALS.find { |goal| current_total < goal } || next_goal_as_multiple_of(1_000_000)
   end
 
   def liquid_data(supplemental_data={})
     attributes.merge(
       percentage: current_progress,
-      remaining: number_with_delimiter(goal - current_total),
-      signatures: number_with_delimiter(current_total),
+      remaining: ActionController::Base.helpers.number_with_delimiter(goal - current_total),
+      signatures: ActionController::Base.helpers.number_with_delimiter(current_total),
       goal_k: abbreviate_number(goal)
     )
   end
@@ -57,15 +54,9 @@ class Plugins::Thermometer < ActiveRecord::Base
     return "%g #{I18n.t('thermometer.million', locale: locale)}" % (goal / 1_000_000.0).round(1)
   end
 
-
-  def dynamic_goals
-    Enumerator.new do |y|
-      new_goal = GOALS.last
-      loop do
-        new_goal += 1_000_000
-        y << new_goal
-      end
-    end
+  def next_goal_as_multiple_of(step)
+    remainder = current_total % step
+    current_total + step - remainder
   end
 
   def set_defaults

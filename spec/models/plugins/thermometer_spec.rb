@@ -46,6 +46,17 @@ describe Plugins::Thermometer do
       allow(thermometer).to receive(:goal).and_return(700)
       expect(thermometer.liquid_data[:goal_k]).to eq '700'
     end
+
+    it 'serializes the amount of remaining signatures as number with delimiter' do
+      allow(thermometer).to receive(:goal).and_return(5_000)
+      allow(thermometer).to receive(:current_total).and_return(1_300)
+      expect(thermometer.liquid_data[:remaining]).to eq "3,700"
+    end
+
+    it 'serializes the number of signatures as number with delimiter' do
+      allow(thermometer).to receive(:current_total).and_return(1_300)
+      expect(thermometer.liquid_data[:signatures]).to eq "1,300"
+    end
   end
 
   describe "#goal" do
