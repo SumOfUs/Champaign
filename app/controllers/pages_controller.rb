@@ -62,9 +62,15 @@ class PagesController < ApplicationController
   end
 
   def get_page_or_homepage
-    @page = Page.find(params[:id])
+    get_lowercase_page
   rescue ActiveRecord::RecordNotFound
     redirect_to Settings.homepage_url
+  end
+
+  def get_lowercase_page
+    @page = Page.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @page = Page.find(params[:id].downcase)
   end
 
   def page_params

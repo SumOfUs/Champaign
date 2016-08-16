@@ -1,16 +1,3 @@
-<style type="text/css">
-  .button--facebook a::before{
-    content: "{{ 'share.share' | t }}";
-  }
-  .button--twitter a::before{
-    content: "{{ 'share.tweet' | t }}";
-  }
-  .share-buttons__simple-email-link.sp_em_small a::before, .share-buttons__simple-email-link.sp_em_large a::before {
-    content: "{{ 'share.send_email' | t }}";
-  }
-</style>
-
-
 <div class="header-logo header-logo--light">
   <a href="{{ 'footer.home_url' | t }}">
     <div class="header-logo__logo sumofus-logo--positive"></div>
@@ -25,7 +12,7 @@
       <h1 class="thank-you__thanks">{{ message }}</h1>
       <div class="thank-you__cta">{{ 'share.cta' | t }}</div>
 
-      <div class="medium-photo center-content__centered-element">
+      <div class="center-content__centered-element">
         {% include 'Share' %}
       </div>
     </div>
