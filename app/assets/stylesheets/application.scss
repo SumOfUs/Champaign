@@ -1,14 +1,14 @@
-@import "bootstrap-customization";
+// campaigner facing stylesheet
+
+// third-party styles
+// except this first one which overrides bootstrap SASS vars
+@import "campaigner-facing/bootstrap-customization";
 @import "compass";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "selectize";
 @import "selectize.bootstrap2";
 @import "summernote";
-@import "interactive";
-@import "common";
-@import "pages";
-@import "form_elements";
 @import "dropzone";
 @import "codemirror";
 @import "codemirror/themes/3024-night";
@@ -16,10 +16,15 @@
 @import "datatables/dataTables.bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
-@import "switch";
-
-@import "page-edit";
-@import "devise";
 
 // from vendor/assets
 @import "analytics/analytics";
+
+// campaigner facing styles
+@import "campaigner-facing/interactive";
+@import "campaigner-facing/common";
+@import "campaigner-facing/pages";
+@import "campaigner-facing/form_elements";
+@import "campaigner-facing/switch";
+@import "campaigner-facing/page-edit";
+@import "campaigner-facing/devise";
