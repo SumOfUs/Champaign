@@ -9,7 +9,6 @@
 @import "common";
 @import "pages";
 @import "form_elements";
-@import "forms";
 @import "dropzone";
 @import "codemirror";
 @import "codemirror/themes/3024-night";
@@ -22,58 +21,5 @@
 @import "page-edit";
 @import "devise";
 
-
-/* FIXME Decide what's needed below, and organise with files */
-#petition_form {
-    float: right;
-}
-h1 {
-  text-align: center;
-}
-
-h4 {
-  margin-bottom: 20px;
-}
-
-.form-inline .form-group {
-  margin-left: 0;
-  margin-right: 0;
-}
- 
-.nested-block-form {
-  display: block;
-  width: 100%;
-  height: 37px;
-  padding-left:0px;
-  padding-right:0px;
-  margin-left:0px;
-  margin-right:0px;
-}
-
-#checkbox_container {
-  display: block;
-  min-height: 100px;
-  overflow: auto;
-}
-
-#textarea_container {
-  margin-top: 30px;
-}
-
-
-.custom-petition-label {
-  width: 15%;
-}
-
-.form-control.custom-petition-input {
-  width: 30%;
-}
-
-
-.progress {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 0px;
-  height: 20px;
-  text-align: center;
-}
+// from vendor/assets
+@import "analytics/analytics";

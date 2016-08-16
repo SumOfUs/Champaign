@@ -292,3 +292,21 @@
     margin-left: 36px !important;
   }
 }
+.donation-error {
+  width: 100%;
+  margin: 100px auto;
+  max-width: 500px;
+  font-size: 18px;
+  &__header {
+    font-size: 24px;
+  }
+  p, ul {
+    margin-top: 16px;
+  }
+  ul, ol {
+    margin-left: 30px;
+  }
+  li {
+    list-style: disc;
+  }
+}
