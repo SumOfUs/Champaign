@@ -6,7 +6,6 @@
 @import "selectize.bootstrap2";
 @import "summernote";
 @import "interactive";
-@import "widget";
 @import "common";
 @import "pages";
 @import "form_elements";
@@ -28,11 +27,6 @@
 #petition_form {
     float: right;
 }
-
-#image_widget_image {
-    width: 100%;
-}
-
 h1 {
   text-align: center;
 }
@@ -46,10 +40,6 @@ h4 {
   margin-right: 0;
 }
  
-.petition_widget_form_container *.form-control {
-  display:block;
-}
-
 .nested-block-form {
   display: block;
   width: 100%;
@@ -79,11 +69,6 @@ h4 {
   width: 30%;
 }
 
-.text_body_widget_text_area {
-  width: 100%;
-  min-height: 300px;
-}
-
 
 .progress {
   margin-top: 20px;
@@ -92,10 +77,3 @@ h4 {
   height: 20px;
   text-align: center;
 }
-
-.widget-display {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-
