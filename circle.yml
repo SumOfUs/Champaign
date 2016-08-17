@@ -1,4 +1,7 @@
 machine:
+  pre:
+    # Update docker version
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
     - docker
 
@@ -10,7 +13,7 @@ dependencies:
     # install AWS CLI
     - sudo pip install awscli
     # build the image
-    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
+    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 --build-arg CUSTOM_ASSETS_URL=$CUSTOM_ASSETS_URL --build-arg CUSTOM_ASSETS_CREDENTIALS=$CUSTOM_ASSETS_CREDENTIALS --build-arg CUSTOM_ASSETS_BRANCH=$CIRCLE_BRANCH .
 
 test:
   override:
