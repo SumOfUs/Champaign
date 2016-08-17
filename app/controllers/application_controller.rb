@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
 
     @rendered = renderer(liquid_layout).render
     @data = renderer(liquid_layout).personalization_data
-    render "pages/#{view}", layout: 'sumofus'
+    render "pages/#{view}", layout: 'member_facing'
   end
 
   def renderer(layout)
