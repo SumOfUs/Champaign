@@ -1,5 +1,5 @@
-const GlobalEvents = require('sumofus/backbone/global_events');
-const MobileCheck = require('sumofus/backbone/mobile_check');
+const GlobalEvents = require('shared/global_events');
+const MobileCheck = require('member-facing/backbone/mobile_check');
 
 const Sidebar = Backbone.View.extend({
 

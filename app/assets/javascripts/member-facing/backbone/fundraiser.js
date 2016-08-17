@@ -1,9 +1,9 @@
-const DesktopSticky = require('sumofus/backbone/desktop_sticky');
-const ActionForm  = require('sumofus/backbone/action_form');
-const CurrencyMethods     = require('sumofus/backbone/currency_methods');
-const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
-const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
-const GlobalEvents = require('sumofus/backbone/global_events');
+const DesktopSticky = require('member-facing/backbone/desktop_sticky');
+const ActionForm  = require('member-facing/backbone/action_form');
+const CurrencyMethods     = require('member-facing/backbone/currency_methods');
+const OverlayToggle       = require('member-facing/backbone/overlay_toggle')
+const BraintreeHostedFields = require('member-facing/backbone/braintree_hosted_fields');
+const GlobalEvents = require('shared/global_events');
 
 const Fundraiser = Backbone.View.extend(_.extend(
   CurrencyMethods, {

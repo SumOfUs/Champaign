@@ -1,4 +1,4 @@
-const GlobalEvents = require('sumofus/backbone/global_events');
+const GlobalEvents = require('shared/global_events');
 
 const Petition = Backbone.View.extend({
 

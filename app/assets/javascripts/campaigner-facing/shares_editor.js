@@ -1,5 +1,5 @@
-let setupOnce = require('setup_once');
-const GlobalEvents = require('sumofus/backbone/global_events');
+let setupOnce = require('campaigner-facing/setup_once');
+const GlobalEvents = require('shared/global_events');
 
 (function(){
 

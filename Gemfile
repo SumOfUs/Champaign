@@ -146,9 +146,6 @@ source 'https://rails-assets.org' do
   # JavaScript's utility _ belt http://underscorejs.org
   gem 'rails-assets-underscore'
 
-  # Reduce user-misspelled email addresses in your forms.
-  gem 'rails-assets-mailcheck'
-
   # Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
   gem 'rails-assets-dropzone'
 
