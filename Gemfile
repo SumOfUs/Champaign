@@ -25,6 +25,7 @@ gem 'font-awesome-sass'
 gem 'money'
 gem 'google_currency'
 gem 'rack-cors', require: 'rack/cors'
+gem 'httparty'
 
 # Sprockets 3 breaks Teaspoon.
 # see https://github.com/modeset/teaspoon/issues/443

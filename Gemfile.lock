@@ -554,6 +554,7 @@ DEPENDENCIES
   google_currency
   guard-rspec
   hiredis
+  httparty
   i18n-js (>= 3.0.0.rc12)
   jbuilder (~> 2.0)
   jquery-rails
