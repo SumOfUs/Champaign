@@ -28,7 +28,7 @@ describe("Action form", function() {
       describe('member is not passed', function(){
 
         beforeEach(function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: []});
+          suite.form = new window.champaign.ActionForm({ outstandingFields: []});
         });
 
         it('does not prefill values', function(){
@@ -44,13 +44,13 @@ describe("Action form", function() {
       describe('member is passed', function(){
 
         it('ignores extraneous member values', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: {email: 'neal@test.com', oogle: 'boogle'} });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: {email: 'neal@test.com', oogle: 'boogle'} });
           expect($('input[name="email"]').val()).to.eql('neal@test.com');
         });
 
         it('displays the clearer when form has fields', function(){
           expect($('.action-form .action-form__field-container').length).to.be.at.least(1);
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals });
           expect($('.action-form__welcome-text')).not.to.have.class('hidden-irrelevant');
           expect($('.action-form__welcome-name')).to.have.text('David Bowie');
         });
@@ -58,18 +58,18 @@ describe("Action form", function() {
         it('does not display the clearer when form has no fields', function(){
           $('.action-form__field-container').remove();
           expect($('.action-form .action-form__field-container').length).to.eq(0);
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals });
           expect($('.action-form__welcome-text')).to.have.class('hidden-irrelevant');
         });
 
         it('prefills with values of member', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals });
           var vals = suite.inputs.map(function(ii, el){ return $(el).val(); }).toArray();
           expect(vals).to.eql( ['starman@bowie.com', 'David Bowie', 'GB', "213-7212-9087"]);
         });
 
         it('hides form fields when all filled', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals });
           var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
@@ -77,7 +77,7 @@ describe("Action form", function() {
         });
 
         it('does not hide empty form fields', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: {email: 'neal@test.com'} });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: {email: 'neal@test.com'} });
           var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
@@ -85,7 +85,7 @@ describe("Action form", function() {
         });
 
         it('reveals the form fields properly', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: {email: 'neal@test.com'} });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: {email: 'neal@test.com'} });
           $('.action-form__clear-form').click();
           var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
@@ -94,13 +94,13 @@ describe("Action form", function() {
         });
 
         it('overrides location country with member country', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
           expect(suite.inputs.filter('[name="country"]').val()).to.eq('GB');
         });
 
         it('falls back to location country when member country not provided', function(){
           delete suite.fullVals['country'];
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals, location: {country: 'NI'} });
           expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
       });
@@ -111,13 +111,13 @@ describe("Action form", function() {
       describe('member is passed', function(){
 
         it('does not prefill if value is in outstandingFields', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: ['email'], member: suite.fullVals});
+          suite.form = new window.champaign.ActionForm({ outstandingFields: ['email'], member: suite.fullVals});
           var vals = suite.inputs.map(function(ii, el){ return $(el).val(); }).toArray();
           expect(vals).to.eql( ['', 'David Bowie', 'GB', "213-7212-9087"]);
         });
 
         it('does not hide the form fields', function(){
-          suite.form = new window.sumofus.ActionForm({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
+          suite.form = new window.champaign.ActionForm({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
           var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
@@ -125,7 +125,7 @@ describe("Action form", function() {
         });
 
         it('uses location country when country in outstandingFields', function(){
-          suite.form = new window.sumofus.ActionForm({ outstandingFields: ['country'], member: suite.fullVals, location: {country: 'NI'} });
+          suite.form = new window.champaign.ActionForm({ outstandingFields: ['country'], member: suite.fullVals, location: {country: 'NI'} });
           expect(suite.inputs.filter('[name="country"]').val()).to.eq('NI');
         });
       });
@@ -133,12 +133,12 @@ describe("Action form", function() {
       describe('member is not passed', function(){
 
         it('does not prefill', function(){
-          suite.form = new window.sumofus.ActionForm({ member: {email: 'neal@test.com'}, outstandingFields: ['email'], amount: 17 });
+          suite.form = new window.champaign.ActionForm({ member: {email: 'neal@test.com'}, outstandingFields: ['email'], amount: 17 });
           expect($('input[name="email"]').val()).to.eql('');
         });
 
         it('does not hide the form fields', function(){
-          suite.form = new window.sumofus.ActionForm({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
+          suite.form = new window.champaign.ActionForm({ member: {email: 'neal@test.com'}, outstandingFields: ['name'], amount: 17 });
           var classed = $('.action-form__field-container').map(function(ii, el){
             return $(el).hasClass('form__group--prefilled');
           }).toArray();
@@ -152,7 +152,7 @@ describe("Action form", function() {
       describe('member is not passed', function(){
 
         beforeEach(function(){
-          suite.form = new window.sumofus.ActionForm();
+          suite.form = new window.champaign.ActionForm();
         });
 
         it('does not display the clearer', function(){
@@ -174,7 +174,7 @@ describe("Action form", function() {
       describe('member is passed', function(){
 
         beforeEach(function(){
-          suite.form = new window.sumofus.ActionForm({member: suite.fullVals});
+          suite.form = new window.champaign.ActionForm({member: suite.fullVals});
         });
 
         it('does not display the clearer', function(){
@@ -201,14 +201,14 @@ describe("Action form", function() {
     it ('selectizes the dropdown when not on mobile', function(){
       expect($('select')).not.to.have.class('selectized');
       $('.mobile-indicator').css('display', 'none');
-      suite.form = new window.sumofus.ActionForm();
+      suite.form = new window.champaign.ActionForm();
       expect($('select')).to.have.class('selectized');
     });
 
     it ('does not selectize the dropdown when on mobile', function(){
       expect($('select')).not.to.have.class('selectized');
       $('.mobile-indicator').css('display', 'block');
-      suite.form = new window.sumofus.ActionForm();
+      suite.form = new window.champaign.ActionForm();
       expect($('select')).not.to.have.class('selectized');
     });
   });
@@ -218,13 +218,13 @@ describe("Action form", function() {
 
     it('adds a hidden field for akid if akid passed', function(){
       expect($(akidFieldSelector).length).to.eq(0);
-      suite.form = new window.sumofus.ActionForm({akid: '1234.5678.9887'});
+      suite.form = new window.champaign.ActionForm({akid: '1234.5678.9887'});
       expect($(akidFieldSelector).length).to.eq(1);
     });
 
     it('does not add a hidden field if akid not passed', function(){
       expect($(akidFieldSelector).length).to.eq(0);
-      suite.form = new window.sumofus.ActionForm();
+      suite.form = new window.champaign.ActionForm();
       expect($(akidFieldSelector).length).to.eq(0);
     });
   });
@@ -234,13 +234,13 @@ describe("Action form", function() {
 
     it('adds a hidden field for source if source passed', function(){
       expect($(sourceFieldSelector).length).to.eq(0);
-      suite.form = new window.sumofus.ActionForm({source: 'facebook'});
+      suite.form = new window.champaign.ActionForm({source: 'facebook'});
       expect($(sourceFieldSelector).length).to.eq(1);
     });
 
     it('does not add a hidden field if source not passed', function(){
       expect($(sourceFieldSelector).length).to.eq(0);
-      suite.form = new window.sumofus.ActionForm();
+      suite.form = new window.champaign.ActionForm();
       expect($(sourceFieldSelector).length).to.eq(0);
     });
   });
@@ -249,7 +249,7 @@ describe("Action form", function() {
 
     beforeEach(function(){
       // do the prefill first and check it happened
-      suite.form = new window.sumofus.ActionForm({ outstandingFields: [], member: suite.fullVals });
+      suite.form = new window.champaign.ActionForm({ outstandingFields: [], member: suite.fullVals });
       var vals = suite.inputs.map(function(ii, el){ return $(el).val(); }).toArray();
       expect(vals).to.eql(['starman@bowie.com', 'David Bowie', 'GB', "213-7212-9087"]);
     });
@@ -281,14 +281,14 @@ describe("Action form", function() {
 
   describe('form response', function(){
     it('displays errors when the ajax call fails', function(){
-      suite.form = new window.sumofus.ActionForm();
+      suite.form = new window.champaign.ActionForm();
       $('form.action-form').trigger('ajax:error', {status: 422, responseText: '{"errors": {"name": ["must have three letters"]}}'});
       expect($('form.action-form .error-msg').length).to.eq(1);
     });
 
     it('triggers form:submitted when the response succeeds', function(){
       sinon.stub(Backbone, 'trigger');
-      suite.form = new window.sumofus.ActionForm();
+      suite.form = new window.champaign.ActionForm();
       $('form.action-form').trigger('ajax:success');
       expect(Backbone.trigger).to.have.been.calledWith('form:submitted');
     });

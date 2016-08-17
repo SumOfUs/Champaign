@@ -136,7 +136,7 @@
             attribution: "{{ 'baysanto.shareholder.quotes.fifth.quoted' | t }}"
           },
         ];
-        var mySimpleCarousel = new window.sumofus.SimpleCarousel({content: quotes});
+        var mySimpleCarousel = new window.champaign.SimpleCarousel({content: quotes});
       });
     </script>
   </div>
@@ -152,13 +152,13 @@
     <div class="baysanto__action-opportunities">
       <script type="text/javascript">
         $(document).ready(function(){
-          var sou = window.sumofus; // convenience binding
+          var sou = window.champaign; // convenience binding
           sou.myActionForm  = new sou.ActionForm({
-            member:           window.sumofus.personalization.member,
-            outstandingFields:window.sumofus.personalization.outstandingFields,
-            location:         window.sumofus.personalization.location,
-            akid:             window.sumofus.personalization.urlParams.akid,
-            source:           window.sumofus.personalization.urlParams.source,
+            member:           window.champaign.personalization.member,
+            outstandingFields:window.champaign.personalization.outstandingFields,
+            location:         window.champaign.personalization.location,
+            akid:             window.champaign.personalization.urlParams.akid,
+            source:           window.champaign.personalization.urlParams.source,
             prefill:          true
           });
 
@@ -210,7 +210,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     // I'm leaving in commented out code to make it easy to activate this feature without a deploy
-    // var myCounter = new window.sumofus.ActionCounter({
+    // var myCounter = new window.champaign.ActionCounter({
     //   slugs: [
     //     'bayer-stoppen-sie-die-uebernahme-von-monsanto',
     //     'stop-the-bayer-monsanto-mega-merger',
