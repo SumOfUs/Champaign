@@ -116,6 +116,19 @@ describe 'API::Stateless Members' do
       end
     end
   end
+
+      it 'sends back error messages if the parameters are invalid' do
+        put "/api/stateless/members/#{member.id}", bad_params, auth_headers
+        expect(response.status).to be 422
+        expect(response.success?).to be false
+        expect(json_hash["errors"]).to match({
+                                               "email" => [
+                                                 "has already been taken"
+                                               ]
+                                             })
+      end
+    end
+  end
 end
 
 
