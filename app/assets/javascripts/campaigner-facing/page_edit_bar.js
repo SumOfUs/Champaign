@@ -1,4 +1,4 @@
-let ErrorDisplay = require('show_errors');
+let ErrorDisplay = require('shared/show_errors');
 
 let PageModel = Backbone.Model.extend({
   urlRoot: '/api/pages',

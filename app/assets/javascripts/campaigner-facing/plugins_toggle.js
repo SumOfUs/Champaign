@@ -1,4 +1,4 @@
-const setupOnce = require('setup_once');
+const setupOnce = require('campaigner-facing/setup_once');
 
 (function(){
 

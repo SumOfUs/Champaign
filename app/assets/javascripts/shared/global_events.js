@@ -1,3 +1,7 @@
+// allow backbone views to use a hash to declaratively
+// bind their methods to events called through 
+// $.publish or Backbone.trigger
+
 const GlobalEvents = {
   bindEvents(view) {
     const events = view.globalEvents;

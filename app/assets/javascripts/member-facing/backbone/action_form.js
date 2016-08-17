@@ -1,6 +1,6 @@
-let ErrorDisplay = require('show_errors');
-let MobileCheck = require('sumofus/backbone/mobile_check');
-const GlobalEvents = require('sumofus/backbone/global_events');
+let ErrorDisplay = require('shared/show_errors');
+let MobileCheck = require('member-facing/backbone/mobile_check');
+const GlobalEvents = require('shared/global_events');
 
 const ActionForm = Backbone.View.extend({
 

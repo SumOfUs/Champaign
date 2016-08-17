@@ -1,3 +1,7 @@
+// this code listens for all the events listed in the 
+// EVENTS_TO_REPORT list and when they are published
+// with &.publish, they are reported to Google Analytics
+
 (function(){
   const EVENTS_TO_REPORT = [
     "direct_debit:opened",

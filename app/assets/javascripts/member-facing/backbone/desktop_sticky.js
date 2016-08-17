@@ -1,4 +1,4 @@
-const MobileCheck = require('sumofus/backbone/mobile_check')
+const MobileCheck = require('member-facing/backbone/mobile_check')
 
 const DesktopSticky = Backbone.View.extend({
 
