@@ -21,7 +21,7 @@ class PaymentController < ApplicationController
       @errors = client::ErrorProcessing.new(builder.error_container, locale: locale).process
       @page = page
       respond_to do |format|
-        format.html { render 'payment/donation_errors', layout: 'sumofus' }
+        format.html { render 'payment/donation_errors', layout: 'member_facing' }
         format.json { render json: { success: false, errors: @errors }, status: 422 }
       end
     end

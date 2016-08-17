@@ -10,7 +10,7 @@ class Api::GoCardlessController < PaymentController
       redirect_to @flow.redirect_url
     else
       @errors = client::ErrorProcessing.new(@flow.error).process
-      render 'payment/donation_errors', layout: 'sumofus'
+      render 'payment/donation_errors', layout: 'member_facing'
     end
   end
 
