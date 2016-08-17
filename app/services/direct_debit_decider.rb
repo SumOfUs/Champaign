@@ -15,7 +15,7 @@ class DirectDebitDecider
 
   def decide
     return true if (@member_countries & ALWAYS_COUNTRIES).any?
-    member_country_shows_when_recurring = (@member_countries & ONLY_RECURRING_COUNTRIES)
+    member_country_shows_when_recurring = (@member_countries & ONLY_RECURRING_COUNTRIES).any?
     return true if (@recurring && member_country_shows_when_recurring)
     return false
   end
