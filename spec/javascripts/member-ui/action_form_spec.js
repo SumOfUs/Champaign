@@ -1,4 +1,4 @@
-//= require sumofus
+//= require member-facing
 
 describe("Action form", function() {
   var suite = this;

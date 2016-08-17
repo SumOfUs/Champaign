@@ -1,4 +1,4 @@
-//= require sumofus
+//= require member-facing
 
 // this is a feature test of show_errors.js that ensures
 // it performs in an end-user facing context

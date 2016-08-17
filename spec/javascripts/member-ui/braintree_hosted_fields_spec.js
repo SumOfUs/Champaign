@@ -1,4 +1,4 @@
-//= require sumofus
+//= require member-facing
 
 describe("Braintree hosted fields", function() {
   var suite = this;
