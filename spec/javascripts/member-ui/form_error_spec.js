@@ -13,7 +13,7 @@ describe("Inline form errors", function() {
   beforeEach(function(){
     MagicLamp.wish("pages/petition");
     suite.server = sinon.fakeServer.create();
-    suite.form = new window.sumofus.ActionForm(); // binds the form events
+    suite.form = new window.champaign.ActionForm(); // binds the form events
   });
 
   afterEach(function(){

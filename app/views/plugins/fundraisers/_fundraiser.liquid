@@ -117,28 +117,28 @@
 
     <script type="text/javascript">
       $(document).ready(function(){
-        var sou = window.sumofus; // convenience binding
-        sou.myActionForm  = new sou.ActionForm({
-          member:            sou.personalization.member,
-          outstandingFields: sou.personalization.outstandingFields,
-          location:          sou.personalization.location,
-          akid:              sou.personalization.urlParams.akid,
-          source:            sou.personalization.urlParams.source,
+        var cmp = window.champaign; // convenience binding
+        chmp.myActionForm  = new chmp.ActionForm({
+          member:            chmp.personalization.member,
+          outstandingFields: chmp.personalization.outstandingFields,
+          location:          chmp.personalization.location,
+          akid:              chmp.personalization.urlParams.akid,
+          source:            chmp.personalization.urlParams.source,
           prefill:          true
         });
-        sou.myFundraiser = new sou.Fundraiser({
+        chmp.myFundraiser = new chmp.Fundraiser({
           pageId:           "{{ id }}",
           followUpUrl:      "{{ follow_up_url }}",
-          showDirectDebit:  sou.personalization.showDirectDebit,
-          currency:         sou.personalization.urlParams.currency || sou.personalization.location.currency,
-          donationBands:    sou.personalization.donationBands,
-          amount:           sou.personalization.urlParams.amount,
-          recurringDefault: sou.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          showDirectDebit:  chmp.personalization.showDirectDebit,
+          currency:         chmp.personalization.urlParams.currency || chmp.personalization.location.currency,
+          donationBands:    chmp.personalization.donationBands,
+          amount:           chmp.personalization.urlParams.amount,
+          recurringDefault: chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
         });
-        sou.mySidebar     = new sou.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
-        sou.mySticky      = new sou.DesktopSticky({extraClass: 'fundraiser'});
-        sou.hostedFields  = new sou.BraintreeHostedFields();
-        sou.overlayToggle = new sou.OverlayToggle();
+        chmp.mySidebar     = new chmp.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
+        chmp.mySticky      = new chmp.DesktopSticky({extraClass: 'fundraiser'});
+        chmp.hostedFields  = new chmp.BraintreeHostedFields();
+        chmp.overlayToggle = new chmp.OverlayToggle();
       });
     </script>
   </div>

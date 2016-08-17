@@ -24,13 +24,13 @@
   {% unless skip_javascript %}
     <script type="text/javascript">
       $(document).ready(function(){
-        var sou = window.sumofus; // convenience binding
+        var sou = window.champaign; // convenience binding
         sou.myActionForm  = new sou.ActionForm({
-          member:           window.sumofus.personalization.member,
-          outstandingFields:window.sumofus.personalization.outstandingFields,
-          location:         window.sumofus.personalization.location,
-          akid:             window.sumofus.personalization.urlParams.akid,
-          source:           window.sumofus.personalization.urlParams.source,
+          member:           window.champaign.personalization.member,
+          outstandingFields:window.champaign.personalization.outstandingFields,
+          location:         window.champaign.personalization.location,
+          akid:             window.champaign.personalization.urlParams.akid,
+          source:           window.champaign.personalization.urlParams.source,
           prefill:          true
         });
 
