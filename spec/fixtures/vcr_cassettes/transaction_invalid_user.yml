@@ -2,103 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
-    body:
-      encoding: UTF-8
-      string: |
-        <?xml version="1.0" encoding="UTF-8"?>
-        <transaction>
-          <amount>2002.0</amount>
-          <payment-method-nonce>fake-valid-nonce</payment-method-nonce>
-          <merchant-account-id>sumofus2_EUR</merchant-account-id>
-          <options>
-            <submit-for-settlement type="boolean">true</submit-for-settlement>
-            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
-          </options>
-          <customer>
-            <first-name>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</first-name>
-            <last-name></last-name>
-            <email>bob@example.com</email>
-          </customer>
-          <billing>
-            <first-name>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</first-name>
-            <last-name></last-name>
-            <postal-code>invalid postal code</postal-code>
-            <street-address>Lynda Vista</street-address>
-            <country-code-alpha2>US</country-code-alpha2>
-          </billing>
-          <type>sale</type>
-        </transaction>
-    headers:
-      Accept-Encoding:
-      - gzip
-      Accept:
-      - application/xml
-      User-Agent:
-      - Braintree Ruby Gem 2.54.0
-      X-Apiversion:
-      - '4'
-      Content-Type:
-      - application/xml
-  response:
-    status:
-      code: 422
-      message: Unprocessable Entity
-    headers:
-      Date:
-      - Tue, 22 Mar 2016 23:15:33 GMT
-      Content-Type:
-      - application/xml; charset=utf-8
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - close
-      X-Frame-Options:
-      - SAMEORIGIN
-      - SAMEORIGIN
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      X-Authentication:
-      - basic_auth
-      X-User:
-      - 2vtm97htjg9x4v78
-      Vary:
-      - Accept-Encoding
-      Content-Encoding:
-      - gzip
-      Cache-Control:
-      - no-cache
-      X-Request-Id:
-      - c8c9c0e7-b224-4d98-bdfd-07269c469319
-      X-Runtime:
-      - '0.066136'
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-    body:
-      encoding: ASCII-8BIT
-      string: !binary |-
-        H4sIABXS8VYAA+xXO2/bMBDe/SsI7bQUAy0cQGa6NFOHoq27GieJtonyIZBU
-        EP37HmXJlm3JTpM0RYFwIu+le3y8o9K7RyXJA7dOGL2IbqZJRLjOTSH0ZhEt
-        f9zTeXTHJimUgnJrjaWWu9Jox9mEkLQhubDdH4ivS76IwFqoo7hleQvaQe7x
-        IzvKRXFkZkJKdKE7D4sfuB2/T0EaxsHZ/Gae3KZxsz9mg/dWZJXnrVVXq8zI
-        iJXGeZCroJHGe6ETZcWdgw1nXxthEoSJgho32oPQRBuijEXTW9DklkjuPbfE
-        WKIrleEu34LFjGDmp2ncGesHFJ9FdDnGD38U41pY51ca1BNCvA+yJMgSgRUw
-        hkijN090uyW4fWnjk9qmueWF8DQHW1yud9xjt0YoFAUi0p2naRwqw4m8CpcX
-        AuYNIDMImuvRDgLnZdB5JniGUX8CoB6ETquPgZxjKc0r543i9nWaycdk/r9c
-        tOPA0/ikC/cV0hKhpbpOPtSuQZlKezZLktk0wVB2x45bQq249lRxvzUF1Ubn
-        nK3hF6cPIEVLSONBsc4GeooIRy7keTBORcFcpcy6crPV5+W3kIZziU7blMHd
-        PkpclSnEwhqHlsOrJHn4NPO2QkeGeT1djxeRCo3uV9JTo6mr8jxArdUf5e+z
-        f+LQEAwbbNBQbwbv6+1WGvcyfyiHhJZGtJCLKFT6aOZwBUKyzGSf+COoUvJp
-        bhTeooY8cusG3zLvdf8365l134132jR9oZuGRsrDDMe21hPo9xDLud/PqC+1
-        LoD8FCga+scR76DU9DVbN7YoyHILM7b8HibOOX30RRUmEHMg0bVmO9b/D03/
-        Nd8mk5ExNvmbtq+PTpxZAz8xvwEAAP//AwCw+Sw+AQ0AAA==
-    http_version: 
-  recorded_at: Tue, 22 Mar 2016 23:15:33 GMT
-- request:
-    method: post
-    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
     body:
       encoding: UTF-8
       string: |
@@ -109,7 +13,7 @@ http_interactions:
           <merchant-account-id>EUR</merchant-account-id>
           <options>
             <submit-for-settlement type="boolean">true</submit-for-settlement>
-            <store-in-vault-on-success type="boolean">true</store-in-vault-on-success>
+            <store-in-vault-on-success nil="true"/>
           </options>
           <customer>
             <first-name>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</first-name>
@@ -134,6 +38,8 @@ http_interactions:
       - Braintree Ruby Gem 2.54.0
       X-Apiversion:
       - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
       Content-Type:
       - application/xml
   response:
@@ -142,13 +48,11 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Wed, 23 Mar 2016 22:23:20 GMT
+      - Fri, 19 Aug 2016 13:53:41 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
       - chunked
-      Connection:
-      - close
       X-Frame-Options:
       - SAMEORIGIN
       - SAMEORIGIN
@@ -167,29 +71,29 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 496e78ac-2dbd-4fda-a995-956559fbeb3b
+      - 82c1c907-974b-4524-a338-fdab1ff5edb1
       X-Runtime:
-      - '0.130400'
+      - '0.147492'
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAFgX81YAA+xXO2/bMBDe/SsI7bSUAC0cQGa6NFOHoq27BieJtonyIZBU
-        EP37HmXJlmXJTpM0RYFwou7Fe3y8o9LbRyXJA7dOGL2MruZJRLjOTSH0Zhmt
-        ftzRRXTLZimUgnJrjaWWu9Jox9mMkLQhubDdfxBfl3wZgbVQR3HL8ha0g9zj
-        ITvKWXFkZkJKdKH7Hhc/cDt+n4I0jIOzxdUiuUnjZn/MBu+tyCrPW6uuVpmR
-        ESuN8yDvg0Ya74UGyoo7BxvOvjbCJAgTBTVutAehiTZEGYumt6DJDZHce26J
-        sURXKsNdvgWLGcHMz9O4M9YPKD6J6HyMH/4oxrWwzt9rUE8I8S7IkiBLBFbA
-        GCKN3jzR7Zbg9qWNB7VNc8sL4WkOtjhf77jHbo1QKApEpDtN0zRUxhN5ES4v
-        BMwbQGYUNJejHQXOy6DzTPCMo34AoB6EhtXHQE6xlOaV80Zx+zrN5GOy+F8u
-        2nHgaTzown2FtERoqa6Tj7VrUKbSnl0nyfU8wVB2nx23hFpx7anifmsKqo3O
-        OVvDL04fQIqWkMajYp0N9BQRjlzI82CcioJ9Xn0L0Z8yOiVTBi/74HBVphAC
-        a5xVDm+Q5OFE5m2F54/zeroe7x8VGr2upKdGU1fleUBYqz/J3yd94NAY+hpI
-        0FBmBu/r7VYa9zJ/KIeElka0kMsoVPpo1HAFQrLMZJ/4I6hS8nluFF6ehjxx
-        2UafMO91/zfrmXXfTXXa9Hqhmz5GysPoxm7WE+j3EMu534+mL7UugPwUKBr6
-        xxHvoNT0NVs3tijIcgvXbPU9DJpT+uRDKgwe5kCia812qu0fev1rPklmE9Nr
-        9jdtX56YOKpG/l1+AwAA//8DADQ55gX4DAAA
+        H4sIAGUPt1cAA+xXS2/bMAy+51cIvitOC2xIAUXdZT3tMGzLrgVtK4kwPQxJ
+        Lup/P8qxE8dxkq7tOgyoTjJJUXx8JGV2+6gVeRDOS2sWydV0lhBhcltIs14k
+        yx93dJ7c8gmDUlLhnHXUCV9a4wWfEMIako/b3QcJdSkWCTgHdZK2rODAeMgD
+        XrKlnBVHZiaVQhO673HxPbfj9ylIQz8En1/NZzcsbfaHbAjByawKotXqa51Z
+        lfDS+gDqPp5g6U5ocFgL72Et+NdGmERhoqHGjQkgDTGWaOtQ9QYMuSFKhCAc
+        sY6YSme4yzfgMCIY+SlLO2V9h9Ijj877+OGPfFxJ58O9Af0EF++iLImyRGIG
+        rCXKmvUTzW4JfpfadJBbljtRyEBzcMX5fKc9dquEQlEgIv1xmE5DZTyQF+Hy
+        QsC8AWRGQXPZ21HgvAw6zwTPOOoHAOpBaJh9dOQYSyyvfLBauNdpJh9n8/+l
+        0A4dZ+mgC/cPsBKhpbtOPtauQdvKBH49m11PZ+jK9rPjllBrYQLVImxsQY01
+        ueAr+CXoAyjZElg6KtbpQEsR4ciFPI/KqSz45+W36P0xoztky2hlHxy+yjRC
+        YIWzymMFKRFv5MFVeP84r3c2YP1RadDqSgVqDfVVnmPwiZFqkUQlvSGVDi4f
+        Q1qTfhpTyuF9vd1iaS/y+3QoaGljCY2Fr0Eqntnsk3gEXSoxza3GQmnIJwpr
+        9Lnynvd/s56Z9+0Ep01fl6bpWaTcj2nsXD2Bfr9wQoTdGPpSmwLIT4mi2GsO
+        eftDTQ9zdaOLgio3cM2X3+NQOaaffDTFIcM9KDSt2Z5q8fu+/prPj8mJSTX5
+        m7ovT0ccSyP/Kb8BAAD//wMAHdPAFOQMAAA=
     http_version: 
-  recorded_at: Wed, 23 Mar 2016 22:23:20 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Fri, 19 Aug 2016 13:53:41 GMT
+recorded_with: VCR 3.0.3
