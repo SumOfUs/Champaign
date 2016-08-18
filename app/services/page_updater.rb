@@ -86,7 +86,7 @@ class PageUpdater
     page_tags_after = @page.pages_tags.map(&:tag_id)
 
     @page.changed_attributes.keys.any? do |attr|
-      ['language_id', 'title'].include?(attr)
+      ['language_id', 'title', 'campaign_id'].include?(attr)
     end || page_tags_before != page_tags_after
   end
 
