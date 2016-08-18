@@ -87,4 +87,13 @@ describe Payment::Braintree::Transaction do
       expect(transaction.reload.status).to eq 'success'
     end
   end
+
+  describe 'one-off' do
+    let!(:transaction_with_subscription) { create(:payment_braintree_transaction, subscription_id: 123) }
+    let!(:transaction_without_subscription) { create(:payment_braintree_transaction, subscription_id: nil) }
+
+    it 'returns transactions without a subscription' do
+      expect(Payment::Braintree::Transaction.one_off).to match_array([transaction_without_subscription])
+    end
+  end
 end
