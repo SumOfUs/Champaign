@@ -71,17 +71,17 @@ describe DirectDebitDecider do
 
         it 'returns false when country list is empty' do
           decision = DirectDebitDecider.decide([], recurring_default)
-          expect(decision).to eq(recurring)
+          expect(decision).to eq(false)
         end
 
         it 'returns false when country is unknown' do
           decision = DirectDebitDecider.decide(['RD', ''], recurring_default)
-          expect(decision).to eq(recurring)
+          expect(decision).to eq(false)
         end
 
         it 'returns false when country list has no direct debit countries' do
           decision = DirectDebitDecider.decide(['US', 'MX', 'GH', 'IN'], recurring_default)
-          expect(decision).to eq(recurring)
+          expect(decision).to eq(false)
         end
       end
     end
