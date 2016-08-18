@@ -1,4 +1,3 @@
-# coding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -16,7 +15,7 @@ describe 'Braintree API' do
   let(:token_format) { /[a-z0-9]{1,36}/i }
   let(:user_params) do
     {
-      form_id: form.id,
+      form_id: '100',
       name: 'Bernie Sanders',
       email: 'itsme@feelthebern.org',
       postal: '11225',
@@ -34,7 +33,6 @@ describe 'Braintree API' do
                    slug:       'cash-rules-everything-around-me',
                    first_name: 'Bernie',
                    last_name:  'Sanders',
-                   created_at: be_within(1.second).of(Time.now),
                    country: 'United States',
                    action_id: instance_of(Fixnum))
   end
@@ -86,13 +84,50 @@ describe 'Braintree API' do
   end
 
   describe 'making a transaction' do
+    describe "without storing in Braintree's vault" do
+      let(:params) do
+        {
+          currency: 'EUR',
+          payment_method_nonce: 'fake-valid-nonce',
+          recurring: false,
+          amount: 2.00,
+          store_in_vault: false,
+          user: user_params
+        }
+      end
+
+      before do
+        VCR.use_cassette('braintree_transaction no_vault') do
+          post api_payment_braintree_transaction_path(page.id), params
+        end
+      end
+
+      it 'no customer is created' do
+        expect(Payment::Braintree::Customer.all).to be_empty
+      end
+
+      it 'no payment method is created' do
+        expect(Payment::Braintree::PaymentMethod.all).to be_empty
+      end
+
+      it 'transaction is created' do
+        transaction = Payment::Braintree::Transaction.first
+
+        expect(transaction.attributes).to include({
+          currency: 'EUR',
+          customer_id: nil
+        }.stringify_keys)
+      end
+    end
+
     describe 'successfully' do
       let(:basic_params) do
         {
           currency: 'EUR',
           payment_method_nonce: 'fake-valid-nonce',
-          # amount: amount, # should override for each casette to avoid duplicates
-          recurring: false
+          amount: '2.00',
+          recurring: false,
+          store_in_vault: true
         }
       end
 
@@ -174,28 +209,26 @@ describe 'Braintree API' do
             it 'passes the params to braintree' do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
-              expect(Braintree::Transaction).to have_received(:sale).with(
-                amount: amount,
-                payment_method_nonce: 'fake-valid-nonce',
-                merchant_account_id: 'EUR',
-                options: {
-                  submit_for_settlement: true,
-                  store_in_vault_on_success: true
-                },
-                customer: {
-                  first_name: 'Bernie',
-                  last_name: 'Sanders',
-                  email: 'itsme@feelthebern.org'
-                },
-                billing: {
-                  first_name: 'Bernie',
-                  last_name: 'Sanders',
-                  street_address: '25 Elm Drive',
-                  postal_code: '11225',
-                  country_code_alpha2: 'US'
-                },
-                customer_id: customer.customer_id
-              )
+              expect(Braintree::Transaction).to have_received(:sale).with(amount: amount,
+                                                                          payment_method_nonce: 'fake-valid-nonce',
+                                                                          merchant_account_id: 'EUR',
+                                                                          options: {
+                                                                            submit_for_settlement: true,
+                                                                            store_in_vault_on_success: true
+                                                                          },
+                                                                          customer: {
+                                                                            first_name: 'Bernie',
+                                                                            last_name: 'Sanders',
+                                                                            email: 'itsme@feelthebern.org'
+                                                                          },
+                                                                          billing: {
+                                                                            first_name: 'Bernie',
+                                                                            last_name: 'Sanders',
+                                                                            street_address: '25 Elm Drive',
+                                                                            postal_code: '11225',
+                                                                            country_code_alpha2: 'US'
+                                                                          },
+                                                                          customer_id: customer.customer_id)
             end
 
             it 'leaves a cookie with the member_id' do
@@ -231,7 +264,7 @@ describe 'Braintree API' do
 
           context 'with Paypal' do
             let(:amount) { 29.20 } # to avoid duplicate donations recording specs
-            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount, store_in_vault: true) }
 
             subject do
               VCR.use_cassette('transaction success paypal existing customer') do
@@ -327,7 +360,7 @@ describe 'Braintree API' do
                 token: token_format,
                 card_type: 'Visa',
                 bin: /\d{6}/,
-                expiration_date: %r{\d{2}\/\d{4}},
+                expiration_date: /\d{2}\/\d{4}/,
                 instrument_type: 'credit_card'
               }.stringify_keys)
             end
@@ -388,27 +421,25 @@ describe 'Braintree API' do
             it 'passes the params to braintree' do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
-              expect(Braintree::Transaction).to have_received(:sale).with(
-                amount: amount,
-                payment_method_nonce: 'fake-valid-nonce',
-                merchant_account_id: 'EUR',
-                options: {
-                  submit_for_settlement: true,
-                  store_in_vault_on_success: true
-                },
-                customer: {
-                  first_name: 'Bernie',
-                  last_name: 'Sanders',
-                  email: 'itsme@feelthebern.org'
-                },
-                billing: {
-                  first_name: 'Bernie',
-                  last_name: 'Sanders',
-                  street_address: '25 Elm Drive',
-                  postal_code: '11225',
-                  country_code_alpha2: 'US'
-                }
-              )
+              expect(Braintree::Transaction).to have_received(:sale).with(amount: amount,
+                                                                          payment_method_nonce: 'fake-valid-nonce',
+                                                                          merchant_account_id: 'EUR',
+                                                                          options: {
+                                                                            submit_for_settlement: true,
+                                                                            store_in_vault_on_success: true
+                                                                          },
+                                                                          customer: {
+                                                                            first_name: 'Bernie',
+                                                                            last_name: 'Sanders',
+                                                                            email: 'itsme@feelthebern.org'
+                                                                          },
+                                                                          billing: {
+                                                                            first_name: 'Bernie',
+                                                                            last_name: 'Sanders',
+                                                                            street_address: '25 Elm Drive',
+                                                                            postal_code: '11225',
+                                                                            country_code_alpha2: 'US'
+                                                                          })
             end
 
             it 'leaves a cookie with the member_id' do
@@ -621,7 +652,7 @@ describe 'Braintree API' do
         end
 
         context 'when BraintreeCustomer exists' do
-          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
+          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: '29823405', card_last_4: '4843' }
 
           context 'with basic params' do
             let(:amount) { 823.20 } # to avoid duplicate donations recording specs
@@ -671,6 +702,19 @@ describe 'Braintree API' do
               expect(subscription.action).to eq Action.last
             end
 
+            it 'creates a Subscription associated with a customer and payment method' do
+              expect { subject }.to change { Payment::Braintree::Subscription.count }.by 1
+              expect { subject }.to_not change { Payment::Braintree::PaymentMethod.count }
+              expect { subject }.to_not change { Payment::Braintree::Customer.count }
+
+              subscription = Payment::Braintree::Subscription.last
+              payment_method = Payment::Braintree::PaymentMethod.last
+
+              expect(subscription.customer).to eq customer
+              expect(subscription.payment_method).to eq(payment_method)
+              expect(customer.payment_methods).to include(payment_method)
+            end
+
             it 'updates Payment::Braintree::Customer with new token and last_4' do
               previous_token = customer.default_payment_method
               previous_last_4 = customer.card_last_4
@@ -695,39 +739,32 @@ describe 'Braintree API' do
             it 'passes the subscription params to braintree' do
               allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
-              expect(Braintree::Subscription).to have_received(:create).with(
-                price: amount,
-                payment_method_token: a_string_matching(token_format),
-                merchant_account_id: 'EUR',
-                plan_id: 'EUR'
-              )
+              expect(Braintree::Subscription).to have_received(:create).with(price: amount,
+                                                                             payment_method_token: a_string_matching(token_format),
+                                                                             merchant_account_id: 'EUR',
+                                                                             plan_id: 'EUR')
             end
 
             it 'passes the customer params to braintree' do
               allow(Braintree::Customer).to receive(:update).and_call_original
               subject
-              expect(Braintree::Customer).to have_received(:update).with(
-                customer.customer_id,
-                first_name: 'Bernie',
-                last_name: 'Sanders',
-                email: 'itsme@feelthebern.org'
-              )
+              expect(Braintree::Customer).to have_received(:update).with(customer.customer_id, first_name: 'Bernie',
+                                                                                               last_name: 'Sanders',
+                                                                                               email: 'itsme@feelthebern.org')
             end
 
             it 'passes the payment params to braintree' do
               allow(Braintree::PaymentMethod).to receive(:create).and_call_original
               subject
-              expect(Braintree::PaymentMethod).to have_received(:create).with(
-                payment_method_nonce: 'fake-valid-nonce',
-                customer_id: customer.customer_id,
-                billing_address: {
-                  first_name: 'Bernie',
-                  last_name: 'Sanders',
-                  street_address: '25 Elm Drive',
-                  postal_code: '11225',
-                  country_code_alpha2: 'US'
-                }
-              )
+              expect(Braintree::PaymentMethod).to have_received(:create).with(payment_method_nonce: 'fake-valid-nonce',
+                                                                              customer_id: customer.customer_id,
+                                                                              billing_address: {
+                                                                                first_name: 'Bernie',
+                                                                                last_name: 'Sanders',
+                                                                                street_address: '25 Elm Drive',
+                                                                                postal_code: '11225',
+                                                                                country_code_alpha2: 'US'
+                                                                              })
             end
 
             it 'leaves a cookie with the member_id' do
@@ -767,6 +804,7 @@ describe 'Braintree API' do
 
             subject do
               VCR.use_cassette('subscription success paypal existing customer') do
+                params[:store_in_vault] = true
                 post api_payment_braintree_transaction_path(page.id), params
               end
             end
@@ -858,7 +896,6 @@ describe 'Braintree API' do
             it 'creates a Subscription associated with the page storing relevant info' do
               expect { subject }.to change { Payment::Braintree::Subscription.count }.by 1
               subscription = Payment::Braintree::Subscription.last
-
               expect(subscription.amount).to eq amount
               expect(subscription.currency).to eq 'EUR'
               expect(subscription.merchant_account_id).to eq 'EUR'
@@ -876,6 +913,13 @@ describe 'Braintree API' do
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
 
+            it 'creates a Subscription associated with the newly created payment method' do
+              subject
+              subscription = Payment::Braintree::Subscription.last
+              customer = Payment::Braintree::Customer.last
+              expect(subscription.payment_method).to eq customer.default_payment_method
+            end
+
             it 'posts donation action to queue with key data' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
@@ -888,32 +932,28 @@ describe 'Braintree API' do
             it 'passes the subscription params to braintree' do
               allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
-              expect(Braintree::Subscription).to have_received(:create).with(
-                price: amount,
-                payment_method_token: a_string_matching(token_format),
-                merchant_account_id: 'EUR',
-                plan_id: 'EUR'
-              )
+              expect(Braintree::Subscription).to have_received(:create).with(price: amount,
+                                                                             payment_method_token: a_string_matching(token_format),
+                                                                             merchant_account_id: 'EUR',
+                                                                             plan_id: 'EUR')
             end
 
             it 'passes the customer params and nonce to braintree' do
               allow(Braintree::Customer).to receive(:create).and_call_original
               subject
-              expect(Braintree::Customer).to have_received(:create).with(
-                first_name: 'Bernie',
-                last_name: 'Sanders',
-                payment_method_nonce: 'fake-valid-nonce',
-                email: 'itsme@feelthebern.org',
-                credit_card: {
-                  billing_address: {
-                    first_name: 'Bernie',
-                    last_name: 'Sanders',
-                    street_address: '25 Elm Drive',
-                    postal_code: '11225',
-                    country_code_alpha2: 'US'
-                  }
-                }
-              )
+              expect(Braintree::Customer).to have_received(:create).with(first_name: 'Bernie',
+                                                                         last_name: 'Sanders',
+                                                                         payment_method_nonce: 'fake-valid-nonce',
+                                                                         email: 'itsme@feelthebern.org',
+                                                                         credit_card: {
+                                                                           billing_address: {
+                                                                             first_name: 'Bernie',
+                                                                             last_name: 'Sanders',
+                                                                             street_address: '25 Elm Drive',
+                                                                             postal_code: '11225',
+                                                                             country_code_alpha2: 'US'
+                                                                           }
+                                                                         })
             end
 
             it 'does not create payment method separately' do
@@ -958,7 +998,7 @@ describe 'Braintree API' do
               expect(payment_method.attributes).to include({
                 token: token_format,
                 instrument_type: 'credit_card',
-                expiration_date: %r{\d{2}\/\d{4}},
+                expiration_date: /\d{2}\/\d{4}/,
                 last_4: /\d{4}/,
                 bin: /\d{6}/
               }.stringify_keys)
@@ -1100,7 +1140,7 @@ describe 'Braintree API' do
         }
       end
 
-      let(:params) { basic_params.merge(user: user_params, amount: 5) }
+      let(:params) { basic_params.merge(user: user_params, amount: 5, store_in_vault: true) }
 
       subject do
         VCR.use_cassette('transaction_existing_customer_storing_multiple_tokens') do

@@ -95,6 +95,7 @@ describe Api::Payment::BraintreeController do
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
+          payment_options[:store_in_vault] = false
           post :transaction, params
         end
 
@@ -163,6 +164,7 @@ describe Api::Payment::BraintreeController do
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
           post :transaction, params
+          payment_options.merge!(store_in_vault: false)
         end
 
         it 'calls Transaction.make_transaction' do

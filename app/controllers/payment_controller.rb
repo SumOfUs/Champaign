@@ -6,8 +6,8 @@ class PaymentController < ApplicationController
     builder = if recurring?
                 client::Subscription.make_subscription(payment_options)
               else
-                client::Transaction.make_transaction(payment_options)
-              end
+                client::Transaction.make_transaction(transaction_options)
+    end
 
     if builder.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?

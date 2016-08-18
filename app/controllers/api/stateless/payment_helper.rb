@@ -24,7 +24,7 @@ module PaymentHelper
     end
 
     def transactions_for_member(member)
-      customer(member).transactions.where(subscription_id: nil)
+      customer(member).transactions.one_off
     end
   end
 end
