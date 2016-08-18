@@ -4,7 +4,7 @@ require 'rails_helper'
 describe 'API::Stateless Members' do
   include Requests::RequestHelpers
   include AuthToken
-  let!(:member) { create(:member, first_name: 'Harriet', last_name: 'Tubman', email: 'test@example.com') }
+  let!(:member) { create(:member, first_name: 'Harriet', last_name: 'Tubman', email: 'test@example.com', actionkit_user_id: '8244194') }
   let!(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com')}
 
   before :each do
@@ -74,6 +74,7 @@ describe 'API::Stateless Members' do
         expect(ChampaignQueue).to receive(:push).with({
           type: 'update_member',
           params: {
+            akid: member.actionkit_user_id,
             email: params[:member][:email],
             first_name: params[:member][:first_name],
             last_name: params[:member][:last_name],
