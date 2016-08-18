@@ -21,7 +21,7 @@ describe 'GoCardless API' do
                    first_name: 'Bernie',
                    last_name:  'Sanders',
                    action_id:  instance_of(Fixnum),
-                   created_at: be_within(1.second).of(Time.now),
+                   created_at: be_within(30.seconds).of(Time.now),
                    country: 'United States')
   end
 
@@ -280,7 +280,7 @@ describe 'GoCardless API' do
                 metadata: {
                   customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
                 },
-                charge_date: '2016-06-20'
+                charge_date: /\d{4}\-\d{2}-\d{2}/
               }
             }
           end
@@ -438,8 +438,9 @@ describe 'GoCardless API' do
             sdk_params[:params] = sdk_params[:params].merge(
               name: 'donation',
               interval_unit: 'monthly',
-              start_date: '2016-06-20'
+              start_date: /\d{4}\-\d{2}\-\d{2}/
             )
+
             subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
             expect(subscriptions_service).to receive(:create).with(sdk_params)
