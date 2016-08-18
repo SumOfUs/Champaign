@@ -9,17 +9,17 @@ module Payment::Braintree
       BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer)
     end
 
-    def write_subscription(subscription_result, page_id, action_id, currency)
+    def write_subscription(payment_method_id, customer_id, subscription_result, page_id, action_id, currency)
       if subscription_result.success?
-        Payment::Braintree::Subscription.create(
-          subscription_id:        subscription_result.subscription.id,
-          amount:                 subscription_result.subscription.price,
-          merchant_account_id:    subscription_result.subscription.merchant_account_id,
-          billing_day_of_month:   subscription_result.subscription.billing_day_of_month,
-          action_id:              action_id,
-          currency:               currency,
-          page_id:                page_id
-        )
+        Payment::Braintree::Subscription.create(payment_method_id:      payment_method_id,
+                                                customer_id:            customer_id,
+                                                subscription_id:        subscription_result.subscription.id,
+                                                amount:                 subscription_result.subscription.price,
+                                                merchant_account_id:    subscription_result.subscription.merchant_account_id,
+                                                billing_day_of_month:   subscription_result.subscription.billing_day_of_month,
+                                                action_id:              action_id,
+                                                currency:               currency,
+                                                page_id:                page_id)
       end
     end
 
@@ -60,20 +60,17 @@ module Payment::Braintree
 
       case @bt_payment_method
       when Braintree::PayPalAccount
-        payment_method.update(
-          email: @bt_payment_method.email,
-          instrument_type: 'paypal_account'
-        )
+        payment_method.update(email: @bt_payment_method.email,
+                              instrument_type: 'paypal_account')
       when Braintree::CreditCard
-        payment_method.update(
-          instrument_type: 'credit_card',
-          last_4: @bt_payment_method.last_4,
-          bin: @bt_payment_method.bin,
-          expiration_date: @bt_payment_method.expiration_date,
-          card_type: @bt_payment_method.card_type,
-          cardholder_name: @bt_payment_method.cardholder_name
-        )
+        payment_method.update(instrument_type: 'credit_card',
+                              last_4: @bt_payment_method.last_4,
+                              bin: @bt_payment_method.bin,
+                              expiration_date: @bt_payment_method.expiration_date,
+                              card_type: @bt_payment_method.card_type,
+                              cardholder_name: @bt_payment_method.cardholder_name)
       end
+      @customer
     end
 
     def customer_attrs
@@ -136,10 +133,13 @@ module Payment::Braintree
       # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
       # though, because transaction.customer_details.id is nil for failed transaction.
       # For webhooks, @existing_customer will be present.
-      @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
-        member_id: @member_id,
-        customer_id: transaction.customer_details.id
-      )
+
+      if transaction.customer_details.id
+        @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
+          member_id: @member_id,
+          customer_id: transaction.customer_details.id
+        )
+      end
 
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
@@ -153,7 +153,7 @@ module Payment::Braintree
 
       return false unless successful?
 
-      @customer.update(customer_attrs) if @save_customer
+      @customer.update(customer_attrs) if @save_customer && @customer
       record
     end
 
@@ -169,7 +169,7 @@ module Payment::Braintree
         merchant_account_id:             transaction.merchant_account_id,
         processor_response_code:         transaction.processor_response_code,
         currency:                        transaction.currency_iso_code,
-        customer_id:                     @customer.customer_id,
+        customer_id:                     @customer.try(:customer_id),
         status:                          status,
         payment_method_id:               @local_payment_method_id,
         page_id:                         @page_id

@@ -75,9 +75,9 @@ module PaymentProcessor
 
       def record_in_local_database(payment_method, customer_result, subscription_result)
         @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true)
-
-        Payment::Braintree.write_customer(customer_result.customer, payment_method, @action.member_id, existing_customer)
-        Payment::Braintree.write_subscription(subscription_result, @page_id, @action.id, @currency)
+        customer = Payment::Braintree.write_customer(customer_result.customer, payment_method, @action.member_id, existing_customer)
+        payment_method_id = customer.payment_methods.find_by(token: payment_method.token).id
+        Payment::Braintree.write_subscription(payment_method_id, customer.customer_id, subscription_result, @page_id, @action.id, @currency)
       end
 
       # we make 2 or 3 requests to braintree. if any of them fails, set it as the result
