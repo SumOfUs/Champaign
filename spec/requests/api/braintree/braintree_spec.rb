@@ -1,6 +1,73 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
+describe "Express Donation" do
+  let(:page) { create(:page, slug: 'hello-world', title: 'Hello World') }
+  let(:form) { create(:form) }
+
+  let(:member) { create(:member, email: 'test@example.com') }
+  let(:customer) { create(:payment_braintree_customer, member: member) }
+
+  ## Token is REAL
+  let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: '6vg2vw') }
+
+  describe 'transaction' do
+    before do
+      allow(ChampaignQueue).to receive(:push)
+    end
+
+    before do
+      VCR.use_cassette("braintree_express_donation") do
+        post api_payment_braintree_one_click_path(page.id), {
+          payment: {
+            amount: 2.00
+          },
+          user: {
+            form_id: form.id,
+            email:   'test@example.com',
+            name:    'John Doe'
+          }
+        }
+      end
+    end
+
+    it 'returns success, always - FIXME' do
+      expect(response.body).to eq({success: true}.to_json)
+    end
+
+    it 'creates an action' do
+      action = page.actions.first
+
+      expect(
+        action.form_data.deep_symbolize_keys
+      ).to include(form_id: form.id.to_s)
+
+      expect(
+        Action.first.member.attributes.symbolize_keys
+      ).to include(email: 'test@example.com')
+    end
+
+    it 'records local record of transaction' do
+      expect(payment_method.transactions.first.attributes.symbolize_keys).to include({
+        transaction_type: 'sale',
+        transaction_id:   /[a-z0-9]{8}/
+      })
+    end
+
+    it 'creates transaction on braintree' do
+      expect(payment_method.customer).to eq(customer)
+    end
+
+    it 'does not post to queue - FIXME' do
+      # We want to post to queue, but outside of the action builder
+      #
+      expect(
+        ChampaignQueue
+      ).not_to receive(:push)
+    end
+  end
+end
+
 describe 'Braintree API' do
   let(:page) do
     create(:page,

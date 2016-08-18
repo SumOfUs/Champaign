@@ -6,8 +6,8 @@ describe 'API::Stateless Braintree PaymentMethods' do
   include AuthToken
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
-  let!(:method_a) { create(:braintree_payment_method, customer: customer) }
-  let!(:method_b) { create(:braintree_payment_method, customer: customer) }
+  let!(:method_a) { create(:payment_braintree_payment_method, customer: customer) }
+  let!(:method_b) { create(:payment_braintree_payment_method, customer: customer) }
 
   before :each do
     member.create_authentication(password: 'password')

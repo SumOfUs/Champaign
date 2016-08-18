@@ -4,12 +4,14 @@ class ManageAction
   include ActionBuilder
   attr_reader :params
 
-  def self.create(params)
-    new(params).create
+  def self.create(params, skip_queue: false, skip_counter: false)
+    new(params, skip_queue: skip_queue, skip_counter: skip_counter).create
   end
 
-  def initialize(params)
+  def initialize(params, skip_queue: false, skip_counter: false)
     @params = params
+    @skip_queue = skip_queue
+    @skip_counter = skip_counter
   end
 
   def create
