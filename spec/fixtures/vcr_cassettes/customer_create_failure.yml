@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers
     body:
       encoding: UTF-8
       string: |
@@ -31,6 +31,8 @@ http_interactions:
       - Braintree Ruby Gem 2.54.0
       X-Apiversion:
       - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
       Content-Type:
       - application/xml
   response:
@@ -39,13 +41,11 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Tue, 22 Mar 2016 23:15:36 GMT
+      - Wed, 24 Aug 2016 12:40:47 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
       - chunked
-      Connection:
-      - close
       X-Frame-Options:
       - SAMEORIGIN
       - SAMEORIGIN
@@ -64,15 +64,15 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 8c90f1dd-0729-4d4a-8e31-b5c162a5f518
+      - 5908780c-ad85-44ec-b431-a7cdb889f3be
       X-Runtime:
-      - '0.035656'
+      - '0.076310'
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIABjS8VYAA+xXPW/bMBDd/SsI7bTspA080EqmDEW2Nl2Lk3i2ifBDICkj
+        H4sIAM+VvVcAA+xXPW/bMBDd/SsI7bTspA080EqmDEW2Nl2Lk3i2ifBDICkj
         +velFEuWZMUfCVpk8GKQd8/E472744ndvypJtmidMHoZzaeziKDODBd6vYye
         fz3SRXSfTBjkgqK1xlKLLjfaYTIhhNUmVy3bDfFljssIrIUyineurHDeKLRv
         23Fs42u8+311gOGYLOZ3swWL63XXCd5bkRYed+e5UqVGRslKWOf/aFDI4hbT
@@ -85,5 +85,5 @@ http_interactions:
         Mt/ATfL8s5oiDu2nn+3g4rgVGVIXrGGip4ITLeQy8rbA3hy3slDw0DtstoHQ
         RMZxZ4wB+7f/1Jw1GZ9fJpfBO+NOmJlGvkr+AgAA//8DAJE7UzjSDAAA
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 23:15:36 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Wed, 24 Aug 2016 12:40:47 GMT
+recorded_with: VCR 3.0.3
