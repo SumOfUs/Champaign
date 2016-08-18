@@ -6,7 +6,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"redirect_flows":{"session_token":null,"description":"You are donating
-        €5.00 to SumOfUs","success_redirect_url":"http://www.example.com/api/go_cardless/pages/1/transaction?amount=5\u0026currency=EUR\u0026page_id=implement-synergistic-cooperation"}}'
+        €5.00","success_redirect_url":"http://www.example.com/api/go_cardless/pages/1/transaction?amount=5\u0026currency=EUR\u0026page_id=implement-synergistic-cooperation"}}'
     headers:
       User-Agent:
       - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
