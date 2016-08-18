@@ -24,6 +24,7 @@ module Api
         ChampaignQueue.push(
           type: 'update_member',
           params: {
+            akid: member.actionkit_user_id,
             email: member.email,
             first_name: member.first_name,
             last_name: member.last_name,

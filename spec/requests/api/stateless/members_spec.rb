@@ -3,12 +3,8 @@ require 'rails_helper'
 describe 'API::Stateless Members' do
   include Requests::JsonHelpers
   include AuthToken
-  let!(:member) { create(:member, first_name: 'Harriet', last_name: 'Tubman', email: 'test@example.com') }
-  let!(:customer) { create(:payment_braintree_customer, member: member) }
-  let!(:method_a) { create(:braintree_payment_method, customer: customer) }
-  let!(:method_b) { create(:braintree_payment_method, customer: customer) }
-  let!(:subscription_a) { create(:payment_braintree_subscription, customer: customer) }
-  let!(:transaction_a) { create(:payment_braintree_transaction, subscription: subscription_a, customer: customer)}
+  let!(:member) { create(:member, first_name: 'Harriet', last_name: 'Tubman', email: 'test@example.com', actionkit_user_id: '8244194') }
+  let!(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com')}
 
   before :each do
     member.create_authentication(password: 'password')
@@ -77,6 +73,7 @@ describe 'API::Stateless Members' do
         expect(ChampaignQueue).to receive(:push).with({
           type: 'update_member',
           params: {
+            akid: member.actionkit_user_id,
             email: params[:member][:email],
             first_name: params[:member][:first_name],
             last_name: params[:member][:last_name],
