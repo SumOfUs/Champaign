@@ -23,6 +23,12 @@ class Api::Payment::BraintreeController < PaymentController
     }
   end
 
+  def transaction_options
+    payment_options.merge(
+      store_in_vault: params[:store_in_vault]
+    )
+  end
+
   def client
     PaymentProcessor::Braintree
   end
