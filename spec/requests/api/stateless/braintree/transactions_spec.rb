@@ -8,7 +8,7 @@ describe 'API::Stateless Braintree Transactions' do
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
   let!(:payment_method) do
-    create(:braintree_payment_method,
+    create(:payment_braintree_payment_method,
            customer: customer,
            id: 1432,
            instrument_type: 'credit card',
