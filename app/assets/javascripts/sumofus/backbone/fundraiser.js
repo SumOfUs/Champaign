@@ -206,11 +206,12 @@ const Fundraiser = Backbone.View.extend(_.extend(
 
   donationData() {
     return {
-      amount:       this.donationAmount,
-      user:         this.serializeUserForm(),
-      currency:     this.currency,
-      recurring:    this.readRecurring()
-    }
+      amount:         this.donationAmount,
+      user:           this.serializeUserForm(),
+      currency:       this.currency,
+      recurring:      this.readRecurring(),
+      store_in_vault: this.readStorePaymentDetails()
+    };
   },
 
   submitDirectDebit() {
@@ -287,6 +288,10 @@ const Fundraiser = Backbone.View.extend(_.extend(
 
   readRecurring() {
     return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
+  },
+
+  readStorePaymentDetails() {
+    return this.$('input.fundraiser-bar__store-payment-details').prop('checked');
   },
 
   disableButton(e) {
