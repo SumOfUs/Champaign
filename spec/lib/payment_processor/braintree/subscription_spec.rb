@@ -173,7 +173,7 @@ module PaymentProcessor
               end
 
               describe 'and subscription is successfully created' do
-                let!(:payment_method) { create(:braintree_payment_method, customer: customer, token: 'qwertyuiop') }
+                let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: 'qwertyuiop') }
 
                 before :each do
                   allow(::Braintree::Subscription).to receive(:create).and_return(subscription_success)
