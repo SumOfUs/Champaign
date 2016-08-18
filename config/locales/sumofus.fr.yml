@@ -21,6 +21,7 @@ fr:
     proceed_to_payment: Procéder au versement
     other_amount: Autre
     make_recurring: Faire un don mensuel
+    store_in_vault: FR Store my payment information 
     thank_you: Nous vous remercions pour votre don!
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
