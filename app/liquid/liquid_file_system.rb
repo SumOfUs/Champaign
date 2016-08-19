@@ -29,11 +29,12 @@ class LiquidFileSystem
     # * +title+
     #
     def partials(title)
+      filename = title.to_s.parameterize.underscore
       internal_files = [
-        "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
-        "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
+        "#{Rails.root}/app/views/plugins/**/_#{filename}.liquid",
+        "#{Rails.root}/app/liquid/views/partials/_#{filename}.liquid"
       ]
-      external_files = external_dirs.map{ |path| File.join(path, 'partials', '_*.liquid') }
+      external_files = external_dirs.map{ |path| File.join(path, 'partials', "_#{filename}.liquid") }
       Dir.glob(internal_files + external_files)
     end
 
