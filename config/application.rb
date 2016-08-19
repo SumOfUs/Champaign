@@ -46,8 +46,6 @@ module Champaign
 
       if Settings.external_translation_path.present?
         path_list.each do |directory|
-          puts "Adding paths to i18n load path:"
-          puts Dir[File.join(directory, Settings.external_translation_path, '*.{rb,yml}')]
           config.i18n.load_path += Dir[File.join(directory, Settings.external_translation_path, '*.{rb,yml}')]
         end
       end
