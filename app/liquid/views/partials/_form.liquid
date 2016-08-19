@@ -9,15 +9,15 @@
       <div class="form__group action-form__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <input type="text" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" maxlength="249" value="{{ field.default_value }}" />
+          <input type="text" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" maxlength="249" value="{{ field.default_value }}" />
         {% when 'hidden' %}
-          <input type="hidden" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
+          <input type="hidden" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'paragraph' %}
-          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form-control form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
+          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
         {% when 'email' %}
-          <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
+          <input type="email" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'phone' %}
-          <input type="tel" name="{{field.name}}" class="form-control form__content" id="" placeholder="{{ field.label }}"  value="{{ field.default_value }}" />
+          <input type="tel" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}"  value="{{ field.default_value }}" />
         {% when 'checkbox' %}
           {% if field.default_value == blank %}
             {% assign checked = '' %}
