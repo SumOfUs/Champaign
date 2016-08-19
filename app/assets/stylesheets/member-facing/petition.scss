@@ -7,6 +7,7 @@ $mobile-width: 700px;
   $padding: 26px;
   position: relative;
   z-index: 600;
+  max-width: 500px;
 
   &.petition-bar.stuck-right {
     margin-top: 17px;
