@@ -29,10 +29,12 @@ class LiquidFileSystem
     # * +title+
     #
     def partials(title)
-      Dir.glob([
-                 "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
-                 "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
-               ])
+      internal_files = [
+        "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
+        "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
+      ]
+      external_files = external_dirs.map{ |path| File.join(path, 'partials', '_*.liquid') }
+      Dir.glob(internal_files + external_files)
     end
 
     def read_template_file(title)
@@ -53,6 +55,11 @@ class LiquidFileSystem
     def read_from_file(title)
       return nil if partials(title).empty?
       File.read(partials(title).first)
+    end
+
+    def external_dirs
+      return [] unless Settings.external_asset_paths.present? && Settings.external_liquid_path.present?
+      Settings.external_asset_paths.split(':').map{ |path| File.join(path, Settings.external_liquid_path) }
     end
   end
 end
