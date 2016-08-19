@@ -21,7 +21,7 @@
 @import "analytics/analytics";
 
 // campaigner facing styles
-@import "campaigner-facing/interactive";
+@import "shared/**/*";
 @import "campaigner-facing/common";
 @import "campaigner-facing/pages";
 @import "campaigner-facing/form_elements";
