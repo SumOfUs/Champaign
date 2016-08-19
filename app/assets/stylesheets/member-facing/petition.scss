@@ -104,12 +104,12 @@ $mobile-width: 700px;
     margin: 0 0 8px;
     font-weight: bold;
     line-height: 1.2em;
-    @include rem(font-size, 1rem, true);
+    font-size: 16px;
   }
 
   &__petition-text {
-    @include rem(font-size, 1rem, true);
-    @include rem(line-height, 1.4rem, true);
+    font-size: 16px;
+    line-height: 20px;
   }
 
   &__welcome-text {
