@@ -137,9 +137,12 @@ module Payment::Braintree
       # a Payment::BraintreeCustomer gets created for both successful and failed transactions. The customer_id will be nil,
       # though, because transaction.customer_details.id is nil for failed transaction.
       # For webhooks, @existing_customer will be present.
-      @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
-          member_id: @member_id,
-          customer_id: transaction.customer_details.id)
+
+      if transaction.customer_details.id
+        @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
+            member_id: @member_id,
+            customer_id: transaction.customer_details.id)
+      end
 
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
@@ -153,7 +156,7 @@ module Payment::Braintree
 
       return false unless successful?
 
-      @customer.update(customer_attrs) if @save_customer
+      @customer.update(customer_attrs) if @save_customer and @customer
       record
     end
 
@@ -169,7 +172,7 @@ module Payment::Braintree
         merchant_account_id:             transaction.merchant_account_id,
         processor_response_code:         transaction.processor_response_code,
         currency:                        transaction.currency_iso_code,
-        customer_id:                     @customer.customer_id,
+        customer_id:                     @customer.try(:customer_id),
         status:                          status,
         payment_method_id:               @local_payment_method_id,
         page_id:                         @page_id

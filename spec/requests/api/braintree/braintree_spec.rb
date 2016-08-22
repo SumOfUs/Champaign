@@ -27,7 +27,6 @@ describe "Braintree API" do
       slug:       'cash-rules-everything-around-me',
       first_name: 'Bernie',
       last_name:  'Sanders',
-      created_at: be_within(30.seconds).of(Time.now),
       country: 'United States',
       action_id: instance_of(Fixnum)
     })
@@ -80,6 +79,42 @@ describe "Braintree API" do
   end
 
   describe 'making a transaction' do
+    describe "without storing in Braintree's vault" do
+
+      let(:params) do
+        {
+          currency: 'EUR',
+          payment_method_nonce: 'fake-valid-nonce',
+          recurring: false,
+          amount: 2.00,
+          store_in_vault: false,
+          user: user_params
+        }
+      end
+
+      before do
+        VCR.use_cassette("braintree_transaction no_vault") do
+          post api_payment_braintree_transaction_path(page.id), params
+        end
+      end
+
+      it 'no customer is created' do
+        expect(Payment::Braintree::Customer.all).to be_empty
+      end
+
+      it 'no payment method is created' do
+        expect(Payment::Braintree::PaymentMethod.all).to be_empty
+      end
+
+      it 'transaction is created' do
+        transaction = Payment::Braintree::Transaction.first
+
+        expect(transaction.attributes).to include({
+          currency: 'EUR',
+          customer_id: nil
+        }.stringify_keys)
+      end
+    end
 
     describe 'successfully' do
 
@@ -87,7 +122,7 @@ describe "Braintree API" do
         {
           currency: 'EUR',
           payment_method_nonce: 'fake-valid-nonce',
-          # amount: amount, # should override for each casette to avoid duplicates
+          amount: '2.00',
           recurring: false,
           store_in_vault: true
         }
@@ -629,7 +664,7 @@ describe "Braintree API" do
 
         context 'when BraintreeCustomer exists' do
 
-          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
+          let!(:customer) { create :payment_braintree_customer, member: member, customer_id: '29823405', card_last_4: '4843' }
 
           context 'with basic params' do
 
@@ -775,6 +810,7 @@ describe "Braintree API" do
 
             subject do
               VCR.use_cassette("subscription success paypal existing customer") do
+                params.merge!(store_in_vault: true)
                 post api_payment_braintree_transaction_path(page.id), params
               end
             end

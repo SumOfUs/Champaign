@@ -171,4 +171,3 @@ source 'https://rails-assets.org' do
   # make tables kick ass
   gem 'rails-assets-datatables'
 end
-
