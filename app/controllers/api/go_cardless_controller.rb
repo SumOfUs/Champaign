@@ -54,6 +54,10 @@ class Api::GoCardlessController < PaymentController
       session_token: session[:go_cardless_session_id]
     }
   end
+
+  def transaction_options
+    payment_options
+  end
 end
 
 

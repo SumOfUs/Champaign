@@ -8,7 +8,7 @@ describe "Braintree API" do
   let(:token_format) { /[a-z0-9]{1,36}/i }
   let(:user_params) do
     {
-      form_id: form.id,
+      form_id: '100',
       name: "Bernie Sanders",
       email: "itsme@feelthebern.org",
       postal: "11225",
@@ -27,7 +27,7 @@ describe "Braintree API" do
       slug:       'cash-rules-everything-around-me',
       first_name: 'Bernie',
       last_name:  'Sanders',
-      created_at: be_within(1.second).of(Time.now),
+      created_at: be_within(30.seconds).of(Time.now),
       country: 'United States',
       action_id: instance_of(Fixnum)
     })
@@ -88,7 +88,8 @@ describe "Braintree API" do
           currency: 'EUR',
           payment_method_nonce: 'fake-valid-nonce',
           # amount: amount, # should override for each casette to avoid duplicates
-          recurring: false
+          recurring: false,
+          store_in_vault: true
         }
       end
 
@@ -230,7 +231,7 @@ describe "Braintree API" do
           context 'with Paypal' do
 
             let(:amount) { 29.20 } # to avoid duplicate donations recording specs
-            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
+            let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount, store_in_vault: true) }
 
             subject do
               VCR.use_cassette("transaction success paypal existing customer") do
@@ -1114,7 +1115,7 @@ describe "Braintree API" do
         }
       end
 
-      let(:params) { basic_params.merge(user: user_params, amount: 5) }
+      let(:params) { basic_params.merge(user: user_params, amount: 5, store_in_vault: true) }
 
       subject do
         VCR.use_cassette("transaction_existing_customer_storing_multiple_tokens") do

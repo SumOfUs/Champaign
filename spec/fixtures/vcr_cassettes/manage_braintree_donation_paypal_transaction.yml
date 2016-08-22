@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
     body:
       encoding: UTF-8
       string: |
@@ -26,6 +26,8 @@ http_interactions:
       - Braintree Ruby Gem 2.54.0
       X-Apiversion:
       - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
       Content-Type:
       - application/xml
   response:
@@ -34,13 +36,11 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Tue, 22 Mar 2016 23:14:59 GMT
+      - Fri, 19 Aug 2016 13:53:34 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
       - chunked
-      Connection:
-      - close
       X-Frame-Options:
       - SAMEORIGIN
       - SAMEORIGIN
@@ -57,53 +57,53 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - W/"b562af1bfb20e28ca322498391f25d6b"
+      - W/"78406b19aa231adac58c9df85e98a6f8"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Request-Id:
-      - 694744c8-ae4f-43d1-bdf3-b5de8c49c22b
+      - 0176e595-8307-484f-81d1-017caae670ce
       X-Runtime:
-      - '0.382813'
+      - '0.515138'
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        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
+        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
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 23:14:59 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Fri, 19 Aug 2016 13:53:34 GMT
+recorded_with: VCR 3.0.3

@@ -25,7 +25,7 @@ class Api::Payment::BraintreeController < PaymentController
 
   def transaction_options
     payment_options.merge(
-      store_in_vault: params[:store_in_vault]
+      store_in_vault: ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:store_in_vault]) || false
     )
   end
 
