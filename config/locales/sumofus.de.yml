@@ -75,6 +75,12 @@ de:
     share: Facebook
     tweet: Twitter
     twitter_handle: '@sumofus_de'
+    two_step:
+      cta: "Würden Sie die Kampagne jetzt auch mit Ihren Freunden teilen?"
+      accept: 'Ja'
+      decline: 'Nein'
+      declined: "Sie möchten die Kampagne nicht teilen? Kein Problem. Vielen Dank für Ihre Unterstützung!"
+      accepted: "Herzlichen Dank! Je mehr Menschen sich engagieren, desto mehr können wir bewegen!"
   errors:
     probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig

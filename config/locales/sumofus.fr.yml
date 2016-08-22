@@ -75,6 +75,12 @@ fr:
     share: Partagez
     tweet: Tweetez
     twitter_handle: '@sumofus_fr'
+    two_step:
+      cta: 'Pouvez-vous partager maintenant la campagne avec vos ami-e-s afin de nous aider à gagner ?'
+      accept: 'Oui'
+      decline: 'Non'
+      declined: "Vous ne souhaitez pas partager ? Aucun problème. Merci de votre soutien !"
+      accepted: "Merci beaucoup ! Plus nous serons nombreux à nous mobiliser, plus notre mouvement sera fort."
   errors:
     probably_invalid: semble invalide
     is_invalid: est invalide
