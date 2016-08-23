@@ -40,13 +40,13 @@ describe 'API::Stateless Members' do
 
       let(:params) {{
         member: {
-          first_name: "Harry",
-          last_name: "Tubman",
-          email: "test+1@example.com",
-          country: "United Kingdom",
-          city: "London",
-          postal: "12345",
-          address1: "Jam Factory 123"
+          first_name: 'Harry',
+          last_name: 'Tubman',
+          email: 'test+1@example.com',
+          country: 'United Kingdom',
+          city: 'London',
+          postal: '12345',
+          address1: 'Jam Factory 123'
         }
       }}
 
@@ -57,16 +57,16 @@ describe 'API::Stateless Members' do
       it 'updates the member locally and sends it back as json' do
         subject
         expect(json_hash).to match({
-                                     id: member.id,
-                                     first_name:  "Harry",
-                                     last_name:  "Tubman",
-                                     email:  "test+1@example.com",
-                                     country:  "United Kingdom",
-                                     city:  "London",
-                                     postal:  "12345",
-                                     address1: "Jam Factory 123",
-                                     address2: nil
-                                   }.as_json)
+          id: member.id,
+          first_name:  'Harry',
+          last_name:  'Tubman',
+          email:  'test+1@example.com',
+          country:  'United Kingdom',
+          city:  'London',
+          postal:  '12345',
+          address1: 'Jam Factory 123',
+          address2: nil
+        }.as_json)
       end
 
       it 'sends the message to the AK processor' do
@@ -75,14 +75,14 @@ describe 'API::Stateless Members' do
           type: 'update_member',
           params: {
             akid: member.actionkit_user_id,
-            email: params[:member][:email],
-            first_name: params[:member][:first_name],
-            last_name: params[:member][:last_name],
-            country: params[:member][:country],
-            city: params[:member][:city],
-            postal: params[:member][:postal],
-            address1: params[:member][:address1],
-            address2: params[:member][:address2]
+            email: 'test+1@example.com',
+            first_name: 'Harry',
+            last_name: 'Tubman',
+            country: 'United Kingdom',
+            city: 'London',
+            postal: '12345',
+            address1: 'Jam Factory 123',
+            address2: nil
           }})
         subject
       end
@@ -92,24 +92,24 @@ describe 'API::Stateless Members' do
     context 'with invalid parameters' do
       let(:bad_params) {{
         member: {
-          first_name: "Harry",
-          last_name: "Tubman",
+          first_name: 'Harry',
+          last_name: 'Tubman',
           email: other_member.email,
-          country: "United Kingdom",
-          city: "London",
-          postal: "12345",
-          address1: "a place"
+          country: 'United Kingdom',
+          city: 'London',
+          postal: '123456',
+          address1: 'a place'
         }
       }}
 
       it 'sends back error messages if the parameters are invalid' do
         put "/api/stateless/members/#{member.id}", bad_params, auth_headers
         expect(response.status).to be 422
-        expect(json_hash["errors"]).to match({
-                                               "email" => [
-                                                 "has already been taken"
-                                               ]
-                                             })
+        expect(json_hash['errors']).to match({
+          "email" => [
+            "has already been taken"
+          ]
+        })
       end
     end
   end
