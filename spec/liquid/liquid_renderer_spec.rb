@@ -249,7 +249,7 @@ describe LiquidRenderer do
       it "is {} if it's plugins don't have donation bands and no url_params" do
         fundraiser = create :plugins_fundraiser, page: page
         expect(fundraiser.donation_band).to eq nil
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq Hash.new
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq({})
       end
 
       it "has the fundraiser's donation band if no url_param" do
