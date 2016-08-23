@@ -128,7 +128,7 @@ describe ActionBuilder do
       end
 
       it 'becomes recurring_donor when action is recurring donation' do
-        params.merge!(is_subscription: true)
+        params[:is_subscription] = true
         mab.build_action(donation: true)
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end
@@ -154,7 +154,7 @@ describe ActionBuilder do
       end
 
       it 'becomes recurring_donor when action is recurring donation' do
-        params.merge!(is_subscription: true)
+        params[:is_subscription] = true
         mab.build_action(donation: true)
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end
@@ -181,7 +181,7 @@ describe ActionBuilder do
       end
 
       it 'stays recurring_donor when action is recurring donation' do
-        params.merge!(is_subscription: true)
+        params[:is_subscription] = true
         mab.build_action(donation: true)
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end

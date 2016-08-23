@@ -11,12 +11,12 @@ describe FormValidator do
     let(:params){ {form_id: element.form_id} }
 
     it "is valid with value" do
-      params.merge!(address1: 'foo')
+      params[:address1] = 'foo'
       expect(subject).to be_valid
     end
 
     it 'is valid with value and string key' do
-      params.merge!('address1' => 'bar')
+      params['address1'] = 'bar'
       expect(subject).to be_valid
     end
 
@@ -26,23 +26,23 @@ describe FormValidator do
       end
 
       it "with nil" do
-        params.merge!(address1: nil)
+        params[:address1] = nil
         expect(subject).to_not be_valid
       end
 
       it "with false" do
-        params.merge!(address1: false)
+        params[:address1] = false
         expect(subject).to_not be_valid
       end
 
       it "with empty string" do
-        params.merge!(address1: "")
+        params[:address1] = ""
         expect(subject).to_not be_valid
       end
 
       it "with paragraph data type and empty string" do
         element.update_attributes(data_type: 'paragraph')
-        params.merge!(address1: "")
+        params[:address1] = ""
         expect(subject).to_not be_valid
       end
     end
@@ -58,29 +58,29 @@ describe FormValidator do
       end
 
       it "with multiple dots" do
-        params.merge!(email: "neal.donnelly@cycles.cs.princeton.edu")
+        params[:email] = "neal.donnelly@cycles.cs.princeton.edu"
         expect(subject).to be_valid
       end
     end
 
     context "is invalid" do
       it "with a basic sentence" do
-        params.merge!(email: "I'm not an email!")
+        params[:email] = "I'm not an email!"
         expect(subject).to_not be_valid
       end
 
       it "with missing the TLD" do
-        params.merge!(email: "neal@sumofus")
+        params[:email] = "neal@sumofus"
         expect(subject).to_not be_valid
       end
 
       it "with two @ symbols" do
-        params.merge!(email: "this@that@other.com")
+        params[:email] = "this@that@other.com"
         expect(subject).to_not be_valid
       end
 
       it 'with ascii' do
-        params.merge!(email: "this\xC2@other.com")
+        params[:email] = "this\xC2@other.com"
         expect(subject).to_not be_valid
       end
     end
@@ -96,19 +96,19 @@ describe FormValidator do
       end
 
       it "has spaces, dashes, pluses, and parentheses" do
-        params.merge!(phone: "+1 (413)-555-1234")
+        params[:phone] = "+1 (413)-555-1234"
         expect(subject).to be_valid
       end
     end
 
     context "is invalid" do
       it "if too short" do
-        params.merge!(phone: "12345")
+        params[:phone] = "12345"
         expect(subject).to_not be_valid
       end
 
       it "with invalid special characters" do
-        params.merge!(phone: "(+) -- (+)")
+        params[:phone] = "(+) -- (+)"
         expect(subject).to_not be_valid
       end
     end
@@ -124,17 +124,17 @@ describe FormValidator do
 
     context "is invalid" do
       it "with full country name" do
-        params.merge!(country: "France")
+        params[:country] = "France"
         expect(subject).to_not be_valid
       end
 
       it "with a number" do
-        params.merge!(country: "33")
+        params[:country] = "33"
         expect(subject).to_not be_valid
       end
 
       it "as lowercase" do
-        params.merge!(country: "fr")
+        params[:country] = "fr"
         expect(subject).to_not be_valid
       end
     end
@@ -160,13 +160,13 @@ describe FormValidator do
 
     context 'is invalid' do
       it 'with an incorrect code' do
-        params.merge!(postal: 'Not a valid zip')
+        params[:postal] = 'Not a valid zip'
         expect(subject).to_not be_valid
       end
 
       it 'with a valid code but incorrect country code' do
         country_element
-        params.merge!(country: :UK)
+        params[:country] = :UK
         expect(subject).to_not be_valid
       end
     end
@@ -181,7 +181,7 @@ describe FormValidator do
     end
 
     it 'is invalid with a 250 character string' do
-      params.merge!(address1: 'b'*250)
+      params[:address1] = 'b'*250
       expect(subject.errors).not_to be_empty
       expect(subject.errors[:address1].first).to match(/less than 250/)
     end
@@ -196,17 +196,17 @@ describe FormValidator do
     end
 
     it 'is valid with a nil when element not required' do
-      params.merge!(address1: nil)
+      params[:address1] = nil
       expect(subject.errors).to be_empty
     end
 
     it 'is valid with an empty string when element not required' do
-      params.merge!(address1: '')
+      params[:address1] = ''
       expect(subject.errors).to be_empty
     end
 
     it 'is invalid with a 10,000 character string' do
-      params.merge!(address1: 'b'*10_000)
+      params[:address1] = 'b'*10_000
       expect(subject.errors).not_to be_empty
       expect(subject.errors[:address1].first).to match(/less than 10000/)
     end
