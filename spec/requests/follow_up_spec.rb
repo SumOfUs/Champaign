@@ -7,7 +7,7 @@ describe 'rendering a post action share page' do
   let!(:facebook_button) { create :share_button, :facebook, page_id: page.id }
   let!(:twitter_button) { create :share_button, :twitter, page_id: page.id }
   let!(:email_button) { create :share_button, :email, page_id: page.id }
-  
+
   let(:facebook_variant_div) { 'div class="share-buttons__button button--facebook' }
   let(:twitter_variant_div) { 'div class="share-buttons__button button--twitter' }
   let(:email_variant_div) { 'div class="share-buttons__simple-email-link' }

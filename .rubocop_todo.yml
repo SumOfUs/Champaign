@@ -1014,21 +1014,6 @@ Style/TrailingCommaInLiteral:
     - 'spec/requests/api/cors_spec.rb'
     - 'spec/services/search/page_searcher/multiple_criterion_search/multiple_search_spec.rb'
 
-# Offense count: 12
-# Cop supports --auto-correct.
-Style/TrailingWhitespace:
-  Exclude:
-    - 'app/services/postal_validator.rb'
-    - 'db/migrate/20150420131131_create_widget_types.rb'
-    - 'db/migrate/20150420152050_create_actionkit_page_types.rb'
-    - 'db/migrate/20150420152052_add_foreign_keys.rb'
-    - 'db/migrate/20150924201854_rename_campaign_page_to_page.rb'
-    - 'spec/controllers/plugins/forms_controller_spec.rb'
-    - 'spec/lib/payment_processor/go_cardless/error_processing_spec.rb'
-    - 'spec/lib/payment_processor/go_cardless/subscription_spec.rb'
-    - 'spec/requests/follow_up_spec.rb'
-    - 'spec/teaspoon_env.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 Style/UnneededInterpolation:

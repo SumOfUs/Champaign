@@ -8,7 +8,7 @@ module PaymentProcessor
         GoCardlessPro::Client.new(
           access_token: Settings.gocardless.token,
           environment:  Settings.gocardless.environment.to_sym
-        ) 
+        )
       end
       let(:request_id) { 'dd50eaaf-8213' }
       let(:backtrace) do

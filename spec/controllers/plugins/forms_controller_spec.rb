@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Plugins::FormsController do
   let(:user) { instance_double('User', id: 1) }
-  let(:petition) { build :plugins_petition } 
+  let(:petition) { build :plugins_petition }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!).and_return(user)

@@ -29,7 +29,7 @@ module PaymentProcessor
         let(:gc_error) { GoCardlessPro::ValidationError.new('invalid') }
 
         let(:completed_flow) do
-          instance_double('GoCardlessPro::Resources::RedirectFlow', 
+          instance_double('GoCardlessPro::Resources::RedirectFlow',
             links: double(customer: 'CU00000', mandate: 'MA00000', customer_bank_account: 'BA00000')
           )
         end

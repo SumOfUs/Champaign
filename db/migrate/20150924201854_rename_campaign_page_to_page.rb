@@ -10,7 +10,7 @@ class RenameCampaignPageToPage < ActiveRecord::Migration
     rename_column :share_emails, :campaign_page_id, :page_id
     rename_column :share_twitters, :campaign_page_id, :page_id
     rename_column :share_facebooks, :campaign_page_id, :page_id
-    
+
     rename_table :campaign_pages_tags, :pages_tags
     rename_table :campaign_pages, :pages
   end
