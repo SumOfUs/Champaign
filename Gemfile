@@ -1,3 +1,4 @@
+# coding: utf-8
 source 'https://rubygems.org'
 ruby '2.3.0'
 
@@ -99,7 +100,7 @@ gem 'metamagic'
 
 group :development do
   gem 'web-console', '~> 2.0'
-  gem 'rubocop'
+  gem 'rubocop', require: false
 end
 
 group :development, :test do

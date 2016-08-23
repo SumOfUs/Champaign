@@ -5,6 +5,9 @@ AllCops:
   Exclude:
     - 'bin/**'
 
+Style/IndentationConsistency:
+  EnforcedStyle: normal
+
 Style/IndentHash:
   EnforcedStyle: consistent 
 
