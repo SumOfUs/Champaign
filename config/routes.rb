@@ -75,7 +75,6 @@ Rails.application.routes.draw do
     post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
 
-
   resources :liquid_partials, except: [:show]
   resources :liquid_layouts, except: [:show]
   resources :links, only: [:create, :destroy]
@@ -128,7 +127,7 @@ Rails.application.routes.draw do
     namespace :payment do
       namespace :braintree, defaults: {format: 'json'} do
         get 'token'
-        post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
+        post 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
         post 'webhook', action: 'webhook'
       end
     end

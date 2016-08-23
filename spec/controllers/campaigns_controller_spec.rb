@@ -55,7 +55,6 @@ describe CampaignsController do
   end
 
   describe 'GET show' do
-
     before do
       allow(Campaign).to receive(:find){ campaign }
     end
@@ -66,10 +65,9 @@ describe CampaignsController do
     end
 
     it 'assigns campaign' do
-      get :show,  id: '1'
+      get :show, id: '1'
       expect(assigns(:campaign)).to eq(campaign)
     end
-
   end
 
   describe "POST create" do

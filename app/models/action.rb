@@ -3,6 +3,5 @@ class Action < ActiveRecord::Base
   belongs_to :member
 
   has_paper_trail on: [:update, :destroy]
-
 end
 

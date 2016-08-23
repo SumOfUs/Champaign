@@ -107,12 +107,10 @@ describe ActionBuilder do
   end
 
   describe 'donor_status' do
-
     let(:params) { { page_id: page.id, email: member.email } }
     let(:mab) { mab = MockActionBuilder.new(params) }
 
     describe 'when member is nondonor' do
-
       it 'it starts as nondonor' do
         expect(member.donor_status).to eq 'nondonor'
       end
@@ -161,7 +159,6 @@ describe ActionBuilder do
     end
 
     describe 'when member is recurring_donor' do
-
       before :each do
         member.recurring_donor!
       end
@@ -186,11 +183,9 @@ describe ActionBuilder do
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end
     end
-
   end
 
   describe 'permitted_keys' do
-
     let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }
 
     it 'returns symbols' do
@@ -219,7 +214,6 @@ describe ActionBuilder do
   end
 
   describe 'filtered_params' do
-
     let(:params) do
       {
         email: "silly@billy.com",
@@ -234,7 +228,6 @@ describe ActionBuilder do
     end
 
     describe 'passes all' do
-
       it 'keys as symbols' do
         mab = MockActionBuilder.new(params)
         expect(mab.filtered_params).to eq params
@@ -257,7 +250,6 @@ describe ActionBuilder do
     end
 
     describe 'filters irrelevant' do
-
       let(:porky_params) { params.merge(page_id: page.id, form_id: '3', blerg: false, akid: '1234.514.lQVxcW') }
 
       it 'keys as symbols' do

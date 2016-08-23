@@ -159,5 +159,4 @@ describe LiquidLayoutsController do
       expect(response).to redirect_to(liquid_layouts_url)
     end
   end
-
 end

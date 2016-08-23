@@ -53,7 +53,7 @@ describe "GoCardless API" do
 
       it 'passes all url params to the redirect url' do
         subject
-        success_redirect_params =  Rack::Utils.parse_query(
+        success_redirect_params = Rack::Utils.parse_query(
           URI.parse(assigns(:flow).redirect_flow_instance.success_redirect_url).query
         )
         request.params.each_pair do |key, val|
@@ -75,7 +75,6 @@ describe "GoCardless API" do
     end
 
     describe 'unsuccessful' do
-
       before :each do
         allow(SecureRandom).to receive(:uuid).and_return(nil)
       end
@@ -165,7 +164,6 @@ describe "GoCardless API" do
     end
 
     context 'successful' do
-
       shared_examples 'donation action' do
         it 'creates a PaymentMethod record with relevant data and associations' do
           expect{ subject }.to change{ Payment::GoCardless::PaymentMethod.count }.by(1)
@@ -216,7 +214,6 @@ describe "GoCardless API" do
       end
 
       describe 'transaction' do
-
         let(:params) { base_params.merge(recurring: false) }
         let(:converted_money) { instance_double(Money, cents: 9001) }
 
@@ -270,7 +267,6 @@ describe "GoCardless API" do
         end
 
         shared_examples 'successful transaction' do
-
           let(:transaction_sdk_params) do
             {
               params: {
@@ -382,8 +378,7 @@ describe "GoCardless API" do
         end
       end
 
-      describe 'subscription'  do
-
+      describe 'subscription' do
         let(:params) { base_params.merge(recurring: true) }
 
         let(:donation_push_params) do
@@ -538,9 +533,7 @@ describe "GoCardless API" do
     end
 
     context 'unsuccessful' do
-
       shared_examples 'correctly handles errors' do
-
         it 'does not create a PaymentMethod' do
           expect{ subject }.not_to change{ Payment::GoCardless::PaymentMethod.count }
         end
@@ -616,7 +609,6 @@ describe "GoCardless API" do
       end
 
       describe 'mandate retrieval' do
-
         before :each do
           # to make the mandate get fail
           allow_any_instance_of(GoCardlessPro::Resources::RedirectFlow).to receive(:links).and_return(
@@ -637,7 +629,6 @@ describe "GoCardless API" do
       end
 
       describe 'redirect flow completion' do
-
         before :each do
           allow_any_instance_of(GoCardlessPro::Services::RedirectFlowsService).to receive(:complete).and_call_original
         end
@@ -655,7 +646,6 @@ describe "GoCardless API" do
       end
 
       describe 'transaction' do
-
         before :each do
           # to make the creation fail
           allow_any_instance_of(GoCardlessPro::Resources::Mandate).to receive(:id).and_return(nil)
@@ -671,11 +661,9 @@ describe "GoCardless API" do
 
         include_examples 'correctly handles errors'
         include_examples 'displays bad request errors'
-
       end
 
       describe 'subscription' do
-
         before :each do
           # to make the creation fail
           allow_any_instance_of(GoCardlessPro::Resources::Mandate).to receive(:id).and_return(nil)

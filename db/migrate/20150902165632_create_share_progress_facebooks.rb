@@ -10,6 +10,5 @@ class CreateShareProgressFacebooks < ActiveRecord::Migration
     end
 
     add_index "share_facebooks", ["button_id"], name: "index_share_facebooks_on_button_id", using: :btree
-
   end
 end

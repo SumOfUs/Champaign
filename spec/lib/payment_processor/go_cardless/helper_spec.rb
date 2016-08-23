@@ -32,7 +32,7 @@ describe PaymentProcessor::GoCardless::Helper do
       it 'raises argument error' do
         expect do
           subject.next_available_date(32)
-        end.to  raise_error(ArgumentError, 'invalid date')
+        end.to raise_error(ArgumentError, 'invalid date')
       end
     end
   end

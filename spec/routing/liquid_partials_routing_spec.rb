@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe LiquidPartialsController, type: :routing do
   describe "routing" do
-
     it "routes to #index" do
       expect(:get => "/liquid_partials").to route_to("liquid_partials#index")
     end
@@ -30,6 +29,5 @@ RSpec.describe LiquidPartialsController, type: :routing do
     it "routes to #destroy" do
       expect(:delete => "/liquid_partials/1").to route_to("liquid_partials#destroy", :id => "1")
     end
-
   end
 end

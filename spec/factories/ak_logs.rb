@@ -5,5 +5,4 @@ FactoryGirl.define do
     response_status "MyString"
     resource "MyString"
   end
-
 end

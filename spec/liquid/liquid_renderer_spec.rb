@@ -62,7 +62,6 @@ describe LiquidRenderer do
     end
 
     describe 'handles a missing translation' do
-
       it 'by raising an error in test' do
         expect(Rails.env.test?).to eq true
         liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
@@ -89,7 +88,6 @@ describe LiquidRenderer do
       liquid_layout.update_attributes(content: "{{ 'common.confirm' | t }}")
       expect(renderer.render).to eq "Are you sure?"
     end
-
   end
 
   describe "default_markup" do
@@ -168,7 +166,6 @@ describe LiquidRenderer do
     end
 
     describe 'show_direct_debit' do
-
       let(:location) { instance_double('Geocoder::Result::Freegeoip', data: {country_code: 'US'}, country_code: 'US') }
       let(:member) { build :member, country: 'DE' }
       let(:form) { create :form_with_email_and_name }
@@ -231,7 +228,6 @@ describe LiquidRenderer do
     end
 
     describe 'donation_bands' do
-
       let(:stubbed_amounts) { [1, 2, 3, 4, 5] }
       let(:stubbed_conversion) do
         %w{GBP EUR AUD NZD CAD}.inject({}) do |memo, a|
@@ -290,7 +286,6 @@ describe LiquidRenderer do
     end
 
     describe 'location' do
-
       let(:location) { instance_double('Geocoder::Result::Freegeoip', data: {country_code: 'US'}, country_code: 'US') }
 
       before :each do

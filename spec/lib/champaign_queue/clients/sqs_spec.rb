@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ChampaignQueue::Clients::Sqs do
-
   context "with SQS_QUEUE_URL" do
     let(:resp_body) do
       %{<?xml version="1.0"?>
@@ -30,9 +29,7 @@ describe ChampaignQueue::Clients::Sqs do
         .to_return(status: 200, body: resp_body)
     end
 
-
     it "delivers payload to AWS SQS Queue" do
-
       Timecop.freeze('2015/01/01') do
         resp = ChampaignQueue::Clients::Sqs.push(foo: :bar)
 

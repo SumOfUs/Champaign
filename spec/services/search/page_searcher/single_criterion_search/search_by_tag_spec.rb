@@ -96,7 +96,6 @@ describe 'Search ::' do
             expect(page_searcher.search).to match_array([intersection_page_1, intersection_page_2])
           end
         end
-
       end
     end
   end

@@ -1,5 +1,4 @@
 Rails.application.configure do
-
   {
     SQS_QUEUE_URL: 'http://example.com',
     AWS_REGION: 'us-west-2',

@@ -16,6 +16,7 @@ class NameSplitter
   end
 
   private
+
   def find_first_name
     @first_name =
         if @full_name.blank?

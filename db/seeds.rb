@@ -1,6 +1,5 @@
 puts "Seeding..."
 
-
 # Languages
 languages = [
     {code: 'en', name: 'English', actionkit_uri: '/rest/v1/language/100/'},
@@ -12,7 +11,6 @@ languages = [
 languages.each do |language|
   Language.create!(language)
 end
-
 
 # Forms
 ['en', 'fr', 'de'].each do |locale|
@@ -90,7 +88,6 @@ all_tags = [
 all_tags.each do |tag|
   Tag.create!(tag)
 end
-
 
 # Liquid Markup
 LiquidMarkupSeeder.seed

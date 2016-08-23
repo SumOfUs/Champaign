@@ -1,5 +1,4 @@
 namespace :share_progress do
-
   desc "Get button analytics"
   task analytics: :environment do
     require "net/http"
@@ -11,7 +10,6 @@ namespace :share_progress do
     uri = URI.parse(uri)
 
     Share::Button.all.each do |button|
-
       response = Net::HTTP.post_form(uri, key: Settings.share_progress_api_key, id: button.sp_id)
       button.update(analytics: response.body )
     end

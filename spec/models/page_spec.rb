@@ -1,11 +1,10 @@
 require 'rails_helper'
 
 describe Page do
-
-  let(:english)          { create :language }
+  let(:english) { create :language }
   let!(:follow_up_layout) { create :liquid_layout, title: 'Follow up layout' }
   let!(:liquid_layout)    { create :liquid_layout, title: 'Liquid layout', default_follow_up_layout: follow_up_layout }
-  let(:page)             { create :page, liquid_layout: liquid_layout, follow_up_liquid_layout: follow_up_layout  }
+  let(:page) { create :page, liquid_layout: liquid_layout, follow_up_liquid_layout: follow_up_layout }
 
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
@@ -65,7 +64,6 @@ describe Page do
     end
 
     describe 'create' do
-
       after :each do
         page = Page.new page_params
         expect{ page.save! }.to change{ PagesTag.count }.by 2
@@ -82,7 +80,6 @@ describe Page do
     end
 
     describe 'destroy' do
-
       before :each do
         @page = create :page, language: english, tag_ids: Tag.last(2).map(&:id)
       end
@@ -101,7 +98,6 @@ describe Page do
     end
 
     describe 'update' do
-
       before :each do
         @page = create :page, language: english, tag_ids: Tag.last(2).map(&:id)
         @new_ids = Tag.first.id
@@ -121,13 +117,11 @@ describe Page do
   end
 
   describe 'campaigns' do
-
     before :each do
       3.times { create :campaign }
     end
 
     describe 'create' do
-
       after :each do
         page = Page.new page_params
         expect{ page.save! }.to change{ Campaign.count }.by 0
@@ -170,7 +164,6 @@ describe Page do
   end
 
   describe 'liquid_layout' do
-
     let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
     let(:other_liquid_layout) { create :liquid_layout, title: 'Other liquid layout' }
 
@@ -179,7 +172,6 @@ describe Page do
     end
 
     describe 'valid' do
-
       before :each do
         expect(page).to be_valid
         expect(page).to be_persisted
@@ -234,7 +226,6 @@ describe Page do
   end
 
   describe 'primary image' do
-
     before :each do
       page.images = [image_1, image_2]
       page.primary_image = image_2
@@ -303,7 +294,6 @@ describe Page do
   end
 
   describe 'action_count' do
-
     it 'defaults to 0' do
       expect(Page.new.action_count).to eq 0
     end

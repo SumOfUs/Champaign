@@ -53,9 +53,7 @@ describe Api::Payment::BraintreeController do
     end
 
     describe 'successfully' do
-
       describe 'with recurring: true' do
-
         let(:builder){ instance_double('PaymentProcessor::Braintree::Subscription', action: action, success?: true, subscription_id: 's1234') }
 
         before do
@@ -81,7 +79,6 @@ describe Api::Payment::BraintreeController do
       end
 
       describe 'without recurring' do
-
         let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Transaction', action: action, success?: true, transaction_id: 't1234') }
 
         before :each do
@@ -115,7 +112,6 @@ describe Api::Payment::BraintreeController do
       end
 
       describe 'with recurring: true' do
-
         let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Subscription', success?: false, error_container: {}) }
 
         before do
@@ -146,7 +142,6 @@ describe Api::Payment::BraintreeController do
       end
 
       describe 'without recurring' do
-
         let(:builder){ instance_double('PaymentProcessor::Clients::Braintree::Transaction', success?: false, error_container: {}) }
 
         before :each do
@@ -176,7 +171,6 @@ describe Api::Payment::BraintreeController do
         end
       end
     end
-
   end
 
   describe 'POST webhook' do

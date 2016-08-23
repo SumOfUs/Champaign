@@ -1,7 +1,7 @@
 shared_examples "shares" do |share_class, service|
   let(:share){ instance_double(share_class, valid?: true, errors: {}) }
   let(:failed_share){ instance_double(share_class, valid?: true, errors: {base: ['email_body needs {LINK}']}) }
-  let(:page)  { instance_double('Page', title: 'Foo', content: 'Bar', id: '1', to_param: '1' ) }
+  let(:page) { instance_double('Page', title: 'Foo', content: 'Bar', id: '1', to_param: '1' ) }
 
   before do
     allow(Page).to receive(:find).with('1'){ page }
@@ -76,7 +76,6 @@ shared_examples "shares" do |share_class, service|
   end
 
   describe 'PUT#update' do
-
     describe 'success' do
       before do
         allow(ShareProgressVariantBuilder).to receive(:update){ share }
@@ -120,7 +119,6 @@ shared_examples "shares" do |share_class, service|
   end
 
   describe 'POST#create' do
-
     describe 'success' do
       before do
         allow(ShareProgressVariantBuilder).to receive(:create){ share }

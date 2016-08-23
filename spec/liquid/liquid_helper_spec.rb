@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe LiquidHelper do
-
   describe 'country_option_tags' do
-
     it 'gives a long html by default' do
       country_option_tags = LiquidHelper.globals[:country_option_tags]
       expect(country_option_tags.length).to be > 5000

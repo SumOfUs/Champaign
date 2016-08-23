@@ -15,7 +15,6 @@ module PaymentProcessor
         end
 
         context 'matched currency' do
-
           it 'returns merchant account ID' do
             expect( subject.for_currency('EUR') ).to eq('EUR')
           end

@@ -3,13 +3,11 @@ require 'rails_helper'
 module PaymentProcessor
   module Braintree
     describe ErrorProcessing do
-
       subject { described_class.new(braintree_transaction_result) }
 
       describe '#process' do
-
         let(:error_81801) { double('81801', message: 'user error', code: '81801', attribute: 'amount'  )}
-        let(:error_99999) { double('99999', message: 'no merchant account!', code: '99999', attribute: 'merchant_id'  )}
+        let(:error_99999) { double('99999', message: 'no merchant account!', code: '99999', attribute: 'merchant_id' )}
 
         let(:braintree_transaction_result) { double(:transaction_result, transaction: double(:transaction, status: ''), errors: errors) }
 

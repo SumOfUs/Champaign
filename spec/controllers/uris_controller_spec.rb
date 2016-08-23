@@ -5,13 +5,11 @@ describe UrisController do
   let(:user) { instance_double('User', id: '1') }
 
   describe 'logged in' do
-
     before :each do
       allow(request.env['warden']).to receive(:authenticate!) { user }
     end
 
     describe "GET #index" do
-
       let(:uris) { [build(:uri), build(:uri)] }
 
       before :each do
@@ -65,5 +63,4 @@ describe UrisController do
       end
     end
   end
-
 end

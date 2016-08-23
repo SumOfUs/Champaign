@@ -10,5 +10,4 @@ describe HomeController do
     get :robots, format: 'txt'
     expect(response.status).to be 200
   end
-
 end

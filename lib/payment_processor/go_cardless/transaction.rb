@@ -76,7 +76,6 @@ module PaymentProcessor
           account_number_ending: bank_account.account_number_ending
         )
       end
-
     end
   end
 end

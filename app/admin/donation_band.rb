@@ -1,7 +1,6 @@
 ActiveAdmin.register DonationBand do
   actions :all, except: [:new, :edit]
 
-
   sidebar 'Previous Versions', only: :show do
     attributes_table_for donation_band do
       row :versions do

@@ -46,5 +46,4 @@ describe Plugins::Fundraiser do
     fundraiser.only_recurring!
     expect( fundraiser.liquid_data[:recurring_default] ).to eq 'only_recurring'
   end
-
 end

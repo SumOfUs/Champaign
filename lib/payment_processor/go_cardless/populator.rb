@@ -1,7 +1,6 @@
 module PaymentProcessor
   module GoCardless
     class Populator
-
       def request_params
         {
           amount: amount_in_cents,
@@ -16,7 +15,7 @@ module PaymentProcessor
       end
 
       def transaction_params
-        request_params.merge(          charge_date: charge_date)
+        request_params.merge( charge_date: charge_date)
       end
 
       def subscription_params

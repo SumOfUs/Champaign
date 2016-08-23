@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "Braintree API" do
-
   let(:page) { create(:page, title: 'Cash rules everything around me') }
   let(:form) { create(:form) }
   let(:four_digits) { /[0-9]{4}/ }

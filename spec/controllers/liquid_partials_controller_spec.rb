@@ -158,5 +158,4 @@ RSpec.describe LiquidPartialsController, type: :controller do
       expect(response).to redirect_to(liquid_partials_url)
     end
   end
-
 end

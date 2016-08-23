@@ -108,7 +108,6 @@ class ShareProgressVariantBuilder
     }
   end
 
-
   def twitter_variants(variant)
     {
       twitter: [

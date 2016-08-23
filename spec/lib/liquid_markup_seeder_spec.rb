@@ -28,7 +28,6 @@ describe LiquidMarkupSeeder do
   end
 
   describe 'set_metadata_fields' do
-
     let(:view) { build :liquid_layout }
     let(:description) { "{% comment %} description: something sweet {%endcomment%}" }
     let(:experimental) { "{% comment %} experimental: true {% endcomment %}" }
@@ -69,7 +68,5 @@ describe LiquidMarkupSeeder do
       view = build :liquid_partial
       expect{ subject.set_metadata_fields(view) }.not_to raise_error
     end
-
   end
-
 end

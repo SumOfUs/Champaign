@@ -1,5 +1,4 @@
 describe Image do
-
   it { should have_attached_file(:content) }
   it { should validate_attachment_presence(:content) }
   it do should validate_attachment_content_type(:content)
@@ -29,5 +28,4 @@ describe Image do
     expect(Image.count).to eq 0
     expect(File).not_to exist Rails.root.join(path)
   end
-
 end

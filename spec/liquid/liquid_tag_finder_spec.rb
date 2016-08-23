@@ -3,7 +3,6 @@ require 'rails_helper'
 # are these tests failing? it could be a breaking change in the liquid API.
 # change to version 3.0.x and try again.
 describe LiquidTagFinder do
-
   let(:base_content) do
     %{<section class="wrapper">
         <div class="foo">
@@ -18,7 +17,6 @@ describe LiquidTagFinder do
   end
 
   describe "plugin_names" do
-
     after :each do
       actual = LiquidTagFinder.new(@content).plugin_names
       expect(actual).to match_array @expected
@@ -75,7 +73,6 @@ describe LiquidTagFinder do
   end
 
   describe "partial_names" do
-
     after :each do
       actual = LiquidTagFinder.new(@content).partial_names
       expect(actual).to eq @expected
@@ -111,7 +108,6 @@ describe LiquidTagFinder do
   end
 
   describe "partial_refs" do
-
     let(:nested_top) do
       %{ {% for field in plugins.Nd_0.fields %}
             {% if plugins.Nd_0.is_chill %}
@@ -128,9 +124,7 @@ describe LiquidTagFinder do
     let(:surrounding) { {simple: ['',''], nested: [nested_top, nested_bottom] } }
 
     [:simple, :nested].each do |nesting|
-
       describe "with a #{nesting} partial" do
-
         after :each do
           liquid_markup = "#{surrounding[nesting][0]}#{@content}#{surrounding[nesting][1]}"
           actual = LiquidTagFinder.new(liquid_markup).partial_refs
@@ -186,13 +180,11 @@ describe LiquidTagFinder do
           @content  = "{% include 'example', ref: 'zebra' %}<div>{% include 'la paz', ref: 'juiz' %}</div>"
           @expected = [['example', 'zebra'], ['la paz', 'juiz']]
         end
-
       end
     end
   end
 
   describe "description" do
-
     describe 'is found if it' do
       it 'has description in all lower case' do
         tag = '{% comment %} description: oh me oh my!{% endcomment %}'
@@ -254,7 +246,6 @@ describe LiquidTagFinder do
   end
 
   describe 'experimental?' do
-
     it 'returns true if experimental is "true"' do
       tag = '{% comment %} experimental: true {% endcomment %}'
       expect(LiquidTagFinder.new(tag+base_content).experimental?).to eq true
@@ -296,5 +287,4 @@ describe LiquidTagFinder do
       expect(LiquidTagFinder.new(base_content).post_action_layout?).to eq false
     end
   end
-
 end

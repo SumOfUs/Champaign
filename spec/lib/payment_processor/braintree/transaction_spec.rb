@@ -4,7 +4,6 @@ module PaymentProcessor
   module Braintree
     describe Transaction do
       describe '.make_transaction' do
-
         before do
           allow(MerchantAccountSelector).to receive(:for_currency){ '123' }
           allow(::Braintree::Transaction).to receive(:sale){ transaction }
@@ -79,7 +78,6 @@ module PaymentProcessor
         end
 
         describe 'error_container' do
-
           it 'returns the Braintree result object when success' do
             builder = subject.make_transaction(required_options)
             expect(builder.error_container).to eq(transaction)
@@ -155,7 +153,6 @@ module PaymentProcessor
         end
 
         describe 'billing field' do
-
           describe 'postal code' do
             let(:expected) { a_hash_including( billing: a_hash_including( postal_code: '01060' ) ) }
 

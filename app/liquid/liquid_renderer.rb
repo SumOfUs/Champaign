@@ -138,7 +138,6 @@ class LiquidRenderer
   end
 end
 
-
 class LiquidRenderer
   class Cache
     INVALIDATOR_KEY = 'cache_invalidator'

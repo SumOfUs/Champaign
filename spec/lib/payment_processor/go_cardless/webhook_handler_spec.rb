@@ -81,7 +81,6 @@ module PaymentProcessor::GoCardless
       end
 
       describe 'already_processed?' do
-
         context 'new event' do
           it 'returns false' do
             expect(subject.already_processed?(event)).to be(false)
@@ -179,7 +178,6 @@ module PaymentProcessor::GoCardless
           resource_id: nil
         }.stringify_keys)
       end
-
     end
 
     describe "Subscriptions" do
@@ -252,7 +250,6 @@ module PaymentProcessor::GoCardless
         events.delete_if{|a| ['cancelled', 'customer_approval_denied'].include? a['action']}
       end
 
-
       describe 'general behaviour' do
         before do
           allow( ChampaignQueue ).to receive(:push)
@@ -323,7 +320,6 @@ module PaymentProcessor::GoCardless
              "metadata"=>{}}
           ]
         end
-
 
         let(:second_events) do
           [

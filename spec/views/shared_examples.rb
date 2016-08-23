@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 shared_examples "view smoke test" do |model_sym, actions|
-
   actions ||= [:new, :edit, :show, :index]
   model_plural = model_sym.to_s.pluralize.to_sym
   model_class = model_sym.to_s.camelcase.constantize

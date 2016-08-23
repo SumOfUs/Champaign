@@ -130,7 +130,6 @@ describe "Api Actions" do
       end
     end
 
-
     describe 'akid manipulation' do
       context 'new member' do
         before do
@@ -176,14 +175,12 @@ describe "Api Actions" do
       end
 
       context 'existing member' do
-
         let!(:member) { create :member, actionkit_user_id: '1234', email: params[:email]}
 
         it 'does not overwrite existing actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params
           expect(member.reload.actionkit_user_id).to eq '1234'
         end
-
       end
 
       context 'new member' do

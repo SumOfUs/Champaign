@@ -1,7 +1,6 @@
 module PaymentProcessor
   module Braintree
     class Populator
-
       def customer_options
         @customer_options ||= {
           first_name: @user[:first_name] || namesplitter.first_name,

@@ -3,6 +3,5 @@ class Share::Facebook < ActiveRecord::Base
 
   validates :description, :title, presence: true
   belongs_to :image
-
 end
 

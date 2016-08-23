@@ -8,7 +8,7 @@ class FormValidator
 
   def initialize(params)
     @params = params.symbolize_keys
-    @errors =  Hash.new{ |hash, key| hash[key] = [] }
+    @errors = Hash.new{ |hash, key| hash[key] = [] }
     validate
   end
 

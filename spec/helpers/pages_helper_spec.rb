@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe PagesHelper do
-
   let(:page) { build :page, id: 77 }
 
   describe "#page_nav_item" do
@@ -47,7 +46,6 @@ describe PagesHelper do
   end
 
   describe "serialize" do
-
     it 'can serialize with a symbol keys and symbol query' do
       expect(serialize({foo: 'bar'}, :foo)).to eq '"bar"'
     end

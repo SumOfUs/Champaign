@@ -1,5 +1,4 @@
 class Share::FacebooksController < Share::SharesController
-
   private
 
   def new_defaults

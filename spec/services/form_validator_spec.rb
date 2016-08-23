@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe FormValidator do
-
   let(:form) { create :form }
 
   subject { FormValidator.new(params) }
@@ -174,7 +173,7 @@ describe FormValidator do
 
   describe 'with text as data type' do
     let(:element) { create :form_element, form: form, required: false, label: 'Address', name: 'address1' }
-    let(:params){  {form_id: element.form_id, address1: 'b'*249 } }
+    let(:params){ {form_id: element.form_id, address1: 'b'*249 } }
 
     it 'is valid with a 249 character string' do
       expect(subject.errors).to be_empty
@@ -189,7 +188,7 @@ describe FormValidator do
 
   describe 'with comment as data type' do
     let(:element) { create :form_element, :paragraph, form: form, required: false, label: 'Address', name: 'address1' }
-    let(:params){  {form_id: element.form_id, address1: 'b'*9_999 } }
+    let(:params){ {form_id: element.form_id, address1: 'b'*9_999 } }
 
     it 'is valid with a 9,999 character string' do
       expect(subject.errors).to be_empty

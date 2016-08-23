@@ -71,7 +71,6 @@ describe Analytics do
     context 'by hour' do
       before do
         Timecop.freeze( start_date ) do
-
           2.times{ subject.increment_actions }
           subject.increment_actions(new_member: true)
 
@@ -117,7 +116,6 @@ describe Analytics do
           "2000-01-01 00:00:00" => 1,
           "1999-12-31 23:00:00" => 3
         }
-
 
         Timecop.freeze( start_date ) do
           expect(

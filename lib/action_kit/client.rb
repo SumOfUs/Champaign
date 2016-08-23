@@ -2,7 +2,6 @@ require 'httparty'
 
 module ActionKit
   module Client
-
     extend self
 
     def client(verb, path, params)

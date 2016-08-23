@@ -12,7 +12,6 @@
 # with Liquid version 3.0.3.
 #
 class LiquidTagFinder
-
   def initialize(content)
     @content = content
   end
@@ -138,5 +137,4 @@ class LiquidTagFinder
     nested_nodes = liquid_nodes.map{|li| li[0].try(:nodelist).blank? ? li : li + tree_liquid_tags(li[0].nodelist) }
     nested_nodes.flatten
   end
-
 end

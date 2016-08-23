@@ -4,7 +4,6 @@ module PaymentProcessor
   module Braintree
     describe Subscription do
       describe '.make_subscription' do
-
         let(:required_options) do
           {
             amount: '437.14',
@@ -52,7 +51,6 @@ module PaymentProcessor
         end
 
         describe 'customer exists' do
-
           let!(:customer) { create :payment_braintree_customer, email: required_options[:user][:email] }
           let(:customer_options) do
             {
@@ -82,7 +80,6 @@ module PaymentProcessor
           end
 
           describe 'but it fails to update' do
-
             before :each do
               allow(::Braintree::Customer).to receive(:update).and_return(failure)
               @builder = subject.make_subscription(required_options)
@@ -113,13 +110,11 @@ module PaymentProcessor
           end
 
           describe 'and is updated successfully' do
-
             before :each do
               allow(::Braintree::Customer).to receive(:update).and_return(customer_success)
             end
 
             describe 'but it fails to create payment method' do
-
               before :each do
                 allow(::Braintree::PaymentMethod).to receive(:create).and_return(failure)
                 @builder = subject.make_subscription(required_options)
@@ -148,13 +143,11 @@ module PaymentProcessor
             end
 
             describe 'and payment method is created successfully' do
-
               before :each do
                 allow(::Braintree::PaymentMethod).to receive(:create).and_return(payment_success)
               end
 
               describe 'but it fails to create subscription' do
-
                 before :each do
                   allow(::Braintree::Subscription).to receive(:create).and_return(failure)
                   @builder = subject.make_subscription(required_options)
@@ -179,7 +172,6 @@ module PaymentProcessor
               end
 
               describe 'and subscription is successfully created' do
-
                 before :each do
                   allow(::Braintree::Subscription).to receive(:create).and_return(subscription_success)
                   @builder = subject.make_subscription(required_options)
@@ -220,7 +212,6 @@ module PaymentProcessor
         end
 
         describe 'customer does not exist' do
-
           let(:customer_options) do
             {
               first_name: 'Bob',
@@ -246,7 +237,6 @@ module PaymentProcessor
           end
 
           describe 'but it fails to create' do
-
             before :each do
               allow(::Braintree::Customer).to receive(:create).and_return(failure)
               @builder = subject.make_subscription(required_options)
@@ -277,13 +267,11 @@ module PaymentProcessor
           end
 
           describe 'and is created successfully' do
-
             before :each do
               allow(::Braintree::Customer).to receive(:create).and_return(customer_success)
             end
 
             describe 'but it fails to create subscription' do
-
               before :each do
                 allow(::Braintree::Subscription).to receive(:create).and_return(failure)
                 @builder = subject.make_subscription(required_options)
@@ -308,7 +296,6 @@ module PaymentProcessor
             end
 
             describe 'and subscription is successfully created' do
-
               before :each do
                 allow(::Braintree::Subscription).to receive(:create).and_return(subscription_success)
                 @builder = subject.make_subscription(required_options)

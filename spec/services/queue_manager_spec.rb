@@ -22,7 +22,6 @@ describe QueueManager do
 
   context "with valid job type" do
     context "update_pages" do
-
       subject { QueueManager.push(page, job_type: :update_pages) }
 
       it 'posts to queue' do

@@ -1,5 +1,4 @@
 class Share::EmailsController < Share::SharesController
-
   private
 
   def new_defaults

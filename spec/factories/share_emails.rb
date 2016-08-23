@@ -6,5 +6,4 @@ FactoryGirl.define do
     sp_id ""
     button_id 1
   end
-
 end

@@ -4,5 +4,4 @@ FactoryGirl.define do
 resource_type "MyString"
 action "MyString"
   end
-
 end

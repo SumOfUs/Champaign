@@ -5,7 +5,6 @@ module PaymentProcessor
   module GoCardless
     describe Transaction do
       describe '.make_transaction' do
-
         before do
           allow(Payment::GoCardless).to receive(:write_transaction).and_return(local_transaction)
           allow(Payment::GoCardless).to receive(:write_customer).and_return(local_customer)
@@ -83,7 +82,6 @@ module PaymentProcessor
           end
 
           context 'with GBP' do
-
             let(:amount_in_gbp) { 11.11 }
             let(:completed_gbp_flow) do
               instance_double('GoCardlessPro::Resources::RedirectFlow',
@@ -114,7 +112,6 @@ module PaymentProcessor
             end
 
             it 'creates a transaction with the right params and charge date' do
-
               expect_any_instance_of(
                 GoCardlessPro::Services::PaymentsService
               ).to receive(:create).with(
@@ -171,7 +168,6 @@ module PaymentProcessor
 your GBP charge date is invalid! Resorting to the mandate's next possible charge date.")
               described_class.make_transaction(gbp_options)
             end
-
           end
         end
 
@@ -207,7 +203,6 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
             })
             subject
           end
-
         end
 
         describe 'setting charge_date for GBP on next available 20th day of a month' do
@@ -217,7 +212,6 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
                             id: 'MA00000', scheme: 'bacs', next_possible_charge_date: next_possible_charge_date)
           end
         end
-
       end
     end
   end

@@ -11,7 +11,6 @@ describe Plugins::FormsController do
   end
 
   describe 'GET show' do
-
     let(:params) { { plugin_type: 'petition', plugin_id: '3' } }
 
     before :each do

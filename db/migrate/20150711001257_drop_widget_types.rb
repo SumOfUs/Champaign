@@ -11,7 +11,7 @@ class DropWidgetTypes < ActiveRecord::Migration
       t.string   "action_table_name"
       t.datetime "created_at"
       t.datetime "updated_at"
-      t.boolean  "active",            null: false
+      t.boolean  "active", null: false
     end
 
     create_table "templates_widget_types", id: false, force: :cascade do |t|

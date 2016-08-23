@@ -74,7 +74,6 @@ describe LiquidI18n do
     end
 
     describe 'handles a missing translation' do
-
       it 'by raising an error in test' do
         expect(Rails.env.test?).to eq true
         expect{ subject.t('fundraiser.lunacy') }.to raise_error I18n::TranslationMissing

@@ -26,7 +26,7 @@ module Donations
 
     def initialize(amounts)
       @amounts = amounts
-      @currencies = { USD: @amounts.map{ |val| Money.new(val).to_s }  }
+      @currencies = { USD: @amounts.map{ |val| Money.new(val).to_s } }
     end
 
     def convert

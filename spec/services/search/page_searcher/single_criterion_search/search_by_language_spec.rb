@@ -54,7 +54,6 @@ describe 'Search ::' do
             expect(Search::PageSearcher.new(language: [klingon.id]).search).to match_array([twin_page_1, twin_page_2])
           end
         end
-
       end
     end
   end

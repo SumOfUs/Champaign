@@ -1,7 +1,5 @@
 module Shares
-
   class << self
-
     # we're making the assumption that all that matters from the ShareProgress HTML
     # is the class, which is true in the JS file they're loading.
     # It makes it much easier to override the content and style
@@ -34,5 +32,4 @@ module Shares
       html[class_finder, 1]
     end
   end
-
 end

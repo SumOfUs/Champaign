@@ -5,7 +5,6 @@ module PaymentProcessor
   module GoCardless
     describe Subscription do
       describe '.make_subscription' do
-
         before do
           allow(Payment::GoCardless).to receive(:write_subscription).and_return(local_subscription)
           allow(Payment::GoCardless).to receive(:write_customer).and_return(local_customer)
@@ -201,7 +200,6 @@ module PaymentProcessor
             })
             subject
           end
-
         end
       end
     end

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Api::ActionsController do
-
   describe "POST create" do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')] ) }
     let(:member) { instance_double('Member', id: 12) }
@@ -79,7 +78,6 @@ describe Api::ActionsController do
     end
 
     describe "unsuccessful" do
-
       let(:validator) { instance_double('FormValidator', valid?: false, errors: [["my field", "my error"]]) }
 
       before :each do
@@ -112,7 +110,6 @@ describe Api::ActionsController do
     end
 
     describe "successful" do
-
       let(:validator) { instance_double('FormValidator', valid?: true, errors: []) }
 
       before do
@@ -156,7 +153,6 @@ describe Api::ActionsController do
     end
 
     describe "unsuccessful" do
-
       let(:validator) { instance_double('FormValidator', valid?: false, errors: [["my field", "my error"]]) }
 
       before :each do

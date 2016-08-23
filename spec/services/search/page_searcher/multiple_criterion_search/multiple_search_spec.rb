@@ -4,7 +4,6 @@ require_relative '../page_searcher_spec_data.rb'
 
 describe 'Search ::' do
   describe 'PageSearcher' do
-
     context 'searches by multiple criteria' do
       include_context 'page_searcher_spec_data'
       include_context 'multiple_search_data'

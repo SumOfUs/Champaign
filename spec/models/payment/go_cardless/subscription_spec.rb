@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Payment::GoCardless::Subscription do
-
   let(:subscription) { build :payment_go_cardless_subscription }
   subject { subscription }
 

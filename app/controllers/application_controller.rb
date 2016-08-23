@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
     pages_url
   end
 
-
   def mobile_value
     MobileDetector.detect(browser)
   end

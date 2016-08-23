@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Payment::GoCardless::PaymentMethod do
-
   subject(:payment_method) { build :payment_go_cardless_payment_method }
 
   it { is_expected.to respond_to :go_cardless_id }

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe ShareProgressVariantBuilder do
-  let(:params) {     {title: 'foo', description: 'bar'} }
+  let(:params) { {title: 'foo', description: 'bar'} }
 
-  let(:sp_variants)   { [{id: 123}] }
+  let(:sp_variants) { [{id: 123}] }
 
   let!(:page){ create(:page) }
 
@@ -24,7 +24,6 @@ describe ShareProgressVariantBuilder do
   end
 
   describe '.create' do
-
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(
         params: params,
@@ -151,7 +150,6 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'success' do
-
       before do
         allow(ShareProgress::Button).to receive(:new){ success_sp_button }
       end
@@ -179,7 +177,6 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'failure' do
-
       before do
         allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
       end
@@ -196,7 +193,6 @@ describe ShareProgressVariantBuilder do
   end
 
   context '.destroy' do
-
     subject(:destroy_variant) do
       ShareProgressVariantBuilder.destroy(
           params: params,
@@ -207,7 +203,6 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'success' do
-
       let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
       let(:params) { {title: 'Bar' } }
@@ -235,7 +230,6 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'failure' do
-
       let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
       let(:params) { {title: 'Bar' } }
@@ -259,10 +253,7 @@ describe ShareProgressVariantBuilder do
           expect(Share::Facebook.find(share.id)).to eq(share)
         end
       end
-
     end
-
   end
-
 end
 

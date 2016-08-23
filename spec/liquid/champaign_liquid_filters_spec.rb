@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 describe ChampaignLiquidFilters do
-
   # to define a liquid filter, you make a module with instance methods that
   # gets included by liquid. You can't make them module_functions, so here
   # we extend a generic class to call the filter
   subject { Class.new.extend(ChampaignLiquidFilters) }
 
   describe 'select_option' do
-
     let(:base_options) do
        '<option value="DM">Dominique</option>
         <option value="SV">El Salvador</option>

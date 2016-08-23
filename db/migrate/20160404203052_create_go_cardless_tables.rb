@@ -26,7 +26,6 @@ class CreateGoCardlessTables < ActiveRecord::Migration
     end
     add_foreign_key :payment_go_cardless_payment_methods, :payment_go_cardless_customers, column: :customer_id
 
-
     create_table :payment_go_cardless_subscriptions do |t|
       t.string :go_cardless_id
       t.decimal :amount
@@ -65,5 +64,4 @@ class CreateGoCardlessTables < ActiveRecord::Migration
     add_foreign_key :payment_go_cardless_transactions, :payment_go_cardless_customers, column: :customer_id
     add_foreign_key :payment_go_cardless_transactions, :payment_go_cardless_payment_methods, column: :payment_method_id
   end
-
 end

@@ -5,5 +5,4 @@ FactoryGirl.define do
     name "MyString"
     value "MyString"
   end
-
 end

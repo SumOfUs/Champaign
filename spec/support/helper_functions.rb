@@ -1,5 +1,4 @@
 module HelperFunctions
-
   def log_in
     email = 'test@sumofus.org'
     password = 'password'
@@ -28,5 +27,4 @@ module HelperFunctions
   def error_messages_from_response(response)
     JSON.parse(response.body)['errors'].inject([]){|memo, error| memo << error['message'] }.uniq
   end
-
 end

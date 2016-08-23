@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe PagePluginSwitcher do
-
   let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref] }}' }
   let!(:thermo_partial) { create :liquid_partial, title: 'thermo', content: '{{ plugins.thermometer[ref] }}' }
   let!(:petition_nested_thermo_partial) do
@@ -19,9 +18,7 @@ describe PagePluginSwitcher do
   let!(:switcher) { PagePluginSwitcher.new(page) }
 
   describe ".switch" do
-
     describe 'creating' do
-
       it 'creates missing plugins when using the same template' do
         page.plugins.each{ |p| p.destroy }
         expect(page.plugins).to be_empty
@@ -67,7 +64,6 @@ describe PagePluginSwitcher do
     end
 
     describe 'replacing' do
-
       it 'does not replace instances if new template has same plugins' do
         plugins = page.plugins
         expect{ switcher.switch(nested_refless_layout) }.to change{ Plugins::Petition.count }.by 0
@@ -99,7 +95,6 @@ describe PagePluginSwitcher do
     end
 
     describe 'destroying' do
-
       it 'destroys all plugins when switching to a template without plugins' do
         expect{ switcher.switch(blank_layout) }
           .to change{ Plugins::Thermometer.count }.by(-1)
@@ -120,7 +115,5 @@ describe PagePluginSwitcher do
       expect(page.liquid_layout).to eq many_petition_layout
       expect(page.reload.liquid_layout).to eq both_refless_layout
     end
-
   end
-
 end

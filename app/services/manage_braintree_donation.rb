@@ -17,7 +17,6 @@ class ManageBraintreeDonation
   end
 
   def create
-
     # We need a way to cross-reference this action at a later date to find out what page
     # with which we will associate ongoing donations, in the event this is a subscription.
     @params.merge!(

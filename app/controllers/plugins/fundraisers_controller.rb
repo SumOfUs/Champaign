@@ -1,5 +1,4 @@
 class Plugins::FundraisersController < Plugins::BaseController
-
   private
 
   def permitted_params

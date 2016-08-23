@@ -28,7 +28,6 @@
 class ActionKitFields < ActiveModel::Validator
   VALID_CHARS_RE = /^[0-9a-z_]+$/
 
-
   # +VALID_PREFIX_RE+ matches for allowed prefixes for custom fields for ActionKit actions.
   #
   # A custom field must must have the necessary prefix for it to

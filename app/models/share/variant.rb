@@ -21,5 +21,4 @@ module Share::Variant
       variations += share_class.all
     end
   end
-
 end

@@ -1,19 +1,17 @@
 require 'rails_helper'
 
 describe "api/members" do
-
   def json
     JSON.parse(response.body)
   end
 
-  let(:params)  {{ email: "newbie@test.org", country: "NZ", postal: "1A943", name: "Anahera Parata" }}
+  let(:params) {{ email: "newbie@test.org", country: "NZ", postal: "1A943", name: "Anahera Parata" }}
 
   subject do
     post api_members_path, params
   end
 
   describe 'POST api/members' do
-
     let!(:existing_member) { create :member, email: "oldie@test.org", name: "Oldie Goldie", country: "SWE", postal: 12880 }
 
     it "creates a new member" do
@@ -52,5 +50,4 @@ describe "api/members" do
                                                      postal: nil)
     end
   end
-
 end

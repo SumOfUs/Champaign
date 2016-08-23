@@ -58,6 +58,7 @@ class LiquidLayoutsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_liquid_layout
       @liquid_layout = LiquidLayout.find(params[:id])

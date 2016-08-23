@@ -1,14 +1,13 @@
 require 'rails_helper'
 
 describe Share::Button do
-  let(:button)    { create :share_button }
+  let(:button) { create :share_button }
 
   subject { button }
 
   it { is_expected.to be_valid}
 
   describe 'validation' do
-
     it 'is valid without a title' do
       button.title = nil
       expect(button).to be_valid
@@ -29,6 +28,5 @@ describe Share::Button do
       expect(button).to be_invalid
     end
   end
-
 end
 

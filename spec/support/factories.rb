@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   sequence(:email) { |n| "person#{n}@gmail.com" }
   sequence(:slug)  { |n| "petition-#{n}" }
   sequence(:page_display_order) { |n| n }
@@ -54,5 +53,4 @@ FactoryGirl.define do
     end
     initialize_with { attributes }
   end
-
 end

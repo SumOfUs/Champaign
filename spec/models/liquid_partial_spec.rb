@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe LiquidPartial do
-
   let(:partial) { create(:liquid_partial) }
 
   subject{ partial }
@@ -61,7 +60,6 @@ describe LiquidPartial do
   end
 
   describe "plugin_refs" do
-
     describe 'without nested partials' do
       it 'returns its own plugin with the passed ref' do
         pa = create :liquid_partial, title: 'a', content: '<p>{{ plugins.my_plugin[ref] }}</p>'
@@ -108,7 +106,6 @@ describe LiquidPartial do
         expect(pa.plugin_refs(ref: 'yay')).to match_array [['my_plugin', 'yay'], ['my_plugin', nil]]
         expect(pa.plugin_refs(ref: 'nae')).to match_array [['my_plugin', 'yay'], ['my_plugin', nil], ['my_plugin', 'nae']]
       end
-
     end
 
     describe 'with deep nesting' do
@@ -129,7 +126,6 @@ describe LiquidPartial do
         expect(pa.plugin_refs).to eq [['a', nil], ['b', nil], ['c', nil]]
       end
     end
-
   end
 
   describe "missing_partials" do

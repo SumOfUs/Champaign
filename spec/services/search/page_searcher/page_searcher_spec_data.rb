@@ -1,5 +1,4 @@
 RSpec.shared_context 'page_searcher_spec_data' do
-
   let(:test_text) { 'a spectacular test string' }
   let!(:tag) { create(:tag, name: test_text, actionkit_uri: '/foo/bar') }
   let!(:alternative_tag) { create(:tag, name: 'alternative tag', actionkit_uri: '/alternative_tag/') }
@@ -55,7 +54,6 @@ RSpec.shared_context 'page_searcher_spec_data' do
            liquid_layout: messy_layout
           )
   end
-
 
   let!(:twin_page_1) do
     create(:page,

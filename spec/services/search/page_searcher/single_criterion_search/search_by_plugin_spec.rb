@@ -91,7 +91,6 @@ describe 'Search ::' do
           end
 
           it 'with several plugins, if a page exists where all of them are active' do
-
             default_page_thermometer.update(active: true)
             default_page_petition.update(active: true)
 

@@ -3,7 +3,6 @@ require "openssl"
 module PaymentProcessor
   module GoCardless
     class WebhookSignature
-
       def initialize(secret:, body:, signature:)
         @secret = secret
         @body = body

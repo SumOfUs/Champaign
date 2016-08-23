@@ -1,14 +1,10 @@
 require 'rails_helper'
 
 describe DirectDebitDecider do
-
   describe 'decide' do
-
     [:only_recurring, :recurring, :one_off, :garbage_value].each do |recurring_default|
-
       recurring = (recurring_default == :only_recurring || recurring_default == :recurring)
       context "recurring is '#{recurring_default}'" do
-
         it 'returns true when country list is just DE' do
           decision = DirectDebitDecider.decide(['DE'], recurring_default)
           expect(decision).to eq(true)
@@ -86,7 +82,5 @@ describe DirectDebitDecider do
       end
     end
   end
-
-
 end
 

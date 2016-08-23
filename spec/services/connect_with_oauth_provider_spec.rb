@@ -21,14 +21,12 @@ describe ConnectWithOauthProvider do
   end
 
   describe 'whitelisting' do
-
     it 'whitelists domain' do
       Settings.oauth_domain_whitelist = %w(sumofus.org exxon.mobi)
       expect{ ConnectWithOauthProvider.connect(resp) }.to raise_error(Champaign::NotWhitelisted)
     end
 
     context 'empty whitelist' do
-
       it 'skips check' do
         Settings.oauth_domain_whitelist = []
         expect{ ConnectWithOauthProvider.connect(resp) }.to_not raise_error

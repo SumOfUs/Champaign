@@ -8,7 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Champaign
   class Application < Rails::Application
-
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
     config.autoload_paths << Rails.root.join('lib')

@@ -1,12 +1,9 @@
 require "rails_helper"
 
 describe "Liquid page rendering" do
-
   LiquidMarkupSeeder.titles.each do |title|
-
     describe "page with layout #{title}" do
       [:en, :fr, :de].each do |language_code|
-
         it "can render in #{language_code} without errors" do
           language = create :language, code: language_code
           LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
@@ -25,7 +22,6 @@ describe "Liquid page rendering" do
   end
 
   describe 'rendering sidebars' do
-
     before :each do
       LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
     end
@@ -41,6 +37,5 @@ describe "Liquid page rendering" do
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="petition-bar__content">')
     end
-
   end
 end

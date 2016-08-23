@@ -1,5 +1,4 @@
 module LayoutSelectHelper
-
   def construct_layout_select_class(liquid_layout, page, field)
     hidden = check_hidden(liquid_layout, field)
     active = check_active(liquid_layout, page, field)

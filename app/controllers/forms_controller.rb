@@ -20,7 +20,6 @@ class FormsController < ApplicationController
     else
       render :new
     end
-
   end
 
   def new
@@ -32,5 +31,4 @@ class FormsController < ApplicationController
   def find_form
     @form = Form.find params[:id]
   end
-
 end

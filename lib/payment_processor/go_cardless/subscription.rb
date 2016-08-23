@@ -69,7 +69,6 @@ module PaymentProcessor
           payment_provider:     'go_cardless'
         )
       end
-
     end
   end
 end

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe PageCloner do
-  let!(:tag)  { create(:tag) }
+  let!(:tag) { create(:tag) }
   let(:campaign) { create(:campaign) }
-  let(:page)  do
+  let(:page) do
     create(
       :page,
       tags: [tag],

@@ -33,7 +33,7 @@ class Api::GoCardlessController < PaymentController
   private
 
   def success_url
-    local_params =  Rack::Utils.parse_query(
+    local_params = Rack::Utils.parse_query(
       URI.parse(request.url).query
     ).merge( params.slice(:page_id) ).to_query
 

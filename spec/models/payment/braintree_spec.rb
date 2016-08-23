@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Payment::Braintree do
   describe '.customer' do
-
     let(:email) { 'foo@example.com' }
 
     it 'can find customer by member' do
@@ -25,7 +24,6 @@ describe Payment::Braintree do
   end
 
   describe '.write_subscription' do
-
     let(:subscription) { instance_double('Braintree::Subscription', id: 'lol', price: 12, merchant_account_id: 'EUR')}
     let(:success_result){ instance_double('Braintree::SuccessResult', success?: true, subscription: subscription) }
     let(:failure_result){ instance_double('Braintree::ErrorResult', success?: false) }
@@ -53,7 +51,6 @@ describe Payment::Braintree do
   end
 
   describe '.write_customer' do
-
     let(:bt_customer) { create :payment_braintree_customer, customer_id: 'fuds7', email: 'skeebadee@boop.beep' }
     let!(:member) { create :member, id: 3 }
 
@@ -62,7 +59,6 @@ describe Payment::Braintree do
     end
 
     describe 'paid with credit card' do
-
       let(:bt_payment_method) do
         instance_double('Braintree::CreditCard',
                         is_a?: Braintree::CreditCard,
@@ -139,11 +135,9 @@ describe Payment::Braintree do
         expect(customer).to have_received(:update).with(expected_params)
       end
     end
-
   end
 
   describe '.write_transaction' do
-
     let!(:page_id){ 4567 }
     let!(:page) { create :page, id: 4567 }
     let!(:member) { create :member, id: 5678 }
@@ -180,8 +174,8 @@ describe Payment::Braintree do
                       paypal_details: paypal_details
                      )
     end
-    let!(:paypal_token) { create :braintree_payment_method,  token: 'pp_token' }
-    let!(:credit_card_token) { create :braintree_payment_method,  token: 'cc_token' }
+    let!(:paypal_token) { create :braintree_payment_method, token: 'pp_token' }
+    let!(:credit_card_token) { create :braintree_payment_method, token: 'cc_token' }
 
     let(:transaction_params) do
       {
@@ -228,7 +222,6 @@ describe Payment::Braintree do
     end
 
     describe 'paid with credit card' do
-
       let(:payment_instrument_type){ 'credit_card' }
       let(:payment_method_token){ credit_card_token }
       let(:customer_params) do
@@ -288,7 +281,6 @@ describe Payment::Braintree do
       end
 
       describe 'with unsuccessful transaction' do
-
         let(:bt_result){ instance_double('Braintree::ErrorResult', transaction: transaction, success?: false) }
         let(:status) { Payment::Braintree::Transaction.statuses[:failure] }
 
@@ -353,7 +345,6 @@ describe Payment::Braintree do
       end
 
       describe 'with unsuccessful subscription' do
-
         let(:bt_result){ instance_double('Braintree::ErrorResult', subscription: double(transactions: []), success?: false, transaction: nil) }
         let(:status) { Payment::Braintree::Transaction.statuses[:failure] }
 
@@ -372,11 +363,9 @@ describe Payment::Braintree do
           expect(existing_customer).not_to have_received(:update)
         end
       end
-
     end
 
     describe 'paid with PayPal' do
-
       let(:payment_instrument_type){ 'paypal_account' }
       let(:payment_method_token){ paypal_token }
       let(:customer_params) do
@@ -434,7 +423,6 @@ describe Payment::Braintree do
       end
 
       describe 'with unsuccessful transaction' do
-
         let(:bt_result){ instance_double('Braintree::ErrorResult', transaction: transaction, success?: false) }
         let(:status) { Payment::Braintree::Transaction.statuses[:failure] }
 
@@ -508,7 +496,6 @@ describe Payment::Braintree do
       end
 
       describe 'with unsuccessful subscription' do
-
         let(:bt_result){ instance_double('Braintree::ErrorResult', subscription: double(transactions: []), success?: false, transaction: nil) }
         let(:status) { Payment::Braintree::Transaction.statuses[:failure] }
 
@@ -527,10 +514,6 @@ describe Payment::Braintree do
           expect(existing_customer).not_to have_received(:update)
         end
       end
-
     end
-
   end
-
-
 end

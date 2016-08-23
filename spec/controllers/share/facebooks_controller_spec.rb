@@ -6,6 +6,5 @@ describe Share::FacebooksController do
 
   let(:params){ { title: 'Foo', description: 'Bar' } }
   let(:new_defaults) { params }
-
 end
 

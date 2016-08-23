@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Payment::GoCardless::Transaction do
-
   let(:transaction) { build :payment_go_cardless_transaction }
   subject { transaction }
 

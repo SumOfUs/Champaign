@@ -3,7 +3,8 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   TargetRubyVersion: 2.3
   Exclude:
-    - 'bin/**'
+    - bin/**
+    - db/schema.rb
 
 Style/IndentationConsistency:
   EnforcedStyle: normal

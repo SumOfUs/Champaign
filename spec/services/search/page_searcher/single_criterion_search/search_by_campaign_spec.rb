@@ -62,7 +62,6 @@ describe 'Search ::' do
             )
           end
         end
-
       end
     end
   end

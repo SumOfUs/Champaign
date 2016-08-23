@@ -97,11 +97,11 @@ module PaymentProcessor
       end
 
       def update_or_create_customer_on_braintree
-        result =  if existing_customer.present?
-                    ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
-                  else
-                    ::Braintree::Customer.create(create_customer_options)
-                  end
+        result = if existing_customer.present?
+                   ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
+                 else
+                   ::Braintree::Customer.create(create_customer_options)
+                 end
         break_if_rejected(result)
         result
       end

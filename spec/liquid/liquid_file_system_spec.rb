@@ -41,7 +41,6 @@ describe LiquidFileSystem do
         Settings.liquid_templating_source = 'file'
       end
 
-
       it 'always reads from file' do
         expect(
           LiquidFileSystem.read_template_file(:foo)

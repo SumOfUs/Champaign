@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Payment::Braintree::Subscription do
-
   let(:subscription) { create :payment_braintree_subscription }
   subject { subscription }
 

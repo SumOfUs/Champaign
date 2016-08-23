@@ -116,7 +116,6 @@ describe Member do
   end
 
   describe 'go_cardless_customer' do
-
     let(:member){ create :member }
 
     it 'can have one go_cardless_customer' do
@@ -131,7 +130,6 @@ describe Member do
   end
 
   describe 'donor_status' do
-
     let(:member){ create :member }
 
     it 'defaults to nondonor' do

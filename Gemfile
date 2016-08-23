@@ -122,7 +122,6 @@ group :development, :test do
   # brew install terminal-notifier
   gem 'terminal-notifier-guard'
   gem 'spring-commands-rspec'
-
 end
 
 group :test do
@@ -135,7 +134,6 @@ end
 # https://rails-assets.org/
 #
 source 'https://rails-assets.org' do
-
   # Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
   gem 'rails-assets-backbone'
 

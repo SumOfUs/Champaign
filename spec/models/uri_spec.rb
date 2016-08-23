@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Uri do
-
   let(:page) { create :page }
   let(:uri) { build :uri, page: page }
 
@@ -66,7 +65,6 @@ describe Uri do
   end
 
   describe 'page' do
-
     subject{ uri }
     it { is_expected.to respond_to :page }
     it { is_expected.to respond_to :page= }
@@ -83,5 +81,4 @@ describe Uri do
       expect(uri).to be_invalid
     end
   end
-
 end

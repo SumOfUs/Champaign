@@ -1,5 +1,4 @@
 class Plugins::BaseController < ApplicationController
-
   def update
     plugin = plugin_class.find(params[:id])
 
@@ -11,5 +10,4 @@ class Plugins::BaseController < ApplicationController
       end
     end
   end
-
 end

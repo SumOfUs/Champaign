@@ -1,6 +1,5 @@
 class LiquidHelper
   class << self
-
     # when possible, I think we should try to make this match with
     # helpers in liquid docs to be more intuitive for people familiar with liquid
     # https://docs.shopify.com/themes/liquid-documentation/objects

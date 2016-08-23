@@ -1,5 +1,4 @@
 class Api::MembersController < ApplicationController
-
   def create
     member = Member.find_or_initialize_by(email: member_params[:email])
     member.assign_attributes(member_params)
@@ -16,5 +15,4 @@ class Api::MembersController < ApplicationController
   def member_params
     params.permit(:name, :email, :country, :postal)
   end
-
 end

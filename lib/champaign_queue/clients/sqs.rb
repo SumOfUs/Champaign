@@ -3,7 +3,6 @@ require 'aws-sdk'
 module ChampaignQueue
   module Clients
     class Sqs
-
       class << self
         def push(params)
           new(params).push

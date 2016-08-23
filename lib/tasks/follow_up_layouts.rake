@@ -1,5 +1,4 @@
 namespace :champaign do
-
   desc "Associate liquid layouts known to be petition or donation forms with their default post-action layouts"
   task associate_layouts: :environment do
     puts "Associating petition and donation layouts with default post action layouts"

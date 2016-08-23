@@ -1,5 +1,4 @@
 shared_examples 'transaction and subscription' do |method|
-
   let(:gc_service_class) do
     if method == :make_subscription
       GoCardlessPro::Services::SubscriptionsService
@@ -41,7 +40,6 @@ shared_examples 'transaction and subscription' do |method|
   end
 
   describe 'currency' do
-
     let(:amount_in_usd_cents){ (amount_in_dollars * 100).to_i }
 
     it 'converts currency to GBP if scheme is BACS' do
@@ -90,7 +88,6 @@ shared_examples 'transaction and subscription' do |method|
   end
 
   describe 'bookkeeping' do
-
     it 'delegates to Payment::GoCardless.write_customer' do
       expect(Payment::GoCardless).to receive(:write_customer).with('CU00000', action.member_id)
       subject

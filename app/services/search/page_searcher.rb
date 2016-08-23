@@ -1,5 +1,4 @@
 class Search::PageSearcher
-
   def initialize(params)
     @queries = params
     @collection = Page.all

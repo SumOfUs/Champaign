@@ -1,5 +1,4 @@
 class PagePluginSwitcher
-
   def initialize(page)
     @page = page
   end
@@ -48,6 +47,5 @@ class PagePluginSwitcher
   def standardize_blank_refs(plugin_refs)
     plugin_refs.map { |p, r| [p, r.to_s] }
   end
-
 end
 

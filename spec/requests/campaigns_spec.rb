@@ -89,6 +89,5 @@ describe "Campaigns", type: :request do
         expect(response.body).to include "There was an error"
       end
     end
-
   end
 end

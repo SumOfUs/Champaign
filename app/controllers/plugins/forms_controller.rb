@@ -1,5 +1,4 @@
 class Plugins::FormsController < ApplicationController
-
   def create
     master = Form.find permitted_params[:master_id]
     plugin = Plugins.find_for permitted_params[:plugin_type], permitted_params[:plugin_id]

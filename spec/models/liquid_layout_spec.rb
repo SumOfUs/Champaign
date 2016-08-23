@@ -49,7 +49,6 @@ describe LiquidLayout do
   end
 
   describe 'plugin_refs' do
-
     it 'has all the plugins from its partials as length two arrays' do
       pe = create :liquid_partial, title: 'e', content: '<p>{{ plugins.e[ref] }}</p>'
       pd = create :liquid_partial, title: 'd', content: '<p>{{ plugins.d[ref] }}</p>'

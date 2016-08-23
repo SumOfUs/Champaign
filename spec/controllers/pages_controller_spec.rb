@@ -96,7 +96,6 @@ describe PagesController do
         subject
       end
     end
-
   end
 
   describe 'GET #show' do
@@ -192,7 +191,6 @@ describe PagesController do
           end
         end
       end
-
     end
   end
 

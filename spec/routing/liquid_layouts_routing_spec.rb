@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe LiquidLayoutsController, type: :routing do
   describe "routing" do
-
     it "routes to #index" do
       expect(:get => "/liquid_layouts").to route_to("liquid_layouts#index")
     end
@@ -30,6 +29,5 @@ RSpec.describe LiquidLayoutsController, type: :routing do
     it "routes to #destroy" do
       expect(:delete => "/liquid_layouts/1").to route_to("liquid_layouts#destroy", :id => "1")
     end
-
   end
 end

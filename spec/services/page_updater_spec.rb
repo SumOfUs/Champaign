@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe PageUpdater do
-
   # these are really integration tests, but I want to test it does the things
   # that will actually make or break the campaigner experience
 
@@ -186,7 +185,6 @@ describe PageUpdater do
     end
 
     describe 'shares' do
-
       let(:errorless_variant) { instance_double('Shares::Twitter', errors: {}) }
       let(:error_variant) { instance_double('Shares::Twitter', errors: {description: "can't be blank"}) }
       let(:create_params) { {share_twitter_1: {description: "I want you to {LINK} for me", name: "twitter"}} }
@@ -247,11 +245,9 @@ describe PageUpdater do
           .to eq(share_twitter_12: {description: "can't be blank"}, share_twitter_1: {description: "can't be blank"})
       end
     end
-
   end
 
   describe 'errors' do
-
     it 'returns errors nested by page' do
       params = {
         plugins_thermometer: {
@@ -286,7 +282,6 @@ describe PageUpdater do
   end
 
   describe 'refresh?' do
-
     let(:ll_different_plugins) { create :liquid_layout, :thermometer }
     let(:ll_same_plugins) { create :liquid_layout, :default, title: 'Swoop swoop' }
 

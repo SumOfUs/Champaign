@@ -38,7 +38,7 @@ describe DefaultFormBuilder do
   end
 
   context 'when form already exists' do
-    before {  DefaultFormBuilder.create  }
+    before { DefaultFormBuilder.create }
 
     it "doesn't create a new form" do
       expect do

@@ -1,6 +1,5 @@
 require 'rails_helper'
 describe ManageBraintreeDonation do
-
   let(:braintree_arguments) do
     {
       amount: "100.00",
@@ -36,7 +35,7 @@ describe ManageBraintreeDonation do
     end
   end
 
-  let(:payment_nonce)   { 'fake-valid-nonce' }
+  let(:payment_nonce) { 'fake-valid-nonce' }
   let(:page) { create(:page, slug: 'foo-bar') }
 
   let(:params) do
@@ -153,7 +152,7 @@ describe ManageBraintreeDonation do
   end
 
   describe 'PayPal Transaction' do
-    let(:payment_nonce)   { 'fake-paypal-future-nonce' }
+    let(:payment_nonce) { 'fake-paypal-future-nonce' }
 
     subject do
       ManageBraintreeDonation.create(        params: params,

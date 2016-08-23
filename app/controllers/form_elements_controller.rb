@@ -35,7 +35,6 @@ class FormElementsController < ApplicationController
     render json: @form.form_elements.map(&:position)
   end
 
-
   private
 
   def permitted_params

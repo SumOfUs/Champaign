@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Tag do
-
   let(:tag) { create :tag }
   let(:english) { create :language }
   let(:tag_params) { attributes_for :tag }

@@ -1,10 +1,8 @@
 require 'rails_helper'
 
 describe 'URI masking' do
-
   let(:user) { instance_double('User', id: '1') }
   let(:page) { create :page }
-
 
   describe 'when no record matches' do
     it 'routes to homepage  if requested by an unauthenticated user' do
@@ -34,5 +32,4 @@ describe 'URI masking' do
     expect(response).to render_template('pages/show')
     expect(LiquidRenderer).to have_received(:new)
   end
-
 end

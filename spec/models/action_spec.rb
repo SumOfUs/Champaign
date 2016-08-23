@@ -5,9 +5,7 @@ describe Action do
   let(:member) { create :member }
 
   describe 'on create' do
-
     describe 'counter_cache on page' do
-
       subject{ create(:action, page_id: page.id, member_id: member.id) }
 
       it 'increases the action_count after creation' do

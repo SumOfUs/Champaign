@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Payment::Braintree::Transaction do
-
   let(:transaction) { create :payment_braintree_transaction }
   subject { transaction }
 
@@ -41,7 +40,6 @@ describe Payment::Braintree::Transaction do
   end
 
   describe '#status' do
-
     it 'can be set with a string' do
       transaction.status = 'failure'
       expect(transaction.success?).to eq false

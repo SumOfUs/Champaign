@@ -153,7 +153,6 @@ describe ManageAction do
         subject
       end
     end
-
   end
 end
 

@@ -56,7 +56,6 @@
 #
 
 class PageUpdater
-
   attr_reader :errors
 
   def initialize(page, page_url=nil)

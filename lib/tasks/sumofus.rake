@@ -79,7 +79,6 @@ namespace :sumofus do
   end
 
   task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |_task, args|
-
     if args[:page_img_file].blank?
       abort('Requires a valid url to a file containing a default header image to attach to the page.')
     else

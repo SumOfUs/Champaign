@@ -57,7 +57,6 @@ describe Api::GoCardlessController do
     end
 
     describe 'successfully' do
-
       shared_examples 'success tasks' do
         it 'has status 302' do
           expect(response.status).to eq 302
@@ -73,7 +72,6 @@ describe Api::GoCardlessController do
       end
 
       describe 'with recurring: true' do
-
         let(:builder){ instance_double('PaymentProcessor::GoCardless::Subscription', action: action, success?: true, subscription_id: 'SU243980') }
 
         before do
@@ -89,7 +87,6 @@ describe Api::GoCardlessController do
       end
 
       describe 'without recurring' do
-
         let(:builder){ instance_double('PaymentProcessor::GoCardless::Transaction', action: action, success?: true, transaction_id: 'PA235890') }
 
         before :each do
@@ -113,7 +110,6 @@ describe Api::GoCardlessController do
       end
 
       shared_examples 'failure tasks' do
-
         it 'calls the error processor' do
           expect(client::ErrorProcessing).to have_received(:new)
           expect(errors).to have_received(:process)
@@ -139,7 +135,6 @@ describe Api::GoCardlessController do
       end
 
       describe 'with recurring: true' do
-
         let(:builder){ instance_double('PaymentProcessor::GoCardless::Subscription', success?: false, error_container: {}) }
 
         before do
@@ -155,7 +150,6 @@ describe Api::GoCardlessController do
       end
 
       describe 'without recurring' do
-
         let(:transaction) { instance_double('Braintree::Transaction', id: 't1234')}
         let(:builder){ instance_double('PaymentProcessor::GoCardless::Transaction', success?: false, error_container: {}) }
 
@@ -171,9 +165,7 @@ describe Api::GoCardlessController do
         include_examples 'failure tasks'
       end
     end
-
   end
-
 
   describe 'POST #webhook' do
     let(:validator) { double(valid?: true) }

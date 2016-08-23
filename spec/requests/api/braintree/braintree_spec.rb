@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe "Braintree API" do
-
   let(:page) { create(:page, title: 'Cash rules everything around me') }
   let(:form) { create(:form) }
   let(:four_digits) { /[0-9]{4}/ }
@@ -78,9 +77,7 @@ describe "Braintree API" do
   end
 
   describe 'making a transaction' do
-
     describe 'successfully' do
-
       let(:basic_params) do
         {
           currency: 'EUR',
@@ -91,15 +88,12 @@ describe "Braintree API" do
       end
 
       context 'when Member exists' do
-
         let!(:member) { create :member, email: user_params[:email], postal: nil }
 
         context 'when BraintreeCustomer exists' do
-
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
 
           context 'with basic params' do
-
             let(:amount) { 23.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
             subject do
@@ -224,7 +218,6 @@ describe "Braintree API" do
           end
 
           context 'with Paypal' do
-
             let(:amount) { 29.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
@@ -286,14 +279,11 @@ describe "Braintree API" do
               expect(response.status).to eq 200
               expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
             end
-
           end
         end
 
         context 'when BraintreeCustomer is new' do
-
           context 'with basic params' do
-
             let(:amount) { 13.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
             subject do
@@ -408,7 +398,6 @@ describe "Braintree API" do
           end
 
           context 'with Paypal' do
-
             let(:amount) { 19.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
@@ -473,11 +462,8 @@ describe "Braintree API" do
       end
 
       context 'when Member is new' do
-
         context 'when BraintreeCustomer is new' do
-
           context 'with basic params' do
-
             # we're using the same casette as above anyway, so we're only running specs
             # relevant to the new member
 
@@ -533,7 +519,6 @@ describe "Braintree API" do
 
   describe 'making a subscription' do
     describe 'successfully' do
-
       let(:basic_params) do
         {
           currency: 'EUR',
@@ -542,7 +527,6 @@ describe "Braintree API" do
           recurring: true
         }
       end
-
 
       let(:donation_push_params) do
         {
@@ -585,7 +569,6 @@ describe "Braintree API" do
       end
 
       context 'when Member exists' do
-
         let!(:member) { create :member, email: user_params[:email], postal: nil }
 
         before do
@@ -593,11 +576,9 @@ describe "Braintree API" do
         end
 
         context 'when BraintreeCustomer exists' do
-
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
 
           context 'with basic params' do
-
             let(:amount) { 823.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
 
@@ -728,7 +709,6 @@ describe "Braintree API" do
           end
 
           context 'with Paypal' do
-
             let(:amount) { 829.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
@@ -782,14 +762,11 @@ describe "Braintree API" do
               expect(response.status).to eq 200
               expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
-
           end
         end
 
         context 'when BraintreeCustomer is new' do
-
           context 'with basic params' do
-
             let(:amount) { 813.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, amount: amount) }
 
@@ -882,7 +859,6 @@ describe "Braintree API" do
             end
 
             it 'does not create payment method separately' do
-
               allow(Braintree::PaymentMethod).to receive(:create).and_call_original
               subject
               expect(Braintree::PaymentMethod).not_to have_received(:create)
@@ -917,7 +893,6 @@ describe "Braintree API" do
           end
 
           context 'with Paypal' do
-
             let(:amount) { 819.20 } # to avoid duplicate donations recording specs
             let(:params) { basic_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
@@ -968,17 +943,13 @@ describe "Braintree API" do
               expect(response.status).to eq 200
               expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
-
           end
         end
       end
 
       context 'when Member is new' do
-
         context 'when BraintreeCustomer is new' do
-
           context 'with basic params' do
-
             # we're using the same casette as above anyway, so we're only running specs
             # relevant to the new member
 
@@ -1033,7 +1004,6 @@ describe "Braintree API" do
   end
 
   describe "storing multiple payment method tokens" do
-
     context "existing customer" do
       let(:basic_params) do
         {
@@ -1108,7 +1078,6 @@ describe "Braintree API" do
           post api_payment_braintree_transaction_path(page.id), params
         end
       end
-
     end
   end
 

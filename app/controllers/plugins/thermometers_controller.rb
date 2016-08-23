@@ -1,5 +1,4 @@
 class Plugins::ThermometersController < Plugins::BaseController
-
   private
 
   def permitted_params

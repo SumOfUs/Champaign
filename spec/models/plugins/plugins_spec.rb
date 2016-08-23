@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 describe Plugins do
-
   let(:english) { create :language, code: 'en' }
   let(:french) { create :language, code: 'fr' }
   let(:german) { create :language, code: 'de' }
   let(:page){ create :page }
 
   describe "create_for_page" do
-
     it "creates no plugins with a nil plugin_name" do
       expect{ Plugins.create_for_page(nil, page, 'my-ref') }.to change{ Plugins::Thermometer.count }.by 0
       expect{ Plugins.create_for_page(nil, page, 'my-ref') }.to change{ Plugins::Petition.count }.by 0
@@ -43,7 +41,6 @@ describe Plugins do
     end
 
     describe 'translating defaults' do
-
       describe 'into German' do
         before :each do
           page.update_attributes(language: german)
@@ -142,7 +139,6 @@ describe Plugins do
   end
 
   describe "data_for_view" do
-
     describe 'with plugins' do
       before :each do
         Plugins.create_for_page('thermometer', page, 'stripey')
@@ -170,7 +166,6 @@ describe Plugins do
       it 'can receive supplemental data ' do
         expect{ Plugins.data_for_view(page, some: 'stuff') }.not_to raise_error
       end
-
     end
   end
 end

@@ -1,6 +1,5 @@
 module PaymentProcessor
   module Braintree
-
     module ActsLikeSelectorWithCurrency
       def self.included(klass)
         klass.extend ClassMethods

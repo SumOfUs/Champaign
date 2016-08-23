@@ -3,7 +3,6 @@ require 'rails_helper'
 module PaymentProcessor
   module GoCardless
     describe ErrorProcessing do
-
       let(:client) do
         GoCardlessPro::Client.new(
           access_token: Settings.gocardless.token,
@@ -16,7 +15,7 @@ module PaymentProcessor
          "# ./lib/payment_processor/go_cardless/error_processing.rb:11:in `process'",
          "# ./spec/lib/payment_processor/go_cardless/error_processing_spec.rb:18:in `block (2 levels) in <module:GoCardless>'"]
       end
-      let(:generic_error)  do
+      let(:generic_error) do
         instance_double(
           GoCardlessPro::Error,
           class: GoCardlessPro::Error,
@@ -159,7 +158,6 @@ module PaymentProcessor
 
       [:fr, :de].each do |locale|
         describe "with language as #{locale}" do
-
           let(:messages) do
             {
               fr: "Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.",
@@ -184,7 +182,6 @@ module PaymentProcessor
           end
         end
       end
-
     end
   end
 end

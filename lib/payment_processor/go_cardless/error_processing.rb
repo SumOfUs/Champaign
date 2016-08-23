@@ -1,7 +1,6 @@
 module PaymentProcessor
   module GoCardless
     class ErrorProcessing
-
       def initialize(error, locale: nil)
         @locale = locale || I18n.default_locale
         @error = error

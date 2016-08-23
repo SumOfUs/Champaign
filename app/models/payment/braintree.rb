@@ -124,7 +124,6 @@ module Payment::Braintree
           customer: @customer,
           token: payment_method_token).id
 
-
       record = ::Payment::Braintree::Transaction.create!(transaction_attrs)
 
       return false unless successful?
@@ -202,8 +201,6 @@ module Payment::Braintree
         transaction.credit_card_details.try(:token)
       when "paypal_account"
         transaction.paypal_details.try(:token)
-      else
-        nil
       end
     end
   end

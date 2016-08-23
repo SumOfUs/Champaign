@@ -4,7 +4,6 @@ module PaymentProcessor
   module Braintree
     describe WebhookHandler do
       describe '.handle' do
-
         let(:subscription) { instance_double('Payment::BraintreeSubscription', transactions: transactions, action: action) }
         let(:transaction)  { double(:transaction, update: true) }
         let(:transactions) { [transaction] }
@@ -17,7 +16,6 @@ module PaymentProcessor
         end
 
         describe 'with successful subscription charge' do
-
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'subscription_charged_successfully',
                                                               subscription: instance_double('Braintree::Subscription', id: 's09870')
@@ -25,7 +23,6 @@ module PaymentProcessor
           end
 
           describe 'when Action is found' do
-
             before :each do
               allow(Payment::Braintree::Subscription).to receive(:find_by).and_return(subscription)
               WebhookHandler.handle(notification)

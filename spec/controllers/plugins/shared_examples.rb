@@ -1,5 +1,4 @@
 shared_examples "plugins controller" do |plugin_class, plugin_name|
-
   let(:user) { instance_double('User', id: '1') }
 
   before do
@@ -11,7 +10,6 @@ shared_examples "plugins controller" do |plugin_class, plugin_name|
     let(:plugin) { instance_double(plugin_class) }
 
     describe 'successful' do
-
       before do
         allow(plugin_class).to receive(:find).with('1'){ plugin }
         allow(plugin).to receive(:update){ true }
@@ -33,11 +31,9 @@ shared_examples "plugins controller" do |plugin_class, plugin_name|
       it 'gives an empty hash' do
         expect(response.body).to eq '{}'
       end
-
     end
 
     describe 'failure' do
-
       before do
         allow(plugin_class).to receive(:find).with('1'){ plugin }
         allow(plugin).to receive(:update){ false }
@@ -52,7 +48,6 @@ shared_examples "plugins controller" do |plugin_class, plugin_name|
       it 'gives an error hash' do
         expect(response.body).to eq '{"errors":{},"name":"'+plugin_name.to_s+'"}'
       end
-
     end
   end
 end

@@ -1,6 +1,5 @@
 module PaymentProcessor
   module Braintree
-
     class SubscriptionPlanSelector
       include ActsLikeSelectorWithCurrency
 

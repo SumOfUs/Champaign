@@ -2,7 +2,6 @@ require "rails_helper"
 
 describe PagesController, type: :routing do
   describe "routing" do
-
     describe 'with /pages' do
       it "routes to #index" do
         expect(:get => "/pages").to route_to("pages#index")
@@ -42,7 +41,6 @@ describe PagesController, type: :routing do
     end
 
     describe 'with /a' do
-
       describe 'route helpers' do
         it "routes to #edit" do
           expect(:get => edit_member_facing_page_path('my-slug')).to route_to("pages#edit", :id => "my-slug")
@@ -93,6 +91,5 @@ describe PagesController, type: :routing do
         expect(:delete => "/a/my-slug").not_to be_routable
       end
     end
-
   end
 end

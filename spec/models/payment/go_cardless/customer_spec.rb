@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Payment::GoCardless::Customer do
-
   let(:customer) { build :payment_go_cardless_customer }
   subject { customer }
 
@@ -60,5 +59,4 @@ describe Payment::GoCardless::Customer do
       expect(customer).to be_invalid
     end
   end
-
 end

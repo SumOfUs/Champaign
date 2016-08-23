@@ -36,7 +36,6 @@ shared_examples "processor errors" do
 end
 
 describe "Braintree API" do
-
   let(:page) { create(:page, title: 'The more money we come across, the more problems we see') }
   let(:form) { create(:form) }
   let(:token_format) { /[a-z0-9]{1,36}/i }
@@ -295,7 +294,6 @@ describe "Braintree API" do
       describe "when Member is new" do
         describe "when BraintreeCustomer is new" do
           describe "with basic params" do
-
             subject do
               VCR.use_cassette("transaction processor declined") do
                 post api_payment_braintree_transaction_path(page.id), params
@@ -334,15 +332,12 @@ describe "Braintree API" do
       end
     end
     describe "making a subscription" do
-
       let(:subscription_params){ params.merge(recurring: true) }
 
       describe "when Member exists" do
-
         let!(:member) { create :member, email: user[:email], postal: nil }
 
         describe "when BraintreeCustomer exists" do
-
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
 
           describe "when it fails updating the Customer" do
@@ -409,7 +404,6 @@ describe "Braintree API" do
             end
           end
           describe "when it fails creating the Subscription" do
-
             subject do
               VCR.use_cassette('subscription create failure with existing customer') do
                 post api_payment_braintree_transaction_path(page.id), subscription_params
@@ -463,7 +457,6 @@ describe "Braintree API" do
           end
 
           describe "when it fails creating the Subscription" do
-
             subject do
               VCR.use_cassette('subscription create failure') do
                 post api_payment_braintree_transaction_path(page.id), subscription_params
@@ -514,7 +507,6 @@ describe "Braintree API" do
           end
 
           describe "when it fails creating the Subscription" do
-
             subject do
               VCR.use_cassette('subscription create failure') do
                 post api_payment_braintree_transaction_path(page.id), subscription_params

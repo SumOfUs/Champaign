@@ -47,7 +47,6 @@ describe FormElementsController do
     end
   end
 
-
   describe "DELETE #destroy" do
     before do
       allow(FormElement).to receive(:find){ element }

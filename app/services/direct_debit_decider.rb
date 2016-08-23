@@ -1,5 +1,4 @@
 class DirectDebitDecider
-
   ALWAYS_COUNTRIES = [:DE, :AT, :ES] # Germany, Austria, and Spain
   ONLY_RECURRING_COUNTRIES = [:GB, :NL] # Britain and Netherlands
 

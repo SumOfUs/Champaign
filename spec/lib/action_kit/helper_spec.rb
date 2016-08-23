@@ -1,9 +1,7 @@
 require 'rails_helper'
 
 describe ActionKit::Helper do
-
   describe "#check_petition_name_is_available" do
-
     it "returns true when name is available" do
       VCR.use_cassette("actionkit_helper_petition_name_check_true") do
         expect(

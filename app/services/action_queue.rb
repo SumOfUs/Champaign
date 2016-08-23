@@ -117,7 +117,6 @@ module ActionQueue
     include Enqueable
     include Donatable
 
-
     def payload
       if data[:is_subscription]
         subscription_payload
@@ -229,7 +228,6 @@ module ActionQueue
       }
     end
 
-
     def transaction_payload
       {
         type:  'donation',
@@ -254,7 +252,6 @@ module ActionQueue
           user: user_data
         }
       }
-
     end
 
     # ActionKit can accept one of the following:
