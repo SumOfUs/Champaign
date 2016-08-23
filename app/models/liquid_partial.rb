@@ -21,10 +21,9 @@ class LiquidPartial < ActiveRecord::Base
 
   def one_plugin
     plugin_names = LiquidTagFinder.new(content).plugin_names
+    return unless plugin_names.size > 1
 
-    if plugin_names.size > 1
-      errors.add(:content, "can only reference one partial, but found #{plugin_names.join(',')}")
-    end
+    errors.add(:content, "can only reference one partial, but found #{plugin_names.join(',')}")
   end
 end
 

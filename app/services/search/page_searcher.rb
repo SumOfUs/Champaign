@@ -117,11 +117,11 @@ class Search::PageSearcher
 
   def order_by(query)
     if validate_order_by(query)
-      if query.is_a? Array
-        @collection = @collection.order("#{query[0].to_s} #{query[1].to_s}")
-      else
-        @collection = @collection.order(query)
-      end
+      @collection = if query.is_a? Array
+                      @collection.order("#{query[0].to_s} #{query[1].to_s}")
+                    else
+                      @collection.order(query)
+                    end
     end
   end
 

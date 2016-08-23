@@ -16,9 +16,8 @@ class Plugins::PetitionsController < ApplicationController
   private
 
   def find_form
-    if params[:plugins_petition][:form_id]
-      Form.find params[:plugins_petition][:form_id]
-    end
+    return unless params[:plugins_petition][:form_id]
+    Form.find params[:plugins_petition][:form_id]
   end
 
   def permitted_params

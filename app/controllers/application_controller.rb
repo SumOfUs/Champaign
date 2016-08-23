@@ -36,9 +36,8 @@ class ApplicationController < ActionController::Base
   end
 
   def localize_by_page_language(page)
-    if page.present? && page.language.present? && page.language.code.present?
-      set_locale(page.language.code)
-    end
+    return unless page.present? && page.language.present? && page.language.code.present?
+    set_locale(page.language.code)
   end
 
   def set_default_locale

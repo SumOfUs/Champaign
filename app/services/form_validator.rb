@@ -1,7 +1,10 @@
 class FormValidator
   attr_reader :errors
-  MAX_TEXT_LENGTH = 250
-  MAX_PARAGRAPH_LENGTH = 10_000
+
+  MAX_LENGTH = {
+    PARAGRAPH: 10_000,
+    TEXT: 250
+  }
 
   def initialize(params)
     @params = params.symbolize_keys
@@ -37,17 +40,14 @@ class FormValidator
   private
 
   def validate_length(form_element, el_name)
-    if form_element.data_type == "text" && (@params[el_name] || []).size >= MAX_TEXT_LENGTH
-      @errors[el_name] << I18n.t('validation.is_invalid_length', length: MAX_TEXT_LENGTH)
-    elsif form_element.data_type == "paragraph" && (@params[el_name] || []).size >= MAX_PARAGRAPH_LENGTH
-      @errors[el_name] << I18n.t('validation.is_invalid_length', length: MAX_PARAGRAPH_LENGTH)
-    end
+    data_type = form_element.data_type.upcase.to_sym
+    return nil unless MAX_LENGTH[data_type] && (@params[el_name] || []).size >= MAX_LENGTH[data_type]
+    @errors[el_name] << I18n.t('validation.is_invalid_length', length: MAX_LENGTH[data_type])
   end
 
   def validate_required(form_element, el_name)
-    if form_element.required? && @params[el_name].blank?
-      @errors[el_name] << I18n.t("validation.is_required")
-    end
+    return nil unless form_element.required? && @params[el_name].blank?
+    @errors[el_name] << I18n.t("validation.is_required")
   end
 
   def validate_phone(form_element, el_name)

@@ -9,10 +9,7 @@ class PostalValidator
   }.freeze
 
   def self.valid?(postal_code, country_code: nil)
-    if ZIPCODES_REGEX.key? country_code
-      return !(ZIPCODES_REGEX[country_code] =~ postal_code).nil?
-    else
-      return true
-    end
+    return true unless ZIPCODES_REGEX.key? country_code
+    !(ZIPCODES_REGEX[country_code] =~ postal_code).nil?
   end
 end

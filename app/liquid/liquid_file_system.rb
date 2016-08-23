@@ -35,11 +35,8 @@ class LiquidFileSystem
     end
 
     def read_template_file(title)
-      if Settings.liquid_templating_source == 'file'
-        return read_from_file(title)
-      else
-        return read(title)
-      end
+      return read(title) unless Settings.liquid_templating_source == 'file'
+      read_from_file(title)
     end
 
     private
