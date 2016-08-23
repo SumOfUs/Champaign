@@ -89,12 +89,6 @@ Performance/StringReplacement:
     - 'lib/tasks/sumofus.rake'
     - 'spec/liquid/champaign_liquid_filters_spec.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/TimesMap:
-  Exclude:
-    - 'spec/models/member_spec.rb'
-
 # Offense count: 9
 Style/AccessorMethodName:
   Exclude:

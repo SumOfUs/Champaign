@@ -125,7 +125,7 @@ describe Member do
     end
 
     it 'can have several go_cardless_customers' do
-      customers = 3.times.map { create(:payment_go_cardless_customer, member_id: member.id) }
+      customers = Array.new(3) { create(:payment_go_cardless_customer, member_id: member.id) }
       expect(member.reload.go_cardless_customers).to match_array customers
     end
   end
