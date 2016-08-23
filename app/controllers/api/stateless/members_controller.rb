@@ -8,7 +8,6 @@ module Api
       end
 
       def update
-        permitted_params = params.require(:member).permit(:first_name, :last_name, :email, :country, :city, :postal, :address1, :address2)
         @current_member.update(permitted_params)
         if @current_member.save
           update_on_ak(@current_member)
@@ -18,6 +17,10 @@ module Api
       end
 
       private
+
+      def permitted_params
+        params.require(:member).permit(:first_name, :last_name, :email, :country, :city, :postal, :address1, :address2)
+      end
 
       def update_on_ak(member)
         ChampaignQueue.push(
