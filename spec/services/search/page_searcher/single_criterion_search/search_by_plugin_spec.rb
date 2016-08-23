@@ -5,6 +5,9 @@ describe 'Search ::' do
   describe 'PageSearcher' do
     context 'searches by single criterion,' do
       context 'by plugin' do
+        let!(:petition_partial) { create(:liquid_partial, title: 'petition') }
+        let!(:thermometer_partial) { create(:liquid_partial, title: 'thermometer') }
+
         let!(:default_layout) do
           create(:liquid_layout, :default, title: 'contains petition and thermometer plugin')
         end
@@ -32,9 +35,6 @@ describe 'Search ::' do
             title: 'default page - with active thermometer and petition plugins'
           )
         end
-
-        let!(:petition_partial) { create(:liquid_partial, title: 'petition') }
-        let!(:thermometer_partial) { create(:liquid_partial, title: 'thermometer') }
 
         let!(:thermometer_page_thermometer) { create(:plugins_thermometer, page: thermometer_page) }
         let!(:default_page_thermometer) { create(:plugins_thermometer, page: default_page) }

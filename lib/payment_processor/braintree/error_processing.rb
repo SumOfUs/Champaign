@@ -48,7 +48,7 @@ module PaymentProcessor
       private
 
       def raise_system_errors
-        raise Braintree::ValidationsFailed, error_messages
+        raise ::Braintree::ValidationsFailed, error_messages
       end
 
       def error_messages
