@@ -144,4 +144,16 @@ module PagesHelper
     end
     msg
   end
+
+  def toggle_featured_link(page)
+    method = page.featured? ? :delete : :post
+    klass = 'glyphicon glyphicon-star'
+    klass << '-empty' unless page.featured?
+
+    path = page.featured? ? featured_page_path(page) : featured_pages_path(id: page.id)
+
+    link_to path, method: method, remote: true do
+      content_tag :span, '', class: klass
+    end
+  end
 end

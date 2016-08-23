@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   if Settings.google_verification
     match "/#{Settings.google_verification}.html", to: proc { |env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
   end
@@ -38,6 +37,8 @@ Rails.application.routes.draw do
   resources :donation_bands, except: [:show, :destroy]
 
   resources :clone_pages
+
+  resources :featured_pages, except: [:show, :new, :edit]
 
   resources :pages do
     namespace :share do
