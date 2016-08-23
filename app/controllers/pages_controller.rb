@@ -74,19 +74,22 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page)
-          .permit( :id,
-      :title,
-      :slug,
-      :active,
-      :content,
-      :featured,
-      :template_id,
-      :campaign_id,
-      :language_id,
-      :liquid_layout_id,
-      :follow_up_liquid_layout_id,
-      {:tag_ids => []} )
+    params
+      .require(:page)
+      .permit(
+        :id,
+        :title,
+        :slug,
+        :active,
+        :content,
+        :featured,
+        :template_id,
+        :campaign_id,
+        :language_id,
+        :liquid_layout_id,
+        :follow_up_liquid_layout_id,
+        { tag_ids: [] }
+      )
   end
 
   def search_params

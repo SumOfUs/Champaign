@@ -20,7 +20,7 @@ module PaymentProcessor
 
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'subscription_charged_successfully',
-                            subscription: instance_double('Braintree::Subscription', id: 's09870')
+                                                              subscription: instance_double('Braintree::Subscription', id: 's09870')
                            )
           end
 
@@ -84,7 +84,7 @@ module PaymentProcessor
         describe 'with unknown event' do
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'unknown',
-                            subscription: instance_double('Braintree::Subscription', id: 's09870')
+                                                              subscription: instance_double('Braintree::Subscription', id: 's09870')
                            )
           end
 
@@ -107,7 +107,7 @@ module PaymentProcessor
 
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'subscription_canceled',
-                            subscription: instance_double('Braintree::Subscription', id: 's09870')
+                                                              subscription: instance_double('Braintree::Subscription', id: 's09870')
                            )
           end
 

@@ -11,7 +11,9 @@ module PaymentProcessor::GoCardless
           "created_at"=>"2016-04-12T13:13:55.356Z",
           "resource_type"=>"mandates",
           "action"=>"submitted",
-          "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+          "links"=>{
+            "mandate"=>"MD0000PTV0CA1K"
+          },
           "details"=> {
             "origin"=>"gocardless",
             "cause"=>"mandate_submitted",
@@ -37,15 +39,15 @@ module PaymentProcessor::GoCardless
         {
           "id"=>"EV0005H400GF49",
           "created_at"=>"2016-04-12T13:13:55.392Z",
-           "resource_type"=>"mandates",
-           "action"=>"active",
-           "links"=>{"mandate"=>"MD0000PTV0CA1K"},
-           "details"=>{
+          "resource_type"=>"mandates",
+          "action"=>"active",
+          "links"=>{"mandate"=>"MD0000PTV0CA1K"},
+          "details"=>{
              "origin"=>"gocardless",
              "cause"=>"mandate_activated",
              "description"=> "The time window after submission for the banks to refuse a mandate has ended without any errors being received, so this mandate is now active."
            },
-           "metadata"=>{}
+          "metadata"=>{}
         }
       ]
     end
@@ -157,15 +159,15 @@ module PaymentProcessor::GoCardless
       let(:non_applicable_events) do
         [
           {"id"=>"XEVTESTJG8GPP7I",
-            "created_at"=>"2016-04-14T11:32:20.343Z",
-            "resource_type"=>"payouts",
-            "action"=>"customer_approval_granted",
-            "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
-            "details"=>
+           "created_at"=>"2016-04-14T11:32:20.343Z",
+           "resource_type"=>"payouts",
+           "action"=>"customer_approval_granted",
+           "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
+           "details"=>
              {"origin"=>"customer",
               "cause"=>"customer_approval_granted",
               "description"=>"The customer granted approval for this subscription"},
-            "metadata"=>{}
+           "metadata"=>{}
          }
         ]
       end
@@ -189,60 +191,60 @@ module PaymentProcessor::GoCardless
       let(:events) do
         [
           {"id"=>"EVTESTAV3T2NVP",
-              "created_at"=>"2016-04-14T11:27:42.565Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"created",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+           "created_at"=>"2016-04-14T11:27:42.565Z",
+           "resource_type"=>"subscriptions",
+           "action"=>"created",
+           "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+           "details"=>
                {"origin"=>"api",
                 "cause"=>"subscription_created",
                 "description"=>"Subscription created via the API."},
-              "metadata"=>{}},
+           "metadata"=>{}},
 
           {"id"=>"EVTESTJG8GPP7G",
-              "created_at"=>"2016-04-14T11:32:20.343Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"customer_approval_granted",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+           "created_at"=>"2016-04-14T11:32:20.343Z",
+           "resource_type"=>"subscriptions",
+           "action"=>"customer_approval_granted",
+           "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+           "details"=>
                {"origin"=>"customer",
                 "cause"=>"customer_approval_granted",
                 "description"=>"The customer granted approval for this subscription"},
-              "metadata"=>{}},
+           "metadata"=>{}},
 
           {"id"=>"EVTESTDE3FM5V8",
-              "created_at"=>"2016-04-14T11:41:54.311Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"customer_approval_denied",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+           "created_at"=>"2016-04-14T11:41:54.311Z",
+           "resource_type"=>"subscriptions",
+           "action"=>"customer_approval_denied",
+           "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+           "details"=>
                {"origin"=>"customer",
                 "cause"=>"customer_approval_denied",
                 "description"=>"The customer denied approval for this subscription"},
-              "metadata"=>{}},
+           "metadata"=>{}},
 
           {"id"=>"EVTEST4VAXTFZD",
-              "created_at"=>"2016-04-14T11:43:00.208Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"payment_created",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+           "created_at"=>"2016-04-14T11:43:00.208Z",
+           "resource_type"=>"subscriptions",
+           "action"=>"payment_created",
+           "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+           "details"=>
                {"origin"=>"gocardless",
                 "cause"=>"payment_created",
                 "description"=>"Payment created by a subscription."},
-              "metadata"=>{}},
+           "metadata"=>{}},
 
           {"id"=>"EVTESTX92MH5D4",
-              "created_at"=>"2016-04-14T11:46:58.634Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"cancelled",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+           "created_at"=>"2016-04-14T11:46:58.634Z",
+           "resource_type"=>"subscriptions",
+           "action"=>"cancelled",
+           "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+           "details"=>
                {"origin"=>"api",
                 "cause"=>"mandate_cancelled",
                 "description"=>
                  "The subscription was cancelled because its mandate was cancelled by an API call."},
-              "metadata"=>{}}
+           "metadata"=>{}}
         ]
       end
 
@@ -299,26 +301,26 @@ module PaymentProcessor::GoCardless
         let(:first_events) do
           [
             {"id"=>"EVTESTJG8GPP7G",
-              "created_at"=>"2016-04-14T11:32:20.343Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"customer_approval_granted",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+             "created_at"=>"2016-04-14T11:32:20.343Z",
+             "resource_type"=>"subscriptions",
+             "action"=>"customer_approval_granted",
+             "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+             "details"=>
                {"origin"=>"customer",
                 "cause"=>"customer_approval_granted",
                 "description"=>"The customer granted approval for this subscription"},
-              "metadata"=>{}},
+             "metadata"=>{}},
 
             {"id"=>"EVTEST4VAXTFZD",
-              "created_at"=>"2016-04-14T11:43:00.208Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"payment_created",
-              "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
-              "details"=>
+             "created_at"=>"2016-04-14T11:43:00.208Z",
+             "resource_type"=>"subscriptions",
+             "action"=>"payment_created",
+             "links"=>{"payment"=>"payment_ID_123", "subscription"=>"index_ID_123"},
+             "details"=>
                {"origin"=>"gocardless",
                 "cause"=>"payment_created",
                 "description"=>"Payment created by a subscription."},
-              "metadata"=>{}}
+             "metadata"=>{}}
           ]
         end
 
@@ -326,26 +328,26 @@ module PaymentProcessor::GoCardless
         let(:second_events) do
           [
             {"id"=>"XEVTESTJG8GPP7G",
-              "created_at"=>"2016-04-14T11:32:20.343Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"customer_approval_granted",
-              "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
-              "details"=>
+             "created_at"=>"2016-04-14T11:32:20.343Z",
+             "resource_type"=>"subscriptions",
+             "action"=>"customer_approval_granted",
+             "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
+             "details"=>
                {"origin"=>"customer",
                 "cause"=>"customer_approval_granted",
                 "description"=>"The customer granted approval for this subscription"},
-              "metadata"=>{}},
+             "metadata"=>{}},
 
             {"id"=>"XEVTEST4VAXTFZD",
-              "created_at"=>"2016-04-14T11:43:00.208Z",
-              "resource_type"=>"subscriptions",
-              "action"=>"payment_created",
-              "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
-              "details"=>
+             "created_at"=>"2016-04-14T11:43:00.208Z",
+             "resource_type"=>"subscriptions",
+             "action"=>"payment_created",
+             "links"=>{"payment"=>"payment_ID_1234", "subscription"=>"index_ID_123"},
+             "details"=>
                {"origin"=>"gocardless",
                 "cause"=>"payment_created",
                 "description"=>"Payment created by a subscription."},
-              "metadata"=>{}}
+             "metadata"=>{}}
           ]
         end
 
@@ -393,45 +395,45 @@ module PaymentProcessor::GoCardless
         let(:events) do
           [
             {"id"=>"EV0005XF2PEPV3",
-            "created_at"=>"2016-05-05T12:42:55.781Z",
-            "resource_type"=>"mandates",
-            "action"=>"created",
-            "links"=>{"mandate"=>"MD0000QSNJZ13N"},
-            "details"=>
+             "created_at"=>"2016-05-05T12:42:55.781Z",
+             "resource_type"=>"mandates",
+             "action"=>"created",
+             "links"=>{"mandate"=>"MD0000QSNJZ13N"},
+             "details"=>
              {"origin"=>"api",
               "cause"=>"mandate_created",
               "description"=>"Mandate created via the API."},
-            "metadata"=>{}},
-           {"id"=>"EV0005XF2QKCY7",
-            "created_at"=>"2016-05-05T12:42:56.480Z",
-            "resource_type"=>"subscriptions",
-            "action"=>"created",
-            "links"=>{"subscription"=>"SB00002TX3VY2P"},
-            "details"=>
-             {"origin"=>"api",
-              "cause"=>"subscription_created",
-              "description"=>"Subscription created via the API."},
-            "metadata"=>{}},
-           {"id"=>"EV0005XF2RY3Z2",
-            "created_at"=>"2016-05-05T12:42:56.733Z",
-            "resource_type"=>"payments",
-            "action"=>"created",
-            "links"=>{"subscription"=>"SB00002TX3VY2P", "payment"=>"PM00019VHGW3W1"},
-            "details"=>
-             {"origin"=>"gocardless",
-              "cause"=>"payment_created",
-              "description"=>"Payment created by a subscription"},
-            "metadata"=>{}},
-           {"id"=>"EV0005XF2S9FZA",
-            "created_at"=>"2016-05-05T12:42:56.765Z",
-            "resource_type"=>"subscriptions",
-            "action"=>"payment_created",
-            "links"=>{"payment"=>"PM00019VHGW3W1", "subscription"=>"SB00002TX3VY2P"},
-            "details"=>
-             {"origin"=>"gocardless",
-              "cause"=>"payment_created",
-              "description"=>"Payment created by a subscription."},
-            "metadata"=>{}}
+             "metadata"=>{}},
+            {"id"=>"EV0005XF2QKCY7",
+             "created_at"=>"2016-05-05T12:42:56.480Z",
+             "resource_type"=>"subscriptions",
+             "action"=>"created",
+             "links"=>{"subscription"=>"SB00002TX3VY2P"},
+             "details"=>
+              {"origin"=>"api",
+               "cause"=>"subscription_created",
+               "description"=>"Subscription created via the API."},
+             "metadata"=>{}},
+            {"id"=>"EV0005XF2RY3Z2",
+             "created_at"=>"2016-05-05T12:42:56.733Z",
+             "resource_type"=>"payments",
+             "action"=>"created",
+             "links"=>{"subscription"=>"SB00002TX3VY2P", "payment"=>"PM00019VHGW3W1"},
+             "details"=>
+              {"origin"=>"gocardless",
+               "cause"=>"payment_created",
+               "description"=>"Payment created by a subscription"},
+             "metadata"=>{}},
+            {"id"=>"EV0005XF2S9FZA",
+             "created_at"=>"2016-05-05T12:42:56.765Z",
+             "resource_type"=>"subscriptions",
+             "action"=>"payment_created",
+             "links"=>{"payment"=>"PM00019VHGW3W1", "subscription"=>"SB00002TX3VY2P"},
+             "details"=>
+              {"origin"=>"gocardless",
+               "cause"=>"payment_created",
+               "description"=>"Payment created by a subscription."},
+             "metadata"=>{}}
           ]
         end
 

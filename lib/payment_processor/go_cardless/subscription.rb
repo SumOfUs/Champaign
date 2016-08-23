@@ -42,7 +42,7 @@ module PaymentProcessor
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
         @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
         @local_subscription = Payment::GoCardless.write_subscription(@subscription.id, amount_in_whole_currency,
-                                          currency, @page_id, @action.id, @local_customer.id, @local_mandate.id)
+                                                                     currency, @page_id, @action.id, @local_customer.id, @local_mandate.id)
       rescue GoCardlessPro::Error => e
         @error = e
       end

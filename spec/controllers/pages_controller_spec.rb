@@ -117,10 +117,10 @@ describe PagesController do
       get :show, id: '1'
 
       expect(LiquidRenderer).to have_received(:new).with(page,
-        location: {},
-        member: nil,
-        layout: page.liquid_layout,
-        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
+                                                         location: {},
+                                                         member: nil,
+                                                         layout: page.liquid_layout,
+                                                         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
       )
       expect(renderer).to have_received(:render)
     end
@@ -214,20 +214,20 @@ describe PagesController do
       allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
       subject
       expect(LiquidRenderer).to have_received(:new).with(page,
-        location: {},
-        member: nil,
-        layout: page.liquid_layout,
-        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
+                                                         location: {},
+                                                         member: nil,
+                                                         layout: page.liquid_layout,
+                                                         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
       )
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
       subject
       expect(LiquidRenderer).to have_received(:new).with(page,
-        location: {},
-        member: nil,
-        layout: page.follow_up_liquid_layout,
-        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
+                                                         location: {},
+                                                         member: nil,
+                                                         layout: page.follow_up_liquid_layout,
+                                                         url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
       )
       expect(renderer).to have_received(:render)
     end

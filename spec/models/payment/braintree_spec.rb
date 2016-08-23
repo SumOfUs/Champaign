@@ -67,14 +67,14 @@ describe Payment::Braintree do
 
       let(:bt_payment_method) do
         instance_double('Braintree::CreditCard',
-          is_a?: Braintree::CreditCard,
-          token: '4we1sd',
-          card_type: 'Visa',
-          bin: 'binn',
-          cardholder_name: 'Alexander Hamilton',
-          debit: 'debidyboobop',
-          last_4: '9191',
-          unique_number_identifier: 'fsdjk',
+                        is_a?: Braintree::CreditCard,
+                        token: '4we1sd',
+                        card_type: 'Visa',
+                        bin: 'binn',
+                        cardholder_name: 'Alexander Hamilton',
+                        debit: 'debidyboobop',
+                        last_4: '9191',
+                        unique_number_identifier: 'fsdjk',
         )
       end
 
@@ -112,8 +112,8 @@ describe Payment::Braintree do
     describe 'paid with paypal' do
       let(:bt_payment_method) do
         instance_double('Braintree::PayPalAccount',
-          class: Braintree::PayPalAccount,
-          token: '4we2sd',
+                        class: Braintree::PayPalAccount,
+                        token: '4we2sd',
         )
       end
       let(:expected_params) do
@@ -153,33 +153,33 @@ describe Payment::Braintree do
     let!(:existing_customer){ create :payment_braintree_customer, member_id: member.id, customer_id: '123' }
     let(:transaction) do
       instance_double('Braintree::Transaction',
-        id: 'sfjdjkl',
-        type: 'payment',
-        payment_instrument_type: payment_instrument_type,
-        amount: '432.12',
-        created_at: 2.minutes.ago,
-        merchant_account_id: 'EUR',
-        processor_response_code: 1000,
-        currency_iso_code: 'EUR',
-        customer_details: double(id: '123', email: 'wink@nod.com'),
-        credit_card_details: credit_card_details,
-        paypal_details: paypal_details
+                      id: 'sfjdjkl',
+                      type: 'payment',
+                      payment_instrument_type: payment_instrument_type,
+                      amount: '432.12',
+                      created_at: 2.minutes.ago,
+                      merchant_account_id: 'EUR',
+                      processor_response_code: 1000,
+                      currency_iso_code: 'EUR',
+                      customer_details: double(id: '123', email: 'wink@nod.com'),
+                      credit_card_details: credit_card_details,
+                      paypal_details: paypal_details
       )
     end
 
     let(:new_customer_transaction) do
       instance_double('Braintree::Transaction',
-        id: 'asdfg',
-        type: 'payment',
-        payment_instrument_type: payment_instrument_type,
-        amount: '432.12',
-        created_at: 2.minutes.ago,
-        merchant_account_id: 'EUR',
-        processor_response_code: 1000,
-        currency_iso_code: 'EUR',
-        customer_details: double(id: '123456', email: 'guybrush@threepwood.com'),
-        credit_card_details: credit_card_details,
-        paypal_details: paypal_details
+                      id: 'asdfg',
+                      type: 'payment',
+                      payment_instrument_type: payment_instrument_type,
+                      amount: '432.12',
+                      created_at: 2.minutes.ago,
+                      merchant_account_id: 'EUR',
+                      processor_response_code: 1000,
+                      currency_iso_code: 'EUR',
+                      customer_details: double(id: '123456', email: 'guybrush@threepwood.com'),
+                      credit_card_details: credit_card_details,
+                      paypal_details: paypal_details
       )
     end
     let!(:paypal_token) { create :braintree_payment_method,  token: 'pp_token' }
@@ -247,12 +247,12 @@ describe Payment::Braintree do
       end
       let(:credit_card_details) do
         instance_double('Braintree::Transaction::CreditCardDetails',
-          token: credit_card_token,
-          card_type: 'Visa',
-          bin: 'binn',
-          cardholder_name: 'Alexander Hamilton',
-          debit: 'debidyboobop',
-          last_4: '9191'
+                        token: credit_card_token,
+                        card_type: 'Visa',
+                        bin: 'binn',
+                        cardholder_name: 'Alexander Hamilton',
+                        debit: 'debidyboobop',
+                        last_4: '9191'
         )
       end
       let(:paypal_details){ nil }
