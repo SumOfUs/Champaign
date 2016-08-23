@@ -15,9 +15,9 @@ class Api::PagesController < ApplicationController
   end
 
   def share_rows
-    render json: (@page.shares.map do |s|
+    render json: @page.shares.map do |s|
       {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
-    end)
+    end
   end
 
   def index

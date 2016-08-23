@@ -67,8 +67,8 @@ describe 'Search ::' do
             expect(search).to match_array([])
           end
 
-          it 'with several plugins where at least one page matches by criteria but at least one of the \
-              requested plugins is deactivated' do
+          it 'with several plugins where at least one page matches by criteria but at least one of the' \
+          'requested plugins is deactivated' do
             default_page_thermometer.update(active: false)
             search = Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search
             expect(search).to match_array([])

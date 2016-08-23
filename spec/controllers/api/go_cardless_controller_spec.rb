@@ -24,7 +24,7 @@ describe Api::GoCardlessController do
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new).
         with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1", controller.params)
-      end
+    end
 
     it 'redirects' do
       expect(response).to redirect_to 'http://example.com/redirect_url'

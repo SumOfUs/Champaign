@@ -11,7 +11,7 @@ class LiquidRenderer
 
   def render
     Rails.cache.fetch(cache.key_for_markup) do
-      template.render( markup_data ).html_safe
+      template.render(markup_data).html_safe
     end
   end
 
@@ -105,10 +105,10 @@ class LiquidRenderer
   def location
     return @location if @location.blank?
     country_code = if @member.try(:country) && @member.country.length == 2
-      @member.country
-    else
-      @location.country_code
-    end
+                     @member.country
+                   else
+                     @location.country_code
+                   end
     return @location.data if country_code.blank?
     currency = Donations::Utils.currency_from_country_code(country_code)
     @location.data.merge(currency: currency, country: country_code)

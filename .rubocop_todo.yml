@@ -14,38 +14,21 @@ Lint/AmbiguousOperator:
     - 'spec/models/plugins/shared_examples.rb'
     - 'spec/models/tag_spec.rb'
 
-# Offense count: 1
-# Configuration parameters: AllowSafeAssignment.
-Lint/AssignmentInCondition:
-  Exclude:
-    - 'bin/spring'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: AlignWith, SupportedStyles.
 # SupportedStyles: either, start_of_block, start_of_line
-Lint/BlockAlignment:
-  Exclude:
-    - 'spec/controllers/api/go_cardless_controller_spec.rb'
-    - 'spec/models/payment/go_cardless/subscription_spec.rb'
-    - 'spec/requests/api/braintree/failure_spec.rb'
-
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AlignWith, SupportedStyles, AutoCorrect.
-# SupportedStyles: keyword, variable, start_of_line
-Lint/EndAlignment:
-  Exclude:
-    - 'app/controllers/payment_controller.rb'
-    - 'app/liquid/liquid_renderer.rb'
-    - 'app/models/plugins/thermometer.rb'
+# Lint/BlockAlignment:
+#   Exclude:
+#     - 'spec/controllers/api/go_cardless_controller_spec.rb'
+#     - 'spec/models/payment/go_cardless/subscription_spec.rb'
+#     - 'spec/requests/api/braintree/failure_spec.rb'
 
 # Offense count: 3
 Lint/HandleExceptions:
   Exclude:
     - 'app/controllers/application_controller.rb'
     - 'app/liquid/liquid_renderer.rb'
-    - 'bin/rspec'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -228,7 +211,6 @@ Style/AlignParameters:
     - 'app/controllers/liquid_layouts_controller.rb'
     - 'app/controllers/pages_controller.rb'
     - 'app/models/image.rb'
-    - 'bin/rspec'
     - 'lib/payment_processor/go_cardless/subscription.rb'
     - 'spec/controllers/pages_controller_spec.rb'
     - 'spec/lib/payment_processor/go_cardless/subscription_spec.rb'

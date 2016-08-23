@@ -17,7 +17,7 @@ module ActionQueue
     end
 
     def country(iso_code)
-      ( ISO3166::Country.search(iso_code).try(:translations) || {} )['en']
+      (ISO3166::Country.search(iso_code).try(:translations) || {})['en']
     end
 
     def member
@@ -105,10 +105,10 @@ module ActionQueue
         type: 'action',
         params: {
           page: get_page_name,
-        }.merge(@action.form_data).
-          merge( UserLanguageISO.for(page.language) ).tap do |params|
-            params[:country] = country(member.country) if member.country.present?
-          end
+        }
+          .merge(@action.form_data)
+          .merge(UserLanguageISO.for(page.language))
+          .tap { |params| params[:country] = country(member.country) if member.country.present? }
       }.deep_symbolize_keys
     end
   end

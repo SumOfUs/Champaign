@@ -327,7 +327,7 @@ describe "Braintree API" do
                 VCR.use_cassette("transaction not handled currency") do
                   post api_payment_braintree_transaction_path(page.id), params
                 end
-              }.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
+             }.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
             end
           end
         end

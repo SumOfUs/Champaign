@@ -59,7 +59,7 @@ describe Payment::GoCardless::Subscription do
   end
 
  describe 'state' do
-    subject { create :payment_go_cardless_subscription }
+   subject { create :payment_go_cardless_subscription }
 
     it 'has initial state' do
       expect(subject.pending?).to be(true)
@@ -127,5 +127,5 @@ describe Payment::GoCardless::Subscription do
         subject.run_payment_create!(event)
       end
     end
-  end
+ end
 end

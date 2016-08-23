@@ -41,10 +41,10 @@ class Plugins::Thermometer < ActiveRecord::Base
 
   def action_count
     @action_count ||= if page.campaign_id.present?
-      Page.where(campaign_id: page.campaign_id).sum(:action_count)
-    else
-      page.action_count
-    end
+                        Page.where(campaign_id: page.campaign_id).sum(:action_count)
+                      else
+                        page.action_count
+                      end
   end
 
   def abbreviate_number(number)
