@@ -2,7 +2,7 @@ class Page < ActiveRecord::Base
   extend FriendlyId
   has_paper_trail
 
-  enum follow_up_plan: [:with_liquid, :with_page] # todo - :with_link
+  enum follow_up_plan: [:with_liquid, :with_page] # TODO: - :with_link
   enum publish_status: [:published, :unpublished, :archived]
   enum optimizely_status: [:optimizely_enabled, :optimizely_disabled]
 

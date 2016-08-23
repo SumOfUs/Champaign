@@ -103,20 +103,6 @@ Style/AsciiComments:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: Keywords.
-# Keywords: TODO, FIXME, OPTIMIZE, HACK, REVIEW
-Style/CommentAnnotation:
-  Exclude:
-    - 'app/models/page.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/CommentIndentation:
-  Exclude:
-    - 'Guardfile'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, SingleLineConditionsOnly.
