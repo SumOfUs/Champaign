@@ -58,14 +58,14 @@ describe 'API::Stateless Members' do
         subject
         expect(json_hash).to match({
                                      id: member.id,
-                                     first_name:  params[:member][:first_name],
-                                     last_name:  params[:member][:last_name],
-                                     email:  params[:member][:email],
-                                     country:  params[:member][:country],
-                                     city:  params[:member][:city],
-                                     postal:  params[:member][:postal],
-                                     address1:  params[:member][:address1],
-                                     address2:  params[:member][:address2]
+                                     first_name:  "Harry",
+                                     last_name:  "Tubman",
+                                     email:  "test+1@example.com",
+                                     country:  "United Kingdom",
+                                     city:  "London",
+                                     postal:  "12345",
+                                     address1: "Jam Factory 123",
+                                     address2: nil
                                    }.as_json)
       end
 
@@ -105,7 +105,6 @@ describe 'API::Stateless Members' do
       it 'sends back error messages if the parameters are invalid' do
         put "/api/stateless/members/#{member.id}", bad_params, auth_headers
         expect(response.status).to be 422
-        expect(response.success?).to be false
         expect(json_hash["errors"]).to match({
                                                "email" => [
                                                  "has already been taken"
