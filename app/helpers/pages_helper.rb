@@ -100,7 +100,7 @@ module PagesHelper
       title: page.title,
       description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 140),
       image: page.primary_image.try(:content).try(:url)
-    }.merge(share_card) do |key, v1, v2|
+    }.merge(share_card) do |_key, v1, v2|
       v2.blank? ? v1 : v2
     end
   end

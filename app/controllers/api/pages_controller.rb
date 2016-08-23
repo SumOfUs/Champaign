@@ -52,7 +52,7 @@ class Api::PagesController < ApplicationController
     unwrapped = {}
     Rack::Utils.parse_nested_query(params.to_query).each_pair do |key, nested|
       next unless nested.is_a? Hash
-      nested.each_pair do |subkey, subnested|
+      nested.each_pair do |_subkey, subnested|
         if subnested.is_a? Hash
           unwrapped[key] = subnested
         end

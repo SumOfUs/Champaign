@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   if Settings.google_verification
-    match "/#{Settings.google_verification}.html", to: proc { |env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
+    match "/#{Settings.google_verification}.html", to: proc { |_env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
   end
 
   ActiveAdmin.routes(self)

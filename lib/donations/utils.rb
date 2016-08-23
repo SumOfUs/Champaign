@@ -26,7 +26,7 @@ module Donations
     end
 
     def deduplicate(values)
-      duplicates = values.group_by{ |e| e }.select{ |k, v| v.size > 1 }.values.flatten
+      duplicates = values.group_by{ |e| e }.select{ |_k, v| v.size > 1 }.values.flatten
 
       safe = values - duplicates
 

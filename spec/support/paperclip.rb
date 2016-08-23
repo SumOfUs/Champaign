@@ -9,7 +9,7 @@ end
 # and https://gist.github.com/ngauthier/406460
 module Paperclip
   class Geometry
-    def self.from_file file
+    def self.from_file _file
       parse("100x100")
     end
   end

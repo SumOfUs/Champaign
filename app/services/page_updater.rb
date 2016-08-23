@@ -113,7 +113,7 @@ class PageUpdater
     plugin.errors
   end
 
-  def update_share(share_params, name)
+  def update_share(share_params, _name)
     if share_params[:id].present?
       variant = ShareProgressVariantBuilder.update(
         params: without_name(share_params),
@@ -147,7 +147,7 @@ class PageUpdater
   end
 
   def params_for(query)
-    @params.select do |key, value|
+    @params.select do |key, _value|
       key.to_s =~ /.*#{query}.*/i
     end
   end

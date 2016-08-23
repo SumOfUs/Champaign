@@ -24,7 +24,7 @@ class Plugins::Thermometer < ActiveRecord::Base
     GOALS.find { |goal| current_total < goal } || next_goal_as_multiple_of(1_000_000)
   end
 
-  def liquid_data(supplemental_data={})
+  def liquid_data(_supplemental_data={})
     attributes.merge(
       percentage: current_progress,
       remaining: ActionController::Base.helpers.number_with_delimiter(goal - current_total),

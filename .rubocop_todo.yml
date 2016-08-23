@@ -26,40 +26,6 @@ Lint/ParenthesesAsGroupedExpression:
     - 'spec/requests/api/go_cardless/go_cardless_spec.rb'
     - 'spec/requests/api/members_spec.rb'
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Lint/StringConversionInInterpolation:
-  Exclude:
-    - 'app/services/search/page_searcher.rb'
-    - 'spec/factories/campaigns.rb'
-    - 'spec/factories/pages.rb'
-
-# Offense count: 18
-# Cop supports --auto-correct.
-# Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
-Lint/UnusedBlockArgument:
-  Exclude:
-    - 'app/controllers/api/pages_controller.rb'
-    - 'app/helpers/pages_helper.rb'
-    - 'app/services/page_updater.rb'
-    - 'config/routes.rb'
-    - 'lib/donations/utils.rb'
-    - 'lib/tasks/sample_action_data.rake'
-    - 'lib/tasks/sumofus.rake'
-    - 'spec/factories/forms.rb'
-
-# Offense count: 7
-# Cop supports --auto-correct.
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'app/controllers/application_controller.rb'
-    - 'app/models/liquid_partial_observer.rb'
-    - 'app/models/plugins/thermometer.rb'
-    - 'app/services/page_updater.rb'
-    - 'lib/payment_processor/braintree/error_processing.rb'
-    - 'spec/support/paperclip.rb'
-
 # Offense count: 47
 Lint/UselessAssignment:
   Exclude:
@@ -96,12 +62,6 @@ Metrics/ClassLength:
 # Offense count: 3
 Metrics/CyclomaticComplexity:
   Max: 10
-
-# Offense count: 1966
-# Configuration parameters: AllowHeredoc, AllowURI, URISchemes.
-# URISchemes: http, https
-Metrics/LineLength:
-  Max: 357
 
 # Offense count: 51
 # Configuration parameters: CountComments.

@@ -86,8 +86,8 @@ describe Member do
     it 'is fine with nil' do
       expect{
         create(:member, email: nil)
-      }.to change{Member.count}.
-      from(0).to(1)
+      }.to change{Member.count}
+      .from(0).to(1)
 
       expect(Member.last.email).to be nil
     end

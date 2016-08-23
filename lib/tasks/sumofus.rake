@@ -11,7 +11,7 @@ namespace :sumofus do
     @tag
   end
 
-  task :check_legacy_actions, [:action_file] => :environment do |task, args|
+  task :check_legacy_actions, [:action_file] => :environment do |_task, args|
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
     else
@@ -41,7 +41,7 @@ namespace :sumofus do
       end
     end
 
-    page_data.each_pair do |k, entry|
+    page_data.each_pair do |_k, entry|
       begin
         # check existence, images, and language
         page = Page.find(entry['slug']) # raises if not found
@@ -78,7 +78,7 @@ namespace :sumofus do
     end
   end
 
-  task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |task, args|
+  task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |_task, args|
 
     if args[:page_img_file].blank?
       abort('Requires a valid url to a file containing a default header image to attach to the page.')
@@ -143,7 +143,7 @@ namespace :sumofus do
 
     def unique_titles(page_data)
       titles = Hash.new({})
-      page_data.each_pair do |k, entry|
+      page_data.each_pair do |_k, entry|
         title = clean_title(entry)
         slug = entry['slug']
         case titles[title].size
@@ -177,7 +177,7 @@ namespace :sumofus do
       end
     end
 
-    page_data.each_pair do |k, entry|
+    page_data.each_pair do |_k, entry|
       page = Page.find_or_initialize_by(slug: entry['slug'], liquid_layout_id: petition_layout.id)
       page.content = manage_newlines(entry['page_content'])
       page.language_id = language_ids[entry['language']]

@@ -3,7 +3,7 @@ require 'redis'
 
 namespace :champaign do
   desc "See sample action data"
-  task :seed_actions, [:page_id] => :environment do |task, args|
+  task :seed_actions, [:page_id] => :environment do |_task, args|
     puts "Seeding..."
     Redis.new.flushdb
 
