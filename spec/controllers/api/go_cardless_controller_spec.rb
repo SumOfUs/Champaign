@@ -22,8 +22,8 @@ describe Api::GoCardlessController do
     subject { get :start_flow, page_id: '1', foo: 'bar' }
 
     it 'instantiates GoCardlessDirector' do
-      expect(GoCardlessDirector).to have_received(:new).
-        with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1", controller.params)
+      expect(GoCardlessDirector).to have_received(:new)
+        .with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1", controller.params)
     end
 
     it 'redirects' do
@@ -184,8 +184,8 @@ describe Api::GoCardlessController do
     end
 
     it 'instantiates signature validator' do
-      expect(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new).
-        with({
+      expect(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new)
+        .with({
           secret: 'monkey',
           signature: 'foobar',
           body: {events: {an: :event} }.to_json

@@ -29,8 +29,8 @@ class Api::ActionsController < ApplicationController
   private
 
   def action_params
-    @action_params = params.
-      permit( fields + base_params )
+    @action_params = params
+      .permit( fields + base_params )
   end
 
   def base_params

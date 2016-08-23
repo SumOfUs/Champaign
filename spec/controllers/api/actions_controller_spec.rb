@@ -36,8 +36,8 @@ describe Api::ActionsController do
       it "delegates to Action with params" do
         expected_params = { foo: 'bar', page_id: '2', form_id: '3', action_mobile: 'desktop', action_referer: nil }.stringify_keys
 
-        expect(ManageAction).to have_received(:create).
-          with(expected_params)
+        expect(ManageAction).to have_received(:create)
+          .with(expected_params)
       end
 
       it "filters params by those present in the form" do
@@ -68,13 +68,13 @@ describe Api::ActionsController do
       end
 
       it 'takes source' do
-        expect(ManageAction).to have_received(:create).
-          with( hash_including(source: 'FB' ) )
+        expect(ManageAction).to have_received(:create)
+          .with( hash_including(source: 'FB' ) )
       end
 
       it 'takes akid' do
-        expect(ManageAction).to have_received(:create).
-          with( hash_including(akid: '123.456.rfs' ) )
+        expect(ManageAction).to have_received(:create)
+          .with( hash_including(akid: '123.456.rfs' ) )
       end
     end
 

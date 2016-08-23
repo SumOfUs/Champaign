@@ -66,14 +66,14 @@ class LiquidRenderer
   # this is all data used to render the page that we expect
   # will not change from request to request
   def cacheable_data
-    @cacheable_data ||= {}.
-      merge( @page.liquid_data ).
-      merge( LiquidHelper.globals(page: @page) ).
-      merge( images: images).
-      merge( named_images: named_images ).
-      merge( primary_image: image_urls(@page.image_to_display)).
-      merge( shares: Shares.get_all(@page)).
-      merge( follow_up_url: follow_up_url)
+    @cacheable_data ||= {}
+      .merge( @page.liquid_data )
+      .merge( LiquidHelper.globals(page: @page) )
+      .merge( images: images)
+      .merge( named_images: named_images )
+      .merge( primary_image: image_urls(@page.image_to_display))
+      .merge( shares: Shares.get_all(@page))
+      .merge( follow_up_url: follow_up_url)
   end
 
   def member_data

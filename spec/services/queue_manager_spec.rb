@@ -26,8 +26,8 @@ describe QueueManager do
       subject { QueueManager.push(page, job_type: :update_pages) }
 
       it 'posts to queue' do
-        expect(ChampaignQueue).to receive(:push).
-          with( expected_params.merge({
+        expect(ChampaignQueue).to receive(:push)
+          .with( expected_params.merge({
             donation_uri: "http://example.com/donation",
             petition_uri: "http://example.com/petition"
           }))

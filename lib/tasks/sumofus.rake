@@ -117,13 +117,13 @@ namespace :sumofus do
     end
 
     def manage_newlines(content)
-      content.
-        gsub(/(?:\n\r?|\r\n?)/, '<br>').
-        gsub(/<br *\/*>/, '<br>').
-        gsub(/<div><br>\t&nbsp;<\/div>/, '<br>').
-        gsub(/(<br>)*\s*<\/p>\s*(<br>)*\s*<p>\s*(<br>)*/, '</p><br><p>').
-        gsub(/(<br>)*\s*<\/div>\s*(<br>)*\s*<div>\s*(<br>)*/, '</p><br><p>').
-        gsub(/(\s*<br>\s*){3,}/, '<br><br>')
+      content
+        .gsub(/(?:\n\r?|\r\n?)/, '<br>')
+        .gsub(/<br *\/*>/, '<br>')
+        .gsub(/<div><br>\t&nbsp;<\/div>/, '<br>')
+        .gsub(/(<br>)*\s*<\/p>\s*(<br>)*\s*<p>\s*(<br>)*/, '</p><br><p>')
+        .gsub(/(<br>)*\s*<\/div>\s*(<br>)*\s*<div>\s*(<br>)*/, '</p><br><p>')
+        .gsub(/(\s*<br>\s*){3,}/, '<br><br>')
     end
 
     def language_ids

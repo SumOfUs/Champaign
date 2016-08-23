@@ -144,8 +144,8 @@ describe "Braintree API" do
               expect(transaction.customer).to eq customer
               expect(transaction.status).to eq 'success'
 
-              expect(Payment::Braintree::PaymentMethod.find(transaction.payment_method_id).
-                     token).to match a_string_matching(token_format)
+              expect(Payment::Braintree::PaymentMethod.find(transaction.payment_method_id)
+                     .token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -336,8 +336,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::Braintree::Customer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(Payment::Braintree::PaymentMethod.find(transaction.payment_method_id).
-                     token).to match a_string_matching(token_format)
+              expect(Payment::Braintree::PaymentMethod.find(transaction.payment_method_id)
+                     .token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 
@@ -437,8 +437,8 @@ describe "Braintree API" do
               expect(transaction.customer_id).to eq Payment::Braintree::Customer.last.customer_id
               expect(transaction.status).to eq 'success'
 
-              expect(Payment::Braintree::PaymentMethod.find(transaction.payment_method_id).
-                     token).to match a_string_matching(token_format)
+              expect(Payment::Braintree::PaymentMethod.find(transaction.payment_method_id)
+                     .token).to match a_string_matching(token_format)
               expect(transaction.transaction_id).to match a_string_matching(token_format)
             end
 

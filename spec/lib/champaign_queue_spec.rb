@@ -8,8 +8,8 @@ describe ChampaignQueue do
       end
 
       it 'delegates to Client::Sqs' do
-        expect(ChampaignQueue::Clients::Sqs).
-          to receive(:push).with(foo: 'bar')
+        expect(ChampaignQueue::Clients::Sqs)
+          .to receive(:push).with(foo: 'bar')
 
         ChampaignQueue.push(foo: 'bar')
       end
@@ -17,8 +17,8 @@ describe ChampaignQueue do
 
     context 'not in production' do
       it 'does nothing' do
-        expect(ChampaignQueue::Clients::Sqs).
-          to_not receive(:push)
+        expect(ChampaignQueue::Clients::Sqs)
+          .to_not receive(:push)
 
         ChampaignQueue.push(foo: 'bar')
       end

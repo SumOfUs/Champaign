@@ -6,8 +6,8 @@ describe ChampaignQueue::Clients::Direct do
   end
 
   before do
-    @stub = stub_request(:post, "http://example.com/message").
-     with(:body => "foo=bar")
+    @stub = stub_request(:post, "http://example.com/message")
+     .with(:body => "foo=bar")
   end
 
   it "posts directly to ActionKit worker" do

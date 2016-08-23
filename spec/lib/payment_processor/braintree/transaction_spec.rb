@@ -65,8 +65,8 @@ module PaymentProcessor
 
         it 'passes customer_id' do
           customer = create :payment_braintree_customer, email: required_options[:user][:email]
-          expect(::Braintree::Transaction).to receive(:sale).
-            with( hash_including(customer_id: customer.customer_id) )
+          expect(::Braintree::Transaction).to receive(:sale)
+            .with( hash_including(customer_id: customer.customer_id) )
 
           subject.make_transaction(required_options)
         end
