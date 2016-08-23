@@ -94,6 +94,5 @@ class PagesController < ApplicationController
     params[:search] ||= {}
     params[:search].reverse_merge default_params
   end
-
 end
 

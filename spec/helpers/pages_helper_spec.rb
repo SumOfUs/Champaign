@@ -197,4 +197,36 @@ describe PagesHelper do
       )
     end
   end
+
+  describe 'toggle_featured_link' do
+    subject { helper.toggle_featured_link(page) }
+
+    context 'when page is featured' do
+      let(:page) { double(featured?: true, to_param: '1', id: '1') }
+
+      describe 'rendering' do
+        it 'with correct data-method' do
+          expect(subject).to match(/data-method="delete"/)
+        end
+
+        it 'with correct path' do
+          expect(subject).to match(/featured_pages\/1/)
+        end
+      end
+    end
+
+    context 'when page is not featured' do
+      let(:page) { double(featured?: false, to_param: '1', id: '1') }
+
+      describe 'rendering' do
+        it 'with correct data-method' do
+          expect(subject).to match(/data-method="post"/)
+        end
+
+        it 'with correct path' do
+          expect(subject).to match(/featured_pages\?id=1/)
+        end
+      end
+    end
+  end
 end
