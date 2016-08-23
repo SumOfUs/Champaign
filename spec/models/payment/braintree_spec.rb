@@ -47,9 +47,9 @@ describe Payment::Braintree do
     end
 
     it 'does not record when unsuccessful' do
-      expect{
+      expect do
         Payment::Braintree.write_subscription(failure_result, 'my_page_id', 'my_action_id', 'my_currency')
-      }.not_to change{ Payment::Braintree::Subscription.count }
+      end.not_to change{ Payment::Braintree::Subscription.count }
       expect(Payment::Braintree::Subscription).not_to have_received(:create)
     end
   end

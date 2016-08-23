@@ -32,21 +32,21 @@ describe Payment::GoCardless::Customer do
 
   describe 'associations' do
     it "associates transactions with GoCardless::Transactions's" do
-      expect{
+      expect do
         customer.transactions = [build(:payment_go_cardless_transaction), build(:payment_go_cardless_transaction)]
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it "associates payment_methods with GoCardless::PaymentMethod's" do
-      expect{
+      expect do
         customer.payment_methods = [build(:payment_go_cardless_payment_method), build(:payment_go_cardless_payment_method)]
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it "associates subscriptions with GoCardless::Subscription's" do
-      expect{
+      expect do
         customer.subscriptions = [build(:payment_go_cardless_subscription), build(:payment_go_cardless_subscription)]
-      }.not_to raise_error
+      end.not_to raise_error
     end
   end
 

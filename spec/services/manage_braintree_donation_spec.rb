@@ -43,22 +43,22 @@ describe ManageBraintreeDonation do
     { page_id: page.id, country: 'BO', email: 'foo@example.com', name: 'Bob Murphy' }
   end
 
-  subject {
+  subject do
     ManageBraintreeDonation.create({
       params: params,
       braintree_result: transaction,
       is_subscription: false
     })
-  }
+  end
 
   before do
     allow(ChampaignQueue).to receive(:push)
   end
 
   it 'creates an action' do
-    expect{
+    expect do
       subject
-    }.to change{ Action.count }.by(1)
+    end.to change{ Action.count }.by(1)
   end
 
   describe 'action' do
@@ -123,13 +123,13 @@ describe ManageBraintreeDonation do
     end
 
     describe 'Subscription' do
-      subject {
+      subject do
         ManageBraintreeDonation.create({
           params: params,
           braintree_result: subscription,
           is_subscription: false
         })
-      }
+      end
 
       describe 'action' do
         let(:action) { Action.first }
@@ -159,13 +159,13 @@ describe ManageBraintreeDonation do
   describe 'PayPal Transaction' do
     let(:payment_nonce)   { 'fake-paypal-future-nonce' }
 
-    subject {
+    subject do
       ManageBraintreeDonation.create({
         params: params,
         braintree_result: paypal_transaction,
         is_subscription: false
       })
-    }
+    end
 
     describe 'action' do
       let(:action) { Action.first }

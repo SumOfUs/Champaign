@@ -19,9 +19,9 @@ describe PaymentProcessor::Currency do
   end
 
   it 'raises with invalid currency' do
-    expect{
+    expect do
       PaymentProcessor::Currency.convert(100.23, 'zzz').format
-    }.to raise_error( Money::Currency::UnknownCurrency )
+    end.to raise_error( Money::Currency::UnknownCurrency )
   end
 end
 

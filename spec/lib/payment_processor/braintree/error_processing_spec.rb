@@ -25,9 +25,9 @@ module PaymentProcessor
           let(:errors) { [error_99999] }
 
           it 'raises braintree errors' do
-            expect{
+            expect do
               subject.process
-            }.to raise_error(
+            end.to raise_error(
               ::Braintree::ValidationsFailed, /no merchant account/
             )
           end

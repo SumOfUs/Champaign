@@ -65,9 +65,9 @@ describe FormElement do
 
   describe '.update' do
     it 'does not change position' do
-      expect{
+      expect do
         element.update(label: "Surname")
-      }.to_not change{ element.reload.position}
+      end.to_not change{ element.reload.position}
     end
   end
 

@@ -41,9 +41,9 @@ describe Api::ActionsController do
       end
 
       it "filters params by those present in the form" do
-        expect {
+        expect do
           post :create, { page_id: 2, form_id: 3, not_permitted: 'no, no!' }
-        }.to raise_error(
+        end.to raise_error(
           ActionController::UnpermittedParameters,
           "found unpermitted parameter: not_permitted"
         )
@@ -133,9 +133,9 @@ describe Api::ActionsController do
       end
 
       it "filters params by those present in the form" do
-        expect {
+        expect do
           post :validate, { page_id: 2, form_id: 3, not_permitted: 'no, no!' }
-        }.to raise_error(
+        end.to raise_error(
           ActionController::UnpermittedParameters,
           "found unpermitted parameter: not_permitted"
         )

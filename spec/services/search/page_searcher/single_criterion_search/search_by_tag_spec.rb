@@ -6,27 +6,27 @@ describe 'Search ::' do
     context 'searches by single criterion,' do
       context 'by tag' do
         include_context 'page_searcher_spec_data'
-        let!(:has_many_tags) {
+        let!(:has_many_tags) do
           create(:page,
                  title: 'a very taggy page',
                  tags: [alternative_tag, the_best_tag],
           )
-        }
-        let!(:intersection_page_1) {
+        end
+        let!(:intersection_page_1) do
           create(:page,
                  title: 'has one same tag as intersection page 2',
                  slug:  'has-same-page-2',
                  tags:  [tag1, tag2, tag3, tag4]
           )
-        }
+        end
 
-        let!(:intersection_page_2) {
+        let!(:intersection_page_2) do
           create(:page,
                  title: 'has one same tag as intersection page 1',
                  slug:  'has-same-page-1',
                  tags:  [tag3, tag4, tag5]
           )
-        }
+        end
         let(:tag_searcher) { Search::PageSearcher.new(tags: [tag.id]) }
         it 'searches for a page based on the tags on that page' do
           expect(tag_searcher.search).to match_array([content_tag_plugin_layout_match])

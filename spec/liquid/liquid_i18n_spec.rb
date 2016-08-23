@@ -50,9 +50,9 @@ describe LiquidI18n do
     end
 
     it 'will not interpolate more than ten values' do
-      expect{
+      expect do
         subject.t('liquidi18nspec.ten, a: q, b: w, c: e, d: r, e: t, f: y, g: u, h: i, i: o, j: p, k: p')
-      }.to raise_error I18n::TooMuchInterpolation
+      end.to raise_error I18n::TooMuchInterpolation
     end
 
     it 'can interpolate punctuation, numbers, and accents'do
@@ -62,9 +62,9 @@ describe LiquidI18n do
     end
 
     it 'handles a case with no commas' do
-      expect{
+      expect do
         subject.t('liquidi18nspec.temperature temp: 15')
-      }.to raise_error I18n::TranslationMissing
+      end.to raise_error I18n::TranslationMissing
     end
 
     it 'handles a case with too many commas and colons' do

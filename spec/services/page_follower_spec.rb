@@ -79,15 +79,15 @@ describe PageFollower do
     describe 'plan is anything else' do
 
       it 'raises error if plan is :with_link' do
-        expect{
+        expect do
           PageFollower.new(nil, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-        }.to raise_error ArgumentError
+        end.to raise_error ArgumentError
       end
 
       it 'raises error if plan is blank' do
-        expect{
+        expect do
           PageFollower.new(nil, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-        }.to raise_error ArgumentError
+        end.to raise_error ArgumentError
       end
     end
   end
@@ -95,7 +95,7 @@ describe PageFollower do
   describe 'new_from_page' do
 
     let(:other_page) { instance_double('Page', slug: 'bleep-bloop')}
-    let(:page) {
+    let(:page) do
       instance_double(
         'Page',
         follow_up_plan: 'with_liquid',
@@ -103,7 +103,7 @@ describe PageFollower do
         follow_up_liquid_layout_id: 3,
         follow_up_page: other_page
       )
-    }
+    end
 
     it 'calls with page attributes' do
       allow(PageFollower).to receive(:new)

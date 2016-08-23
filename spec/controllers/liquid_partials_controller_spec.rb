@@ -24,13 +24,13 @@ RSpec.describe LiquidPartialsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # LiquidPartial. As you add validations to LiquidPartial, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     attributes_for :liquid_partial
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     attributes_for :liquid_partial, title: ' '
-  }
+  end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -48,9 +48,9 @@ RSpec.describe LiquidPartialsController, type: :controller do
   describe "GET #show" do
     it "is not a route" do
       liquid_partial = LiquidPartial.create! valid_attributes
-      expect {
+      expect do
         get :show, {:id => liquid_partial.to_param}
-      }.to raise_error ActionController::UrlGenerationError
+      end.to raise_error ActionController::UrlGenerationError
     end
   end
 
@@ -72,9 +72,9 @@ RSpec.describe LiquidPartialsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new LiquidPartial" do
-        expect {
+        expect do
           post :create, {:liquid_partial => valid_attributes}, valid_session
-        }.to change(LiquidPartial, :count).by(1)
+        end.to change(LiquidPartial, :count).by(1)
       end
 
       it "assigns a newly created liquid_partial as @liquid_partial" do
@@ -104,9 +104,9 @@ RSpec.describe LiquidPartialsController, type: :controller do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
+      let(:new_attributes) do
         attributes_for :liquid_partial
-      }
+      end
 
       it "updates the requested liquid_partial" do
         liquid_partial = LiquidPartial.create! valid_attributes
@@ -147,9 +147,9 @@ RSpec.describe LiquidPartialsController, type: :controller do
   describe "DELETE #destroy" do
     it "destroys the requested liquid_partial" do
       liquid_partial = LiquidPartial.create! valid_attributes
-      expect {
+      expect do
         delete :destroy, {:id => liquid_partial.to_param}, valid_session
-      }.to change(LiquidPartial, :count).by(-1)
+      end.to change(LiquidPartial, :count).by(-1)
     end
 
     it "redirects to the liquid_partials list" do

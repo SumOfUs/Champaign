@@ -12,10 +12,10 @@ describe 'rendering a post action share page' do
   let(:twitter_variant_div) { 'div class="share-buttons__button button--twitter' }
   let(:email_variant_div) { 'div class="share-buttons__simple-email-link' }
 
-  let(:subject) {
+  let(:subject) do
     get "/a/#{page.slug}/follow-up"
     expect(response.success?).to be true
-  }
+  end
 
   describe 'a page with no variants' do
     it 'renders the share container but no buttons for a page with no variants' do

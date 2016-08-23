@@ -220,7 +220,7 @@ describe ActionBuilder do
 
   describe 'filtered_params' do
 
-    let(:params) {
+    let(:params) do
       {
         email: "silly@billy.com",
         country: "US",
@@ -231,7 +231,7 @@ describe ActionBuilder do
         address1: "10 Coates St.",
         address2: ""
       }
-    }
+    end
 
     describe 'passes all' do
 

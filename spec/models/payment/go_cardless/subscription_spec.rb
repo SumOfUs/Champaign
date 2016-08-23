@@ -66,42 +66,42 @@ describe Payment::GoCardless::Subscription do
     end
 
     it 'can be created' do
-      expect{
+      expect do
         subject.run_create!
-      }.to change{ subject.reload.created? }.from(false).to(true)
+      end.to change{ subject.reload.created? }.from(false).to(true)
     end
 
     it 'can be finished' do
-      expect{
+      expect do
         subject.run_finish!
-      }.to change{ subject.reload.finished? }.from(false).to(true)
+      end.to change{ subject.reload.finished? }.from(false).to(true)
     end
 
     it 'can be cancelled' do
-      expect{
+      expect do
         subject.run_cancel!
-      }.to change{ subject.reload.cancelled? }.from(false).to(true)
+      end.to change{ subject.reload.cancelled? }.from(false).to(true)
     end
 
     it 'can be denied' do
-      expect{
+      expect do
         subject.run_deny!
-      }.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
+      end.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
     end
 
     context 'can be activated' do
       it 'from pending' do
-        expect{
+        expect do
           subject.run_approve!
-        }.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change{ subject.reload.active? }.from(false).to(true)
       end
 
       it 'not from finished' do
         subject.run_finish!
 
-        expect{
+        expect do
           subject.run_approve!
-        }.to raise_error(AASM::InvalidTransition)
+        end.to raise_error(AASM::InvalidTransition)
       end
     end
 

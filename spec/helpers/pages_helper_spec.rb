@@ -210,7 +210,7 @@ describe PagesHelper do
         end
 
         it 'with correct path' do
-          expect(subject).to match(/featured_pages\/1/)
+          expect(subject).to match(%r{featured_pages\/1})
         end
       end
     end

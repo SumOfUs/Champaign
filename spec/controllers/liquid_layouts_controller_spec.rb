@@ -24,13 +24,13 @@ describe LiquidLayoutsController do
   # This should return the minimal set of attributes required to create a valid
   # LiquidLayout. As you add validations to LiquidLayout, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
+  let(:valid_attributes) do
     attributes_for(:liquid_layout)
-  }
+  end
 
-  let(:invalid_attributes) {
+  let(:invalid_attributes) do
     attributes_for(:liquid_layout, title: "")
-  }
+  end
   let(:user) { create(:user) }
 
   # This should return the minimal set of values that should be in the session
@@ -49,9 +49,9 @@ describe LiquidLayoutsController do
   describe "GET #show" do
     it "is not a route" do
       liquid_layout = LiquidLayout.create! valid_attributes
-      expect {
+      expect do
         get :show, {:id => liquid_layout.to_param}
-      }.to raise_error ActionController::UrlGenerationError
+      end.to raise_error ActionController::UrlGenerationError
     end
   end
 
@@ -73,9 +73,9 @@ describe LiquidLayoutsController do
   describe "POST #create" do
     context "with valid params" do
       it "creates a new LiquidLayout" do
-        expect {
+        expect do
           post :create, {:liquid_layout => valid_attributes}
-        }.to change(LiquidLayout, :count).by(1)
+        end.to change(LiquidLayout, :count).by(1)
       end
 
       it "assigns a newly created liquid_layout as @liquid_layout" do
@@ -105,9 +105,9 @@ describe LiquidLayoutsController do
 
   describe "PUT #update" do
     context "with valid params" do
-      let(:new_attributes) {
+      let(:new_attributes) do
         attributes_for(:liquid_layout)
-      }
+      end
 
       it "updates the requested liquid_layout" do
         liquid_layout = LiquidLayout.create! valid_attributes
@@ -148,9 +148,9 @@ describe LiquidLayoutsController do
   describe "DELETE #destroy" do
     it "destroys the requested liquid_layout" do
       liquid_layout = LiquidLayout.create! valid_attributes
-      expect {
+      expect do
         delete :destroy, {:id => liquid_layout.to_param}
-      }.to change(LiquidLayout, :count).by(-1)
+      end.to change(LiquidLayout, :count).by(-1)
     end
 
     it "redirects to the liquid_layouts list" do

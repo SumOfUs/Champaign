@@ -27,7 +27,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
   let!(:pig_latin) { create(:language, code: 'PIG', name: 'Oink_oink') }
   let!(:unused_language) { create(:language, code: 'NIL', name: 'Esperanto') }
 
-  let!(:content_tag_plugin_layout_match) {
+  let!(:content_tag_plugin_layout_match) do
     create(:page,
            title: 'a non-matching title',
            language: build(:language, code: 'de', name: 'German'),
@@ -36,17 +36,17 @@ RSpec.shared_context 'page_searcher_spec_data' do
            liquid_layout: layout,
            campaign: campaign2
     )
-  }
-  let!(:title_language_campaign_match) {
+  end
+  let!(:title_language_campaign_match) do
     create(:page,
            title: test_text + ' title!',
            language: language,
            campaign: campaign,
            tags: [alternative_tag]
     )
-  }
+  end
 
-  let!(:single_return_page) {
+  let!(:single_return_page) do
     create(:page,
            title: 'a special snowflake',
            tags: [hipster_tag, unpopular_tag],
@@ -54,10 +54,10 @@ RSpec.shared_context 'page_searcher_spec_data' do
            campaign: unimpactful_campaign,
            liquid_layout: messy_layout
     )
-  }
+  end
 
 
-  let!(:twin_page_1) {
+  let!(:twin_page_1) do
     create(:page,
            title: 'looks suspiciously like twin page 2',
            tags: [only_tag],
@@ -65,9 +65,9 @@ RSpec.shared_context 'page_searcher_spec_data' do
            campaign: twin_campaign,
            liquid_layout: twin_layout
     )
-  }
+  end
 
-  let!(:twin_page_2) {
+  let!(:twin_page_2) do
     create(:page,
            title: 'looks suspiciously like twin page 1',
            tags: [only_tag],
@@ -75,9 +75,9 @@ RSpec.shared_context 'page_searcher_spec_data' do
            campaign: twin_campaign,
            liquid_layout: twin_layout
     )
-  }
+  end
 
-  let!(:page_that_doesnt_match_anything) {
+  let!(:page_that_doesnt_match_anything) do
     create(:page,
            title: 'Not a good match',
            language: build(:language, code: 'FIN', name: 'Finnish'),
@@ -88,6 +88,6 @@ RSpec.shared_context 'page_searcher_spec_data' do
            content: 'totally arbitrary content',
            campaign: create(:campaign, name: 'a not very impactful test campaign')
     )
-  }
+  end
   let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active:true)}
 end

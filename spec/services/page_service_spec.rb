@@ -29,9 +29,9 @@ describe PageService do
   end
 
   describe '.list_featured' do
-    let!(:en_page) {
+    let!(:en_page) do
       create(:page, :published, featured: true, language: create(:language, :english), created_at: 1.year.ago)
-    }
+    end
     let!(:en_unpublished) { create(:page, :unpublished, language: create(:language, :english)) }
     let!(:en_unfeatured) { create(:page, :published, language: create(:language, :english)) }
     let!(:fr_page) { create(:page, :published, featured: true, language: create(:language, :french))  }

@@ -245,12 +245,12 @@ describe "Braintree API" do
         describe "when BraintreeCustomer exists" do
           describe "with Paypal" do
             let!(:member) { create :member, email: user[:email], postal: nil }
-            let(:paypal_params) {
+            let(:paypal_params) do
               params.merge(payment_method_nonce: 'fake-paypal-future-nonce', merchant_account_id: 'EUR')
-            }
-            let!(:braintree_customer) {
+            end
+            let!(:braintree_customer) do
               create(:payment_braintree_customer, email: user[:email], customer_id: 'test', member_id: member.id)
-            }
+            end
 
             subject do
               VCR.use_cassette('transaction paypal processor declined') do
@@ -323,11 +323,11 @@ describe "Braintree API" do
             end
 
             it 'raises relevant error' do
-             expect{
+             expect do
                 VCR.use_cassette("transaction not handled currency") do
                   post api_payment_braintree_transaction_path(page.id), params
                 end
-             }.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
+             end.to raise_error(PaymentProcessor::Exceptions::InvalidCurrency)
             end
           end
         end
@@ -346,9 +346,9 @@ describe "Braintree API" do
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
 
           describe "when it fails updating the Customer" do
-            let(:failing_params) {
+            let(:failing_params) do
               subscription_params.merge(user: user.merge(name: 'John Johnny '*60, amount: 12))
-            }
+            end
 
             subject do
               VCR.use_cassette('customer update failure') do
@@ -378,9 +378,9 @@ describe "Braintree API" do
           end
 
           describe "when it fails creating the PaymentMethod" do
-            let(:failing_params) {
+            let(:failing_params) do
               subscription_params.merge(user: user.merge(street_address: 'Del colegio Verde Sonrisa, una cuadra arriba, una cuadra al sur, la casa amarilla en la esquina, numero 166 '*3, amount: 12))
-            }
+            end
 
             subject do
               VCR.use_cassette('payment method create failure') do
@@ -435,9 +435,9 @@ describe "Braintree API" do
         end
         describe "when BraintreeCustomer is new" do
           describe "when it fails creating the Customer" do
-            let(:failing_params) {
+            let(:failing_params) do
               subscription_params.merge(user: user.merge(name: 'John Johnny '*60, amount: 12))
-            }
+            end
 
             subject do
               VCR.use_cassette('customer create failure') do
@@ -486,9 +486,9 @@ describe "Braintree API" do
       describe "when Member is new" do
         describe "when BraintreeCustomer is new" do
           describe "when it fails creating the Customer" do
-            let(:failing_params) {
+            let(:failing_params) do
               subscription_params.merge(user: user.merge(name: 'John Johnny '*60, amount: 12))
-            }
+            end
 
             subject do
               VCR.use_cassette('customer create failure') do

@@ -170,9 +170,9 @@ describe "Braintree API" do
 
         it 'sets cancelled_at on subscription record' do
           Timecop.freeze do
-            expect{
+            expect do
               subject
-            }.to change{ subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
+            end.to change{ subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
           end
         end
 

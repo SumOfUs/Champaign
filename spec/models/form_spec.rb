@@ -33,13 +33,13 @@ describe Form do
       it 'must be unique' do
         create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
 
-        expect{
+        expect do
           create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
-        }.to raise_error("Validation failed: Formable has already been taken")
+        end.to raise_error("Validation failed: Formable has already been taken")
 
-        expect{
+        expect do
           create(:form, formable_id: 1, formable_type: 'Plugins::Fundraiser')
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 

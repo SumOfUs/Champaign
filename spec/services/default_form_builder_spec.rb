@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe DefaultFormBuilder do
   it 'creates a default master form' do
-    expect{
+    expect do
       DefaultFormBuilder.create
-    }.to change{ Form.count }.from(0).to(1)
+    end.to change{ Form.count }.from(0).to(1)
   end
 
   it 'creates fields' do
@@ -41,9 +41,9 @@ describe DefaultFormBuilder do
     before {  DefaultFormBuilder.create  }
 
     it "doesn't create a new form" do
-      expect {
+      expect do
          DefaultFormBuilder.create
-      }.to_not change{ Form.count }.from(1)
+      end.to_not change{ Form.count }.from(1)
     end
 
     it 'returns existing form' do

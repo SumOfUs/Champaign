@@ -56,9 +56,9 @@ describe ManageAction do
       end
 
       it 'creates an member even with extraneous fields' do
-        expect{
+        expect do
           ManageAction.create(data.merge(extraneous) )
-        }.to change{ Member.count }.by 1
+        end.to change{ Member.count }.by 1
       end
 
       it 'saves available fields even with extraneous fields' do

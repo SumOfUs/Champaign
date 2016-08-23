@@ -16,7 +16,7 @@ describe Tag do
 
   describe 'pages' do
     before do
-      3.times do create :page, language: english end
+      3.times { create :page, language: english }
     end
 
     describe '.destroy' do

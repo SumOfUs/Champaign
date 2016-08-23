@@ -9,21 +9,21 @@ describe LiquidRenderer do
 
   describe 'new' do
     it 'receives the correct arguments' do
-      expect{
+      expect do
         LiquidRenderer.new(page, layout: liquid_layout, location: {}, member: {}, url_params: {hi: 'a'})
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'requires only page and layout' do
-      expect{
+      expect do
         LiquidRenderer.new(page, layout: liquid_layout)
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'does not receive arbitrary keyword arguments' do
-      expect{
+      expect do
         LiquidRenderer.new(page, layout: liquid_layout, follow_up_layout: liquid_layout)
-      }.to raise_error(ArgumentError)
+      end.to raise_error(ArgumentError)
     end
 
     describe 'setting locale' do

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe LiquidTagFinder do
 
   let(:base_content) do
-    %Q{<section class="wrapper">
+    %{<section class="wrapper">
         <div class="foo">
           {% include "example" %}
         </div>
@@ -97,7 +97,7 @@ describe LiquidTagFinder do
     end
 
     it 'finds two tags without matching a variable' do
-      @content = %Q{<section class="wrapper">
+      @content = %{<section class="wrapper">
                       <div class="foo">
                         {% include "example" %}
                       </div>
@@ -112,19 +112,19 @@ describe LiquidTagFinder do
 
   describe "partial_refs" do
 
-    let(:nested_top) {
-      %Q{ {% for field in plugins.Nd_0.fields %}
+    let(:nested_top) do
+      %{ {% for field in plugins.Nd_0.fields %}
             {% if plugins.Nd_0.is_chill %}
               <h2>{{ plugins.chill.title }}</h2>
             {% else %}
               {% unless field == 'derp' %}
                 {{ plugins.Nd_1 }} }
-    }
-    let(:nested_bottom) {
-      %Q{     {% endunless %}
+    end
+    let(:nested_bottom) do
+      %{     {% endunless %}
             {% endif %}
           {% endfor %} }
-    }
+    end
     let(:surrounding) { {simple: ['',''], nested: [nested_top, nested_bottom] } }
 
     [:simple, :nested].each do |nesting|

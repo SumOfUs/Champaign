@@ -190,7 +190,7 @@ describe PageUpdater do
       let(:errorless_variant) { instance_double('Shares::Twitter', errors: {}) }
       let(:error_variant) { instance_double('Shares::Twitter', errors: {description: "can't be blank"}) }
       let(:create_params) { {share_twitter_1: {description: "I want you to {LINK} for me", name: "twitter"}} }
-      let(:update_params) {
+      let(:update_params) do
         {
           share_twitter_12: {
             description: "I want you to {LINK} for me",
@@ -198,7 +198,7 @@ describe PageUpdater do
             id: '12'
           }
         }
-      }
+      end
 
       before :each do
         allow(ShareProgressVariantBuilder).to receive(:create){ errorless_variant }

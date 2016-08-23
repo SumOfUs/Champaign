@@ -12,9 +12,9 @@ describe "Campaigns", type: :request do
       end
 
       it "creates a new campaign" do
-        expect {
+        expect do
           post "/campaigns", params
-        }.to change(Campaign, :count).by(1)
+        end.to change(Campaign, :count).by(1)
       end
 
       it "redirects to /campaigns" do

@@ -63,10 +63,10 @@ describe Member do
       end
 
       it 'can be nil' do
-        expect{
+        expect do
           create(:member, email: nil)
           create(:member, email: nil)
-        }.to_not raise_error
+        end.to_not raise_error
       end
     end
   end
@@ -84,9 +84,9 @@ describe Member do
     end
 
     it 'is fine with nil' do
-      expect{
+      expect do
         create(:member, email: nil)
-      }.to change{Member.count}
+      end.to change{Member.count}
       .from(0).to(1)
 
       expect(Member.last.email).to be nil

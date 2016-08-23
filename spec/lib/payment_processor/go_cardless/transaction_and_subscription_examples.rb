@@ -11,10 +11,10 @@ shared_examples 'transaction and subscription' do |method|
   describe 'call signature' do
     [:amount, :currency, :user, :page_id, :redirect_flow_id, :session_token].each do |keyword|
       it "requires a #{keyword}" do
-        expect{
+        expect do
           required_options.delete(keyword)
           described_class.send(method, **required_options)
-        }.to raise_error(ArgumentError, "missing keyword: #{keyword}")
+        end.to raise_error(ArgumentError, "missing keyword: #{keyword}")
       end
     end
   end

@@ -48,7 +48,7 @@ describe Page do
 
   describe 'tags' do
     before(:all) do
-      3.times do create :tag end
+      3.times { create :tag }
     end
 
     it 'should be a reciprocal many-to-many relationship' do
@@ -123,7 +123,7 @@ describe Page do
   describe 'campaigns' do
 
     before :each do
-      3.times do create :campaign end
+      3.times { create :campaign }
     end
 
     describe 'create' do

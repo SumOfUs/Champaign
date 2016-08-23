@@ -31,10 +31,10 @@ module PaymentProcessor
 
         [:nonce, :amount, :currency, :user, :page_id].each do |keyword|
           it "requires a #{keyword}" do
-            expect{
+            expect do
               required_options.delete(keyword)
               subject.make_transaction(**required_options)
-            }.to raise_error(ArgumentError, "missing keyword: #{keyword}")
+            end.to raise_error(ArgumentError, "missing keyword: #{keyword}")
           end
         end
 

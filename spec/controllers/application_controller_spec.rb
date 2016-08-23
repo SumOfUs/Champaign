@@ -32,21 +32,21 @@ describe ApplicationController do
 
     describe 'set_locale' do
       it 'sets the locale if it is a known locale' do
-        expect{
+        expect do
           controller.send(:set_locale, 'fr')
-        }.to change{I18n.locale}.from(:en).to(:fr)
+        end.to change{I18n.locale}.from(:en).to(:fr)
       end
 
       it 'does nothing when passed an unknown locale' do
-        expect{
+        expect do
           controller.send(:set_locale, 'es')
-        }.not_to change{I18n.locale}.from(:en)
+        end.not_to change{I18n.locale}.from(:en)
       end
 
       it 'does nothing when passed a blank locale' do
-        expect{
+        expect do
           controller.send(:set_locale, nil)
-        }.not_to change{ I18n.locale}.from(:en)
+        end.not_to change{ I18n.locale}.from(:en)
       end
     end
   end

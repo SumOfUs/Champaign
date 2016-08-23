@@ -27,9 +27,9 @@ describe 'Omniauth with Devise' do
     let!(:existing_user) { User.create(email: 'cesar@example.com', password: 'password', password_confirmation: 'password')}
 
     it 'updates accounts' do
-      expect{
+      expect do
         login_with_google
-      }.to change{ existing_user.reload.provider }.from(nil).to('google_oauth2')
+      end.to change{ existing_user.reload.provider }.from(nil).to('google_oauth2')
     end
   end
 

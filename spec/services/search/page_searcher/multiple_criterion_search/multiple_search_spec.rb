@@ -40,9 +40,9 @@ describe 'Search ::' do
       context 'uses OR queries for categories where it makes sense (campaign, language) and not for other categories' do
         let(:finds_pages_for_all_campaigns) { Search::PageSearcher.new(campaign: [campaign.id, campaign2.id]) }
         let(:impossible_tag_searcher) { Search::PageSearcher.new(tags: Tag.all.pluck('id').push(Tag.last.id+1)) }
-        let(:campaign_language_searcher) {
+        let(:campaign_language_searcher) do
           Search::PageSearcher.new(language: language, campaign: Campaign.all.pluck('id'))
-        }
+        end
 
         it 'finds all pages that match the specified array of campaigns' do
           expect(finds_pages_for_all_campaigns.search).to match_array([
