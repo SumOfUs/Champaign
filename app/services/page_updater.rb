@@ -98,7 +98,7 @@ class PageUpdater
       @page.assign_attributes(@params[:page])
     end
 
-    if @page.save and ak_sensitive_changes
+    if @page.save && ak_sensitive_changes
       QueueManager.push(@page, job_type: :update_pages)
     end
 

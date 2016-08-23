@@ -7,7 +7,7 @@ module PaymentProcessor
         end
 
         def process
-          return unless action and record.try("may_run_#{action}?")
+          return unless action && record.try("may_run_#{action}?")
           record.send("run_#{action}!", @event)
         end
       end

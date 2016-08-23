@@ -73,7 +73,7 @@ module PagesHelper
   end
 
   def determine_icon_location
-    if params[:search].nil? or params[:search][:order_by].nil?
+    if params[:search].nil? || params[:search][:order_by].nil?
       return ''
     end
     if params[:search][:order_by].is_a? Array

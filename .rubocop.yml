@@ -5,15 +5,8 @@ AllCops:
   Exclude:
     - 'bin/**'
 
-Style:
-  AlignParameters:
-    EnforcedStyle: with_fixed_indentation
-
-  IndentationConsistency:
-    EnforceStyle: rails
-
-  IndentHash:
-    EnforcedStyle: consistent 
+Style/IndentHash:
+  EnforcedStyle: consistent 
 
 Lint/BlockAlignment:
   AlignWith: start_of_block

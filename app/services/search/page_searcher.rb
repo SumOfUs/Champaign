@@ -64,7 +64,7 @@ class Search::PageSearcher
     matches_by_tags = []
     @collection.each do |page|
       # if the page has tags and if the queried tags are a subset of the page's tags
-      if page.tags.any? and (tags.map(&:to_i) - page.tags.pluck('id')).empty?
+      if page.tags.any? && (tags.map(&:to_i) - page.tags.pluck('id')).empty?
         matches_by_tags.push(page)
       end
     end
