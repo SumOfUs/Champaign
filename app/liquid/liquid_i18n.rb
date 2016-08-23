@@ -24,13 +24,13 @@
 #
 # The error logic here serves to ensure aggressive reporting of missing
 # translations when in development and test mode. In those environments,
-# if a template is rendered and a translation is missing, an exception
+# if a template is rendered and a translation is missing, a runtime error
 # will be raised. In production, it will show a fallback message.
 #
 # Because +Liquid+ catches +StandardError+, we've created another error
 # class subclassed directly on Exception that will not be caught.
 
-class I18n::TranslationMissing < Exception; end
+class I18n::TranslationMissing < RuntimeError; end
 class I18n::TooMuchInterpolation < StandardError; end
 
 module LiquidI18n
