@@ -97,12 +97,6 @@ Style/AsciiComments:
     - 'Gemfile'
     - 'lib/payment_processor/currency.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/BlockEndNewline:
-  Exclude:
-    - 'spec/models/image_spec.rb'
-
 # Offense count: 164
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.

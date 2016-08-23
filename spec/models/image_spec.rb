@@ -4,7 +4,8 @@ describe Image do
   it { should validate_attachment_presence(:content) }
   it do should validate_attachment_content_type(:content)
                 .allowing("image/tiff", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/gif")
-                .rejecting('text/plain', 'text/xml', "text/javascript") end
+                .rejecting('text/plain', 'text/xml', "text/javascript")
+  end
   it { should validate_attachment_size(:content).less_than(20.megabytes) }
 
   let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
