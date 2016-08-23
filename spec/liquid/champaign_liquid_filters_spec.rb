@@ -27,14 +27,14 @@ describe ChampaignLiquidFilters do
     end
 
     it 'correctly selects with single quotes' do
-      options = base_options.gsub('"', "'")
+      options = base_options.tr('"', "'")
       processed = subject.select_option(options, 'ES')
       expect(processed).to include("<option value='ES' selected >Espagne</option>")
       expect(processed.scan('selected').size).to eq 1
     end
 
     it 'correctly selects with double quotes' do
-      options = base_options.gsub("'", '"')
+      options = base_options.tr("'", '"')
       processed = subject.select_option(options, 'ES')
       expect(processed).to include('<option value="ES" selected >Espagne</option>')
       expect(processed.scan('selected').size).to eq 1

@@ -57,7 +57,7 @@ class ConnectWithOauthProvider
     Settings.oauth_domain_whitelist
   end
 
-  alias_method :user_exists_but_disconnected, :disconnected_user
-  alias_method :user_already_connected, :connected_user
+  alias user_exists_but_disconnected disconnected_user
+  alias user_already_connected connected_user
 end
 
