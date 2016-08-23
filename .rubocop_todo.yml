@@ -82,11 +82,6 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 9
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Performance/Casecmp:
-  Exclude:
-    - 'lib/tasks/sumofus.rake'
 
 # Offense count: 26
 # Cop supports --auto-correct.

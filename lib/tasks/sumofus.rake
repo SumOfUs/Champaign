@@ -46,7 +46,7 @@ namespace :sumofus do
         # check existence, images, and language
         page = Page.find(entry['slug']) # raises if not found
         puts "Page at <#{entry['slug']}> has no image" if page.images.size < 1
-        if page.language.code.to_s.downcase != entry['language'].to_s.downcase
+        unless page.language.code.to_s.casecmp(entry['language'].to_s.downcase).zero?
           puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
         end
 
