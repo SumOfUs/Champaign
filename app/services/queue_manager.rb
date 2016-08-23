@@ -59,4 +59,3 @@ class QueueManager
     page.tags.map(&:actionkit_uri)
   end
 end
-

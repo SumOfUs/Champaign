@@ -30,9 +30,9 @@ class LiquidFileSystem
     #
     def partials(title)
       Dir.glob([
-        "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
-        "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
-      ])
+                 "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
+                 "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
+               ])
     end
 
     def read_template_file(title)
@@ -51,9 +51,8 @@ class LiquidFileSystem
     end
 
     def read_from_file(title)
-      return nil if self.partials(title).empty?
-      File.read( self.partials(title).first )
+      return nil if partials(title).empty?
+      File.read(partials(title).first)
     end
   end
 end
-

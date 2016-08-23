@@ -23,11 +23,11 @@ shared_examples 'transaction and subscription' do |method|
     it 'completes the redirect flow with the right params' do
       expect_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService
-      ).to receive(:complete).with('RE00000', params: {session_token: required_options[:session_token]})
+      ).to receive(:complete).with('RE00000', params: { session_token: required_options[:session_token] })
       subject
     end
 
-    it "fetches the redirect flow when the flow has already been completed" do
+    it 'fetches the redirect flow when the flow has already been completed' do
       allow_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService
       ).to receive(:complete).and_raise(
@@ -41,7 +41,7 @@ shared_examples 'transaction and subscription' do |method|
   end
 
   describe 'currency' do
-    let(:amount_in_usd_cents){ (amount_in_dollars * 100).to_i }
+    let(:amount_in_usd_cents) { (amount_in_dollars * 100).to_i }
 
     it 'converts currency to GBP if scheme is BACS' do
       allow(mandate).to receive(:scheme).and_return('bacs')

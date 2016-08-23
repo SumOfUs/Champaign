@@ -17,4 +17,3 @@ module ChampaignQueue
     Clients::Sqs
   end
 end
-

@@ -18,9 +18,6 @@ class Link < ActiveRecord::Base
   end
 
   def prepend_protocol
-    unless url.blank? || /\/\//i =~ url
-      self.url = "//#{url}"
-    end
+    self.url = "//#{url}" unless url.blank? || /\/\//i =~ url
   end
 end
-

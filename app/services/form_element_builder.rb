@@ -26,4 +26,3 @@ class FormElementBuilder
     @params.merge(form: @form)
   end
 end
-

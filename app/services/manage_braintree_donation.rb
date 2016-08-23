@@ -56,4 +56,3 @@ class ManageBraintreeDonation
     transaction.payment_instrument_type.inquiry.paypal_account?
   end
 end
-

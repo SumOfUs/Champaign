@@ -52,7 +52,7 @@ describe 'Search ::' do
             expect(Search::PageSearcher.new(plugin_type: nil).search).to match_array(Page.all)
           end
           it 'with empty string' do
-            expect(Search::PageSearcher.new(plugin_type: "").search).to match_array(Page.all)
+            expect(Search::PageSearcher.new(plugin_type: '').search).to match_array(Page.all)
           end
         end
 
@@ -81,12 +81,12 @@ describe 'Search ::' do
             expect(default_page_thermometer.page).to eq(default_page)
 
             default_page_thermometer.update(active: true)
-            thermometer_page_thermometer.update(active:true)
+            thermometer_page_thermometer.update(active: true)
 
             expect(default_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.page).to eq(thermometer_page)
-            expect((Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer'])).search).to(
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer']).search).to(
               match_array([default_page, thermometer_page])
             )
           end

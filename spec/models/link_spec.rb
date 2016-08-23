@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe Link do
-  let(:link) { create :link, date: Date.today.to_s, source: "Nature News" }
+  let(:link) { create :link, date: Date.today.to_s, source: 'Nature News' }
 
   subject { link }
 
@@ -67,12 +67,12 @@ describe Link do
       end
 
       it 'with space string title' do
-        link.title = "  "
+        link.title = '  '
         expect(link).to be_invalid
       end
 
       it 'with space string url' do
-        link.url = "   "
+        link.url = '   '
         expect(link).to be_invalid
       end
 
@@ -98,7 +98,7 @@ describe Link do
         old_time = Time.now.utc
 
         Timecop.travel(1.hour) do
-          expect{ link.update(source: 'BBC') }.to change{
+          expect { link.update(source: 'BBC') }.to change{
             page.reload.updated_at.to_s
           }.from(old_time.to_s).to((old_time + 1.hour).to_s)
         end

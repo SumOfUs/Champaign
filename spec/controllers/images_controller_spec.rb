@@ -6,7 +6,7 @@ describe ImagesController do
   let(:image) { double('image', content: 'foo', errors: []) }
 
   before do
-    allow(Page).to receive(:find){ page }
+    allow(Page).to receive(:find) { page }
   end
 
   describe 'POST #create' do
@@ -35,7 +35,7 @@ describe ImagesController do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     before do
       allow(image).to receive(:destroy)
       allow(page).to receive_message_chain(:images, :find) { image }
@@ -59,4 +59,3 @@ describe ImagesController do
     end
   end
 end
-

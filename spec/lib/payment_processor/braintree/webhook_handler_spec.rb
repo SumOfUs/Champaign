@@ -19,8 +19,7 @@ module PaymentProcessor
         describe 'with successful subscription charge' do
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'subscription_charged_successfully',
-                                                              subscription: instance_double('Braintree::Subscription', id: 's09870')
-                           )
+                                                              subscription: instance_double('Braintree::Subscription', id: 's09870'))
           end
 
           describe 'when Action is found' do
@@ -36,7 +35,7 @@ module PaymentProcessor
             context 'with existing transactions' do
               it 'pushes the transaction to be queued' do
                 expect(ChampaignQueue).to have_received(:push)
-                  .with(type: "subscription-payment", params: { recurring_id: "1234" })
+                  .with(type: 'subscription-payment', params: { recurring_id: '1234' })
               end
             end
 
@@ -82,12 +81,11 @@ module PaymentProcessor
         describe 'with unknown event' do
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'unknown',
-                                                              subscription: instance_double('Braintree::Subscription', id: 's09870')
-                           )
+                                                              subscription: instance_double('Braintree::Subscription', id: 's09870'))
           end
 
           before :each do
-            allow(Payment::Braintree::Subscription).to receive(:find_by){ subscription }
+            allow(Payment::Braintree::Subscription).to receive(:find_by) { subscription }
             WebhookHandler.handle(notification)
           end
 
@@ -101,16 +99,15 @@ module PaymentProcessor
         end
 
         describe 'with subscription cancelation' do
-          let(:subscription) { double(update: true ) }
+          let(:subscription) { double(update: true) }
 
           let(:notification) do
             instance_double('Braintree::WebhookNotification', kind: 'subscription_canceled',
-                                                              subscription: instance_double('Braintree::Subscription', id: 's09870')
-                           )
+                                                              subscription: instance_double('Braintree::Subscription', id: 's09870'))
           end
 
           before :each do
-            allow(Payment::Braintree::Subscription).to receive(:find_by){ subscription }
+            allow(Payment::Braintree::Subscription).to receive(:find_by) { subscription }
             WebhookHandler.handle(notification)
           end
 

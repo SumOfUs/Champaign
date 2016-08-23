@@ -3,9 +3,9 @@ require 'timecop'
 require 'redis'
 
 namespace :champaign do
-  desc "See sample action data"
+  desc 'See sample action data'
   task :seed_actions, [:page_id] => :environment do |_task, args|
-    puts "Seeding..."
+    puts 'Seeding...'
     Redis.new.flushdb
 
     def new_member?
@@ -22,13 +22,13 @@ namespace :champaign do
 
     31.times do |i|
       i += 2
-      Timecop.travel( Time.now - i.send(:days) ) do
+      Timecop.travel(Time.now - i.send(:days)) do
         seed_for_moment(args.page_id, 40)
       end
     end
 
     15.times do |i|
-      Timecop.travel( Time.now - i.send(:hours) ) do
+      Timecop.travel(Time.now - i.send(:hours)) do
         seed_for_moment(args.page_id)
       end
     end
@@ -44,4 +44,3 @@ namespace :champaign do
     puts
   end
 end
-

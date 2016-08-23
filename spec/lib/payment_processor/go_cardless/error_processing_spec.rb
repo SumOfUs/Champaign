@@ -37,8 +37,8 @@ module PaymentProcessor
           backtrace: backtrace,
           request_id: request_id,
           errors: [{
-            "reason": "invalid_document_structure",
-            "message": "Invalid document structure"
+            "reason": 'invalid_document_structure',
+            "message": 'Invalid document structure'
           }]
         )
       end
@@ -57,7 +57,7 @@ module PaymentProcessor
         allow(Rails.logger).to receive(:error)
       end
 
-      subject{ described_class.new(error).process }
+      subject { described_class.new(error).process }
 
       describe 'with a GoCardless internal error' do
         let(:error) { go_cardless_error }
@@ -68,7 +68,7 @@ module PaymentProcessor
         end
 
         it 'passes back the correct error' do
-          expect(subject).to eq [{code: 500, message: I18n.t('fundraiser.unknown_error')}]
+          expect(subject).to eq [{ code: 500, message: I18n.t('fundraiser.unknown_error') }]
         end
       end
 
@@ -81,7 +81,7 @@ module PaymentProcessor
         end
 
         it 'passes back the correct error' do
-          expect(subject).to eq [{code: 400, message: "Our technical team has been notified. Please double check your info or try a different payment method."}]
+          expect(subject).to eq [{ code: 400, message: 'Our technical team has been notified. Please double check your info or try a different payment method.' }]
         end
       end
 
@@ -94,8 +94,8 @@ module PaymentProcessor
             message: 'This payment has already been canceled',
             code: 409,
             errors: [{
-              'reason' =>'cancellation_failed',
-              'message' =>'This payment has already been canceled'
+              'reason' => 'cancellation_failed',
+              'message' => 'This payment has already been canceled'
             }],
             request_id: request_id
           )
@@ -107,7 +107,7 @@ module PaymentProcessor
         end
 
         it 'passes back the correct error' do
-          expect(subject).to eq [{code: 409, message: "This payment has already been canceled"}]
+          expect(subject).to eq [{ code: 409, message: 'This payment has already been canceled' }]
         end
       end
 
@@ -117,17 +117,17 @@ module PaymentProcessor
             GoCardlessPro::Error,
             class: GoCardlessPro::Error,
             type: 'validation_failed',
-            message: "Validation failed",
+            message: 'Validation failed',
             code: 422,
             errors: [
               {
-                "field" => "branch_code",
-                "message" => "must be a number",
-                "request_pointer" => "/customer_bank_accounts/branch_code"
+                'field' => 'branch_code',
+                'message' => 'must be a number',
+                'request_pointer' => '/customer_bank_accounts/branch_code'
               }, {
-                "field" => "branch_code",
-                "message" => "is the wrong length (should be 8 characters)",
-                "request_pointer" => "/customer_bank_accounts/branch_code"
+                'field' => 'branch_code',
+                'message' => 'is the wrong length (should be 8 characters)',
+                'request_pointer' => '/customer_bank_accounts/branch_code'
               }
             ],
             request_id: request_id
@@ -140,7 +140,7 @@ module PaymentProcessor
         end
 
         it 'passes back the correct error' do
-          expect(subject).to eq [{code: 422, attribute: "branch_code", message: "branch_code must be a number"}, {code: 422, attribute: "branch_code", message: "branch_code is the wrong length (should be 8 characters)"}]
+          expect(subject).to eq [{ code: 422, attribute: 'branch_code', message: 'branch_code must be a number' }, { code: 422, attribute: 'branch_code', message: 'branch_code is the wrong length (should be 8 characters)' }]
         end
       end
 
@@ -153,7 +153,7 @@ module PaymentProcessor
         end
 
         it 'passes back the correct error' do
-          expect(subject).to eq [{code: 500, message: "Our technical team has been notified. Please double check your info or try a different payment method."}]
+          expect(subject).to eq [{ code: 500, message: 'Our technical team has been notified. Please double check your info or try a different payment method.' }]
         end
       end
 
@@ -161,25 +161,25 @@ module PaymentProcessor
         describe "with language as #{locale}" do
           let(:messages) do
             {
-              fr: "Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.",
-              de: "Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode."
+              fr: 'Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.',
+              de: 'Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.'
             }
           end
-          subject{ described_class.new(@error, locale: locale).process }
+          subject { described_class.new(@error, locale: locale).process }
 
           it 'returns the correct message for a generic error' do
             @error = generic_error
-            expect(subject).to eq [{code: 500, message: messages[locale]}]
+            expect(subject).to eq [{ code: 500, message: messages[locale] }]
           end
 
           it 'returns the correct message for a GoCardless internal error' do
             @error = go_cardless_error
-            expect(subject).to eq [{code: 500, message: messages[locale]}]
+            expect(subject).to eq [{ code: 500, message: messages[locale] }]
           end
 
           it 'returns the correct message for an API usage error' do
             @error = api_error
-            expect(subject).to eq [{code: 400, message: messages[locale]}]
+            expect(subject).to eq [{ code: 400, message: messages[locale] }]
           end
         end
       end

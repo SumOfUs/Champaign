@@ -3,7 +3,7 @@ Rails.application.configure do
   {
     SQS_QUEUE_URL: 'http://example.com',
     AWS_REGION: 'us-west-2',
-    SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4',
+    SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4'
   }.each do |key, val|
     ENV.store(key.to_s, val)
   end
@@ -64,4 +64,3 @@ Rails.application.configure do
     end
   end
 end
-

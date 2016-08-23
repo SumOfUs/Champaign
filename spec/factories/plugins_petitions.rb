@@ -4,8 +4,8 @@ FactoryGirl.define do
     page nil
     active false
     form nil
-    cta "Sign the Petition"
-    target "The man"
-    description "Gotta save the world and stuff"
+    cta 'Sign the Petition'
+    target 'The man'
+    description 'Gotta save the world and stuff'
   end
 end

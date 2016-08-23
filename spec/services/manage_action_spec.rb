@@ -25,26 +25,26 @@ describe ManageAction do
 
     it 'posts action to queue' do
       expected = {
-        type: "action",
+        type: 'action',
         meta: hash_including(
           title: 'Foo Bar'
         ),
         params: {
           page:           "#{page.slug}-petition",
-          email:          "bob@example.com",
+          email:          'bob@example.com',
           page_id:        page.id,
           referring_akid: '123.456.xyz',
           user_en: 1
         }
       }
 
-      expect(ChampaignQueue).to receive(:push).with( expected )
+      expect(ChampaignQueue).to receive(:push).with(expected)
       subject
     end
 
     describe 'new member' do
       it 'creates an member' do
-        expect{ subject }.to change{ Member.count }.by 1
+        expect { subject }.to change { Member.count }.by 1
       end
 
       it 'saves available fields to member' do
@@ -58,12 +58,12 @@ describe ManageAction do
 
       it 'creates an member even with extraneous fields' do
         expect do
-          ManageAction.create(data.merge(extraneous) )
-        end.to change{ Member.count }.by 1
+          ManageAction.create(data.merge(extraneous))
+        end.to change { Member.count }.by 1
       end
 
       it 'saves available fields even with extraneous fields' do
-        action = ManageAction.create(data.merge(first_name).merge(extraneous) )
+        action = ManageAction.create(data.merge(first_name).merge(extraneous))
         expect(action.member.reload.first_name).to eq first_name[:first_name]
         expect(action.member.reload.email).to eq data[:email]
       end
@@ -80,7 +80,7 @@ describe ManageAction do
       end
 
       it 'does not change the number of members' do
-        expect{ subject }.to_not change{ Member.count }.from(1)
+        expect { subject }.to_not change { Member.count }.from(1)
       end
 
       it 'saves all new fields to member' do
@@ -111,7 +111,7 @@ describe ManageAction do
       end
 
       it 'does not create an Member if sent an id parameter' do
-        expect{ ManageAction.create(data.merge(id: 200)) }.not_to change{ Member.count }
+        expect { ManageAction.create(data.merge(id: 200)) }.not_to change { Member.count }
       end
 
       it 'ignores a sent id parameter' do
@@ -121,7 +121,7 @@ describe ManageAction do
       end
     end
 
-    context "action already exists" do
+    context 'action already exists' do
       before do
         @action = ManageAction.create(data)
       end
@@ -137,7 +137,7 @@ describe ManageAction do
       end
     end
 
-    context "page permits duplicate actions" do
+    context 'page permits duplicate actions' do
       before do
         page.update(allow_duplicate_actions: true)
         @action = ManageAction.create(data)
@@ -156,4 +156,3 @@ describe ManageAction do
     end
   end
 end
-

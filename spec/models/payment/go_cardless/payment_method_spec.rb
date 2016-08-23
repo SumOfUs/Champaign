@@ -17,7 +17,7 @@ describe Payment::GoCardless::PaymentMethod do
 
   describe 'associations' do
     it 'associates customer with a GoCardless::Customer' do
-      expect{ payment_method.customer = build :payment_go_cardless_customer }.not_to raise_error
+      expect { payment_method.customer = build :payment_go_cardless_customer }.not_to raise_error
     end
   end
 
@@ -42,14 +42,14 @@ describe Payment::GoCardless::PaymentMethod do
     it 'can be created' do
       expect do
         subject.run_create!
-      end.to change{ subject.reload.created? }.from(false).to(true)
+      end.to change { subject.reload.created? }.from(false).to(true)
     end
 
     context 'can be submitted' do
       it 'from pending' do
         expect do
           subject.run_submit!
-        end.to change{ subject.reload.submitted? }.from(false).to(true)
+        end.to change { subject.reload.submitted? }.from(false).to(true)
       end
 
       it 'from created' do
@@ -57,7 +57,7 @@ describe Payment::GoCardless::PaymentMethod do
 
         expect do
           subject.run_submit!
-        end.to change{ subject.reload.submitted? }.from(false).to(true)
+        end.to change { subject.reload.submitted? }.from(false).to(true)
       end
     end
 
@@ -65,7 +65,7 @@ describe Payment::GoCardless::PaymentMethod do
       it 'from pending' do
         expect do
           subject.run_activate!
-        end.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
 
       it 'from created' do
@@ -73,7 +73,7 @@ describe Payment::GoCardless::PaymentMethod do
 
         expect do
           subject.run_activate!
-        end.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
 
       it 'from submitted' do
@@ -81,7 +81,7 @@ describe Payment::GoCardless::PaymentMethod do
 
         expect do
           subject.run_activate!
-        end.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
     end
 
@@ -90,7 +90,7 @@ describe Payment::GoCardless::PaymentMethod do
 
       expect do
         subject.run_cancel!
-      end.to change{ subject.reload.cancelled? }.from(false).to(true)
+      end.to change { subject.reload.cancelled? }.from(false).to(true)
     end
   end
 end

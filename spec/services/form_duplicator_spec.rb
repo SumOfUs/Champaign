@@ -22,4 +22,3 @@ describe FormDuplicator do
     end
   end
 end
-

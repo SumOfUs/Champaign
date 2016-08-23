@@ -11,17 +11,15 @@ class CampaignUpdater
 
   def run
     @campaign.update(@params).tap do |success|
-      if success
-        publish_event
-      end
+      publish_event if success
     end
   end
 
   private
 
   def publish_event
-    ChampaignQueue.push(      type: 'update_campaign',
-                              name: @campaign.name,
-                              campaign_id: @campaign.id)
+    ChampaignQueue.push(type: 'update_campaign',
+                        name: @campaign.name,
+                        campaign_id: @campaign.id)
   end
 end

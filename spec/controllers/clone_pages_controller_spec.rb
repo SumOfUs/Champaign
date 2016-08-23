@@ -6,21 +6,21 @@ describe ClonePagesController do
   let(:user) { double }
 
   before do
-    allow(Page).to receive(:find){ page }
+    allow(Page).to receive(:find) { page }
     allow(request.env['warden']).to receive(:authenticate!) { user }
   end
 
-  describe "GET #new" do
+  describe 'GET #new' do
     before do
       get :new, id: '1'
     end
 
-    it "finds page" do
+    it 'finds page' do
       expect(Page).to have_received(:find).with('1')
     end
 
     it 'assigns page' do
-      expect( assigns(:page) ).to eq(page)
+      expect(assigns(:page)).to eq(page)
     end
 
     it 'renders new' do
@@ -32,13 +32,13 @@ describe ClonePagesController do
     let(:cloned_page) { build('page', slug: 'foo-bar') }
 
     before do
-      allow(PageCloner).to receive(:clone){ cloned_page }
+      allow(PageCloner).to receive(:clone) { cloned_page }
       allow(QueueManager).to receive(:push)
 
       post :create, id: '1', page: { title: 'foo' }
     end
 
-    it "finds page" do
+    it 'finds page' do
       expect(Page).to have_received(:find).with('1')
     end
 

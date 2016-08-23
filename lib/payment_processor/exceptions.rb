@@ -4,4 +4,3 @@ module PaymentProcessor
     class InvalidCurrency < ArgumentError; end
   end
 end
-

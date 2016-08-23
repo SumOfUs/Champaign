@@ -28,7 +28,7 @@ describe 'Search ::' do
 
         describe 'returns no pages when searching' do
           it 'with a non-existent language' do
-            expect(Search::PageSearcher.new(language: [Language.last.id+999]).search).to match_array([])
+            expect(Search::PageSearcher.new(language: [Language.last.id + 999]).search).to match_array([])
           end
           it 'with an unused language' do
             expect(Search::PageSearcher.new(language: [unused_language.id]).search).to match_array([])

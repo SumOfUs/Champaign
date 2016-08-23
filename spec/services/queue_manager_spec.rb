@@ -21,33 +21,32 @@ describe QueueManager do
     }
   end
 
-  context "with valid job type" do
-    context "update_pages" do
+  context 'with valid job type' do
+    context 'update_pages' do
       subject { QueueManager.push(page, job_type: :update_pages) }
 
       it 'posts to queue' do
         expect(ChampaignQueue).to receive(:push)
-          .with( expected_params.merge(            donation_uri: "http://example.com/donation",
-                                                   petition_uri: "http://example.com/petition"))
+          .with(expected_params.merge(donation_uri: 'http://example.com/donation',
+                                      petition_uri: 'http://example.com/petition'))
 
         subject
       end
     end
 
-    context "create" do
+    context 'create' do
       subject { QueueManager.push(page, job_type: :create) }
 
       it 'posts to queue' do
-        expect(ChampaignQueue).to receive(:push).with( expected_params.merge(type: :create) )
+        expect(ChampaignQueue).to receive(:push).with(expected_params.merge(type: :create))
         subject
       end
     end
   end
 
-  context "with invalid job tpye" do
+  context 'with invalid job tpye' do
     it 'raises argument error' do
-      expect{ QueueManager.push(page, job_type: :bad) }.to raise_error(ArgumentError)
+      expect { QueueManager.push(page, job_type: :bad) }.to raise_error(ArgumentError)
     end
   end
 end
-

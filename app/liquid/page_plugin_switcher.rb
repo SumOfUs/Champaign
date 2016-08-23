@@ -4,7 +4,7 @@ class PagePluginSwitcher
     @page = page
   end
 
-  def switch(new_layout, new_layout_2=nil)
+  def switch(new_layout, new_layout_2 = nil)
     keepers, quitters, starters = find_overlap(plugin_refs_from_plugins(@page.plugins), new_refs(new_layout, new_layout_2))
     delete_quitters(quitters)
     create_starters(starters)
@@ -49,4 +49,3 @@ class PagePluginSwitcher
     plugin_refs.map { |p, r| [p, r.to_s] }
   end
 end
-

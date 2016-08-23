@@ -10,17 +10,15 @@ class CampaignCreator
 
   def run
     @campaign = Campaign.create(@params)
-    if @campaign.persisted?
-      publish_event
-    end
+    publish_event if @campaign.persisted?
     @campaign
   end
 
   private
 
   def publish_event
-    ChampaignQueue.push(      type: 'create_campaign',
-                              name: @campaign.name,
-                              campaign_id: @campaign.id)
+    ChampaignQueue.push(type: 'create_campaign',
+                        name: @campaign.name,
+                        campaign_id: @campaign.id)
   end
 end

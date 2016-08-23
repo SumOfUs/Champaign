@@ -29,14 +29,14 @@ describe Plugins::FormsController do
 
   describe 'POST create' do
     let(:params) { { master_id: '2', plugin_type: 'petition', plugin_id: '3' } }
-    let(:first_form) { instance_double('Form', id: 1, master: true)}
+    let(:first_form) { instance_double('Form', id: 1, master: true) }
     let(:second_form) { instance_double('Form', id: 7, master: false) }
 
     before do
       allow(Form).to receive(:find).and_return(first_form)
       allow(FormDuplicator).to receive(:duplicate).and_return(second_form)
       allow(petition).to receive(:update_form)
-      request.accept = "application/json"
+      request.accept = 'application/json'
       post :create, params
     end
 
@@ -60,7 +60,7 @@ describe Plugins::FormsController do
       expect(response.status).to eq 200
       expect(response).to render_template(partial: 'forms/_edit')
       body = JSON.parse(response.body)
-      expect(body.keys).to match_array ['html', 'form_id']
+      expect(body.keys).to match_array %w(html form_id)
       expect(body['form_id']).to eq second_form.id
     end
   end
@@ -69,11 +69,11 @@ describe Plugins::FormsController do
     let(:params) { { master_id: '2', plugin_type: 'petition', plugin_id: '3', form_id: 'disallowed' } }
 
     it 'are used for POST create' do
-      expect{ post :create, params }.to raise_error(ActionController::UnpermittedParameters)
+      expect { post :create, params }.to raise_error(ActionController::UnpermittedParameters)
     end
 
     it 'are used for GET show' do
-      expect{ get :show, params }.to raise_error(ActionController::UnpermittedParameters)
+      expect { get :show, params }.to raise_error(ActionController::UnpermittedParameters)
     end
   end
 end

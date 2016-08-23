@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 describe Member do
-  let(:ak_user_id) { '5678'}
+  let(:ak_user_id) { '5678' }
   let(:akid) { ".#{ak_user_id}.hIdbLl" }
   let(:fake_akid) { '12345.1234567.RzxR1d' }
 
   let!(:user_with_akid) { create :member, actionkit_user_id: ak_user_id }
   let!(:user_without_akid) { create :member, actionkit_user_id: nil }
-  let!(:confounding_user) { create :member, actionkit_user_id: "7145902"}
+  let!(:confounding_user) { create :member, actionkit_user_id: '7145902' }
 
   let(:member) { create :member }
   subject { member }

@@ -19,7 +19,7 @@ FactoryGirl.define do
   end
 
   factory :tag do
-    sequence(:name) { |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" }
+    sequence(:name) { |n| "#{['+', '@', '*'].sample}#{Faker::Commerce.color}#{n}" }
     actionkit_uri
   end
 

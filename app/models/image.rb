@@ -4,14 +4,14 @@ class Image < ActiveRecord::Base
 
   has_attached_file :content,
                     styles: {
-                        medium: '300x300>',
-                        thumb: '100x100#',
-                        medium_square: '700x500#',
-                        facebook: '1200x630>',
-                        large: '1920x'
+                      medium: '300x300>',
+                      thumb: '100x100#',
+                      medium_square: '700x500#',
+                      facebook: '1200x630>',
+                      large: '1920x'
                     },
                     convert_options: {
-                        all: '-strip -interlace Plane'
+                      all: '-strip -interlace Plane'
                     },
                     default_url: '/images/:style/missing.png'
 

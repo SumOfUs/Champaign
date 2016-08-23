@@ -15,4 +15,3 @@ class Share::TwittersController < Share::SharesController
     Share::Twitter
   end
 end
-

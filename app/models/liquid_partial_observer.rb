@@ -8,4 +8,3 @@ class LiquidPartialObserver < ActiveRecord::Observer
     LiquidRenderer::Cache.invalidate
   end
 end
-

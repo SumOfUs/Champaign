@@ -7,7 +7,7 @@ class Search::PageSearcher
 
   def search
     [*@queries].each do |search_type, query|
-      if not validate_query(query)
+      if !validate_query(query)
         next
       else
         case search_type.to_s
@@ -37,7 +37,7 @@ class Search::PageSearcher
 
   def validate_query(query)
     # if query is an empty array, nil or an empty string, skip filtering for that query
-    ( [[], nil, ''].include? query ) ? false : true
+    ([[], nil, ''].include? query) ? false : true
   end
 
   def combine_collections(collection1, collection2)
@@ -95,15 +95,14 @@ class Search::PageSearcher
       end
       plugin_class.page.each do |page_plugin|
         # If the page hasn't determined to be filtered from the collection yet
-        if filtered_pages.include?(page_plugin.page_id)
-          # If the plugin is active, add its page to matches
-          if page_plugin.active?
-            matches_by_plugins.push(page_plugin.page_id)
-          else
-            # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
-            filtered_pages.delete(page_plugin.page_id)
-            matches_by_plugins.delete(page_plugin.page_id)
-          end
+        next unless filtered_pages.include?(page_plugin.page_id)
+        # If the plugin is active, add its page to matches
+        if page_plugin.active?
+          matches_by_plugins.push(page_plugin.page_id)
+        else
+          # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
+          filtered_pages.delete(page_plugin.page_id)
+          matches_by_plugins.delete(page_plugin.page_id)
         end
       end
     end

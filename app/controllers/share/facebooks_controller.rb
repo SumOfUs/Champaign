@@ -4,8 +4,8 @@ class Share::FacebooksController < Share::SharesController
 
   def new_defaults
     {
-     title: @page.title,
-     description: ActionView::Base.full_sanitizer.sanitize(@page.content).split('.')[0]
+      title: @page.title,
+      description: ActionView::Base.full_sanitizer.sanitize(@page.content).split('.')[0]
     }
   end
 
@@ -18,4 +18,3 @@ class Share::FacebooksController < Share::SharesController
           .permit(:title, :image_id, :description)
   end
 end
-

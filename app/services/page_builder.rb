@@ -26,8 +26,6 @@ class PageBuilder
 
   def set_follow_up_plan
     follow_up_layout = page.liquid_layout.try(:default_follow_up_layout)
-    if follow_up_layout.present?
-      page.follow_up_liquid_layout = follow_up_layout
-    end
+    page.follow_up_liquid_layout = follow_up_layout if follow_up_layout.present?
   end
 end

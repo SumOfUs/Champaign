@@ -40,14 +40,14 @@ module LiquidI18n
   def t(query)
     translation_key, interpolation_vals = parse_interpolation(query)
     begin
-      I18n.t(translation_key, **interpolation_vals.merge(:raise => !Rails.env.production?))
+      I18n.t(translation_key, **interpolation_vals.merge(raise: !Rails.env.production?))
     rescue I18n::MissingTranslationData => e
-      raise I18n::TranslationMissing.new(e.message)
+      raise I18n::TranslationMissing, e.message
     end
   end
 
   def i18n_date(date, format = :default)
-    I18n.l( Time.parse(date), format: format.to_sym )
+    I18n.l(Time.parse(date), format: format.to_sym)
   end
 
   def val(base, key, value)
@@ -57,14 +57,15 @@ module LiquidI18n
   private
 
   def parse_interpolation(query)
-    params, depth = {}, 0
+    params = {}
+    depth = 0
     _, translation_key, string_params = /([^,]+)(.*)/.match(query).to_a
-    while string_params.present? && string_params.length > 0
+    while string_params.present? && !string_params.empty?
       if depth >= MAX_INTERPOLATIONS
-        raise I18n::TooMuchInterpolation.new("More than #{MAX_INTERPOLATIONS} interpolation values are not allowed.")
+        raise I18n::TooMuchInterpolation, "More than #{MAX_INTERPOLATIONS} interpolation values are not allowed."
       end
       _, key, val, string_params = /, *([a-zA-z_]+): *([^,]+)(.*)/.match(string_params).to_a
-      params[key.to_sym] = val if key.present? && key.length > 0
+      params[key.to_sym] = val if key.present? && !key.empty?
       depth += 1
     end
     [translation_key, params]

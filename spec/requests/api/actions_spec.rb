@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe "Api Actions" do
+describe 'Api Actions' do
   let(:sqs_client) { double }
 
   before do
@@ -21,7 +21,7 @@ describe "Api Actions" do
     }
   end
 
-  describe "POST#create" do
+  describe 'POST#create' do
     let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
     let(:form) { create(:form_with_email_and_optional_country) }
 
@@ -33,34 +33,34 @@ describe "Api Actions" do
         country:  'FR',
         akid:     '1234.5678.tKK7gX',
         referring_akid: '1234.5678.tKK7gX',
-        name: "Bob Mash"
+        name: 'Bob Mash'
       }
     end
 
     let(:message_body) do
       {
-        type: "action",
-        meta: hash_including(          title:      "Foo Bar",
-                                       uri:        "/a/foo-bar",
-                                       slug:       'foo-bar',
-                                       first_name: 'Bob',
-                                       last_name:  'Mash',
-                                       created_at: be_within(1.second).of(Time.now),
-                                       country: 'France',
-                                       subscribed_member: true,
-                                       action_id: instance_of(Fixnum)),
+        type: 'action',
+        meta: hash_including(title:      'Foo Bar',
+                             uri:        '/a/foo-bar',
+                             slug:       'foo-bar',
+                             first_name: 'Bob',
+                             last_name:  'Mash',
+                             created_at: be_within(1.second).of(Time.now),
+                             country: 'France',
+                             subscribed_member: true,
+                             action_id: instance_of(Fixnum)),
 
-        params: hash_including(          page:    'foo-bar-petition',
-                                         email:  'hello@example.com',
-                                         name:   'Bob Mash',
-                                         page_id: page.id.to_s,
-                                         form_id: form.id.to_s,
-                                         source: 'fb',
-                                         akid:   '1234.5678.tKK7gX',
-                                         referring_akid: '1234.5678.tKK7gX',
-                                         action_mobile: 'mobile',
-                                         action_referer: 'www.google.com',
-                                         user_en: 1)
+        params: hash_including(page:    'foo-bar-petition',
+                               email:  'hello@example.com',
+                               name:   'Bob Mash',
+                               page_id: page.id.to_s,
+                               form_id: form.id.to_s,
+                               source: 'fb',
+                               akid:   '1234.5678.tKK7gX',
+                               referring_akid: '1234.5678.tKK7gX',
+                               action_mobile: 'mobile',
+                               action_referer: 'www.google.com',
+                               user_en: 1)
       }
     end
 
@@ -94,40 +94,40 @@ describe "Api Actions" do
     end
 
     describe 'existing action' do
-      let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email]}
+      let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email] }
       let(:page2) { create :page }
 
-      subject{ post "/api/pages/#{page.id}/actions", params }
+      subject { post "/api/pages/#{page.id}/actions", params }
 
       it 'creates a new action if existing action on a different page' do
         create :action, member: member, page: page2
-        expect{ subject }.to change{ Action.count }.by 1
+        expect { subject }.to change { Action.count }.by 1
       end
 
       it 'does not create an action if existing action on this page' do
         create :action, member: member, page: page
-        expect{ subject }.not_to change{ Action.count }
+        expect { subject }.not_to change { Action.count }
       end
 
       it 'does not create an action if existing action of different page in same campaign' do
         create :action, member: member, page: page2
         create :campaign, pages: [page, page2]
-        expect{ subject }.not_to change{ Action.count }
+        expect { subject }.not_to change { Action.count }
       end
     end
 
     describe 'page allows duplicate actions' do
-      let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email]}
+      let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email] }
 
       before do
         page.update(allow_duplicate_actions: true)
       end
 
-      subject{ post "/api/pages/#{page.id}/actions", params }
+      subject { post "/api/pages/#{page.id}/actions", params }
 
       it 'creats an action if existing action on this page' do
         create :action, member: member, page: page
-        expect{ subject }.to change{ Action.count }
+        expect { subject }.to change { Action.count }
       end
     end
 
@@ -143,7 +143,7 @@ describe "Api Actions" do
 
         it 'saves akid on action' do
           expect(
-            Action.where('form_data @> ?', {akid: '1234.5678.tKK7gX'}.to_json).first
+            Action.where('form_data @> ?', { akid: '1234.5678.tKK7gX' }.to_json).first
           ).to eq(page.actions.first)
         end
 
@@ -153,7 +153,7 @@ describe "Api Actions" do
       end
 
       context 'existing member' do
-        let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email]}
+        let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email] }
 
         it 'overwrites existing actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params
@@ -176,7 +176,7 @@ describe "Api Actions" do
       end
 
       context 'existing member' do
-        let!(:member) { create :member, actionkit_user_id: '1234', email: params[:email]}
+        let!(:member) { create :member, actionkit_user_id: '1234', email: params[:email] }
 
         it 'does not overwrite existing actionkit_user_id' do
           post "/api/pages/#{page.id}/actions", params
@@ -198,14 +198,14 @@ describe "Api Actions" do
         end
 
         it 'sends the bad akid through the form data for record keeping' do
-          expect(Action.where('form_data @> ?', {akid: invalid_akid}.to_json).first).to eq(page.actions.first)
+          expect(Action.where('form_data @> ?', { akid: invalid_akid }.to_json).first).to eq(page.actions.first)
         end
 
         it 'does not include a referring_user_uri in the queue message' do
           expected_params = hash_including(
             type: 'action',
             params: {
-              page: "foo-bar-petition",
+              page: 'foo-bar-petition',
               email: 'hello@example.com',
               page_id: page.id.to_s,
               form_id: form.id.to_s,

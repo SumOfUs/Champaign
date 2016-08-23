@@ -41,7 +41,7 @@ class ActionKitFields < ActiveModel::Validator
   #
   VALID_PREFIX_RE = /^(action)\_[0-9a-z_]+/
 
-  ACTIONKIT_FIELDS_WHITELIST = %w{
+  ACTIONKIT_FIELDS_WHITELIST = %w(
     address1
     address2
     city
@@ -61,11 +61,11 @@ class ActionKitFields < ActiveModel::Validator
     state
     suffix
     zip
-  }
+  ).freeze
 
-  CUSTOM_PREFIXES = %w{
+  CUSTOM_PREFIXES = %w(
     action_
-  }
+  ).freeze
 
   def validate(record)
     @name = record.name
@@ -97,4 +97,3 @@ class ActionKitFields < ActiveModel::Validator
     @name =~ VALID_PREFIX_RE
   end
 end
-

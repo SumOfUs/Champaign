@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "browser"
+require 'browser'
 
 class MobileDetector
   def self.detect(browser)

@@ -34,7 +34,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 VCR.configure do |config|
-  config.cassette_library_dir = "spec/fixtures/vcr_cassettes"
+  config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
   config.hook_into :webmock
   config.default_cassette_options = {
     match_requests_on: [:path, :host, :body, :method],
@@ -44,12 +44,12 @@ VCR.configure do |config|
   # The filter_sensitive_data configuration option prevents
   # sensitive data from being written to your cassette files.
   #
-  %w{merchant_id public_key private_key}.each do |env|
+  %w(merchant_id public_key private_key).each do |env|
     config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }
   end
 
-  config.filter_sensitive_data("<shareprogress_api_key>") { ENV["SHARE_PROGRESS_API_KEY"] }
-  config.filter_sensitive_data("<gocardless_token>") { Settings.gocardless.token }
+  config.filter_sensitive_data('<shareprogress_api_key>') { ENV['SHARE_PROGRESS_API_KEY'] }
+  config.filter_sensitive_data('<gocardless_token>') { Settings.gocardless.token }
 end
 
 RSpec.configure do |config|

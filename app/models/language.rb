@@ -5,4 +5,3 @@ class Language < ActiveRecord::Base
 
   validates :code, :actionkit_uri, :name, presence: true, allow_blank: false
 end
-

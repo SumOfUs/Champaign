@@ -29,4 +29,3 @@ class FormDuplicator
     end
   end
 end
-

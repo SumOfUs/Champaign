@@ -49,7 +49,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     payment_created:            :payment_create,
     customer_approval_granted:  :approve,
     customer_approval_denied:   :deny
-  }
+  }.freeze
 
   aasm do
     state :pending, initial: true

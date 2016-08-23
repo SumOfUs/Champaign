@@ -51,7 +51,7 @@ class Share::SharesController < ApplicationController
         format.js
       else
         format.html { render 'share/new' }
-        format.js { render json: { errors: @share.errors, name: "share_#{@share.name}"}, status: 422 }
+        format.js { render json: { errors: @share.errors, name: "share_#{@share.name}" }, status: 422 }
       end
     end
   end

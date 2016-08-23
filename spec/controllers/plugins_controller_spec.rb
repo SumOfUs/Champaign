@@ -6,8 +6,8 @@ describe PluginsController do
   let(:page)   { instance_double('Page', id: 5) }
 
   before do
-    allow(Plugins).to receive(:find_for){ plugin }
-    allow(Page).to receive(:find){ page }
+    allow(Plugins).to receive(:find_for) { plugin }
+    allow(Page).to receive(:find) { page }
     get :show, id: '1', page_id: '2', type: 'example'
   end
 

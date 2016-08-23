@@ -7,7 +7,7 @@ class Plugins::FormsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        html = render_to_string(partial: 'forms/edit', locals: {form: new_form}, formats: [:html])
+        html = render_to_string(partial: 'forms/edit', locals: { form: new_form }, formats: [:html])
         render json: { html: html, form_id: new_form.id }
       end
     end
@@ -30,4 +30,3 @@ class Plugins::FormsController < ApplicationController
     params.permit(:plugin_id, :plugin_type, :master_id)
   end
 end
-

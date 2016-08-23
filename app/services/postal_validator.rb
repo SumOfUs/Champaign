@@ -6,7 +6,7 @@ class PostalValidator
   # due to the fact that ActionKit validates only US Zip Codes and we wish to avoid approving data the back-end database
   # cannot process.
   ZIPCODES_REGEX = {
-      US: /\A\d{5}([ \-]\d{4})?\z/,
+    US: /\A\d{5}([ \-]\d{4})?\z/
   }.freeze
 
   def self.valid?(postal_code, country_code: nil)

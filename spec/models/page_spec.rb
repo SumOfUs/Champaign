@@ -8,7 +8,7 @@ describe Page do
   let(:page) { create :page, liquid_layout: liquid_layout, follow_up_liquid_layout: follow_up_layout }
 
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
-  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
+  let(:image_file) { File.new(Rails.root.join('spec', 'fixtures', 'test-image.gif')) }
   let(:image_1) { Image.create!(content: image_file) }
   let(:image_2) { Image.create!(content: image_file) }
   let(:image_3) { Image.create!(content: image_file) }
@@ -67,7 +67,7 @@ describe Page do
     describe 'create' do
       after :each do
         page = Page.new page_params
-        expect{ page.save! }.to change{ PagesTag.count }.by 2
+        expect { page.save! }.to change { PagesTag.count }.by 2
         expect(page.tags).to match_array(Tag.last(2))
       end
 
@@ -86,15 +86,15 @@ describe Page do
       end
 
       it 'should destroy the page' do
-        expect{ @page.destroy }.to change{ Page.count }.by(-1)
+        expect { @page.destroy }.to change { Page.count }.by(-1)
       end
 
       it 'should destroy the join table records' do
-        expect{ @page.destroy }.to change{ PagesTag.count }.by(-2)
+        expect { @page.destroy }.to change { PagesTag.count }.by(-2)
       end
 
       it 'should not destroy the tag' do
-        expect{ @page.destroy }.to change{ Tag.count }.by(0)
+        expect { @page.destroy }.to change { Tag.count }.by(0)
       end
     end
 
@@ -112,7 +112,7 @@ describe Page do
       end
 
       it 'should destroy the old join table records and make a new one' do
-        expect{ @page.update! tag_ids: @new_ids }.to change{ PagesTag.count }.by(-1)
+        expect { @page.update! tag_ids: @new_ids }.to change { PagesTag.count }.by(-1)
       end
     end
   end
@@ -125,7 +125,7 @@ describe Page do
     describe 'create' do
       after :each do
         page = Page.new page_params
-        expect{ page.save! }.to change{ Campaign.count }.by 0
+        expect { page.save! }.to change { Campaign.count }.by 0
         expect(page.campaign).to eq Campaign.last
       end
 
@@ -150,7 +150,7 @@ describe Page do
     it 'get deleted when the page is deleted' do
       page.images = [image_1, image_2]
       page.save!
-      expect{ page.destroy }.to change{ Image.count }.by -2
+      expect { page.destroy }.to change { Image.count }.by -2
     end
   end
 
@@ -160,12 +160,12 @@ describe Page do
       link_2 = create :link
       page.links = [link_1, link_2]
       page.save!
-      expect{ page.destroy }.to change{ Link.count }.by -2
+      expect { page.destroy }.to change { Link.count }.by -2
     end
   end
 
   describe 'liquid_layout' do
-    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
+    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil) }
     let(:other_liquid_layout) { create :liquid_layout, title: 'Other liquid layout' }
 
     before :each do
@@ -187,7 +187,7 @@ describe Page do
       end
 
       it 'does not switch the layout plugins if no layouts or plan changed' do
-        page.title = "just changin the title here"
+        page.title = 'just changin the title here'
         expect(switcher).not_to receive(:switch)
         expect(page.save).to eq true
       end
@@ -245,7 +245,7 @@ describe Page do
 
     it 'gets set to nil if the image is deleted' do
       expect(page.primary_image).to eq image_2
-      expect{ image_2.destroy }.to change{ Image.count }.by(-1)
+      expect { image_2.destroy }.to change { Image.count }.by(-1)
       expect(page.reload.primary_image).to eq nil
     end
   end
@@ -307,7 +307,7 @@ describe Page do
       page.update(primary_image: image)
     end
 
-    subject{ page.dup }
+    subject { page.dup }
 
     it 'sets slug to nil' do
       expect(page.slug).not_to be_nil
@@ -440,4 +440,3 @@ describe Page do
     end
   end
 end
-

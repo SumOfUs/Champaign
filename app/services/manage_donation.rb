@@ -14,4 +14,3 @@ class ManageDonation
     build_action(donation: true)
   end
 end
-

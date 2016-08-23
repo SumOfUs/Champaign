@@ -16,16 +16,16 @@ namespace :sumofus do
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
     else
-      puts "Loading page data"
+      puts 'Loading page data'
       page_data_handle = open(args[:action_file])
       page_data = JSON.load(page_data_handle.read)
       page_data_handle.close
-      puts "Page data loaded"
+      puts 'Page data loaded'
     end
 
-    puts "Errors listed below, empty means no errors:"
+    puts 'Errors listed below, empty means no errors:'
 
-    ['en', 'fr', 'de'].map do |locale|
+    %w(en fr de).map do |locale|
       expected_title = I18n.t('fundraiser.generic.title', locale: locale)
       page = Page.find_by(title: expected_title)
       if page.blank?
@@ -34,7 +34,7 @@ namespace :sumofus do
         if page.try(:language).try(:code) != locale
           puts "Follow-up for #{locale} has language #{page.try(:language).try(:code)}"
         end
-        form = page.plugins.select{ |p| p.class.name == "Plugins::Fundraiser" }.first.form
+        form = page.plugins.select { |p| p.class.name == 'Plugins::Fundraiser' }.first.form
         expected_form_name = "Basic (#{locale.upcase})"
         if form.name != expected_form_name
           puts "Follow-up for #{locale} has form #{form.name}, should be #{expected_form_name}"
@@ -46,13 +46,13 @@ namespace :sumofus do
       begin
         # check existence, images, and language
         page = Page.find(entry['slug']) # raises if not found
-        puts "Page at <#{entry['slug']}> has no image" if page.images.size < 1
+        puts "Page at <#{entry['slug']}> has no image" if page.images.empty?
         unless page.language.code.to_s.casecmp(entry['language'].to_s.downcase).zero?
           puts "Page at <#{entry['slug']}> has language '#{page.language.code}', should be '#{entry['language']}'"
         end
 
         # check form
-        form = page.plugins.select{ |p| p.class.name == "Plugins::Petition" }.first.form
+        form = page.plugins.select { |p| p.class.name == 'Plugins::Petition' }.first.form
         expected_form_name = "Basic (#{entry['language'].upcase})"
         if form.name != expected_form_name
           puts "Page at <#{entry['slug']}> has form #{form.name}, should be #{expected_form_name}"
@@ -69,7 +69,7 @@ namespace :sumofus do
         end
 
         # check that it has the legacy tag
-        relevant_tags = page.tags.select{ |t| t.id == legacy_tag.id }
+        relevant_tags = page.tags.select { |t| t.id == legacy_tag.id }
         if relevant_tags != [legacy_tag]
           puts "Page at <#{entry['slug']}> has tags #{page.tags.map(&:attributes)}, should include #{legacy_tag.attributes}"
         end
@@ -89,11 +89,11 @@ namespace :sumofus do
     if args[:action_file].blank?
       abort('Requires a valid url to a file containing the legacy actions to seed.')
     else
-      puts "Loading page data"
+      puts 'Loading page data'
       page_data_handle = open(args[:action_file])
       page_data = JSON.load(page_data_handle.read)
       page_data_handle.close
-      puts "Page data loaded"
+      puts 'Page data loaded'
     end
 
     follow_image_handle = if args[:follow_img_file].blank?
@@ -104,7 +104,7 @@ namespace :sumofus do
 
     def create_post_action_pages(layout_id, image_handle)
       pages = {}
-      ['en', 'fr', 'de'].map do |locale|
+      %w(en fr de).map do |locale|
         page = Page.find_or_initialize_by(title: I18n.t('fundraiser.generic.title', locale: locale))
         page.liquid_layout_id = layout_id
         page.language_id = language_ids[locale]
@@ -202,12 +202,11 @@ namespace :sumofus do
       petition.description = entry['petition_ask'].delete('"').gsub('Petition Text:', '')
       petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').delete(':')
       petition.save!
-      if page.images.count == 0
-        if existing_image.blank?
-          existing_image = page.images.create(content: page_image_handle)
-        else
-          Image.create(page: page, content: existing_image.content)
-        end
+      next unless page.images.count == 0
+      if existing_image.blank?
+        existing_image = page.images.create(content: page_image_handle)
+      else
+        Image.create(page: page, content: existing_image.content)
       end
     end
 

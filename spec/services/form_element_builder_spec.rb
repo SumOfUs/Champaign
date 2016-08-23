@@ -16,4 +16,3 @@ describe FormElementBuilder do
     end
   end
 end
-

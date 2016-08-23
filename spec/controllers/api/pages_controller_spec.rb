@@ -6,7 +6,7 @@ describe Api::PagesController do
   let(:page_updater) { double(update: true, refresh?: true) }
 
   before do
-    allow(Page).to receive(:find){ page }
+    allow(Page).to receive(:find) { page }
   end
 
   describe 'GET index' do
@@ -20,7 +20,7 @@ describe Api::PagesController do
     end
 
     it 'responds with json' do
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq('application/json')
     end
   end
 
@@ -35,7 +35,7 @@ describe Api::PagesController do
     end
 
     it 'responds with json' do
-      expect(response.content_type).to eq("application/json")
+      expect(response.content_type).to eq('application/json')
     end
   end
 
@@ -51,7 +51,7 @@ describe Api::PagesController do
 
     context 'PageUpdater' do
       it 'is instantiated' do
-        expect(PageUpdater).to have_received(:new).with(page, "http://test.host/pages/1")
+        expect(PageUpdater).to have_received(:new).with(page, 'http://test.host/pages/1')
       end
 
       it 'calls update with params' do
@@ -69,13 +69,13 @@ describe Api::PagesController do
       end
 
       it 'renders json' do
-        expect(response.content_type).to eq("application/json")
+        expect(response.content_type).to eq('application/json')
       end
     end
 
     context 'record not found' do
       before do
-        allow(Page).to receive(:find){ raise ActiveRecord::RecordNotFound }
+        allow(Page).to receive(:find) { raise ActiveRecord::RecordNotFound }
         get :show, id: '2'
       end
 

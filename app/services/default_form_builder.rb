@@ -32,4 +32,3 @@ class DefaultFormBuilder
     end
   end
 end
-

@@ -7,12 +7,12 @@ describe 'URI masking' do
 
   describe 'when no record matches' do
     it 'routes to homepage  if requested by an unauthenticated user' do
-      expect(get '/random').to redirect_to(Settings.home_page_url)
+      expect(get('/random')).to redirect_to(Settings.home_page_url)
     end
 
     it 'routes to /pages if requested by an authenticated user' do
       login_as(create(:user), scope: :user)
-      expect(get '/random').to redirect_to(pages_path)
+      expect(get('/random')).to redirect_to(pages_path)
     end
   end
 

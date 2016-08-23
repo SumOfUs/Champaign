@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :form do
     name { Faker::Name.name }
-    description "A description"
+    description 'A description'
     master false
 
     factory :form_with_email do

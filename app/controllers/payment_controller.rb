@@ -30,7 +30,7 @@ class PaymentController < ApplicationController
   private
 
   def recurring?
-    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
+    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
   end
 
   def page

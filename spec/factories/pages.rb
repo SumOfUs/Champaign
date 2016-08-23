@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 FactoryGirl.define do
   factory :page do
-    sequence(:title) {|n| "#{Faker::Company.bs}#{n}" }
+    sequence(:title) { |n| "#{Faker::Company.bs}#{n}" }
     slug nil # Used by friendly_id  http://norman.github.io/friendly_id/
     publish_status :published
     featured false
     liquid_layout
     language
-    ak_petition_resource_uri "http://example.com/petition"
-    ak_donation_resource_uri "http://example.com/donation"
+    ak_petition_resource_uri 'http://example.com/petition'
+    ak_donation_resource_uri 'http://example.com/donation'
 
     trait :published do
       publish_status :published
@@ -19,4 +19,3 @@ FactoryGirl.define do
     end
   end
 end
-

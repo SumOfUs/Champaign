@@ -28,7 +28,7 @@ describe 'CORS support' do
     context 'when a request comes *.sumofus.org subdomain' do
       headers = {
         accept: 'application/json',
-        origin: 'http://actions.sumofus.org',
+        origin: 'http://actions.sumofus.org'
       }
 
       it 'responds allowing the exact subdomain' do
@@ -78,7 +78,7 @@ describe 'CORS support' do
     context 'when a request comes *.sumofus.org subdomain' do
       headers = {
         accept: 'application/json',
-        origin: 'https://actions.sumofus.org',
+        origin: 'https://actions.sumofus.org'
       }
 
       it 'responds allowing the exact domain' do
@@ -90,7 +90,7 @@ describe 'CORS support' do
     context 'when the origin is not a *.sumofus.org subdomain' do
       headers = {
         accept: 'application/json',
-        origin: 'http://www.not-sumofus.org',
+        origin: 'http://www.not-sumofus.org'
       }
 
       it 'responds without the CORS headers' do

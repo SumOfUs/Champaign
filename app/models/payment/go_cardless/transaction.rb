@@ -16,7 +16,7 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
     failed:        :fail,
     charged_back:  :charge_back,
     paid_out:      :pay_out
-  }
+  }.freeze
 
   aasm do
     state :created, initial: true

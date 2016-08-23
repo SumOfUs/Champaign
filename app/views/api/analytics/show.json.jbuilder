@@ -7,4 +7,3 @@ json.totals do
   json.all_total @page.total_actions
   json.new_total @page.total_new_members
 end
-

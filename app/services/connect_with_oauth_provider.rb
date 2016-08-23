@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 # Raise if user's email domain is not whitelisted
-class Champaign::NotWhitelisted < StandardError; end;
+class Champaign::NotWhitelisted < StandardError; end
 
 class ConnectWithOauthProvider
   def self.connect(data)
@@ -37,7 +37,7 @@ class ConnectWithOauthProvider
   end
 
   def updated_disconnected_user
-    disconnected_user.update_attributes( provider: @resp.provider, uid: @resp.uid )
+    disconnected_user.update_attributes(provider: @resp.provider, uid: @resp.uid)
     disconnected_user
   end
 
@@ -61,4 +61,3 @@ class ConnectWithOauthProvider
   alias user_exists_but_disconnected disconnected_user
   alias user_already_connected connected_user
 end
-

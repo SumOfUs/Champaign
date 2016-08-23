@@ -42,12 +42,12 @@ Devise.setup do |config|
   # Configure which authentication keys should be case-insensitive.
   # These keys will be downcased upon creating or modifying a user and when used
   # to authenticate or find a user. Default is :email.
-  config.case_insensitive_keys = [ :email ]
+  config.case_insensitive_keys = [:email]
 
   # Configure which authentication keys should have whitespace stripped.
   # These keys will have whitespace before and after removed upon creating or
   # modifying a user and when used to authenticate or find a user. Default is :email.
-  config.strip_whitespace_keys = [ :email ]
+  config.strip_whitespace_keys = [:email]
 
   # Tell if authentication through request.params is enabled. True by default.
   # It can be set to an array that will enable params authentication only for the
@@ -235,7 +235,7 @@ Devise.setup do |config|
   # up on your models and hooks.
 
   require 'omniauth-google-oauth2'
-  config.omniauth :google_oauth2, Rails.application.secrets.omniauth_client_id, Rails.application.secrets.omniauth_client_secret, access_type: "offline", approval_prompt: ""
+  config.omniauth :google_oauth2, Rails.application.secrets.omniauth_client_id, Rails.application.secrets.omniauth_client_secret, access_type: 'offline', approval_prompt: ''
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

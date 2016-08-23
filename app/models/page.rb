@@ -91,8 +91,8 @@ class Page < ActiveRecord::Base
   private
 
   def switch_plugins
-    fields = ["liquid_layout_id", "follow_up_liquid_layout_id", "follow_up_plan"]
-    if fields.any?{ |f| changed.include?(f) }
+    fields = %w(liquid_layout_id follow_up_liquid_layout_id follow_up_plan)
+    if fields.any? { |f| changed.include?(f) }
       secondary = (follow_up_plan == 'with_liquid') ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
     end
@@ -104,4 +104,3 @@ class Page < ActiveRecord::Base
     end
   end
 end
-

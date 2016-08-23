@@ -19,7 +19,7 @@
 module Donations
   class Currencies
     # Array of currency codes to convert to.
-    VALID_CURRENCIES = [:GBP, :EUR, :AUD, :NZD, :CAD]
+    VALID_CURRENCIES = [:GBP, :EUR, :AUD, :NZD, :CAD].freeze
 
     def self.for(amounts)
       new(amounts).convert
@@ -27,13 +27,13 @@ module Donations
 
     def initialize(amounts)
       @amounts = amounts
-      @currencies = { USD: @amounts.map{ |val| Money.new(val).to_s } }
+      @currencies = { USD: @amounts.map { |val| Money.new(val).to_s } }
     end
 
     def convert
       VALID_CURRENCIES.each do |currency|
         @currencies[currency] = @amounts.map do |val|
-          PaymentProcessor::Currency.convert( val, currency ).to_s
+          PaymentProcessor::Currency.convert(val, currency).to_s
         end
       end
 
@@ -45,4 +45,3 @@ module Donations
     end
   end
 end
-

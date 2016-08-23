@@ -7,7 +7,7 @@ describe 'Search ::' do
     context 'searches by single criterion,' do
       context 'ordering' do
         include_context 'page_searcher_spec_data'
-        let(:page_searcher) {Search::PageSearcher}
+        let(:page_searcher) { Search::PageSearcher }
 
         it 'orders searches based on creation date' do
           expect(page_searcher.new(order_by: [:created_at, :asc]).search).to eq(Page.all.order(created_at: :asc))
@@ -51,6 +51,3 @@ describe 'Search ::' do
     end
   end
 end
-
-
-

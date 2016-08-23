@@ -55,8 +55,8 @@ describe DonationBandsController do
   end
 
   describe 'POST create' do
-    let(:fake_params) { {name: 'Test name', amounts: '1 2 3 4 5'} }
-    let(:converted_params) { {name: 'Test name', amounts: [1, 2, 3, 4, 5]} }
+    let(:fake_params) { { name: 'Test name', amounts: '1 2 3 4 5' } }
+    let(:converted_params) { { name: 'Test name', amounts: [1, 2, 3, 4, 5] } }
 
     before do
       allow(DonationBand).to receive(:create) { donation_band }

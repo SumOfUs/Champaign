@@ -5,7 +5,7 @@ describe ChampaignQueue do
   describe '.push' do
     context 'in production' do
       before do
-        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+        allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new('production'))
       end
 
       it 'delegates to Client::Sqs' do
@@ -26,4 +26,3 @@ describe ChampaignQueue do
     end
   end
 end
-

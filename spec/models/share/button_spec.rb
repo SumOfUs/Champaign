@@ -6,7 +6,7 @@ describe Share::Button do
 
   subject { button }
 
-  it { is_expected.to be_valid}
+  it { is_expected.to be_valid }
 
   describe 'validation' do
     it 'is valid without a title' do
@@ -15,7 +15,7 @@ describe Share::Button do
     end
 
     it 'is valid with a blank title' do
-      button.title = " "
+      button.title = ' '
       expect(button).to be_valid
     end
 
@@ -25,9 +25,8 @@ describe Share::Button do
     end
 
     it 'is invalid with a blank url' do
-      button.url = " "
+      button.url = ' '
       expect(button).to be_invalid
     end
   end
 end
-

@@ -25,7 +25,7 @@ class PagesController < ApplicationController
   end
 
   def create
-    @page = PageBuilder.create( page_params )
+    @page = PageBuilder.create(page_params)
 
     if @page.valid?
       redirect_to edit_page_path(@page.id)
@@ -99,4 +99,3 @@ class PagesController < ApplicationController
     params[:search].reverse_merge default_params
   end
 end
-

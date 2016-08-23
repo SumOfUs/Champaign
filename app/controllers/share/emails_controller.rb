@@ -18,4 +18,3 @@ class Share::EmailsController < Share::SharesController
     Share::Email
   end
 end
-

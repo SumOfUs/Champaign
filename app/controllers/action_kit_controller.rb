@@ -24,4 +24,3 @@ class ActionKitController < ApplicationController
     end
   end
 end
-

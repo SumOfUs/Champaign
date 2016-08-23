@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 FactoryGirl.define do
-  factory :payment_braintree_customer, :class => 'Payment::Braintree::Customer' do
+  factory :payment_braintree_customer, class: 'Payment::Braintree::Customer' do
     card_type { Faker::Business.credit_card_type }
-    card_bin ""
+    card_bin ''
     cardholder_name { Faker::Name.name }
-    card_debit "MyString"
+    card_debit 'MyString'
     card_last_4 { Faker::Number.number(4) }
-    card_unique_number_identifier{ "cuni#{Faker::Number.number(6)}" }
+    card_unique_number_identifier { "cuni#{Faker::Number.number(6)}" }
     email { Faker::Internet.email }
-    first_name "MyString"
-    last_name "MyString"
+    first_name 'MyString'
+    last_name 'MyString'
     customer_id { Faker::Number.number(6) }
 
     trait :with_payment_methods do
@@ -25,7 +25,7 @@ FactoryGirl.define do
         tokens = []
         evaluator.payment_methods.times do |i|
           tokens.push(
-            token: Faker::Lorem.characters(i+4),
+            token: Faker::Lorem.characters(i + 4),
             customer_id: customer.customer_id
           )
         end

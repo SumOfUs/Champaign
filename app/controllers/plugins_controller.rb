@@ -4,7 +4,7 @@ class PluginsController < ApplicationController
 
   def index
     plugins = @page.plugins
-    if plugins.size > 0
+    if !plugins.empty?
       redirect_to page_plugin_path(@page, plugins.first.name, plugins.first.id)
     else
       redirect_to edit_page_path(@page)
@@ -21,4 +21,3 @@ class PluginsController < ApplicationController
     @page = Page.find(params[:page_id])
   end
 end
-

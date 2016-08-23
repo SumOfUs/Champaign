@@ -10,21 +10,21 @@ describe UrisController do
       allow(request.env['warden']).to receive(:authenticate!) { user }
     end
 
-    describe "GET #index" do
+    describe 'GET #index' do
       let(:uris) { [build(:uri), build(:uri)] }
 
       before :each do
         allow(Uri).to receive(:all).and_return(uris)
       end
 
-      it "assigns all uris as @uris" do
+      it 'assigns all uris as @uris' do
         get :index
         expect(assigns(:uris)).to eq(uris)
       end
     end
 
     describe 'POST #create' do
-      let(:params) { { domain: "google.com", path: '/giddyup', page_id: '1' } }
+      let(:params) { { domain: 'google.com', path: '/giddyup', page_id: '1' } }
 
       before do
         allow(Uri).to receive(:new) { uri }
@@ -40,16 +40,16 @@ describe UrisController do
         expect(uri).to have_received(:save)
       end
 
-      context "successfully created" do
+      context 'successfully created' do
         it 'renders uri partial' do
           expect(response).to render_template('_uri')
         end
       end
     end
 
-    describe "DELETE #destroy" do
+    describe 'DELETE #destroy' do
       before do
-        allow(Uri).to receive(:find){ uri }
+        allow(Uri).to receive(:find) { uri }
         allow(uri).to receive(:destroy)
 
         delete :destroy, id: '2', format: :json

@@ -53,11 +53,11 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     params = event.payload[:params].reject do |k|
-      ['controller', 'action'].include? k
+      %w(controller action).include? k
     end
-    log_hash = {"params"=> params, "time"=>event.time}
-    if not event.payload[:exception].blank?
-      log_hash["exception"]=event.payload[:exception]
+    log_hash = { 'params' => params, 'time' => event.time }
+    unless event.payload[:exception].blank?
+      log_hash['exception'] = event.payload[:exception]
     end
     log_hash
   end
@@ -130,4 +130,3 @@ Rails.application.configure do
     end
   end
 end
-

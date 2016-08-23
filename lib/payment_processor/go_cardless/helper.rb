@@ -12,13 +12,10 @@ module PaymentProcessor
       def next_available_date(day)
         date = Date.today.change(day: day)
 
-        if Time.now.day >= day
-          date += 1.month
-        end
+        date += 1.month if Time.now.day >= day
 
         date
       end
     end
   end
 end
-

@@ -34,7 +34,7 @@ module ChampaignQueue
       private
 
       def uri
-        URI( ak_processor_url )
+        URI(ak_processor_url)
       end
 
       def ak_processor_url
@@ -43,4 +43,3 @@ module ChampaignQueue
     end
   end
 end
-

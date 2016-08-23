@@ -9,10 +9,10 @@ describe ChampaignLiquidFilters do
 
   describe 'select_option' do
     let(:base_options) do
-       '<option value="DM">Dominique</option>
-        <option value="SV">El Salvador</option>
-        <option value="ES">Espagne</option>
-        <option value="EE">Estonie</option>'
+      '<option value="DM">Dominique</option>
+       <option value="SV">El Salvador</option>
+       <option value="ES">Espagne</option>
+       <option value="EE">Estonie</option>'
     end
 
     it 'does not add selected if one is already selected with attribute' do

@@ -96,7 +96,7 @@ module PaymentProcessor
               expect(::Braintree::Subscription).not_to have_received(:create)
             end
 
-            it "is not successful" do
+            it 'is not successful' do
               expect(@builder.success?).to be(false)
             end
 
@@ -129,7 +129,7 @@ module PaymentProcessor
                 expect(::Braintree::Subscription).not_to have_received(:create)
               end
 
-              it "is not successful" do
+              it 'is not successful' do
                 expect(@builder.success?).to be(false)
               end
 
@@ -158,7 +158,7 @@ module PaymentProcessor
                   expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
                 end
 
-                it "is not successful" do
+                it 'is not successful' do
                   expect(@builder.success?).to be(false)
                 end
 
@@ -190,7 +190,7 @@ module PaymentProcessor
                   expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
                 end
 
-                it "is successful" do
+                it 'is successful' do
                   expect(@builder.success?).to be(true)
                 end
 
@@ -253,7 +253,7 @@ module PaymentProcessor
               expect(::Braintree::Subscription).not_to have_received(:create)
             end
 
-            it "is not successful" do
+            it 'is not successful' do
               expect(@builder.success?).to be(false)
             end
 
@@ -282,7 +282,7 @@ module PaymentProcessor
                 expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
               end
 
-              it "is not successful" do
+              it 'is not successful' do
                 expect(@builder.success?).to be(false)
               end
 
@@ -314,7 +314,7 @@ module PaymentProcessor
                 expect(::Braintree::Subscription).to have_received(:create).with(subscription_options)
               end
 
-              it "is successful" do
+              it 'is successful' do
                 expect(@builder.success?).to be(true)
               end
 

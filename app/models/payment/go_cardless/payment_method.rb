@@ -8,7 +8,7 @@ class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
     active:     :activate,
     cancelled:  :cancel,
     expired:    :expire
-  }
+  }.freeze
 
   aasm do
     state :pending, initial: true

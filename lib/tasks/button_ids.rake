@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 namespace :champaign do
-  desc "Associate existing shares with their respective button_ids"
+  desc 'Associate existing shares with their respective button_ids'
   task associate_buttons: :environment do
     Share::Variant.all.each do |variant|
       # ALERT - this needs good testing before running it on production

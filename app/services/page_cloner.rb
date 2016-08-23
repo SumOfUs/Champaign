@@ -68,9 +68,7 @@ class PageCloner
     page.images.each do |image|
       new_image = Image.create(content: image.content, page: cloned_page)
 
-      if image == primary_image
-        cloned_page.primary_image = new_image
-      end
+      cloned_page.primary_image = new_image if image == primary_image
     end
   end
 end

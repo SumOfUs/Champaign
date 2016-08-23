@@ -17,7 +17,7 @@ class Api::PagesController < ApplicationController
 
   def share_rows
     render json: @page.shares.map do |s|
-      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
+      { html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: { share: s, page: @page }) }
     end
   end
 
@@ -38,7 +38,7 @@ class Api::PagesController < ApplicationController
   private
 
   def render_errors
-    render json: { errors: "No record was found with that slug or ID." }, status: 404
+    render json: { errors: 'No record was found with that slug or ID.' }, status: 404
   end
 
   def all_params
@@ -54,9 +54,7 @@ class Api::PagesController < ApplicationController
     Rack::Utils.parse_nested_query(params.to_query).each_pair do |key, nested|
       next unless nested.is_a? Hash
       nested.each_pair do |_subkey, subnested|
-        if subnested.is_a? Hash
-          unwrapped[key] = subnested
-        end
+        unwrapped[key] = subnested if subnested.is_a? Hash
       end
     end
     unwrapped.with_indifferent_access

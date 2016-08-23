@@ -6,10 +6,10 @@ describe FormElementsController do
   let(:form) { instance_double('Form') }
 
   describe 'POST #create' do
-    let(:params) { { label: "Label", data_type: 'text', required: true } }
+    let(:params) { { label: 'Label', data_type: 'text', required: true } }
 
     before do
-      allow(Form).to receive(:find){ form }
+      allow(Form).to receive(:find) { form }
       allow(FormElementBuilder).to receive(:create) { element }
 
       post :create, form_id: '1', form_element: params
@@ -23,18 +23,18 @@ describe FormElementsController do
       expect(FormElementBuilder).to have_received(:create).with(form, params)
     end
 
-    context "successfully created" do
+    context 'successfully created' do
       it 'renders element partial' do
         expect(response).to render_template('form_elements/_element')
       end
     end
   end
 
-  describe "POST #sort" do
+  describe 'POST #sort' do
     before do
-      allow(Form).to receive(:find){ form }
+      allow(Form).to receive(:find) { form }
       allow(form).to receive(:touch)
-      allow(form).to receive(:form_elements){ [] }
+      allow(form).to receive(:form_elements) { [] }
 
       post :sort, form_id: '1', form_element_ids: ''
     end
@@ -48,9 +48,9 @@ describe FormElementsController do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     before do
-      allow(FormElement).to receive(:find){ element }
+      allow(FormElement).to receive(:find) { element }
       allow(element).to receive(:destroy)
 
       delete :destroy, form_id: '1', id: '2', format: :json

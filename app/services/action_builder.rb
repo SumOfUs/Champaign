@@ -33,7 +33,7 @@ module ActionBuilder
   end
 
   def existing_member
-    @existing_member ||= Member.find_by( email: @params[:email] )
+    @existing_member ||= Member.find_by(email: @params[:email])
   end
 
   def existing_member?
@@ -53,11 +53,11 @@ module ActionBuilder
 
   def filtered_params
     hash = @params.try(:to_unsafe_hash) || @params.to_h # for ActionController::Params
-    hash.symbolize_keys.compact.keep_if{ |k| permitted_keys.include? k }
+    hash.symbolize_keys.compact.keep_if { |k| permitted_keys.include? k }
   end
 
   def permitted_keys
-    Member.new.attributes.keys.map(&:to_sym).reject!{|k| k == :id}
+    Member.new.attributes.keys.map(&:to_sym).reject! { |k| k == :id }
   end
 
   def page
@@ -70,7 +70,7 @@ module ActionBuilder
     ak_user_id = AkidParser.parse(@params[:akid], Settings.action_kit.akid_secret)[:actionkit_user_id]
     @user.actionkit_user_id = ak_user_id unless ak_user_id.blank?
 
-    @user.name = @params[:name] if @params.has_key? :name
+    @user.name = @params[:name] if @params.key? :name
     @user.assign_attributes(filtered_params)
   end
 
@@ -90,4 +90,3 @@ module ActionBuilder
     !!@params[:is_subscription]
   end
 end
-

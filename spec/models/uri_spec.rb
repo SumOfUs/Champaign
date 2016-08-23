@@ -66,7 +66,7 @@ describe Uri do
   end
 
   describe 'page' do
-    subject{ uri }
+    subject { uri }
     it { is_expected.to respond_to :page }
     it { is_expected.to respond_to :page= }
     it { is_expected.to respond_to :page_id }
@@ -78,7 +78,7 @@ describe Uri do
     end
 
     it 'is invalid with a non-existent page' do
-      uri.page_id = 456789
+      uri.page_id = 456_789
       expect(uri).to be_invalid
     end
   end

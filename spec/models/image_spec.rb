@@ -2,19 +2,20 @@
 describe Image do
   it { should have_attached_file(:content) }
   it { should validate_attachment_presence(:content) }
-  it do should validate_attachment_content_type(:content)
-                .allowing("image/tiff", "image/jpeg", "image/jpg", "image/png", "image/x-png", "image/gif")
-                .rejecting('text/plain', 'text/xml', "text/javascript")
+  it do
+    should validate_attachment_content_type(:content)
+      .allowing('image/tiff', 'image/jpeg', 'image/jpg', 'image/png', 'image/x-png', 'image/gif')
+      .rejecting('text/plain', 'text/xml', 'text/javascript')
   end
   it { should validate_attachment_size(:content).less_than(20.megabytes) }
 
-  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
+  let(:image_file) { File.new(Rails.root.join('spec', 'fixtures', 'test-image.gif')) }
   let(:image) { Image.create!(content: image_file) }
 
   after :each do
     # when rspec cleans up, it doesn't actually commit like normal,
     # so paperclip's file delete callback isn't called.
-    Image.all.map{ |i| i.destroy; i.run_callbacks(:commit) }
+    Image.all.map { |i| i.destroy; i.run_callbacks(:commit) }
   end
 
   it 'should create the image file' do

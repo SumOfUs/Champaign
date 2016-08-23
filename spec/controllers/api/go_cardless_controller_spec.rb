@@ -3,19 +3,19 @@ require 'rails_helper'
 
 describe Api::GoCardlessController do
   let(:page) { double(:page, id: '1') }
-  let(:action) { instance_double("Action", member_id: 79) }
+  let(:action) { instance_double('Action', member_id: 79) }
 
   before do
     allow(Page).to receive(:find) { page }
     allow(SecureRandom).to receive(:uuid) { 'fake_session_id' }
-    allow(MobileDetector).to receive(:detect) { {action_mobile: 'tablet'} }
+    allow(MobileDetector).to receive(:detect) { { action_mobile: 'tablet' } }
   end
 
   describe 'GET #start_flow' do
-    let(:director) { double(:director, success?: true, redirect_url: "http://example.com/redirect_url") }
+    let(:director) { double(:director, success?: true, redirect_url: 'http://example.com/redirect_url') }
 
     before do
-      allow(GoCardlessDirector).to receive(:new){ director }
+      allow(GoCardlessDirector).to receive(:new) { director }
 
       subject
     end
@@ -24,7 +24,7 @@ describe Api::GoCardlessController do
 
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new)
-        .with('fake_session_id', "http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1", controller.params)
+        .with('fake_session_id', 'http://test.host/api/go_cardless/pages/1/transaction?foo=bar&page_id=1', controller.params)
     end
 
     it 'redirects' do
@@ -32,17 +32,17 @@ describe Api::GoCardlessController do
     end
   end
 
-  describe "POST transaction" do
+  describe 'POST transaction' do
     let(:client) { PaymentProcessor::GoCardless }
 
     let(:params) do
       {
         amount: '40.19',
-        user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet'},
+        user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet' },
         currency: 'EUR',
         page_id: '12',
         redirect_flow_id: 'RE2109123',
-        session_token: "4f592f2a-2bc2-4028-8a8c-19b222e2faa7"
+        session_token: '4f592f2a-2bc2-4028-8a8c-19b222e2faa7'
       }
     end
 
@@ -73,7 +73,7 @@ describe Api::GoCardlessController do
       end
 
       describe 'with recurring: true' do
-        let(:builder){ instance_double('PaymentProcessor::GoCardless::Subscription', action: action, success?: true, subscription_id: 'SU243980') }
+        let(:builder) { instance_double('PaymentProcessor::GoCardless::Subscription', action: action, success?: true, subscription_id: 'SU243980') }
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
@@ -88,7 +88,7 @@ describe Api::GoCardlessController do
       end
 
       describe 'without recurring' do
-        let(:builder){ instance_double('PaymentProcessor::GoCardless::Transaction', action: action, success?: true, transaction_id: 'PA235890') }
+        let(:builder) { instance_double('PaymentProcessor::GoCardless::Transaction', action: action, success?: true, transaction_id: 'PA235890') }
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
@@ -104,7 +104,7 @@ describe Api::GoCardlessController do
     end
 
     describe 'unsuccessfully' do
-      let(:errors) { instance_double('PaymentProcessor::GoCardless::ErrorProcessing', process: [{my_error: 'foo'}]) }
+      let(:errors) { instance_double('PaymentProcessor::GoCardless::ErrorProcessing', process: [{ my_error: 'foo' }]) }
 
       before :each do
         allow(client::ErrorProcessing).to receive(:new).and_return(errors)
@@ -136,7 +136,7 @@ describe Api::GoCardlessController do
       end
 
       describe 'with recurring: true' do
-        let(:builder){ instance_double('PaymentProcessor::GoCardless::Subscription', success?: false, error_container: {}) }
+        let(:builder) { instance_double('PaymentProcessor::GoCardless::Subscription', success?: false, error_container: {}) }
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
@@ -151,8 +151,8 @@ describe Api::GoCardlessController do
       end
 
       describe 'without recurring' do
-        let(:transaction) { instance_double('Braintree::Transaction', id: 't1234')}
-        let(:builder){ instance_double('PaymentProcessor::GoCardless::Transaction', success?: false, error_container: {}) }
+        let(:transaction) { instance_double('Braintree::Transaction', id: 't1234') }
+        let(:builder) { instance_double('PaymentProcessor::GoCardless::Transaction', success?: false, error_container: {}) }
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
@@ -172,15 +172,15 @@ describe Api::GoCardlessController do
     let(:validator) { double(valid?: true) }
 
     before do
-      allow(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new){ validator }
+      allow(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new) { validator }
       allow(PaymentProcessor::GoCardless::WebhookHandler::ProcessEvents).to receive(:process)
     end
 
     it 'instantiates signature validator' do
       expect(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new)
-        .with(          secret: 'monkey',
-                        signature: 'foobar',
-                        body: {events: {an: :event} }.to_json)
+        .with(secret: 'monkey',
+              signature: 'foobar',
+              body: { events: { an: :event } }.to_json)
 
       request.headers['HTTP_WEBHOOK_SIGNATURE'] = 'foobar'
       post 'webhook', events: { an: :event }
@@ -188,7 +188,7 @@ describe Api::GoCardlessController do
 
     context 'with invalid events' do
       before do
-        allow(validator).to receive(:valid?){ false }
+        allow(validator).to receive(:valid?) { false }
         post 'webhook', events: {}
       end
 
@@ -205,7 +205,7 @@ describe Api::GoCardlessController do
 
     context 'with valid events' do
       before do
-        allow(validator).to receive(:valid?){ true }
+        allow(validator).to receive(:valid?) { true }
         post 'webhook', events: {}
       end
 

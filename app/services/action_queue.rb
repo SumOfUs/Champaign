@@ -59,7 +59,7 @@ module ActionQueue
         postal:     data[:postal],
         address1:   data[:address1],
         source:     data[:source]
-      }.merge(UserLanguageISO.for(page.language) )
+      }.merge(UserLanguageISO.for(page.language))
     end
 
     def data
@@ -68,7 +68,7 @@ module ActionQueue
 
     def action_fields
       @action_fields ||= {}.tap do |fields|
-        data.keys.select{|k| k =~ /^action_/}.each do |key|
+        data.keys.select { |k| k =~ /^action_/ }.each do |key|
           fields[key] = data[key]
         end
       end
@@ -105,7 +105,7 @@ module ActionQueue
       {
         type: 'action',
         params: {
-          page: get_page_name,
+          page: get_page_name
         }
           .merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
@@ -138,7 +138,7 @@ module ActionQueue
           order: {
             amount:       data[:amount],
             currency:     data[:currency],
-            recurring_id: data[:subscription_id],
+            recurring_id: data[:subscription_id]
           }.merge(fake_card_info),
           action: action_data,
           user: user_data
@@ -157,7 +157,7 @@ module ActionQueue
           },
           order: {
             amount:       data[:amount],
-            currency:     data[:currency],
+            currency:     data[:currency]
           }.merge(fake_card_info),
           action: action_data,
           user: user_data
@@ -170,7 +170,7 @@ module ActionQueue
         fields: action_fields.merge(
           action_account_number_ending:  data[:account_number_ending],
           action_mandate_reference:      data[:mandate_reference],
-          action_bank_name:              data[:bank_name],
+          action_bank_name:              data[:bank_name]
         ),
         source: data[:source]
       }
@@ -178,10 +178,10 @@ module ActionQueue
 
     def fake_card_info
       {
-        card_num:       "DDEB",
-        card_code:      "007",
-        exp_date_month: "01",
-        exp_date_year:  "99"
+        card_num:       'DDEB',
+        card_code:      '007',
+        exp_date_month: '01',
+        exp_date_year:  '99'
       }
     end
 
@@ -275,7 +275,7 @@ module ActionQueue
     end
 
     def is_paypal?
-      data[:card_num] == "PYPL"
+      data[:card_num] == 'PYPL'
     end
 
     def expire_month
@@ -297,4 +297,3 @@ module ActionQueue
     end
   end
 end
-

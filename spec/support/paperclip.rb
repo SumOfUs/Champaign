@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "paperclip/matchers"
+require 'paperclip/matchers'
 
 RSpec.configure do |config|
   config.include Paperclip::Shoulda::Matchers
@@ -10,17 +10,17 @@ end
 # and https://gist.github.com/ngauthier/406460
 module Paperclip
   class Geometry
-    def self.from_file _file
-      parse("100x100")
+    def self.from_file(_file)
+      parse('100x100')
     end
   end
   class Thumbnail
     def make
-      src = Rails.root.join('spec','fixtures','test-image.gif')
-      dst = Tempfile.new([@basename, @format].compact.join("."))
+      src = Rails.root.join('spec', 'fixtures', 'test-image.gif')
+      dst = Tempfile.new([@basename, @format].compact.join('.'))
       dst.binmode
       FileUtils.cp(src, dst.path)
-      return dst
+      dst
     end
   end
 end

@@ -5,12 +5,12 @@ describe Member do
   let(:first_name) { 'Emilio' }
   let(:last_name) { 'Estevez' }
   let(:full_name) { "#{first_name} #{last_name}" }
-  let(:unicode_first) { 'Éöíñ'}
+  let(:unicode_first) { 'Éöíñ' }
   let(:unicode_last) { 'Ńūñèž' }
   let(:unicode_full) { "#{unicode_first} #{unicode_last}" }
-  let(:chinese_first) { '台'}
+  let(:chinese_first) { '台' }
   let(:chinese_last) { '北' }
-  let(:chinese_full) { "#{chinese_first} #{chinese_last}"}
+  let(:chinese_full) { "#{chinese_first} #{chinese_last}" }
 
   describe 'name' do
     it 'correctly joins first and last name' do
@@ -60,7 +60,7 @@ describe Member do
       it 'must be unique' do
         member = build(:member, email: 'foo@example.com')
         expect(member).to be_invalid
-        expect(member.errors[:email]).to eq(["has already been taken"])
+        expect(member.errors[:email]).to eq(['has already been taken'])
       end
 
       it 'can be nil' do
@@ -87,8 +87,8 @@ describe Member do
     it 'is fine with nil' do
       expect do
         create(:member, email: nil)
-      end.to change{Member.count}
-      .from(0).to(1)
+      end.to change { Member.count }
+        .from(0).to(1)
 
       expect(Member.last.email).to be nil
     end
@@ -117,7 +117,7 @@ describe Member do
   end
 
   describe 'go_cardless_customer' do
-    let(:member){ create :member }
+    let(:member) { create :member }
 
     it 'can have one go_cardless_customer' do
       customer = create :payment_go_cardless_customer, member_id: member.id
@@ -131,23 +131,23 @@ describe Member do
   end
 
   describe 'donor_status' do
-    let(:member){ create :member }
+    let(:member) { create :member }
 
     it 'defaults to nondonor' do
       expect(member.donor_status).to eq 'nondonor'
     end
 
     it 'can be set to donor' do
-      expect{ member.donor! }.to change{ member.donor_status }.to 'donor'
+      expect { member.donor! }.to change { member.donor_status }.to 'donor'
     end
 
     it 'can be set to recurring_donor' do
-      expect{ member.recurring_donor! }.to change{ member.donor_status }.to 'recurring_donor'
+      expect { member.recurring_donor! }.to change { member.donor_status }.to 'recurring_donor'
     end
 
     it 'can be set to nondonor' do
       member.donor!
-      expect{ member.nondonor! }.to change{ member.donor_status }.to 'nondonor'
+      expect { member.nondonor! }.to change { member.donor_status }.to 'nondonor'
     end
   end
 end

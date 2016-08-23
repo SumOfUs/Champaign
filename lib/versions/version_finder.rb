@@ -8,20 +8,20 @@ module Versions
 
       def versioned_models
         {
-            action: Action,
-            actionkit_page: ActionkitPage,
-            campaign: Campaign,
-            form: Form,
-            form_element: FormElement,
-            image: Image,
-            language: Language,
-            link: Link,
-            liquid_layout: LiquidLayout,
-            liquid_partial: LiquidPartial,
-            member: Member,
-            page: Page,
-            tag: Tag,
-            user: User
+          action: Action,
+          actionkit_page: ActionkitPage,
+          campaign: Campaign,
+          form: Form,
+          form_element: FormElement,
+          image: Image,
+          language: Language,
+          link: Link,
+          liquid_layout: LiquidLayout,
+          liquid_partial: LiquidPartial,
+          member: Member,
+          page: Page,
+          tag: Tag,
+          user: User
         }
       end
     end

@@ -2,12 +2,12 @@
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page, touch: true
 
-  DEFAULTS = { offset: 0 }
-  GOALS = [ 100, 200, 300, 400, 500,
-            1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000,
-            10_000, 15_000, 20_000, 25_000, 50_000, 75_000, 100_000,
-            150_000, 200_000, 250_000, 300_000, 500_000, 750_000,
-            1_000_000, 1_500_000, 2_000_000].freeze
+  DEFAULTS = { offset: 0 }.freeze
+  GOALS = [100, 200, 300, 400, 500,
+           1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000,
+           10_000, 15_000, 20_000, 25_000, 50_000, 75_000, 100_000,
+           150_000, 200_000, 250_000, 300_000, 500_000, 750_000,
+           1_000_000, 1_500_000, 2_000_000].freeze
 
   validates :offset, presence: true,
                      numericality: { greater_than_or_equal_to: 0 }
@@ -25,7 +25,7 @@ class Plugins::Thermometer < ActiveRecord::Base
     GOALS.find { |goal| current_total < goal } || next_goal_as_multiple_of(1_000_000)
   end
 
-  def liquid_data(_supplemental_data={})
+  def liquid_data(_supplemental_data = {})
     attributes.merge(
       percentage: current_progress,
       remaining: ActionController::Base.helpers.number_with_delimiter(goal - current_total),
@@ -52,7 +52,7 @@ class Plugins::Thermometer < ActiveRecord::Base
     return number.to_s if number < 1000
     return "#{(goal / 1000).to_i}k" if number < 1_000_000
     locale = page.try(:language).try(:code)
-    return "%g #{I18n.t('thermometer.million', locale: locale)}" % (goal / 1_000_000.0).round(1)
+    "%g #{I18n.t('thermometer.million', locale: locale)}" % (goal / 1_000_000.0).round(1)
   end
 
   def next_goal_as_multiple_of(step)

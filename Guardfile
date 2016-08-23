@@ -25,8 +25,8 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
-guard :rspec, cmd: "bin/rspec" do
-  require "guard/rspec/dsl"
+guard :rspec, cmd: 'bin/rspec' do
+  require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)
 
   # Feel free to open issues for suggestions and improvements
@@ -48,18 +48,18 @@ guard :rspec, cmd: "bin/rspec" do
 
   watch(rails.controllers) do |m|
     [
-      rspec.spec.("routing/#{m[1]}_routing"),
-      rspec.spec.("controllers/#{m[1]}_controller"),
-      rspec.spec.("acceptance/#{m[1]}")
+      rspec.spec.call("routing/#{m[1]}_routing"),
+      rspec.spec.call("controllers/#{m[1]}_controller"),
+      rspec.spec.call("acceptance/#{m[1]}")
     ]
   end
 
   watch(rails.spec_helper)     { rspec.spec_dir }
   watch(rails.routes)          { "#{rspec.spec_dir}/routing" }
   watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
-  watch('spec/spec_helper.rb')                        { "spec" }
-  watch('config/routes.rb')                           { "spec/routing" }
-  watch('app/controllers/application_controller.rb')  { "spec/controllers" }
+  watch('spec/spec_helper.rb')                        { 'spec' }
+  watch('config/routes.rb')                           { 'spec/routing' }
+  watch('app/controllers/application_controller.rb')  { 'spec/controllers' }
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^app/(.+)\.rb$})                           { |m| "spec/#{m[1]}_spec.rb" }
   watch(%r{^app/(.*)(\.erb|\.haml|\.slim)$})          { |m| "spec/#{m[1]}#{m[2]}_spec.rb" }
@@ -69,12 +69,12 @@ guard :rspec, cmd: "bin/rspec" do
   end
 
   # Capybara features specs
-  #watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
-  #watch(rails.layouts)       { |m| rspec.spec.("features/#{m[1]}") }
+  # watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
+  # watch(rails.layouts)       { |m| rspec.spec.("features/#{m[1]}") }
 
   # Turnip features and steps
-  #watch(%r{^spec/acceptance/(.+)\.feature$})
-  #watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
-  #Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
-  #end
+  # watch(%r{^spec/acceptance/(.+)\.feature$})
+  # watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
+  # Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
+  # end
 end

@@ -15,7 +15,7 @@ class LiquidPartial < ActiveRecord::Base
   # Filters array of partial names to those absent from the database.
   #
   def self.missing_partials(names)
-    names.reject{ |name| LiquidPartial.exists?(title: name) }
+    names.reject { |name| LiquidPartial.exists?(title: name) }
   end
 
   private
@@ -27,4 +27,3 @@ class LiquidPartial < ActiveRecord::Base
     errors.add(:content, "can only reference one partial, but found #{plugin_names.join(',')}")
   end
 end
-

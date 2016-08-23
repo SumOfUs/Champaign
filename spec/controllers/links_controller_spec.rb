@@ -11,10 +11,10 @@ describe LinksController do
 
   describe 'POST #create' do
     let(:page) { instance_double('Page') }
-    let(:params) { { url: "http://google.com", title: 'Google.com' } }
+    let(:params) { { url: 'http://google.com', title: 'Google.com' } }
 
     before do
-      allow(Page).to receive(:find){ page }
+      allow(Page).to receive(:find) { page }
       allow(Link).to receive(:new) { link }
 
       post :create, page_id: '1', link: params
@@ -32,16 +32,16 @@ describe LinksController do
       expect(link).to have_received(:save)
     end
 
-    context "successfully created" do
+    context 'successfully created' do
       it 'renders link partial' do
         expect(response).to render_template('pages/_link')
       end
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     before do
-      allow(Link).to receive(:find){ link }
+      allow(Link).to receive(:find) { link }
       allow(link).to receive(:destroy)
 
       delete :destroy, page_id: '1', id: '2', format: :json

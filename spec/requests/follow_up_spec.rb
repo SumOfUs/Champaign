@@ -34,7 +34,7 @@ describe 'rendering a post action share page' do
       subject
       expect(response.body).to include(facebook_variant_div)
     end
-    it 'does not render twitter and e-mail buttons'do
+    it 'does not render twitter and e-mail buttons' do
       subject
       expect(response.body).to_not include(twitter_variant_div)
       expect(response.body).to_not include(email_variant_div)

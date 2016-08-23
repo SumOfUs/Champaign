@@ -8,7 +8,7 @@ describe 'Search ::' do
       context 'by campaign' do
         include_context 'page_searcher_spec_data'
         let(:search_by_campaign) { Search::PageSearcher.new(campaign: [campaign.id]) }
-        let!(:unused_campaign) { create(:campaign, name:'unused campaign') }
+        let!(:unused_campaign) { create(:campaign, name: 'unused campaign') }
         it 'searches for a page based on the campaign it belongs to' do
           expect(search_by_campaign.search).to match_array([title_language_campaign_match])
         end
@@ -28,7 +28,7 @@ describe 'Search ::' do
 
         describe 'returns no pages when searching' do
           it 'with a non-existent campaign id' do
-            expect(Search::PageSearcher.new(campaign: [Page.last.id+1]).search).to match_array([])
+            expect(Search::PageSearcher.new(campaign: [Page.last.id + 1]).search).to match_array([])
           end
           it 'with an unused campaign id' do
             expect(Search::PageSearcher.new(campaign: [unused_campaign.id]).search).to match_array([])

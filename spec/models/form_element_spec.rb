@@ -67,8 +67,8 @@ describe FormElement do
   describe '.update' do
     it 'does not change position' do
       expect do
-        element.update(label: "Surname")
-      end.to_not change{ element.reload.position}
+        element.update(label: 'Surname')
+      end.to_not change { element.reload.position }
     end
   end
 
@@ -136,4 +136,3 @@ describe FormElement do
     end
   end
 end
-

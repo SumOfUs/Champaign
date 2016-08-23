@@ -15,10 +15,9 @@ module Api::AnalyticsHelper
   private
 
   def map_data(data)
-    data.inject([]) do |m, (k,v)|
-      m << {date: k, value: v }
+    data.inject([]) do |m, (k, v)|
+      m << { date: k, value: v }
       m
     end
   end
 end
-

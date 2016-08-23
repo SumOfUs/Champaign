@@ -21,7 +21,7 @@ class FormElementsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: {status: :ok}, status: :ok
+        render json: { status: :ok }, status: :ok
       end
     end
   end

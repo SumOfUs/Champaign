@@ -8,7 +8,7 @@ describe PageFollower do
   let(:follow_up_page_id) { 2 }
   let(:follow_up_layout_id) { 3 }
 
-  describe "follow_up_path" do
+  describe 'follow_up_path' do
     describe 'plan is :with_liquid' do
       let(:plan) { :with_liquid }
 
@@ -86,7 +86,7 @@ describe PageFollower do
   end
 
   describe 'new_from_page' do
-    let(:other_page) { instance_double('Page', slug: 'bleep-bloop')}
+    let(:other_page) { instance_double('Page', slug: 'bleep-bloop') }
     let(:page) do
       instance_double(
         'Page',

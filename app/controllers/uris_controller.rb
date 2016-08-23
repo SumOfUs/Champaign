@@ -55,4 +55,3 @@ class UrisController < ApplicationController
     @uri = Uri.find params['id']
   end
 end
-

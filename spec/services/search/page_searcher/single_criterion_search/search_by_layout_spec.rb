@@ -30,7 +30,7 @@ describe 'Search ::' do
 
         describe 'returns no pages when searching' do
           it 'with a non-existent layout' do
-            expect(Search::PageSearcher.new(layout: [LiquidLayout.last.id+1]).search).to match_array([])
+            expect(Search::PageSearcher.new(layout: [LiquidLayout.last.id + 1]).search).to match_array([])
           end
           it 'with an unused layout' do
             expect(Search::PageSearcher.new(layout: [unused_layout.id]).search).to match_array([])

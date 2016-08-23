@@ -11,7 +11,7 @@ describe LiquidRenderer do
   describe 'new' do
     it 'receives the correct arguments' do
       expect do
-        LiquidRenderer.new(page, layout: liquid_layout, location: {}, member: {}, url_params: {hi: 'a'})
+        LiquidRenderer.new(page, layout: liquid_layout, location: {}, member: {}, url_params: { hi: 'a' })
       end.not_to raise_error
     end
 
@@ -28,7 +28,7 @@ describe LiquidRenderer do
     end
 
     describe 'setting locale' do
-      describe "leaves english as the locale when page" do
+      describe 'leaves english as the locale when page' do
         it 'has no language' do
           page.language = nil
           LiquidRenderer.new(page, layout: liquid_layout)
@@ -36,14 +36,14 @@ describe LiquidRenderer do
           expect(I18n.t('common.save')).to eq 'Save'
         end
 
-        it "has a nonsense language code" do
+        it 'has a nonsense language code' do
           page.language = build :language, code: 'xxx'
           LiquidRenderer.new(page, layout: liquid_layout)
           expect(I18n.locale).to eq :en
           expect(I18n.t('common.save')).to eq 'Save'
         end
 
-        it "has an unsupported language code" do
+        it 'has an unsupported language code' do
           page.language = build :language, code: 'es'
           LiquidRenderer.new(page, layout: liquid_layout)
           expect(I18n.locale).to eq :en
@@ -53,12 +53,12 @@ describe LiquidRenderer do
     end
   end
 
-  describe "render" do
-    it "returns an html string with the title" do
+  describe 'render' do
+    it 'returns an html string with the title' do
       expect(renderer.render).to include("<h1>#{page.title}</h1>")
     end
 
-    it "renders the partial with the content" do
+    it 'renders the partial with the content' do
       expect(renderer.render).to include("<p>#{page.content}</p>")
     end
 
@@ -66,38 +66,38 @@ describe LiquidRenderer do
       it 'by raising an error in test' do
         expect(Rails.env.test?).to eq true
         liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
-        expect{ renderer.render }.to raise_error I18n::TranslationMissing
+        expect { renderer.render }.to raise_error I18n::TranslationMissing
       end
 
       it 'by raising an error in development' do
-        allow(Rails).to receive(:env).and_return "development".inquiry
+        allow(Rails).to receive(:env).and_return 'development'.inquiry
         expect(Rails.env.development?).to eq true
         liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
-        expect{ renderer.render }.to raise_error I18n::TranslationMissing
+        expect { renderer.render }.to raise_error I18n::TranslationMissing
       end
 
       it 'by showing the best effort on production' do
-        allow(Rails).to receive(:env).and_return "production".inquiry
+        allow(Rails).to receive(:env).and_return 'production'.inquiry
         expect(Rails.env.production?).to eq true
         liquid_layout.update_attributes(content: "{{ 'fundraiser.lunacy' | t }}")
-        expect{ renderer.render }.not_to raise_error
-        expect( renderer.render ).to include('lunacy');
+        expect { renderer.render }.not_to raise_error
+        expect(renderer.render).to include('lunacy')
       end
     end
 
     it 'fills in localized string' do
       liquid_layout.update_attributes(content: "{{ 'common.confirm' | t }}")
-      expect(renderer.render).to eq "Are you sure?"
+      expect(renderer.render).to eq 'Are you sure?'
     end
   end
 
-  describe "default_markup" do
-    it "is not a method" do
+  describe 'default_markup' do
+    it 'is not a method' do
       expect(renderer).not_to respond_to(:default_markup)
     end
   end
 
-  describe "markup_data" do
+  describe 'markup_data' do
     let(:page) do
       create(:page,
              follow_up_liquid_layout: create(:liquid_layout),
@@ -111,12 +111,12 @@ describe LiquidRenderer do
 
     subject { renderer.markup_data }
 
-    it "has string keys" do
+    it 'has string keys' do
       expect(subject.keys.map(&:class).uniq).to eq [String]
     end
 
-    it "has expected keys" do
-      expected_keys = %w{
+    it 'has expected keys' do
+      expected_keys = %w(
         plugins
         ref
         images
@@ -125,7 +125,8 @@ describe LiquidRenderer do
         country_option_tags
         follow_up_url
         primary_image
-        petition_target }
+        petition_target
+      )
 
       expected_keys += page.liquid_data.keys.map(&:to_s)
 
@@ -147,13 +148,13 @@ describe LiquidRenderer do
     end
   end
 
-  describe "personalization_data" do
-    it "should have string keys" do
+  describe 'personalization_data' do
+    it 'should have string keys' do
       expect(renderer.personalization_data.keys.map(&:class).uniq).to eq [String]
     end
 
-    it "should have expected keys" do
-      expected_keys = %w{
+    it 'should have expected keys' do
+      expected_keys = %w(
         url_params
         outstanding_fields
         location
@@ -161,13 +162,14 @@ describe LiquidRenderer do
         donation_bands
         thermometer
         action_count
-        show_direct_debit }
+        show_direct_debit
+      )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
     end
 
     describe 'show_direct_debit' do
-      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: {country_code: 'US'}, country_code: 'US') }
+      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: { country_code: 'US' }, country_code: 'US') }
       let(:member) { build :member, country: 'DE' }
       let(:form) { create :form_with_email_and_name }
       let(:fundraiser) { create :plugins_fundraiser, page: page, form: form }
@@ -178,7 +180,7 @@ describe LiquidRenderer do
       end
 
       it 'calls DirectDebitDecider with url_params[:recurring_default] if both present' do
-        LiquidRenderer.new(page, layout: nil, member: member, url_params: {recurring_default: 'one_off'}).personalization_data
+        LiquidRenderer.new(page, layout: nil, member: member, url_params: { recurring_default: 'one_off' }).personalization_data
         expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'one_off')
       end
 
@@ -189,7 +191,7 @@ describe LiquidRenderer do
 
       it 'calls DirectDebitDecider with location country and member country' do
         LiquidRenderer.new(page, layout: nil, member: member, location: location).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with(['US', 'DE'], 'recurring')
+        expect(DirectDebitDecider).to have_received(:decide).with(%w(US DE), 'recurring')
       end
     end
 
@@ -207,7 +209,7 @@ describe LiquidRenderer do
       it 'has the fields from one plugin form' do
         form = create :form_with_email_and_name
         create :plugins_fundraiser, page: page, form: form
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq ['email', 'name']
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq %w(email name)
       end
 
       it "checks with the member's liquid data" do
@@ -224,14 +226,14 @@ describe LiquidRenderer do
         p2 = create :plugins_petition, page: page
         p1.update_attributes(form: create(:form_with_email_and_name))
         p2.update_attributes(form: create(:form_with_phone_and_country))
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to match_array ['email', 'name', 'phone', 'country']
+        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to match_array %w(email name phone country)
       end
     end
 
     describe 'donation_bands' do
       let(:stubbed_amounts) { [1, 2, 3, 4, 5] }
       let(:stubbed_conversion) do
-        %w{GBP EUR AUD NZD CAD}.inject({}) do |memo, a|
+        %w(GBP EUR AUD NZD CAD).inject({}) do |memo, a|
           memo[a] = stubbed_amounts
           memo
         end
@@ -256,7 +258,7 @@ describe LiquidRenderer do
         a = create :donation_band, name: 'eh mate'
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: b
-        expected = {"USD" => Donations::Utils.round_and_dedup(b.amounts.map{|v| v/100})}
+        expected = { 'USD' => Donations::Utils.round_and_dedup(b.amounts.map { |v| v / 100 }) }
         expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
 
@@ -265,7 +267,7 @@ describe LiquidRenderer do
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: a
         create :plugins_fundraiser, page: page, donation_band: b
-        expected = {"USD" => Donations::Utils.round_and_dedup(b.amounts.map{|v| v/100})}
+        expected = { 'USD' => Donations::Utils.round_and_dedup(b.amounts.map { |v| v / 100 }) }
         expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
 
@@ -273,29 +275,29 @@ describe LiquidRenderer do
         a = create :donation_band, name: 'eh mate'
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: b
-        expected = {"USD" => Donations::Utils.round_and_dedup(b.amounts.map{|v| v/100})}
-        expect(LiquidRenderer.new(page, layout: liquid_layout, url_params: {donation_band: 'slurp'}).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
+        expected = { 'USD' => Donations::Utils.round_and_dedup(b.amounts.map { |v| v / 100 }) }
+        expect(LiquidRenderer.new(page, layout: liquid_layout, url_params: { donation_band: 'slurp' }).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
 
-      it "uses the url_params donation band if passed" do
+      it 'uses the url_params donation band if passed' do
         a = create :donation_band, name: 'eh mate'
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: b
-        expected = {"USD" => Donations::Utils.round_and_dedup(a.amounts.map{|v| v/100})}
-        expect(LiquidRenderer.new(page, layout: liquid_layout, url_params: {donation_band: a.name}).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
+        expected = { 'USD' => Donations::Utils.round_and_dedup(a.amounts.map { |v| v / 100 }) }
+        expect(LiquidRenderer.new(page, layout: liquid_layout, url_params: { donation_band: a.name }).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
     end
 
     describe 'location' do
-      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: {country_code: 'US'}, country_code: 'US') }
+      let(:location) { instance_double('Geocoder::Result::Freegeoip', data: { country_code: 'US' }, country_code: 'US') }
 
       before :each do
-        allow(Donations::Utils).to receive(:currency_from_country_code){ 'USD' }
+        allow(Donations::Utils).to receive(:currency_from_country_code) { 'USD' }
       end
 
       it 'returns the location its passed' do
-        allow(location).to receive(:data){ {region: 'USA' } }
-        allow(location).to receive(:country_code){ nil }
+        allow(location).to receive(:data) { { region: 'USA' } }
+        allow(location).to receive(:country_code) { nil }
         renderer = LiquidRenderer.new(page, layout: nil, location: location)
         expect(renderer.personalization_data['location']).to eq location.data.stringify_keys
         expect(Donations::Utils).not_to have_received(:currency_from_country_code).with('DE')
@@ -303,32 +305,32 @@ describe LiquidRenderer do
 
       it 'calls currency_from_country_code with member country' do
         member = build :member, country: 'DE'
-        allow(location).to receive(:country_code){ 'GB' }
-        allow(location).to receive(:data){ {country_code: 'GB' } }
+        allow(location).to receive(:country_code) { 'GB' }
+        allow(location).to receive(:data) { { country_code: 'GB' } }
         LiquidRenderer.new(page, layout: nil, member: member, location: location).personalization_data
         expect(Donations::Utils).to have_received(:currency_from_country_code).with('DE')
       end
 
       it 'calls currency_from_country_code with location country if member has none' do
         member = build :member, country: nil
-        allow(location).to receive(:country_code){ 'GB' }
-        allow(location).to receive(:data){ {country_code: 'GB' } }
+        allow(location).to receive(:country_code) { 'GB' }
+        allow(location).to receive(:data) { { country_code: 'GB' } }
         LiquidRenderer.new(page, layout: nil, member: member, location: location).personalization_data
         expect(Donations::Utils).to have_received(:currency_from_country_code).with('GB')
       end
 
       it 'sets location.country to member country if present' do
         member = build :member, country: 'DE'
-        allow(location).to receive(:country_code){ 'GB' }
-        allow(location).to receive(:data){ {country_code: 'GB' } }
+        allow(location).to receive(:country_code) { 'GB' }
+        allow(location).to receive(:data) { { country_code: 'GB' } }
         renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
         expect(renderer.personalization_data['location']).to eq('country_code' => 'GB', 'currency' => 'USD', 'country' => 'DE')
       end
 
       it 'sets location.country to location.country_code if member has no country' do
         member = build :member, country: nil
-        allow(location).to receive(:country_code){ 'GB' }
-        allow(location).to receive(:data){ {country_code: 'GB' } }
+        allow(location).to receive(:country_code) { 'GB' }
+        allow(location).to receive(:data) { { country_code: 'GB' } }
         renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
         expect(renderer.personalization_data['location']).to eq('country_code' => 'GB', 'currency' => 'USD', 'country' => 'GB')
       end
@@ -336,13 +338,13 @@ describe LiquidRenderer do
 
     describe 'member' do
       it 'gives email as welcome name if no name' do
-        member = build :member, first_name: nil, last_name: "", email: 'sup@dude.com'
+        member = build :member, first_name: nil, last_name: '', email: 'sup@dude.com'
         renderer = LiquidRenderer.new(page, layout: nil, member: member)
         expect(renderer.personalization_data['member']['welcome_name']).to eq 'sup@dude.com'
       end
 
       it 'gives first name and last name if available' do
-        member = build :member, first_name: 'big', last_name: "dog", email: 'sup@dude.com'
+        member = build :member, first_name: 'big', last_name: 'dog', email: 'sup@dude.com'
         renderer = LiquidRenderer.new(page, layout: nil, member: member)
         expect(renderer.personalization_data['member']['welcome_name']).to eq 'big dog'
       end
@@ -393,11 +395,11 @@ describe LiquidRenderer do
 
   describe LiquidRenderer::Cache do
     subject { LiquidRenderer::Cache.new(page, liquid_layout) }
-    let(:partial) { [ double(:partial, cache_key: 'foobar') ] }
+    let(:partial) { [double(:partial, cache_key: 'foobar')] }
 
     before do
-      allow(page).to receive(:cache_key){ 'foo' }
-      allow(liquid_layout).to receive(:cache_key){ 'bar' }
+      allow(page).to receive(:cache_key) { 'foo' }
+      allow(liquid_layout).to receive(:cache_key) { 'bar' }
     end
 
     describe '.invalidate' do

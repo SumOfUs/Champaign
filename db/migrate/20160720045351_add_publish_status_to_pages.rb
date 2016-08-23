@@ -17,4 +17,3 @@ class AddPublishStatusToPages < ActiveRecord::Migration
     remove_column :pages, :publish_status
   end
 end
-

@@ -35,34 +35,34 @@ module PaymentProcessor
       # encounter our generic 500 page.
       def handle_api_usage_error
         log_error(@error.backtrace.slice(0, 3).join("\n"))
-        [{code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale)}]
+        [{ code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale) }]
       end
 
       # this type of error is returned when GC has a 500
       def handle_gc_internal_error
         log_error("#{@error.message}. Please report to GoCardless support staff.")
-        [{code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale)}]
+        [{ code: @error.code, message: I18n.t('fundraiser.unknown_error', locale: @locale) }]
       end
 
       # state error is generally a user error, such as a user trying to do something twice in
       # a row.
       def handle_state_error
         log_error("#{@error.message}. #{full_messsages(@error.errors)}")
-        @error.errors.map{ |e| {code: @error.code, message: e['message'] } }
+        @error.errors.map { |e| { code: @error.code, message: e['message'] } }
       end
 
       # this is some kind of user error. we should show it to them and allow them to act on it
       def handle_validation_error
         log_error(full_messsages(@error.errors))
-        @error.errors.map{ |e| {code: @error.code, attribute: e['field'], message: full_message(e) } }
+        @error.errors.map { |e| { code: @error.code, attribute: e['field'], message: full_message(e) } }
       end
 
       def full_messsages(errors)
-        errors.map{ |e| full_message(e) }.join('. ')
+        errors.map { |e| full_message(e) }.join('. ')
       end
 
       def full_message(error)
-        error.has_key?('field') ? "#{error['field']} #{error['message']}" : error['message']
+        error.key?('field') ? "#{error['field']} #{error['message']}" : error['message']
       end
 
       def log_error(message)
@@ -71,4 +71,3 @@ module PaymentProcessor
     end
   end
 end
-

@@ -9,8 +9,8 @@ module ActionKit
       HTTParty.send(
         verb,
         "#{Settings.ak_api_url}/#{path}/",
-        :query => params[:params],
-        :basic_auth => auth
+        query: params[:params],
+        basic_auth: auth
       )
     end
 
@@ -28,4 +28,3 @@ module ActionKit
     end
   end
 end
-

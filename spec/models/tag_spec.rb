@@ -23,17 +23,16 @@ describe Tag do
       let!(:tag) { create :tag, page_ids: Page.last(2).map(&:id) }
 
       it 'does not destroy page' do
-        expect{ tag.destroy }.to change{ Page.count }.by 0
+        expect { tag.destroy }.to change { Page.count }.by 0
       end
 
       it 'destroys table joins' do
-        expect{ tag.destroy }.to change{ PagesTag.count }.by -2
+        expect { tag.destroy }.to change { PagesTag.count }.by -2
       end
 
       it 'destroys tag' do
-        expect{ tag.destroy }.to change{ Tag.count }.by -1
+        expect { tag.destroy }.to change { Tag.count }.by -1
       end
     end
   end
 end
-

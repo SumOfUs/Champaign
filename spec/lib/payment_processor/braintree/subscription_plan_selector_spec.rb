@@ -5,7 +5,7 @@ module PaymentProcessor
   module Braintree
     describe SubscriptionPlanSelector do
       before do
-        stub_const("PaymentProcessor::Clients::Braintree::SubscriptionPlanSelector::SUBSCRIPTION_PLANS", EUR: 'EUR')
+        stub_const('PaymentProcessor::Clients::Braintree::SubscriptionPlanSelector::SUBSCRIPTION_PLANS', EUR: 'EUR')
       end
 
       subject { described_class }
@@ -21,11 +21,10 @@ module PaymentProcessor
 
         context 'matched currency' do
           it 'returns merchant account ID' do
-            expect( subject.for_currency('EUR') ).to eq('EUR')
+            expect(subject.for_currency('EUR')).to eq('EUR')
           end
         end
       end
     end
   end
 end
-

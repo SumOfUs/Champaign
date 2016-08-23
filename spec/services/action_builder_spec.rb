@@ -73,33 +73,33 @@ describe ActionBuilder do
     let!(:page4) { create :page }
     let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }
 
-    it "returns nil if no previous action on any page" do
+    it 'returns nil if no previous action on any page' do
       expect(mab.previous_action).to eq nil
     end
 
-    it "returns nil if previous action on another page" do
+    it 'returns nil if previous action on another page' do
       create :action, page: page2, member: member
       expect(mab.previous_action).to eq nil
     end
 
-    it "returns nil if previous action on another page in a different campaign" do
+    it 'returns nil if previous action on another page in a different campaign' do
       create :campaign, pages: [page2, page3]
       create :action, page: page2, member: member
       expect(mab.previous_action).to eq nil
     end
 
-    it "returns action on current page if one exists" do
+    it 'returns action on current page if one exists' do
       action = create :action, page: page, member: member
       expect(mab.previous_action).to eq action
     end
 
-    it "returns action on other page in campaign if one campaign" do
+    it 'returns action on other page in campaign if one campaign' do
       create :campaign, pages: [page, page2, page3]
       action = create :action, page: page3, member: member
       expect(mab.previous_action).to eq action
     end
 
-    it "returns action on other page in campaign if multiple campaigns" do
+    it 'returns action on other page in campaign if multiple campaigns' do
       create :campaign, pages: [page, page2]
       create :campaign, pages: [page3, page4]
       action = create :action, page: page2, member: member
@@ -217,14 +217,14 @@ describe ActionBuilder do
   describe 'filtered_params' do
     let(:params) do
       {
-        email: "silly@billy.com",
-        country: "US",
-        first_name: "Silly",
-        last_name: "Billy",
-        city: "Northampton",
-        postal: "01060",
-        address1: "10 Coates St.",
-        address2: ""
+        email: 'silly@billy.com',
+        country: 'US',
+        first_name: 'Silly',
+        last_name: 'Billy',
+        city: 'Northampton',
+        postal: '01060',
+        address1: '10 Coates St.',
+        address2: ''
       }
     end
 
@@ -275,10 +275,9 @@ describe ActionBuilder do
 
       it 'but passes them through to form_data' do
         mab = MockActionBuilder.new(porky_params)
-        expect{ mab.build_action }.to change{ Action.count }.by 1
+        expect { mab.build_action }.to change { Action.count }.by 1
         expect(Action.last.form_data).to match a_hash_including(params.stringify_keys)
       end
     end
   end
 end
-

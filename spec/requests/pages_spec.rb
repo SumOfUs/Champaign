@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe "pages" do
+describe 'pages' do
   let(:english)     { create :language }
   let(:page_params) { { title: 'Away we go!', language_id: english.id } }
   let!(:page) { create(:page, title: 'I am a page', content: 'super awesome text content yo!') }
@@ -12,7 +12,7 @@ describe "pages" do
       expect(response.body).to include(page.content, page.title)
     end
     it 'redirects pages that really are not found' do
-      get "/pages/randomslug"
+      get '/pages/randomslug'
       expect(response.status).to be 302
     end
   end
@@ -23,7 +23,7 @@ describe "pages" do
       liquid_layout = create :liquid_layout, default_follow_up_layout: follow_up_layout
       expect do
         post pages_path, page: page_params.merge(liquid_layout_id: liquid_layout.id)
-      end.to change{ Page.count }.by 1
+      end.to change { Page.count }.by 1
       page = Page.last
       expect(PageFollower.new_from_page(page).follow_up_path).to eq "/a/#{page.slug}/follow-up"
     end
@@ -32,7 +32,7 @@ describe "pages" do
       liquid_layout = create :liquid_layout, default_follow_up_layout: nil
       expect do
         post pages_path, page: page_params.merge(liquid_layout_id: liquid_layout.id)
-      end.to change{ Page.count }.by 1
+      end.to change { Page.count }.by 1
       page = Page.last
       expect(PageFollower.new_from_page(page).follow_up_path).to be_nil
     end

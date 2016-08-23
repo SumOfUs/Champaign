@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require "openssl"
+require 'openssl'
 
 module PaymentProcessor
   module GoCardless
@@ -21,7 +21,7 @@ module PaymentProcessor
       end
 
       def digest
-        OpenSSL::Digest.new("sha256")
+        OpenSSL::Digest.new('sha256')
       end
     end
   end

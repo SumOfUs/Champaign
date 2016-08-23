@@ -16,12 +16,12 @@ describe PageService do
     end
 
     it 'limits result to 30 by default' do
-      expect_any_instance_of(ActiveRecord::QueryMethods).to receive(:limit).with(30){ Page.all }
+      expect_any_instance_of(ActiveRecord::QueryMethods).to receive(:limit).with(30) { Page.all }
       subject.list
     end
 
     it 'limits result by passed value' do
-      expect(subject.list(limit:1).size).to eq(1)
+      expect(subject.list(limit: 1).size).to eq(1)
     end
 
     it 'orders pages by date (newest first)' do

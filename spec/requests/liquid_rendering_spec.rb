@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require "rails_helper"
+require 'rails_helper'
 
-describe "Liquid page rendering" do
+describe 'Liquid page rendering' do
   LiquidMarkupSeeder.titles.each do |title|
     describe "page with layout #{title}" do
       [:en, :fr, :de].each do |language_code|
@@ -28,13 +28,13 @@ describe "Liquid page rendering" do
     end
 
     it 'renders the fundraiser sidebar' do
-      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Fundraiser With Large Image")
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Fundraiser With Large Image')
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="fundraiser-bar__content">')
     end
 
     it 'renders the petition sidebar' do
-      page = create :page, liquid_layout: LiquidLayout.find_by(title: "Petition With Large Image")
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Petition With Large Image')
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="petition-bar__content">')
     end

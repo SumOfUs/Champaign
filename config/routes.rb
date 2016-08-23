@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
 
-  devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
@@ -126,7 +126,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :payment do
-      namespace :braintree, defaults: {format: 'json'} do
+      namespace :braintree, defaults: { format: 'json' } do
         get 'token'
         post 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
         post 'webhook', action: 'webhook'
@@ -166,6 +166,6 @@ Rails.application.routes.draw do
   #   end
 
   root to: 'uris#show'
-  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp) && ENV['JS_TEST']
-  get '*path' => 'uris#show'unless defined?(MagicLamp) && ENV['JS_TEST']
+  mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']
+  get '*path' => 'uris#show' unless defined?(MagicLamp) && ENV['JS_TEST']
 end

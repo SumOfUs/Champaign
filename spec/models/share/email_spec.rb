@@ -20,9 +20,8 @@ describe Share::Email do
     end
 
     it 'body must contain {LINK}' do
-      subject.body = "Foo"
+      subject.body = 'Foo'
       expect(subject).to_not be_valid
     end
   end
 end
-

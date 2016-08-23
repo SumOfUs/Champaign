@@ -55,7 +55,7 @@ RSpec.configure do |config|
   config.filter_run :focus
 
   config.before focus: true do
-    raise "Fool, :focus shouldn't be pushed!" if ENV["CIRCLECI"]
+    raise "Fool, :focus shouldn't be pushed!" if ENV['CIRCLECI']
   end
 
   config.after { I18n.locale = I18n.default_locale }

@@ -22,9 +22,9 @@ module Plugins
     end
 
     def registered
-      [ Plugins::Petition,
-        Plugins::Thermometer,
-        Plugins::Fundraiser ]
+      [Plugins::Petition,
+       Plugins::Thermometer,
+       Plugins::Fundraiser]
     end
 
     def translate_defaults(defaults, locale)
@@ -34,7 +34,7 @@ module Plugins
       end
     end
 
-    def data_for_view(page, supplemental_data={})
+    def data_for_view(page, supplemental_data = {})
       default_ref = 'default'
       plugins_data = page.plugins.inject({}) do |memo, plugin|
         if plugin
@@ -45,11 +45,11 @@ module Plugins
         end
         memo
       end
-      {plugins: plugins_data, ref: default_ref}
+      { plugins: plugins_data, ref: default_ref }
     end
 
     def names
-      registered.map{|plugin| plugin.to_s.underscore.split('/').last }
+      registered.map { |plugin| plugin.to_s.underscore.split('/').last }
     end
 
     def find_for(plugin_class, plugin_id)
@@ -57,4 +57,3 @@ module Plugins
     end
   end
 end
-

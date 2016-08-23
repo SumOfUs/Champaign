@@ -10,8 +10,8 @@ describe Language do
     end
 
     context 'blank is not allowed for' do
-      %w{code name actionkit_uri}.each do |attr|
-        it "#{attr}" do
+      %w(code name actionkit_uri).each do |attr|
+        it attr.to_s do
           subject.send("#{attr}=", '')
           expect(subject).to_not be_valid
         end
@@ -19,8 +19,8 @@ describe Language do
     end
 
     context 'nil is not allowed for' do
-      %w{code name actionkit_uri}.each do |attr|
-        it "#{attr}" do
+      %w(code name actionkit_uri).each do |attr|
+        it attr.to_s do
           subject.send("#{attr}=", nil)
           expect(subject).to_not be_valid
         end
@@ -28,4 +28,3 @@ describe Language do
     end
   end
 end
-

@@ -18,4 +18,3 @@ describe LiquidPartialObserver do
     end
   end
 end
-

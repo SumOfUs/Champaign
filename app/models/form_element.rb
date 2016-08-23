@@ -10,7 +10,7 @@ class FormElement < ActiveRecord::Base
   validates_with ActionKitFields
 
   # Array of possible field types.
-  VALID_TYPES = %w{
+  VALID_TYPES = %w(
     text
     paragraph
     checkbox
@@ -19,7 +19,7 @@ class FormElement < ActiveRecord::Base
     country
     postal
     hidden
-  }
+  ).freeze
   validates :data_type, inclusion: { in: VALID_TYPES }
 
   private
@@ -43,4 +43,3 @@ class FormElement < ActiveRecord::Base
     end
   end
 end
-

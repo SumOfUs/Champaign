@@ -17,8 +17,8 @@ module ChampaignQueue
       def push
         return false if queue_url.blank?
 
-        client.send_message(          queue_url:    queue_url,
-                                      message_body: @params.to_json)
+        client.send_message(queue_url:    queue_url,
+                            message_body: @params.to_json)
       end
 
       private
@@ -33,4 +33,3 @@ module ChampaignQueue
     end
   end
 end
-

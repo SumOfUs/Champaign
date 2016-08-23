@@ -20,8 +20,8 @@ RSpec.shared_context 'page_searcher_spec_data' do
   let!(:unimpactful_campaign) { create(:campaign, name: 'Campaign with just one page?') }
   let!(:layout) { create(:liquid_layout, :no_plugins) }
   let!(:unused_layout) { create(:liquid_layout, title: 'too bad for anyone to use, ever') }
-  let!(:messy_layout) { create(:liquid_layout, title: 'has kinda tacky UX')}
-  let!(:twin_layout) { create(:liquid_layout, title: 'Layout that has two pages associated with it')}
+  let!(:messy_layout) { create(:liquid_layout, title: 'has kinda tacky UX') }
+  let!(:twin_layout) { create(:liquid_layout, title: 'Layout that has two pages associated with it') }
   let!(:language) { create(:language) }
   let!(:klingon) { create(:language, code: 'KLI', name: 'Klingon') }
   let!(:pig_latin) { create(:language, code: 'PIG', name: 'Oink_oink') }
@@ -34,16 +34,14 @@ RSpec.shared_context 'page_searcher_spec_data' do
            tags: [tag],
            content: test_text,
            liquid_layout: layout,
-           campaign: campaign2
-          )
+           campaign: campaign2)
   end
   let!(:title_language_campaign_match) do
     create(:page,
            title: test_text + ' title!',
            language: language,
            campaign: campaign,
-           tags: [alternative_tag]
-          )
+           tags: [alternative_tag])
   end
 
   let!(:single_return_page) do
@@ -52,8 +50,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            tags: [hipster_tag, unpopular_tag],
            language: pig_latin,
            campaign: unimpactful_campaign,
-           liquid_layout: messy_layout
-          )
+           liquid_layout: messy_layout)
   end
 
   let!(:twin_page_1) do
@@ -62,8 +59,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            tags: [only_tag],
            language: klingon,
            campaign: twin_campaign,
-           liquid_layout: twin_layout
-          )
+           liquid_layout: twin_layout)
   end
 
   let!(:twin_page_2) do
@@ -72,8 +68,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            tags: [only_tag],
            language: klingon,
            campaign: twin_campaign,
-           liquid_layout: twin_layout
-          )
+           liquid_layout: twin_layout)
   end
 
   let!(:page_that_doesnt_match_anything) do
@@ -81,12 +76,11 @@ RSpec.shared_context 'page_searcher_spec_data' do
            title: 'Not a good match',
            language: build(:language, code: 'FIN', name: 'Finnish'),
            tags: [
-               create(:tag, name: 'tag not found', actionkit_uri: '/foo/404'),
-               create(:tag, name: 'tag erroror', actionkit_uri: '/foo/500')
+             create(:tag, name: 'tag not found', actionkit_uri: '/foo/404'),
+             create(:tag, name: 'tag erroror', actionkit_uri: '/foo/500')
            ],
            content: 'totally arbitrary content',
-           campaign: create(:campaign, name: 'a not very impactful test campaign')
-          )
+           campaign: create(:campaign, name: 'a not very impactful test campaign'))
   end
-  let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active:true)}
+  let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active: true) }
 end
