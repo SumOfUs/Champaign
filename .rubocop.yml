@@ -1,0 +1,18 @@
+AllCops:
+  Exclude:
+    - 'bin/**'
+
+inherit_from: .rubocop_todo.yml
+
+Metrics/LineLength:
+  Max: 120
+
+Style:
+  AlignParameters:
+    EnforcedStyle: with_fixed_indentation
+
+  IndentationConsistency:
+    EnforceStyle: rails
+
+  IndentHash:
+    EnforcedStyle: consistent 
