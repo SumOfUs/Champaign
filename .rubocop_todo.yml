@@ -1050,3 +1050,63 @@ Style/ZeroLengthPredicate:
     - 'app/liquid/liquid_i18n.rb'
     - 'app/liquid/liquid_tag_finder.rb'
     - 'lib/tasks/sumofus.rake'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - app/controllers/liquid_layouts_controller.rb
+    - app/controllers/liquid_partials_controller.rb
+    - app/liquid/liquid_renderer.rb
+    - app/liquid/page_plugin_switcher.rb
+    - app/liquid/shares.rb
+    - app/models/image.rb
+    - app/models/liquid_partial.rb
+    - app/models/payment/braintree.rb
+    - app/models/payment/go_cardless.rb
+    - app/services/action_queue.rb
+    - app/services/form_validator.rb
+    - app/services/name_splitter.rb
+    - app/services/postal_validator.rb
+    - app/services/search/page_searcher.rb
+    - config/initializers/devise.rb
+    - config/routes.rb
+    - db/migrate/**
+    - db/schema.rb
+    - lib/donations/utils.rb
+    - lib/payment_processor/braintree/**
+    - lib/payment_processor/go_cardless/**
+    - lib/tasks/**
+    - spec/controllers/api/actions_controller_spec.rb
+    - spec/controllers/api/go_cardless_controller_spec.rb
+    - spec/controllers/api/payment/braintree_controller_spec.rb
+    - spec/controllers/application_controller_spec.rb
+    - spec/controllers/images_controller_spec.rb
+    - spec/controllers/pages_controller_spec.rb
+    - spec/lib/champaign_queue/clients/sqs_spec.rb
+    - spec/lib/payment_processor/braintree/error_processing_spec.rb
+    - spec/lib/payment_processor/braintree/subscription_spec.rb
+    - spec/lib/payment_processor/braintree/webhook_handler_spec.rb
+    - spec/lib/payment_processor/go_cardless/error_processing_spec.rb
+    - spec/lib/payment_processor/go_cardless/subscription_spec.rb
+    - spec/lib/payment_processor/go_cardless/transaction_spec.rb
+    - spec/lib/payment_processor/go_cardless/webhook_handler_spec.rb
+    - spec/lib/payment_processor/go_cardless/webhook_signature_spec.rb
+    - spec/liquid/liquid_i18n_spec.rb
+    - spec/liquid/liquid_renderer_spec.rb
+    - spec/liquid/page_plugin_switcher_spec.rb
+    - spec/models/form_element_spec.rb
+    - spec/models/liquid_layout_spec.rb
+    - spec/models/liquid_partial_spec.rb
+    - spec/models/page_spec.rb
+    - spec/models/payment/braintree_spec.rb
+    - spec/models/payment/go_cardless/customer_spec.rb
+    - spec/requests/omniauth_with_devise_spec.rb
+    - spec/requests/api/members_spec.rb
+    - spec/requests/api/actions_spec.rb
+    - spec/requests/api/go_cardless/go_cardless_spec.rb
+    - spec/requests/api/go_cardless/webhooks_spec.rb
+    - spec/requests/api/braintree/braintree_spec.rb
+    - spec/requests/api/braintree/failure_spec.rb
+    - spec/requests/api/braintree/webhook_spec.rb
+    - spec/services/search/page_searcher/single_criterion_search/search_by_language_spec.rb
+    - spec/services/search/page_searcher/page_searcher_spec.rb

@@ -32,9 +32,14 @@ describe 'Search ::' do
         end
 
         it 'orders searches based on publish_status' do
-          expect(page_searcher.new({order_by: [:publish_status, :asc]}).search).to eq(Page.all.order(publish_status: :asc))
-          expect(page_searcher.new({order_by: [:publish_status, :desc]}).search).to eq(Page.all.order(publish_status: :desc))
-          expect(page_searcher.new({order_by: :publish_status}).search).to eq(Page.all.order(publish_status: :asc))
+          expect(page_searcher.new({order_by: [:publish_status, :asc]}).search)
+            .to eq(Page.all.order(publish_status: :asc))
+
+          expect(page_searcher.new({order_by: [:publish_status, :desc]}).search)
+            .to eq(Page.all.order(publish_status: :desc))
+
+          expect(page_searcher.new({order_by: :publish_status}).search)
+            .to eq(Page.all.order(publish_status: :asc))
         end
 
         it 'ignores invalid order_by_queries' do

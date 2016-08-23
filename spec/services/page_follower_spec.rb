@@ -95,7 +95,15 @@ describe PageFollower do
   describe 'new_from_page' do
 
     let(:other_page) { instance_double('Page', slug: 'bleep-bloop')}
-    let(:page) { instance_double('Page', follow_up_plan: 'with_liquid', slug: 'astro-droid', follow_up_liquid_layout_id: 3, follow_up_page: other_page) }
+    let(:page) {
+      instance_double(
+        'Page',
+        follow_up_plan: 'with_liquid',
+        slug: 'astro-droid',
+        follow_up_liquid_layout_id: 3,
+        follow_up_page: other_page
+      )
+    }
 
     it 'calls with page attributes' do
       allow(PageFollower).to receive(:new)

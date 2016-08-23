@@ -92,12 +92,29 @@ describe PageUpdater do
     end
 
     it 'can update one plugin' do
-      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}})
+      pupdater.update(
+        plugins_petition: {
+          cta: "Walk on part in the war",
+          id: petition_plugin.id,
+          name: petition_plugin.name
+        }
+      )
       expect(petition_plugin.reload.cta).to eq "Walk on part in the war"
     end
 
     it 'can update multiple plugin' do
-      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}, plugins_thermometer: {offset: 1612, id: thermo_plugin.id, name: thermo_plugin.name} })
+      pupdater.update(
+        plugins_petition: {
+          cta: "Walk on part in the war",
+          id: petition_plugin.id,
+          name: petition_plugin.name
+        },
+        plugins_thermometer: {
+          offset: 1612,
+          id: thermo_plugin.id,
+          name: thermo_plugin.name
+        }
+      )
       expect(petition_plugin.reload.cta).to eq "Walk on part in the war"
       expect(thermo_plugin.reload.offset).to eq 1612
     end
@@ -108,20 +125,29 @@ describe PageUpdater do
     end
 
     it 'can update plugins and page together' do
-      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}, page: {content: "for a leading role in the cage"}})
+      pupdater.update(
+        plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name},
+        page: {content: "for a leading role in the cage"}
+      )
       expect(petition_plugin.reload.cta).to eq "Walk on part in the war"
       expect(page.reload.content).to eq "for a leading role in the cage"
     end
 
     it "updates the plugins even if it can't update the page" do
-      params = {plugins_thermometer: {offset: 1492, id: thermo_plugin.id, name: thermo_plugin.name}, page: {title: nil, content: 'hot air for a cool breeze'}}
+      params = {
+        plugins_thermometer: {offset: 1492, id: thermo_plugin.id, name: thermo_plugin.name},
+        page: {title: nil, content: 'hot air for a cool breeze'}
+      }
       expect(pupdater.update(params)).to eq false
       expect(thermo_plugin.reload.offset).to eq 1492
       expect(page.reload.content).not_to eq "hot air for a cool breeze"
     end
 
     it "updates the page even if it can't update the plugins" do
-      params = {plugins_thermometer: {offset: -100, id: thermo_plugin.id, name: thermo_plugin.name}, page: {content: 'cold comfort for change'}}
+      params = {
+        plugins_thermometer: {offset: -100, id: thermo_plugin.id, name: thermo_plugin.name},
+        page: {content: 'cold comfort for change'}
+      }
       expect(pupdater.update(params)).to eq false
       expect(thermo_plugin.reload.offset).not_to eq(-100)
       expect(page.reload.content).to eq "cold comfort for change"
@@ -164,7 +190,15 @@ describe PageUpdater do
       let(:errorless_variant) { instance_double('Shares::Twitter', errors: {}) }
       let(:error_variant) { instance_double('Shares::Twitter', errors: {description: "can't be blank"}) }
       let(:create_params) { {share_twitter_1: {description: "I want you to {LINK} for me", name: "twitter"}} }
-      let(:update_params) { {share_twitter_12: {description: "I want you to {LINK} for me", name: "twitter", id: '12'}} }
+      let(:update_params) {
+        {
+          share_twitter_12: {
+            description: "I want you to {LINK} for me",
+            name: "twitter",
+            id: '12'
+          }
+        }
+      }
 
       before :each do
         allow(ShareProgressVariantBuilder).to receive(:create){ errorless_variant }
@@ -209,7 +243,8 @@ describe PageUpdater do
         allow(ShareProgressVariantBuilder).to receive(:update){ error_variant }
         allow(ShareProgressVariantBuilder).to receive(:create){ error_variant }
         expect(pupdater.update(update_params.merge(create_params))).to eq false
-        expect(pupdater.errors).to eq({share_twitter_12: {description: "can't be blank"}, share_twitter_1: {description: "can't be blank"}})
+        expect(pupdater.errors)
+          .to eq(share_twitter_12: {description: "can't be blank"}, share_twitter_1: {description: "can't be blank"})
       end
     end
 
@@ -218,13 +253,33 @@ describe PageUpdater do
   describe 'errors' do
 
     it 'returns errors nested by page' do
-      params = {plugins_thermometer: {offset: 1492, id: thermo_plugin.id, name: thermo_plugin.name}, page: {title: nil, content: 'hot air for a cool breeze'}}
+      params = {
+        plugins_thermometer: {
+          offset: 1492,
+          id: thermo_plugin.id,
+          name: thermo_plugin.name
+        },
+        page: {
+          title: nil,
+          content: 'hot air for a cool breeze'
+        }
+      }
       expect(pupdater.update(params)).to eq false
       expect(pupdater.errors).to eq({page: {title: "can't be blank"}})
     end
 
     it 'returns errors nested by plugin' do
-      params = {plugins_thermometer: {offset: -149, id: thermo_plugin.id, name: thermo_plugin.name}, page: {title: "yooo", content: 'hot air for a cool breeze'}}
+      params = {
+        plugins_thermometer: {
+          offset: -149,
+          id: thermo_plugin.id,
+          name: thermo_plugin.name
+        },
+        page: {
+          title: "yooo",
+          content: 'hot air for a cool breeze'
+        }
+      }
       expect(pupdater.update(params)).to eq false
       expect(pupdater.errors).to eq({plugins_thermometer: {offset: "must be greater than or equal to 0"}})
     end
@@ -245,7 +300,16 @@ describe PageUpdater do
     end
 
     it 'returns false if several non-refresh fields were updated' do
-      pupdater.update({plugins_petition: {cta: "Walk on part in the war", id: petition_plugin.id, name: petition_plugin.name}, page: {content: "for a leading role in the cage"}})
+      pupdater.update(
+        plugins_petition: {
+          cta: "Walk on part in the war",
+          id: petition_plugin.id,
+          name: petition_plugin.name
+        },
+        page: {
+          content: "for a leading role in the cage"
+        }
+      )
       expect(pupdater.refresh?).to eq false
     end
 

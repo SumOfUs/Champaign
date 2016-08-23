@@ -63,27 +63,37 @@ describe 'Search ::' do
           it "with a tag that's only assigned to that page" do
             expect((Search::PageSearcher.new(tags: [tag.id])).search).to match_array([content_tag_plugin_layout_match])
           end
+
           it "with one of that page's several tags" do
             expect((Search::PageSearcher.new(tags: [the_best_tag.id])).search).to match_array([has_many_tags])
           end
+
           it "with multiple of that page's tags in any order" do
-            expect((Search::PageSearcher.new(tags: [hipster_tag.id, unpopular_tag.id])).search).to match_array([single_return_page])
-            expect((Search::PageSearcher.new(tags: [unpopular_tag.id, hipster_tag.id])).search).to match_array([single_return_page])
+            search = Search::PageSearcher.new(tags: [hipster_tag.id, unpopular_tag.id]).search
+            expect(search).to match_array([single_return_page])
+
+            search_reverse = Search::PageSearcher.new(tags: [unpopular_tag.id, hipster_tag.id]).search
+            expect(search_reverse).to match_array([single_return_page])
           end
+
           it "with a tag that matches two pages and a tag that matches one page" do
-            expect((Search::PageSearcher.new(tags: [alternative_tag.id, the_best_tag.id])).search).to match_array([has_many_tags])
+            page_searcher = Search::PageSearcher.new(tags: [alternative_tag.id, the_best_tag.id])
+            expect(page_searcher.search).to match_array([has_many_tags])
           end
         end
 
         describe 'returns multiple pages when searching' do
           it "with a tag as the only tag of both pages" do
-            expect((Search::PageSearcher.new(tags: [alternative_tag.id, the_best_tag.id])).search).to match_array([has_many_tags])
+            page_searcher = Search::PageSearcher.new(tags: [alternative_tag.id, the_best_tag.id])
+            expect(page_searcher.search).to match_array([has_many_tags])
           end
           it "with a tag used as one of several on both pages" do
-            expect((Search::PageSearcher.new(tags: [tag3.id])).search).to match_array([intersection_page_1,intersection_page_2])
+            page_searcher = Search::PageSearcher.new(tags: [tag3.id])
+            expect(page_searcher.search).to match_array([intersection_page_1, intersection_page_2])
           end
           it "with multiple tags used as one of several on both pages" do
-            expect((Search::PageSearcher.new(tags: [tag3.id, tag4.id])).search).to match_array([intersection_page_1,intersection_page_2])
+            page_searcher = Search::PageSearcher.new(tags: [tag3.id, tag4.id])
+            expect(page_searcher.search).to match_array([intersection_page_1, intersection_page_2])
           end
         end
 

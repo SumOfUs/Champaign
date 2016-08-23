@@ -202,13 +202,36 @@ describe ActionBuilder do
     end
 
     it 'includes all the other keys of member' do
-      expect(mab.permitted_keys).to include(:email, :country, :first_name, :last_name, :city, :postal, :title, :address1, :address2, :actionkit_user_id)
+      expect(mab.permitted_keys)
+        .to include(
+          :email,
+          :country,
+          :first_name,
+          :last_name,
+          :city,
+          :postal,
+          :title,
+          :address1,
+          :address2,
+          :actionkit_user_id
+        )
     end
   end
 
   describe 'filtered_params' do
 
-    let(:params) { {email: "silly@billy.com", country: "US", first_name: "Silly", last_name: "Billy", city: "Northampton", postal: "01060", address1: "10 Coates St.", address2: ""} }
+    let(:params) {
+      {
+        email: "silly@billy.com",
+        country: "US",
+        first_name: "Silly",
+        last_name: "Billy",
+        city: "Northampton",
+        postal: "01060",
+        address1: "10 Coates St.",
+        address2: ""
+      }
+    }
 
     describe 'passes all' do
 

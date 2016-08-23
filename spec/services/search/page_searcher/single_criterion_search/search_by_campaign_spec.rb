@@ -36,24 +36,30 @@ describe 'Search ::' do
 
         describe 'returns one page when searching' do
           it 'with a campaign that only contains one page' do
-            expect(Search::PageSearcher.new(campaign: [unimpactful_campaign.id]).search).to match_array([single_return_page])
+            expect(Search::PageSearcher.new(campaign: [unimpactful_campaign.id]).search).to(
+              match_array([single_return_page])
+            )
           end
         end
 
         describe 'returns some pages when searching' do
           it 'with a used campaign id and an unused campaign id' do
-            expect(Search::PageSearcher.new(campaign: [unimpactful_campaign.id, unused_campaign.id]).search).to match_array([single_return_page])
+            expect(Search::PageSearcher.new(campaign: [unimpactful_campaign.id, unused_campaign.id]).search).to(
+              match_array([single_return_page])
+            )
           end
         end
 
         describe 'returns multiple pages when searching' do
           it 'with mutiple campaign ids that different pages belong to' do
-            expect(Search::PageSearcher.new(campaign: [unimpactful_campaign.id, twin_campaign.id]).search).to match_array([
-                 twin_page_1, twin_page_2, single_return_page
-             ])
+            expect(Search::PageSearcher.new(campaign: [unimpactful_campaign.id, twin_campaign.id]).search).to(
+              match_array([twin_page_1, twin_page_2, single_return_page])
+            )
           end
           it 'with a campaign id that several pages belong to' do
-            expect(Search::PageSearcher.new(campaign: [twin_campaign.id]).search).to match_array([twin_page_1, twin_page_2])
+            expect(Search::PageSearcher.new(campaign: [twin_campaign.id]).search).to(
+              match_array([twin_page_1, twin_page_2])
+            )
           end
         end
 

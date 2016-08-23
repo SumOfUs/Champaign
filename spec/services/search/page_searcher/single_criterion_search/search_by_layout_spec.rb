@@ -44,16 +44,22 @@ describe 'Search ::' do
 
         describe 'returns some pages when searching' do
           it 'with a used layout and an unused layout' do
-            expect(Search::PageSearcher.new({layout: [messy_layout.id, unused_layout.id]}).search).to match_array([single_return_page])
+            expect(Search::PageSearcher.new({layout: [messy_layout.id, unused_layout.id]}).search).to(
+              match_array([single_return_page])
+            )
           end
         end
 
         describe 'returns multiple pages when searching' do
           it 'with mutiple layouts that different pages belong to' do
-            expect(Search::PageSearcher.new({layout: [messy_layout.id, twin_layout.id]}).search).to match_array([single_return_page, twin_page_1, twin_page_2])
+            expect(Search::PageSearcher.new({layout: [messy_layout.id, twin_layout.id]}).search).to(
+              match_array([single_return_page, twin_page_1, twin_page_2])
+            )
           end
           it 'with a layout that several pages belong to' do
-            expect(Search::PageSearcher.new({layout: [twin_layout.id]}).search).to match_array([twin_page_1, twin_page_2])
+            expect(Search::PageSearcher.new({layout: [twin_layout.id]}).search).to(
+              match_array([twin_page_1, twin_page_2])
+            )
           end
         end
       end

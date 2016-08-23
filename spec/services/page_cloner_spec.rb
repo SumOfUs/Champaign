@@ -3,7 +3,16 @@ require 'rails_helper'
 describe PageCloner do
   let!(:tag)  { create(:tag) }
   let(:campaign) { create(:campaign) }
-  let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar', content: 'Foo Bar', action_count: 12345) }
+  let(:page)  {
+    create(
+      :page,
+      tags: [tag],
+      campaign: campaign,
+      title: 'foo bar',
+      content: 'Foo Bar',
+      action_count: 12345
+    )
+  }
   let!(:link) { create(:link, page: page) }
 
   subject(:cloned_page) { PageCloner.clone(page).reload }
