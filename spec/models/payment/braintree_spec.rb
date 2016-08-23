@@ -73,7 +73,7 @@ describe Payment::Braintree do
                         debit: 'debidyboobop',
                         last_4: '9191',
                         unique_number_identifier: 'fsdjk',
-        )
+                       )
       end
 
       let(:expected_params) do
@@ -112,7 +112,7 @@ describe Payment::Braintree do
         instance_double('Braintree::PayPalAccount',
                         class: Braintree::PayPalAccount,
                         token: '4we2sd',
-        )
+                       )
       end
       let(:expected_params) do
         {
@@ -162,7 +162,7 @@ describe Payment::Braintree do
                       customer_details: double(id: '123', email: 'wink@nod.com'),
                       credit_card_details: credit_card_details,
                       paypal_details: paypal_details
-      )
+                     )
     end
 
     let(:new_customer_transaction) do
@@ -178,7 +178,7 @@ describe Payment::Braintree do
                       customer_details: double(id: '123456', email: 'guybrush@threepwood.com'),
                       credit_card_details: credit_card_details,
                       paypal_details: paypal_details
-      )
+                     )
     end
     let!(:paypal_token) { create :braintree_payment_method,  token: 'pp_token' }
     let!(:credit_card_token) { create :braintree_payment_method,  token: 'cc_token' }
@@ -251,7 +251,7 @@ describe Payment::Braintree do
                         cardholder_name: 'Alexander Hamilton',
                         debit: 'debidyboobop',
                         last_4: '9191'
-        )
+                       )
       end
       let(:paypal_details){ nil }
 

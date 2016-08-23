@@ -31,17 +31,17 @@ module PaymentProcessor
         let(:completed_flow) do
           instance_double('GoCardlessPro::Resources::RedirectFlow',
                           links: double(customer: 'CU00000', mandate: 'MA00000', customer_bank_account: 'BA00000')
-          )
+                         )
         end
         let(:mandate) do
           instance_double('GoCardlessPro::Resources::Mandate',
                           id: 'MA00000', scheme: 'sepa', next_possible_charge_date: 1.day.from_now.to_date.to_s, reference: 'SOU-00000'
-          )
+                         )
         end
         let(:bank_account) do
           instance_double('GoCardlessPro::Resources::CustomerBankAccount',
                           id: 'BA00000', bank_name: 'BARCLAYS', account_number_ending: '11'
-          )
+                         )
         end
 
         let(:payment) { instance_double('GoCardlessPro::Resources::Payment', id: 'PA00000', charge_date: '2016-05-20') }
@@ -88,12 +88,12 @@ module PaymentProcessor
             let(:completed_gbp_flow) do
               instance_double('GoCardlessPro::Resources::RedirectFlow',
                               links: double(customer: 'CU00000', mandate: 'MA9999', customer_bank_account: 'BA00000')
-              )
+                             )
             end
             let(:gbp_mandate) do
               instance_double('GoCardlessPro::Resources::Mandate',
                               id: 'MA9999', scheme: 'bacs', next_possible_charge_date: '2016-05-22', reference: 'SOU-00000'
-              )
+                             )
             end
             let(:gbp_options) do
               {

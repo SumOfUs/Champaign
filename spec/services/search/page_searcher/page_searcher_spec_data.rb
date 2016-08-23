@@ -35,7 +35,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            content: test_text,
            liquid_layout: layout,
            campaign: campaign2
-    )
+          )
   end
   let!(:title_language_campaign_match) do
     create(:page,
@@ -43,7 +43,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            language: language,
            campaign: campaign,
            tags: [alternative_tag]
-    )
+          )
   end
 
   let!(:single_return_page) do
@@ -53,7 +53,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            language: pig_latin,
            campaign: unimpactful_campaign,
            liquid_layout: messy_layout
-    )
+          )
   end
 
 
@@ -64,7 +64,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            language: klingon,
            campaign: twin_campaign,
            liquid_layout: twin_layout
-    )
+          )
   end
 
   let!(:twin_page_2) do
@@ -74,7 +74,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            language: klingon,
            campaign: twin_campaign,
            liquid_layout: twin_layout
-    )
+          )
   end
 
   let!(:page_that_doesnt_match_anything) do
@@ -87,7 +87,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
            ],
            content: 'totally arbitrary content',
            campaign: create(:campaign, name: 'a not very impactful test campaign')
-    )
+          )
   end
   let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active:true)}
 end

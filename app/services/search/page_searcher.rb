@@ -11,22 +11,22 @@ class Search::PageSearcher
         next
       else
         case search_type.to_s
-          when 'content_search'
-            search_by_text(query)
-          when 'tags'
-            search_by_tags(query)
-          when 'language'
-            search_by_language(query)
-          when 'layout'
-            search_by_layout(query)
-          when 'campaign'
-            search_by_campaign(query)
-          when 'plugin_type'
-            search_by_plugin_type(query)
-          when 'publish_status'
-            search_by_publish_status(query)
-          when 'order_by'
-            order_by(query)
+        when 'content_search'
+          search_by_text(query)
+        when 'tags'
+          search_by_tags(query)
+        when 'language'
+          search_by_language(query)
+        when 'layout'
+          search_by_layout(query)
+        when 'campaign'
+          search_by_campaign(query)
+        when 'plugin_type'
+          search_by_plugin_type(query)
+        when 'publish_status'
+          search_by_publish_status(query)
+        when 'order_by'
+          order_by(query)
         end
       end
     end

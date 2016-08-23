@@ -97,32 +97,11 @@ Style/AsciiComments:
     - 'Gemfile'
     - 'lib/payment_processor/currency.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-# Configuration parameters: IndentWhenRelativeTo, SupportedStyles, IndentOneStep, IndentationWidth.
-# SupportedStyles: case, end
-Style/CaseIndentation:
-  Exclude:
-    - 'app/services/search/page_searcher.rb'
-
 # Offense count: 43
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
   Enabled: false
-
-# Offense count: 31
-# Cop supports --auto-correct.
-Style/ClosingParenthesisIndentation:
-  Exclude:
-    - 'app/services/manage_braintree_donation.rb'
-    - 'spec/controllers/pages_controller_spec.rb'
-    - 'spec/lib/payment_processor/go_cardless/subscription_spec.rb'
-    - 'spec/lib/payment_processor/go_cardless/transaction_spec.rb'
-    - 'spec/models/payment/braintree_spec.rb'
-    - 'spec/requests/api/go_cardless/webhooks_spec.rb'
-    - 'spec/services/search/page_searcher/page_searcher_spec_data.rb'
-    - 'spec/services/search/page_searcher/single_criterion_search/search_by_tag_spec.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

@@ -121,7 +121,7 @@ describe PagesController do
                                                          member: nil,
                                                          layout: page.liquid_layout,
                                                          url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
-      )
+                                                        )
       expect(renderer).to have_received(:render)
     end
 
@@ -218,7 +218,7 @@ describe PagesController do
                                                          member: nil,
                                                          layout: page.liquid_layout,
                                                          url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
-      )
+                                                        )
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
@@ -228,7 +228,7 @@ describe PagesController do
                                                          member: nil,
                                                          layout: page.follow_up_liquid_layout,
                                                          url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
-      )
+                                                        )
       expect(renderer).to have_received(:render)
     end
 

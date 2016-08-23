@@ -75,7 +75,7 @@ describe "subscriptions" do
         it 'is created' do
          expect(
             subject.created?
-          ).to be(true)
+         ).to be(true)
         end
       end
 
