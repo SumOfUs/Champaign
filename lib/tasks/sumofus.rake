@@ -199,8 +199,8 @@ namespace :sumofus do
       thermometer.goal = entry['thermometer_target']
       thermometer.save!
       petition = Plugins::Petition.where(page_id: page.id).first
-      petition.description = entry['petition_ask'].gsub('"', '').gsub('Petition Text:', '')
-      petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').gsub(/:/, '')
+      petition.description = entry['petition_ask'].delete('"').gsub('Petition Text:', '')
+      petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').delete(':')
       petition.save!
       if page.images.count == 0
         if existing_image.blank?

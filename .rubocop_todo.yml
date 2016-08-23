@@ -82,13 +82,6 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 9
 
-# Offense count: 4
-# Cop supports --auto-correct.
-Performance/StringReplacement:
-  Exclude:
-    - 'lib/tasks/sumofus.rake'
-    - 'spec/liquid/champaign_liquid_filters_spec.rb'
-
 # Offense count: 9
 Style/AccessorMethodName:
   Exclude:
