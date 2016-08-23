@@ -54,7 +54,7 @@ describe 'API::Stateless Members' do
         put "/api/stateless/members/#{member.id}", params, auth_headers
       end
 
-      it 'updates the member locally' do
+      it 'updates the member locally and sends it back as json' do
         subject
         expect(json_hash).to match({
                                      id: member.id,
