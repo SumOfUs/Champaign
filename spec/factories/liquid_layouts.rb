@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :liquid_layout do
     title { Faker::Company.bs }

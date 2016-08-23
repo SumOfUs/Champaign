@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RenameActionUserToMember < ActiveRecord::Migration
   def self.up
     rename_table :action_users, :members

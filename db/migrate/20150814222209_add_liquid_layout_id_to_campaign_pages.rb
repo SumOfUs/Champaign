@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddLiquidLayoutIdToCampaignPages < ActiveRecord::Migration
   def change
     unless column_exists? :campaign_pages, :liquid_layout_id

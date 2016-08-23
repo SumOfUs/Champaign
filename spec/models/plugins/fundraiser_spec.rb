@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require_relative 'shared_examples'
 
@@ -28,7 +29,7 @@ describe Plugins::Fundraiser do
 
   it 'serializes without a currency band' do
     expect{ fundraiser.liquid_data }.not_to raise_error
-    expect( fundraiser.liquid_data[:donation_bands]).to eq Hash.new
+    expect( fundraiser.liquid_data[:donation_bands]).to eq({})
   end
 
   it 'serializes a named donation band' do

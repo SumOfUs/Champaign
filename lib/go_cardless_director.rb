@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GoCardlessDirector
   attr_reader :error
 

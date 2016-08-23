@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.routes.draw do
   if Settings.google_verification
     match "/#{Settings.google_verification}.html", to: proc { |_env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get

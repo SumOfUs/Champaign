@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddImageIdToFacebookShare < ActiveRecord::Migration
   def change
     add_reference :share_facebooks, :image, index: true, foreign_key: true

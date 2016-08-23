@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register Member do
   permit_params :email,
                 :country,

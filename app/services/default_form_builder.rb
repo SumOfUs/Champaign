@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DefaultFormBuilder
   class << self
     def create(locale: 'en')

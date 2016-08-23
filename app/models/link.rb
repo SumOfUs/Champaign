@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Link < ActiveRecord::Base
   belongs_to :page, touch: true
   has_paper_trail on: [:update, :destroy]

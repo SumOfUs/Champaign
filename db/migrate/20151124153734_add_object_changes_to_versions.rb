@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddObjectChangesToVersions < ActiveRecord::Migration
   # The largest text column available in all supported RDBMS.
   # See `create_versions.rb` for details.

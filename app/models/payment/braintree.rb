@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Payment::Braintree
   class << self
     def table_name_prefix
@@ -116,13 +117,13 @@ module Payment::Braintree
       # though, because transaction.customer_details.id is nil for failed transaction.
       # For webhooks, @existing_customer will be present.
       @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
-          member_id: @member_id,
-          customer_id: transaction.customer_details.id)
+        member_id: @member_id,
+        customer_id: transaction.customer_details.id)
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
       @local_payment_method_id = payment_method_token.blank? ? nil : Payment::Braintree::PaymentMethod.find_or_create_by!(
-          customer: @customer,
-          token: payment_method_token).id
+        customer: @customer,
+        token: payment_method_token).id
 
       record = ::Payment::Braintree::Transaction.create!(transaction_attrs)
 

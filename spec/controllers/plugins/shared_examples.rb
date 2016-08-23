@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 shared_examples "plugins controller" do |plugin_class, plugin_name|
   let(:user) { instance_double('User', id: '1') }
 

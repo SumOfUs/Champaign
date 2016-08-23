@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ManageBraintreeDonation
   include ActionBuilder
   PAYPAL_IDENTIFIER = 'PYPL'

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::GoCardless::Transaction < ActiveRecord::Base
   include AASM
 

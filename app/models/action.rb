@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Action < ActiveRecord::Base
   belongs_to :page, counter_cache: :action_count
   belongs_to :member

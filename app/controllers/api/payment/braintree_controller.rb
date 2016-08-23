@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::Payment::BraintreeController < PaymentController
   skip_before_action :verify_authenticity_token
 

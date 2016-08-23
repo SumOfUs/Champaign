@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::GoCardlessController < PaymentController
   skip_before_action :verify_authenticity_token
 

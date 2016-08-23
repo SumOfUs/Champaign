@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ShareProgressVariantBuilder do
@@ -195,10 +196,10 @@ describe ShareProgressVariantBuilder do
   context '.destroy' do
     subject(:destroy_variant) do
       ShareProgressVariantBuilder.destroy(
-          params: params,
-          variant_type: 'facebook',
-          page: page,
-          id: share.id
+        params: params,
+        variant_type: 'facebook',
+        page: page,
+        id: share.id
       )
     end
 

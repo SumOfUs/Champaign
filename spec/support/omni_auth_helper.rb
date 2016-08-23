@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module OmniAuthHelper
   def login_with_oauth2(provider, data)
     OmniAuth.config.test_mode = true

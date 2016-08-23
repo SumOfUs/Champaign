@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # require_relative 'widget_searcher'
 # require_relative 'page_searcher'
 

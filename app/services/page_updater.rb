@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ##
 # The <tt>PageUpdater</tt> class serves to update a Page model along with
 # its associate Plugins and Share Variants. It allows for comprehensive saving

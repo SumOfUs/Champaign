@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'net/http'
 
 # This client is for positing directly to <tt>ChampaignAkProcessor</tt>.

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 shared_examples "plugin with form" do |plugin_type|
   let(:form) { create :form_with_email }
 

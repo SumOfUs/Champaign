@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateActionkitPageTypes < ActiveRecord::Migration
   def change
     create_table :actionkit_page_types do |t|

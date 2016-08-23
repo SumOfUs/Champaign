@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Share::FacebooksController < Share::SharesController
   private
 

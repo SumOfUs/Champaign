@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddFeaturedPagesColumn < ActiveRecord::Migration
   def change
       # updates existing records after with the default value

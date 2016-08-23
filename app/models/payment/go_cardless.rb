@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Payment::GoCardless
   class << self
     def table_name_prefix

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Shares
   class << self
     # we're making the assumption that all that matters from the ShareProgress HTML

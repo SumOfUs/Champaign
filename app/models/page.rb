@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Page < ActiveRecord::Base
   extend FriendlyId
   has_paper_trail

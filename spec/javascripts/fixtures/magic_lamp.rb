@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 MagicLamp.define(controller: PagesController) do
   fixture(name: 'pages/fundraiser') do
     @page = FactoryGirl.create :page, liquid_layout: LiquidLayout.find_by(title: 'Fundraiser With Large Image')

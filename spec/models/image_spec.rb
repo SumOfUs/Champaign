@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 describe Image do
   it { should have_attached_file(:content) }
   it { should validate_attachment_presence(:content) }

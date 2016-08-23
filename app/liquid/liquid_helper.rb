@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LiquidHelper
   class << self
     # when possible, I think we should try to make this match with

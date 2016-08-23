@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.configure do
   # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
   config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113', '10.5.50.113']

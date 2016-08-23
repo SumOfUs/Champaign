@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CampaignCreator
   def self.run(params)
     new(params).run

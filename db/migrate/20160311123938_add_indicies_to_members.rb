@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddIndiciesToMembers < ActiveRecord::Migration
   def change
     add_index :members, :email

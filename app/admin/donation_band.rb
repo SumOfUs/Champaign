@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register DonationBand do
   actions :all, except: [:new, :edit]
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'open-uri'
 
 namespace :sumofus do
@@ -95,11 +96,11 @@ namespace :sumofus do
       puts "Page data loaded"
     end
 
-    if args[:follow_img_file].blank?
-      follow_image_handle = open(args[:page_img_file])
-    else
-      follow_image_handle = open(args[:follow_img_file])
-    end
+    follow_image_handle = if args[:follow_img_file].blank?
+                            open(args[:page_img_file])
+                          else
+                            open(args[:follow_img_file])
+                          end
 
     def create_post_action_pages(layout_id, image_handle)
       pages = {}

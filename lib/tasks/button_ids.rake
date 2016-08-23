@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 namespace :champaign do
   desc "Associate existing shares with their respective button_ids"
   task associate_buttons: :environment do

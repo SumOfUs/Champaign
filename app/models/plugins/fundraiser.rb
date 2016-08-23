@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Plugins::Fundraiser < ActiveRecord::Base
   include Plugins::HasForm
 

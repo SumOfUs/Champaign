@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateLiquidPartials < ActiveRecord::Migration
   def change
     create_table :liquid_partials do |t|

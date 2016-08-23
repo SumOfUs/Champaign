@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe "subscriptions" do
@@ -74,7 +75,7 @@ describe "subscriptions" do
 
         it 'is created' do
          expect(
-            subject.created?
+           subject.created?
          ).to be(true)
         end
       end

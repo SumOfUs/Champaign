@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class DonationBandConverter
   class << self
     def convert_for_saving(amounts)

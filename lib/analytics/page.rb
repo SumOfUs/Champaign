@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Analytics
   class Page
     def self.increment(page_id, new_member:)

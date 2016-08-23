@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Raise if user's email domain is not whitelisted
 class Champaign::NotWhitelisted < StandardError; end;
 

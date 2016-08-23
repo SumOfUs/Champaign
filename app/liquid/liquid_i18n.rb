@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # The <tt>LiquidI18nRails</tt> module allows us to use the +translate+
 # method of Rails' I18n library within liquid templates. To use it,
 # simply pass the name of the text entry to the +t+ filter:

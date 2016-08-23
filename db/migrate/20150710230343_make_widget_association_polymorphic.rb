@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MakeWidgetAssociationPolymorphic < ActiveRecord::Migration
   def change
     rename_column :widgets, :campaign_page_id, :page_id

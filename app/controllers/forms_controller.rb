@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
   before_action :find_form, only: [:show, :edit]

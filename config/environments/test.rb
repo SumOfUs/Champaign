@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.configure do
   {
     SQS_QUEUE_URL: 'http://example.com',

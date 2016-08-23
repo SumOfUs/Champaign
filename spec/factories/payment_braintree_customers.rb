@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :payment_braintree_customer, :class => 'Payment::Braintree::Customer' do
     card_type { Faker::Business.credit_card_type }

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Form < ActiveRecord::Base
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.

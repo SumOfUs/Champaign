@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
   before_filter :get_page, except: [:index, :featured]

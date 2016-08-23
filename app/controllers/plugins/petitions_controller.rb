@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Plugins::PetitionsController < ApplicationController
   before_filter :find_form
 

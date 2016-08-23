@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PostalValidator
   # These regular expressions graciously provided by David Gil in his project located at https://github.com/dgilperez/validates_zipcode/blob/master/lib/validates_zipcode/cldr_regex_collection.rb
   # After testing on a live system, we discovered that this level of validation was detrimental to our data capture,

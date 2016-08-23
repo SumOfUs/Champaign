@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :payment_braintree_transaction, :class => 'Payment::Braintree::Transaction' do
     transaction_id { "t#{Faker::Number.number(4)}" }

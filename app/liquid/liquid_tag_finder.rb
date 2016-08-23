@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # The <tt>LiquidTagFinder</tt> class is used to help the app understand
 # the needs and the setup of liquid layouts and partials by parsing
 # relevant liquid tags.

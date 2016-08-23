@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Currency Converter to JSON
 #
 # Takes an array of integer amounts, in US cents, and

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CampaignUpdater
   def self.run(campaign, params)
     new(campaign, params).run

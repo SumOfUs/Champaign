@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ImagesController < ApplicationController
   before_filter :find_page
 

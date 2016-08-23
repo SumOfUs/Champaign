@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   sequence(:email) { |n| "person#{n}@gmail.com" }
   sequence(:slug)  { |n| "petition-#{n}" }

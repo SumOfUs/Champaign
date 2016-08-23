@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :payment_braintree_subscription, class: 'Payment::Braintree::Subscription' do
     subscription_id { "s#{Faker::Number.number(4)}" }

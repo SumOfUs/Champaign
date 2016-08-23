@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 # are these tests failing? it could be a breaking change in the liquid API.

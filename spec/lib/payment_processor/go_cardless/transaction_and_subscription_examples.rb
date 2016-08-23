@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 shared_examples 'transaction and subscription' do |method|
   let(:gc_service_class) do
     if method == :make_subscription

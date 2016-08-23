@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::GoCardless::Customer < ActiveRecord::Base
   belongs_to :member
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'redis'
 require_relative 'analytics/page'
 

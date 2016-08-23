@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class MakeTransactionStatusEnum < ActiveRecord::Migration
   def up
    remove_column :payment_braintree_transactions, :status

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddPrimaryImageIdToPage < ActiveRecord::Migration
   def change
     add_column :pages, :primary_image_id, :integer

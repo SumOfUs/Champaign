@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module HelperFunctions
   def log_in
     email = 'test@sumofus.org'

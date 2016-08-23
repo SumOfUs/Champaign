@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register Language do
   permit_params :code, :name
 

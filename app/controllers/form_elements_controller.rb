@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormElementsController < ApplicationController
   before_filter :find_form, only: [:create, :sort]
 

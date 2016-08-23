@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require_relative 'transaction_and_subscription_examples'
 
@@ -99,18 +100,18 @@ module PaymentProcessor
 
           it 'creates a subscription with the right params and charge date' do
             expect_any_instance_of(
-                GoCardlessPro::Services::SubscriptionsService
+              GoCardlessPro::Services::SubscriptionsService
             ).to receive(:create).with(
-               params: {
-                 amount: amount_in_gbp * 100,
-                 currency: 'GBP',
-                 links: { mandate: 'MA9999' },
-                 metadata: { customer_id: 'CU00000' },
-                 name: 'donation',
-                 interval_unit: 'monthly',
-                 # Get charge day from the Settings class for GBP donations.
-                 start_date: "2016-06-#{Settings.gocardless.gbp_charge_day}"
-               }
+              params: {
+                amount: amount_in_gbp * 100,
+                currency: 'GBP',
+                links: { mandate: 'MA9999' },
+                metadata: { customer_id: 'CU00000' },
+                name: 'donation',
+                interval_unit: 'monthly',
+                # Get charge day from the Settings class for GBP donations.
+                start_date: "2016-06-#{Settings.gocardless.gbp_charge_day}"
+              }
             )
             described_class.make_subscription(gbp_options)
           end
@@ -119,7 +120,7 @@ module PaymentProcessor
             Settings.gocardless.gbp_charge_day = '08'
 
             expect_any_instance_of(
-                GoCardlessPro::Services::SubscriptionsService
+              GoCardlessPro::Services::SubscriptionsService
             ).to receive(:create).with(
               params: {
                 amount: amount_in_gbp * 100,
@@ -139,17 +140,17 @@ module PaymentProcessor
             Settings.gocardless.gbp_charge_day = nil
 
             expect_any_instance_of(
-                GoCardlessPro::Services::SubscriptionsService
+              GoCardlessPro::Services::SubscriptionsService
             ).to receive(:create).with(
-               params: {
-                 amount: amount_in_gbp * 100,
-                 currency: 'GBP',
-                 links: { mandate: 'MA9999' },
-                 metadata: { customer_id: 'CU00000' },
-                 name: 'donation',
-                 interval_unit: 'monthly',
-                 start_date: gbp_mandate.next_possible_charge_date
-               }
+              params: {
+                amount: amount_in_gbp * 100,
+                currency: 'GBP',
+                links: { mandate: 'MA9999' },
+                metadata: { customer_id: 'CU00000' },
+                name: 'donation',
+                interval_unit: 'monthly',
+                start_date: gbp_mandate.next_possible_charge_date
+              }
             )
             described_class.make_subscription(gbp_options)
           end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # The <tt>ActionKitFields</tt> class is a Rails <tt>ActiveModel::Validator<tt> class
 # for validating a model's +name+ field against ActionKits +action+ and +user+
 # tables.

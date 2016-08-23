@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe "Braintree API" do
@@ -269,7 +270,7 @@ describe "Braintree API" do
             it 'passes PYPL as card_num to queue' do
               subject
               expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
-                params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
+                                                                      params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
               ))
             end
 
@@ -447,7 +448,7 @@ describe "Braintree API" do
             it 'passes PYPL as card_num to queue' do
               subject
               expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
-                params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
+                                                                      params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
               ))
             end
 
@@ -752,7 +753,7 @@ describe "Braintree API" do
             it 'passes PYPL as card_num to queue' do
               subject
               expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
-                params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
+                                                                      params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
               ))
             end
 
@@ -933,7 +934,7 @@ describe "Braintree API" do
             it 'passes PYPL as card_num to queue' do
               subject
               expect( ChampaignQueue ).to have_received(:push).with(a_hash_including(
-                params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
+                                                                      params: a_hash_including( order: a_hash_including(card_num: 'PYPL') )
               ))
             end
 

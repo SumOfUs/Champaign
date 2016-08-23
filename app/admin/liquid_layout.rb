@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register LiquidLayout do
   actions :all, except: [:new, :edit]
 

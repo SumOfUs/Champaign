@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RenameCampaignPageToPage < ActiveRecord::Migration
   def change
     rename_column :actions, :campaign_page_id, :page_id

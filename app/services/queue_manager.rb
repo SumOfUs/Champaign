@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class QueueManager
   include Rails.application.routes.url_helpers
 

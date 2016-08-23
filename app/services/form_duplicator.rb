@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormDuplicator
   class << self
     def duplicate(form)

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LiquidLayout < ActiveRecord::Base
   include HasLiquidPartials
   has_paper_trail

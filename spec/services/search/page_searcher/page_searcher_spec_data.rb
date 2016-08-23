@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.shared_context 'page_searcher_spec_data' do
   let(:test_text) { 'a spectacular test string' }
   let!(:tag) { create(:tag, name: test_text, actionkit_uri: '/foo/bar') }

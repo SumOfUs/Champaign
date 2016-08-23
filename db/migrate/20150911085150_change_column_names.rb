@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ChangeColumnNames < ActiveRecord::Migration
   def change
     rename_column :campaigns, :campaign_name, :name

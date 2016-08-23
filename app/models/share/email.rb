@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Share::Email < ActiveRecord::Base
   include Share::Variant
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Versions
   class VersionFinder
     class << self

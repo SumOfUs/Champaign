@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::ActionsController < ApplicationController
   before_filter :localize_from_page_id
   skip_before_action :verify_authenticity_token

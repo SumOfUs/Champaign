@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ActionBuilder
   def build_action(extra_attrs = {})
     @extra_attrs = extra_attrs

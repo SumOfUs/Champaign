@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::GoCardless::Subscription < ActiveRecord::Base
   class Charge
     attr_reader :subscription, :event

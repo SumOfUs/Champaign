@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # The <tt>LiquidFileSystem</tt> class is used by +Liquid+ for
 # retrieving partial content.
 #
