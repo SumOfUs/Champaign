@@ -168,7 +168,7 @@ describe Plugins do
       end
 
       it 'can receive supplemental data ' do
-        expect{ Plugins.data_for_view(page, {some: 'stuff'}) }.not_to raise_error
+        expect{ Plugins.data_for_view(page, some: 'stuff') }.not_to raise_error
       end
 
     end

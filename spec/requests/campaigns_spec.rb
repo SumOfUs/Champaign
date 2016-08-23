@@ -23,11 +23,9 @@ describe "Campaigns", type: :request do
       end
 
       it "publishes the event" do
-        expect(ChampaignQueue).to receive(:push).with({
-          name: 'Super Campaign',
-          type: 'create_campaign',
-          campaign_id: be_a(Integer)
-        })
+        expect(ChampaignQueue).to receive(:push).with(          name: 'Super Campaign',
+                                                                type: 'create_campaign',
+                                                                campaign_id: be_a(Integer))
         post "/campaigns", params
       end
     end

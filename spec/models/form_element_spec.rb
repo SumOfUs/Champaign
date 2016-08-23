@@ -124,13 +124,13 @@ describe FormElement do
       it 'has bad AK characters in the name' do
         subject.name = 'action_sass matazz'
         expect(subject).not_to be_valid
-        expect(subject.errors.messages).to eq({name: ["'action_sass matazz' may only contain numbers, underscores, and lowercase letters."]})
+        expect(subject.errors.messages).to eq(name: ["'action_sass matazz' may only contain numbers, underscores, and lowercase letters."])
       end
 
       it "has a name that doesn't match the AK format" do
         subject.name = 'action_'
         expect(subject).not_to be_valid
-        expect(subject.errors.messages).to eq({name: ["'action_' is not a permitted ActionKit name."]})
+        expect(subject.errors.messages).to eq(name: ["'action_' is not a permitted ActionKit name."])
       end
     end
   end

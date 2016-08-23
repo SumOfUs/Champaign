@@ -39,31 +39,27 @@ describe "Api Actions" do
     let(:message_body) do
       {
         type: "action",
-        meta: hash_including({
-          title:      "Foo Bar",
-          uri:        "/a/foo-bar",
-          slug:       'foo-bar',
-          first_name: 'Bob',
-          last_name:  'Mash',
-          created_at: be_within(1.second).of(Time.now),
-          country: 'France',
-          subscribed_member: true,
-          action_id: instance_of(Fixnum)
-        }),
+        meta: hash_including(          title:      "Foo Bar",
+                                       uri:        "/a/foo-bar",
+                                       slug:       'foo-bar',
+                                       first_name: 'Bob',
+                                       last_name:  'Mash',
+                                       created_at: be_within(1.second).of(Time.now),
+                                       country: 'France',
+                                       subscribed_member: true,
+                                       action_id: instance_of(Fixnum)),
 
-        params: hash_including({
-          page:    'foo-bar-petition',
-          email:  'hello@example.com',
-          name:   'Bob Mash',
-          page_id: page.id.to_s,
-          form_id: form.id.to_s,
-          source: 'fb',
-          akid:   '1234.5678.tKK7gX',
-          referring_akid: '1234.5678.tKK7gX',
-          action_mobile: 'mobile',
-          action_referer: 'www.google.com',
-          user_en: 1
-        })
+        params: hash_including(          page:    'foo-bar-petition',
+                                         email:  'hello@example.com',
+                                         name:   'Bob Mash',
+                                         page_id: page.id.to_s,
+                                         form_id: form.id.to_s,
+                                         source: 'fb',
+                                         akid:   '1234.5678.tKK7gX',
+                                         referring_akid: '1234.5678.tKK7gX',
+                                         action_mobile: 'mobile',
+                                         action_referer: 'www.google.com',
+                                         user_en: 1)
       }
     end
 

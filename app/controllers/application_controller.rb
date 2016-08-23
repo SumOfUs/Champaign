@@ -65,12 +65,10 @@ class ApplicationController < ActionController::Base
   end
 
   def renderer(layout)
-    @renderer ||= LiquidRenderer.new(@page, {
-      location: request.location,
-      member: recognized_member,
-      layout: layout,
-      url_params: params
-    })
+    @renderer ||= LiquidRenderer.new(@page,       location: request.location,
+                                                  member: recognized_member,
+                                                  layout: layout,
+                                                  url_params: params)
   end
 
   def recognized_member

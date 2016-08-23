@@ -120,12 +120,10 @@ module PaymentProcessor
         # customer, otherwise we won't be able to tell which
         # payment_method on the returned customer is the new one
         return customer_options if existing_customer.present?
-        customer_options.merge({
-          payment_method_nonce: @nonce,
-          credit_card: {
+        customer_options.merge(          payment_method_nonce: @nonce,
+                                         credit_card: {
             billing_address: billing_options
-          }
-        })
+          })
       end
     end
   end

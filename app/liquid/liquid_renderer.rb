@@ -60,7 +60,7 @@ class LiquidRenderer
   # markup_data, which is used to create the cached html, and in
   # personalization_data, which is not cached.
   def plugin_data
-    @plugin_data ||= Plugins.data_for_view(@page, {form_values: member_data, donation_band: @url_params[:donation_band]})
+    @plugin_data ||= Plugins.data_for_view(@page, form_values: member_data, donation_band: @url_params[:donation_band])
   end
 
   # this is all data used to render the page that we expect

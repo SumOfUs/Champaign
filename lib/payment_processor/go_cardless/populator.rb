@@ -16,18 +16,14 @@ module PaymentProcessor
       end
 
       def transaction_params
-        request_params.merge({
-          charge_date: charge_date
-        })
+        request_params.merge(          charge_date: charge_date)
       end
 
       def subscription_params
         request_params.merge(
-          {
-            name: "donation",
-            interval_unit: "monthly",
-            start_date: charge_date
-          }
+          name: "donation",
+          interval_unit: "monthly",
+          start_date: charge_date
         )
       end
 

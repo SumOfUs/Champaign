@@ -58,7 +58,7 @@ describe PageUpdater do
 
         it 'plugin change' do
           expect(QueueManager).not_to receive(:push)
-          subject.update({ plugins_petition: { cta: "change", id: petition_plugin.id, name: petition_plugin.name}})
+          subject.update(plugins_petition: { cta: "change", id: petition_plugin.id, name: petition_plugin.name})
         end
 
         it 'does not save' do
@@ -120,7 +120,7 @@ describe PageUpdater do
     end
 
     it 'can update the page' do
-      pupdater.update({page: {content: "for a leading role in the cage"}})
+      pupdater.update(page: {content: "for a leading role in the cage"})
       expect(page.reload.content).to eq "for a leading role in the cage"
     end
 
@@ -265,7 +265,7 @@ describe PageUpdater do
         }
       }
       expect(pupdater.update(params)).to eq false
-      expect(pupdater.errors).to eq({page: {title: "can't be blank"}})
+      expect(pupdater.errors).to eq(page: {title: "can't be blank"})
     end
 
     it 'returns errors nested by plugin' do
@@ -281,7 +281,7 @@ describe PageUpdater do
         }
       }
       expect(pupdater.update(params)).to eq false
-      expect(pupdater.errors).to eq({plugins_thermometer: {offset: "must be greater than or equal to 0"}})
+      expect(pupdater.errors).to eq(plugins_thermometer: {offset: "must be greater than or equal to 0"})
     end
   end
 
@@ -295,7 +295,7 @@ describe PageUpdater do
     end
 
     it 'returns false if nothing changed' do
-      pupdater.update({page: {content: page.content}})
+      pupdater.update(page: {content: page.content})
       expect(pupdater.refresh?).to eq false
     end
 
@@ -314,12 +314,12 @@ describe PageUpdater do
     end
 
     it 'returns true if new liquid_layout has different plugins' do
-      pupdater.update({page: {liquid_layout_id: ll_different_plugins.id}})
+      pupdater.update(page: {liquid_layout_id: ll_different_plugins.id})
       expect(pupdater.refresh?).to eq true
     end
 
     it 'returns false if new liquid_layout has the same plugins' do
-      pupdater.update({page: {liquid_layout_id: ll_same_plugins.id}})
+      pupdater.update(page: {liquid_layout_id: ll_same_plugins.id})
       expect(pupdater.refresh?).to eq false
     end
   end

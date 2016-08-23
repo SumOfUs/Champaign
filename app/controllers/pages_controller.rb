@@ -88,7 +88,7 @@ class PagesController < ApplicationController
         :language_id,
         :liquid_layout_id,
         :follow_up_liquid_layout_id,
-        { tag_ids: [] }
+        tag_ids: []
       )
   end
 

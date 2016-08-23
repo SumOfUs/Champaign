@@ -11,7 +11,7 @@ describe ChampaignQueue::Clients::Direct do
   end
 
   it "posts directly to ActionKit worker" do
-    ChampaignQueue::Clients::Direct.push({foo: :bar})
+    ChampaignQueue::Clients::Direct.push(foo: :bar)
     expect(@stub).to have_been_requested
   end
 end

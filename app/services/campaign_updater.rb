@@ -19,10 +19,8 @@ class CampaignUpdater
   private
 
   def publish_event
-    ChampaignQueue.push({
-      type: 'update_campaign',
-      name: @campaign.name,
-      campaign_id: @campaign.id
-    })
+    ChampaignQueue.push(      type: 'update_campaign',
+                              name: @campaign.name,
+                              campaign_id: @campaign.id)
   end
 end

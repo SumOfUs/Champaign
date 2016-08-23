@@ -4,7 +4,7 @@ module PaymentProcessor
   module Braintree
     describe SubscriptionPlanSelector do
       before do
-        stub_const("PaymentProcessor::Clients::Braintree::SubscriptionPlanSelector::SUBSCRIPTION_PLANS", { EUR: 'EUR' })
+        stub_const("PaymentProcessor::Clients::Braintree::SubscriptionPlanSelector::SUBSCRIPTION_PLANS", EUR: 'EUR')
       end
 
       subject { described_class }

@@ -363,12 +363,10 @@ module PaymentProcessor::GoCardless
         context 'first created payment' do
           it "posts to queue" do
             expect( ChampaignQueue ).to have_received(:push)
-              .with({
-                type: "subscription-payment",
-                params: {
+              .with(                type: "subscription-payment",
+                                    params: {
                   recurring_id: "index_ID_123"
-                }
-            }).once
+                }).once
           end
         end
 
@@ -379,12 +377,10 @@ module PaymentProcessor::GoCardless
 
           it "posts to queue" do
             expect( ChampaignQueue ).to have_received(:push)
-              .with({
-                type: "subscription-payment",
-                params: {
+              .with(                type: "subscription-payment",
+                                    params: {
                   recurring_id: "index_ID_123"
-                }
-            }).twice
+                }).twice
           end
         end
       end

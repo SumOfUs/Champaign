@@ -31,12 +31,10 @@ class Member < ActiveRecord::Base
 
   def liquid_data
     full_name = name
-    attributes.symbolize_keys.merge({
-      donor_status: donor_status, # to get the string not enum int
-      name: full_name,
-      full_name: full_name,
-      welcome_name: full_name.blank? ? email : full_name
-    })
+    attributes.symbolize_keys.merge(      donor_status: donor_status, # to get the string not enum int
+                                          name: full_name,
+                                          full_name: full_name,
+                                          welcome_name: full_name.blank? ? email : full_name)
   end
 
   def send_to_ak

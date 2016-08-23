@@ -7,6 +7,6 @@ class MultiplePaymentMethodTokens < ActiveRecord::Migration
     end
 
     add_column :payment_braintree_transactions, :payment_method_id, :integer
-    add_index  :payment_braintree_transactions, :payment_method_id, { name: 'braintree_payment_method_index' }
+    add_index  :payment_braintree_transactions, :payment_method_id, name: 'braintree_payment_method_index'
   end
 end

@@ -144,7 +144,7 @@ describe LiquidRenderer do
 
     it 'gives image urls in a hash for named_images' do
       allow(page).to receive(:images).and_return(fake_images)
-      expect(subject['named_images']).to eq({ 'smile' => empty_img_hash, 'hearts' => empty_img_hash})
+      expect(subject['named_images']).to eq('smile' => empty_img_hash, 'hearts' => empty_img_hash)
     end
   end
 
@@ -326,7 +326,7 @@ describe LiquidRenderer do
         allow(location).to receive(:country_code){ 'GB' }
         allow(location).to receive(:data){ {country_code: 'GB' } }
         renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
-        expect(renderer.personalization_data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD', 'country' => 'DE'})
+        expect(renderer.personalization_data['location']).to eq('country_code' => 'GB', 'currency' => 'USD', 'country' => 'DE')
       end
 
       it 'sets location.country to location.country_code if member has no country' do
@@ -334,7 +334,7 @@ describe LiquidRenderer do
         allow(location).to receive(:country_code){ 'GB' }
         allow(location).to receive(:data){ {country_code: 'GB' } }
         renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
-        expect(renderer.personalization_data['location']).to eq({'country_code' => 'GB', 'currency' => 'USD', 'country' => 'GB'})
+        expect(renderer.personalization_data['location']).to eq('country_code' => 'GB', 'currency' => 'USD', 'country' => 'GB')
       end
     end
 

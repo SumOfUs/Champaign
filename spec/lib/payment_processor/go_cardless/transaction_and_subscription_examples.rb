@@ -31,7 +31,7 @@ shared_examples 'transaction and subscription' do |method|
       allow_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService
       ).to receive(:complete).and_raise(
-        GoCardlessPro::InvalidStateError.new({'message' => 'Flow already completed.'})
+        GoCardlessPro::InvalidStateError.new('message' => 'Flow already completed.')
       )
       expect_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService

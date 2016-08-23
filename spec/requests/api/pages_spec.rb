@@ -21,10 +21,8 @@ describe "api/pages" do
         %w{id title slug content created_at updated_at publish_status featured action_count language}
       )
 
-      expect(subject.first.symbolize_keys).to include({
-        title: 'Foo',
-        content: 'Bar'
-      })
+      expect(subject.first.symbolize_keys).to include(        title: 'Foo',
+                                                              content: 'Bar')
     end
   end
 
@@ -45,10 +43,8 @@ describe "api/pages" do
         %w{id title slug content created_at updated_at publish_status featured action_count language}
       )
 
-      expect(subject.first.symbolize_keys).to include({
-        title: 'Foo',
-        content: 'Bar'
-      })
+      expect(subject.first.symbolize_keys).to include(        title: 'Foo',
+                                                              content: 'Bar')
     end
   end
 
@@ -64,10 +60,8 @@ describe "api/pages" do
         %w{id title slug content created_at updated_at publish_status featured action_count language}
       )
 
-      expect(subject.symbolize_keys).to include({
-        title: 'Foo',
-        id: page.id
-      })
+      expect(subject.symbolize_keys).to include(        title: 'Foo',
+                                                        id: page.id)
     end
   end
 end

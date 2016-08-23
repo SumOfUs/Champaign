@@ -15,7 +15,7 @@ describe Api::PagesController do
     end
 
     it 'gets list of pages' do
-      expect(PageService).to have_received(:list).with(hash_including({language: 'en'}))
+      expect(PageService).to have_received(:list).with(hash_including(language: 'en'))
     end
 
     it 'responds with json' do
@@ -30,7 +30,7 @@ describe Api::PagesController do
     end
 
     it 'gets list of pages' do
-      expect(PageService).to have_received(:list_featured).with(hash_including({language: 'en'}))
+      expect(PageService).to have_received(:list_featured).with(hash_including(language: 'en'))
     end
 
     it 'responds with json' do

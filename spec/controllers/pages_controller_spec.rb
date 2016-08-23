@@ -32,7 +32,7 @@ describe PagesController do
 
     before do
       allow(PageBuilder).to receive(:create) { page }
-      post :create, { page: { title: "Foo Bar" }}
+      post :create, page: { title: "Foo Bar" }
     end
 
     it 'creates page' do

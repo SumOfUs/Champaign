@@ -22,7 +22,7 @@ describe Api::ActionsController do
     describe "successful" do
       before do
         allow(controller).to receive(:verify_authenticity_token)
-        post :create, { page_id: 2, form_id: 3, foo: 'bar' }
+        post :create, page_id: 2, form_id: 3, foo: 'bar'
       end
 
       it 'does not verify authenticity token' do
@@ -42,7 +42,7 @@ describe Api::ActionsController do
 
       it "filters params by those present in the form" do
         expect do
-          post :create, { page_id: 2, form_id: 3, not_permitted: 'no, no!' }
+          post :create, page_id: 2, form_id: 3, not_permitted: 'no, no!'
         end.to raise_error(
           ActionController::UnpermittedParameters,
           "found unpermitted parameter: not_permitted"
@@ -64,7 +64,7 @@ describe Api::ActionsController do
 
     describe "URL params" do
       before do
-        post :create, { page_id: 2, form_id: 3, foo: 'bar', source: "FB", akid: '123.456.rfs' }
+        post :create, page_id: 2, form_id: 3, foo: 'bar', source: "FB", akid: '123.456.rfs'
       end
 
       it 'takes source' do
@@ -84,7 +84,7 @@ describe Api::ActionsController do
 
       before :each do
         allow(FormValidator).to receive(:new){ validator }
-        post :create, { page_id: 2, form_id: 3, foo: 'bar' }
+        post :create, page_id: 2, form_id: 3, foo: 'bar'
       end
 
       it "does not create an action" do
@@ -117,7 +117,7 @@ describe Api::ActionsController do
 
       before do
         allow(FormValidator).to receive(:new){ validator }
-        post :validate, { page_id: 2, form_id: 3, foo: 'bar' }
+        post :validate, page_id: 2, form_id: 3, foo: 'bar'
       end
 
       it "finds form" do
@@ -134,7 +134,7 @@ describe Api::ActionsController do
 
       it "filters params by those present in the form" do
         expect do
-          post :validate, { page_id: 2, form_id: 3, not_permitted: 'no, no!' }
+          post :validate, page_id: 2, form_id: 3, not_permitted: 'no, no!'
         end.to raise_error(
           ActionController::UnpermittedParameters,
           "found unpermitted parameter: not_permitted"
@@ -161,7 +161,7 @@ describe Api::ActionsController do
 
       before :each do
         allow(FormValidator).to receive(:new){ validator }
-        post :validate, { page_id: 2, form_id: 3, foo: 'bar' }
+        post :validate, page_id: 2, form_id: 3, foo: 'bar'
       end
 
       it "does not create an action" do

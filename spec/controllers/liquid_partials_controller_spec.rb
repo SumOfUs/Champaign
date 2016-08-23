@@ -49,7 +49,7 @@ RSpec.describe LiquidPartialsController, type: :controller do
     it "is not a route" do
       liquid_partial = LiquidPartial.create! valid_attributes
       expect do
-        get :show, {:id => liquid_partial.to_param}
+        get :show, :id => liquid_partial.to_param
       end.to raise_error ActionController::UrlGenerationError
     end
   end

@@ -7,7 +7,7 @@ describe Plugins::Thermometer do
   let(:thermometer) { Plugins::Thermometer.create! page: page }
 
   it "can accept random supplemental data to liquid_data method" do
-    expect{ thermometer.liquid_data({foo: 'bar'}) }.not_to raise_error
+    expect{ thermometer.liquid_data(foo: 'bar') }.not_to raise_error
   end
 
   it 'correctly returns the current total' do

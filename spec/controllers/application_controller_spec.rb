@@ -11,20 +11,20 @@ describe ApplicationController do
       end
 
       it 'does nothing if page_id is blank' do
-        allow(controller).to receive(:params).and_return({page_id: nil})
+        allow(controller).to receive(:params).and_return(page_id: nil)
         controller.send(:localize_from_page_id)
         expect(controller).not_to have_received(:set_locale)
       end
 
       it 'does nothing if page has no language' do
         page.update_attributes(language_id: nil)
-        allow(controller).to receive(:params).and_return({page_id: page.id})
+        allow(controller).to receive(:params).and_return(page_id: page.id)
         controller.send(:localize_from_page_id)
         expect(controller).not_to have_received(:set_locale)
       end
 
       it 'sets locale with page language code' do
-        allow(controller).to receive(:params).and_return({page_id: page.id})
+        allow(controller).to receive(:params).and_return(page_id: page.id)
         controller.send(:localize_from_page_id)
         expect(controller).to have_received(:set_locale).with('en')
       end
@@ -69,7 +69,7 @@ describe ApplicationController do
         request.headers['HTTP_USER_AGENT'] = req[:agent]
         get :index
 
-        expect(controller.mobile_value).to eq({ action_mobile: req[:device].to_s })
+        expect(controller.mobile_value).to eq(action_mobile: req[:device].to_s)
       end
     end
   end

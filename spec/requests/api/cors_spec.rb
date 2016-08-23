@@ -37,7 +37,7 @@ describe 'CORS support' do
       end
 
       it 'also allows requests from sumofus.org (no subdomain)' do
-        options('/api/pages', nil, {accept: 'application/json', origin: 'http://sumofus.org'})
+        options('/api/pages', nil, accept: 'application/json', origin: 'http://sumofus.org')
         expect(allow_origin).to eq('http://sumofus.org')
       end
 

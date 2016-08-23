@@ -23,7 +23,7 @@ describe ChampaignQueue::Clients::Sqs do
       Settings.sqs_queue_url = request_uri
 
       # Set some fake credentials for AWS.
-      Aws.config.update({region: 'us-west-2', credentials: Aws::Credentials.new('fake', 'password')})
+      Aws.config.update(region: 'us-west-2', credentials: Aws::Credentials.new('fake', 'password'))
 
       stub_request(:post, request_uri)
         .with(body: request_body)
@@ -34,7 +34,7 @@ describe ChampaignQueue::Clients::Sqs do
     it "delivers payload to AWS SQS Queue" do
 
       Timecop.freeze('2015/01/01') do
-        resp = ChampaignQueue::Clients::Sqs.push({foo: :bar})
+        resp = ChampaignQueue::Clients::Sqs.push(foo: :bar)
 
         expect(resp.message_id).to eq('918aba5a-b70f-4e31-9905-ba02000fcdaa')
       end
@@ -49,7 +49,7 @@ describe ChampaignQueue::Clients::Sqs do
     it "does not deliver payload to AWS SQS Queue" do
       expect_any_instance_of(Aws::SQS::Client).to_not receive(:send_message)
 
-      ChampaignQueue::Clients::Sqs.push({foo: :bar})
+      ChampaignQueue::Clients::Sqs.push(foo: :bar)
     end
   end
 end

@@ -18,12 +18,10 @@ describe "api/members" do
 
     it "creates a new member" do
       expect{subject}.to change {Member.count}.by(1)
-      expect(Member.last).to have_attributes({
-        email: 'newbie@test.org',
-        country: 'NZ',
-        name: 'Anahera Parata',
-        postal: '1A943'
-      })
+      expect(Member.last).to have_attributes(        email: 'newbie@test.org',
+                                                     country: 'NZ',
+                                                     name: 'Anahera Parata',
+                                                     postal: '1A943')
     end
 
     it "doesn't explode if a member with the given email already exists" do
@@ -48,12 +46,10 @@ describe "api/members" do
 
     it "creates a new member also if the only field we get is an email address" do
       expect { post api_members_path, email: "private@email.com" }.to change {Member.count}.by(1)
-      expect(Member.last).to have_attributes({
-        email: 'private@email.com',
-        country: nil,
-        name: '',
-        postal: nil
-      })
+      expect(Member.last).to have_attributes(        email: 'private@email.com',
+                                                     country: nil,
+                                                     name: '',
+                                                     postal: nil)
     end
   end
 

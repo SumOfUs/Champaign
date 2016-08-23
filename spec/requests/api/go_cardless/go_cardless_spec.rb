@@ -13,16 +13,14 @@ describe "GoCardless API" do
   end
 
   let(:meta) do
-    hash_including({
-      title:      'Foo Bar',
-      uri:        '/a/foo-bar',
-      slug:       'foo-bar',
-      first_name: 'Bernie',
-      last_name:  'Sanders',
-      action_id:  instance_of(Fixnum),
-      created_at: be_within(1.second).of(Time.now),
-      country: 'United States'
-    })
+    hash_including(      title:      'Foo Bar',
+                         uri:        '/a/foo-bar',
+                         slug:       'foo-bar',
+                         first_name: 'Bernie',
+                         last_name:  'Sanders',
+                         action_id:  instance_of(Fixnum),
+                         created_at: be_within(1.second).of(Time.now),
+                         country: 'United States')
   end
 
   before :each do
@@ -30,7 +28,7 @@ describe "GoCardless API" do
       instance_double(Money, cents: (gbp_amount*100).to_i)
     )
 
-    allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'tablet'})
+    allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'tablet')
   end
 
   describe "redirect flow" do
@@ -43,7 +41,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette("go_cardless redirect flow request success") do
-          get api_go_cardless_path(page, { amount: 3, currency: 'EUR' })
+          get api_go_cardless_path(page, amount: 3, currency: 'EUR')
         end
       end
 
@@ -84,7 +82,7 @@ describe "GoCardless API" do
 
       subject do
         VCR.use_cassette("go_cardless redirect flow request failure") do
-          get api_go_cardless_path(page, { amount: 5, currency: 'EUR' })
+          get api_go_cardless_path(page, amount: 5, currency: 'EUR')
         end
       end
 
@@ -148,20 +146,18 @@ describe "GoCardless API" do
     end
 
     let(:completed_flow) do
-      GoCardlessPro::Resources::RedirectFlow.new({
-        "id" => redirect_flow_id,
-        "description" => nil,
-        "session_token" => "iamatoken",
-        "scheme" => nil,
-        "success_redirect_url" => "http://localhost:3000/api/go_cardless/payment_complete?amount=10&user%5Bform_id%5D=127&user%5Bemail%5D=nealjmd%40gmail.com&user%5Bname%5D=Neal+Donnelly&user%5Bcountry%5D=US&user%5Bpostal%5D=01060&currency=USD&recurring=false&provider=GC",
-        "created_at" => "2016-04-11T19:15:07.713Z",
-        "links" => {
+      GoCardlessPro::Resources::RedirectFlow.new(        "id" => redirect_flow_id,
+                                                         "description" => nil,
+                                                         "session_token" => "iamatoken",
+                                                         "scheme" => nil,
+                                                         "success_redirect_url" => "http://localhost:3000/api/go_cardless/payment_complete?amount=10&user%5Bform_id%5D=127&user%5Bemail%5D=nealjmd%40gmail.com&user%5Bname%5D=Neal+Donnelly&user%5Bcountry%5D=US&user%5Bpostal%5D=01060&currency=USD&recurring=false&provider=GC",
+                                                         "created_at" => "2016-04-11T19:15:07.713Z",
+                                                         "links" => {
           "creditor" => creditor_id,
           "mandate"  => mandate_id,
           "customer" => customer_id,
           "customer_bank_account" => customer_bank_account_id
-        }
-      })
+        })
     end
 
     before :each do

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Api::Payment::BraintreeController do
   before do
     allow(Page).to receive(:find){ page }
-    allow(MobileDetector).to receive(:detect).and_return({action_mobile: 'mobile'})
+    allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'mobile')
   end
 
   let(:page) { instance_double("Page") }

@@ -10,14 +10,12 @@ module Payment::Braintree
 
     def write_subscription(subscription_result, page_id, action_id, currency)
       if subscription_result.success?
-        Payment::Braintree::Subscription.create({
-          subscription_id:        subscription_result.subscription.id,
-          amount:                 subscription_result.subscription.price,
-          merchant_account_id:    subscription_result.subscription.merchant_account_id,
-          action_id:              action_id,
-          currency:               currency,
-          page_id:                page_id
-        })
+        Payment::Braintree::Subscription.create(          subscription_id:        subscription_result.subscription.id,
+                                                          amount:                 subscription_result.subscription.price,
+                                                          merchant_account_id:    subscription_result.subscription.merchant_account_id,
+                                                          action_id:              action_id,
+                                                          currency:               currency,
+                                                          page_id:                page_id)
       end
     end
 
@@ -58,11 +56,9 @@ module Payment::Braintree
     end
 
     def customer_attrs
-      card_attrs.merge({
-        customer_id:      @bt_customer.id,
-        member_id:        @member_id,
-        email:            @bt_customer.email
-      })
+      card_attrs.merge(        customer_id:      @bt_customer.id,
+                               member_id:        @member_id,
+                               email:            @bt_customer.email)
     end
 
     def card_attrs

@@ -44,11 +44,9 @@ describe ManageBraintreeDonation do
   end
 
   subject do
-    ManageBraintreeDonation.create({
-      params: params,
-      braintree_result: transaction,
-      is_subscription: false
-    })
+    ManageBraintreeDonation.create(      params: params,
+                                         braintree_result: transaction,
+                                         is_subscription: false)
   end
 
   before do
@@ -124,11 +122,9 @@ describe ManageBraintreeDonation do
 
     describe 'Subscription' do
       subject do
-        ManageBraintreeDonation.create({
-          params: params,
-          braintree_result: subscription,
-          is_subscription: false
-        })
+        ManageBraintreeDonation.create(          params: params,
+                                                 braintree_result: subscription,
+                                                 is_subscription: false)
       end
 
       describe 'action' do
@@ -160,11 +156,9 @@ describe ManageBraintreeDonation do
     let(:payment_nonce)   { 'fake-paypal-future-nonce' }
 
     subject do
-      ManageBraintreeDonation.create({
-        params: params,
-        braintree_result: paypal_transaction,
-        is_subscription: false
-      })
+      ManageBraintreeDonation.create(        params: params,
+                                             braintree_result: paypal_transaction,
+                                             is_subscription: false)
     end
 
     describe 'action' do

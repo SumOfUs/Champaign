@@ -63,15 +63,13 @@ describe "subscriptions" do
         it 'has correct attributes' do
           expect(
             subject.attributes.symbolize_keys
-          ).to include({
-            go_cardless_id: 'payment_ID_123',
-            page_id: page.id,
-            amount: 100,
-            charge_date: Date.new(2016, 4, 20),
-            customer_id: subscription.customer_id,
-            payment_method_id: subscription.payment_method_id,
-            subscription_id: subscription.id
-          })
+          ).to include(            go_cardless_id: 'payment_ID_123',
+                                   page_id: page.id,
+                                   amount: 100,
+                                   charge_date: Date.new(2016, 4, 20),
+                                   customer_id: subscription.customer_id,
+                                   payment_method_id: subscription.payment_method_id,
+                                   subscription_id: subscription.id)
         end
 
         it 'is created' do
@@ -84,7 +82,7 @@ describe "subscriptions" do
       describe "Posting to queue" do
         context 'with existing transaction' do
           it 'posts to queue' do
-            expect( ChampaignQueue ).to have_received(:push).with({ type: "subscription-payment", params: { recurring_id: "index_ID_123"} })
+            expect( ChampaignQueue ).to have_received(:push).with(type: "subscription-payment", params: { recurring_id: "index_ID_123"})
           end
         end
       end

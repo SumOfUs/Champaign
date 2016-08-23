@@ -18,10 +18,8 @@ class CampaignCreator
   private
 
   def publish_event
-    ChampaignQueue.push({
-      type: 'create_campaign',
-      name: @campaign.name,
-      campaign_id: @campaign.id
-    })
+    ChampaignQueue.push(      type: 'create_campaign',
+                              name: @campaign.name,
+                              campaign_id: @campaign.id)
   end
 end

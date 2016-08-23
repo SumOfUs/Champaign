@@ -2,13 +2,11 @@ require 'rails_helper'
 
 describe 'Omniauth with Devise' do
   def login_with_google(email = 'cesar@example.com')
-    login_with_oauth2(:google_oauth2, {
-      uid:      '12345',
-      provider: 'google_oauth2',
-      info: {
+    login_with_oauth2(:google_oauth2,       uid:      '12345',
+                                            provider: 'google_oauth2',
+                                            info: {
         email: email
-      }
-    })
+      })
   end
 
   subject(:user) { User.first }
