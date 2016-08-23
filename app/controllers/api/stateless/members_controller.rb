@@ -12,7 +12,6 @@ module Api
         @current_member.update(permitted_params)
         if @current_member.save
           update_on_ak(@current_member)
-          @current_member
         else
           render json: { success: false, errors: @current_member.errors.messages }, status: 422
         end
