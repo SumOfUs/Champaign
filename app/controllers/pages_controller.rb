@@ -74,8 +74,8 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page).
-      permit( :id,
+    params.require(:page)
+          .permit( :id,
       :title,
       :slug,
       :active,

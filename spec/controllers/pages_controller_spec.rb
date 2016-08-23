@@ -38,8 +38,8 @@ describe PagesController do
     it 'creates page' do
       expected_params = { title: "Foo Bar" }
 
-      expect(PageBuilder).to have_received(:create).
-        with(expected_params)
+      expect(PageBuilder).to have_received(:create)
+        .with(expected_params)
     end
 
     context "successfully created" do

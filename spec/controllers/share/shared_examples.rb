@@ -19,8 +19,8 @@ shared_examples "shares" do |share_class, service|
     end
 
     it 'gets shares' do
-      expect(share_class).to have_received(:where).
-        with(page_id: '1')
+      expect(share_class).to have_received(:where)
+        .with(page_id: '1')
     end
 
     it 'assigns shares' do
@@ -89,8 +89,8 @@ shared_examples "shares" do |share_class, service|
       end
 
       it 'updates' do
-        expect(ShareProgressVariantBuilder).to have_received(:update).
-          with(
+        expect(ShareProgressVariantBuilder).to have_received(:update)
+          .with(
             params: params,
             variant_type: service.to_sym,
             page: page,
@@ -133,8 +133,8 @@ shared_examples "shares" do |share_class, service|
       end
 
       it 'creates' do
-        expect(ShareProgressVariantBuilder).to have_received(:create).
-          with(
+        expect(ShareProgressVariantBuilder).to have_received(:create)
+          .with(
             params: params,
             variant_type: service.to_sym,
             page: page,
