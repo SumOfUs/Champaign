@@ -19,7 +19,7 @@ describe 'api/pages' do
       expect(subject.size).to eq(1)
 
       expect(subject.first.keys).to match(
-        %w(id title slug content created_at updated_at publish_status featured action_count language)
+        %w(id title slug content created_at updated_at publish_status featured action_count language image url)
       )
 
       expect(subject.first.symbolize_keys).to include(title: 'Foo',
@@ -41,7 +41,7 @@ describe 'api/pages' do
       expect(subject.size).to eq(1)
 
       expect(subject.first.keys).to match(
-        %w(id title slug content created_at updated_at publish_status featured action_count language)
+        %w(id title slug content created_at updated_at publish_status featured action_count language image url)
       )
 
       expect(subject.first.symbolize_keys).to include(title: 'Foo',

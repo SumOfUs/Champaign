@@ -105,6 +105,9 @@ Rails.application.configure do
     }
   }
 
+  # to allow services consuming images through the API to have absolute URLs
+  config.action_controller.asset_host = ''
+
   # config.action_controller.perform_caching = true
   #
   # We don't want to use memory_store, it's just a convenient choice for development.
