@@ -103,11 +103,6 @@ Style/ClassAndModuleChildren:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 3
-Style/DoubleNegation:
-  Exclude:
-    - 'app/services/action_builder.rb'
-
 # Offense count: 9
 Style/EachWithObject:
   Exclude:

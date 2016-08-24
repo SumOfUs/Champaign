@@ -37,7 +37,7 @@ module ActionBuilder
   end
 
   def existing_member?
-    !!existing_member
+    existing_member ? true : false
   end
 
   def member
@@ -83,10 +83,10 @@ module ActionBuilder
 
   def is_donation?
     return false if @extra_attrs.blank?
-    !!@extra_attrs[:donation]
+    @extra_attrs[:donation] ? true : false
   end
 
   def is_recurring_donation?
-    !!@params[:is_subscription]
+    @params[:is_subscription] ? true : false
   end
 end
