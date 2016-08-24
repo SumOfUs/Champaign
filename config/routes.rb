@@ -149,6 +149,22 @@ Rails.application.routes.draw do
       end
     end
 
+    namespace :stateless, defaults: { format: 'json' } do
+      namespace :braintree do
+        resources :payment_methods
+        resources :subscriptions
+        resources :transactions
+      end
+
+      resources :members
+
+      namespace :auth do
+        post :password
+        post :facebook
+        get :test_authentication
+      end
+    end
+
     resources :members
 
     # Respond to CORS Preflight requests (OPTIONS) with a
