@@ -1,6 +1,8 @@
 class Member < ActiveRecord::Base
-  has_one :customer,               class_name: "Payment::Braintree::Customer"
   has_many :go_cardless_customers, class_name: "Payment::GoCardless::Customer"
+  has_one :customer,               class_name: "Payment::Braintree::Customer"
+  has_one :braintree_customer,     class_name: "Payment::Braintree::Customer"
+  has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
   has_paper_trail on: [:update, :destroy]
   has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
 
