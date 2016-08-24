@@ -31,7 +31,7 @@
 # Because +Liquid+ catches +StandardError+, we've created another error
 # class subclassed directly on Exception that will not be caught.
 
-class I18n::TranslationMissing < RuntimeError; end
+class I18n::TranslationMissing < Exception; end
 class I18n::TooMuchInterpolation < StandardError; end
 
 module LiquidI18n

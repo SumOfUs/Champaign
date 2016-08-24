@@ -60,9 +60,7 @@ module Analytics
     end
 
     def key(new_member = false)
-      "pages:#{@page_id}:total_actions".tap do |key|
-        key << ':new_members' if new_member
-      end
+      "pages:#{@page_id}:total_actions#{':new_members' if new_member}"
     end
 
     def key_with_hour(hour: Time.now.beginning_of_hour.utc.to_s(:db), new_member: false)

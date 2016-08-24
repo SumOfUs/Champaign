@@ -29,9 +29,7 @@ module PagesHelper
 
   def button_group_item(text, path)
     selected = current_page?(path)
-    klass = selected ? 'btn-primary' : 'btn-default'
-    klass << ' btn'
-
+    klass = "#{selected ? 'btn-primary': 'btn-default'} btn".trim
     link_to text, path, class: klass
   end
 
@@ -145,8 +143,7 @@ module PagesHelper
 
   def toggle_featured_link(page)
     method = page.featured? ? :delete : :post
-    klass = 'glyphicon glyphicon-star'
-    klass << '-empty' unless page.featured?
+    klass = "glyphicon glyphicon-star#{'-empty' unless page.featured?}"
 
     path = page.featured? ? featured_page_path(page) : featured_pages_path(id: page.id)
 

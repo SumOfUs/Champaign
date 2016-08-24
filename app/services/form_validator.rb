@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 class FormValidator
   attr_reader :errors
 
@@ -59,7 +58,7 @@ class FormValidator
   end
 
   def validate_email(form_element, el_name)
-    email = @params[el_name].try(:encode!, 'UTF-8', invalid: :replace, undef: :replace)
+    email = @params[el_name].try(:encode, 'UTF-8', invalid: :replace, undef: :replace)
     if form_element.data_type == 'email' && email.present? && !is_email(email)
       @errors[el_name] << I18n.t('validation.is_invalid_email')
     end

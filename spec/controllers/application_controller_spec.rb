@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -63,7 +64,7 @@ describe ApplicationController do
       { device: :mobile,  agent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Mobile/11D257' },
       { device: :desktop, agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36' },
       { device: :tablet,  agent: 'Mozilla/5.0 (iPad; CPU OS 6_1_3 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10B329 Safari/8536.25' },
-      { device: :desktop, agent: 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136é'.force_encoding(Encoding::ASCII_8BIT), note: '(ASCII-8BIT header)' },
+      { device: :desktop, agent: 'Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.10136é'.dup.force_encoding(Encoding::ASCII_8BIT), note: '(ASCII-8BIT header)' },
       { device: :unknown, agent: '' }
     ].each do |req|
       it "detects headers for #{req[:device]} #{req.fetch(:note, '')}" do
