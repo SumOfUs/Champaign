@@ -29,7 +29,7 @@ class MemberAuthentication < ActiveRecord::Base
     {
       uid: facebook_uid,
       oauth_token: facebook_token,
-      oauth_token_expiry: facebook_token_expiry,
+      oauth_token_expiry: facebook_token_expiry
     }
   end
 
