@@ -11,15 +11,17 @@ module Payment::Braintree
 
     def write_subscription(payment_method_id, customer_id, subscription_result, page_id, action_id, currency)
       if subscription_result.success?
-        Payment::Braintree::Subscription.create(payment_method_id:      payment_method_id,
-                                                customer_id:            customer_id,
-                                                subscription_id:        subscription_result.subscription.id,
-                                                amount:                 subscription_result.subscription.price,
-                                                merchant_account_id:    subscription_result.subscription.merchant_account_id,
-                                                billing_day_of_month:   subscription_result.subscription.billing_day_of_month,
-                                                action_id:              action_id,
-                                                currency:               currency,
-                                                page_id:                page_id)
+        Payment::Braintree::Subscription.create({
+          payment_method_id:      payment_method_id,
+          customer_id:            customer_id,
+          subscription_id:        subscription_result.subscription.id,
+          amount:                 subscription_result.subscription.price,
+          merchant_account_id:    subscription_result.subscription.merchant_account_id,
+          billing_day_of_month:   subscription_result.subscription.billing_day_of_month,
+          action_id:              action_id,
+          currency:               currency,
+          page_id:                page_id
+        })
       end
     end
 
