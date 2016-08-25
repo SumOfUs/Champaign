@@ -10,14 +10,12 @@ module Api
         credentials = password_authentication_params
         member = Member.find_by(email: credentials[:email])
 
-        if member.try(:authenticate, credentials[:password])
-          render status: :ok, json: {
-            member: member,
-            token: encode_jwt(member.token_payload)
-          }
-        else
-          return head(:unauthorized)
-        end
+        return head(:unauthorized) unless member.try(:authenticate, credentials[:password])
+
+        render status: :ok, json: {
+          member: member,
+          token: encode_jwt(member.token_payload)
+        }
       end
 
       def facebook
