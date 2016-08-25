@@ -23,11 +23,12 @@ module BraintreeServices
     end
 
     def credit_card_attributes
-      %w(last_4 card_type expiration_date bin token).inject({}) do |attributes, attr|
+      %w(last_4 card_type expiration_date bin token).each_with_object({}) do |attr, attributes|
         attributes[attr] = @transaction.credit_card_details.send(attr)
-        attributes
-      end.merge(customer: @customer,
-                instrument_type: 'credit_card')
+      end.merge(
+        customer: @customer,
+        instrument_type: 'credit_card'
+      )
     end
 
     def paypal_attributes
