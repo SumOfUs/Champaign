@@ -6,7 +6,15 @@ describe 'API::Stateless Subscriptions' do
 
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
-  let!(:subscription) { create(:payment_braintree_subscription, customer: customer) }
+  let!(:payment_method) { create(:braintree_payment_method,
+    customer: customer,
+    instrument_type: 'credit card',
+    token: '2ewruo4i5o3',
+    last_4: '2454',
+    email: customer.email,
+    card_type: 'Mastercard')}
+
+  let!(:subscription) { create(:payment_braintree_subscription, customer: customer, payment_method: payment_method) }
   let!(:transaction_a) { create(:payment_braintree_transaction, subscription: subscription ) }
   let!(:transaction_b) { create(:payment_braintree_transaction, subscription: subscription ) }
 
@@ -20,16 +28,27 @@ describe 'API::Stateless Subscriptions' do
   end
 
   describe 'GET index' do
-    it 'returns subscriptions for member' do
+    it 'returns subscriptions with its nested transactions and payment method for member' do
       get '/api/stateless/braintree/subscriptions', nil, auth_headers
       expect(response.status).to eq(200)
-      expect(json_hash.first.keys).to include("id", "billing_day_of_month", "created_at", "amount", "transactions")
+      expect(json_hash.first.keys).to include("id", "billing_day_of_month", "created_at", "amount", "transactions", "payment_method")
+
+      expect(json_hash.first["payment_method"]).to match({
+        instrument_type: 'credit card',
+        token: '2ewruo4i5o3',
+        last_4: '2454',
+        expiration_date: nil,
+        bin: nil,
+        email: customer.email,
+        card_type: 'Mastercard'}.as_json)
+
       expect(json_hash.first["transactions"]).to include({
         id: transaction_a.id,
         status: transaction_a.status,
         amount: transaction_a.amount,
         created_at: transaction_a.created_at
       }.as_json)
+
       expect(json_hash.first["transactions"]).to include({
         id: transaction_b.id,
         status: transaction_b.status,
