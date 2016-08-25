@@ -323,8 +323,8 @@ describe 'Braintree API' do
               }.stringify_keys)
             end
 
-            it "creates an Action associated with the Page and Member" do
-              expect{ subject }.to change{ Action.count }.by 1
+            it 'creates an Action associated with the Page and Member' do
+              expect { subject }.to change { Action.count }.by 1
               expect(Action.last.page).to eq page
               expect(Action.last.member).to eq member
             end
@@ -934,7 +934,6 @@ describe 'Braintree API' do
               expect(response.status).to eq 200
               expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
             end
-
 
             it 'persists payment_method' do
               subject

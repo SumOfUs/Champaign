@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateMemberAuthentications < ActiveRecord::Migration
   def change
     create_table :member_authentications do |t|
