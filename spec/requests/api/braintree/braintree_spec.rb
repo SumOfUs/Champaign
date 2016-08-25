@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -166,26 +167,28 @@ describe 'Braintree API' do
             it 'passes the params to braintree' do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
-              expect(Braintree::Transaction).to have_received(:sale).with(amount: amount,
-                                                                          payment_method_nonce: 'fake-valid-nonce',
-                                                                          merchant_account_id: 'EUR',
-                                                                          options: {
-                                                                            submit_for_settlement: true,
-                                                                            store_in_vault_on_success: true
-                                                                          },
-                                                                          customer: {
-                                                                            first_name: 'Bernie',
-                                                                            last_name: 'Sanders',
-                                                                            email: 'itsme@feelthebern.org'
-                                                                          },
-                                                                          billing: {
-                                                                            first_name: 'Bernie',
-                                                                            last_name: 'Sanders',
-                                                                            street_address: '25 Elm Drive',
-                                                                            postal_code: '11225',
-                                                                            country_code_alpha2: 'US'
-                                                                          },
-                                                                          customer_id: customer.customer_id)
+              expect(Braintree::Transaction).to have_received(:sale).with(
+                amount: amount,
+                payment_method_nonce: 'fake-valid-nonce',
+                merchant_account_id: 'EUR',
+                options: {
+                  submit_for_settlement: true,
+                  store_in_vault_on_success: true
+                },
+                customer: {
+                  first_name: 'Bernie',
+                  last_name: 'Sanders',
+                  email: 'itsme@feelthebern.org'
+                },
+                billing: {
+                  first_name: 'Bernie',
+                  last_name: 'Sanders',
+                  street_address: '25 Elm Drive',
+                  postal_code: '11225',
+                  country_code_alpha2: 'US'
+                },
+                customer_id: customer.customer_id
+              )
             end
 
             it 'leaves a cookie with the member_id' do
@@ -270,7 +273,7 @@ describe 'Braintree API' do
             it 'passes PYPL as card_num to queue' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
-                                                                    params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
+                params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
               ))
             end
 
@@ -349,25 +352,27 @@ describe 'Braintree API' do
             it 'passes the params to braintree' do
               allow(Braintree::Transaction).to receive(:sale).and_call_original
               subject
-              expect(Braintree::Transaction).to have_received(:sale).with(amount: amount,
-                                                                          payment_method_nonce: 'fake-valid-nonce',
-                                                                          merchant_account_id: 'EUR',
-                                                                          options: {
-                                                                            submit_for_settlement: true,
-                                                                            store_in_vault_on_success: true
-                                                                          },
-                                                                          customer: {
-                                                                            first_name: 'Bernie',
-                                                                            last_name: 'Sanders',
-                                                                            email: 'itsme@feelthebern.org'
-                                                                          },
-                                                                          billing: {
-                                                                            first_name: 'Bernie',
-                                                                            last_name: 'Sanders',
-                                                                            street_address: '25 Elm Drive',
-                                                                            postal_code: '11225',
-                                                                            country_code_alpha2: 'US'
-                                                                          })
+              expect(Braintree::Transaction).to have_received(:sale).with(
+                amount: amount,
+                payment_method_nonce: 'fake-valid-nonce',
+                merchant_account_id: 'EUR',
+                options: {
+                  submit_for_settlement: true,
+                  store_in_vault_on_success: true
+                },
+                customer: {
+                  first_name: 'Bernie',
+                  last_name: 'Sanders',
+                  email: 'itsme@feelthebern.org'
+                },
+                billing: {
+                  first_name: 'Bernie',
+                  last_name: 'Sanders',
+                  street_address: '25 Elm Drive',
+                  postal_code: '11225',
+                  country_code_alpha2: 'US'
+                }
+              )
             end
 
             it 'leaves a cookie with the member_id' do
@@ -448,7 +453,7 @@ describe 'Braintree API' do
             it 'passes PYPL as card_num to queue' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
-                                                                    params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
+                params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
               ))
             end
 
@@ -651,32 +656,39 @@ describe 'Braintree API' do
             it 'passes the subscription params to braintree' do
               allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
-              expect(Braintree::Subscription).to have_received(:create).with(price: amount,
-                                                                             payment_method_token: a_string_matching(token_format),
-                                                                             merchant_account_id: 'EUR',
-                                                                             plan_id: 'EUR')
+              expect(Braintree::Subscription).to have_received(:create).with(
+                price: amount,
+                payment_method_token: a_string_matching(token_format),
+                merchant_account_id: 'EUR',
+                plan_id: 'EUR'
+              )
             end
 
             it 'passes the customer params to braintree' do
               allow(Braintree::Customer).to receive(:update).and_call_original
               subject
-              expect(Braintree::Customer).to have_received(:update).with(customer.customer_id,                 first_name: 'Bernie',
-                                                                                                               last_name: 'Sanders',
-                                                                                                               email: 'itsme@feelthebern.org')
+              expect(Braintree::Customer).to have_received(:update).with(
+                customer.customer_id,
+                first_name: 'Bernie',
+                last_name: 'Sanders',
+                email: 'itsme@feelthebern.org'
+              )
             end
 
             it 'passes the payment params to braintree' do
               allow(Braintree::PaymentMethod).to receive(:create).and_call_original
               subject
-              expect(Braintree::PaymentMethod).to have_received(:create).with(payment_method_nonce: 'fake-valid-nonce',
-                                                                              customer_id: customer.customer_id,
-                                                                              billing_address: {
-                                                                                first_name: 'Bernie',
-                                                                                last_name: 'Sanders',
-                                                                                street_address: '25 Elm Drive',
-                                                                                postal_code: '11225',
-                                                                                country_code_alpha2: 'US'
-                                                                              })
+              expect(Braintree::PaymentMethod).to have_received(:create).with(
+                payment_method_nonce: 'fake-valid-nonce',
+                customer_id: customer.customer_id,
+                billing_address: {
+                  first_name: 'Bernie',
+                  last_name: 'Sanders',
+                  street_address: '25 Elm Drive',
+                  postal_code: '11225',
+                  country_code_alpha2: 'US'
+                }
+              )
             end
 
             it 'leaves a cookie with the member_id' do
@@ -753,7 +765,7 @@ describe 'Braintree API' do
             it 'passes PYPL as card_num to queue' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
-                                                                    params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
+                params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
               ))
             end
 
@@ -835,28 +847,32 @@ describe 'Braintree API' do
             it 'passes the subscription params to braintree' do
               allow(Braintree::Subscription).to receive(:create).and_call_original
               subject
-              expect(Braintree::Subscription).to have_received(:create).with(price: amount,
-                                                                             payment_method_token: a_string_matching(token_format),
-                                                                             merchant_account_id: 'EUR',
-                                                                             plan_id: 'EUR')
+              expect(Braintree::Subscription).to have_received(:create).with(
+                price: amount,
+                payment_method_token: a_string_matching(token_format),
+                merchant_account_id: 'EUR',
+                plan_id: 'EUR'
+              )
             end
 
             it 'passes the customer params and nonce to braintree' do
               allow(Braintree::Customer).to receive(:create).and_call_original
               subject
-              expect(Braintree::Customer).to have_received(:create).with(first_name: 'Bernie',
-                                                                         last_name: 'Sanders',
-                                                                         payment_method_nonce: 'fake-valid-nonce',
-                                                                         email: 'itsme@feelthebern.org',
-                                                                         credit_card: {
-                                                                           billing_address: {
-                                                                             first_name: 'Bernie',
-                                                                             last_name: 'Sanders',
-                                                                             street_address: '25 Elm Drive',
-                                                                             postal_code: '11225',
-                                                                             country_code_alpha2: 'US'
-                                                                           }
-                                                                         })
+              expect(Braintree::Customer).to have_received(:create).with(
+                first_name: 'Bernie',
+                last_name: 'Sanders',
+                payment_method_nonce: 'fake-valid-nonce',
+                email: 'itsme@feelthebern.org',
+                credit_card: {
+                  billing_address: {
+                    first_name: 'Bernie',
+                    last_name: 'Sanders',
+                    street_address: '25 Elm Drive',
+                    postal_code: '11225',
+                    country_code_alpha2: 'US'
+                  }
+                }
+              )
             end
 
             it 'does not create payment method separately' do
@@ -934,7 +950,7 @@ describe 'Braintree API' do
             it 'passes PYPL as card_num to queue' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
-                                                                    params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
+                params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
               ))
             end
 

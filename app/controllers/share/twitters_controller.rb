@@ -7,8 +7,9 @@ class Share::TwittersController < Share::SharesController
   end
 
   def permitted_params
-    params.require(:share_twitter)
-          .permit(:description)
+    params
+      .require(:share_twitter)
+      .permit(:description)
   end
 
   def share_class

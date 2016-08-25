@@ -14,3 +14,13 @@ Style/IndentHash:
 
 Lint/BlockAlignment:
   AlignWith: start_of_block
+
+Style/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+

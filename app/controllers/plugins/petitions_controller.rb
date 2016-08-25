@@ -22,7 +22,8 @@ class Plugins::PetitionsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:plugins_petition)
-          .permit(:description, :active, :target, :cta)
+    params
+      .require(:plugins_petition)
+      .permit(:description, :active, :target, :cta)
   end
 end

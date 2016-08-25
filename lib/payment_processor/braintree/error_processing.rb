@@ -27,9 +27,10 @@ module PaymentProcessor
         81_737,
         81_528,
         81_509
-      ].map { |code| code.is_a?(Range) ? code.to_a : code }
-                         .flatten
-                         .freeze
+      ]
+        .map { |code| code.is_a?(Range) ? code.to_a : code }
+        .flatten
+        .freeze
 
       FILTER = -> (error) { USER_ERROR_CODES.include?(error.code.to_i) }
 
