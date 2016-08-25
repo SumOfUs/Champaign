@@ -8,6 +8,7 @@ describe 'API::Stateless Subscriptions' do
   let!(:customer) { create(:payment_braintree_customer, member: member) }
   let!(:payment_method) { create(:braintree_payment_method,
     customer: customer,
+    id: 1432,
     instrument_type: 'credit card',
     token: '2ewruo4i5o3',
     last_4: '2454',
@@ -50,6 +51,7 @@ describe 'API::Stateless Subscriptions' do
         amount: '100.0',
         created_at: standalone_transaction_a.created_at,
         payment_method: {
+          id: 1432,
           instrument_type: 'credit card',
           token: '2ewruo4i5o3',
           last_4: '2454',
@@ -65,6 +67,7 @@ describe 'API::Stateless Subscriptions' do
         amount: '50.0',
         created_at: standalone_transaction_b.created_at,
         payment_method: {
+          id: 1432,
           instrument_type: 'credit card',
           token: '2ewruo4i5o3',
           last_4: '2454',

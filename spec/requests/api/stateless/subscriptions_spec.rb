@@ -14,9 +14,21 @@ describe 'API::Stateless Subscriptions' do
     email: customer.email,
     card_type: 'Mastercard')}
 
-  let!(:subscription) { create(:payment_braintree_subscription, customer: customer, payment_method: payment_method) }
-  let!(:transaction_a) { create(:payment_braintree_transaction, subscription: subscription ) }
-  let!(:transaction_b) { create(:payment_braintree_transaction, subscription: subscription ) }
+  let!(:subscription) { create(:payment_braintree_subscription,
+    id: 1234,
+    customer: customer,
+    payment_method: payment_method,
+    amount: 4,
+    billing_day_of_month: 22,
+    created_at: Time.now) }
+  let!(:transaction_a) { create(:payment_braintree_transaction,
+    subscription: subscription,
+    status: 'failure',
+    amount: 100) }
+  let!(:transaction_b) { create(:payment_braintree_transaction,
+    subscription: subscription,
+    status: 'success',
+    amount: 200) }
 
   before :each do
     member.create_authentication(password: 'password')
@@ -32,8 +44,13 @@ describe 'API::Stateless Subscriptions' do
       get '/api/stateless/braintree/subscriptions', nil, auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.first.keys).to include("id", "billing_day_of_month", "created_at", "amount", "transactions", "payment_method")
+      expect(json_hash.first['id']).to eq(1234)
+      expect(json_hash.first['created_at']).to match(/^\d{4}-\d{2}-\d{2}/)
+      expect(json_hash.first['billing_day_of_month']).to eq 22
+      expect(json_hash.first['amount']).to eq '4.0'
 
-      expect(json_hash.first["payment_method"]).to match({
+      expect(json_hash.first['payment_method']).to match({
+        id: payment_method.id,
         instrument_type: 'credit card',
         token: '2ewruo4i5o3',
         last_4: '2454',
@@ -42,17 +59,17 @@ describe 'API::Stateless Subscriptions' do
         email: customer.email,
         card_type: 'Mastercard'}.as_json)
 
-      expect(json_hash.first["transactions"]).to include({
+      expect(json_hash.first['transactions']).to include({
         id: transaction_a.id,
-        status: transaction_a.status,
-        amount: transaction_a.amount,
+        status: 'failure',
+        amount: '100.0',
         created_at: transaction_a.created_at
       }.as_json)
 
       expect(json_hash.first["transactions"]).to include({
         id: transaction_b.id,
-        status: transaction_b.status,
-        amount: transaction_b.amount,
+        status: 'success',
+        amount: '200.0',
         created_at: transaction_b.created_at
       }.as_json)
     end
