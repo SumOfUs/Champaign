@@ -124,8 +124,8 @@ describe 'API::Stateless Members' do
         put "/api/stateless/members/#{member.id}", bad_params, auth_headers
         expect(response.status).to be 422
         expect(json_hash['errors']).to match('email' => [
-                                               'has already been taken'
-                                             ])
+          'has already been taken'
+        ])
       end
     end
   end
