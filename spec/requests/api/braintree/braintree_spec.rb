@@ -913,14 +913,22 @@ describe 'Braintree API' do
               expect(customer.card_last_4).to match a_string_matching(four_digits)
             end
 
+<<<<<<< HEAD
             it 'creates a Subscription associated with the newly created payment method' do
+=======
+            it "creates a Subscription associated with the newly created payment method" do
+>>>>>>> 4db290e... Add migrations and model changes to associate subscriptions with payment methods. Some specs have been updated, others still need some work.
               subject
               subscription = Payment::Braintree::Subscription.last
               customer = Payment::Braintree::Customer.last
               expect(subscription.payment_method).to eq customer.default_payment_method
             end
 
+<<<<<<< HEAD
             it 'posts donation action to queue with key data' do
+=======
+            it "posts donation action to queue with key data" do
+>>>>>>> 4db290e... Add migrations and model changes to associate subscriptions with payment methods. Some specs have been updated, others still need some work.
               subject
               expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
             end
