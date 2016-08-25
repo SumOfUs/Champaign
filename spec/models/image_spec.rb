@@ -15,7 +15,10 @@ describe Image do
   after :each do
     # when rspec cleans up, it doesn't actually commit like normal,
     # so paperclip's file delete callback isn't called.
-    Image.all.map { |i| i.destroy; i.run_callbacks(:commit) }
+    Image.all.map do |i|
+      i.destroy
+      i.run_callbacks(:commit)
+    end
   end
 
   it 'should create the image file' do

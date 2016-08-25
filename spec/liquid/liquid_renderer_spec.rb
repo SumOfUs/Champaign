@@ -368,7 +368,10 @@ describe LiquidRenderer do
         expected = t1.liquid_data.stringify_keys
         actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
         # disagreement over timestamps is not what this test is about
-        [expected, actual].each { |h| h.delete('updated_at'); h.delete('created_at') }
+        [expected, actual].each do |h|
+          h.delete('updated_at')
+          h.delete('created_at')
+        end
         expect(actual).to eq expected
       end
 
@@ -380,7 +383,10 @@ describe LiquidRenderer do
         expected = t1.liquid_data.stringify_keys
         actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
         # disagreement over timestamps is not what this test is about
-        [expected, actual].each { |h| h.delete('updated_at'); h.delete('created_at') }
+        [expected, actual].each do |h|
+          h.delete('updated_at')
+          h.delete('created_at')
+        end
         expect(actual).to eq expected
       end
     end
