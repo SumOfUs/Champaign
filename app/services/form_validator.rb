@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormValidator
   attr_reader :errors
 
