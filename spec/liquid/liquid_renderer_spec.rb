@@ -134,7 +134,7 @@ describe LiquidRenderer do
     end
 
     it 'has a follow_up_url' do
-      expect(subject.fetch('follow_up_url')).to match(/a\/[a-z0-9\-]+\/follow\-up/)
+      expect(subject.fetch('follow_up_url')).to match(%r{a\/[a-z0-9\-]+\/follow\-up})
     end
 
     it 'gives image urls in a list for images' do

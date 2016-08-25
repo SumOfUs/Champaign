@@ -1,3 +1,4 @@
+# coding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
@@ -71,7 +72,7 @@ describe 'GoCardless API' do
       it 'redirects to a page hosted on GoCardless' do
         subject
         expect(response.status).to be 302
-        expect(response.body).to match(/You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>/)
+        expect(response.body).to match(%r{You are being <a href=\"https:\/\/pay-sandbox.gocardless.com\/flow\/RE[0-9A-Z]+\">redirected<\/a>})
       end
     end
 

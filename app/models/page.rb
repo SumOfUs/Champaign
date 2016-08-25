@@ -27,7 +27,7 @@ class Page < ActiveRecord::Base
   validates :liquid_layout, presence: true
   validates :publish_status, presence: true
   validate  :primary_image_is_owned
-  validates :canonical_url, allow_blank: true, format: { with: /\Ahttps{0,1}:\/\/.+\..+/ }
+  validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+} }
 
   after_save :switch_plugins
 

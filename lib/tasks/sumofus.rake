@@ -119,10 +119,10 @@ namespace :sumofus do
     def manage_newlines(content)
       content
         .gsub(/(?:\n\r?|\r\n?)/, '<br>')
-        .gsub(/<br *\/*>/, '<br>')
-        .gsub(/<div><br>\t&nbsp;<\/div>/, '<br>')
-        .gsub(/(<br>)*\s*<\/p>\s*(<br>)*\s*<p>\s*(<br>)*/, '</p><br><p>')
-        .gsub(/(<br>)*\s*<\/div>\s*(<br>)*\s*<div>\s*(<br>)*/, '</p><br><p>')
+        .gsub(%r{<br *\/*>}, '<br>')
+        .gsub(%r{<div><br>\t&nbsp;<\/div>}, '<br>')
+        .gsub(%r{(<br>)*\s*<\/p>\s*(<br>)*\s*<p>\s*(<br>)*}, '</p><br><p>')
+        .gsub(%r{(<br>)*\s*<\/div>\s*(<br>)*\s*<div>\s*(<br>)*}, '</p><br><p>')
         .gsub(/(\s*<br>\s*){3,}/, '<br><br>')
     end
 

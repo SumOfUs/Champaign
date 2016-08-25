@@ -12,12 +12,12 @@ class Link < ActiveRecord::Base
   private
 
   def url_has_protocol
-    unless /^(https?:)?\/\//i =~ url
+    unless %r{^(https?:)?\/\/}i =~ url
       errors.add(:url, 'must have a protocol (like http://)')
     end
   end
 
   def prepend_protocol
-    self.url = "//#{url}" unless url.blank? || /\/\//i =~ url
+    self.url = "//#{url}" unless url.blank? || %r{\/\/}i =~ url
   end
 end
