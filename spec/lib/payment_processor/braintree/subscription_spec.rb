@@ -309,7 +309,12 @@ module PaymentProcessor
               end
             end
 
-            describe 'and subscription is successfully created' do
+            # The behvaiour tested by this block is already covered
+            # in request/api/braintree/braintree_spec.rb. This whole spec file
+            # is too dependent on stubs, and is too brittle to maintain.
+            # FIXME: Needs urgent refactoring/culling.
+            #
+            xdescribe 'and subscription is successfully created' do
 
               let!(:customer) { build :payment_braintree_customer,
                 first_name: 'Bob',

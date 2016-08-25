@@ -719,10 +719,13 @@ describe "Braintree API" do
               expect{ subject }.to change{ Payment::Braintree::Subscription.count }.by 1
               expect{ subject }.to_not change{ Payment::Braintree::PaymentMethod.count }
               expect{ subject }.to_not change{ Payment::Braintree::Customer.count }
-              subscription = Payment::Braintree::Subscription.last
-              expect(subscription.customer).to eq customer
-              expect(customer.payment_methods).to include(subscription.payment_method)
 
+              subscription = Payment::Braintree::Subscription.last
+              payment_method = Payment::Braintree::PaymentMethod.last
+
+              expect(subscription.customer).to eq customer
+              expect(subscription.payment_method).to eq(payment_method)
+              expect(customer.payment_methods).to include(payment_method)
             end
 
             it "updates Payment::Braintree::Customer with new token and last_4" do
