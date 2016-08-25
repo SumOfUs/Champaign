@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api
   module Stateless
     module Braintree
@@ -16,7 +17,6 @@ module Api
                    rescue ::Braintree::NotFoundError
                      @payment_method.destroy
                    end
-
 
           @payment_method.destroy if result.success?
           render json: { success: true }

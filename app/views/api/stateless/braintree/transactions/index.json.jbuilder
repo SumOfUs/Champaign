@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 json.array! @transactions do |transaction|
-  json.(transaction, :id, :status, :amount, :created_at)
+  json.call(transaction, :id, :status, :amount, :created_at)
 end

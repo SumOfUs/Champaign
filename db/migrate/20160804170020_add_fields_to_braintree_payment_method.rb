@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddFieldsToBraintreePaymentMethod < ActiveRecord::Migration
   def change
     add_column :payment_braintree_payment_methods, :card_type, :string

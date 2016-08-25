@@ -12,9 +12,6 @@ Style/IndentationConsistency:
 Style/IndentHash:
   EnforcedStyle: consistent 
 
-Lint/BlockAlignment:
-  AlignWith: start_of_block
-
 Style/FirstParameterIndentation:
   EnforcedStyle: consistent
 
@@ -24,3 +21,8 @@ Style/MultilineMethodCallIndentation:
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
 
+Lint/BlockAlignment:
+  AlignWith: start_of_block
+
+Lint/InheritException:
+  Enabled: false

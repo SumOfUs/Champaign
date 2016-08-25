@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api
   module Stateless
     module Braintree
@@ -7,7 +8,6 @@ module Api
         def index
           @transactions = PaymentHelper::Braintree.transactions_for_member(@current_member)
         end
-
       end
     end
   end

@@ -13,7 +13,7 @@ module Api
         if member.try(:authenticate, credentials[:password])
           render status: :ok, json: {
             member: member,
-            token: encode_jwt(member.token_payload),
+            token: encode_jwt(member.token_payload)
           }
         else
           return head(:unauthorized)

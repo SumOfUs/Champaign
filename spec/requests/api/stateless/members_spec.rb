@@ -5,7 +5,7 @@ describe 'API::Stateless Members' do
   include Requests::RequestHelpers
   include AuthToken
   let!(:member) { create(:member, first_name: 'Harriet', last_name: 'Tubman', email: 'test@example.com', actionkit_user_id: '8244194') }
-  let!(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com')}
+  let!(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com') }
 
   before :each do
     member.create_authentication(password: 'password')
@@ -22,33 +22,34 @@ describe 'API::Stateless Members' do
       expect(response.status).to eq(200)
       expect(json_hash.keys).to include('id', 'first_name', 'last_name', 'email', 'country', 'city', 'postal', 'address1', 'address2')
       expect(json_hash).to match({
-         id: member.id,
-         first_name: member.first_name,
-         last_name: member.last_name,
-         email: member.email,
-         country: member.country,
-         city: member.city,
-         postal: member.postal,
-         address1: member.address1,
-         address2: member.address2
-       }.as_json)
+        id: member.id,
+        first_name: member.first_name,
+        last_name: member.last_name,
+        email: member.email,
+        country: member.country,
+        city: member.city,
+        postal: member.postal,
+        address1: member.address1,
+        address2: member.address2
+      }.as_json)
     end
   end
 
   describe 'PUT update' do
     context 'with valid parameters' do
-
-      let(:params) {{
-        member: {
-          first_name: 'Harry',
-          last_name: 'Tubman',
-          email: 'test+1@example.com',
-          country: 'United Kingdom',
-          city: 'London',
-          postal: '12345',
-          address1: 'Jam Factory 123'
+      let(:params) do
+        {
+          member: {
+            first_name: 'Harry',
+            last_name: 'Tubman',
+            email: 'test+1@example.com',
+            country: 'United Kingdom',
+            city: 'London',
+            postal: '12345',
+            address1: 'Jam Factory 123'
+          }
         }
-      }}
+      end
 
       subject do
         put "/api/stateless/members/#{member.id}", params, auth_headers
@@ -71,49 +72,44 @@ describe 'API::Stateless Members' do
 
       it 'sends the message to the AK processor' do
         allow(ChampaignQueue).to receive(:push)
-        expect(ChampaignQueue).to receive(:push).with({
-          type: 'update_member',
-          params: {
-            akid: member.actionkit_user_id,
-            email: 'test+1@example.com',
-            first_name: 'Harry',
-            last_name: 'Tubman',
-            country: 'United Kingdom',
-            city: 'London',
-            postal: '12345',
-            address1: 'Jam Factory 123',
-            address2: nil
-          }})
+        expect(ChampaignQueue).to receive(:push).with(type: 'update_member',
+                                                      params: {
+                                                        akid: member.actionkit_user_id,
+                                                        email: 'test+1@example.com',
+                                                        first_name: 'Harry',
+                                                        last_name: 'Tubman',
+                                                        country: 'United Kingdom',
+                                                        city: 'London',
+                                                        postal: '12345',
+                                                        address1: 'Jam Factory 123',
+                                                        address2: nil
+                                                      })
         subject
       end
-
     end
 
     context 'with invalid parameters' do
-      let(:bad_params) {{
-        member: {
-          first_name: 'Harry',
-          last_name: 'Tubman',
-          email: other_member.email,
-          country: 'United Kingdom',
-          city: 'London',
-          postal: '123456',
-          address1: 'a place'
+      let(:bad_params) do
+        {
+          member: {
+            first_name: 'Harry',
+            last_name: 'Tubman',
+            email: other_member.email,
+            country: 'United Kingdom',
+            city: 'London',
+            postal: '123456',
+            address1: 'a place'
+          }
         }
-      }}
+      end
 
       it 'sends back error messages if the parameters are invalid' do
         put "/api/stateless/members/#{member.id}", bad_params, auth_headers
         expect(response.status).to be 422
-        expect(json_hash['errors']).to match({
-          "email" => [
-            "has already been taken"
-          ]
-        })
+        expect(json_hash['errors']).to match('email' => [
+                                               'has already been taken'
+                                             ])
       end
     end
   end
-
 end
-
-

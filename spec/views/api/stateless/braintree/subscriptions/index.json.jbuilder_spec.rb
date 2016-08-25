@@ -1,6 +1,7 @@
-require "rails_helper"
+# frozen_string_literal: true
+require 'rails_helper'
 
-describe "subscriptions/index" do
+describe 'subscriptions/index' do
   let(:transaction) { double(id: 'abc', status: 'authorized', created_at: Time.now, amount: BigDecimal.new(2.00, 5)) }
   before do
     assign :subscriptions, [
@@ -8,7 +9,7 @@ describe "subscriptions/index" do
     ]
   end
 
-  subject{ render(template: "api/stateless/braintree/subscriptions/index.json.jbuilder") }
+  subject { render(template: 'api/stateless/braintree/subscriptions/index.json.jbuilder') }
 
   it 'displays subscriptions' do
     subject
@@ -26,4 +27,3 @@ describe "subscriptions/index" do
     }.deep_stringify_keys)
   end
 end
-

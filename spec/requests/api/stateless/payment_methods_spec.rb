@@ -28,9 +28,9 @@ describe 'API::Stateless PaymentMethods' do
   end
 
   describe 'DELETE destroy' do
-    let(:success_object) { double(success?: true)}
+    let(:success_object) { double(success?: true) }
     before do
-      allow(::Braintree::PaymentMethod).to receive(:delete){ success_object }
+      allow(::Braintree::PaymentMethod).to receive(:delete) { success_object }
       delete "/api/stateless/braintree/payment_methods/#{method_a.id}", nil, auth_headers
     end
 
@@ -47,6 +47,3 @@ describe 'API::Stateless PaymentMethods' do
     end
   end
 end
-
-
-
