@@ -29,7 +29,7 @@ module PagesHelper
 
   def button_group_item(text, path)
     selected = current_page?(path)
-    klass = "#{selected ? 'btn-primary': 'btn-default'} btn".trim
+    klass = "#{selected ? 'btn-primary' : 'btn-default'} btn".trim
     link_to text, path, class: klass
   end
 
