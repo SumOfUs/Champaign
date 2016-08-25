@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 FactoryGirl.define do
   factory :member_authentication do
     member nil
@@ -9,4 +10,3 @@ FactoryGirl.define do
     facebook_token_expiry { Faker::Date.forward }
   end
 end
-

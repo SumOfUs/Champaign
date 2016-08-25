@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api
   module Stateless
     module Braintree
@@ -15,11 +16,11 @@ module Api
             @subscription.destroy
             render json: { success: true }
           else
-            render json: { success: false, errors: result.errors}
+            render json: { success: false, errors: result.errors }
           end
-          rescue ::Braintree::NotFoundError
-            @subscription.destroy
-            render json: { success: true }
+        rescue ::Braintree::NotFoundError
+          @subscription.destroy
+          render json: { success: true }
         end
       end
     end
