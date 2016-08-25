@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class GoCardlessDirector
   attr_reader :error
 
@@ -48,7 +49,7 @@ class GoCardlessDirector
   end
 
   def recurring?
-    ActiveRecord::Type::Boolean.new.type_cast_from_user( @params[:recurring] )
+    ActiveRecord::Type::Boolean.new.type_cast_from_user(@params[:recurring])
   end
 
   def amount_string

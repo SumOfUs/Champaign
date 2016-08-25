@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 RSpec.shared_context 'page_searcher_spec_data' do
-
   let(:test_text) { 'a spectacular test string' }
   let!(:tag) { create(:tag, name: test_text, actionkit_uri: '/foo/bar') }
   let!(:alternative_tag) { create(:tag, name: 'alternative tag', actionkit_uri: '/alternative_tag/') }
@@ -20,74 +20,67 @@ RSpec.shared_context 'page_searcher_spec_data' do
   let!(:unimpactful_campaign) { create(:campaign, name: 'Campaign with just one page?') }
   let!(:layout) { create(:liquid_layout, :no_plugins) }
   let!(:unused_layout) { create(:liquid_layout, title: 'too bad for anyone to use, ever') }
-  let!(:messy_layout) { create(:liquid_layout, title: 'has kinda tacky UX')}
-  let!(:twin_layout) { create(:liquid_layout, title: 'Layout that has two pages associated with it')}
+  let!(:messy_layout) { create(:liquid_layout, title: 'has kinda tacky UX') }
+  let!(:twin_layout) { create(:liquid_layout, title: 'Layout that has two pages associated with it') }
   let!(:language) { create(:language) }
   let!(:klingon) { create(:language, code: 'KLI', name: 'Klingon') }
   let!(:pig_latin) { create(:language, code: 'PIG', name: 'Oink_oink') }
   let!(:unused_language) { create(:language, code: 'NIL', name: 'Esperanto') }
 
-  let!(:content_tag_plugin_layout_match) {
+  let!(:content_tag_plugin_layout_match) do
     create(:page,
            title: 'a non-matching title',
            language: build(:language, code: 'de', name: 'German'),
            tags: [tag],
            content: test_text,
            liquid_layout: layout,
-           campaign: campaign2
-    )
-  }
-  let!(:title_language_campaign_match) {
+           campaign: campaign2)
+  end
+  let!(:title_language_campaign_match) do
     create(:page,
            title: test_text + ' title!',
            language: language,
            campaign: campaign,
-           tags: [alternative_tag]
-    )
-  }
+           tags: [alternative_tag])
+  end
 
-  let!(:single_return_page) {
+  let!(:single_return_page) do
     create(:page,
            title: 'a special snowflake',
            tags: [hipster_tag, unpopular_tag],
            language: pig_latin,
            campaign: unimpactful_campaign,
-           liquid_layout: messy_layout
-    )
-  }
+           liquid_layout: messy_layout)
+  end
 
-
-  let!(:twin_page_1) {
+  let!(:twin_page_1) do
     create(:page,
            title: 'looks suspiciously like twin page 2',
            tags: [only_tag],
            language: klingon,
            campaign: twin_campaign,
-           liquid_layout: twin_layout
-    )
-  }
+           liquid_layout: twin_layout)
+  end
 
-  let!(:twin_page_2) {
+  let!(:twin_page_2) do
     create(:page,
            title: 'looks suspiciously like twin page 1',
            tags: [only_tag],
            language: klingon,
            campaign: twin_campaign,
-           liquid_layout: twin_layout
-    )
-  }
+           liquid_layout: twin_layout)
+  end
 
-  let!(:page_that_doesnt_match_anything) {
+  let!(:page_that_doesnt_match_anything) do
     create(:page,
            title: 'Not a good match',
            language: build(:language, code: 'FIN', name: 'Finnish'),
            tags: [
-               create(:tag, name: 'tag not found', actionkit_uri: '/foo/404'),
-               create(:tag, name: 'tag erroror', actionkit_uri: '/foo/500')
+             create(:tag, name: 'tag not found', actionkit_uri: '/foo/404'),
+             create(:tag, name: 'tag erroror', actionkit_uri: '/foo/500')
            ],
            content: 'totally arbitrary content',
-           campaign: create(:campaign, name: 'a not very impactful test campaign')
-    )
-  }
-  let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active:true)}
+           campaign: create(:campaign, name: 'a not very impactful test campaign'))
+  end
+  let!(:plugin) { create(:plugins_petition, page: content_tag_plugin_layout_match, active: true) }
 end

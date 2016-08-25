@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 class Member < ActiveRecord::Base
-  has_one :customer,               class_name: "Payment::Braintree::Customer"
-  has_many :go_cardless_customers, class_name: "Payment::GoCardless::Customer"
+  has_one :customer,               class_name: 'Payment::Braintree::Customer'
+  has_many :go_cardless_customers, class_name: 'Payment::GoCardless::Customer'
   has_paper_trail on: [:update, :destroy]
 
   validates :email, uniqueness: true, allow_nil: true
-  before_save { self.email.try(:downcase!) }
+  before_save { email.try(:downcase!) }
 
   enum donor_status: [:nondonor, :donor, :recurring_donor]
 
@@ -31,12 +32,10 @@ class Member < ActiveRecord::Base
 
   def liquid_data
     full_name = name
-    attributes.symbolize_keys.merge({
-      donor_status: donor_status, # to get the string not enum int
-      name: full_name,
-      full_name: full_name,
-      welcome_name: full_name.blank? ? email : full_name
-    })
+    attributes.symbolize_keys.merge(donor_status: donor_status, # to get the string not enum int
+                                    name: full_name,
+                                    full_name: full_name,
+                                    welcome_name: full_name.blank? ? email : full_name)
   end
 
   def send_to_ak
@@ -46,10 +45,9 @@ class Member < ActiveRecord::Base
         email: email,
         name: name,
         country: country,
-        postal: postal,
+        postal: postal
 
       }
     )
   end
-
 end

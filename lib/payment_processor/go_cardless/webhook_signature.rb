@@ -1,9 +1,9 @@
-require "openssl"
+# frozen_string_literal: true
+require 'openssl'
 
 module PaymentProcessor
   module GoCardless
     class WebhookSignature
-
       def initialize(secret:, body:, signature:)
         @secret = secret
         @body = body
@@ -21,7 +21,7 @@ module PaymentProcessor
       end
 
       def digest
-        OpenSSL::Digest.new("sha256")
+        OpenSSL::Digest.new('sha256')
       end
     end
   end

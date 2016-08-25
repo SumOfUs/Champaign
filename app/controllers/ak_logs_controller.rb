@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AkLogsController < ApplicationController
   def index
     @items = AkLog.limit(100).order('created_at desc')

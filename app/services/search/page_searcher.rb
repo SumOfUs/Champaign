@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class Search::PageSearcher
-
   def initialize(params)
     @queries = params
     @collection = Page.all
@@ -7,26 +7,26 @@ class Search::PageSearcher
 
   def search
     [*@queries].each do |search_type, query|
-      if not validate_query(query)
+      if !validate_query(query)
         next
       else
         case search_type.to_s
-          when 'content_search'
-            search_by_text(query)
-          when 'tags'
-            search_by_tags(query)
-          when 'language'
-            search_by_language(query)
-          when 'layout'
-            search_by_layout(query)
-          when 'campaign'
-            search_by_campaign(query)
-          when 'plugin_type'
-            search_by_plugin_type(query)
-          when 'publish_status'
-            search_by_publish_status(query)
-          when 'order_by'
-            order_by(query)
+        when 'content_search'
+          search_by_text(query)
+        when 'tags'
+          search_by_tags(query)
+        when 'language'
+          search_by_language(query)
+        when 'layout'
+          search_by_layout(query)
+        when 'campaign'
+          search_by_campaign(query)
+        when 'plugin_type'
+          search_by_plugin_type(query)
+        when 'publish_status'
+          search_by_publish_status(query)
+        when 'order_by'
+          order_by(query)
         end
       end
     end
@@ -37,7 +37,7 @@ class Search::PageSearcher
 
   def validate_query(query)
     # if query is an empty array, nil or an empty string, skip filtering for that query
-    ( [[], nil, ''].include? query ) ? false : true
+    ([[], nil, ''].include? query) ? false : true
   end
 
   def combine_collections(collection1, collection2)
@@ -64,7 +64,7 @@ class Search::PageSearcher
     matches_by_tags = []
     @collection.each do |page|
       # if the page has tags and if the queried tags are a subset of the page's tags
-      if page.tags.any? and (tags.map(&:to_i) - page.tags.pluck('id')).empty?
+      if page.tags.any? && (tags.map(&:to_i) - page.tags.pluck('id')).empty?
         matches_by_tags.push(page)
       end
     end
@@ -95,15 +95,14 @@ class Search::PageSearcher
       end
       plugin_class.page.each do |page_plugin|
         # If the page hasn't determined to be filtered from the collection yet
-        if filtered_pages.include?(page_plugin.page_id)
-          # If the plugin is active, add its page to matches
-          if page_plugin.active?
-            matches_by_plugins.push(page_plugin.page_id)
-          else
-            # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
-            filtered_pages.delete(page_plugin.page_id)
-            matches_by_plugins.delete(page_plugin.page_id)
-          end
+        next unless filtered_pages.include?(page_plugin.page_id)
+        # If the plugin is active, add its page to matches
+        if page_plugin.active?
+          matches_by_plugins.push(page_plugin.page_id)
+        else
+          # If an inactive plugin is discovered, the page cannot be a match. Remove from filtered pages and matching pages.
+          filtered_pages.delete(page_plugin.page_id)
+          matches_by_plugins.delete(page_plugin.page_id)
         end
       end
     end
@@ -117,11 +116,11 @@ class Search::PageSearcher
 
   def order_by(query)
     if validate_order_by(query)
-      if query.is_a? Array
-        @collection = @collection.order("#{query[0].to_s} #{query[1].to_s}")
-      else
-        @collection = @collection.order(query)
-      end
+      @collection = if query.is_a? Array
+                      @collection.order("#{query[0]} #{query[1]}")
+                    else
+                      @collection.order(query)
+                    end
     end
   end
 

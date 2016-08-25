@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 Rails.application.configure do
-
   {
     SQS_QUEUE_URL: 'http://example.com',
     AWS_REGION: 'us-west-2',
-    SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4',
+    SECRET_KEY_BASE: 'kjh34534ewqkrjhcliu4'
   }.each do |key, val|
     ENV.store(key.to_s, val)
   end
@@ -56,7 +56,7 @@ Rails.application.configure do
   # CORS
   config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
     allow do
-      origins(/^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$/i)
+      origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
                headers: :any,
                methods: [:get, :post, :delete, :put, :patch, :options, :head],
@@ -64,4 +64,3 @@ Rails.application.configure do
     end
   end
 end
-

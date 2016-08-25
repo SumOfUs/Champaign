@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class LinksController < ApplicationController
-
   before_action :authenticate_user!
 
   def create
@@ -7,9 +7,9 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       if link.save
-        format.html  { render partial: 'pages/link', locals: { link: link }, status: :ok }
+        format.html { render partial: 'pages/link', locals: { link: link }, status: :ok }
       else
-        format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
+        format.json { render json: { errors: link.errors, name: 'link' }, status: :unprocessable_entity }
       end
     end
   end
@@ -20,7 +20,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: {status: :ok}, status: :ok
+        render json: { status: :ok }, status: :ok
       end
     end
   end
@@ -30,5 +30,4 @@ class LinksController < ApplicationController
   def permitted_params
     params.require(:link).permit(:url, :title, :source, :date, :page_id)
   end
-
 end

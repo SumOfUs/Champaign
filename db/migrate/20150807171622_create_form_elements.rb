@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateFormElements < ActiveRecord::Migration
   def change
     create_table :form_elements do |t|

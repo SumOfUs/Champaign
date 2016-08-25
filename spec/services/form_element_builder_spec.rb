@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FormElementBuilder do
@@ -15,4 +16,3 @@ describe FormElementBuilder do
     end
   end
 end
-

@@ -1,0 +1,228 @@
+Lint/UnusedMethodArgument:
+  Exclude:
+    - 'lib/payment_processor/braintree/error_processing.rb'
+
+# Offense count: 6
+Lint/AmbiguousOperator:
+  Exclude:
+    - 'spec/liquid/page_plugin_switcher_spec.rb'
+    - 'spec/models/page_spec.rb'
+    - 'spec/models/plugins/shared_examples.rb'
+    - 'spec/models/tag_spec.rb'
+
+# Offense count: 3
+Lint/HandleExceptions:
+  Exclude:
+    - 'app/controllers/application_controller.rb'
+    - 'app/liquid/liquid_renderer.rb'
+
+# Offense count: 2
+Lint/ParenthesesAsGroupedExpression:
+  Exclude:
+    - 'spec/requests/api/go_cardless/go_cardless_spec.rb'
+    - 'spec/requests/api/members_spec.rb'
+
+# Offense count: 47
+Lint/UselessAssignment:
+  Exclude:
+    - 'app/liquid/page_plugin_switcher.rb'
+    - 'app/models/page.rb'
+    - 'app/models/share/variant.rb'
+    - 'spec/helpers/pages_helper_spec.rb'
+    - 'spec/liquid/liquid_renderer_spec.rb'
+    - 'spec/models/action_user_spec.rb'
+    - 'spec/models/liquid_layout_spec.rb'
+    - 'spec/models/liquid_partial_spec.rb'
+    - 'spec/models/page_spec.rb'
+    - 'spec/models/payment/braintree_spec.rb'
+    - 'spec/requests/api/braintree/braintree_spec.rb'
+    - 'spec/requests/uris_spec.rb'
+    - 'spec/services/action_builder_spec.rb'
+    - 'spec/services/page_updater_spec.rb'
+
+# Offense count: 2
+Lint/Void:
+  Exclude:
+    - 'lib/payment_processor/go_cardless/error_processing.rb'
+    - 'spec/models/page_spec.rb'
+
+# Offense count: 34
+Metrics/AbcSize:
+  Max: 48
+
+# Offense count: 3
+# Configuration parameters: CountComments.
+Metrics/ClassLength:
+  Max: 125
+
+# Offense count: 3
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+# Offense count: 51
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 52
+
+# Offense count: 7
+# Configuration parameters: CountComments.
+Metrics/ModuleLength:
+  Max: 394
+
+# Offense count: 4
+# Configuration parameters: CountKeywordArgs.
+Metrics/ParameterLists:
+  Max: 8
+
+# Offense count: 2
+Metrics/PerceivedComplexity:
+  Max: 9
+
+# Offense count: 9
+Style/AccessorMethodName:
+  Exclude:
+    - 'app/controllers/api/pages_controller.rb'
+    - 'app/controllers/application_controller.rb'
+    - 'app/controllers/pages_controller.rb'
+    - 'app/services/action_queue.rb'
+    - 'lib/liquid_markup_seeder.rb'
+
+# Offense count: 2
+Style/AsciiComments:
+  Exclude:
+    - 'Gemfile'
+    - 'lib/payment_processor/currency.rb'
+
+# Offense count: 43
+# Configuration parameters: EnforcedStyle, SupportedStyles.
+# SupportedStyles: nested, compact
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Offense count: 296
+Style/Documentation:
+  Enabled: false
+
+# Offense count: 9
+Style/EachWithObject:
+  Exclude:
+    - 'app/helpers/api/analytics_helper.rb'
+    - 'app/liquid/shares.rb'
+    - 'app/models/plugins.rb'
+    - 'lib/analytics/page.rb'
+    - 'spec/liquid/liquid_renderer_spec.rb'
+    - 'spec/requests/api/shared_language_pages.rb'
+
+# Offense count: 1
+# Configuration parameters: EnforcedStyle, SupportedStyles.
+# SupportedStyles: format, sprintf, percent
+Style/FormatString:
+  Exclude:
+    - 'app/models/plugins/thermometer.rb'
+
+# Offense count: 5
+# Configuration parameters: MinBodyLength.
+Style/GuardClause:
+  Exclude:
+    - 'app/models/form.rb'
+    - 'app/models/link.rb'
+    - 'app/services/page_builder.rb'
+    - 'app/services/search/page_searcher.rb'
+    - 'lib/payment_processor/braintree/subscription.rb'
+
+# Offense count: 7
+# Configuration parameters: EnforcedStyle, SupportedStyles.
+# SupportedStyles: module_function, extend_self
+Style/ModuleFunction:
+  Exclude:
+    - 'app/services/page_service.rb'
+    - 'lib/action_kit/client.rb'
+    - 'lib/action_kit/helper.rb'
+    - 'lib/champaign_queue.rb'
+    - 'lib/donations/utils.rb'
+    - 'lib/liquid_markup_seeder.rb'
+    - 'lib/payment_processor/go_cardless/helper.rb'
+
+# Offense count: 15
+# Configuration parameters: NamePrefix, NamePrefixBlacklist, NameWhitelist.
+# NamePrefix: is_, has_, have_
+# NamePrefixBlacklist: is_, has_, have_
+# NameWhitelist: is_a?
+Style/PredicateName:
+  Exclude:
+    - 'spec/**/*'
+    - 'app/liquid/liquid_tag_finder.rb'
+    - 'app/models/share/email.rb'
+    - 'app/models/share/twitter.rb'
+    - 'app/services/action_builder.rb'
+    - 'app/services/action_queue.rb'
+    - 'app/services/form_validator.rb'
+    - 'app/services/manage_braintree_donation.rb'
+    - 'app/validators/action_kit_fields.rb'
+
+# Offense count: 1
+# Configuration parameters: Methods.
+# Methods: {"reduce"=>["a", "e"]}, {"inject"=>["a", "e"]}
+Style/SingleLineBlockParams:
+  Exclude:
+    - 'spec/support/helper_functions.rb'
+
+Metrics/LineLength:
+  Max: 120
+  Exclude:
+    - app/controllers/liquid_layouts_controller.rb
+    - app/controllers/liquid_partials_controller.rb
+    - app/liquid/liquid_renderer.rb
+    - app/liquid/page_plugin_switcher.rb
+    - app/liquid/shares.rb
+    - app/models/image.rb
+    - app/models/liquid_partial.rb
+    - app/models/payment/braintree.rb
+    - app/models/payment/go_cardless.rb
+    - app/services/action_queue.rb
+    - app/services/form_validator.rb
+    - app/services/name_splitter.rb
+    - app/services/postal_validator.rb
+    - app/services/search/page_searcher.rb
+    - config/initializers/devise.rb
+    - config/routes.rb
+    - db/migrate/**
+    - db/schema.rb
+    - lib/donations/utils.rb
+    - lib/payment_processor/braintree/**
+    - lib/payment_processor/go_cardless/**
+    - lib/tasks/**
+    - spec/controllers/api/actions_controller_spec.rb
+    - spec/controllers/api/go_cardless_controller_spec.rb
+    - spec/controllers/api/payment/braintree_controller_spec.rb
+    - spec/controllers/application_controller_spec.rb
+    - spec/controllers/images_controller_spec.rb
+    - spec/controllers/pages_controller_spec.rb
+    - spec/lib/champaign_queue/clients/sqs_spec.rb
+    - spec/lib/payment_processor/braintree/error_processing_spec.rb
+    - spec/lib/payment_processor/braintree/subscription_spec.rb
+    - spec/lib/payment_processor/braintree/webhook_handler_spec.rb
+    - spec/lib/payment_processor/go_cardless/error_processing_spec.rb
+    - spec/lib/payment_processor/go_cardless/subscription_spec.rb
+    - spec/lib/payment_processor/go_cardless/transaction_spec.rb
+    - spec/lib/payment_processor/go_cardless/webhook_handler_spec.rb
+    - spec/lib/payment_processor/go_cardless/webhook_signature_spec.rb
+    - spec/liquid/liquid_i18n_spec.rb
+    - spec/liquid/liquid_renderer_spec.rb
+    - spec/liquid/page_plugin_switcher_spec.rb
+    - spec/models/form_element_spec.rb
+    - spec/models/liquid_layout_spec.rb
+    - spec/models/liquid_partial_spec.rb
+    - spec/models/page_spec.rb
+    - spec/models/payment/braintree_spec.rb
+    - spec/models/payment/go_cardless/customer_spec.rb
+    - spec/requests/omniauth_with_devise_spec.rb
+    - spec/requests/api/members_spec.rb
+    - spec/requests/api/actions_spec.rb
+    - spec/requests/api/go_cardless/go_cardless_spec.rb
+    - spec/requests/api/go_cardless/webhooks_spec.rb
+    - spec/requests/api/braintree/braintree_spec.rb
+    - spec/requests/api/braintree/failure_spec.rb
+    - spec/requests/api/braintree/webhook_spec.rb
+    - spec/services/search/page_searcher/single_criterion_search/search_by_language_spec.rb
+    - spec/services/search/page_searcher/page_searcher_spec.rb

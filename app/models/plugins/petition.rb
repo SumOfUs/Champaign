@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Plugins::Petition < ActiveRecord::Base
   include Plugins::HasForm
 
@@ -5,9 +6,9 @@ class Plugins::Petition < ActiveRecord::Base
 
   validates :cta, presence: true, allow_blank: false
 
-  DEFAULTS = { cta: 'petition.sign_it' }
+  DEFAULTS = { cta: 'petition.sign_it' }.freeze
 
-  def liquid_data(supplemental_data={})
+  def liquid_data(supplemental_data = {})
     attributes.merge(form_liquid_data(supplemental_data))
   end
 end

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
-describe "Braintree API" do
-
+describe 'Braintree API' do
   let(:page) { create(:page, title: 'Cash rules everything around me') }
   let(:form) { create(:form) }
   let(:four_digits) { /[0-9]{4}/ }
@@ -9,13 +9,13 @@ describe "Braintree API" do
   let(:user_params) do
     {
       form_id: form.id,
-      name: "Bernie Sanders",
-      email: "itsme@feelthebern.org",
-      postal: "11225",
+      name: 'Bernie Sanders',
+      email: 'itsme@feelthebern.org',
+      postal: '11225',
       address1: '25 Elm Drive',
       akid: '1234.5678.9910',
       source: 'fb',
-      country: "US"
+      country: 'US'
     }
   end
 
@@ -33,31 +33,31 @@ describe "Braintree API" do
     allow(Analytics::Page).to receive(:increment)
   end
 
-  shared_examples "has no unintended consequences" do
+  shared_examples 'has no unintended consequences' do
     it 'does not create an Action' do
-      expect{ subject }.not_to change{ Action.count }
+      expect { subject }.not_to change { Action.count }
     end
 
     it 'does not modify the Member' do
       member = Member.last
-      expect{ subject }.not_to change{ Member.count }
+      expect { subject }.not_to change { Member.count }
       expect(Member.last).to eq member
     end
 
     it 'does not modify the Payment::Braintree::Subscription' do
       subscription = Payment::Braintree::Subscription.last
-      expect{ subject }.not_to change{ Payment::Braintree::Subscription.count }
+      expect { subject }.not_to change { Payment::Braintree::Subscription.count }
       expect(Payment::Braintree::Subscription.last).to eq subscription
     end
 
     it 'does not modify the Payment::Braintree::Customer' do
       customer = Payment::Braintree::Customer.last
-      expect{ subject }.not_to change{ Payment::Braintree::Customer.count }
+      expect { subject }.not_to change { Payment::Braintree::Customer.count }
       expect(Payment::Braintree::Customer.last).to eq customer
     end
 
     it 'returns 200' do
-      expect{ subject }.not_to raise_error
+      expect { subject }.not_to raise_error
       expect(response.status).to eq 200
     end
   end
@@ -73,15 +73,15 @@ describe "Braintree API" do
         )
       end
 
-      subject{ post api_payment_braintree_webhook_path, notification }
+      subject { post api_payment_braintree_webhook_path, notification }
 
       describe 'for a credit card' do
         let(:amount) { 813.20 }
-        let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount ) }
+        let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount) }
 
         before :each do
           # rather than set up a fake testing environment, let the success test set it up for us
-          VCR.use_cassette("subscription success basic new customer") do
+          VCR.use_cassette('subscription success basic new customer') do
             post api_payment_braintree_transaction_path(page.id), params
           end
 
@@ -89,17 +89,15 @@ describe "Braintree API" do
         end
 
         it 'creates a Payment::Braintree::Transaction record with the right params' do
-          expect{ subject }.to change{ Payment::Braintree::Transaction.count }.by 1
+          expect { subject }.to change { Payment::Braintree::Transaction.count }.by 1
           expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
         end
 
         it 'pushes to the queue with the right params' do
-          expect(ChampaignQueue).to receive(:push).with({
-            type: "subscription-payment",
-            params: {
-              recurring_id: /[a-z0-9]{6}/
-            }
-          })
+          expect(ChampaignQueue).to receive(:push).with(type: 'subscription-payment',
+                                                        params: {
+                                                          recurring_id: /[a-z0-9]{6}/
+                                                        })
 
           subject
         end
@@ -110,7 +108,7 @@ describe "Braintree API" do
           expect(@subscription.reload.transactions.count).to eq(1)
         end
 
-        include_examples "has no unintended consequences"
+        include_examples 'has no unintended consequences'
       end
 
       describe 'for paypal' do
@@ -118,28 +116,26 @@ describe "Braintree API" do
         let(:params) { setup_params.merge(user: user_params, payment_method_nonce: 'fake-paypal-future-nonce', amount: amount) }
 
         before :each do
-          VCR.use_cassette("subscription success paypal new customer") do
+          VCR.use_cassette('subscription success paypal new customer') do
             post api_payment_braintree_transaction_path(page.id), params
           end
         end
 
         it 'creates a Payment::Braintree::Transaction record with the right params' do
-          expect{ subject }.to change{ Payment::Braintree::Transaction.count }.by 1
+          expect { subject }.to change { Payment::Braintree::Transaction.count }.by 1
           expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
         end
 
         it 'pushes to the queue with the right params' do
-          expect(ChampaignQueue).to receive(:push).with({
-            type: "subscription-payment",
-            params: {
-              recurring_id: /[a-z0-9]{6}/
-            }
-          })
+          expect(ChampaignQueue).to receive(:push).with(type: 'subscription-payment',
+                                                        params: {
+                                                          recurring_id: /[a-z0-9]{6}/
+                                                        })
 
           subject
         end
 
-        include_examples "has no unintended consequences"
+        include_examples 'has no unintended consequences'
       end
     end
 
@@ -151,14 +147,14 @@ describe "Braintree API" do
         )
       end
 
-      subject{ post api_payment_braintree_webhook_path, notification }
+      subject { post api_payment_braintree_webhook_path, notification }
 
       describe 'for a credit card' do
         let(:amount) { 813.20 }
-        let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount ) }
+        let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount) }
 
         before :each do
-          VCR.use_cassette("subscription success basic new customer") do
+          VCR.use_cassette('subscription success basic new customer') do
             post api_payment_braintree_transaction_path(page.id), params
           end
         end
@@ -170,17 +166,17 @@ describe "Braintree API" do
 
         it 'sets cancelled_at on subscription record' do
           Timecop.freeze do
-            expect{
+            expect do
               subject
-            }.to change{ subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
+            end.to change { subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
           end
         end
 
         it 'does not create a transaction' do
-          expect{ subject }.not_to change{ Payment::Braintree::Transaction.count }
+          expect { subject }.not_to change { Payment::Braintree::Transaction.count }
         end
 
-        include_examples "has no unintended consequences"
+        include_examples 'has no unintended consequences'
       end
     end
   end

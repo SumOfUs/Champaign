@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ActiveQuery
   delegate :all, :each, :for_each, to: :active
 

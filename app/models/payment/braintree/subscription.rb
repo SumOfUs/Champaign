@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::Braintree::Subscription < ActiveRecord::Base
   belongs_to :page
   belongs_to :action

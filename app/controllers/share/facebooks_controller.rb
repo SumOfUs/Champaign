@@ -1,11 +1,11 @@
+# frozen_string_literal: true
 class Share::FacebooksController < Share::SharesController
-
   private
 
   def new_defaults
     {
-     title: @page.title,
-     description: ActionView::Base.full_sanitizer.sanitize(@page.content).split('.')[0]
+      title: @page.title,
+      description: ActionView::Base.full_sanitizer.sanitize(@page.content).split('.')[0]
     }
   end
 
@@ -14,8 +14,8 @@ class Share::FacebooksController < Share::SharesController
   end
 
   def permitted_params
-    params.require(:share_facebook).
-      permit(:title, :image_id, :description)
+    params
+      .require(:share_facebook)
+      .permit(:title, :image_id, :description)
   end
 end
-

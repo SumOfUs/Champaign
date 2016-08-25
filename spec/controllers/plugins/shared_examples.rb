@@ -1,5 +1,5 @@
-shared_examples "plugins controller" do |plugin_class, plugin_name|
-
+# frozen_string_literal: true
+shared_examples 'plugins controller' do |plugin_class, plugin_name|
   let(:user) { instance_double('User', id: '1') }
 
   before do
@@ -11,10 +11,9 @@ shared_examples "plugins controller" do |plugin_class, plugin_name|
     let(:plugin) { instance_double(plugin_class) }
 
     describe 'successful' do
-
       before do
-        allow(plugin_class).to receive(:find).with('1'){ plugin }
-        allow(plugin).to receive(:update){ true }
+        allow(plugin_class).to receive(:find).with('1') { plugin }
+        allow(plugin).to receive(:update) { true }
         put :update, id: '1', plugin_name => { title: 'bar' }, format: :js
       end
 
@@ -33,15 +32,13 @@ shared_examples "plugins controller" do |plugin_class, plugin_name|
       it 'gives an empty hash' do
         expect(response.body).to eq '{}'
       end
-
     end
 
     describe 'failure' do
-
       before do
-        allow(plugin_class).to receive(:find).with('1'){ plugin }
-        allow(plugin).to receive(:update){ false }
-        allow(plugin).to receive(:errors){ Hash.new }
+        allow(plugin_class).to receive(:find).with('1') { plugin }
+        allow(plugin).to receive(:update) { false }
+        allow(plugin).to receive(:errors) { Hash.new }
         put :update, id: '1', plugin_name => { title: 'bar' }, format: :js
       end
 
@@ -50,9 +47,8 @@ shared_examples "plugins controller" do |plugin_class, plugin_name|
       end
 
       it 'gives an error hash' do
-        expect(response.body).to eq '{"errors":{},"name":"'+plugin_name.to_s+'"}'
+        expect(response.body).to eq '{"errors":{},"name":"' + plugin_name.to_s + '"}'
       end
-
     end
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::ActionsController < ApplicationController
   before_filter :localize_from_page_id
   skip_before_action :verify_authenticity_token
@@ -13,7 +14,7 @@ class Api::ActionsController < ApplicationController
       write_member_cookie(action.member_id)
       render json: {}, status: 200
     else
-      render json: {errors: validator.errors}, status: 422
+      render json: { errors: validator.errors }, status: 422
     end
   end
 
@@ -22,19 +23,18 @@ class Api::ActionsController < ApplicationController
     if validator.valid?
       render json: {}, status: 200
     else
-      render json: {errors: validator.errors}, status: 422
+      render json: { errors: validator.errors }, status: 422
     end
   end
 
   private
 
   def action_params
-    @action_params = params.
-      permit( fields + base_params )
+    @action_params = params.permit(fields + base_params)
   end
 
   def base_params
-    %w{page_id form_id name source akid referring_akid}
+    %w(page_id form_id name source akid referring_akid)
   end
 
   def fields

@@ -1,16 +1,16 @@
+# frozen_string_literal: true
 require 'httparty'
 
 module ActionKit
   module Client
-
     extend self
 
     def client(verb, path, params)
       HTTParty.send(
         verb,
         "#{Settings.ak_api_url}/#{path}/",
-        :query => params[:params],
-        :basic_auth => auth
+        query: params[:params],
+        basic_auth: auth
       )
     end
 
@@ -28,4 +28,3 @@ module ActionKit
     end
   end
 end
-

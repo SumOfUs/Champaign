@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'Search ::' do
@@ -7,12 +8,33 @@ describe 'Search ::' do
         let!(:petition_partial) { create(:liquid_partial, title: 'petition') }
         let!(:thermometer_partial) { create(:liquid_partial, title: 'thermometer') }
 
-        let!(:default_layout) { create(:liquid_layout, :default, title: 'contains petition and thermometer plugin') }
-        let!(:petition_layout) { create(:liquid_layout, :petition, title: 'contains petition plugin') }
+        let!(:default_layout) do
+          create(:liquid_layout, :default, title: 'contains petition and thermometer plugin')
+        end
 
-        let!(:petition_page) { create(:page, liquid_layout: petition_layout, title: 'petition page - with petition layout')}
-        let!(:thermometer_page) {create(:page, liquid_layout: default_layout, title: 'thermometer page - with default layout, petition toggled off')}
-        let!(:default_page) {create(:page, liquid_layout: default_layout, title: 'default page - with active thermometer and petition plugins')}
+        let!(:petition_layout) do
+          create(:liquid_layout, :petition, title: 'contains petition plugin')
+        end
+
+        let!(:petition_page) do
+          create(:page, liquid_layout: petition_layout, title: 'petition page - with petition layout')
+        end
+
+        let!(:thermometer_page) do
+          create(
+            :page,
+            liquid_layout: default_layout,
+            title: 'thermometer page - with default layout, petition toggled off'
+          )
+        end
+
+        let!(:default_page) do
+          create(
+            :page,
+            liquid_layout: default_layout,
+            title: 'default page - with active thermometer and petition plugins'
+          )
+        end
 
         let!(:thermometer_page_thermometer) { create(:plugins_thermometer, page: thermometer_page) }
         let!(:default_page_thermometer) { create(:plugins_thermometer, page: default_page) }
@@ -30,7 +52,7 @@ describe 'Search ::' do
             expect(Search::PageSearcher.new(plugin_type: nil).search).to match_array(Page.all)
           end
           it 'with empty string' do
-            expect(Search::PageSearcher.new(plugin_type: "").search).to match_array(Page.all)
+            expect(Search::PageSearcher.new(plugin_type: '').search).to match_array(Page.all)
           end
         end
 
@@ -42,12 +64,15 @@ describe 'Search ::' do
             expect(Search::PageSearcher.new(plugin_type: ['Plugins::UnusedPlugin']).search).to match_array([])
           end
           it 'with several plugins where a page matches one but not the rest of them' do
-            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer', 'Plugins::UnusedPlugin']).search).to match_array([])
+            search = Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer', 'Plugins::UnusedPlugin']).search
+            expect(search).to match_array([])
           end
 
-          it 'with several plugins where at least one page matches by criteria but at least one of the requested plugins is deactivated' do
+          it 'with several plugins where at least one page matches by criteria but at least one of the' \
+          'requested plugins is deactivated' do
             default_page_thermometer.update(active: false)
-            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search).to match_array([])
+            search = Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search
+            expect(search).to match_array([])
           end
         end
 
@@ -56,16 +81,17 @@ describe 'Search ::' do
             expect(default_page_thermometer.page).to eq(default_page)
 
             default_page_thermometer.update(active: true)
-            thermometer_page_thermometer.update(active:true)
+            thermometer_page_thermometer.update(active: true)
 
             expect(default_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.active).to eq(true)
             expect(thermometer_page_thermometer.page).to eq(thermometer_page)
-            expect((Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer'])).search).to match_array([default_page, thermometer_page])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Thermometer']).search).to(
+              match_array([default_page, thermometer_page])
+            )
           end
 
           it 'with several plugins, if a page exists where all of them are active' do
-
             default_page_thermometer.update(active: true)
             default_page_petition.update(active: true)
 
@@ -75,7 +101,9 @@ describe 'Search ::' do
             petition_page_thermometer.update(active: false)
             thermometer_page_thermometer.update(active: true)
 
-            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search).to match_array([default_page])
+            expect(Search::PageSearcher.new(plugin_type: ['Plugins::Petition', 'Plugins::Thermometer']).search).to(
+              match_array([default_page])
+            )
           end
         end
       end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
   before_action :find_form, only: [:show, :edit]
@@ -20,7 +21,6 @@ class FormsController < ApplicationController
     else
       render :new
     end
-
   end
 
   def new
@@ -32,5 +32,4 @@ class FormsController < ApplicationController
   def find_form
     @form = Form.find params[:id]
   end
-
 end

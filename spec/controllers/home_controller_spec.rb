@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe HomeController do
@@ -10,5 +11,4 @@ describe HomeController do
     get :robots, format: 'txt'
     expect(response.status).to be 200
   end
-
 end

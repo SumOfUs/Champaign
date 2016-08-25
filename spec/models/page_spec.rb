@@ -1,14 +1,14 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Page do
-
-  let(:english)          { create :language }
+  let(:english) { create :language }
   let!(:follow_up_layout) { create :liquid_layout, title: 'Follow up layout' }
   let!(:liquid_layout)    { create :liquid_layout, title: 'Liquid layout', default_follow_up_layout: follow_up_layout }
-  let(:page)             { create :page, liquid_layout: liquid_layout, follow_up_liquid_layout: follow_up_layout  }
+  let(:page) { create :page, liquid_layout: liquid_layout, follow_up_liquid_layout: follow_up_layout }
 
   let(:page_params) { attributes_for :page, liquid_layout_id: liquid_layout.id }
-  let(:image_file) { File.new(Rails.root.join('spec','fixtures','test-image.gif')) }
+  let(:image_file) { File.new(Rails.root.join('spec', 'fixtures', 'test-image.gif')) }
   let(:image_1) { Image.create!(content: image_file) }
   let(:image_2) { Image.create!(content: image_file) }
   let(:image_3) { Image.create!(content: image_file) }
@@ -48,7 +48,7 @@ describe Page do
 
   describe 'tags' do
     before(:all) do
-      3.times do create :tag end
+      3.times { create :tag }
     end
 
     it 'should be a reciprocal many-to-many relationship' do
@@ -65,10 +65,9 @@ describe Page do
     end
 
     describe 'create' do
-
       after :each do
         page = Page.new page_params
-        expect{ page.save! }.to change{ PagesTag.count }.by 2
+        expect { page.save! }.to change { PagesTag.count }.by 2
         expect(page.tags).to match_array(Tag.last(2))
       end
 
@@ -82,26 +81,24 @@ describe Page do
     end
 
     describe 'destroy' do
-
       before :each do
         @page = create :page, language: english, tag_ids: Tag.last(2).map(&:id)
       end
 
       it 'should destroy the page' do
-        expect{ @page.destroy }.to change{ Page.count }.by(-1)
+        expect { @page.destroy }.to change { Page.count }.by(-1)
       end
 
       it 'should destroy the join table records' do
-        expect{ @page.destroy }.to change{ PagesTag.count }.by(-2)
+        expect { @page.destroy }.to change { PagesTag.count }.by(-2)
       end
 
       it 'should not destroy the tag' do
-        expect{ @page.destroy }.to change{ Tag.count }.by(0)
+        expect { @page.destroy }.to change { Tag.count }.by(0)
       end
     end
 
     describe 'update' do
-
       before :each do
         @page = create :page, language: english, tag_ids: Tag.last(2).map(&:id)
         @new_ids = Tag.first.id
@@ -115,22 +112,20 @@ describe Page do
       end
 
       it 'should destroy the old join table records and make a new one' do
-        expect{ @page.update! tag_ids: @new_ids }.to change{ PagesTag.count }.by(-1)
+        expect { @page.update! tag_ids: @new_ids }.to change { PagesTag.count }.by(-1)
       end
     end
   end
 
   describe 'campaigns' do
-
     before :each do
-      3.times do create :campaign end
+      3.times { create :campaign }
     end
 
     describe 'create' do
-
       after :each do
         page = Page.new page_params
-        expect{ page.save! }.to change{ Campaign.count }.by 0
+        expect { page.save! }.to change { Campaign.count }.by 0
         expect(page.campaign).to eq Campaign.last
       end
 
@@ -155,7 +150,7 @@ describe Page do
     it 'get deleted when the page is deleted' do
       page.images = [image_1, image_2]
       page.save!
-      expect{ page.destroy }.to change{ Image.count }.by -2
+      expect { page.destroy }.to change { Image.count }.by -2
     end
   end
 
@@ -165,13 +160,12 @@ describe Page do
       link_2 = create :link
       page.links = [link_1, link_2]
       page.save!
-      expect{ page.destroy }.to change{ Link.count }.by -2
+      expect { page.destroy }.to change { Link.count }.by -2
     end
   end
 
   describe 'liquid_layout' do
-
-    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil)}
+    let(:switcher) { instance_double(PagePluginSwitcher, switch: nil) }
     let(:other_liquid_layout) { create :liquid_layout, title: 'Other liquid layout' }
 
     before :each do
@@ -179,7 +173,6 @@ describe Page do
     end
 
     describe 'valid' do
-
       before :each do
         expect(page).to be_valid
         expect(page).to be_persisted
@@ -194,7 +187,7 @@ describe Page do
       end
 
       it 'does not switch the layout plugins if no layouts or plan changed' do
-        page.title = "just changin the title here"
+        page.title = 'just changin the title here'
         expect(switcher).not_to receive(:switch)
         expect(page.save).to eq true
       end
@@ -234,7 +227,6 @@ describe Page do
   end
 
   describe 'primary image' do
-
     before :each do
       page.images = [image_1, image_2]
       page.primary_image = image_2
@@ -253,7 +245,7 @@ describe Page do
 
     it 'gets set to nil if the image is deleted' do
       expect(page.primary_image).to eq image_2
-      expect{ image_2.destroy }.to change{ Image.count }.by(-1)
+      expect { image_2.destroy }.to change { Image.count }.by(-1)
       expect(page.reload.primary_image).to eq nil
     end
   end
@@ -303,7 +295,6 @@ describe Page do
   end
 
   describe 'action_count' do
-
     it 'defaults to 0' do
       expect(Page.new.action_count).to eq 0
     end
@@ -316,7 +307,7 @@ describe Page do
       page.update(primary_image: image)
     end
 
-    subject{ page.dup }
+    subject { page.dup }
 
     it 'sets slug to nil' do
       expect(page.slug).not_to be_nil
@@ -449,4 +440,3 @@ describe Page do
     end
   end
 end
-

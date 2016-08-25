@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::GoCardlessController < PaymentController
   skip_before_action :verify_authenticity_token
 
@@ -33,9 +34,9 @@ class Api::GoCardlessController < PaymentController
   private
 
   def success_url
-    local_params =  Rack::Utils.parse_query(
+    local_params = Rack::Utils.parse_query(
       URI.parse(request.url).query
-    ).merge( params.slice(:page_id) ).to_query
+    ).merge(params.slice(:page_id)).to_query
 
     "#{request.base_url}/api/go_cardless/pages/#{page.id}/transaction?#{local_params}"
   end
@@ -55,5 +56,3 @@ class Api::GoCardlessController < PaymentController
     }
   end
 end
-
-

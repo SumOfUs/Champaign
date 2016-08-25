@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe PagesController do
@@ -5,13 +6,13 @@ describe PagesController do
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
   let(:page) { instance_double('Page', published?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
-  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data'}) }
+  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data' }) }
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
-    Settings.homepage_url = "http://example.com"
+    Settings.homepage_url = 'http://example.com'
   end
 
   describe 'GET #index' do
@@ -32,23 +33,23 @@ describe PagesController do
 
     before do
       allow(PageBuilder).to receive(:create) { page }
-      post :create, { page: { title: "Foo Bar" }}
+      post :create, page: { title: 'Foo Bar' }
     end
 
     it 'creates page' do
-      expected_params = { title: "Foo Bar" }
+      expected_params = { title: 'Foo Bar' }
 
-      expect(PageBuilder).to have_received(:create).
-        with(expected_params)
+      expect(PageBuilder).to have_received(:create)
+        .with(expected_params)
     end
 
-    context "successfully created" do
+    context 'successfully created' do
       it 'redirects to edit_page' do
         expect(response).to redirect_to(edit_page_path(page.id))
       end
     end
 
-    context "successfully created" do
+    context 'successfully created' do
       let(:page) { instance_double(Page, valid?: false, language: default_language) }
 
       it 'redirects to edit_page' do
@@ -61,9 +62,9 @@ describe PagesController do
     let(:page) { instance_double(Page, language: default_language) }
 
     before do
-      allow(Page).to receive(:find){ page }
+      allow(Page).to receive(:find) { page }
       allow(page).to receive(:update)
-      allow(LiquidRenderer).to receive(:new) { }
+      allow(LiquidRenderer).to receive(:new) {}
       allow(QueueManager).to receive(:push)
     end
 
@@ -79,9 +80,9 @@ describe PagesController do
       subject
     end
 
-    context "successfully updates" do
+    context 'successfully updates' do
       before do
-        allow(page).to receive(:update){ true }
+        allow(page).to receive(:update) { true }
       end
 
       it 'posts to queue' do
@@ -90,22 +91,21 @@ describe PagesController do
       end
     end
 
-    context "unsuccessfully updates" do
+    context 'unsuccessfully updates' do
       it 'posts to queue' do
         expect(QueueManager).to_not receive(:push)
         subject
       end
     end
-
   end
 
   describe 'GET #show' do
     subject { page }
 
     before do
-      allow(Page).to            receive(:find){ page }
+      allow(Page).to            receive(:find) { page }
       allow(page).to            receive(:update)
-      allow(LiquidRenderer).to  receive(:new){ renderer }
+      allow(LiquidRenderer).to  receive(:new) { renderer }
     end
 
     it 'finds campaign page' do
@@ -117,11 +117,10 @@ describe PagesController do
       get :show, id: '1'
 
       expect(LiquidRenderer).to have_received(:new).with(page,
-        location: {},
-        member: nil,
-        layout: page.liquid_layout,
-        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"show"}
-      )
+                                                         location: {},
+                                                         member: nil,
+                                                         layout: page.liquid_layout,
+                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'show' })
       expect(renderer).to have_received(:render)
     end
 
@@ -142,31 +141,31 @@ describe PagesController do
 
     it 'redirects to homepage if user not logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?){ false }
-      expect( get :show, id: '1' ).to redirect_to(Settings.homepage_url)
+      allow(page).to receive(:published?) { false }
+      expect(get(:show, id: '1')).to redirect_to(Settings.homepage_url)
     end
 
     it 'does not redirect to homepage if user not logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?){ true }
-      expect( get :show, id: '1' ).not_to be_redirect
+      allow(page).to receive(:published?) { true }
+      expect(get(:show, id: '1')).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?){ false }
-      expect( get :show, id: '1' ).not_to be_redirect
+      allow(page).to receive(:published?) { false }
+      expect(get(:show, id: '1')).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page published' do
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?){ true }
-      expect( get :show, id: '1' ).not_to be_redirect
+      allow(page).to receive(:published?) { true }
+      expect(get(:show, id: '1')).not_to be_redirect
     end
 
     it 'redirects to homepage if page is not found' do
       allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-      expect( get :show, id: '1000000' ).to redirect_to(Settings.homepage_url)
+      expect(get(:show, id: '1000000')).to redirect_to(Settings.homepage_url)
     end
 
     context 'on pages with localization' do
@@ -175,7 +174,7 @@ describe PagesController do
 
       context 'with french' do
         subject { french_page }
-        before { allow(Page).to receive(:find){ french_page } }
+        before { allow(Page).to receive(:find) { french_page } }
 
         it 'sets the locality to :fr' do
           get :show, id: '42'
@@ -184,7 +183,7 @@ describe PagesController do
 
         context 'with default (en)' do
           subject { english_page }
-          before { allow(Page).to receive(:find){ english_page } }
+          before { allow(Page).to receive(:find) { english_page } }
 
           it 'sets the locality to :en' do
             get :show, id: '66'
@@ -192,15 +191,14 @@ describe PagesController do
           end
         end
       end
-
     end
   end
 
   describe 'GET #follow-up' do
     before do
-      allow(Page).to receive(:find){ page }
+      allow(Page).to receive(:find) { page }
       allow(page).to receive(:update)
-      allow(LiquidRenderer).to receive(:new){ renderer }
+      allow(LiquidRenderer).to receive(:new) { renderer }
     end
 
     subject { get :follow_up, id: '1' }
@@ -214,21 +212,19 @@ describe PagesController do
       allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
       subject
       expect(LiquidRenderer).to have_received(:new).with(page,
-        location: {},
-        member: nil,
-        layout: page.liquid_layout,
-        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
-      )
+                                                         location: {},
+                                                         member: nil,
+                                                         layout: page.liquid_layout,
+                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
       subject
       expect(LiquidRenderer).to have_received(:new).with(page,
-        location: {},
-        member: nil,
-        layout: page.follow_up_liquid_layout,
-        url_params: {"id"=>"1", "controller"=>"pages", "action"=>"follow_up"}
-      )
+                                                         location: {},
+                                                         member: nil,
+                                                         layout: page.follow_up_liquid_layout,
+                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
       expect(renderer).to have_received(:render)
     end
 
@@ -250,36 +246,35 @@ describe PagesController do
     it 'redirects to homepage if user not logged in and page unpublished' do
       subject
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?){ false }
-      expect( get :follow_up, id: '1' ).to redirect_to(Settings.homepage_url)
+      allow(page).to receive(:published?) { false }
+      expect(get(:follow_up, id: '1')).to redirect_to(Settings.homepage_url)
     end
 
     it 'does not redirect to homepage if user not logged in and page published' do
       subject
       allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?){ true }
-      expect( get :follow_up, id: '1' ).not_to be_redirect
+      allow(page).to receive(:published?) { true }
+      expect(get(:follow_up, id: '1')).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page unpublished' do
       subject
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?){ false }
-      expect( get :follow_up, id: '1' ).not_to be_redirect
+      allow(page).to receive(:published?) { false }
+      expect(get(:follow_up, id: '1')).not_to be_redirect
     end
 
     it 'does not redirect to homepage if user logged in and page published' do
       subject
       allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?){ true }
-      expect( get :follow_up, id: '1' ).not_to be_redirect
+      allow(page).to receive(:published?) { true }
+      expect(get(:follow_up, id: '1')).not_to be_redirect
     end
 
     it 'raises 404 if page is not found' do
       subject
       allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-      expect{ get :follow_up, id: '1000000' }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { get :follow_up, id: '1000000' }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
-

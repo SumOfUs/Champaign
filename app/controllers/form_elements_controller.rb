@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormElementsController < ApplicationController
   before_filter :find_form, only: [:create, :sort]
 
@@ -20,7 +21,7 @@ class FormElementsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: {status: :ok}, status: :ok
+        render json: { status: :ok }, status: :ok
       end
     end
   end
@@ -34,7 +35,6 @@ class FormElementsController < ApplicationController
     @form.touch
     render json: @form.form_elements.map(&:position)
   end
-
 
   private
 

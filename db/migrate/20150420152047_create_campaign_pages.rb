@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateCampaignPages < ActiveRecord::Migration
   def change
     create_table :campaign_pages do |t|

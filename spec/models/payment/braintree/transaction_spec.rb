@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Payment::Braintree::Transaction do
-
   let(:transaction) { create :payment_braintree_transaction }
   subject { transaction }
 
@@ -24,8 +24,8 @@ describe Payment::Braintree::Transaction do
 
   it 'handles money properly' do
     create :payment_braintree_transaction, amount: 12.41
-    create :payment_braintree_transaction, amount: 10701.11
-    expect(Payment::Braintree::Transaction.all.map(&:amount).sum).to eq 10713.52
+    create :payment_braintree_transaction, amount: 10_701.11
+    expect(Payment::Braintree::Transaction.all.map(&:amount).sum).to eq 10_713.52
     expect(Payment::Braintree::Transaction.last.amount.class).to eq BigDecimal
   end
 
@@ -33,7 +33,7 @@ describe Payment::Braintree::Transaction do
     let(:subscription) { create(:payment_braintree_subscription) }
 
     it 'can belong to a subscription' do
-      transaction = subscription.transactions.create()
+      transaction = subscription.transactions.create
       subscription.transactions
       expect(transaction.reload.subscription).to eq(subscription)
       expect(subscription.transactions).to eq([transaction])
@@ -41,7 +41,6 @@ describe Payment::Braintree::Transaction do
   end
 
   describe '#status' do
-
     it 'can be set with a string' do
       transaction.status = 'failure'
       expect(transaction.success?).to eq false
@@ -52,9 +51,9 @@ describe Payment::Braintree::Transaction do
     end
 
     it 'can read out a string' do
-      transaction.update_attributes(:status => :success)
+      transaction.update_attributes(status: :success)
       expect(transaction.reload.status).to eq 'success'
-      transaction.update_attributes(:status => :failure)
+      transaction.update_attributes(status: :failure)
       expect(transaction.reload.status).to eq 'failure'
     end
 

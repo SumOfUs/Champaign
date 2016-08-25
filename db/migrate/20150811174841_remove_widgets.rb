@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class RemoveWidgets < ActiveRecord::Migration
   def change
     drop_table :widgets

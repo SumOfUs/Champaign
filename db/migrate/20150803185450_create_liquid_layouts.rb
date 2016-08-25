@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateLiquidLayouts < ActiveRecord::Migration
   def change
     create_table :liquid_layouts do |t|

@@ -1,14 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe DirectDebitDecider do
-
   describe 'decide' do
-
     [:only_recurring, :recurring, :one_off, :garbage_value].each do |recurring_default|
-
       recurring = (recurring_default == :only_recurring || recurring_default == :recurring)
       context "recurring is '#{recurring_default}'" do
-
         it 'returns true when country list is just DE' do
           decision = DirectDebitDecider.decide(['DE'], recurring_default)
           expect(decision).to eq(true)
@@ -25,12 +22,12 @@ describe DirectDebitDecider do
         end
 
         it 'returns true when country list is DE and GB' do
-          decision = DirectDebitDecider.decide(['DE', 'GB'], recurring_default)
+          decision = DirectDebitDecider.decide(%w(DE GB), recurring_default)
           expect(decision).to eq(true)
         end
 
         it 'returns true when country list is DE and several others' do
-          decision = DirectDebitDecider.decide(['US', 'FR', 'DE', 'IN'], recurring_default)
+          decision = DirectDebitDecider.decide(%w(US FR DE IN), recurring_default)
           expect(decision).to eq(true)
         end
 
@@ -60,7 +57,7 @@ describe DirectDebitDecider do
         end
 
         it "returns #{recurring} when country list is GB and others" do
-          decision = DirectDebitDecider.decide(['US', 'FR', 'GB', 'IN'], recurring_default)
+          decision = DirectDebitDecider.decide(%w(US FR GB IN), recurring_default)
           expect(decision).to eq(recurring)
         end
 
@@ -80,13 +77,10 @@ describe DirectDebitDecider do
         end
 
         it 'returns false when country list has no direct debit countries' do
-          decision = DirectDebitDecider.decide(['US', 'MX', 'GH', 'IN'], recurring_default)
+          decision = DirectDebitDecider.decide(%w(US MX GH IN), recurring_default)
           expect(decision).to eq(false)
         end
       end
     end
   end
-
-
 end
-

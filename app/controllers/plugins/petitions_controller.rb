@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Plugins::PetitionsController < ApplicationController
   before_filter :find_form
 
@@ -16,13 +17,13 @@ class Plugins::PetitionsController < ApplicationController
   private
 
   def find_form
-    if params[:plugins_petition][:form_id]
-      Form.find params[:plugins_petition][:form_id]
-    end
+    return unless params[:plugins_petition][:form_id]
+    Form.find params[:plugins_petition][:form_id]
   end
 
   def permitted_params
-    params.require(:plugins_petition).
-      permit(:description, :active, :target, :cta)
+    params
+      .require(:plugins_petition)
+      .permit(:description, :active, :target, :cta)
   end
 end

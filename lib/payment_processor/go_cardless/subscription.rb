@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module GoCardless
     class Subscription < Populator
@@ -42,7 +43,7 @@ module PaymentProcessor
         @local_customer = Payment::GoCardless.write_customer(customer_id, @action.member_id)
         @local_mandate = Payment::GoCardless.write_mandate(mandate.id, mandate.scheme, mandate.next_possible_charge_date, @local_customer.id)
         @local_subscription = Payment::GoCardless.write_subscription(@subscription.id, amount_in_whole_currency,
-                                          currency, @page_id, @action.id, @local_customer.id, @local_mandate.id)
+                                                                     currency, @page_id, @action.id, @local_customer.id, @local_mandate.id)
       rescue GoCardlessPro::Error => e
         @error = e
       end
@@ -65,12 +66,10 @@ module PaymentProcessor
           card_expiration_date: nil,
           mandate_reference:    mandate.reference,
           bank_name:            bank_account.bank_name,
-          account_number_ending:bank_account.account_number_ending,
+          account_number_ending: bank_account.account_number_ending,
           payment_provider:     'go_cardless'
         )
       end
-
     end
   end
 end
-

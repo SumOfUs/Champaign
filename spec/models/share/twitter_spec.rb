@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Share::Twitter do
@@ -14,9 +15,8 @@ describe Share::Twitter do
     end
 
     it 'must have {LINK} in description' do
-      subject.description = "Foo"
+      subject.description = 'Foo'
       expect(subject).to_not be_valid
     end
   end
 end
-

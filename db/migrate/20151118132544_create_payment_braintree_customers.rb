@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreatePaymentBraintreeCustomers < ActiveRecord::Migration
   def change
     create_table :payment_braintree_customers do |t|

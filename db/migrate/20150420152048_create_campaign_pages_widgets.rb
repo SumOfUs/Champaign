@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateCampaignPagesWidgets < ActiveRecord::Migration
   def change
     create_table :campaign_pages_widgets do |t|

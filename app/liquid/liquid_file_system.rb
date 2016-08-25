@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # The <tt>LiquidFileSystem</tt> class is used by +Liquid+ for
 # retrieving partial content.
 #
@@ -29,17 +30,14 @@ class LiquidFileSystem
     #
     def partials(title)
       Dir.glob([
-        "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
-        "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
-      ])
+                 "#{Rails.root}/app/views/plugins/**/_#{title.to_s.parameterize.underscore}.liquid",
+                 "#{Rails.root}/app/liquid/views/partials/_#{title.to_s.parameterize.underscore}.liquid"
+               ])
     end
 
     def read_template_file(title)
-      if Settings.liquid_templating_source == 'file'
-        return read_from_file(title)
-      else
-        return read(title)
-      end
+      return read(title) unless Settings.liquid_templating_source == 'file'
+      read_from_file(title)
     end
 
     private
@@ -53,9 +51,8 @@ class LiquidFileSystem
     end
 
     def read_from_file(title)
-      return nil if self.partials(title).empty?
-      File.read( self.partials(title).first )
+      return nil if partials(title).empty?
+      File.read(partials(title).first)
     end
   end
 end
-

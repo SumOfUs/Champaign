@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LiquidLayout < ActiveRecord::Base
   include HasLiquidPartials
   has_paper_trail
@@ -7,7 +8,7 @@ class LiquidLayout < ActiveRecord::Base
 
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false
-  validates :experimental, inclusion: {in: [true, false]}
+  validates :experimental, inclusion: { in: [true, false] }
 
   scope :campaigner_friendly, -> { where(experimental: false) }
 
@@ -16,4 +17,3 @@ class LiquidLayout < ActiveRecord::Base
     super(depth: -1)
   end
 end
-

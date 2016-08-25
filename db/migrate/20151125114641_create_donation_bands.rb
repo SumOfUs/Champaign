@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateDonationBands < ActiveRecord::Migration
   def change
     create_table :donation_bands do |t|

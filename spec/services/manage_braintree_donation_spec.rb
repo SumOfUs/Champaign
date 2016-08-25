@@ -1,9 +1,9 @@
+# frozen_string_literal: true
 require 'rails_helper'
 describe ManageBraintreeDonation do
-
   let(:braintree_arguments) do
     {
-      amount: "100.00",
+      amount: '100.00',
       merchant_account_id: 'GBP',
       payment_method_nonce: payment_nonce,
       options: {
@@ -15,13 +15,13 @@ describe ManageBraintreeDonation do
 
   let(:transaction) do
     VCR.use_cassette('manage braintree donation transaction') do
-      Braintree::Transaction.sale( braintree_arguments )
+      Braintree::Transaction.sale(braintree_arguments)
     end
   end
 
   let(:paypal_transaction) do
     VCR.use_cassette('manage braintree donation paypal transaction') do
-      Braintree::Transaction.sale( braintree_arguments )
+      Braintree::Transaction.sale(braintree_arguments)
     end
   end
 
@@ -36,29 +36,27 @@ describe ManageBraintreeDonation do
     end
   end
 
-  let(:payment_nonce)   { 'fake-valid-nonce' }
+  let(:payment_nonce) { 'fake-valid-nonce' }
   let(:page) { create(:page, slug: 'foo-bar') }
 
   let(:params) do
     { page_id: page.id, country: 'BO', email: 'foo@example.com', name: 'Bob Murphy' }
   end
 
-  subject {
-    ManageBraintreeDonation.create({
-      params: params,
-      braintree_result: transaction,
-      is_subscription: false
-    })
-  }
+  subject do
+    ManageBraintreeDonation.create(params: params,
+                                   braintree_result: transaction,
+                                   is_subscription: false)
+  end
 
   before do
     allow(ChampaignQueue).to receive(:push)
   end
 
   it 'creates an action' do
-    expect{
+    expect do
       subject
-    }.to change{ Action.count }.by(1)
+    end.to change { Action.count }.by(1)
   end
 
   describe 'action' do
@@ -66,11 +64,11 @@ describe ManageBraintreeDonation do
 
     let(:expected_form_data) do
       {
-        name:    "Bob Murphy",
-        email:   "foo@example.com",
-        country: "BO",
+        name:    'Bob Murphy',
+        email:   'foo@example.com',
+        country: 'BO',
         page_id:  page.id,
-        card_num: "1881",
+        card_num: '1881',
         currency: /^\w{3}$/,
         transaction_id: /^[a-z0-9]*$/
       }
@@ -94,7 +92,7 @@ describe ManageBraintreeDonation do
         expected = {
           type: 'donation'
         }
-        expect(ChampaignQueue).to have_received(:push).with( hash_including(expected) )
+        expect(ChampaignQueue).to have_received(:push).with(hash_including(expected))
       end
 
       it 'is marked as a donation' do
@@ -107,12 +105,12 @@ describe ManageBraintreeDonation do
         end
       end
 
-      describe "form_data" do
-        it "includes general donation data" do
+      describe 'form_data' do
+        it 'includes general donation data' do
           expect(action.form_data.symbolize_keys).to include(expected_form_data)
         end
 
-        it "includes amount" do
+        it 'includes amount' do
           expect(action.form_data['amount']).to eq('100.0')
         end
 
@@ -123,13 +121,11 @@ describe ManageBraintreeDonation do
     end
 
     describe 'Subscription' do
-      subject {
-        ManageBraintreeDonation.create({
-          params: params,
-          braintree_result: subscription,
-          is_subscription: false
-        })
-      }
+      subject do
+        ManageBraintreeDonation.create(params: params,
+                                       braintree_result: subscription,
+                                       is_subscription: false)
+      end
 
       describe 'action' do
         let(:action) { Action.first }
@@ -139,12 +135,12 @@ describe ManageBraintreeDonation do
           expect(action.donation?).to be true
         end
 
-        describe "form_data" do
-          it "includes general donation data" do
+        describe 'form_data' do
+          it 'includes general donation data' do
             expect(action.form_data.symbolize_keys).to include(expected_form_data)
           end
 
-          it "includes amount" do
+          it 'includes amount' do
             expect(action.form_data['amount']).to eq('1.0')
           end
 
@@ -157,15 +153,13 @@ describe ManageBraintreeDonation do
   end
 
   describe 'PayPal Transaction' do
-    let(:payment_nonce)   { 'fake-paypal-future-nonce' }
+    let(:payment_nonce) { 'fake-paypal-future-nonce' }
 
-    subject {
-      ManageBraintreeDonation.create({
-        params: params,
-        braintree_result: paypal_transaction,
-        is_subscription: false
-      })
-    }
+    subject do
+      ManageBraintreeDonation.create(params: params,
+                                     braintree_result: paypal_transaction,
+                                     is_subscription: false)
+    end
 
     describe 'action' do
       let(:action) { Action.first }
@@ -175,12 +169,11 @@ describe ManageBraintreeDonation do
         expect(action.donation?).to be true
       end
 
-      describe "form_data" do
-        it "has PYPL as card_num" do
+      describe 'form_data' do
+        it 'has PYPL as card_num' do
           expect(action.form_data['card_num']).to eq('PYPL')
         end
       end
     end
   end
 end
-

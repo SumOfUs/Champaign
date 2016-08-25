@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Payment::GoCardless::Transaction do
-
   let(:transaction) { build :payment_go_cardless_transaction }
   subject { transaction }
 
@@ -23,25 +23,25 @@ describe Payment::GoCardless::Transaction do
 
   it 'handles amount as BigDecimal' do
     create :payment_go_cardless_transaction, amount: 12.41
-    create :payment_go_cardless_transaction, amount: 10701.11
-    expect(Payment::GoCardless::Transaction.all.map(&:amount).sum).to eq 10713.52
+    create :payment_go_cardless_transaction, amount: 10_701.11
+    expect(Payment::GoCardless::Transaction.all.map(&:amount).sum).to eq 10_713.52
     expect(Payment::GoCardless::Transaction.last.amount.class).to eq BigDecimal
   end
 
   it 'handles amount_refunded as BigDecimal' do
     create :payment_go_cardless_transaction, amount_refunded: 12.51
-    create :payment_go_cardless_transaction, amount_refunded: 10701.11
-    expect(Payment::GoCardless::Transaction.all.map(&:amount_refunded).sum).to eq 10713.62
+    create :payment_go_cardless_transaction, amount_refunded: 10_701.11
+    expect(Payment::GoCardless::Transaction.all.map(&:amount_refunded).sum).to eq 10_713.62
     expect(Payment::GoCardless::Transaction.last.amount.class).to eq BigDecimal
   end
 
   describe 'associations' do
     it 'associates customer with a GoCardless::Customer' do
-      expect{ transaction.customer = build :payment_go_cardless_customer }.not_to raise_error
+      expect { transaction.customer = build :payment_go_cardless_customer }.not_to raise_error
     end
 
     it 'associates payment_method with a GoCardless::PaymentMethod' do
-      expect{ transaction.payment_method = build :payment_go_cardless_payment_method }.not_to raise_error
+      expect { transaction.payment_method = build :payment_go_cardless_payment_method }.not_to raise_error
     end
   end
 
@@ -76,92 +76,92 @@ describe Payment::GoCardless::Transaction do
 
     context 'submission allowed' do
       it 'from pending_customer_approval' do
-        expect{
+        expect do
           subject.run_submit!
-        }.to change{ subject.reload.submitted? }.from(false).to(true)
+        end.to change { subject.reload.submitted? }.from(false).to(true)
       end
 
       it 'from pending_submission' do
         subject.update(aasm_state: :pending_submission)
 
-        expect{
+        expect do
           subject.run_submit!
-        }.to change{ subject.reload.submitted? }.from(false).to(true)
+        end.to change { subject.reload.submitted? }.from(false).to(true)
       end
     end
 
     context 'confirmation allowed' do
       it 'from pending_customer_approval' do
-        expect{
+        expect do
           subject.run_confirm!
-        }.to change{ subject.reload.confirmed? }.from(false).to(true)
+        end.to change { subject.reload.confirmed? }.from(false).to(true)
       end
 
       it 'from pending_submission' do
         subject.update(aasm_state: :pending_submission)
 
-        expect{
+        expect do
           subject.run_confirm!
-        }.to change{ subject.reload.confirmed? }.from(false).to(true)
+        end.to change { subject.reload.confirmed? }.from(false).to(true)
       end
 
       it 'from submitted' do
         subject.update(aasm_state: :submitted)
 
-        expect{
+        expect do
           subject.run_confirm!
-        }.to change{ subject.reload.confirmed? }.from(false).to(true)
+        end.to change { subject.reload.confirmed? }.from(false).to(true)
       end
     end
 
     context 'pay out allowed' do
       it 'from pending_customer_approval' do
-        expect{
+        expect do
           subject.run_payout!
-        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+        end.to change { subject.reload.paid_out? }.from(false).to(true)
       end
 
       it 'from pending_submission' do
         subject.update(aasm_state: :pending_submission)
 
-        expect{
+        expect do
           subject.run_payout!
-        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+        end.to change { subject.reload.paid_out? }.from(false).to(true)
       end
 
       it 'from submitted' do
         subject.update(aasm_state: :submitted)
 
-        expect{
+        expect do
           subject.run_payout!
-        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+        end.to change { subject.reload.paid_out? }.from(false).to(true)
       end
 
       it 'from confirmed' do
         subject.update(aasm_state: :confirmed)
 
-        expect{
+        expect do
           subject.run_payout!
-        }.to change{ subject.reload.paid_out? }.from(false).to(true)
+        end.to change { subject.reload.paid_out? }.from(false).to(true)
       end
     end
 
     it 'can be cancelled' do
-      expect{
+      expect do
         subject.run_cancel!
-      }.to change{ subject.reload.cancelled? }.from(false).to(true)
+      end.to change { subject.reload.cancelled? }.from(false).to(true)
     end
 
     it 'can be charged back' do
-      expect{
+      expect do
         subject.run_charge_back!
-      }.to change{ subject.reload.charged_back? }.from(false).to(true)
+      end.to change { subject.reload.charged_back? }.from(false).to(true)
     end
 
     it 'can be failed' do
-      expect{
+      expect do
         subject.run_fail!
-      }.to change{ subject.reload.failed? }.from(false).to(true)
+      end.to change { subject.reload.failed? }.from(false).to(true)
     end
   end
 end

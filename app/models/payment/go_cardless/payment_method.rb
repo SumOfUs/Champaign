@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
   include AASM
 
@@ -7,7 +8,7 @@ class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
     active:     :activate,
     cancelled:  :cancel,
     expired:    :expire
-  }
+  }.freeze
 
   aasm do
     state :pending, initial: true

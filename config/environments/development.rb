@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 Rails.application.configure do
-
   # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
   config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113', '10.5.50.113']
   # Disable the web console gem from complaining about being unable to render
@@ -19,7 +19,6 @@ Rails.application.configure do
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
-
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
@@ -50,9 +49,7 @@ Rails.application.configure do
   # get some more information out
   config.log_level = :debug
 
-  if Settings.instantiate_stdout_logger
-    config.logger = Logger.new(STDOUT)
-  end
+  config.logger = Logger.new(STDOUT) if Settings.instantiate_stdout_logger
 
   # sets location of ImageMagick for Paperclip. Get it by the terminal command 'which convert'.
   Paperclip.options[:command_path] = '/usr/bin/'
@@ -69,4 +66,3 @@ Rails.application.configure do
     end
   end
 end
-

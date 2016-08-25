@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'vcr'
 
@@ -6,7 +7,7 @@ describe PaymentProcessor::Currency do
     VCR.use_cassette('money_google_bank_from_usd') do
       expect(
         PaymentProcessor::Currency.convert(100, 'eur').format
-      ).to match( /€0[.,]\d\d/ )
+      ).to match(/€0[.,]\d\d/)
     end
   end
 
@@ -19,9 +20,8 @@ describe PaymentProcessor::Currency do
   end
 
   it 'raises with invalid currency' do
-    expect{
+    expect do
       PaymentProcessor::Currency.convert(100.23, 'zzz').format
-    }.to raise_error( Money::Currency::UnknownCurrency )
+    end.to raise_error(Money::Currency::UnknownCurrency)
   end
 end
-

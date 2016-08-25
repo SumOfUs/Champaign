@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module GoCardless
     module WebhookHandler
@@ -7,9 +8,8 @@ module PaymentProcessor
         end
 
         def process
-          if action and record.try("may_run_#{action}?")
-            record.send("run_#{action}!", @event)
-          end
+          return unless action && record.try("may_run_#{action}?")
+          record.send("run_#{action}!", @event)
         end
       end
     end

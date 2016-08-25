@@ -1,23 +1,22 @@
+# frozen_string_literal: true
 module Payment::Braintree
   class << self
     def table_name_prefix
       'payment_braintree_'
     end
 
-    def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer=true)
+    def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer = true)
       BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer)
     end
 
     def write_subscription(subscription_result, page_id, action_id, currency)
       if subscription_result.success?
-        Payment::Braintree::Subscription.create({
-          subscription_id:        subscription_result.subscription.id,
-          amount:                 subscription_result.subscription.price,
-          merchant_account_id:    subscription_result.subscription.merchant_account_id,
-          action_id:              action_id,
-          currency:               currency,
-          page_id:                page_id
-        })
+        Payment::Braintree::Subscription.create(subscription_id:        subscription_result.subscription.id,
+                                                amount:                 subscription_result.subscription.price,
+                                                merchant_account_id:    subscription_result.subscription.merchant_account_id,
+                                                action_id:              action_id,
+                                                currency:               currency,
+                                                page_id:                page_id)
       end
     end
 
@@ -58,11 +57,9 @@ module Payment::Braintree
     end
 
     def customer_attrs
-      card_attrs.merge({
-        customer_id:      @bt_customer.id,
-        member_id:        @member_id,
-        email:            @bt_customer.email
-      })
+      card_attrs.merge(customer_id:      @bt_customer.id,
+                       member_id:        @member_id,
+                       email:            @bt_customer.email)
     end
 
     def card_attrs
@@ -102,11 +99,11 @@ module Payment::Braintree
     #
     #
 
-    def self.build(bt_result, page_id, member_id, existing_customer, save_customer=true)
+    def self.build(bt_result, page_id, member_id, existing_customer, save_customer = true)
       new(bt_result, page_id, member_id, existing_customer, save_customer).build
     end
 
-    def initialize(bt_result, page_id, member_id, existing_customer, save_customer=true)
+    def initialize(bt_result, page_id, member_id, existing_customer, save_customer = true)
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
@@ -120,14 +117,15 @@ module Payment::Braintree
       # though, because transaction.customer_details.id is nil for failed transaction.
       # For webhooks, @existing_customer will be present.
       @customer = @existing_customer || Payment::Braintree::Customer.find_or_create_by!(
-          member_id: @member_id,
-          customer_id: transaction.customer_details.id)
+        member_id: @member_id,
+        customer_id: transaction.customer_details.id
+      )
       # If the transaction was a failure, there is no payment method - don't persist a nil payment method locally.
       # Make the foreign key to the payment method token nil for the locally persisted failed transaction.
       @local_payment_method_id = payment_method_token.blank? ? nil : Payment::Braintree::PaymentMethod.find_or_create_by!(
-          customer: @customer,
-          token: payment_method_token).id
-
+        customer: @customer,
+        token: payment_method_token
+      ).id
 
       record = ::Payment::Braintree::Transaction.create!(transaction_attrs)
 
@@ -197,20 +195,16 @@ module Payment::Braintree
     end
 
     def last_4
-      transaction.payment_instrument_type == "paypal_account" ? 'PYPL' : card.last_4
+      transaction.payment_instrument_type == 'paypal_account' ? 'PYPL' : card.last_4
     end
 
     def payment_method_token
       case transaction.payment_instrument_type
-      when "credit_card"
+      when 'credit_card'
         transaction.credit_card_details.try(:token)
-      when "paypal_account"
+      when 'paypal_account'
         transaction.paypal_details.try(:token)
-      else
-        nil
       end
     end
   end
 end
-
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class UrisController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_uri, only: [:edit, :update, :destroy]
@@ -54,4 +55,3 @@ class UrisController < ApplicationController
     @uri = Uri.find params['id']
   end
 end
-

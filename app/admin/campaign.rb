@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register Campaign do
   permit_params :name, :active
 

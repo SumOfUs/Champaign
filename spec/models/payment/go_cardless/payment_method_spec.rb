@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Payment::GoCardless::PaymentMethod do
-
   subject(:payment_method) { build :payment_go_cardless_payment_method }
 
   it { is_expected.to respond_to :go_cardless_id }
@@ -17,7 +17,7 @@ describe Payment::GoCardless::PaymentMethod do
 
   describe 'associations' do
     it 'associates customer with a GoCardless::Customer' do
-      expect{ payment_method.customer = build :payment_go_cardless_customer }.not_to raise_error
+      expect { payment_method.customer = build :payment_go_cardless_customer }.not_to raise_error
     end
   end
 
@@ -40,57 +40,57 @@ describe Payment::GoCardless::PaymentMethod do
     end
 
     it 'can be created' do
-      expect{
+      expect do
         subject.run_create!
-      }.to change{ subject.reload.created? }.from(false).to(true)
+      end.to change { subject.reload.created? }.from(false).to(true)
     end
 
     context 'can be submitted' do
       it 'from pending' do
-        expect{
+        expect do
           subject.run_submit!
-        }.to change{ subject.reload.submitted? }.from(false).to(true)
+        end.to change { subject.reload.submitted? }.from(false).to(true)
       end
 
       it 'from created' do
         subject.run_create!
 
-        expect{
+        expect do
           subject.run_submit!
-        }.to change{ subject.reload.submitted? }.from(false).to(true)
+        end.to change { subject.reload.submitted? }.from(false).to(true)
       end
     end
 
     context 'can be activated' do
       it 'from pending' do
-        expect{
+        expect do
           subject.run_activate!
-        }.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
 
       it 'from created' do
         subject.run_create!
 
-        expect{
+        expect do
           subject.run_activate!
-        }.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
 
       it 'from submitted' do
         subject.run_submit!
 
-        expect{
+        expect do
           subject.run_activate!
-        }.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
     end
 
     it 'can be cancelled' do
       subject.run_activate!
 
-      expect{
+      expect do
         subject.run_cancel!
-      }.to change{ subject.reload.cancelled? }.from(false).to(true)
+      end.to change { subject.reload.cancelled? }.from(false).to(true)
     end
   end
 end

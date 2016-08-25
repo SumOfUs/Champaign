@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class Plugins::FormsController < ApplicationController
-
   def create
     master = Form.find permitted_params[:master_id]
     plugin = Plugins.find_for permitted_params[:plugin_type], permitted_params[:plugin_id]
@@ -7,7 +7,7 @@ class Plugins::FormsController < ApplicationController
 
     respond_to do |format|
       format.json do
-        html = render_to_string(partial: 'forms/edit', locals: {form: new_form}, formats: [:html])
+        html = render_to_string(partial: 'forms/edit', locals: { form: new_form }, formats: [:html])
         render json: { html: html, form_id: new_form.id }
       end
     end
@@ -30,4 +30,3 @@ class Plugins::FormsController < ApplicationController
     params.permit(:plugin_id, :plugin_type, :master_id)
   end
 end
-

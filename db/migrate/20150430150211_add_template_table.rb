@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddTemplateTable < ActiveRecord::Migration
   def change
     create_table :templates do |t|

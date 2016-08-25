@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 class PaymentController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def transaction
     builder = if recurring?
-      client::Subscription.make_subscription(payment_options)
-    else
-      client::Transaction.make_transaction(payment_options)
-    end
+                client::Subscription.make_subscription(payment_options)
+              else
+                client::Transaction.make_transaction(payment_options)
+              end
 
     if builder.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
@@ -29,7 +30,7 @@ class PaymentController < ApplicationController
   private
 
   def recurring?
-    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user( params[:recurring] )
+    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
   end
 
   def page

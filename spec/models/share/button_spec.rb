@@ -1,21 +1,21 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Share::Button do
-  let(:button)    { create :share_button }
+  let(:button) { create :share_button }
 
   subject { button }
 
-  it { is_expected.to be_valid}
+  it { is_expected.to be_valid }
 
   describe 'validation' do
-
     it 'is valid without a title' do
       button.title = nil
       expect(button).to be_valid
     end
 
     it 'is valid with a blank title' do
-      button.title = " "
+      button.title = ' '
       expect(button).to be_valid
     end
 
@@ -25,10 +25,8 @@ describe Share::Button do
     end
 
     it 'is invalid with a blank url' do
-      button.url = " "
+      button.url = ' '
       expect(button).to be_invalid
     end
   end
-
 end
-

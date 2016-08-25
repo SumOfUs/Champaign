@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FormElement do
@@ -33,13 +34,13 @@ describe FormElement do
 
       it 'prefixes names based on checkbox/paragraph types' do
         expect(
-            FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'checkbox').name
+          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'checkbox').name
         ).to eq('action_box_foo_bar')
         expect(
-            FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'paragraph').name
+          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'paragraph').name
         ).to eq('action_textentry_foo_bar')
         expect(
-            FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'text').name
+          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'text').name
         ).to eq('action_textentry_foo_bar')
       end
 
@@ -65,9 +66,9 @@ describe FormElement do
 
   describe '.update' do
     it 'does not change position' do
-      expect{
-        element.update(label: "Surname")
-      }.to_not change{ element.reload.position}
+      expect do
+        element.update(label: 'Surname')
+      end.to_not change { element.reload.position }
     end
   end
 
@@ -124,15 +125,14 @@ describe FormElement do
       it 'has bad AK characters in the name' do
         subject.name = 'action_sass matazz'
         expect(subject).not_to be_valid
-        expect(subject.errors.messages).to eq({name: ["'action_sass matazz' may only contain numbers, underscores, and lowercase letters."]})
+        expect(subject.errors.messages).to eq(name: ["'action_sass matazz' may only contain numbers, underscores, and lowercase letters."])
       end
 
       it "has a name that doesn't match the AK format" do
         subject.name = 'action_'
         expect(subject).not_to be_valid
-        expect(subject.errors.messages).to eq({name: ["'action_' is not a permitted ActionKit name."]})
+        expect(subject.errors.messages).to eq(name: ["'action_' is not a permitted ActionKit name."])
       end
     end
   end
 end
-

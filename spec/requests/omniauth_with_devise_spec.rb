@@ -1,14 +1,13 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'Omniauth with Devise' do
   def login_with_google(email = 'cesar@example.com')
-    login_with_oauth2(:google_oauth2, {
-      uid:      '12345',
-      provider: 'google_oauth2',
-      info: {
-        email: email
-      }
-    })
+    login_with_oauth2(:google_oauth2,       uid:      '12345',
+                                            provider: 'google_oauth2',
+                                            info: {
+                                              email: email
+                                            })
   end
 
   subject(:user) { User.first }
@@ -24,12 +23,12 @@ describe 'Omniauth with Devise' do
   end
 
   context 'existing user' do
-    let!(:existing_user) { User.create(email: 'cesar@example.com', password: 'password', password_confirmation: 'password')}
+    let!(:existing_user) { User.create(email: 'cesar@example.com', password: 'password', password_confirmation: 'password') }
 
     it 'updates accounts' do
-      expect{
+      expect do
         login_with_google
-      }.to change{ existing_user.reload.provider }.from(nil).to('google_oauth2')
+      end.to change { existing_user.reload.provider }.from(nil).to('google_oauth2')
     end
   end
 
@@ -41,4 +40,3 @@ describe 'Omniauth with Devise' do
     end
   end
 end
-

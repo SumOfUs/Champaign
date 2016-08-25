@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 class Page < ActiveRecord::Base
   extend FriendlyId
   has_paper_trail
 
-  enum follow_up_plan: [:with_liquid, :with_page] # todo - :with_link
+  enum follow_up_plan: [:with_liquid, :with_page] # TODO: - :with_link
   enum publish_status: [:published, :unpublished, :archived]
   enum optimizely_status: [:optimizely_enabled, :optimizely_disabled]
 
@@ -26,7 +27,7 @@ class Page < ActiveRecord::Base
   validates :liquid_layout, presence: true
   validates :publish_status, presence: true
   validate  :primary_image_is_owned
-  validates :canonical_url, allow_blank: true, format: { with: /\Ahttps{0,1}:\/\/.+\..+/ }
+  validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+} }
 
   after_save :switch_plugins
 
@@ -90,8 +91,8 @@ class Page < ActiveRecord::Base
   private
 
   def switch_plugins
-    fields = ["liquid_layout_id", "follow_up_liquid_layout_id", "follow_up_plan"]
-    if fields.any?{ |f| changed.include?(f) }
+    fields = %w(liquid_layout_id follow_up_liquid_layout_id follow_up_plan)
+    if fields.any? { |f| changed.include?(f) }
       secondary = (follow_up_plan == 'with_liquid') ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
     end
@@ -103,4 +104,3 @@ class Page < ActiveRecord::Base
     end
   end
 end
-

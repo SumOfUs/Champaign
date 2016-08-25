@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class Form < ActiveRecord::Base
-
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.
   #
@@ -10,7 +10,7 @@ class Form < ActiveRecord::Base
     { label: 'form.default.name',    name: 'name',    required: true,  data_type: 'text'    },
     { label: 'form.default.country', name: 'country', required: true,  data_type: 'country' },
     { label: 'form.default.postal',  name: 'postal',  required: false, data_type: 'postal'  }
-  ]
+  ].freeze
 
   has_paper_trail on: [:update, :destroy]
   has_many :form_elements, -> { order(:position) }, dependent: :destroy
@@ -32,9 +32,6 @@ class Form < ActiveRecord::Base
   def name_is_unique
     return unless master?
 
-    if Form.masters.where(name: name).any?
-      errors.add(:name, 'must be unique')
-    end
+    errors.add(:name, 'must be unique') if Form.masters.where(name: name).any?
   end
 end
-

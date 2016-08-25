@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Analytics
   class Page
     def self.increment(page_id, new_member:)
@@ -9,11 +10,11 @@ module Analytics
     end
 
     def total_actions
-      Analytics.store.get( key( false )).to_i
+      Analytics.store.get(key(false)).to_i
     end
 
     def total_new_members
-      Analytics.store.get( key( true )).to_i
+      Analytics.store.get(key(true)).to_i
     end
 
     def total_actions_over_time(period: :hour)
@@ -26,14 +27,14 @@ module Analytics
 
     def increment_actions(new_member: false)
       if new_member
-        incr( key(new_member) )
-        incr( key_with_hour( new_member: true ) )
-        incr( key_with_day(  new_member: true ) )
+        incr(key(new_member))
+        incr(key_with_hour(new_member: true))
+        incr(key_with_day(new_member: true))
       end
 
       incr(key)
-      incr( key_with_hour )
-      incr( key_with_day  )
+      incr(key_with_hour)
+      incr(key_with_day)
     end
 
     private
@@ -59,22 +60,19 @@ module Analytics
     end
 
     def key(new_member = false)
-      "pages:#{@page_id}:total_actions".tap do |key|
-        key << ":new_members" if new_member
-      end
+      "pages:#{@page_id}:total_actions#{':new_members' if new_member}"
     end
 
     def key_with_hour(hour: Time.now.beginning_of_hour.utc.to_s(:db), new_member: false)
-      "#{ key(new_member) }:hours:#{hour}"
+      "#{key(new_member)}:hours:#{hour}"
     end
 
     def key_with_day(day: Time.now.utc.day, new_member: false)
-      "#{ key(new_member) }:days:#{day}"
+      "#{key(new_member)}:days:#{day}"
     end
 
     def incr(key)
-      Analytics.store.incr( key )
+      Analytics.store.incr(key)
     end
   end
 end
-

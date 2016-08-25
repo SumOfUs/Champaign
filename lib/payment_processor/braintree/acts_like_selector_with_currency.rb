@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module Braintree
-
     module ActsLikeSelectorWithCurrency
       def self.included(klass)
         klass.extend ClassMethods
@@ -22,4 +22,3 @@ module PaymentProcessor
     end
   end
 end
-

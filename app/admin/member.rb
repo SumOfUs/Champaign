@@ -1,5 +1,16 @@
+# frozen_string_literal: true
 ActiveAdmin.register Member do
-  permit_params :email, :country, :first_name, :last_name, :city, :postal, :title, :address1, :address2, :actionkit_member_id
+  permit_params :email,
+                :country,
+                :first_name,
+                :last_name,
+                :city,
+                :postal,
+                :title,
+                :address1,
+                :address2,
+                :actionkit_member_id
+
   actions :all, except: [:destroy]
 
   sidebar 'Previous Versions', only: :show do

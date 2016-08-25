@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Payment::GoCardless
   class << self
     def table_name_prefix
@@ -32,8 +33,14 @@ module Payment::GoCardless
 
     def write_subscription(subscription_gc_id, amount, currency, page_id, action_id, customer_id, payment_method_id)
       local_subscription = Payment::GoCardless::Subscription.find_or_initialize_by(go_cardless_id: subscription_gc_id)
-      local_subscription.update_attributes(amount: amount, currency: currency, page_id: page_id,
-              action_id: action_id, customer_id: customer_id, payment_method_id: payment_method_id)
+      local_subscription.update_attributes(
+        amount: amount,
+        currency: currency,
+        page_id: page_id,
+        action_id: action_id,
+        customer_id: customer_id,
+        payment_method_id: payment_method_id
+      )
       local_subscription
     end
   end

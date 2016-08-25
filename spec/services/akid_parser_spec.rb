@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AkidParser do
@@ -13,7 +14,7 @@ describe AkidParser do
 
           expect(
             subject.parse(akid, 'secret_sauce')
-          ).to include( { actionkit_user_id: user, mailing_id: mailing })
+          ).to include(actionkit_user_id: user, mailing_id: mailing)
         end
       end
     end
@@ -23,7 +24,7 @@ describe AkidParser do
         valid_akids.each do |akid|
           expect(
             subject.parse(akid, 'ketchup')
-          ).to include( { actionkit_user_id: nil, mailing_id: nil })
+          ).to include(actionkit_user_id: nil, mailing_id: nil)
         end
       end
     end
@@ -37,15 +38,14 @@ describe AkidParser do
       crazy_akids.each do |akid|
         expect(
           subject.parse(akid, 'kethcup')
-        ).to include( { actionkit_user_id: nil, mailing_id: nil })
+        ).to include(actionkit_user_id: nil, mailing_id: nil)
       end
 
       akids_bad_hash.each do |akid|
         expect(
           subject.parse(akid, 'kethcup')
-        ).to include( { actionkit_user_id: nil, mailing_id: nil })
+        ).to include(actionkit_user_id: nil, mailing_id: nil)
       end
     end
   end
 end
-

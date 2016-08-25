@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe PageFollower do
@@ -7,10 +8,8 @@ describe PageFollower do
   let(:follow_up_page_id) { 2 }
   let(:follow_up_layout_id) { 3 }
 
-  describe "follow_up_path" do
-
+  describe 'follow_up_path' do
     describe 'plan is :with_liquid' do
-
       let(:plan) { :with_liquid }
 
       describe 'while liquid_layout is blank' do
@@ -23,7 +22,6 @@ describe PageFollower do
           result = PageFollower.new(plan, page_id, nil, nil).follow_up_path
           expect(result).to eq nil
         end
-
       end
 
       describe 'while liquid_layout is passed' do
@@ -36,13 +34,10 @@ describe PageFollower do
           result = PageFollower.new(plan, page_id, follow_up_layout_id, nil).follow_up_path
           expect(result).to eq follow_up_member_facing_page_path(page_id)
         end
-
       end
-
     end
 
     describe 'plan is :with_page' do
-
       let(:plan) { :with_page }
 
       describe 'while page is blank' do
@@ -55,7 +50,6 @@ describe PageFollower do
           result = PageFollower.new(plan, page_id, follow_up_layout_id, nil).follow_up_path
           expect(result).to eq follow_up_member_facing_page_path(page_id)
         end
-
       end
 
       describe 'while page is passed' do
@@ -77,25 +71,31 @@ describe PageFollower do
     end
 
     describe 'plan is anything else' do
-
       it 'raises error if plan is :with_link' do
-        expect{
+        expect do
           PageFollower.new(nil, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-        }.to raise_error ArgumentError
+        end.to raise_error ArgumentError
       end
 
       it 'raises error if plan is blank' do
-        expect{
+        expect do
           PageFollower.new(nil, page_id, follow_up_layout_id, follow_up_page_id).follow_up_path
-        }.to raise_error ArgumentError
+        end.to raise_error ArgumentError
       end
     end
   end
 
   describe 'new_from_page' do
-
-    let(:other_page) { instance_double('Page', slug: 'bleep-bloop')}
-    let(:page) { instance_double('Page', follow_up_plan: 'with_liquid', slug: 'astro-droid', follow_up_liquid_layout_id: 3, follow_up_page: other_page) }
+    let(:other_page) { instance_double('Page', slug: 'bleep-bloop') }
+    let(:page) do
+      instance_double(
+        'Page',
+        follow_up_plan: 'with_liquid',
+        slug: 'astro-droid',
+        follow_up_liquid_layout_id: 3,
+        follow_up_page: other_page
+      )
+    end
 
     it 'calls with page attributes' do
       allow(PageFollower).to receive(:new)
@@ -107,5 +107,4 @@ describe PageFollower do
       expect(PageFollower.new_from_page(page).follow_up_path).to eq follow_up_member_facing_page_path('astro-droid')
     end
   end
-
 end

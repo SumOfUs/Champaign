@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 class HomeController < ApplicationController
-
   def index
     if user_signed_in?
       redirect_to pages_path
@@ -22,7 +22,6 @@ class HomeController < ApplicationController
   def health_check_haiku
     "Health check is passing,\n"\
     "don't terminate the instance.\n"\
-    "Response: 200."
+    'Response: 200.'
   end
-
 end

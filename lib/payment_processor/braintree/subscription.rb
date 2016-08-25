@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module Braintree
     class Subscription < Populator
@@ -82,7 +83,7 @@ module PaymentProcessor
       # we make 2 or 3 requests to braintree. if any of them fails, set it as the result
       # and stop trying to finish this subscription
       def break_if_rejected(result)
-        if !result.success?
+        unless result.success?
           @result = result
           throw :bt_rejection
         end
@@ -97,11 +98,11 @@ module PaymentProcessor
       end
 
       def update_or_create_customer_on_braintree
-        result =  if existing_customer.present?
-                    ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
-                  else
-                    ::Braintree::Customer.create(create_customer_options)
-                  end
+        result = if existing_customer.present?
+                   ::Braintree::Customer.update(existing_customer.customer_id, create_customer_options)
+                 else
+                   ::Braintree::Customer.create(create_customer_options)
+                 end
         break_if_rejected(result)
         result
       end
@@ -120,12 +121,10 @@ module PaymentProcessor
         # customer, otherwise we won't be able to tell which
         # payment_method on the returned customer is the new one
         return customer_options if existing_customer.present?
-        customer_options.merge({
-          payment_method_nonce: @nonce,
-          credit_card: {
-            billing_address: billing_options
-          }
-        })
+        customer_options.merge(payment_method_nonce: @nonce,
+                               credit_card: {
+                                 billing_address: billing_options
+                               })
       end
     end
   end

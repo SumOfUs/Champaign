@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FeaturedPagesController do
@@ -6,16 +7,16 @@ describe FeaturedPagesController do
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
-    allow(Page).to receive(:find){ page }
+    allow(Page).to receive(:find) { page }
     allow(page).to receive(:update)
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     before do
       post :create, id: '1', format: :js
     end
 
-    it "finds page" do
+    it 'finds page' do
       expect(Page).to have_received(:find).with('1')
     end
 
@@ -28,12 +29,12 @@ describe FeaturedPagesController do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     before do
       delete :destroy, id: '1', format: :js
     end
 
-    it "finds page" do
+    it 'finds page' do
       expect(Page).to have_received(:find).with('1')
     end
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ApplicationController < ActionController::Base
   before_filter :set_default_locale
 
@@ -9,10 +10,9 @@ class ApplicationController < ActionController::Base
   # Because we redirect the root path to sumofus.org (which is not handled by this app),
   # we need to send the user to a page controlled by Champaign. In this case, the Page Index
   # works as a standard start point for campaigners.
-  def after_sign_in_path_for(user)
+  def after_sign_in_path_for(_user)
     pages_url
   end
-
 
   def mobile_value
     MobileDetector.detect(browser)
@@ -21,13 +21,11 @@ class ApplicationController < ActionController::Base
   private
 
   def set_locale(code)
-    begin
-      I18n.locale = code
-    rescue I18n::InvalidLocale
-      # by setting the +i18n.enforce_available_locales+ flag to true but
-      # catching the resulting error, it allows us to only set the locale
-      # if it's one explicitly registered under +i18n.available_locales+
-    end
+    I18n.locale = code
+  rescue I18n::InvalidLocale
+    # by setting the +i18n.enforce_available_locales+ flag to true but
+    # catching the resulting error, it allows us to only set the locale
+    # if it's one explicitly registered under +i18n.available_locales+
   end
 
   def localize_from_page_id
@@ -36,9 +34,8 @@ class ApplicationController < ActionController::Base
   end
 
   def localize_by_page_language(page)
-    if page.present? && page.language.present? && page.language.code.present?
-      set_locale(page.language.code)
-    end
+    return unless page.present? && page.language.present? && page.language.code.present?
+    set_locale(page.language.code)
   end
 
   def set_default_locale
@@ -53,7 +50,7 @@ class ApplicationController < ActionController::Base
   end
 
   def referer_url
-    {action_referer: request.referer}
+    { action_referer: request.referer }
   end
 
   def render_liquid(liquid_layout, view)
@@ -66,12 +63,10 @@ class ApplicationController < ActionController::Base
   end
 
   def renderer(layout)
-    @renderer ||= LiquidRenderer.new(@page, {
-      location: request.location,
-      member: recognized_member,
-      layout: layout,
-      url_params: params
-    })
+    @renderer ||= LiquidRenderer.new(@page,       location: request.location,
+                                                  member: recognized_member,
+                                                  layout: layout,
+                                                  url_params: params)
   end
 
   def recognized_member

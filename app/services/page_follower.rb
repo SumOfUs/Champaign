@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PageFollower
   include Rails.application.routes.url_helpers
 
@@ -33,4 +34,3 @@ class PageFollower
     follow_up_member_facing_page_path(@page_slug) unless @page_slug.blank? || @follow_up_liquid_layout_id.blank?
   end
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe FormDuplicator do
@@ -21,4 +22,3 @@ describe FormDuplicator do
     end
   end
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module Braintree
     class WebhookHandler
@@ -67,4 +68,3 @@ module PaymentProcessor
     end
   end
 end
-

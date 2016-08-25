@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module Braintree
-
     class SubscriptionPlanSelector
       include ActsLikeSelectorWithCurrency
 

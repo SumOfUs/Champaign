@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module Braintree
     class Transaction < Populator
@@ -70,4 +71,3 @@ module PaymentProcessor
     end
   end
 end
-

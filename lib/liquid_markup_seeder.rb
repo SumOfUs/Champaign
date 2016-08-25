@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 module LiquidMarkupSeeder
   extend self
 
   def seed(quiet: false)
-    partials.each{ |path| init_partial(path) }
-    partials.each{ |path| create(path, quiet) }
+    partials.each { |path| init_partial(path) }
+    partials.each { |path| create(path, quiet) }
     layouts.each { |path| create(path, quiet) }
   end
 
@@ -29,14 +30,14 @@ module LiquidMarkupSeeder
   end
 
   def titles
-    layouts.map{ |file| parse_name(file) }
+    layouts.map { |file| parse_name(file) }
   end
 
   def partials
     Dir.glob(
       [
-       "#{Rails.root}/app/views/plugins/**/_*.liquid",
-       "#{Rails.root}/app/liquid/views/partials/_*.liquid"
+        "#{Rails.root}/app/views/plugins/**/_*.liquid",
+        "#{Rails.root}/app/liquid/views/partials/_*.liquid"
       ]
     )
   end
@@ -50,10 +51,11 @@ module LiquidMarkupSeeder
   end
 
   def parse_name(file)
-    file.split('/').
-      last.
-      gsub(/^\_|\.liquid$/, '').
-      titleize
+    file
+      .split('/')
+      .last
+      .gsub(/^\_|\.liquid$/, '')
+      .titleize
   end
 
   def klass(file)
@@ -69,4 +71,3 @@ module LiquidMarkupSeeder
     view.description = ltf.description
   end
 end
-

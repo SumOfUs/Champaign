@@ -1,7 +1,6 @@
+# frozen_string_literal: true
 module Shares
-
   class << self
-
     # we're making the assumption that all that matters from the ShareProgress HTML
     # is the class, which is true in the JS file they're loading.
     # It makes it much easier to override the content and style
@@ -25,7 +24,7 @@ module Shares
 
     def buttons_with_variants(page)
       # Find all buttons that have share variants and that have a corresponding page_id
-      Share::Button.find(Share::Variant.all.map { |variant| variant.button_id }).select { |button| button.page_id == page.id }
+      Share::Button.find(Share::Variant.all.map(&:button_id)).select { |button| button.page_id == page.id }
     end
 
     def class_from_html(html)
@@ -34,5 +33,4 @@ module Shares
       html[class_finder, 1]
     end
   end
-
 end
