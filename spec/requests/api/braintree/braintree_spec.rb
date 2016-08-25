@@ -715,6 +715,16 @@ describe "Braintree API" do
               expect(subscription.action).to eq Action.last
             end
 
+            it "creates a Subscription associated with a customer and payment method" do
+              expect{ subject }.to change{ Payment::Braintree::Subscription.count }.by 1
+              expect{ subject }.to_not change{ Payment::Braintree::PaymentMethod.count }
+              expect{ subject }.to_not change{ Payment::Braintree::Customer.count }
+              subscription = Payment::Braintree::Subscription.last
+              expect(subscription.customer).to eq customer
+              expect(customer.payment_methods).to include(subscription.payment_method)
+
+            end
+
             it "updates Payment::Braintree::Customer with new token and last_4" do
               previous_token = customer.default_payment_method
               previous_last_4 = customer.card_last_4
@@ -904,7 +914,6 @@ describe "Braintree API" do
             it "creates a Subscription associated with the page storing relevant info" do
               expect{ subject }.to change{ Payment::Braintree::Subscription.count }.by 1
               subscription = Payment::Braintree::Subscription.last
-
               expect(subscription.amount).to eq amount
               expect(subscription.currency).to eq 'EUR'
               expect(subscription.merchant_account_id).to eq 'EUR'
@@ -920,6 +929,13 @@ describe "Braintree API" do
               expect(customer.default_payment_method.token).to match a_string_matching(token_format)
               expect( customer.email ).to eq user_params[:email]
               expect(customer.card_last_4).to match a_string_matching(four_digits)
+            end
+
+            it "creates a Subscription associated with the newly created payment method" do
+              subject
+              subscription = Payment::Braintree::Subscription.last
+              customer = Payment::Braintree::Customer.last
+              expect(subscription.payment_method).to eq customer.default_payment_method
             end
 
             it "posts donation action to queue with key data" do
