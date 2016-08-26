@@ -9,6 +9,9 @@ AllCops:
 Style/IndentationConsistency:
   EnforcedStyle: normal
 
+Style/IndentArray:
+  EnforcedStyle: consistent
+
 Style/IndentHash:
   EnforcedStyle: consistent 
 

@@ -4,7 +4,12 @@ require 'rails_helper'
 describe 'API::Stateless Members' do
   include Requests::RequestHelpers
   include AuthToken
-  let!(:member) { create(:member, first_name: 'Harriet', last_name: 'Tubman', email: 'test@example.com', actionkit_user_id: '8244194') }
+  let!(:member) do
+    create(:member, first_name: 'Harriet',
+                    last_name: 'Tubman',
+                    email: 'test@example.com',
+                    actionkit_user_id: '8244194')
+  end
   let!(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com') }
 
   before :each do
@@ -20,7 +25,17 @@ describe 'API::Stateless Members' do
     it 'returns member information for the member' do
       get "/api/stateless/members/#{member.id}", nil, auth_headers
       expect(response.status).to eq(200)
-      expect(json_hash.keys).to include('id', 'first_name', 'last_name', 'email', 'country', 'city', 'postal', 'address1', 'address2')
+      expect(json_hash.keys).to include(
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'country',
+        'city',
+        'postal',
+        'address1',
+        'address2'
+      )
       expect(json_hash).to match({
         id: member.id,
         first_name: member.first_name,
@@ -72,18 +87,20 @@ describe 'API::Stateless Members' do
 
       it 'sends the message to the AK processor' do
         allow(ChampaignQueue).to receive(:push)
-        expect(ChampaignQueue).to receive(:push).with(type: 'update_member',
-                                                      params: {
-                                                        akid: member.actionkit_user_id,
-                                                        email: 'test+1@example.com',
-                                                        first_name: 'Harry',
-                                                        last_name: 'Tubman',
-                                                        country: 'United Kingdom',
-                                                        city: 'London',
-                                                        postal: '12345',
-                                                        address1: 'Jam Factory 123',
-                                                        address2: nil
-                                                      })
+        expect(ChampaignQueue).to receive(:push).with(
+          type: 'update_member',
+          params: {
+            akid: member.actionkit_user_id,
+            email: 'test+1@example.com',
+            first_name: 'Harry',
+            last_name: 'Tubman',
+            country: 'United Kingdom',
+            city: 'London',
+            postal: '12345',
+            address1: 'Jam Factory 123',
+            address2: nil
+          }
+        )
         subject
       end
     end
@@ -107,8 +124,8 @@ describe 'API::Stateless Members' do
         put "/api/stateless/members/#{member.id}", bad_params, auth_headers
         expect(response.status).to be 422
         expect(json_hash['errors']).to match('email' => [
-                                               'has already been taken'
-                                             ])
+          'has already been taken'
+        ])
       end
     end
   end
