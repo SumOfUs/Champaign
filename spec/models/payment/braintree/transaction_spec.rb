@@ -93,7 +93,14 @@ describe Payment::Braintree::Transaction do
     let!(:transaction_without_subscription) { create(:payment_braintree_transaction, subscription_id: nil) }
 
     it 'returns transactions without a subscription' do
+<<<<<<< HEAD
       expect(Payment::Braintree::Transaction.one_off).to match_array([transaction_without_subscription])
     end
   end
+=======
+      expect( Payment::Braintree::Transaction.one_off ).to match_array([transaction_without_subscription])
+    end
+  end
+
+>>>>>>> db81631... add payment method info to subscriptions and transactions requested through the stateless api (#640)
 end

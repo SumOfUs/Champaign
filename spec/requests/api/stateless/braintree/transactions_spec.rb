@@ -77,5 +77,6 @@ describe 'API::Stateless Braintree Transactions' do
         created_at: subscription_transaction.created_at
       }.as_json)
     end
+
   end
 end
