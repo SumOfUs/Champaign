@@ -6,13 +6,15 @@ describe 'API::Stateless Subscriptions' do
 
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
-  let!(:payment_method) { create(:braintree_payment_method,
-    customer: customer,
-    instrument_type: 'credit card',
-    token: '2ewruo4i5o3',
-    last_4: '2454',
-    email: customer.email,
-    card_type: 'Mastercard')}
+  let!(:payment_method) do
+    create(:braintree_payment_method,
+      customer: customer,
+      instrument_type: 'credit card',
+      token: '2ewruo4i5o3',
+      last_4: '2454',
+      email: customer.email,
+      card_type: 'Mastercard')
+  end
 
   let!(:subscription) { create(:payment_braintree_subscription,
     id: 1234,
@@ -21,14 +23,11 @@ describe 'API::Stateless Subscriptions' do
     amount: 4,
     billing_day_of_month: 22,
     created_at: Time.now) }
-  let!(:transaction_a) { create(:payment_braintree_transaction,
+  let!(:transaction) { create(:payment_braintree_transaction,
     subscription: subscription,
     status: 'failure',
-    amount: 100) }
-  let!(:transaction_b) { create(:payment_braintree_transaction,
-    subscription: subscription,
-    status: 'success',
-    amount: 200) }
+    amount: 100,
+    created_at: Time.now) }
 
   before :each do
     member.create_authentication(password: 'password')
@@ -43,13 +42,16 @@ describe 'API::Stateless Subscriptions' do
     it 'returns subscriptions with its nested transactions and payment method for member' do
       get '/api/stateless/braintree/subscriptions', nil, auth_headers
       expect(response.status).to eq(200)
-      expect(json_hash.first.keys).to include("id", "billing_day_of_month", "created_at", "amount", "transactions", "payment_method")
-      expect(json_hash.first['id']).to eq(1234)
-      expect(json_hash.first['created_at']).to match(/^\d{4}-\d{2}-\d{2}/)
-      expect(json_hash.first['billing_day_of_month']).to eq 22
-      expect(json_hash.first['amount']).to eq '4.0'
+      expect(json_hash).to be_an Array
+      subscription = json_hash.first.deep_symbolize_keys!
+      expect(subscription).to include({
+        id: 1234,
+        created_at: /^\d{4}-\d{2}-\d{2}/,
+        billing_day_of_month: 22,
+        amount: '4.0'
+      })
 
-      expect(json_hash.first['payment_method']).to match({
+      expect(subscription[:payment_method]).to include({
         id: payment_method.id,
         instrument_type: 'credit card',
         token: '2ewruo4i5o3',
@@ -57,21 +59,15 @@ describe 'API::Stateless Subscriptions' do
         expiration_date: nil,
         bin: nil,
         email: customer.email,
-        card_type: 'Mastercard'}.as_json)
+        card_type: 'Mastercard'
+      })
 
-      expect(json_hash.first['transactions']).to include({
-        id: transaction_a.id,
+      expect(subscription[:transactions]).to include({
+        id: transaction.id,
         status: 'failure',
         amount: '100.0',
-        created_at: transaction_a.created_at
-      }.as_json)
-
-      expect(json_hash.first["transactions"]).to include({
-        id: transaction_b.id,
-        status: 'success',
-        amount: '200.0',
-        created_at: transaction_b.created_at
-      }.as_json)
+        created_at: /^\d{4}-\d{2}-\d{2}/
+      })
     end
   end
 
