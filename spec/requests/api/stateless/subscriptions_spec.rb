@@ -16,18 +16,23 @@ describe 'API::Stateless Subscriptions' do
       card_type: 'Mastercard')
   end
 
-  let!(:subscription) { create(:payment_braintree_subscription,
-    id: 1234,
-    customer: customer,
-    payment_method: payment_method,
-    amount: 4,
-    billing_day_of_month: 22,
-    created_at: Time.now) }
-  let!(:transaction) { create(:payment_braintree_transaction,
-    subscription: subscription,
-    status: 'failure',
-    amount: 100,
-    created_at: Time.now) }
+  let!(:subscription) do
+    create(:payment_braintree_subscription,
+      id: 1234,
+      customer: customer,
+      payment_method: payment_method,
+      amount: 4,
+      billing_day_of_month: 22,
+      created_at: Time.now)
+  end
+
+  let!(:transaction) do
+    create(:payment_braintree_transaction,
+      subscription: subscription,
+      status: 'failure',
+      amount: 100,
+      created_at: Time.now)
+  end
 
   before :each do
     member.create_authentication(password: 'password')
