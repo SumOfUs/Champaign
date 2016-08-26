@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'API::Stateless Subscriptions' do
+describe 'API::Stateless GoCardless Subscriptions' do
   include Requests::RequestHelpers
   include AuthToken
 
