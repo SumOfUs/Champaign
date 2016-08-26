@@ -100,5 +100,4 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                                amount: subscription_transaction.amount,
                                                currency: subscription_transaction.currency)
     end
-  end
 end
