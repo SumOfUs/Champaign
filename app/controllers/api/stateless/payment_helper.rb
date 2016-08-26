@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module PaymentHelper
   module Braintree
-    extend self
+    module_function
 
     def customer(member)
       ::Payment::Braintree::Customer.find_by!(member_id: member.id)

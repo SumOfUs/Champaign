@@ -5,7 +5,13 @@ describe 'subscriptions/index' do
   let(:transaction) { double(id: 'abc', status: 'authorized', created_at: Time.now, amount: BigDecimal.new(2.00, 5)) }
   before do
     assign :subscriptions, [
-      double(id: 'xyz', billing_day_of_month: 1, created_at: Time.now, amount: BigDecimal.new(2.00, 5), transactions: [transaction])
+      double(
+        id: 'xyz',
+        billing_day_of_month: 1,
+        created_at: Time.now,
+        amount: BigDecimal.new(2.00, 5),
+        transactions: [transaction]
+      )
     ]
   end
 
