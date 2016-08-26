@@ -360,7 +360,7 @@ describe 'Braintree API' do
                 token: token_format,
                 card_type: 'Visa',
                 bin: /\d{6}/,
-                expiration_date: /\d{2}\/\d{4}/,
+                expiration_date: %r{\d{2}/\d{4}},
                 instrument_type: 'credit_card'
               }.stringify_keys)
             end
@@ -998,7 +998,7 @@ describe 'Braintree API' do
               expect(payment_method.attributes).to include({
                 token: token_format,
                 instrument_type: 'credit_card',
-                expiration_date: /\d{2}\/\d{4}/,
+                expiration_date: %r{\d{2}/\d{4}},
                 last_4: /\d{4}/,
                 bin: /\d{6}/
               }.stringify_keys)

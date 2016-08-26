@@ -72,14 +72,21 @@ describe 'API::Stateless Subscriptions' do
   end
 
   describe 'DELETE destroy' do
-    let!(:cancel_this_subscription) { create(:payment_braintree_subscription, subscription_id: '4ts4r2', customer: customer) }
-    let!(:no_such_subscription) { create(:payment_braintree_subscription, subscription_id: 'nosuchthing', customer: customer) }
+    let!(:cancel_this_subscription) do
+      create(:payment_braintree_subscription, subscription_id: '4ts4r2', customer: customer)
+    end
+
+    let!(:no_such_subscription) do
+      create(:payment_braintree_subscription, subscription_id: 'nosuchthing', customer: customer)
+    end
 
     it 'deletes the subscription locally and on Braintree' do
       VCR.use_cassette('stateless api cancel subscription') do
         delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
         expect(response.status).to eq(200)
-        expect { ::Payment::Braintree::Subscription.find(cancel_this_subscription.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect do
+          ::Payment::Braintree::Subscription.find(cancel_this_subscription.id)
+        end.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
 
@@ -87,7 +94,9 @@ describe 'API::Stateless Subscriptions' do
       VCR.use_cassette('stateless api cancel subscription failure') do
         delete "/api/stateless/braintree/subscriptions/#{no_such_subscription.id}", nil, auth_headers
         expect(response.status).to eq(200)
-        expect { ::Payment::Braintree::Subscription.find(no_such_subscription.id) }.to raise_exception(ActiveRecord::RecordNotFound)
+        expect do
+          ::Payment::Braintree::Subscription.find(no_such_subscription.id)
+        end.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
   end

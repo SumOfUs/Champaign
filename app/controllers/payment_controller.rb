@@ -7,7 +7,7 @@ class PaymentController < ApplicationController
                 client::Subscription.make_subscription(payment_options)
               else
                 client::Transaction.make_transaction(transaction_options)
-    end
+              end
 
     if builder.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
