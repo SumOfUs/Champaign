@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 module PaymentHelper
+
   module Braintree
     module_function
 
@@ -21,6 +22,18 @@ module PaymentHelper
 
     def subscription_for_member(member:, id:)
       customer(member).subscriptions.find(id)
+    end
+
+    def transactions_for_member(member)
+      customer(member).transactions.one_off
+    end
+  end
+
+  module GoCardless
+    extend self
+
+    def customer(member)
+      ::Payment::GoCardless::Customer.find_by!(member_id: member.id)
     end
 
     def transactions_for_member(member)
