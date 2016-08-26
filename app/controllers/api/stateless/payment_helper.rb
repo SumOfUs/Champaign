@@ -39,5 +39,9 @@ module PaymentHelper
     def transactions_for_member(member)
       customer(member).transactions.one_off
     end
+
+    def subscriptions_for_member(member)
+      customer(member).subscriptions.order('created_at desc')
+    end
   end
 end
