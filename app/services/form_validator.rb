@@ -12,6 +12,22 @@ class FormValidator
     validate
   end
 
+  def valid?
+    @errors.empty?
+  end
+
+  def validate
+    form_elements.each do |element|
+      validate_field(element)
+    end
+  end
+
+  def errors
+    @errors.symbolize_keys
+  end
+
+  private
+
   def form_elements
     return @form_elements if @form_elements.present?
     if @params[:form_id].present?
@@ -24,16 +40,6 @@ class FormValidator
     end
   end
 
-  def valid?
-    @errors.empty?
-  end
-
-  def validate
-    form_elements.each do |element|
-      validate_field(element)
-    end
-  end
-
   def validate_field(form_element)
     value = @params[form_element[:name].to_sym]
     validate_length(value, form_element)
@@ -43,12 +49,6 @@ class FormValidator
     validate_postal(value, form_element)
     validate_required(value, form_element)
   end
-
-  def errors
-    @errors.symbolize_keys
-  end
-
-  private
 
   def validate_length(value, form_element)
     if form_element[:data_type] == 'text' && (value || []).size >= MAX_LENGTH[:TEXT]
