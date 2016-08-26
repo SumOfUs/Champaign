@@ -8,7 +8,9 @@ describe 'API::Stateless Subscriptions' do
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
   let!(:subscription) { create(:payment_braintree_subscription, customer: customer) }
-  let!(:subscription_transaction) { create(:payment_braintree_transaction, subscription: subscription, customer: customer) }
+  let!(:subscription_transaction) do
+    create(:payment_braintree_transaction, subscription: subscription, customer: customer)
+  end
   let!(:standalone_transaction_a) { create(:payment_braintree_transaction, customer: customer) }
   let!(:standalone_transaction_b) { create(:payment_braintree_transaction, customer: customer) }
 
