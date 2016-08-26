@@ -27,19 +27,12 @@ describe 'API::Stateless Subscriptions' do
       customer: customer,
       payment_method: payment_method)
   end
-  let!(:standalone_transaction_a) do
+  let!(:standalone_transaction) do
     create(:payment_braintree_transaction,
       customer: customer,
       payment_method: payment_method,
       amount: 100,
       status: 'failure')
-  end
-  let!(:standalone_transaction_b) do
-    create(:payment_braintree_transaction,
-      customer: customer,
-      amount: 50,
-      status: 'success',
-      payment_method: payment_method )
   end
 
   before :each do
@@ -56,26 +49,10 @@ describe 'API::Stateless Subscriptions' do
       get '/api/stateless/braintree/transactions', nil, auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to include({
-        id: standalone_transaction_a.id,
+        id: standalone_transaction.id,
         status: 'failure',
         amount: '100.0',
-        created_at: standalone_transaction_a.created_at,
-        payment_method: {
-          id: 1432,
-          instrument_type: 'credit card',
-          token: '2ewruo4i5o3',
-          last_4: '2454',
-          expiration_date: nil,
-          bin: nil,
-          email: customer.email,
-          card_type: 'Mastercard'
-        }
-      }.as_json)
-      expect(json_hash).to include({
-        id: standalone_transaction_b.id,
-        status: 'success',
-        amount: '50.0',
-        created_at: standalone_transaction_b.created_at,
+        created_at: standalone_transaction.created_at,
         payment_method: {
           id: 1432,
           instrument_type: 'credit card',
