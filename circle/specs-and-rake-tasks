@@ -25,8 +25,11 @@ echo "OK"
 RAILS_ENV=test rake db:schema:load
 RAILS_ENV=test JS_TEST=1 bundle exec teaspoon
 
+# Lint codebase 
+bundle exec rubocop
+
 # Runs tests
-rspec spec
+bundle exec rspec spec
 
 # Try to run all of the DB-related rake tasks
 bundle exec rake RAILS_ENV=test db:migrate db:seed champaign:seed_liquid
