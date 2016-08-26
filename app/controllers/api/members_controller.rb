@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class Api::MembersController < ApplicationController
-
   def create
     validator = FormValidator.new(member_params, member_validation)
 
@@ -26,10 +25,10 @@ class Api::MembersController < ApplicationController
 
   def member_validation
     [
-      {name: 'email', data_type: 'email', required: true },
-      {name: 'country', data_type: 'country', required: false },
-      {name: 'postal', data_type: 'postal', required: false },
-      {name: 'name', data_type: 'text', required: true },
+      { name: 'email', data_type: 'email', required: true },
+      { name: 'country', data_type: 'country', required: false },
+      { name: 'postal', data_type: 'postal', required: false },
+      { name: 'name', data_type: 'text', required: true }
     ]
   end
 end

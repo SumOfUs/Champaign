@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 class FormValidator
-
   MAX_LENGTH = {
     PARAGRAPH: 10_000,
     TEXT: 250
   }.freeze
 
-  def initialize(params, form_elements=nil)
+  def initialize(params, form_elements = nil)
     @params = params.symbolize_keys
     @errors = Hash.new { |hash, key| hash[key] = [] }
     @form_elements = form_elements unless form_elements.blank? # don't prevent memoization
@@ -52,35 +51,34 @@ class FormValidator
   private
 
   def validate_length(value, form_element)
-    if form_element[:data_type] == "text" && (value || []).size >= MAX_LENGTH[:TEXT]
+    if form_element[:data_type] == 'text' && (value || []).size >= MAX_LENGTH[:TEXT]
       @errors[form_element[:name]] << I18n.t('validation.is_invalid_length', length: MAX_LENGTH[:TEXT])
-    elsif form_element[:data_type] == "paragraph" && (value || []).size >= MAX_LENGTH[:PARAGRAPH]
+    elsif form_element[:data_type] == 'paragraph' && (value || []).size >= MAX_LENGTH[:PARAGRAPH]
       @errors[form_element[:name]] << I18n.t('validation.is_invalid_length', length: MAX_LENGTH[:PARAGRAPH])
     end
   end
 
   def validate_required(value, form_element)
-    if form_element[:required] && value.blank?
-      @errors[form_element[:name]] << I18n.t("validation.is_required")
-    end
+    return unless form_element[:required] && value.blank?
+    @errors[form_element[:name]] << I18n.t('validation.is_required')
   end
 
   def validate_phone(phone_number, form_element)
-    if form_element[:data_type] == "phone" && phone_number.present? && !is_phone(phone_number)
-      @errors[form_element[:name]] << I18n.t("validation.is_invalid_phone")
+    if form_element[:data_type] == 'phone' && phone_number.present? && !is_phone(phone_number)
+      @errors[form_element[:name]] << I18n.t('validation.is_invalid_phone')
     end
   end
 
   def validate_email(value, form_element)
-    email = value.try(:encode!, 'UTF-8', invalid: :replace, undef: :replace)
-    if form_element[:data_type] == "email" && email.present? && !is_email(email)
-      @errors[form_element[:name]] << I18n.t("validation.is_invalid_email")
+    email = value.try(:encode, 'UTF-8', invalid: :replace, undef: :replace)
+    if form_element[:data_type] == 'email' && email.present? && !is_email(email)
+      @errors[form_element[:name]] << I18n.t('validation.is_invalid_email')
     end
   end
 
   def validate_country(country, form_element)
-    if form_element[:data_type] == "country" && country.present? && !is_country_code(country)
-      @errors[form_element[:name]] << I18n.t("validation.is_invalid_country")
+    if form_element[:data_type] == 'country' && country.present? && !is_country_code(country)
+      @errors[form_element[:name]] << I18n.t('validation.is_invalid_country')
     end
   end
 

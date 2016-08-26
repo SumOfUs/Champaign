@@ -242,8 +242,9 @@ describe PageUpdater do
         allow(ShareProgressVariantBuilder).to receive(:update) { error_variant }
         allow(ShareProgressVariantBuilder).to receive(:create) { error_variant }
         expect(pupdater.update(update_params.merge(create_params))).to eq false
-        expect(pupdater.errors)
-          .to eq(share_twitter_12: { description: "can't be blank" }, share_twitter_1: { description: "can't be blank" })
+        expect(pupdater.errors).to eq(
+          share_twitter_12: { description: "can't be blank" }, share_twitter_1: { description: "can't be blank" }
+        )
       end
     end
   end
