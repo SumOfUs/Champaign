@@ -45,13 +45,15 @@ describe 'Search ::' do
         end
 
         it 'finds all pages that match the specified array of campaigns' do
-          expect(finds_pages_for_all_campaigns.search).to match_array([
-                                                                        content_tag_plugin_layout_match,
-                                                                        title_language_campaign_match,
-                                                                        matches_by_content_language_campaign_tags_layout,
-                                                                        matches_by_content_language_campaign,
-                                                                        matches_by_content_language_tags_layout
-                                                                      ])
+          expect(
+            finds_pages_for_all_campaigns.search
+          ).to match_array([
+                            content_tag_plugin_layout_match,
+                            title_language_campaign_match,
+                            matches_by_content_language_campaign_tags_layout,
+                            matches_by_content_language_campaign,
+                            matches_by_content_language_tags_layout
+                          ])
         end
 
         it 'finds no pages when a search is done with a combination of tags that exists for no page' do
