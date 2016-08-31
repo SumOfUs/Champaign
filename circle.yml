@@ -13,7 +13,10 @@ dependencies:
     # install AWS CLI
     - sudo pip install awscli
     # build the image
-    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 --build-arg CUSTOM_ASSETS_URL=$CUSTOM_ASSETS_URL --build-arg CUSTOM_ASSETS_CREDENTIALS=$CUSTOM_ASSETS_CREDENTIALS --build-arg CUSTOM_ASSETS_BRANCH=$CIRCLE_BRANCH .
+    - npm install
+    - bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3 --without development test
+    - RAILS_ENV=production bundle exec rake deploy:precompile_assets[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH]
+    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
 
 test:
   override:

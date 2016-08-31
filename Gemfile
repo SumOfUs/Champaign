@@ -99,8 +99,10 @@ gem 'config'
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
+
 gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
 
+gem 'timecop'
 
 group :development do
   gem 'web-console', '~> 2.0'
@@ -131,7 +133,6 @@ end
 
 group :test do
   gem 'webmock'
-  gem 'timecop'
   gem 'coveralls', require: false
 end
 
