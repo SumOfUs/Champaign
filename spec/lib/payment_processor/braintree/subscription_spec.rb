@@ -314,12 +314,14 @@ module PaymentProcessor
 
               let!(:payment_method) { create :braintree_payment_method, customer: customer }
 
-              let!(:customer) { build :payment_braintree_customer,
-                first_name: 'Bob',
-                last_name: 'Loblaw',
-                email: 'bob.loblaw@law-blog.org' }
+              let!(:customer) do
+                build :payment_braintree_customer,
+                      first_name: 'Bob',
+                      last_name: 'Loblaw',
+                      email: 'bob.loblaw@law-blog.org'
+              end
 
-              let!(:payment_method) { create :braintree_payment_method, customer: customer}
+              let!(:payment_method) { create :braintree_payment_method, customer: customer }
 
               before :each do
                 allow(::Braintree::Subscription).to receive(:create).and_return(subscription_success)

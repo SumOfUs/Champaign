@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api
   module Stateless
     module GoCardless
@@ -7,7 +8,6 @@ module Api
         def index
           @subscriptions = PaymentHelper::GoCardless.subscriptions_for_member(@current_member)
         end
-
       end
     end
   end

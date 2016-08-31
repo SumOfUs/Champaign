@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 module PaymentHelper
-
   module Braintree
     module_function
 
@@ -30,7 +29,7 @@ module PaymentHelper
   end
 
   module GoCardless
-    extend self
+    module_function
 
     def customer(member)
       ::Payment::GoCardless::Customer.find_by!(member_id: member.id)

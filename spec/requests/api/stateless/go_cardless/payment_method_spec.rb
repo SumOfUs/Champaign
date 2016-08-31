@@ -8,13 +8,12 @@ describe 'API::Stateless GoCardless PaymentMethods' do
   let!(:customer) { create(:payment_go_cardless_customer, member: member) }
   let!(:payment_method) do
     create(:payment_go_cardless_payment_method,
-      customer: customer,
-      id: 1432,
-      go_cardless_id: 9898,
-      scheme: 'bacs',
-      next_possible_charge_date: Date.tomorrow,
-      created_at: Time.now)
-
+           customer: customer,
+           id: 1432,
+           go_cardless_id: 9898,
+           scheme: 'bacs',
+           next_possible_charge_date: Date.tomorrow,
+           created_at: Time.now)
   end
 
   before :each do
@@ -30,17 +29,11 @@ describe 'API::Stateless GoCardless PaymentMethods' do
     it 'returns payment methods for member' do
       get '/api/stateless/go_cardless/payment_methods', nil, auth_headers
       expect(response.status).to eq(200)
-      expect(json_hash.first.deep_symbolize_keys!).to include({
-        id: 1432,
-        go_cardless_id: '9898',
-        scheme: 'bacs',
-        next_possible_charge_date: /^\d{4}-\d{2}-\d{2}/,
-        created_at: /^\d{4}-\d{2}-\d{2}/
-      })
+      expect(json_hash.first.deep_symbolize_keys!).to include(id: 1432,
+                                                              go_cardless_id: '9898',
+                                                              scheme: 'bacs',
+                                                              next_possible_charge_date: /^\d{4}-\d{2}-\d{2}/,
+                                                              created_at: /^\d{4}-\d{2}-\d{2}/)
     end
   end
-
 end
-
-
-

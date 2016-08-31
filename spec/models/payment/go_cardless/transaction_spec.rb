@@ -170,7 +170,7 @@ describe Payment::GoCardless::Transaction do
     let!(:transaction_without_subscription) { create(:payment_go_cardless_transaction, subscription_id: nil) }
 
     it 'returns transactions without a subscription' do
-      expect( Payment::GoCardless::Transaction.one_off ).to match_array([transaction_without_subscription])
+      expect(Payment::GoCardless::Transaction.one_off).to match_array([transaction_without_subscription])
     end
   end
 end

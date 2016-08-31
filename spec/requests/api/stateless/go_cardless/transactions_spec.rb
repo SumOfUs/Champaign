@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'API::Stateless GoCardless Subscriptions' do
@@ -7,20 +8,19 @@ describe 'API::Stateless GoCardless Subscriptions' do
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) do
     create(:payment_go_cardless_customer,
-      member: member,
-      go_cardless_id: '1337',
-      email: 'test@example.com',
-      country_code: 'US',
-      language: 'en',
-    )
+           member: member,
+           go_cardless_id: '1337',
+           email: 'test@example.com',
+           country_code: 'US',
+           language: 'en')
   end
   let!(:payment_method) do
     create(:payment_go_cardless_payment_method,
-      id: 321,
-      go_cardless_id: 1234566,
-      customer: customer,
-      scheme: 'sepa_core',
-      created_at: Time.now)
+           id: 321,
+           go_cardless_id: 1_234_566,
+           customer: customer,
+           scheme: 'sepa_core',
+           created_at: Time.now)
   end
   let!(:subscription) do
     create(:payment_go_cardless_subscription,
@@ -36,11 +36,11 @@ describe 'API::Stateless GoCardless Subscriptions' do
            amount: 4,
            currency: 'GBP',
            charge_date: Date.tomorrow,
-           payment_method: payment_method,)
+           payment_method: payment_method)
   end
   let!(:one_off_transaction) do
     create(:payment_go_cardless_transaction,
-           go_cardless_id: 1234546,
+           go_cardless_id: 1_234_546,
            customer: customer,
            payment_method: payment_method,
            amount: 15.5,
@@ -66,20 +66,20 @@ describe 'API::Stateless GoCardless Subscriptions' do
       get '/api/stateless/go_cardless/transactions', nil, auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to be_an Array
-      expect(first_transaction).to include({
-        id: one_off_transaction.id,
-        go_cardless_id: '1234546',
-        charge_date: /^\d{4}-\d{2}-\d{2}/,
-        amount: '15.5',
-        description: nil,
-        currency: 'EUR',
-        aasm_state: 'created',
-        payment_method: {
-          id: 321,
-          go_cardless_id: '1234566',
-          scheme: 'sepa_core',
-          next_possible_charge_date: nil,
-          created_at: /^\d{4}-\d{2}-\d{2}/}})
+      expect(first_transaction).to include(id: one_off_transaction.id,
+                                           go_cardless_id: '1234546',
+                                           charge_date: /^\d{4}-\d{2}-\d{2}/,
+                                           amount: '15.5',
+                                           description: nil,
+                                           currency: 'EUR',
+                                           aasm_state: 'created',
+                                           payment_method: {
+                                             id: 321,
+                                             go_cardless_id: '1234566',
+                                             scheme: 'sepa_core',
+                                             next_possible_charge_date: nil,
+                                             created_at: /^\d{4}-\d{2}-\d{2}/
+                                           })
     end
 
     it 'does not list transactions that are associated with subscriptions' do
@@ -93,14 +93,12 @@ describe 'API::Stateless GoCardless Subscriptions' do
         :description,
         :currency,
         :aasm_state,
-        :payment_method])
-      expect(first_transaction).to_not include({
-        id: subscription_transaction.id,
-        go_cardless_id: subscription_transaction.go_cardless_id,
-        amount: subscription_transaction.amount,
-        currency: subscription_transaction.currency,
-      })
+        :payment_method
+      ])
+      expect(first_transaction).to_not include(id: subscription_transaction.id,
+                                               go_cardless_id: subscription_transaction.go_cardless_id,
+                                               amount: subscription_transaction.amount,
+                                               currency: subscription_transaction.currency)
     end
-
   end
 end
