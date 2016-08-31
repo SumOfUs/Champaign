@@ -43,7 +43,6 @@ describe 'API::Stateless GoCardless Subscriptions' do
            currency: 'GBP',
            charge_date: Date.tomorrow,
            payment_method: payment_method)
-
   end
 
   before :each do
@@ -77,7 +76,6 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                                      go_cardless_id: '999',
                                                      charge_date: /^\d{4}-\d{2}-\d{2}/,
                                                      state: 'created')
-
     end
   end
 end
