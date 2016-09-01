@@ -434,6 +434,14 @@ ActiveRecord::Schema.define(version: 20161018221759) do
   add_index "plugins_petitions", ["form_id"], name: "index_plugins_petitions_on_form_id", using: :btree
   add_index "plugins_petitions", ["page_id"], name: "index_plugins_petitions_on_page_id", using: :btree
 
+  create_table "plugins_surveys", force: :cascade do |t|
+    t.integer  "page_id"
+    t.boolean  "active",     default: false
+    t.string   "ref"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
     t.integer  "offset"
