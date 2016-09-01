@@ -20,13 +20,13 @@
       = render partial: 'plugins/shared/apply_form_template', locals: { plugin: plugin }
 
     .well
-      = render partial: 'plugins/shared/customize_form', locals: { plugin: plugin }
+      = render partial: 'plugins/shared/customize_form', locals: { form: plugin.form }
 
   .col-md-5
     .plugin-form-preview
       h4 Preview
       .content
-        = render partial: 'plugins/shared/preview', locals: {plugin: plugin }
+        = render partial: 'plugins/shared/preview', locals: { plugin: plugin }
 
 javascript:
   $.publish("collection:edit:loaded");
