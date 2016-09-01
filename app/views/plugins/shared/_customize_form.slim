@@ -3,9 +3,9 @@ h4 data-toggle="collapse" data-target=".form-customization" aria-expanded="false
   = t('plugins.petition.customise_form')
 .form-customization.collapse
   .forms-edit
-    = render partial: 'forms/edit', locals: {form: plugin.form }
+    = render partial: 'forms/edit', locals: { form: form }
 
-  - if plugin.form
+  - if form
     h4 = t('plugins.petition.add_new_field')
     .forms-add-element
-      = render partial: 'forms/add_element', locals: {form: plugin.form, form_element: FormElement.new}
+      = render partial: 'forms/add_element', locals: { form: form, form_element: FormElement.new}

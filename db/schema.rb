@@ -335,6 +335,7 @@ ActiveRecord::Schema.define(version: 20161018221759) do
   create_table "payment_go_cardless_payment_methods", force: :cascade do |t|
     t.string   "go_cardless_id"
     t.string   "reference"
+    t.integer  "status"
     t.string   "scheme"
     t.date     "next_possible_charge_date"
     t.integer  "customer_id"
