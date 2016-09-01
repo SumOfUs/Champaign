@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+# Rename to ManageSignature
 class ManageAction
   include ActionBuilder
   attr_reader :params

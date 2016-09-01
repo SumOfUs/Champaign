@@ -1,4 +1,19 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: forms
+#
+#  id            :integer          not null, primary key
+#  name          :string
+#  description   :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  visible       :boolean          default(FALSE)
+#  master        :boolean          default(FALSE)
+#  formable_id   :integer
+#  formable_type :string
+#
+
 class Form < ActiveRecord::Base
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.

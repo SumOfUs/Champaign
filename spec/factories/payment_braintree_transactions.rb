@@ -1,4 +1,27 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: payment_braintree_transactions
+#
+#  id                      :integer          not null, primary key
+#  transaction_id          :string
+#  transaction_type        :string
+#  transaction_created_at  :datetime
+#  payment_method_token    :string
+#  customer_id             :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  merchant_account_id     :string
+#  currency                :string
+#  page_id                 :integer
+#  payment_instrument_type :string
+#  status                  :integer
+#  amount                  :decimal(10, 2)
+#  processor_response_code :string
+#  payment_method_id       :integer
+#  subscription_id         :integer
+#
+
 FactoryGirl.define do
   factory :payment_braintree_transaction, class: 'Payment::Braintree::Transaction' do
     transaction_id { "t#{Faker::Number.number(4)}" }

@@ -1,4 +1,15 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: liquid_partials
+#
+#  id         :integer          not null, primary key
+#  title      :string
+#  content    :text
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class LiquidPartial < ActiveRecord::Base
   include HasLiquidPartials
   has_paper_trail

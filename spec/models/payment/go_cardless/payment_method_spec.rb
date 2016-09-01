@@ -1,4 +1,19 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: payment_go_cardless_payment_methods
+#
+#  id                        :integer          not null, primary key
+#  go_cardless_id            :string
+#  reference                 :string
+#  scheme                    :string
+#  next_possible_charge_date :date
+#  customer_id               :integer
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  aasm_state                :string
+#
+
 require 'rails_helper'
 
 describe Payment::GoCardless::PaymentMethod do

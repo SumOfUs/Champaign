@@ -1,4 +1,21 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: form_elements
+#
+#  id            :integer          not null, primary key
+#  form_id       :integer
+#  label         :string
+#  data_type     :string
+#  default_value :string
+#  required      :boolean
+#  visible       :boolean
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  name          :string
+#  position      :integer          default(0), not null
+#
+
 FactoryGirl.define do
   factory :form_element do
     form

@@ -102,6 +102,7 @@ gem 'metamagic'
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false
+  gem 'annotate'
 end
 
 group :development, :test do
