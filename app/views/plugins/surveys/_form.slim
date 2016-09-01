@@ -1,0 +1,18 @@
+.row.plugin.petition.collection-editor data-plugin-id=plugin.id
+  
+    = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_survey_path(plugin) }
+
+    .survey-forms
+      - plugin.forms.each do |form|
+        = render partial: 'plugins/surveys/form_form', locals: { form: form }
+
+    = form_for plugin, remote: true, url: plugins_add_survey_form_path(plugin), html: { method: 'post', class: 'form-element' } do |f|
+      = f.hidden_field :id
+      .form-group
+        = f.submit 'Create form', class: 'btn btn-default xhr-feedback'
+
+
+
+javascript:
+  $.publish("collection:edit:loaded");
+  $.publish("plugin:form:loaded");

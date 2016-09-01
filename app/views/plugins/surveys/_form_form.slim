@@ -1,0 +1,10 @@
+-# I swear I couldn't name it anything else
+.well
+  .col-md-7
+    = render partial: 'plugins/shared/customize_form', locals: { form: form }
+
+  .col-md-5
+    .plugin-form-preview
+      h4 Preview
+      .content
+        = render partial: 'forms/preview', locals: { form: form }
