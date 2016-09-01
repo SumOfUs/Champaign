@@ -40,7 +40,6 @@ class Form < ActiveRecord::Base
   scope :masters, -> { where(master: true) }
 
   validates :name, presence: true
-  validates :formable_id, uniqueness: { scope: :formable_type, allow_nil: true }
 
   validate :name_is_unique
 
