@@ -73,6 +73,8 @@ Rails.application.routes.draw do
     resources :petitions
     resources :thermometers, only: :update
     resources :fundraisers, only: :update
+    resources :surveys, only: :update
+    post 'surveys/:plugin_id/form', to: 'surveys#add_form', as: 'add_survey_form'
     get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
     post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
