@@ -2,8 +2,6 @@
 require 'rails_helper'
 
 describe 'CORS support' do
-  include Requests::RequestHelpers
-
   let(:allow_origin) do
     response.headers['Access-Control-Allow-Origin']
   end
