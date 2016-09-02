@@ -1,4 +1,2 @@
-var html = "<%= j(render(partial: 'form_form', locals: {form: @form})) %>";
+var html = "<div class='well'><%= j(render(partial: 'plugins/shared/customize_form', locals: {form: @form})) %></div>";
 $(".survey-forms").append(html);
-console.log('eff off!');
-console.log(html);
