@@ -37,6 +37,10 @@
               {{ country_option_tags | select_option: field.default_value }}
             {% endif %}
           </select>
+        {% when 'instruction' %}
+          <div class="form__instruction">
+            {{ field.label }}
+          </div>
         {% endcase %}
       </div>
     {% endfor %}

@@ -36,6 +36,7 @@ class FormElement < ActiveRecord::Base
     country
     postal
     hidden
+    instruction
   ).freeze
   validates :data_type, inclusion: { in: VALID_TYPES }
 

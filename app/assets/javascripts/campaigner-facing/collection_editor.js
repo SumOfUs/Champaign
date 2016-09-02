@@ -87,15 +87,15 @@ const ErrorDisplay = require('shared/show_errors');
       this.$( ".list-group.sortable" ).sortable();
     },
 
-    updateSort: function( event, ui, a, b ) {
+    updateSort: function(event, ui, a, b ) {
       var ids = ui.item.parent().
         children().
           map(function(i, el){
             return $(el).data('id');
           }).get().join();
-
-      this.$('#form_element_ids').val(ids);
-      this.$('form#sort-collection-elements').submit();
+      var $form = ui.item.parent().parent().find('form#sort-collection-elements');
+      $form.find('#form_element_ids').val(ids);
+      $form.submit();
     },
 
     newElementAdded: function(e, resp, c) {
