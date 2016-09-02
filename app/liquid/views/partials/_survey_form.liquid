@@ -1,0 +1,51 @@
+<form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action-form'>
+  <input type='hidden' name='form.form_id' value='{{ form.form_id }}' />
+  {% for field in form.fields %}
+    <div class="form__group action-form__field-container">
+      {% case field.data_type %}
+      {% when 'text' or 'postal' %}
+        <label for="{{ field.name }}">{{ field.label }}</label>
+        <input type="text" name="{{field.name}}" class="form-control form__content" maxlength="249" value="{{ field.default_value }}" />
+      {% when 'hidden' %}
+        <input type="hidden" name="{{field.name}}" class="form-control form__content" id="" value="{{ field.default_value }}" />
+      {% when 'paragraph' %}
+        <label for="{{ field.name }}">{{ field.label }}</label>
+        <textarea name="{{ field.name }}" class="form-control form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
+      {% when 'email' %}
+        <label for="{{ field.name }}">{{ field.label }}</label>
+        <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" value="{{ field.default_value }}" />
+      {% when 'phone' %}
+        <label for="{{ field.name }}">{{ field.label }}</label>
+        <input type="tel" name="{{field.name}}" class="form-control form__content" id="" value="{{ field.default_value }}" />
+      {% when 'checkbox' %}
+        {% if field.default_value == blank %}
+          {% assign checked = '' %}
+        {% else %}
+          {% assign checked = 'checked' %}
+        {% endif %}
+        <label class="checkbox-label">
+          <input name="{{field.name}}" type="hidden" value="0" />
+          <input type="checkbox" name="{{field.name}}" class="form__content" value="1" {{ checked }}/> {{ field.label }}
+        </label>
+      {% when 'country' %}
+        <label for="{{ field.name }}">{{ field.label }}</label>
+        <select name="{{field.name}}" class="action-form__country-selector form__content">
+          <option></option>
+          {% if field.default_value == blank %}
+            {{ country_option_tags }}
+          {% else %}
+            {{ country_option_tags | select_option: field.default_value }}
+          {% endif %}
+        </select>
+      {% when 'instruction' %}
+        <div class="form__instruction">
+          {{ field.label }}
+        </div>
+      {% endcase %}
+    </div>
+  {% endfor %}
+  <button type="submit" class="button action-form__submit-button survey__button survey__next-button">{{ cta }}</button>
+  {% if form.skippable %}
+    <a class="button survey__button survey__skip-button">{{ skip }}</a>  
+  {% endif %}
+</form>
