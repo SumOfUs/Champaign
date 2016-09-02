@@ -1,7 +1,8 @@
-h4 data-toggle="collapse" data-target=".form-customization" aria-expanded="false"
+- klass = "form-customization-#{form.id}"
+h4 data-toggle="collapse" data-target=".#{klass}" aria-expanded="false"
   i.fa.fa-caret-right
   = t('plugins.petition.customise_form')
-.form-customization.collapse
+.collapse class=klass
   .forms-edit
     = render partial: 'forms/edit', locals: { form: form }
 
