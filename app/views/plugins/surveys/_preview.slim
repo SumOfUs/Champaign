@@ -1,2 +1,4 @@
-- plugin.forms.each do |form|
+- plugin.forms.each_with_index do |form, ii|
+  - if ii != 0
+    hr
   = render partial: 'forms/preview', locals: { form: form }
