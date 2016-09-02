@@ -1,5 +1,5 @@
 class Plugins::Survey < ActiveRecord::Base
-  has_many :forms, as: :formable, dependent: :destroy
+  has_many :forms, -> { order(created_at: :asc) }, as: :formable, dependent: :destroy
 
   belongs_to :page, touch: true
 
@@ -17,7 +17,8 @@ class Plugins::Survey < ActiveRecord::Base
     {
       form_id: form.try(:id),
       fields: form.form_elements.map(&:attributes),
-      outstanding_fields: form.form_elements.map(&:name)
+      outstanding_fields: form.form_elements.map(&:name),
+      skippable: !form.form_elements.map(&:required).any?
     }
   end
 end
