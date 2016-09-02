@@ -1,0 +1,35 @@
+.survey {
+  @include centered-to-full(500px, 2%);
+  overflow: hidden;
+  &__skip-button {
+    float: left;
+  }
+  &__form {
+    margin: 100px 0;
+    overflow: hidden;
+  }
+  &__skip-button {
+    background-color: $light-orange;
+  }
+  &__button {
+    margin-top: 15px;
+    @media(min-width: 400px) {
+      width: 48%;
+      margin-right: 2%;
+    }
+  }
+  .form--big input, 
+  .form--big select, 
+  .form--big textarea, 
+  .form--big .selectize-control.single .selectize-input, 
+  .form--big .hosted-fields__host {
+    border-color: $overcast-gray;
+  }
+  .form__group {
+    margin-bottom: 20px;
+  }
+  label {
+    margin-bottom: 5px;
+    display: block;
+  }
+}
