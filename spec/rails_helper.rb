@@ -10,6 +10,7 @@ require 'support/helper_functions'
 require 'support/omni_auth_helper'
 require 'support/capybara'
 require 'controllers/shared_examples'
+require 'support/request_helpers'
 require 'webmock/rspec'
 require 'paper_trail/frameworks/rspec'
 
@@ -68,6 +69,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.extend ControllerMacros,     type: :controller
   config.include Warden::Test::Helpers, type: :request
+  config.include Requests::RequestHelpers, type: :request
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
