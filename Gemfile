@@ -100,7 +100,7 @@ gem 'config'
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
-
+gem 'jwt'
 gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
 
 # JWT

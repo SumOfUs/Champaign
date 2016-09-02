@@ -45,20 +45,6 @@ describe Form do
   end
 
   describe 'validations' do
-    context 'formable' do
-      it 'must be unique' do
-        create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
-
-        expect do
-          create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
-        end.to raise_error('Validation failed: Formable has already been taken')
-
-        expect do
-          create(:form, formable_id: 1, formable_type: 'Plugins::Fundraiser')
-        end.not_to raise_error
-      end
-    end
-
     context 'name' do
       it 'must be present' do
         expect(Form.new).to_not be_valid
