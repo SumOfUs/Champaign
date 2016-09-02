@@ -19,7 +19,7 @@
           = f.hidden_field :publish_status, class: 'activation-toggle-field', value: page.publish_status, "data-confirm-turning-off" => "Are you sure you want to unpublish this page? It will become inaccessible except to logged-in campaigners."
           .page-edit-bar__toggle-title Publish
           .page-edit-bar__toggle-btns
-            = render 'shared/binary_switch', checked: page.published?
+            = render 'shared/binary_switch', checked: page.published?, publish: true
     .page-edit-bar__last-saved
     .page-edit-bar__error-message
     .page-edit-bar__btn-holder.page-edit-bar__btn-holder--hidden
