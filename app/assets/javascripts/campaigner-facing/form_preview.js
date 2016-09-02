@@ -41,6 +41,7 @@ $(function(){
     };
     $('.plugin.petition').each(updater('petition'));
     $('.plugin.fundraiser').each(updater('fundraiser'));
+    $('.plugin.survey').each(updater('survey'));
   };
 
   if ($('.plugin-form-preview .content').length > 0) {
@@ -48,11 +49,11 @@ $(function(){
     $.subscribe('page:saved', updatePreview);
   }
 
-  $('.plugin.petition, .plugin.fundraiser').on( 'ajax:success', function(){
+  $('.plugin.petition, .plugin.fundraiser, .plugin.survey').on( 'ajax:success', function(){
     $.publish('plugin:form:preview:update');
   });
 
-  $('.plugin.petition, .plugin.fundraiser').on('ajax:error', function(e, xhr,resp){
+  $('.plugin.petition, .plugin.fundraiser, .plugin.survey').on('ajax:error', function(e, xhr,resp){
     //for debugging
     console.log(xhr, resp);
   });

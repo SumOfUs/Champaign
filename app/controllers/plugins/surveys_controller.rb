@@ -7,7 +7,6 @@ class Plugins::SurveysController < Plugins::BaseController
 
     respond_to do |format|
       if @form.save
-        puts "\n\nwhyyyy\n\n",@form
         format.js { render :add_form }
       else
         format.js { render json: { errors: @form.errors }, status: :unprocessable_entity }
