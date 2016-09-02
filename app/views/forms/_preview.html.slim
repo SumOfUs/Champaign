@@ -14,6 +14,8 @@ form
       - when 'paragraph'
         textarea.form-control placeholder=label
           =element.default_value
+      - when 'instruction'
+        = element.label.html_safe
       - when 'checkbox'
         = check_box_tag element.name, 1, element.default_value.present?
         '&nbsp;
