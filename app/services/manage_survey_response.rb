@@ -10,11 +10,11 @@ class ManageSurveyResponse
 
   def run
     if @validator.valid?
-      update_action!
-      true
-    else
-      false
+      assign_member
+      update_action
     end
+
+    @validator.valid?
   end
 
   def errors
@@ -23,11 +23,14 @@ class ManageSurveyResponse
 
   private
 
-  def update_action!
-    @action.form_data[@form.id] = @params
+  def assign_member
     if @params[:email].present?
       @action.member = Member.find_or_create_by!(email: @params[:email])
     end
+  end
+
+  def update_action
+    @action.form_data[@form.id] = @params
     @action.save!
   end
 
