@@ -2,27 +2,29 @@
   {% include 'No Script' %}
   <div class="script-dependent">
     {% for form in plugins.survey[ref].forms %}
-      {% include 'Form',
-        cta: 'Next',
-        form_id: form.form_id,
-        outstanding_fields: form.outstanding_fields,
-        fields: form.fields %}
+      <div class="survey__form">
+        {% include 'Survey Form',
+          cta: 'Next',
+          skip: 'Skip',
+          form: form
+        %}
+      </div>
     {% endfor %}
+  
+    <script type="text/javascript">
+      // $(document).ready(function(){
+      //   var sou = window.sumofus; // convenience binding
+      //   sou.myActionForm  = new sou.ActionForm({
+      //     member:           window.sumofus.personalization.member,
+      //     outstandingFields:window.sumofus.personalization.outstandingFields,
+      //     location:         window.sumofus.personalization.location,
+      //     akid:             window.sumofus.personalization.urlParams.akid,
+      //     source:           window.sumofus.personalization.urlParams.source,
+      //     prefill:          true
+      //   });
+
+      //   sou.myPetition      = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
+      // });
+    </script>
   </div>
-
-  <script type="text/javascript">
-    // $(document).ready(function(){
-    //   var sou = window.sumofus; // convenience binding
-    //   sou.myActionForm  = new sou.ActionForm({
-    //     member:           window.sumofus.personalization.member,
-    //     outstandingFields:window.sumofus.personalization.outstandingFields,
-    //     location:         window.sumofus.personalization.location,
-    //     akid:             window.sumofus.personalization.urlParams.akid,
-    //     source:           window.sumofus.personalization.urlParams.source,
-    //     prefill:          true
-    //   });
-
-    //   sou.myPetition      = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
-    // });
-  </script>
 {% endif %}
