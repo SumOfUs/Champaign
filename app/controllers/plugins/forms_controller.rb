@@ -15,7 +15,8 @@ class Plugins::FormsController < ApplicationController
 
   def show
     plugin = Plugins.find_for permitted_params[:plugin_type], permitted_params[:plugin_id]
-    render partial: 'plugins/shared/preview', locals: { plugin: plugin }
+    partial_dir = (plugin.name == 'Survey') ? 'surveys' : 'shared'
+    render partial: "plugins/#{partial_dir}/preview", locals: { plugin: plugin }
   end
 
   private
@@ -27,6 +28,6 @@ class Plugins::FormsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:plugin_id, :plugin_type, :master_id)
+    params.permit(:plugin_id, :plugin_type, :master_id, :form_id)
   end
 end

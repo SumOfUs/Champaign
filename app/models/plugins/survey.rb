@@ -6,7 +6,7 @@ class Plugins::Survey < ActiveRecord::Base
   DEFAULTS = {}
 
   def liquid_data(supplemental_data = {})
-    attributes.merge(forms: forms.map { |form| form_liquid_data(form) } )
+    attributes.merge(forms: forms.includes(:form_elements).map { |form| form_liquid_data(form) } )
   end
 
   def name
@@ -17,7 +17,7 @@ class Plugins::Survey < ActiveRecord::Base
     {
       form_id: form.try(:id),
       fields: form.form_elements.map(&:attributes),
-      outstanding_fields: outstanding_fields({}).map(&:to_s)
+      outstanding_fields: form.form_elements.map(&:name)
     }
   end
 end
