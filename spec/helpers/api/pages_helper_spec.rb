@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Api::PagesHelper do
-
   describe 'image_url' do
     describe 'returns empty string when page' do
       it 'has no image' do
@@ -21,7 +21,7 @@ describe Api::PagesHelper do
     end
 
     it 'raises NoMethodError if page is not a Page' do
-        expect{ helper.image_url(nil) }.to raise_error(NoMethodError)
+      expect { helper.image_url(nil) }.to raise_error(NoMethodError)
     end
 
     it 'returns image url when asset_host is a string and content url is a path' do

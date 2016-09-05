@@ -56,7 +56,7 @@ module PaymentProcessor
           }
         )
 
-        return true
+        true
       end
 
       # This method should only be called if @notification.subscription is a subscription object

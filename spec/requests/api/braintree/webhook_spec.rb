@@ -121,7 +121,6 @@ describe 'Braintree API' do
             subject
             expect(response.status).to eq 404
           end
-
         end
       end
 

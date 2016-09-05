@@ -179,7 +179,7 @@ describe Api::Payment::BraintreeController do
 
     before :each do
       allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle)
-      allow(Braintree::WebhookNotification).to receive(:parse){ notification }
+      allow(Braintree::WebhookNotification).to receive(:parse) { notification }
     end
 
     describe 'handling payload' do
@@ -192,16 +192,15 @@ describe Api::Payment::BraintreeController do
       end
 
       it 'handles webhook' do
-        expect(PaymentProcessor::Braintree::WebhookHandler).to have_received(:handle).
-          with(notification)
+        expect(PaymentProcessor::Braintree::WebhookHandler).to have_received(:handle)
+          .with(notification)
       end
     end
-
 
     describe 'response' do
       context 'successful handling' do
         before do
-          allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle){ true }
+          allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle) { true }
           post :webhook
         end
 
@@ -212,7 +211,7 @@ describe Api::Payment::BraintreeController do
 
       context 'unsuccessful handling' do
         before do
-          allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle){ false }
+          allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle) { false }
           post :webhook
         end
 

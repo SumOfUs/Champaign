@@ -16,5 +16,4 @@ class Api::MembersController < ApplicationController
   def member_params
     params.permit(:name, :email, :country, :postal)
   end
-
 end
