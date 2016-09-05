@@ -175,39 +175,50 @@ describe Api::Payment::BraintreeController do
   end
 
   describe 'POST webhook' do
-    let(:supported_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully, 'test_id') }
-    let(:unsupported_webhook) { Braintree::WebhookTesting.sample_notification(Braintree::WebhookNotification::Kind::SubscriptionCanceled, 'test_id') }
+    let(:notification) { double }
 
     before :each do
       allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle)
+      allow(Braintree::WebhookNotification).to receive(:parse) { notification }
     end
 
-    it 'parses a supported webhook and passes it to the Webhook handler' do
-      post :webhook, supported_webhook
-      expect(
-        PaymentProcessor::Braintree::WebhookHandler
-      ).to have_received(:handle).with(
-        an_instance_of(Braintree::WebhookNotification)
-      )
+    describe 'handling payload' do
+      before do
+        post :webhook, bt_signature: 'foo', bt_payload: 'bar'
+      end
+      it 'parses webhook payload' do
+        expect(Braintree::WebhookNotification).to have_received(:parse)
+          .with('foo', 'bar')
+      end
+
+      it 'handles webhook' do
+        expect(PaymentProcessor::Braintree::WebhookHandler).to have_received(:handle)
+          .with(notification)
+      end
     end
 
-    it 'parse an unsupported_webhook and passes it to the Webhook handler' do
-      post :webhook, unsupported_webhook
-      expect(
-        PaymentProcessor::Braintree::WebhookHandler
-      ).to have_received(:handle).with(
-        an_instance_of(Braintree::WebhookNotification)
-      )
-    end
+    describe 'response' do
+      context 'successful handling' do
+        before do
+          allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle) { true }
+          post :webhook
+        end
 
-    it 'responds 200 to supported_webhook' do
-      post :webhook, supported_webhook
-      expect(response.status).to eq 200
-    end
+        it 'returns OK' do
+          expect(response.status).to eq(200)
+        end
+      end
 
-    it 'responds 200 to unsupported_webhook' do
-      post :webhook, unsupported_webhook
-      expect(response.status).to eq 200
+      context 'unsuccessful handling' do
+        before do
+          allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle) { false }
+          post :webhook
+        end
+
+        it 'returns not found' do
+          expect(response.status).to eq(404)
+        end
+      end
     end
   end
 end

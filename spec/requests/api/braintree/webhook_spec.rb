@@ -109,6 +109,19 @@ describe 'Braintree API' do
         end
 
         include_examples 'has no unintended consequences'
+
+        context 'missing subscription' do
+          let(:notification) do
+            Braintree::WebhookTesting.sample_notification(
+              Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully, 'xxx'
+            )
+          end
+
+          it 'returns not found' do
+            subject
+            expect(response.status).to eq 404
+          end
+        end
       end
 
       describe 'for paypal' do

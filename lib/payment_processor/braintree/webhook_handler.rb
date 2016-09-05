@@ -41,7 +41,7 @@ module PaymentProcessor
       def handle_subscription_charged
         if original_action.blank?
           Rails.logger.info("Failed to handle Braintree::WebhookNotification for subscription_id '#{@notification.subscription.id}'")
-          return
+          return false
         end
 
         customer = Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
@@ -55,6 +55,8 @@ module PaymentProcessor
             recurring_id: original_action.form_data['subscription_id']
           }
         )
+
+        true
       end
 
       # This method should only be called if @notification.subscription is a subscription object
