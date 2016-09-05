@@ -8,8 +8,12 @@ class Api::Payment::BraintreeController < PaymentController
 
   def webhook
     webhook_notification = Braintree::WebhookNotification.parse(params[:bt_signature], params[:bt_payload])
-    client::WebhookHandler.handle(webhook_notification)
-    render json: { success: true }
+
+    if client::WebhookHandler.handle(webhook_notification)
+      head :ok
+    else
+      head :not_found
+    end
   end
 
   private
