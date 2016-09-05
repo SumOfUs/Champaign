@@ -57,7 +57,7 @@ namespace :deploy do
     assets_dir.strip!
     assets_dir_full_path = Rails.root.join("tmp", assets_dir)
 
-    cmd = "RAILS_ENV=#{Rails.env} CUSTOM_ASSETS_PATHS=#{assets_dir_full_path} rake assets:precompile"
+    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSETS_PATHS=#{assets_dir_full_path} rake assets:precompile"
     puts "Running: #{cmd}"
     exec(cmd)
   end

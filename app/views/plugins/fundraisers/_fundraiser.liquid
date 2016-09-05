@@ -136,7 +136,6 @@
           recurringDefault: chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
         });
         chmp.mySidebar     = new chmp.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
-        chmp.mySticky      = new chmp.DesktopSticky({extraClass: 'fundraiser'});
         chmp.hostedFields  = new chmp.BraintreeHostedFields();
         chmp.overlayToggle = new chmp.OverlayToggle();
       });
