@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: put
-    uri: https://<public_key>:<private_key>@api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers/test
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers/29823405
     body:
       encoding: UTF-8
       string: |
@@ -21,6 +21,8 @@ http_interactions:
       - Braintree Ruby Gem 2.54.0
       X-Apiversion:
       - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
       Content-Type:
       - application/xml
   response:
@@ -29,13 +31,11 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Tue, 22 Mar 2016 23:15:48 GMT
+      - Wed, 24 Aug 2016 12:42:52 GMT
       Content-Type:
       - application/xml; charset=utf-8
       Transfer-Encoding:
       - chunked
-      Connection:
-      - close
       X-Frame-Options:
       - SAMEORIGIN
       - SAMEORIGIN
@@ -54,15 +54,15 @@ http_interactions:
       Cache-Control:
       - no-cache
       X-Request-Id:
-      - 50387cdb-17e3-4c2e-8fb1-a64eefd2dd20
+      - 9a19b73c-1cb2-4be8-b936-7700f2171641
       X-Runtime:
-      - '0.360529'
+      - '0.250640'
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIACTS8VYAA+xUTU/EIBC991cQ7i27MTE9UNbTHoxHPRvaHSsJMA2wZvvv
+        H4sIAEyWvVcAA+xUTU/EIBC991cQ7i27MTE9UNbTHoxHPRvaHSsJMA2wZvvv
         LbVfmuqqiZ72QmZ4D3iZxwzfnYwmL+C8QlvQbbahBGyFB2Xrgj7c79Oc7kTC
         ZaNScA5d6sA3aD2IhBDeb/kYTgkJbQMFlc7JlrIBqo4+oAH3lq5zR2xE5zxe
         gAcQ+fZ6k3PWx0tQhuBUeQww3OdbU6Km4kk5Hx6tNMDZxHl30oD3sgaxj0wS
@@ -70,5 +70,5 @@ http_interactions:
         5/qipvF9cYvPlsTFtuQS/1nM2aLmow3xu1xc+FcX5pJPU8xIpUWJ5Q2cpGk0
         ZBWarpf67dU2m3vr3OxJzvZ5NyhWpvIrAAAA//8DAAO5b2fSBQAA
     http_version: 
-  recorded_at: Tue, 22 Mar 2016 23:15:48 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Wed, 24 Aug 2016 12:42:52 GMT
+recorded_with: VCR 3.0.3
