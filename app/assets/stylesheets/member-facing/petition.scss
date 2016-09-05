@@ -69,8 +69,6 @@ $mobile-width: 700px;
 
     width: 100%;
     overflow: hidden;
-    clip-path: url(sumofus/corner.svg#corner);
-    -webkit-clip-path: polygon(0% 0%, 85% 0%, 100% 100%, 0% 100%);
     &::after {
       width: 15%;
       height: 100%;

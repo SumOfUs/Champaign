@@ -38,7 +38,6 @@ module Champaign
     config.i18n.enforce_available_locales = true
 
     config.active_record.observers = :liquid_partial_observer
-    config.assets.paths += Settings.custom_assets_paths.split(":") if Settings.custom_assets_paths.present?
 
     if Settings.external_asset_paths.present?
       path_list = Settings.external_asset_paths.try(:split, ":")

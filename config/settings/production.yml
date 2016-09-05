@@ -96,7 +96,7 @@ gocardless:
 
 # Colon separated list of paths that will be added to config.assets.path
 # http://guides.rubyonrails.org/v4.2/asset_pipeline.html#asset-organization
-custom_assets_paths: <%= ENV['CUSTOM_ASSETS_PATHS'] %>
+external_assets_paths: <%= ENV['EXTERNAL_ASSETS_PATHS'] %>
 home_page_url: <%= ENV['HOME_PAGE_URL'] %>
 
 
