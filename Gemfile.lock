@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/SumOfUs/actionkit_connector.git
+  revision: a918951ef7126f7e4ab255496ba327b1e43fbbdf
+  branch: misc-additions
+  specs:
+    actionkit_connector (0.4.3)
+      httparty (~> 0.13)
+
+GIT
   remote: git://github.com/activeadmin/activeadmin.git
   revision: 0ac35b7ff05246c3bc143c74fab38c4fdc0e875b
   specs:
@@ -516,6 +524,7 @@ PLATFORMS
 DEPENDENCIES
   aasm
   action_parameter
+  actionkit_connector!
   activeadmin!
   annotate
   aws-sdk (~> 2)

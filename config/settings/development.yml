@@ -17,7 +17,7 @@ action_kit:
   akid_secret: secret-sauce
 
 # Direct ActionKit Connection variables.
-ak_api_url: actionkit_api_url
+ak_api_url: 'http://actionkit_api_url.com'
 ak_username: username
 ak_password: password
 
