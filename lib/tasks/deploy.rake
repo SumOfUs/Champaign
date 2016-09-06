@@ -14,33 +14,39 @@ namespace :deploy do
   #  rake deploy:precompile_assets["https://api.github.com/repos/organisation/repo/tarball/<branch>","deploy-user:secret","master"]
   desc "Download external assets"
   task :precompile_assets, [:url, :credentials, :branch] => :environment do |t, args|
-    url = args[:url]
+    url_template = args[:url]
     credentials = args[:credentials]
-    branch = args[:branch]
+    current_branch = args[:branch]
     tar_file_path = "./tmp/assets.tar"
 
 
-    if url.blank?
+    if url_template.blank?
       puts "Not including any external assets"
       next
     end
 
-    if branch.present?
-      url = url.gsub("<branch>", branch)
-    end
+    urls = [current_branch, Settings.default_asset_branch, 'master'].map do |branch|
+      branch.present? ? url_template.gsub("<branch>", branch) : nil
+    end.compact
 
-    puts "Including external assets from #{url}"
-
-    # Download tar file --------------------------
+    # Set github credentials --------------------------
     http_options = {}
     if credentials.present?
       u, p = credentials.split(":")
       http_options[:basic_auth] = { username: u, password: p }
     end
-    response = HTTParty.get url, http_options
 
-    if !response.success?
-      raise "HTTP while trying to download assets #{response.inspect}"
+    # Download tar file --------------------------
+    errors, response = [], nil
+    urls.each do |url|
+      puts "Including external assets from #{url}"
+      response = HTTParty.get url, http_options
+      break if response.success?
+      errors << "HTTP error while trying to download assets from #{url}: #{response.inspect}"
+    end
+    unless response.success?
+      errors[0...-1].each { |e| puts e }
+      raise errors.last
     end
 
     # Extract tar file --------------------------
