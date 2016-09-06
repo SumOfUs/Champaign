@@ -13,7 +13,13 @@ form
         i = tag_explanation
       - when 'paragraph'
         textarea.form-control placeholder=label
-          =element.default_value
+          = element.default_value
+      - when 'choice'
+        = label
+        - element.formatted_choices.each do |choice|
+          label for="#{choice[:id]}"
+            input type="radio" value="#{choice[:value]}" name="#{element.name}" id="#{choice[:id]}"
+            = choice[:label]
       - when 'instruction'
         = element.label.html_safe
       - when 'checkbox'
