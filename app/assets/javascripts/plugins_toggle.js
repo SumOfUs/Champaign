@@ -39,8 +39,12 @@ const setupOnce = require('setup_once');
       this.toggleState();
     },
 
-    toggleState: function(){
-      this.state = this.state === 'published' ? 'unpublished' : 'published';
+    toggleState: function(e){
+      if ($(e.target).find('input.onoffswitch__checkbox').hasClass('use-publish-states')) {
+        this.state = (this.state === 'published') ? 'unpublished' : 'published';
+      } else {
+        this.state = (this.state === 'true') ? 'false' : 'true';
+      }
       this.$stateInput.val(this.state);
     },
   });
