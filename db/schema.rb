@@ -85,10 +85,11 @@ ActiveRecord::Schema.define(version: 20160916170801) do
     t.string   "default_value"
     t.boolean  "required"
     t.boolean  "visible"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "name"
-    t.integer  "position",      default: 0, null: false
+    t.integer  "position",      default: 0,  null: false
+    t.jsonb    "choices",       default: []
   end
 
   add_index "form_elements", ["form_id"], name: "index_form_elements_on_form_id", using: :btree
