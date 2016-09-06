@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ManageBraintreeDonation
   include ActionBuilder
   PAYPAL_IDENTIFIER = 'PYPL'
@@ -17,7 +18,6 @@ class ManageBraintreeDonation
   end
 
   def create
-
     # We need a way to cross-reference this action at a later date to find out what page
     # with which we will associate ongoing donations, in the event this is a subscription.
     @params.merge!(
@@ -33,7 +33,7 @@ class ManageBraintreeDonation
       }.tap do |params|
         params[:recurrence_number] = 0 if @is_subscription
       end
-  )
+    )
 
     build_action(donation: true)
   end
@@ -56,4 +56,3 @@ class ManageBraintreeDonation
     transaction.payment_instrument_type.inquiry.paypal_account?
   end
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe CampaignsController do
@@ -55,9 +56,8 @@ describe CampaignsController do
   end
 
   describe 'GET show' do
-
     before do
-      allow(Campaign).to receive(:find){ campaign }
+      allow(Campaign).to receive(:find) { campaign }
     end
 
     it 'finds campaign' do
@@ -66,15 +66,14 @@ describe CampaignsController do
     end
 
     it 'assigns campaign' do
-      get :show,  id: '1'
+      get :show, id: '1'
       expect(assigns(:campaign)).to eq(campaign)
     end
-
   end
 
-  describe "POST create" do
-    let(:fake_params) { { 'name' => 'Foo'} }
-    let(:campaign) { double( :persisted? => true) }
+  describe 'POST create' do
+    let(:fake_params) { { 'name' => 'Foo' } }
+    let(:campaign) { double(persisted?: true) }
 
     before do
       allow(CampaignCreator).to receive(:run) { campaign }
@@ -86,7 +85,7 @@ describe CampaignsController do
     end
 
     it 'responds with notice' do
-      expect(flash[:notice]).to eq("Campaign has been created.")
+      expect(flash[:notice]).to eq('Campaign has been created.')
     end
 
     it 'assigns campaign' do
@@ -98,4 +97,3 @@ describe CampaignsController do
     end
   end
 end
-

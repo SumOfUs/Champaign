@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Form do
@@ -19,7 +20,7 @@ describe Form do
     end
   end
 
-  describe "formable" do
+  describe 'formable' do
     it 'is polymorphically associated' do
       petition = create(:plugins_fundraiser)
 
@@ -33,18 +34,18 @@ describe Form do
       it 'must be unique' do
         create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
 
-        expect{
+        expect do
           create(:form, formable_id: 1, formable_type: 'Plugins::Petition')
-        }.to raise_error("Validation failed: Formable has already been taken")
+        end.to raise_error('Validation failed: Formable has already been taken')
 
-        expect{
+        expect do
           create(:form, formable_id: 1, formable_type: 'Plugins::Fundraiser')
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 
     context 'name' do
-      it "must be present" do
+      it 'must be present' do
         expect(Form.new).to_not be_valid
       end
 
@@ -52,7 +53,7 @@ describe Form do
         it 'uniqueness is not necessary' do
           create(:form, master: true, name: 'Foo')
 
-          new_form = Form.create(master:false, name: 'Foo')
+          new_form = Form.create(master: false, name: 'Foo')
           expect(new_form.errors[:name]).to be_empty
         end
       end
@@ -60,11 +61,10 @@ describe Form do
       context 'for master' do
         it 'must be unique' do
           create(:form, master: true, name: 'Foo')
-          new_form = Form.create(master:true, name: 'Foo')
+          new_form = Form.create(master: true, name: 'Foo')
           expect(new_form.errors[:name]).to eq(['must be unique'])
         end
       end
     end
   end
 end
-

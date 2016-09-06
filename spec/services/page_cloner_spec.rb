@@ -1,9 +1,19 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe PageCloner do
-  let!(:tag)  { create(:tag) }
+  let!(:tag) { create(:tag) }
   let(:campaign) { create(:campaign) }
-  let(:page)  { create(:page, tags: [tag], campaign: campaign, title: 'foo bar', content: 'Foo Bar', action_count: 12345) }
+  let(:page) do
+    create(
+      :page,
+      tags: [tag],
+      campaign: campaign,
+      title: 'foo bar',
+      content: 'Foo Bar',
+      action_count: 12_345
+    )
+  end
   let!(:link) { create(:link, page: page) }
 
   subject(:cloned_page) { PageCloner.clone(page).reload }
@@ -52,7 +62,7 @@ describe PageCloner do
     end
 
     context 'new title passed in' do
-      subject(:cloned_page) { PageCloner.clone(page, "The English Patient") }
+      subject(:cloned_page) { PageCloner.clone(page, 'The English Patient') }
 
       it 'assigns new title' do
         expect(cloned_page.title).to eq('The English Patient')
@@ -80,7 +90,7 @@ describe PageCloner do
   end
 
   context 'plugins' do
-    let(:custom_field) { create(:form_element, name: "foo_bar") }
+    let(:custom_field) { create(:form_element, name: 'foo_bar') }
     let!(:petition)    { create(:plugins_petition, page: page) }
     let!(:thermometer) { create(:plugins_thermometer, page: page) }
     let!(:fundraiser)  { create(:plugins_fundraiser, page: page) }
@@ -91,8 +101,8 @@ describe PageCloner do
     end
 
     def get_plugin(type)
-      [ page.plugins.select{|plugin| plugin.is_a?(type)}.first,
-        cloned_page.plugins.select{|plugin| plugin.is_a?(type)}.first ]
+      [page.plugins.select { |plugin| plugin.is_a?(type) }.first,
+       cloned_page.plugins.select { |plugin| plugin.is_a?(type) }.first]
     end
 
     it 'clones plugins' do
@@ -128,7 +138,7 @@ describe PageCloner do
         expect(cloned_form.form_elements).not_to match_array(form.form_elements)
 
         expect(
-          cloned_form.form_elements.map{|e| e.name }
+          cloned_form.form_elements.map(&:name)
         ).to include('action_textentry_foo_bar')
       end
     end

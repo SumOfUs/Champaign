@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Share::Variant
   extend ActiveSupport::Concern
 
@@ -21,5 +22,4 @@ module Share::Variant
       variations += share_class.all
     end
   end
-
 end

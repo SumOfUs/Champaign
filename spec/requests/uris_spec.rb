@@ -1,19 +1,18 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'URI masking' do
-
   let(:user) { instance_double('User', id: '1') }
   let(:page) { create :page }
 
-
   describe 'when no record matches' do
     it 'routes to homepage  if requested by an unauthenticated user' do
-      expect(get '/random').to redirect_to(Settings.home_page_url)
+      expect(get('/random')).to redirect_to(Settings.home_page_url)
     end
 
     it 'routes to /pages if requested by an authenticated user' do
       login_as(create(:user), scope: :user)
-      expect(get '/random').to redirect_to(pages_path)
+      expect(get('/random')).to redirect_to(pages_path)
     end
   end
 
@@ -34,5 +33,4 @@ describe 'URI masking' do
     expect(response).to render_template('pages/show')
     expect(LiquidRenderer).to have_received(:new)
   end
-
 end

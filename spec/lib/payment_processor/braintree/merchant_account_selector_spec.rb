@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 module PaymentProcessor
@@ -8,16 +9,15 @@ module PaymentProcessor
       describe '.for_currency' do
         context 'unmatched currency' do
           it 'raises' do
-            expect{
+            expect do
               subject.for_currency('VVZ')
-            }.to raise_error(Exceptions::InvalidCurrency, 'No merchant account is associated with this currency: VVZ')
+            end.to raise_error(Exceptions::InvalidCurrency, 'No merchant account is associated with this currency: VVZ')
           end
         end
 
         context 'matched currency' do
-
           it 'returns merchant account ID' do
-            expect( subject.for_currency('EUR') ).to eq('EUR')
+            expect(subject.for_currency('EUR')).to eq('EUR')
           end
         end
       end

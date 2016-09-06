@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Share::Email < ActiveRecord::Base
   include Share::Variant
 
@@ -5,8 +6,6 @@ class Share::Email < ActiveRecord::Base
   validate :has_link
 
   def has_link
-    errors.add(:body, "does not contain {LINK}") unless body =~ /\{LINK\}/
+    errors.add(:body, 'does not contain {LINK}') unless body =~ /\{LINK\}/
   end
-
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddDescriptionToLiquidLayout < ActiveRecord::Migration
   def change
     add_column :liquid_layouts, :description, :text

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
   before_filter :get_page, except: [:index, :featured]
@@ -15,9 +16,9 @@ class Api::PagesController < ApplicationController
   end
 
   def share_rows
-    render json: (@page.shares.map do |s|
-      {html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: {share: s, page: @page})}
-    end)
+    render json: @page.shares.map do |s|
+      { html: render_to_string(partial: "share/#{s.name}s/summary_row", locals: { share: s, page: @page }) }
+    end
   end
 
   def index
@@ -37,7 +38,7 @@ class Api::PagesController < ApplicationController
   private
 
   def render_errors
-    render json: { errors: "No record was found with that slug or ID." }, status: 404
+    render json: { errors: 'No record was found with that slug or ID.' }, status: 404
   end
 
   def all_params
@@ -52,10 +53,8 @@ class Api::PagesController < ApplicationController
     unwrapped = {}
     Rack::Utils.parse_nested_query(params.to_query).each_pair do |key, nested|
       next unless nested.is_a? Hash
-      nested.each_pair do |subkey, subnested|
-        if subnested.is_a? Hash
-          unwrapped[key] = subnested
-        end
+      nested.each_pair do |_subkey, subnested|
+        unwrapped[key] = subnested if subnested.is_a? Hash
       end
     end
     unwrapped.with_indifferent_access

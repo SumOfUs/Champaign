@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::Braintree::Transaction < ActiveRecord::Base
   belongs_to :page
   belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'

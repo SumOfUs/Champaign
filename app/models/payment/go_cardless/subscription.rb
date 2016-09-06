@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Payment::GoCardless::Subscription < ActiveRecord::Base
   class Charge
     attr_reader :subscription, :event
@@ -48,7 +49,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     payment_created:            :payment_create,
     customer_approval_granted:  :approve,
     customer_approval_denied:   :deny
-  }
+  }.freeze
 
   aasm do
     state :pending, initial: true

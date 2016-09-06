@@ -1,6 +1,8 @@
+- publish ||= false
+- publish_class = publish ? 'use-publish-states' : ''
 - uuid = rand(10000)
 .onoffswitch
-  input.onoffswitch__checkbox type="checkbox" name="onoffswitch__#{uuid}" id="myonoffswitch__#{uuid}" checked=checked
+  input.onoffswitch__checkbox type="checkbox" name="onoffswitch__#{uuid}" class="#{publish_class}" id="myonoffswitch__#{uuid}" checked=checked
   label.onoffswitch__label for="myonoffswitch__#{uuid}"
     span.onoffswitch__inner
     span.onoffswitch__switch

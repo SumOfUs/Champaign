@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register Page do
   actions :all, except: [:new, :destroy]
   permit_params :active, :featured

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ActionKitController < ApplicationController
   def check_slug
     valid = ActionKit::Helper.check_petition_name_is_available(params[:slug])
@@ -23,4 +24,3 @@ class ActionKitController < ApplicationController
     end
   end
 end
-

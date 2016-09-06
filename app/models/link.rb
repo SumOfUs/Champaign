@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Link < ActiveRecord::Base
   belongs_to :page, touch: true
   has_paper_trail on: [:update, :destroy]
@@ -11,15 +12,12 @@ class Link < ActiveRecord::Base
   private
 
   def url_has_protocol
-    unless /^(https?:)?\/\//i =~ url
+    unless %r{^(https?:)?\/\/}i =~ url
       errors.add(:url, 'must have a protocol (like http://)')
     end
   end
 
   def prepend_protocol
-    unless url.blank? || /\/\//i =~ url
-      self.url = "//#{url}"
-    end
+    self.url = "//#{url}" unless url.blank? || %r{\/\/}i =~ url
   end
 end
-

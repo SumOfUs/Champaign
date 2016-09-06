@@ -1,0 +1,2 @@
+var html = "<%= j(render(partial: 'pages/featured_column', locals: {page: @page})) %>"
+$("#page-<%= @page.id %> .toggle-featured").replaceWith(html);

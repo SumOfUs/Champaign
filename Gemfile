@@ -1,3 +1,5 @@
+# coding: utf-8
+# frozen_string_literal: true
 source 'https://rubygems.org'
 ruby '2.3.0'
 
@@ -5,7 +7,7 @@ gem 'rails', '4.2.5'
 gem 'rails-observers'
 gem 'readthis'
 gem 'hiredis'
-gem "redis", ">= 3.2.0", :require => ["redis", "redis/connection/hiredis"]
+gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
 gem 'pg'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -30,12 +32,12 @@ gem 'sprockets-rails', '< 3.0'
 
 # Braintree and GoCardless as payment processors
 gem 'braintree', '~> 2.54.0'
-gem "gocardless_pro"
+gem 'gocardless_pro'
 
-gem "aasm"
+gem 'aasm'
 
 # they still haven't released sprockets 3 support, but it's merged on master
-gem "compass-rails", git: 'https://github.com/compass/compass-rails'
+gem 'compass-rails', git: 'https://github.com/compass/compass-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -43,7 +45,7 @@ gem "compass-rails", git: 'https://github.com/compass/compass-rails'
 gem 'slim-rails'
 gem 'liquid'
 gem 'remotipart', '~> 1.2'
-gem "i18n-js", ">= 3.0.0.rc12"
+gem 'i18n-js', '>= 3.0.0.rc12'
 gem 'rails-i18n', '~> 4.0.0'
 
 # Use Devise for Authentication
@@ -99,6 +101,7 @@ gem 'metamagic'
 
 group :development do
   gem 'web-console', '~> 2.0'
+  gem 'rubocop', require: false
 end
 
 group :development, :test do
@@ -120,7 +123,6 @@ group :development, :test do
   # brew install terminal-notifier
   gem 'terminal-notifier-guard'
   gem 'spring-commands-rspec'
-
 end
 
 group :test do
@@ -133,7 +135,6 @@ end
 # https://rails-assets.org/
 #
 source 'https://rails-assets.org' do
-
   # Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
   gem 'rails-assets-backbone'
 
@@ -167,4 +168,3 @@ source 'https://rails-assets.org' do
   # make tables kick ass
   gem 'rails-assets-datatables'
 end
-

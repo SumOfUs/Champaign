@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe LiquidFileSystem do
   describe '.read_template_file' do
     before do
-      allow(Dir).to receive(:glob){ ['./spec/fixtures/_foo.liquid'] }
+      allow(Dir).to receive(:glob) { ['./spec/fixtures/_foo.liquid'] }
     end
 
     context 'with database content' do
@@ -12,7 +13,7 @@ describe LiquidFileSystem do
       it 'reads content from database, when present' do
         expect(
           LiquidFileSystem.read_template_file(:foo)
-        ).to eq("bar")
+        ).to eq('bar')
       end
     end
 
@@ -20,13 +21,13 @@ describe LiquidFileSystem do
       it 'reads content from filesystem' do
         expect(
           LiquidFileSystem.read_template_file(:foo)
-        ).to match("Hello World")
+        ).to match('Hello World')
       end
     end
 
     context 'without partial' do
       before do
-        allow(Dir).to receive(:glob){ [] }
+        allow(Dir).to receive(:glob) { [] }
       end
 
       it 'returns warning' do
@@ -41,13 +42,11 @@ describe LiquidFileSystem do
         Settings.liquid_templating_source = 'file'
       end
 
-
       it 'always reads from file' do
         expect(
           LiquidFileSystem.read_template_file(:foo)
-        ).to match("Hello World")
+        ).to match('Hello World')
       end
     end
   end
 end
-

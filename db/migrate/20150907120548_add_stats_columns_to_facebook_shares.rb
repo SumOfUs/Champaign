@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddStatsColumnsToFacebookShares < ActiveRecord::Migration
   def change
     add_column :share_facebooks, :share_count, :integer

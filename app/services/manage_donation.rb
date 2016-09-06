@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ManageDonation
   include ActionBuilder
 
@@ -13,4 +14,3 @@ class ManageDonation
     build_action(donation: true)
   end
 end
-

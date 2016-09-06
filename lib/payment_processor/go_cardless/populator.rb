@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 module PaymentProcessor
   module GoCardless
     class Populator
-
       def request_params
         {
           amount: amount_in_cents,
@@ -16,18 +16,14 @@ module PaymentProcessor
       end
 
       def transaction_params
-        request_params.merge({
-          charge_date: charge_date
-        })
+        request_params.merge(charge_date: charge_date)
       end
 
       def subscription_params
         request_params.merge(
-          {
-            name: "donation",
-            interval_unit: "monthly",
-            start_date: charge_date
-          }
+          name: 'donation',
+          interval_unit: 'monthly',
+          start_date: charge_date
         )
       end
 
@@ -57,7 +53,7 @@ module PaymentProcessor
         scheme = mandate.scheme.downcase
         return 'GBP' if scheme == 'bacs'
         return 'SEK' if scheme == 'autogiro'
-        return 'EUR'
+        'EUR'
       end
 
       def bacs?
@@ -100,14 +96,12 @@ module PaymentProcessor
       end
 
       def create_gbp_date(mandate_date)
-        begin
-          # GBP needs to be charged on the specified date. Use the next possible time that date is possible.
-          Date.new(mandate_date.year, mandate_date.month, Settings.gocardless.gbp_charge_day.to_i)
-        rescue ArgumentError
-          Rails.logger.error("With #{mandate_date.year}-#{mandate_date.month}-#{Settings.gocardless.gbp_charge_day.to_i}, \
+        # GBP needs to be charged on the specified date. Use the next possible time that date is possible.
+        Date.new(mandate_date.year, mandate_date.month, Settings.gocardless.gbp_charge_day.to_i)
+      rescue ArgumentError
+        Rails.logger.error("With #{mandate_date.year}-#{mandate_date.month}-#{Settings.gocardless.gbp_charge_day.to_i}, \
 your GBP charge date is invalid! Resorting to the mandate's next possible charge date.")
-          mandate_date
-        end
+        mandate_date
       end
 
       def error_container
@@ -120,4 +114,3 @@ your GBP charge date is invalid! Resorting to the mandate's next possible charge
     end
   end
 end
-

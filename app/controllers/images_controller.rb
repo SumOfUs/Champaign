@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 class ImagesController < ApplicationController
   before_filter :find_page
 
   def create
-    @image = @page.images.create( image_params )
+    @image = @page.images.create(image_params)
 
     respond_to do |format|
       if @image.errors.empty?
@@ -20,7 +21,7 @@ class ImagesController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: {status: :ok}, status: :ok
+        render json: { status: :ok }, status: :ok
       end
     end
   end
@@ -35,4 +36,3 @@ class ImagesController < ApplicationController
     @page = Page.find(params[:page_id])
   end
 end
-

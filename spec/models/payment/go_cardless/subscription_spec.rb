@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Payment::GoCardless::Subscription do
-
   let(:subscription) { build :payment_go_cardless_subscription }
   subject { subscription }
 
@@ -32,18 +32,18 @@ describe Payment::GoCardless::Subscription do
 
   it 'handles amount as BigDecimal' do
     create :payment_go_cardless_subscription, amount: 12.41
-    create :payment_go_cardless_subscription, amount: 10701.11
-    expect(Payment::GoCardless::Subscription.all.map(&:amount).sum).to eq 10713.52
+    create :payment_go_cardless_subscription, amount: 10_701.11
+    expect(Payment::GoCardless::Subscription.all.map(&:amount).sum).to eq 10_713.52
     expect(Payment::GoCardless::Subscription.last.amount.class).to eq BigDecimal
   end
 
   describe 'associations' do
     it 'associates customer with a GoCardless::Customer' do
-      expect{ subscription.customer = build :payment_go_cardless_customer }.not_to raise_error
+      expect { subscription.customer = build :payment_go_cardless_customer }.not_to raise_error
     end
 
     it 'associates payment_method with a GoCardless::PaymentMethod' do
-      expect{ subscription.payment_method = build :payment_go_cardless_payment_method }.not_to raise_error
+      expect { subscription.payment_method = build :payment_go_cardless_payment_method }.not_to raise_error
     end
   end
 
@@ -58,7 +58,7 @@ describe Payment::GoCardless::Subscription do
     end
   end
 
- describe 'state' do
+  describe 'state' do
     subject { create :payment_go_cardless_subscription }
 
     it 'has initial state' do
@@ -66,49 +66,49 @@ describe Payment::GoCardless::Subscription do
     end
 
     it 'can be created' do
-      expect{
+      expect do
         subject.run_create!
-      }.to change{ subject.reload.created? }.from(false).to(true)
+      end.to change { subject.reload.created? }.from(false).to(true)
     end
 
     it 'can be finished' do
-      expect{
+      expect do
         subject.run_finish!
-      }.to change{ subject.reload.finished? }.from(false).to(true)
+      end.to change { subject.reload.finished? }.from(false).to(true)
     end
 
     it 'can be cancelled' do
-      expect{
+      expect do
         subject.run_cancel!
-      }.to change{ subject.reload.cancelled? }.from(false).to(true)
+      end.to change { subject.reload.cancelled? }.from(false).to(true)
     end
 
     it 'can be denied' do
-      expect{
+      expect do
         subject.run_deny!
-      }.to change{ subject.reload.customer_approval_denied? }.from(false).to(true)
+      end.to change { subject.reload.customer_approval_denied? }.from(false).to(true)
     end
 
     context 'can be activated' do
       it 'from pending' do
-        expect{
+        expect do
           subject.run_approve!
-        }.to change{ subject.reload.active? }.from(false).to(true)
+        end.to change { subject.reload.active? }.from(false).to(true)
       end
 
       it 'not from finished' do
         subject.run_finish!
 
-        expect{
+        expect do
           subject.run_approve!
-        }.to raise_error(AASM::InvalidTransition)
+        end.to raise_error(AASM::InvalidTransition)
       end
     end
 
-    describe "charging" do
+    describe 'charging' do
       subject { create :payment_go_cardless_subscription }
 
-      let(:event) { {'links' => {'payment' => 'PM1234'}} }
+      let(:event) { { 'links' => { 'payment' => 'PM1234' } } }
       let(:charger) { double }
 
       before do
@@ -118,7 +118,7 @@ describe Payment::GoCardless::Subscription do
       it 'calls charge!' do
         expect(
           Payment::GoCardless::Subscription::Charge
-        ).to receive(:new).with(subject, event){ charger }
+        ).to receive(:new).with(subject, event) { charger }
 
         expect(
           charger

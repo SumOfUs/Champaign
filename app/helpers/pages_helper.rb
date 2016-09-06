@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module PagesHelper
-
-  def page_nav_item(text, path, strict=true)
+  def page_nav_item(text, path, strict = true)
     selected = current_page?(path) || (!strict && request.path.include?(path))
     klass = selected ? 'active' : nil
 
@@ -15,13 +15,13 @@ module PagesHelper
   end
 
   def prefill_link(new_variant)
-    new_variant.description = "{LINK}" if new_variant.name == 'twitter'
-    new_variant.body = "{LINK}" if new_variant.name == 'email'
+    new_variant.description = '{LINK}' if new_variant.name == 'twitter'
+    new_variant.body = '{LINK}' if new_variant.name == 'email'
     new_variant
   end
 
   def label_with_tooltip(f, field_sym, label_text, tooltip_text)
-    tooltip = render partial: 'pages/tooltip', locals: {label_text: label_text, tooltip_text: tooltip_text}
+    tooltip = render partial: 'pages/tooltip', locals: { label_text: label_text, tooltip_text: tooltip_text }
     f.label field_sym do
       "#{label_text} #{tooltip}".html_safe
     end
@@ -29,15 +29,13 @@ module PagesHelper
 
   def button_group_item(text, path)
     selected = current_page?(path)
-    klass = selected ? 'btn-primary' : 'btn-default'
-    klass << ' btn'
-
+    klass = "#{selected ? 'btn-primary' : 'btn-default'} btn".trim
     link_to text, path, class: klass
   end
 
   def toggle_switch(state, active, label)
     klass = (active == state ? 'btn-primary' : '')
-    klass += " btn toggle-button btn-default"
+    klass += ' btn toggle-button btn-default'
 
     content_tag :a, label, class: klass, data: { state: state }
   end
@@ -57,7 +55,7 @@ module PagesHelper
       fundraiser: 'money'
     }
     name = plugin.name.underscore.to_sym
-    registered.fetch( name, 'cubes' )
+    registered.fetch(name, 'cubes')
   end
 
   def determine_ascending
@@ -73,9 +71,7 @@ module PagesHelper
   end
 
   def determine_icon_location
-    if params[:search].nil? or params[:search][:order_by].nil?
-      return ''
-    end
+    return '' if params[:search].nil? || params[:search][:order_by].nil?
     if params[:search][:order_by].is_a? Array
       params[:search][:order_by][0]
     else
@@ -91,7 +87,7 @@ module PagesHelper
     end
   end
 
-  def twitter_meta(page, share_card={})
+  def twitter_meta(page, share_card = {})
     {
       card: 'summary_large_image',
       domain: Settings.homepage_url,
@@ -100,12 +96,12 @@ module PagesHelper
       title: page.title,
       description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 140),
       image: page.primary_image.try(:content).try(:url)
-    }.merge(share_card) do |key, v1, v2|
+    }.merge(share_card) do |_key, v1, v2|
       v2.blank? ? v1 : v2
     end
   end
 
-  def facebook_meta(page, share_card={})
+  def facebook_meta(page, share_card = {})
     {
       site_name: 'SumOfUs',
       title: page.title,
@@ -138,10 +134,21 @@ module PagesHelper
   end
 
   def archive_confirm_message(page)
-    msg = "Are you sure you want to archive this page?"
+    msg = 'Are you sure you want to archive this page?'
     if page.published?
-      msg += " It will also be unpublished making it inaccessible except to logged-in campaigners."
+      msg += ' It will also be unpublished making it inaccessible except to logged-in campaigners.'
     end
     msg
+  end
+
+  def toggle_featured_link(page)
+    method = page.featured? ? :delete : :post
+    klass = "glyphicon glyphicon-star#{'-empty' unless page.featured?}"
+
+    path = page.featured? ? featured_page_path(page) : featured_pages_path(id: page.id)
+
+    link_to path, method: method, remote: true do
+      content_tag :span, '', class: klass
+    end
   end
 end

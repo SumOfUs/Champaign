@@ -1,12 +1,12 @@
+# frozen_string_literal: true
 Rails.application.routes.draw do
-
   if Settings.google_verification
-    match "/#{Settings.google_verification}.html", to: proc { |env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
+    match "/#{Settings.google_verification}.html", to: proc { |_env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
   end
 
   ActiveAdmin.routes(self)
 
-  devise_for :users, controllers: { omniauth_callbacks: "omniauth_callbacks" }
+  devise_for :users, controllers: { omniauth_callbacks: 'omniauth_callbacks' }
 
   # Tagging pages
   get '/tags/search/:search', to: 'tags#search'
@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   resources :donation_bands, except: [:show, :destroy]
 
   resources :clone_pages
+
+  resources :featured_pages, except: [:show, :new, :edit]
 
   resources :pages do
     namespace :share do
@@ -73,7 +75,6 @@ Rails.application.routes.draw do
     get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
     post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
-
 
   resources :liquid_partials, except: [:show]
   resources :liquid_layouts, except: [:show]
@@ -125,9 +126,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :payment do
-      namespace :braintree, defaults: {format: 'json'} do
+      namespace :braintree, defaults: { format: 'json' } do
         get 'token'
-        post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
+        post 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
         post 'webhook', action: 'webhook'
       end
     end
@@ -165,6 +166,6 @@ Rails.application.routes.draw do
   #   end
 
   root to: 'uris#show'
-  mount MagicLamp::Genie, at: "/magic_lamp" if defined?(MagicLamp) && ENV['JS_TEST']
-  get '*path' => 'uris#show'unless defined?(MagicLamp) && ENV['JS_TEST']
+  mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']
+  get '*path' => 'uris#show' unless defined?(MagicLamp) && ENV['JS_TEST']
 end

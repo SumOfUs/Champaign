@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'digest'
 require 'base64'
 
@@ -9,7 +10,7 @@ class AkidParser
   end
 
   def initialize(akid, secret)
-    @akid = akid.try(:split,'.') || []
+    @akid = akid.try(:split, '.') || []
     @secret = secret
   end
 
@@ -29,12 +30,11 @@ class AkidParser
 
   def sha256
     Base64.urlsafe_encode64(
-      Digest::SHA256.digest( "#{@secret}.#{@akid[0]}.#{@akid[1]}" )
+      Digest::SHA256.digest("#{@secret}.#{@akid[0]}.#{@akid[1]}")
     )[0..5]
   end
 
   def response(mailing_id = nil, user_id = nil)
-    {actionkit_user_id: user_id, mailing_id: mailing_id}
+    { actionkit_user_id: user_id, mailing_id: mailing_id }
   end
 end
-

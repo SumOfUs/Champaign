@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require './app/liquid/liquid_file_system'
 require './app/liquid/liquid_i18n'
 

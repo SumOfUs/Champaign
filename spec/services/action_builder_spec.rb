@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ActionBuilder do
@@ -72,33 +73,33 @@ describe ActionBuilder do
     let!(:page4) { create :page }
     let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }
 
-    it "returns nil if no previous action on any page" do
+    it 'returns nil if no previous action on any page' do
       expect(mab.previous_action).to eq nil
     end
 
-    it "returns nil if previous action on another page" do
+    it 'returns nil if previous action on another page' do
       create :action, page: page2, member: member
       expect(mab.previous_action).to eq nil
     end
 
-    it "returns nil if previous action on another page in a different campaign" do
+    it 'returns nil if previous action on another page in a different campaign' do
       create :campaign, pages: [page2, page3]
       create :action, page: page2, member: member
       expect(mab.previous_action).to eq nil
     end
 
-    it "returns action on current page if one exists" do
+    it 'returns action on current page if one exists' do
       action = create :action, page: page, member: member
       expect(mab.previous_action).to eq action
     end
 
-    it "returns action on other page in campaign if one campaign" do
+    it 'returns action on other page in campaign if one campaign' do
       create :campaign, pages: [page, page2, page3]
       action = create :action, page: page3, member: member
       expect(mab.previous_action).to eq action
     end
 
-    it "returns action on other page in campaign if multiple campaigns" do
+    it 'returns action on other page in campaign if multiple campaigns' do
       create :campaign, pages: [page, page2]
       create :campaign, pages: [page3, page4]
       action = create :action, page: page2, member: member
@@ -107,12 +108,10 @@ describe ActionBuilder do
   end
 
   describe 'donor_status' do
-
     let(:params) { { page_id: page.id, email: member.email } }
     let(:mab) { mab = MockActionBuilder.new(params) }
 
     describe 'when member is nondonor' do
-
       it 'it starts as nondonor' do
         expect(member.donor_status).to eq 'nondonor'
       end
@@ -128,7 +127,7 @@ describe ActionBuilder do
       end
 
       it 'becomes recurring_donor when action is recurring donation' do
-        params.merge!(is_subscription: true)
+        params[:is_subscription] = true
         mab.build_action(donation: true)
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end
@@ -154,14 +153,13 @@ describe ActionBuilder do
       end
 
       it 'becomes recurring_donor when action is recurring donation' do
-        params.merge!(is_subscription: true)
+        params[:is_subscription] = true
         mab.build_action(donation: true)
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end
     end
 
     describe 'when member is recurring_donor' do
-
       before :each do
         member.recurring_donor!
       end
@@ -181,16 +179,14 @@ describe ActionBuilder do
       end
 
       it 'stays recurring_donor when action is recurring donation' do
-        params.merge!(is_subscription: true)
+        params[:is_subscription] = true
         mab.build_action(donation: true)
         expect(member.reload.donor_status).to eq 'recurring_donor'
       end
     end
-
   end
 
   describe 'permitted_keys' do
-
     let(:mab) { MockActionBuilder.new(page_id: page.id, email: member.email) }
 
     it 'returns symbols' do
@@ -202,16 +198,37 @@ describe ActionBuilder do
     end
 
     it 'includes all the other keys of member' do
-      expect(mab.permitted_keys).to include(:email, :country, :first_name, :last_name, :city, :postal, :title, :address1, :address2, :actionkit_user_id)
+      expect(mab.permitted_keys)
+        .to include(
+          :email,
+          :country,
+          :first_name,
+          :last_name,
+          :city,
+          :postal,
+          :title,
+          :address1,
+          :address2,
+          :actionkit_user_id
+        )
     end
   end
 
   describe 'filtered_params' do
-
-    let(:params) { {email: "silly@billy.com", country: "US", first_name: "Silly", last_name: "Billy", city: "Northampton", postal: "01060", address1: "10 Coates St.", address2: ""} }
+    let(:params) do
+      {
+        email: 'silly@billy.com',
+        country: 'US',
+        first_name: 'Silly',
+        last_name: 'Billy',
+        city: 'Northampton',
+        postal: '01060',
+        address1: '10 Coates St.',
+        address2: ''
+      }
+    end
 
     describe 'passes all' do
-
       it 'keys as symbols' do
         mab = MockActionBuilder.new(params)
         expect(mab.filtered_params).to eq params
@@ -234,7 +251,6 @@ describe ActionBuilder do
     end
 
     describe 'filters irrelevant' do
-
       let(:porky_params) { params.merge(page_id: page.id, form_id: '3', blerg: false, akid: '1234.514.lQVxcW') }
 
       it 'keys as symbols' do
@@ -259,10 +275,9 @@ describe ActionBuilder do
 
       it 'but passes them through to form_data' do
         mab = MockActionBuilder.new(porky_params)
-        expect{ mab.build_action }.to change{ Action.count }.by 1
+        expect { mab.build_action }.to change { Action.count }.by 1
         expect(Action.last.form_data).to match a_hash_including(params.stringify_keys)
       end
     end
   end
 end
-

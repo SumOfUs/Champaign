@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddStatusAndMessageFieldsToCampaignPage < ActiveRecord::Migration
   def change
     add_column :campaign_pages, :status, :string, default: 'pending'

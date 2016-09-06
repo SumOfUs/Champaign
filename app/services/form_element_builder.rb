@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FormElementBuilder
   class << self
     def create(form, params)
@@ -25,4 +26,3 @@ class FormElementBuilder
     @params.merge(form: @form)
   end
 end
-

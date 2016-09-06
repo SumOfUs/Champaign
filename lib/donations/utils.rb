@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 module Donations
   module Utils
     extend self
-    EURO_COUNTRY_CODES = [:AL, :AD, :AT, :BY, :BE, :BA, :BG, :HR, :CY, :CZ, :DK, :EE, :FO, :FI, :FR, :DE, :GI, :GR, :HU, :IS, :IE, :IT, :LV, :LI, :LT, :LU, :MK, :MT, :MD, :MC, :NL, :NO, :PL, :PT, :RO, :RU, :SM, :RS, :SK, :SI, :ES, :SE, :CH, :UA, :VA, :RS, :IM, :RS, :ME]
+    EURO_COUNTRY_CODES = [:AL, :AD, :AT, :BY, :BE, :BA, :BG, :HR, :CY, :CZ, :DK, :EE, :FO, :FI, :FR, :DE, :GI, :GR, :HU, :IS, :IE, :IT, :LV, :LI, :LT, :LU, :MK, :MT, :MD, :MC, :NL, :NO, :PL, :PT, :RO, :RU, :SM, :RS, :SK, :SI, :ES, :SE, :CH, :UA, :VA, :RS, :IM, :RS, :ME].freeze
     DEFAULT_CURRENCY = 'USD'
 
     def round_and_dedup(values)
@@ -26,14 +27,12 @@ module Donations
     end
 
     def deduplicate(values)
-      duplicates = values.group_by{ |e| e }.select{ |k, v| v.size > 1 }.values.flatten
+      duplicates = values.group_by { |e| e }.select { |_k, v| v.size > 1 }.values.flatten
 
       safe = values - duplicates
 
       duplicates.each do |misfit|
-        while safe.include? misfit
-          misfit += (misfit < 20 ? 1: 5)
-        end
+        misfit += (misfit < 20 ? 1 : 5) while safe.include? misfit
         safe << misfit
       end
       safe.sort

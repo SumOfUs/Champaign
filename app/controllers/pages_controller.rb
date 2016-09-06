@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'champaign_queue'
 require 'browser'
 
@@ -24,7 +25,7 @@ class PagesController < ApplicationController
   end
 
   def create
-    @page = PageBuilder.create( page_params )
+    @page = PageBuilder.create(page_params)
 
     if @page.valid?
       redirect_to edit_page_path(@page.id)
@@ -74,19 +75,22 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params.require(:page).
-      permit( :id,
-      :title,
-      :slug,
-      :active,
-      :content,
-      :featured,
-      :template_id,
-      :campaign_id,
-      :language_id,
-      :liquid_layout_id,
-      :follow_up_liquid_layout_id,
-      {:tag_ids => []} )
+    params
+      .require(:page)
+      .permit(
+        :id,
+        :title,
+        :slug,
+        :active,
+        :content,
+        :featured,
+        :template_id,
+        :campaign_id,
+        :language_id,
+        :liquid_layout_id,
+        :follow_up_liquid_layout_id,
+        tag_ids: []
+      )
   end
 
   def search_params
@@ -94,6 +98,4 @@ class PagesController < ApplicationController
     params[:search] ||= {}
     params[:search].reverse_merge default_params
   end
-
 end
-

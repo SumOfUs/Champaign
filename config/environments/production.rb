@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -11,7 +12,7 @@ Rails.application.configure do
   config.eager_load = true
 
   # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  config.consider_all_requests_local = false
 
   # Enable Rack::Cache to put a simple HTTP cache in front of your application
   # Add `rack-cache` to your Gemfile before enabling this.
@@ -23,8 +24,7 @@ Rails.application.configure do
   # }
 
   # Whether the application server should serve static files depends on ENV
-  config.serve_static_files =  Settings.rails_serve_static_assets || false
-
+  config.serve_static_files = Settings.rails_serve_static_assets || false
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -53,11 +53,11 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     params = event.payload[:params].reject do |k|
-      ['controller', 'action'].include? k
+      %w(controller action).include? k
     end
-    log_hash = {"params"=> params, "time"=>event.time}
-    if not event.payload[:exception].blank?
-      log_hash["exception"]=event.payload[:exception]
+    log_hash = { 'params' => params, 'time' => event.time }
+    unless event.payload[:exception].blank?
+      log_hash['exception'] = event.payload[:exception]
     end
     log_hash
   end
@@ -122,7 +122,7 @@ Rails.application.configure do
   # In production, we only accept CORS request from sumofus.org or its subdomains.
   config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
     allow do
-      origins(/^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$/i)
+      origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
                headers: :any,
                methods: [:get, :post, :delete, :put, :patch, :options, :head],
@@ -130,4 +130,3 @@ Rails.application.configure do
     end
   end
 end
-

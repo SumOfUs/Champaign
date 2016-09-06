@@ -1,5 +1,5 @@
-RSpec.shared_context "shared language pages" do
-
+# frozen_string_literal: true
+RSpec.shared_context 'shared language pages' do
   let!(:german) { create :language, :german }
   let!(:french) { create :language, :french }
   let!(:english) { create :language, :english }
@@ -13,7 +13,5 @@ RSpec.shared_context "shared language pages" do
       }
       languages
     end
-
   end
-
 end

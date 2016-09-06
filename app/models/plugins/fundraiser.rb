@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Plugins::Fundraiser < ActiveRecord::Base
   include Plugins::HasForm
 
@@ -6,9 +7,9 @@ class Plugins::Fundraiser < ActiveRecord::Base
   belongs_to :page, touch: true
   belongs_to :donation_band
 
-  DEFAULTS = { title: 'fundraiser.donate_now' }
+  DEFAULTS = { title: 'fundraiser.donate_now' }.freeze
 
-  def liquid_data(supplemental_data={})
+  def liquid_data(supplemental_data = {})
     donation_band_name = supplemental_data[:donation_band]
     backup_id = donation_band.try(:id)
     bands = Donations::BandFinder.find_band(donation_band_name, backup_id)

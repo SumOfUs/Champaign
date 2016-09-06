@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
@@ -8,7 +9,6 @@ Bundler.require(*Rails.groups)
 
 module Champaign
   class Application < Rails::Application
-
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
     config.autoload_paths << Rails.root.join('lib')
@@ -29,7 +29,7 @@ module Champaign
     config.active_record.raise_in_transactional_callbacks = true
 
     # to get browserify to turn everything into es6
-    config.browserify_rails.commandline_options = "--transform babelify --extension=\".js\""
+    config.browserify_rails.commandline_options = '--transform babelify --extension=".js"'
 
     config.assets.enabled = true
     config.assets.version = '1.0'

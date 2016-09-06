@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ActiveAdmin.register PagesTag do
   permit_params :page_id, :tag_id
 

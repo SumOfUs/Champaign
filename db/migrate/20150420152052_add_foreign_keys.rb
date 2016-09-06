@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 class AddForeignKeys < ActiveRecord::Migration
   def change
     add_foreign_key :actionkit_pages, :actionkit_page_types
-    
-    # This adds a new foreign key to the campaign_id column of the campaign_pages table. 
-    # The key references the id column of the campaigns table. 
+
+    # This adds a new foreign key to the campaign_id column of the campaign_pages table.
+    # The key references the id column of the campaigns table.
     # If the column names can not be derived from the table names, you can use the :column and :primary_key options.
     add_foreign_key :campaign_pages, :campaigns
     add_foreign_key :campaign_pages, :languages

@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe AkLog do
-
   let(:aklog) { create :ak_log }
   subject { aklog }
 

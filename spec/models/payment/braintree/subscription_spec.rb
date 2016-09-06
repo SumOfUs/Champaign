@@ -1,7 +1,7 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Payment::Braintree::Subscription do
-
   let(:subscription) { create :payment_braintree_subscription }
   subject { subscription }
 
@@ -22,8 +22,8 @@ describe Payment::Braintree::Subscription do
 
   it 'handles money properly' do
     create :payment_braintree_subscription, amount: 12.41
-    create :payment_braintree_subscription, amount: 10701.11
-    expect(Payment::Braintree::Subscription.all.map(&:amount).sum).to eq 10713.52
+    create :payment_braintree_subscription, amount: 10_701.11
+    expect(Payment::Braintree::Subscription.all.map(&:amount).sum).to eq 10_713.52
     expect(Payment::Braintree::Subscription.last.amount.class).to eq BigDecimal
   end
 end

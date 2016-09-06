@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ChangePostalCodeToPostal < ActiveRecord::Migration
   def change
     # to match the ActionKit field

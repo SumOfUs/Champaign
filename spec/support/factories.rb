@@ -1,10 +1,10 @@
+# frozen_string_literal: true
 FactoryGirl.define do
-
-  sequence :email do |n| "person#{n}@gmail.com" end
-  sequence :slug do |n| "petition-#{n}" end
-  sequence :page_display_order do |n| n end
-  sequence :actionkit_id do |n| n end
-  sequence :actionkit_uri do |n| "/rest/v1/tag/#{n}/" end
+  sequence(:email) { |n| "person#{n}@gmail.com" }
+  sequence(:slug)  { |n| "petition-#{n}" }
+  sequence(:page_display_order) { |n| n }
+  sequence(:actionkit_id) { |n| n }
+  sequence(:actionkit_uri) { |n| "/rest/v1/tag/#{n}/" }
 
   factory :user do
     email { Faker::Internet.email }
@@ -19,7 +19,7 @@ FactoryGirl.define do
   end
 
   factory :tag do
-    sequence(:name) { |n| "#{['+','@','*'].sample}#{Faker::Commerce.color}#{n}" }
+    sequence(:name) { |n| "#{['+', '@', '*'].sample}#{Faker::Commerce.color}#{n}" }
     actionkit_uri
   end
 
@@ -37,7 +37,7 @@ FactoryGirl.define do
   end
 
   factory :petition_signature_params, class: Hash do
-    signature {
+    signature do
       {
         name: Faker::Name.name,
         email: Faker::Internet.email,
@@ -51,8 +51,7 @@ FactoryGirl.define do
         region: Faker::Config.locale,
         lang: 'En'
       }
-    }
+    end
     initialize_with { attributes }
   end
-
 end

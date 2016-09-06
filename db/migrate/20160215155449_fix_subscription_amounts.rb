@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class FixSubscriptionAmounts < ActiveRecord::Migration
   def change
     remove_column :payment_braintree_subscriptions, :price

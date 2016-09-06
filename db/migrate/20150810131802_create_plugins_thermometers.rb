@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreatePluginsThermometers < ActiveRecord::Migration
   def change
     create_table :plugins_thermometers do |t|

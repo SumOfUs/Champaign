@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class QueueManager
   include Rails.application.routes.url_helpers
 
@@ -58,4 +59,3 @@ class QueueManager
     page.tags.map(&:actionkit_uri)
   end
 end
-

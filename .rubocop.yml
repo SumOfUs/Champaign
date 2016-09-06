@@ -1,0 +1,26 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - bin/**
+    - db/schema.rb
+
+Style/IndentationConsistency:
+  EnforcedStyle: normal
+
+Style/IndentHash:
+  EnforcedStyle: consistent 
+
+Lint/BlockAlignment:
+  AlignWith: start_of_block
+
+Style/FirstParameterIndentation:
+  EnforcedStyle: consistent
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+

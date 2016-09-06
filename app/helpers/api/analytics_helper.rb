@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Api::AnalyticsHelper
   def total_actions_by_hour(page)
     map_data page.total_actions_over_time(period: :hour)
@@ -14,10 +15,9 @@ module Api::AnalyticsHelper
   private
 
   def map_data(data)
-    data.inject([]) do |m, (k,v)|
-      m << {date: k, value: v }
+    data.inject([]) do |m, (k, v)|
+      m << { date: k, value: v }
       m
     end
   end
 end
-

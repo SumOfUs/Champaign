@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'rendering a post action share page' do
@@ -7,15 +8,15 @@ describe 'rendering a post action share page' do
   let!(:facebook_button) { create :share_button, :facebook, page_id: page.id }
   let!(:twitter_button) { create :share_button, :twitter, page_id: page.id }
   let!(:email_button) { create :share_button, :email, page_id: page.id }
-  
+
   let(:facebook_variant_div) { 'div class="share-buttons__button button--facebook' }
   let(:twitter_variant_div) { 'div class="share-buttons__button button--twitter' }
   let(:email_variant_div) { 'div class="share-buttons__simple-email-link' }
 
-  let(:subject) {
+  let(:subject) do
     get "/a/#{page.slug}/follow-up"
     expect(response.success?).to be true
-  }
+  end
 
   describe 'a page with no variants' do
     it 'renders the share container but no buttons for a page with no variants' do
@@ -32,9 +33,8 @@ describe 'rendering a post action share page' do
     it 'renders a facebook button' do
       subject
       expect(response.body).to include(facebook_variant_div)
-
     end
-    it 'does not render twitter and e-mail buttons'do
+    it 'does not render twitter and e-mail buttons' do
       subject
       expect(response.body).to_not include(twitter_variant_div)
       expect(response.body).to_not include(email_variant_div)
@@ -77,6 +77,5 @@ describe 'rendering a post action share page' do
       expect(response.body).to_not include(twitter_variant_div)
       expect(response.body).to_not include(email_variant_div)
     end
-
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Plugins::HasForm
   extend ActiveSupport::Concern
 
@@ -17,7 +18,7 @@ module Plugins::HasForm
   def outstanding_fields(form_values)
     return [] if form.blank?
     FormValidator.new(
-      {form_id: form.id}.merge(form_values || {})
+      { form_id: form.id }.merge(form_values || {})
     ).errors.keys
   end
 
@@ -32,9 +33,7 @@ module Plugins::HasForm
     clone = super
     clone.save
 
-    if clone.form
-      clone.form.form_elements = form.form_elements.map{|e| e.dup}
-    end
+    clone.form.form_elements = form.form_elements.map(&:dup) if clone.form
 
     clone
   end
@@ -59,4 +58,3 @@ module Plugins::HasForm
     }
   end
 end
-

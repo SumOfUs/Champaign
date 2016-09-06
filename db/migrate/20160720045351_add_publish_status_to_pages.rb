@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddPublishStatusToPages < ActiveRecord::Migration
   class Page < ActiveRecord::Base
   end
@@ -16,4 +17,3 @@ class AddPublishStatusToPages < ActiveRecord::Migration
     remove_column :pages, :publish_status
   end
 end
-

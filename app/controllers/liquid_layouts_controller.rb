@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class LiquidLayoutsController < ApplicationController
   before_action :authenticate_user!, except: [:show, :create]
   before_action :set_liquid_layout, only: [:show, :edit, :update, :destroy]
@@ -58,14 +59,24 @@ class LiquidLayoutsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_liquid_layout
-      @liquid_layout = LiquidLayout.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def liquid_layout_params
-      params.require(:liquid_layout).permit(:title, :content, :description, :experimental,
-        :primary_layout, :post_action_layout, :default_follow_up_layout_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_liquid_layout
+    @liquid_layout = LiquidLayout.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def liquid_layout_params
+    params
+      .require(:liquid_layout)
+      .permit(
+        :title,
+        :content,
+        :description,
+        :experimental,
+        :primary_layout,
+        :post_action_layout,
+        :default_follow_up_layout_id
+      )
+  end
 end

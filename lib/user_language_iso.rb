@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 class UserLanguageISO
-  SUPPORTED = %w{de en es fr}
+  SUPPORTED = %w(de en es fr).freeze
 
   def self.for(language)
     new(language).to_h
@@ -10,7 +11,7 @@ class UserLanguageISO
   end
 
   def to_h
-    supported? ? { key => 1} : {}
+    supported? ? { key => 1 } : {}
   end
 
   def key
@@ -25,4 +26,3 @@ class UserLanguageISO
     SUPPORTED.include?(@language.code)
   end
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 ##
 # The <tt>PageUpdater</tt> class serves to update a Page model along with
 # its associate Plugins and Share Variants. It allows for comprehensive saving
@@ -56,16 +57,17 @@
 #
 
 class PageUpdater
-
   attr_reader :errors
 
-  def initialize(page, page_url=nil)
+  def initialize(page, page_url = nil)
     @page = page
     @page_url = page_url
   end
 
   def update(params)
-    @params, @errors, @refresh = params, {}, false
+    @params = params
+    @errors = {}
+    @refresh = false
     update_plugins
     update_shares
     update_page
@@ -86,7 +88,7 @@ class PageUpdater
     page_tags_after = @page.pages_tags.map(&:tag_id)
 
     @page.changed_attributes.keys.any? do |attr|
-      ['language_id', 'title'].include?(attr)
+      %w(language_id title campaign_id).include?(attr)
     end || page_tags_before != page_tags_after
   end
 
@@ -98,7 +100,7 @@ class PageUpdater
       @page.assign_attributes(@params[:page])
     end
 
-    if @page.save and ak_sensitive_changes
+    if @page.save && ak_sensitive_changes
       QueueManager.push(@page, job_type: :update_pages)
     end
 
@@ -107,13 +109,13 @@ class PageUpdater
   end
 
   def update_plugin(plugin_params)
-    plugin = plugins.select{|p| p.id == plugin_params[:id].to_i && p.name == plugin_params[:name] }.first
+    plugin = plugins.select { |p| p.id == plugin_params[:id].to_i && p.name == plugin_params[:name] }.first
     raise ActiveRecord::RecordNotFound if plugin.blank?
     plugin.update_attributes(without_name(plugin_params))
     plugin.errors
   end
 
-  def update_share(share_params, name)
+  def update_share(share_params, _name)
     if share_params[:id].present?
       variant = ShareProgressVariantBuilder.update(
         params: without_name(share_params),
@@ -147,7 +149,7 @@ class PageUpdater
   end
 
   def params_for(query)
-    @params.select do |key, value|
+    @params.select do |key, _value|
       key.to_s =~ /.*#{query}.*/i
     end
   end
@@ -157,7 +159,6 @@ class PageUpdater
   end
 
   def without_name(params)
-    params.select{|k| k.to_sym != :name }
+    params.select { |k| k.to_sym != :name }
   end
 end
-

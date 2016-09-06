@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 shared_examples 'transaction and subscription' do |method|
-
   let(:gc_service_class) do
     if method == :make_subscription
       GoCardlessPro::Services::SubscriptionsService
@@ -11,10 +11,10 @@ shared_examples 'transaction and subscription' do |method|
   describe 'call signature' do
     [:amount, :currency, :user, :page_id, :redirect_flow_id, :session_token].each do |keyword|
       it "requires a #{keyword}" do
-        expect{
+        expect do
           required_options.delete(keyword)
           described_class.send(method, **required_options)
-        }.to raise_error(ArgumentError, "missing keyword: #{keyword}")
+        end.to raise_error(ArgumentError, "missing keyword: #{keyword}")
       end
     end
   end
@@ -23,15 +23,15 @@ shared_examples 'transaction and subscription' do |method|
     it 'completes the redirect flow with the right params' do
       expect_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService
-      ).to receive(:complete).with('RE00000', params: {session_token: required_options[:session_token]})
+      ).to receive(:complete).with('RE00000', params: { session_token: required_options[:session_token] })
       subject
     end
 
-    it "fetches the redirect flow when the flow has already been completed" do
+    it 'fetches the redirect flow when the flow has already been completed' do
       allow_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService
       ).to receive(:complete).and_raise(
-        GoCardlessPro::InvalidStateError.new({'message' => 'Flow already completed.'})
+        GoCardlessPro::InvalidStateError.new('message' => 'Flow already completed.')
       )
       expect_any_instance_of(
         GoCardlessPro::Services::RedirectFlowsService
@@ -41,8 +41,7 @@ shared_examples 'transaction and subscription' do |method|
   end
 
   describe 'currency' do
-
-    let(:amount_in_usd_cents){ (amount_in_dollars * 100).to_i }
+    let(:amount_in_usd_cents) { (amount_in_dollars * 100).to_i }
 
     it 'converts currency to GBP if scheme is BACS' do
       allow(mandate).to receive(:scheme).and_return('bacs')
@@ -90,7 +89,6 @@ shared_examples 'transaction and subscription' do |method|
   end
 
   describe 'bookkeeping' do
-
     it 'delegates to Payment::GoCardless.write_customer' do
       expect(Payment::GoCardless).to receive(:write_customer).with('CU00000', action.member_id)
       subject

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ClonePagesController < ApplicationController
   before_action :authenticate_user!
   before_filter :find_page

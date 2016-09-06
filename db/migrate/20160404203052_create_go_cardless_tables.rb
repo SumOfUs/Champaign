@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreateGoCardlessTables < ActiveRecord::Migration
   def change
     create_table :payment_go_cardless_customers do |t|
@@ -25,7 +26,6 @@ class CreateGoCardlessTables < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :payment_go_cardless_payment_methods, :payment_go_cardless_customers, column: :customer_id
-
 
     create_table :payment_go_cardless_subscriptions do |t|
       t.string :go_cardless_id
@@ -65,5 +65,4 @@ class CreateGoCardlessTables < ActiveRecord::Migration
     add_foreign_key :payment_go_cardless_transactions, :payment_go_cardless_customers, column: :customer_id
     add_foreign_key :payment_go_cardless_transactions, :payment_go_cardless_payment_methods, column: :payment_method_id
   end
-
 end

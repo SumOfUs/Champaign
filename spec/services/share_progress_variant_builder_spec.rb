@@ -1,11 +1,12 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe ShareProgressVariantBuilder do
-  let(:params) {     {title: 'foo', description: 'bar'} }
+  let(:params) { { title: 'foo', description: 'bar' } }
 
-  let(:sp_variants)   { [{id: 123}] }
+  let(:sp_variants) { [{ id: 123 }] }
 
-  let!(:page){ create(:page) }
+  let!(:page) { create(:page) }
 
   let(:success_sp_button) do
     double(:button,
@@ -14,17 +15,16 @@ describe ShareProgressVariantBuilder do
            id: '1',
            share_button_html: '<div />',
            page_url: 'http://example.com/foo',
-           variants: {facebook:  sp_variants})
+           variants: { facebook:  sp_variants })
   end
 
   let(:failure_sp_button) do
     double(:button,
            save: false,
-           errors: {'variants' => [['email_body needs {LINK}']]})
+           errors: { 'variants' => [['email_body needs {LINK}']] })
   end
 
   describe '.create' do
-
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(
         params: params,
@@ -36,7 +36,7 @@ describe ShareProgressVariantBuilder do
 
     describe 'success' do
       before do
-        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { success_sp_button }
       end
 
       it 'creates a share progress variant' do
@@ -45,7 +45,7 @@ describe ShareProgressVariantBuilder do
           page_title: "#{page.title} [facebook]",
           button_template: 'sp_fb_large'
         }
-        expect(ShareProgress::Button).to receive(:new).with( hash_including(expected_arguments) ){ success_sp_button }
+        expect(ShareProgress::Button).to receive(:new).with(hash_including(expected_arguments)) { success_sp_button }
         create_variant
       end
 
@@ -58,33 +58,33 @@ describe ShareProgressVariantBuilder do
         create_variant
         variant = Share::Facebook.first
 
-        expect(variant.title).to eq("foo")
-        expect(variant.sp_id).to eq("123")
+        expect(variant.title).to eq('foo')
+        expect(variant.sp_id).to eq('123')
       end
 
       it 'persists button locally' do
         create_variant
 
         button = Share::Button.first
-        expect(button.sp_id).to eq("1")
-        expect(button.sp_button_html).to eq("<div />")
+        expect(button.sp_id).to eq('1')
+        expect(button.sp_button_html).to eq('<div />')
         expect(button.url).to eq 'http://example.com/foo'
       end
     end
 
     describe 'failure' do
       before do
-        allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { failure_sp_button }
       end
 
       it 'does not persist variant locally' do
-        expect{ create_variant }.not_to change{ Share::Facebook.count }
-        expect( Share::Facebook.first ).to eq nil
+        expect { create_variant }.not_to change { Share::Facebook.count }
+        expect(Share::Facebook.first).to eq nil
       end
 
       it 'does not persist button locally' do
-        expect{ create_variant }.not_to change{ Share::Button.count }
-        expect( Share::Button.first ).to eq nil
+        expect { create_variant }.not_to change { Share::Button.count }
+        expect(Share::Button.first).to eq nil
       end
 
       it 'adds the errors to the variant' do
@@ -96,39 +96,39 @@ describe ShareProgressVariantBuilder do
 
     describe 'reporting unexpected error messages' do
       before do
-        allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { failure_sp_button }
       end
 
       it 'reports with a string error' do
-        allow(failure_sp_button).to receive(:errors){ "Something went wrong" }
+        allow(failure_sp_button).to receive(:errors) { 'Something went wrong' }
         variant = create_variant # if it raises an error, it'll fail here
         expect(variant.errors.size).to eq 1
         expect(variant.errors[:base]).to eq ['Something went wrong']
       end
 
       it 'reports with an array error' do
-        allow(failure_sp_button).to receive(:errors){ ["Dude wheres my car?"] }
+        allow(failure_sp_button).to receive(:errors) { ['Dude wheres my car?'] }
         variant = create_variant # if it raises an error, it'll fail here
         expect(variant.errors.size).to eq 1
         expect(variant.errors[:base]).to eq ['["Dude wheres my car?"]']
       end
 
       it 'reports with a singly nested error' do
-        allow(failure_sp_button).to receive(:errors){ {'variants' => ['the body needs {LINK}']} }
+        allow(failure_sp_button).to receive(:errors) { { 'variants' => ['the body needs {LINK}'] } }
         variant = create_variant # if it raises an error, it'll fail here
         expect(variant.errors.size).to eq 1
         expect(variant.errors[:base]).to eq ['{"variants"=>["the body needs {LINK}"]}']
       end
 
       it 'reports with an unnested error' do
-        allow(failure_sp_button).to receive(:errors){ {'variants' => 'your body needs {LINK}'} }
+        allow(failure_sp_button).to receive(:errors) { { 'variants' => 'your body needs {LINK}' } }
         variant = create_variant # if it raises an error, it'll fail here
         expect(variant.errors.size).to eq 1
         expect(variant.errors[:base]).to eq ['{"variants"=>"your body needs {LINK}"}']
       end
 
       it 'reports with an unknown key' do
-        allow(failure_sp_button).to receive(:errors){ {'some_error' => [['your body wants {LINK}']]} }
+        allow(failure_sp_button).to receive(:errors) { { 'some_error' => [['your body wants {LINK}']] } }
         variant = create_variant # if it raises an error, it'll fail here
         expect(variant.errors.size).to eq 1
         expect(variant.errors[:base]).to eq ['your body wants {LINK}']
@@ -138,8 +138,8 @@ describe ShareProgressVariantBuilder do
 
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
-    let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
-    let(:params) { {title: 'Bar' } }
+    let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
+    let(:params) { { title: 'Bar' } }
 
     subject(:update_variant) do
       ShareProgressVariantBuilder.update(
@@ -151,14 +151,13 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'success' do
-
       before do
-        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { success_sp_button }
       end
 
       it 'updates variant' do
-        expect{ update_variant }.to(
-          change{ share.reload.title }.from('Foo').to('Bar')
+        expect { update_variant }.to(
+          change { share.reload.title }.from('Foo').to('Bar')
         )
       end
 
@@ -179,45 +178,42 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'failure' do
-
       before do
-        allow(ShareProgress::Button).to receive(:new){ failure_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { failure_sp_button }
       end
 
       it 'does not update variant locally' do
-        expect{ update_variant }.not_to change{ share.reload.title }
+        expect { update_variant }.not_to change { share.reload.title }
       end
 
       it 'adds the errors to the variant' do
         variant = update_variant
-        expect( variant.errors[:base]).to eq ['email_body needs {LINK}']
+        expect(variant.errors[:base]).to eq ['email_body needs {LINK}']
       end
     end
   end
 
   context '.destroy' do
-
     subject(:destroy_variant) do
       ShareProgressVariantBuilder.destroy(
-          params: params,
-          variant_type: 'facebook',
-          page: page,
-          id: share.id
+        params: params,
+        variant_type: 'facebook',
+        page: page,
+        id: share.id
       )
     end
 
     describe 'success' do
-
-      let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
+      let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
-      let(:params) { {title: 'Bar' } }
+      let(:params) { { title: 'Bar' } }
 
       before do
-        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { success_sp_button }
       end
 
       it 'returns an object with no errors' do
-        VCR.use_cassette('shareprogress_destroy_variant_success', :match_requests_on => [:host, :path]) do
+        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: [:host, :path]) do
           expect(ShareProgress::Button).to receive(:new)
           result = destroy_variant
           expect(result.errors[:base]).to eq []
@@ -225,7 +221,7 @@ describe ShareProgressVariantBuilder do
       end
 
       it 'removes the variant from local storage' do
-        VCR.use_cassette('shareprogress_destroy_variant_success', :match_requests_on => [:host, :path]) do
+        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: [:host, :path]) do
           expect(ShareProgress::Button).to receive(:new)
           expect(Share::Facebook.find(share.id)).to eq(share)
           destroy_variant
@@ -235,13 +231,12 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'failure' do
-
-      let!(:button){ create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
+      let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
-      let(:params) { {title: 'Bar' } }
+      let(:params) { { title: 'Bar' } }
 
       before do
-        allow(ShareProgress::Button).to receive(:new){ success_sp_button }
+        allow(ShareProgress::Button).to receive(:new) { success_sp_button }
       end
 
       it 'returns errors from ShareProgress' do
@@ -259,10 +254,6 @@ describe ShareProgressVariantBuilder do
           expect(Share::Facebook.find(share.id)).to eq(share)
         end
       end
-
     end
-
   end
-
 end
-
