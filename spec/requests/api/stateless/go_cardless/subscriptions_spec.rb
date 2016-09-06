@@ -65,7 +65,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                       amount: '5.0',
                                       currency: 'USD',
                                       name: nil,
-                                      aasm_state: 'pending',
+                                      state: 'pending',
                                       created_at: /^\d{4}-\d{2}-\d{2}/)
       expect(subscription[:payment_method]).to include(id: 321,
                                                        go_cardless_id: '1234566',
@@ -75,7 +75,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
       expect(subscription[:transactions]).to include(id: transaction.id,
                                                      go_cardless_id: '999',
                                                      charge_date: /^\d{4}-\d{2}-\d{2}/,
-                                                     aasm_state: 'created')
+                                                     state: 'created')
     end
   end
 end
