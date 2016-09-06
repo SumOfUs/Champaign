@@ -175,25 +175,18 @@ describe Api::Payment::BraintreeController do
   end
 
   describe 'POST webhook' do
-    let(:notification) { double }
-
     before :each do
       allow(PaymentProcessor::Braintree::WebhookHandler).to receive(:handle)
-      allow(Braintree::WebhookNotification).to receive(:parse) { notification }
     end
 
     describe 'handling payload' do
       before do
         post :webhook, bt_signature: 'foo', bt_payload: 'bar'
       end
-      it 'parses webhook payload' do
-        expect(Braintree::WebhookNotification).to have_received(:parse)
-          .with('foo', 'bar')
-      end
 
-      it 'handles webhook' do
+      it 'handles webhook notification' do
         expect(PaymentProcessor::Braintree::WebhookHandler).to have_received(:handle)
-          .with(notification)
+          .with('foo', 'bar')
       end
     end
 

@@ -1,124 +1,128 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-module PaymentProcessor
-  module Braintree
-    describe WebhookHandler do
-      describe '.handle' do
-        let(:subscription) { instance_double('Payment::BraintreeSubscription', transactions: transactions, action: action) }
-        let(:transaction)  { double(:transaction, update: true) }
-        let(:transactions) { [transaction] }
-        let(:action) { create(:action, form_data: { subscription_id: '1234' }) }
+describe PaymentProcessor::Braintree::WebhookHandler do
+  def notification_faker(type, object_id)
+    Braintree::WebhookTesting.sample_notification(
+      type,
+      object_id
+    )
+  end
 
-        before :each do
-          allow(Payment::Braintree).to receive(:write_transaction) { transaction }
-          allow(ChampaignQueue).to receive(:push)
-          allow(Rails.logger).to receive(:info)
-        end
+  let(:member)       { create(:member) }
+  let(:action)       { create(:action, member: member, form_data: { subscription_id: 'foo'}) }
+  let!(:customer)    { create(:payment_braintree_customer, member: member) }
+  let(:subscription) { create(:payment_braintree_subscription, action: action) }
 
-        describe 'with successful subscription charge' do
-          let(:notification) do
-            instance_double('Braintree::WebhookNotification', kind: 'subscription_charged_successfully',
-                                                              subscription: instance_double('Braintree::Subscription', id: 's09870'))
-          end
+  subject do
+    PaymentProcessor::Braintree::WebhookHandler
+      .handle(notification[:bt_signature], notification[:bt_payload])
+  end
 
-          describe 'when Action is found' do
-            before :each do
-              allow(Payment::Braintree::Subscription).to receive(:find_by).and_return(subscription)
-              WebhookHandler.handle(notification)
-            end
+  describe 'subscription charged event' do
+    context 'when subscription is found' do
+      let(:notification) do
+        notification_faker(
+          Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully,
+          subscription.subscription_id
+        )
+      end
 
-            it 'looks up action by subscription_id' do
-              expect(Payment::Braintree::Subscription).to have_received(:find_by).with(subscription_id: 's09870')
-            end
+      it 'returns true' do
+        expect(subject).to be true
+      end
 
-            context 'with existing transactions' do
-              it 'pushes the transaction to be queued' do
-                expect(ChampaignQueue).to have_received(:push)
-                  .with(type: 'subscription-payment', params: { recurring_id: '1234' })
-              end
-            end
+      it 'writes transaction' do
+        expect { subject }
+          .to change { subscription.transactions.count }
+          .from(0).to(1)
+      end
 
-            context 'with no existing transactions' do
-              let(:transactions) { [] }
+      it 'writes notification' do
+        subject
 
-              it 'pushes the transaction to be queued' do
-                expect(ChampaignQueue).to have_received(:push)
-              end
-            end
+        record = Payment::Braintree::Notification.first
 
-            it 'records to Payment.write_transaction' do
-              expect(Payment::Braintree).to have_received(:write_transaction).with(
-                notification, action.page_id, action.member_id, nil, false
-              )
-            end
+        expect(record.attributes).to include(
+          'signature' => notification[:bt_signature],
+          'payload'   => notification[:bt_payload]
+        )
+      end
 
-            it 'does not log anything' do
-              expect(Rails.logger).not_to have_received(:info)
-            end
-          end
+      it 'posts events' do
+        expect(ChampaignQueue).to receive(:push)
+          .with(
+          type: 'subscription-payment',
+            params: {
+            recurring_id: 'foo'
+            }
+          )
 
-          describe 'when Action is not found' do
-            before :each do
-              allow(Payment::Braintree::Subscription).to receive(:find_by).and_return(nil)
-              WebhookHandler.handle(notification)
-            end
+        subject
+      end
+    end
 
-            it 'does not write to Payment.write_transaction' do
-              expect(Payment::Braintree).not_to have_received(:write_transaction)
-            end
+    context 'when subscription is not found' do
+      let(:notification) do
+        notification_faker(
+          Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully,
+          'invalid_subscription_id'
+        )
+      end
 
-            it 'does not push to ChampaignQueue' do
-              expect(ChampaignQueue).not_to have_received(:push)
-            end
+      it 'returns false' do
+        expect(subject).to be false
+      end
 
-            it 'logs the failed handling' do
-              expect(Rails.logger).to have_received(:info).with("Failed to handle Braintree::WebhookNotification for subscription_id 's09870'")
-            end
-          end
-        end
+      it 'does not write transaction' do
+        expect { subject }
+          .not_to change { subscription.transactions.count }
+      end
 
-        describe 'with unknown event' do
-          let(:notification) do
-            instance_double('Braintree::WebhookNotification', kind: 'unknown',
-                                                              subscription: instance_double('Braintree::Subscription', id: 's09870'))
-          end
+      it 'logs error' do
+        expect(Rails.logger).to receive(:info)
+          .with(%r{Failed to handle Braintree::WebhookNotification})
 
-          before :each do
-            allow(Payment::Braintree::Subscription).to receive(:find_by) { subscription }
-            WebhookHandler.handle(notification)
-          end
+        subject
+      end
 
-          it 'does not push to ChampaignQueue' do
-            expect(ChampaignQueue).not_to have_received(:push)
-          end
+      it 'writes notification' do
+        subject
 
-          it 'logs the failed handling' do
-            expect(Rails.logger).to have_received(:info).with("Unsupported Braintree::WebhookNotification received of type 'unknown'")
-          end
-        end
+        record = Payment::Braintree::Notification.first
 
-        describe 'with subscription cancelation' do
-          let(:subscription) { double(update: true) }
+        expect(record.attributes).to include(
+          'signature' => notification[:bt_signature],
+          'payload'   => notification[:bt_payload]
+        )
+      end
+    end
+  end
 
-          let(:notification) do
-            instance_double('Braintree::WebhookNotification', kind: 'subscription_canceled',
-                                                              subscription: instance_double('Braintree::Subscription', id: 's09870'))
-          end
+  describe 'subscription cancelled event' do
+    context 'when subscription is found' do
+      let(:notification) do
+        notification_faker(
+          Braintree::WebhookNotification::Kind::SubscriptionCanceled,
+          subscription.subscription_id
+        )
+      end
 
-          before :each do
-            allow(Payment::Braintree::Subscription).to receive(:find_by) { subscription }
-            WebhookHandler.handle(notification)
-          end
+      it 'updates subscription' do
+        expect { subject }.to change { subscription.reload.cancelled_at }
+          .from(nil)
+          .to(instance_of(ActiveSupport::TimeWithZone))
+      end
 
-          it 'updates subscription' do
-            expect(subscription).to have_received(:update).with(cancelled_at: instance_of(Time))
-          end
+      it 'writes notification' do
+        subject
 
-          it 'does not push to ChampaignQueue' do
-            expect(ChampaignQueue).not_to have_received(:push)
-          end
-        end
+        record = Payment::Braintree::Notification.first
+
+        expect(record.attributes).to include(
+          'signature' => notification[:bt_signature],
+          'payload'   => notification[:bt_payload]
+        )
       end
     end
   end

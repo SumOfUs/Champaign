@@ -17,16 +17,31 @@ module PaymentProcessor
       # * +:notification+    - Braintree::Notification object. only those of kind 'subscription_charged_successfully'
       #                        will be processed. All others will simply be logged to the Rails logger.l)
 
-      def self.handle(notification)
-        new(notification).handle
+      def self.handle(signature, payload)
+        new(signature, payload).handle
       end
 
-      def initialize(notification)
-        @notification = notification
+      def initialize(signature, payload)
+        @signature = signature
+        @payload = payload
       end
 
       def handle
-        case @notification.kind
+        store_notification
+        process_notification
+      end
+
+      private
+
+      def store_notification
+        Payment::Braintree::Notification.create(
+          signature: @signature,
+          payload:   @payload
+        )
+      end
+
+      def process_notification
+        case notification.kind
         when 'subscription_charged_successfully'
           handle_subscription_charged
         when 'subscription_canceled'
@@ -36,7 +51,9 @@ module PaymentProcessor
         end
       end
 
-      private
+      def notification
+        @notification ||= ::Braintree::WebhookNotification.parse(@signature, @payload)
+      end
 
       def handle_subscription_charged
         if original_action.blank?
@@ -46,7 +63,7 @@ module PaymentProcessor
 
         customer = Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
 
-        record = Payment::Braintree.write_transaction(@notification, original_action.page_id, original_action.member_id, customer, false)
+        record = Payment::Braintree.write_transaction(notification, original_action.page_id, original_action.member_id, customer, false)
         record.update(subscription: subscription)
 
         ChampaignQueue.push(
