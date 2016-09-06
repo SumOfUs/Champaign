@@ -1,0 +1,27 @@
+<style type="text/css">
+  .button--facebook a::before{
+    content: "{{ 'share.share' | t }}";
+  }
+  .button--twitter a::before{
+    content: "{{ 'share.tweet' | t }}";
+  }
+  .share-buttons__simple-email-link.sp_em_small a::before, .share-buttons__simple-email-link.sp_em_large a::before {
+    content: "{{ 'share.send_email' | t }}";
+  }
+</style>
+
+<div class="share-buttons">
+  {% unless shares['facebook'] == blank %}
+    <div class="share-buttons__button button--facebook {{ shares['facebook'] }}"></div>
+  {% endunless %}
+
+  {% unless shares['twitter'] == blank %}
+    <div class="share-buttons__button button--twitter {{ shares['twitter'] }}"></div>
+  {% endunless %}
+
+  {% unless shares['email'] == blank %}
+    <div class="share-buttons__alternative">
+      {{ 'basics.or' | t }} <div class="share-buttons__simple-email-link {{ shares['email'] }}"></div>
+    </div>
+  {% endunless %}
+</div>
