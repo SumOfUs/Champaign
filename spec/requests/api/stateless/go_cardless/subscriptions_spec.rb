@@ -78,4 +78,24 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                                      state: 'created')
     end
   end
+
+  describe 'DELETE destroy' do
+    # TODO: replace with actual subscription that gets cancelled
+    let!(:delete_subscription) do
+      create(:payment_go_cardless_subscription,
+             customer: customer,
+             payment_method: payment_method,
+             id: 93_829,
+             go_cardless_id: '13243',
+             amount: '5.0',
+             currency: 'USD',
+             name: nil,
+             created_at: Date.today)
+    end
+
+    it 'cancels the subscription on GoCardless and marks the local subscription as cancelled' do
+      delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", nil, auth_headers
+      expect(response.success).to eq true
+    end
+  end
 end
