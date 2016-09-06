@@ -27,4 +27,24 @@ module PaymentHelper
       customer(member).transactions.one_off
     end
   end
+
+  module GoCardless
+    module_function
+
+    def customer(member)
+      ::Payment::GoCardless::Customer.find_by!(member_id: member.id)
+    end
+
+    def transactions_for_member(member)
+      customer(member).transactions.one_off
+    end
+
+    def subscriptions_for_member(member)
+      customer(member).subscriptions.order('created_at desc')
+    end
+
+    def payment_methods_for_member(member)
+      customer(member).payment_methods.order('created_at desc')
+    end
+  end
 end
