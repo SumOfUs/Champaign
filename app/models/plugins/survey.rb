@@ -16,7 +16,7 @@ class Plugins::Survey < ActiveRecord::Base
   def form_liquid_data(form)
     {
       form_id: form.try(:id),
-      fields: form.form_elements.map(&:attributes),
+      fields: form.form_elements.map(&:liquid_data),
       outstanding_fields: form.form_elements.map(&:name),
       skippable: !form.form_elements.map(&:required).any?
     }

@@ -11,6 +11,9 @@
   .form-group.clearfix
     = label_with_tooltip(f, :data_type, t('form_elements.name'), t('tooltips.form_elements.name'))
     = f.text_field :name,  class: 'form-control typeahead', placeholder: t('form_elements.name_suggestion')
+  .form-group
+    = label_with_tooltip(f, :choices, 'choices', 'you should make em')
+    = f.text_field :choices, class: 'form-control'
   a.reveal-default-value= t('form_elements.add_default_value')
   .form-group.hidden-closed.default-value-field
     = label_with_tooltip(f, :default_value, t('form_elements.default_value'), t('tooltips.form_elements.default_value'))
