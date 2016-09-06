@@ -210,7 +210,7 @@ const Fundraiser = Backbone.View.extend(_.extend(
       user:           this.serializeUserForm(),
       currency:       this.currency,
       recurring:      this.readRecurring(),
-      store_in_vault: this.readStorePaymentDetails()
+      store_in_vault: this.readStoreInVault()
     };
   },
 
@@ -290,8 +290,8 @@ const Fundraiser = Backbone.View.extend(_.extend(
     return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
   },
 
-  readStorePaymentDetails() {
-    return this.$('input.fundraiser-bar__store-payment-details').prop('checked');
+  readStoreInVault() {
+    return this.$('input.fundraiser-bar__store-in-vault').prop('checked');
   },
 
   disableButton(e) {
