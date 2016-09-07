@@ -91,7 +91,14 @@ describe 'API::Stateless GoCardless Subscriptions' do
              currency: 'USD',
              name: nil,
              cancelled_at: nil,
-             created_at: Date.today,)
+             created_at: Date.today)
+    end
+
+    let!(:nonexistent_subscription) do
+      create(:payment_go_cardless_subscription,
+             customer: customer,
+             payment_method: payment_method,
+             go_cardless_id: 'idontexist')
     end
 
     it 'cancels the subscription on GoCardless and marks the local subscription as cancelled' do
@@ -101,6 +108,15 @@ describe 'API::Stateless GoCardless Subscriptions' do
         expect(response.success?).to eq true
         expect(Payment::GoCardless::Subscription.find(delete_subscription.id).cancelled_at)
           .to be_within(1.second).of Time.now
+      end
+    end
+
+    it 'returns errors and does not update the local record if GoCardless returns an error' do
+      VCR.use_cassette('stateless api cancel go_cardless subscription failure') do
+        delete "/api/stateless/go_cardless/subscriptions/#{nonexistent_subscription.id}", nil, auth_headers
+        expect(response.success?).to eq false
+        expect(json_hash['errors']).to eq([{'reason' => 'resource_not_found', 'message' => 'Resource not found'}])
+        expect(Payment::GoCardless::Subscription.find(nonexistent_subscription.id).cancelled_at).to be nil
       end
     end
   end
