@@ -11,12 +11,14 @@ module Api
 
         def destroy
           @subscription = PaymentHelper::GoCardless.subscription_for_member(member: @current_member, id: params[:id])
-        #   result = request on GoCardless to cancel subscription
-        #   result.success?
-        #   render json: {success: true}
-        #   else
-        #   render json: {success: false, errors: result.errors}
-        # end
+          result = PaymentProcessor::GoCardless::Subscription.cancel(@subscription.go_cardless_id)
+          if response.successful? && result.status == 'cancelled'
+            @subscription.update(cancelled_at: Time.now)
+            render json: {success: true}
+          else
+            render json: {success: false, errors: result.errors}
+          end
+        end
       end
     end
   end
