@@ -38,6 +38,7 @@ module Champaign
     config.i18n.enforce_available_locales = true
 
     config.active_record.observers = :liquid_partial_observer
+    config.assets.paths += Settings.custom_assets_paths.split(":") if Settings.custom_assets_paths.present?
 
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
