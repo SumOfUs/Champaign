@@ -40,8 +40,7 @@ module Champaign
     config.active_record.observers = :liquid_partial_observer
 
     if Settings.external_asset_paths.present?
-      path_list = Settings.external_asset_paths.try(:split, ":")
-      config.assets.paths += path_list
+      config.assets.paths += Settings.external_asset_paths.split(":")
 
       if Settings.external_translation_path.present?
         path_list.each do |directory|

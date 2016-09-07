@@ -1,11 +1,12 @@
 namespace :assets do
 
-  task :download_and_precompile, [:url_template, :credentials, :branch] => :environment do |t, args|
+  task :download_and_precompile, [:url_template, :credentials, :branch, :source_assets_path] => :environment do |t, args|
     if args[:url_template].blank?
       puts "Not including any external assets"
       next
     end
-    target_path = "./tmp/assets_source"
+
+    target_path = args[:source_assets_path] || "./tmp/assets_source"
     FileUtils.mkdir_p target_path
     Rake::Task['assets:download_external_assets'].invoke(target_path, args[:url_template], args[:credentials], args[:branch])
     Rake::Task['assets:precompile_assets'].invoke(target_path)
@@ -31,9 +32,12 @@ namespace :assets do
     current_branch = args[:branch]
     tar_file_path = "./tmp/assets.tar"
 
-    if url_template.blank? || !File.directory?(target_path)
+
+    if url_template.blank? || target_path.blank?
       raise 'usage: rake deploy:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
     end
+
+    FileUtils.mkdir_p target_path
 
     urls = [current_branch, Settings.default_asset_branch, 'master'].map do |branch|
       branch.present? ? url_template.gsub("<branch>", branch) : nil
