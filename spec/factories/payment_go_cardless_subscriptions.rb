@@ -5,5 +5,6 @@ FactoryGirl.define do
     amount 33.12
     currency 'GBP'
     status :active
+    cancelled_at nil
   end
 end
