@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/subscriptions/SB00003GHBQ3YF/actions/cancel
+    body:
+      encoding: UTF-8
+      string: '{"data":{}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.2
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Sep 2016 08:29:58 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d7bc46f7b90d363880f53a45c924a8fc11473236998; expires=Thu, 07-Sep-17
+        08:29:58 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"0812e27d5daedbb05a215691d7984bb6"
+      X-Request-Id:
+      - 0cce5131-dd01-4884-ade7-3a6b1fd2dd2c
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Wed, 07 Sep 2016 08:30:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2de8cbc752e80a2a-VIE
+    body:
+      encoding: ASCII-8BIT
+      string: '{"subscriptions":{"id":"SB00003GHBQ3YF","created_at":"2016-08-19T13:52:19.207Z","amount":1155,"currency":"GBP","status":"cancelled","name":"donation","start_date":"2016-09-20","end_date":null,"interval":1,"interval_unit":"monthly","day_of_month":null,"month":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"payment_reference":null,"upcoming_payments":[],"links":{"mandate":"MD0000PSV8N7FR"}}}'
+    http_version: 
+  recorded_at: Wed, 07 Sep 2016 08:29:58 GMT
+recorded_with: VCR 3.0.3
