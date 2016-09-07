@@ -98,5 +98,6 @@ gocardless:
 # http://guides.rubyonrails.org/v4.2/asset_pipeline.html#asset-organization
 external_assets_paths: <%= ENV['EXTERNAL_ASSETS_PATHS'] %>
 home_page_url: <%= ENV['HOME_PAGE_URL'] %>
+default_asset_branch: <%= ENV['DEFAULT_ASSET_BRANCH'] %>
 
 
