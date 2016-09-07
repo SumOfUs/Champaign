@@ -18,6 +18,10 @@ describe 'pages' do
   end
 
   describe 'POST create' do
+    before do
+      login_as(create(:user), scope: :user)
+    end
+
     it 'has the right follow-up url if liquid layout has a default follow-up url' do
       follow_up_layout = create :liquid_layout, default_follow_up_layout: nil
       liquid_layout = create :liquid_layout, default_follow_up_layout: follow_up_layout

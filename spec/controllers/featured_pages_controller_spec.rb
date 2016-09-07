@@ -2,11 +2,15 @@
 require 'rails_helper'
 
 describe FeaturedPagesController do
-  let(:user) { double('User') }
   let(:page) { double('Page') }
 
+  include_examples 'session authentication',
+    {
+      post:   [:create, format: :js],
+      delete: [:destroy, id: '1', format: :js]
+    }
+
   before do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(Page).to receive(:find) { page }
     allow(page).to receive(:update)
   end

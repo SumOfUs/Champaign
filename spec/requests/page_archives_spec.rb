@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe 'Page archiving', type: :request do
+describe 'Page archiving' do
   before do
     login_as(create(:user), scope: :user)
   end

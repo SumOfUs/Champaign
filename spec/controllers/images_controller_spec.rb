@@ -9,12 +9,19 @@ describe ImagesController do
     allow(Page).to receive(:find) { page }
   end
 
+  include_examples 'session authentication', {}
+
   describe 'POST #create' do
     before do
       allow(page).to receive_message_chain(:images, :create).and_return(image)
     end
 
     subject { post :create, page_id: '1', image: { content: 'foo' }, format: :js }
+
+    it 'authenticates session' do
+      subject
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
 
     it 'finds page' do
       subject
@@ -42,6 +49,11 @@ describe ImagesController do
     end
 
     subject { delete :destroy, page_id: '1', id: '2', format: :json }
+
+    it 'authenticates session' do
+      subject
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
 
     it 'finds page' do
       expect(Page).to receive(:find).with('1')

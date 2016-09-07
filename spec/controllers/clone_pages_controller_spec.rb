@@ -15,6 +15,10 @@ describe ClonePagesController do
       get :new, id: '1'
     end
 
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
+
     it 'finds page' do
       expect(Page).to have_received(:find).with('1')
     end
@@ -36,6 +40,10 @@ describe ClonePagesController do
       allow(QueueManager).to receive(:push)
 
       post :create, id: '1', page: { title: 'foo' }
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'finds page' do

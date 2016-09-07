@@ -3,11 +3,8 @@ require 'rails_helper'
 
 describe LinksController do
   let(:link) { instance_double('Link', save: true) }
-  let(:user) { instance_double('User', id: '1') }
 
-  before :each do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
-  end
+  include_examples 'session authentication', {}
 
   describe 'POST #create' do
     let(:page) { instance_double('Page') }
@@ -18,6 +15,10 @@ describe LinksController do
       allow(Link).to receive(:new) { link }
 
       post :create, page_id: '1', link: params
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'does not bother to find page' do
