@@ -2,6 +2,14 @@
 module PaymentProcessor
   module GoCardless
     class Populator
+
+      def self.client
+        GoCardlessPro::Client.new(
+          access_token: Settings.gocardless.token,
+          environment: Settings.gocardless.environment.to_sym
+        )
+      end
+
       def request_params
         {
           amount: amount_in_cents,
@@ -68,10 +76,7 @@ module PaymentProcessor
       end
 
       def client
-        GoCardlessPro::Client.new(
-          access_token: Settings.gocardless.token,
-          environment: Settings.gocardless.environment.to_sym
-        )
+        self.class.client
       end
 
       def charge_date
