@@ -28,13 +28,13 @@ describe 'Liquid page rendering' do
     end
 
     it 'renders the fundraiser sidebar' do
-      page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Fundraiser With Large Image')
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Generic Fundraiser')
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="fundraiser-bar__content">')
     end
 
     it 'renders the petition sidebar' do
-      page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Petition With Large Image')
+      page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Generic Petition')
       get "/pages/#{page.id}"
       expect(response.body).to include('<div class="petition-bar__content">')
     end
