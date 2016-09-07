@@ -16,6 +16,10 @@ describe FeaturedPagesController do
       post :create, id: '1', format: :js
     end
 
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
+
     it 'finds page' do
       expect(Page).to have_received(:find).with('1')
     end
@@ -32,6 +36,10 @@ describe FeaturedPagesController do
   describe 'DELETE #destroy' do
     before do
       delete :destroy, id: '1', format: :js
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'finds page' do

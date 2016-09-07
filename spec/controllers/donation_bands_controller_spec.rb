@@ -11,6 +11,11 @@ describe DonationBandsController do
   end
 
   describe 'GET index' do
+    it 'authenticates session' do
+      expect(request.env['warden']).to receive(:authenticate!)
+      get :index
+    end
+
     it 'renders index' do
       get :index
       expect(response).to render_template('index')
@@ -22,6 +27,11 @@ describe DonationBandsController do
       allow(DonationBand).to receive(:new) { donation_band }
       get :new
     end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
+
     it 'instantiates instance of DonationBand' do
       expect(DonationBand).to have_received(:new)
     end
@@ -39,6 +49,10 @@ describe DonationBandsController do
     before do
       allow(DonationBand).to receive(:find) { donation_band }
       get :edit, id: 1
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'instantiates an instance of DonationBand' do
@@ -61,6 +75,10 @@ describe DonationBandsController do
     before do
       allow(DonationBand).to receive(:create) { donation_band }
       post :create, donation_band: fake_params
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'creates a new donation_band' do
