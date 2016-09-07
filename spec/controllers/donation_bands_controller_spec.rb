@@ -2,13 +2,17 @@
 require 'rails_helper'
 
 describe DonationBandsController do
-  let(:user) { instance_double('User', id: 1) }
   let(:donation_band) { instance_double('DonationBand', name: 'Test') }
 
   before do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
-    allow(controller).to receive(:current_user) { user }
+    allow(DonationBand).to receive(:find) { donation_band }
   end
+
+  include_examples 'session authentication',
+    { get:  [:index],
+      get:  [:new],
+      get:  [:edit, id: 1]
+    }
 
   describe 'GET index' do
     it 'authenticates session' do
@@ -47,7 +51,6 @@ describe DonationBandsController do
 
   describe 'GET edit' do
     before do
-      allow(DonationBand).to receive(:find) { donation_band }
       get :edit, id: 1
     end
 

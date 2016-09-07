@@ -2,20 +2,15 @@
 require 'rails_helper'
 
 describe ActionKitController do
-  let(:user) { double }
-
   before do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(ActionKit::Helper).to receive(:check_petition_name_is_available)
   end
 
+  include_examples 'session authentication',
+    { post:   [:check_slug, slug: 'foo-bar', format: :json] }
+
+
   describe 'POST#check_slug' do
-    it 'authenticates session' do
-      expect(request.env['warden']).to receive(:authenticate!)
-
-      post :check_slug, slug: 'foo-bar', format: :json
-    end
-
     it 'checks if name is available' do
       expect(ActionKit::Helper)
         .to receive(:check_petition_name_is_available)

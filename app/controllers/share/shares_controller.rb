@@ -4,6 +4,7 @@ require 'share_progress'
 class Share::SharesController < ApplicationController
   before_filter :set_resource
   before_filter :find_page
+  before_filter :authenticate_user!
 
   def new
     @share = share_class.new(new_defaults)

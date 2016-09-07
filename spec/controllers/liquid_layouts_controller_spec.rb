@@ -19,8 +19,14 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
+# TODO: Refactor me!
+#
 describe LiquidLayoutsController do
-  login_user
+  include_examples 'session authentication',
+    {
+      get:  [:index],
+      get:  [:new]
+    }
 
   # This should return the minimal set of attributes required to create a valid
   # LiquidLayout. As you add validations to LiquidLayout, be sure to

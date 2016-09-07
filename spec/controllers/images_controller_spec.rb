@@ -4,12 +4,12 @@ require 'rails_helper'
 describe ImagesController do
   let(:page)  { instance_double('Page', valid?: true) }
   let(:image) { double('image', content: 'foo', errors: []) }
-  let(:user)  { double }
 
   before do
     allow(Page).to receive(:find) { page }
-    allow(request.env['warden']).to receive(:authenticate!) { user }
   end
+
+  include_examples 'session authentication', {}
 
   describe 'POST #create' do
     before do

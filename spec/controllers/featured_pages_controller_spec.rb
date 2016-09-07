@@ -2,11 +2,15 @@
 require 'rails_helper'
 
 describe FeaturedPagesController do
-  let(:user) { double('User') }
   let(:page) { double('Page') }
 
+  include_examples 'session authentication',
+    {
+      post:   [:create, format: :js],
+      delete: [:destroy, id: '1', format: :js]
+    }
+
   before do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(Page).to receive(:find) { page }
     allow(page).to receive(:update)
   end
@@ -14,10 +18,6 @@ describe FeaturedPagesController do
   describe 'POST #create' do
     before do
       post :create, id: '1', format: :js
-    end
-
-    it 'authenticates session' do
-      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'finds page' do
@@ -36,10 +36,6 @@ describe FeaturedPagesController do
   describe 'DELETE #destroy' do
     before do
       delete :destroy, id: '1', format: :js
-    end
-
-    it 'authenticates session' do
-      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'finds page' do
