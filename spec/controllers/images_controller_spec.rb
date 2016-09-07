@@ -4,9 +4,11 @@ require 'rails_helper'
 describe ImagesController do
   let(:page)  { instance_double('Page', valid?: true) }
   let(:image) { double('image', content: 'foo', errors: []) }
+  let(:user)  { double }
 
   before do
     allow(Page).to receive(:find) { page }
+    allow(request.env['warden']).to receive(:authenticate!) { user }
   end
 
   describe 'POST #create' do
@@ -15,6 +17,11 @@ describe ImagesController do
     end
 
     subject { post :create, page_id: '1', image: { content: 'foo' }, format: :js }
+
+    it 'authenticates session' do
+      subject
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
 
     it 'finds page' do
       subject
@@ -42,6 +49,11 @@ describe ImagesController do
     end
 
     subject { delete :destroy, page_id: '1', id: '2', format: :json }
+
+    it 'authenticates session' do
+      subject
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
 
     it 'finds page' do
       expect(Page).to receive(:find).with('1')
