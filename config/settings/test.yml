@@ -106,6 +106,6 @@
 
 
 # External assets
-  external_asset_paths: '<%= ENV["EXTERNAL_ASSET_PATHS"] %>'
-  external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
-  external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
+     external_asset_paths: '<%= ENV["EXTERNAL_ASSET_PATHS"] %>'
+     external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
+     external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
