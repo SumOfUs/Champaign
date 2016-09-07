@@ -81,8 +81,8 @@ namespace :assets do
     FileUtils.mv files_to_mv, target_path
   end
 
-  task :precompile_assets, [:external_assets_paths] => :environment do |t, args|
-    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSETS_PATHS=#{args[:external_assets_paths]} rake assets:precompile"
+  task :precompile_assets, [:external_asset_paths] => :environment do |t, args|
+    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSET_PATHS=#{args[:external_asset_paths]} rake assets:precompile"
     puts "Running: #{cmd}"
     exec(cmd)
   end
