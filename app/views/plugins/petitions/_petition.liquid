@@ -16,8 +16,7 @@
       outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
       fields: plugins.petition[ref].fields %}
     <div class="petition-bar__fine-print">
-      {% capture privacy_link %}<a href="https://sumofus.org/privacy" target="_blank">{{ 'petition.privacy_link' | t }}</a>{% endcapture %}
-      {{ 'petition.fine_print' | val: 'privacy_link', privacy_link | t }}
+      {{ 'petition.fine_print' | t }}
     </div>
   </div>
 
