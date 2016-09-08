@@ -152,6 +152,12 @@ Rails.application.routes.draw do
         resources :transactions
       end
 
+      namespace :go_cardless do
+        resources :payment_methods
+        resources :subscriptions
+        resources :transactions
+      end
+
       resources :members
 
       namespace :auth do

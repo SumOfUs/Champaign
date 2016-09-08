@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe 'API::Stateless Subscriptions' do
+describe 'API::Stateless Braintree Transactions' do
   include Requests::RequestHelpers
   include AuthToken
 

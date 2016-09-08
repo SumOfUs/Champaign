@@ -186,4 +186,13 @@ describe Payment::GoCardless::Transaction do
       end.to change { subject.reload.failed? }.from(false).to(true)
     end
   end
+
+  describe 'one-off' do
+    let!(:transaction_with_subscription) { create(:payment_go_cardless_transaction, subscription_id: 123) }
+    let!(:transaction_without_subscription) { create(:payment_go_cardless_transaction, subscription_id: nil) }
+
+    it 'returns transactions without a subscription' do
+      expect(Payment::GoCardless::Transaction.one_off).to match_array([transaction_without_subscription])
+    end
+  end
 end
