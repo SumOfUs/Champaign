@@ -10,16 +10,12 @@ module Api
         end
 
         def destroy
-          @subscription = PaymentHelper::GoCardless.subscription_for_member(member: @current_member, id: params[:id])
-          PaymentProcessor::GoCardless::Subscription.cancel(@subscription.go_cardless_id)
-          @subscription.update(cancelled_at: Time.now)
-          render json: { success: true }
-        rescue GoCardlessPro::InvalidApiUsageError,
-          GoCardlessPro::InvalidStateError,
-          GoCardlessPro::ValidationError,
-          GoCardlessPro::GoCardlessError => e
-          render json: { success: false, errors: e.errors }, status: e.code
-          Rails.logger.error("#{e} occurred when cancelling subscription #{@subscription.go_cardless_id}: #{e.message}")
+          e = GoCardlessCancellationService.cancel_subscription(@current_member, params)
+          if e.blank?
+            render json: { success: true }
+          else
+            render json: { success: false, errors: e.errors }, status: e.code
+          end
         end
       end
     end

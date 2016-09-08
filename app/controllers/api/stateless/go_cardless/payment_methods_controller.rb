@@ -10,16 +10,12 @@ module Api
         end
 
         def destroy
-          @payment_method = PaymentHelper::GoCardless.payment_method_for_member(member: @current_member, id: params[:id])
-          PaymentProcessor::GoCardless::Populator.client.mandates.cancel(@payment_method.go_cardless_id)
-          @payment_method.update(cancelled_at: Time.now)
-          render json: { success: true }
-        rescue GoCardlessPro::InvalidApiUsageError,
-          GoCardlessPro::InvalidStateError,
-          GoCardlessPro::ValidationError,
-          GoCardlessPro::GoCardlessError => e
-          render json: { success: false, errors: e.errors }, status: e.code
-          Rails.logger.error("#{e} occurred when cancelling mandate #{@payment_method.go_cardless_id}: #{e.message}")
+          e = GoCardlessCancellationService.cancel_mandate(@current_member, params)
+          if e.blank?
+            render json: { success: true }
+          else
+            render json: { success: false, errors: e.errors }, status: e.code
+          end
         end
       end
     end
