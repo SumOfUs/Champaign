@@ -445,29 +445,38 @@ describe Page do
   end
 
   describe 'canonical_url' do
-    it 'is valid as nil' do
-      page.canonical_url = nil
-      expect(page).to be_valid
+    context 'is valid when' do
+      it 'nil' do
+        page.canonical_url = nil
+        expect(page).to be_valid
+      end
+
+      it 'empty string' do
+        page.canonical_url = ''
+        expect(page).to be_valid
+      end
+
+      it 'full url' do
+        page.canonical_url = 'https://google.com'
+        expect(page).to be_valid
+      end
     end
 
-    it 'is valid as empty string' do
-      page.canonical_url = ''
-      expect(page).to be_valid
-    end
+    context 'is invalid when' do
+      it 'url has no protocol' do
+        page.canonical_url = 'google.com'
+        expect(page).to be_invalid
+      end
 
-    it 'is invalid as a url without a protocol' do
-      page.canonical_url = 'google.com'
-      expect(page).to be_invalid
-    end
+      it 'without full url' do
+        page.canonical_url = 'https://lol'
+        expect(page).to be_invalid
+      end
 
-    it 'is invalid as a protocol without a url' do
-      page.canonical_url = 'https://lol'
-      expect(page).to be_invalid
-    end
-
-    it 'is valid as a url with a protocol' do
-      page.canonical_url = 'https://google.com'
-      expect(page).to be_valid
+      it 'with a newline' do
+        page.canonical_url = "https://example.com\n"
+        expect(page).to be_invalid
+      end
     end
   end
 end
