@@ -121,6 +121,8 @@ Rails.application.routes.draw do
   get '/api/braintree/token', to: 'api/payment/braintree#token'
 
   namespace :api do
+    resource :member_authentication
+
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
