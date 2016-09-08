@@ -39,17 +39,6 @@ module Champaign
 
     config.active_record.observers = :liquid_partial_observer
 
-    if Settings.external_asset_paths.present?
-      path_list = Settings.external_asset_paths.try(:split, ":")
-      config.assets.paths += path_list
-
-      if Settings.external_translation_path.present?
-        path_list.each do |directory|
-          config.i18n.load_path += Dir[File.join(directory, Settings.external_translation_path, '*.{rb,yml}')]
-        end
-      end
-    end
-
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.
