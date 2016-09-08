@@ -9,9 +9,7 @@ json.array! @subscriptions do |subscription|
                       :next_possible_charge_date,
                       :created_at
   json.transactions subscription.transactions do |transaction|
-    json.id transaction.id
-    json.go_cardless_id transaction.go_cardless_id
-    json.charge_date transaction.charge_date
+    json.call(transaction, :id, :go_cardless_id, :charge_date)
     json.state transaction.aasm_state
   end
 end
