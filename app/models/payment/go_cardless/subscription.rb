@@ -30,7 +30,6 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
       )
     end
   end
-
 end
 
 class Payment::GoCardless::Subscription < ActiveRecord::Base
