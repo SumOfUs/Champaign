@@ -71,7 +71,8 @@ describe 'API::Stateless GoCardless PaymentMethods' do
 
     it 'returns errors and does not update the local record if GoCardless returns an error' do
       VCR.use_cassette('stateless api cancel go_cardless payment method failure') do
-        expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling mandate nosuchthingongocardless: Resource not found')
+        expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling'\
+        ' mandate nosuchthingongocardless: Resource not found')
         delete "/api/stateless/go_cardless/payment_methods/#{i_dont_exist.id}", nil, auth_headers
         expect(response.success?).to eq false
         expect(json_hash['errors']).to eq([{ 'reason' => 'resource_not_found', 'message' => 'Resource not found' }])
