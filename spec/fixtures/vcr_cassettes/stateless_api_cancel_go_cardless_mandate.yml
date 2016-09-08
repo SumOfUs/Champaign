@@ -1,0 +1,69 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api-sandbox.gocardless.com/mandates/MD0000T982CR19/actions/cancel
+    body:
+      encoding: UTF-8
+      string: '{"data":{}}'
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.2
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 08 Sep 2016 09:41:29 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d5a95d29637e5f448987bc3d5f9f7bcca1473327689; expires=Fri, 08-Sep-17
+        09:41:29 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"b39f37e55b25374fe878d24e764db675"
+      X-Request-Id:
+      - 0c166820-64ac-4c15-bef2-4cc99e8a33e7
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '999'
+      Ratelimit-Reset:
+      - Thu, 08 Sep 2016 09:42:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2df171ea146e1a66-VIE
+    body:
+      encoding: ASCII-8BIT
+      string: '{"mandates":{"id":"MD0000T982CR19","created_at":"2016-06-14T23:40:03.748Z","reference":"OMAR-ZT7M5WS9XSBGG","status":"cancelled","scheme":"bacs","next_possible_charge_date":null,"payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000SSP5XHJC","creditor":"CR000045KKQEY8"}}}'
+    http_version: 
+  recorded_at: Thu, 08 Sep 2016 09:41:29 GMT
+recorded_with: VCR 3.0.3
