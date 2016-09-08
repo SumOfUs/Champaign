@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe 'API::Stateless PaymentMethods' do
+describe 'API::Stateless Braintree PaymentMethods' do
   include Requests::RequestHelpers
   include AuthToken
   let!(:member) { create(:member, email: 'test@example.com') }
