@@ -2,7 +2,6 @@
 module PaymentProcessor
   module GoCardless
     class Populator
-
       def self.client
         GoCardlessPro::Client.new(
           access_token: Settings.gocardless.token,

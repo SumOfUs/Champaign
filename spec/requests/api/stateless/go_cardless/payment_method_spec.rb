@@ -59,23 +59,24 @@ describe 'API::Stateless GoCardless PaymentMethods' do
     end
 
     it 'cancels the mandate on GoCardless and sets the cancelled_at field in the local record' do
-      Timecop.freeze
-      VCR.use_cassette('stateless api cancel go_cardless mandate') do
-        delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", nil, auth_headers
-        expect(response.success?).to eq true
-        expect(Payment::GoCardless::PaymentMethod.find(delete_me.id).cancelled_at)
-          .to be_within(1.second).of Time.now
+      Timecop.freeze do
+        VCR.use_cassette('stateless api cancel go_cardless mandate') do
+          delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", nil, auth_headers
+          expect(response.success?).to eq true
+          expect(Payment::GoCardless::PaymentMethod.find(delete_me.id).cancelled_at)
+            .to be_within(1.second).of Time.now
+        end
       end
     end
 
     it 'returns errors and does not update the local record if GoCardless returns an error' do
       VCR.use_cassette('stateless api cancel go_cardless payment method failure') do
+        expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling mandate nosuchthingongocardless: Resource not found')
         delete "/api/stateless/go_cardless/payment_methods/#{i_dont_exist.id}", nil, auth_headers
         expect(response.success?).to eq false
-        expect(json_hash['errors']).to eq([{'reason' => 'resource_not_found', 'message' => 'Resource not found'}])
+        expect(json_hash['errors']).to eq([{ 'reason' => 'resource_not_found', 'message' => 'Resource not found' }])
         expect(Payment::GoCardless::PaymentMethod.find(i_dont_exist.id).cancelled_at).to be nil
       end
     end
-
   end
 end
