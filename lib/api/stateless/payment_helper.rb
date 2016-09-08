@@ -45,8 +45,16 @@ module Api
           customer(member).subscriptions.order('created_at desc')
         end
 
+        def subscription_for_member(member:, id:)
+          customer(member).subscriptions.find(id)
+        end
+
         def payment_methods_for_member(member)
           customer(member).payment_methods.order('created_at desc')
+        end
+
+        def payment_method_for_member(member:, id:)
+          customer(member).payment_methods.find(id)
         end
       end
     end
