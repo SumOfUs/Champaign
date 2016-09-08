@@ -23,17 +23,17 @@
   {% unless skip_javascript %}
     <script type="text/javascript">
       $(document).ready(function(){
-        var sou = window.champaign; // convenience binding
-        sou.myActionForm  = new sou.ActionForm({
-          member:           window.champaign.personalization.member,
-          outstandingFields:window.champaign.personalization.outstandingFields,
-          location:         window.champaign.personalization.location,
-          akid:             window.champaign.personalization.urlParams.akid,
-          source:           window.champaign.personalization.urlParams.source,
+        var chmp = window.champaign; // convenience binding
+        chmp.myActionForm  = new chmp.ActionForm({
+          member:           chmp.personalization.member,
+          outstandingFields:chmp.personalization.outstandingFields,
+          location:         chmp.personalization.location,
+          akid:             chmp.personalization.urlParams.akid,
+          source:           chmp.personalization.urlParams.source,
           prefill:          true
         });
 
-        sou.myPetition      = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
+        chmp.myPetition      = new chmp.Petition({followUpUrl: "{{ follow_up_url }}"});
       });
     </script>
   {% endunless %}
