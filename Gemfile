@@ -106,11 +106,11 @@ group :development do
 end
 
 group :development, :test do
+  gem 'envyable', require: 'envyable/rails-now'
   gem 'byebug'
   gem 'spring'
   gem 'rspec-rails'
   gem 'capybara' # Capybara for integration testing
-  gem 'envyable'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'

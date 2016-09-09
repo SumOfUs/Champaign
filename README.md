@@ -2,9 +2,54 @@
 
 [![Circle CI](https://circleci.com/gh/SumOfUs/Champaign/tree/master.svg?style=shield)](https://circleci.com/gh/SumOfUs/Champaign/tree/master) [![Coverage Status](https://coveralls.io/repos/github/SumOfUs/Champaign/badge.svg?branch=master)](https://coveralls.io/github/SumOfUs/Champaign?branch=master) [![Code Climate](https://codeclimate.com/github/SumOfUs/Champaign/badges/gpa.svg)](https://codeclimate.com/github/SumOfUs/Champaign)
 
-Champaign is a digital campaigning platform built by SumOfUs. It is now production ready and we are in the process of migrating all our campaigning operations from ActionSweet to Champaign. If you're interested in collaborating on the project with us, or have ideas or recommendations, please get in touch!
+Champaign is an open source digital campaigning platform built by SumOfUs. It provides powerful tools for customizing and experimenting with campaign pages, while streamlining the process of setting them up.
 
-## Installation
+If you're interested in collaborating on the project with us, or have ideas or recommendations, please get in touch!
+
+## Development setup
+
+* Install gem dependencies by running `gem install bundler` and then `bundle install`.
+* Install node dependencies by running `npm install`
+* Setup your db connection by running `cp config/env.template.yml config/env.yml` and edit
+  `config/env.yml` with your development database information.
+* Create the development databases: `bundle exec rake db:create`
+* Run migrations: `bundle exec rake db:migrate`
+* Run the seed task: `bundle exec rake db:seed`
+* Run the test suite to make sure everything's setup correctly: `bundle
+  exec rake test`
+
+## Champaign Configuration
+
+Configuration files are under `config/settings` directory. There's one
+config file per environment: production, test and development. All keys
+defined in these YAML files will be accessible via
+`Settings.option_name`.
+
+You can override configuration variables during development by creating
+a `config/settings/development.local.yml` file.
+
+## ActionKit Integration
+
+Champaign integrates seamlessly with ActionKit. The integration works
+via events that are triggered from Champaign and are then captured by
+a separate service: [champaign-ak-processor](https://github.com/SumOfUs/champaign-ak-processor), which in turn
+updates ActionKit via it's API. Champaign events are delivered using AWS SNS/SQS.
+
+Despite having this external service to communicate with ActionKit,
+Champaign still needs to access ActionKit's API directly in a couple of
+cases, that's why you'll need to configure AK credentials in order to
+run Champaign. You'll be able to do this using [environment variables](config/settings/production.yml)
+ in production, or overriding the proper keys in `config/settings.development.local.yml`
+for development.
+
+### Braintree && GoCardless integration
+
+Champaign also accepts donations by integrating with [Braintree](https://www.braintreepayments.com/) for
+Credit Card payments, and [GoCardless](https://gocardless.com/) for direct debit. To get these integrations
+working you'll have to setup the proper credentials by setting [environment variables](config/settings/production.yml) on
+your production environment.
+
+## Development Setup using Docker
 
 1. Install Docker - for detailed instructions, go [here](https://docs.docker.com/installation/).
   * If you're using OS X, install Docker and Boot2Docker together via homebrew: `brew install boot2docker`
