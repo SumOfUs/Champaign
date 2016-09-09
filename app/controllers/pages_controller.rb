@@ -39,6 +39,9 @@ class PagesController < ApplicationController
   end
 
   def follow_up
+    if !params[:member_id].present? && recognized_member.try(:id).present?
+      return redirect_to follow_up_member_facing_page_path(@page.id, member_id: recognized_member.id)
+    end
     liquid_layout = @page.follow_up_liquid_layout || @page.liquid_layout
     render_liquid(liquid_layout, :follow_up)
   end
