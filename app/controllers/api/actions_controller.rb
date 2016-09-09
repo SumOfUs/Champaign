@@ -34,7 +34,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w(page_id form_id name source akid referring_akid)
+    %w(page_id form_id name source akid referring_akid referrer_id)
   end
 
   def fields

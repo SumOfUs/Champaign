@@ -6,7 +6,7 @@ module ActionBuilder
     action = Action.create({
       member: member,
       page: page,
-      form_data: @params,
+      form_data: form_data,
 
       # indicates if action subscribed the member
       subscribed_member: subscribed_member
@@ -88,5 +88,14 @@ module ActionBuilder
 
   def is_recurring_donation?
     @params[:is_subscription] ? true : false
+  end
+
+  def form_data
+    @params.tap do |params|
+      if params[:referrer_id]
+        member = Member.find_by(id: params[:referrer_id])
+        params[:referrer_email] = member.email if member.try(:email).present?
+      end
+    end
   end
 end
