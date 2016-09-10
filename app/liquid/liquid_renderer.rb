@@ -50,7 +50,8 @@ class LiquidRenderer
       donation_bands: donation_bands,
       thermometer: thermometer,
       action_count: @page.action_count,
-      show_direct_debit: show_direct_debit?
+      show_direct_debit: show_direct_debit?,
+      payment_methods: @member.customer.payment_methods.stored
     }.deep_stringify_keys
   end
 
