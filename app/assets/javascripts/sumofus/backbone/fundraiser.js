@@ -1,13 +1,7 @@
-const DesktopSticky = require('sumofus/backbone/desktop_sticky');
-const ActionForm  = require('sumofus/backbone/action_form');
-const CurrencyMethods     = require('sumofus/backbone/currency_methods');
-const OverlayToggle       = require('sumofus/backbone/overlay_toggle')
-const BraintreeHostedFields = require('sumofus/backbone/braintree_hosted_fields');
-const GlobalEvents = require('sumofus/backbone/global_events');
+const CurrencyMethods = require('./currency_methods');
+const GlobalEvents = require('./global_events');
 
-const Fundraiser = Backbone.View.extend(_.extend(
-  CurrencyMethods, {
-
+const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   el: '.fundraiser-bar',
 
   events: {
@@ -234,6 +228,26 @@ const Fundraiser = Backbone.View.extend(_.extend(
     }
   },
 
+  submitOneClick(id) {
+    const data = this.oneClickDonationData(id);
+    const url = `/api/payment/braintree/pages/${this.pageId}/one_click`;
+    $.post(url, data)
+      .then(this.onOneClickSuccess.bind(this), this.onOneClickFailed.bind(this));
+  },
+
+  oneClickDonationData() {
+  },
+
+  onOneClickSuccess(response) {
+    console.log('One Click donation succeeded and responded with:');
+    console.log(response);
+  },
+
+  onOneClickFailure(reason) {
+    console.log('One Click donation failed with the following reason:');
+    console.log(reason);
+  },
+
   transactionSuccess(data, status) {
     let hasCallbackFunction = (typeof this.submissionCallback === 'function');
     if (hasCallbackFunction) {
@@ -277,36 +291,32 @@ const Fundraiser = Backbone.View.extend(_.extend(
     });
   },
 
-  serializeUserForm () {
-    let list = this.$('form.action-form').serializeArray();
-    let serialized = {}
-    $.each(list, function(ii, field){
-      serialized[field.name] = field.value;
-    });
-    return serialized;
+  serializeUserForm() {
+    const list = this.$('form.action-form').serializeArray();
+    return _.mapValues(_.keyBy(list, 'name'), 'value');
   },
 
   readRecurring() {
-    return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
+    return !!this.$('input.fundraiser-bar__recurring').prop('checked');
   },
 
   readStoreInVault() {
     return this.$('input.fundraiser-bar__store-in-vault').prop('checked');
   },
 
-  disableButton(e) {
+  disableButton() {
     this.$('.fundraiser-bar__errors').addClass('hidden-closed');
-    this.$('.fundraiser-bar__submit-button').
-      text(I18n.t('form.processing')).
-      addClass('button--disabled').
-      prop('disabled', true);
+    this.$('.fundraiser-bar__submit-button')
+      .text(I18n.t('form.processing'))
+      .addClass('button--disabled')
+      .prop('disabled', true);
   },
 
   enableButton() {
-    this.$('.fundraiser-bar__submit-button').
-      html(this.buttonText).
-      removeClass('button--disabled').
-      prop('disabled', false);
+    this.$('.fundraiser-bar__submit-button')
+      .html(this.buttonText)
+      .removeClass('button--disabled')
+      .prop('disabled', false);
   },
 
   redirectTo(url) {
@@ -324,15 +334,13 @@ const Fundraiser = Backbone.View.extend(_.extend(
 
   handleInterTabFollowUp() {
     $(window).on('message', (e) => {
-      if (typeof(e.originalEvent.data) === 'object'){
+      if (typeof e.originalEvent.data === 'object') {
         if (e.originalEvent.data.event === 'follow_up:loaded') {
           this.redirectTo(this.followUpUrl);
           e.originalEvent.source.close();
           $.publish('direct_debit:donated');
         } else if (e.originalEvent.data.event === 'donation:error') {
-          let messages = e.originalEvent.data.errors.map(function(error){
-            return error.message;
-          });
+          const messages = e.originalEvent.data.errors.map(({ message }) => message);
           this.showErrors(messages);
           e.originalEvent.source.close();
         }
