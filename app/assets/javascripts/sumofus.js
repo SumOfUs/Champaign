@@ -2,7 +2,7 @@
 //= require jquery_ujs
 //= require pub_sub
 //= require sticky
-//= require underscore
+//= require lodash
 //= require braintree-web
 //= require backbone
 
