@@ -102,6 +102,10 @@ gem 'metamagic'
 # JWT
 gem 'jwt'
 
+# Lodash is a better underscore
+# see: https://github.com/lodash/lodash/wiki/Migrating
+gem 'lodash-rails'
+
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false
@@ -142,7 +146,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-backbone'
 
   # JavaScript's utility _ belt http://underscorejs.org
-  gem 'rails-assets-underscore'
+  # gem 'rails-assets-underscore'
 
   # Reduce user-misspelled email addresses in your forms.
   gem 'rails-assets-mailcheck'

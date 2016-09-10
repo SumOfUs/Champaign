@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore
+//= require lodash
 //= require backbone
 //= require pub_sub
 //= require jquery-ui/sortable
