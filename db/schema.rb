@@ -258,9 +258,11 @@ ActiveRecord::Schema.define(version: 20160907091641) do
     t.string   "expiration_date"
     t.string   "instrument_type"
     t.string   "email"
+    t.boolean  "store_in_vault",  default: false
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
+  add_index "payment_braintree_payment_methods", ["store_in_vault"], name: "index_payment_braintree_payment_methods_on_store_in_vault", using: :btree
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
