@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
 class MemberAuthenticationBuilder
-  attr_reader :params
-
-  def self.build(params)
-    new(params).build
+  def self.build(email:, password:, password_confirmation:)
+    new(email: email, password: password, password_confirmation: password_confirmation).build
   end
 
-  def initialize(params)
-    @params = params
+  def initialize(email:, password:, password_confirmation:)
+    @email = email
+    @password = password
+    @password_confirmation = password_confirmation
   end
 
 
   def build
     auth = MemberAuthentication.new({
       member: member,
-      password: params[:password],
-      password_confirmation: params[:password_confirmation]
+      password: @password,
+      password_confirmation: @password_confirmation
     })
 
     if auth.save
@@ -33,6 +33,6 @@ class MemberAuthenticationBuilder
   end
 
   def member
-    @member ||= Member.find_by_email(params[:email])
+    @member ||= Member.find_by_email(@email)
   end
 end

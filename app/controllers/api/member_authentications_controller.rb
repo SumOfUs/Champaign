@@ -3,22 +3,25 @@
 class Api::MemberAuthenticationsController < ApplicationController
 
   def new
+    @page = Page.find params[:page_id]
+    view = File.read("#{Rails.root}/app/liquid/views/layouts/member_registration.liquid")
+    template = Liquid::Template.parse(view)
+    @rendered = template.render('page_id' => params[:page_id], 'email' => params[:email]).html_safe
+
+    render "pages/show", layout: 'sumofus'
   end
 
   def create
-    auth = MemberAuthenticationBuilder.build(permitted_params)
+    auth = MemberAuthenticationBuilder.build(
+      email: params[:email],
+      password: params[:password],
+      password_confirmation: params[:password_confirmation]
+    )
 
     if auth.valid?
-      # redirect to page followup
-      render json: { success: true }
+      render js: "window.location = '#{ follow_up_page_path(params[:page_id]) }'"
     else
-      render json: { errors: true }
+      render json: auth.errors, status: :unprocessable_entity
     end
-  end
-
-  private
-
-  def permitted_params
-    params.permit(:password, :password_confirmation, :email)
   end
 end
