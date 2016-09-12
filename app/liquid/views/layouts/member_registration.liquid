@@ -1,0 +1,43 @@
+<div class="center-content center-content--accomodates-stuck-footer">
+  <div class="center-content__big-column">
+
+    <div class="imageless-title">
+      <div class="typography__highlight-wrapper">
+        <h1 class="typography__highlight">
+          <span>Sign Up</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="body-text main-feature main-feature--close-top">
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </p>
+
+        <form action='/api/member_authentication' data-remote='true' method='post' class='form--big registration-form'>
+          <div class='form__group action-form__field-container'>
+            <input type='password' name='password' class='form-control form__content' id='' placeholder='Password' maxlength='30' />
+            <input type='password' name='password_confirmatiion' class='form-control form__content' id='' placeholder='Confirm Password' maxlength='30' />
+            <input type='hidden' name='email' value='{{email}}' />
+            <input type='hidden' name='page_id' value='{{page_id}}' />
+          </div>
+
+          <button type='submit' class='button registation-form__submit-button'>Signup</button>
+        </form>
+
+      {% unless link_list == blank %}
+        <hr class="stubby-hr" />
+        <h3>{{ 'page.more_info' | t }}</h3>
+        {% include 'Links' %}
+      {% endunless %}
+    </div>
+  </div>
+  <div class="center-content__fixed-right center-content--push-down">
+
+
+  </div>
+</div>
+
+{% include 'Petition Mobile Footer' %}
+
+
