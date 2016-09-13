@@ -13,11 +13,12 @@ class MemberAuthenticationBuilder
 
   def build
     auth = MemberAuthentication.new(member: member,
-                                    password: @password,
-                                    password_confirmation: @password_confirmation)
-
-    send_confirmation_email if auth.save
-
+                                    password: params[:password],
+                                    password_confirmation: params[:password_confirmation],
+                                    token: SecureRandom.base64(24))
+    if auth.save
+      send_confirmation_email
+    end
     auth
   end
 
