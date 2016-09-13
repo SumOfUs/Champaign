@@ -176,3 +176,6 @@ de:
         tweet: "Eine Bayer-Monsanto Fusion verstößt gegen Kartellrecht und ist ein Desaster für den Planeten @vestager @LorettaLynch"
         tweet_link: http://bit.ly/2aVFqfg
         cta: "Jetzt tweeten"
+  confirmation_mailer:
+      confirmation_email:
+        subject: "missing"
