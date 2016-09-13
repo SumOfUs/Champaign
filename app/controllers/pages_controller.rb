@@ -3,7 +3,7 @@ require 'champaign_queue'
 require 'browser'
 
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :create, :follow_up]
+  before_action :authenticate_user!, except: [:show, :follow_up]
   before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics]
   before_action :get_page_or_homepage, only: [:show]
 

@@ -1,4 +1,16 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: uris
+#
+#  id         :integer          not null, primary key
+#  domain     :string
+#  path       :string
+#  page_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Uri < ActiveRecord::Base
   belongs_to :page
 

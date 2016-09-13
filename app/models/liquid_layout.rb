@@ -1,4 +1,20 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: liquid_layouts
+#
+#  id                          :integer          not null, primary key
+#  title                       :string
+#  content                     :text
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  description                 :text
+#  experimental                :boolean          default(FALSE), not null
+#  default_follow_up_layout_id :integer
+#  primary_layout              :boolean
+#  post_action_layout          :boolean
+#
+
 class LiquidLayout < ActiveRecord::Base
   include HasLiquidPartials
   has_paper_trail

@@ -1,4 +1,35 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: pages
+#
+#  id                         :integer          not null, primary key
+#  language_id                :integer
+#  campaign_id                :integer
+#  title                      :string           not null
+#  slug                       :string           not null
+#  created_at                 :datetime
+#  updated_at                 :datetime
+#  compiled_html              :text
+#  status                     :string           default("pending")
+#  messages                   :text
+#  content                    :text             default("")
+#  featured                   :boolean          default(FALSE)
+#  liquid_layout_id           :integer
+#  follow_up_liquid_layout_id :integer
+#  action_count               :integer          default(0)
+#  primary_image_id           :integer
+#  ak_petition_resource_uri   :string
+#  ak_donation_resource_uri   :string
+#  follow_up_plan             :integer          default(0), not null
+#  follow_up_page_id          :integer
+#  javascript                 :text
+#  publish_status             :integer          default(1), not null
+#  optimizely_status          :integer          default(0), not null
+#  canonical_url              :string
+#  allow_duplicate_actions    :boolean          default(FALSE)
+#
+
 require 'rails_helper'
 
 describe Page do
@@ -414,29 +445,38 @@ describe Page do
   end
 
   describe 'canonical_url' do
-    it 'is valid as nil' do
-      page.canonical_url = nil
-      expect(page).to be_valid
+    context 'is valid when' do
+      it 'nil' do
+        page.canonical_url = nil
+        expect(page).to be_valid
+      end
+
+      it 'empty string' do
+        page.canonical_url = ''
+        expect(page).to be_valid
+      end
+
+      it 'full url' do
+        page.canonical_url = 'https://google.com'
+        expect(page).to be_valid
+      end
     end
 
-    it 'is valid as empty string' do
-      page.canonical_url = ''
-      expect(page).to be_valid
-    end
+    context 'is invalid when' do
+      it 'url has no protocol' do
+        page.canonical_url = 'google.com'
+        expect(page).to be_invalid
+      end
 
-    it 'is invalid as a url without a protocol' do
-      page.canonical_url = 'google.com'
-      expect(page).to be_invalid
-    end
+      it 'without full url' do
+        page.canonical_url = 'https://lol'
+        expect(page).to be_invalid
+      end
 
-    it 'is invalid as a protocol without a url' do
-      page.canonical_url = 'https://lol'
-      expect(page).to be_invalid
-    end
-
-    it 'is valid as a url with a protocol' do
-      page.canonical_url = 'https://google.com'
-      expect(page).to be_valid
+      it 'with a newline' do
+        page.canonical_url = "https://example.com\n"
+        expect(page).to be_invalid
+      end
     end
   end
 end

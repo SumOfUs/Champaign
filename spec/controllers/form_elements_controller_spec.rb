@@ -5,6 +5,8 @@ describe FormElementsController do
   let(:element) { instance_double('FormElement', valid?: true) }
   let(:form) { instance_double('Form') }
 
+  include_examples 'session authentication', {}
+
   describe 'POST #create' do
     let(:params) { { label: 'Label', data_type: 'text', required: true } }
 
@@ -13,6 +15,10 @@ describe FormElementsController do
       allow(FormElementBuilder).to receive(:create) { element }
 
       post :create, form_id: '1', form_element: params
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'finds form' do
@@ -39,6 +45,10 @@ describe FormElementsController do
       post :sort, form_id: '1', form_element_ids: ''
     end
 
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
+
     it 'finds form' do
       expect(Form).to have_received(:find).with('1')
     end
@@ -54,6 +64,10 @@ describe FormElementsController do
       allow(element).to receive(:destroy)
 
       delete :destroy, form_id: '1', id: '2', format: :json
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'finds form element' do

@@ -1,4 +1,35 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: pages
+#
+#  id                         :integer          not null, primary key
+#  language_id                :integer
+#  campaign_id                :integer
+#  title                      :string           not null
+#  slug                       :string           not null
+#  created_at                 :datetime
+#  updated_at                 :datetime
+#  compiled_html              :text
+#  status                     :string           default("pending")
+#  messages                   :text
+#  content                    :text             default("")
+#  featured                   :boolean          default(FALSE)
+#  liquid_layout_id           :integer
+#  follow_up_liquid_layout_id :integer
+#  action_count               :integer          default(0)
+#  primary_image_id           :integer
+#  ak_petition_resource_uri   :string
+#  ak_donation_resource_uri   :string
+#  follow_up_plan             :integer          default(0), not null
+#  follow_up_page_id          :integer
+#  javascript                 :text
+#  publish_status             :integer          default(1), not null
+#  optimizely_status          :integer          default(0), not null
+#  canonical_url              :string
+#  allow_duplicate_actions    :boolean          default(FALSE)
+#
+
 class Page < ActiveRecord::Base
   extend FriendlyId
   has_paper_trail
@@ -27,7 +58,7 @@ class Page < ActiveRecord::Base
   validates :liquid_layout, presence: true
   validates :publish_status, presence: true
   validate  :primary_image_is_owned
-  validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+} }
+  validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+\z} }
 
   after_save :switch_plugins
 

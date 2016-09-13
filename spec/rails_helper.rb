@@ -9,6 +9,7 @@ require 'devise'
 require 'support/helper_functions'
 require 'support/omni_auth_helper'
 require 'support/capybara'
+require 'controllers/shared_examples'
 require 'webmock/rspec'
 require 'paper_trail/frameworks/rspec'
 

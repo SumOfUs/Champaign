@@ -1,4 +1,24 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: members
+#
+#  id                :integer          not null, primary key
+#  email             :string
+#  country           :string
+#  first_name        :string
+#  last_name         :string
+#  city              :string
+#  postal            :string
+#  title             :string
+#  address1          :string
+#  address2          :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  actionkit_user_id :string
+#  donor_status      :integer          default(0), not null
+#
+
 class Member < ActiveRecord::Base
   has_one :customer,               class_name: 'Payment::Braintree::Customer'
   has_many :go_cardless_customers, class_name: 'Payment::GoCardless::Customer'

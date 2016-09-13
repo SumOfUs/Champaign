@@ -79,7 +79,7 @@
 
 # GoCardless payment processor
      gocardless:
-       token: <%= ENV["GOCARDLESS_TOKEN"] %>
+       token: <%= ENV["GOCARDLESS_TOKEN"] || '1234' %>
        environment: 'sandbox'
        gbp_charge_day: 20
        secret: 'monkey'

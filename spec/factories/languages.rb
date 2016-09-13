@@ -1,4 +1,16 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: languages
+#
+#  id            :integer          not null, primary key
+#  code          :string           not null
+#  name          :string           not null
+#  created_at    :datetime
+#  updated_at    :datetime
+#  actionkit_uri :string
+#
+
 FactoryGirl.define do
   factory :language do
     code 'en'

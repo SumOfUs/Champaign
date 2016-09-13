@@ -8,6 +8,8 @@ describe PagesController do
   let(:page) { instance_double('Page', published?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data' }) }
 
+  include_examples 'session authentication', {}
+
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
@@ -34,6 +36,10 @@ describe PagesController do
     before do
       allow(PageBuilder).to receive(:create) { page }
       post :create, page: { title: 'Foo Bar' }
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to have_received(:authenticate!)
     end
 
     it 'creates page' do
@@ -69,6 +75,11 @@ describe PagesController do
     end
 
     subject { put :update, id: '1', page: { title: 'bar' } }
+
+    it 'authenticates session' do
+      subject
+      expect(request.env['warden']).to have_received(:authenticate!)
+    end
 
     it 'finds page' do
       expect(Page).to receive(:find).with('1')

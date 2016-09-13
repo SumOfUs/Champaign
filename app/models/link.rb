@@ -1,4 +1,18 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: links
+#
+#  id         :integer          not null, primary key
+#  url        :string
+#  title      :string
+#  date       :string
+#  source     :string
+#  page_id    :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Link < ActiveRecord::Base
   belongs_to :page, touch: true
   has_paper_trail on: [:update, :destroy]

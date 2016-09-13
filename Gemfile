@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.7.1'
 gem 'rails-observers'
 gem 'readthis'
 gem 'hiredis'
@@ -98,18 +98,21 @@ gem 'config'
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
+gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
+
 
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false
+  gem 'annotate'
 end
 
 group :development, :test do
+  gem 'envyable', require: 'envyable/rails-now'
   gem 'byebug'
   gem 'spring'
   gem 'rspec-rails'
   gem 'capybara' # Capybara for integration testing
-  gem 'envyable'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'

@@ -1,4 +1,18 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: plugins_thermometers
+#
+#  id         :integer          not null, primary key
+#  title      :string
+#  offset     :integer
+#  page_id    :integer
+#  active     :boolean          default(FALSE)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  ref        :string
+#
+
 class Plugins::Thermometer < ActiveRecord::Base
   belongs_to :page, touch: true
 

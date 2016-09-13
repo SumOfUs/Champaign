@@ -1,4 +1,12 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: actionkit_page_types
+#
+#  id                  :integer          not null, primary key
+#  actionkit_page_type :string           not null
+#
+
 class ActionkitPageType < ActiveRecord::Base
   has_many :actionkit_page
 

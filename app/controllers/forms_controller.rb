@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+# TODO: Needs a controller spec
 class FormsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :create]
+  before_action :authenticate_user!
   before_action :find_form, only: [:show, :edit]
 
   def index

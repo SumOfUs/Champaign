@@ -2,13 +2,18 @@
 require 'rails_helper'
 
 describe CampaignsController do
-  let(:user) { instance_double('User', id: '1') }
   let(:campaign) { instance_double('Campaign') }
 
   before do
-    allow(request.env['warden']).to receive(:authenticate!) { user }
-    allow(controller).to receive(:current_user) { user }
+    allow(Campaign).to receive(:find) { campaign }
   end
+
+  include_examples 'session authentication',
+    { get:  [:index],
+      get:  [:new],
+      get:  [:edit, id: 1],
+      get:  [:show, id: 1]
+    }
 
   describe 'GET index' do
     it 'renders index' do
@@ -38,7 +43,6 @@ describe CampaignsController do
 
   describe 'GET edit' do
     before do
-      allow(Campaign).to receive(:find) { campaign }
       get :edit, id: 1
     end
 
@@ -56,10 +60,6 @@ describe CampaignsController do
   end
 
   describe 'GET show' do
-    before do
-      allow(Campaign).to receive(:find) { campaign }
-    end
-
     it 'finds campaign' do
       expect(Campaign).to receive(:find).with('1')
       get :show, id: 1
@@ -77,6 +77,11 @@ describe CampaignsController do
 
     before do
       allow(CampaignCreator).to receive(:run) { campaign }
+      post :create, campaign: fake_params
+    end
+
+    it 'authenticates session' do
+      expect(request.env['warden']).to receive(:authenticate!)
       post :create, campaign: fake_params
     end
 

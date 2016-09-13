@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class LiquidPartialsController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :create]
+  before_action :authenticate_user!
   before_action :set_liquid_partial, only: [:show, :edit, :update, :destroy]
 
   def index
