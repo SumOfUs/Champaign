@@ -103,3 +103,4 @@
      eager_load_for_specs: true
 
      home_page_url: 'http://example.com'
+     default_mailer_address: 'info@example.com'

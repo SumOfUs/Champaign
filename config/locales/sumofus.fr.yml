@@ -104,5 +104,8 @@ fr:
   time:
     formats:
       default: "%-d %B %Y"
+  confirmation_mailer:
+    confirmation_email:
+      subject: "missing"
 
 

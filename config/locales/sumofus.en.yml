@@ -161,4 +161,7 @@ en:
         tweet: "A Bayer-Monsanto merger violates the law and is a disaster for our birds, bees and farmers @vestager @LorettaLynch"
         tweet_link: https://bayermonsantomerger.com
         cta: "Tweet now"
+  confirmation_mailer:
+    confirmation_email:
+      subject: "E-mail confirmation for signing up for express donations with SumOfUs"
 
