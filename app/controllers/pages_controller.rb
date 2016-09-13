@@ -74,7 +74,7 @@ class PagesController < ApplicationController
   def get_page_or_homepage
     get_lowercase_page
   rescue ActiveRecord::RecordNotFound
-    redirect_to Settings.homepage_url
+    redirect_to Settings.home_page_url
   end
 
   def get_lowercase_page
