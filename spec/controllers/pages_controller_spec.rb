@@ -14,7 +14,7 @@ describe PagesController do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
-    Settings.homepage_url = 'http://example.com'
+    Settings.home_page_url = 'http://example.com'
   end
 
   describe 'GET #index' do
@@ -129,7 +129,7 @@ describe PagesController do
     it 'redirects to homepage if user not logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:published?) { false }
-      expect(subject).to redirect_to(Settings.homepage_url)
+      expect(subject).to redirect_to(Settings.home_page_url)
     end
 
     it 'does not redirect to homepage if user not logged in and page published' do
@@ -180,7 +180,7 @@ describe PagesController do
 
     it 'redirects to homepage if page is not found' do
       allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-      expect(get(:show, id: '1000000')).to redirect_to(Settings.homepage_url)
+      expect(get(:show, id: '1000000')).to redirect_to(Settings.home_page_url)
     end
 
     context 'on pages with localization' do
