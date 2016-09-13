@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_liquid(liquid_layout, view)
-    return redirect_to(Settings.homepage_url) unless @page.published? || user_signed_in?
+    return redirect_to(Settings.home_page_url) unless @page.published? || user_signed_in?
     localize_by_page_language(@page)
 
     @rendered = renderer(liquid_layout).render
