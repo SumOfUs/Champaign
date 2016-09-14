@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160909105431) do
+ActiveRecord::Schema.define(version: 20160913134138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(version: 20160909105431) do
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.string   "token"
+    t.datetime "confirmed_at"
   end
 
   add_index "member_authentications", ["facebook_uid"], name: "index_member_authentications_on_facebook_uid", using: :btree
