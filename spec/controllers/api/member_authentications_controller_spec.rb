@@ -4,16 +4,18 @@ require 'rails_helper'
 describe Api::MemberAuthenticationsController do
   describe 'POST create' do
     let(:auth) { double('auth', valid?: true) }
+    let(:page) { double('page', page_id: '1', language: double('language', code: 'EN'))}
 
     before do
       allow(MemberAuthenticationBuilder).to receive(:build) { auth }
+      allow(Page).to receive(:find) { page }
 
       post :create, email: 'test@example.com', password: 'p', password_confirmation: 'p', page_id: '1'
     end
 
     it 'builds authentication' do
       expect(MemberAuthenticationBuilder).to have_received(:build)
-        .with(password: 'p', password_confirmation: 'p', email: 'test@example.com')
+        .with(password: 'p', password_confirmation: 'p', email: 'test@example.com', language: 'EN')
     end
 
     context 'successfully creates authentication' do
