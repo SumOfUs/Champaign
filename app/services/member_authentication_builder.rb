@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
 class MemberAuthenticationBuilder
-  def self.build(email:, password:, password_confirmation:)
-    new(email: email, password: password, password_confirmation: password_confirmation).build
+  def self.build(email:, password:, password_confirmation:, language:)
+    new(email: email, password: password, password_confirmation: password_confirmation, language: language).build
   end
 
-  def initialize(email:, password:, password_confirmation:)
+  def initialize(email:, password:, password_confirmation:, language:)
     @email = email
     @password = password
     @password_confirmation = password_confirmation
+    @language = language
   end
 
   def build
     auth = MemberAuthentication.new(member: member,
-                                    password: params[:password],
-                                    password_confirmation: params[:password_confirmation],
+                                    password: @password,
+                                    password_confirmation: @password_confirmation,
                                     token: SecureRandom.base64(24))
     if auth.save
       send_confirmation_email
@@ -25,7 +26,7 @@ class MemberAuthenticationBuilder
   private
 
   def send_confirmation_email
-    ## use rails mailer
+    ConfirmationMailer.confirmation_email(member, @language).deliver_later
   end
 
   def member

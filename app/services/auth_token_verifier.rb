@@ -9,11 +9,10 @@ class AuthTokenVerifier
   end
 
   def verify
-    return @errors unless @errors.blank?
-    if not valid_token?
-      Rails.logger.error("Token verification failed for email #{@member.email} with token #{@token}.")
-      return ["Your confirmation token appears to be invalid. Our developers have been notified."]
-    end
+    return @errors if @errors.any?
+    return if valid_token?
+    Rails.logger.error("Token verification failed for email #{@member.email} with token #{@token}.")
+    ["Your confirmation token appears to be invalid. Our developers have been notified."]
   end
 
   private
@@ -22,10 +21,10 @@ class AuthTokenVerifier
     @token = params[:token]
     @member = Member.find_by!(email: params[:email])
     @member_auth = @member.authentication
-    return nil
+    []
   rescue ActiveRecord::RecordNotFound
     Rails.logger.error("Member or authentication record not found for #{@member} with token #{@token}.")
-    return ["There was an error retrieving your records. We've been notified and will look into it."]
+    ["There was an error retrieving your records. We've been notified and will look into it."]
   end
 
   def valid_token?

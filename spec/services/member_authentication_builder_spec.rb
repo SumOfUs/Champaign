@@ -10,7 +10,12 @@ describe MemberAuthenticationBuilder do
   describe '.build' do
     context 'with valid params' do
       subject do
-        described_class.build(password: 'password', password_confirmation: 'password', email: 'test@example.com')
+        described_class.build(
+          password: 'password',
+          password_confirmation: 'password',
+          email: 'test@example.com',
+          language: 'EN'
+        )
       end
 
       before do
@@ -26,7 +31,12 @@ describe MemberAuthenticationBuilder do
 
     context 'with invalid params' do
       subject do
-        described_class.build(password: 'password', password_confirmation: 'wrong', email: 'test@example.com')
+        described_class.build(
+          password: 'password',
+          password_confirmation: 'wrong',
+          email: 'test@example.com',
+          language: 'EN'
+        )
       end
 
       it 'creates member authentication' do
