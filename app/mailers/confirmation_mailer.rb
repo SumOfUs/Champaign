@@ -13,6 +13,10 @@ class ConfirmationMailer < ApplicationMailer
   end
 
   def confirmation_url
-    "#{Settings.home_page_url}/email_confirmation+#{@member.authentication.token}"
+    params = {
+      token: @member.authentication.token,
+      email: @member.email
+    }
+    "#{Settings.home_page_url}/email_confirmation?#{params.to_query}"
   end
 end
