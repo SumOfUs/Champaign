@@ -16,7 +16,8 @@ class Api::MemberAuthenticationsController < ApplicationController
     auth = MemberAuthenticationBuilder.build(
       email: params[:email],
       password: params[:password],
-      password_confirmation: params[:password_confirmation]
+      password_confirmation: params[:password_confirmation],
+      language: Page.find(params[:page_id]).language.code
     )
 
     if auth.valid?
