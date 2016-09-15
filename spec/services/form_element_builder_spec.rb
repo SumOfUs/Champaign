@@ -13,6 +13,12 @@ describe FormElementBuilder do
         element = FormElementBuilder.create(form, params)
         expect(form.form_elements.first).to eq(element)
       end
+
+      it 'parses JSON choices while leaving non-JSON choices' do
+        choices = ['{"label": "Cluck", "value": "chicken"}', "Meower"]
+        element = FormElementBuilder.create(form, params.merge(choices: choices))
+        expect(form.form_elements.first.choices).to eq [{'label' => 'Cluck', 'value' => 'chicken'}, 'Meower']
+      end
     end
   end
 end
