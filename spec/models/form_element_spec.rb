@@ -158,6 +158,13 @@ describe FormElement do
         expect(element.formatted_choices).to eq([expected])
       end
     end
+
+    describe 'when the choice is nil' do
+      it 'returns an empty list' do
+        element.choices = nil
+        expect(element.formatted_choices).to eq []
+      end
+    end
   end
 
   describe 'validation' do
@@ -259,11 +266,6 @@ describe FormElement do
       end
 
       describe 'fails when choices' do
-        xit 'is invalid json' do
-          subject.choices = '["apple", "orange", "pear"'
-          expect(subject).to be_invalid
-        end
-
         it 'is an empty object' do
           subject.choices = '{}'
           expect(subject).to be_invalid
