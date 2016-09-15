@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class AuthTokenVerifier
   def self.verify(params)
-    self.new(params).verify
+    new(params).verify
   end
 
   def initialize(params)
@@ -12,7 +12,7 @@ class AuthTokenVerifier
     return @errors if @errors.any?
     return if valid_token?
     Rails.logger.error("Token verification failed for email #{@member.email} with token #{@token}.")
-    ["Your confirmation token appears to be invalid. Our developers have been notified."]
+    ['Your confirmation token appears to be invalid. Our developers have been notified.']
   end
 
   private

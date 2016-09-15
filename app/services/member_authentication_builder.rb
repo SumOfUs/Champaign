@@ -2,7 +2,10 @@
 
 class MemberAuthenticationBuilder
   def self.build(email:, password:, password_confirmation:, language_code:)
-    new(email: email, password: password, password_confirmation: password_confirmation, language_code: language_code).build
+    new(email: email,
+        password: password,
+        password_confirmation: password_confirmation,
+        language_code: language_code).build
   end
 
   def initialize(email:, password:, password_confirmation:, language_code:)
@@ -17,9 +20,7 @@ class MemberAuthenticationBuilder
                                     password: @password,
                                     password_confirmation: @password_confirmation,
                                     token: SecureRandom.base64(24))
-    if auth.save
-      send_confirmation_email
-    end
+    send_confirmation_email if auth.save
     auth
   end
 

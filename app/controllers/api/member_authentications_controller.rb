@@ -12,7 +12,6 @@ class Api::MemberAuthenticationsController < ApplicationController
   end
 
   def create
-
     auth = MemberAuthenticationBuilder.build(
       email: params[:email],
       password: params[:password],
