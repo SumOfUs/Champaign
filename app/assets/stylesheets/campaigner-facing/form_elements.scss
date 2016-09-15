@@ -12,4 +12,14 @@
       padding-left: $padding-small-horizontal;
     }
   }
+
+  &__choice-field {
+    position: relative;
+    margin-bottom: 6px;
+  }
+  &__remove-choice {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
 }
