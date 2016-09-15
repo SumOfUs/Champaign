@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 class MemberAuthenticationBuilder
-  def self.build(email:, password:, password_confirmation:, language:)
-    new(email: email, password: password, password_confirmation: password_confirmation, language: language).build
+  def self.build(email:, password:, password_confirmation:, language_code:)
+    new(email: email, password: password, password_confirmation: password_confirmation, language_code: language_code).build
   end
 
-  def initialize(email:, password:, password_confirmation:, language:)
+  def initialize(email:, password:, password_confirmation:, language_code:)
     @email = email
     @password = password
     @password_confirmation = password_confirmation
-    @language = language
+    @language_code = language_code
   end
 
   def build
@@ -26,7 +26,7 @@ class MemberAuthenticationBuilder
   private
 
   def send_confirmation_email
-    ConfirmationMailer.confirmation_email(member, @language).deliver_later
+    ConfirmationMailer.confirmation_email(member, @language_code).deliver_later
   end
 
   def member
