@@ -7,6 +7,5 @@ class EmailConfirmationController < ApplicationController
 
     @rendered = template.render('errors' => @errors, 'success' => @errors.blank?).html_safe
     render 'email_confirmation/follow_up', layout: 'generic'
-
   end
 end
