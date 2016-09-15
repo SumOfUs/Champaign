@@ -1,0 +1,312 @@
+@import "compass/css3/filter";
+
+.fundraiser-bar {
+  &__steps {
+    position: relative;
+    width: 100%;
+    margin: 21px auto 0;
+    @include transition(width 0.2s linear);
+
+    &--two-step {
+    @include transition(width 0s linear);
+      position: relative;
+      width: 70%;
+      margin: 21px auto 0;
+    }
+  }
+  &__step-connector {
+    width: calc(100% - 40px);
+    height: 2px;
+    top: 22px;
+    left: 20px;
+    margin: 0;
+    position: absolute;
+    background: $slate-gray;
+    border: none;
+    &--static {
+      position: static;
+      float: none;
+      margin: 15px auto 9px;
+    }
+  }
+  &__amount-button {
+    @include button($orange);
+    width: 47%;
+    margin: 3px 1.5%;
+    float: left;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 18px;
+  }
+  input.fundraiser-bar__custom-field {
+    width: 47%;
+    margin: 3px 1.5%;
+    text-align: center;
+    font-size: 20px;
+    padding: 16px;
+    height: 60px;
+  }
+  &__switch-currency {
+    margin: 20px 0;
+    font-size: 14px;
+    float: left;
+  }
+  &__currency-selector {
+    margin-top: 10px;
+  }
+  &__engage-currency-switcher {
+    cursor: pointer;
+  }
+  &__step-label {
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    display: table;
+
+    &:first-of-type {
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+    &:last-of-type {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    &:hover {
+      .fundraiser-bar__step-name--past {
+        color: $navy;
+      }
+      .fundraiser-bar__step-number--past {
+        background-color: $navy;
+        border-color: $navy;
+        color: white;
+      }
+    }
+  }
+  &__step-number {
+    height: 45px;
+    width: 45px;
+    border-radius: 22px;
+    border-width: 2px;
+    border-style: solid;
+    @include box-sizing(border-box);
+    padding: 11px 15px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+
+    font-size: 20px;
+    &--past {
+      color: white;
+      background: $slate-gray;
+      border-color: $slate-gray;
+      cursor: pointer;
+    }
+    &--current {
+      color: white;
+      background: $navy;
+      border-color: $navy;
+    }
+    &--upcoming {
+      color: $slate-gray;
+      background: $overcast-gray;
+      border-color: $slate-gray;
+    }
+  }
+  &__step-name {
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 6px;
+    min-width: 65px;
+
+    &--past {
+      color: $slate-gray;
+      cursor: pointer;
+    }
+    &--current {
+      color: $navy;
+    }
+    &--upcoming {
+      color: $slate-gray;
+    }
+  }
+  &__step-numbers, &__step-names {
+    float: left;
+    width: 100%;
+    position: relative;
+  }
+  &__fields-loading {
+    width: calc(100% - 16px);
+    background: $overcast-gray;
+    padding: 26px;
+    position: relative;
+    left: -26px;
+    padding-left: 42px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    text-transform: uppercase;
+    float: left;
+    overflow: hidden;
+    .fa {
+      float: left;
+      font-size: 26px;
+      margin-right: 13px;
+      margin-top: 6px;
+    }
+  }
+  &__submit-button span{
+    vertical-align: middle;
+    &.fa {
+      margin-right: 6px;
+      font-size: 20px;
+    }
+  }
+  &__errors {
+    background: #fdd7d1;
+    width: 100%;
+    padding: 18px 26px;
+    margin: -26px -26px 20px;
+    border-top: 2px solid #f8492e;
+    border-bottom: 2px solid #f8492e;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  &__error-intro {
+    padding-left: 40px;
+    padding-bottom: 10px;
+    min-height: 30px;
+  }
+  .fa-exclamation-triangle {
+    position: absolute;
+    top: 21px;
+    left: 26px;
+    color: #f8492e;
+    font-size: 30px;
+  }
+  &__first-continue {
+    margin-bottom: 20px;
+  }
+}
+
+.sticky-wrapper {
+  position: relative;
+}
+
+.hosted-fields {
+  &__host {
+    height: 58px;
+    width: 100%;
+    &.braintree-hosted-fields-focused {
+      border-color: $teal;
+    }
+    &.braintree-hosted-fields-focused + .hosted-fields__card-type {
+      color: $teal;
+    }
+    &.braintree-hosted-fields-invalid {
+      border-color: $orange;
+    }
+    &.braintree-hosted-fields-invalid + .hosted-fields__card-type{
+      display: none;
+    }
+    &.hosted-fields__number {
+      padding-right: 52px;
+    }
+  }
+  &__direct-debit {
+    background: $paypal;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    display: block;
+    height: 52px;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 15px;
+    font-weight: bold;
+    text-align: center;
+    font-style: italic;
+  }
+  &__direct-debit-logo {
+    width: 35px;
+    height: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url(asset-path('direct_debit_logo'));
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &__card-type {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    font-size: 32px;
+    color: $overcast-gray;
+    padding: 4px;
+    border-radius: 3px;
+  }
+  &__or {
+    display: table;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    color: $slate-gray;
+    &--bottom {
+      margin: 6px auto 1px;
+    }
+    &--top {
+      margin: 1px auto 6px;
+    }
+  }
+  &__credit-card-fields {
+    float: left;
+  }
+}
+#hosted-fields {
+  #braintree-paypal-button {
+    background: $paypal;
+    padding: 4px 0;
+    border-radius: 4px;
+    cursor: pointer;
+
+    // override BT's inline style
+    width: 100% !important;
+    img {
+      width: 115px !important;
+      margin: 0 auto;
+    }
+  }
+  .hosted-fields--grayed-out {
+    #braintree-paypal-button, #braintree-paypal-button img, .hosted-fields__direct-debit {
+      @include filter(grayscale(100%));
+      &:hover, &:hover img {
+        @include filter(grayscale(0%));
+      }
+    }
+  }
+  #bt-pp-cancel {
+    float: left !important;
+    margin-left: 36px !important;
+  }
+}
+.donation-error {
+  width: 100%;
+  margin: 100px auto;
+  max-width: 500px;
+  font-size: 18px;
+  &__header {
+    font-size: 24px;
+  }
+  p, ul {
+    margin-top: 16px;
+  }
+  ul, ol {
+    margin-left: 30px;
+  }
+  li {
+    list-style: disc;
+  }
+}

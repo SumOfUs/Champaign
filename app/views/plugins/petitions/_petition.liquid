@@ -16,25 +16,24 @@
       outstanding_fields: plugins.fundraiser[ref].outstanding_fields,
       fields: plugins.petition[ref].fields %}
     <div class="petition-bar__fine-print">
-      {% capture privacy_link %}<a href="https://sumofus.org/privacy" target="_blank">{{ 'petition.privacy_link' | t }}</a>{% endcapture %}
-      {{ 'petition.fine_print' | val: 'privacy_link', privacy_link | t }}
+      {{ 'petition.fine_print' | t }}
     </div>
   </div>
 
   {% unless skip_javascript %}
     <script type="text/javascript">
       $(document).ready(function(){
-        var sou = window.sumofus; // convenience binding
-        sou.myActionForm  = new sou.ActionForm({
-          member:           window.sumofus.personalization.member,
-          outstandingFields:window.sumofus.personalization.outstandingFields,
-          location:         window.sumofus.personalization.location,
-          akid:             window.sumofus.personalization.urlParams.akid,
-          source:           window.sumofus.personalization.urlParams.source,
+        var chmp = window.champaign; // convenience binding
+        chmp.myActionForm  = new chmp.ActionForm({
+          member:           chmp.personalization.member,
+          outstandingFields:chmp.personalization.outstandingFields,
+          location:         chmp.personalization.location,
+          akid:             chmp.personalization.urlParams.akid,
+          source:           chmp.personalization.urlParams.source,
           prefill:          true
         });
 
-        sou.myPetition      = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
+        chmp.myPetition      = new chmp.Petition({followUpUrl: "{{ follow_up_url }}"});
       });
     </script>
   {% endunless %}

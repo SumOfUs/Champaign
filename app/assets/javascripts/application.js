@@ -14,7 +14,6 @@
 //= require jquery_ujs
 //= require underscore
 //= require backbone
-//= require pub_sub
 //= require jquery-ui/sortable
 //= require jquery.remotipart
 //= require d3
@@ -24,30 +23,32 @@
 //= require bootstrap-sprockets
 //= require selectize
 //= require dropzone
-//= require syntax-highlighting
 //= require typeahead.jquery
 //= require speakingurl
 //= require summernote
 //= require datatables
 //= require datatables/dataTables.bootstrap
-
 //= require i18n
 //= require i18n/translations
-//= require show_errors
-//= require dropzone_image_upload
-//= require selectize_config
-//= require search
-//= require configure_wysiwyg
-//= require_tree ./plugins/admin
 
-require('ajax')
-require('page');
-require("plugins_toggle");
-require("sidebar");
-require("tooltips");
-require("collection_editor");
-require('shares_editor');
-require('layout_picker');
+//= require shared/pub_sub
+//= require shared/show_errors
+//= require campaigner-facing/syntax-highlighting
+//= require campaigner-facing/dropzone_image_upload
+//= require campaigner-facing/selectize_config
+//= require campaigner-facing/search
+//= require campaigner-facing/configure_wysiwyg
+//= require campaigner-facing/form_preview
 
-window.PageEditBar =  require("page_edit_bar");
-window.Analytics   =  require('analytics');
+// ES6 files imported through Browserify
+require('campaigner-facing/ajax')
+require('campaigner-facing/page');
+require('campaigner-facing/plugins_toggle');
+require('campaigner-facing/sidebar');
+require('campaigner-facing/tooltips');
+require('campaigner-facing/collection_editor');
+require('campaigner-facing/shares_editor');
+require('campaigner-facing/layout_picker');
+
+window.PageEditBar =  require('campaigner-facing/page_edit_bar');
+window.Analytics   =  require('campaigner-facing/analytics');

@@ -66,7 +66,7 @@ describe 'GoCardless API' do
 
       it 'passes the description to go_cardless' do
         subject
-        expect(assigns(:flow).redirect_flow_instance.description).to match(/You are donating €3.00 to SumOfUs/)
+        expect(assigns(:flow).redirect_flow_instance.description).to match(/You are donating €3.00/)
       end
 
       it 'redirects to a page hosted on GoCardless' do

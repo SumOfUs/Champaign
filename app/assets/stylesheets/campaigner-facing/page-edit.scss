@@ -1,0 +1,491 @@
+$page-edit-bar-color: #222;
+$page-edit-text-color: #ccc;
+$save-box-color: lighten($page-edit-bar-color, 10%);
+$bootstrap-bg-gray: #f5f5f5;
+$bootstrap-border-gray: #e3e3e3;
+
+body.page-edit-body {
+  position: relative;
+  background-color: $page-edit-bar-color;
+}
+
+.note-editable {
+  // don't pad the paragraphs in the WYSIWYG or the output
+  ol, ul, p {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
+
+.page-edit-bar, .sidebar {
+  width: 20%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: $page-edit-bar-color;
+  z-index: 300;
+
+  &__logo {
+    height: 50px;
+    width: 100%;
+    background: url(asset-path('images/logo-white.png'));
+    background-size: 50%;
+    background-position: left center;
+    background-repeat: no-repeat;
+    margin-left: 15px;
+    opacity: 0.9;
+  }
+
+  &__group {
+    overflow: hidden;
+    @include transition (height 0.2s ease-out);
+    &--open {
+      height: 182px
+    }
+    &--closed {
+      height: 50px
+    }
+  }
+
+  &__step-list {
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+
+    li {
+      border-top: 1px solid $save-box-color;
+      &:last-of-type {
+        border-bottom: 1px solid $save-box-color;
+      }
+      a {
+        width: 100%;
+        display: block;
+        list-style: none;
+        padding: 15px 15px;
+        margin: 0;
+        @include box-sizing(border-box);
+        color: $page-edit-text-color;
+        @include transition(background-color 0.1s linear, color 0.1s linear);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
+
+        &:hover, &.active {
+          background-color: $save-box-color;
+          text-decoration: none;
+          color: white;
+        }
+        &:focus {
+          background-color: $page-edit-bar-color;
+        }
+        &.sidebar__secondary-link {
+          padding: 12px 15px 12px 36px;
+          background: black;
+          &:hover, &.active {
+            text-decoration: underline;
+          }
+        }
+
+        .fa {
+          margin-right: 8px;
+        }
+      }
+      &.active a {
+        background-color: $save-box-color;
+        color: white;
+      }
+    }
+  }
+
+  &__save-box {
+    position: absolute;
+    bottom: 0;
+    @include box-sizing(border-box);
+    width: 100%;
+    padding: 5px 15px;
+    background: $save-box-color;
+    text-align: center;
+    z-index: 200;
+
+    &--has-error {
+      background: maroon;
+      .page-edit-bar__error-message {
+        cursor: pointer;
+      }
+      .page-edit-bar__btn-holder {
+        background: maroon;
+      }
+    }
+    &--success {
+      background: darkgreen;
+    }
+  }
+
+  &__btn-holder {
+    width: 100%;
+    position: absolute;
+    top: -45px;
+    left: 0;
+    @include transition(top 0.15s ease-in-out, height 0.15s ease-in-out);
+    @include box-sizing(border-box);
+    height: 54px;
+    z-index: -1;
+    padding-top: 10px;
+    background-color: $save-box-color;
+    overflow: hidden;
+    &--hidden {
+      top: 0;
+      height: 0;
+    }
+  }
+  &__save-button {
+    margin-bottom: 10px;
+  }
+
+  &__error-message {
+    color: white;
+    padding: 0 14px;
+  }
+  &__toggle-btns {
+    margin: 0 20px 6px;
+
+    .onoffswitch {
+      margin: 0 auto;
+    }
+  }
+  &__toggle-title {
+    color: $page-edit-text-color;
+  }
+  &__last-saved {
+    color: $page-edit-text-color;
+    font-size: 12px;
+  }
+  &__unsaved-notice {
+    display: inline-block;
+    background: $brand-danger;
+    padding: 2px 10px;
+    border-radius: 4px;
+    color: white;
+  }
+  @media(min-width: 950px) {
+    // put toggles and label inline
+
+    .page-edit-bar__toggle {
+      margin: 10px 0;
+      float: none;
+      overflow: hidden;
+    }
+    .page-edit-bar__toggle-title {
+      float: left;
+      padding: 6px 0;
+      width: 40%;
+      text-align: right;
+    }
+    .page-edit-bar__toggle-btns {
+      margin: 0 0 0 4%;
+      float: left;
+    }
+  }
+}
+
+.javascript-editor {
+  &__toggle {
+    float: right;
+  }
+  .CodeMirror {
+    height: 136px;
+  }
+}
+
+.page-edit-step__title, .edit-block__title, .centered-overlay__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+
+  background-color: $bootstrap-bg-gray;
+  width: 100%;
+  padding: 20px 40px 15px;
+  border-bottom: 1px solid $bootstrap-border-gray;
+
+  text-align: left;
+  color: $page-edit-bar-color;
+  font-size: 30px;
+}
+.accomodates-sidebar {
+  width: 80%;
+  float: right;
+}
+.page-edit-step, .edit-block {
+  width: 80%;
+  float: right;
+  background: white;
+  padding: 100px 40px 40px;
+  box-sizing: border-box;
+  margin: 0 0 30px;
+  position: relative;
+
+  &--just-title {
+    padding: 35px;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  .four-ninths.form-group {
+    width: 43%;
+    margin-right: 1%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+
+  .two-ninths.form-group {
+    width: 21%;
+    margin-right: 1%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+  .one-ninth.form-group {
+    width: 12%;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+}
+@media(max-width: 600px) {
+  .page-edit-bar, .sidebar {
+    width: 100%;
+    position: relative;
+  }
+  .page-edit-bar__step-list {
+    padding: 0 0 200px 10px;
+  }
+  .page-edit-step, .edit-block {
+    width: 100%;
+    padding: 80px 20px 20px;
+    overflow: scroll;
+  }
+  .shares-editor {
+    overflow: scroll;
+  }
+  .accomodates-sidebar {
+    width: 100%;
+  }
+}
+
+.shares-editor {
+  &__edit-row {
+    background-color: $bootstrap-bg-gray;
+    form {
+      padding: 20px 20% 15px 10%;
+    }
+  }
+  &__view-toggle {
+    margin-bottom: 15px
+  }
+  &__toggle-edit {
+    width: 60px;
+  }
+  &__button-cell {
+    width: 64px;
+  }
+  &__preview-image {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.dropzone {
+  border-style: dashed;
+  background-color: $bootstrap-bg-gray;
+  border-color: $bootstrap-border-gray;
+  cursor: pointer;
+  margin-bottom: 20px;
+  position: relative;
+
+  .dz-message {
+    font-size: 20px;
+    color: #999;
+    margin: 10px 0;
+  }
+
+  .dz-preview.dz-image-preview, .dz-preview.dz-file-preview, .dz-preview {
+    margin: 10px;
+    background-color: transparent;
+    max-width: 100px;
+    max-height: 100px;
+    &:hover {
+      .dz-delete {
+        display: block;
+      }
+    }
+    .dz-image {
+      height: 100px;
+      width: 100px;
+    }
+    .dz-delete {
+      display: none;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+
+      width: 25px;
+      height: 25px;
+      border-radius: 12px;
+
+      background-color: white;
+      z-index: 100;
+      text-align: center;
+      cursor: pointer;
+      &:hover {
+        background-color: maroon;
+        .fa {
+          color: white;
+        }
+      }
+      .fa {
+        line-height: 25px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+[data-toggle="collapse"] {
+  cursor: pointer;
+  .fa {
+    margin-right: 5px;
+    @include transition(transform 0.4s linear);
+  }
+  &.open .fa {
+    @include transform(rotate(90deg));
+  }
+}
+
+.navbar {
+  &--dark {
+    background-color: $page-edit-bar-color;
+    color: $page-edit-text-color;
+    margin: 0;
+    padding: 0 40px 0 0;
+    z-index: 200;
+    .nav > li > a {
+      color: $page-edit-text-color;
+      text-decoration: none;
+
+      &:hover, &:focus {
+        background-color: $save-box-color;
+        color: white;
+      }
+    }
+    .nav {
+      background-color: $page-edit-bar-color;
+    }
+    .icon-bar {
+      background-color: white;
+    }
+    @media(min-width: 600px) {
+      height: 50px;
+    }
+    @media(max-width: 600px) {
+      padding-right: 0;
+    }
+  }
+  &--fixed {
+    @media(min-width: 600px) {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      right: 0;
+    }
+    &__spacer {
+      @media(min-width: 600px) {
+        height: 50px;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.layout-settings {
+  &--primary, &--follow_up {
+    padding-top: 15px;
+  }
+  &__title {
+    font-weight: bold;
+  }
+  &__description {
+    width: 100%;
+    float: left;
+    margin-top: 5px;
+  }
+  &__no-layout {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+}
+
+.radio-group {
+  .btn-group-vertical {
+    width: 100%;
+  }
+  &__option {
+    text-align: left;
+    padding: 10px;
+    @include clearfix();
+  }
+}
+
+.tooltip {
+  font-size: 13px;
+
+  &__trigger {
+    position: relative;
+    display: inline-block;
+    background: $bootstrap-bg-gray;
+    border: 1px solid $bootstrap-border-gray;
+    height: 20px;
+    width: 21px;
+    border-radius: 10px;
+    padding-top: 1px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 13px;
+    color: $save-box-color;
+    vertical-align: top;
+    position: relative;
+    &--space-left {
+      margin-left: 5px;
+    }
+  }
+  &__trigger-inner {
+    position: absolute;
+    display: block;
+    line-height: 11px;
+    left: 6px;
+    top: 4px;
+  }
+  &--image-uploader {
+    position: absolute;
+    width: 170px;
+    top: 10px;
+    left: 10px;
+
+  }
+}
+.well .tooltip__trigger, .tooltip--white .tooltip__trigger {
+  background: white;
+}
+
+.checkbox input[type="checkbox"].layout-type-checkbox {
+  margin-left: 0px;
+}
