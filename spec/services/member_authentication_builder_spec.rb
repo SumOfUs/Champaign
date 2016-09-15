@@ -14,7 +14,7 @@ describe MemberAuthenticationBuilder do
           password: 'password',
           password_confirmation: 'password',
           email: 'test@example.com',
-          language: 'EN'
+          language_code: 'EN'
         )
       end
 
@@ -35,7 +35,7 @@ describe MemberAuthenticationBuilder do
           password: 'password',
           password_confirmation: 'wrong',
           email: 'test@example.com',
-          language: 'EN'
+          language_code: 'EN'
         )
       end
 

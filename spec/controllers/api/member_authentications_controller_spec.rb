@@ -15,7 +15,7 @@ describe Api::MemberAuthenticationsController do
 
     it 'builds authentication' do
       expect(MemberAuthenticationBuilder).to have_received(:build)
-        .with(password: 'p', password_confirmation: 'p', email: 'test@example.com', language: 'EN')
+        .with(password: 'p', password_confirmation: 'p', email: 'test@example.com', language_code: 'EN')
     end
 
     context 'successfully creates authentication' do

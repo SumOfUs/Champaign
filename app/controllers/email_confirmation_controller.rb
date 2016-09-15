@@ -2,6 +2,8 @@
 class EmailConfirmationController < ApplicationController
   def verify
     @errors = AuthTokenVerifier.verify(params)
-    render :follow_up
+    view = File.read("#{Rails.root}/app/liquid/views/layouts/email_confirmation_landing.liquid")
+    @template = Liquid::Template.parse(view)
+    render text: @template.render('errors' => @errors), content_type: :html
   end
 end

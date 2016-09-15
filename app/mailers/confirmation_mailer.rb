@@ -5,10 +5,10 @@ class ConfirmationMailer < ApplicationMailer
   #
   #   en.confirmation_mailer.confirmation_email.subject
   #
-  def confirmation_email(member, language)
+  def confirmation_email(member, language_code)
     @member = member
     @confirmation_url = confirmation_url
-    @language = language
+    @language_code = language_code
     mail to: @member.email,
          subject: t('confirmation_mailer.confirmation_email.subject')
   end
@@ -17,7 +17,7 @@ class ConfirmationMailer < ApplicationMailer
     params = {
       token: @member.authentication.token,
       email: @member.email,
-      language: @language
+      language: @language_code
     }
     "#{Settings.home_page_url}/email_confirmation?#{params.to_query}"
   end
