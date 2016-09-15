@@ -1,0 +1,18 @@
+<div class="center-content center-content--accommodates-stuck-footer">
+  <div class="imageless-title">
+    <div class="typography__highlight-wrapper">
+      <h1 class="typography__highlight">
+        {% if success %}
+          <span>You have successfully signed up for express donations!</span>
+        {% else %}
+          <span>There was an issue signing up for express donations.</span>
+        {% endif %}
+      </h1>
+    </div>
+  </div>
+
+  <div class="body-text main-feature main-feature--close-top">
+    <p> {{errors}} </p>
+    <p> To manage your payment methods, you can visit our <a href="">member management application</a> at any time.</p>
+  </div>
+</div>
