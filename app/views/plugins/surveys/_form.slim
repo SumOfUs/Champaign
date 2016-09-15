@@ -16,7 +16,7 @@
       = form_for plugin, remote: true, url: plugins_add_survey_form_path(plugin), html: { method: 'post', class: 'form-element' } do |f|
         = f.hidden_field :id
         .form-group
-          = f.submit 'Create form', class: 'btn btn-default xhr-feedback'
+          = f.submit t('plugins.survey.create_form'), class: 'btn btn-default xhr-feedback'
 
 javascript:
   $.publish("collection:edit:loaded");
