@@ -23,6 +23,15 @@ class FormElementBuilder
   end
 
   def params
+    if @params[:choices].respond_to?(:map)
+      @params[:choices].map! do |choice|
+        begin
+          JSON.parse(choice)
+        rescue JSON::ParserError
+          choice
+        end
+      end
+    end
     @params.merge(form: @form)
   end
 end

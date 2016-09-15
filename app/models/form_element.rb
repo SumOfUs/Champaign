@@ -49,6 +49,7 @@ class FormElement < ActiveRecord::Base
   end
 
   def formatted_choices
+    return [] if choices.blank?
     choices.map do |choice|
       if choice.class == String
         { label: choice, value: choice, id: choice_id(choice) }

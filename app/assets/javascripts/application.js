@@ -52,3 +52,4 @@ require('campaigner-facing/layout_picker');
 
 window.PageEditBar =  require('campaigner-facing/page_edit_bar');
 window.Analytics   =  require('campaigner-facing/analytics');
+window.FormElementCreator = require('campaigner-facing/form_element_creator');
