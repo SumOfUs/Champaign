@@ -279,7 +279,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.redirectTo(url);
   },
 
-  onOneClickFailed(reason) {
+  onOneClickFailed() {
     this.enableOneClickButton();
   },
 
