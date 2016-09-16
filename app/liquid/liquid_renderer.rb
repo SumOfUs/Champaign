@@ -33,11 +33,20 @@ class LiquidRenderer
     named
   end
 
+  def payment_data
+    {
+      payment_methods: stored_payment_methods
+    }.deep_stringify_keys
+  end
+
   # this is all of the data that is needed to render the
   # liquid page. the only parts that change on each request
   # are not used when rendering markup
   def markup_data
-    cacheable_data.merge(plugin_data).deep_stringify_keys
+    cacheable_data
+      .merge(plugin_data)
+      .merge(payment_data)
+      .deep_stringify_keys
   end
 
   # this is all the data that we expect to change from request to request
@@ -51,8 +60,23 @@ class LiquidRenderer
       thermometer: thermometer,
       action_count: @page.action_count,
       show_direct_debit: show_direct_debit?,
-      payment_methods: @member.customer.payment_methods.stored
+      payment_methods: stored_payment_methods
     }.deep_stringify_keys
+  end
+
+  # TODO
+  # move to the member's model?
+  def stored_payment_methods
+    return [] unless @member.customer
+    @member.customer.payment_methods.stored.map do |m|
+      {
+        id: m.id,
+        last_4: m.last_4,
+        instrument_type: m.instrument_type,
+        card_type: m.card_type,
+        email: m.email
+      }
+    end
   end
 
   private

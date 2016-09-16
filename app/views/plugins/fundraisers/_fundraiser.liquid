@@ -112,6 +112,9 @@
               </div>
               <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
             </form>
+            <div class="fundraiser-bar__step-panel form--big script-dependent one-click-fields-view" data-step="3">
+              {% include 'Oneclick Form', payment_methods: payment_methods %}
+            </div>
             <div class="fundraiser-bar__fine-print">
               {{ 'fundraiser.fine_print' | t }}
             </div>
