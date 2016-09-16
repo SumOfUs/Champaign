@@ -267,6 +267,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
         paymentMethodId,
       },
       user: this.serializeUserForm(),
+      recurring: this.readRecurringOneClick(),
     };
     return data;
   },
@@ -345,6 +346,10 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   readRecurring() {
     return !!this.$('input.fundraiser-bar__recurring').prop('checked');
+  },
+
+  readRecurringOneClick() {
+    return !!this.$('input.fundraiser-bar__recurring-one-click').prop('checked');
   },
 
   readStoreInVault() {
