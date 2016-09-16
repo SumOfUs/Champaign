@@ -11,9 +11,7 @@ class LiquidRenderer
   end
 
   def render
-    Rails.cache.fetch(cache.key_for_markup) do
-      template.render(markup_data).html_safe
-    end
+    template.render(markup_data).html_safe
   end
 
   def template
