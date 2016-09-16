@@ -29,6 +29,7 @@ class PageCloner
     @cloned_page.title = @title unless @title.blank?
 
     ActiveRecord::Base.transaction do
+      @cloned_page.save # so the new page will have an id to associate with
       yield(self)
       @cloned_page.save
     end

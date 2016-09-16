@@ -4,11 +4,15 @@ require 'rails_helper'
 describe PageCloner do
   let!(:tag) { create(:tag) }
   let(:campaign) { create(:campaign) }
+  let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref] }}' }
+  let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref] }}' }
+  let(:liquid_layout) { create(:liquid_layout, :default)}
   let(:page) do
     create(
       :page,
       tags: [tag],
       campaign: campaign,
+      liquid_layout: liquid_layout,
       title: 'foo bar',
       content: 'Foo Bar',
       action_count: 12_345
@@ -91,11 +95,10 @@ describe PageCloner do
 
   context 'plugins' do
     let(:custom_field) { create(:form_element, name: 'foo_bar') }
-    let!(:petition)    { create(:plugins_petition, page: page) }
-    let!(:thermometer) { create(:plugins_thermometer, page: page) }
-    let!(:fundraiser)  { create(:plugins_fundraiser, page: page) }
+    let(:petition) { page.plugins.select { |p| p.class == Plugins::Petition }.first}
 
     before do
+      link.destroy! # create the conditions that incited the bug previously
       petition.form.form_elements << custom_field
       petition.form.save
     end
@@ -105,18 +108,18 @@ describe PageCloner do
        cloned_page.plugins.select { |plugin| plugin.is_a?(type) }.first]
     end
 
+    it 'has the plugins indicated by the liquid layout before the clone' do
+      expect(page.plugins.count).to eq 2
+      expect(page.plugins.map(&:class)).to match_array([Plugins::Petition, Plugins::Thermometer])
+    end
+
     it 'clones plugins' do
-      expect(cloned_page.plugins.count).to eq(3)
+      expect(cloned_page.plugins.count).to eq(2)
       expect(cloned_page.plugins).not_to match(page.plugins)
     end
 
     it 'clones petition' do
       original, cloned = get_plugin(Plugins::Petition)
-      expect(cloned).not_to eq(original)
-    end
-
-    it 'clones fundraiser' do
-      original, cloned = get_plugin(Plugins::Fundraiser)
       expect(cloned).not_to eq(original)
     end
 
