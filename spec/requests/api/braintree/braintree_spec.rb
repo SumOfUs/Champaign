@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe "Express Donation" do
+describe 'Express Donation' do
   let(:page) { create(:page, slug: 'hello-world', title: 'Hello World') }
   let(:form) { create(:form) }
 
@@ -17,22 +17,20 @@ describe "Express Donation" do
     end
 
     before do
-      VCR.use_cassette("braintree_express_donation") do
-        post api_payment_braintree_one_click_path(page.id), {
-          payment: {
-            amount: 2.00
-          },
-          user: {
-            form_id: form.id,
-            email:   'test@example.com',
-            name:    'John Doe'
-          }
-        }
+      VCR.use_cassette('braintree_express_donation') do
+        post api_payment_braintree_one_click_path(page.id), payment: {
+          amount: 2.00
+        },
+                                                            user: {
+                                                              form_id: form.id,
+                                                              email:   'test@example.com',
+                                                              name:    'John Doe'
+                                                            }
       end
     end
 
     it 'returns success, always - FIXME' do
-      expect(response.body).to eq({success: true}.to_json)
+      expect(response.body).to eq({ success: true }.to_json)
     end
 
     it 'creates an action' do
@@ -48,10 +46,8 @@ describe "Express Donation" do
     end
 
     it 'records local record of transaction' do
-      expect(payment_method.transactions.first.attributes.symbolize_keys).to include({
-        transaction_type: 'sale',
-        transaction_id:   /[a-z0-9]{8}/
-      })
+      expect(payment_method.transactions.first.attributes.symbolize_keys).to include(transaction_type: 'sale',
+                                                                                     transaction_id:   /[a-z0-9]{8}/)
     end
 
     it 'creates transaction on braintree' do

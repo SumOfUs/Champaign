@@ -30,4 +30,3 @@ describe MemberAuthenticationBuilder do
     end
   end
 end
-
