@@ -25,11 +25,11 @@ class ActionParamsBuilder
   end
 
   def build_params
-    params.permit( fields + base_params ).merge(donation: true)
+    params.permit(fields + base_params).merge(donation: true)
   end
 
   def base_params
-    %w{page_id form_id name source akid referring_akid email}
+    %w(page_id form_id name source akid referring_akid email)
   end
 
   def fields
@@ -67,7 +67,6 @@ class BraintreeTransactionBuilder
   end
 end
 
-
 class DonationActionParamsWrapper
   def self.params(params)
     new(params).params
@@ -84,7 +83,6 @@ class DonationActionParamsWrapper
   end
 end
 
-
 module Json
   class BraintreeCreditCard
     def initialize(card)
@@ -93,7 +91,7 @@ module Json
 
     def to_builder
       Jbuilder.new do |json|
-        json.(@card, :token)
+        json.call(@card, :token)
       end
     end
   end
@@ -122,7 +120,6 @@ module Json
   end
 end
 
-
 class BraintreeOneClickService
   attr_reader :params
 
@@ -134,9 +131,7 @@ class BraintreeOneClickService
     create_action
     sale = make_sale
 
-    if sale.success?
-      store_sale_locally(sale)
-    end
+    store_sale_locally(sale) if sale.success?
   end
 
   private
