@@ -65,7 +65,7 @@ class LiquidRenderer
   # TODO
   # move to the member's model?
   def stored_payment_methods
-    return [] unless @member.customer
+    return [] unless @member.try(:customer)
     @member.customer.payment_methods.stored.map do |m|
       {
         id: m.id,
