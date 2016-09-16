@@ -18,6 +18,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .hosted-fields__direct-debit': 'submitDirectDebit',
+    'click .fundraiser-bar__submit-one-click': 'submitOneClick',
   },
 
   globalEvents: {
@@ -157,6 +158,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
                          ${monthly}`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
       this.$('.fundraiser-bar__submit-button').html(this.buttonText);
+      this.$('.fundraiser-bar__submit-one-click').html(this.buttonText);
     }
   },
 
@@ -204,7 +206,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       user:           this.serializeUserForm(),
       currency:       this.currency,
       recurring:      this.readRecurring(),
-      store_in_vault: this.readStoreInVault()
+      store_in_vault: this.readStoreInVault(),
     };
   },
 
@@ -228,22 +230,36 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     }
   },
 
-  submitOneClick(id) {
-    const data = this.oneClickDonationData(id);
-    const url = `/api/payment/braintree/pages/${this.pageId}/one_click`;
-    $.post(url, data)
-      .then(this.onOneClickSuccess.bind(this), this.onOneClickFailed.bind(this));
+  submitOneClick(event) {
+    event.preventDefault();
+    $.post(`/api/payment/braintree/pages/${this.pageId}/one_click`, this.oneClickDonationData())
+      .then(
+        this.onOneClickSuccess.bind(this),
+        this.onOneClickFailed.bind(this)
+      );
   },
 
   oneClickDonationData() {
+    const paymentMethodId = $('#one-click-form input[name=payment_method_id]:checked').val();
+    const data = {
+      payment: {
+        currency: this.currency,
+        amount: this.donationAmount,
+        paymentMethodId,
+      },
+      user: this.serializeUserForm(),
+    };
+    return data;
   },
 
-  onOneClickSuccess(response) {
-    console.log('One Click donation succeeded and responded with:');
-    console.log(response);
+  onOneClickSuccess() {
+    const user = this.serializeUserForm();
+    const url = `/api/member_authentications/new?page_id=${this.pageId}&email=${user.email}`;
+    this.redirectTo(url);
   },
 
-  onOneClickFailure(reason) {
+  onOneClickFailed(reason) {
+    // Should we report errors?
     console.log('One Click donation failed with the following reason:');
     console.log(reason);
   },
