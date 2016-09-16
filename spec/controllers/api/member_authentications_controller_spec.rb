@@ -23,11 +23,11 @@ describe Api::MemberAuthenticationsController do
     end
 
     context 'unsuccessfully creates authentication' do
-      let(:auth) { double('auth', valid?: false, errors: [{foo: :bar}]) }
+      let(:auth) { double('auth', valid?: false, errors: [{ foo: :bar }]) }
 
       it 'returns errors as json' do
         expect(response.status).to eq(422)
-        expect(response.body).to eq([{foo: :bar}].to_json)
+        expect(response.body).to eq([{ foo: :bar }].to_json)
       end
     end
   end

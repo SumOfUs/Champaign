@@ -11,17 +11,12 @@ class MemberAuthenticationBuilder
     @password_confirmation = password_confirmation
   end
 
-
   def build
-    auth = MemberAuthentication.new({
-      member: member,
-      password: @password,
-      password_confirmation: @password_confirmation
-    })
+    auth = MemberAuthentication.new(member: member,
+                                    password: @password,
+                                    password_confirmation: @password_confirmation)
 
-    if auth.save
-      send_confirmation_email
-    end
+    send_confirmation_email if auth.save
 
     auth
   end
