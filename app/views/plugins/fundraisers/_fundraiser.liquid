@@ -142,7 +142,7 @@
           donationBands:    sou.personalization.donationBands,
           amount:           sou.personalization.urlParams.amount,
           recurringDefault: sou.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-          paymentMethods: sou.personalization.paymentMethods,
+          paymentMethods:   sou.personalization.paymentMethods,
         });
         sou.mySidebar     = new sou.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
         sou.mySticky      = new sou.DesktopSticky({extraClass: 'fundraiser'});
