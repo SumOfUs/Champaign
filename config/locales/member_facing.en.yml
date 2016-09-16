@@ -1,0 +1,81 @@
+en:
+  page:
+    more_info: More information
+    no_script: "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action."
+  basics:
+    or: or
+  branding:
+    description: "" # override this with org-specific details in your own yml file.
+  fundraiser:
+    amount: Amount
+    details: Details
+    payment: Payment
+    donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
+    month: month
+    error_intro: We were unable to process your donation!
+    currency_in: "Values shown in %{currency}"
+    switch_currency: Switch currency
+    proceed_to_details: Proceed to details
+    proceed_to_payment: Proceed to payment
+    other_amount: Other
+    make_recurring: Make my donation monthly
+    thank_you: Thank you for your donation!
+    card_declined: Your card was declined by the payment processor. Please try a different payment method.
+    unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
+    fine_print: "" # override this with org-specific details in your own yml file.
+    confirmation: Donation received
+    donate_now: Donate now
+    loading: Loading secure <br> payment portal
+    debit:
+      recurring: "You are setting up a monthly donation of %{amount}"
+      one_time: "You are donating %{amount}"
+      direct_debit: "Direct Debit"
+    fields:
+      cvv: CVV
+      number: Card number
+      expiration: Expiration date
+      expiration_format: mm/yy
+      postalCode: Postal code
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: CVV
+      number: Card number
+      expiration: Expiration date
+  petition:
+    sign_it: Sign the petition
+    target_prefix: TO
+    confirmation: Name submitted
+    excited_confirmation: Name submitted!
+    thank_you: 'Thanks for adding your name to "%{petition_title}"'
+    fine_print: "" # override this with org-specific details in your own yml file.
+  form:
+    switch_user: Not you?
+    processing: Processing...
+    submit: Submit
+    default:
+      name: Full name
+      email: Email Address
+      country: Country
+      postal: Postal Code
+  thermometer:
+    signatures_until_goal: "%{remaining} signatures until %{goal}"
+    signatures: signatures # as in '225 signatures'
+    million: million
+  share:
+    cta: Share the campaign!
+    send_email: Send Email
+    share: Share
+    tweet: Tweet
+    twitter_handle: '' # override this with your orgs twitter handle
+  errors:
+    probably_invalid: doesn't look right
+    is_invalid: is invalid
+    this_field: This field
+  validation:
+    is_required: is required
+    is_invalid_email: is not a valid email address
+    is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
+    is_invalid_country: must be a valid country code
+    is_invalid_length: 'must be less than %{length} characters long'
+  time:
+    formats:
+      default: "%-d %B %Y"

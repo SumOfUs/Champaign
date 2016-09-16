@@ -1,4 +1,4 @@
-//= require sumofus
+//= require member-facing
 
 describe("Fundraiser", function() {
   var suite = this;
@@ -29,12 +29,12 @@ describe("Fundraiser", function() {
 
     describe('currency', function(){
       it('sets the default currency if currency passed', function(){
-        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'GBP'});
+        suite.fundraiser = new window.champaign.Fundraiser({ currency: 'GBP'});
         expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
       });
 
       it('sets the default currency if currency passed as lowercase', function(){
-        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'gbp'});
+        suite.fundraiser = new window.champaign.Fundraiser({ currency: 'gbp'});
         expect($('.fundraiser-bar__currency-selector').val()).to.equal('GBP');
       });
 
@@ -44,7 +44,7 @@ describe("Fundraiser", function() {
           USD: [6, 7, 8, 9, 10],
           GBP: [7, 14, 21, 28, 35]
         };
-        suite.fundraiser = new window.sumofus.Fundraiser({ currency: 'EUR', donationBands: donationBands});
+        suite.fundraiser = new window.champaign.Fundraiser({ currency: 'EUR', donationBands: donationBands});
         var displayedAmounts = $('.fundraiser-bar__amount-button').map(function(ii, a){ return $(a).data('amount'); }).toArray();
         expect(displayedAmounts).to.include.members(donationBands['EUR']);
       });
@@ -58,7 +58,7 @@ describe("Fundraiser", function() {
 
       describe('amount is not passed', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser();
+          suite.fundraiser = new window.champaign.Fundraiser();
         });
 
         it('displays the second step when user clears form', function(){
@@ -86,7 +86,7 @@ describe("Fundraiser", function() {
 
       describe('amount is greater than 0', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({amount: 17});
+          suite.fundraiser = new window.champaign.Fundraiser({amount: 17});
         });
 
         it('skips to the third step', function(){
@@ -113,7 +113,7 @@ describe("Fundraiser", function() {
 
       describe('amount is not passed', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser();
+          suite.fundraiser = new window.champaign.Fundraiser();
         });
 
         it('starts on the first step', function(){
@@ -127,7 +127,7 @@ describe("Fundraiser", function() {
 
       describe('amount is greater than 0', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({amount: 17});
+          suite.fundraiser = new window.champaign.Fundraiser({amount: 17});
         });
 
         it('skips to the second step', function(){
@@ -149,29 +149,29 @@ describe("Fundraiser", function() {
 
       describe('it starts on first step when amount', function(){
         it('is negative', function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: -1 });
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: -1 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is zero', function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: 0 });
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: 0 });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is a string', function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: "hi" });
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: "hi" });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is null', function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: null });
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: null });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
         it('is an array', function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: [3, 4, 5] });
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: [3, 4, 5] });
           expect(helpers.currentStepOf(3)).to.eq(1)
         });
       });
 
       it ('starts on second step when amount is numeric string', function(){
-        suite.fundraiser = new window.sumofus.Fundraiser({ amount: "3" });
+        suite.fundraiser = new window.champaign.Fundraiser({ amount: "3" });
         expect(helpers.currentStepOf(3)).to.eq(2)
       });
     });
@@ -179,7 +179,7 @@ describe("Fundraiser", function() {
     describe('recurring default', function(){
       describe('is "recurring"', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'recurring'});
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: '3', recurringDefault: 'recurring'});
         });
 
         it('checks the recurring box', function(){
@@ -197,7 +197,7 @@ describe("Fundraiser", function() {
 
       describe('is "only_recurring"', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'only_recurring'});
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: '3', recurringDefault: 'only_recurring'});
         });
 
         it('checks the recurring box', function(){
@@ -215,7 +215,7 @@ describe("Fundraiser", function() {
 
       describe('is "one_off"', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: 'one_off'});
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: '3', recurringDefault: 'one_off'});
         });
 
         it('leaves the recurring box unchecked', function(){
@@ -233,7 +233,7 @@ describe("Fundraiser", function() {
 
       describe('is an empty string', function(){
         beforeEach(function(){
-          suite.fundraiser = new window.sumofus.Fundraiser({ amount: '3', recurringDefault: ''});
+          suite.fundraiser = new window.champaign.Fundraiser({ amount: '3', recurringDefault: ''});
         });
 
         it('leaves the recurring box unchecked', function(){
@@ -270,7 +270,7 @@ describe("Fundraiser", function() {
       });
 
       it('redirects to the followUpUrl if it is supplied', function(){
-        suite.fundraiser = new window.sumofus.Fundraiser({followUpUrl: suite.followUpUrl, pageId: '1'});
+        suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: suite.followUpUrl, pageId: '1'});
         sinon.stub(suite.fundraiser, 'redirectTo');
         suite.triggerSuccess();
         expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
@@ -279,14 +279,14 @@ describe("Fundraiser", function() {
 
       it('calls the callback function if it is supplied', function(){
         var callback = sinon.spy();
-        suite.fundraiser = new window.sumofus.Fundraiser({submissionCallback: callback, pageId: '1'});
+        suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, pageId: '1'});
         suite.triggerSuccess();
         expect(callback.called).to.eq(true);
       });
 
       it('calls the callback function and redirects to the followUpUrl if both supplied', function(){
         var callback = sinon.spy();
-        suite.fundraiser = new window.sumofus.Fundraiser({submissionCallback: callback, followUpUrl: suite.followUpUrl, pageId: '1'});
+        suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, followUpUrl: suite.followUpUrl, pageId: '1'});
         sinon.stub(suite.fundraiser, 'redirectTo');
         suite.triggerSuccess();
         expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
@@ -296,7 +296,7 @@ describe("Fundraiser", function() {
 
       it('sends an alert if neither callback nor followUpUrl passed', function(){
         window.alert = sinon.spy();
-        suite.fundraiser = new window.sumofus.Fundraiser({pageId: '1'});
+        suite.fundraiser = new window.champaign.Fundraiser({pageId: '1'});
         suite.triggerSuccess();
         expect(window.alert.called).to.eq(true);
       });
@@ -308,7 +308,7 @@ describe("Fundraiser", function() {
     beforeEach(function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
-      suite.fundraiser = new window.sumofus.Fundraiser({ pageId: '1', followUpUrl: suite.follow_up_url });
+      suite.fundraiser = new window.champaign.Fundraiser({ pageId: '1', followUpUrl: suite.follow_up_url });
       sinon.stub(suite.fundraiser, 'redirectTo');
       suite.server.respond(); // respond to request for token
     });

@@ -1,0 +1,18 @@
+// compass and reset
+@import "compass";
+@import "compass/reset";
+
+// third party
+@import "selectize";
+@import "selectize.default";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+// champaign member facing styles
+@import "shared/**/*";
+@import "member-facing/**/*";
+
+// external assets
+<% if Settings.external_css_path.present? %>
+@import "<%= Settings.external_css_path %>";
+<% end %>

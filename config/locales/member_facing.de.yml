@@ -1,0 +1,81 @@
+de:
+  page:
+    more_info: Mehr Informationen
+    no_script: "Vielen Dank für Ihr Interesse an diesem Thema. Leider können Sie nur unterzeichnen, wenn Javascript in Ihrem Browser aktiviert ist. Bitte aktivieren Sie Javascript oder versuchen Sie es noch einmal mit einem anderen Browser, der Javascript erlaubt."
+  basics:
+    or: oder
+  branding:
+    description: "" # override this with org-specific details in your own yml file.
+  fundraiser:
+    amount: Betrag
+    details: Kontaktdaten
+    payment: Zahlung
+    donate: "%{amount} Spenden"
+    month: Monat
+    error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
+    currency_in: "Beträge werden in %{currency} angezeigt"
+    switch_currency: Währung ändern
+    proceed_to_details: Weiter zu Kontaktdaten
+    proceed_to_payment: Weiter zur Zahlung
+    other_amount: Betrag
+    make_recurring: Monatlich spenden
+    thank_you: Vielen Dank für Ihre Spende!
+    card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
+    unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
+    fine_print: "" # override this with org-specific details in your own yml file.
+    confirmation: Spende erhalten
+    donate_now: Spenden Sie jetzt!
+    loading: Unser sicheres Spenden formular wird geladen
+    debit:
+      recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
+      one_time: "Sie spenden %{amount} an SumOfUs"
+      direct_debit: Lastschrift
+    fields:
+      cvv: Kartenprüfnr
+      number: Kreditkartennummer
+      expiration: Ablaufdatum
+      expiration_format: MM/JJ
+      postalCode: Postleitzahl
+    field_names: # these are used in sentence form, eg with errors.probably_invalid
+      cvv: Die Kartenprüfnummer
+      number: Die Kreditkartennummer
+      expiration: Das Ablaufdatum
+  petition:
+    sign_it: Petition Unterschreiben
+    target_prefix: AN
+    confirmation: Ihre Unterschrift wurde der Petition hinzugefügt
+    excited_confirmation: Ihre Unterschrift wurde der Petition hinzugefügt!
+    thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
+    fine_print: "" # override this with org-specific details in your own yml file.
+  form:
+    switch_user: Nicht Sie?
+    processing: In Bearbeitung...
+    submit: Abschicken
+    default:
+      name: VOLLSTÄNDIGER NAME
+      email: E-MAIL
+      country: LAND
+      postal: PLZ
+  thermometer:
+    signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
+    signatures: Unterschriften
+    million: Millionen
+  share:
+    cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
+    send_email: E-Mail senden
+    share: Facebook
+    tweet: Twitter
+    twitter_handle: '' # override this with your orgs twitter handle
+  errors:
+    probably_invalid: sieht nicht richtig aus
+    is_invalid: ist ungültig
+    this_field: Dieses Feld
+  validation:
+    is_required: wird benötigt
+    is_invalid_email: ist keine gültige E-Mail-Adresse
+    is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
+    is_invalid_country: muss eine gültige Ländervorwahl sein
+    is_invalid_length: 'darf maximal %{length} Zeichen enthalten'
+  time:
+    formats:
+      default: "%-d. %B %Y"

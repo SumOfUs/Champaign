@@ -12,38 +12,42 @@
 # config/settings/#{environment}.yml will override the settings in this file, and settings in
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
+external_asset_paths: '<%= ENV["EXTERNAL_ASSET_PATHS"] %>'
+external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
+external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
+
 # General Champaign settings.
-     secret_key_base: 'a fake secret key'
-     omniauth_client_secret: 'a fake client secret'
-     omniauth_client_id: 'a fake client_id'
-     homepage_url: 'http://sumofus.org'
-     facebook_url: 'https://www.facebook.com/SumOfUs-181924628560212/'
-     oauth_domain_whitelist:
-       - 'example.com'
+secret_key_base: 'a fake secret key'
+omniauth_client_secret: 'a fake client secret'
+omniauth_client_id: 'a fake client_id'
+homepage_url: 'http://sumofus.org'
+facebook_url: 'https://www.facebook.com/SumOfUs-181924628560212/'
+oauth_domain_whitelist:
+  - 'example.com'
 
 # AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
 # page creation/update information or page signature events to a background processor listening on the specified
 # queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
 # in production situations.
-     aws_access_key_id: 'fakeaccesskeyid'
-     aws_secret_access_key: 'fakesecretaccesskey'
-     aws_region: 'US-West-2'
-     sqs_queue_url: 'http://example.com'
-     ak_processor_url: 'http://example.com'
+aws_access_key_id: 'fakeaccesskeyid'
+aws_secret_access_key: 'fakesecretaccesskey'
+aws_region: 'US-West-2'
+sqs_queue_url: 'http://example.com'
+ak_processor_url: 'http://example.com'
 
 
 # Direct ActionKit Connection variables.
-     ak_api_url: 'https://act.sumofus.org/rest/v1'
-     ak_username: 'ak_username'
-     ak_password: 'ak_password'
+ak_api_url: 'https://act.sumofus.org/rest/v1'
+ak_username: 'ak_username'
+ak_password: 'ak_password'
 
 
 # CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
 # by default in development, they should be overridden in production settings to speed up Champaign's page performance.
-     cloudfront_url: 'http://fake-cloudfront.com'
-     s3_asset_bucket: 'fake_s3_asset_bucket'
-     rails_serve_static_assets: false
-     compile_static: false
+cloudfront_url: 'http://fake-cloudfront.com'
+s3_asset_bucket: 'fake_s3_asset_bucket'
+rails_serve_static_assets: false
+compile_static: false
 
 
 # NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
@@ -52,54 +56,54 @@
 
 
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
-     facebook_app_id: 'fake_app_id'
-     share_progress_api_key: 'fake_api_key'
+facebook_app_id: 'fake_app_id'
+share_progress_api_key: 'fake_api_key'
 
 # Braintree payment processor
-     braintree:
-       merchant_id: "test_id"
-       public_key:  "test_public_key"
-       private_key:  "test_private_key"
+braintree:
+  merchant_id: "test_id"
+  public_key:  "test_public_key"
+  private_key:  "test_private_key"
 
-       merchants:
-         EUR: 'EUR'
-         GBP: 'GBP'
-         USD: 'USD'
-         AUD: 'AUD'
-         CAD: 'CAD'
-         NZD: 'NZD'
+  merchants:
+    EUR: 'EUR'
+    GBP: 'GBP'
+    USD: 'USD'
+    AUD: 'AUD'
+    CAD: 'CAD'
+    NZD: 'NZD'
 
-       subscription_plans:
-         EUR: 'EUR'
-         GBP: 'GBP'
-         USD: '1'
-         AUD: 'AUD'
-         CAD: 'CAD'
-         NZD: 'NZD'
+  subscription_plans:
+    EUR: 'EUR'
+    GBP: 'GBP'
+    USD: '1'
+    AUD: 'AUD'
+    CAD: 'CAD'
+    NZD: 'NZD'
 
 # GoCardless payment processor
-     gocardless:
-       token: <%= ENV["GOCARDLESS_TOKEN"] || '1234' %>
-       environment: 'sandbox'
-       gbp_charge_day: 20
-       secret: 'monkey'
+gocardless:
+  token: <%= ENV["GOCARDLESS_TOKEN"] || '1234' %>
+  environment: 'sandbox'
+  gbp_charge_day: 20
+  secret: 'monkey'
 
-     redis:
-       host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
+redis:
+  host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
 
-       port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
+  port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
 
-     robots: 'staging'
+robots: 'staging'
 
-     action_kit:
-       akid_secret: "secret_sauce"
+action_kit:
+  akid_secret: "secret_sauce"
 
-     host: https://example.com
+host: https://example.com
 
 # CircleCI test settings
-  # This will load the entire application. If code is not eager loaded constants are loaded on demand.
-  # Constant autoloading is not thread-safe, so if eager loading is not enabled multi-threading should not be allowed.
-  # This should take care of the Rack Mutex error on CircleCI.
-     eager_load_for_specs: true
+# This will load the entire application. If code is not eager loaded constants are loaded on demand.
+# Constant autoloading is not thread-safe, so if eager loading is not enabled multi-threading should not be allowed.
+# This should take care of the Rack Mutex error on CircleCI.
+eager_load_for_specs: true
 
-     home_page_url: 'http://example.com'
+home_page_url: 'http://example.com'

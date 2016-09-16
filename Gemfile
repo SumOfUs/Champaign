@@ -25,6 +25,7 @@ gem 'font-awesome-sass'
 gem 'money'
 gem 'google_currency'
 gem 'rack-cors', require: 'rack/cors'
+gem 'httparty'
 
 # Sprockets 3 breaks Teaspoon.
 # see https://github.com/modeset/teaspoon/issues/443
@@ -98,8 +99,10 @@ gem 'config'
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
 gem 'metamagic'
+
 gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
 
+gem 'timecop'
 
 group :development do
   gem 'web-console', '~> 2.0'
@@ -130,7 +133,6 @@ end
 
 group :test do
   gem 'webmock'
-  gem 'timecop'
   gem 'coveralls', require: false
 end
 
@@ -143,9 +145,6 @@ source 'https://rails-assets.org' do
 
   # JavaScript's utility _ belt http://underscorejs.org
   gem 'rails-assets-underscore'
-
-  # Reduce user-misspelled email addresses in your forms.
-  gem 'rails-assets-mailcheck'
 
   # Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
   gem 'rails-assets-dropzone'

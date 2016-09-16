@@ -1,4 +1,4 @@
-//= require sumofus
+//= require member-facing
 
 describe("Braintree hosted fields", function() {
   var suite = this;
@@ -19,7 +19,7 @@ describe("Braintree hosted fields", function() {
       suite.server.respondWith("GET", '/api/braintree/token',
                               [200, { "Content-Type": "application/json" },
                               '{ "token": "'+helpers.btClientToken+'" }' ]);
-      suite.hostedFields = new window.sumofus.BraintreeHostedFields();
+      suite.hostedFields = new window.champaign.BraintreeHostedFields();
       suite.server.respond();
     });
 
@@ -62,7 +62,7 @@ describe("Braintree hosted fields", function() {
   it('displays the fields container when token received', function(){
     expect($('.fundraiser-bar__fields-loading')).not.to.have.class('hidden-closed');
     expect($('#hosted-fields')).to.have.class('hidden-closed');
-    suite.hostedFields = new window.sumofus.BraintreeHostedFields();
+    suite.hostedFields = new window.champaign.BraintreeHostedFields();
     suite.hostedFields.braintreeSettings().onReady();
     expect($('.fundraiser-bar__fields-loading')).to.have.class('hidden-closed');
     expect($('#hosted-fields')).not.to.have.class('hidden-closed');

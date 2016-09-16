@@ -1,0 +1,30 @@
+//= require jquery
+//= require jquery_ujs
+//= require sticky
+//= require underscore
+//= require braintree-web
+//= require backbone
+//= require selectize
+
+//= require i18n
+//= require i18n/translations
+
+//= require shared/pub_sub
+//= require shared/show_errors
+
+// external assets
+<% if Settings.external_js_path.present? %>
+require("<%= Settings.external_js_path %>");
+<% end %>
+
+window.champaign = window.champaign || window.sumofus || {};
+window.champaign.Petition      = require('member-facing/backbone/petition');
+window.champaign.ActionForm    = require('member-facing/backbone/action_form');
+window.champaign.Fundraiser    = require('member-facing/backbone/fundraiser');
+window.champaign.OverlayToggle = require('member-facing/backbone/overlay_toggle');
+window.champaign.Thermometer   = require('member-facing/backbone/thermometer');
+window.champaign.Sidebar       = require('member-facing/backbone/sidebar');
+window.champaign.CampaignerOverlay     = require('member-facing/backbone/campaigner_overlay');
+window.champaign.BraintreeHostedFields = require('member-facing/backbone/braintree_hosted_fields');
+
+
