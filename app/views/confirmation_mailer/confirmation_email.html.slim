@@ -1,5 +1,5 @@
-h1 Thank you for your donation!
+h1 = t("confirmation_mailer.confirmation_email.headline")
 p
-  ' To confirm your enrollment in our express donations plan, visit this
-  a href=@confirmation_url link
-  ' , or copy paste this URL to your browser: #{@confirmation_url}
+  ' #{t("confirmation_mailer.confirmation_email.visit_this")}
+  a href=@confirmation_url #{t("confirmation_mailer.confirmation_email.link")}
+  ' #{t("confirmation_mailer.confirmation_email.url", confirmation_url: @confirmation_url)}

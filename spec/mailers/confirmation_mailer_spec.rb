@@ -3,13 +3,10 @@ require 'rails_helper'
 
 RSpec.describe ConfirmationMailer, type: :mailer do
   describe 'confirmation_email' do
-    let(:member) { create(:member, email: 'test@example.com') }
+    let!(:member) { create(:member, email: 'test@example.com') }
+    let!(:auth) { create(:member_authentication, member: member, password: 'password', token: 'imarealtoken1235') }
     let(:language) { build(:language, code: 'EN') }
     let(:mail) { ConfirmationMailer.confirmation_email(member, language.code) }
-
-    before :each do
-      member.create_authentication(password: 'password', token: 'imarealtoken1235')
-    end
 
     it 'renders the headers' do
       expect(mail.subject).to eq('E-mail confirmation for signing up for express donations with SumOfUs')
@@ -18,7 +15,7 @@ RSpec.describe ConfirmationMailer, type: :mailer do
     end
 
     it 'renders the HTML body' do
-      expect(mail.body.encoded).to include("<html><body><h1>Thank you for your donation!</h1><p>To confirm your \
+      expect(mail.body.encoded).to include( "<html><body><h1>Thank you for your donation!</h1><p>To confirm your \
 enrollment in our express donations plan, visit this <a href=\"#{Settings.home_page_url}/\
 email_confirmation?email=test%40example.com&amp;language=&amp;token=imarealtoken1235\">link</a>\
 , or copy paste this URL to your browser: #{Settings.home_page_url}/email_confirmation\
@@ -28,7 +25,7 @@ email_confirmation?email=test%40example.com&amp;language=&amp;token=imarealtoken
     it 'renders the plaintext body' do
       expect(mail.body.encoded).to include("To confirm your enrollment in our express donations plan, visit this \
 address: #{Settings.home_page_url}/email_confirmation?email=test%40example.com&amp;language=&amp;token=\
-imarealtoken1235' ")
+imarealtoken1235 ")
     end
   end
 end

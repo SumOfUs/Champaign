@@ -121,4 +121,13 @@ fr:
       default: "%-d %B %Y"
   confirmation_mailer:
     confirmation_email:
-      subject: "missing"
+      subject: "E-mail confirmation for signing up for express donations with SumOfUs"
+      headline: "Thank you for your donation!"
+      visit_this: "To confirm your enrollment in our express donations plan, visit this"
+      link: "link"
+      url: ", or copy paste this URL to your browser: %{confirmation_url}"
+      plaintext: "To confirm your enrollment in our express donations plan, visit this address: %{confirmation_url}"
+    follow_up_page:
+      failure: "There was an issue signing up for express donations."
+      success: "You have successfully signed up for express donations!"
+      member_management_link: 'To manage your payment methods, you can visit our <a href="">member management application</a> at any time.'

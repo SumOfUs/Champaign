@@ -16,12 +16,13 @@ describe 'Email Confirmation when signing up to express donations' do
   end
 
   it 'Logs an error and renders errors if the token and email address do not match' do
-    expect(Rails.logger).to receive(:error).with('Token verification failed for email \
-test@example.com with token iamnotarealtoken.')
+    expect(Rails.logger).to receive(:error).with(
+                              'Token verification failed for email test@example.com with token iamnotarealtoken.'
+                            )
     get '/email_confirmation?email=test%40example.com&amp;token=iamnotarealtoken'
     expect(response.body).to include(
-      'There was an issue signing up for express donations.',
-      'Your confirmation token appears to be invalid.'
-    )
+                               'There was an issue signing up for express donations.',
+                               'Your confirmation token appears to be invalid.'
+                             )
   end
 end
