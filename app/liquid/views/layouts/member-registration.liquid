@@ -1,0 +1,39 @@
+{% comment %} Description: View for member registration page. {% endcomment %}
+{% comment %} Primary layout: false {% endcomment %}
+
+<div class="center-content center-content--accomodates-stuck-footer">
+  <div class="center-content__big-column">
+
+    <div class="imageless-title">
+      <div class="typography__highlight-wrapper">
+        <h1 class="typography__highlight">
+          <span>Member Registration</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="body-text main-feature main-feature--close-top">
+        <p>
+        </p>
+
+        <form action='/api/member_authentication' data-remote='true' method='post' class='form--big registration-form'>
+          <div class='form__group action-form__field-container'>
+            <input type='password' name='password' class='form-control form__content' id='' placeholder='Password' maxlength='30' />
+            <input type='password' name='password_confirmatiion' class='form-control form__content' id='' placeholder='Confirm Password' maxlength='30' />
+            <input type='hidden' name='email' value='{{email}}' />
+            <input type='hidden' name='page_id' value='{{page_id}}' />
+          </div>
+
+          <button type='submit' class='button registation-form__submit-button'>Register</button>
+        </form>
+    </div>
+  </div>
+  <div class="center-content__fixed-right center-content--push-down">
+
+
+  </div>
+</div>
+
+{% include 'Petition Mobile Footer' %}
+
+
