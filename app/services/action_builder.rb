@@ -94,7 +94,7 @@ module ActionBuilder
     @params.tap do |params|
       if params[:referrer_id]
         member = Member.find_by(id: params[:referrer_id])
-        params[:referrer_email] = member.email if member.try(:email).present?
+        params[:action_referrer_email] = member.email if member.try(:email).present?
       end
     end
   end
