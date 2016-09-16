@@ -275,7 +275,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   onOneClickSuccess() {
     const user = this.serializeUserForm();
-    const url = `/api/member_authentications/new?page_id=${this.pageId}&email=${user.email}`;
+    const url = `/api/member_authentication/new?page_id=${this.pageId}&email=${user.email}`;
     this.redirectTo(url);
   },
 
