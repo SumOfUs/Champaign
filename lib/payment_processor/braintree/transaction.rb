@@ -20,7 +20,7 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result, :store_in_vault
 
-      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault:)
+      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false)
         builder = new(nonce, amount, currency, user, page_id, store_in_vault)
         builder.transact
         builder
