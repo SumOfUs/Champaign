@@ -45,8 +45,9 @@ fr:
       number: Le numéro de votre carte
       expiration: La date d’expiration
     oneclick:
-      credit_card_payment_method: "%{card_type} ending in %{last_four_digits} (FR)"
-      paypal_payment_method: "Paypal (%{email}) (DE)"
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (FR)"
+      paypal_payment_method: "Paypal (%{email}) (FR)"
+      change_payment_method: "Change payment method (FR)"
     generic:
       title: "Merci d’avoir agi ! Pouvez-vous faire un don afin de faire progresser le combat? "
       target: Vous
