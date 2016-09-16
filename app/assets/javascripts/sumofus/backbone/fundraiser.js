@@ -19,6 +19,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .hosted-fields__direct-debit': 'submitDirectDebit',
     'click .fundraiser-bar__submit-one-click': 'submitOneClick',
+    'click .fundraiser-bar__toggle-payment-method': 'toggleOneClickVisibility',
   },
 
   globalEvents: {
@@ -49,6 +50,8 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
+    this.paymentMethods = options.paymentMethods;
+    this.setOneClickVisibility();
     GlobalEvents.bindEvents(this);
   },
 
@@ -162,6 +165,21 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     }
   },
 
+  setOneClickVisibility() {
+    if (this.paymentMethods.length) {
+      // hide braintree widgethide
+      $('#hosted-fields').addClass('hidden-irrelevant');
+      $('.fundraiser-bar__fields-loading').addClass('hidden-closed');
+    } else {
+      $('#one-click-form').addClass('hidden-irrelevant');
+    }
+  },
+
+  toggleOneClickVisibility(event) {
+    event.preventDefault();
+    $('#one-click-form, #hosted-fields').toggleClass('hidden-irrelevant');
+  },
+
   triggerStepChange(e) {
     const targetStep = this.$(e.target).parent().data('step');
     if (targetStep < this.currentStep) {
@@ -232,6 +250,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   submitOneClick(event) {
     event.preventDefault();
+    this.disableOneClickButton();
     $.post(`/api/payment/braintree/pages/${this.pageId}/one_click`, this.oneClickDonationData())
       .then(
         this.onOneClickSuccess.bind(this),
@@ -259,9 +278,21 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   onOneClickFailed(reason) {
-    // Should we report errors?
-    console.log('One Click donation failed with the following reason:');
-    console.log(reason);
+    this.enableOneClickButton();
+  },
+
+  enableOneClickButton() {
+    this.$('.fundraiser-bar__submit-one-click')
+      .html(this.buttonText)
+      .removeClass('button--disabled')
+      .prop('disabled', false);
+  },
+
+  disableOneClickButton() {
+    this.$('.fundraiser-bar__submit-one-click')
+      .text(I18n.t('form.processing'))
+      .addClass('button--disabled')
+      .prop('disabled', true);
   },
 
   transactionSuccess(data, status) {

@@ -45,8 +45,9 @@ de:
       number: Die Kreditkartennummer
       expiration: Das Ablaufdatum
     oneclick:
-      credit_card_payment_method: "%{card_type} ending in %{last_four_digits} (DE)"
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (DE)"
       paypal_payment_method: "Paypal (%{email}) (DE)"
+      change_payment_method: "Change payment method (DE)"
     generic:
       title: "Vielen Dank für Ihre Unterschrift! Können Sie unsere Arbeit bitte mit einer Spende unterstützen?"
       target: Sie

@@ -112,7 +112,7 @@
               </div>
               <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
             </form>
-            <div class="fundraiser-bar__step-panel form--big script-dependent one-click-fields-view" data-step="3">
+            <div class="action-form__one-click">
               {% include 'Oneclick Form', payment_methods: payment_methods %}
             </div>
             <div class="fundraiser-bar__fine-print">
@@ -142,6 +142,7 @@
           donationBands:    sou.personalization.donationBands,
           amount:           sou.personalization.urlParams.amount,
           recurringDefault: sou.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          paymentMethods: sou.personalization.paymentMethods,
         });
         sou.mySidebar     = new sou.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
         sou.mySticky      = new sou.DesktopSticky({extraClass: 'fundraiser'});

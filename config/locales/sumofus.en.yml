@@ -45,8 +45,9 @@ en:
       number: Card number
       expiration: Expiration date
     oneclick:
-      credit_card_payment_method: "%{card_type} ending in %{last_four_digits}"
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
+      change_payment_method: "Change payment method"
     generic:
       title: "Thanks for taking action! Can you chip in to continue the fight?"
       target: You

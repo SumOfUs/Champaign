@@ -190,6 +190,33 @@
   &__first-continue {
     margin-bottom: 20px;
   }
+
+  &__submit-one-click {
+    margin-top: 15px;
+  }
+
+  &__toggle-payment-method-container {
+    clear: both;
+    float: none;
+  }
+
+  &__toggle-payment-method {
+    display: block;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+
+  &__one-click-title {
+    margin-bottom: 15px;
+  }
+
+  &__payment-methods {
+    background-color: #fafafa;
+    padding: 16px;
+  }
+
 }
 
 .sticky-wrapper {
@@ -291,4 +318,11 @@
     float: left !important;
     margin-left: 36px !important;
   }
+}
+
+.action-form__one-click {
+  clear: both;
+}
+
+#one-click-form {
 }
