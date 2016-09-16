@@ -66,9 +66,8 @@ gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
 gem 'action_parameter'
 
-# AWS SDK for Ruby
-gem 'aws-sdk', '~> 2'
-gem 'aws-sdk-v1'
+# AWS SDK for Rails
+gem 'aws-sdk-rails'
 
 # Logging and log management
 gem 'logger'
