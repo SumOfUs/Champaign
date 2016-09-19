@@ -21,12 +21,14 @@ de:
     proceed_to_payment: Weiter zur Zahlung
     other_amount: Betrag
     make_recurring: Monatlich spenden
+    store_in_vault: DE Store my payment information
     thank_you: Vielen Dank für Ihre Spende!
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "SumOfUs ist eine eingetragene Non-Profit-Organisation (501(c)4) mit Sitz in Washington DC, USA. Spenden an SumOfUs können nicht von der Steuer abgesetzt werden. Für mehr Informationen schreiben Sie uns bitte eine E-Mail an info@sumofus.org."
     confirmation: Spende erhalten
     donate_now: Spenden Sie jetzt!
+    donate_with: "Donate with: (DE)"
     loading: Unser sicheres Spenden formular wird geladen
     debit:
       recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
@@ -42,6 +44,10 @@ de:
       cvv: Die Kartenprüfnummer
       number: Die Kreditkartennummer
       expiration: Das Ablaufdatum
+    oneclick:
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (DE)"
+      paypal_payment_method: "Paypal (%{email}) (DE)"
+      change_payment_method: "Change payment method (DE)"
     generic:
       title: "Vielen Dank für Ihre Unterschrift! Können Sie unsere Arbeit bitte mit einer Spende unterstützen?"
       target: Sie
@@ -130,7 +136,7 @@ de:
         details: "Unsere Auswahl an Lebensmitteln und deren Preise könnten bald von der Willkür des Bayer-Monsanto-Konzerns abhängen. Steigende Saatgut- und Düngerpreise führen zu höheren Preisen für uns Verbraucher -- gerade Familien mit niedrigem Einkommen würden besonders darunter leiden. Auch die Auswahl im Obst- und Gemüseregal könnte kleiner werden, wenn Bayer-Monsanto mit seinen Massenprodukten aus industrieller Landwirtschaft kleine Bio-Bauern vom Markt drängt."
     shareholder:
       title: "Nur 7 Prozent der<br> Bayer-Aktionäre halten die Monsanto-Übernahme für strategisch sinnvoll"
-      details: 'Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”' 
+      details: 'Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”'
       quotes:
         first:
           quote: "Sehr geehrter Herr Baumann, im Sinne von uns allen kann ich nur an Ihr gewissen appellieren, den Menschen und der Umwelt nicht weiter so einen Schaden zuzumuten in dem Sie jetzt auch noch Monsanto (zB. als Hersteller von Glyphosat) als Unternehmen aufkaufen. Ich werde im Falle der Umsetzung in jedem Fall meine Aktion von Bayer veräussern."

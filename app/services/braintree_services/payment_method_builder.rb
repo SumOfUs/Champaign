@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 module BraintreeServices
   class PaymentMethodBuilder
-    def initialize(transaction:, customer: nil)
+    def initialize(transaction:, customer: nil, store_in_vault: false)
       @transaction = transaction
       @customer = customer
+      @store_in_vault = store_in_vault
     end
 
     def create
@@ -16,10 +17,12 @@ module BraintreeServices
     def attributes
       case @transaction.payment_instrument_type
       when Braintree::PaymentInstrumentType::CreditCard
-        credit_card_attributes
+        attrs = credit_card_attributes
       when Braintree::PaymentInstrumentType::PayPalAccount
-        paypal_attributes
+        attrs = paypal_attributes
       end
+
+      attrs.merge(store_in_vault: @store_in_vault)
     end
 
     def credit_card_attributes

@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore
+//= require lodash
 //= require backbone
 //= require pub_sub
 //= require jquery-ui/sortable
@@ -42,10 +42,10 @@
 
 require('ajax')
 require('page');
-require("plugins_toggle");
-require("sidebar");
-require("tooltips");
-require("collection_editor");
+require('plugins_toggle');
+require('sidebar');
+require('tooltips');
+require('collection_editor');
 require('shares_editor');
 require('layout_picker');
 

@@ -3,7 +3,7 @@
 class Api::MemberAuthenticationsController < ApplicationController
   def new
     @page = Page.find params[:page_id]
-    view = File.read("#{Rails.root}/app/liquid/views/layouts/member_registration.liquid")
+    view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
     template = Liquid::Template.parse(view)
     @rendered = template.render('page_id' => params[:page_id], 'email' => params[:email]).html_safe
 

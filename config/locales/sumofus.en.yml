@@ -21,12 +21,14 @@ en:
     proceed_to_payment: Proceed to payment
     other_amount: Other
     make_recurring: Make my donation monthly
+    store_in_vault: Store my payment information
     thank_you: Thank you for your donation!
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
     confirmation: Donation received
     donate_now: Donate now
+    donate_with: "Donate with:"
     loading: Loading secure <br> payment portal
     debit:
       recurring: "You are setting up a monthly donation of %{amount} to SumOfUs"
@@ -42,6 +44,10 @@ en:
       cvv: CVV
       number: Card number
       expiration: Expiration date
+    oneclick:
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits}"
+      paypal_payment_method: "Paypal (%{email})"
+      change_payment_method: "Change payment method"
     generic:
       title: "Thanks for taking action! Can you chip in to continue the fight?"
       target: You
@@ -161,4 +167,3 @@ en:
         tweet: "A Bayer-Monsanto merger violates the law and is a disaster for our birds, bees and farmers @vestager @LorettaLynch"
         tweet_link: https://bayermonsantomerger.com
         cta: "Tweet now"
-
