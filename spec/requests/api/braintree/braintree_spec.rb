@@ -18,14 +18,19 @@ describe 'Express Donation' do
 
     before do
       VCR.use_cassette('braintree_express_donation') do
-        post api_payment_braintree_one_click_path(page.id), payment: {
-          amount: 2.00
-        },
-                                                            user: {
-                                                              form_id: form.id,
-                                                              email:   'test@example.com',
-                                                              name:    'John Doe'
-                                                            }
+        body = {
+          payment: {
+            amount: 2.00,
+            payment_method_id: payment_method.id
+          },
+          user: {
+            form_id: form.id,
+            email:   'test@example.com',
+            name:    'John Doe'
+          }
+        }
+
+        post api_payment_braintree_one_click_path(page.id), body
       end
     end
 
