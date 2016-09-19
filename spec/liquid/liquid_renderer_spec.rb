@@ -126,6 +126,7 @@ describe LiquidRenderer do
         follow_up_url
         primary_image
         petition_target
+        payment_methods
       )
 
       expected_keys += page.liquid_data.keys.map(&:to_s)
@@ -163,6 +164,7 @@ describe LiquidRenderer do
         thermometer
         action_count
         show_direct_debit
+        payment_methods
       )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
