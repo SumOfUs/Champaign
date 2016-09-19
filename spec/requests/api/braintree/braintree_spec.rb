@@ -15,7 +15,7 @@ describe 'Express Donation' do
     allow(ChampaignQueue).to receive(:push)
   end
 
-  describe 'subscription', :focus do
+  describe 'subscription' do
     before do
       VCR.use_cassette('braintree_express_donation_subscription') do
         body = {
@@ -38,12 +38,28 @@ describe 'Express Donation' do
     end
 
     describe 'local record' do
-      subject { Payment::Braintree::Subscription.last }
+      it 'creates action' do
+        action = page.actions.first
 
-      it 'for subscription' do
-        expect(subject.attributes.symbolize_keys)
-          .to include(page_id: page.id,
-                      subscription_id:   /[a-z0-9]{6}/)
+        expect(
+          action.form_data.deep_symbolize_keys
+        ).to include(form_id: form.id.to_s)
+
+        expect(
+          Action.first.member.attributes.symbolize_keys
+        ).to include(email: 'test@example.com')
+      end
+
+      it 'creates subscription' do
+        subscription = Payment::Braintree::Subscription.last
+
+        expected_attributes = {
+          page_id: page.id,
+          subscription_id: /[a-z0-9]{6}/,
+          payment_method_id: payment_method.id
+        }
+        expect(subscription.attributes.symbolize_keys)
+          .to include(expected_attributes)
       end
     end
   end
@@ -74,21 +90,29 @@ describe 'Express Donation' do
       expect(response.body).to eq({ success: true }.to_json)
     end
 
-    it 'creates an action' do
-      action = page.actions.first
+    describe 'local record' do
+      it 'creates action' do
+        action = page.actions.first
 
-      expect(
-        action.form_data.deep_symbolize_keys
-      ).to include(form_id: form.id.to_s)
+        expect(
+          action.form_data.deep_symbolize_keys
+        ).to include(form_id: form.id.to_s)
 
-      expect(
-        Action.first.member.attributes.symbolize_keys
-      ).to include(email: 'test@example.com')
-    end
+        expect(
+          Action.first.member.attributes.symbolize_keys
+        ).to include(email: 'test@example.com')
+      end
 
-    it 'records local record of transaction' do
-      expect(payment_method.transactions.first.attributes.symbolize_keys).to include(transaction_type: 'sale',
-                                                                                     transaction_id:   /[a-z0-9]{8}/)
+      it 'creates transaction' do
+        expected_attributes = {
+          transaction_type: 'sale',
+          transaction_id:   /[a-z0-9]{8}/,
+          page_id: page.id
+        }
+
+        transaction = payment_method.transactions.first.attributes.symbolize_keys
+        expect(transaction).to include(expected_attributes)
+      end
     end
 
     it 'creates transaction on braintree' do

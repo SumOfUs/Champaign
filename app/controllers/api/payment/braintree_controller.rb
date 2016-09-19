@@ -52,6 +52,7 @@ class BraintreeSubscriptionBuilder
   def attributes
     {
       subscription_id: subscription.id,
+      payment_method: payment_options.payment_method,
       amount: payment_options.amount,
       merchant_account_id: payment_options.merchant_account_id,
       customer: payment_options.customer,
@@ -59,31 +60,15 @@ class BraintreeSubscriptionBuilder
       billing_day_of_month: subscription.billing_day_of_month,
       page_id: payment_options.page.id
     }
-
-    #{"id"=>nil,
- #"subscription_id"=>nil,
- #"merchant_account_id"=>nil,
- #"created_at"=>nil,
- #"updated_at"=>nil,
- #"page_id"=>nil,
- #"amount"=>nil,
- #"currency"=>nil,
- #"action_id"=>nil,
- #"cancelled_at"=>nil,
- #"customer_id"=>nil,
- #"billing_day_of_month"=>nil,
- #"payment_method_id"=>nil}
-
-    #subscription_id: 
   end
 end
 
 class BraintreeTransactionBuilder
-  attr_reader :customer, :transaction
+  attr_reader :payment_options, :transaction
 
-  def initialize(transaction, customer)
+  def initialize(transaction, payment_options)
+    @payment_options = payment_options
     @transaction = transaction
-    @customer = customer
   end
 
   def build
@@ -96,14 +81,15 @@ class BraintreeTransactionBuilder
     {
       amount:                          transaction.amount,
       currency:                        transaction.currency_iso_code,
-      customer_id:                     customer.customer_id,
-      payment_method:                  customer.default_payment_method,
+      customer_id:                     payment_options.customer.customer_id,
+      payment_method:                  payment_options.payment_method,
       transaction_id:                  transaction.id,
       transaction_type:                transaction.type,
       merchant_account_id:             transaction.merchant_account_id,
       transaction_created_at:          transaction.created_at,
       payment_instrument_type:         transaction.payment_instrument_type,
-      processor_response_code:         transaction.processor_response_code
+      processor_response_code:         transaction.processor_response_code,
+      page_id:                         payment_options.page.id
     }
   end
 end
@@ -230,6 +216,7 @@ class BraintreeOneClickService
 
   def run
     create_action
+
     if payment_options.recurring?
       sale = make_subscription
       store_subscription_locally(sale) if sale.success?
@@ -267,7 +254,7 @@ class BraintreeOneClickService
   end
 
   def store_sale_locally(sale)
-    BraintreeTransactionBuilder.new(sale.transaction, customer).build
+    BraintreeTransactionBuilder.new(sale.transaction, payment_options).build
   end
 
   def store_subscription_locally(sale)
