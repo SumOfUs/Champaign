@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::MemberAuthenticationsController < ApplicationController
+  before_action :redirect_signed_up_members
+
   def new
     @page = Page.find params[:page_id]
     view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
@@ -22,5 +24,15 @@ class Api::MemberAuthenticationsController < ApplicationController
     else
       render json: auth.errors, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def member
+    @member ||= Member.find_by(id: cookies.signed[:member_id], email: params[:email])
+  end
+
+  def redirect_signed_up_members
+    redirect_to follow_up_page_path params[:page_id] if member && member.authentication
   end
 end

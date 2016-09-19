@@ -43,7 +43,9 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
-    this.submissionCallback = options.submissionCallback;
+    if (typeof options.submissionCallback === 'function') {
+      this.submissionCallback = options.submissionCallback;
+    }
     this.initializeSkipping(options);
     this.pageId = options.pageId;
     this.directDebitOpened = false;
@@ -228,6 +230,21 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     };
   },
 
+  oneClickDonationData() {
+    const paymentMethodId = $('#one-click-form input[name=payment_method_id]:checked').val();
+    const data = {
+      payment: {
+        currency: this.currency,
+        amount: this.donationAmount,
+        recurring: this.readRecurringOneClick(),
+        paymentMethodId,
+      },
+      user: this.serializeUserForm(),
+    };
+
+    return data;
+  },
+
   submitDirectDebit() {
     let data = this.donationData();
     data.provider = 'GC';
@@ -237,79 +254,45 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     window.open(url);
   },
 
-  submitDonation (nonce) {
+  submitDonation(nonce) {
     let data = this.donationData();
     data.payment_method_nonce = nonce;
-    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data).
-      done(this.transactionSuccess.bind(this)).
-      error(this.transactionFailed.bind(this));
-    if(this.directDebitOpened){
+    $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data)
+      .then(this.onSubmission.bind(this))
+      .then(this.transactionSuccess.bind(this), this.transactionFailed.bind(this));
+
+    if (this.directDebitOpened) {
       $.publish('direct_debit:donated_via_other');
+    }
+  },
+
+  onSubmission(data, status) {
+    if (this.submissionCallback) {
+      this.submissionCallback(data, status);
     }
   },
 
   submitOneClick(event) {
     event.preventDefault();
+    const url = `/api/payment/braintree/pages/${this.pageId}/one_click`;
     this.disableOneClickButton();
-    $.post(`/api/payment/braintree/pages/${this.pageId}/one_click`, this.oneClickDonationData())
-      .then(
-        this.onOneClickSuccess.bind(this),
-        this.onOneClickFailed.bind(this)
-      );
-  },
-
-  oneClickDonationData() {
-    const paymentMethodId = $('#one-click-form input[name=payment_method_id]:checked').val();
-    const data = {
-      payment: {
-        currency: this.currency,
-        amount: this.donationAmount,
-        recurring: this.readRecurringOneClick(),
-        payment_method_id: paymentMethodId,
-      },
-      user: this.serializeUserForm(),
-    };
-
-    return data;
+    $.post(url, this.oneClickDonationData())
+      .then(this.onSubmission.bind(this))
+      .then(this.onOneClickSuccess.bind(this), this.onOneClickFailed.bind(this));
   },
 
   onOneClickSuccess() {
+    this.followRedirect(this.followUpUrl);
+  },
+
+  transactionSuccess() {
     const user = this.serializeUserForm();
     const url = `/api/member_authentication/new?page_id=${this.pageId}&email=${user.email}`;
-    this.redirectTo(url);
+    this.followRedirect(url);
   },
 
   onOneClickFailed() {
     this.enableOneClickButton();
-  },
-
-  enableOneClickButton() {
-    this.$('.fundraiser-bar__submit-one-click')
-      .html(this.buttonText)
-      .removeClass('button--disabled')
-      .prop('disabled', false);
-  },
-
-  disableOneClickButton() {
-    this.$('.fundraiser-bar__submit-one-click')
-      .text(I18n.t('form.processing'))
-      .addClass('button--disabled')
-      .prop('disabled', true);
-  },
-
-  transactionSuccess(data, status) {
-    let hasCallbackFunction = (typeof this.submissionCallback === 'function');
-    if (hasCallbackFunction) {
-      this.submissionCallback(data, status);
-    }
-    if (data && data.follow_up_url) {
-      this.redirectTo(data.follow_up_url);
-    } else if (this.followUpUrl) {
-      this.redirectTo(this.followUpUrl);
-    } else if(!hasCallbackFunction) {
-      // only do this option if no redirect or callback supplied
-      alert(I18n.t('petition.excited_confirmation'));
-    }
   },
 
   transactionFailed(data, status) {
@@ -330,6 +313,20 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     }
     this.showErrors(messages);
     Backbone.trigger('sidebar:height_change');
+  },
+
+  enableOneClickButton() {
+    this.$('.fundraiser-bar__submit-one-click')
+      .html(this.buttonText)
+      .removeClass('button--disabled')
+      .prop('disabled', false);
+  },
+
+  disableOneClickButton() {
+    this.$('.fundraiser-bar__submit-one-click')
+      .text(I18n.t('form.processing'))
+      .addClass('button--disabled')
+      .prop('disabled', true);
   },
 
   showErrors(messages) {
@@ -371,6 +368,17 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       .html(this.buttonText)
       .removeClass('button--disabled')
       .prop('disabled', false);
+  },
+
+  followRedirect(url) {
+    // If we have no redirect URL or submission callback,
+    // we display a thank you message
+    if (!url && !this.submissionCallback) {
+      alert(I18n.t('fundraiser.thank_you'));
+      return;
+    }
+
+    this.redirectTo(url);
   },
 
   redirectTo(url) {
