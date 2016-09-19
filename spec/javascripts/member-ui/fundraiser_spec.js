@@ -108,7 +108,7 @@ describe("Fundraiser", function() {
         });
       });
     });
- 
+
     describe('action-form is not prefilled', function(){
 
       describe('amount is not passed', function(){
@@ -260,7 +260,7 @@ describe("Fundraiser", function() {
       }
 
       beforeEach(function(){
-        suite.followUpUrl = "/pages/636/follow-up";
+        suite.followUpUrl = `/api/member_authentication/new?page_id=1&email=`;
         suite.callback = sinon.spy();
       });
 
@@ -527,5 +527,3 @@ describe("Fundraiser", function() {
     });
   });
 });
-
-
