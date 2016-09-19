@@ -1,11 +1,7 @@
-const CurrencyMethods     = require('member-facing/backbone/currency_methods');
-const OverlayToggle       = require('member-facing/backbone/overlay_toggle')
-const BraintreeHostedFields = require('member-facing/backbone/braintree_hosted_fields');
-const GlobalEvents = require('shared/global_events');
+const CurrencyMethods = require('./currency_methods');
+const GlobalEvents = require('../../shared/global_events');
 
-const Fundraiser = Backbone.View.extend(_.extend(
-  CurrencyMethods, {
-
+const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   el: '.fundraiser-bar',
 
   events: {
@@ -22,6 +18,8 @@ const Fundraiser = Backbone.View.extend(_.extend(
     'change input.fundraiser-bar__recurring': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .hosted-fields__direct-debit': 'submitDirectDebit',
+    'click .fundraiser-bar__submit-one-click': 'submitOneClick',
+    'click .fundraiser-bar__toggle-payment-method': 'toggleOneClickVisibility',
   },
 
   globalEvents: {
@@ -52,6 +50,8 @@ const Fundraiser = Backbone.View.extend(_.extend(
     this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
+    this.paymentMethods = options.paymentMethods || [];
+    this.setOneClickVisibility();
     GlobalEvents.bindEvents(this);
   },
 
@@ -161,7 +161,23 @@ const Fundraiser = Backbone.View.extend(_.extend(
                          ${monthly}`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
       this.$('.fundraiser-bar__submit-button').html(this.buttonText);
+      this.$('.fundraiser-bar__submit-one-click').html(this.buttonText);
     }
+  },
+
+  setOneClickVisibility() {
+    if (this.paymentMethods.length) {
+      // hide braintree widgethide
+      $('#hosted-fields').addClass('hidden-irrelevant');
+      $('.fundraiser-bar__fields-loading').addClass('hidden-closed');
+    } else {
+      $('#one-click-form').addClass('hidden-irrelevant');
+    }
+  },
+
+  toggleOneClickVisibility(event) {
+    event.preventDefault();
+    $('#one-click-form, #hosted-fields').toggleClass('hidden-irrelevant');
   },
 
   triggerStepChange(e) {
@@ -204,11 +220,12 @@ const Fundraiser = Backbone.View.extend(_.extend(
 
   donationData() {
     return {
-      amount:       this.donationAmount,
-      user:         this.serializeUserForm(),
-      currency:     this.currency,
-      recurring:    this.readRecurring()
-    }
+      amount:         this.donationAmount,
+      user:           this.serializeUserForm(),
+      currency:       this.currency,
+      recurring:      this.readRecurring(),
+      store_in_vault: this.readStoreInVault(),
+    };
   },
 
   submitDirectDebit() {
@@ -229,6 +246,55 @@ const Fundraiser = Backbone.View.extend(_.extend(
     if(this.directDebitOpened){
       $.publish('direct_debit:donated_via_other');
     }
+  },
+
+  submitOneClick(event) {
+    event.preventDefault();
+    this.disableOneClickButton();
+    $.post(`/api/payment/braintree/pages/${this.pageId}/one_click`, this.oneClickDonationData())
+      .then(
+        this.onOneClickSuccess.bind(this),
+        this.onOneClickFailed.bind(this)
+      );
+  },
+
+  oneClickDonationData() {
+    const paymentMethodId = $('#one-click-form input[name=payment_method_id]:checked').val();
+    const data = {
+      payment: {
+        currency: this.currency,
+        amount: this.donationAmount,
+        recurring: this.readRecurringOneClick(),
+        paymentMethodId,
+      },
+      user: this.serializeUserForm(),
+    };
+
+    return data;
+  },
+
+  onOneClickSuccess() {
+    const user = this.serializeUserForm();
+    const url = `/api/member_authentication/new?page_id=${this.pageId}&email=${user.email}`;
+    this.redirectTo(url);
+  },
+
+  onOneClickFailed() {
+    this.enableOneClickButton();
+  },
+
+  enableOneClickButton() {
+    this.$('.fundraiser-bar__submit-one-click')
+      .html(this.buttonText)
+      .removeClass('button--disabled')
+      .prop('disabled', false);
+  },
+
+  disableOneClickButton() {
+    this.$('.fundraiser-bar__submit-one-click')
+      .text(I18n.t('form.processing'))
+      .addClass('button--disabled')
+      .prop('disabled', true);
   },
 
   transactionSuccess(data, status) {
@@ -275,32 +341,36 @@ const Fundraiser = Backbone.View.extend(_.extend(
     });
   },
 
-  serializeUserForm () {
-    let list = this.$('form.action-form').serializeArray();
-    let serialized = {}
-    $.each(list, function(ii, field){
-      serialized[field.name] = field.value;
-    });
-    return serialized;
+  serializeUserForm() {
+    const list = this.$('form.action-form').serializeArray();
+    return _.mapValues(_.keyBy(list, 'name'), 'value');
   },
 
   readRecurring() {
-    return this.$('input.fundraiser-bar__recurring').prop('checked') ? true : false
+    return !!this.$('input.fundraiser-bar__recurring').prop('checked');
   },
 
-  disableButton(e) {
+  readRecurringOneClick() {
+    return !!this.$('input.fundraiser-bar__recurring-one-click').prop('checked');
+  },
+
+  readStoreInVault() {
+    return this.$('input.fundraiser-bar__store-in-vault').prop('checked');
+  },
+
+  disableButton() {
     this.$('.fundraiser-bar__errors').addClass('hidden-closed');
-    this.$('.fundraiser-bar__submit-button').
-      text(I18n.t('form.processing')).
-      addClass('button--disabled').
-      prop('disabled', true);
+    this.$('.fundraiser-bar__submit-button')
+      .text(I18n.t('form.processing'))
+      .addClass('button--disabled')
+      .prop('disabled', true);
   },
 
   enableButton() {
-    this.$('.fundraiser-bar__submit-button').
-      html(this.buttonText).
-      removeClass('button--disabled').
-      prop('disabled', false);
+    this.$('.fundraiser-bar__submit-button')
+      .html(this.buttonText)
+      .removeClass('button--disabled')
+      .prop('disabled', false);
   },
 
   redirectTo(url) {
@@ -318,15 +388,13 @@ const Fundraiser = Backbone.View.extend(_.extend(
 
   handleInterTabFollowUp() {
     $(window).on('message', (e) => {
-      if (typeof(e.originalEvent.data) === 'object'){
+      if (typeof e.originalEvent.data === 'object') {
         if (e.originalEvent.data.event === 'follow_up:loaded') {
           this.redirectTo(this.followUpUrl);
           e.originalEvent.source.close();
           $.publish('direct_debit:donated');
         } else if (e.originalEvent.data.event === 'donation:error') {
-          let messages = e.originalEvent.data.errors.map(function(error){
-            return error.message;
-          });
+          const messages = e.originalEvent.data.errors.map(({ message }) => message);
           this.showErrors(messages);
           e.originalEvent.source.close();
         }
