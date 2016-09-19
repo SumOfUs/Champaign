@@ -11,23 +11,59 @@ describe 'Express Donation' do
   ## Token is REAL
   let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: '6vg2vw') }
 
-  describe 'transaction' do
-    before do
-      allow(ChampaignQueue).to receive(:push)
-    end
+  before do
+    allow(ChampaignQueue).to receive(:push)
+  end
 
+  describe 'subscription', :focus do
     before do
-      VCR.use_cassette('braintree_express_donation') do
+      VCR.use_cassette('braintree_express_donation_subscription') do
         body = {
           payment: {
             amount: 2.00,
-            payment_method_id: payment_method.id
+            payment_method_id: payment_method.id,
+            currency: 'GBP',
+            recurring: true
           },
           user: {
             form_id: form.id,
             email:   'test@example.com',
             name:    'John Doe'
-          }
+          },
+          page_id: page.id
+        }
+
+        post api_payment_braintree_one_click_path(page.id), body
+      end
+    end
+
+    describe 'local record' do
+      subject { Payment::Braintree::Subscription.last }
+
+      it 'for subscription' do
+        expect(subject.attributes.symbolize_keys)
+          .to include(page_id: page.id,
+                      subscription_id:   /[a-z0-9]{6}/)
+      end
+    end
+  end
+
+  describe 'transaction' do
+    before do
+      VCR.use_cassette('braintree_express_donation') do
+        body = {
+          payment: {
+            amount: 2.00,
+            payment_method_id: payment_method.id,
+            currency: 'GBP',
+            recurring: false
+          },
+          user: {
+            form_id: form.id,
+            email:   'test@example.com',
+            name:    'John Doe'
+          },
+          page_id: page.id
         }
 
         post api_payment_braintree_one_click_path(page.id), body

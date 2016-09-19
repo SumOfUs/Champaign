@@ -37,6 +37,47 @@ class ActionParamsBuilder
   end
 end
 
+class BraintreeSubscriptionBuilder
+  attr_reader :subscription, :payment_options
+
+  def initialize(subscription, payment_options)
+    @subscription = subscription
+    @payment_options = payment_options
+  end
+
+  def build
+    Payment::Braintree::Subscription.create!(attributes)
+  end
+
+  def attributes
+    {
+      subscription_id: subscription.id,
+      amount: payment_options.amount,
+      merchant_account_id: payment_options.merchant_account_id,
+      customer: payment_options.customer,
+      currency: payment_options.currency,
+      billing_day_of_month: subscription.billing_day_of_month,
+      page_id: payment_options.page.id
+    }
+
+    #{"id"=>nil,
+ #"subscription_id"=>nil,
+ #"merchant_account_id"=>nil,
+ #"created_at"=>nil,
+ #"updated_at"=>nil,
+ #"page_id"=>nil,
+ #"amount"=>nil,
+ #"currency"=>nil,
+ #"action_id"=>nil,
+ #"cancelled_at"=>nil,
+ #"customer_id"=>nil,
+ #"billing_day_of_month"=>nil,
+ #"payment_method_id"=>nil}
+
+    #subscription_id: 
+  end
+end
+
 class BraintreeTransactionBuilder
   attr_reader :customer, :transaction
 
@@ -120,18 +161,82 @@ module Json
   end
 end
 
-class BraintreeOneClickService
+class PaymentOptions
   attr_reader :params
 
   def initialize(params)
     @params = params
   end
 
+  def payment_method
+    @payment_method ||= customer.payment_methods.find(params[:payment][:payment_method_id])
+  end
+
+  def amount
+    params[:payment][:amount]
+  end
+
+  def token
+    payment_method.token
+  end
+
+  def merchant_account_id
+    PaymentProcessor::Braintree::MerchantAccountSelector
+      .for_currency(params[:payment][:currency])
+  end
+
+  def plan_id
+    PaymentProcessor::Braintree::SubscriptionPlanSelector
+      .for_currency(params[:payment][:currency])
+  end
+
+  def currency
+    params[:payment][:currency]
+  end
+
+  def customer
+    @customer ||= member.braintree_customer
+  end
+
+  def member
+    Member.find_by(email: params[:user][:email])
+  end
+
+  def page
+    @page = Page.find(params[:page_id])
+  end
+
+  def subscription_options
+    {
+      payment_method_token: token,
+      plan_id: plan_id,
+      price: amount,
+      merchant_account_id: merchant_account_id
+    }
+  end
+
+  def recurring?
+    ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:payment][:recurring])
+  end
+end
+
+class BraintreeOneClickService
+  attr_reader :params, :payment_options
+
+  def initialize(params)
+    @params = params
+    @payment_options = PaymentOptions.new(params)
+  end
+
   def run
     create_action
-    sale = make_sale
-
-    store_sale_locally(sale) if sale.success?
+    if payment_options.recurring?
+      sale = make_subscription
+      store_subscription_locally(sale) if sale.success?
+    else
+      sale = make_sale
+      store_sale_locally(sale) if sale.success?
+    end
   end
 
   private
@@ -152,25 +257,21 @@ class BraintreeOneClickService
 
   def make_sale
     @make_sale ||= ::Braintree::Transaction.sale(
-      payment_method_token: payment_method.token,
-      amount: params[:payment][:amount]
+      payment_method_token: payment_options.token,
+      amount: payment_options.amount
     )
+  end
+
+  def make_subscription
+    @make_subscription ||= ::Braintree::Subscription.create(payment_options.subscription_options)
   end
 
   def store_sale_locally(sale)
     BraintreeTransactionBuilder.new(sale.transaction, customer).build
   end
 
-  def payment_method
-    @payment_method ||= customer.payment_methods.find(params[:payment][:payment_method_id])
-  end
-
-  def customer
-    @customer ||= member.braintree_customer
-  end
-
-  def member
-    Member.find_by(email: params[:user][:email])
+  def store_subscription_locally(sale)
+    BraintreeSubscriptionBuilder.new(sale.subscription, payment_options).build
   end
 end
 
