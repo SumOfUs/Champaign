@@ -8,6 +8,15 @@ en:
     tagline: Fighting for people over profits
     license: Creative Commons Attribution 3.0 Unported License.
     description: "SumOfUs is a global movement of consumers, investors, and workers all around the world, standing together to hold corporations accountable for their actions and forge a new, sustainable and just path for our global economy. It's not going to be fast or easy. But if enough of us come together, we can make a real difference."
+  member_registration:
+    form:
+      password: Password
+      confirm_password: Confirm Password
+      your_email: Your email
+      register: Register
+    enter_password_message: "Just enter a password to get started"
+    create_account: "Now, create an account to finalize your donation."
+    create_account_explanation: "Creating an account takes 30 seconds, and allows you to securely manage your donations and payment information with SumOfUs, and allows you to cancel a donation at any time (or decide to chip in again!) "
   fundraiser:
     amount: Amount
     details: Details
