@@ -7,24 +7,30 @@
     <div class="imageless-title">
       <div class="typography__highlight-wrapper">
         <h1 class="typography__highlight">
-          <span>Member Registration</span>
+          <span>{{ 'fundraiser.thank_you' | t }}</span>
         </h1>
       </div>
     </div>
 
     <div class="body-text main-feature main-feature--close-top">
-        <p>
-        </p>
 
+      <h4>{{ 'member_registration.create_account' | t }}</h4>
+
+      <p>{{ 'member_registration.create_account_explanation' | t }} <br>
+        <span>{{ 'member_registration.form.your_email' | t }}: {{ email }}</span> <br>
+
+      </p>
+
+      <h4>{{ 'member_registration.enter_password_message' | t }}</h4>
         <form action='/api/member_authentication' data-remote='true' method='post' class='form--big registration-form'>
           <div class='form__group action-form__field-container'>
-            <input type='password' name='password' class='form-control form__content' id='' placeholder='Password' maxlength='30' />
-            <input type='password' name='password_confirmatiion' class='form-control form__content' id='' placeholder='Confirm Password' maxlength='30' />
-            <input type='hidden' name='email' value='{{email}}' />
+            <input type='password' name='password' class='form-control form__content' placeholder='{{ 'member_registration.form.password' | t }}' maxlength='30' />
+            <input type='password' name='password_confirmatiion' class='form-control form__content' placeholder='{{ 'member_registration.form.confirm_password' | t }}' maxlength='30' />
+            <input type='hidden' name='email' value='{{ email }}' />
             <input type='hidden' name='page_id' value='{{page_id}}' />
           </div>
 
-          <button type='submit' class='button registation-form__submit-button'>Register</button>
+          <button type='submit' class='button registation-form__submit-button'>{{ 'member_registration.form.register' | t }}</button>
         </form>
     </div>
   </div>
