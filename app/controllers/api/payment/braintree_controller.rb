@@ -152,13 +152,17 @@ class BraintreeOneClickService
 
   def make_sale
     @make_sale ||= ::Braintree::Transaction.sale(
-      payment_method_token: customer.default_payment_method.token,
+      payment_method_token: payment_method.token,
       amount: params[:payment][:amount]
     )
   end
 
   def store_sale_locally(sale)
     BraintreeTransactionBuilder.new(sale.transaction, customer).build
+  end
+
+  def payment_method
+    @payment_method ||= customer.payment_methods.find(params[:payment][:payment_method_id])
   end
 
   def customer
