@@ -19,12 +19,14 @@ fr:
     proceed_to_payment: Procéder au versement
     other_amount: Autre
     make_recurring: Faire un don mensuel
+    store_in_vault: FR Store my payment information
     thank_you: Nous vous remercions pour votre don!
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "" # override this with org-specific details in your own yml file.
     confirmation: Don reçu
     donate_now: Don maintenant
+    donate_with: "Donate with: (FR)"
     loading: "Chargement du portail sécurisé de paiement"
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
@@ -40,6 +42,15 @@ fr:
       cvv: Le CVV
       number: Le numéro de votre carte
       expiration: La date d’expiration
+    oneclick:
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (FR)"
+      paypal_payment_method: "Paypal (%{email}) (FR)"
+      change_payment_method: "Change payment method (FR)"
+    generic:
+      title: "Merci d’avoir agi ! Pouvez-vous faire un don afin de faire progresser le combat? "
+      target: Vous
+      ask: "Pouvez-vous faire un don afin d’aider SumOfUs à continuer de combattre le pouvoir grandissant des grandes entreprises dans le monde ?"
+      body: "Merci d’avoir agi avec SumOfUs ! Votre action aide à combattre le pouvoir des grandes entreprises dans le monde. Il reste cependant beaucoup à faire. SumOfUs dépend presque entièrement de petits dons faits par des personnes comme vous. Chaque petit don compte.Votre don signifie que nous pouvons défier les multinationales les plus puissantes et les plus malveillantes ainsi que leur faire rendre des comptes. Pourriez-vous faire un don afin de nous aider à continuer le combat aujourd’hui?"
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
@@ -79,5 +90,3 @@ fr:
   time:
     formats:
       default: "%-d %B %Y"
-
-

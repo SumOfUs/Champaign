@@ -5,8 +5,10 @@ module Payment::Braintree
       'payment_braintree_'
     end
 
-    def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer = true)
-      BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer)
+    # Why don't we have an options hash at the end?
+    # def write_transaction(bt_result, page_id, member_id, existing_customer, options = {})
+    def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault: false)
+      BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer, store_in_vault: store_in_vault)
     end
 
     def write_subscription(payment_method_id, customer_id, subscription_result, page_id, action_id, currency)
@@ -40,11 +42,12 @@ module Payment::Braintree
       new(bt_customer, bt_payment_method, member_id, existing_customer).build
     end
 
-    def initialize(bt_customer, bt_payment_method, member_id, existing_customer)
+    def initialize(bt_customer, bt_payment_method, member_id, existing_customer, store_in_vault: false)
       @bt_customer = bt_customer
       @customer = existing_customer
       @member_id = member_id
       @bt_payment_method = bt_payment_method
+      @store_in_vault = store_in_vault
     end
 
     def build
@@ -56,6 +59,7 @@ module Payment::Braintree
 
       payment_method = Payment::Braintree::PaymentMethod.find_or_create_by!(token:  @bt_payment_method.token) do |pm|
         pm.customer = @customer
+        pm.store_in_vault = @store_in_vault
       end
 
       case @bt_payment_method
@@ -70,6 +74,7 @@ module Payment::Braintree
                               card_type: @bt_payment_method.card_type,
                               cardholder_name: @bt_payment_method.cardholder_name)
       end
+
       @customer
     end
 
@@ -116,18 +121,23 @@ module Payment::Braintree
     #
     #
 
-    def self.build(bt_result, page_id, member_id, existing_customer, save_customer = true)
-      new(bt_result, page_id, member_id, existing_customer, save_customer).build
+    def self.build(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault = false)
+      new(bt_result, page_id, member_id, existing_customer, save_customer, store_in_vault).build
     end
 
-    def initialize(bt_result, page_id, member_id, existing_customer, save_customer = true)
+    def initialize(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault: false)
       @bt_result = bt_result
       @page_id = page_id
       @member_id = member_id
-      @save_customer = save_customer
       @existing_customer = existing_customer
+      @save_customer = save_customer
+      @store_in_vault = store_in_vault
     end
 
+    # NOTE this method has all the looks of a service:
+    #  - create_customer
+    #  - create_payment_method
+    #  - create_transactions
     def build
       return unless transaction.present?
 
@@ -155,7 +165,11 @@ module Payment::Braintree
       if payment_method_token.nil? || @bt_result.transaction.nil?
         @local_payment_method_id = nil
       else
-        @local_payment_method_id = BraintreeServices::PaymentMethodBuilder.new(transaction: @bt_result.transaction, customer: @customer).create.id
+        @local_payment_method_id = BraintreeServices::PaymentMethodBuilder.new(
+          transaction: @bt_result.transaction,
+          customer: @customer,
+          store_in_vault: @store_in_vault
+        ).create.id
       end
     end
 
