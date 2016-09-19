@@ -2,12 +2,20 @@
 require 'rails_helper'
 
 describe 'Liquid page rendering' do
+  before(:all) do
+    LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
+  end
+
+  after(:all) do
+    LiquidLayout.delete_all
+    LiquidPartial.delete_all
+  end
+
   LiquidMarkupSeeder.titles.each do |title|
     describe "page with layout #{title}" do
       [:en, :fr, :de].each do |language_code|
         it "can render in #{language_code} without errors" do
           language = create :language, code: language_code
-          LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
           layout = LiquidLayout.find_by(title: title)
 
           unless LiquidTagFinder.new(layout.content).skip_smoke_tests?
@@ -23,10 +31,6 @@ describe 'Liquid page rendering' do
   end
 
   describe 'rendering sidebars' do
-    before :each do
-      LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
-    end
-
     it 'renders the fundraiser sidebar' do
       page = create :page, liquid_layout: LiquidLayout.find_by(title: 'Fundraiser With Large Image')
       get "/pages/#{page.id}"
