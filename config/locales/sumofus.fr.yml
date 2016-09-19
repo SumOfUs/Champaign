@@ -8,6 +8,15 @@ fr:
     tagline: L’humain avant le profit
     license: Creative Commons Attribution 3.0 Unported License.
     description: "SumOfUs est un mouvement mondial de personnes comme vous, qui travaillent ensemble afin de responsabiliser les entreprises et de tracer une nouvelle voie durable pour l’économie mondiale."
+  member_registration:
+    form:
+      password: Password
+      confirm_password: Confirm Password
+      your_email: Your email
+      register: Register
+    enter_password_message: "Just enter a password to get started"
+    create_account: "Now, create an account to finalize your donation."
+    create_account_explanation: "Creating an account takes 30 seconds, and allows you to securely manage your donations and payment information with SumOfUs, and allows you to cancel a donation at any time (or decide to chip in again!) "
   fundraiser:
     amount: Montant
     details: Détails

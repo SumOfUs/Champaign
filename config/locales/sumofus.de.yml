@@ -8,6 +8,15 @@ de:
     tagline: Menschen vor Profit!
     license: Creative Commons Namensnennung 3.0 Unported Lizenz
     description: "SumOfUs.org ist eine weltweite Bewegung engagierter Menschen wie Ihnen, die sich zusammen dafür einsetzen, dass Konzerne für ihr Handeln zur Verantwortung gezogen werden. Gemeinsam ebnen wir so den Weg für eine neue, nachhaltige Weltwirtschaft."
+  member_registration:
+    form:
+      password: Password
+      confirm_password: Confirm Password
+      your_email: Your email
+      register: Register
+    enter_password_message: "Just enter a password to get started"
+    create_account: "Now, create an account to finalize your donation."
+    create_account_explanation: "Creating an account takes 30 seconds, and allows you to securely manage your donations and payment information with SumOfUs, and allows you to cancel a donation at any time (or decide to chip in again!) "
   fundraiser:
     amount: Betrag
     details: Kontaktdaten
