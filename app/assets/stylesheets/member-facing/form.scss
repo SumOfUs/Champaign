@@ -83,6 +83,11 @@
       height: 58px;
     }
   }
+
+  .radio-inline {
+    display: inline-block;
+    max-width: 20px;
+  }
 }
 
 label.checkbox-label {

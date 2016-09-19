@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore
+//= require lodash
 //= require backbone
 //= require jquery-ui/sortable
 //= require jquery.remotipart

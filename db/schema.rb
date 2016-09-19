@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907091641) do
+ActiveRecord::Schema.define(version: 20160916170739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -247,10 +247,17 @@ ActiveRecord::Schema.define(version: 20160907091641) do
 
   add_index "payment_braintree_customers", ["member_id"], name: "index_payment_braintree_customers_on_member_id", using: :btree
 
+  create_table "payment_braintree_notifications", force: :cascade do |t|
+    t.text     "payload"
+    t.text     "signature"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "payment_braintree_payment_methods", force: :cascade do |t|
     t.string   "token"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "customer_id"
     t.string   "card_type"
     t.string   "bin"
@@ -259,9 +266,11 @@ ActiveRecord::Schema.define(version: 20160907091641) do
     t.string   "expiration_date"
     t.string   "instrument_type"
     t.string   "email"
+    t.boolean  "store_in_vault",  default: false
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
+  add_index "payment_braintree_payment_methods", ["store_in_vault"], name: "index_payment_braintree_payment_methods_on_store_in_vault", using: :btree
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
