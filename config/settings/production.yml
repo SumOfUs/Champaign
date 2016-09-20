@@ -6,7 +6,6 @@ omniauth_client_secret: <%= ENV['OMNIAUTH_CLIENT_SECRET'] %>
 omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
 liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'store' %>
 home_page_url: <%= ENV['HOME_PAGE_URL'] %>
-champaign_url: <%= ENV['CHAMPAIGN_URL'] %>
 facebook_url: 'https://www.facebook.com/SumOfUs-181924628560212/'
 oauth_domain_whitelist:
   - 'sumofus.org'
