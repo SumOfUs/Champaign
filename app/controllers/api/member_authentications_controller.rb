@@ -3,10 +3,9 @@
 class Api::MemberAuthenticationsController < ApplicationController
   def new
     @page = Page.find params[:page_id]
-    view = File.read("#{Rails.root}/app/liquid/views/layouts/member_registration.liquid")
+    view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
     template = Liquid::Template.parse(view)
     @rendered = template.render('page_id' => params[:page_id], 'email' => params[:email]).html_safe
-
     render 'pages/show', layout: 'sumofus'
   end
 
@@ -14,7 +13,8 @@ class Api::MemberAuthenticationsController < ApplicationController
     auth = MemberAuthenticationBuilder.build(
       email: params[:email],
       password: params[:password],
-      password_confirmation: params[:password_confirmation]
+      password_confirmation: params[:password_confirmation],
+      language_code: Page.find(params[:page_id]).language.code
     )
 
     if auth.valid?

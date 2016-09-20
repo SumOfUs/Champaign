@@ -130,7 +130,7 @@ de:
         details: "Unsere Auswahl an Lebensmitteln und deren Preise könnten bald von der Willkür des Bayer-Monsanto-Konzerns abhängen. Steigende Saatgut- und Düngerpreise führen zu höheren Preisen für uns Verbraucher -- gerade Familien mit niedrigem Einkommen würden besonders darunter leiden. Auch die Auswahl im Obst- und Gemüseregal könnte kleiner werden, wenn Bayer-Monsanto mit seinen Massenprodukten aus industrieller Landwirtschaft kleine Bio-Bauern vom Markt drängt."
     shareholder:
       title: "Nur 7 Prozent der<br> Bayer-Aktionäre halten die Monsanto-Übernahme für strategisch sinnvoll"
-      details: 'Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”' 
+      details: 'Laut einer unabhängigen Umfrage der Investmentfirma Bernstein and Company unterstützen nur 7% der Bayer-Aktionäre  den Monsanto-Deal. Bernstein hat keine Verbindungen zu SumOfUs oder anderen Interessengruppen.<br><br> Das Investment-Portal Motley Fool schreibt: “[Bayer-Investoren] kritisierten das Übernahmeangebot bereits unmittelbar nach der Bekanntgabe als eine “massive Wertvernichtung” für Bayer-Anteilseigner. Die von Bernstein befragten Investoren scheinen diese Ansicht zu teilen, sind sie doch mehrheitlich der Ansicht, Bayer sollte sich besser auf die Sparten Gesundheit (so 50% der Befragten), bzw. Pharma (39%) konzentrieren.”'
       quotes:
         first:
           quote: "Sehr geehrter Herr Baumann, im Sinne von uns allen kann ich nur an Ihr gewissen appellieren, den Menschen und der Umwelt nicht weiter so einen Schaden zuzumuten in dem Sie jetzt auch noch Monsanto (zB. als Hersteller von Glyphosat) als Unternehmen aufkaufen. Ich werde im Falle der Umsetzung in jedem Fall meine Aktion von Bayer veräussern."
@@ -161,3 +161,15 @@ de:
         tweet: "Eine Bayer-Monsanto Fusion verstößt gegen Kartellrecht und ist ein Desaster für den Planeten @vestager @LorettaLynch"
         tweet_link: http://bit.ly/2aVFqfg
         cta: "Jetzt tweeten"
+  confirmation_mailer:
+    confirmation_email:
+      subject: "E-mail confirmation for signing up for express donations with SumOfUs"
+      headline: "Thank you for your donation!"
+      visit_this: "To confirm your enrollment in our express donations plan, visit this"
+      link: "link"
+      url: ", or copy paste this URL to your browser: %{confirmation_url}"
+      plaintext: "To confirm your enrollment in our express donations plan, visit this address: %{confirmation_url}"
+    follow_up_page:
+      failure: "There was an issue signing up for express donations."
+      success: "You have successfully signed up for express donations!"
+      member_management_link: 'To manage your payment methods, you can visit our <a href="">member management application</a> at any time.'

@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   # Resource Versioning
   get '/versions/show/:model/:id', to: 'versions#show'
 
+  # Express donations email confirmation path
+  get '/email_confirmation/', to: 'email_confirmation#verify'
+
   resources :ak_logs
 
   resource  :action_kit, controller: 'action_kit' do
