@@ -27,7 +27,7 @@ class MemberAuthenticationBuilder
   private
 
   def send_confirmation_email
-    ConfirmationMailer.confirmation_email(member, @language_code).deliver_later
+    ConfirmationMailer.confirmation_email(member, @language_code).deliver_now
   end
 
   def member
