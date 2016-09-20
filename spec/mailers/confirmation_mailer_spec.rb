@@ -16,15 +16,15 @@ RSpec.describe ConfirmationMailer, type: :mailer do
 
     it 'renders the HTML body' do
       expect(mail.body.encoded).to include("<html><body><h1>Thank you for your donation!</h1><p>To confirm your \
-enrollment in our express donations plan, visit this <a href=\"#{Settings.home_page_url}/\
+enrollment in our express donations plan, visit this <a href=\"#{Settings.champaign_url}/\
 email_confirmation?email=test%40example.com&amp;language=&amp;token=imarealtoken1235\">link</a>\
-, or copy paste this URL to your browser: #{Settings.home_page_url}/email_confirmation\
+, or copy paste this URL to your browser: #{Settings.champaign_url}/email_confirmation\
 ?email=test%40example.com&amp;language=&amp;token=imarealtoken1235 </p></body></html>")
     end
 
     it 'renders the plaintext body' do
       expect(mail.body.encoded).to include("To confirm your enrollment in our express donations plan, visit this \
-address: #{Settings.home_page_url}/email_confirmation?email=test%40example.com&amp;language=&amp;token=\
+address: #{Settings.champaign_url}/email_confirmation?email=test%40example.com&amp;language=&amp;token=\
 imarealtoken1235 ")
     end
   end
