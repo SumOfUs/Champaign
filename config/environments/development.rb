@@ -68,4 +68,13 @@ Rails.application.configure do
                methods: [:get, :post, :delete, :put, :patch, :options, :head]
     end
   end
+
+  config.action_mailer.delivery_method = :aws_sdk
+  config.action_mailer.smtp_settings = {
+    user_name: Settings.smtp.user_name,
+    password: Settings.smtp.password,
+  }
+  config.action_mailer.raise_delivery_errors = true
+
+
 end
