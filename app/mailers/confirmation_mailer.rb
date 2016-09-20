@@ -19,6 +19,6 @@ class ConfirmationMailer < ApplicationMailer
       email: @member.email,
       language: @language_code
     }
-    "#{Settings.home_page_url}/email_confirmation?#{params.to_query}"
+    "#{Settings.host}/email_confirmation?#{params.to_query}"
   end
 end
