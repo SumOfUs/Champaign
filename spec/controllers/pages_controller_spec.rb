@@ -8,7 +8,7 @@ describe PagesController do
   let(:page) { instance_double('Page', published?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data' }) }
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }

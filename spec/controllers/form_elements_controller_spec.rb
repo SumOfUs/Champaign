@@ -5,7 +5,7 @@ describe FormElementsController do
   let(:element) { instance_double('FormElement', valid?: true) }
   let(:form) { instance_double('Form') }
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   describe 'POST #create' do
     let(:params) { { label: 'Label', data_type: 'text', required: true } }
