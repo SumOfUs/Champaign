@@ -9,7 +9,7 @@ describe ImagesController do
     allow(Page).to receive(:find) { page }
   end
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   describe 'POST #create' do
     before do
