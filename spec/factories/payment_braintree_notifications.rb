@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: payment_braintree_notifications
@@ -11,7 +12,7 @@
 
 FactoryGirl.define do
   factory :payment_braintree_notification, class: 'Payment::Braintree::Notification' do
-    payload "MyText"
-    signature "MyText"
+    payload 'MyText'
+    signature 'MyText'
   end
 end
