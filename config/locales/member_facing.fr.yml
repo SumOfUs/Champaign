@@ -30,7 +30,7 @@ fr:
     proceed_to_payment: Procéder au versement
     other_amount: Autre
     make_recurring: Faire un don mensuel
-    store_in_vault: FR Store my payment information
+    store_in_vault: Store my payment information (FR)
     thank_you: Nous vous remercions pour votre don!
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
@@ -39,6 +39,10 @@ fr:
     donate_now: Don maintenant
     donate_with: "Donate with: (FR)"
     loading: "Chargement du portail sécurisé de paiement"
+    oneclick:
+      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (FR)"
+      paypal_payment_method: "Paypal (%{email}) (FR)"
+      change_payment_method: "Change payment method (FR)"
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
       one_time: "Vous souhaitez donner %{amount} à SumOfUs."
@@ -53,10 +57,6 @@ fr:
       cvv: Le CVV
       number: Le numéro de votre carte
       expiration: La date d’expiration
-    oneclick:
-      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (FR)"
-      paypal_payment_method: "Paypal (%{email}) (FR)"
-      change_payment_method: "Change payment method (FR)"
     generic:
       title: "Merci d’avoir agi ! Pouvez-vous faire un don afin de faire progresser le combat? "
       target: Vous
