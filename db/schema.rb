@@ -165,6 +165,8 @@ ActiveRecord::Schema.define(version: 20160916170739) do
     t.datetime "facebook_token_expiry"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.string   "token"
+    t.datetime "confirmed_at"
   end
 
   add_index "member_authentications", ["facebook_uid"], name: "index_member_authentications_on_facebook_uid", using: :btree
