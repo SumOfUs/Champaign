@@ -279,6 +279,12 @@ describe 'Braintree API' do
               subject
             end
 
+            it 'stores token to cookie' do
+              subject
+
+              expect(response.cookies['payment_methods']).to match(/\W+/)
+            end
+
             it 'creates an Action associated with the Page and Member' do
               expect { subject }.to change { Action.count }.by 1
               expect(Action.last.page).to eq page
