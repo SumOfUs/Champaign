@@ -35,16 +35,16 @@ module LiquidMarkupSeeder
 
   def partials
     internal_files = [
-     "#{Rails.root}/app/views/plugins/**/_*.liquid",
-     "#{Rails.root}/app/liquid/views/partials/_*.liquid"
+      "#{Rails.root}/app/views/plugins/**/_*.liquid",
+      "#{Rails.root}/app/liquid/views/partials/_*.liquid"
     ]
-    external_files = external_dirs.map{ |path| File.join(path, 'partials', '_*.liquid') }
+    external_files = external_dirs.map { |path| File.join(path, 'partials', '_*.liquid') }
     Dir.glob(internal_files + external_files)
   end
 
   def layouts
     internal_files = ["#{Rails.root}/app/liquid/views/layouts/*.liquid"]
-    external_files = external_dirs.map{ |path| File.join(path, 'layouts', '*.liquid') }
+    external_files = external_dirs.map { |path| File.join(path, 'layouts', '*.liquid') }
     Dir.glob(internal_files + external_files)
   end
 
@@ -75,6 +75,6 @@ module LiquidMarkupSeeder
 
   def external_dirs
     return [] unless Settings.external_asset_paths.present? && Settings.external_liquid_path.present?
-    Settings.external_asset_paths.split(':').map{ |path| File.join(path, Settings.external_liquid_path) }
+    Settings.external_asset_paths.split(':').map { |path| File.join(path, Settings.external_liquid_path) }
   end
 end
