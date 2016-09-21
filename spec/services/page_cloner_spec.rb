@@ -6,7 +6,7 @@ describe PageCloner do
   let(:campaign) { create(:campaign) }
   let!(:petition_partial) { create :liquid_partial, title: 'petition', content: '{{ plugins.petition[ref] }}' }
   let!(:thermo_partial) { create :liquid_partial, title: 'thermometer', content: '{{ plugins.thermometer[ref] }}' }
-  let(:liquid_layout) { create(:liquid_layout, :default)}
+  let(:liquid_layout) { create(:liquid_layout, :default) }
   let(:page) do
     create(
       :page,
@@ -95,7 +95,7 @@ describe PageCloner do
 
   context 'plugins' do
     let(:custom_field) { create(:form_element, name: 'foo_bar') }
-    let(:petition) { page.plugins.select { |p| p.class == Plugins::Petition }.first}
+    let(:petition) { page.plugins.select { |p| p.class == Plugins::Petition }.first }
 
     before do
       link.destroy! # create the conditions that incited the bug previously
