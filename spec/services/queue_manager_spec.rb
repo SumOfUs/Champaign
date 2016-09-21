@@ -27,8 +27,8 @@ describe QueueManager do
 
       it 'posts to queue' do
         expect(ChampaignQueue).to receive(:push)
-          .with(expected_params.merge(donation_uri: "http://example.com/donation",
-                                      petition_uri: "http://example.com/petition"))
+          .with(expected_params.merge(donation_uri: 'http://example.com/donation',
+                                      petition_uri: 'http://example.com/petition'))
 
         subject
       end
