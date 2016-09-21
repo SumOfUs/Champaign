@@ -7,7 +7,7 @@ describe ActionKitController do
   end
 
   include_examples 'session authentication',
-                   post:   [:check_slug, slug: 'foo-bar', format: :json]
+                   [{ post: [:check_slug, slug: 'foo-bar', format: :json] }]
 
   describe 'POST#check_slug' do
     it 'checks if name is available' do
