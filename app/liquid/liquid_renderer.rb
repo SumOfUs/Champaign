@@ -2,12 +2,13 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  def initialize(page, layout:, location: nil, member: nil, url_params: {})
+  def initialize(page, layout:, location: nil, member: nil, url_params: {}, payment_methods: [])
     @page = page
     @layout = layout
     @location = location
     @member = member
     @url_params = url_params
+    @payment_methods = payment_methods
   end
 
   def render
@@ -53,7 +54,7 @@ class LiquidRenderer
       thermometer: thermometer,
       action_count: @page.action_count,
       show_direct_debit: show_direct_debit?,
-      payment_methods: stored_payment_methods
+      payment_methods: @payment_methods
     }.deep_stringify_keys
   end
 

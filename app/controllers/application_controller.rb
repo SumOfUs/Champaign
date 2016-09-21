@@ -1,4 +1,35 @@
 # frozen_string_literal: true
+
+class PaymentMethodFetcher
+  def initialize(member, filter: [])
+    @member = member
+    @filter = filter
+    puts 'OMAR OMAR'
+    puts @filter
+  end
+
+  def fetch
+    return [] unless @member && @member.customer
+
+    tokens = if @filter.any?
+               @member.customer.payment_methods.where(token: @filter)
+             else
+               @member.customer.payment_methods.stored
+             end
+
+    tokens.map do |m|
+      {
+        id: m.id,
+        last_4: m.last_4,
+        instrument_type: m.instrument_type,
+        card_type: m.card_type,
+        email: m.email,
+        token: m.token
+      }
+    end
+  end
+end
+
 class ApplicationController < ActionController::Base
   before_filter :set_default_locale
 
@@ -62,14 +93,24 @@ class ApplicationController < ActionController::Base
     render "pages/#{view}", layout: 'member_facing'
   end
 
+  def payment_methods
+    # if signed_in?
+    # PaymentMethodFetcher.new(recognized_member).fetch
+    # else
+    PaymentMethodFetcher.new(recognized_member, filter: cookies.signed[:payment_methods].split(',')).fetch
+    # end
+  end
+
   def renderer(layout)
-    @renderer ||= LiquidRenderer.new(@page,       location: request.location,
-                                                  member: recognized_member,
-                                                  layout: layout,
-                                                  url_params: params)
+    @renderer ||= LiquidRenderer.new(@page, location: request.location,
+                                            member: recognized_member,
+                                            layout: layout,
+                                            url_params: params,
+                                            payment_methods: payment_methods)
   end
 
   def recognized_member
+    # FIXME
     @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
 end
