@@ -4,8 +4,6 @@ class PaymentMethodFetcher
   def initialize(member, filter: [])
     @member = member
     @filter = filter
-    puts 'OMAR OMAR'
-    puts @filter
   end
 
   def fetch
@@ -97,7 +95,7 @@ class ApplicationController < ActionController::Base
     # if signed_in?
     # PaymentMethodFetcher.new(recognized_member).fetch
     # else
-    PaymentMethodFetcher.new(recognized_member, filter: cookies.signed[:payment_methods].split(',')).fetch
+    PaymentMethodFetcher.new(recognized_member, filter: (cookies.signed[:payment_methods] || '').split(',')).fetch
     # end
   end
 

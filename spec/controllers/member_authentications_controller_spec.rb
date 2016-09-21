@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe Api::MemberAuthenticationsController do
+describe MemberAuthenticationsController do
   describe 'POST create' do
     let(:auth) { double('auth', valid?: true) }
     let(:page) { double('page', page_id: '1', language: double('language', code: 'EN')) }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::MemberAuthenticationsController < ApplicationController
+class MemberAuthenticationsController < ApplicationController
   before_action :redirect_signed_up_members
 
   def new
