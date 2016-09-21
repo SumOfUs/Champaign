@@ -523,8 +523,6 @@ DEPENDENCIES
   actionkit_connector!
   activeadmin!
   annotate
-  aws-sdk (~> 2)
-  aws-sdk-v1
   aws-sdk-rails
   bcrypt (~> 3.1.7)
   bootstrap-sass (~> 3.3.5)

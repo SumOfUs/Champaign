@@ -6,7 +6,6 @@ html lang="#{@language_code.try(:downcase)}"
     meta name="description" content=t('branding.description')
     = stylesheet_link_tag "sumofus"
     = stylesheet_link_tag "liquid"
-    = javascript_include_tag "sumofus"
 
     = render partial: 'shared/optimizely_snippet'
     = render partial: 'shared/js_locale'
