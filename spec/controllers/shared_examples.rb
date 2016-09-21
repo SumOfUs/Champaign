@@ -14,4 +14,3 @@ shared_examples 'session authentication' do |actions|
     end
   end
 end
-

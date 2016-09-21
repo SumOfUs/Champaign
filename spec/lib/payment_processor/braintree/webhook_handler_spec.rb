@@ -10,7 +10,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
   end
 
   let(:member)       { create(:member) }
-  let(:action)       { create(:action, member: member, form_data: { subscription_id: 'foo'}) }
+  let(:action)       { create(:action, member: member, form_data: { subscription_id: 'foo' }) }
   let!(:customer)    { create(:payment_braintree_customer, member: member) }
   let(:subscription) { create(:payment_braintree_subscription, action: action) }
 
@@ -52,9 +52,9 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       it 'posts events' do
         expect(ChampaignQueue).to receive(:push)
           .with(
-          type: 'subscription-payment',
+            type: 'subscription-payment',
             params: {
-            recurring_id: 'foo'
+              recurring_id: 'foo'
             }
           )
 
@@ -81,7 +81,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
 
       it 'logs error' do
         expect(Rails.logger).to receive(:info)
-          .with(%r{Failed to handle Braintree::WebhookNotification})
+          .with(/Failed to handle Braintree::WebhookNotification/)
 
         subject
       end

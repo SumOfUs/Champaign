@@ -5,10 +5,8 @@ describe FeaturedPagesController do
   let(:page) { double('Page') }
 
   include_examples 'session authentication',
-    {
-      post:   [:create, format: :js],
-      delete: [:destroy, id: '1', format: :js]
-    }
+                   post:   [:create, format: :js],
+                   delete: [:destroy, id: '1', format: :js]
 
   before do
     allow(Page).to receive(:find) { page }

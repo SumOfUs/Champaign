@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   # Resource Versioning
   get '/versions/show/:model/:id', to: 'versions#show'
 
-  resource  :action_kit, controller: 'action_kit' do
+  resource :action_kit, controller: 'action_kit' do
     member do
       post :check_slug
     end

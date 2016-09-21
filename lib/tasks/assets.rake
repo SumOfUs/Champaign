@@ -1,12 +1,12 @@
+# frozen_string_literal: true
 namespace :assets do
-
-  task :download_and_precompile, [:url_template, :credentials, :branch, :source_assets_path] => :environment do |t, args|
+  task :download_and_precompile, [:url_template, :credentials, :branch, :source_assets_path] => :environment do |_t, args|
     if args[:url_template].blank?
-      puts "Not including any external assets"
+      puts 'Not including any external assets'
       next
     end
 
-    target_path = args[:source_assets_path] || "./tmp/assets_source"
+    target_path = args[:source_assets_path] || './tmp/assets_source'
     FileUtils.mkdir_p target_path
     Rake::Task['assets:download_external_assets'].invoke(target_path, args[:url_template], args[:credentials], args[:branch])
     Rake::Task['assets:precompile_assets'].invoke(target_path)
@@ -24,14 +24,13 @@ namespace :assets do
   #
   # Example:
   #  rake deploy:precompile_assets["https://api.github.com/repos/organisation/repo/tarball/<branch>","deploy-user:secret","master"]
-  desc "Download external assets"
-  task :download_external_assets, [:target_path, :url_template, :credentials, :branch] => :environment do |t, args|
+  desc 'Download external assets'
+  task :download_external_assets, [:target_path, :url_template, :credentials, :branch] => :environment do |_t, args|
     target_path = args[:target_path]
     url_template = args[:url_template]
     credentials = args[:credentials]
     current_branch = args[:branch]
-    tar_file_path = "./tmp/assets.tar"
-
+    tar_file_path = './tmp/assets.tar'
 
     if url_template.blank? || target_path.blank?
       raise 'usage: rake deploy:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
@@ -40,18 +39,19 @@ namespace :assets do
     FileUtils.mkdir_p target_path
 
     urls = [current_branch, Settings.default_asset_branch, 'master'].map do |branch|
-      branch.present? ? url_template.gsub("<branch>", branch) : nil
+      branch.present? ? url_template.gsub('<branch>', branch) : nil
     end.compact
 
     # Set github credentials --------------------------
     http_options = {}
     if credentials.present?
-      u, p = credentials.split(":")
+      u, p = credentials.split(':')
       http_options[:basic_auth] = { username: u, password: p }
     end
 
     # Download tar file --------------------------
-    errors, response = [], nil
+    errors = []
+    response = nil
     urls.each do |url|
       puts "Downloading external assets from #{url}"
       response = HTTParty.get url, http_options
@@ -65,7 +65,7 @@ namespace :assets do
 
     # Extract tar file --------------------------
     `mkdir -p tmp`
-    File.open(tar_file_path, "w+b") do |file|
+    File.open(tar_file_path, 'w+b') do |file|
       file.write response.body
     end
 
@@ -77,11 +77,11 @@ namespace :assets do
     tmp_assets_dir.strip!
 
     # Move assets to to target_path
-    files_to_mv = Dir.glob(Rails.root.join("tmp", tmp_assets_dir, "*"))
+    files_to_mv = Dir.glob(Rails.root.join('tmp', tmp_assets_dir, '*'))
     FileUtils.mv files_to_mv, target_path
   end
 
-  task :precompile_assets, [:external_asset_paths] => :environment do |t, args|
+  task :precompile_assets, [:external_asset_paths] => :environment do |_t, args|
     cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSET_PATHS=#{args[:external_asset_paths]} rake assets:precompile"
     puts "Running: #{cmd}"
     exec(cmd)

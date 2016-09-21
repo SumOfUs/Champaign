@@ -14,7 +14,7 @@ describe QueueManager do
         title: 'boo',
         language: page.language.actionkit_uri,
         tags: [],
-        url: 'https://example.com/a/i-am-a-slug',
+        url: "#{Settings.host}/a/i-am-a-slug",
         hosted_with: '/rest/v1/hostingplatform/2/',
         campaign_id: campaign.id
       }
@@ -27,8 +27,8 @@ describe QueueManager do
 
       it 'posts to queue' do
         expect(ChampaignQueue).to receive(:push)
-          .with(expected_params.merge(donation_uri: 'http://example.com/donation',
-                                      petition_uri: 'http://example.com/petition'))
+          .with(expected_params.merge(donation_uri: "http://example.com/donation",
+                                      petition_uri: "http://example.com/petition"))
 
         subject
       end
