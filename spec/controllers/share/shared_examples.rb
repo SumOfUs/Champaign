@@ -4,7 +4,7 @@ shared_examples 'shares' do |share_class, service|
   let(:failed_share) { instance_double(share_class, valid?: true, errors: { base: ['email_body needs {LINK}'] }) }
   let(:page) { instance_double('Page', title: 'Foo', content: 'Bar', id: '1', to_param: '1') }
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   before do
     allow(Page).to receive(:find).with('1') { page }
