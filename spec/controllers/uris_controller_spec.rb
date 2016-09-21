@@ -8,7 +8,7 @@ describe UrisController do
     allow(Uri).to receive(:find) { uri }
   end
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   describe 'GET #index' do
     let(:uris) { [build(:uri), build(:uri)] }

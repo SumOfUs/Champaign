@@ -23,8 +23,8 @@ require 'rails_helper'
 #
 describe LiquidLayoutsController do
   include_examples 'session authentication',
-                   get:  [:index],
-                   get:  [:new]
+                   [{ get:  [:index] },
+                    { get:  [:new] }]
 
   # This should return the minimal set of attributes required to create a valid
   # LiquidLayout. As you add validations to LiquidLayout, be sure to
