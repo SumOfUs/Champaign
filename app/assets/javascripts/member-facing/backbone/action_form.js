@@ -15,6 +15,7 @@ const ActionForm = Backbone.View.extend({
 
   globalEvents: {
     'form:clear': 'clearForm',
+    'form:step_change': 'handleStepChange',
   },
 
   // options: object with any of the following keys
@@ -170,6 +171,12 @@ const ActionForm = Backbone.View.extend({
   handleFailure(e, data) {
     ErrorDisplay.show(e, data);
     this.enableButton();
+  },
+
+  handleStepChange(step) {
+    if (step <= 3) {
+      this.enableButton();
+    }
   },
 
   disableButton() {
