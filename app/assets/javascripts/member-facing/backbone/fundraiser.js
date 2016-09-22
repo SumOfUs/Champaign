@@ -11,7 +11,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     'blur  .fundraiser-bar__custom-field': 'resetCustom',
     'click .fundraiser-bar__amount-button': 'advanceToDetails',
     'click .fundraiser-bar__first-continue': 'advanceToDetails',
-    'click .action-form__clear-form': 'showSecondStep',
+    'click .action-form__clear-form': 'resetUser',
     'ajax:success form.action-form': 'advanceToNextStep',
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
@@ -109,6 +109,12 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.changeStep(2);
   },
 
+  resetUser() {
+    this.showSecondStep();
+    this.toggleOneClickVisibility();
+    this.$('#one-click-form').remove();
+  },
+
   primeCustom(e) {
     let $field = this.$(e.target);
     if ($field.val() == '') {
@@ -178,7 +184,9 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   toggleOneClickVisibility(event) {
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     $('#one-click-form, #hosted-fields').toggleClass('hidden-irrelevant');
   },
 
