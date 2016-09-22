@@ -126,7 +126,6 @@ describe LiquidRenderer do
         follow_up_url
         primary_image
         petition_target
-        payment_methods
       )
 
       expected_keys += page.liquid_data.keys.map(&:to_s)
