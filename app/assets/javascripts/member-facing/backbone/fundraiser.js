@@ -1,5 +1,6 @@
 const CurrencyMethods = require('./currency_methods');
 const GlobalEvents = require('../../shared/global_events');
+const PaymentMethodsView = require('./payment-methods/payment-methods.view');
 
 const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   el: '.fundraiser-bar',
@@ -46,15 +47,20 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     if (typeof options.submissionCallback === 'function') {
       this.submissionCallback = options.submissionCallback;
     }
+
     this.initializeSkipping(options);
     this.pageId = options.pageId;
     this.directDebitOpened = false;
     this.displayDirectDebit(options.showDirectDebit);
     this.initializeRecurring(options.recurringDefault);
     this.updateButton();
-    this.paymentMethods = options.paymentMethods || [];
+
+    this.paymentMethods = new Backbone.Collection(options.paymentMethods || []);
+    this.paymentMethodsView = new PaymentMethodsView({ collection: this.paymentMethods });
+
     this.setOneClickVisibility();
     GlobalEvents.bindEvents(this);
+
   },
 
   initializeRecurring(recurringDefault) {
