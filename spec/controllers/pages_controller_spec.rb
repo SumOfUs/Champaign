@@ -131,6 +131,7 @@ describe PagesController do
                                                          location: {},
                                                          member: nil,
                                                          layout: page.liquid_layout,
+                                                         payment_methods: [],
                                                          url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'show' })
       expect(renderer).to have_received(:render)
     end
@@ -226,6 +227,7 @@ describe PagesController do
                                                          location: {},
                                                          member: nil,
                                                          layout: page.liquid_layout,
+                                                         payment_methods: [],
                                                          url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
     end
 
@@ -234,6 +236,7 @@ describe PagesController do
       expect(LiquidRenderer).to have_received(:new).with(page,
                                                          location: {},
                                                          member: nil,
+                                                         payment_methods: [],
                                                          layout: page.follow_up_liquid_layout,
                                                          url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
       expect(renderer).to have_received(:render)
