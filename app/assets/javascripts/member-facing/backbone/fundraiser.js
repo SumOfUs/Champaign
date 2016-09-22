@@ -1,3 +1,6 @@
+import mapValues from 'lodash/mapValues';
+import keyBy from 'lodash/keyBy';
+
 const CurrencyMethods = require('./currency_methods');
 const GlobalEvents = require('../../shared/global_events');
 const PaymentMethodsView = require('./payment-methods/payment-methods.view');
@@ -354,7 +357,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   serializeUserForm() {
     const list = this.$('form.action-form').serializeArray();
-    return _.mapValues(_.keyBy(list, 'name'), 'value');
+    return mapValues(keyBy(list, 'name'), 'value');
   },
 
   readRecurring() {
