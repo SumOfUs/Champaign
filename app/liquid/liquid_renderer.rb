@@ -11,7 +11,9 @@ class LiquidRenderer
   end
 
   def render
-    template.render(markup_data).html_safe
+    Rails.cache.fetch(cache.key_for_markup) do
+      template.render(markup_data).html_safe
+    end
   end
 
   def template
@@ -31,19 +33,12 @@ class LiquidRenderer
     named
   end
 
-  def payment_data
-    {
-      payment_methods: stored_payment_methods
-    }.deep_stringify_keys
-  end
-
   # this is all of the data that is needed to render the
   # liquid page. the only parts that change on each request
   # are not used when rendering markup
   def markup_data
     cacheable_data
       .merge(plugin_data)
-      .merge(payment_data)
       .deep_stringify_keys
   end
 

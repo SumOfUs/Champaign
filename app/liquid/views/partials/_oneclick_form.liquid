@@ -1,33 +1,8 @@
 <form id="one-click-form" data-remote="true" method="post" class="form">
   <div class="fundraiser-bar__payment-methods">
     <h3 class="fundraiser-bar__one-click-title">{{ 'fundraiser.donate_with' | t }}</h3>
-    {% for payment_method in payment_methods %}
-      <div class="form__group">
-        <label class="radio-label">
-          <input type="radio"
-                 name="payment_method_id"
-                 class="form__content radio-inline"
-                 {% if forloop.first %}
-                  checked="checked"
-                 {% endif %}
-                 value="{{payment_method.id}}" />
-          {% if payment_method.instrument_type == 'credit_card' %}
-            <span class="payment_method_label">
-              {{'fundraiser.oneclick.credit_card_payment_method'
-                | val: 'card_type', payment_method.card_type
-                | val: 'last_four_digits', payment_method.last_4
-                | t }}
-            </span>
-          {% elsif payment_method.instrument_type == 'paypal_account'  %}
-            <span class="payment_method_label">
-              {{'fundraiser.oneclick.paypal_payment_method'
-                | val: 'email', payment_method.email
-                | t }}
-            </span>
-          {% endif %}
-        </label>
-      </div>
-    {% endfor %}
+
+    <div id="payment-methods-collection"></div>
 
     <div class="form__group fundraiser-bar__toggle-payment-method-container">
       <a href="#" class="fundraiser-bar__toggle-payment-method">
@@ -45,3 +20,20 @@
 
   <button type="submit" class="button fundraiser-bar__submit-one-click">{{ 'form.submit' | t }}</button>
 </form>
+
+<script type="text/template" id="payment-method-item-template">
+  <label class="radio-label">
+    <input type="radio"
+          name="payment_method_id"
+          class="form__content radio-inline"
+          <% if (checked) { %> checked="checked" <% } %>
+          value="<%= id %>" />
+    <span class="payment_method_label">
+    <% if (instrument_type === 'credit_card') { %>
+      <%= I18n.t('fundraiser.oneclick.credit_card_payment_method', {card_type, last_four_digits: last_4}) %>
+    <% } else if (instrument_type === 'paypal_account') {  %>
+      <%= I18n.t('fundraiser.oneclick.paypal_payment_method', { email: email }) %>
+    <% } %>
+    </span>
+  </label>
+</script>
