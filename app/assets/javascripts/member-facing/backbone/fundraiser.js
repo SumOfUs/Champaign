@@ -203,6 +203,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     const targetStep = this.$(e.target).parent().data('step');
     if (targetStep < this.currentStep) {
       this.changeStep(targetStep);
+      Backbone.trigger('form:step_change', targetStep);
     }
   },
 
