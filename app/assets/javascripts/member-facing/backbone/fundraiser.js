@@ -119,9 +119,9 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   resetUser() {
+    this.paymentMethods.reset([]);
     this.showSecondStep();
     this.toggleOneClickVisibility();
-    this.$('#one-click-form').remove();
   },
 
   primeCustom(e) {
