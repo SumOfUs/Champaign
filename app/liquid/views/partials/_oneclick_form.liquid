@@ -1,6 +1,11 @@
 <form id="one-click-form" data-remote="true" method="post" class="form">
+</form>
+
+<script type="text/template" id="payment-method-collection-template">
   <div class="fundraiser-bar__payment-methods">
-    <h3 class="fundraiser-bar__one-click-title">{{ 'fundraiser.donate_with' | t }}</h3>
+    <h3 class="fundraiser-bar__one-click-title">
+      {{ 'fundraiser.donate_with' | t }}
+    </h3>
 
     <div id="payment-methods-collection"></div>
 
@@ -13,13 +18,18 @@
 
   <div class="form__group">
     <label class="checkbox-label">
-      <input class="fundraiser-bar__recurring-one-click" type="checkbox" name="recurring" />
+      <input class="fundraiser-bar__recurring-one-click"
+             type="checkbox"
+             name="recurring" />
       {{ 'fundraiser.make_recurring' | t }}
     </label>
   </div>
 
-  <button type="submit" class="button fundraiser-bar__submit-one-click">{{ 'form.submit' | t }}</button>
-</form>
+  <button type="submit"
+          class="button fundraiser-bar__submit-one-click">
+    {{ 'form.submit' | t }}
+  </button>
+</script>
 
 <script type="text/template" id="payment-method-item-template">
   <label class="radio-label">
