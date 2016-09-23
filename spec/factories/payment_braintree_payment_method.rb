@@ -3,5 +3,8 @@ FactoryGirl.define do
   factory :payment_braintree_payment_method, class: 'Payment::Braintree::PaymentMethod' do
     customer_id { Faker::Number.number(6) }
     token 'MyString'
+    trait :stored do
+      store_in_vault true
+    end
   end
 end
