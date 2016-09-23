@@ -38,4 +38,12 @@ describe PaymentMethodFetcher do
       expect(subject.fetch).to match_array(expected)
     end
   end
+
+  context 'with empty filter' do
+    subject { PaymentMethodFetcher.new(member, filter: []) }
+
+    it 'returns empty array' do
+      expect(subject.fetch).to match_array([])
+    end
+  end
 end
