@@ -14,16 +14,11 @@
 #   - facebook_token
 #   - facebook_expiry
 #
-# NOTE: Users that sign up with facebook will have a random password generated
-# for them. This is to satisfy `has_secure_password` validations, and for as an
-# added security measure.
 class MemberAuthentication < ActiveRecord::Base
   has_secure_password
 
   belongs_to :member
-  validates_uniqueness_of :member_id
-
-  before_validation :generate_password, unless: :password?
+  validates :member_id, uniqueness: true, presence: true
 
   def facebook_oauth
     {
@@ -31,16 +26,5 @@ class MemberAuthentication < ActiveRecord::Base
       oauth_token: facebook_token,
       oauth_token_expiry: facebook_token_expiry
     }
-  end
-
-  protected
-
-  def password?
-    password_digest || password
-  end
-
-  def generate_password
-    password = SecureRandom.base64(24)
-    self.password = password
   end
 end
