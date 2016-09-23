@@ -5,6 +5,9 @@ class MemberAuthenticationsController < ApplicationController
 
   def new
     @page = Page.find params[:page_id]
+
+    ## FIXME seed and fetch from DB
+    #
     view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
     template = Liquid::Template.parse(view)
     @rendered = template.render('page_id' => params[:page_id], 'email' => params[:email]).html_safe
