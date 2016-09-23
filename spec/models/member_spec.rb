@@ -213,7 +213,7 @@ describe Member do
     end
 
     it 'contains their authentication_id if the user has an authentication' do
-      member.create_authentication
+      member.create_authentication(password: 'p', password_confirmation: 'p')
 
       expect(member.token_payload[:authentication_id]).to(
         eq(MemberAuthentication.last.id)

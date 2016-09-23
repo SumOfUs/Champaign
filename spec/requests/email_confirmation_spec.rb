@@ -7,12 +7,10 @@ describe 'Email Confirmation when signing up to express donations' do
   end
 
   it 'confirms user authentication if the token matches' do
-    Timecop.freeze do
-      get '/email_confirmation?token=1234'
+    get '/email_confirmation?token=1234'
 
-      expect(response.body).to include('You have successfully signed up for express donations')
-      expect(auth.reload.confirmed_at).to eq(Time.now)
-    end
+    expect(response.body).to include('You have successfully signed up for express donations')
+    expect(auth.reload.confirmed_at).to_not be_nil
   end
 
   it 'renders error if the token does not match' do
