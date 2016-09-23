@@ -85,11 +85,12 @@ class ApplicationController < ActionController::Base
     return nil if cookies.signed[:authentication_id].nil?
 
     payload = decode_jwt(cookies.signed[:authentication_id])
-    @current_member ||= MemberAuthentication.find_by(id: payload[:id]).try(:member)
+    @current_member ||= Member.find_by(id: payload['id'])
   end
 
   def recognized_member
     # FIXME
-    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
+    @recognized_member ||= current_member ||
+                           Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
 end
