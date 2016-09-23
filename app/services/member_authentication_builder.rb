@@ -16,15 +16,28 @@ class MemberAuthenticationBuilder
   end
 
   def build
-    auth = MemberAuthentication.new(member: member,
-                                    password: @password,
-                                    password_confirmation: @password_confirmation,
-                                    token: SecureRandom.base64(24))
-    send_confirmation_email if auth.save
-    auth
+    send_confirmation_email if auth_record.save
+    auth_record
   end
 
   private
+
+  def auth_record
+    @auth_record ||= MemberAuthenticationBuilder.new(auth_record_data)
+  end
+
+  def auth_record_data
+    {
+      member: member,
+      password: @password,
+      password_confirmation: @password_confirmation,
+      token: secure_token
+    }
+  end
+
+  def secure_token
+    @secure_token ||= SecureRandom.base64(24)
+  end
 
   def send_confirmation_email
     ConfirmationMailer.confirmation_email(member, @language_code).deliver_now
