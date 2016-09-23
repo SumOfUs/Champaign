@@ -23,7 +23,7 @@ class MemberAuthenticationBuilder
   private
 
   def auth_record
-    @auth_record ||= MemberAuthenticationBuilder.new(auth_record_data)
+    @auth_record ||= MemberAuthentication.new(auth_record_data)
   end
 
   def auth_record_data
