@@ -5,8 +5,8 @@ describe MemberAuthentication do
   describe 'validation' do
     it 'requires matching passwords' do
       authentication = build(:member_authentication, password: 'random')
-      expect( authentication ).to be_invalid
-      expect( authentication.errors[:password_confirmation].size ).to eq(1)
+      expect(authentication).to be_invalid
+      expect(authentication.errors[:password_confirmation].size).to eq(1)
     end
 
     context 'member' do
@@ -15,14 +15,14 @@ describe MemberAuthentication do
         member = authentication.member
         other_authentication = build(:member_authentication, member: member)
 
-        expect( other_authentication ).to be_invalid
-        expect( other_authentication.errors[:member_id].size ).to eq(1)
+        expect(other_authentication).to be_invalid
+        expect(other_authentication.errors[:member_id].size).to eq(1)
       end
 
       it 'must be present' do
         authentication = build(:member_authentication, member: nil)
-        expect( authentication ).to be_invalid
-        expect( authentication.errors[:member_id].size ).to eq(1)
+        expect(authentication).to be_invalid
+        expect(authentication.errors[:member_id].size).to eq(1)
       end
     end
   end
