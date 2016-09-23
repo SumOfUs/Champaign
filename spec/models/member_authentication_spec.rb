@@ -2,31 +2,37 @@
 require 'rails_helper'
 
 describe MemberAuthentication do
-  let(:member) { create :member }
-  let(:member_authentication) { create :member_authentication }
+  describe 'validation' do
+    it 'requires matching passwords' do
+      authentication = build(:member_authentication, password: 'random')
+      expect( authentication ).to be_invalid
+      expect( authentication.errors[:password_confirmation].size ).to eq(1)
+    end
+
+    context 'member' do
+      it 'must be unique' do
+        authentication = create(:member_authentication)
+        member = authentication.member
+        other_authentication = build(:member_authentication, member: member)
+
+        expect( other_authentication ).to be_invalid
+        expect( other_authentication.errors[:member_id].size ).to eq(1)
+      end
+
+      it 'must be present' do
+        authentication = build(:member_authentication, member: nil)
+        expect( authentication ).to be_invalid
+        expect( authentication.errors[:member_id].size ).to eq(1)
+      end
+    end
+  end
 
   context 'password authentication' do
-    it 'creates a random password if no password is given' do
-      authentication = MemberAuthentication.create(member: member)
-      expect(authentication.password).to_not eq(nil)
-      expect(authentication.password_digest).to be_a(String)
-    end
-
-    it 'should not change the password if it already has one' do
-      authentication = MemberAuthentication.create(member: member)
-      password_digest = authentication.password_digest
-      MemberAuthentication.find(authentication.id).save
-      expect(authentication.reload.password_digest).to eq(password_digest)
-    end
+    subject { create(:member_authentication) }
 
     it 'is able to authenticate a password (via `has_secure_password`)' do
-      password = 'valid_password'
-      authentication = MemberAuthentication.create(
-        member: member,
-        password: password
-      )
-      expect(authentication.authenticate(password)).to eq(authentication)
-      expect(authentication.authenticate('invalid_password')).to be(false)
+      expect(subject.authenticate('password')).to eq(subject)
+      expect(subject.authenticate('invalid_password')).to be(false)
     end
   end
 
