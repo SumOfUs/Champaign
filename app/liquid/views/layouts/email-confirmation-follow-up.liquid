@@ -2,7 +2,7 @@
   <div class="imageless-title">
     <div class="typography__highlight-wrapper">
       <h1 class="typography__highlight">
-        {% if success %}
+        {% if errors == empty %}
           <span> {{ 'confirmation_mailer.follow_up_page.success' | t }} </span>
         {% else %}
           <span> {{ 'confirmation_mailer.follow_up_page.failure' | t }} </span>
@@ -12,7 +12,11 @@
   </div>
 
   <div class="body-text main-feature main-feature--close-top">
-    <p> {{ errors }} </p>
+
+  {% for error in errors %}
+    <h3>{{ error }}</h3>
+  {% endfor %}
+
     <p> {{ 'confirmation_mailer.follow_up_page.member_management_link' | t }} </p>
   </div>
 </div>
