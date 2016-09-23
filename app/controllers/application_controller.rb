@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include AuthToken
+
   before_filter :set_default_locale
 
   # Prevent CSRF attacks by raising an exception.
@@ -64,11 +66,11 @@ class ApplicationController < ActionController::Base
   end
 
   def payment_methods
-    # if signed_in?
-    # PaymentMethodFetcher.new(recognized_member).fetch
-    # else
-    PaymentMethodFetcher.new(recognized_member, filter: (cookies.signed[:payment_methods] || '').split(',')).fetch
-    # end
+    if current_member
+      PaymentMethodFetcher.new(current_member).fetch
+    else
+      PaymentMethodFetcher.new(recognized_member, filter: (cookies.signed[:payment_methods] || '').split(',')).fetch
+    end
   end
 
   def renderer(layout)
@@ -77,6 +79,13 @@ class ApplicationController < ActionController::Base
                                             layout: layout,
                                             url_params: params,
                                             payment_methods: payment_methods)
+  end
+
+  def current_member
+    return nil if cookies.signed[:authentication_id].nil?
+
+    payload = decode_jwt(cookies.signed[:authentication_id])
+    @current_member ||= MemberAuthentication.find_by(id: payload[:id]).try(:member)
   end
 
   def recognized_member
