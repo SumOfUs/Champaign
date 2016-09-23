@@ -1,5 +1,6 @@
 import mapValues from 'lodash/mapValues';
 import keyBy from 'lodash/keyBy';
+import Cookies from 'js-cookie';
 
 const CurrencyMethods = require('./currency_methods');
 const GlobalEvents = require('../../shared/global_events');
@@ -122,6 +123,8 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.paymentMethods.reset([]);
     this.showSecondStep();
     this.toggleOneClickVisibility();
+    Cookies.remove('authentication_id');
+    Cookies.remove('payment_methods');
   },
 
   primeCustom(e) {
