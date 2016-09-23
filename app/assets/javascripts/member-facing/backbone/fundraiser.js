@@ -255,7 +255,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
         currency: this.currency,
         amount: this.donationAmount,
         recurring: this.readRecurringOneClick(),
-        paymentMethodId,
+        payment_method_id: paymentMethodId,
       },
       user: this.serializeUserForm(),
     };
