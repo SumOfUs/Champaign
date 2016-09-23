@@ -1,40 +1,42 @@
 # frozen_string_literal: true
-class AuthTokenVerifier
-  def self.verify(params)
-    new(params).verify
-  end
 
-  def initialize(params)
-    @errors = assign_instance_variables(params)
+class AuthTokenVerifier
+  attr_reader :errors
+
+  def initialize(token)
+    @token = token
+    @errors = []
   end
 
   def verify
-    return @errors if @errors.any?
-    return if valid_token?
-    Rails.logger.error("Token verification failed for email #{@member.email} with token #{@token}.")
-    ['Your confirmation token appears to be invalid. Our developers have been notified.']
+    if no_matching_authentication
+      @errors << I18n.t('confirmation_mailer.follow_up_page.account_not_found')
+    else
+      check_authentication
+    end
+
+    self
+  end
+
+  def authentication
+    @authentication ||= MemberAuthentication.find_by(token: @token)
+  end
+
+  def success?
+    @errors.empty?
   end
 
   private
 
-  def assign_instance_variables(params)
-    @token = params[:token]
-    @member = Member.find_by!(email: params[:email])
-    @member_auth = @member.authentication
-    []
-  rescue ActiveRecord::RecordNotFound
-    Rails.logger.error("Member or authentication record not found for #{@member} with token #{@token}.")
-    ["There was an error retrieving your records. We've been notified and will look into it."]
+  def no_matching_authentication
+    authentication.nil? || authentication.token != @token
   end
 
-  def valid_token?
-    if @member_auth.token == @token
-      if @member_auth.confirmed_at.blank?
-        @member_auth.update(confirmed_at: Time.now)
-      end
-      true
+  def check_authentication
+    if authentication.confirmed_at
+      @errors << I18n.t('confirmation_mailer.follow_up_page.account_already_confirmed')
     else
-      false
+      authentication.update(confirmed_at: Time.now)
     end
   end
 end
