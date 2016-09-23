@@ -29,7 +29,7 @@ class PaymentMethodFetcher
   end
 
   def empty_filter?
-    !@filter.nil? and @filter.empty?
+    !@filter.nil? && @filter.empty?
   end
 
   def payment_methods
