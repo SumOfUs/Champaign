@@ -11,7 +11,7 @@ class MemberAuthenticationsController < ApplicationController
     view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
     template = Liquid::Template.parse(view)
     @rendered = template.render('page_id' => params[:page_id], 'email' => params[:email]).html_safe
-    render 'pages/show', layout: 'sumofus'
+    render 'pages/show', layout: 'generic'
   end
 
   def create
