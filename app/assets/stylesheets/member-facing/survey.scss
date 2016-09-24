@@ -11,7 +11,7 @@
   &__skip-button {
     background-color: $light-orange;
   }
-  &__button {
+  &__button.button {
     margin-top: 15px;
     @media(min-width: 400px) {
       width: 48%;

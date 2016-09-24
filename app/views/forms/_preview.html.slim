@@ -17,7 +17,7 @@ form
       - when 'choice'
         = label
         - element.formatted_choices.each do |choice|
-          label for="#{choice[:id]}"
+          label.radio for="#{choice[:id]}"
             input type="radio" value="#{choice[:value]}" name="#{element.name}" id="#{choice[:id]}"
             = choice[:label]
       - when 'instruction'
