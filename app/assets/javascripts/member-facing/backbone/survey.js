@@ -93,7 +93,7 @@ const Survey = Backbone.View.extend({
 
   handleSend(e) {
     ErrorDisplay.clearErrors(this.$(e.target));
-    this.disableButton();
+    this.disableButton(e);
   },
 
   revealForm($form) {

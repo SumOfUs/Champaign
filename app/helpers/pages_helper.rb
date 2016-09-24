@@ -52,6 +52,7 @@ module PagesHelper
     registered = {
       petition: 'hand-rock-o',
       thermometer: 'neuter',
+      survey: 'edit',
       fundraiser: 'money'
     }
     name = plugin.name.underscore.to_sym
