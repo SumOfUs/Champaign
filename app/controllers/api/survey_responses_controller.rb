@@ -1,4 +1,6 @@
 class Api::SurveyResponsesController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def create
     service = ManageSurveyResponse.new(
       page: page, form: form, params: survey_response_params, action_id: session_manager[page.id]
