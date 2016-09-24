@@ -6,17 +6,15 @@
       - plugin.forms.each do |form|
         .well
           = render partial: 'plugins/shared/customize_form', locals: { form: form }
+      = form_for plugin, remote: true, url: plugins_add_survey_form_path(plugin), html: { method: 'post', class: 'form-element' } do |f|
+        = f.hidden_field :id
+        .form-group
+          = f.submit t('plugins.survey.create_form'), class: 'btn btn-default xhr-feedback'
 
     .plugin-form-preview.col-md-5
       h4 Preview
       .content
         = render partial: 'plugins/surveys/preview', locals: { plugin: plugin }
-
-    .col-md-12
-      = form_for plugin, remote: true, url: plugins_add_survey_form_path(plugin), html: { method: 'post', class: 'form-element' } do |f|
-        = f.hidden_field :id
-        .form-group
-          = f.submit t('plugins.survey.create_form'), class: 'btn btn-default xhr-feedback'
 
 javascript:
   $.publish("collection:edit:loaded");

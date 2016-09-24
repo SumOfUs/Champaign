@@ -54,8 +54,8 @@
       {% endcase %}
     </div>
   {% endfor %}
-  <button type="submit" class="button action-form__submit-button survey__button survey__next-button">{{ cta }}</button>
   {% if form.skippable %}
     <a class="button survey__button survey__skip-button">{{ skip }}</a>  
   {% endif %}
+  <button type="submit" class="button action-form__submit-button survey__button survey__next-button">{{ cta }}</button>
 </form>
