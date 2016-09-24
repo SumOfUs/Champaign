@@ -20,6 +20,7 @@
       font-size: 14px;
       float: right;
       text-align: right;
+      margin-top: 2px;
     }
     &--prefilled {
       display: none;
@@ -55,6 +56,11 @@
           border-bottom: none;
         }
       }
+    }
+    input[type="radio"] {
+      margin-top: 0;
+      width: auto;
+      float: left;
     }
     select {
       height: 58px;
@@ -102,5 +108,15 @@ label.checkbox-label {
     vertical-align: bottom;
     position: relative;
     *overflow: hidden;
+  }
+}
+
+.radio-container {
+  &.has-error {
+    border-right: 2px solid red;
+    border-bottom: 2px solid red;
+  }
+  label {
+    margin: 12px 0 12px 10px;
   }
 }
