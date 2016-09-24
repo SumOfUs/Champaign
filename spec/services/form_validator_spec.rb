@@ -49,7 +49,7 @@ describe FormValidator do
       end
     end
 
-    context 'with checkbox as data_type', :focus do
+    context 'with checkbox as data_type' do
       let!(:element) { create :form_element, :checkbox, form: form, required: true, name: 'action_box_agrees' }
       let(:params) { {} }
 
