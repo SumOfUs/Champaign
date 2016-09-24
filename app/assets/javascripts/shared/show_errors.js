@@ -44,11 +44,13 @@ let ErrorDisplay = {
     if (response.name) {
       field_name = [response.name, '[', field_name, ']'].join('');
     }
-    var field = $form.find(`[name="${field_name}"]`);
-    if (!field.length) {
-      field = $form.find(':submit').prev();
+    var $field = $form.find(`[name="${field_name}"]`);
+    if (!$field.length) {
+      $field = $form.find(':submit').prev();
+    } else if ($field.attr('type') === 'radio' && $field.parents('.radio-container').length) {
+      return $field.parents('.radio-container');
     }
-    return field
+    return $field
   },
 }
 
