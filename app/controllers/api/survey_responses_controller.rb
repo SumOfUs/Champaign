@@ -19,15 +19,13 @@ class Api::SurveyResponsesController < ApplicationController
   end
 
   def survey_response_params
-    params.require(:survey_response).permit(
-      form.form_elements.map(&:name) + %w{form_id}
-    )
+    params.permit(form.form_elements.map(&:name) + %w{form_id page_id})
   end
 
   def form
     @form ||= begin
       survey = Plugins::Survey.find_by(page_id: params[:page_id])
-      survey.forms.includes(:form_elements).find(params[:survey_response][:form_id])
+      survey.forms.includes(:form_elements).find(params[:form_id])
     end
   end
 
