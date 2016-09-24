@@ -38,13 +38,15 @@
           {% endif %}
         </select>
       {% when 'choice' %}
-        <div>{{ field.label }}</div>
-        {% for choice in field.choices %}
-          <label for="{{ choice.id }}">
-            <input id="{{ choice.id }}" name="{{ field.name }}" type="radio" value="{{ choice.value }}">
-            {{ choice.label }}
-          </label>
-        {% endfor %}
+        <div class="radio-container">
+          <div>{{ field.label }}</div>
+          {% for choice in field.choices %}
+            <label for="{{ choice.id }}">
+              <input id="{{ choice.id }}" name="{{ field.name }}" type="radio" value="{{ choice.value }}">
+              {{ choice.label }}
+            </label>
+          {% endfor %}
+        </div>
       {% when 'instruction' %}
         <div class="form__instruction">
           {{ field.label }}

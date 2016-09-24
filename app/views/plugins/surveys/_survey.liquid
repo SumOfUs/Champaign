@@ -1,30 +1,25 @@
 {% if plugins.survey[ref].active %}
   {% include 'No Script' %}
   <div class="script-dependent">
-    {% for form in plugins.survey[ref].forms %}
-      <div class="survey__form">
+    <div class="survey">
+      {% for form in plugins.survey[ref].forms %}
         {% include 'Survey Form',
           cta: 'Next',
           skip: 'Skip',
           form: form
         %}
-      </div>
-    {% endfor %}
-  
+      {% endfor %}
+    </div>
+    
     <script type="text/javascript">
-      // $(document).ready(function(){
-      //   var sou = window.sumofus; // convenience binding
-      //   sou.myActionForm  = new sou.ActionForm({
-      //     member:           window.sumofus.personalization.member,
-      //     outstandingFields:window.sumofus.personalization.outstandingFields,
-      //     location:         window.sumofus.personalization.location,
-      //     akid:             window.sumofus.personalization.urlParams.akid,
-      //     source:           window.sumofus.personalization.urlParams.source,
-      //     prefill:          true
-      //   });
-
-      //   sou.myPetition      = new sou.Petition({followUpUrl: "{{ follow_up_url }}"});
-      // });
+      $(document).ready(function(){
+        window.champaign.mySurvey = new window.champaign.Survey({
+          member:           window.sumofus.personalization.member,
+          location:         window.sumofus.personalization.location,
+          source:           window.sumofus.personalization.urlParams.source,
+          followUpUrl:      "{{ follow_up_url }}"
+        });
+      });
     </script>
   </div>
 {% endif %}
