@@ -24,6 +24,15 @@
   .form--big .selectize-control.single .selectize-input, 
   .form--big .hosted-fields__host {
     border-color: $overcast-gray;
+    &.has-error {
+      border-color: $orange;
+    }
+    &:focus, &.focus {
+      border-color: $teal;
+    }
+  }
+  .form--big .has-error .selectize-control.single .selectize-input {
+    border-color: $orange;
   }
   .form__group {
     margin-bottom: 20px;
