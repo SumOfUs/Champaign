@@ -46,7 +46,7 @@ class PaymentController < ApplicationController
     @builder ||= if recurring?
                    client::Subscription.make_subscription(payment_options)
                  else
-                   client::Transaction.make_transaction(transaction_options)
+                   client::Transaction.make_transaction(payment_options)
                  end
   end
 

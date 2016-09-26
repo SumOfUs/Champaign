@@ -177,7 +177,7 @@ module PaymentProcessor
 
                 before :each do
                   allow(::Braintree::Subscription).to receive(:create).and_return(subscription_success)
-                  allow(Payment::Braintree).to receive(:write_customer).and_return(customer)
+                  allow(Payment::Braintree::BraintreeCustomerBuilder).to receive(:build).and_return(customer)
                   @builder = subject.make_subscription(required_options)
                 end
 
@@ -202,8 +202,8 @@ module PaymentProcessor
                 end
 
                 it 'calls Payment.write_customer with the correct payment method' do
-                  expect(Payment::Braintree).to have_received(:write_customer).with(
-                    customer_success.customer, payment_success.payment_method, action.member_id, customer
+                  expect(Payment::Braintree::BraintreeCustomerBuilder).to have_received(:build).with(
+                    customer_success.customer, payment_success.payment_method, action.member_id, customer, store_in_vault: false
                   )
                 end
 
