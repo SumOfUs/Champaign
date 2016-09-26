@@ -38,11 +38,11 @@ module Payment::Braintree
   end
 
   class BraintreeCustomerBuilder
-    def self.build(bt_customer, bt_payment_method, member_id, existing_customer)
-      new(bt_customer, bt_payment_method, member_id, existing_customer).build
+    def self.build(bt_customer, bt_payment_method, member_id, existing_customer, store_in_vault: false)
+      new(bt_customer, bt_payment_method, member_id, existing_customer, store_in_vault).build
     end
 
-    def initialize(bt_customer, bt_payment_method, member_id, existing_customer, store_in_vault: false)
+    def initialize(bt_customer, bt_payment_method, member_id, existing_customer, store_in_vault)
       @bt_customer = bt_customer
       @customer = existing_customer
       @member_id = member_id
