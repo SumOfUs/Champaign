@@ -12,7 +12,12 @@ class EmailConfirmationController < ApplicationController
 
     if verifier.success?
       minutes_in_a_year = 1.year.abs / 60
-      cookies.signed['authentication_id'] = encode_jwt(verifier.authentication.member.token_payload, minutes_in_a_year)
+      encoded_jwt = encode_jwt(verifier.authentication.member.token_payload, minutes_in_a_year)
+
+      cookies.signed['authentication_id'] = {
+        value: encoded_jwt,
+        expires: 1.year.from_now
+      }
     end
 
     @rendered = template.render('errors' => verifier.errors).html_safe
