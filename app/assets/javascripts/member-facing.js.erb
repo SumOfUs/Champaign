@@ -28,3 +28,12 @@ window.champaign.CampaignerOverlay     = require('member-facing/backbone/campaig
 window.champaign.BraintreeHostedFields = require('member-facing/backbone/braintree_hosted_fields');
 
 
+
+// FIXME: Create and move to file.
+const ErrorDisplay = require('shared/show_errors');
+
+$(function(){
+  $('form.registration-form').on('ajax:error', function(e, xhr){
+    ErrorDisplay.show(e, xhr);
+  })
+});
