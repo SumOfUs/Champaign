@@ -17,20 +17,30 @@
       <h4>{{ 'member_registration.enter_password_message' | t }}</h4>
 
       <form action='/member_authentication' data-remote='true' method='post' class='form--big dark registration-form'>
-          <div class='form__group action-form__field-container'>
-            <input type='text' name='email' class='form-control form__content' value="{{ email }}" maxlength='30' disabled />
-            <input type='password' name='password' class='form-control form__content' placeholder='{{ 'member_registration.form.password' | t }}' maxlength='30' />
-            <input type='password' name='password_confirmatiion' class='form-control form__content' placeholder='{{ 'member_registration.form.confirm_password' | t }}' maxlength='30' />
-            <input type='hidden' name='page_id' value='{{page_id}}' />
-            <input type='hidden' name='email' value='{{email}}' />
-          </div>
+        <div class='form__group action-form__field-container'>
+          <input type='text' name='email' class='form-control form__content' value="{{ email }}" maxlength='30' disabled />
+        </div>
+        <div class="form__group action-form__field-container">
+          <input type='password' name='password' class='form-control form__content' placeholder='{{ 'member_registration.form.password' | t }}' maxlength='30' />
+        </div>
 
+        <div class="form__group action-form__field-container">
+          <input type='password' name='password_confirmation' class='form-control form__content' placeholder='{{ 'member_registration.form.confirm_password' | t }}' maxlength='30' />
+        </div>
+
+        <div class="form__group action-form__field-container">
           <button type='submit' class='button registation-form__submit-button'>{{ 'member_registration.form.register' | t }}</button>
-        </form>
-      </div>
+        </div>
+
+        <input type='hidden' name='page_id' value='{{page_id}}' />
+        <input type='hidden' name='email' value='{{email}}' />
+      </form>
+    </div>
   </div>
 </div>
 
+
+{% comment %} FIXME {% endcomment %}
 
 <style>
   .registration-form {
