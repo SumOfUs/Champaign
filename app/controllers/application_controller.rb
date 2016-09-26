@@ -69,7 +69,8 @@ class ApplicationController < ActionController::Base
     if current_member
       PaymentMethodFetcher.new(current_member).fetch
     else
-      PaymentMethodFetcher.new(recognized_member, filter: (cookies.signed[:payment_methods] || '').split(',')).fetch
+      payment_method_ids = (cookies.signed[:payment_methods] || '').split(',')
+      PaymentMethodFetcher.new(recognized_member, filter: payment_method_ids).fetch
     end
   end
 
