@@ -1,27 +1,5 @@
 # frozen_string_literal: true
 
-class Payment::Braintree::Result
-  def initialize(result)
-    @result = result
-  end
-
-  def payment_method_token
-    if subscription?
-      @result.subscription.payment_method_token
-    elsif transaction?
-      @result.transaction.credit_card_details.token
-    end
-  end
-
-  def subscription?
-    @result.subscription.present?
-  end
-
-  def transaction?
-    @result.transaction.present?
-  end
-end
-
 class PaymentController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -38,7 +16,7 @@ class PaymentController < ApplicationController
     id = recurring? ? { subscription_id: builder.subscription_id } : { transaction_id: builder.transaction_id }
 
     if store_in_vault?
-      result = Payment::Braintree::Result.new(builder.result)
+      result = BraintreeServices::PaymentResult.new(builder.result)
 
       existing_payment_methods = (cookies.signed[:payment_methods] || '').split(',')
       (existing_payment_methods << result.payment_method_token).uniq
