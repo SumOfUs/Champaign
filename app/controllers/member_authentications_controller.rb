@@ -18,14 +18,14 @@ class MemberAuthenticationsController < ApplicationController
     auth = MemberAuthenticationBuilder.build(
       email: params[:email],
       password: params[:password],
-      password_confirmation: params[:password_confirmation],
+      password_confirmation: params.fetch(:password_confirmation, ''),
       language_code: Page.find(params[:page_id]).language.code
     )
 
     if auth.valid?
       render js: "window.location = '#{follow_up_page_path(params[:page_id])}'"
     else
-      render json: auth.errors, status: :unprocessable_entity
+      render json: { errors: auth.errors }, status: 422
     end
   end
 
