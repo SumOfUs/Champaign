@@ -1,5 +1,10 @@
 .registration {
-  h1 {
+
+  h1.typography__highlight {
+    display: inline-block;
+  }
+
+  h1, h2 {
     margin-bottom: 20px;
   }
 
