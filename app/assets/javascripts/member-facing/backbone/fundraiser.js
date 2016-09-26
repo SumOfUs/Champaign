@@ -21,6 +21,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     'submit form#hosted-fields': 'disableButton',
     'change select.fundraiser-bar__currency-selector': 'switchCurrency',
     'change input.fundraiser-bar__recurring': 'updateButton',
+    'change input.fundraiser-bar__recurring-one-click': 'updateButton',
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .hosted-fields__direct-debit': 'submitDirectDebit',
     'click .fundraiser-bar__submit-one-click': 'submitOneClick',
@@ -175,7 +176,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
-      let monthly = this.readRecurring() ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
+      let monthly = (this.readRecurring() || this.readRecurringOneClick()) ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
       this.buttonText = `<span class="fa fa-lock"></span>
                          <span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>
                          ${monthly}`;
