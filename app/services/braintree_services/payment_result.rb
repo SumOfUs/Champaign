@@ -2,7 +2,6 @@
 
 module BraintreeServices
   class PaymentResult
-
     def initialize(result)
       @result = result
     end
