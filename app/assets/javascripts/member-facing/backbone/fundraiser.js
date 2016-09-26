@@ -311,7 +311,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     let url = this.followUpUrl;
 
     if ( this.memberShouldRegister() )
-      url = `/member_authentication/new?page_id=${this.pageId}&email=${user.email}`;
+      url = `/member_authentication/new?page_id=${this.pageId}&email=${encodeURIComponent(user.email)}`;
 
     this.followRedirect(url);
   },
