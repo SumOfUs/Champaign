@@ -117,7 +117,8 @@ describe Member do
   describe 'liquid_data' do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member
-      expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) + [:name, :full_name, :welcome_name])
+      expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) +
+                                                [:name, :full_name, :welcome_name, :registered])
     end
 
     it 'uses name as name if available' do
@@ -213,7 +214,7 @@ describe Member do
     end
 
     it 'contains their authentication_id if the user has an authentication' do
-      member.create_authentication(password: 'p', password_confirmation: 'p')
+      member.create_authentication(attributes_for(:member_authentication))
 
       expect(member.token_payload[:authentication_id]).to(
         eq(MemberAuthentication.last.id)
