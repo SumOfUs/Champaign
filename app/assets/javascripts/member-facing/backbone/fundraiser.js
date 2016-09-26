@@ -303,7 +303,10 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   onOneClickSuccess() {
-    this.followRedirect(this.followUpUrl);
+    if ( this.memberShouldRegister() )
+      this.followRedirect(this.registrationPath(window.champaign.personalization.member.email));
+    else
+      this.followRedirect(this.followUpUrl);
   },
 
   transactionSuccess() {
@@ -311,9 +314,13 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     let url = this.followUpUrl;
 
     if ( this.memberShouldRegister() )
-      url = `/member_authentication/new?page_id=${this.pageId}&email=${encodeURIComponent(user.email)}`;
+      url = this.registrationPath(user.email);
 
     this.followRedirect(url);
+  },
+
+  registrationPath(email) {
+    return `/member_authentication/new?page_id=${this.pageId}&email=${encodeURIComponent(email)}`;
   },
 
   onOneClickFailed() {
