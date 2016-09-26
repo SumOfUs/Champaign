@@ -17,8 +17,10 @@
 class MemberAuthentication < ActiveRecord::Base
   has_secure_password
 
-  belongs_to :member
   validates :member_id, uniqueness: true, presence: true
+  validates :password, length: { minimum: 6 }, allow_nil: true
+
+  belongs_to :member
 
   def facebook_oauth
     {

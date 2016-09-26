@@ -4,7 +4,7 @@ require 'rails_helper'
 describe MemberAuthentication do
   describe 'validation' do
     it 'requires matching passwords' do
-      authentication = build(:member_authentication, password: 'random')
+      authentication = build(:member_authentication, password: 'random', password_confirmation: '')
       expect(authentication).to be_invalid
       expect(authentication.errors[:password_confirmation].size).to eq(1)
     end
