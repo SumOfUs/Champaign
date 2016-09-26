@@ -11,7 +11,8 @@ class EmailConfirmationController < ApplicationController
     template = Liquid::Template.parse(view)
 
     if verifier.success?
-      cookies.signed['authentication_id'] = encode_jwt(verifier.authentication.member.token_payload)
+      minutes_in_a_year = 1.year.abs / 60
+      cookies.signed['authentication_id'] = encode_jwt(verifier.authentication.member.token_payload, minutes_in_a_year)
     end
 
     @rendered = template.render('errors' => verifier.errors).html_safe
