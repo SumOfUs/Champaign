@@ -308,7 +308,11 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   transactionSuccess() {
     const user = this.serializeUserForm();
-    const url = `/member_authentication/new?page_id=${this.pageId}&email=${user.email}`;
+    let url = this.followUpUrl;
+
+    if ( this.memberShouldRegister() )
+      url = `/member_authentication/new?page_id=${this.pageId}&email=${user.email}`;
+
     this.followRedirect(url);
   },
 
@@ -429,6 +433,14 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
         }
       }
     });
+  },
+
+  memberRegistered() {
+    return window.champaign.personalization.member.registered;
+  },
+
+  memberShouldRegister() {
+    return !this.memberRegistered() && this.readStoreInVault();
   },
 }));
 
