@@ -40,7 +40,11 @@ class MemberAuthenticationBuilder
   end
 
   def send_confirmation_email
-    ConfirmationMailer.confirmation_email(member, @language_code).deliver_now
+    ConfirmationMailer.confirmation_email(
+      email: member.email,
+      token: secure_token,
+      language: @language_code
+    ).deliver_now
   end
 
   def member

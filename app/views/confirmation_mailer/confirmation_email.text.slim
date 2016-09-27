@@ -1,3 +1,5 @@
 = t("confirmation_mailer.confirmation_email.headline")
-= "\r\n" * 2
-' #{t("confirmation_mailer.confirmation_email.plaintext", confirmation_url: @confirmation_url)}
+
+- confirmation_url = email_confirmation_url(host: Settings.host, token: @token, language: @language_code)
+'\n\n
+= t('confirmation_mailer.confirmation_email.body_text', confirmation_url: confirmation_url)
