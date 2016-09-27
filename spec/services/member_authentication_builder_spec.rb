@@ -20,12 +20,20 @@ describe MemberAuthenticationBuilder do
 
       before do
         allow(SecureRandom).to receive(:base64).and_return(token)
+        allow(ConfirmationMailer).to receive(:confirmation_email) { double(deliver_now: true) }
       end
 
       it 'creates member authentication' do
         expect(subject).to be_valid
         expect(member.reload.authentication).to be
         expect(member.authentication.token).to eq token
+      end
+
+      it 'sends confirmation email' do
+        expect(ConfirmationMailer).to receive(:confirmation_email)
+          .with(email: 'test@example.com', token: token, language: 'EN')
+
+        subject
       end
     end
 

@@ -20,7 +20,11 @@ class EmailConfirmationController < ApplicationController
       }
     end
 
-    @rendered = template.render('errors' => verifier.errors).html_safe
+    @rendered = template.render(
+      'errors' => verifier.errors,
+      'members_dashboard_url' => Settings.members.dashboard_url
+    ).html_safe
+
     render 'email_confirmation/follow_up', layout: 'generic'
   end
 end
