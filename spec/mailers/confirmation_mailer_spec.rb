@@ -1,31 +1,44 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe ConfirmationMailer, type: :mailer do
+describe ConfirmationMailer do
   describe 'confirmation_email' do
-    let!(:member) { create(:member, email: 'test@example.com') }
-    let!(:auth) { create(:member_authentication, member: member, password: 'password', token: 'imarealtoken1235') }
-    let(:language) { build(:language, code: 'EN') }
-    let(:mail) { ConfirmationMailer.confirmation_email(member, language.code) }
+    let(:mail) { ConfirmationMailer.confirmation_email(email: 'test@example.com', token: '123', language: 'EN') }
 
     it 'renders the headers' do
-      expect(mail.subject).to eq('E-mail confirmation for signing up for express donations with SumOfUs')
+      expect(mail.subject).to match(/E-mail confirmation for signing up/)
       expect(mail.to).to eq(['test@example.com'])
-      expect(mail.from).to eq([Settings.default_mailer_address])
+      expect(mail.from).to eq(['info@example.com'])
     end
 
-    it 'renders the HTML body' do
-      expect(mail.body.encoded).to include("<html><body><h1>Thank you for your donation!</h1><p>To confirm your \
-enrollment in our express donations plan, visit this <a href=\"#{Settings.host}/\
-email_confirmation?email=test%40example.com&amp;language=&amp;token=imarealtoken1235\">link</a>\
-, or copy paste this URL to your browser: #{Settings.host}/email_confirmation\
-?email=test%40example.com&amp;language=&amp;token=imarealtoken1235 </p></body></html>")
+    describe 'HTML body' do
+      subject { mail.html_part.body.to_s }
+
+      it 'has a thank you message' do
+        expected = /Thank you for your donation/
+
+        expect(subject).to match(expected)
+      end
+
+      it 'has confirmation link' do
+        expected = %r{http://actions.example.com/email_confirmation\?language=EN&amp;token=123}
+        expect(subject).to match(expected)
+      end
     end
 
-    it 'renders the plaintext body' do
-      expect(mail.body.encoded).to include("To confirm your enrollment in our express donations plan, visit this \
-address: #{Settings.host}/email_confirmation?email=test%40example.com&amp;language=&amp;token=\
-imarealtoken1235 ")
+    describe 'Plain text body' do
+      subject { mail.text_part.body.to_s }
+
+      it 'has a thank you message' do
+        expected = /Thank you for your donation/
+
+        expect(subject).to match(expected)
+      end
+
+      it 'has confirmation link' do
+        expected = %r{http://actions.example.com/email_confirmation\?language=EN&amp;token=123}
+        expect(subject).to match(expected)
+      end
     end
   end
 end

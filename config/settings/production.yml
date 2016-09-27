@@ -110,4 +110,5 @@ smtp:
   user_name: <%= ENV['SMTP_USERNAME'] %>
   password: <%= ENV['SMTP_PASSWORD'] %>
 
-
+members:
+  dashboard_url: <%= ENV['MEMBERS_DASHBOARD_URL'] %>
