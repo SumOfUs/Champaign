@@ -57,22 +57,24 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.pageId = options.pageId;
     this.directDebitOpened = false;
     this.displayDirectDebit(options.showDirectDebit);
-    this.initializeRecurring(options.recurringDefault);
     this.updateButton();
 
     this.paymentMethods = new Backbone.Collection(options.paymentMethods || []);
     this.paymentMethodsView = new PaymentMethodsView({ collection: this.paymentMethods });
 
     this.setOneClickVisibility();
+    this.initializeRecurring(options.recurringDefault);
+
     GlobalEvents.bindEvents(this);
 
   },
 
   initializeRecurring(recurringDefault) {
-    const $checkbox = this.$('input.fundraiser-bar__recurring');
+    const $checkbox = this.$('input.fundraiser-bar__recurring, input.fundraiser-bar__recurring-one-click');
+
     switch(recurringDefault) {
       case 'only_recurring':
-        $checkbox.parents('.form__group').addClass('hidden-irrelevant');
+        $checkbox.parents('label').addClass('hidden-irrelevant');
         // deliberate fall-through to next case (no break)
       case 'recurring':
         $checkbox.prop('checked', true);
@@ -176,7 +178,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       let currencySymbol = this.CURRENCY_SYMBOLS[this.currency];
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
-      let monthly = (this.readRecurring() || this.readRecurringOneClick()) ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
+      let monthly = this.readRecurring() ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
       this.buttonText = `<span class="fa fa-lock"></span>
                          <span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>
                          ${monthly}`;
@@ -377,7 +379,10 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   readRecurring() {
-    return !!this.$('input.fundraiser-bar__recurring').prop('checked');
+    if(this.paymentMethods.length > 0)
+      return !!this.$('input.fundraiser-bar__recurring-one-click').prop('checked');
+    else
+      return !!this.$('input.fundraiser-bar__recurring').prop('checked');
   },
 
   readRecurringOneClick() {
