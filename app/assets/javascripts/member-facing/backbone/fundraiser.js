@@ -25,7 +25,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     'click .fundraiser-bar__engage-currency-switcher': 'showCurrencySwitcher',
     'click .hosted-fields__direct-debit': 'submitDirectDebit',
     'click .fundraiser-bar__submit-one-click': 'submitOneClick',
-    'click .fundraiser-bar__toggle-payment-method': 'toggleOneClickVisibility',
+    'click .fundraiser-bar__toggle-payment-method': 'hideOneClickForm',
   },
 
   globalEvents: {
@@ -125,7 +125,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   resetUser() {
     this.paymentMethods.reset([]);
     this.showSecondStep();
-    this.toggleOneClickVisibility();
+    this.hideOneClickForm();
     Cookies.remove('authentication_id');
     Cookies.remove('payment_methods');
   },
@@ -198,11 +198,12 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     }
   },
 
-  toggleOneClickVisibility(event) {
+  hideOneClickForm(event) {
     if (event) {
       event.preventDefault();
     }
-    $('#one-click-form, #hosted-fields').toggleClass('hidden-irrelevant');
+    $('#one-click-form').addClass('hidden-irrelevant');
+    $('#hosted-fields').removeClass('hidden-irrelevant');
   },
 
   triggerStepChange(e) {
