@@ -13,9 +13,9 @@
     <div class="center-content__central-square">
       <h1 class="typography__highlight">
         {% if errors == empty %}
-          <span>{{ 'confirmation_mailer.follow_up_page.success' | t }}</span>
+          {{ 'confirmation_mailer.follow_up_page.success' | t }}
         {% else %}
-          <span>{{ 'confirmation_mailer.follow_up_page.failure' | t }}</span>
+          {{ 'confirmation_mailer.follow_up_page.failure' | t }}
         {% endif %}
       </h1>
 

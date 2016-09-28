@@ -6,7 +6,7 @@ describe ConfirmationMailer do
     let(:mail) { ConfirmationMailer.confirmation_email(email: 'test@example.com', token: '123', language: 'EN') }
 
     it 'renders the headers' do
-      expect(mail.subject).to match(/E-mail confirmation for signing up/)
+      expect(mail.subject).to match(/Confirm your account/)
       expect(mail.to).to eq(['test@example.com'])
       expect(mail.from).to eq(['info@example.com'])
     end
