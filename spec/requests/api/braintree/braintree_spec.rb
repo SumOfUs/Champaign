@@ -119,12 +119,14 @@ describe 'Express Donation' do
       expect(payment_method.customer).to eq(customer)
     end
 
-    it 'does not post to queue - FIXME' do
+    it 'posts to queue - FIXME' do
       # We want to post to queue, but outside of the action builder
-      #
+
       expect(
         ChampaignQueue
-      ).not_to receive(:push)
+      ).to have_received(:push)
+        .with(hash_including(type: 'donation',
+                             params: hash_including(order: hash_including(amount: '2.0'))))
     end
   end
 end
