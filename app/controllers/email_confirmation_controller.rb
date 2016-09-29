@@ -3,11 +3,10 @@ class EmailConfirmationController < ApplicationController
   include AuthToken
 
   def verify
-
+    @member = Member.find_by(email: params[:email])
     if verifier.success?
       bake_cookies
     end
-
     @rendered = template.render(
       'errors' => verifier.errors,
       'members_dashboard_url' => Settings.members.dashboard_url
@@ -15,13 +14,24 @@ class EmailConfirmationController < ApplicationController
     ## FIXME seed and fetch from DB
     #
     render 'email_confirmation/follow_up', layout: 'generic'
-
   end
 
   private
 
+  def update_on_ak
+    ChampaignQueue.push(
+      type: 'update_member',
+      params: {
+        akid: @member.actionkit_user_id,
+        fields: {
+          express_account: 1
+        }
+      }
+    )
+  end
+
   def verifier
-    @verifier ||= AuthTokenVerifier.new(params[:token]).verify
+    @verifier ||= AuthTokenVerifier.new(params[:token], @member).verify
   end
 
   def bake_cookies
