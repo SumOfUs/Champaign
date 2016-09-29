@@ -3,9 +3,10 @@
 class AuthTokenVerifier
   attr_reader :errors
 
-  def initialize(token)
+  def initialize(token, member)
     @token = token
     @errors = []
+    @member = member
   end
 
   def verify
@@ -19,7 +20,7 @@ class AuthTokenVerifier
   end
 
   def authentication
-    @authentication ||= MemberAuthentication.find_by(token: @token)
+    @authentication ||= @member.authentication
   end
 
   def success?
