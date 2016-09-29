@@ -206,6 +206,10 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     $('#hosted-fields').removeClass('hidden-irrelevant');
   },
 
+  oneClickShowing() {
+    return !$('#one-click-form').hasClass('hidden-irrelevant');
+  },
+
   triggerStepChange(e) {
     const targetStep = this.$(e.target).parent().data('step');
     if (targetStep < this.currentStep) {
@@ -380,7 +384,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   readRecurring() {
-    if(this.paymentMethods.length > 0)
+    if(this.oneClickShowing())
       return !!this.$('input.fundraiser-bar__recurring-one-click').prop('checked');
     else
       return !!this.$('input.fundraiser-bar__recurring').prop('checked');
