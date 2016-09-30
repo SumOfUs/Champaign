@@ -82,7 +82,7 @@ class PaymentController < ApplicationController
     ChampaignQueue.push(
       type: 'update_member',
       params: {
-        akid: ( Member.find(member_id) ).actionkit_user_id,
+        akid: Member.find(member_id).actionkit_user_id,
         fields: {
           express_cookie: 1
         }

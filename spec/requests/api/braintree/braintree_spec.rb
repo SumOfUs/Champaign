@@ -287,13 +287,11 @@ describe 'Braintree API' do
             end
 
             it 'updates the member as a cookie-based express donor on ActionKit' do
-              expect(ChampaignQueue).to receive(:push).with({
-                                                              type: 'update_member',
-                                                              params: {
-                                                                akid: 'woo_actionkit',
-                                                                fields: {
-                                                                  express_cookie: 1
-                                                                }
+              expect(ChampaignQueue).to receive(:push).with(type: 'update_member',
+                                                            params: {
+                                                              akid: 'woo_actionkit',
+                                                              fields: {
+                                                                express_cookie: 1
                                                               }
                                                             })
               subject

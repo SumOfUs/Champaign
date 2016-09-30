@@ -6,9 +6,9 @@ describe 'Email Confirmation when signing up to express donations' do
   let!(:auth) { create(:member_authentication, token: '1234', member: member) }
 
   context 'success' do
-    params = {token: '1234',
-    email: 'test@example.com',
-    language:'EN'}
+    params = { token: '1234',
+               email: 'test@example.com',
+               language: 'EN' }
 
     subject { get "/email_confirmation?#{params.to_query}" }
 
@@ -19,13 +19,11 @@ describe 'Email Confirmation when signing up to express donations' do
     end
 
     it 'pushes a member update to the ActionKit queue' do
-      expect(ChampaignQueue).to receive(:push).with({
-                                                      type: 'update_member',
-                                                      params: {
-                                                        akid: 'actionkit_wohoo',
-                                                        fields: {
-                                                          express_account: 1
-                                                        }
+      expect(ChampaignQueue).to receive(:push).with(type: 'update_member',
+                                                    params: {
+                                                      akid: 'actionkit_wohoo',
+                                                      fields: {
+                                                        express_account: 1
                                                       }
                                                     })
       subject
@@ -33,9 +31,9 @@ describe 'Email Confirmation when signing up to express donations' do
   end
 
   context 'failure' do
-    params = {token: 'nosuchtoken',
-              email: 'test@example.com',
-              language:'EN'}
+    params = { token: 'nosuchtoken',
+               email: 'test@example.com',
+               language: 'EN' }
     it 'renders error' do
       get "/email_confirmation?#{params.to_query}"
       expect(response.body).to match(/there was an issue confirming your account/)
