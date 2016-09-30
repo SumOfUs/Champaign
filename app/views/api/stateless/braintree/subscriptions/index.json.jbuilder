@@ -4,7 +4,8 @@ json.array! @subscriptions do |subscription|
             :id,
             :billing_day_of_month,
             :created_at,
-            :amount
+            :amount,
+            :currency
 
   json.payment_method subscription.payment_method,
                       :id,

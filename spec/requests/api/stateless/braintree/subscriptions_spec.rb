@@ -53,7 +53,9 @@ describe 'API::Stateless Braintree Subscriptions' do
       expect(subscription).to include(id: 1234,
                                       created_at: /^\d{4}-\d{2}-\d{2}/,
                                       billing_day_of_month: 22,
-                                      amount: '4.0')
+                                      amount: '4.0',
+                                      currency: 'GBP'
+                                     )
 
       expect(subscription[:payment_method]).to include(id: payment_method.id,
                                                        instrument_type: 'credit card',
