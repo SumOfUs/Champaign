@@ -6,6 +6,7 @@ class EmailConfirmationController < ApplicationController
     @member = Member.find_by(email: params[:email])
     if verifier.success?
       bake_cookies
+      update_on_ak
     end
     @rendered = template.render(
       'errors' => verifier.errors,

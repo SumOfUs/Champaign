@@ -25,6 +25,8 @@ class PaymentController < ApplicationController
         value: existing_payment_methods.join(','),
         expires: 1.year.from_now
       }
+
+      update_on_ak(builder.action.member_id)
     end
 
     respond_to do |format|
@@ -68,10 +70,24 @@ class PaymentController < ApplicationController
     page.try(:language).try(:code)
   end
 
+<<<<<<< HEAD
   def follow_up(builder)
     follow_up_params = params[:user].merge(member_id: builder.action.member_id)
     follow_up_url = PageFollower.new_from_page(page, follow_up_params).follow_up_path
     { follow_up_url: follow_up_url }
   end
 
+=======
+  def update_on_ak(member_id)
+    ChampaignQueue.push(
+      type: 'update_member',
+      params: {
+        akid: ( Member.find(member_id) ).actionkit_user_id,
+        fields: {
+          express_cookie: 1
+        }
+      }
+    )
+  end
+>>>>>>> Push custom field updates to AK queue when a member becomes an express donor.
 end
