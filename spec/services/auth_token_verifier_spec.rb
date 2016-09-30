@@ -2,7 +2,6 @@
 require 'rails_helper'
 
 describe AuthTokenVerifier do
-
   describe '#verify' do
     let!(:member) { create(:member, email: 'foo@example.com', actionkit_user_id: 'actionkit_wohoo') }
 
@@ -53,7 +52,6 @@ describe AuthTokenVerifier do
     end
 
     context 'with no matching record' do
-
       subject { AuthTokenVerifier.new('nosuchtoken', member) }
 
       it 'is unsuccessful' do
@@ -82,8 +80,6 @@ describe AuthTokenVerifier do
         subject.verify
         expect(subject.errors.first).to match(/No account was found/)
       end
-
     end
-
   end
 end
