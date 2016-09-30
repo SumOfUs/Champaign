@@ -78,7 +78,7 @@ describe AuthTokenVerifier do
 
       it 'returns error' do
         subject.verify
-        expect(subject.errors.first).to match(/No account was found/)
+        expect(subject.errors.first).to match(/[Nn]o account was found/)
       end
     end
   end
