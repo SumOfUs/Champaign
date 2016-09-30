@@ -12,8 +12,6 @@ class EmailConfirmationController < ApplicationController
       'errors' => verifier.errors,
       'members_dashboard_url' => Settings.members.dashboard_url
     ).html_safe
-    ## FIXME seed and fetch from DB
-    #
     render 'email_confirmation/follow_up', layout: 'generic'
   end
 
@@ -46,7 +44,9 @@ class EmailConfirmationController < ApplicationController
   end
 
   def template
-    @template ||= Liquid::Template.parse(File.read("#{Rails.root}/app/liquid/views/layouts/email-confirmation-follow-up.liquid"))
+    ## FIXME seed and fetch from DB
+    #
+    view = File.read("#{Rails.root}/app/liquid/views/layouts/email-confirmation-follow-up.liquid")
+    @template ||= Liquid::Template.parse(view)
   end
-
 end
