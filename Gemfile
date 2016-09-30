@@ -66,8 +66,10 @@ gem 'rmagick' # rmagick for image processing
 gem 'paperclip'
 gem 'action_parameter'
 
-# AWS SDK for Rails
+# AWS SDK for Rails - makes SES integration easy
 gem 'aws-sdk-rails'
+# Paperclip has a hard requirement for aws-sdk version < 2.0 because hey why not?   ...
+gem 'aws-sdk-v1'
 
 # Logging and log management
 gem 'logger'
