@@ -250,7 +250,7 @@ describe 'Braintree API' do
       end
     end
 
-    describe 'successfully' do
+    describe "successfully with storing in Braintree's vault" do
       let(:basic_params) do
         {
           currency: 'EUR',
@@ -262,7 +262,7 @@ describe 'Braintree API' do
       end
 
       context 'when Member exists' do
-        let!(:member) { create :member, email: user_params[:email], postal: nil }
+        let!(:member) { create :member, email: user_params[:email], postal: nil, actionkit_user_id: 'woo_actionkit' }
 
         context 'when BraintreeCustomer exists' do
           let!(:customer) { create :payment_braintree_customer, member: member, customer_id: 'test', card_last_4: '4843' }
@@ -283,8 +283,20 @@ describe 'Braintree API' do
 
             it 'stores token to cookie' do
               subject
-
               expect(response.cookies['payment_methods']).to match(/\W+/)
+            end
+
+            it 'updates the member as a cookie-based express donor on ActionKit' do
+              expect(ChampaignQueue).to receive(:push).with({
+                                                              type: 'update_member',
+                                                              params: {
+                                                                akid: 'woo_actionkit',
+                                                                fields: {
+                                                                  express_cookie: 1
+                                                                }
+                                                              }
+                                                            })
+              subject
             end
 
             it 'creates an Action associated with the Page and Member' do
