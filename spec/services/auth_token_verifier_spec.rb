@@ -4,7 +4,7 @@ require 'rails_helper'
 describe AuthTokenVerifier do
 
   describe '#verify' do
-    let!(:member) { create(:member, email: 'foo@example.com' ) }
+    let!(:member) { create(:member, email: 'foo@example.com', actionkit_user_id: 'actionkit_wohoo') }
 
     context 'with matching unconfirmed record' do
       let!(:member_authentication) { create(:member_authentication, token: 'a_token', member: member) }
@@ -45,6 +45,10 @@ describe AuthTokenVerifier do
       it 'returns error' do
         subject.verify
         expect(subject.errors.first).to match(/already been confirmed/)
+      end
+
+      it 'does not push to the ActionKit queue' do
+        expect(ChampaignQueue).to_not receive(:push)
       end
     end
 
