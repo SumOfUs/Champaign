@@ -25,6 +25,8 @@ class PaymentController < ApplicationController
         value: existing_payment_methods.join(','),
         expires: 1.year.from_now
       }
+
+      update_on_ak(builder.action.member_id)
     end
 
     respond_to do |format|
@@ -66,5 +68,17 @@ class PaymentController < ApplicationController
 
   def locale
     page.try(:language).try(:code)
+  end
+
+  def update_on_ak(member_id)
+    ChampaignQueue.push(
+      type: 'update_member',
+      params: {
+        akid: ( Member.find(member_id) ).actionkit_user_id,
+        fields: {
+          express_cookie: 1
+        }
+      }
+    )
   end
 end

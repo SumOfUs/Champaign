@@ -22,5 +22,6 @@
 FactoryGirl.define do
   factory :member do
     email { Faker::Internet.email }
+    actionkit_user_id { Faker::Number.number(10) }
   end
 end
