@@ -4,11 +4,15 @@ require 'rails_helper'
 describe Api::ActionsController do
   describe 'POST create' do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')]) }
+    let(:page) { instance_double('Page', id: 2) }
     let(:member) { instance_double('Member', id: 12) }
     let(:action) { instance_double('Action', member_id: member.id) }
+    let(:follower) { instance_double('PageFollower', follow_up_path: '/asdf?member_id=12345') }
 
     before :each do
       allow(Form).to receive(:find) { form }
+      allow(Page).to receive(:find) { page }
+      allow(PageFollower).to receive(:new_from_page) { follower }
       allow(ManageAction).to receive(:create) { action }
       allow(controller).to receive(:localize_from_page_id)
     end
@@ -40,17 +44,8 @@ describe Api::ActionsController do
           .with(expected_params)
       end
 
-      it 'filters params by those present in the form' do
-        expect do
-          post :create, page_id: 2, form_id: 3, not_permitted: 'no, no!'
-        end.to raise_error(
-          ActionController::UnpermittedParameters,
-          'found unpermitted parameter: not_permitted'
-        )
-      end
-
       it 'responds with an empty hash' do
-        expect(response.body).to eq({}.to_json)
+        expect(response.body).to eq({follow_up_url: '/asdf?member_id=12345'}.to_json)
       end
 
       it 'sets the cookie' do
@@ -59,6 +54,17 @@ describe Api::ActionsController do
 
       it 'attemptes to localize the page' do
         expect(controller).to have_received(:localize_from_page_id)
+      end
+    end
+
+    describe 'filtering' do
+      it 'does not permit params not in the form' do
+        expect do
+          post :create, page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar'
+        end.to raise_error(
+          ActionController::UnpermittedParameters,
+          'found unpermitted parameter: not_permitted'
+        )
       end
     end
 
@@ -130,15 +136,6 @@ describe Api::ActionsController do
         expect(ManageAction).not_to have_received(:create)
       end
 
-      it 'filters params by those present in the form' do
-        expect do
-          post :validate, page_id: 2, form_id: 3, not_permitted: 'no, no!'
-        end.to raise_error(
-          ActionController::UnpermittedParameters,
-          'found unpermitted parameter: not_permitted'
-        )
-      end
-
       it 'responds with empty json' do
         expect(response.body).to eq({}.to_json)
       end
@@ -150,6 +147,17 @@ describe Api::ActionsController do
 
       it 'attemptes to localize the page' do
         expect(controller).to have_received(:localize_from_page_id)
+      end
+    end
+
+    describe 'filtering' do
+      it 'does not permit params not in the form' do
+        expect do
+          post :validate, page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar'
+        end.to raise_error(
+          ActionController::UnpermittedParameters,
+          'found unpermitted parameter: not_permitted'
+        )
       end
     end
 

@@ -160,8 +160,8 @@ const ActionForm = Backbone.View.extend({
     }
   },
 
-  handleSuccess(){
-    Backbone.trigger('form:submitted');
+  handleSuccess(e, data){
+    Backbone.trigger('form:submitted', e, data);
   },
 
   handleFailure(e, data) {

@@ -28,6 +28,14 @@ describe("Petition", function() {
       suite.petition.redirectTo.restore();
     });
 
+    it('redirects to the follow_up_url in the response if one is present', function(){
+      suite.petition = new window.champaign.Petition({followUpUrl: '/not-used'});
+      sinon.stub(suite.petition, 'redirectTo');
+      Backbone.trigger('form:submitted', {}, {follow_up_url: suite.followUpUrl});
+      expect(suite.petition.redirectTo).to.have.been.calledWith(suite.followUpUrl);
+      suite.petition.redirectTo.restore();
+    });
+
     it('calls the callback function if it is supplied', function(){
       var callback = sinon.spy();
       suite.petition = new window.champaign.Petition({submissionCallback: callback});

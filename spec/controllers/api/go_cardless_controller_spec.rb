@@ -2,7 +2,14 @@
 require 'rails_helper'
 
 describe Api::GoCardlessController do
-  let(:page) { double(:page, id: '1') }
+  let(:page) do
+    double(:page,
+      id: 1,
+      slug: 'trol-lol-lol',
+      follow_up_plan: :with_liquid,
+      follow_up_liquid_layout_id: 4,
+      follow_up_page: nil)
+  end
   let(:action) { instance_double('Action', member_id: 79) }
 
   before do

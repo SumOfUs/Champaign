@@ -252,9 +252,10 @@ describe("Fundraiser", function() {
 
     describe('submission success', function(){
 
-      suite.triggerSuccess = function(){
+      suite.triggerSuccess = function(data){
+        data = data || '{ "success": "true" }';
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
-          [200, { "Content-Type": "application/json" }, '{ "success": "true" }' ]);
+          [200, { "Content-Type": "application/json" }, data ]);
         Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
         suite.server.respond();
       }
@@ -274,6 +275,14 @@ describe("Fundraiser", function() {
         sinon.stub(suite.fundraiser, 'redirectTo');
         suite.triggerSuccess();
         expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
+        suite.fundraiser.redirectTo.restore();
+      });
+
+      it('redirects to the follow_up_url in the response if one is present', function(){
+        suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/not-used', pageId: '1'});
+        sinon.stub(suite.fundraiser, 'redirectTo');
+        suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
+        expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
         suite.fundraiser.redirectTo.restore();
       });
 

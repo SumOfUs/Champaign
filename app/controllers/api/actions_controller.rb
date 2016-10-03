@@ -4,15 +4,14 @@ class Api::ActionsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    @action_params = action_params
-    validator = FormValidator.new(@action_params)
+    validator = FormValidator.new(action_params)
 
     if validator.valid?
-      @action_params.merge!(mobile_value)
-      @action_params.merge!(referer_url)
-      action = ManageAction.create(@action_params)
+      action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
       write_member_cookie(action.member_id)
-      render json: {}, status: 200
+      render json: {
+        follow_up_url: PageFollower.new_from_page(page, action.member_id).follow_up_path
+      }, status: 200
     else
       render json: { errors: validator.errors }, status: 422
     end
@@ -30,7 +29,7 @@ class Api::ActionsController < ApplicationController
   private
 
   def action_params
-    @action_params = params.permit(fields + base_params)
+    @action_params ||= params.permit(fields + base_params)
   end
 
   def base_params
@@ -39,5 +38,9 @@ class Api::ActionsController < ApplicationController
 
   def fields
     Form.find(params[:form_id]).form_elements.map(&:name)
+  end
+
+  def page
+    @page ||= Page.find(action_params[:page_id])
   end
 end

@@ -237,12 +237,13 @@ const Fundraiser = Backbone.View.extend(_.extend(
     if (hasCallbackFunction) {
       this.submissionCallback(data, status);
     }
-    if (this.followUpUrl) {
+    if (data && data.follow_up_url) {
+      this.redirectTo(data.follow_up_url);
+    } else if (this.followUpUrl) {
       this.redirectTo(this.followUpUrl);
-    }
-    if (!this.followUpUrl && !hasCallbackFunction) {
+    } else if(!hasCallbackFunction) {
       // only do this option if no redirect or callback supplied
-      alert(I18n.t('fundraiser.thank_you'));
+      alert(I18n.t('petition.excited_confirmation'));
     }
   },
 

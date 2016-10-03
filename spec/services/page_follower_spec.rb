@@ -70,6 +70,39 @@ describe PageFollower do
       end
     end
 
+    describe 'member_id' do
+      let(:plan) { :with_page }
+
+      describe 'is not in URL if the member_id parameter' do
+        it 'is not passed' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+
+        it 'is nil' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, nil).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+
+        it 'is blank' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, ' ').follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+      end
+
+      describe 'is in the URL if the member_id parameter' do
+        it 'is a number' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, 34).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id, member_id: 34)
+        end
+
+        it 'is a string' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, '45').follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id, member_id: '45')
+        end
+      end
+    end
+
     describe 'plan is anything else' do
       it 'raises error if plan is :with_link' do
         expect do
@@ -100,7 +133,7 @@ describe PageFollower do
     it 'calls with page attributes' do
       allow(PageFollower).to receive(:new)
       PageFollower.new_from_page(page)
-      expect(PageFollower).to have_received(:new).with('with_liquid', 'astro-droid', 3, 'bleep-bloop')
+      expect(PageFollower).to have_received(:new).with('with_liquid', 'astro-droid', 3, 'bleep-bloop', nil)
     end
 
     it 'returns the instance for call chaining' do

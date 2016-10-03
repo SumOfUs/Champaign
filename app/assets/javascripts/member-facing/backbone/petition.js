@@ -22,10 +22,11 @@ const Petition = Backbone.View.extend({
     if (hasCallbackFunction) {
       this.submissionCallback(e, data);
     }
-    if (this.followUpUrl) {
+    if (data && data.follow_up_url) {
+      this.redirectTo(data.follow_up_url);
+    } else if (this.followUpUrl) {
       this.redirectTo(this.followUpUrl);
-    }
-    if (!this.followUpUrl && !hasCallbackFunction) {
+    } else if(!hasCallbackFunction) {
       // only do this option if no redirect or callback supplied
       alert(I18n.t('petition.excited_confirmation'));
     }
