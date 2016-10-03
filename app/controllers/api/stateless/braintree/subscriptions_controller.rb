@@ -14,7 +14,7 @@ module Api
           result = ::Braintree::Subscription.cancel(@subscription.subscription_id)
           if result.success?
             @subscription.destroy
-            render json: { success: true }
+            render json: @subscription.slice(:id, :subscription_id)
           else
             render json: { success: false, errors: result.errors }
           end
