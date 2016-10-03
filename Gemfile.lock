@@ -102,6 +102,9 @@ GEM
       railties (>= 3)
     aws-sdk-resources (2.6.1)
       aws-sdk-core (= 2.6.1)
+    aws-sdk-v1 (1.66.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
@@ -524,6 +527,7 @@ DEPENDENCIES
   activeadmin!
   annotate
   aws-sdk-rails
+  aws-sdk-v1
   bcrypt (~> 3.1.7)
   bootstrap-sass (~> 3.3.5)
   braintree (~> 2.54.0)
@@ -605,9 +609,6 @@ DEPENDENCIES
   vcr
   web-console (~> 2.0)
   webmock
-
-RUBY VERSION
-   ruby 2.3.0p0
 
 BUNDLED WITH
    1.13.1
