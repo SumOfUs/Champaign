@@ -25,7 +25,10 @@ module BraintreeServices
 
     def create_action
       ManageAction.create(
-        params_for_action.merge(params[:user]).merge(params[:payment]).merge(page_id: params[:page_id]),
+        params_for_action.merge(params[:user])
+          .merge(params[:payment])
+          .merge(page_id: params[:page_id])
+          .merge(action_express_donation: true),
         extra_params: { donation: true },
         skip_counter: true,
         skip_queue: false

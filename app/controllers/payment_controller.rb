@@ -70,14 +70,12 @@ class PaymentController < ApplicationController
     page.try(:language).try(:code)
   end
 
-<<<<<<< HEAD
   def follow_up(builder)
     follow_up_params = params[:user].merge(member_id: builder.action.member_id)
     follow_up_url = PageFollower.new_from_page(page, follow_up_params).follow_up_path
     { follow_up_url: follow_up_url }
   end
 
-=======
   def update_on_ak(member_id)
     ChampaignQueue.push(
       type: 'update_member',
@@ -89,5 +87,4 @@ class PaymentController < ApplicationController
       }
     )
   end
->>>>>>> Push custom field updates to AK queue when a member becomes an express donor.
 end
