@@ -34,7 +34,6 @@ class ManageBraintreeDonation
         params[:recurrence_number] = 0 if @is_subscription
       end
     )
-
     build_action(donation: true)
   end
 
