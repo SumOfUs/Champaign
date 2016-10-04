@@ -10,7 +10,7 @@ class Api::ActionsController < ApplicationController
       action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
       write_member_cookie(action.member_id)
       render json: {
-        follow_up_url: PageFollower.new_from_page(page, action.member_id).follow_up_path
+        follow_up_url: PageFollower.new_from_page(page, action_params.merge(member_id: action.member_id)).follow_up_path
       }, status: 200
     else
       render json: { errors: validator.errors }, status: 422
@@ -33,7 +33,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w(page_id form_id name source akid referring_akid referrer_id)
+    %w(page_id form_id name source akid referring_akid referrer_id bucket)
   end
 
   def fields

@@ -2,16 +2,18 @@
 class PageFollower
   include Rails.application.routes.url_helpers
 
-  def self.new_from_page(page, member_id=nil)
-    new(page.follow_up_plan, page.slug, page.follow_up_liquid_layout_id, page.follow_up_page.try(:slug), member_id)
+  PARAMS_TO_PASS = [:member_id, :bucket]
+
+  def self.new_from_page(page, extra_params=nil)
+    new(page.follow_up_plan, page.slug, page.follow_up_liquid_layout_id, page.follow_up_page.try(:slug), extra_params)
   end
 
-  def initialize(plan, page_slug, follow_up_liquid_layout_id, follow_up_page_slug, member_id=nil)
+  def initialize(plan, page_slug, follow_up_liquid_layout_id, follow_up_page_slug, extra_params=nil)
     @plan = plan
     @page_slug = page_slug
     @follow_up_page_slug = follow_up_page_slug
     @follow_up_liquid_layout_id = follow_up_liquid_layout_id
-    @member_id = member_id
+    @extra_params = extra_params.try(:symbolize_keys)
   end
 
   def follow_up_path
@@ -29,13 +31,21 @@ class PageFollower
 
   def path_to_follow_up_page
     return nil if @follow_up_page_slug.blank?
-    return member_facing_page_path(@follow_up_page_slug) if @member_id.blank?
-    member_facing_page_path(@follow_up_page_slug, member_id: @member_id)
+    member_facing_page_path(@follow_up_page_slug, **url_params)
   end
 
   def path_to_follow_up_layout
     return nil if @page_slug.blank? || @follow_up_liquid_layout_id.blank?
-    return follow_up_member_facing_page_path(@page_slug) if @member_id.blank?
-    follow_up_member_facing_page_path(@page_slug, member_id: @member_id)
+    follow_up_member_facing_page_path(@page_slug, **url_params)
+  end
+
+  def url_params
+    return {} if @extra_params.blank?
+    return @url_params if @url_params.present?
+    @url_params = {}.tap do |ps|
+      PARAMS_TO_PASS.each do |key|
+        ps[key] = @extra_params[key] if @extra_params.has_key?(key)
+      end
+    end
   end
 end

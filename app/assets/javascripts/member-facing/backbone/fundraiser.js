@@ -1,4 +1,3 @@
-const ActionForm  = require('member-facing/backbone/action_form');
 const CurrencyMethods     = require('member-facing/backbone/currency_methods');
 const OverlayToggle       = require('member-facing/backbone/overlay_toggle')
 const BraintreeHostedFields = require('member-facing/backbone/braintree_hosted_fields');
