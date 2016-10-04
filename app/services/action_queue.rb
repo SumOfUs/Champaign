@@ -122,6 +122,8 @@ module ActionQueue
     include Donatable
 
     def payload
+      # TODO: This really needs to be handled in a less hackish solution once we refactor.
+      @action.form_data[:action_express_donation] = 0
       if data[:is_subscription]
         subscription_payload
       else

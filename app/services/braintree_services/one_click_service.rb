@@ -28,7 +28,7 @@ module BraintreeServices
         params_for_action.merge(params[:user])
           .merge(params[:payment])
           .merge(page_id: params[:page_id])
-          .merge(action_express_donation: true),
+          .merge(action_express_donation: 1),
         extra_params: { donation: true },
         skip_counter: true,
         skip_queue: false

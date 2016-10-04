@@ -29,7 +29,8 @@ class ManageBraintreeDonation
         subscription_id:      subscription_id,
         is_subscription:      @is_subscription,
         card_expiration_date: transaction.credit_card_details.expiration_date,
-        payment_provider: 'braintree'
+        payment_provider: 'braintree',
+        action_express_donation: 0
       }.tap do |params|
         params[:recurrence_number] = 0 if @is_subscription
       end
