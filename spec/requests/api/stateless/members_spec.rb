@@ -4,24 +4,26 @@ require 'rails_helper'
 describe 'API::Stateless Members' do
   include Requests::RequestHelpers
   include AuthToken
-  let!(:member) do
-    create(:member, first_name: 'Harriet',
-                    last_name: 'Tubman',
-                    email: 'test@example.com',
-                    actionkit_user_id: '8244194')
-  end
-  let!(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com') }
-
-  before :each do
-    member.create_authentication(password: 'password')
-  end
-
-  def auth_headers
-    token = encode_jwt(member.token_payload)
-    { authorization: "Bearer #{token}" }
-  end
 
   describe 'GET show' do
+    let(:member) do
+      create(:member, first_name: 'Harriet',
+                      last_name: 'Tubman',
+                      email: 'test@example.com',
+                      actionkit_user_id: '8244194')
+    end
+
+    let(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com') }
+
+    before :each do
+      member.create_authentication(password: 'password')
+    end
+
+    def auth_headers
+      token = encode_jwt(member.token_payload)
+      { authorization: "Bearer #{token}" }
+    end
+
     it 'returns member information for the member' do
       get "/api/stateless/members/#{member.id}", nil, auth_headers
       expect(response.status).to eq(200)
@@ -51,6 +53,24 @@ describe 'API::Stateless Members' do
   end
 
   describe 'PUT update' do
+    let(:member) do
+      create(:member, first_name: 'Harriet',
+                      last_name: 'Tubman',
+                      email: 'test@example.com',
+                      actionkit_user_id: '8244194')
+    end
+
+    let(:other_member) { create(:member, first_name: 'Other', last_name: 'User', email: 'other_member@example.com') }
+
+    before :each do
+      member.create_authentication(password: 'password')
+    end
+
+    def auth_headers
+      token = encode_jwt(member.token_payload)
+      { authorization: "Bearer #{token}" }
+    end
+
     context 'with valid parameters' do
       let(:params) do
         {
@@ -87,6 +107,7 @@ describe 'API::Stateless Members' do
 
       it 'sends the message to the AK processor' do
         allow(ChampaignQueue).to receive(:push)
+
         expect(ChampaignQueue).to receive(:push).with(
           type: 'update_member',
           params: {
@@ -122,10 +143,36 @@ describe 'API::Stateless Members' do
 
       it 'sends back error messages if the parameters are invalid' do
         put "/api/stateless/members/#{member.id}", bad_params, auth_headers
+
         expect(response.status).to be 422
+
         expect(json_hash['errors']).to match('email' => [
           'has already been taken'
         ])
+      end
+    end
+  end
+
+  describe 'POST create' do
+    let(:member_params) do
+      {
+        name: 'Bob',
+        postal: 'W1',
+        email: 'test@example.com',
+        country: 'GB',
+        password: 'password',
+        password_confirmation: 'password'
+      }
+    end
+
+    context 'valid request' do
+      let(:member) { Member.first }
+
+      it 'creates a member with authentication' do
+        post api_stateless_members_path, member: member_params, format: :json
+
+        expect(response.body).to eq(member.to_json)
+        expect(member.authenticate('password')).to be_kind_of(MemberAuthentication)
       end
     end
   end
