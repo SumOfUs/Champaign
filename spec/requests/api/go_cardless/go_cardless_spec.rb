@@ -229,15 +229,15 @@ describe 'GoCardless API' do
                 name: "#{page.slug}-donation",
                 payment_account: 'GoCardless GBP'
               },
-              order: {
+              order: hash_including(
                 amount: gbp_amount.to_s,
                 currency:       'GBP',
                 card_num:       'DDEB',
                 card_code:      '007',
                 exp_date_month: '01',
                 exp_date_year:  '99'
-              },
-              user: {
+              ),
+              user: hash_including(
                 email: email,
                 country: 'United States',
                 postal: '11225',
@@ -247,16 +247,16 @@ describe 'GoCardless API' do
                 akid: '123.456.789',
                 source: 'fb',
                 user_en: 1
-              },
+              ),
               action: {
                 source: 'fb',
-                fields: {
+                fields: hash_including(
                   action_registered_voter: '1',
                   action_mobile: 'tablet',
                   action_mandate_reference: 'OMAR-JMEKNM53MREX3',
                   action_bank_name: 'BARCLAYS BANK PLC',
                   action_account_number_ending: '11'
-                }
+                )
               }
             }
           }
@@ -415,13 +415,14 @@ describe 'GoCardless API' do
               },
               action: {
                 source: 'fb',
-                fields: {
+                fields: hash_including(
                   action_registered_voter: '1',
                   action_mobile: 'tablet',
                   action_mandate_reference: 'OMAR-JMEKNM53MREX3',
                   action_bank_name: 'BARCLAYS BANK PLC',
-                  action_account_number_ending: '11'
-                }
+                  action_account_number_ending: '11',
+                  action_express_donation: 0
+                )
               }
             }
           }
