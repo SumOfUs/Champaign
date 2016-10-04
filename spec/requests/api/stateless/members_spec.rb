@@ -174,6 +174,15 @@ describe 'API::Stateless Members' do
         expect(response.body).to eq(member.to_json)
         expect(member.authenticate('password')).to be_kind_of(MemberAuthentication)
       end
+
+      context 'invalid request' do
+        it 'creates a member with authentication' do
+          post api_stateless_members_path, member: member_params.except(:email), format: :json
+
+          body = JSON.parse(response.body).deep_symbolize_keys
+          expect(body).to eq({errors: {email: ["can't be blank"]}})
+        end
+      end
     end
   end
 end

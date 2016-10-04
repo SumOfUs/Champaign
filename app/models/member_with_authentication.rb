@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-#
+
 class MemberWithAuthentication
   include ActiveModel::Model
 
@@ -18,11 +18,27 @@ class MemberWithAuthentication
                 :password,
                 :password_confirmation)
 
+  attr_reader :member, :authentication
+
   class << self
     def create(params)
-      member = Member.create(params.except('password', 'password_confirmation'))
-      member.create_authentication(password: params['password'])
-      member
+      record = new(params)
+
+      if record.valid?
+        record.create_member_with_authentication(params)
+      end
+
+      record
     end
+  end
+
+  def create_member_with_authentication(params)
+    ActiveRecord::Base.transaction do
+      params = params.stringify_keys
+      @member = Member.create(params.except('password', 'password_confirmation'))
+      @authentication = member.create_authentication(password: params['password'])
+    end
+
+    self
   end
 end
