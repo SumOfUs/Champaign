@@ -134,7 +134,7 @@ describe 'Express Donation' do
                                action: {
                                  source: nil,
                                  fields: {
-                                   action_express_donation: true
+                                   action_express_donation: 1
                                  }
                                },
                                user: hash_including(
@@ -193,15 +193,15 @@ describe 'Braintree API' do
           name: 'cash-rules-everything-around-me-donation',
           payment_account: 'Braintree EUR'
         },
-        order: {
+        order: hash_including(
           amount: amount.to_s,
           card_num: '1881',
           card_code: '007',
           exp_date_month: '12',
           exp_date_year: '2020',
           currency: 'EUR'
-        },
-        user: {
+        ),
+        user: hash_including(
           email: 'itsme@feelthebern.org',
           country: 'United States',
           postal: '11225',
@@ -211,13 +211,14 @@ describe 'Braintree API' do
           akid: '1234.5678.9910',
           source: 'fb',
           user_en: 1
-        },
+        ),
         action: {
           source: 'fb',
-          fields: {
+          fields: hash_including(
             action_registered_voter: '1',
-            action_mobile: 'desktop'
-          }
+            action_mobile: 'desktop',
+            action_express_donation: 0
+          )
         }
       }
     }
@@ -280,7 +281,8 @@ describe 'Braintree API' do
                                      source: 'fb',
                                      fields: {
                                        action_registered_voter: '1',
-                                       action_mobile: 'desktop'
+                                       action_mobile: 'desktop',
+                                       action_express_donation: 0
                                      }
                                    },
                                    user: hash_including(
@@ -826,7 +828,8 @@ describe 'Braintree API' do
               source: 'fb',
               fields: {
                 action_registered_voter: '1',
-                action_mobile: 'desktop'
+                action_mobile: 'desktop',
+                action_express_donation: 0
               }
             }
           }
