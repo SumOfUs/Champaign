@@ -2,6 +2,14 @@
 require 'rails_helper'
 
 describe MemberAuthentication do
+  describe 'on create' do
+    it 'has token set' do
+      auth = create(:member_authentication)
+
+      expect(auth.token.length).to eq(32)
+    end
+  end
+
   describe 'validation' do
     it 'requires matching passwords' do
       authentication = build(:member_authentication, password: 'random', password_confirmation: '')
