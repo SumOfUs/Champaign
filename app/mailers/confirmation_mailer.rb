@@ -5,7 +5,7 @@ class ConfirmationMailer < ApplicationMailer
   #
   #   en.confirmation_mailer.confirmation_email.subject
   #
-  def confirmation_email(email:, language:, token:)
+  def confirmation_email(email:, language: 'en', token:)
     @language_code = language
     @token = token
 

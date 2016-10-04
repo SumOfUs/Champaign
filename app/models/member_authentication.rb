@@ -35,6 +35,6 @@ class MemberAuthentication < ActiveRecord::Base
   private
 
   def set_token
-    self.token = SecureRandom.base64(24)
+    self.token = SecureRandom.base64(24) unless token.present?
   end
 end

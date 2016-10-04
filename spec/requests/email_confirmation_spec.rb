@@ -6,9 +6,11 @@ describe 'Email Confirmation when signing up to express donations' do
   let!(:auth) { create(:member_authentication, token: '1234', member: member) }
 
   context 'success' do
-    params = { token: '1234',
-               email: 'test@example.com',
-               language: 'EN' }
+    let(:params) do
+      { token: auth.token,
+        email: 'test@example.com',
+        language: 'EN' }
+    end
 
     subject { get "/email_confirmation?#{params.to_query}" }
 
@@ -34,6 +36,7 @@ describe 'Email Confirmation when signing up to express donations' do
     params = { token: 'nosuchtoken',
                email: 'test@example.com',
                language: 'EN' }
+
     it 'renders error' do
       get "/email_confirmation?#{params.to_query}"
       expect(response.body).to match(/there was an issue confirming your account/)
