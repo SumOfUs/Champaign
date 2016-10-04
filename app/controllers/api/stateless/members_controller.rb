@@ -19,10 +19,14 @@ module Api
       end
 
       def create
-        member = MemberWithAuthentication.create(permitted_params)
+        builder = MemberWithAuthentication.create(permitted_params)
 
         respond_to do |format|
-          format.json {  render json: member }
+          if builder.valid?
+            format.json {  render json: builder.member }
+          else
+            format.json { render json: { errors: builder.errors.messages }, status: 422 }
+          end
         end
       end
 
