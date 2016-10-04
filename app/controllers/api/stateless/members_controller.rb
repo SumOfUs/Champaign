@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 module Api
   module Stateless
     class MembersController < StatelessController
-      before_filter :authenticate_request!
+      before_filter :authenticate_request!, except: [:create]
 
       def show
         @current_member
@@ -17,10 +18,30 @@ module Api
         end
       end
 
+      def create
+        member = MemberWithAuthentication.create(permitted_params)
+
+        respond_to do |format|
+          format.json {  render json: member }
+        end
+      end
+
       private
 
       def permitted_params
-        params.require(:member).permit(:first_name, :last_name, :email, :country, :city, :postal, :address1, :address2)
+        params
+          .require(:member)
+          .permit(:first_name,
+                  :last_name,
+                  :name,
+                  :email,
+                  :country,
+                  :city,
+                  :postal,
+                  :address1,
+                  :address2,
+                  :password,
+                  :password_confirmation)
       end
 
       def update_on_ak(member)
