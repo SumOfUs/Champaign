@@ -30,19 +30,14 @@ class MemberAuthenticationBuilder
     {
       member: member,
       password: @password,
-      password_confirmation: @password_confirmation,
-      token: secure_token
+      password_confirmation: @password_confirmation
     }
-  end
-
-  def secure_token
-    @secure_token ||= SecureRandom.base64(24)
   end
 
   def send_confirmation_email
     ConfirmationMailer.confirmation_email(
       email: member.email,
-      token: secure_token,
+      token: auth_record.reload.token,
       language: @language_code
     ).deliver_now
   end

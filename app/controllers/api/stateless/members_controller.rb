@@ -21,11 +21,18 @@ module Api
       def create
         builder = MemberWithAuthentication.create(permitted_params)
 
-        respond_to do |format|
-          if builder.valid?
-            format.json { render json: builder.member }
-          else
+        if builder.errors.any?
+          respond_to do |format|
             format.json { render json: { errors: builder.errors.messages }, status: 422 }
+          end
+        else
+          ConfirmationMailer.confirmation_email(
+            email: builder.member.email,
+            token: builder.authentication.token
+          ).deliver_now
+
+          respond_to do |format|
+            format.json { render json: builder.member }
           end
         end
       end
@@ -37,15 +44,10 @@ module Api
           .require(:member)
           .permit(:first_name,
                   :last_name,
-                  :name,
-                  :email,
-                  :country,
-                  :city,
-                  :postal,
-                  :address1,
-                  :address2,
-                  :password,
-                  :password_confirmation)
+                  :name, :email,
+                  :country, :city,
+                  :postal, :address1, :address2,
+                  :password, :password_confirmation)
       end
 
       def update_on_ak(member)
