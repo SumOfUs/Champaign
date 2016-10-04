@@ -180,7 +180,7 @@ describe 'API::Stateless Members' do
           post api_stateless_members_path, member: member_params.except(:email), format: :json
 
           body = JSON.parse(response.body).deep_symbolize_keys
-          expect(body).to eq({errors: {email: ["can't be blank"]}})
+          expect(body).to eq(errors: { email: ["can't be blank"] })
         end
       end
     end
