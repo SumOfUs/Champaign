@@ -23,7 +23,7 @@ module Api
 
         respond_to do |format|
           if builder.valid?
-            format.json {  render json: builder.member }
+            format.json { render json: builder.member }
           else
             format.json { render json: { errors: builder.errors.messages }, status: 422 }
           end
