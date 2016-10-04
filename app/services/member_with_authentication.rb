@@ -47,6 +47,7 @@ class MemberWithAuthentication
   end
 
   def cannot_be_already_authenticated
+    pp existing_member && existing_member.authentication
     errors.add(:authentication, 'already exists') if existing_member && existing_member.authentication
   end
 
