@@ -20,6 +20,8 @@ class MemberAuthentication < ActiveRecord::Base
   validates :member_id, uniqueness: true, presence: true
   validates :password, length: { minimum: 6 }, allow_nil: true
 
+  before_create :set_token
+
   belongs_to :member
 
   def facebook_oauth
@@ -28,5 +30,11 @@ class MemberAuthentication < ActiveRecord::Base
       oauth_token: facebook_token,
       oauth_token_expiry: facebook_token_expiry
     }
+  end
+
+  private
+
+  def set_token
+    self.token = SecureRandom.base64(24)
   end
 end
