@@ -6,8 +6,7 @@ class ConfirmationMailer < ApplicationMailer
   #   en.confirmation_mailer.confirmation_email.subject
   #
   def confirmation_email(email:, language: 'en', token:)
-    @language_code = language
-    @token = token
+    @confirmation_url = email_confirmation_url(host: Settings.host, token: token, email: email, language: language)
 
     mail to: email,
          subject: t('confirmation_mailer.confirmation_email.subject')

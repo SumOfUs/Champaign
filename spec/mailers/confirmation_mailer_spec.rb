@@ -21,7 +21,7 @@ describe ConfirmationMailer do
       end
 
       it 'has confirmation link' do
-        expected = %r{http://actions.example.com/email_confirmation\?language=EN&amp;token=123}
+        expected = %r{http://actions.example.com/email_confirmation\?email=test%40example.com&amp;language=EN&amp;token=123}
         expect(subject).to match(expected)
       end
     end
@@ -36,7 +36,8 @@ describe ConfirmationMailer do
       end
 
       it 'has confirmation link' do
-        expected = %r{http://actions.example.com/email_confirmation\?language=EN&amp;token=123}
+        expected = %r{http://actions.example.com/email_confirmation\?email=test%40example.com&amp;language=EN&amp;token=123}
+
         expect(subject).to match(expected)
       end
     end
