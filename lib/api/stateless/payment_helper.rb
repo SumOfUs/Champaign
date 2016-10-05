@@ -6,7 +6,7 @@ module Api
         module_function
 
         def customer(member)
-          ::Payment::Braintree::Customer.find_by!(member_id: member.id)
+          ::Payment::Braintree::Customer.find_or_initialize_by(member_id: member.id)
         end
 
         def payment_methods_for_member(member)
@@ -34,7 +34,7 @@ module Api
         module_function
 
         def customer(member)
-          ::Payment::GoCardless::Customer.find_by!(member_id: member.id)
+          ::Payment::GoCardless::Customer.find_or_initialize_by(member_id: member.id)
         end
 
         def transactions_for_member(member)
