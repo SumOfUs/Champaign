@@ -5,6 +5,7 @@ class MemberAuthenticationsController < ApplicationController
 
   def new
     @page = Page.find params[:page_id]
+    @title = I18n.t('member_registration.title')
 
     ## FIXME seed and fetch from DB
     #
