@@ -42,7 +42,7 @@ fr:
     oneclick:
       credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (FR)"
       paypal_payment_method: "Paypal (%{email}) (FR)"
-      change_payment_method: "Change payment method (FR)"
+      new_payment_method: "Add a new payment method (FR)"
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
       one_time: "Vous souhaitez donner %{amount} à SumOfUs."

@@ -193,6 +193,7 @@
 
   &__submit-one-click {
     margin-top: 15px;
+    float: left;
   }
 
   &__toggle-payment-method-container {
@@ -201,11 +202,7 @@
   }
 
   &__toggle-payment-method {
-    display: block;
-    padding-top: 10px;
-    text-align: center;
-    font-size: 0.9em;
-    font-weight: bold;
+    @extend .fundraiser-bar__clear-form
   }
 
   &__one-click-title {
@@ -213,8 +210,7 @@
   }
 
   &__payment-methods {
-    background-color: #fafafa;
-    padding: 16px;
+    @extend .fundraiser-bar__welcome-text
   }
 
 }
