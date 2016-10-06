@@ -10,11 +10,11 @@ module Api
         end
 
         def payment_methods_for_member(member)
-          customer(member).payment_methods.order('created_at desc')
+          customer(member).payment_methods.stored.order('created_at desc')
         end
 
         def payment_method_for_member(member:, id:)
-          customer(member).payment_methods.find(id)
+          payment_methods_for_member(member).find(id)
         end
 
         def subscriptions_for_member(member)
