@@ -24,6 +24,7 @@ class MemberAuthenticationsController < ApplicationController
     )
 
     if auth.valid?
+      flash[:notice] = I18n.t('member_registration.check_email')
       render js: "window.location = '#{follow_up_page_path(params[:page_id])}'"
     else
       render json: { errors: auth.errors }, status: 422
