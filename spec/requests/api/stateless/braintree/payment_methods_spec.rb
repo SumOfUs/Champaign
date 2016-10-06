@@ -6,7 +6,7 @@ describe 'API::Stateless Braintree PaymentMethods' do
   include AuthToken
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
-  let!(:method_a) { create(:payment_braintree_payment_method, customer: customer) }
+  let!(:method_a) { create(:payment_braintree_payment_method, :stored, customer: customer) }
   let!(:method_b) { create(:payment_braintree_payment_method, customer: customer) }
 
   before :each do
@@ -19,6 +19,12 @@ describe 'API::Stateless Braintree PaymentMethods' do
   end
 
   describe 'GET index' do
+    it 'returns stored payment methods for member' do
+      get '/api/stateless/braintree/payment_methods', nil, auth_headers
+
+      expect(json_hash.length).to eq(1)
+    end
+
     it 'returns payment methods for member' do
       get '/api/stateless/braintree/payment_methods', nil, auth_headers
 
