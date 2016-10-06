@@ -17,6 +17,7 @@ const Sidebar = Backbone.View.extend({
     }
     GlobalEvents.bindEvents(this);
     this.policeHeights();
+    window.setTimeout(this.policeHeights.bind(this), 200); // give sticky time to init
   },
 
   isSticky: function() {
