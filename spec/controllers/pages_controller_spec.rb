@@ -110,8 +110,49 @@ describe PagesController do
     end
   end
 
+  shared_examples 'show and follow-up' do
+    it 'finds campaign page' do
+      subject
+      expect(Page).to have_received(:find).with('1')
+    end
+
+    it 'assigns @data to personalization_data' do
+      subject
+      expect(assigns(:data)).to eq(renderer.personalization_data)
+    end
+
+    it 'assigns campaign' do
+      subject
+      expect(assigns(:rendered)).to eq(renderer.render)
+    end
+
+    it 'redirects to homepage if user not logged in and page unpublished' do
+      allow(controller).to receive(:user_signed_in?) { false }
+      allow(page).to receive(:published?) { false }
+      expect(subject).to redirect_to(Settings.homepage_url)
+    end
+
+    it 'does not redirect to homepage if user not logged in and page published' do
+      allow(controller).to receive(:user_signed_in?) { false }
+      allow(page).to receive(:published?) { true }
+      expect(subject).not_to be_redirect
+    end
+
+    it 'does not redirect to homepage if user logged in and page unpublished' do
+      allow(controller).to receive(:user_signed_in?) { true }
+      allow(page).to receive(:published?) { false }
+      expect(subject).not_to be_redirect
+    end
+
+    it 'does not redirect to homepage if user logged in and page published' do
+      allow(controller).to receive(:user_signed_in?) { true }
+      allow(page).to receive(:published?) { true }
+      expect(subject).not_to be_redirect
+    end
+  end
+
   describe 'GET #show' do
-    subject { page }
+    subject { get :show, id: '1' }
 
     before do
       allow(Page).to            receive(:find) { page }
@@ -119,13 +160,10 @@ describe PagesController do
       allow(LiquidRenderer).to  receive(:new) { renderer }
     end
 
-    it 'finds campaign page' do
-      get :show, id: '1'
-      expect(Page).to have_received(:find).with('1')
-    end
+    include_examples 'show and follow-up'
 
     it 'instantiates a LiquidRenderer and calls render' do
-      get :show, id: '1'
+      subject
 
       expect(LiquidRenderer).to have_received(:new).with(page,
                                                          location: {},
@@ -135,43 +173,9 @@ describe PagesController do
       expect(renderer).to have_received(:render)
     end
 
-    it 'assigns @data to personalization_data' do
-      get :show, id: '1'
-      expect(assigns(:data)).to eq(renderer.personalization_data)
-    end
-
     it 'renders show template' do
-      get :show, id: '1'
+      subject
       expect(response).to render_template :show
-    end
-
-    it 'assigns campaign' do
-      get :show, id: '1'
-      expect(assigns(:rendered)).to eq(renderer.render)
-    end
-
-    it 'redirects to homepage if user not logged in and page unpublished' do
-      allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?) { false }
-      expect(get(:show, id: '1')).to redirect_to(Settings.homepage_url)
-    end
-
-    it 'does not redirect to homepage if user not logged in and page published' do
-      allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?) { true }
-      expect(get(:show, id: '1')).not_to be_redirect
-    end
-
-    it 'does not redirect to homepage if user logged in and page unpublished' do
-      allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?) { false }
-      expect(get(:show, id: '1')).not_to be_redirect
-    end
-
-    it 'does not redirect to homepage if user logged in and page published' do
-      allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?) { true }
-      expect(get(:show, id: '1')).not_to be_redirect
     end
 
     it 'redirects to homepage if page is not found' do
@@ -212,80 +216,75 @@ describe PagesController do
       allow(LiquidRenderer).to receive(:new) { renderer }
     end
 
-    subject { get :follow_up, id: '1' }
+    shared_examples 'follow-up without redirect' do
+      it 'uses main liquid layout if no follow up set' do
+        allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
+        subject
+        expect(LiquidRenderer).to have_received(:new).with(page,
+                                                           location: {},
+                                                           member: member,
+                                                           layout: page.liquid_layout,
+                                                           url_params: url_params)
+      end
 
-    it 'finds campaign page' do
-      subject
-      expect(Page).to have_received(:find).with('1')
+      it 'instantiates a LiquidRenderer and calls render' do
+        subject
+        expect(LiquidRenderer).to have_received(:new).with(page,
+                                                           location: {},
+                                                           member: member,
+                                                           layout: page.follow_up_liquid_layout,
+                                                           url_params: url_params)
+        expect(renderer).to have_received(:render)
+      end
+
+      it 'renders follow_up template' do
+        subject
+        expect(response).to render_template :follow_up
+      end
+
+      it 'raises 404 if page is not found' do
+        subject
+        allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        expect { get :follow_up, id: '1000000' }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
 
-    it 'uses main liquid layout if no follow up set' do
-      allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
-      subject
-      expect(LiquidRenderer).to have_received(:new).with(page,
-                                                         location: {},
-                                                         member: nil,
-                                                         layout: page.liquid_layout,
-                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
+    describe 'with no recognized member' do
+      subject { get :follow_up, id: '1' }
+
+      let(:url_params) { { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' } }
+      let(:member) { nil }
+
+      include_examples 'show and follow-up'
+      include_examples 'follow-up without redirect'
     end
 
-    it 'instantiates a LiquidRenderer and calls render' do
-      subject
-      expect(LiquidRenderer).to have_received(:new).with(page,
-                                                         location: {},
-                                                         member: nil,
-                                                         layout: page.follow_up_liquid_layout,
-                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
-      expect(renderer).to have_received(:render)
+    describe 'with recognized member' do
+      let(:member) { create :member }
+
+      before :each do
+        allow(cookies).to receive(:signed).and_return({member_id: member.id})
+      end
+
+      describe 'and member_id' do
+        subject { get :follow_up, id: '1', member_id: member.id }
+
+        let(:url_params) { { 'member_id' => member.id.to_s, 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' } }
+
+        include_examples 'show and follow-up'
+        include_examples 'follow-up without redirect'
+      end
+
+      describe 'and no member_id' do
+        subject { get :follow_up, id: '1' }
+
+        it 'redirects to the same route with member id set' do
+          subject
+          expect(response).to redirect_to follow_up_member_facing_page_path(1, member_id: member.id)
+        end
+
+      end
     end
 
-    it 'renders follow_up template' do
-      subject
-      expect(response).to render_template :follow_up
-    end
-
-    it 'assigns @data to personalization_data' do
-      subject
-      expect(assigns(:data)).to eq(renderer.personalization_data)
-    end
-
-    it 'assigns campaign' do
-      subject
-      expect(assigns(:rendered)).to eq(renderer.render)
-    end
-
-    it 'redirects to homepage if user not logged in and page unpublished' do
-      subject
-      allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?) { false }
-      expect(get(:follow_up, id: '1')).to redirect_to(Settings.homepage_url)
-    end
-
-    it 'does not redirect to homepage if user not logged in and page published' do
-      subject
-      allow(controller).to receive(:user_signed_in?) { false }
-      allow(page).to receive(:published?) { true }
-      expect(get(:follow_up, id: '1')).not_to be_redirect
-    end
-
-    it 'does not redirect to homepage if user logged in and page unpublished' do
-      subject
-      allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?) { false }
-      expect(get(:follow_up, id: '1')).not_to be_redirect
-    end
-
-    it 'does not redirect to homepage if user logged in and page published' do
-      subject
-      allow(controller).to receive(:user_signed_in?) { true }
-      allow(page).to receive(:published?) { true }
-      expect(get(:follow_up, id: '1')).not_to be_redirect
-    end
-
-    it 'raises 404 if page is not found' do
-      subject
-      allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-      expect { get :follow_up, id: '1000000' }.to raise_error(ActiveRecord::RecordNotFound)
-    end
   end
 end

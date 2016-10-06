@@ -5,6 +5,7 @@ const GlobalEvents = require('shared/global_events');
 const ActionForm = Backbone.View.extend({
 
   el: 'form.action-form',
+  HIDDEN_FIELDS: ['source', 'akid', 'referrer_id', 'bucket'],
 
   events: {
     'click .action-form__clear-form': 'clearForm',
@@ -23,11 +24,12 @@ const ActionForm = Backbone.View.extend({
   //    outstandingFields: the names of step 2 form fields that aren't satisfied by
   //      the values in the member hash.
   //    member: an object with fields that will prefill the form
+  //    referrer_id: if passed, submitted to the server in the form
+  //    bucket: if passed, submitted to the server in the form
   //    location: a hash of location values inferred from the user's request
   //    skipPrefill: boolean, will not prefill if true
   initialize(options={}) {
-    this.insertActionKitId(options.akid);
-    this.insertSource(options.source);
+    this.insertHiddenFields(options);
     if (!options.skipPrefill) {
       this.prefillAsPossible(options);
     }
@@ -136,15 +138,12 @@ const ActionForm = Backbone.View.extend({
     $('.action-form__welcome-text').removeClass('hidden-irrelevant');
   },
 
-  insertActionKitId(akid) {
-    if(akid && this.$el) {
-      this.insertHiddenInput('akid', akid, this.$el)
-    }
-  },
-
-  insertSource(source) {
-    if(source && this.$el) {
-      this.insertHiddenInput('source', source, this.$el)
+  insertHiddenFields(options) {
+    for(var ii = 0; ii < this.HIDDEN_FIELDS.length; ii++) {
+      let field = this.HIDDEN_FIELDS[ii];
+      if(options[field] && this.$el) {
+        this.insertHiddenInput(field, options[field], this.$el);
+      }
     }
   },
 
@@ -163,8 +162,8 @@ const ActionForm = Backbone.View.extend({
     }
   },
 
-  handleSuccess(){
-    Backbone.trigger('form:submitted');
+  handleSuccess(e, data){
+    Backbone.trigger('form:submitted', e, data);
   },
 
   handleFailure(e, data) {

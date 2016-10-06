@@ -17,6 +17,10 @@ module ActionQueue
       @page ||= @action.page
     end
 
+    def data
+      @action.form_data.symbolize_keys
+    end
+
     def country(iso_code)
       (ISO3166::Country.search(iso_code).try(:translations) || {})['en']
     end
@@ -62,15 +66,12 @@ module ActionQueue
       }.merge(UserLanguageISO.for(page.language))
     end
 
-    def data
-      @action.form_data.symbolize_keys
-    end
-
     def action_fields
       @action_fields ||= {}.tap do |fields|
         data.keys.select { |k| k =~ /^action_/ }.each do |key|
           fields[key] = data[key]
         end
+        fields[:action_bucket] = data[:bucket] if data.has_key? :bucket
       end
     end
   end
@@ -106,10 +107,12 @@ module ActionQueue
         type: 'action',
         params: {
           page: get_page_name
-        }
-          .merge(@action.form_data)
+        }.merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
-          .tap { |params| params[:country] = country(member.country) if member.country.present? }
+          .tap do |params|
+            params[:country] = country(member.country) if member.country.present?
+            params[:action_bucket] = data[:bucket] if data.has_key? :bucket
+          end
       }.deep_symbolize_keys
     end
   end

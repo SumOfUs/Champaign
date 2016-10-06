@@ -123,7 +123,9 @@
           location:          chmp.personalization.location,
           akid:              chmp.personalization.urlParams.akid,
           source:            chmp.personalization.urlParams.source,
-          prefill:          true
+          referrer_id:       chmp.personalization.urlParams.referrer_id,
+          bucket:            chmp.personalization.urlParams.bucket,
+          prefill:           true
         });
         chmp.myFundraiser = new chmp.Fundraiser({
           pageId:           "{{ id }}",
