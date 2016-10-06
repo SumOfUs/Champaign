@@ -26,12 +26,12 @@ en:
     fine_print: "" # override this with org-specific details in your own yml file.
     confirmation: Donation received
     donate_now: Donate now
-    donate_with: "Donate with:"
     loading: Loading secure <br> payment portal
     oneclick:
+      select_payment: "Select a saved payment method"
       credit_card_payment_method: "My %{card_type} ending in %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
-      change_payment_method: "Change payment method"
+      new_payment_method: "Use a different payment method?"
     debit:
       recurring: "You are setting up a monthly donation of %{amount}"
       one_time: "You are donating %{amount}"
