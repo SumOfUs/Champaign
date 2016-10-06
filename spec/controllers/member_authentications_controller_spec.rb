@@ -22,6 +22,10 @@ describe MemberAuthenticationsController do
       it 'returns with js snippet to redirect' do
         expect(response.body).to match("window.location = '/pages/1/follow-up'")
       end
+
+      it 'sets flash notice' do
+        expect(flash[:notice]).to match(/click the confirmation link/)
+      end
     end
 
     context 'unsuccessfully creates authentication' do

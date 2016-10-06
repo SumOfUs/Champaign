@@ -1,0 +1,6 @@
+- if flash[:notice]
+  .notification
+    span.message
+      = flash[:notice].html_safe
+    span.close{onclick="this.parentNode.style.display = 'none';"}
+      i.fa.fa-close
