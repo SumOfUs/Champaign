@@ -9,16 +9,19 @@
   }
 
   .registration-form {
-    margin-top: 20px;
+    margin: 20px auto;
+    max-width: 300px;
 
-    input {
-      border: 1px solid #999;
-      margin-top: 5px;
-      line-height: normal;
+    &__submit-button {
+      margin-top: 15px;
     }
 
-    .error-msg {
-      padding-top: 0.5em;
+    input, select, textarea {
+      border-color: $overcast-gray;
+      &.has-error {
+        border-color: $orange;
+      }
     }
+
   }
 }
