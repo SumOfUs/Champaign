@@ -10,7 +10,7 @@ class PaymentMethodsView extends Backbone.View {
 
     _.bindAll(this, 'render');
 
-    this.template = _.template($('#payment-method-collection-template').html());
+    this.loadTemplate();
     this.itemsContainer = '#payment-methods-collection';
 
     this.collection.bind('reset', this.render);
@@ -18,12 +18,26 @@ class PaymentMethodsView extends Backbone.View {
     this.render();
   }
 
+  loadTemplate() {
+    if (this.collection.length === 1) {
+      var templateSelector = '#payment-method-single-template'
+    } else {
+      var templateSelector = '#payment-method-collection-template'
+    }
+    this.template = _.template($(templateSelector).html());
+  }
+
   render() {
     if (!this.collection.length) {
       return this.$el.empty();
     }
 
-    this.$el.html(this.template());
+    if (this.collection.length === 1) {
+      this.$el.html(this.template(this.collection.models[0].attributes));  
+    } else {
+      this.$el.html(this.template());
+    }
+    
 
     const $itemsContainer = this.$el.find(this.itemsContainer);
 
