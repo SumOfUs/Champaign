@@ -20,10 +20,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     link rel="canonical" href=canonical_url
 
   body
+    = render partial: 'layouts/notification'
     = yield
 
     .mobile-indicator
 
     script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
-
-
