@@ -28,6 +28,6 @@ class Plugins::FormsController < ApplicationController
   end
 
   def permitted_params
-    params.permit(:plugin_id, :plugin_type, :master_id, :form_id)
+    params.permit(:plugin_id, :plugin_type, :master_id)
   end
 end

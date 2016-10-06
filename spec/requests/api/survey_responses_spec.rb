@@ -8,11 +8,10 @@ describe "api/pages/:id/survey_responses", type: :request do
   describe "POST survey_responses" do
     context "given the form is valid" do
       let(:params) do
-        { survey_response: {
-            phone: "1234567",
-            country: "AR",
-            form_id: form.id
-          }
+        {
+          phone: "1234567",
+          country: "AR",
+          form_id: form.id
         }
       end
 
@@ -34,11 +33,10 @@ describe "api/pages/:id/survey_responses", type: :request do
 
     context "given the form is invalid" do
       let(:params) do
-        { survey_response: {
-            phone: 'wrong phone',
-            country: 'AR',
-            form_id: form.id
-          }
+        {
+          phone: 'wrong phone',
+          country: 'AR',
+          form_id: form.id
         }
       end
 
@@ -52,10 +50,9 @@ describe "api/pages/:id/survey_responses", type: :request do
     context "given the form has an email address" do
       let!(:form) { create(:form_with_email, formable: plugins_survey) }
       let(:params) do
-        { survey_response: {
-            email: "a@test.com",
-            form_id: form.id
-          }
+        {
+          email: "a@test.com",
+          form_id: form.id
         }
       end
 
@@ -85,19 +82,17 @@ describe "api/pages/:id/survey_responses", type: :request do
       let(:form_2) { create(:form_with_email, formable: plugins_survey) }
 
       let(:form_params) do
-        { survey_response: {
-            phone: "1234567",
-            country: "AR",
-            form_id: form.id
-          }
+        {
+          phone: "1234567",
+          country: "AR",
+          form_id: form.id
         }
       end
 
       let(:form_2_params) do
-        { survey_response: {
-            email: "a@test.com",
-            form_id: form_2.id
-          }
+        {
+          email: "a@test.com",
+          form_id: form_2.id
         }
       end
 
