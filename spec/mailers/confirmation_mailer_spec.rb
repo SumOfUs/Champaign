@@ -15,7 +15,7 @@ describe ConfirmationMailer do
       subject { mail.html_part.body.to_s }
 
       it 'has a thank you message' do
-        expected = /Thank you for your donation/
+        expected = /Thank you for registering/
 
         expect(subject).to match(expected)
       end
@@ -31,7 +31,7 @@ describe ConfirmationMailer do
       subject { mail.text_part.body.to_s }
 
       it 'has a thank you message' do
-        expected = /Thank you for your donation/
+        expected = /Thank you for registering/
 
         expect(subject).to match(expected)
       end
