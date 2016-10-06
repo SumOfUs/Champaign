@@ -70,6 +70,59 @@ describe PageFollower do
       end
     end
 
+    describe 'extra params' do
+      let(:plan) { :with_page }
+
+      describe 'are not in URL if the extra_params parameter' do
+        it 'is not passed' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+
+        it 'is nil' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, nil).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+
+        it 'is blank' do
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, ' ').follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+      end
+
+      describe 'when passed' do
+        it 'ignores unknown parameters' do
+          params = { herp: 'derp' }
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, params).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id)
+        end
+
+        it 'passes bucket through' do
+          params = { bucket: 'kick-it' }
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, params).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id, bucket: 'kick-it')
+        end
+
+        it 'passes member_id through' do
+          params = { member_id: 34 }
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, params).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id, member_id: 34)
+        end
+
+        it 'passes member_id through and ignores unknown parameters' do
+          params = {member_id: 34, foo: 'bar'}
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, params).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id, member_id: 34)
+        end
+
+        it 'passes bucket and member_id through' do
+          params = { bucket: 'kick-it', member_id: 45 }
+          result = PageFollower.new(plan, page_id, nil, follow_up_page_id, params).follow_up_path
+          expect(result).to eq member_facing_page_path(follow_up_page_id, member_id: 45, bucket: 'kick-it')
+        end
+      end
+    end
+
     describe 'plan is anything else' do
       it 'raises error if plan is :with_link' do
         expect do
@@ -100,7 +153,7 @@ describe PageFollower do
     it 'calls with page attributes' do
       allow(PageFollower).to receive(:new)
       PageFollower.new_from_page(page)
-      expect(PageFollower).to have_received(:new).with('with_liquid', 'astro-droid', 3, 'bleep-bloop')
+      expect(PageFollower).to have_received(:new).with('with_liquid', 'astro-droid', 3, 'bleep-bloop', nil)
     end
 
     it 'returns the instance for call chaining' do

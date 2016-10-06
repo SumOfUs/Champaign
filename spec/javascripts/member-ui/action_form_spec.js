@@ -245,6 +245,22 @@ describe("Action form", function() {
     });
   });
 
+  describe('adding referrer_id', function(){
+    var sourceFieldSelector = 'form.action-form input[type="hidden"][name="referrer_id"]';
+
+    it('adds a hidden field for source if source passed', function(){
+      expect($(sourceFieldSelector).length).to.eq(0);
+      suite.form = new window.champaign.ActionForm({referrer_id: '1234567890'});
+      expect($(sourceFieldSelector).length).to.eq(1);
+    });
+
+    it('does not add a hidden field if source not passed', function(){
+      expect($(sourceFieldSelector).length).to.eq(0);
+      suite.form = new window.champaign.ActionForm();
+      expect($(sourceFieldSelector).length).to.eq(0);
+    });
+  });
+
   describe('clearing prefill', function(){
 
     beforeEach(function(){

@@ -3,7 +3,14 @@
 require 'rails_helper'
 
 describe 'Braintree API' do
-  let(:page) { create(:page, title: 'Cash rules everything around me') }
+  let(:page) do
+    create(:page,
+            title: 'Cash rules everything around me',
+            follow_up_plan: :with_liquid,
+            follow_up_liquid_layout: follow_up_liquid_layout)
+  end
+  let(:follow_up_liquid_layout) { create :liquid_layout }
+  let(:follow_up_url) { "/a/cash-rules-everything-around-me/follow-up?member_id=#{Member.last.id}" }
   let(:form) { create(:form) }
   let(:four_digits) { /[0-9]{4}/ }
   let(:token_format) { /[a-z0-9]{1,36}/i }
@@ -213,11 +220,12 @@ describe 'Braintree API' do
               expect(member.donor_status).to eq 'donor'
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with follow_up_url and transaction_id' do
               subject
               transaction_id = Payment::Braintree::Transaction.last.transaction_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
 
@@ -277,11 +285,12 @@ describe 'Braintree API' do
               ))
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with follow_up_url and transaction_id' do
               subject
               transaction_id = Payment::Braintree::Transaction.last.transaction_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
         end
@@ -395,11 +404,12 @@ describe 'Braintree API' do
               expect(member.postal).to eq '11225'
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with follow_up_url and transaction_id' do
               subject
               transaction_id = Payment::Braintree::Transaction.last.transaction_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
 
@@ -457,11 +467,12 @@ describe 'Braintree API' do
               ))
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with follow_up_url and transaction_id' do
               subject
               transaction_id = Payment::Braintree::Transaction.last.transaction_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
         end
@@ -511,11 +522,12 @@ describe 'Braintree API' do
               expect(member.donor_status).to eq 'donor'
             end
 
-            it 'responds successfully with transaction_id' do
+            it 'responds successfully with follow_up_url and transaction_id' do
               subject
               transaction_id = Payment::Braintree::Transaction.last.transaction_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, transaction_id: transaction_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, transaction_id: transaction_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
         end
@@ -713,11 +725,12 @@ describe 'Braintree API' do
               expect(member.donor_status).to eq 'recurring_donor'
             end
 
-            it 'responds successfully with subscription_id' do
+            it 'responds successfully with follow_up_url and subscription_id' do
               subject
               subscription_id = Payment::Braintree::Subscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
 
@@ -769,11 +782,12 @@ describe 'Braintree API' do
               ))
             end
 
-            it 'responds successfully with subscription_id' do
+            it 'responds successfully with follow_up_url and subscription_id' do
               subject
               subscription_id = Payment::Braintree::Subscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
         end
@@ -901,11 +915,12 @@ describe 'Braintree API' do
               expect(member.postal).to eq '11225'
             end
 
-            it 'responds successfully with subscription_id' do
+            it 'responds successfully with follow_up_url and subscription_id' do
               subject
               subscription_id = Payment::Braintree::Subscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
 
@@ -954,11 +969,12 @@ describe 'Braintree API' do
               ))
             end
 
-            it 'responds successfully with subscription_id' do
+            it 'responds successfully with follow_up_url and subscription_id' do
               subject
               subscription_id = Payment::Braintree::Subscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
         end
@@ -1008,11 +1024,12 @@ describe 'Braintree API' do
               expect(member.donor_status).to eq 'recurring_donor'
             end
 
-            it 'responds successfully with subscription_id' do
+            it 'responds successfully with follow_up_url and subscription_id' do
               subject
               subscription_id = Payment::Braintree::Subscription.last.subscription_id
               expect(response.status).to eq 200
-              expect(response.body).to eq({ success: true, subscription_id: subscription_id }.to_json)
+              data = { success: true, follow_up_url: follow_up_url, subscription_id: subscription_id }
+              expect(response.body).to eq(data.to_json)
             end
           end
         end

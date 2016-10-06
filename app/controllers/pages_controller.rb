@@ -39,6 +39,15 @@ class PagesController < ApplicationController
   end
 
   def follow_up
+    # currently, we use ShareProgress to evaluate and track shares. The only method they
+    # have to allow us to tell who referred who is by adding URL parameters (in this case,
+    # member_id) to the url of the page that the share button is clicked on. The
+    # conditional below ensures that the member_id is present if it should be, but it is
+    # usually already included because of the logic to pass member_id to the follow_up_url
+    # returned when an action is taken.
+    if !params[:member_id].present? && recognized_member.try(:id).present?
+      return redirect_to follow_up_member_facing_page_path(@page.id, member_id: recognized_member.id)
+    end
     liquid_layout = @page.follow_up_liquid_layout || @page.liquid_layout
     render_liquid(liquid_layout, :follow_up)
   end

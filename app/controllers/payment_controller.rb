@@ -12,10 +12,12 @@ class PaymentController < ApplicationController
     if builder.success?
       write_member_cookie(builder.action.member_id) unless builder.action.blank?
       id = recurring? ? { subscription_id: builder.subscription_id } : { transaction_id: builder.transaction_id }
+      follow_up_params = params[:user].merge(member_id: builder.action.member_id)
+      follow_up_url = PageFollower.new_from_page(page, follow_up_params).follow_up_path
 
       respond_to do |format|
         format.html { redirect_to follow_up_page_path(page) }
-        format.json { render json: { success: true }.merge(id) }
+        format.json { render json: { success: true, follow_up_url: follow_up_url }.merge(id) }
       end
     else
       @errors = client::ErrorProcessing.new(builder.error_container, locale: locale).process

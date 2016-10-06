@@ -7,7 +7,14 @@ describe Api::Payment::BraintreeController do
     allow(MobileDetector).to receive(:detect).and_return(action_mobile: 'mobile')
   end
 
-  let(:page) { instance_double('Page') }
+  let(:page) do
+    instance_double('Page',
+      follow_up_plan: :with_liquid,
+      follow_up_liquid_layout_id: 4,
+      slug: 'asd-f',
+      follow_up_page: nil
+    )
+  end
   let(:action) { instance_double('Action', member_id: 79) }
 
   describe 'GET token' do
@@ -71,7 +78,11 @@ describe Api::Payment::BraintreeController do
         end
 
         it 'responds with subscription_id in JSON' do
-          expect(response.body).to eq({ success: true, subscription_id: 's1234' }.to_json)
+          expect(response.body).to eq({
+            success: true,
+            follow_up_url: '/a/asd-f/follow-up?member_id=79',
+            subscription_id: 's1234'
+          }.to_json)
         end
 
         it 'sets the member cookie' do
@@ -96,7 +107,11 @@ describe Api::Payment::BraintreeController do
         end
 
         it 'responds with transaction_id in JSON' do
-          expect(response.body).to eq({ success: true, transaction_id: 't1234' }.to_json)
+          expect(response.body).to eq({
+            success: true,
+            follow_up_url: '/a/asd-f/follow-up?member_id=79',
+            transaction_id: 't1234'
+          }.to_json)
         end
 
         it 'sets the member cookie' do
