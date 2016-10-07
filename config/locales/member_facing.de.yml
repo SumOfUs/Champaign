@@ -29,9 +29,10 @@ de:
     donate_with: "Donate with: (DE)"
     loading: Unser sicheres Spenden formular wird geladen
     oneclick:
-      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (DE)"
+      select_payment: "Select a saved payment method (DE)"
+      credit_card_payment_method: "%{card_type} ending in %{last_four_digits} (DE)"
       paypal_payment_method: "Paypal (%{email}) (DE)"
-      new_payment_method: "Add a new payment method (DE)"
+      new_payment_method: "Add payment method (DE)"
     debit:
       recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
       one_time: "Sie spenden %{amount} an SumOfUs"
