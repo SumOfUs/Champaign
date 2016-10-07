@@ -48,6 +48,7 @@ class FormValidator
     validate_email(value, form_element)
     validate_postal(value, form_element)
     validate_required(value, form_element)
+    validate_checkbox(value, form_element)
   end
 
   def validate_length(value, form_element)
@@ -60,6 +61,12 @@ class FormValidator
 
   def validate_required(value, form_element)
     return unless form_element[:required] && value.blank?
+    @errors[form_element[:name]] << I18n.t('validation.is_required')
+  end
+
+  def validate_checkbox(value, form_element)
+    return unless form_element[:data_type] == 'checkbox' && form_element[:required]
+    return if value.present? && !!value && value.to_s != '0'
     @errors[form_element[:name]] << I18n.t('validation.is_required')
   end
 
