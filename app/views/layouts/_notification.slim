@@ -1,6 +1,11 @@
 - if flash[:notice]
-  .notification
-    span.message
+  .notification.notification--hidden
+    span.notification__message
       = flash[:notice].html_safe
-    span.close{onclick="this.parentNode.style.display = 'none';"}
+    span.notification__close
       i.fa.fa-close
+
+  javascript:
+    $(document).ready(function(){
+      new window.champaign.Notification();
+    });
