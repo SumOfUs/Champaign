@@ -62,7 +62,9 @@ module ActionQueue
         akid:       data[:akid],
         postal:     data[:postal],
         address1:   data[:address1],
-        source:     data[:source]
+        source:     data[:source],
+        user_express_cookie: data[:store_in_vault] ? 1 : 0,
+        user_express_account: data[:express_account] ? 1 : 0
       }.merge(UserLanguageISO.for(page.language))
     end
 
@@ -175,7 +177,8 @@ module ActionQueue
         fields: action_fields.merge(
           action_account_number_ending:  data[:account_number_ending],
           action_mandate_reference:      data[:mandate_reference],
-          action_bank_name:              data[:bank_name]
+          action_bank_name:              data[:bank_name],
+          action_express_donation:       data[:express_donation] ? 1 : 0
         ),
         source: data[:source]
       }

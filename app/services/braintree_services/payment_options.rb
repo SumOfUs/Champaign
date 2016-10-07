@@ -30,6 +30,10 @@ module BraintreeServices
         .for_currency(params[:payment][:currency])
     end
 
+    def express_account?
+      authentication.present?
+    end
+
     def currency
       params[:payment][:currency]
     end
@@ -39,7 +43,11 @@ module BraintreeServices
     end
 
     def member
-      Member.find_by(email: params[:user][:email])
+      @member ||= Member.find_by(email: params[:user][:email])
+    end
+
+    def authentication
+      member.authentication
     end
 
     def page

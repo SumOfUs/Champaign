@@ -246,7 +246,9 @@ describe 'GoCardless API' do
                 last_name: 'Sanders',
                 akid: '123.456.789',
                 source: 'fb',
-                user_en: 1
+                user_en: 1,
+                user_express_cookie: 0,
+                user_express_account: 0
               ),
               action: {
                 source: 'fb',
@@ -411,7 +413,9 @@ describe 'GoCardless API' do
                 last_name: 'Sanders',
                 akid: '123.456.789',
                 source: 'fb',
-                user_en: 1
+                user_en: 1,
+                user_express_cookie: 0,
+                user_express_account: 0
               },
               action: {
                 source: 'fb',
