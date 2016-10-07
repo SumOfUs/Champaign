@@ -14,9 +14,9 @@
     <script type="text/javascript">
       $(document).ready(function(){
         window.champaign.mySurvey = new window.champaign.Survey({
-          member:           window.sumofus.personalization.member,
-          location:         window.sumofus.personalization.location,
-          source:           window.sumofus.personalization.urlParams.source,
+          member:           window.champaign.personalization.member,
+          location:         window.champaign.personalization.location,
+          source:           window.champaign.personalization.urlParams.source,
           followUpUrl:      "{{ follow_up_url }}"
         });
       });
