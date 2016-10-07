@@ -54,5 +54,11 @@ FactoryGirl.define do
       name      'comment'
       data_type 'paragraph'
     end
+
+    trait :checkbox do
+      label     'I agree'
+      name      'agrees'
+      data_type 'checkbox'
+    end
   end
 end

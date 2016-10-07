@@ -49,6 +49,40 @@ describe FormValidator do
       end
     end
 
+    context 'with checkbox as data_type' do
+      let!(:element) { create :form_element, :checkbox, form: form, required: true, name: 'action_box_agrees' }
+      let(:params) { {} }
+
+      it 'is valid with value 1' do
+        params[:action_box_agrees] = 1
+        expect(subject).to be_valid
+      end
+
+      it 'is valid with string value' do
+        params[:action_box_agrees] = 'true'
+        expect(subject).to be_valid
+      end
+
+      it 'is invalid when nil' do
+        params[:action_box_agrees] = nil
+        expect(subject).not_to be_valid
+      end
+
+      it 'is invalid when not included' do
+        expect(subject).not_to be_valid
+      end
+
+      it 'is invalid when number 0' do
+        params[:action_box_agrees] = 0
+        expect(subject).not_to be_valid
+      end
+
+      it 'is invalid when string 0' do
+        params[:action_box_agrees] = '0'
+        expect(subject).not_to be_valid
+      end
+    end
+
     context 'with email as data_type' do
       let!(:element) { create :form_element, :email, form: form }
       let(:params) { { email: 'foo@example.com' } }
