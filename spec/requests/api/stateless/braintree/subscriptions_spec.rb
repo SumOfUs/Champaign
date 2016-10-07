@@ -60,7 +60,7 @@ describe 'API::Stateless Braintree Subscriptions' do
                                                        instrument_type: 'credit card',
                                                        token: '2ewruo4i5o3',
                                                        last_4: '2454',
-                                                       expiration_date: nil,
+                                                       expiration_date: '12/2050',
                                                        bin: nil,
                                                        email: customer.email,
                                                        card_type: 'Mastercard')

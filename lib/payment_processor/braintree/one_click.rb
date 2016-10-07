@@ -14,21 +14,27 @@ module PaymentProcessor::Braintree
 
       if payment_options.recurring?
         sale = make_subscription
+
         store_subscription_locally(sale) if sale.success?
       else
         sale = make_sale
+
         store_sale_locally(sale) if sale.success?
       end
     end
 
     private
 
-    def create_action
+    def create_action(_extra = {})
       ManageAction.create(
         params_for_action.merge(params[:user])
           .merge(params[:payment])
           .merge(page_id: params[:page_id])
-          .merge(action_express_donation: 1),
+          .merge(action_express_donation: 1,
+                 store_in_vault: true,
+                 express_account: payment_options.express_account?,
+                 card_num: payment_options.payment_method.last_4,
+                 card_expiration_date: payment_options.payment_method.expiration_date),
         extra_params: { donation: true },
         skip_counter: true,
         skip_queue: false

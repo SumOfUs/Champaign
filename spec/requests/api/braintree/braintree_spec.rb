@@ -119,30 +119,29 @@ describe 'Express Donation' do
       expect(payment_method.customer).to eq(customer)
     end
 
-    # What's the status on this regarding the comment below? Why do we want to push outside of ActionBuilder?
-    it 'posts a donation to the queue with action_express_donation custom field - FIXME' do
-      # We want to post to queue, but outside of the action builder
+    it 'posts a donation to the queue with action_express_donation custom field' do
       expect(ChampaignQueue).to have_received(:push)
-        .with(hash_including(type: 'donation',
-                             payment_provider: 'braintree',
-                             params: {
-                               donationpage: {
-                                 name: 'hello-world-donation',
-                                 payment_account: 'Braintree GBP'
-                               },
-                               order: hash_including(amount: '2.0'),
-                               action: {
-                                 source: nil,
-                                 fields: {
-                                   action_express_donation: 1
-                                 }
-                               },
-                               user: hash_including(
-                                 first_name: 'John',
+        .with(
+          type: 'donation',
+          payment_provider: 'braintree',
+          params: {
+            donationpage: {
+              name: 'hello-world-donation',
+              payment_account: 'Braintree GBP'
+            },
+            order: hash_including(amount: '2.0',
+                                  card_num: '1234',
+                                  exp_date_month: '12',
+                                  exp_date_year: '2050'),
+            action: hash_including(fields: hash_including(action_express_donation: 1)),
+            user: hash_including(first_name: 'John',
                                  last_name: 'Doe',
-                                 email: 'test@example.com'
-                               )
-                             }))
+                                 email: 'test@example.com',
+                                 user_express_cookie: 1,
+                                 user_express_account: 0)
+          },
+          meta: hash_including({})
+        )
     end
   end
 end
@@ -183,6 +182,9 @@ describe 'Braintree API' do
                    action_id: instance_of(Fixnum))
   end
 
+  let(:action_express_donation) { 0 }
+  let(:user_express_cookie) { 0 }
+
   let(:donation_push_params) do
     {
       type: 'donation',
@@ -210,14 +212,15 @@ describe 'Braintree API' do
           last_name: 'Sanders',
           akid: '1234.5678.9910',
           source: 'fb',
-          user_en: 1
+          user_en: 1,
+          user_express_cookie: user_express_cookie
         ),
         action: {
           source: 'fb',
           fields: hash_including(
             action_registered_voter: '1',
             action_mobile: 'desktop',
-            action_express_donation: 0
+            action_express_donation: action_express_donation
           )
         }
       }
@@ -288,13 +291,14 @@ describe 'Braintree API' do
                                    user: hash_including(
                                      first_name: 'Bernie',
                                      last_name: 'Sanders',
-                                     email: 'itsme@feelthebern.org'
+                                     email: 'itsme@feelthebern.org',
+                                     user_express_cookie: 0
                                    )
                                  }))
         end
       end
 
-      describe " with storing in Braintree's vault" do
+      describe "with storing in Braintree's vault" do
         let(:basic_params) do
           {
             currency: 'EUR',
@@ -304,6 +308,8 @@ describe 'Braintree API' do
             store_in_vault: true
           }
         end
+
+        let(:user_express_cookie) { 1 }
 
         context 'when Member exists' do
           let!(:member) { create :member, email: user_params[:email], postal: nil, actionkit_user_id: 'woo_actionkit' }
@@ -379,7 +385,7 @@ describe 'Braintree API' do
                 previous_token = customer.default_payment_method
                 previous_last_4 = customer.card_last_4
                 expect { subject }.to change { Payment::Braintree::Customer.count }.by 0
-                new_token = Payment::Braintree::PaymentMethod.last
+                Payment::Braintree::PaymentMethod.last
                 customer.reload
                 expect(customer.default_payment_method).to_not eq previous_token
                 expect(customer.default_payment_method).to eq Payment::Braintree::PaymentMethod.last
@@ -822,7 +828,9 @@ describe 'Braintree API' do
               last_name: 'Sanders',
               akid: '1234.5678.9910',
               source: 'fb',
-              user_en: 1
+              user_en: 1,
+              user_express_cookie: user_express_cookie,
+              user_express_account: 0
             },
             action: {
               source: 'fb',
