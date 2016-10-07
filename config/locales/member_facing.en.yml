@@ -29,9 +29,9 @@ en:
     loading: Loading secure <br> payment portal
     oneclick:
       select_payment: "Select a saved payment method"
-      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits}"
+      credit_card_payment_method: "%{card_type} ending in %{last_four_digits}"
       paypal_payment_method: "Paypal (%{email})"
-      new_payment_method: "Use a different payment method?"
+      new_payment_method: "Add payment method"
     debit:
       recurring: "You are setting up a monthly donation of %{amount}"
       one_time: "You are donating %{amount}"
