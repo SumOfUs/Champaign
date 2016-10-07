@@ -19,6 +19,7 @@
 require("<%= Settings.external_js_path %>");
 <% end %>
 
+window.sumofus = window.sumofus || {} // for legacy templates that reference window.sumofus
 window.champaign = window.champaign || window.sumofus || {};
 window.champaign.Petition      = require('member-facing/backbone/petition');
 window.champaign.Survey        = require('member-facing/backbone/survey');
