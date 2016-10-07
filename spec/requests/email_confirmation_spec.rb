@@ -19,17 +19,6 @@ describe 'Email Confirmation when signing up to express donations' do
       expect(response.body).to include('successfully confirmed your account')
       expect(auth.reload.confirmed_at).to_not be_nil
     end
-
-    it 'pushes a member update to the ActionKit queue' do
-      expect(ChampaignQueue).to receive(:push).with(type: 'update_member',
-                                                    params: {
-                                                      akid: 'actionkit_wohoo',
-                                                      fields: {
-                                                        express_account: 1
-                                                      }
-                                                    })
-      subject
-    end
   end
 
   context 'failure' do

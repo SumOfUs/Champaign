@@ -75,7 +75,7 @@ module PaymentProcessor
       end
 
       def record_in_local_database(payment_method, customer_result, subscription_result)
-        @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true)
+        @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: subscription_result, is_subscription: true, store_in_vault: @store_in_vault)
         customer = Payment::Braintree::BraintreeCustomerBuilder.build(customer_result.customer, payment_method, @action.member_id, existing_customer, store_in_vault: @store_in_vault)
 
         payment_method_id = customer.payment_methods.find_by(token: payment_method.token).id
