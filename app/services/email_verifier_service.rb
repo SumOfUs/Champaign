@@ -15,7 +15,6 @@ class EmailVerifierService
   def verify
     if verifier.success?
       bake_cookies
-      update_on_ak
       []
     else
       verifier.errors
@@ -23,18 +22,6 @@ class EmailVerifierService
   end
 
   private
-
-  def update_on_ak
-    ChampaignQueue.push(
-      type: 'update_member',
-      params: {
-        akid: @member.actionkit_user_id,
-        fields: {
-          express_account: 1
-        }
-      }
-    )
-  end
 
   def verifier
     @verifier ||= AuthTokenVerifier.new(@token, @member).verify
