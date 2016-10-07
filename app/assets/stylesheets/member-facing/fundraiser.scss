@@ -212,7 +212,20 @@
   &__payment-methods {
     @extend .fundraiser-bar__welcome-text
   }
-
+  #payment-methods-collection {
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .payment-method-item {
+    margin-left: 36px;
+    max-width: calc(100% - 36px);
+    font-size: 12px;
+    &__radio {
+      width: 12px;
+      position: relative;
+      top: 2px;
+    }
+  }
 }
 
 .sticky-wrapper {

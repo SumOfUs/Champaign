@@ -40,9 +40,10 @@ fr:
     donate_with: "Donate with: (FR)"
     loading: "Chargement du portail sécurisé de paiement"
     oneclick:
-      credit_card_payment_method: "My %{card_type} ending in %{last_four_digits} (FR)"
+      select_payment: "Select a saved payment method (FR)"
+      credit_card_payment_method: "%{card_type} ending in %{last_four_digits} (FR)"
       paypal_payment_method: "Paypal (%{email}) (FR)"
-      new_payment_method: "Add a new payment method (FR)"
+      new_payment_method: "Add payment method (FR)"
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
       one_time: "Vous souhaitez donner %{amount} à SumOfUs."
