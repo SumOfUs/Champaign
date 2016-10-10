@@ -90,7 +90,6 @@ class ApplicationController < ActionController::Base
   end
 
   def recognized_member
-    # FIXME
     @recognized_member ||= current_member ||
                            Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
