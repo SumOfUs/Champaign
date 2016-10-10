@@ -19,6 +19,8 @@ module Api
                    end
 
           @payment_method.destroy if result.success?
+
+          # TODO: return something else if `destroy` returns false.
           render json: { success: true }
         end
       end
