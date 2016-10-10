@@ -57,13 +57,13 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.pageId = options.pageId;
     this.directDebitOpened = false;
     this.displayDirectDebit(options.showDirectDebit);
-    this.updateButton();
 
     this.paymentMethods = new Backbone.Collection(options.paymentMethods || []);
     this.paymentMethodsView = new PaymentMethodsView({ collection: this.paymentMethods });
 
     this.setOneClickVisibility();
     this.initializeRecurring(options.recurringDefault);
+    this.updateButton();
 
     GlobalEvents.bindEvents(this);
 
