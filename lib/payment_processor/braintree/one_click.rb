@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module BraintreeServices
-  class OneClickService
+module PaymentProcessor::Braintree
+  class OneClick
     attr_reader :params, :payment_options
 
     def initialize(params)
@@ -51,11 +51,11 @@ module BraintreeServices
     end
 
     def store_sale_locally(sale)
-      TransactionBuilder.new(sale.transaction, payment_options).build
+      BraintreeServices::TransactionBuilder.new(sale.transaction, payment_options).build
     end
 
     def store_subscription_locally(sale)
-      SubscriptionBuilder.new(sale.subscription, payment_options).build
+      BraintreeServices::SubscriptionBuilder.new(sale.subscription, payment_options).build
     end
   end
 end
