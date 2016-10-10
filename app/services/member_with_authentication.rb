@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class MemberWithAuthentication
+  # Brings in Rails' validation API to allow easy validation.
   include ActiveModel::Model
 
   validates :password, length: { minimum: 6 }, allow_nil: true
