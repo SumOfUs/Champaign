@@ -16,7 +16,7 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def one_click
-    BraintreeServices::OneClickService.new(params).run
+    client::OneClick.new(params).run
     render json: { success: true }
   end
 
