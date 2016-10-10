@@ -336,17 +336,6 @@ describe 'Braintree API' do
                 expect(response.cookies['payment_methods']).to match(/\W+/)
               end
 
-              it 'updates the member as a cookie-based express donor on ActionKit' do
-                expect(ChampaignQueue).to receive(:push).with(type: 'update_member',
-                                                              params: {
-                                                                akid: 'woo_actionkit',
-                                                                fields: {
-                                                                  express_cookie: 1
-                                                                }
-                                                              })
-                subject
-              end
-
               it 'creates an Action associated with the Page and Member' do
                 expect { subject }.to change { Action.count }.by 1
                 expect(Action.last.page).to eq page
