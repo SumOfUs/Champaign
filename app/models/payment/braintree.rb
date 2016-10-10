@@ -5,7 +5,7 @@ module Payment::Braintree
       'payment_braintree_'
     end
 
-    # Why don't we have an options hash at the end?
+    # TODO: Why don't we have an options hash at the end?
     # def write_transaction(bt_result, page_id, member_id, existing_customer, options = {})
     def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault: false)
       BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer, store_in_vault: store_in_vault)

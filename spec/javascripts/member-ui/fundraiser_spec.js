@@ -261,7 +261,7 @@ describe("Fundraiser", function() {
       }
 
       beforeEach(function(){
-        suite.followUpUrl = `/api/member_authentication/new?page_id=1&email=`;
+        suite.followUpUrl = '/api/member_authentication/new?page_id=1&email=';
         suite.callback = sinon.spy();
       });
 
