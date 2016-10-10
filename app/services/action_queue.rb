@@ -196,6 +196,10 @@ module ActionQueue
     def get_payment_account
       "GoCardless #{data[:currency]}"
     end
+
+    def user_data
+      super.except(:user_express_cookie, :user_express_account)
+    end
   end
 
   class DonationAction
