@@ -165,7 +165,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   setDonationAmount(amount) {
     let parsed = parseFloat(amount);
-    if (parsed > 0){
+    if (parsed > 0) {
       this.donationAmount = parsed;
       this.updateButton();
     } else {
@@ -311,18 +311,20 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   onOneClickSuccess() {
-    if ( this.memberShouldRegister() )
+    if ( this.memberShouldRegister() ) {
       this.followRedirect(this.registrationPath(window.champaign.personalization.member.email));
-    else
+    } else {
       this.followRedirect(this.followUpUrl);
+    }
   },
 
   transactionSuccess() {
     const user = this.serializeUserForm();
     let url = this.followUpUrl;
 
-    if ( this.memberShouldRegister() )
+    if ( this.memberShouldRegister() ) {
       url = this.registrationPath(user.email);
+    }
 
     this.followRedirect(url);
   },
@@ -384,10 +386,11 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   readRecurring() {
-    if(this.oneClickShowing())
+    if(this.oneClickShowing()) {
       return !!this.$('input.fundraiser-bar__recurring-one-click').prop('checked');
-    else
+    } else {
       return !!this.$('input.fundraiser-bar__recurring').prop('checked');
+    }
   },
 
   readRecurringOneClick() {
