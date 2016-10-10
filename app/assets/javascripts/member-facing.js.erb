@@ -12,6 +12,8 @@
 //= require shared/pub_sub
 //= require shared/show_errors
 
+//= require member-facing/registration
+
 // external assets
 <% if Settings.external_js_path.present? %>
 require("<%= Settings.external_js_path %>");
@@ -27,14 +29,3 @@ window.champaign.Sidebar       = require('member-facing/backbone/sidebar');
 window.champaign.Notification  = require('member-facing/backbone/notification');
 window.champaign.CampaignerOverlay     = require('member-facing/backbone/campaigner_overlay');
 window.champaign.BraintreeHostedFields = require('member-facing/backbone/braintree_hosted_fields');
-
-
-
-// FIXME: Create and move to file.
-const ErrorDisplay = require('shared/show_errors');
-
-$(function(){
-  $('form.registration-form').on('ajax:error', function(e, xhr){
-    ErrorDisplay.show(e, xhr);
-  })
-});
