@@ -205,7 +205,7 @@ describe("Fundraiser", function() {
         });
 
         it('hides the recurring box', function(){
-          expect($('input.fundraiser-bar__recurring').parents('.form__group')).to.have.class('hidden-irrelevant');
+          expect($('input.fundraiser-bar__recurring').parents('.form__group .checkbox-label')).to.have.class('hidden-irrelevant');
         });
 
         it('adds "/ month" the button text', function(){
