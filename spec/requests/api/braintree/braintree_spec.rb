@@ -235,6 +235,46 @@ describe 'Braintree API' do
 
   describe 'making a transaction' do
     context 'successfully' do
+      describe 'making multiple transactions on the same page' do
+        let(:first_donation) do
+          {
+            currency: 'EUR',
+            payment_method_nonce: 'fake-valid-nonce',
+            recurring: false,
+            amount: 2.00,
+            store_in_vault: false,
+            user: user_params
+          }
+        end
+        let(:second_donation) do
+          {
+            currency: 'EUR',
+            payment_method_nonce: 'fake-valid-nonce',
+            recurring: false,
+            amount: 5.00,
+            store_in_vault: false,
+            user: user_params
+          }
+        end
+
+        subject do
+          post api_payment_braintree_transaction_path(page.id), first_donation
+          post api_payment_braintree_transaction_path(page.id), second_donation
+        end
+
+        it 'creates a transaction for each payment' do
+          VCR.use_cassette('braintree_multiple_transactions') do
+            expect(Action.all.count).to eq 0
+            expect(Payment::Braintree::Transaction.all.count).to eq 0
+            subject
+            expect(Action.all.count).to eq 2
+            expect(Payment::Braintree::Transaction.all.count).to eq 2
+            # expect{subject}.to change{Action.all.count}.from(0).to(2)
+            # expect{subject}.to change{Payment::Braintree::Transaction.all.count}.from(0).to(2)
+          end
+        end
+      end
+
       describe "without storing in Braintree's vault" do
         let(:params) do
           {
