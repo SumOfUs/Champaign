@@ -310,17 +310,17 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       .then(this.onOneClickSuccess.bind(this), this.onOneClickFailed.bind(this));
   },
 
-  onOneClickSuccess() {
+  onOneClickSuccess(e, data) {
     if ( this.memberShouldRegister() ) {
       this.followRedirect(this.registrationPath(window.champaign.personalization.member.email));
     } else {
-      this.followRedirect(this.followUpUrl);
+      this.followRedirect((data && data.follow_up_url) || this.followUpUrl);
     }
   },
 
-  transactionSuccess() {
+  transactionSuccess(e, data) {
     const user = this.serializeUserForm();
-    let url = this.followUpUrl;
+    let url = (data && data.follow_up_url) || this.followUpUrl;
 
     if ( this.memberShouldRegister() ) {
       url = this.registrationPath(user.email);
