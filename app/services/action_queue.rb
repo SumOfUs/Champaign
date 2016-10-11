@@ -35,10 +35,10 @@ module ActionQueue
           title:      page.title,
           uri:        "/a/#{page.slug}",
           slug:       page.slug,
-          first_name: member.first_name,
-          last_name:  member.last_name,
+          first_name: member.try(:first_name),
+          last_name:  member.try(:last_name),
           created_at: @action.created_at,
-          country:    country(member.country),
+          country:    country(member.try(:country)),
           action_id:  @action.id,
           subscribed_member: @action.subscribed_member
         }
@@ -79,20 +79,25 @@ module ActionQueue
   end
 
   class Pusher
-    def self.push(action)
-      if action.donation
-        if action.form_data.fetch('payment_provider', '').inquiry.go_cardless?
-          DirectDebitAction.push(action)
+    def self.push(event, action)
+      case event
+      when :new_action
+        if action.donation
+          if action.form_data.fetch('payment_provider', '').inquiry.go_cardless?
+            NewDirectDebitAction.push(action)
+          else
+            NewDonationAction.push(action)
+          end
         else
-          DonationAction.push(action)
+          NewPetitionAction.push(action)
         end
-      else
-        PetitionAction.push(action)
+      when :new_survey_response
+        NewSurveyResponse.push(action)
       end
     end
   end
 
-  class PetitionAction
+  class NewPetitionAction
     include Donatable
     include Enqueable
 
@@ -112,14 +117,23 @@ module ActionQueue
         }.merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
           .tap do |params|
-            params[:country] = country(member.country) if member.country.present?
+            params[:country] = country(member.country) if member.try(:country).present?
             params[:action_bucket] = data[:bucket] if data.key? :bucket
           end
       }.deep_symbolize_keys
     end
   end
 
-  class DirectDebitAction
+  #TODO Refactor
+  class NewSurveyResponse < NewPetitionAction
+    def payload
+      super.tap do |p|
+        p[:type] = 'new_survey_response'
+      end
+    end
+  end
+
+  class NewDirectDebitAction
     include Enqueable
     include Donatable
 
@@ -202,7 +216,7 @@ module ActionQueue
     end
   end
 
-  class DonationAction
+  class NewDonationAction
     include Enqueable
     include Donatable
 
