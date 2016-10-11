@@ -36,10 +36,10 @@ describe MemberAuthentication do
   end
 
   context 'password authentication' do
-    subject { create(:member_authentication) }
+    subject { create(:member_authentication, confirmed_at: Time.now) }
 
     it 'is able to authenticate a password (via `has_secure_password`)' do
-      expect(subject.authenticate('password')).to eq(subject)
+      expect(subject.authenticate('password')).to be(true)
       expect(subject.authenticate('invalid_password')).to be(false)
     end
   end
