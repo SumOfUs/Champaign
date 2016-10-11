@@ -110,7 +110,7 @@ describe PageFollower do
         end
 
         it 'passes member_id through and ignores unknown parameters' do
-          params = {member_id: 34, foo: 'bar'}
+          params = { member_id: 34, foo: 'bar' }
           result = PageFollower.new(plan, page_id, nil, follow_up_page_id, params).follow_up_path
           expect(result).to eq member_facing_page_path(follow_up_page_id, member_id: 34)
         end

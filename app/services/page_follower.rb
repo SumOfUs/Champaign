@@ -2,13 +2,13 @@
 class PageFollower
   include Rails.application.routes.url_helpers
 
-  PARAMS_TO_PASS = [:member_id, :bucket]
+  PARAMS_TO_PASS = [:member_id, :bucket].freeze
 
-  def self.new_from_page(page, extra_params=nil)
+  def self.new_from_page(page, extra_params = nil)
     new(page.follow_up_plan, page.slug, page.follow_up_liquid_layout_id, page.follow_up_page.try(:slug), extra_params)
   end
 
-  def initialize(plan, page_slug, follow_up_liquid_layout_id, follow_up_page_slug, extra_params=nil)
+  def initialize(plan, page_slug, follow_up_liquid_layout_id, follow_up_page_slug, extra_params = nil)
     @plan = plan
     @page_slug = page_slug
     @follow_up_page_slug = follow_up_page_slug
@@ -44,7 +44,7 @@ class PageFollower
     return @url_params if @url_params.present?
     @url_params = {}.tap do |ps|
       PARAMS_TO_PASS.each do |key|
-        ps[key] = @extra_params[key] if @extra_params.has_key?(key)
+        ps[key] = @extra_params[key] if @extra_params.key?(key)
       end
     end
   end

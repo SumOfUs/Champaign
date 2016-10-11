@@ -45,7 +45,7 @@ describe Api::ActionsController do
       end
 
       it 'responds with an empty hash' do
-        expect(response.body).to eq({follow_up_url: '/asdf?member_id=12345'}.to_json)
+        expect(response.body).to eq({ follow_up_url: '/asdf?member_id=12345' }.to_json)
       end
 
       it 'sets the cookie' do
