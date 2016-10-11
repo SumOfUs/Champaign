@@ -32,6 +32,10 @@ class MemberAuthentication < ActiveRecord::Base
     }
   end
 
+  def authenticate(password)
+    confirmed_at.present? && super(password).present?
+  end
+
   private
 
   def set_token

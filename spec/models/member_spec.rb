@@ -181,16 +181,24 @@ describe Member do
       end
     end
 
-    context 'when a member has a password authentication' do
-      before do
+    context 'when a member has an unconfirmed authentication' do
+      it 'returns `false`' do
         member.create_authentication(password: 'password')
+
+        expect(member.authenticate('password')).to be(false)
+      end
+    end
+
+    context 'when a member has a  confirmed authentication' do
+      before do
+        member.create_authentication(password: 'password', confirmed_at: Time.now)
       end
 
-      it 'returns the `:authentication` record when the password matches' do
-        expect(member.authenticate('password')).to be_a(MemberAuthentication)
+      it 'returns `true` when the password matches' do
+        expect(member.authenticate('password')).to be(true)
       end
 
-      it 'returns the `false` record when the password does not match' do
+      it 'returns `false` when the password does not match' do
         expect(member.authenticate('invalid_password')).to be(false)
       end
 
