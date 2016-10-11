@@ -35,14 +35,16 @@ class Member < ActiveRecord::Base
   enum donor_status: [:nondonor, :donor, :recurring_donor]
 
   def self.find_from_request(akid: nil, id: nil)
-    actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
-
-    if actionkit_user_id
-      member = where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first
-      return member if member.present?
-    end
-
+    member = find_by_akid(akid)
+    return member if member.present?
     id.present? ? find_by(id: id) : nil
+  end
+
+  def self.find_by_akid(akid)
+    actionkit_user_id = AkidParser.parse(akid, Settings.action_kit.akid_secret)[:actionkit_user_id]
+    if actionkit_user_id.present?
+      where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first
+    end
   end
 
   def name
