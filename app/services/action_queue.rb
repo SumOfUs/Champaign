@@ -73,7 +73,7 @@ module ActionQueue
         data.keys.select { |k| k =~ /^action_/ }.each do |key|
           fields[key] = data[key]
         end
-        fields[:action_bucket] = data[:bucket] if data.has_key? :bucket
+        fields[:action_bucket] = data[:bucket] if data.key? :bucket
       end
     end
   end
@@ -113,7 +113,7 @@ module ActionQueue
           .merge(UserLanguageISO.for(page.language))
           .tap do |params|
             params[:country] = country(member.country) if member.country.present?
-            params[:action_bucket] = data[:bucket] if data.has_key? :bucket
+            params[:action_bucket] = data[:bucket] if data.key? :bucket
           end
       }.deep_symbolize_keys
     end
