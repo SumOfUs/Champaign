@@ -8,7 +8,7 @@ require 'net/http'
 
 module ChampaignQueue
   module Clients
-    class Direct
+    class HTTP
       class << self
         def push(params)
           new(params).push
@@ -20,7 +20,7 @@ module ChampaignQueue
       end
 
       def push
-        return false if ak_processor_url.blank?
+        raise "Champaign queue http URL not set" if queue_http_url.blank?
 
         Net::HTTP.start(uri.host, uri.port) do |http|
           http.post(uri.path, @params.to_query)
@@ -34,11 +34,11 @@ module ChampaignQueue
       private
 
       def uri
-        URI(ak_processor_url)
+        URI(queue_http_url)
       end
 
-      def ak_processor_url
-        Settings.ak_processor_url
+      def queue_http_url
+        Settings.champaign_queue_http_url
       end
     end
   end

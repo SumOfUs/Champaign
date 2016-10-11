@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe ChampaignQueue::Clients::Direct do
+describe ChampaignQueue::Clients::HTTP do
   before do
-    Settings.ak_processor_url = 'http://example.com/message'
+    Settings.champaign_queue_http_url = 'http://example.com/message'
   end
 
   before do
@@ -12,7 +12,7 @@ describe ChampaignQueue::Clients::Direct do
   end
 
   it 'posts directly to ActionKit worker' do
-    ChampaignQueue::Clients::Direct.push(foo: :bar)
+    ChampaignQueue::Clients::HTTP.push(foo: :bar)
     expect(@stub).to have_been_requested
   end
 end
