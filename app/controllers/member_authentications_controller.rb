@@ -39,7 +39,7 @@ class MemberAuthenticationsController < ApplicationController
   end
 
   def page
-    @page ||= Page.find(params[:id])
+    @page ||= Page.find(params[:page_id])
   end
 
   def redirect_signed_up_members
