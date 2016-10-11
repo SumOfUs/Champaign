@@ -25,7 +25,8 @@ class MemberAuthenticationsController < ApplicationController
 
     if auth.valid?
       flash[:notice] = I18n.t('member_registration.check_email')
-      render js: "window.location = '#{follow_up_page_path(params[:page_id])}'"
+      path = follow_up_member_facing_page_path(page.slug, member_id: auth.member_id)
+      render js: "window.location = '#{path}'"
     else
       render json: { errors: auth.errors }, status: 422
     end
@@ -35,6 +36,10 @@ class MemberAuthenticationsController < ApplicationController
 
   def member
     @member ||= Member.find_by(id: cookies.signed[:member_id], email: params[:email])
+  end
+
+  def page
+    @page ||= Page.find(params[:id])
   end
 
   def redirect_signed_up_members
