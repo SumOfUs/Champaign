@@ -13,7 +13,6 @@ class PaymentController < ApplicationController
 
   def process_and_render_success
     write_member_cookie(builder.action.member_id) unless builder.action.blank?
-    id = recurring? ? { subscription_id: builder.subscription_id } : { transaction_id: builder.transaction_id }
 
     if store_in_vault?
       result = BraintreeServices::PaymentResult.new(builder.result)
@@ -30,7 +29,7 @@ class PaymentController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to follow_up_page_path(page) }
-      format.json { render json: { success: true }.merge(id).merge(follow_up(builder)) }
+      format.json { render json: { success: true }.merge(follow_up).merge(id_for_response) }
     end
   end
 
@@ -71,9 +70,17 @@ class PaymentController < ApplicationController
     page.try(:language).try(:code)
   end
 
-  def follow_up(builder)
+  def follow_up
     follow_up_params = params[:user].merge(member_id: builder.action.member_id)
     follow_up_url = PageFollower.new_from_page(page, follow_up_params).follow_up_path
     { follow_up_url: follow_up_url }
+  end
+
+  def id_for_response
+    if recurring?
+      { subscription_id: builder.subscription_id }
+    else
+      { transaction_id: builder.transaction_id }
+    end
   end
 end
