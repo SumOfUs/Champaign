@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe 'Express Donation' do
-  let(:page) { create(:page, slug: 'hello-world', title: 'Hello World') }
+  let!(:page) { create(:page, slug: 'hello-world', title: 'Hello World') }
   let(:form) { create(:form) }
 
   let(:member) { create(:member, email: 'test@example.com') }
@@ -13,6 +13,37 @@ describe 'Express Donation' do
 
   before do
     allow(ChampaignQueue).to receive(:push)
+  end
+
+  describe 'making multiple transactions on the same page' do
+    subject do
+      body = {
+        payment: {
+          amount: 2.00,
+          payment_method_id: payment_method.id,
+          currency: 'GBP',
+          recurring: false
+        },
+        user: {
+          form_id: form.id,
+          email:   'test@example.com',
+          name:    'John Doe'
+        },
+        page_id: page.id
+      }
+      post api_payment_braintree_one_click_path(page.id), body
+      post api_payment_braintree_one_click_path(page.id), body
+    end
+
+    it 'creates an action and a transaction for each payment' do
+      VCR.use_cassette('express_donation_multiple_transactions') do
+        expect(Action.all.count).to eq 0
+        expect(Payment::Braintree::Transaction.all.count).to eq 0
+        subject
+        expect(Action.all.count).to eq 2
+        expect(Payment::Braintree::Transaction.all.count).to eq 2
+      end
+    end
   end
 
   describe 'subscription' do
@@ -269,8 +300,6 @@ describe 'Braintree API' do
             subject
             expect(Action.all.count).to eq 2
             expect(Payment::Braintree::Transaction.all.count).to eq 2
-            # expect{subject}.to change{Action.all.count}.from(0).to(2)
-            # expect{subject}.to change{Payment::Braintree::Transaction.all.count}.from(0).to(2)
           end
         end
       end
