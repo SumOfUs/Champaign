@@ -5,7 +5,7 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
-  let(:page) { instance_double('Page', published?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
+  let(:page) { instance_double('Page', published?: true, featured?: true, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data' }) }
 
   include_examples 'session authentication'
@@ -284,7 +284,7 @@ describe PagesController do
 
         it 'redirects to the same route with member id set' do
           subject
-          expect(response).to redirect_to follow_up_member_facing_page_path(1, member_id: member.id)
+          expect(response).to redirect_to follow_up_member_facing_page_path(page, member_id: member.id)
         end
       end
     end
