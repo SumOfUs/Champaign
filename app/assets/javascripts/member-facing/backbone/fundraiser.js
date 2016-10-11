@@ -37,6 +37,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   //    followUpUrl: the url to redirect to after success
   //    submissionCallback: a function to call after success, receives the
   //      arguments received by the ajax call posting the donation
+  //    member: an object for an existing member. registered and email fields are used
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    showDirectDebit: boolean, whether to show the direct debit option
@@ -51,6 +52,11 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.followUpUrl = options.followUpUrl;
     if (typeof options.submissionCallback === 'function') {
       this.submissionCallback = options.submissionCallback;
+    }
+    if (typeof options.member === 'object') {
+      this.member = options.member;
+    } else {
+      this.member = {};
     }
 
     this.initializeSkipping(options);
@@ -299,6 +305,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     if (this.submissionCallback) {
       this.submissionCallback(data, status);
     }
+    return data;
   },
 
   submitOneClick(event) {
@@ -310,19 +317,19 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       .then(this.onOneClickSuccess.bind(this), this.onOneClickFailed.bind(this));
   },
 
-  onOneClickSuccess(e, data) {
+  onOneClickSuccess(data) {
     if ( this.memberShouldRegister() ) {
-      this.followRedirect(this.registrationPath(window.champaign.personalization.member.email));
+      this.followRedirect(this.registrationPath(this.member.email));
     } else {
       this.followRedirect((data && data.follow_up_url) || this.followUpUrl);
     }
   },
 
-  transactionSuccess(e, data) {
-    const user = this.serializeUserForm();
+  transactionSuccess(data) {
     let url = (data && data.follow_up_url) || this.followUpUrl;
 
     if ( this.memberShouldRegister() ) {
+      const user = this.serializeUserForm();
       url = this.registrationPath(user.email);
     }
 
@@ -420,7 +427,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     // If we have no redirect URL or submission callback,
     // we display a thank you message
     if (!url && !this.submissionCallback) {
-      alert(I18n.t('fundraiser.thank_you'));
+      window.alert(I18n.t('fundraiser.thank_you'));
       return;
     }
 
@@ -457,7 +464,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   memberRegistered() {
-    return window.champaign.personalization.member.registered;
+    return this.member.registered;
   },
 
   memberShouldRegister() {
