@@ -43,16 +43,6 @@ describe MemberWithAuthentication do
       expect(builder.errors[:email].first).to eq("can't be blank")
     end
 
-    it 'on blank country' do
-      builder = MemberWithAuthentication.create(valid_params.except(:country))
-      expect(builder.errors[:country].first).to eq("can't be blank")
-    end
-
-    it 'on blank country' do
-      builder = MemberWithAuthentication.create(valid_params.except(:country))
-      expect(builder.errors[:country].first).to eq("can't be blank")
-    end
-
     it 'on non-matching passwords' do
       params = valid_params.merge(password: 'somethingelse')
       builder = MemberWithAuthentication.create(params)
