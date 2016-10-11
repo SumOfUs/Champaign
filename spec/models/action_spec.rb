@@ -41,15 +41,15 @@ describe Action do
   end
 
   describe 'scopes' do
-    let!(:donation_action) { create(:action, page_id: page.id, member_id: member.id, donation: true)  }
-    let!(:non_donation_action) { create(:action, page_id: page.id, member_id: member.id, donation: false)  }
+    let!(:donation_action) { create(:action, page_id: page.id, member_id: member.id, donation: true) }
+    let!(:non_donation_action) { create(:action, page_id: page.id, member_id: member.id, donation: false) }
     describe 'donation' do
       it 'lists only donation actions' do
         expect(Action.donation).to match([donation_action])
       end
     end
     describe 'not_donation' do
-      it 'lists only actions that are not donations'do
+      it 'lists only actions that are not donations' do
         expect(Action.not_donation).to match([non_donation_action])
       end
     end
