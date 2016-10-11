@@ -5,7 +5,7 @@ class MemberWithAuthentication
   include ActiveModel::Model
 
   validates :password, length: { minimum: 6 }, allow_nil: true
-  validates :email, :country, presence: true
+  validates :email, presence: true
   validate  :cannot_be_already_authenticated, :cannot_have_non_matching_passwords
 
   attr_accessor(:first_name,
