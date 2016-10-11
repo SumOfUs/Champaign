@@ -116,17 +116,6 @@ describe PagesController do
       expect(Page).to have_received(:find).with('1')
     end
 
-    it 'instantiates a LiquidRenderer and calls render' do
-      subject
-      expect(LiquidRenderer).to have_received(:new).with(page,
-                                                         location: {},
-                                                         member: nil,
-                                                         layout: page.liquid_layout,
-                                                         payment_methods: [],
-                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'show' })
-      expect(renderer).to have_received(:render)
-    end
-
     it 'assigns @data to personalization_data' do
       subject
       expect(assigns(:data)).to eq(renderer.personalization_data)
@@ -183,6 +172,18 @@ describe PagesController do
       expect(get(:show, id: '1000000')).to redirect_to(Settings.home_page_url)
     end
 
+    it 'instantiates a LiquidRenderer and calls render' do
+      subject
+      url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'show' }
+      expect(LiquidRenderer).to have_received(:new).with(page,
+                                                         location: {},
+                                                         member: nil,
+                                                         payment_methods: [],
+                                                         layout: page.liquid_layout,
+                                                         url_params: url_params)
+      expect(renderer).to have_received(:render)
+    end
+
     context 'on pages with localization' do
       let(:french_page)  { instance_double(Page, valid?: true, published?: true, language: language,         id: '42', liquid_layout: '5') }
       let(:english_page) { instance_double(Page, valid?: true, published?: true, language: default_language, id: '66', liquid_layout: '5') }
@@ -232,20 +233,22 @@ describe PagesController do
         subject
         expect(LiquidRenderer).to have_received(:new).with(page,
                                                            location: {},
-                                                           member: nil,
+                                                           member: anything,
                                                            layout: page.liquid_layout,
                                                            payment_methods: [],
-                                                           url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
+                                                           url_params: anything)
       end
 
       it 'instantiates a LiquidRenderer and calls render' do
         subject
+        url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' }
+        url_params.merge!({'member_id' => member.id.to_s}) if member.present?
         expect(LiquidRenderer).to have_received(:new).with(page,
                                                            location: {},
-                                                           member: nil,
+                                                           member: member,
                                                            payment_methods: [],
                                                            layout: page.follow_up_liquid_layout,
-                                                           url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' })
+                                                           url_params: url_params)
         expect(renderer).to have_received(:render)
       end
     end
