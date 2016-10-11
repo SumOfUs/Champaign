@@ -217,7 +217,6 @@ describe ActionBuilder do
   describe 'action_referrer_email' do
     let(:base_params) { { page_id: page.id, email: member.email } }
     describe 'is not added if referrer_id' do
-
       it 'is not included' do
         action = MockActionBuilder.new(base_params).build_action
         expect(action.form_data.keys).not_to include('action_referrer_email')
@@ -229,7 +228,7 @@ describe ActionBuilder do
       end
 
       it "is an id of a member that doesn't exist" do
-        action = MockActionBuilder.new(base_params.merge(referrer_id: 1234567890)).build_action
+        action = MockActionBuilder.new(base_params.merge(referrer_id: 1_234_567_890)).build_action
         expect(action.form_data.keys).not_to include('action_referrer_email')
       end
 

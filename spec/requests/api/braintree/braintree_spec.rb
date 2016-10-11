@@ -149,9 +149,9 @@ end
 describe 'Braintree API' do
   let(:page) do
     create(:page,
-            title: 'Cash rules everything around me',
-            follow_up_plan: :with_liquid,
-            follow_up_liquid_layout: follow_up_liquid_layout)
+           title: 'Cash rules everything around me',
+           follow_up_plan: :with_liquid,
+           follow_up_liquid_layout: follow_up_liquid_layout)
   end
   let(:follow_up_liquid_layout) { create :liquid_layout }
   let(:follow_up_url) { "/a/cash-rules-everything-around-me/follow-up?member_id=#{Member.last.id}" }

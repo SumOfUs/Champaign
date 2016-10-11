@@ -9,11 +9,10 @@ describe Api::Payment::BraintreeController do
 
   let(:page) do
     instance_double('Page',
-      follow_up_plan: :with_liquid,
-      follow_up_liquid_layout_id: 4,
-      slug: 'asd-f',
-      follow_up_page: nil
-    )
+                    follow_up_plan: :with_liquid,
+                    follow_up_liquid_layout_id: 4,
+                    slug: 'asd-f',
+                    follow_up_page: nil)
   end
   let(:action) { instance_double('Action', member_id: 79) }
 

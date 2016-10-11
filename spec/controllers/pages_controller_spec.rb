@@ -242,7 +242,7 @@ describe PagesController do
       it 'instantiates a LiquidRenderer and calls render' do
         subject
         url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' }
-        url_params.merge!({'member_id' => member.id.to_s}) if member.present?
+        url_params['member_id'] = member.id.to_s if member.present?
         expect(LiquidRenderer).to have_received(:new).with(page,
                                                            location: {},
                                                            member: member,
@@ -267,7 +267,7 @@ describe PagesController do
       let(:member) { create :member }
 
       before :each do
-        allow(cookies).to receive(:signed).and_return({member_id: member.id})
+        allow(cookies).to receive(:signed).and_return(member_id: member.id)
       end
 
       describe 'and member_id' do
@@ -286,9 +286,7 @@ describe PagesController do
           subject
           expect(response).to redirect_to follow_up_member_facing_page_path(1, member_id: member.id)
         end
-
       end
     end
-
   end
 end

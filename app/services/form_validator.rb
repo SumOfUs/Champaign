@@ -66,7 +66,7 @@ class FormValidator
 
   def validate_checkbox(value, form_element)
     return unless form_element[:data_type] == 'checkbox' && form_element[:required]
-    return if value.present? && !!value && value.to_s != '0'
+    return if value.present? && !value.nil? && value.to_s != '0'
     @errors[form_element[:name]] << I18n.t('validation.is_required')
   end
 
