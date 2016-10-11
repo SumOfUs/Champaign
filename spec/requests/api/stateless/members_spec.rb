@@ -172,7 +172,7 @@ describe 'API::Stateless Members' do
         post api_stateless_members_path, member: member_params, format: :json
 
         expect(response.body).to eq(member.to_json)
-        expect(member.authenticate('password')).to be_kind_of(MemberAuthentication)
+        expect(member.authentication).to be_a(MemberAuthentication)
       end
     end
 

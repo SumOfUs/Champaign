@@ -8,7 +8,7 @@ describe 'API::Stateless Authentication' do
   let(:member) { create :member }
 
   before :each do
-    member.create_authentication(password: 'password')
+    member.create_authentication(password: 'password', confirmed_at: Time.now)
   end
 
   context 'Password Authentication' do
