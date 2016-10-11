@@ -12,7 +12,7 @@ module ActionBuilder
       subscribed_member: subscribed_member
     }.merge(extra_attrs))
 
-    ActionQueue::Pusher.push(action) unless @skip_queue
+    ActionQueue::Pusher.push(:new_action, action) unless @skip_queue
     Analytics::Page.increment(page.id, new_member: subscribed_member) unless @skip_counter
 
     action
