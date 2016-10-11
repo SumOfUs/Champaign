@@ -12,7 +12,7 @@ module ActionBuilder
       subscribed_member: subscribed_member
     }.merge(extra_attrs))
 
-    ActionQueue::Pusher.push(action)
+    ActionQueue::Pusher.push(:new_action, action)
     Analytics::Page.increment(page.id, new_member: subscribed_member)
 
     action

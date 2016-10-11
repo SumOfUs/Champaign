@@ -11,7 +11,9 @@ class ManageSurveyResponse
   def run
     if @validator.valid?
       assign_member
+      update_member
       update_action
+      publish_event
     end
 
     @validator.valid?
@@ -23,9 +25,21 @@ class ManageSurveyResponse
 
   private
 
+  def sanitize_params(params, form)
+    params.slice(*form.form_elements.map(&:name).map(&:to_sym))
+  end
+
   def assign_member
-    if @params[:email].present?
-      @action.member = Member.find_or_create_by!(email: @params[:email])
+    @action.member ||= if @params[:akid].present?
+      Member.find_by_akid(@params[:akid])
+    elsif @params[:email].present?
+      Member.find_or_initialize_by(email: @params[:email])
+    end
+  end
+
+  def update_member
+    if @action.member.present?
+      MemberUpdater.run(@action.member, @params)
     end
   end
 
@@ -34,7 +48,7 @@ class ManageSurveyResponse
     @action.save!
   end
 
-  def sanitize_params(params, form)
-    params.slice(*form.form_elements.map(&:name).map(&:to_sym))
+  def publish_event
+    ActionQueue::Pusher.push(:new_survey_response, @action)
   end
 end
