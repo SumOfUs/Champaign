@@ -37,7 +37,6 @@ class PaymentMethodsView extends Backbone.View {
     } else {
       this.$el.html(this.template());
     }
-    
 
     const $itemsContainer = this.$el.find(this.itemsContainer);
 

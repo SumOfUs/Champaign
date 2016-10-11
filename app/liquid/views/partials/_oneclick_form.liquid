@@ -10,9 +10,16 @@
       <% } else if (instrument_type === 'paypal_account') {  %>
         <%= I18n.t('fundraiser.oneclick.paypal_payment_method', { email: email }) %>
       <% } %>
+
     </span> <br />
     <a href="javascript:;" class="fundraiser-bar__toggle-payment-method">{{ 'fundraiser.oneclick.new_payment_method' | t }}</a>
-    <div id="payment-methods-collection hidden-irrelevant"></div>
+    <div id="payment-methods-collection" class="hidden-irrelevant">
+      <input type="radio"
+            name="payment_method_id"
+            style='display:none;' checked="checked"
+            value="<%= id %>" />
+
+    </div>
   </div>
 
   <div class="form__group">
