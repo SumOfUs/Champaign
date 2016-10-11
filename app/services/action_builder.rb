@@ -44,20 +44,10 @@ module ActionBuilder
     return @user if @user.present?
     @user = existing_member || Member.new(email: @params[:email])
 
-    update_member_fields
-    update_donor_status
+    @params[:donor_status] = donor_status if donor_status.present?
+    MemberUpdater.run(@user, @params)
 
-    @user.save if @user.changed
     @user
-  end
-
-  def filtered_params
-    hash = @params.try(:to_unsafe_hash) || @params.to_h # for ActionController::Params
-    hash.symbolize_keys.compact.keep_if { |k| permitted_keys.include? k }
-  end
-
-  def permitted_keys
-    Member.new.attributes.keys.map(&:to_sym).reject! { |k| k == :id }
   end
 
   def page
@@ -66,19 +56,10 @@ module ActionBuilder
 
   private
 
-  def update_member_fields
-    ak_user_id = AkidParser.parse(@params[:akid], Settings.action_kit.akid_secret)[:actionkit_user_id]
-    @user.actionkit_user_id = ak_user_id unless ak_user_id.blank?
-
-    @user.name = @params[:name] if @params.key? :name
-    @user.assign_attributes(filtered_params)
-  end
-
-  def update_donor_status
+  def donor_status
     return unless is_donation?
     return if @user.recurring_donor?
-    new_status = is_recurring_donation? ? 'recurring_donor' : 'donor'
-    @user.donor_status = new_status
+    is_recurring_donation? ? 'recurring_donor' : 'donor'
   end
 
   def is_donation?
