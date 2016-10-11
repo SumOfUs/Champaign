@@ -301,6 +301,18 @@ describe("Fundraiser", function() {
           expect(callback.called).to.eq(true);
           suite.fundraiser.redirectTo.restore();
         });
+
+        it('redirects to passed followUpUrl if member is already registered', function(){
+          suite.fundraiser = new window.champaign.Fundraiser({
+            followUpUrl: '/not-used',
+            pageId: '1',
+            member: { registered: true, email: 'adsf@asdf.com' }
+          });
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
+          suite.fundraiser.redirectTo.restore();
+        });
       });
 
       describe('when store_in_vault is not checked', function() {
