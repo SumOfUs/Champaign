@@ -3,8 +3,8 @@ require 'rails_helper'
 
 describe MemberAuthenticationsController do
   describe 'POST create' do
-    let(:auth) { double('auth', valid?: true) }
-    let(:page) { double('page', page_id: '1', language: double('language', code: 'EN')) }
+    let(:auth) { double('auth', valid?: true, member_id: 34) }
+    let(:page) { double('page', slug: 'heyo', page_id: '1', language: double('language', code: 'EN')) }
 
     before do
       allow(MemberAuthenticationBuilder).to receive(:build) { auth }
@@ -19,8 +19,8 @@ describe MemberAuthenticationsController do
     end
 
     context 'successfully creates authentication' do
-      it 'returns with js snippet to redirect' do
-        expect(response.body).to match("window.location = '/pages/1/follow-up'")
+      it 'returns with js snippet to redirect that includes member id' do
+        expect(response.body).to match("window.location = '/a/heyo/follow-up?member_id=34'")
       end
 
       it 'sets flash notice' do
