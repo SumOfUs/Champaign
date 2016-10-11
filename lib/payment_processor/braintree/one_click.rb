@@ -11,10 +11,9 @@ module PaymentProcessor::Braintree
 
     def run
       sale = make_payment
-      if sale.success?
-        store_locally(sale)
-        create_action
-      end
+      return unless sale.success?
+      store_locally(sale)
+      create_action
     end
 
     private
