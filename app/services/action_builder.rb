@@ -20,13 +20,13 @@ module ActionBuilder
 
   def previous_action
     return nil unless existing_member?
-    @previous_action ||= Action.where(member: member, page_id: page).first
+    @previous_action ||= Action.not_donation.where(member: member, page_id: page).first
 
     # looks up other actions the user might have taken on this campaign
     if page.campaign.present? && @previous_action.blank?
       page.campaign.pages.each do |connected_page|
         next if connected_page.id == page.id
-        @previous_action ||= Action.where(member: member, page_id: connected_page.id).first
+        @previous_action ||= Action.not_donation.where(member: member, page_id: connected_page.id).first
       end
     end
     @previous_action

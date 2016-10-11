@@ -10,20 +10,30 @@ module PaymentProcessor::Braintree
     end
 
     def run
-      create_action
-
-      if payment_options.recurring?
-        sale = make_subscription
-
-        store_subscription_locally(sale) if sale.success?
-      else
-        sale = make_sale
-
-        store_sale_locally(sale) if sale.success?
+      sale = make_payment
+      if sale.success?
+        store_locally(sale)
+        create_action
       end
     end
 
     private
+
+    def make_payment
+      if payment_options.recurring?
+        make_subscription
+      else
+        make_sale
+      end
+    end
+
+    def store_locally(sale)
+      if payment_options.recurring?
+        store_subscription_locally(sale)
+      else
+        store_sale_locally(sale)
+      end
+    end
 
     def create_action(_extra = {})
       ManageAction.create(
