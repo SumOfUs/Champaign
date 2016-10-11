@@ -11,16 +11,15 @@ module Api
 
         def destroy
           @payment_method = PaymentHelper::Braintree.payment_method_for_member(member: @current_member, id: params[:id])
-
-          result = begin
-                     ::Braintree::PaymentMethod.delete(@payment_method.token)
-                   rescue ::Braintree::NotFoundError
-                     @payment_method.destroy
-                   end
-
-          @payment_method.destroy if result.success?
-
-          # TODO: return something else if `destroy` returns false.
+          result = ::Braintree::PaymentMethod.delete(@payment_method.token)
+          if result.success?
+            @payment_method.destroy
+            render json: @payment_method.slice(:id, :token)
+          else
+            render json: { success: false, errors: result.errors }
+          end
+        rescue ::Braintree::NotFoundError
+          @payment_method.destroy
           render json: { success: true }
         end
       end

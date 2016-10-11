@@ -34,22 +34,31 @@ describe 'API::Stateless Braintree PaymentMethods' do
   end
 
   describe 'DELETE destroy' do
-    let(:success_object) { double(success?: true) }
-    before do
-      allow(::Braintree::PaymentMethod).to receive(:delete) { success_object }
-      delete "/api/stateless/braintree/payment_methods/#{method_a.id}", nil, auth_headers
-    end
+    context 'success' do
+      let(:success_object) { double(success?: true) }
+      before do
+        allow(::Braintree::PaymentMethod).to receive(:delete) { success_object }
+        delete "/api/stateless/braintree/payment_methods/#{method_a.id}", nil, auth_headers
+      end
 
-    it 'destroys record locally' do
-      expect(response.status).to eq(200)
+      it 'destroys record locally' do
+        expect(response.status).to eq(200)
 
-      expect(
-        Payment::Braintree::PaymentMethod.exists?(id: method_a.id)
-      ).to be false
-    end
+        expect(
+          Payment::Braintree::PaymentMethod.exists?(id: method_a.id)
+        ).to be false
+      end
 
-    it 'destroys record from Braintree' do
-      expect(::Braintree::PaymentMethod).to have_received(:delete).with(method_a.token)
+      it 'destroys record from Braintree' do
+        expect(::Braintree::PaymentMethod).to have_received(:delete).with(method_a.token)
+      end
+
+      it 'renders json with the payment method id and token' do
+        expect(json_hash.with_indifferent_access).to match({
+                                    id: method_a.id,
+                                    token: method_a.token
+                                   })
+      end
     end
   end
 end
