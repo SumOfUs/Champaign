@@ -22,5 +22,5 @@ class Action < ActiveRecord::Base
 
   has_paper_trail on: [:update, :destroy]
   scope :donation, -> { where(donation: true) }
-  scope :not_donation, -> { where.not(id: donation) }
+  scope :not_donation, -> { where.not(donation: true) }
 end
