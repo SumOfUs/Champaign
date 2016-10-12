@@ -11,6 +11,9 @@ ActiveAdmin.register Member do
                 :address2,
                 :actionkit_member_id
 
+  index pagination_total: false
+  config.per_page = 20
+
   actions :all, except: [:destroy]
 
   sidebar 'Previous Versions', only: :show do

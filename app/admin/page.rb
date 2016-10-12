@@ -3,7 +3,9 @@ ActiveAdmin.register Page do
   actions :all, except: [:new, :destroy]
   permit_params :active, :featured
 
-  index do
+  config.per_page = 20
+
+  index pagination_total: false do
     selectable_column
     id_column
     column :title
