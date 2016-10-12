@@ -4,6 +4,9 @@ ActiveAdmin.register PagesTag do
 
   config.per_page = 20
   index pagination_total: false
+  scope :active, show_count: false
+
+  filter :page_title_cont
 
   index do
     selectable_column

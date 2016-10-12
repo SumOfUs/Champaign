@@ -2,6 +2,11 @@
 ActiveAdmin.register LiquidPartial do
   actions :all, except: [:new, :edit, :destroy]
 
+  filter :title
+  filter :content
+  filter :created_at
+  filter :updated_at
+
   index do
     selectable_column
     id_column
