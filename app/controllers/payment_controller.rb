@@ -18,10 +18,10 @@ class PaymentController < ApplicationController
       result = BraintreeServices::PaymentResult.new(builder.result)
 
       existing_payment_methods = (cookies.signed[:payment_methods] || '').split(',')
-      (existing_payment_methods << result.payment_method_token).uniq
+      existing_payment_methods << result.payment_method_token
 
       cookies.signed[:payment_methods] = {
-        value: existing_payment_methods.join(','),
+        value: existing_payment_methods.uniq.join(','),
         expires: 1.year.from_now
       }
 
