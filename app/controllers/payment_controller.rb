@@ -59,7 +59,11 @@ class PaymentController < ApplicationController
   end
 
   def store_in_vault?
-    @store_in_vault ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:store_in_vault]) || false
+    (ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:store_in_vault]) || false) && provider_not_gc
+  end
+
+  def provider_not_gc
+    params[:provider] != 'GC'
   end
 
   def page
