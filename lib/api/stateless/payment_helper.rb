@@ -28,6 +28,10 @@ module Api
         def transactions_for_member(member)
           customer(member).transactions.one_off
         end
+
+        def subscriptions_for_payment_method(payment_method)
+          ::Payment::Braintree::Subscription.where(payment_method_id: payment_method.id)
+        end
       end
 
       module GoCardless
