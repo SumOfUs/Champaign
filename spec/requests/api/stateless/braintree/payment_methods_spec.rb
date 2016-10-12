@@ -8,6 +8,9 @@ describe 'API::Stateless Braintree PaymentMethods' do
   let!(:customer) { create(:payment_braintree_customer, member: member) }
   let!(:method_a) { create(:payment_braintree_payment_method, :stored, customer: customer) }
   let!(:method_b) { create(:payment_braintree_payment_method, customer: customer) }
+  let!(:subscription_a) { create(:payment_braintree_subscription, payment_method_id: method_a.id, cancelled_at: nil) }
+  let!(:subscription_b) { create(:payment_braintree_subscription, payment_method_id: method_a.id, cancelled_at: nil) }
+  let!(:subscription_c) { create(:payment_braintree_subscription, payment_method_id: method_b.id, cancelled_at: nil) }
 
   before :each do
     member.create_authentication(password: 'password')
@@ -50,6 +53,14 @@ describe 'API::Stateless Braintree PaymentMethods' do
 
     it 'destroys record from Braintree' do
       expect(::Braintree::PaymentMethod).to have_received(:delete).with(method_a.token)
+    end
+
+    it 'marks all local subcriptions associated with that payment method cancelled' do
+      Timecop.freeze do
+        expect(subscription_a.reload.cancelled_at).to be_within(0.1.second).of(Time.now)
+        expect(subscription_b.reload.cancelled_at).to be_within(0.1.second).of(Time.now)
+        expect(subscription_c.reload.cancelled_at).to eq(nil)
+      end
     end
   end
 end
