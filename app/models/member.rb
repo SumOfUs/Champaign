@@ -26,7 +26,6 @@ class Member < ActiveRecord::Base
   has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
   has_many :payment_methods, through: :customer
   has_paper_trail on: [:update, :destroy]
-  has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
 
   delegate :authenticate, to: :authentication, allow_nil: true
 
