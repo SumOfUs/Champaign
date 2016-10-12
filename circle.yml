@@ -32,7 +32,7 @@ database:
 
 deployment:
   production:
-    branch: master
+    branch: "feature/one-click-donations"
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
