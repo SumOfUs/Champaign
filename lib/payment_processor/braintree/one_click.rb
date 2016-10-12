@@ -13,7 +13,18 @@ module PaymentProcessor::Braintree
       sale = make_payment
       return unless sale.success?
       store_locally(sale)
-      create_action
+      create_action(extra_fields(sale))
+    end
+
+    def extra_fields(sale)
+      if payment_options.recurring?
+        return {
+          is_subscription: true,
+          subscription_id: sale.subscription.id
+        }
+      end
+
+      {}
     end
 
     private
@@ -34,9 +45,10 @@ module PaymentProcessor::Braintree
       end
     end
 
-    def create_action(_extra = {})
+    def create_action(extra = {})
       ManageAction.create(
         params_for_action.merge(params[:user])
+          .merge(extra)
           .merge(params[:payment])
           .merge(page_id: params[:page_id])
           .merge(action_express_donation: 1,
