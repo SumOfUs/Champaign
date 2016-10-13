@@ -129,6 +129,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   resetUser() {
+    this.member = {};
     this.paymentMethods.reset([]);
     this.showSecondStep();
     this.hideOneClickForm();
