@@ -198,4 +198,36 @@ describe ActionBuilder do
       end
     end
   end
+
+  describe 'action_referrer_email' do
+    let(:base_params) { { page_id: page.id, email: member.email } }
+    describe 'is not added if referrer_id' do
+      it 'is not included' do
+        action = MockActionBuilder.new(base_params).build_action
+        expect(action.form_data.keys).not_to include('action_referrer_email')
+      end
+
+      it 'is blank' do
+        action = MockActionBuilder.new(base_params.merge(referrer_id: '')).build_action
+        expect(action.form_data.keys).not_to include('action_referrer_email')
+      end
+
+      it "is an id of a member that doesn't exist" do
+        action = MockActionBuilder.new(base_params.merge(referrer_id: 1_234_567_890)).build_action
+        expect(action.form_data.keys).not_to include('action_referrer_email')
+      end
+
+      it 'is an id of a member with no email' do
+        m2 = create :member, email: ''
+        action = MockActionBuilder.new(base_params.merge(referrer_id: m2.id)).build_action
+        expect(action.form_data.keys).not_to include('action_referrer_email')
+      end
+    end
+
+    it 'is added to form_data if it is the id of a member' do
+      m2 = create :member, email: 'asdf@hjkl.com'
+      action = MockActionBuilder.new(base_params.merge(referrer_id: m2.id)).build_action
+      expect(action.form_data['action_referrer_email']).to eq 'asdf@hjkl.com'
+    end
+  end
 end
