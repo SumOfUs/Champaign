@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class Plugins::SurveysController < Plugins::BaseController
-
   def add_form
     plugin = Plugins.find_for('survey', params[:plugin_id])
     @form = Form.new(name: "survey_form_#{params[:plugin_id]}", master: false, formable: plugin)
