@@ -44,7 +44,9 @@ class ManageSurveyResponse
   end
 
   def update_action
-    @action.form_data[@form.id] = @params
+    @params.each do |key, val|
+      @action.form_data["survey_#{key}"] = val
+    end
     @action.save!
   end
 

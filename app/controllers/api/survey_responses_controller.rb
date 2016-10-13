@@ -22,7 +22,7 @@ class Api::SurveyResponsesController < ApplicationController
   end
 
   def survey_response_params
-    params.permit(form.form_elements.map(&:name) + %w(form_id page_id))
+    params.slice(*form.form_elements.map(&:name))
   end
 
   def form
