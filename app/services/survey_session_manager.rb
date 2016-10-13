@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class SurveySessionManager
   def initialize(session)
     @session = session

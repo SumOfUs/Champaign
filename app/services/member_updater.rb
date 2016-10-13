@@ -1,10 +1,12 @@
+# frozen_string_literal: true
 class MemberUpdater
   def self.run(member, params)
     new(member, params).run
   end
 
   def initialize(member, params)
-    @member, @params = member, params
+    @member = member
+    @params = params
   end
 
   def run
