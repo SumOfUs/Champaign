@@ -1,11 +1,12 @@
+# frozen_string_literal: true
 class ManageSurveyResponse
   attr_accessor :action
 
-  def initialize(page:, form:, params:, action_id:nil)
+  def initialize(page:, form:, params:, action_id: nil)
     @form = form
     @params = sanitize_params(params, form)
     @validator = FormValidator.new(@params, @form.form_elements)
-    @action = action_id.present? ?  Action.find(action_id) : Action.new(page: page)
+    @action = action_id.present? ? Action.find(action_id) : Action.new(page: page)
   end
 
   def run
@@ -31,16 +32,15 @@ class ManageSurveyResponse
 
   def assign_member
     @action.member ||= if @params[:akid].present?
-      Member.find_by_akid(@params[:akid])
-    elsif @params[:email].present?
-      Member.find_or_initialize_by(email: @params[:email])
-    end
+                         Member.find_by_akid(@params[:akid])
+                       elsif @params[:email].present?
+                         Member.find_or_initialize_by(email: @params[:email])
+                       end
   end
 
   def update_member
-    if @action.member.present?
-      MemberUpdater.run(@action.member, @params)
-    end
+    return unless @action.member.present?
+    MemberUpdater.run(@action.member, @params)
   end
 
   def update_action

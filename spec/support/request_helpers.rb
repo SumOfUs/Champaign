@@ -9,7 +9,7 @@ module Requests
     def json_hash
       JSON.parse(response.body)
     end
-    alias_method :response_json, :json_hash
+    alias response_json json_hash
 
     # Add support for testing `options` requests in RSpec.
     # See: https://github.com/rspec/rspec-rails/issues/925

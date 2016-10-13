@@ -69,7 +69,7 @@ class FormElement < ActiveRecord::Base
     end
     choices.each do |choice|
       if choice.class == Hash
-        if !choice.has_key?('label') || !choice.has_key?('value')
+        if !choice.key?('label') || !choice.key?('value')
           errors.add(:choices, 'must have a label and value for each dictionary option')
           break
         end
