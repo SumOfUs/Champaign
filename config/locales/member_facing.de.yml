@@ -19,20 +19,20 @@ de:
     proceed_to_payment: Weiter zur Zahlung
     other_amount: Betrag
     make_recurring: Monatlich spenden
-    store_in_vault: Store my payment information (DE)
+    store_in_vault: Meine Zahlungsinformationen speichern
     thank_you: Vielen Dank für Ihre Spende!
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "" # override this with org-specific details in your own yml file.
     confirmation: Spende erhalten
     donate_now: Spenden Sie jetzt!
-    donate_with: "Donate with: (DE)"
+    donate_with: "Spenden mit: "
     loading: Unser sicheres Spenden formular wird geladen
     oneclick:
-      select_payment: "Select a saved payment method (DE)"
-      credit_card_payment_method: "%{card_type} ending in %{last_four_digits} (DE)"
-      paypal_payment_method: "Paypal (%{email}) (DE)"
-      new_payment_method: "Add payment method (DE)"
+      select_payment: "Wählen Sie eine der hinterlegten Zahlungsmethoden"
+      credit_card_payment_method: "%{card_type} gültig bis %{last_four_digits}"
+      paypal_payment_method: "Paypal (%{email})"
+      new_payment_method: "Zahlungsmethode hinzufügen"
     debit:
       recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
       one_time: "Sie spenden %{amount} an SumOfUs"
