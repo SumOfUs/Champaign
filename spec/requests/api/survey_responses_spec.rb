@@ -28,7 +28,7 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
         action = Action.last
         expect(action.page_id).to eq page.id
-        expect(action.form_data[form.id.to_s]).to eq('phone' => '1234567', 'country' => 'AR')
+        expect(action.form_data).to include('survey_phone' => '1234567', 'survey_country' => 'AR')
       end
     end
 
@@ -106,8 +106,11 @@ describe 'api/pages/:id/survey_responses', type: :request do
         expect(response).to be_success
 
         @action.reload
-        expect(@action.form_data[form.id.to_s]).to be_present
-        expect(@action.form_data[form_2.id.to_s]).to be_present
+        expect(@action.form_data).to include(
+          'survey_phone' => '1234567',
+          'survey_country' => 'AR',
+          'survey_email' => 'a@test.com'
+        )
       end
     end
   end
