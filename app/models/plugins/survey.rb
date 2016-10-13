@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 class Plugins::Survey < ActiveRecord::Base
   has_many :forms, -> { order(created_at: :asc) }, as: :formable, dependent: :destroy
 
   belongs_to :page, touch: true
 
-  DEFAULTS = {}
+  DEFAULTS = {}.freeze
 
-  def liquid_data(supplemental_data = {})
-    attributes.merge(forms: forms.includes(:form_elements).map { |form| form_liquid_data(form) } )
+  def liquid_data(_supplemental_data = {})
+    attributes.merge(forms: forms.includes(:form_elements).map { |form| form_liquid_data(form) })
   end
 
   def name

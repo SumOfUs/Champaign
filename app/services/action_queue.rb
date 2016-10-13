@@ -124,7 +124,7 @@ module ActionQueue
     end
   end
 
-  #TODO Refactor
+  # TODO: Refactor
   class NewSurveyResponse < NewPetitionAction
     def payload
       super.tap do |p|

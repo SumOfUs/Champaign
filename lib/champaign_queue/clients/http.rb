@@ -20,7 +20,7 @@ module ChampaignQueue
       end
 
       def push
-        raise "Champaign queue http URL not set" if queue_http_url.blank?
+        raise 'Champaign queue http URL not set' if queue_http_url.blank?
 
         Net::HTTP.start(uri.host, uri.port) do |http|
           http.post(uri.path, @params.to_query)

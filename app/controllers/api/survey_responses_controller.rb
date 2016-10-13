@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Api::SurveyResponsesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -21,7 +22,7 @@ class Api::SurveyResponsesController < ApplicationController
   end
 
   def survey_response_params
-    params.permit(form.form_elements.map(&:name) + %w{form_id page_id})
+    params.permit(form.form_elements.map(&:name) + %w(form_id page_id))
   end
 
   def form
