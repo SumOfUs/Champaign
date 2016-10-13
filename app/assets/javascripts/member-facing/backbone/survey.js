@@ -19,12 +19,14 @@ const Survey = Backbone.View.extend({
   //    referrer_id: the champaign id of the referrer
   //    member: an object with fields that will prefill the form
   //    location: a hash of location values inferred from the user's request
+  //    followUpUrl: the url to redirect to after the survey is completed
   initialize(options={}) {
     if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
     }
     this.prefill(_.extend(options.location, options.member));
     this.revealFirstForm();
+    this.followUpUrl = options.followUpUrl;
     // this.$submitButton = this.$('.action-form__submit-button');
     // this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
@@ -37,12 +39,6 @@ const Survey = Backbone.View.extend({
 
   selectizeCountry() {
     this.$('.action-form__country-selector').selectize();
-  },
-
-  // we assume all sections are skippable, since required sections should
-  // not have a visible skip button
-  skipSection(e) {
-    this.revealForm(this.$(e.target).parents('.survey__form').next('.survey__form'));
   },
 
   // prefillValues - an object mapping form names to prefill values
@@ -77,12 +73,7 @@ const Survey = Backbone.View.extend({
   handleSuccess(e, data){
     ErrorDisplay.clearErrors(this.$(e.target));
     this.enableButton(e);
-    let $nextForm = this.$(e.target).next('.survey__form');
-    if ($nextForm.length) {
-      this.revealForm($nextForm);
-    } else {
-      this.followUp();
-    }
+    this.followForm(this.$(e.target));
   },
 
   handleFailure(e, data) {
@@ -96,9 +87,36 @@ const Survey = Backbone.View.extend({
     this.disableButton(e);
   },
 
+  // we assume all sections are skippable, since required sections should
+  // not have a visible skip button
+  skipSection(e) {
+    this.followForm(this.$(e.target).parents('.survey__form'));
+  },
+
+  followForm($form) {
+    const $nextForm = $form.next('.survey__form');
+    if ($nextForm.length) {
+      this.revealForm($nextForm);
+    } else {
+      this.followUp();
+    }
+  },
+
   revealForm($form) {
     $form.removeClass('hidden-closed');
     $('html, body').animate({ scrollTop: $form.offset().top }, 500);
+  },
+
+  followUp() {
+    if (this.followUpUrl) {
+      this.redirectTo(this.followUpUrl);
+    } else {
+      window.alert('Thanks for completing our survey!');
+    }
+  },
+
+  redirectTo(url) {
+    window.location.href = url
   },
 
   disableButton(e) {
