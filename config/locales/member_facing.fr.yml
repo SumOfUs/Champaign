@@ -30,7 +30,7 @@ fr:
     proceed_to_payment: Procéder au versement
     other_amount: Autre
     make_recurring: Faire un don mensuel
-    store_in_vault: Store my payment information (FR)
+    store_in_vault: Sauvegarder mes informations de paiement
     thank_you: Nous vous remercions pour votre don!
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
@@ -40,10 +40,10 @@ fr:
     donate_with: "Donate with: (FR)"
     loading: "Chargement du portail sécurisé de paiement"
     oneclick:
-      select_payment: "Select a saved payment method (FR)"
-      credit_card_payment_method: "%{card_type} ending in %{last_four_digits} (FR)"
-      paypal_payment_method: "Paypal (%{email}) (FR)"
-      new_payment_method: "Add payment method (FR)"
+      select_payment: "Sélectionner un mode de paiement sauvegardé"
+      credit_card_payment_method: "%{card_type} finissant par %{last_four_digits}"
+      paypal_payment_method: "Paypal (%{email})"
+      new_payment_method: "Ajouter un mode de paiement"
     debit:
       recurring: "Vous souhaitez faire un don mensuel de %{amount} à SumOfUs."
       one_time: "Vous souhaitez donner %{amount} à SumOfUs."
