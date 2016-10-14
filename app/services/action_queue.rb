@@ -136,9 +136,9 @@ module ActionQueue
           email: @action.member.email,
           fields: @action.form_data
         }
-      }.
-      merge(UserLanguageISO.for(page.language)).
-      tap do |params|
+      }
+      .merge(UserLanguageISO.for(page.language))
+      .tap do |params|
         params[:country] = country(member.country) if member.country.present?
         params[:action_bucket] = data[:bucket] if data.key? :bucket
       end
