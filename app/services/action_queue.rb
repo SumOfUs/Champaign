@@ -35,10 +35,10 @@ module ActionQueue
           title:      page.title,
           uri:        "/a/#{page.slug}",
           slug:       page.slug,
-          first_name: member.try(:first_name),
-          last_name:  member.try(:last_name),
+          first_name: member.first_name,
+          last_name:  member.last_name,
           created_at: @action.created_at,
-          country:    country(member.try(:country)),
+          country:    country(member.country),
           action_id:  @action.id,
           subscribed_member: @action.subscribed_member
         }
@@ -117,7 +117,7 @@ module ActionQueue
         }.merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
           .tap do |params|
-            params[:country] = country(member.country) if member.try(:country).present?
+            params[:country] = country(member.country) if member.country.present?
             params[:action_bucket] = data[:bucket] if data.key? :bucket
           end
       }.deep_symbolize_keys

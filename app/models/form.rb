@@ -48,4 +48,8 @@ class Form < ActiveRecord::Base
 
     errors.add(:name, 'must be unique') if Form.masters.where(name: name).any?
   end
+
+  def element_names
+    form_elements.map(&:name).map(&:to_sym)
+  end
 end
