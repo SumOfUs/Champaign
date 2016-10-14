@@ -125,11 +125,22 @@ module ActionQueue
     end
   end
 
-  # TODO: Refactor
-  class NewSurveyResponse < NewPetitionAction
+  class NewSurveyResponse
+    include Donatable
+    include Enqueable
+
     def payload
-      super.tap do |p|
-        p[:type] = 'new_survey_response'
+      {
+        type: 'new_survey_response',
+        params: {
+          email: @action.member.email,
+          fields: @action.form_data
+        }
+      }.
+      merge(UserLanguageISO.for(page.language)).
+      tap do |params|
+        params[:country] = country(member.country) if member.country.present?
+        params[:action_bucket] = data[:bucket] if data.key? :bucket
       end
     end
   end
