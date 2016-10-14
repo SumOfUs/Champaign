@@ -57,7 +57,7 @@
   {% if form.skippable %}
     {% unless last %}
       <!-- liquid doesn't support `not` or `!` -__- -->
-      <a class="button survey__button survey__skip-button">{{ skip }}</a>
+      <a class="button button--inverted survey__button survey__skip-button">{{ skip }}</a>
     {% endunless %}
   {% endif %}
   <button type="submit" class="button action-form__submit-button survey__button survey__next-button">{{ cta }}</button>
