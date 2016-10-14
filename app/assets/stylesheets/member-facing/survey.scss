@@ -1,14 +1,20 @@
 .survey {
   @include centered-to-full(500px, 2%);
   min-height: calc(100vh - 300px);
-  margin-top: 100px;
   overflow: hidden;
+  margin-top: 100px;
+  &__intro {
+    padding-top: 60px;
+  }
   &__skip-button {
     float: left;
   }
   &__form {
-    margin: 100px 0;
+    margin: 80px 0;
     overflow: hidden;
+    @media(min-width: 600px) {
+      font-size: 18px;
+    }
   }
   &__skip-button {
     background-color: $light-orange;
@@ -33,11 +39,14 @@
       border-color: $teal;
     }
   }
+  .form--big label.checkbox-label {
+    font-size: inherit;
+  }
   .form--big .has-error .selectize-control.single .selectize-input {
     border-color: $orange;
   }
   .form__group {
-    margin-bottom: 20px;
+    margin-bottom: 32px;
   }
   label {
     margin-bottom: 5px;

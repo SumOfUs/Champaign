@@ -125,7 +125,9 @@ const Survey = Backbone.View.extend({
       if ($btn.data('enabled-text') === undefined) {
         $btn.data('enabled-text', $btn.text());
       }
-      $btn.text(I18n.t('form.processing'))
+      if (!$btn.hasClass('survey__skip-button')) {
+        $btn.text(I18n.t('form.processing'))
+      }
       $btn.addClass('button--disabled');
     });
   },
