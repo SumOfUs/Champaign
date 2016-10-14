@@ -113,7 +113,8 @@ module ActionQueue
       {
         type: 'action',
         params: {
-          page: get_page_name
+          page: get_page_name,
+          email: @action.member.email
         }.merge(@action.form_data)
           .merge(UserLanguageISO.for(page.language))
           .tap do |params|
