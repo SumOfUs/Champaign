@@ -10,14 +10,14 @@ class ManageSurveyResponse
   end
 
   def run
-    if @validator.valid?
-      assign_member
+    assign_member
+    if action_valid?
       update_member
       update_action
       publish_event
     end
 
-    @validator.valid?
+    action_valid?
   end
 
   def errors
@@ -27,7 +27,7 @@ class ManageSurveyResponse
   private
 
   def sanitize_params(params, form)
-    params.slice(*form.form_elements.map(&:name).map(&:to_sym))
+    params.slice(*form.element_names)
   end
 
   def assign_member
@@ -38,8 +38,11 @@ class ManageSurveyResponse
                        end
   end
 
+  def action_valid?
+    @action.member.present? && @validator.valid?
+  end
+
   def update_member
-    return unless @action.member.present?
     MemberUpdater.run(@action.member, @params)
   end
 
