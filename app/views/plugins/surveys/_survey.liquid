@@ -1,18 +1,16 @@
 {% if plugins.survey[ref].active %}
   {% include 'No Script' %}
   <div class="script-dependent">
-    <div class="survey">
-      {% for form in plugins.survey[ref].forms %}
-        {% capture cta %}{% if forloop.last == true %}Finish{% else %}Next{% endif %}{% endcapture %}
+    {% for form in plugins.survey[ref].forms %}
+      {% capture cta %}{% if forloop.last == true %}Finish{% else %}Next{% endif %}{% endcapture %}
 
-        {% include 'Survey Form',
-          cta: cta,
-          skip: 'Skip',
-          last: forloop.last,
-          form: form
-        %}
-      {% endfor %}
-    </div>
+      {% include 'Survey Form',
+        cta: cta,
+        skip: 'Skip',
+        last: forloop.last,
+        form: form
+      %}
+    {% endfor %}
     
     <script type="text/javascript">
       $(document).ready(function(){
