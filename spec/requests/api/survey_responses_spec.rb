@@ -4,13 +4,14 @@ require 'rails_helper'
 describe 'api/pages/:id/survey_responses', type: :request do
   let!(:page) { create(:page, :published) }
   let!(:plugins_survey) { create(:plugins_survey, page: page) }
-  let!(:form) { create(:form_with_phone_and_country, formable: plugins_survey) }
+  let!(:form) { create(:form_with_name_email_and_country, formable: plugins_survey) }
 
   describe 'POST survey_responses' do
     context 'given the form is valid' do
       let(:params) do
         {
-          phone: '1234567',
+          name: 'Bob',
+          email: 'b@test.com',
           country: 'AR',
           form_id: form.id
         }
@@ -28,33 +29,11 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
         action = Action.last
         expect(action.page_id).to eq page.id
-        expect(action.form_data).to include('survey_phone' => '1234567', 'survey_country' => 'AR')
-      end
-    end
-
-    context 'given the form is invalid' do
-      let(:params) do
-        {
-          phone: 'wrong phone',
-          country: 'AR',
-          form_id: form.id
-        }
-      end
-
-      it 'returns 422 and an error message' do
-        post "/api/pages/#{page.id}/survey_responses", params
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response_json['errors']['phone']).to include('can only have numbers, dash, plus, and parentheses')
-      end
-    end
-
-    context 'given the form has an email address' do
-      let!(:form) { create(:form_with_email, formable: plugins_survey) }
-      let(:params) do
-        {
-          email: 'a@test.com',
-          form_id: form.id
-        }
+        expect(action.form_data).to include(
+          'survey_name' => 'Bob',
+          'survey_email' => 'b@test.com',
+          'survey_country' => 'AR'
+        )
       end
 
       context "given a member with the passed email doesn't exist" do
@@ -64,13 +43,12 @@ describe 'api/pages/:id/survey_responses', type: :request do
           end.to change(Member, :count).by(1)
 
           action = Action.last
-
-          expect(action.member.email).to eq 'a@test.com'
+          expect(action.member.email).to eq 'b@test.com'
         end
       end
 
       context 'given a member with the passed email already exists' do
-        let!(:member) { create(:member, email: 'a@test.com') }
+        let!(:member) { create(:member, email: 'b@test.com') }
         it 'assigns the member to the created action' do
           post "/api/pages/#{page.id}/survey_responses", params
           action = Action.last
@@ -79,12 +57,32 @@ describe 'api/pages/:id/survey_responses', type: :request do
       end
     end
 
+    context 'given the form is invalid' do
+      let(:params) do
+        {
+          country: 'AR',
+          form_id: form.id
+        }
+      end
+
+      it 'returns 422 and an error message' do
+        post "/api/pages/#{page.id}/survey_responses", params
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_json['errors']['email']).to include('is required')
+      end
+    end
+
     context 'given that the user has previously responded to the same survey' do
-      let(:form_2) { create(:form_with_email, formable: plugins_survey) }
+      let!(:form_2) do
+        create(:form, formable: plugins_survey).tap do |f|
+          create :form_element, form: f, name: 'phone', label: 'Phone number', data_type: 'phone', required: true
+        end
+      end
 
       let(:form_params) do
         {
-          phone: '1234567',
+          email: 'l@test.com',
+          name: 'Lucy',
           country: 'AR',
           form_id: form.id
         }
@@ -92,7 +90,7 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
       let(:form_2_params) do
         {
-          email: 'a@test.com',
+          phone: '123456',
           form_id: form_2.id
         }
       end
@@ -107,9 +105,10 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
         @action.reload
         expect(@action.form_data).to include(
-          'survey_phone' => '1234567',
+          'survey_email'   => 'l@test.com',
+          'survey_name'    => 'Lucy',
           'survey_country' => 'AR',
-          'survey_email' => 'a@test.com'
+          'survey_phone'   => '123456'
         )
       end
     end
