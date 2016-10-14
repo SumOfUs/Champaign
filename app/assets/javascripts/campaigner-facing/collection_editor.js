@@ -99,7 +99,9 @@ const ErrorDisplay = require('shared/show_errors');
     },
 
     newElementAdded: function(e, resp, c) {
-      this.$('.list-group').append(resp);
+      let $listGroup = this.$(e.target).parents('.form-customization').find('.list-group');
+      $listGroup = $listGroup.length ? $listGroup : this.$('.list-group')
+      $listGroup.append(resp);
       this.$('#form_element_label, #form_element_name').val('');
       ErrorDisplay.clearErrors(this.$('form#new_collection_element'));
       this.makeSortable();
