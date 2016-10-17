@@ -6,11 +6,17 @@ describe 'API::Stateless Braintree PaymentMethods' do
   include AuthToken
   let!(:member) { create(:member, email: 'test@example.com') }
   let!(:customer) { create(:payment_braintree_customer, member: member) }
-  let!(:method_a) { create(:payment_braintree_payment_method, :stored, customer: customer) }
-  let!(:method_b) { create(:payment_braintree_payment_method, customer: customer) }
+  let(:month_ago) { 1.month.ago }
+  let!(:method_a) { create(:payment_braintree_payment_method, :stored, customer: customer, token: 'store_me') }
+  let!(:method_b) { create(:payment_braintree_payment_method, customer: customer, token: 'dont_store_me') }
   let!(:subscription_a) { create(:payment_braintree_subscription, payment_method_id: method_a.id, cancelled_at: nil) }
   let!(:subscription_b) { create(:payment_braintree_subscription, payment_method_id: method_a.id, cancelled_at: nil) }
   let!(:subscription_c) { create(:payment_braintree_subscription, payment_method_id: method_b.id, cancelled_at: nil) }
+  let!(:subscription_d) do
+    create(:payment_braintree_subscription,
+           payment_method_id: method_b.id,
+           cancelled_at: month_ago)
+  end
 
   before :each do
     member.create_authentication(password: 'password')
@@ -22,17 +28,18 @@ describe 'API::Stateless Braintree PaymentMethods' do
   end
 
   describe 'GET index' do
-    it 'returns stored payment methods for member' do
-      get '/api/stateless/braintree/payment_methods', nil, auth_headers
-
-      expect(json_hash.length).to eq(1)
-    end
-
-    it 'returns payment methods for member' do
+    it 'lists all payment methods that have been stored in vault for the member' do
       get '/api/stateless/braintree/payment_methods', nil, auth_headers
 
       expect(response.status).to eq(200)
       expect(json_hash.first.keys).to include('token', 'last_4', 'bin', 'email', 'expiration_date')
+      expect(json_hash.to_s).to include(method_a.token)
+    end
+
+    it 'does not list payment methods that have not been stored in vault' do
+      get '/api/stateless/braintree/payment_methods', nil, auth_headers
+      expect(response.status).to eq(200)
+      expect(json_hash.to_s).to_not include(method_b.token)
     end
   end
 
@@ -55,11 +62,12 @@ describe 'API::Stateless Braintree PaymentMethods' do
       expect(::Braintree::PaymentMethod).to have_received(:delete).with(method_a.token)
     end
 
-    it 'marks all local subcriptions associated with that payment method cancelled' do
+    it 'marks active subcriptions with that method cancelled, but does not update cancelled subscriptions' do
       Timecop.freeze do
         expect(subscription_a.reload.cancelled_at).to be_within(0.1.second).of(Time.now)
         expect(subscription_b.reload.cancelled_at).to be_within(0.1.second).of(Time.now)
         expect(subscription_c.reload.cancelled_at).to eq(nil)
+        expect(subscription_d.reload.cancelled_at).to be_within(0.1.second).of(month_ago)
       end
     end
   end
