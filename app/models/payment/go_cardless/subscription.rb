@@ -63,6 +63,8 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   belongs_to :payment_method, class_name: 'Payment::GoCardless::PaymentMethod'
   has_many   :transactions,   class_name: 'Payment::GoCardless::Transaction', foreign_key: :subscription_id
 
+  scope :active, -> { where(cancelled_at: nil) }
+
   ACTION_FROM_STATE = {
     created:                    :create,
     cancelled:                  :cancel,

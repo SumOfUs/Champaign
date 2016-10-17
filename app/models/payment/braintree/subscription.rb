@@ -24,4 +24,6 @@ class Payment::Braintree::Subscription < ActiveRecord::Base
   belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'
   has_many   :transactions,   class_name: 'Payment::Braintree::Transaction',
                               foreign_key: :subscription_id
+
+  scope :active, -> { where(cancelled_at: nil) }
 end

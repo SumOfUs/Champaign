@@ -34,6 +34,19 @@ describe 'API::Stateless GoCardless Subscriptions' do
            name: nil,
            created_at: Date.today)
   end
+  let(:last_month) { 1.month.ago }
+  let!(:cancelled_subscription) do
+    create(:payment_go_cardless_subscription,
+           customer: customer,
+           payment_method: payment_method,
+           id: 12_345_678,
+           go_cardless_id: '11323',
+           amount: '5.0',
+           currency: 'USD',
+           name: nil,
+           created_at: last_month,
+           cancelled_at: last_month)
+  end
   let!(:transaction) do
     create(:payment_go_cardless_transaction,
            subscription: subscription,
@@ -76,6 +89,11 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                                      go_cardless_id: '999',
                                                      charge_date: /^\d{4}-\d{2}-\d{2}/,
                                                      state: 'created')
+    end
+
+    it 'does not show subscriptions that have been marked as cancelled' do
+      get '/api/stateless/go_cardless/subscriptions', nil, auth_headers
+      expect(json_hash.to_s).to_not include(cancelled_subscription.id.to_s)
     end
   end
 

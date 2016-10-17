@@ -17,6 +17,8 @@ describe 'API::Stateless Braintree Subscriptions' do
            card_type: 'Mastercard')
   end
 
+  let(:month_ago) { 1.month.ago }
+
   let!(:subscription) do
     create(:payment_braintree_subscription,
            id: 1234,
@@ -25,6 +27,17 @@ describe 'API::Stateless Braintree Subscriptions' do
            amount: 4,
            billing_day_of_month: 22,
            created_at: Time.now)
+  end
+
+  let!(:cancelled_subscription) do
+    create(:payment_braintree_subscription,
+           id: 12_345_678,
+           customer: customer,
+           payment_method: payment_method,
+           amount: 4,
+           billing_day_of_month: 22,
+           created_at: month_ago,
+           cancelled_at: month_ago)
   end
 
   let!(:transaction) do
@@ -69,6 +82,12 @@ describe 'API::Stateless Braintree Subscriptions' do
                                                      status: 'failure',
                                                      amount: '100.0',
                                                      created_at: /^\d{4}-\d{2}-\d{2}/)
+    end
+
+    it 'does not list subscriptions that have been cancelled' do
+      get '/api/stateless/braintree/subscriptions', nil, auth_headers
+      expect(response.status).to eq(200)
+      expect(json_hash.to_s).to_not include(cancelled_subscription.id.to_s)
     end
   end
 

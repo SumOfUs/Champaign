@@ -19,7 +19,8 @@ module Api
           end
 
           @payment_method.destroy
-          PaymentHelper::Braintree.subscriptions_for_payment_method(@payment_method).update_all(cancelled_at: Time.now)
+          PaymentHelper::Braintree.active_subscriptions_for_payment_method(@payment_method)
+            .update_all(cancelled_at: Time.now)
           render json: { success: true }
         end
       end

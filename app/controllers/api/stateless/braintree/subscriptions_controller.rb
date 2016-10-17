@@ -6,7 +6,7 @@ module Api
         before_filter :authenticate_request!
 
         def index
-          @subscriptions = PaymentHelper::Braintree.subscriptions_for_member(@current_member)
+          @subscriptions = PaymentHelper::Braintree.active_subscriptions_for_member(@current_member)
         end
 
         def destroy
