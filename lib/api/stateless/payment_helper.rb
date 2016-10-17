@@ -17,8 +17,8 @@ module Api
           payment_methods_for_member(member).find(id)
         end
 
-        def subscriptions_for_member(member)
-          customer(member).subscriptions.order('created_at desc')
+        def active_subscriptions_for_member(member)
+          customer(member).subscriptions.active.order('created_at desc')
         end
 
         def subscription_for_member(member:, id:)
@@ -27,6 +27,10 @@ module Api
 
         def transactions_for_member(member)
           customer(member).transactions.one_off
+        end
+
+        def active_subscriptions_for_payment_method(payment_method)
+          ::Payment::Braintree::Subscription.active.where(payment_method_id: payment_method.id)
         end
       end
 
@@ -41,8 +45,8 @@ module Api
           customer(member).transactions.one_off
         end
 
-        def subscriptions_for_member(member)
-          customer(member).subscriptions.order('created_at desc')
+        def active_subscriptions_for_member(member)
+          customer(member).subscriptions.active.order('created_at desc')
         end
 
         def subscription_for_member(member:, id:)

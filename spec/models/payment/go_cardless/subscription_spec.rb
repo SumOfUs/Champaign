@@ -148,4 +148,14 @@ describe Payment::GoCardless::Subscription do
       end
     end
   end
+
+  context 'scopes' do
+    context 'active' do
+      let!(:subscription) { create :payment_go_cardless_subscription, cancelled_at: nil }
+      let!(:cancelled_subscription) { create :payment_go_cardless_subscription, cancelled_at: 1.month.ago }
+      it 'only returns subscriptions that have not been cancelled' do
+        expect(Payment::GoCardless::Subscription.active).to match([subscription])
+      end
+    end
+  end
 end
