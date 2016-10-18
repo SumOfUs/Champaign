@@ -27,8 +27,8 @@ module Api
         private
 
         def cancel_subscription
-          @subscription.destroy
-          @subscription.cancel_on_ak('user')
+          @subscription.update(cancelled_at: Time.now)
+          @subscription.publish_cancellation('user')
         end
       end
     end

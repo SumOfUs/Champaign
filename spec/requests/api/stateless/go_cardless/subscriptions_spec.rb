@@ -140,7 +140,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
       end
     end
 
-    it 'pushes a cancelled subscription event to the AK queue' do
+    it 'pushes a cancelled subscription event to the event queue' do
       VCR.use_cassette('stateless api cancel go_cardless subscription') do
         expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
                                                       params: {

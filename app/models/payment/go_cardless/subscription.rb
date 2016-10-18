@@ -106,7 +106,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
     end
   end
 
-  def cancel_on_ak(reason)
+  def publish_cancellation(reason)
     # reason can be "user", "admin", "processor", "failure", "expired"
     ChampaignQueue.push(type: 'cancel_subscription',
                         params: {

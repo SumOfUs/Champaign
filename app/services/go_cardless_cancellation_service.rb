@@ -26,7 +26,7 @@ class GoCardlessCancellationService
     )
     PaymentProcessor::GoCardless::Subscription.cancel(@subscription.go_cardless_id)
     @subscription.update(cancelled_at: Time.now)
-    @subscription.cancel_on_ak('user')
+    @subscription.publish_cancellation('user')
     return nil
   rescue *GO_CARDLESS_ERRORS => e
     Rails.logger.error("#{e} occurred when cancelling subscription #{@subscription.go_cardless_id}: #{e.message}")
