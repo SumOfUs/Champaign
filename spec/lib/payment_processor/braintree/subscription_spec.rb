@@ -11,6 +11,7 @@ module PaymentProcessor
             currency: 'AUD',
             nonce: '12ax',
             page_id: '12',
+            device_data: { foo: 'bar' },
             user: {
               email: 'bob.loblaw@law-blog.org',
               name: 'Bob Loblaw',
@@ -64,6 +65,10 @@ module PaymentProcessor
             {
               payment_method_nonce: required_options[:nonce],
               customer_id: customer.customer_id,
+              options: {
+                verify_card: true
+              },
+              device_data: { foo: 'bar' },
               billing_address: {
                 first_name: 'Bob',
                 last_name: 'Loblaw',
