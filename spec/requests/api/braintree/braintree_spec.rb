@@ -68,6 +68,10 @@ describe 'Express Donation' do
       end
     end
 
+    it 'sets donor status to "recurring_donor"' do
+      expect(member.reload.donor_status).to eq('recurring_donor')
+    end
+
     describe 'local record' do
       it 'creates action' do
         action = page.actions.first
@@ -143,6 +147,10 @@ describe 'Express Donation' do
 
         transaction = payment_method.transactions.first.attributes.symbolize_keys
         expect(transaction).to include(expected_attributes)
+      end
+
+      it 'sets donor status to "donor"' do
+        expect(member.reload.donor_status).to eq('donor')
       end
     end
 
