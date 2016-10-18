@@ -17,13 +17,13 @@ class FormElementsController < ApplicationController
   end
 
   def destroy
-    @form_element = FormElement.find(params[:id])
-    @form_element.destroy
+    @form_element = FormElement.includes(:form).find(params[:id])
 
-    respond_to do |format|
-      format.json do
-        render json: { status: :ok }, status: :ok
-      end
+    if @form_element.can_destroy?
+      @form_element.destroy
+      render json: { status: :ok }, status: :ok
+    else
+      render json: { errors: @form_element.errors, name: :form_element }, status: :unprocessable_entity
     end
   end
 
