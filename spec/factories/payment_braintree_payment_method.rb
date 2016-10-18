@@ -8,5 +8,9 @@ FactoryGirl.define do
     trait :stored do
       store_in_vault true
     end
+
+    trait :paypal do
+      instrument_type 'paypal_account'
+    end
   end
 end
