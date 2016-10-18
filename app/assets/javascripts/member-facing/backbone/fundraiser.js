@@ -290,9 +290,11 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     window.open(url);
   },
 
-  submitDonation(nonce) {
+  submitDonation(obj) {
     let data = this.donationData();
-    data.payment_method_nonce = nonce;
+    data.payment_method_nonce = obj.nonce;
+    data.device_data = JSON.parse(obj.deviceData);
+
     $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data)
       .then(this.onSubmission.bind(this))
       .then(this.transactionSuccess.bind(this), this.transactionFailed.bind(this));

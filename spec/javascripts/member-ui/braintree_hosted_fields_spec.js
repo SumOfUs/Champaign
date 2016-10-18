@@ -59,12 +59,13 @@ describe("Braintree hosted fields", function() {
     });
   });
 
-  it('displays the fields container when token received', function(){
+  it('displays the fields container when token received and assigns deviceData', function(){
     expect($('.fundraiser-bar__fields-loading')).not.to.have.class('hidden-closed');
     expect($('#hosted-fields')).to.have.class('hidden-closed');
     suite.hostedFields = new window.champaign.BraintreeHostedFields();
-    suite.hostedFields.braintreeSettings().onReady();
+    suite.hostedFields.braintreeSettings().onReady({deviceData: '1234'});
     expect($('.fundraiser-bar__fields-loading')).to.have.class('hidden-closed');
     expect($('#hosted-fields')).not.to.have.class('hidden-closed');
+    expect(suite.hostedFields.deviceData).to.eq('1234')
   });
 });

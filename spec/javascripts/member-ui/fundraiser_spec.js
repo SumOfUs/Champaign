@@ -256,7 +256,7 @@ describe("Fundraiser", function() {
         data = data || '{ "success": "true" }';
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [200, { "Content-Type": "application/json" }, data ]);
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         suite.server.respond();
       }
 
@@ -528,26 +528,26 @@ describe("Fundraiser", function() {
       });
 
       it('sends the nonce to the server after receiving it from braintree', function(){
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         request = helpers.last(suite.server.requests);
         expect(request.method).to.eq("POST");
         expect(request.url).to.eq("/api/payment/braintree/pages/1/transaction");
-        expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["payment_method_nonce="+helpers.btNonce, "amount=22"]);
+        expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["payment_method_nonce=noceynonceynonce", "amount=22"]);
       });
 
       it("sends 'recurring' as false by default", function(){
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=false"]);
       });
 
       it("sends 'recurring' as true if it's checked", function(){
         $('input.fundraiser-bar__recurring').click();
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         expect(helpers.lastRequestBodyPairs(suite)).to.include.members(["recurring=true"]);
       });
 
       it('submits the currency and amount to the server', function(){
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         request = helpers.last(suite.server.requests);
         bodyPairs = decodeURI(request.requestBody).split('&');
         expect(bodyPairs).to.include.members(['currency=USD', "amount=22"]);
@@ -557,7 +557,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [500, { "Content-Type": "application/json" }, 'Failure!' ]);
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(1);
@@ -568,7 +568,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"declined":true,"code":"","message":"cvv"}]}' ]);
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(1);
@@ -579,7 +579,7 @@ describe("Fundraiser", function() {
         expect($('.fundraiser-bar__errors')).to.have.class('hidden-closed');
         suite.server.respondWith('POST', "/api/payment/braintree/pages/1/transaction",
           [422, { "Content-Type": "application/json" }, '{"success":false,"errors":[{"code":"81501","attribute":"amount","message":"Amount cannot be negative."}, {"code":"81501","attribute":"amount","message":"Amount cannot be negative."}]}' ]);
-        Backbone.trigger('fundraiser:nonce_received', helpers.btNonce);
+        Backbone.trigger('fundraiser:nonce_received', helpers.btData);
         suite.server.respond();
         expect($('.fundraiser-bar__errors')).not.to.have.class('hidden-closed');
         expect($('.fundraiser-bar__error-detail').length).to.equal(2);

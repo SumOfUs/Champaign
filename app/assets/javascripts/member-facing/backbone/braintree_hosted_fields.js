@@ -13,9 +13,15 @@ const BraintreeHostedFields = Backbone.View.extend({
   braintreeSettings() {
     return {
       id: "hosted-fields",
-      onPaymentMethodReceived: this.paymentMethodReceived,
+      onPaymentMethodReceived: this.paymentMethodReceived.bind(this),
       onError: this.handleErrors.bind(this),
-      onReady: this.hideSpinner.bind(this),
+      onReady: (bt) => {
+        this.deviceData = bt.deviceData;
+        this.hideSpinner();
+      },
+      dataCollector: {
+        kount: { environment: 'production' }
+      },
       paypal: {
         container: 'hosted-fields__paypal',
         onCancelled: () => { this.$(this.SELECTOR_TO_HIDE_ON_PAYPAL_SUCCESS).slideDown(); },
@@ -43,6 +49,14 @@ const BraintreeHostedFields = Backbone.View.extend({
         onFieldEvent: this.fieldUpdate.bind(this),
       },
     };
+  },
+
+  injectDeviceData(deviceData) {
+    let $form = this.$('form');
+
+    form.append(
+      $("<input name='device_data' type='hidden' />").val(deviceData)
+    );
   },
 
   fieldUpdate(event) {
@@ -142,7 +156,7 @@ const BraintreeHostedFields = Backbone.View.extend({
   },
 
   paymentMethodReceived (data) {
-    Backbone.trigger('fundraiser:nonce_received', data.nonce);
+    Backbone.trigger('fundraiser:nonce_received', {nonce: data.nonce, deviceData: this.deviceData});
   },
 });
 

@@ -25,19 +25,20 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result
 
-      def self.make_subscription(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false)
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault)
+      def self.make_subscription(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false, device_data: {})
+        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data)
         builder.subscribe
         builder
       end
 
-      def initialize(nonce, amount, currency, user, page_id, store_in_vault)
+      def initialize(nonce, amount, currency, user, page_id, store_in_vault, device_data)
         @amount = amount
         @nonce = nonce
         @user = user
         @currency = currency
         @page_id = page_id
         @store_in_vault = store_in_vault
+        @device_data = device_data
       end
 
       # the `catch` is used because if any of the BT requests fails, we want to stop
@@ -95,7 +96,11 @@ module PaymentProcessor
         {
           payment_method_nonce: @nonce,
           customer_id: existing_customer.customer_id,
-          billing_address: billing_options
+          billing_address: billing_options,
+          options: {
+            verify_card: true
+          },
+          device_data: @device_data
         }
       end
 

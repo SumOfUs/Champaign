@@ -474,6 +474,7 @@ describe 'Braintree API' do
                 expect(Braintree::Transaction).to have_received(:sale).with(amount: amount,
                                                                             payment_method_nonce: 'fake-valid-nonce',
                                                                             merchant_account_id: 'EUR',
+                                                                            device_data: {},
                                                                             options: {
                                                                               submit_for_settlement: true,
                                                                               store_in_vault_on_success: true
@@ -686,6 +687,7 @@ describe 'Braintree API' do
                 expect(Braintree::Transaction).to have_received(:sale).with(amount: amount,
                                                                             payment_method_nonce: 'fake-valid-nonce',
                                                                             merchant_account_id: 'EUR',
+                                                                            device_data: {},
                                                                             options: {
                                                                               submit_for_settlement: true,
                                                                               store_in_vault_on_success: true
@@ -1024,6 +1026,10 @@ describe 'Braintree API' do
               subject
               expect(Braintree::PaymentMethod).to have_received(:create).with(payment_method_nonce: 'fake-valid-nonce',
                                                                               customer_id: customer.customer_id,
+                                                                              device_data: {},
+                                                                              options: {
+                                                                                verify_card: true
+                                                                              },
                                                                               billing_address: {
                                                                                 first_name: 'Bernie',
                                                                                 last_name: 'Sanders',

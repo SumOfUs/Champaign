@@ -23,7 +23,8 @@ module PaymentProcessor
             amount: 100,
             currency: 'USD',
             user: { email: 'bob@example.com', name: 'Bob' },
-            page_id: 1
+            page_id: 1,
+            device_data: { foo: 'bar' }
           }
         end
 
@@ -43,6 +44,7 @@ module PaymentProcessor
             amount: 100,
             payment_method_nonce:       'a_nonce',
             merchant_account_id:        '123',
+            device_data:                { foo: 'bar' },
             options: {
               submit_for_settlement:     true,
               store_in_vault_on_success: false
