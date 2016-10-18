@@ -82,12 +82,11 @@ module ActionBuilder
   end
 
   def is_donation?
-    return false if @extra_attrs.blank?
-    @extra_attrs[:donation] ? true : false
+    @extra_attrs && @extra_attrs[:donation]
   end
 
   def is_recurring_donation?
-    @params[:is_subscription] ? true : false
+    @params && @params[:is_subscription]
   end
 
   def form_data

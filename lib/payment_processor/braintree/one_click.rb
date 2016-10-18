@@ -53,6 +53,7 @@ module PaymentProcessor::Braintree
           .merge(page_id: params[:page_id])
           .merge(action_express_donation: 1,
                  store_in_vault: true,
+                 is_recurring: payment_options.recurring?,
                  express_account: payment_options.express_account?,
                  card_num: payment_options.last_4,
                  card_expiration_date: payment_options.payment_method.expiration_date),

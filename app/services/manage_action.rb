@@ -12,7 +12,7 @@ class ManageAction
     @params = params
     @skip_queue = skip_queue
     @skip_counter = skip_counter
-    @extra_params = extra_params
+    @extra_attrs = extra_params
   end
 
   def create
@@ -20,7 +20,7 @@ class ManageAction
       return previous_action
     end
 
-    build_action(@extra_params)
+    build_action(@extra_attrs)
   end
 
   private
