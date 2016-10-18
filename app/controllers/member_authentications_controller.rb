@@ -2,6 +2,7 @@
 
 class MemberAuthenticationsController < ApplicationController
   before_action :redirect_signed_up_members
+  before_filter :localize_from_page_id
 
   def new
     @page = Page.find params[:page_id]
