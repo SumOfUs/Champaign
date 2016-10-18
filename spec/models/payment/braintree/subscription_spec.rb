@@ -32,7 +32,6 @@ describe Payment::Braintree::Subscription do
   it { is_expected.to respond_to :action }
   it { is_expected.to respond_to :action_id }
 
-  it { is_expected.to_not respond_to :customer_id }
   it { is_expected.to_not respond_to :price }
   it { is_expected.to_not respond_to :next_billing_date }
 
@@ -41,5 +40,15 @@ describe Payment::Braintree::Subscription do
     create :payment_braintree_subscription, amount: 10_701.11
     expect(Payment::Braintree::Subscription.all.map(&:amount).sum).to eq 10_713.52
     expect(Payment::Braintree::Subscription.last.amount.class).to eq BigDecimal
+  end
+
+  context 'scopes' do
+    context 'active' do
+      let!(:subscription) { create :payment_braintree_subscription, cancelled_at: nil }
+      let!(:cancelled_subscription) { create :payment_braintree_subscription, cancelled_at: 1.month.ago }
+      it 'only returns subscriptions that have not been cancelled' do
+        expect(Payment::GoCardless::Subscription.active).to match([])
+      end
+    end
   end
 end

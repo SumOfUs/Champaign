@@ -98,7 +98,7 @@ robots: 'staging'
 action_kit:
   akid_secret: "secret_sauce"
 
-host: https://example.com
+host: http://actions.example.com
 
 # CircleCI test settings
 # This will load the entire application. If code is not eager loaded constants are loaded on demand.
@@ -107,3 +107,7 @@ host: https://example.com
 eager_load_for_specs: true
 
 home_page_url: 'http://example.com'
+default_mailer_address: 'info@example.com'
+
+members:
+  dashboard_url: 'https://members.example.com/'

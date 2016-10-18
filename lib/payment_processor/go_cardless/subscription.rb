@@ -28,6 +28,10 @@ module PaymentProcessor
         builder
       end
 
+      def self.cancel(go_cardless_id)
+        client.subscriptions.cancel(go_cardless_id)
+      end
+
       def initialize(amount:, currency:, user:, page_id:, redirect_flow_id:, session_token:)
         @page_id = page_id
         @original_amount_in_cents = (amount.to_f * 100).to_i # Price in pence/cents

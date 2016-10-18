@@ -45,7 +45,7 @@ module PaymentProcessor
             merchant_account_id:        '123',
             options: {
               submit_for_settlement:     true,
-              store_in_vault_on_success: true
+              store_in_vault_on_success: false
             },
             customer: {
               first_name:               'Bob',

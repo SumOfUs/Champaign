@@ -68,4 +68,7 @@ Rails.application.configure do
                methods: [:get, :post, :delete, :put, :patch, :options, :head]
     end
   end
+
+  config.action_mailer.delivery_method = :test
+  config.action_mailer.raise_delivery_errors = true
 end

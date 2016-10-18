@@ -3,17 +3,18 @@ inherit_from: .rubocop_todo.yml
 AllCops:
   TargetRubyVersion: 2.3
   Exclude:
-    - bin/**
-    - db/schema.rb
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'vendor/**/*'
 
 Style/IndentationConsistency:
   EnforcedStyle: normal
 
-Style/IndentHash:
-  EnforcedStyle: consistent 
+Style/IndentArray:
+  EnforcedStyle: consistent
 
-Lint/BlockAlignment:
-  AlignWith: start_of_block
+Style/IndentHash:
+  EnforcedStyle: consistent
 
 Style/FirstParameterIndentation:
   EnforcedStyle: consistent
@@ -24,3 +25,8 @@ Style/MultilineMethodCallIndentation:
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
 
+Lint/BlockAlignment:
+  AlignWith: start_of_block
+
+Lint/InheritException:
+  Enabled: false

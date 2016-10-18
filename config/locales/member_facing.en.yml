@@ -19,6 +19,7 @@ en:
     proceed_to_payment: Proceed to payment
     other_amount: Other
     make_recurring: Make my donation monthly
+    store_in_vault: Store my payment information
     thank_you: Thank you for your donation!
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
@@ -26,6 +27,11 @@ en:
     confirmation: Donation received
     donate_now: Donate now
     loading: Loading secure <br> payment portal
+    oneclick:
+      select_payment: "Select a saved payment method"
+      credit_card_payment_method: "%{card_type} ending in %{last_four_digits}"
+      paypal_payment_method: "Paypal (%{email})"
+      new_payment_method: "Add payment method"
     debit:
       recurring: "You are setting up a monthly donation of %{amount}"
       one_time: "You are donating %{amount}"

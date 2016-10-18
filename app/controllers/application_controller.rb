@@ -1,5 +1,8 @@
 # frozen_string_literal: true
+
 class ApplicationController < ActionController::Base
+  include AuthToken
+
   before_filter :set_default_locale
 
   # Prevent CSRF attacks by raising an exception.
@@ -54,7 +57,7 @@ class ApplicationController < ActionController::Base
   end
 
   def render_liquid(liquid_layout, view)
-    return redirect_to(Settings.homepage_url) unless @page.published? || user_signed_in?
+    return redirect_to(Settings.home_page_url) unless @page.published? || user_signed_in?
     localize_by_page_language(@page)
 
     @rendered = renderer(liquid_layout).render
@@ -62,14 +65,32 @@ class ApplicationController < ActionController::Base
     render "pages/#{view}", layout: 'member_facing'
   end
 
+  def payment_methods
+    if current_member
+      PaymentMethodFetcher.new(current_member).fetch
+    else
+      payment_method_ids = (cookies.signed[:payment_methods] || '').split(',')
+      PaymentMethodFetcher.new(recognized_member, filter: payment_method_ids).fetch
+    end
+  end
+
   def renderer(layout)
-    @renderer ||= LiquidRenderer.new(@page,       location: request.location,
-                                                  member: recognized_member,
-                                                  layout: layout,
-                                                  url_params: params)
+    @renderer ||= LiquidRenderer.new(@page, location: request.location,
+                                            member: recognized_member,
+                                            layout: layout,
+                                            url_params: params,
+                                            payment_methods: payment_methods)
+  end
+
+  def current_member
+    return nil if cookies.signed[:authentication_id].nil?
+
+    payload = decode_jwt(cookies.signed[:authentication_id])
+    @current_member ||= Member.find_by(id: payload['id'])
   end
 
   def recognized_member
-    @recognized_member ||= Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
+    @recognized_member ||= current_member ||
+                           Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
 end

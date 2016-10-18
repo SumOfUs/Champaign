@@ -9,11 +9,10 @@ describe CampaignsController do
   end
 
   include_examples 'session authentication',
-    { get:  [:index],
-      get:  [:new],
-      get:  [:edit, id: 1],
-      get:  [:show, id: 1]
-    }
+                   [{ get:  [:index] },
+                    { get:  [:new] },
+                    { get:  [:edit, id: 1] },
+                    { get:  [:show, id: 1] }]
 
   describe 'GET index' do
     it 'renders index' do

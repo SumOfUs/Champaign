@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin15 faraday/0.9.2
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -25,7 +25,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 14 Jun 2016 23:43:04 GMT
+      - Fri, 19 Aug 2016 13:52:18 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -33,16 +33,16 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=debea609b71e504cd05f4f429b7657d8d1465947784; expires=Wed, 14-Jun-17
-        23:43:04 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=df4e4357a1c58655414b90562214d48d81471614738; expires=Sat, 19-Aug-17
+        13:52:18 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       Etag:
-      - W/"66282fd01510f62e34680e90febc7e91"
+      - W/"d8e093f9dfe4d212699e8a2005b91d9b"
       X-Request-Id:
-      - 2e92d890-adde-4224-bed1-210b626807d7
+      - 015e60d4-3102-48c5-9cc5-003ccb400a2a
       Vary:
       - Origin
       X-Xss-Protection:
@@ -50,98 +50,31 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
+      - max-age=31556926; includeSubDomains; preload
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '999'
+      - '997'
       Ratelimit-Reset:
-      - Tue, 14 Jun 2016 23:44:00 GMT
+      - Fri, 19 Aug 2016 13:53:00 GMT
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2b31a4722e233590-LHR
+      - 2d4e15d5b58a34ee-LHR
     body:
       encoding: ASCII-8BIT
-      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-06-20","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-08-24","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
     http_version: 
-  recorded_at: Tue, 14 Jun 2016 23:43:04 GMT
-- request:
-    method: get
-    uri: https://api-sandbox.gocardless.com/customer_bank_accounts/BA0000P8MREF5F
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
-      Gocardless-Version:
-      - '2015-07-06'
-      Content-Type:
-      - application/json
-      Authorization:
-      - Bearer <gocardless_token>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Tue, 14 Jun 2016 23:43:05 GMT
-      Content-Type:
-      - application/json
-      Transfer-Encoding:
-      - chunked
-      Connection:
-      - keep-alive
-      Set-Cookie:
-      - __cfduid=d0485df7949603a01ac61e23f86e4d0e61465947785; expires=Wed, 14-Jun-17
-        23:43:05 GMT; path=/; domain=.gocardless.com; HttpOnly
-      Pragma:
-      - no-cache
-      Cache-Control:
-      - no-store
-      Etag:
-      - W/"2c73e1d569064ff106e2377ed61d5700"
-      X-Request-Id:
-      - 5b390f34-a392-48a3-b300-5a2c51c40c4b
-      Vary:
-      - Origin
-      X-Xss-Protection:
-      - 1; mode=block
-      X-Content-Type-Options:
-      - nosniff
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
-      Ratelimit-Limit:
-      - '1000'
-      Ratelimit-Remaining:
-      - '998'
-      Ratelimit-Reset:
-      - Tue, 14 Jun 2016 23:44:00 GMT
-      Server:
-      - cloudflare-nginx
-      Cf-Ray:
-      - 2b31a478968f34be-LHR
-    body:
-      encoding: ASCII-8BIT
-      string: '{"customer_bank_accounts":{"id":"BA0000P8MREF5F","created_at":"2016-04-11T19:16:56.376Z","account_number_ending":"11","account_holder_name":"S
-        SAMWELL","bank_name":"BARCLAYS BANK PLC","currency":"GBP","country_code":"GB","metadata":{},"enabled":true,"links":{"customer":"CU0000RR39FMVB"}}}'
-    http_version: 
-  recorded_at: Tue, 14 Jun 2016 23:43:05 GMT
+  recorded_at: Fri, 19 Aug 2016 13:52:18 GMT
 - request:
     method: post
     uri: https://api-sandbox.gocardless.com/subscriptions
     body:
       encoding: UTF-8
-      string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"},"name":"donation","interval_unit":"monthly","start_date":"2016-06-20"}}'
+      string: '{"subscriptions":{"amount":1155,"currency":"GBP","links":{"mandate":"MD0000PSV8N7FR"},"metadata":{"customer_id":"CU0000RR39FMVB"},"name":"donation","interval_unit":"monthly","start_date":"2016-09-20"}}'
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin15 faraday/0.9.2
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -158,7 +91,7 @@ http_interactions:
       message: Created
     headers:
       Date:
-      - Tue, 14 Jun 2016 23:43:06 GMT
+      - Fri, 19 Aug 2016 13:52:19 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -166,18 +99,18 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d9a723d39341c1322dd6ea1ad465157221465947786; expires=Wed, 14-Jun-17
-        23:43:06 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=dc88ba51edcb6d92062f1879b4b6afd921471614739; expires=Sat, 19-Aug-17
+        13:52:19 GMT; path=/; domain=.gocardless.com; HttpOnly
       Location:
-      - https://api-sandbox.gocardless.com/subscriptions/SB0000370YF1ZG
+      - https://api-sandbox.gocardless.com/subscriptions/SB00003GHBQ3YF
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       Etag:
-      - W/"fc2a4f669d3b8cc1d6c4acbcb4c24014"
+      - W/"d593becf813e1d556125e4dd9fad44b2"
       X-Request-Id:
-      - 6bddde5b-3e9e-462c-9f4e-230362c374f4
+      - e743b92e-77bf-427e-a0e5-9984e9d627a4
       Vary:
       - Origin
       X-Xss-Protection:
@@ -185,20 +118,87 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
+      - max-age=31556926; includeSubDomains; preload
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '997'
+      - '996'
       Ratelimit-Reset:
-      - Tue, 14 Jun 2016 23:44:00 GMT
+      - Fri, 19 Aug 2016 13:53:00 GMT
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2b31a4823725139b-LHR
+      - 2d4e15d74bd60ce3-LHR
     body:
       encoding: UTF-8
-      string: '{"subscriptions":{"id":"SB0000370YF1ZG","created_at":"2016-06-14T23:43:06.680Z","amount":1155,"currency":"GBP","status":"active","name":"donation","start_date":"2016-06-20","end_date":null,"interval":1,"interval_unit":"monthly","day_of_month":null,"month":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"payment_reference":null,"upcoming_payments":[{"charge_date":"2016-06-20","amount":1155},{"charge_date":"2016-07-20","amount":1155},{"charge_date":"2016-08-22","amount":1155},{"charge_date":"2016-09-20","amount":1155},{"charge_date":"2016-10-20","amount":1155},{"charge_date":"2016-11-21","amount":1155},{"charge_date":"2016-12-20","amount":1155},{"charge_date":"2017-01-20","amount":1155},{"charge_date":"2017-02-20","amount":1155},{"charge_date":"2017-03-20","amount":1155}],"links":{"mandate":"MD0000PSV8N7FR"}}}'
+      string: '{"subscriptions":{"id":"SB00003GHBQ3YF","created_at":"2016-08-19T13:52:19.207Z","amount":1155,"currency":"GBP","status":"active","name":"donation","start_date":"2016-09-20","end_date":null,"interval":1,"interval_unit":"monthly","day_of_month":null,"month":null,"metadata":{"customer_id":"CU0000RR39FMVB"},"payment_reference":null,"upcoming_payments":[{"charge_date":"2016-09-20","amount":1155},{"charge_date":"2016-10-20","amount":1155},{"charge_date":"2016-11-21","amount":1155},{"charge_date":"2016-12-20","amount":1155},{"charge_date":"2017-01-20","amount":1155},{"charge_date":"2017-02-20","amount":1155},{"charge_date":"2017-03-20","amount":1155},{"charge_date":"2017-04-20","amount":1155},{"charge_date":"2017-05-22","amount":1155},{"charge_date":"2017-06-20","amount":1155}],"links":{"mandate":"MD0000PSV8N7FR"}}}'
     http_version: 
-  recorded_at: Tue, 14 Jun 2016 23:43:06 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Fri, 19 Aug 2016 13:52:19 GMT
+- request:
+    method: get
+    uri: https://api-sandbox.gocardless.com/customer_bank_accounts/BA0000P8MREF5F
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin15 faraday/0.9.2
+      Gocardless-Version:
+      - '2015-07-06'
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <gocardless_token>
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 19 Aug 2016 13:52:19 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=de0a5759865cc34689f6052c33d89f9fd1471614739; expires=Sat, 19-Aug-17
+        13:52:19 GMT; path=/; domain=.gocardless.com; HttpOnly
+      Pragma:
+      - no-cache
+      Cache-Control:
+      - no-store
+      Etag:
+      - W/"99768e118859112446e345f44d692f3c"
+      X-Request-Id:
+      - 7d0bc468-91fa-4fc7-a149-edb9af304093
+      Vary:
+      - Origin
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      Strict-Transport-Security:
+      - max-age=31556926; includeSubDomains; preload
+      Ratelimit-Limit:
+      - '1000'
+      Ratelimit-Remaining:
+      - '995'
+      Ratelimit-Reset:
+      - Fri, 19 Aug 2016 13:53:00 GMT
+      Server:
+      - cloudflare-nginx
+      Cf-Ray:
+      - 2d4e15d9d7f506c4-LHR
+    body:
+      encoding: ASCII-8BIT
+      string: '{"customer_bank_accounts":{"id":"BA0000P8MREF5F","created_at":"2016-04-11T19:16:56.376Z","account_number_ending":"11","account_holder_name":"S
+        SAMWELL","bank_name":"BARCLAYS BANK PLC","currency":"GBP","country_code":"GB","metadata":{},"enabled":true,"links":{"customer":"CU0000RR39FMVB"}}}'
+    http_version: 
+  recorded_at: Fri, 19 Aug 2016 13:52:19 GMT
+recorded_with: VCR 3.0.3

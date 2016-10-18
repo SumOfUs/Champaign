@@ -1,0 +1,41 @@
+{% comment %} Description: View for member registration page. {% endcomment %}
+{% comment %} Primary layout: false {% endcomment %}
+
+<div class="header-logo header-logo--light">
+  <a href="{{ 'footer.home_url' | t }}">
+    <div class="header-logo__logo sumofus-logo--positive"></div>
+  </a>
+</div>
+
+<div class="center-content">
+  <div class="center-content__one-column registration">
+
+    <div class="center-content__central-square">
+
+      <h1 class="typography__highlight">{{ 'member_registration.thanks' | t }}</h1>
+      <h2>{{ 'member_registration.create_account' | t }}</h2>
+
+      <p>{{ 'member_registration.create_account_description' | t }}</p>
+
+      <form action='/member_authentication' data-remote='true' method='post' class='form--big dark registration-form'>
+        <div class='form__group action-form__field-container'>
+          <input type='text' name='email' class='form-control form__content' value="{{ email }}" maxlength='30' disabled />
+        </div>
+        <div class="form__group action-form__field-container">
+          <input type='password' name='password' class='form-control form__content' placeholder='{{ 'member_registration.form.password' | t }}' maxlength='30' />
+        </div>
+
+        <div class="form__group action-form__field-container">
+          <input type='password' name='password_confirmation' class='form-control form__content' placeholder='{{ 'member_registration.form.confirm_password' | t }}' maxlength='30' />
+        </div>
+
+        <div class="form__group action-form__field-container">
+          <button type='submit' class='button registation-form__submit-button'>{{ 'member_registration.form.register' | t }}</button>
+        </div>
+
+        <input type='hidden' name='page_id' value='{{page_id}}' />
+        <input type='hidden' name='email' value='{{email}}' />
+      </form>
+    </div>
+  </div>
+</div>

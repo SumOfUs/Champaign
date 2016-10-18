@@ -129,11 +129,15 @@ $mobile-width: 700px;
     font-size: 26px;
     position: absolute;
     top: 20px;
+    &--small.fa {
+      font-size: 22px;
+    }
   }
 
   &__welcome-name {
     margin-left: 36px;
     font-weight: bold;
+    display: inline-block;
   }
 
   &__clear-form {

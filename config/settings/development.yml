@@ -77,5 +77,14 @@ robots: 'staging'
 instantiate_stdout_logger: true
 
 # Defines domain for page URLs
-host: 'http://example.com'
+host: 'http://actions.example.com'
+
 home_page_url: 'http://example.com'
+default_mailer_address: 'info@example.org'
+smtp:
+  user_name: 'smtp username'
+  password: 'smtp password'
+
+members:
+  dashboard_url: 'http://example.com'
+

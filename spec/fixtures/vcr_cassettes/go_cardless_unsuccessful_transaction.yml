@@ -8,7 +8,7 @@ http_interactions:
       string: ''
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin15 faraday/0.9.2
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -25,7 +25,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 09 May 2016 22:07:58 GMT
+      - Fri, 19 Aug 2016 16:49:05 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -33,16 +33,16 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=d6330077fd585417b9efbaa06409c4ae41462831677; expires=Tue, 09-May-17
-        22:07:57 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=dcbd1ff7b82f716aef39ba2bab08c2e111471625345; expires=Sat, 19-Aug-17
+        16:49:05 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       Etag:
-      - W/"ad98d45b0277617fb13beb84d343ea77"
+      - W/"54ebd4e71fd4e6ed3c97c4007add7f15"
       X-Request-Id:
-      - a0646062-7289-484b-84bd-94ce59160709
+      - 95e46b90-4eb6-46e5-8da8-7dab5b552df9
       Vary:
       - Origin
       X-Xss-Protection:
@@ -50,31 +50,31 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
+      - max-age=31556926; includeSubDomains; preload
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '991'
+      - '997'
       Ratelimit-Reset:
-      - Mon, 09 May 2016 22:08:00 GMT
+      - Fri, 19 Aug 2016 16:50:00 GMT
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2a0877a2ce2d1ea7-SJC
+      - 2d4f18cafcc234ee-LHR
     body:
       encoding: ASCII-8BIT
-      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-05-13","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
+      string: '{"mandates":{"id":"MD0000PSV8N7FR","created_at":"2016-04-11T19:16:56.421Z","reference":"OMAR-JMEKNM53MREX3","status":"active","scheme":"bacs","next_possible_charge_date":"2016-08-25","payments_require_approval":false,"metadata":{},"links":{"customer_bank_account":"BA0000P8MREF5F","creditor":"CR000045KKQEY8"}}}'
     http_version: 
-  recorded_at: Mon, 09 May 2016 22:07:58 GMT
+  recorded_at: Fri, 19 Aug 2016 16:49:05 GMT
 - request:
     method: post
     uri: https://api-sandbox.gocardless.com/payments
     body:
       encoding: UTF-8
-      string: '{"payments":{"amount":1155,"currency":"GBP","links":{"mandate":null},"metadata":{"customer_id":"CU0000RR39FMVB"},"charge_date":"2016-05-20"}}'
+      string: '{"payments":{"amount":1155,"currency":"GBP","links":{"mandate":null},"metadata":{"customer_id":"CU0000RR39FMVB"},"charge_date":"2016-09-20"}}'
     headers:
       User-Agent:
-      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-linux faraday/0.9.1
+      - gocardless_pro/v1.0.3 ruby/2.3.0p0 ruby/2.3.0 x86_64-darwin15 faraday/0.9.2
       Gocardless-Version:
       - '2015-07-06'
       Content-Type:
@@ -91,7 +91,7 @@ http_interactions:
       message: Unprocessable Entity
     headers:
       Date:
-      - Mon, 09 May 2016 22:07:58 GMT
+      - Fri, 19 Aug 2016 16:49:06 GMT
       Content-Type:
       - application/json
       Transfer-Encoding:
@@ -99,14 +99,14 @@ http_interactions:
       Connection:
       - keep-alive
       Set-Cookie:
-      - __cfduid=dbd7d93678979ed3c8170ead251ef3c201462831678; expires=Tue, 09-May-17
-        22:07:58 GMT; path=/; domain=.gocardless.com; HttpOnly
+      - __cfduid=dd63063dbfaf5cb4459c70267002d2a4e1471625345; expires=Sat, 19-Aug-17
+        16:49:05 GMT; path=/; domain=.gocardless.com; HttpOnly
       Pragma:
       - no-cache
       Cache-Control:
       - no-store
       X-Request-Id:
-      - 41b37bc7-681d-42f2-8ef0-9438578be3f5
+      - 4264517b-81f0-457a-9ea5-5b84b3f76fd5
       Vary:
       - Origin
       X-Xss-Protection:
@@ -114,21 +114,21 @@ http_interactions:
       X-Content-Type-Options:
       - nosniff
       Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains; preload
+      - max-age=31556926; includeSubDomains; preload
       Ratelimit-Limit:
       - '1000'
       Ratelimit-Remaining:
-      - '990'
+      - '996'
       Ratelimit-Reset:
-      - Mon, 09 May 2016 22:08:00 GMT
+      - Fri, 19 Aug 2016 16:50:00 GMT
       Server:
       - cloudflare-nginx
       Cf-Ray:
-      - 2a0877a55f6f1e7d-SJC
+      - 2d4f18cc468e3590-LHR
     body:
       encoding: UTF-8
       string: '{"error":{"message":"One of your parameters was incorrectly typed","errors":[{"message":"nil
-        is not a string.","field":"mandate_id","request_pointer":"/payments/links/mandate"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"41b37bc7-681d-42f2-8ef0-9438578be3f5","code":422}}'
+        is not a string.","field":"mandate_id","request_pointer":"/payments/links/mandate"}],"documentation_url":"https://developer.gocardless.com/pro#invalid_type","type":"invalid_api_usage","request_id":"4264517b-81f0-457a-9ea5-5b84b3f76fd5","code":422}}'
     http_version: 
-  recorded_at: Mon, 09 May 2016 22:07:58 GMT
-recorded_with: VCR 3.0.0
+  recorded_at: Fri, 19 Aug 2016 16:49:06 GMT
+recorded_with: VCR 3.0.3

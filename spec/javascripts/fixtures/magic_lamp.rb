@@ -7,7 +7,7 @@ MagicLamp.define(controller: PagesController) do
       @page.plugins.each { |pl| if pl.name == 'Fundraiser' then pl.update_attributes(form: form) end }
       params[:id] = @page.id
       show
-    rescue Exception => e # otherwise teaspoon will eat the error
+    rescue StandardError => e # otherwise teaspoon will eat the error
       puts "\nError loading fixture 'pages/fundraiser': #{e.inspect}\n#{e.backtrace.first(5).join("\n")}"
       raise
     end
@@ -22,7 +22,7 @@ MagicLamp.define(controller: PagesController) do
       @page.plugins.each { |pl| if pl.name == 'Petition' then pl.update_attributes(form: form) end }
       params[:id] = @page.id
       show
-    rescue Exception => e # otherwise teaspoon will eat the error
+    rescue StandardError => e # otherwise teaspoon will eat the error
       puts "\nError loading fixture 'pages/petition': #{e.inspect}\n#{e.backtrace.first(5).join("\n")}"
       raise
     end

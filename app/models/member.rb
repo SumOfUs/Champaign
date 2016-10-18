@@ -20,9 +20,14 @@
 #
 
 class Member < ActiveRecord::Base
-  has_one :customer,               class_name: 'Payment::Braintree::Customer'
   has_many :go_cardless_customers, class_name: 'Payment::GoCardless::Customer'
+  has_one :customer,               class_name: 'Payment::Braintree::Customer'
+  has_one :braintree_customer,     class_name: 'Payment::Braintree::Customer'
+  has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
+  has_many :payment_methods, through: :customer
   has_paper_trail on: [:update, :destroy]
+
+  delegate :authenticate, to: :authentication, allow_nil: true
 
   validates :email, uniqueness: true, allow_nil: true
   before_save { email.try(:downcase!) }
@@ -54,6 +59,7 @@ class Member < ActiveRecord::Base
     full_name = name
     attributes.symbolize_keys.merge(donor_status: donor_status, # to get the string not enum int
                                     name: full_name,
+                                    registered: authentication.present?,
                                     full_name: full_name,
                                     welcome_name: full_name.blank? ? email : full_name)
   end
@@ -69,5 +75,13 @@ class Member < ActiveRecord::Base
 
       }
     )
+  end
+
+  def token_payload
+    {
+      id: id,
+      email: email,
+      authentication_id: authentication.try(:id)
+    }
   end
 end

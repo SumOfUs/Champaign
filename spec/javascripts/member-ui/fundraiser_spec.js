@@ -108,7 +108,7 @@ describe("Fundraiser", function() {
         });
       });
     });
- 
+
     describe('action-form is not prefilled', function(){
 
       describe('amount is not passed', function(){
@@ -205,7 +205,7 @@ describe("Fundraiser", function() {
         });
 
         it('hides the recurring box', function(){
-          expect($('input.fundraiser-bar__recurring').parents('.form__group')).to.have.class('hidden-irrelevant');
+          expect($('input.fundraiser-bar__recurring').parents('label')).to.have.class('hidden-irrelevant');
         });
 
         it('adds "/ month" the button text', function(){
@@ -261,7 +261,7 @@ describe("Fundraiser", function() {
       }
 
       beforeEach(function(){
-        suite.followUpUrl = "/pages/636/follow-up";
+        suite.memberAuthUrl = '/member_authentication/new?page_id=1&email=';
         suite.callback = sinon.spy();
       });
 
@@ -270,44 +270,96 @@ describe("Fundraiser", function() {
         Backbone.off();
       });
 
-      it('redirects to the followUpUrl if it is supplied', function(){
-        suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: suite.followUpUrl, pageId: '1'});
-        sinon.stub(suite.fundraiser, 'redirectTo');
-        suite.triggerSuccess();
-        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
-        suite.fundraiser.redirectTo.restore();
+      describe('when store_in_vault is checked', function(){
+
+        beforeEach(function(){
+          $('input.fundraiser-bar__store-in-vault').prop('checked', true);
+        });
+
+        it('redirects to the member signup url if no url supplied in constructor or response', function(){
+          suite.fundraiser = new window.champaign.Fundraiser({pageId: '1'});
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess();
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.memberAuthUrl);
+          suite.fundraiser.redirectTo.restore();
+        });
+
+        it('overrides all follow up paths with member_authentication', function(){
+          suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/not-used', pageId: '1'});
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.memberAuthUrl);
+          suite.fundraiser.redirectTo.restore();
+        });
+
+        it('calls the callback function if it is supplied', function(){
+          var callback = sinon.spy();
+          suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, pageId: '1'});
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess();
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.memberAuthUrl);
+          expect(callback.called).to.eq(true);
+          suite.fundraiser.redirectTo.restore();
+        });
+
+        it('redirects to passed followUpUrl if member is already registered', function(){
+          suite.fundraiser = new window.champaign.Fundraiser({
+            followUpUrl: '/not-used',
+            pageId: '1',
+            member: { registered: true, email: 'adsf@asdf.com' }
+          });
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
+          suite.fundraiser.redirectTo.restore();
+        });
       });
 
-      it('redirects to the follow_up_url in the response if one is present', function(){
-        suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/not-used', pageId: '1'});
-        sinon.stub(suite.fundraiser, 'redirectTo');
-        suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
-        expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
-        suite.fundraiser.redirectTo.restore();
-      });
+      describe('when store_in_vault is not checked', function() {
 
-      it('calls the callback function if it is supplied', function(){
-        var callback = sinon.spy();
-        suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, pageId: '1'});
-        suite.triggerSuccess();
-        expect(callback.called).to.eq(true);
-      });
+        beforeEach(function(){
+          $('input.fundraiser-bar__store-in-vault').prop('checked', false);
+        });
 
-      it('calls the callback function and redirects to the followUpUrl if both supplied', function(){
-        var callback = sinon.spy();
-        suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, followUpUrl: suite.followUpUrl, pageId: '1'});
-        sinon.stub(suite.fundraiser, 'redirectTo');
-        suite.triggerSuccess();
-        expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.followUpUrl);
-        expect(callback.called).to.eq(true);
-        suite.fundraiser.redirectTo.restore();
-      });
+        it('redirects to the followUpUrl if it is supplied', function(){
+          suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/other-url', pageId: '1'});
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess();
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/other-url');
+          suite.fundraiser.redirectTo.restore();
+        });
 
-      it('sends an alert if neither callback nor followUpUrl passed', function(){
-        window.alert = sinon.spy();
-        suite.fundraiser = new window.champaign.Fundraiser({pageId: '1'});
-        suite.triggerSuccess();
-        expect(window.alert.called).to.eq(true);
+        it('redirects to the follow_up_url in the response if one is present', function(){
+          suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/not-used', pageId: '1'});
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
+          suite.fundraiser.redirectTo.restore();
+        });
+
+        it('sends an alert if neither callback nor followUpUrl passed', function(){
+          window.alert = sinon.spy();
+          suite.fundraiser = new window.champaign.Fundraiser({pageId: '1'});
+          suite.triggerSuccess();
+          expect(window.alert.called).to.eq(true);
+        });
+
+        it('calls the callback function if it is supplied', function(){
+          var callback = sinon.spy();
+          suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, pageId: '1'});
+          suite.triggerSuccess();
+          expect(callback.called).to.eq(true);
+        });
+
+        it('calls the callback function and redirects to the followUpUrl if both supplied', function(){
+          var callback = sinon.spy();
+          suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, followUpUrl: '/other-url', pageId: '1'});
+          sinon.stub(suite.fundraiser, 'redirectTo');
+          suite.triggerSuccess();
+          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/other-url');
+          expect(callback.called).to.eq(true);
+          suite.fundraiser.redirectTo.restore();
+        });
       });
     });
   });
@@ -536,5 +588,3 @@ describe("Fundraiser", function() {
     });
   });
 });
-
-

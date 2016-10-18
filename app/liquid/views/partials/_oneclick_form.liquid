@@ -1,0 +1,82 @@
+<form id="one-click-form" data-remote="true" method="post" class="form">
+</form>
+
+<script type="text/template" id="payment-method-single-template">
+  <div class="fundraiser-bar__payment-methods">
+    <i class="fa fa-credit-card fundraiser-bar__user-icon fundraiser-bar__user-icon--small"></i>
+    <span class="action-form__welcome-name">
+      <% if (instrument_type === 'credit_card') { %>
+        <%= I18n.t('fundraiser.oneclick.credit_card_payment_method', {card_type: card_type, last_four_digits: last_4}) %>
+      <% } else if (instrument_type === 'paypal_account') {  %>
+        <%= I18n.t('fundraiser.oneclick.paypal_payment_method', { email: email }) %>
+      <% } %>
+
+    </span> <br />
+    <a href="javascript:;" class="fundraiser-bar__toggle-payment-method">{{ 'fundraiser.oneclick.new_payment_method' | t }}</a>
+    <div id="payment-methods-collection" class="hidden-irrelevant">
+      <input type="radio"
+            name="payment_method_id"
+            style='display:none;' checked="checked"
+            value="<%= id %>" />
+
+    </div>
+  </div>
+
+  <div class="form__group">
+    <label class="checkbox-label">
+      <input class="fundraiser-bar__recurring-one-click"
+             type="checkbox"
+             name="recurring" />
+      {{ 'fundraiser.make_recurring' | t }}
+    </label>
+  </div>
+
+  <button type="submit"
+          class="button fundraiser-bar__submit-one-click">
+    {{ 'form.submit' | t }}
+  </button>
+</script>
+
+<script type="text/template" id="payment-method-collection-template">
+  <div class="fundraiser-bar__payment-methods">
+    <i class="fa fa-credit-card fundraiser-bar__user-icon fundraiser-bar__user-icon--small"></i>
+    <span class="action-form__welcome-name">
+      {{ 'fundraiser.oneclick.select_payment' | t }}
+    </span> <br />
+    <div id="payment-methods-collection"></div>
+    <a href="javascript:;" class="fundraiser-bar__toggle-payment-method">{{ 'fundraiser.oneclick.new_payment_method' | t }}</a>
+  </div>
+
+  </div>
+
+  <div class="form__group">
+    <label class="checkbox-label">
+      <input class="fundraiser-bar__recurring-one-click"
+             type="checkbox"
+             name="recurring" />
+      {{ 'fundraiser.make_recurring' | t }}
+    </label>
+  </div>
+
+  <button type="submit"
+          class="button fundraiser-bar__submit-one-click">
+    {{ 'form.submit' | t }}
+  </button>
+</script>
+
+<script type="text/template" id="payment-method-item-template">
+  <label class="radio-label">
+    <input type="radio"
+          name="payment_method_id"
+          class="form__content radio-inline payment-method-item__radio"
+          <% if (checked) { %> checked="checked" <% } %>
+          value="<%= id %>" />
+    <span class="payment-method-item__label">
+      <% if (instrument_type === 'credit_card') { %>
+        <%= I18n.t('fundraiser.oneclick.credit_card_payment_method', {card_type, last_four_digits: last_4}) %>
+      <% } else if (instrument_type === 'paypal_account') {  %>
+        <%= I18n.t('fundraiser.oneclick.paypal_payment_method', { email: email }) %>
+      <% } %>
+    </span>
+  </label>
+</script>

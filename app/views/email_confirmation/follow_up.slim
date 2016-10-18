@@ -1,0 +1,15 @@
+.header-logo.header-logo--light
+  a href = t('footer.home_url')
+    .header-logo__logo.sumofus-logo--positive
+.center-content
+  .center-content__one-column.registration
+    .center-content__central-square
+      h1.typography__highlight
+        - if @errors.empty?
+          = t('confirmation_mailer.follow_up_page.success')
+        - else
+          = t('confirmation_mailer.follow_up_page.failure')
+      - @errors.each do |error|
+        h3 = error
+      - if @errors.empty?
+        p = t('confirmation_mailer.follow_up_page.member_management', {url: Settings.members.dashboard_url}).html_safe

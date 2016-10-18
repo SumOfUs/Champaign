@@ -22,6 +22,11 @@ Rails.application.routes.draw do
   # Resource Versioning
   get '/versions/show/:model/:id', to: 'versions#show'
 
+  # Express donations email confirmation path
+  get '/email_confirmation/', to: 'email_confirmation#verify'
+
+  resources :ak_logs
+
   resource  :action_kit, controller: 'action_kit' do
     member do
       post :check_slug
@@ -120,11 +125,14 @@ Rails.application.routes.draw do
   # legacy route
   get '/api/braintree/token', to: 'api/payment/braintree#token'
 
+  resource :member_authentication
+
   namespace :api do
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
-        post 'pages/:page_id/transaction', action: 'transaction', as: 'transaction'
+        post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
+        post 'pages/:page_id/one_click',    action: 'one_click',   as: 'one_click'
         post 'webhook', action: 'webhook'
       end
     end
@@ -142,6 +150,28 @@ Rails.application.routes.draw do
       resource  :analytics
       resources :actions do
         post 'validate', on: :collection, action: 'validate'
+      end
+    end
+
+    namespace :stateless, defaults: { format: 'json' } do
+      namespace :braintree do
+        resources :payment_methods
+        resources :subscriptions
+        resources :transactions
+      end
+
+      namespace :go_cardless do
+        resources :payment_methods
+        resources :subscriptions
+        resources :transactions
+      end
+
+      resources :members
+
+      namespace :auth do
+        post :password
+        post :facebook
+        get :test_authentication
       end
     end
 

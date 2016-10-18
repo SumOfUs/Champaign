@@ -163,6 +163,7 @@ describe LiquidRenderer do
         thermometer
         action_count
         show_direct_debit
+        payment_methods
       )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)

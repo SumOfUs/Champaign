@@ -122,7 +122,7 @@ module PaymentProcessor::GoCardless
         it 'persists events just once' do
           expect(
             Payment::GoCardless::WebhookEvent.all.map(&:event_id)
-          ).to match(events.map { |e| e['id'] })
+          ).to match_array(events.map { |e| e['id'] })
         end
       end
 
@@ -135,7 +135,7 @@ module PaymentProcessor::GoCardless
         it 'persists events just once' do
           expect(
             Payment::GoCardless::WebhookEvent.all.map(&:event_id)
-          ).to match(events.map { |e| e['id'] }.uniq)
+          ).to match_array(events.map { |e| e['id'] }.uniq)
         end
 
         it 'sets state to appropriate event' do

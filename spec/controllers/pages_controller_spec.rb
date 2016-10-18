@@ -5,16 +5,16 @@ describe PagesController do
   let(:user) { instance_double('User', id: '1') }
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
-  let(:page) { instance_double('Page', published?: true, featured?: true, id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
+  let(:page) { instance_double('Page', published?: true, featured?: true, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
   let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data' }) }
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   before do
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
-    Settings.homepage_url = 'http://example.com'
+    Settings.home_page_url = 'http://example.com'
   end
 
   describe 'GET #index' do
@@ -129,7 +129,7 @@ describe PagesController do
     it 'redirects to homepage if user not logged in and page unpublished' do
       allow(controller).to receive(:user_signed_in?) { false }
       allow(page).to receive(:published?) { false }
-      expect(subject).to redirect_to(Settings.homepage_url)
+      expect(subject).to redirect_to(Settings.home_page_url)
     end
 
     it 'does not redirect to homepage if user not logged in and page published' do
@@ -162,17 +162,6 @@ describe PagesController do
 
     include_examples 'show and follow-up'
 
-    it 'instantiates a LiquidRenderer and calls render' do
-      subject
-
-      expect(LiquidRenderer).to have_received(:new).with(page,
-                                                         location: {},
-                                                         member: nil,
-                                                         layout: page.liquid_layout,
-                                                         url_params: { 'id' => '1', 'controller' => 'pages', 'action' => 'show' })
-      expect(renderer).to have_received(:render)
-    end
-
     it 'renders show template' do
       subject
       expect(response).to render_template :show
@@ -180,7 +169,19 @@ describe PagesController do
 
     it 'redirects to homepage if page is not found' do
       allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-      expect(get(:show, id: '1000000')).to redirect_to(Settings.homepage_url)
+      expect(get(:show, id: '1000000')).to redirect_to(Settings.home_page_url)
+    end
+
+    it 'instantiates a LiquidRenderer and calls render' do
+      subject
+      url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'show' }
+      expect(LiquidRenderer).to have_received(:new).with(page,
+                                                         location: {},
+                                                         member: nil,
+                                                         payment_methods: [],
+                                                         layout: page.liquid_layout,
+                                                         url_params: url_params)
+      expect(renderer).to have_received(:render)
     end
 
     context 'on pages with localization' do
@@ -217,35 +218,38 @@ describe PagesController do
     end
 
     shared_examples 'follow-up without redirect' do
-      it 'uses main liquid layout if no follow up set' do
-        allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
-        subject
-        expect(LiquidRenderer).to have_received(:new).with(page,
-                                                           location: {},
-                                                           member: member,
-                                                           layout: page.liquid_layout,
-                                                           url_params: url_params)
-      end
-
-      it 'instantiates a LiquidRenderer and calls render' do
-        subject
-        expect(LiquidRenderer).to have_received(:new).with(page,
-                                                           location: {},
-                                                           member: member,
-                                                           layout: page.follow_up_liquid_layout,
-                                                           url_params: url_params)
-        expect(renderer).to have_received(:render)
-      end
-
       it 'renders follow_up template' do
         subject
         expect(response).to render_template :follow_up
       end
 
       it 'raises 404 if page is not found' do
-        subject
         allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        expect { get :follow_up, id: '1000000' }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+
+      it 'uses main liquid layout if no follow up set' do
+        allow(page).to receive(:follow_up_liquid_layout).and_return(nil)
+        subject
+        expect(LiquidRenderer).to have_received(:new).with(page,
+                                                           location: {},
+                                                           member: anything,
+                                                           layout: page.liquid_layout,
+                                                           payment_methods: [],
+                                                           url_params: anything)
+      end
+
+      it 'instantiates a LiquidRenderer and calls render' do
+        subject
+        url_params = { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' }
+        url_params['member_id'] = member.id.to_s if member.present?
+        expect(LiquidRenderer).to have_received(:new).with(page,
+                                                           location: {},
+                                                           member: member,
+                                                           payment_methods: [],
+                                                           layout: page.follow_up_liquid_layout,
+                                                           url_params: url_params)
+        expect(renderer).to have_received(:render)
       end
     end
 
@@ -263,7 +267,7 @@ describe PagesController do
       let(:member) { create :member }
 
       before :each do
-        allow(cookies).to receive(:signed).and_return({member_id: member.id})
+        allow(cookies).to receive(:signed).and_return(member_id: member.id)
       end
 
       describe 'and member_id' do
@@ -280,11 +284,9 @@ describe PagesController do
 
         it 'redirects to the same route with member id set' do
           subject
-          expect(response).to redirect_to follow_up_member_facing_page_path(1, member_id: member.id)
+          expect(response).to redirect_to follow_up_member_facing_page_path(page, member_id: member.id)
         end
-
       end
     end
-
   end
 end

@@ -9,11 +9,10 @@ describe Api::Payment::BraintreeController do
 
   let(:page) do
     instance_double('Page',
-      follow_up_plan: :with_liquid,
-      follow_up_liquid_layout_id: 4,
-      slug: 'asd-f',
-      follow_up_page: nil
-    )
+                    follow_up_plan: :with_liquid,
+                    follow_up_liquid_layout_id: 4,
+                    slug: 'asd-f',
+                    follow_up_page: nil)
   end
   let(:action) { instance_double('Action', member_id: 79) }
 
@@ -52,7 +51,8 @@ describe Api::Payment::BraintreeController do
         amount: params[:amount].to_f,
         user: params[:user],
         currency: params[:currency],
-        page_id: params[:page_id]
+        page_id: params[:page_id],
+        store_in_vault: false
       }
     end
 
@@ -95,6 +95,7 @@ describe Api::Payment::BraintreeController do
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
+          payment_options[:store_in_vault] = false
           post :transaction, params
         end
 
@@ -163,6 +164,7 @@ describe Api::Payment::BraintreeController do
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
           post :transaction, params
+          payment_options.merge!(store_in_vault: false)
         end
 
         it 'calls Transaction.make_transaction' do

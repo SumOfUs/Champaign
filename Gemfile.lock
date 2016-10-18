@@ -95,12 +95,13 @@ GEM
     ast (2.3.0)
     autoprefixer-rails (6.3.6.2)
       execjs
-    aws-sdk (2.3.13)
-      aws-sdk-resources (= 2.3.13)
-    aws-sdk-core (2.3.13)
+    aws-sdk-core (2.6.1)
       jmespath (~> 1.0)
-    aws-sdk-resources (2.3.13)
-      aws-sdk-core (= 2.3.13)
+    aws-sdk-rails (1.0.1)
+      aws-sdk-resources (~> 2)
+      railties (>= 3)
+    aws-sdk-resources (2.6.1)
+      aws-sdk-core (= 2.6.1)
     aws-sdk-v1 (1.66.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -249,8 +250,7 @@ GEM
     jbuilder (2.5.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
-    jmespath (1.2.4)
-      json_pure (>= 1.8.1)
+    jmespath (1.3.1)
     jquery-rails (4.1.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -258,7 +258,6 @@ GEM
     jquery-ui-rails (5.0.5)
       railties (>= 3.2.16)
     json (1.8.3)
-    json_pure (1.8.3)
     jwt (1.5.4)
     kaminari (0.17.0)
       actionpack (>= 3.0.0)
@@ -369,6 +368,7 @@ GEM
       rails-assets-jquery (>= 1.7.0)
     rails-assets-dropzone (4.3.0)
     rails-assets-jquery (2.2.0)
+    rails-assets-mailcheck (1.1.1)
     rails-assets-moment (2.13.0)
     rails-assets-odometer (0.4.7)
     rails-assets-speakingurl (9.0.0)
@@ -526,8 +526,9 @@ DEPENDENCIES
   actionkit_connector!
   activeadmin!
   annotate
-  aws-sdk (~> 2)
+  aws-sdk-rails
   aws-sdk-v1
+  bcrypt (~> 3.1.7)
   bootstrap-sass (~> 3.3.5)
   braintree (~> 2.54.0)
   browser (~> 2.0, >= 2.0.3)
@@ -557,6 +558,7 @@ DEPENDENCIES
   i18n-js (>= 3.0.0.rc12)
   jbuilder (~> 2.0)
   jquery-rails
+  jwt
   liquid
   logger
   lograge
@@ -577,6 +579,7 @@ DEPENDENCIES
   rails-assets-d3!
   rails-assets-datatables!
   rails-assets-dropzone!
+  rails-assets-mailcheck!
   rails-assets-moment!
   rails-assets-odometer!
   rails-assets-speakingurl!
@@ -611,4 +614,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.12.5
+   1.13.2

@@ -129,4 +129,11 @@ Rails.application.configure do
                max_age: 86_400
     end
   end
+
+  config.action_mailer.delivery_method = :aws_sdk
+
+  config.action_mailer.smtp_settings = {
+    user_name: Settings.smtp.user_name,
+    password: Settings.smtp.password
+  }
 end

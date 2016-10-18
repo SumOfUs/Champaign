@@ -4,7 +4,7 @@ require 'rails_helper'
 describe LinksController do
   let(:link) { instance_double('Link', save: true) }
 
-  include_examples 'session authentication', {}
+  include_examples 'session authentication'
 
   describe 'POST #create' do
     let(:page) { instance_double('Page') }

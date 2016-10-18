@@ -83,6 +83,11 @@
       height: 58px;
     }
   }
+
+  .radio-inline {
+    display: inline-block;
+    max-width: 20px;
+  }
 }
 
 label.checkbox-label {
@@ -96,7 +101,6 @@ label.checkbox-label {
     margin:0;
     vertical-align: bottom;
     position: relative;
-    top: -1px;
     *overflow: hidden;
   }
 }

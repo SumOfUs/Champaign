@@ -12,21 +12,21 @@ module ActionBuilder
       subscribed_member: subscribed_member
     }.merge(extra_attrs))
 
-    ActionQueue::Pusher.push(action)
-    Analytics::Page.increment(page.id, new_member: subscribed_member)
+    ActionQueue::Pusher.push(action) unless @skip_queue
+    Analytics::Page.increment(page.id, new_member: subscribed_member) unless @skip_counter
 
     action
   end
 
   def previous_action
     return nil unless existing_member?
-    @previous_action ||= Action.where(member: member, page_id: page).first
+    @previous_action ||= Action.not_donation.where(member: member, page_id: page).first
 
     # looks up other actions the user might have taken on this campaign
     if page.campaign.present? && @previous_action.blank?
       page.campaign.pages.each do |connected_page|
         next if connected_page.id == page.id
-        @previous_action ||= Action.where(member: member, page_id: connected_page.id).first
+        @previous_action ||= Action.not_donation.where(member: member, page_id: connected_page.id).first
       end
     end
     @previous_action
@@ -82,12 +82,11 @@ module ActionBuilder
   end
 
   def is_donation?
-    return false if @extra_attrs.blank?
-    @extra_attrs[:donation] ? true : false
+    @extra_attrs && @extra_attrs[:donation]
   end
 
   def is_recurring_donation?
-    @params[:is_subscription] ? true : false
+    @params && @params[:is_subscription]
   end
 
   def form_data

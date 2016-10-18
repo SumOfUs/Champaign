@@ -90,7 +90,7 @@ module PagesHelper
   def twitter_meta(page, share_card = {})
     {
       card: 'summary_large_image',
-      domain: Settings.homepage_url,
+      domain: Settings.home_page_url,
       site: t('share.twitter_handle'),
       creator: t('share.twitter_handle'),
       title: page.title,

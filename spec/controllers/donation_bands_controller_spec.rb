@@ -9,10 +9,9 @@ describe DonationBandsController do
   end
 
   include_examples 'session authentication',
-    { get:  [:index],
-      get:  [:new],
-      get:  [:edit, id: 1]
-    }
+                   [{ get:  [:index] },
+                    { get:  [:new] },
+                    { get:  [:edit, id: 1] }]
 
   describe 'GET index' do
     it 'authenticates session' do

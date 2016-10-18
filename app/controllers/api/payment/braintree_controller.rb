@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::Payment::BraintreeController < PaymentController
   skip_before_action :verify_authenticity_token
 
@@ -14,6 +15,11 @@ class Api::Payment::BraintreeController < PaymentController
     end
   end
 
+  def one_click
+    client::OneClick.new(params).run
+    render json: { success: true }
+  end
+
   private
 
   def payment_options
@@ -22,7 +28,8 @@ class Api::Payment::BraintreeController < PaymentController
       amount: params[:amount].to_f,
       user: params[:user].merge(mobile_value),
       currency: params[:currency],
-      page_id: params[:page_id]
+      page_id: params[:page_id],
+      store_in_vault: store_in_vault?
     }
   end
 

@@ -190,6 +190,42 @@
   &__first-continue {
     margin-bottom: 20px;
   }
+
+  &__submit-one-click {
+    margin-top: 15px;
+    float: left;
+  }
+
+  &__toggle-payment-method-container {
+    clear: both;
+    float: none;
+  }
+
+  &__toggle-payment-method {
+    @extend .fundraiser-bar__clear-form
+  }
+
+  &__one-click-title {
+    margin-bottom: 15px;
+  }
+
+  &__payment-methods {
+    @extend .fundraiser-bar__welcome-text
+  }
+  #payment-methods-collection {
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .payment-method-item {
+    margin-left: 36px;
+    max-width: calc(100% - 36px);
+    font-size: 12px;
+    &__radio {
+      width: 12px;
+      position: relative;
+      top: 2px;
+    }
+  }
 }
 
 .sticky-wrapper {
@@ -309,4 +345,8 @@
   li {
     list-style: disc;
   }
+}
+
+.action-form__one-click {
+  clear: both;
 }

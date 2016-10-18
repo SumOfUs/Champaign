@@ -21,7 +21,7 @@ describe 'GoCardless API' do
                    first_name: 'Bernie',
                    last_name:  'Sanders',
                    action_id:  instance_of(Fixnum),
-                   created_at: be_within(1.second).of(Time.now),
+                   created_at: be_within(30.seconds).of(Time.now),
                    country: 'United States')
   end
 
@@ -229,15 +229,15 @@ describe 'GoCardless API' do
                 name: "#{page.slug}-donation",
                 payment_account: 'GoCardless GBP'
               },
-              order: {
+              order: hash_including(
                 amount: gbp_amount.to_s,
                 currency:       'GBP',
                 card_num:       'DDEB',
                 card_code:      '007',
                 exp_date_month: '01',
                 exp_date_year:  '99'
-              },
-              user: {
+              ),
+              user: hash_including(
                 email: email,
                 country: 'United States',
                 postal: '11225',
@@ -247,16 +247,16 @@ describe 'GoCardless API' do
                 akid: '123.456.789',
                 source: 'fb',
                 user_en: 1
-              },
+              ),
               action: {
                 source: 'fb',
-                fields: {
+                fields: hash_including(
                   action_registered_voter: '1',
                   action_mobile: 'tablet',
                   action_mandate_reference: 'OMAR-JMEKNM53MREX3',
                   action_bank_name: 'BARCLAYS BANK PLC',
                   action_account_number_ending: '11'
-                }
+                )
               }
             }
           }
@@ -280,7 +280,7 @@ describe 'GoCardless API' do
                 metadata: {
                   customer_id: customer_id # a_string_matching(/\ACU[0-9A-Z]+\z/)
                 },
-                charge_date: '2016-06-20'
+                charge_date: /\d{4}\-\d{2}-\d{2}/
               }
             }
           end
@@ -415,13 +415,14 @@ describe 'GoCardless API' do
               },
               action: {
                 source: 'fb',
-                fields: {
+                fields: hash_including(
                   action_registered_voter: '1',
                   action_mobile: 'tablet',
                   action_mandate_reference: 'OMAR-JMEKNM53MREX3',
                   action_bank_name: 'BARCLAYS BANK PLC',
-                  action_account_number_ending: '11'
-                }
+                  action_account_number_ending: '11',
+                  action_express_donation: 0
+                )
               }
             }
           }
@@ -438,8 +439,9 @@ describe 'GoCardless API' do
             sdk_params[:params] = sdk_params[:params].merge(
               name: 'donation',
               interval_unit: 'monthly',
-              start_date: '2016-06-20'
+              start_date: /\d{4}\-\d{2}\-\d{2}/
             )
+
             subscriptions_service = instance_double(GoCardlessPro::Services::SubscriptionsService, create: double(id: 'asdf'))
             allow_any_instance_of(GoCardlessPro::Client).to receive(:subscriptions).and_return(subscriptions_service)
             expect(subscriptions_service).to receive(:create).with(sdk_params)

@@ -117,7 +117,8 @@ describe Member do
   describe 'liquid_data' do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member
-      expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) + [:name, :full_name, :welcome_name])
+      expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) +
+                                                [:name, :full_name, :welcome_name, :registered])
     end
 
     it 'uses name as name if available' do
@@ -168,6 +169,64 @@ describe Member do
     it 'can be set to nondonor' do
       member.donor!
       expect { member.nondonor! }.to change { member.donor_status }.to 'nondonor'
+    end
+  end
+
+  describe 'authentication' do
+    let(:member) { create :member }
+
+    context 'when a member has no authentications' do
+      it 'returns `nil`' do
+        expect(member.authenticate('password')).to eq(nil)
+      end
+    end
+
+    context 'when a member has an unconfirmed authentication' do
+      it 'returns `false`' do
+        member.create_authentication(password: 'password')
+
+        expect(member.authenticate('password')).to be(false)
+      end
+    end
+
+    context 'when a member has a  confirmed authentication' do
+      before do
+        member.create_authentication(password: 'password', confirmed_at: Time.now)
+      end
+
+      it 'returns `true` when the password matches' do
+        expect(member.authenticate('password')).to be(true)
+      end
+
+      it 'returns `false` when the password does not match' do
+        expect(member.authenticate('invalid_password')).to be(false)
+      end
+
+      it 'destroys their authentication when destroyed' do
+        MemberAuthentication.create(member: member)
+        member.destroy
+        expect(MemberAuthentication.find_by(member_id: member.id)).to be(nil)
+      end
+    end
+  end
+
+  describe 'token_payload' do
+    let(:member) { create :member }
+
+    it 'returns the { id, email, authentication_id }' do
+      expect(member.token_payload).to include(:id, :email, :authentication_id)
+    end
+
+    it 'has a nil authentication_id if the user has no authentication' do
+      expect(member.token_payload[:authentication_id]).to eq(nil)
+    end
+
+    it 'contains their authentication_id if the user has an authentication' do
+      member.create_authentication(attributes_for(:member_authentication))
+
+      expect(member.token_payload[:authentication_id]).to(
+        eq(MemberAuthentication.last.id)
+      )
     end
   end
 end

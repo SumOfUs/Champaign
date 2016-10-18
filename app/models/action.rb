@@ -21,4 +21,6 @@ class Action < ActiveRecord::Base
   belongs_to :member
 
   has_paper_trail on: [:update, :destroy]
+  scope :donation, -> { where(donation: true) }
+  scope :not_donation, -> { where.not(donation: true) }
 end

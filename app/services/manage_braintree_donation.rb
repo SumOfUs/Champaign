@@ -3,18 +3,20 @@ class ManageBraintreeDonation
   include ActionBuilder
   PAYPAL_IDENTIFIER = 'PYPL'
 
-  def self.create(params:, braintree_result:, is_subscription: false)
+  def self.create(params:, braintree_result:, is_subscription: false, store_in_vault: false)
     new(
       params:           params,
       braintree_result: braintree_result,
-      is_subscription:  is_subscription
+      is_subscription:  is_subscription,
+      store_in_vault:   store_in_vault
     ).create
   end
 
-  def initialize(params:, braintree_result:, is_subscription: false)
+  def initialize(params:, braintree_result:, is_subscription: false, store_in_vault: false)
     @params = params
     @braintree_result = braintree_result
     @is_subscription = is_subscription
+    @store_in_vault = store_in_vault
   end
 
   def create
@@ -29,12 +31,13 @@ class ManageBraintreeDonation
         subscription_id:      subscription_id,
         is_subscription:      @is_subscription,
         card_expiration_date: transaction.credit_card_details.expiration_date,
-        payment_provider: 'braintree'
+        payment_provider: 'braintree',
+        action_express_donation: 0,
+        store_in_vault:       @store_in_vault
       }.tap do |params|
         params[:recurrence_number] = 0 if @is_subscription
       end
     )
-
     build_action(donation: true)
   end
 

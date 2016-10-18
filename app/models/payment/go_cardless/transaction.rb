@@ -31,6 +31,8 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
 
   validates :go_cardless_id, presence: true, allow_blank: false
 
+  scope :one_off, -> { where(subscription_id: nil) }
+
   ACTION_FROM_STATE = {
     submitted:     :submit,
     confirmed:     :confirm,

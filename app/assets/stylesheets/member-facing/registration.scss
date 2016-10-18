@@ -1,0 +1,27 @@
+.registration {
+  h1.typography__highlight {
+    display: inline-block;
+    padding: 0 0.25em;
+  }
+
+  h1, h2 {
+    margin-bottom: 20px;
+  }
+
+  .registration-form {
+    margin: 20px auto;
+    max-width: 300px;
+
+    &__submit-button {
+      margin-top: 15px;
+    }
+
+    input, select, textarea {
+      border-color: $overcast-gray;
+      &.has-error {
+        border-color: $orange;
+      }
+    }
+
+  }
+}

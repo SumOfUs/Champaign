@@ -46,7 +46,7 @@ class PagesController < ApplicationController
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
     if !params[:member_id].present? && recognized_member.try(:id).present?
-      return redirect_to follow_up_member_facing_page_path(@page.id, member_id: recognized_member.id)
+      return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
     liquid_layout = @page.follow_up_liquid_layout || @page.liquid_layout
     render_liquid(liquid_layout, :follow_up)
@@ -74,7 +74,7 @@ class PagesController < ApplicationController
   def get_page_or_homepage
     get_lowercase_page
   rescue ActiveRecord::RecordNotFound
-    redirect_to Settings.homepage_url
+    redirect_to Settings.home_page_url
   end
 
   def get_lowercase_page

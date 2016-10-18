@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160906155851) do
+ActiveRecord::Schema.define(version: 20160916170801) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,21 @@ ActiveRecord::Schema.define(version: 20160906155851) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "member_authentications", force: :cascade do |t|
+    t.integer  "member_id"
+    t.string   "password_digest",       null: false
+    t.string   "facebook_uid"
+    t.string   "facebook_token"
+    t.datetime "facebook_token_expiry"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.string   "token"
+    t.datetime "confirmed_at"
+  end
+
+  add_index "member_authentications", ["facebook_uid"], name: "index_member_authentications_on_facebook_uid", using: :btree
+  add_index "member_authentications", ["member_id"], name: "index_member_authentications_on_member_id", using: :btree
+
   create_table "members", force: :cascade do |t|
     t.string   "email"
     t.string   "country"
@@ -243,23 +258,35 @@ ActiveRecord::Schema.define(version: 20160906155851) do
 
   create_table "payment_braintree_payment_methods", force: :cascade do |t|
     t.string   "token"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "customer_id"
+    t.string   "card_type"
+    t.string   "bin"
+    t.string   "cardholder_name"
+    t.string   "last_4"
+    t.string   "expiration_date"
+    t.string   "instrument_type"
+    t.string   "email"
+    t.boolean  "store_in_vault",  default: false
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
+  add_index "payment_braintree_payment_methods", ["store_in_vault"], name: "index_payment_braintree_payment_methods_on_store_in_vault", using: :btree
 
   create_table "payment_braintree_subscriptions", force: :cascade do |t|
     t.string   "subscription_id"
     t.string   "merchant_account_id"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.integer  "page_id"
-    t.decimal  "amount",              precision: 10, scale: 2
+    t.decimal  "amount",               precision: 10, scale: 2
     t.string   "currency"
     t.integer  "action_id"
     t.datetime "cancelled_at"
+    t.string   "customer_id"
+    t.integer  "billing_day_of_month"
+    t.integer  "payment_method_id"
   end
 
   add_index "payment_braintree_subscriptions", ["action_id"], name: "index_payment_braintree_subscriptions_on_action_id", using: :btree
@@ -313,6 +340,7 @@ ActiveRecord::Schema.define(version: 20160906155851) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.string   "aasm_state"
+    t.datetime "cancelled_at"
   end
 
   add_index "payment_go_cardless_payment_methods", ["customer_id"], name: "index_payment_go_cardless_payment_methods_on_customer_id", using: :btree
@@ -331,6 +359,7 @@ ActiveRecord::Schema.define(version: 20160906155851) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "aasm_state"
+    t.datetime "cancelled_at"
   end
 
   add_index "payment_go_cardless_subscriptions", ["action_id"], name: "index_payment_go_cardless_subscriptions_on_action_id", using: :btree
@@ -527,6 +556,7 @@ ActiveRecord::Schema.define(version: 20160906155851) do
   add_foreign_key "actions", "pages"
   add_foreign_key "form_elements", "forms"
   add_foreign_key "links", "pages"
+  add_foreign_key "member_authentications", "members"
   add_foreign_key "pages", "campaigns"
   add_foreign_key "pages", "images", column: "primary_image_id"
   add_foreign_key "pages", "languages"

@@ -14,7 +14,7 @@ describe QueueManager do
         title: 'boo',
         language: page.language.actionkit_uri,
         tags: [],
-        url: 'https://example.com/a/i-am-a-slug',
+        url: "#{Settings.host}/a/i-am-a-slug",
         hosted_with: '/rest/v1/hostingplatform/2/',
         campaign_id: campaign.id
       }

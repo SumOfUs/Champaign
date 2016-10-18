@@ -18,29 +18,32 @@ module PaymentProcessor
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
-      attr_reader :action, :result
+      attr_reader :action, :result, :store_in_vault
 
-      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:)
-        builder = new(nonce, amount, currency, user, page_id)
+      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false)
+        builder = new(nonce, amount, currency, user, page_id, store_in_vault)
         builder.transact
         builder
       end
 
-      def initialize(nonce, amount, currency, user, page_id)
+      # Long parameter list is doing my head in - let's replace with a parameter object
+      #
+      def initialize(nonce, amount, currency, user, page_id, store_in_vault = false)
         @amount = amount
         @nonce = nonce
         @user = user
         @currency = currency
         @page_id = page_id
+        @store_in_vault = store_in_vault
       end
 
       def transact
         @result = ::Braintree::Transaction.sale(options)
         if @result.success?
-          @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: @result, is_subscription: false)
-          Payment::Braintree.write_transaction(@result, @page_id, @action.member_id, existing_customer)
+          @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: @result, is_subscription: false, store_in_vault: @store_in_vault)
+          Payment::Braintree.write_transaction(@result, @page_id, @action.member_id, existing_customer, store_in_vault: @store_in_vault)
         else
-          Payment::Braintree.write_transaction(@result, @page_id, nil, existing_customer)
+          Payment::Braintree.write_transaction(@result, @page_id, nil, existing_customer, store_in_vault: @store_in_vault)
         end
       end
 
@@ -60,7 +63,7 @@ module PaymentProcessor
             # we always want to store in vault unless we're using an existing
             # payment_method_token. we haven't built anything to do that yet,
             # so for now always store the payment method.
-            store_in_vault_on_success: true
+            store_in_vault_on_success: store_in_vault
           },
           customer: customer_options,
           billing: billing_options

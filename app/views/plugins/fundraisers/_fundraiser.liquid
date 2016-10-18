@@ -101,11 +101,19 @@
               </div>
               <div class="form__group">
                 <label class="checkbox-label">
-                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" /> {{ 'fundraiser.make_recurring' | t }}
+                  <input class="fundraiser-bar__recurring" type="checkbox" name="recurring" />
+                  {{ 'fundraiser.make_recurring' | t }}
+                </label>
+                <label class="checkbox-label">
+                  <input class="fundraiser-bar__store-in-vault" type="checkbox" name="store_in_vault" checked="checked" />
+                  {{ 'fundraiser.store_in_vault' | t }}
                 </label>
               </div>
               <button type="submit" class="button fundraiser-bar__submit-button">{{ 'form.submit' | t }}</button>
             </form>
+            <div class="action-form__one-click">
+              {% include 'Oneclick Form' %}
+            </div>
             <div class="fundraiser-bar__fine-print">
               {{ 'fundraiser.fine_print' | t }}
             </div>
@@ -130,11 +138,13 @@
         chmp.myFundraiser = new chmp.Fundraiser({
           pageId:           "{{ id }}",
           followUpUrl:      "{{ follow_up_url }}",
+          member:           chmp.personalization.member,
           showDirectDebit:  chmp.personalization.showDirectDebit,
           currency:         chmp.personalization.urlParams.currency || chmp.personalization.location.currency,
           donationBands:    chmp.personalization.donationBands,
           amount:           chmp.personalization.urlParams.amount,
           recurringDefault: chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          paymentMethods:   chmp.personalization.paymentMethods
         });
         chmp.mySidebar     = new chmp.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
         chmp.hostedFields  = new chmp.BraintreeHostedFields();
