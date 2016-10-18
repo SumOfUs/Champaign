@@ -2,6 +2,16 @@
 ActiveAdmin.register LiquidLayout do
   actions :all, except: [:new, :edit]
 
+  index pagination_total: false
+  config.per_page = 20
+  scope :active, show_count: false
+
+  filter :title
+  filter :content
+  filter :experimental
+  filter :primary_layout
+  filter :post_action_layout
+
   index do
     selectable_column
     id_column
