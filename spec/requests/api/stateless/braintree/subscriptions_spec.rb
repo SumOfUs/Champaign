@@ -119,5 +119,17 @@ describe 'API::Stateless Braintree Subscriptions' do
         end.to raise_exception(ActiveRecord::RecordNotFound)
       end
     end
+
+    it 'pushes a cancelled subscription event to the AK queue' do
+      VCR.use_cassette('stateless api cancel subscription') do
+        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                      params: {
+                                                        recurring_id: '4ts4r2',
+                                                        canceled_by: 'user'
+                                                      })
+
+        delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
+      end
+    end
   end
 end
