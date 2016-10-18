@@ -3,8 +3,10 @@ class Plugins::Survey < ActiveRecord::Base
   has_many :forms, -> { order(created_at: :asc) }, as: :formable, dependent: :destroy
 
   belongs_to :page, touch: true
+  after_create :ensure_required_fields
 
   DEFAULTS = {}.freeze
+  REQUIRED_FIELDS = [:email].freeze
 
   def liquid_data(_supplemental_data = {})
     attributes.merge(forms: forms.includes(:form_elements).map { |form| form_liquid_data(form) })
@@ -14,6 +16,33 @@ class Plugins::Survey < ActiveRecord::Base
     self.class.name.demodulize
   end
 
+  def required_form_elements
+    REQUIRED_FIELDS.map do |field|
+      relevant = fields_with_name(field)
+      relevant.size == 1 ? relevant[0].id : nil
+    end.compact
+  end
+
+  def ensure_required_fields
+    ensure_has_a_form
+    REQUIRED_FIELDS.each do |field|
+      next unless fields_with_name(field).empty?
+      language = page.try(:language).try(:code) || I18n.default_locale
+      data_type = FormElement::VALID_TYPES.include?(field.to_s) ? field : 'text'
+      FormElement.create(name: field,
+                         data_type: data_type,
+                         form: forms.first,
+                         label: I18n.t("form.default.#{field}", locale: language))
+      forms.first.reload
+    end
+  end
+
+  def ensure_has_a_form
+    return forms if forms.size >= 1
+    Form.create(name: "survey_form_#{id}", master: false, formable: self)
+    forms.reload
+  end
+
   def form_liquid_data(form)
     {
       form_id: form.try(:id),
@@ -21,5 +50,11 @@ class Plugins::Survey < ActiveRecord::Base
       outstanding_fields: form.form_elements.map(&:name),
       skippable: !form.form_elements.map(&:required).any?
     }
+  end
+
+  private
+
+  def fields_with_name(name)
+    forms.map(&:form_elements).flatten.select { |el| el.name.to_sym == name }
   end
 end

@@ -45,6 +45,7 @@ const ErrorDisplay = require('shared/show_errors');
     events: {
       'ajax:success #new_collection_element': 'newElementAdded',
       'ajax:success #change-form-template': 'templateChanged',
+      'ajax:error a[data-method=delete]': 'deleteFailed',
       'sortupdate': 'updateSort',
     },
 
@@ -54,6 +55,18 @@ const ErrorDisplay = require('shared/show_errors');
       this.$el.on('ajax:success', "a[data-method=delete]", function(){
         $(this).parents('.list-group-item').fadeOut();
       });
+    },
+
+    deleteFailed: function(e, xhr) {
+      let message = this.deleteErrorMessage(xhr);
+      alert(message);
+    },
+
+    deleteErrorMessage(xhr) {
+      let errors = xhr && xhr.responseJSON && xhr.responseJSON.errors;
+      if (!errors || Object.keys(errors).length < 1) return 'That element could not be deleted';
+      let firstKey = Object.keys(errors)[0];
+      return `That element ${errors[firstKey]}`;
     },
 
     substringMatcher: function(strs) {
