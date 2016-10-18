@@ -149,13 +149,25 @@ describe Payment::GoCardless::Subscription do
     end
   end
 
-  context 'scopes' do
+  describe 'scopes' do
     context 'active' do
       let!(:subscription) { create :payment_go_cardless_subscription, cancelled_at: nil }
       let!(:cancelled_subscription) { create :payment_go_cardless_subscription, cancelled_at: 1.month.ago }
       it 'only returns subscriptions that have not been cancelled' do
         expect(Payment::GoCardless::Subscription.active).to match([subscription])
       end
+    end
+  end
+
+  describe 'cancel on ak' do
+    let(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'adklwe') }
+    it 'pushes to the AK queue with correct parameters' do
+      expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                    params: {
+                                                      recurring_id: 'adklwe',
+                                                      canceled_by: 'user'
+                                                    })
+      subscription.cancel_on_ak('user')
     end
   end
 end
