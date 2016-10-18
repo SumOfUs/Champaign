@@ -82,6 +82,15 @@ class FormElement < ActiveRecord::Base
     end
   end
 
+  def can_destroy?
+    if form.try(:formable).try(:required_form_elements).try(:include?, id)
+      errors.add(:base, "is required for this #{form.formable.class.name.demodulize}")
+      false
+    else
+      true
+    end
+  end
+
   private
 
   def choice_id(choice)
