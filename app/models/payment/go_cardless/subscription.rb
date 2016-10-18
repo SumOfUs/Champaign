@@ -105,4 +105,13 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
       transitions to: :active, after: Payment::GoCardless::Subscription::Charge
     end
   end
+
+  def cancel_on_ak(reason)
+    # reason can be "user", "admin", "processor", "failure", "expired"
+    ChampaignQueue.push(type: 'cancel_subscription',
+                        params: {
+                          recurring_id: go_cardless_id,
+                          canceled_by: reason
+                        })
+  end
 end
