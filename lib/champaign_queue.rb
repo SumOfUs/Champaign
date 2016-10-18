@@ -10,7 +10,6 @@ module ChampaignQueue
       client.push(opts)
     else
       false
-      # Clients::Direct.push(opts)
     end
   end
 

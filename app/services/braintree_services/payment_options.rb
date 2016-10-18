@@ -34,6 +34,15 @@ module BraintreeServices
       authentication.present?
     end
 
+    def last_4
+      case payment_method.instrument_type
+      when 'paypal_account'
+        'PYPL'
+      else
+        payment_method.last_4
+      end
+    end
+
     def currency
       params[:payment][:currency]
     end
