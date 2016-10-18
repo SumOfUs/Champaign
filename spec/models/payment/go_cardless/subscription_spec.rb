@@ -159,15 +159,15 @@ describe Payment::GoCardless::Subscription do
     end
   end
 
-  describe 'cancel on ak' do
+  describe 'publish cancellation event' do
     let(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'adklwe') }
-    it 'pushes to the AK queue with correct parameters' do
+    it 'pushes to the event queue with correct parameters' do
       expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
                                                     params: {
                                                       recurring_id: 'adklwe',
                                                       canceled_by: 'user'
                                                     })
-      subscription.cancel_on_ak('user')
+      subscription.publish_cancellation('user')
     end
   end
 end
