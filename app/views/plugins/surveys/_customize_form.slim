@@ -1,0 +1,12 @@
+.form-customization
+  .forms-edit
+    = render partial: 'forms/edit', locals: { form: form }
+
+  - if form
+    - klass = "forms-add-element-#{form.id}"
+    h4 data-toggle="collapse" data-target=".#{klass}" aria-expanded="false"
+      i.fa.fa-caret-right
+      = t('plugins.petition.add_new_field')
+      i.glyphicon.glyphicon-sort.pull-right.form-sort-handle
+    .forms-add-element.collapse class=klass
+      = render partial: 'forms/add_element', locals: { form: form, form_element: FormElement.new}
