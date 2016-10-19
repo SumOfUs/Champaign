@@ -117,7 +117,6 @@ describe Payment::GoCardless::PaymentMethod do
       it 'returns payment methods that have not been cancelled' do
         expect(Payment::GoCardless::PaymentMethod.active).to match([active_method])
       end
-
     end
   end
 end

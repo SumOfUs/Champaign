@@ -4,4 +4,3 @@ class AddCancelledAtToBraintreePaymentMethods < ActiveRecord::Migration
     add_column :payment_braintree_payment_methods, :cancelled_at, :timestamp
   end
 end
-
