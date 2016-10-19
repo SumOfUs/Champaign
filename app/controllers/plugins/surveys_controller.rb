@@ -1,8 +1,12 @@
 # frozen_string_literal: true
 class Plugins::SurveysController < Plugins::BaseController
   def add_form
-    plugin = Plugins.find_for('survey', params[:plugin_id])
-    @form = Form.new(name: "survey_form_#{params[:plugin_id]}", master: false, formable: plugin)
+    survey = Plugins.find_for('survey', params[:plugin_id])
+    position = survey.forms.last.position + 1
+    @form = Form.new(name: "survey_form_#{params[:plugin_id]}",
+                     master: false,
+                     formable: survey,
+                     position: position)
 
     respond_to do |format|
       if @form.save
@@ -11,6 +15,15 @@ class Plugins::SurveysController < Plugins::BaseController
         format.js { render json: { errors: @form.errors }, status: :unprocessable_entity }
       end
     end
+  end
+
+  def sort_forms
+    ids = params[:form_ids].split(',')
+    ids.each_with_index do |id, index|
+      Form.where(id: id).update_all(position: index)
+    end
+
+    head :ok
   end
 
   private

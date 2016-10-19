@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20161018221759) do
     t.boolean  "master",        default: false
     t.integer  "formable_id"
     t.string   "formable_type"
+    t.integer  "position",      default: 0,     null: false
   end
 
   add_index "forms", ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id", using: :btree
