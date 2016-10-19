@@ -17,20 +17,19 @@ const Survey = Backbone.View.extend({
   // options: object with any of the following keys
   //    source: the referring source to save
   //    referrer_id: the champaign id of the referrer
-  //    member: an object with fields that will prefill the form
-  //    location: a hash of location values inferred from the user's request
+  //    prefill: an object with fields that will prefill the form
   //    followUpUrl: the url to redirect to after the survey is completed
   initialize(options={}) {
+    this.$forms = this.$('.survey__form');
     if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
     }
-    this.prefill(_.extend(options.location, options.member));
+    this.insertHiddenFields(options);
+    this.prefill(options.prefill);
     this.revealFirstForm();
+    this.submitFirstFormIfComplete();
     this.followUpUrl = options.followUpUrl;
-    // this.$submitButton = this.$('.action-form__submit-button');
-    // this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
-    this.forms
   },
 
   revealFirstForm() {
@@ -43,21 +42,45 @@ const Survey = Backbone.View.extend({
 
   // prefillValues - an object mapping form names to prefill values
   prefill(prefillValues) {
+    this.prefillValues = prefillValues
     if(!_.isObject(prefillValues)) { return; }
     this.$('.survey__form input, select').each((ii, field) => {
       let $field = $(field);
       let name = $field.prop('name');
       if (prefillValues.hasOwnProperty(name)) {
-        $field.val(prefillValues[name]);
+        let radioOrCheck = ($field.prop('type') === 'radio' || $field.prop('type') === 'checkbox');
+        if (radioOrCheck && $field.val() == prefillValues[name]) {
+          $field.prop('checked', 'checked');
+        } else {
+          $field.val(prefillValues[name]);
+        }
       }
     });
+  },
+
+  submitFirstFormIfComplete() {
+    // form.serialize() returns the forms values as URL encoded params,
+    // so `=&` only happens when there's a blank value in the form, eg
+    // name=&weight=180, and `=` at the end means the last param is blank
+    let $form = this.$forms.first();
+    let serialized = $form.serialize();
+    let noneEmpty = (serialized.indexOf('=&') === -1 && serialized.slice(-1) !== '=');
+    let allPresent = _.every($form.find('input, select'), (el) => {
+      if (this.$(el).prop('type') === 'hidden') return true;
+      let name = this.$(el).prop('name');
+      let outputIncludesName = (serialized.indexOf(`&${name}=`) !== -1 ||
+                                serialized.indexOf(`${name}=`) === -0);
+      let prefillIncludesName = (this.prefillValues[name] !== undefined);
+      return outputIncludesName && prefillIncludesName;
+    });
+    if (noneEmpty && allPresent) $form.submit();
   },
 
   insertHiddenFields(options) {
     for(var ii = 0; ii < this.HIDDEN_FIELDS.length; ii++) {
       let field = this.HIDDEN_FIELDS[ii];
       if(options[field] && this.$el) {
-        this.insertHiddenInput(field, options[field], this.$el);
+        this.insertHiddenInput(field, options[field], this.$forms.first());
       }
     }
   },
