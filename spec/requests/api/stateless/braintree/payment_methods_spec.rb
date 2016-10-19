@@ -57,8 +57,8 @@ describe 'API::Stateless Braintree PaymentMethods' do
     it 'marks local record as cancelled' do
       Timecop.freeze do
         expect(response.status).to eq(200)
-        expect(Payment::Braintree::PaymentMethod.find(method_a.id).cancelled_at).
-          to be_within(0.1.seconds).of(Time.now)
+        expect(Payment::Braintree::PaymentMethod.find(method_a.id).cancelled_at)
+          .to be_within(0.1.seconds).of(Time.now)
       end
     end
 

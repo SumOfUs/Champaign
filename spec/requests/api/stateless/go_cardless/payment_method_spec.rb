@@ -77,8 +77,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
              customer: customer,
              created_at: last_month,
              cancelled_at: nil,
-             payment_method: delete_me
-      )
+             payment_method: delete_me)
     end
 
     let!(:subscription_b) do
@@ -86,8 +85,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
              customer: customer,
              created_at: last_month,
              cancelled_at: last_month,
-             payment_method: delete_me
-      )
+             payment_method: delete_me)
     end
 
     let!(:subscription_c) do
@@ -95,8 +93,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
              customer: customer,
              created_at: last_month,
              cancelled_at: nil,
-             payment_method: create(:payment_go_cardless_payment_method)
-      )
+             payment_method: create(:payment_go_cardless_payment_method))
     end
 
     it 'cancels the mandate on GoCardless and sets the cancelled_at field in the local record' do
@@ -120,7 +117,6 @@ describe 'API::Stateless GoCardless PaymentMethods' do
         end
       end
     end
-
 
     it 'returns errors and does not update the local record if GoCardless returns an error' do
       VCR.use_cassette('stateless api cancel go_cardless payment method failure') do
