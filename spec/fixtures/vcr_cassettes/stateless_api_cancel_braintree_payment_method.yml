@@ -1,0 +1,58 @@
+---
+http_interactions:
+- request:
+    method: delete
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/payment_methods/any/2xyvw2
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Tue, 18 Oct 2016 23:05:07 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - f3480a4e-d0ac-4648-bc16-d70633f6e2ca
+      X-Runtime:
+      - '0.065898'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAKOqBlgAAwAAAP//AwAAAAAAAAAAAA==
+    http_version: 
+  recorded_at: Tue, 18 Oct 2016 23:05:07 GMT
+recorded_with: VCR 3.0.3
