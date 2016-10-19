@@ -19,6 +19,11 @@ describe 'Email Confirmation when signing up to express donations' do
       expect(response.body).to include('successfully confirmed your account')
       expect(auth.reload.confirmed_at).to_not be_nil
     end
+
+    it 'sets html#lang to locale' do
+      subject
+      expect(response.body).to match(/html lang="en"/)
+    end
   end
 
   describe 'locale' do
