@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Plugins::Survey < ActiveRecord::Base
-  has_many :forms, -> { order(created_at: :asc) }, as: :formable, dependent: :destroy
+  has_many :forms, -> { order(position: :asc, created_at: :asc) }, as: :formable, dependent: :destroy
 
   belongs_to :page, touch: true
   after_create :ensure_required_fields
