@@ -2,20 +2,25 @@
   {% include 'No Script' %}
   <div class="script-dependent">
     {% for form in plugins.survey[ref].forms %}
-      {% capture cta %}{% if forloop.last == true %}Finish{% else %}Next{% endif %}{% endcapture %}
+      {% unless form.fields == empty %}
+        {% capture cta %}{% if forloop.last == true %}Finish{% else %}Next{% endif %}{% endcapture %}
 
-      {% include 'Survey Form',
-        cta: cta,
-        skip: 'Skip',
-        last: forloop.last,
-        form: form
-      %}
+        {% include 'Survey Form',
+          cta: cta,
+          skip: 'Skip',
+          last: forloop.last,
+          form: form
+        %}
+      {% endunless %}
     {% endfor %}
     
     <script type="text/javascript">
       $(document).ready(function(){
+        var wcp = window.champaign.personalization;
+        var prefill = _.extend(wcp.location, wcp.member, wcp.urlParams);
         window.champaign.mySurvey = new window.champaign.Survey({
           member:           window.champaign.personalization.member,
+          prefill:          prefill,
           location:         window.champaign.personalization.location,
           source:           window.champaign.personalization.urlParams.source,
           followUpUrl:      "{{ follow_up_url }}"
