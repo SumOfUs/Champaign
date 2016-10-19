@@ -6,7 +6,7 @@ module Api
         before_filter :authenticate_request!
 
         def index
-          @payment_methods = PaymentHelper::GoCardless.payment_methods_for_member(@current_member)
+          @payment_methods = PaymentHelper::GoCardless.payment_methods_for_member(@current_member).active
         end
 
         def destroy

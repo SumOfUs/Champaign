@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916170801) do
+ActiveRecord::Schema.define(version: 20161018221759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -269,6 +269,7 @@ ActiveRecord::Schema.define(version: 20160916170801) do
     t.string   "instrument_type"
     t.string   "email"
     t.boolean  "store_in_vault",  default: false
+    t.datetime "cancelled_at"
   end
 
   add_index "payment_braintree_payment_methods", ["customer_id"], name: "braintree_customer_index", using: :btree
