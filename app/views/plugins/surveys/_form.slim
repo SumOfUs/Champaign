@@ -2,10 +2,11 @@
   
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_survey_path(plugin) }
 
-    .survey-forms.col-md-7
-      - plugin.forms.each do |form|
-        .well
-          = render partial: 'plugins/shared/customize_form', locals: { form: form }
+    .col-md-7
+      .survey__forms
+        - plugin.forms.each do |form|
+          .well.survey__container data-id=form.id
+            = render partial: 'plugins/surveys/customize_form', locals: { form: form }
       = form_for plugin, remote: true, url: plugins_add_survey_form_path(plugin), html: { method: 'post', class: 'form-element' } do |f|
         = f.hidden_field :id
         .form-group
@@ -19,3 +20,6 @@
 javascript:
   $.publish("collection:edit:loaded");
   $.publish("plugin:form:loaded");
+  $(document).ready(function(){
+    new SurveyEditor();
+  });

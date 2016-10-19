@@ -489,3 +489,10 @@ body.page-edit-body {
 .checkbox input[type="checkbox"].layout-type-checkbox {
   margin-left: 0px;
 }
+.form-sort-handle {
+  cursor: move;
+  opacity: 0.5;
+  &:hover, &:active {
+    opacity: 1;
+  }
+}

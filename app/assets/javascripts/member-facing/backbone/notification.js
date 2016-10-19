@@ -10,7 +10,6 @@ const Notification = Backbone.View.extend({
   },
 
   initialize() {
-    console.log(this.$el);
     window.setTimeout(this.appear.bind(this), this.OPEN_AFTER*1000);
     window.setTimeout(this.disappear.bind(this), this.CLOSE_AFTER*1000);
   },
