@@ -113,9 +113,9 @@ section {
   .sort {
     margin-right: 5px;
     .glyphicon {
-      color: #ddd;
-      &:active {
-        color: #000;
+      opacity: 0.3;
+      &:active, &:hover {
+        opacity: 1;
       }
     }
   }

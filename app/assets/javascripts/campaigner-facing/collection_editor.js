@@ -46,7 +46,7 @@ const ErrorDisplay = require('shared/show_errors');
       'ajax:success #new_collection_element': 'newElementAdded',
       'ajax:success #change-form-template': 'templateChanged',
       'ajax:error a[data-method=delete]': 'deleteFailed',
-      'sortupdate': 'updateSort',
+      'sortupdate .list-group': 'updateSort',
     },
 
     initialize: function(){
