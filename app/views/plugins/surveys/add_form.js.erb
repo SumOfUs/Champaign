@@ -1,2 +1,3 @@
-var html = "<div class='well'><%= j(render(partial: 'plugins/shared/customize_form', locals: {form: @form})) %></div>";
-$(".survey-forms").append(html);
+var html = "<div class='well'><%= j(render(partial: 'plugins/surveys/customize_form', locals: {form: @form})) %></div>";
+$(".survey__forms").append(html);
+$.publish('survey:form_added');

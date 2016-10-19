@@ -1,3 +1,4 @@
+// Member-facing survey styles
 .survey {
   @include centered-to-full(500px, 2%);
   min-height: calc(100vh - 300px);
