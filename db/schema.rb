@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916170801) do
+ActiveRecord::Schema.define(version: 20161018213050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(version: 20160916170801) do
     t.boolean  "master",        default: false
     t.integer  "formable_id"
     t.string   "formable_type"
+    t.integer  "position",      default: 0,     null: false
   end
 
   add_index "forms", ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id", using: :btree
