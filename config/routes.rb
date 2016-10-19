@@ -75,6 +75,7 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     post 'surveys/:plugin_id/form', to: 'surveys#add_form', as: 'add_survey_form'
+    put 'surveys/:plugin_id/sort', to: 'surveys#sort_forms', as: 'sort_survey_forms'
     get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
     post 'forms/:plugin_type/:plugin_id/', to: 'forms#create', as: 'form_create'
   end
