@@ -21,7 +21,7 @@ describe 'deleting survey elements' do
   it 'returns 200 when deleting a normal element' do
     form = survey.forms.first
     el = create :form_element, form: form
-    expect { delete("/forms/#{form.id}/form_elements/#{el.id}") }.to change { FormElement.count }.by -1
+    expect { delete("/forms/#{form.id}/form_elements/#{el.id}") }.to change { FormElement.count }.by(-1)
     expect(response.status).to eq 200
     expect(response.body).to eq '{"status":"ok"}'
   end
