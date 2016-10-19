@@ -108,4 +108,16 @@ describe Payment::GoCardless::PaymentMethod do
       end.to change { subject.reload.cancelled? }.from(false).to(true)
     end
   end
+
+  describe 'scope' do
+    context 'active' do
+      let!(:active_method) { create(:payment_go_cardless_payment_method, cancelled_at: nil) }
+      let!(:cancelled_method) { create(:payment_go_cardless_payment_method, cancelled_at: Time.now) }
+
+      it 'returns payment methods that have not been cancelled' do
+        expect(Payment::GoCardless::PaymentMethod.active).to match([active_method])
+      end
+
+    end
+  end
 end

@@ -20,4 +20,5 @@ class Payment::Braintree::PaymentMethod < ActiveRecord::Base
                             foreign_key: 'payment_method_id'
 
   scope :stored, -> { where(store_in_vault: true) }
+  scope :active, -> { where(cancelled_at: nil) }
 end

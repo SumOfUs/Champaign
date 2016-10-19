@@ -57,4 +57,5 @@ class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
   belongs_to :customer, class_name: 'Payment::GoCardless::Customer'
 
   validates :go_cardless_id, presence: true, allow_blank: false
+  scope :active, -> { where(cancelled_at: nil) }
 end
