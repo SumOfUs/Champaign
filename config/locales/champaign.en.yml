@@ -94,10 +94,10 @@ en:
     add_source: "Only URL and Title are required. These appear as citations at the bottom of the page."
     form_elements:
       data_type: 'This changes what user inputs the field will accept'
-      label: 'This is the label of the field presented to the signer.'
+      label: 'This is the label or copy of the field, as seen by the user on the page.'
       name: "The field name to be stored in ActionKit. Select a standard AK field from the suggestions, or enter your own. If entering your own, add _customer or _shareholder to company names, or _other for others. Examples: apple_customer, shell_shareholder, journalist_other"
       default_value: "The field will be pre-populated with whatever you write here. Write '1' or 'checked' to pre-check checkboxes. Countries should be two character country code."
-      choices: 'Simply write the choices to be shown (eg Apple) or, if you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
+      choices: 'Simply write the choices to be shown (eg. Apple) or, if you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
 
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
@@ -210,16 +210,16 @@ en:
       title: "Give your form a name"
 
   form_elements:
-    label: 'Label (user-facing)'
+    label: 'Field label/copy (what user sees)'
     data_type: 'Field type'
-    name: 'Name (internal-facing)'
-    choices: 'Multiple-choice options'
+    name: 'Field name (for data recording)'
+    choices: 'Multiple choice options'
     default_value: 'Default value'
     add_default_value: 'Add default value'
     add_choice: 'Add another choice'
     required: 'Required'
-    label_suggestion: "eg. Street Address"
-    name_suggestion: "eg. address1"
+    label_suggestion: "eg. I am an Apple shareholder"
+    name_suggestion: "eg. apple_shareholder"
     default_value_suggestion: 'eg. 10 Downing St.'
 
   links:
@@ -278,7 +278,7 @@ en:
       offset: "Offset"
     survey:
       customise_form: "Edit survey section"
-      create_form: "Add a section to the survey"
+      create_form: "Add a new section to survey"
     fundraiser:
       donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"
