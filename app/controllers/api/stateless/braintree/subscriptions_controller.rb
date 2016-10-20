@@ -14,14 +14,21 @@ module Api
           result = ::Braintree::Subscription.cancel(@subscription.subscription_id)
 
           if result.success?
-            @subscription.destroy
+            cancel_subscription
             render json: @subscription.slice(:id, :subscription_id)
           else
             render json: { success: false, errors: result.errors }, status: 422
           end
         rescue ::Braintree::NotFoundError
-          @subscription.destroy
+          cancel_subscription
           render json: { success: true }
+        end
+
+        private
+
+        def cancel_subscription
+          @subscription.update(cancelled_at: Time.now)
+          @subscription.publish_cancellation('user')
         end
       end
     end

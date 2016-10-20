@@ -20,21 +20,22 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result, :store_in_vault
 
-      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false)
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault)
+      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false, device_data: {})
+        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data)
         builder.transact
         builder
       end
 
       # Long parameter list is doing my head in - let's replace with a parameter object
       #
-      def initialize(nonce, amount, currency, user, page_id, store_in_vault = false)
+      def initialize(nonce, amount, currency, user, page_id, store_in_vault = false, device_data = {})
         @amount = amount
         @nonce = nonce
         @user = user
         @currency = currency
         @page_id = page_id
         @store_in_vault = store_in_vault
+        @device_data = device_data
       end
 
       def transact
@@ -58,6 +59,8 @@ module PaymentProcessor
           amount: @amount,
           payment_method_nonce: @nonce,
           merchant_account_id: MerchantAccountSelector.for_currency(@currency),
+          device_data: @device_data,
+
           options: {
             submit_for_settlement: true,
             # we always want to store in vault unless we're using an existing

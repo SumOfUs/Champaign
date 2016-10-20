@@ -6,7 +6,7 @@ module Api
         before_filter :authenticate_request!
 
         def index
-          @payment_methods = PaymentHelper::Braintree.payment_methods_for_member(@current_member)
+          @payment_methods = PaymentHelper::Braintree.payment_methods_for_member(@current_member).active
         end
 
         def destroy
@@ -18,7 +18,7 @@ module Api
             Rails.logger.error("Payment Method #{@payment_method.token} not found on Braintree")
           end
 
-          @payment_method.destroy
+          @payment_method.update(cancelled_at: Time.now)
           PaymentHelper::Braintree.active_subscriptions_for_payment_method(@payment_method)
             .update_all(cancelled_at: Time.now)
           render json: { success: true }

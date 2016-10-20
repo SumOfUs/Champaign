@@ -100,23 +100,37 @@ describe 'API::Stateless Braintree Subscriptions' do
       create(:payment_braintree_subscription, subscription_id: 'nosuchthing', customer: customer)
     end
 
-    it 'deletes the subscription locally and on Braintree' do
+    it 'marks the local subscription cancelled and deletes it on Braintree' do
       VCR.use_cassette('stateless api cancel subscription') do
-        delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
-        expect(response.status).to eq(200)
-        expect do
-          ::Payment::Braintree::Subscription.find(cancel_this_subscription.id)
-        end.to raise_exception(ActiveRecord::RecordNotFound)
+        Timecop.freeze do
+          delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
+          expect(response.status).to eq(200)
+          expect(::Payment::Braintree::Subscription.find(cancel_this_subscription.id).cancelled_at)
+            .to be_within(0.1.second).of(Time.now)
+        end
       end
     end
 
-    it 'returns success and deletes the subscription locally even if does not exist on Braintree' do
+    it 'returns success and marks the local subscription cancelled even if does not exist on Braintree' do
       VCR.use_cassette('stateless api cancel subscription failure') do
-        delete "/api/stateless/braintree/subscriptions/#{no_such_subscription.id}", nil, auth_headers
-        expect(response.status).to eq(200)
-        expect do
-          ::Payment::Braintree::Subscription.find(no_such_subscription.id)
-        end.to raise_exception(ActiveRecord::RecordNotFound)
+        Timecop.freeze do
+          delete "/api/stateless/braintree/subscriptions/#{no_such_subscription.id}", nil, auth_headers
+          expect(response.status).to eq(200)
+          expect(::Payment::Braintree::Subscription.find(no_such_subscription.id).cancelled_at)
+            .to be_within(0.1.second).of(Time.now)
+        end
+      end
+    end
+
+    it 'pushes a cancelled subscription event to the event queue' do
+      VCR.use_cassette('stateless api cancel subscription') do
+        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                      params: {
+                                                        recurring_id: '4ts4r2',
+                                                        canceled_by: 'user'
+                                                      })
+
+        delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
       end
     end
   end

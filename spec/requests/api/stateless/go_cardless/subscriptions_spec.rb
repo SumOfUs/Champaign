@@ -139,5 +139,17 @@ describe 'API::Stateless GoCardless Subscriptions' do
         expect(Payment::GoCardless::Subscription.find(nonexistent_subscription.id).cancelled_at).to be nil
       end
     end
+
+    it 'pushes a cancelled subscription event to the event queue' do
+      VCR.use_cassette('stateless api cancel go_cardless subscription') do
+        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                      params: {
+                                                        recurring_id: 'SB00003GHBQ3YF',
+                                                        canceled_by: 'user'
+                                                      })
+
+        delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", nil, auth_headers
+      end
+    end
   end
 end

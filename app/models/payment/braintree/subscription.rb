@@ -26,4 +26,13 @@ class Payment::Braintree::Subscription < ActiveRecord::Base
                               foreign_key: :subscription_id
 
   scope :active, -> { where(cancelled_at: nil) }
+
+  def publish_cancellation(reason)
+    # reason can be "user", "admin", "processor", "failure", "expired"
+    ChampaignQueue.push(type: 'cancel_subscription',
+                        params: {
+                          recurring_id: subscription_id,
+                          canceled_by: reason
+                        })
+  end
 end

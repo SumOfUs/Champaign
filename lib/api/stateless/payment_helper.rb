@@ -10,7 +10,7 @@ module Api
         end
 
         def payment_methods_for_member(member)
-          customer(member).payment_methods.stored.order('created_at desc')
+          customer(member).payment_methods.stored.active.order('created_at desc')
         end
 
         def payment_method_for_member(member:, id:)
@@ -54,11 +54,15 @@ module Api
         end
 
         def payment_methods_for_member(member)
-          customer(member).payment_methods.order('created_at desc')
+          customer(member).payment_methods.active.order('created_at desc')
         end
 
         def payment_method_for_member(member:, id:)
           customer(member).payment_methods.find(id)
+        end
+
+        def active_subscriptions_for_payment_method(payment_method)
+          ::Payment::GoCardless::Subscription.active.where(payment_method_id: payment_method.id)
         end
       end
     end
