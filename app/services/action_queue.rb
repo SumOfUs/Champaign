@@ -125,23 +125,12 @@ module ActionQueue
     end
   end
 
-  class NewSurveyResponse
-    include Donatable
-    include Enqueable
-
+  class NewSurveyResponse < NewPetitionAction
     def payload
-      {
-        type: 'new_survey_response',
-        params: {
-          email: @action.member.email,
-          fields: @action.form_data
-        }
-      }
-        .merge(UserLanguageISO.for(page.language))
-        .tap do |params|
-          params[:country] = country(member.country) if member.country.present?
-          params[:action_bucket] = data[:bucket] if data.key? :bucket
-        end
+      super.tap do |p|
+        p[:type] = 'new_survey_response'
+        p[:params][:fields] = @action.form_data
+      end
     end
   end
 
