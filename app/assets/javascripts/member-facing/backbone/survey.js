@@ -6,6 +6,7 @@ const Survey = Backbone.View.extend({
 
   el: '.survey',
   HIDDEN_FIELDS: ['source', 'referrer_id'],
+  DEFAULT_SCROLL_OFFSET: 80,
 
   events: {
     'click .survey__skip-button': 'skipSection',
@@ -19,7 +20,11 @@ const Survey = Backbone.View.extend({
   //    referrer_id: the champaign id of the referrer
   //    prefill: an object with fields that will prefill the form
   //    followUpUrl: the url to redirect to after the survey is completed
+  //    scrollOffset: the gap to leave between the top of the browser
+  //      window and the start of a form when scrolling down. default is 80
   initialize(options={}) {
+    let hasScrollOffset = options.hasOwnProperty('scrollOffset');
+    this.scrollOffset = hasScrollOffset ? options.scrollOffset : this.DEFAULT_SCROLL_OFFSET;
     this.$forms = this.$('.survey__form');
     if (!MobileCheck.isMobile()) {
       this.selectizeCountry();
@@ -127,7 +132,8 @@ const Survey = Backbone.View.extend({
 
   revealForm($form) {
     $form.removeClass('hidden-closed');
-    $('html, body').animate({ scrollTop: $form.offset().top }, 500);
+    let position = $form.offset().top - this.scrollOffset; // leave room for header
+    $('html, body').animate({ scrollTop: position }, 500);
   },
 
   followUp() {
