@@ -19,7 +19,7 @@ en:
     proceed_to_payment: Proceed to payment
     other_amount: Other
     make_recurring: Make my donation monthly
-    store_in_vault: Store my payment information
+    store_in_vault: Securely store my payment information
     thank_you: Thank you for your donation!
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
