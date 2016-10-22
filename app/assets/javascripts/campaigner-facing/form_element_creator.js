@@ -31,11 +31,7 @@ const FormElementCreator = Backbone.View.extend({
   setModeVisuals(mode) {
     for (var role in this.modes[mode]) {
       let $el = this.$(`[data-editor-role=${role}]`);
-      if (this.modes[mode][role]) {
-        $el.removeClass('hidden-closed');
-      } else {
-        $el.addClass('hidden-closed');
-      }
+      $el.toggleClass('hidden-closed', this.modes[mode][role]);
     }
   },
 
