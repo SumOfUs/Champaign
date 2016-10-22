@@ -23,8 +23,8 @@ const SurveyEditor = Backbone.View.extend({
   },
 
   handleSort(e, ui) {
-    let ids = ui.item.parent().children().map(function(i, el){
-      return $(el).data('id');
+    let ids = ui.item.parent().children().map((i, el) => {
+      this.$(el).data('id');
     }).get();
     this.saveFormOrder(ids);
   },
