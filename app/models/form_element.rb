@@ -51,9 +51,9 @@ class FormElement < ActiveRecord::Base
   def formatted_choices
     return [] if choices.blank?
     choices.map do |choice|
-      if choice.class == String
+      if choice.is_a? String
         { label: choice, value: choice, id: choice_id(choice) }
-      elsif choice.class == Hash
+      elsif choice.is_a? Hash
         choice.symbolize_keys.merge(id: choice_id(choice['value']))
       else
         choice
@@ -68,12 +68,12 @@ class FormElement < ActiveRecord::Base
       return
     end
     choices.each do |choice|
-      if choice.class == Hash
+      if choice.is_a? Hash
         if !choice.key?('label') || !choice.key?('value')
           errors.add(:choices, 'must have a label and value for each dictionary option')
           break
         end
-      elsif choice.class == String
+      elsif choice.is_a? String
         next
       else
         errors.add(:choices, 'must be an array containing strings or dictionaries')

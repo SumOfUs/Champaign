@@ -47,7 +47,7 @@ const Survey = Backbone.View.extend({
 
   // prefillValues - an object mapping form names to prefill values
   prefill(prefillValues) {
-    this.prefillValues = prefillValues
+    this.prefillValues = prefillValues;
     if(!_.isObject(prefillValues)) { return; }
     this.$('.survey__form input, select').each((ii, field) => {
       let $field = $(field);
@@ -82,8 +82,7 @@ const Survey = Backbone.View.extend({
   },
 
   insertHiddenFields(options) {
-    for(var ii = 0; ii < this.HIDDEN_FIELDS.length; ii++) {
-      let field = this.HIDDEN_FIELDS[ii];
+    for(var field of this.HIDDEN_FIELDS) {
       if(options[field] && this.$el) {
         this.insertHiddenInput(field, options[field], this.$forms.first());
       }
