@@ -30,9 +30,9 @@ describe 'api/pages/:id/survey_responses', type: :request do
         action = Action.last
         expect(action.page_id).to eq page.id
         expect(action.form_data).to include(
-          'survey_name' => 'Bob',
-          'survey_email' => 'b@test.com',
-          'survey_country' => 'AR'
+          'name' => 'Bob',
+          'email' => 'b@test.com',
+          'country' => 'AR'
         )
       end
 
@@ -105,10 +105,10 @@ describe 'api/pages/:id/survey_responses', type: :request do
 
         @action.reload
         expect(@action.form_data).to include(
-          'survey_email'   => 'l@test.com',
-          'survey_name'    => 'Lucy',
-          'survey_country' => 'AR',
-          'survey_phone'   => '123456'
+          'email'   => 'l@test.com',
+          'name'    => 'Lucy',
+          'country' => 'AR',
+          'phone'   => '123456'
         )
       end
     end
