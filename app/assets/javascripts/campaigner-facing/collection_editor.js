@@ -117,6 +117,7 @@ const ErrorDisplay = require('shared/show_errors');
       $listGroup.append(resp);
       this.$('#form_element_label, #form_element_name').val('');
       ErrorDisplay.clearErrors(this.$('form#new_collection_element'));
+      Backbone.trigger('collection:element_added');
       this.makeSortable();
     },
 
