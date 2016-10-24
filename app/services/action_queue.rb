@@ -129,7 +129,6 @@ module ActionQueue
     def payload
       super.tap do |p|
         p[:type] = 'new_survey_response'
-        p[:params][:fields] = @action.form_data
       end
     end
   end
