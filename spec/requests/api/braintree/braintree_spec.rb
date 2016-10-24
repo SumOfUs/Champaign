@@ -3,12 +3,10 @@ require 'rails_helper'
 
 describe 'Express Donation' do
   let!(:page) { create(:page, slug: 'hello-world', title: 'Hello World') }
-  let(:form) { create(:form) }
+  let(:form)  { create(:form) }
 
-  let(:member) { create(:member, email: 'test@example.com') }
-  let(:customer) { create(:payment_braintree_customer, member: member) }
-
-  ## Token is REAL
+  let(:member)          { create(:member, email: 'test@example.com') }
+  let(:customer)        { create(:payment_braintree_customer, member: member) }
   let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: '6vg2vw') }
 
   before do
@@ -93,6 +91,8 @@ describe 'Express Donation' do
           subscription_id: /[a-z0-9]{6}/,
           payment_method_id: payment_method.id
         }
+
+        expect(subscription.reload.action).to be_an Action
         expect(subscription.attributes.symbolize_keys)
           .to include(expected_attributes)
       end
