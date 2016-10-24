@@ -1,3 +1,5 @@
+const GlobalEvents = require('shared/global_events');
+
 const FormElementCreator = Backbone.View.extend({
 
   GENERIC_NAME: 'instruction', // since instruction fields are the only type with no need for a name
@@ -15,8 +17,13 @@ const FormElementCreator = Backbone.View.extend({
     'click .form-element__add-choice': 'addChoice',
   },
 
+  globalEvents: {
+    'collection:element_added': 'resetAfterSubmission',
+  },
+
   initialize() {
     this.changeFormMode({target: this.$('#form_element_data_type')});
+    GlobalEvents.bindEvents(this);
   },
 
   changeFormMode(e) {
@@ -24,14 +31,20 @@ const FormElementCreator = Backbone.View.extend({
     if (!this.modes.hasOwnProperty(mode)) {
       mode = 'default';
     }
+    this.mode = mode;
     this.setModeVisuals(mode);
     this.setModeValues(mode);
+  },
+
+  resetAfterSubmission() {
+    this.setModeVisuals(this.mode);
+    this.setModeValues(this.mode);
   },
 
   setModeVisuals(mode) {
     for (var role in this.modes[mode]) {
       let $el = this.$(`[data-editor-role=${role}]`);
-      $el.toggleClass('hidden-closed', this.modes[mode][role]);
+      $el.toggleClass('hidden-closed', !this.modes[mode][role]);
     }
   },
 
