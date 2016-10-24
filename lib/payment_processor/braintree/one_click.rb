@@ -12,8 +12,10 @@ module PaymentProcessor::Braintree
     def run
       sale = make_payment
       return unless sale.success?
-      store_locally(sale)
-      create_action(extra_fields(sale))
+      record = store_locally(sale)
+      action = create_action(extra_fields(sale))
+
+      record.update(action: action) if payment_options.recurring?
     end
 
     def extra_fields(sale)
