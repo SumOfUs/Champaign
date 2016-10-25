@@ -6,7 +6,7 @@
     - type_names = { 'text' => "text (single line)", "paragraph" => 'text (multi-line)' }
     - options = FormElement::VALID_TYPES.map{ |type| [type_names.fetch(type, type), type] }
     = f.select :data_type, options_for_select(options), {}, class: 'form-control'
-  .form-group
+  .form-group data-editor-role="label"
     = label_with_tooltip(f, :label, t('form_elements.label'), t('tooltips.form_elements.label'))
     = f.text_field :label,  class: 'form-control', placeholder: t('form_elements.label_suggestion')
   .form-group.clearfix data-editor-role="name"

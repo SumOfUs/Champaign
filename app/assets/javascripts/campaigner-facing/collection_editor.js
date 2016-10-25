@@ -10,6 +10,7 @@
 
 const setupOnce = require('campaigner-facing/setup_once');
 const ErrorDisplay = require('shared/show_errors');
+const GlobalEvents = require('shared/global_events');
 
 (function(){
   let CollectionEditor = Backbone.View.extend({
@@ -49,12 +50,17 @@ const ErrorDisplay = require('shared/show_errors');
       'sortupdate .list-group': 'updateSort',
     },
 
+    globalEvents: {
+      'survey:form_added': 'autoComplete',
+    },
+
     initialize: function(){
       this.makeSortable();
       this.autoComplete();
       this.$el.on('ajax:success', "a[data-method=delete]", function(){
         $(this).parents('.list-group-item').fadeOut();
       });
+      GlobalEvents.bindEvents(this);
     },
 
     deleteFailed: function(e, xhr) {
