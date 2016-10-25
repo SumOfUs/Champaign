@@ -50,13 +50,15 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       end
 
       it 'posts events' do
+        expected_payload = {
+          type: 'subscription-payment',
+          params: {
+            recurring_id: 'foo'
+          }
+        }
+
         expect(ChampaignQueue).to receive(:push)
-          .with(
-            type: 'subscription-payment',
-            params: {
-              recurring_id: 'foo'
-            }
-          )
+          .with(expected_payload, delay: 120)
 
         subject
       end

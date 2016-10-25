@@ -10,7 +10,7 @@ describe ChampaignQueue do
 
       it 'delegates to Client::Sqs' do
         expect(ChampaignQueue::Clients::Sqs)
-          .to receive(:push).with(foo: 'bar')
+          .to receive(:push).with({ foo: 'bar' }, {})
 
         ChampaignQueue.push(foo: 'bar')
       end

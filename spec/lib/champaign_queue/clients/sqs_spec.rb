@@ -16,7 +16,7 @@ describe ChampaignQueue::Clients::Sqs do
         </SendMessageResponse>)
     end
 
-    let(:request_body) { 'Action=SendMessage&MessageBody=%7B%22foo%22%3A%22bar%22%7D&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F679051310897%2Fdemo&Version=2012-11-05' }
+    let(:request_body) { 'Action=SendMessage&DelaySeconds=0&MessageBody=%7B%22foo%22%3A%22bar%22%7D&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F679051310897%2Fdemo&Version=2012-11-05' }
     let(:request_uri)  { 'https://sqs.us-east-1.amazonaws.com/679051310897/demo' }
 
     before do
@@ -46,7 +46,6 @@ describe ChampaignQueue::Clients::Sqs do
 
     it 'does not deliver payload to AWS SQS Queue' do
       expect_any_instance_of(Aws::SQS::Client).to_not receive(:send_message)
-
       ChampaignQueue::Clients::Sqs.push(foo: :bar)
     end
   end
