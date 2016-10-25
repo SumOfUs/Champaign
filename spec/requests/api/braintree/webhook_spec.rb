@@ -161,7 +161,7 @@ describe 'Braintree API' do
       end
     end
 
-    describe 'of a subscription cancelation' do
+    describe 'of a subscription cancellation' do
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionCanceled,
@@ -207,5 +207,6 @@ describe 'Braintree API' do
         include_examples 'has no unintended consequences'
       end
     end
+
   end
 end

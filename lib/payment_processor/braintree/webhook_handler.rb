@@ -48,8 +48,6 @@ module PaymentProcessor
             subscription.update(cancelled_at: Time.now)
             subscription.publish_cancellation('processor')
             subscription
-          when 'subscription_expired'
-            handle_subscription_expired
         else
           Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{@notification.kind}'")
         end
@@ -58,13 +56,7 @@ module PaymentProcessor
       def notification
         @notification ||= ::Braintree::WebhookNotification.parse(@signature, @payload)
       end
-
-      def handle_subscription_expired
-        subscription.publish_cancellation('expired')
-        subscription.update(cancelled_at: Time.now)
-
-      end
-
+      
       def handle_subscription_charged
         if original_action.blank?
           Rails.logger.info("Failed to handle Braintree::WebhookNotification for subscription_id '#{@notification.subscription.id}'")
