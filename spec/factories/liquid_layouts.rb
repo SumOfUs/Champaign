@@ -32,6 +32,11 @@ FactoryGirl.define do
       content %( {% include 'petition' %} )
     end
 
+    trait :donation do
+      title 'donation template'
+      content %( {% include 'donation' %} )
+    end
+
     trait :thermometer do
       title 'thermometer template'
       content %( {% include 'thermometer' %} )

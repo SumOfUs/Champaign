@@ -21,6 +21,7 @@ en:
     make_recurring: Make my donation monthly
     store_in_vault: Securely store my payment information
     thank_you: Thank you for your donation!
+    thank_you_with_amount: "Thank you for your donation of %{amount}"
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "" # override this with org-specific details in your own yml file.
