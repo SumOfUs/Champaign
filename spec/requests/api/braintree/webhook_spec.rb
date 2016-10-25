@@ -94,10 +94,14 @@ describe 'Braintree API' do
         end
 
         it 'pushes to the queue with the right params' do
-          expect(ChampaignQueue).to receive(:push).with(type: 'subscription-payment',
-                                                        params: {
-                                                          recurring_id: /[a-z0-9]{6}/
-                                                        })
+          expected_payload = {
+            type: 'subscription-payment',
+            params: {
+              recurring_id: /[a-z0-9]{6}/
+            }
+          }
+
+          expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
 
           subject
         end
@@ -140,10 +144,14 @@ describe 'Braintree API' do
         end
 
         it 'pushes to the queue with the right params' do
-          expect(ChampaignQueue).to receive(:push).with(type: 'subscription-payment',
-                                                        params: {
-                                                          recurring_id: /[a-z0-9]{6}/
-                                                        })
+          expected_payload = {
+            type: 'subscription-payment',
+            params: {
+              recurring_id: /[a-z0-9]{6}/
+            }
+          }
+
+          expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
 
           subject
         end

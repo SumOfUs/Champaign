@@ -66,12 +66,12 @@ module PaymentProcessor
         record = Payment::Braintree.write_transaction(notification, original_action.page_id, original_action.member_id, customer, false)
         record.update(subscription: subscription)
 
-        ChampaignQueue.push(
+        ChampaignQueue.push({
           type: 'subscription-payment',
           params: {
             recurring_id: original_action.form_data['subscription_id']
           }
-        )
+        }, { delay: 120 })
 
         true
       end

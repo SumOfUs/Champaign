@@ -5,9 +5,9 @@ require_relative 'champaign_queue/clients/direct'
 module ChampaignQueue
   extend self
 
-  def push(opts)
+  def push(payload, opts = {})
     if Rails.env.production?
-      client.push(opts)
+      client.push(payload, opts)
     else
       false
     end
