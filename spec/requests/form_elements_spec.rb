@@ -25,4 +25,29 @@ describe 'deleting survey elements' do
     expect(response.status).to eq 200
     expect(response.body).to eq '{"status":"ok"}'
   end
+
+  describe 'reordering survey forms' do
+    let(:desired) { [@form2.id, @form1.id, @form3.id, @form0.id] }
+
+    subject { put "/plugins/surveys/#{survey.id}/sort", form_ids: desired.join(',') }
+
+    before :each do
+      @form0 = survey.forms.first
+      @form0.update_attributes(position: 0)
+      @form1 = create :form, position: 1, formable: survey
+      @form2 = create :form, position: 2, formable: survey
+      @form3 = create :form, position: 3, formable: survey
+      survey.forms.reload
+    end
+
+    it 'can reorder forms based on comma separated IDs' do
+      expect(survey.forms.map(&:id)).to eq [@form0.id, @form1.id, @form2.id, @form3.id]
+      subject
+      expect(survey.forms.reload.map(&:id)).to eq desired
+    end
+
+    it 'touches the page when the forms are reordered' do
+      expect { subject } .to change { page.reload.cache_key }
+    end
+  end
 end

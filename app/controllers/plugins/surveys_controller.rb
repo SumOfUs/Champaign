@@ -20,7 +20,7 @@ class Plugins::SurveysController < Plugins::BaseController
   def sort_forms
     ids = params[:form_ids].split(',')
     ids.each_with_index do |id, index|
-      Form.where(id: id).update_all(position: index)
+      Form.where(id: id).first.update_attributes(position: index)
     end
 
     head :ok
