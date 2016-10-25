@@ -3,12 +3,13 @@ const GlobalEvents = require('shared/global_events');
 const FormElementCreator = Backbone.View.extend({
 
   GENERIC_NAME: 'instruction', // since instruction fields are the only type with no need for a name
+  GENERIC_LABEL: 'hidden', // since hidden fields are the only type with no need for a label
 
   modes: {
-    default:     { defaultValue: false, defaultRevealer: true,  choices: false, name: true,  requirable: true },
-    hidden:      { defaultValue: true,  defaultRevealer: false, choices: false, name: true,  requirable: false },
-    instruction: { defaultValue: false, defaultRevealer: false, choices: false, name: false, requirable: false },
-    choice:      { defaultValue: false, defaultRevealer: false, choices: true,  name: true,  requirable: true },
+    default:     { defaultValue: false, defaultRevealer: true,  choices: false, label: true, name: true,  requirable: true },
+    hidden:      { defaultValue: true,  defaultRevealer: false, choices: false, label: false, name: true,  requirable: false },
+    instruction: { defaultValue: false, defaultRevealer: false, choices: false, label: true, name: false, requirable: false },
+    choice:      { defaultValue: false, defaultRevealer: false, choices: true,  label: true, name: true,  requirable: true },
   },
 
   events: {
@@ -63,6 +64,11 @@ const FormElementCreator = Backbone.View.extend({
     } else {
       this.setNameToGeneric();
     }
+    if (this.modes[mode].label) {
+      this.setLabelAwayFromGeneric();
+    } else {
+      this.setLabelToGeneric();
+    }
   },
 
   setNameToGeneric() {
@@ -72,6 +78,17 @@ const FormElementCreator = Backbone.View.extend({
   setNameAwayFromGeneric() {
     let $nameField = this.$('input#form_element_name');
     if ($nameField.val() === this.GENERIC_NAME) {
+      $nameField.val('');
+    }
+  },
+
+  setLabelToGeneric() {
+    this.$('input#form_element_label').val(this.GENERIC_LABEL);
+  },
+
+  setLabelAwayFromGeneric() {
+    let $nameField = this.$('input#form_element_label');
+    if ($nameField.val() === this.GENERIC_LABEL) {
       $nameField.val('');
     }
   },
