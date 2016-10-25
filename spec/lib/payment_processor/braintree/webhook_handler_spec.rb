@@ -12,7 +12,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
   let(:member)       { create(:member) }
   let(:action)       { create(:action, member: member, form_data: { subscription_id: 'foo' }) }
   let!(:customer)    { create(:payment_braintree_customer, member: member) }
-  let(:subscription) { create(:payment_braintree_subscription, action: action) }
+  let(:subscription) { create(:payment_braintree_subscription, action: action, subscription_id: 'subscription_id') }
 
   subject do
     PaymentProcessor::Braintree::WebhookHandler
@@ -125,6 +125,17 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           'signature' => notification[:bt_signature],
           'payload'   => notification[:bt_payload]
         )
+      end
+
+      it 'pushes an event to the queue' do
+        expect(ChampaignQueue).to receive(:push).with({
+                                                        type: 'cancel_subscription',
+                                                        params: {
+                                                          recurring_id: 'subscription_id',
+                                                          canceled_by: 'processor'
+                                                        }
+                                                      })
+        subject
       end
     end
   end

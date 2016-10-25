@@ -58,6 +58,7 @@ describe 'Braintree API' do
 
     it 'returns 200' do
       expect { subject }.not_to raise_error
+
       expect(response.status).to eq 200
     end
   end
@@ -180,8 +181,14 @@ describe 'Braintree API' do
           end
         end
 
-        it 'does not post to the ChampaignQueue' do
-          expect(ChampaignQueue).not_to receive(:push)
+        it 'posts a cancellation event to the ChampaignQueue' do
+          expect(ChampaignQueue).to receive(:push).with({
+                                                          type: 'cancel_subscription',
+                                                          params: {
+                                                            recurring_id: subscription.subscription_id,
+                                                            canceled_by: 'processor'
+                                                          }
+                                                        })
           subject
         end
 
