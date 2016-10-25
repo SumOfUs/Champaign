@@ -15,6 +15,26 @@ class Api::Payment::BraintreeController < PaymentController
     end
   end
 
+  def link_payment
+    pmid = current_member.customer.payment_methods.first.id
+
+    opts = ActionController::Parameters.new(
+      payment: {
+        payment_method_id: pmid,
+        currency: params[:currency],
+        amount: params[:amount]
+      },
+      user: {
+        email: current_member.email
+      },
+      page_id: params[:page_id]
+    )
+
+    client::OneClick.new(opts).run
+
+    render text: page.title
+  end
+
   def one_click
     client::OneClick.new(params).run
     render json: { success: true }
