@@ -17,6 +17,7 @@ describe Plugins::Survey do
         el = survey.forms.first.form_elements.first
         expect(el.name).to eq 'email'
         expect(el.data_type).to eq 'email'
+        expect(el.required).to eq true
         expect(el.label).to eq label
       end
     end
