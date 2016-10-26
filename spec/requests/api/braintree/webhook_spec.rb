@@ -165,96 +165,76 @@ describe 'Braintree API' do
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionCanceled,
-          Payment::Braintree::Subscription.last.subscription_id
-        )
-      end
-
-      subject { post api_payment_braintree_webhook_path, notification }
-
-      describe 'for a credit card' do
-        let(:amount) { 813.20 }
-        let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount) }
-
-        before :each do
-          VCR.use_cassette('subscription success basic new customer') do
-            post api_payment_braintree_transaction_path(page.id), params
-          end
-        end
-
-        it 'posts a cancellation event to the ChampaignQueue' do
-          expect(ChampaignQueue).to receive(:push).with({
-                                                          type: 'cancel_subscription',
-                                                          params: {
-                                                            recurring_id: subscription.subscription_id,
-                                                            canceled_by: 'processor'
-                                                          }
-                                                        })
-          subject
-        end
-
-        it 'sets cancelled_at on subscription record' do
-          Timecop.freeze do
-            expect do
-              subject
-            end.to change { subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
-          end
-        end
-
-        it 'does not create a transaction' do
-          expect { subject }.not_to change { Payment::Braintree::Transaction.count }
-        end
-
-        include_examples 'has no unintended consequences'
-      end
-    end
-
-    describe 'of a subscription past due' do
-      let(:member) { create(:member, email: 'test@example.com') }
-      let!(:customer) { create(:payment_braintree_customer, customer_id: '52779597', member: member) }
-      let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: '3y74qj') }
-      let!(:subscription) do
-        create(:payment_braintree_subscription,
-               subscription_id: 'gn99jw',
-               customer: customer,
-               payment_method: payment_method )
-      end
-
-      let(:notification) do
-        Braintree::WebhookTesting.sample_notification(
-          Braintree::WebhookNotification::Kind::SubscriptionWentPastDue,
           subscription.subscription_id
         )
       end
 
       subject { post api_payment_braintree_webhook_path, notification }
 
-      context 'on a successful recharge' do
-        it 'works' do
-          VCR.use_cassette('subscription retry past due success') do
+      context 'for a subscription that is marked active' do
+        describe 'for a credit card' do
+          let(:amount) { 813.20 }
+          let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount) }
+
+          before :each do
+            VCR.use_cassette('subscription success basic new customer') do
+              post api_payment_braintree_transaction_path(page.id), params
+            end
+          end
+
+          it 'posts a cancellation event to the ChampaignQueue' do
+            expect(ChampaignQueue).to receive(:push).with({
+                                                            type: 'cancel_subscription',
+                                                            params: {
+                                                              recurring_id: subscription.subscription_id,
+                                                              canceled_by: 'processor'
+                                                            }
+                                                          })
             subject
           end
+
+          it 'sets cancelled_at on subscription record' do
+            Timecop.freeze do
+              expect do
+                subject
+              end.to change { subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
+            end
+          end
+
+          it 'does not create a transaction' do
+            expect { subject }.not_to change { Payment::Braintree::Transaction.count }
+          end
+
+          it 'sends email to the member prompting them to make a new subscription' do
+
+          end
+
+          include_examples 'has no unintended consequences'
         end
       end
 
-      context 'on an unsuccessful recharge' do
-        # A transaction with the amount 2000 will trigger 'processor declined' in the Braintree gateway.
-        let!(:subscription) do
-          create(:payment_braintree_subscription,
-                 subscription_id: 'fnz22m',
-                 customer: customer,
-                 payment_method: payment_method,
-                 amount: 2000
+      context 'for a subscription already marked cancelled' do
+        let(:subscription) { create :payment_braintree_subscription, cancelled_at: Time.now, subscription_id: 'asdf'}
+
+        let(:notification) do
+          Braintree::WebhookTesting.sample_notification(
+            Braintree::WebhookNotification::Kind::SubscriptionCanceled,
+            subscription.subscription_id
           )
         end
 
-        it 'sends email' do
-          VCR.use_cassette('subscription retry past due failure') do
-            subject
-          end
+        it 'does not send email' do
+
+        end
+
+        it 'does not publish an unsubscribe event' do
+          expect(ChampaignQueue).to_not receive(:push)
+          subject
         end
       end
 
     end
+
 
   end
 end

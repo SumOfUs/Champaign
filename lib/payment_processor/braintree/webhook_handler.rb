@@ -58,28 +58,13 @@ module PaymentProcessor
       end
 
       def handle_subscription_cancelled
-        # If the subscription has been cancelled through Braintree and not through the member management application
+        # If the subscription has already been marked as cancelled (cancellation through the member management
+        # application), don't publish a cancellation event or send email
+
         if subscription.cancelled_at.blank?
           subscription.update(cancelled_at: Time.now)
           subscription.publish_cancellation('processor')
           subscription
-        end
-      end
-
-      def handle_past_due_subscription
-        retry_result = ::Braintree::Subscription.retry_charge(
-          subscription.subscription_id,
-          subscription.amount
-        )
-        byebug
-
-        if retry_result.success?
-          result = ::Braintree::Transaction.submit_for_settlement(
-            retry_result.transaction.id
-          )
-          result.success?
-          #=> true
-          #TODO: Else, set cancelled_at in local record and on BT, and send email to member to create a new subscription
         end
       end
 
