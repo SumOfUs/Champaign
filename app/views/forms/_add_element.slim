@@ -11,7 +11,7 @@
     = f.text_field :label,  class: 'form-control', placeholder: t('form_elements.label_suggestion')
   .form-group.clearfix data-editor-role="name"
     = label_with_tooltip(f, :data_type, t('form_elements.name'), t('tooltips.form_elements.name'))
-    = f.text_field :name,  class: 'form-control typeahead', placeholder: t('form_elements.name_suggestion')
+    = f.text_field :name,  class: 'form-control typeahead typeahead--uninitialized', placeholder: t('form_elements.name_suggestion')
   .form-group data-editor-role="choices"
     = label_with_tooltip(f, :choices, t('form_elements.choices'), t('tooltips.form_elements.choices'))
     .form-element__choice-fields
