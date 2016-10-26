@@ -92,7 +92,9 @@ const GlobalEvents = require('shared/global_events');
     },
 
     autoComplete: function(){
-      this.$('.typeahead').typeahead({
+      let $fields = this.$('.typeahead.typeahead--uninitialized');
+      $fields.removeClass('typeahead--uninitialized');
+      $fields.typeahead({
         hint: true,
         highlight: true,
         minLength: 1

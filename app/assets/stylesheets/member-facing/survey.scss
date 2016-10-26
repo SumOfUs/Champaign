@@ -2,8 +2,8 @@
 .survey {
   $font-size-breakpoint: 600px;
   @include centered-to-full(500px, 2%);
+  @include legacy-pie-clearfix();
   min-height: calc(100vh - 300px);
-  overflow: hidden;
   margin-top: 100px;
   &__intro {
     padding-top: 60px;
@@ -16,7 +16,7 @@
   }
   &__form {
     margin: 80px 0;
-    overflow: hidden;
+    @include legacy-pie-clearfix();
     @media(min-width: $font-size-breakpoint) {
       font-size: 18px;
     }

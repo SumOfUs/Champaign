@@ -23,6 +23,7 @@ const SurveyEditor = Backbone.View.extend({
   },
 
   handleSort(e, ui) {
+    if (!$(e.target).hasClass('survey__forms')) return;
     let ids = ui.item.parent().children().map((i, el) => {
       return this.$(el).data('id');
     }).get();

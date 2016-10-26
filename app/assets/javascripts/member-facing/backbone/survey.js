@@ -26,14 +26,14 @@ const Survey = Backbone.View.extend({
     let hasScrollOffset = options.hasOwnProperty('scrollOffset');
     this.scrollOffset = hasScrollOffset ? options.scrollOffset : this.DEFAULT_SCROLL_OFFSET;
     this.$forms = this.$('.survey__form');
-    if (!MobileCheck.isMobile()) {
-      this.selectizeCountry();
-    }
     this.insertHiddenFields(options);
     this.prefill(options.prefill);
     this.revealFirstForm();
     this.submitFirstFormIfComplete();
     this.followUpUrl = options.followUpUrl;
+    if (!MobileCheck.isMobile()) {
+      this.selectizeCountry();
+    }
     GlobalEvents.bindEvents(this);
   },
 
