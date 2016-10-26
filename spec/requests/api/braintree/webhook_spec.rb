@@ -208,5 +208,53 @@ describe 'Braintree API' do
       end
     end
 
+    describe 'of a subscription past due' do
+      let(:member) { create(:member, email: 'test@example.com') }
+      let!(:customer) { create(:payment_braintree_customer, customer_id: '52779597', member: member) }
+      let!(:payment_method) { create(:payment_braintree_payment_method, customer: customer, token: '3y74qj') }
+      let!(:subscription) do
+        create(:payment_braintree_subscription,
+               subscription_id: 'gn99jw',
+               customer: customer,
+               payment_method: payment_method )
+      end
+
+      let(:notification) do
+        Braintree::WebhookTesting.sample_notification(
+          Braintree::WebhookNotification::Kind::SubscriptionWentPastDue,
+          subscription.subscription_id
+        )
+      end
+
+      subject { post api_payment_braintree_webhook_path, notification }
+
+      context 'on a successful recharge' do
+        it 'works' do
+          VCR.use_cassette('subscription retry past due success') do
+            subject
+          end
+        end
+      end
+
+      context 'on an unsuccessful recharge' do
+        # A transaction with the amount 2000 will trigger 'processor declined' in the Braintree gateway.
+        let!(:subscription) do
+          create(:payment_braintree_subscription,
+                 subscription_id: 'fnz22m',
+                 customer: customer,
+                 payment_method: payment_method,
+                 amount: 2000
+          )
+        end
+
+        it 'sends email' do
+          VCR.use_cassette('subscription retry past due failure') do
+            subject
+          end
+        end
+      end
+
+    end
+
   end
 end
