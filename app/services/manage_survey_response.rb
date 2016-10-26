@@ -31,11 +31,7 @@ class ManageSurveyResponse
   end
 
   def assign_member
-    @action.member ||= if @params[:akid].present?
-                         Member.find_by_akid(@params[:akid])
-                       elsif @params[:email].present?
-                         Member.find_or_initialize_by(email: @params[:email])
-                       end
+    @action.member = Member.find_or_initialize_by(email: @params[:email])
   end
 
   def action_valid?
