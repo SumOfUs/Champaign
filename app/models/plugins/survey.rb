@@ -32,6 +32,7 @@ class Plugins::Survey < ActiveRecord::Base
       FormElement.create(name: field,
                          data_type: data_type,
                          form: forms.first,
+                         required: true,
                          label: I18n.t("form.default.#{field}", locale: language))
       forms.first.reload
     end
