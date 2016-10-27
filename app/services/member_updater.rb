@@ -13,7 +13,7 @@ class MemberUpdater
     @member.name = @params[:name] if @params.key? :name
     @member.actionkit_user_id = action_kit_user_id if action_kit_user_id.present?
     @member.assign_attributes(filtered_params)
-    @member.save!
+    @member.save
   end
 
   private
