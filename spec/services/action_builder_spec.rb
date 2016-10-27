@@ -22,12 +22,31 @@ describe ActionBuilder do
       expect(Analytics::Page).to receive(:increment).with(page.id, new_member: false)
       subject
     end
+
+    it 'does not create a new member' do
+      member # lazy creation
+      expect { subject }.not_to change { Member.count }
+    end
+
+    it 'does not create a new member if the email address is not lower case' do
+      member # lazy creation
+      expect do
+        MockActionBuilder.new(page_id: page.id, email: member.email.upcase).build_action
+      end.not_to change { Member.count }
+    end
   end
 
   context 'with new member' do
+    subject { MockActionBuilder.new(page_id: page.id, email: 'new@example.com').build_action }
+
     it 'increments cache counter with new_member as true' do
       expect(Analytics::Page).to receive(:increment).with(page.id, new_member: true)
-      MockActionBuilder.new(page_id: page.id, email: 'new@example.com').build_action
+      subject
+    end
+
+    it 'creates a new member' do
+      member # lazy creation
+      expect { subject }.to change { Member.count }.by 1
     end
   end
 
