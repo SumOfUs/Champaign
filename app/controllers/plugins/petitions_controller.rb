@@ -4,7 +4,9 @@ class Plugins::PetitionsController < ApplicationController
 
   def update
     @plugin = Plugins::Petition.find(params[:id])
-    @plugin.update_attributes(permitted_params)
+    # TODO; check for update result and return 422
+    # in case of error.
+    @plugin.update(permitted_params)
     @page = @plugin.page
 
     respond_to do |format|
