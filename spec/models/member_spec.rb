@@ -89,10 +89,18 @@ describe Member do
           create(:member, email: nil)
         end.to_not raise_error
       end
-    end
-  end
 
-  describe 'email' do
+      it 'is invalid with the same email with different casing' do
+        member = build(:member, email: 'Foo@eXample.COM')
+        expect(member).to be_invalid
+      end
+
+      it 'cannot save a member with the same email with different casing' do
+        member = build(:member, email: 'Foo@eXample.COM')
+        expect { member.save }.not_to change { Member.count }
+      end
+    end
+
     it 'is downcased on create' do
       member = create(:member, email: 'FOO@ExAmPle.CoM')
       expect(member.email).to eq('foo@example.com')
