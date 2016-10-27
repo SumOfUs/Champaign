@@ -32,7 +32,7 @@ class ManageSurveyResponse
 
   def assign_member
     return unless @params[:email].present?
-    @action.member = Member.find_or_initialize_by(email: @params[:email])
+    @action.member = Member.find_or_initialize_by(email: @params[:email].downcase)
   end
 
   def action_valid?
