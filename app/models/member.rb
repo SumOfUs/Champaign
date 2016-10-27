@@ -29,7 +29,9 @@ class Member < ActiveRecord::Base
 
   delegate :authenticate, to: :authentication, allow_nil: true
 
-  validates :email, uniqueness: true, allow_nil: true
+  validates :email, uniqueness: true, allow_nil: true, on: :create
+  validates :email, uniqueness: true, on: :update, if: :existing_memberships_and_email_changed?
+
   before_validation { email.try(:downcase!) }
 
   enum donor_status: [:nondonor, :donor, :recurring_donor]
@@ -85,5 +87,11 @@ class Member < ActiveRecord::Base
       email: email,
       authentication_id: authentication.try(:id)
     }
+  end
+
+  private
+
+  def existing_memberships_and_email_changed?
+    Member.where(email: email).where.not(id: id).any? && email_changed?
   end
 end

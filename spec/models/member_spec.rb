@@ -100,9 +100,44 @@ describe Member do
         expect { member.save }.not_to change { Member.count }
       end
     end
-  end
 
-  describe 'email' do
+    describe 'email with multiple memberships' do
+      context 'updating' do
+        before do
+          create(:member, email: 'bar@example.com')
+          create(:member, email: 'foo@example.com', first_name: 'Foo')
+          build(:member, email: 'foo@example.com', first_name: 'Foo').save(validate: false)
+        end
+
+        subject(:member) { Member.find_by(email: 'foo@example.com') }
+
+        it 'can update name' do
+          member.update(first_name: 'Bob')
+
+          expect(Member.where(email: 'foo@example.com').map(&:first_name))
+            .to match_array(%w(Foo Bob))
+        end
+
+        it "can't update email address if it exsits" do
+          expect { member.update!(email: 'bar@example.com') }
+            .to raise_error(ActiveRecord::RecordInvalid, /Email has already been taken/)
+        end
+
+        it 'can update email with unique address' do
+          member.update!(email: 'unique@example.com')
+          expect(member.reload.email).to eq('unique@example.com')
+        end
+
+        it 'other member can not update to same email' do
+          member = create(:member)
+
+          expect do
+            member.update!(email: 'foo@example.com')
+          end.to raise_error(ActiveRecord::RecordInvalid)
+        end
+      end
+    end
+
     it 'is downcased on create' do
       member = create(:member, email: 'FOO@ExAmPle.CoM')
       expect(member.email).to eq('foo@example.com')
