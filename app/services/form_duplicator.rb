@@ -14,7 +14,7 @@ class FormDuplicator
     @form.form_elements.each do |element|
       element = element.dup
       element.form = new_form
-      element.save
+      element.save!
     end
 
     new_form
@@ -25,7 +25,7 @@ class FormDuplicator
   def new_form
     @new_form ||= @form.dup.tap do |f|
       f.master = false
-      f.save
+      f.save!
     end
   end
 end
