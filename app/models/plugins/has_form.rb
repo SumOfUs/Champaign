@@ -31,7 +31,7 @@ module Plugins::HasForm
 
   def dup
     clone = super
-    clone.save
+    clone.save!
 
     clone.form.form_elements = form.form_elements.map(&:dup) if clone.form
 

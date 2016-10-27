@@ -18,7 +18,7 @@ module Plugins
       plugin.page_id = page.id
       plugin.active = true
       plugin.ref = ref if ref.present?
-      plugin.save
+      plugin.save!
     end
 
     def registered
