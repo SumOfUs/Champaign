@@ -29,9 +29,7 @@ class Member < ActiveRecord::Base
 
   delegate :authenticate, to: :authentication, allow_nil: true
 
-  validates :email, uniqueness: true, allow_nil: true
-
-  before_validation { email.try(:downcase!) }
+  validates :email, uniqueness: { case_sensitive: false }, allow_nil: true
 
   enum donor_status: [:nondonor, :donor, :recurring_donor]
 
