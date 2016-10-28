@@ -19,15 +19,15 @@ module BraintreeServices
       {
         amount:                          transaction.amount,
         currency:                        transaction.currency_iso_code,
-        customer_id:                     payment_options.customer.customer_id,
-        payment_method:                  payment_options.payment_method,
         transaction_id:                  transaction.id,
         transaction_type:                transaction.type,
         merchant_account_id:             transaction.merchant_account_id,
         transaction_created_at:          transaction.created_at,
         payment_instrument_type:         transaction.payment_instrument_type,
         processor_response_code:         transaction.processor_response_code,
-        page_id:                         payment_options.page.id
+        customer_id:                     payment_options.customer.customer_id,
+        payment_method:                  payment_options.payment_method,
+        page_id:                         payment_options.page.id,
       }
     end
   end

@@ -4,9 +4,10 @@ module BraintreeServices
   class SubscriptionBuilder
     attr_reader :subscription, :payment_options
 
-    def initialize(subscription, payment_options)
+    def initialize(subscription, payment_options, action = nil)
       @subscription = subscription
       @payment_options = payment_options
+      @action = action
     end
 
     def build
@@ -22,7 +23,8 @@ module BraintreeServices
         customer: payment_options.customer,
         currency: payment_options.currency,
         billing_day_of_month: subscription.billing_day_of_month,
-        page_id: payment_options.page.id
+        page_id: payment_options.page.id,
+        action: @action
       }
     end
   end

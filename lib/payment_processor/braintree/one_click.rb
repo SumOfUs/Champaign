@@ -11,11 +11,13 @@ module PaymentProcessor::Braintree
 
     def run
       sale = make_payment
-      return unless sale.success?
-      record = store_locally(sale)
-      action = create_action(extra_fields(sale))
 
-      record.update(action: action) if payment_options.recurring?
+      if sale.success?
+        action = create_action(extra_fields(sale))
+        store_locally(sale, action)
+      end
+
+      sale
     end
 
     def extra_fields(sale)
@@ -39,9 +41,9 @@ module PaymentProcessor::Braintree
       end
     end
 
-    def store_locally(sale)
+    def store_locally(sale, action = nil)
       if payment_options.recurring?
-        store_subscription_locally(sale)
+        store_subscription_locally(sale, action)
       else
         store_sale_locally(sale)
       end
@@ -84,8 +86,8 @@ module PaymentProcessor::Braintree
       BraintreeServices::TransactionBuilder.new(sale.transaction, payment_options).build
     end
 
-    def store_subscription_locally(sale)
-      BraintreeServices::SubscriptionBuilder.new(sale.subscription, payment_options).build
+    def store_subscription_locally(sale, action = nil)
+      BraintreeServices::SubscriptionBuilder.new(sale.subscription, payment_options, action).build
     end
   end
 end
