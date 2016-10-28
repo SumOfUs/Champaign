@@ -60,12 +60,18 @@ module PaymentProcessor
       def handle_subscription_cancelled
         # If the subscription has already been marked as cancelled (cancellation through the member management
         # application), don't publish a cancellation event or send email
+        return subscription unless subscription.cancelled_at.nil?
+        subscription.update(cancelled_at: Time.now)
+        subscription.publish_cancellation('processor')
+        send_subscription_email
+        subscription
+      end
 
-        if subscription.cancelled_at.blank?
-          subscription.update(cancelled_at: Time.now)
-          subscription.publish_cancellation('processor')
-          subscription
-        end
+      def send_subscription_email
+        DonationMailer.subscription_email(
+          email: member.email,
+          language: member.actions.last.page.language.code
+        ).deliver_now
       end
 
       def handle_subscription_charged
@@ -96,6 +102,10 @@ module PaymentProcessor
 
       def subscription
         @subscription ||= Payment::Braintree::Subscription.find_by(subscription_id: @notification.subscription.id)
+      end
+
+      def member
+        subscription.customer.member
       end
     end
   end

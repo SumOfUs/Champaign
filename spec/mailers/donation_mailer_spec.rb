@@ -16,7 +16,7 @@ RSpec.describe DonationMailer do
 
       it 'renders relevant text and link to the subscription page' do
         expect(subject).to include("charges on your recurring donations have not been going through recently, and we've therefore cancelled the subscription")
-        #TODO: assertion for subscription page link
+        expect(subject).to include("you can set up a new subscription by <a href='http://actions.example.com/a/donate'>following this link.</a>")
       end
     end
 
@@ -25,7 +25,7 @@ RSpec.describe DonationMailer do
 
       it 'renders relevant text and URL to the subscription page' do
         expect(subject).to include("charges on your recurring donations have not been going through recently, and we&#39;ve therefore cancelled the subscription")
-        #TODO: assertion for subscription page url
+        expect(subject).to include("you can set up a new subscription at this address: http://actions.example.com/a/donate")
       end
     end
   end

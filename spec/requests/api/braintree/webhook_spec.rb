@@ -64,9 +64,10 @@ describe 'Braintree API' do
   end
 
   describe 'receiving a webhook' do
-    let(:subscription) { Payment::Braintree::Subscription.last }
 
     describe 'of a subscription charge' do
+      let(:subscription) { Payment::Braintree::Subscription.last }
+
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully,
@@ -162,6 +163,17 @@ describe 'Braintree API' do
     end
 
     describe 'of a subscription cancellation' do
+      let!(:page) { create(:page, language: create(:language, :english)) }
+      let!(:member) { create(:member, email: 'test@example.com') }
+      let!(:customer) { create(:payment_braintree_customer, member: member) }
+      let!(:subscription) do
+        create(:payment_braintree_subscription,
+               customer: customer,
+               subscription_id: 'subscription_id',
+               action: create(:action, member: member, page: page))
+      end
+
+
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionCanceled,
@@ -206,7 +218,10 @@ describe 'Braintree API' do
           end
 
           it 'sends email to the member prompting them to make a new subscription' do
+            expect(DonationMailer).to receive(:subscription_email).
+                                        with(email: 'test@example.com', language: 'en').and_call_original
 
+            subject
           end
 
           include_examples 'has no unintended consequences'
@@ -224,7 +239,7 @@ describe 'Braintree API' do
         end
 
         it 'does not send email' do
-
+          expect(DonationMailer).to_not receive(:subscription_email)
         end
 
         it 'does not publish an unsubscribe event' do
