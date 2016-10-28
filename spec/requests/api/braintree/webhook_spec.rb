@@ -64,7 +64,6 @@ describe 'Braintree API' do
   end
 
   describe 'receiving a webhook' do
-
     describe 'of a subscription charge' do
       let(:subscription) { Payment::Braintree::Subscription.last }
 
@@ -173,7 +172,6 @@ describe 'Braintree API' do
                action: create(:action, member: member, page: page))
       end
 
-
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionCanceled,
@@ -195,12 +193,10 @@ describe 'Braintree API' do
           end
 
           it 'posts a cancellation event to the ChampaignQueue' do
-            expect(ChampaignQueue).to receive(:push).with({
-                                                            type: 'cancel_subscription',
-                                                            params: {
-                                                              recurring_id: subscription.subscription_id,
-                                                              canceled_by: 'processor'
-                                                            }
+            expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                          params: {
+                                                            recurring_id: subscription.subscription_id,
+                                                            canceled_by: 'processor'
                                                           })
             subject
           end
@@ -217,19 +213,12 @@ describe 'Braintree API' do
             expect { subject }.not_to change { Payment::Braintree::Transaction.count }
           end
 
-          it 'sends email to the member prompting them to make a new subscription' do
-            expect(DonationMailer).to receive(:subscription_email).
-                                        with(email: 'test@example.com', language: 'en').and_call_original
-
-            subject
-          end
-
           include_examples 'has no unintended consequences'
         end
       end
 
       context 'for a subscription already marked cancelled' do
-        let(:subscription) { create :payment_braintree_subscription, cancelled_at: Time.now, subscription_id: 'asdf'}
+        let(:subscription) { create :payment_braintree_subscription, cancelled_at: Time.now, subscription_id: 'asdf' }
 
         let(:notification) do
           Braintree::WebhookTesting.sample_notification(
@@ -238,18 +227,11 @@ describe 'Braintree API' do
           )
         end
 
-        it 'does not send email' do
-          expect(DonationMailer).to_not receive(:subscription_email)
-        end
-
         it 'does not publish an unsubscribe event' do
           expect(ChampaignQueue).to_not receive(:push)
           subject
         end
       end
-
     end
-
-
   end
 end

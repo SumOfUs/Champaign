@@ -128,12 +128,10 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       end
 
       it 'pushes an event to the queue' do
-        expect(ChampaignQueue).to receive(:push).with({
-                                                        type: 'cancel_subscription',
-                                                        params: {
-                                                          recurring_id: 'subscription_id',
-                                                          canceled_by: 'processor'
-                                                        }
+        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                      params: {
+                                                        recurring_id: 'subscription_id',
+                                                        canceled_by: 'processor'
                                                       })
         subject
       end
