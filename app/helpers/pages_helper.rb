@@ -45,6 +45,12 @@ module PagesHelper
     "#{plugin.name}#{detail}"
   end
 
+  def plugin_section_id(plugin)
+    section_id_with_ref = plugin.ref.sub(/[^a-z0-9_]/i) { '_' } if plugin.ref.present?
+    detail = plugin.ref.present? ? "_#{section_id_with_ref}" : ''
+    "#{plugin.name}#{detail}"
+  end
+
   # given a plugin object, this method returns the name
   # of a font-awesome icon for that plugin, either specific
   # to that plugin or falling back to a generic one.
@@ -53,6 +59,7 @@ module PagesHelper
       petition: 'hand-rock-o',
       thermometer: 'neuter',
       survey: 'edit',
+      text: 'paragraph',
       fundraiser: 'money'
     }
     name = plugin.name.underscore.to_sym

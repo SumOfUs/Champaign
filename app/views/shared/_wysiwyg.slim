@@ -1,4 +1,5 @@
-#summernote
+.wysiwyg id=id
+= f.hidden_field :content, id: "#{id}_content"
 
 javascript:
-  $.publish("wysiwyg:setup");
+  $.publish("wysiwyg:setup", "#{id}");

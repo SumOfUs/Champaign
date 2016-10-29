@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161025025104) do
+ActiveRecord::Schema.define(version: 20161028200018) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -445,6 +445,17 @@ ActiveRecord::Schema.define(version: 20161025025104) do
   end
 
   add_index "plugins_surveys", ["page_id"], name: "index_plugins_surveys_on_page_id", using: :btree
+
+  create_table "plugins_texts", force: :cascade do |t|
+    t.text     "content"
+    t.string   "ref"
+    t.integer  "page_id"
+    t.boolean  "active",     default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "plugins_texts", ["page_id"], name: "index_plugins_texts_on_page_id", using: :btree
 
   create_table "plugins_thermometers", force: :cascade do |t|
     t.string   "title"
