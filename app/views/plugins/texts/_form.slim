@@ -1,0 +1,8 @@
+.col-md-8
+  - name = "plugins_text_#{plugin.id}"
+  = form_for plugin, remote: true, as: name, html: { class: 'plugin-settings one-form', data: { type: name } } do |f|
+    = render 'plugins/shared/plugin_metadata', f: f
+
+    .form-group
+      = label_with_tooltip(f, :content, t('pages.edit.content'), t('tooltips.content'))
+      = render 'shared/wysiwyg', id: name, f: f

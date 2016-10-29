@@ -1,6 +1,8 @@
 (function(){
-  var configureWysiwyg = function() {
-    var $editor = $('#summernote');
+  TALL_EDITORS = ['page_body'];
+
+  var configureWysiwyg = function(e, id) {
+    var $editor = $('#'+id);
     if($editor.length === 0){
       return false;
     }
@@ -14,7 +16,7 @@
         ['insert', ['link', 'picture', 'video']],
         ['view', ['fullscreen', 'codeview', 'help']]
       ],
-      height: 280,
+      height: TALL_EDITORS.indexOf(id) > -1 ? 280 : 120,
       fontSizes: ['8', '10', '11', '12', '14', '16', '20', '24', '36', '72'],
       codemirror: {
         theme: 'default',
@@ -24,7 +26,7 @@
         lineWrapping: true
       }
     });
-    var $contentField = $('#page_content');
+    var $contentField = $('#'+id+'_content');
 
     $editor.summernote('fontSize', '16'); // default
     $editor.summernote('code', $contentField.val());

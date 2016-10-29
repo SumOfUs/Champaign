@@ -25,7 +25,8 @@ module Plugins
       [Plugins::Petition,
        Plugins::Thermometer,
        Plugins::Fundraiser,
-       Plugins::Survey]
+       Plugins::Survey,
+       Plugins::Text]
     end
 
     def translate_defaults(defaults, locale)

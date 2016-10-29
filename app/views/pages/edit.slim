@@ -13,7 +13,7 @@ section.page-edit-step#layout data-icon='cog'
 
 - @page.plugins.each do |plugin|
   - next if low_priority_plugins.include? plugin.class
-  section.page-edit-step id=plugin_title(plugin) data-icon=plugin_icon(plugin)
+  section.page-edit-step id=plugin_section_id(plugin) data-icon=plugin_icon(plugin)
     h1.page-edit-step__title= plugin_title(plugin)
     = render "#{plugin.class.to_s.underscore.pluralize}/form", plugin: plugin, page: @page
 
@@ -31,7 +31,7 @@ section.page-edit-step#sources data-icon='link'
 
 - @page.plugins.each do |plugin|
   - next unless low_priority_plugins.include? plugin.class
-  section.page-edit-step id=plugin_title(plugin) data-icon=plugin_icon(plugin)
+  section.page-edit-step id=plugin_section_id(plugin) data-icon=plugin_icon(plugin)
     h1.page-edit-step__title= plugin_title(plugin)
     = render "#{plugin.class.to_s.underscore.pluralize}/form", plugin: plugin, page: @page
 
