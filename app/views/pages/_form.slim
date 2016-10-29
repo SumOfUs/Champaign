@@ -2,7 +2,6 @@
   .col-md-12
     = form_for page, remote: true, html: {class: 'one-form', data: {type: "page" }} do |f|
       = f.hidden_field :id
-      = f.hidden_field :content
 
       = render 'shared/error_messages', target: page
 
@@ -12,7 +11,7 @@
 
       .form-group
         = label_with_tooltip(f, :content, t('pages.edit.content'), t('tooltips.content'))
-        = render 'shared/wysiwyg'
+        = render 'shared/wysiwyg', id: 'page_body', f: f
 
       .form-group
         - js_hidden = ''
