@@ -25,6 +25,7 @@ class Member < ActiveRecord::Base
   has_one :braintree_customer,     class_name: 'Payment::Braintree::Customer'
   has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
   has_many :payment_methods, through: :customer
+  has_many :actions
   has_paper_trail on: [:update, :destroy]
 
   delegate :authenticate, to: :authentication, allow_nil: true
@@ -65,7 +66,7 @@ class Member < ActiveRecord::Base
                                     welcome_name: full_name.blank? ? email : full_name)
   end
 
-  def send_to_ak
+  def publish_subscription
     ChampaignQueue.push(
       type: 'subscribe_member',
       params: {
