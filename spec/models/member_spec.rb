@@ -213,4 +213,15 @@ describe Member do
       )
     end
   end
+
+  describe 'actions association' do
+    let(:member) { create(:member) }
+    let!(:action1) { create(:action, member: member) }
+    let!(:action2) { create(:action, member: member) }
+    let!(:action3) { create(:action, member: member) }
+
+    it 'gets actions for member' do
+      expect(member.actions).to match_array([action1, action2, action3])
+    end
+  end
 end

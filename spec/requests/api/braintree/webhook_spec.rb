@@ -58,14 +58,15 @@ describe 'Braintree API' do
 
     it 'returns 200' do
       expect { subject }.not_to raise_error
+
       expect(response.status).to eq 200
     end
   end
 
   describe 'receiving a webhook' do
-    let(:subscription) { Payment::Braintree::Subscription.last }
-
     describe 'of a subscription charge' do
+      let(:subscription) { Payment::Braintree::Subscription.last }
+
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionChargedSuccessfully,
@@ -160,44 +161,76 @@ describe 'Braintree API' do
       end
     end
 
-    describe 'of a subscription cancelation' do
+    describe 'of a subscription cancellation' do
+      let!(:page) { create(:page, language: create(:language, :english)) }
+      let!(:member) { create(:member, email: 'test@example.com') }
+      let!(:customer) { create(:payment_braintree_customer, member: member) }
+      let!(:subscription) do
+        create(:payment_braintree_subscription,
+               customer: customer,
+               subscription_id: 'subscription_id',
+               action: create(:action, member: member, page: page))
+      end
+
       let(:notification) do
         Braintree::WebhookTesting.sample_notification(
           Braintree::WebhookNotification::Kind::SubscriptionCanceled,
-          Payment::Braintree::Subscription.last.subscription_id
+          subscription.subscription_id
         )
       end
 
       subject { post api_payment_braintree_webhook_path, notification }
 
-      describe 'for a credit card' do
-        let(:amount) { 813.20 }
-        let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount) }
+      context 'for a subscription that is marked active' do
+        describe 'for a credit card' do
+          let(:amount) { 813.20 }
+          let(:params) { setup_params.merge(payment_method_nonce: 'fake-valid-nonce', amount: amount) }
 
-        before :each do
-          VCR.use_cassette('subscription success basic new customer') do
-            post api_payment_braintree_transaction_path(page.id), params
+          before :each do
+            VCR.use_cassette('subscription success basic new customer') do
+              post api_payment_braintree_transaction_path(page.id), params
+            end
           end
+
+          it 'posts a cancellation event to the ChampaignQueue' do
+            expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
+                                                          params: {
+                                                            recurring_id: subscription.subscription_id,
+                                                            canceled_by: 'processor'
+                                                          })
+            subject
+          end
+
+          it 'sets cancelled_at on subscription record' do
+            Timecop.freeze do
+              expect do
+                subject
+              end.to change { subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
+            end
+          end
+
+          it 'does not create a transaction' do
+            expect { subject }.not_to change { Payment::Braintree::Transaction.count }
+          end
+
+          include_examples 'has no unintended consequences'
+        end
+      end
+
+      context 'for a subscription already marked cancelled' do
+        let(:subscription) { create :payment_braintree_subscription, cancelled_at: Time.now, subscription_id: 'asdf' }
+
+        let(:notification) do
+          Braintree::WebhookTesting.sample_notification(
+            Braintree::WebhookNotification::Kind::SubscriptionCanceled,
+            subscription.subscription_id
+          )
         end
 
-        it 'does not post to the ChampaignQueue' do
-          expect(ChampaignQueue).not_to receive(:push)
+        it 'does not publish an unsubscribe event' do
+          expect(ChampaignQueue).to_not receive(:push)
           subject
         end
-
-        it 'sets cancelled_at on subscription record' do
-          Timecop.freeze do
-            expect do
-              subject
-            end.to change { subscription.reload.cancelled_at.to_s }.from('').to(Time.now.utc.to_s)
-          end
-        end
-
-        it 'does not create a transaction' do
-          expect { subject }.not_to change { Payment::Braintree::Transaction.count }
-        end
-
-        include_examples 'has no unintended consequences'
       end
     end
   end

@@ -45,7 +45,9 @@ module PaymentProcessor
         when 'subscription_charged_successfully'
           handle_subscription_charged
         when 'subscription_canceled'
-          subscription.update(cancelled_at: Time.now)
+          handle_subscription_cancelled
+        when 'subscription_went_past_due'
+          handle_past_due_subscription
         else
           Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{@notification.kind}'")
         end
@@ -53,6 +55,15 @@ module PaymentProcessor
 
       def notification
         @notification ||= ::Braintree::WebhookNotification.parse(@signature, @payload)
+      end
+
+      def handle_subscription_cancelled
+        # If the subscription has already been marked as cancelled (cancellation through the member management
+        # application), don't publish a cancellation event or send email
+        return subscription unless subscription.cancelled_at.nil?
+        subscription.update(cancelled_at: Time.now)
+        subscription.publish_cancellation('processor')
+        subscription
       end
 
       def handle_subscription_charged
@@ -83,6 +94,10 @@ module PaymentProcessor
 
       def subscription
         @subscription ||= Payment::Braintree::Subscription.find_by(subscription_id: @notification.subscription.id)
+      end
+
+      def member
+        subscription.customer.member
       end
     end
   end
