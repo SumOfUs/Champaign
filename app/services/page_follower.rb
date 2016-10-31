@@ -8,6 +8,10 @@ class PageFollower
     new(page.follow_up_plan, page.slug, page.follow_up_liquid_layout_id, page.follow_up_page.try(:slug), extra_params)
   end
 
+  def self.follow_up_path(page, extra_params = nil)
+    new_from_page(page, extra_params).follow_up_path
+  end
+
   def initialize(plan, page_slug, follow_up_liquid_layout_id, follow_up_page_slug, extra_params = nil)
     @plan = plan
     @page_slug = page_slug
