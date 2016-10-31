@@ -44,7 +44,7 @@ class MemberWithAuthentication
   end
 
   def existing_member
-    @existing_member ||= Member.find_by(email: email)
+    @existing_member ||= Member.find_by_email(email)
   end
 
   def cannot_be_already_authenticated

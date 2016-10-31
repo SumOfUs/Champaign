@@ -12,8 +12,9 @@ module PaymentProcessor
           allow(Payment::Braintree).to receive(:write_transaction)
         end
 
+        let(:member) { create(:member, email: 'test@example.com') }
         let(:store) { nil }
-        let(:action) { instance_double('Action', member_id: 2) }
+        let(:action) { create(:action, member: member) }
         let(:transaction) { instance_double('Braintree::SuccessResult', success?: true) }
         let(:failure) { instance_double('Braintree::ErrorResult', success?: false) }
 
@@ -22,7 +23,7 @@ module PaymentProcessor
             nonce: 'a_nonce',
             amount: 100,
             currency: 'USD',
-            user: { email: 'bob@example.com', name: 'Bob' },
+            user: { email: 'test@example.com', name: 'Bob' },
             page_id: 1,
             device_data: { foo: 'bar' }
           }
@@ -52,7 +53,7 @@ module PaymentProcessor
             customer: {
               first_name:               'Bob',
               last_name:                '',
-              email:                    'bob@example.com'
+              email:                    'test@example.com'
             },
             billing: {
               first_name: 'Bob',
@@ -66,7 +67,8 @@ module PaymentProcessor
         end
 
         it 'passes customer_id' do
-          customer = create :payment_braintree_customer, email: required_options[:user][:email]
+          customer = create :payment_braintree_customer, member: member
+
           expect(::Braintree::Transaction).to receive(:sale)
             .with(hash_including(customer_id: customer.customer_id))
 

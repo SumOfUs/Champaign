@@ -8,7 +8,7 @@ module Api
 
       def password
         credentials = password_authentication_params
-        member = Member.find_by(email: credentials[:email])
+        member = Member.find_by_email(credentials[:email])
 
         return head(:unauthorized) unless member.try(:authenticate, credentials[:password])
 

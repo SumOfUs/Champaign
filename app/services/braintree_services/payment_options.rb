@@ -52,7 +52,7 @@ module BraintreeServices
     end
 
     def member
-      @member ||= Member.find_by(email: params[:user][:email])
+      @member ||= Member.find_by_email(params[:user][:email])
     end
 
     def authentication
