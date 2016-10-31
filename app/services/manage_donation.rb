@@ -65,7 +65,7 @@ class DonationActionBuilder
   end
 
   def existing_member
-    @existing_member ||= Member.find_by(email: @params[:email])
+    @existing_member ||= Member.find_by_email(@params[:email])
   end
 
   def existing_member?

@@ -30,9 +30,7 @@ module Payment::Braintree
     end
 
     def customer(email)
-      customer = Payment::Braintree::Customer.find_by(email: email)
-      return customer if customer.present?
-      member = Member.find_by(email: email)
+      member = Member.find_by_email(email)
       member.try(:customer)
     end
   end

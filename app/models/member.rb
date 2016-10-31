@@ -49,6 +49,10 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def self.find_by_email(email)
+    Member.find_by(email: email.try(:downcase))
+  end
+
   def name
     "#{first_name} #{last_name}".strip
   end

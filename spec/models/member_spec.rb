@@ -224,4 +224,16 @@ describe Member do
       expect(member.actions).to match_array([action1, action2, action3])
     end
   end
+
+  describe '.find_by_email' do
+    before do
+      create(:member, email: 'test@example.com')
+    end
+
+    it 'finds member with downcased email' do
+      expect(
+        Member.find_by_email('Test@example.coM').email
+      ).to eq('test@example.com')
+    end
+  end
 end
