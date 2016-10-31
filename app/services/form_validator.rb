@@ -78,7 +78,7 @@ class FormValidator
 
   def validate_email(value, form_element)
     email = value.try(:encode, 'UTF-8', invalid: :replace, undef: :replace)
-    if form_element[:data_type] == 'email' && email.present? && !is_email(email)
+    if form_element[:data_type] == 'email' && email.present? && !is_email?(email)
       @errors[form_element[:name]] << I18n.t('validation.is_invalid_email')
     end
   end
@@ -97,8 +97,10 @@ class FormValidator
     end
   end
 
-  def is_email(candidate)
-    (/\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate).present?
+  def is_email?(candidate)
+    /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate &&
+      !(/\A.*\.\..*@/ =~ candidate) && # Doesn't have two consecutive dots before the @
+      !(/\A.*\.@/ =~ candidate) # Doesn't have a dot just before the @
   end
 
   def is_phone(candidate)
