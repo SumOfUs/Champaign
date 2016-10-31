@@ -13,13 +13,14 @@ module PaymentProcessor
             page_id: '12',
             device_data: { foo: 'bar' },
             user: {
-              email: 'bob.loblaw@law-blog.org',
+              email: 'test@example.com',
               name: 'Bob Loblaw',
               country: 'AU'
             }
           }
         end
-        let(:action) { instance_double('Action', member_id: 654, id: 77) }
+        let(:member) { create(:member, email: 'test@example.com') }
+        let(:action) { create(:action, member: member) }
         let(:customer_token) { 'asdfghjkl' }
         let(:payment_method_token) { 'qwertyuiop' }
         let(:customer_success) { instance_double('Braintree::SuccessResult', success?: true, customer: double(payment_methods: [double(token: customer_token)])) }
@@ -53,12 +54,13 @@ module PaymentProcessor
         end
 
         describe 'customer exists' do
-          let!(:customer) { create :payment_braintree_customer, email: required_options[:user][:email] }
+          let!(:customer) { create :payment_braintree_customer, email: required_options[:user][:email], member: member }
+
           let(:customer_options) do
             {
               first_name: 'Bob',
               last_name: 'Loblaw',
-              email: 'bob.loblaw@law-blog.org'
+              email: 'test@example.com'
             }
           end
           let(:payment_method_options) do
@@ -213,7 +215,7 @@ module PaymentProcessor
                 end
 
                 it 'calls Payment.write_subscription with the right params' do
-                  expect(Payment::Braintree).to have_received(:write_subscription).with(payment_method.id, customer.customer_id, subscription_success, '12', 77, 'AUD')
+                  expect(Payment::Braintree).to have_received(:write_subscription).with(payment_method.id, customer.customer_id, subscription_success, '12', action.id, 'AUD')
                 end
               end
             end
@@ -225,7 +227,7 @@ module PaymentProcessor
             {
               first_name: 'Bob',
               last_name: 'Loblaw',
-              email: 'bob.loblaw@law-blog.org',
+              email: 'test@example.com',
               payment_method_nonce: required_options[:nonce],
               credit_card: {
                 billing_address: {
@@ -314,7 +316,7 @@ module PaymentProcessor
                 build :payment_braintree_customer,
                       first_name: 'Bob',
                       last_name: 'Loblaw',
-                      email: 'bob.loblaw@law-blog.org'
+                      email: 'test@example.com'
               end
 
               let!(:payment_method) { create :braintree_payment_method, customer: customer }
@@ -323,7 +325,7 @@ module PaymentProcessor
                 build :payment_braintree_customer,
                       first_name: 'Bob',
                       last_name: 'Loblaw',
-                      email: 'bob.loblaw@law-blog.org'
+                      email: 'test@example.com'
               end
 
               let!(:payment_method) { create :braintree_payment_method, customer: customer }

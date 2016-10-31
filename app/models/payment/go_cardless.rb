@@ -7,13 +7,13 @@ module Payment::GoCardless
 
     def write_customer(customer_gc_id, member_id)
       local_customer = Payment::GoCardless::Customer.find_or_initialize_by(go_cardless_id: customer_gc_id)
-      local_customer.update_attributes(member_id: member_id)
+      local_customer.update!(member_id: member_id)
       local_customer
     end
 
     def write_mandate(mandate_gc_id, scheme, next_possible_charge_date, customer_id)
       local_mandate = Payment::GoCardless::PaymentMethod.find_or_initialize_by(go_cardless_id: mandate_gc_id)
-      local_mandate.update_attributes(scheme: scheme, next_possible_charge_date: next_possible_charge_date, customer_id: customer_id)
+      local_mandate.update!(scheme: scheme, next_possible_charge_date: next_possible_charge_date, customer_id: customer_id)
       local_mandate
     end
 

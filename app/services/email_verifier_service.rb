@@ -8,7 +8,7 @@ class EmailVerifierService
 
   def initialize(token, email, cookies)
     @token = token
-    @member = Member.find_by(email: email)
+    @member = Member.find_by_email(email)
     @cookies = cookies
   end
 

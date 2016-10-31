@@ -77,10 +77,16 @@ describe Member do
         create(:member, email: 'foo@example.com')
       end
 
-      it 'must be unique' do
-        member = build(:member, email: 'foo@example.com')
-        expect(member).to be_invalid
-        expect(member.errors[:email]).to eq(['has already been taken'])
+      context 'uniqueness' do
+        it 'must be unique' do
+          member = build(:member, email: 'foo@example.com')
+          expect { member.save! }.to raise_error(ActiveRecord::RecordInvalid, /Email has already been taken/)
+        end
+
+        it 'is not case sensitive' do
+          member = build(:member, email: 'Foo@eXample.COM')
+          expect { member.save! }.to raise_error(ActiveRecord::RecordInvalid, /Email has already been taken/)
+        end
       end
 
       it 'can be nil' do
@@ -89,28 +95,6 @@ describe Member do
           create(:member, email: nil)
         end.to_not raise_error
       end
-    end
-  end
-
-  describe 'email' do
-    it 'is downcased on create' do
-      member = create(:member, email: 'FOO@ExAmPle.CoM')
-      expect(member.email).to eq('foo@example.com')
-    end
-
-    it 'is downcased on save' do
-      member = create(:member, email: 'foo@example.com')
-      member.update(email: 'FOO@EXAMPLE.ORG')
-      expect(member.email).to eq('foo@example.org')
-    end
-
-    it 'is fine with nil' do
-      expect do
-        create(:member, email: nil)
-      end.to change { Member.count }
-        .from(0).to(1)
-
-      expect(Member.last.email).to be nil
     end
   end
 
@@ -227,6 +211,29 @@ describe Member do
       expect(member.token_payload[:authentication_id]).to(
         eq(MemberAuthentication.last.id)
       )
+    end
+  end
+
+  describe 'actions association' do
+    let(:member) { create(:member) }
+    let!(:action1) { create(:action, member: member) }
+    let!(:action2) { create(:action, member: member) }
+    let!(:action3) { create(:action, member: member) }
+
+    it 'gets actions for member' do
+      expect(member.actions).to match_array([action1, action2, action3])
+    end
+  end
+
+  describe '.find_by_email' do
+    before do
+      create(:member, email: 'test@example.com')
+    end
+
+    it 'finds member with downcased email' do
+      expect(
+        Member.find_by_email('Test@example.coM').email
+      ).to eq('test@example.com')
     end
   end
 end

@@ -13,7 +13,7 @@ class CreateMemberForApiMembersController
       @member = Member.find_or_initialize_by(email: @params[:email])
       @member.assign_attributes(@params)
       if @member.save
-        @member.send_to_ak
+        @member.publish_subscription
         return true
       else
         @errors = member.errors

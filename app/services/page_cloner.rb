@@ -29,9 +29,9 @@ class PageCloner
     @cloned_page.title = @title unless @title.blank?
 
     ActiveRecord::Base.transaction do
-      @cloned_page.save # so the new page will have an id to associate with
+      @cloned_page.save! # so the new page will have an id to associate with
       yield(self)
-      @cloned_page.save
+      @cloned_page.save!
     end
 
     @cloned_page
@@ -41,7 +41,7 @@ class PageCloner
     page.links.each do |link|
       link.dup.tap do |clone|
         clone.page = cloned_page
-        clone.save
+        clone.save!
       end
     end
   end
@@ -52,7 +52,7 @@ class PageCloner
     page.plugins.each do |plugin|
       plugin.dup.tap do |clone|
         clone.page = cloned_page
-        clone.save
+        clone.save!
       end
     end
   end

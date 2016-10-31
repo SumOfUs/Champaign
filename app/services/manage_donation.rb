@@ -65,7 +65,7 @@ class DonationActionBuilder
   end
 
   def existing_member
-    @existing_member ||= Member.find_by(email: @params[:email])
+    @existing_member ||= Member.find_by_email(@params[:email])
   end
 
   def existing_member?
@@ -79,7 +79,7 @@ class DonationActionBuilder
     update_member_fields
     update_donor_status
 
-    @user.save if @user.changed
+    @user.save! if @user.changed
     @user
   end
 

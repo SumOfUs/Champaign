@@ -12,7 +12,7 @@ class FormElementBuilder
   end
 
   def create
-    element.save
+    element.save!
     element
   end
 

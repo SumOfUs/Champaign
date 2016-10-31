@@ -106,6 +106,8 @@ gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'maste
 # JWT
 gem 'jwt'
 
+gem 'airbrake'
+
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false

@@ -25,12 +25,14 @@ class Member < ActiveRecord::Base
   has_one :braintree_customer,     class_name: 'Payment::Braintree::Customer'
   has_one :authentication, class_name: MemberAuthentication, dependent: :destroy
   has_many :payment_methods, through: :customer
+  has_many :actions
   has_paper_trail on: [:update, :destroy]
 
   delegate :authenticate, to: :authentication, allow_nil: true
 
-  validates :email, uniqueness: true, allow_nil: true
-  before_save { email.try(:downcase!) }
+  validates :email, uniqueness: { case_sensitive: true }, allow_nil: true
+
+  before_validation { email.try(:downcase!) }
 
   enum donor_status: [:nondonor, :donor, :recurring_donor]
 
@@ -45,6 +47,10 @@ class Member < ActiveRecord::Base
     if actionkit_user_id.present?
       where(actionkit_user_id: actionkit_user_id).order('created_at ASC').first
     end
+  end
+
+  def self.find_by_email(email)
+    Member.find_by(email: email.try(:downcase))
   end
 
   def name
@@ -66,7 +72,7 @@ class Member < ActiveRecord::Base
                                     welcome_name: full_name.blank? ? email : full_name)
   end
 
-  def send_to_ak
+  def publish_subscription
     ChampaignQueue.push(
       type: 'subscribe_member',
       params: {
