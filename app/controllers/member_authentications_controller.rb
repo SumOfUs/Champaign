@@ -26,7 +26,7 @@ class MemberAuthenticationsController < ApplicationController
 
     if auth.valid?
       flash[:notice] = I18n.t('member_registration.check_email')
-      path = PageFollower.new_from_page(page, member_id: auth.member_id).follow_up_path
+      path = PageFollower.follow_up_path(page, member_id: auth.member_id)
 
       render js: "window.location = '#{path}'"
     else
