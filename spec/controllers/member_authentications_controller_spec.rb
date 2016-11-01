@@ -11,6 +11,7 @@ describe MemberAuthenticationsController do
       allow(Page).to receive(:find) { page }
       allow(Page).to receive(:find_by) { page }
       allow(I18n).to receive(:locale=)
+      allow(PageFollower).to receive(:follow_up_path) { '/a/b' }
 
       post :create, email: 'test@example.com', password: 'p', password_confirmation: 'p', page_id: '1'
     end
@@ -25,8 +26,13 @@ describe MemberAuthenticationsController do
     end
 
     context 'successfully creates authentication' do
+      it 'generates follow up path' do
+        expect(PageFollower).to have_received(:follow_up_path)
+          .with(page, member_id: 34)
+      end
+
       it 'returns with js snippet to redirect that includes member id' do
-        expect(response.body).to match("window.location = '/a/heyo/follow-up?member_id=34'")
+        expect(response.body).to match("window.location = '/a/b'")
       end
 
       it 'sets flash notice' do
