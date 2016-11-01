@@ -10,7 +10,7 @@ module ChampaignQueue
   module Clients
     class HTTP
       class << self
-        def push(params)
+        def push(params, options={})
           new(params).push
         end
       end
