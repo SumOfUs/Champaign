@@ -29,7 +29,7 @@
             <input type="checkbox" name="{{field.name}}" class="form__content" value="1" {{ checked }}/> {{ field.label }}
           </label>
         {% when 'country' %}
-          <select name="{{field.name}}" class="action-form__country-selector form__content" placeholder="{{field.label}}">
+          <select name="{{field.name}}" class="action-form__dropdown form__content" placeholder="{{field.label}}">
             <option></option>
             {% if field.default_value == blank %}
               {{ country_option_tags }}

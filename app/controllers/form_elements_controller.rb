@@ -42,7 +42,7 @@ class FormElementsController < ApplicationController
   def permitted_params
     params
       .require(:form_element)
-      .permit(:label, :name, :data_type, :required, :default_value, choices: [])
+      .permit(:label, :name, :data_type, :required, :default_value, :many_choices, choices: [])
   end
 
   def find_form
