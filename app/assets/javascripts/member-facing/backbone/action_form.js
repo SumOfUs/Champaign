@@ -35,7 +35,7 @@ const ActionForm = Backbone.View.extend({
       this.prefillAsPossible(options);
     }
     if (!MobileCheck.isMobile()) {
-      this.selectizeCountry();
+      this.selectizeDropdowns();
     }
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
@@ -58,8 +58,8 @@ const ActionForm = Backbone.View.extend({
     }
   },
 
-  selectizeCountry() {
-    this.$('.action-form__country-selector').selectize();
+  selectizeDropdowns() {
+    this.$('.action-form__country-selector, .action-form__dropdown').selectize();
   },
 
   clearFormErrors() {

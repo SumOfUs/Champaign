@@ -40,11 +40,12 @@ class FormElement < ActiveRecord::Base
     hidden
     instruction
     choice
+    dropdown
   ).freeze
   validates :data_type, inclusion: { in: VALID_TYPES }
 
   def liquid_data
-    return attributes.symbolize_keys unless data_type == 'choice'
+    return attributes.symbolize_keys unless data_type == 'choice' || data_type == 'dropdown'
     attributes.symbolize_keys.merge(choices: formatted_choices)
   end
 

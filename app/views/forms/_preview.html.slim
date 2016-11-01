@@ -7,6 +7,10 @@ form
         input.form-control placeholder=label value=element.default_value
       - when 'country'
         = select_tag '', options_for_select(ISO3166::Country.all_names_with_codes, element.default_value), class: "form-control"
+      - when 'dropdown'
+        = element.label
+        - options = element.formatted_choices.map { |c| [c[:label], c[:value]] }
+        = select_tag '', options_for_select(options, element.default_value), class: "form-control"
       - when 'hidden'
         - tag_explanation = "Hidden tag: #{element.name}."
         - tag_explanation += " Default value: #{element.default_value}" unless element.default_value.blank?
