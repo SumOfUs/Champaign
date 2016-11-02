@@ -99,7 +99,7 @@ class FormValidator
 
   def is_email?(candidate)
     /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate &&
-      !(/\A.*\.\..*@/ =~ candidate) && # Doesn't have two consecutive dots before the @
+      !(/\.\./ =~ candidate) && # Doesn't have two consecutive dots
       !(/\A.*\.@/ =~ candidate) # Doesn't have a dot just before the @
   end
 
