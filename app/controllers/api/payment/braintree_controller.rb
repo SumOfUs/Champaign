@@ -16,11 +16,21 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def one_click
-    client::OneClick.new(params).run
-    render json: { success: true }
+    result = client::OneClick.new(params).run
+    render json: braintree_result_body(result),
+           status: (:unprocessable_entity unless result.success?)
   end
 
   private
+
+  def braintree_result_body(result)
+    {
+      success: result.success?,
+      errors: (result.errors unless result.success?),
+      message: (result.message unless result.success?),
+      params: (result.params unless result.success?)
+    }
+  end
 
   def payment_options
     {

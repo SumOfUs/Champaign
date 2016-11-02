@@ -1,0 +1,74 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/transactions
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <transaction>
+          <payment-method-nonce>fake-processor-declined-visa-nonce</payment-method-nonce>
+          <type>sale</type>
+        </transaction>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Authorization:
+      - Basic cXFnaDU2ZmY2cThxc2dtNDo3OGEwYTY4OWYwMWQ5YjRjMDhmZDQ2MjM3MGNmMWIwOA==
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 422
+      message: Unprocessable Entity
+    headers:
+      Date:
+      - Wed, 02 Nov 2016 13:50:56 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - t2g9fjnxgkvr8rdp
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Cache-Control:
+      - no-cache
+      X-Request-Id:
+      - 4a8312f5-852f-4c38-91e5-e9c2a12a8e93
+      X-Runtime:
+      - '0.146901'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAEDvGVgAA4xSzW7CMAy+8xRR7iEwaRKHELTLnmB7AJN4LFqbdHZA69sv
+        FEqhKhs3258/+/OP2fzUlTggcUhxLZfzhRQYXfIh7tby/e1VreTGzgw0QSFR
+        IkXITYqMdiaE6UJ8NC+OyG2DawlE0Ep9hjJBZHC5NDlFptN7rEcHv0SKKLSr
+        5fPiyejOvgYhZwrbfcZzPW7rbaqkhTrtYzb6gt+wamSGHdqXLksEFoTf+0Do
+        50b34KBJ34g6u3zxt6GqytrGQ0xu5Egf5RtX+oasHJB/sMbQVIH35TJ8M94/
+        VH2HW9Y7VmL06ILXw5sGCGr+49QNtDXGrGrMn8mrmKJD+wFfqBpKrrQuf+XR
+        FTHo1SEwnFKMniT2VY9zWYaq5HXmPaWDvAcPXt5l4t1/AQAA//8DANh6Aw4r
+        AwAA
+    http_version: 
+  recorded_at: Wed, 02 Nov 2016 13:50:56 GMT
+recorded_with: VCR 3.0.3
