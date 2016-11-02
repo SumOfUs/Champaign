@@ -8,7 +8,7 @@ module Plugins::HasForm
   end
 
   def form_fields
-    form ? form.form_elements.map(&:attributes) : []
+    form ? form.form_elements.map(&:liquid_data) : []
   end
 
   def name

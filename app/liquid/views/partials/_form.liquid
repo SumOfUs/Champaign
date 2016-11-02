@@ -9,15 +9,27 @@
       <div class="form__group action-form__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <input type="text" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" maxlength="249" value="{{ field.default_value }}" />
+          <div class="sweet-placeholder">
+            <label class="sweet-placeholder__label">{{ field.label }}</label>
+            <input type="text" name="{{field.name}}" class="form__content sweet-placeholder__field" maxlength="249" value="{{ field.default_value }}" />
+          </div>
         {% when 'hidden' %}
           <input type="hidden" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'paragraph' %}
-          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
+          <div class="sweet-placeholder">
+            <label class="sweet-placeholder__label">{{ field.label }}</label>
+            <textarea name="{{ field.name }}" class="form__content sweet-placeholder__field" id="" maxlength="9999">{{ field.default_value }}</textarea>
+          </div>
         {% when 'email' %}
-          <input type="email" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
+          <div class="sweet-placeholder">
+            <label class="sweet-placeholder__label">{{ field.label }}</label>
+            <input type="email" name="{{field.name}}" class="form__content sweet-placeholder__field" value="{{ field.default_value }}" />
+          </div>
         {% when 'phone' %}
-          <input type="tel" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}"  value="{{ field.default_value }}" />
+          <div class="sweet-placeholder">
+            <label class="sweet-placeholder__label">{{ field.label }}</label>
+            <input type="tel" name="{{field.name}}" class="form__content sweet-placeholder__field" value="{{ field.default_value }}" />
+          </div>
         {% when 'checkbox' %}
           {% if field.default_value == blank %}
             {% assign checked = '' %}
@@ -29,14 +41,41 @@
             <input type="checkbox" name="{{field.name}}" class="form__content" value="1" {{ checked }}/> {{ field.label }}
           </label>
         {% when 'country' %}
-          <select name="{{field.name}}" class="action-form__dropdown form__content" placeholder="{{field.label}}">
-            <option></option>
-            {% if field.default_value == blank %}
-              {{ country_option_tags }}
-            {% else %}
-              {{ country_option_tags | select_option: field.default_value }}
-            {% endif %}
-          </select>
+          <div class="sweet-placeholder">
+            <label class="sweet-placeholder__label">{{ field.label }}</label>
+            <select name="{{field.name}}" class="action-form__dropdown form__content sweet-placeholder__field selectize">
+              <option></option>
+              {% if field.default_value == blank %}
+                {{ country_option_tags }}
+              {% else %}
+                {{ country_option_tags | select_option: field.default_value }}
+              {% endif %}
+            </select>
+          </div>
+        {% when 'dropdown' %}
+          <div class="sweet-placeholder">
+            <label class="sweet-placeholder__label">{{ field.label }}</label>
+            <select name="{{ field.name }}" class="action-form__dropdown form__content sweet-placeholder__field selectize">
+              <option></option>
+              {% for choice in field.choices %}
+                {% if choice.value == field.default_value %}
+                  <option value="{{ choice.value }}" selected="selected">{{ choice.label }}</option>
+                {% else %}
+                  <option value="{{ choice.value }}">{{ choice.label }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+        {% when 'choice' %}
+          <div class="radio-container">
+            <div class="">{{ field.label }}</div>
+            {% for choice in field.choices %}
+              <label for="{{ choice.id }}">
+                <input id="{{ choice.id }}" name="{{ field.name }}" type="radio" value="{{ choice.value }}">
+                {{ choice.label }}
+              </label>
+            {% endfor %}
+          </div>
         {% when 'instruction' %}
           <div class="form__instruction">
             {{ field.label }}
@@ -46,3 +85,8 @@
     {% endfor %}
   <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
 </form>
+<script type="text/javascript">
+  $(document).ready(function(){
+    new window.champaign.SweetPlaceholder();
+  });
+</script>
