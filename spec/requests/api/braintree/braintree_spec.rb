@@ -1,7 +1,9 @@
+# coding: utf-8
 # frozen_string_literal: true
 require 'rails_helper'
 
 describe 'Express Donation' do
+  include Requests::RequestHelpers
   let!(:page) { create(:page, slug: 'hello-world', title: 'Hello World') }
   let(:form)  { create(:form) }
 
@@ -99,6 +101,57 @@ describe 'Express Donation' do
     end
   end
 
+  context 'Braintree Error responses' do
+    describe 'transaction' do
+      before do
+        VCR.use_cassette('express_donations_invalid_payment_method') do
+          result = Braintree::Transaction.sale(
+            payment_method_nonce: 'fake-processor-declined-visa-nonce'
+          )
+
+          allow_any_instance_of(PaymentProcessor::Braintree::OneClick).to(
+            receive(:run).and_return(result)
+          )
+
+          body = {
+            payment: {
+              amount: 2.00,
+              payment_method_id: payment_method.id,
+              currency: 'GBP',
+              recurring: false
+            },
+            user: {
+              form_id: form.id,
+              email:   'test@example.com',
+              name:    'John Doe'
+            },
+            page_id: page.id
+          }
+
+          post api_payment_braintree_one_click_path(page.id), body
+        end
+      end
+
+      it 'responds with a 422 status code' do
+        expect(response.status).to eq(422)
+      end
+
+      it 'body contains errors serialised' do
+        expect(json_hash).to include('errors')
+        expect(json_hash).to satisfy { |v| v['errors'].size > 0 }
+      end
+
+      it 'body contains an error message' do
+        expect(json_hash).to include('message')
+      end
+
+      it 'body contains braintree params' do
+        expect(json_hash).to include('params')
+      end
+    end
+  end
+
+
   describe 'transaction' do
     before do
       VCR.use_cassette('braintree_express_donation') do
@@ -122,6 +175,7 @@ describe 'Express Donation' do
     end
 
     it 'returns success, always - FIXME' do
+      puts "PAYMENT METHOD: #{payment_method.to_json}"
       expect(response.body).to eq({ success: true }.to_json)
     end
 
