@@ -97,7 +97,7 @@ const ActionForm = Backbone.View.extend({
                           let val = $(this).val();
                           return val === null || val.length === 0
                         });
-    let $checkboxes = this.$('.action-form__field-container').find('.checkbox-label');
+    let $checkboxes = this.$('.action-form__field-container').find('.checkbox-label, .radio-container');
     $.merge($empties, $checkboxes).
          parents('.action-form__field-container').
          removeClass('form__group--prefilled');
