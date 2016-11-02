@@ -174,11 +174,6 @@ describe 'Express Donation' do
       end
     end
 
-    it 'returns success, always - FIXME' do
-      puts "PAYMENT METHOD: #{payment_method.to_json}"
-      expect(response.body).to eq({ success: true }.to_json)
-    end
-
     describe 'local record' do
       it 'creates action' do
         action = page.actions.first
