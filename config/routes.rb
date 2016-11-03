@@ -89,6 +89,7 @@ Rails.application.routes.draw do
   get '/api/braintree/token', to: 'api/payment/braintree#token'
 
   resource :member_authentication
+  resource :reset_password
 
   namespace :api do
     namespace :payment do

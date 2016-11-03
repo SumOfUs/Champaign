@@ -15,14 +15,17 @@
 #   - facebook_expiry
 #
 class MemberAuthentication < ActiveRecord::Base
+  VALID_TOKEN_AGE_IN_DAYS = 1
+
   has_secure_password
 
   validates :member_id, uniqueness: true, presence: true
   validates :password, length: { minimum: 6 }, allow_nil: true
 
   before_create :set_token
-
   belongs_to :member
+
+  delegate :email, to: :member
 
   def facebook_oauth
     {
@@ -34,6 +37,44 @@ class MemberAuthentication < ActiveRecord::Base
 
   def authenticate(password)
     confirmed_at.present? && super(password).present?
+  end
+
+  def confirm
+    if confirmed_at.nil?
+      update(
+        confirmed_at: Time.now,
+        token: nil
+      )
+    end
+
+    confirmed_at
+  end
+
+  def reset_password(password, confirmed_password)
+    update(
+      password: password,
+      password_confirmation: confirmed_password,
+      reset_password_token: nil,
+      token: nil
+    )
+  end
+
+  def set_reset_password_token
+    update(
+      reset_password_token: SecureRandom.urlsafe_base64(30),
+      reset_password_sent_at: Time.now
+    )
+  end
+
+  def self.find_by_valid_reset_password_token(token)
+    MemberAuthentication.where(
+      reset_password_token: token,
+      reset_password_sent_at: VALID_TOKEN_AGE_IN_DAYS.days.ago..Time.now
+    ).first
+  end
+
+  def self.find_by_email(email)
+    Member.find_by(email: email).try(:authentication)
   end
 
   private

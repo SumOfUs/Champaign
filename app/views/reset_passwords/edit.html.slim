@@ -1,0 +1,29 @@
+.header-logo.header-logo--light
+  a href = t('footer.home_url')
+    .header-logo__logo.sumofus-logo--positive
+.center-content
+  .center-content__one-column.registration
+    .center-content__central-square
+      h1.typography__highlight
+        = t('.title')
+        br
+        = @authentication.member.email
+
+      - if @authentication.errors.any?
+        .flash-alert
+          - @authentication.errors.full_messages.each do |message|
+            p
+              strong = message
+
+      p = t('.description')
+
+      = form_tag reset_password_path, method: :put, class: 'form--big dark registration-form' do
+        .form__group.action-form__field-container
+          = password_field :password, '', placeholder: t('.password'), class: 'form-control form__content'
+        .form__group.action-form__field-container
+          = password_field :password_confirmation, '', placeholder: t('.password_confirmation'), class: 'form-control form__content'
+        .form__group.action-form__field-container
+          button.button.registation-form__submit-button
+            = t('.button_label')
+
+        = hidden_field_tag :token, @authentication.reset_password_token

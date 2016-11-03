@@ -61,4 +61,71 @@ describe MemberAuthentication do
       end
     end
   end
+
+  describe '#confirm' do
+    subject { create(:member_authentication, confirmed_at: nil, token: '123') }
+
+    before do
+      subject.confirm
+    end
+
+    it 'sets confirmed_at' do
+      expect(subject.confirmed_at).not_to be_nil
+    end
+
+    it 'deletes token' do
+      expect(subject.token).to be_nil
+    end
+  end
+
+  describe '#reset_password' do
+    subject { create(:member_authentication, :confirmed, password: 'password', password_confirmation: 'password') }
+
+    before do
+      subject.reset_password('newpassword', 'newpassword')
+    end
+
+    it 'resets password' do
+      expect(subject.authenticate('newpassword')).to be true
+      expect(subject.authenticate('password')).to be false
+    end
+  end
+
+  describe '#set_reset_password_token' do
+    subject { create(:member_authentication) }
+
+    before do
+      subject.set_reset_password_token
+    end
+
+    it 'sets token and date' do
+      expect(subject.reset_password_token).to match(/\w+/)
+      expect(subject.reset_password_sent_at).not_to be_nil
+    end
+  end
+
+  describe '.find_by_valid_reset_password_token' do
+    let!(:authentication) { create(:member_authentication, :with_reset_password_token) }
+
+    it 'returns record' do
+      expect(MemberAuthentication.find_by_valid_reset_password_token('123')).to eq(authentication)
+    end
+
+    context 'when stale' do
+      it 'returns nil' do
+        Timecop.travel 2.days do
+          expect(MemberAuthentication.find_by_valid_reset_password_token('123')).to be_nil
+        end
+      end
+    end
+  end
+
+  describe '.find_by_email' do
+    let(:member) { create(:member, email: 'test@example.com') }
+    let!(:authentication) { create(:member_authentication, member: member) }
+
+    it 'returns authentication for member with matching email' do
+      expect(MemberAuthentication.find_by_email('test@example.com')).to eq(authentication)
+    end
+  end
 end
