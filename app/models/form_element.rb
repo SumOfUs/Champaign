@@ -32,15 +32,15 @@ class FormElement < ActiveRecord::Base
   VALID_TYPES = %w(
     text
     paragraph
-    checkbox
     email
     phone
-    country
     postal
-    hidden
-    instruction
-    choice
+    country
     dropdown
+    choice
+    checkbox
+    instruction
+    hidden
   ).freeze
   validates :data_type, inclusion: { in: VALID_TYPES }
 

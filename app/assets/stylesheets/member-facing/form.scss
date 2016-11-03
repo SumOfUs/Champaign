@@ -1,3 +1,16 @@
+.form__group, .sweet-placeholder {
+  input, textarea {
+    &.has-error {
+      border-color: $orange;
+    }
+  }
+  &.has-error {
+    .selectize-control.single .selectize-input {
+      border-color: $orange;
+    }
+  }
+}
+
 .form {
   &__group {
     float: left;
@@ -5,16 +18,6 @@
     margin-bottom: 5px;
     position: relative;
 
-    input, textarea {
-      &.has-error {
-        border-color: $orange;
-      }
-    }
-    &.has-error {
-      .selectize-control.single .selectize-input {
-        border-color: $orange;
-      }
-    }
     .error-msg {
       color: $orange;
       font-size: 14px;
@@ -59,6 +62,7 @@
     }
     input[type="radio"] {
       margin-top: 0;
+      margin-right: 6px;
       width: auto;
       float: left;
     }
@@ -98,16 +102,17 @@
 
 label.checkbox-label {
   display: block;
-  padding-left: 15px;
-  text-indent: -15px;
+  padding-left: 20px;
+  position: relative;
   input[type='checkbox'] {
     width: 14px;
     height: 14px;
     padding: 0;
     margin:0;
-    top: -1px;
+    top: 0;
+    left: 0;
+    position: absolute;
     vertical-align: bottom;
-    position: relative;
     *overflow: hidden;
   }
 }

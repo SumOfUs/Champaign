@@ -110,6 +110,7 @@ const FormElementCreator = Backbone.View.extend({
   resetChoices() {
     this.ensureCopyableChoiceField();
     this.$('.form-element__choice-fields').html('');
+    this.$('.form-element__many-choices-field textarea').val('');
     this.$('.form-element__choice-fields').append(this.$copyableChoiceField.clone());
   },
 
