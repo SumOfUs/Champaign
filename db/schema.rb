@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161028200018) do
+ActiveRecord::Schema.define(version: 20161103092722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,18 +161,21 @@ ActiveRecord::Schema.define(version: 20161028200018) do
 
   create_table "member_authentications", force: :cascade do |t|
     t.integer  "member_id"
-    t.string   "password_digest",       null: false
+    t.string   "password_digest",        null: false
     t.string   "facebook_uid"
     t.string   "facebook_token"
     t.datetime "facebook_token_expiry"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "token"
     t.datetime "confirmed_at"
+    t.datetime "reset_password_sent_at"
+    t.string   "reset_password_token"
   end
 
   add_index "member_authentications", ["facebook_uid"], name: "index_member_authentications_on_facebook_uid", using: :btree
   add_index "member_authentications", ["member_id"], name: "index_member_authentications_on_member_id", using: :btree
+  add_index "member_authentications", ["reset_password_token"], name: "index_member_authentications_on_reset_password_token", using: :btree
 
   create_table "members", force: :cascade do |t|
     t.string   "email"
