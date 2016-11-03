@@ -75,7 +75,7 @@ const ActionForm = Backbone.View.extend({
   clearForm(){
     let $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
-    $fields_holder.find('input[type="text"], input[type="email"], input[type="tel"], select').val('');
+    $fields_holder.find('input[type="text"], input[type="email"], input[type="tel"], select').val('').trigger('change');
     $fields_holder.find('input[type="checkbox"]').attr('checked', false);
 
     $fields_holder.find('select').each((ii, el)=>{ el.selectedIndex = -1; });
@@ -90,14 +90,16 @@ const ActionForm = Backbone.View.extend({
     this.$('.action-form__field-container').addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
 
-    // DESIRED BUT WEIRD BEHAVIOR - UNHIDE CHECKBOXES AND EMPTY FIELDS
+    // DESIRED BUT WEIRD BEHAVIOR - unhide empty fields,
+    //   radio buttons, check boxes, and instructions
     let $empties = this.$('.action-form__field-container').
                         find('input, textarea, select').
                         filter(function(ii, el){
                           let val = $(this).val();
                           return val === null || val.length === 0
                         });
-    let $checkboxes = this.$('.action-form__field-container').find('.checkbox-label, .radio-container');
+    let $checkboxes = this.$('.action-form__field-container').
+                        find('.checkbox-label, .radio-container, .form__instruction');
     $.merge($empties, $checkboxes).
          parents('.action-form__field-container').
          removeClass('form__group--prefilled');
@@ -120,11 +122,11 @@ const ActionForm = Backbone.View.extend({
         // the 'Reserved' country code, don't prefill since it's not a real code.
         let isUnknownCountry = (name.match('country') && unvalidatedPrefillValues[name] == 'RD')
         if (!isUnknownCountry) {
-          $field.val(unvalidatedPrefillValues[name]);
+          $field.val(unvalidatedPrefillValues[name]).trigger('change');
         }
       }
       if (prefillValues.hasOwnProperty(name) && fieldsToSkipPrefill.indexOf(name) === -1) {
-        $field.val(prefillValues[name]);
+        $field.val(prefillValues[name]).trigger('change');
       }
     });
   },
