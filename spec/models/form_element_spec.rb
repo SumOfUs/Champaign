@@ -119,6 +119,15 @@ describe FormElement do
       expect(element.liquid_data.keys).to include(:choices)
       expect(element.liquid_data).to eq element.attributes.symbolize_keys.merge(choices: 'stubbed')
     end
+
+    it 'returns the attributes with choices if its a dropdown' do
+      element.data_type = 'dropdown'
+      element.choices = '["asdf", "qwer"]'
+      allow(element).to receive(:formatted_choices).and_return('stubbed')
+      expect(element).to receive(:formatted_choices)
+      expect(element.liquid_data.keys).to include(:choices)
+      expect(element.liquid_data).to eq element.attributes.symbolize_keys.merge(choices: 'stubbed')
+    end
   end
 
   describe 'formatted_choices' do
