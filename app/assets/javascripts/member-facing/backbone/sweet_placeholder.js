@@ -6,18 +6,22 @@ const SweetPlaceholder = Backbone.View.extend({
     'focus .sweet-placeholder__field': 'focus',
     'blur  .sweet-placeholder__field': 'blur',
     'click .sweet-placeholder__label': 'fauxcus',
-    'change select.sweet-placeholder__field': 'decide',
+    'change .sweet-placeholder__field': 'decide',
     'input .sweet-placeholder__field': 'decide',
   },
 
+  initialize() {
+    for (var el of this.$el.find('.sweet-placeholder__field')) {
+      this.decide({target: el});
+    }
+  },
+
   focus(e) {
-    console.log('focus', e);
     var $label = this.rootEl(e.target).find('.sweet-placeholder__label');
     $label.addClass('sweet-placeholder__label--active');
   },
 
   blur(e) {
-    console.log('blur', e);
     var $field = this.rootEl(e.target).find('.sweet-placeholder__field'); 
     var $label = this.rootEl(e.target).find('.sweet-placeholder__label');
     if ($field.is(':focus')) {
@@ -25,7 +29,7 @@ const SweetPlaceholder = Backbone.View.extend({
       return;
     }
     $label.removeClass('sweet-placeholder__label--active');
-    if($field.val().length === 0) {
+    if(!$field.val() || $field.val().length === 0) {
       $label.removeClass('sweet-placeholder__label--full');
     } else {
       $label.addClass('sweet-placeholder__label--full');
@@ -33,10 +37,7 @@ const SweetPlaceholder = Backbone.View.extend({
   },
 
   fauxcus(e) {
-    console.log('fauxcus', e, this.rootEl(e.target));
-    console.log(this.rootEl(e.target).find('.sweet-placeholder__field'));
     if (this.rootEl(e.target).find('.selectize').length){
-      console.log('come on now', this.$('.selectize')[0]);
       this.rootEl(e.target).find('.sweet-placeholder__field input').focus();
       this.rootEl(e.target).find('.selectize')[0].selectize.open();
     } else {
