@@ -9,7 +9,6 @@ module ChampaignQueue
     if Rails.env.production? || Settings.publish_champaign_events
       client.push(payload, opts)
     else
-      # Clients::Direct.push(opts)
       false
     end
   end

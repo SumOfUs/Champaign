@@ -35,44 +35,26 @@ class PagesController < ApplicationController
   end
 
   def show
-    if one_click?
-      process_one_click
-      flash[:notice] = t('fundraiser.thank_you_with_amount', amount: "#{view_context.number_to_currency(params[:amount], unit: params[:currency])}")
+    if process_one_click
+
+      i18n_options = {
+        amount: view_context.number_to_currency(params[:amount], unit: params[:currency]).to_s
+      }
+
+      flash[:notice] = t('fundraiser.thank_you_with_amount', i18n_options)
       redirect_to PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
     else
       render_liquid(@page.liquid_layout, :show)
     end
   end
 
-  def one_click?
-    params.fetch(:one_click, '') == 'true' &&
-      payment_method_id &&
-      params.fetch(:amount, 0).to_f > 0 &&
-      params[:currency].present?
-  end
-
   def process_one_click
-    opts = ActionController::Parameters.new(
-      payment: {
-        payment_method_id: payment_method_id,
-        currency: params[:currency],
-        amount: params[:amount]
-      },
-      user: {
-        email: recognized_member.email
-      },
-      page_id: @page.id
-    )
-
-    PaymentProcessor::Braintree::OneClick.new(opts).run
-  end
-
-  def payment_method_id
-    if current_member
-      current_member.customer.payment_methods.first.id
-    else
-      Payment::Braintree::PaymentMethod.find_by(token: (cookies.signed[:payment_methods] || '').split(',').first)
-    end
+    PaymentProcessor::Braintree::OneClickFromUri.new(
+      params,
+      page: @page,
+      member: recognized_member,
+      cookied_payment_methods: cookies.signed[:payment_methods]
+    ).process
   end
 
   def follow_up
