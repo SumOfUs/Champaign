@@ -13,6 +13,7 @@
 /tmp
 
 .idea/*
+.vscode/*
 .env.web
 champaign.iml
 out/*
