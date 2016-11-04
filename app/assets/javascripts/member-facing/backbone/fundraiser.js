@@ -46,7 +46,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize(options = {}) {
-    this.initializeCurrency(options.currency, options.donationBands)
+    this.initializeCurrency(options.currency, options.donationBands);
     this.changeStep(1);
     this.donationAmount = 0;
     this.followUpUrl = options.followUpUrl;
@@ -345,6 +345,8 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   onOneClickFailed() {
     this.enableOneClickButton();
+    const $errors = this.$('.fundraiser-bar__errors');
+    $errors.removeClass('hidden-closed');
   },
 
   transactionFailed(data, status) {
