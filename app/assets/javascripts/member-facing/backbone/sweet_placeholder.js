@@ -11,29 +11,23 @@ const SweetPlaceholder = Backbone.View.extend({
   },
 
   initialize() {
-    for (var el of this.$el.find('.sweet-placeholder__field')) {
+    for (let el of this.$el.find('.sweet-placeholder__field')) {
       this.decide({target: el});
     }
   },
 
   focus(e) {
-    var $label = this.rootEl(e.target).find('.sweet-placeholder__label');
+    let $label = this.rootEl(e.target).find('.sweet-placeholder__label');
     $label.addClass('sweet-placeholder__label--active');
   },
 
   blur(e) {
-    var $field = this.rootEl(e.target).find('.sweet-placeholder__field'); 
-    var $label = this.rootEl(e.target).find('.sweet-placeholder__label');
-    if ($field.is(':focus')) {
-      // this.focus(e);
-      return;
-    }
+    let $field = this.rootEl(e.target).find('.sweet-placeholder__field'); 
+    let $label = this.rootEl(e.target).find('.sweet-placeholder__label');
+    if ($field.is(':focus')) return;
     $label.removeClass('sweet-placeholder__label--active');
-    if(!$field.val() || $field.val().length === 0) {
-      $label.removeClass('sweet-placeholder__label--full');
-    } else {
-      $label.addClass('sweet-placeholder__label--full');
-    }
+    let empty = (!$field.val() || $field.val().length === 0);
+    $label.toggleClass('sweet-placeholder__label--full', !empty);
   },
 
   fauxcus(e) {
