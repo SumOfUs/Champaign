@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 json.success @result.success?
-json.params @result.params if @result.params
-json.errors @result.errors if @result.errors
-json.message @result.message if @result.message
+json.params @result.params unless @result.success?
+json.errors @result.errors unless @result.success?
+json.message @result.message unless @result.success?
