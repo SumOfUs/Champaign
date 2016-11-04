@@ -64,6 +64,7 @@ describe Page do
   it { is_expected.to respond_to :plugins }
   it { is_expected.to respond_to :shares }
   it { is_expected.to respond_to :action_count }
+  it { is_expected.to respond_to :campaign_action_count }
   it { is_expected.to respond_to :tag_names }
   it { is_expected.to respond_to :plugin_names }
   it { is_expected.to respond_to :meta_tags }
@@ -328,6 +329,23 @@ describe Page do
   describe 'action_count' do
     it 'defaults to 0' do
       expect(Page.new.action_count).to eq 0
+    end
+  end
+
+  describe 'campaign_action_count' do
+    it 'gives action count of just page if no associated campaigns' do
+      allow(page).to receive(:campaign_id).and_return(nil)
+      allow(page).to receive(:action_count).and_return(1234)
+      expect(page.campaign_action_count).to equal 1234
+      expect(page).to have_received(:campaign_id)
+    end
+
+    it 'gives action count of campaign if one is associated' do
+      campaign = create :campaign
+      page1 = create :page, action_count: 2000, campaign: campaign
+      page2 = create :page, action_count: 2500, campaign: campaign
+      expect(page1.campaign_action_count).to eq 4500
+      expect(page2.campaign_action_count).to eq 4500
     end
   end
 
