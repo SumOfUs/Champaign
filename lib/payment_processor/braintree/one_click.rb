@@ -4,9 +4,10 @@ module PaymentProcessor::Braintree
   class OneClick
     attr_reader :params, :payment_options
 
-    def initialize(params)
+    def initialize(params, member = nil)
       @params = params
       @payment_options = BraintreeServices::PaymentOptions.new(params)
+      @member = member
     end
 
     def run
