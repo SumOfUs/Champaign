@@ -8,7 +8,6 @@ describe 'form element manipulation' do
 
   before :each do
     login_as(user, scope: :user)
-    puts "----------------------------------- #{user.email}"
   end
 
   describe 'deleting survey elements' do
@@ -57,15 +56,16 @@ describe 'form element manipulation' do
   describe 'creating dropdowns' do
     let(:el_params) do
       {
-        data_type: "dropdown",
+        data_type: 'dropdown',
         label: "What's your favorite flavor?",
-        name: "favorite_flavor",
-        many_choices: "",
-        choices: [""],
-        default_value: "",
-        required: "0"
+        name: 'favorite_flavor',
+        many_choices: '',
+        choices: [''],
+        default_value: '',
+        required: '0'
       }
     end
+
     subject { post "/forms/#{survey.forms.first.id}/form_elements", @params }
 
     it 'creates the dropdowns properly if sent many strings on separate lines with \r\n' do
@@ -76,16 +76,33 @@ describe 'form element manipulation' do
     end
 
     it 'creates the dropdowns properly if sent many json objects on separate lines with \r\n' do
+      survey # for lazy load
+      choices = '{"label": "Cherry Red", "value": "stones"}' + "\r\n" + '{"label": "Flave", "value": "FLAVOR FLAVE"}'
+      @params = { form_element: el_params.merge(many_choices: choices) }
+      expect { subject }.to change { FormElement.count }.by 1
+      expected = [{ label: 'Cherry Red', value: 'stones' }, { label: 'Flave', value: 'FLAVOR FLAVE' }]
+      expect(FormElement.last.choices).to eq expected.map(&:stringify_keys)
+    end
 
+    it 'lets the many_choices value override the choices value' do
+      @params = { form_element: el_params.merge(many_choices: "A\r\nB\r\nC", choices: %w(X Y Z)) }
+      subject
+      expect(FormElement.last.choices).to eq %w(A B C)
     end
 
     it 'returns 200 if successfully made the element' do
-
+      @params = { form_element: el_params }
+      subject
+      expect(response.code).to eq '200'
     end
 
     it 'returns a JSON error if it could not make the element' do
-
+      survey # for lazy load
+      @params = { form_element: el_params.merge(many_choices: "{}\r\n{}"), format: 'js' }
+      expect { subject }.not_to change { FormElement.count }
+      expect(response.code).to eq '422'
+      error = '{"errors":{"choices":["must have a label and value for each dictionary option"]},"name":"form_element"}'
+      expect(response.body).to eq error
     end
   end
 end
-
