@@ -104,10 +104,9 @@ en:
       title: 'Change password for'
       description: 'Password must be at least 6 characters long.'
       invalid_link: 'It looks like you clicked on an invalid password reset link. Please try again.'
-    update:
-      success:
-        title: 'Your new password was successfully saved'
-        description: 'Visit %{} to log in to your dashboard.'
+    success:
+      title: 'Your new password was successfully saved'
+      description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
 
   reset_password_mailer:
     reset_password_email:

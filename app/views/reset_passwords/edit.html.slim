@@ -19,9 +19,9 @@
 
       = form_tag reset_password_path, method: :put, class: 'form--big dark registration-form' do
         .form__group.action-form__field-container
-          = password_field :password, '', placeholder: t('.password'), class: 'form-control form__content'
+          = password_field_tag :password, '', placeholder: t('.password'), class: 'form-control form__content'
         .form__group.action-form__field-container
-          = password_field :password_confirmation, '', placeholder: t('.password_confirmation'), class: 'form-control form__content'
+          = password_field_tag :password_confirmation, '', placeholder: t('.password_confirmation'), class: 'form-control form__content'
         .form__group.action-form__field-container
           button.button.registation-form__submit-button
             = t('.button_label')

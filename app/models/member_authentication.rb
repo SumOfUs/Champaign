@@ -53,9 +53,7 @@ class MemberAuthentication < ActiveRecord::Base
   def reset_password(password, confirmed_password)
     update(
       password: password,
-      password_confirmation: confirmed_password,
-      reset_password_token: nil,
-      token: nil
+      password_confirmation: confirmed_password
     )
   end
 

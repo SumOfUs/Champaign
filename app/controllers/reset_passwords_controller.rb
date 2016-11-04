@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ResetPasswordsController < ApplicationController
+  before_filter :set_page_title
+
   layout 'generic'
 
   def create
@@ -40,5 +42,11 @@ class ResetPasswordsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  private
+
+  def set_page_title
+    @title = t('reset_passwords.new.title')
   end
 end

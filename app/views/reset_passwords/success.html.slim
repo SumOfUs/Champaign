@@ -5,8 +5,6 @@
   .center-content__one-column.registration
     .center-content__central-square
       h1.typography__highlight
-        = t('.success.title')
+        = t('.title')
 
-      p = t('.suscess.description')
-
-
+      p = t('.description', url: Settings.members.dashboard_url).html_safe
