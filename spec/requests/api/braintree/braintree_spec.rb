@@ -138,7 +138,7 @@ describe 'Express Donation' do
 
       it 'body contains errors serialised' do
         expect(json_hash).to include('errors')
-        expect(json_hash).to satisfy { |v| v['errors'].size > 0 }
+        expect(json_hash).to satisfy { |v| !v['errors'].empty? }
       end
 
       it 'body contains an error message' do
@@ -150,7 +150,6 @@ describe 'Express Donation' do
       end
     end
   end
-
 
   describe 'transaction' do
     before do
