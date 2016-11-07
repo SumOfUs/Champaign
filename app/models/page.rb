@@ -120,8 +120,8 @@ class Page < ActiveRecord::Base
   end
 
   def campaign_action_count
-    @campaign_action_count ||= if campaign_id.present?
-                                 Page.where(campaign_id: campaign_id).sum(:action_count)
+    @campaign_action_count ||= if campaign
+                                 campaign.action_count
                                else
                                  action_count
                                end
