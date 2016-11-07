@@ -2,7 +2,7 @@
 
 class ResetPasswordMailer < ApplicationMailer
   def reset_password_email(authentication)
-    @url = edit_reset_password_url(host: Settings.host, token: authentication.reset_password_token)
+    @url = edit_reset_password_url(host: Settings.host, token: authentication.reset_password_token, locale: I18n.locale)
 
     mail(to: authentication.email,
          subject: t('reset_password_mailer.reset_password_email.subject'))
