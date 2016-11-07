@@ -19,7 +19,7 @@ describe MemberAuthenticationsController do
         .with(password: 'p', password_confirmation: 'p', email: 'test@example.com', language_code: 'en')
     end
 
-    # TODO test it's being set from cookies
+    # TODO: test it's being set from cookies
     xit 'sets locale' do
       expect(I18n).to have_received(:locale=).with('en')
     end
