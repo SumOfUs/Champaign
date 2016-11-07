@@ -2,17 +2,17 @@
 
 class MemberAuthenticationsController < ApplicationController
   before_action :redirect_signed_up_members
-  before_filter :localize_from_page_id
 
   def new
-    @page = Page.find params[:page_id]
+    session[:follow_up_url] = params[:follow_up_url]
     @title = I18n.t('member_registration.title')
+    # FIXME, the rendering process needs a @page to exist, refactor to use a slim template
+    @page = Page.first
 
     ## FIXME seed and fetch from DB
-    #
     view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
     template = Liquid::Template.parse(view)
-    @rendered = template.render('page_id' => params[:page_id], 'email' => params[:email]).html_safe
+    @rendered = template.render('email' => params[:email]).html_safe
     render 'pages/show', layout: 'generic'
   end
 
@@ -21,13 +21,12 @@ class MemberAuthenticationsController < ApplicationController
       email: params[:email],
       password: params[:password],
       password_confirmation: params.fetch(:password_confirmation, ''),
-      language_code: Page.find(params[:page_id]).language.code
+      language_code: 'en' # TODO use language from cookies
     )
 
     if auth.valid?
       flash[:notice] = I18n.t('member_registration.check_email')
-      path = PageFollower.follow_up_path(page, member_id: auth.member_id)
-
+      path = session.delete(:follow_up_url) || Settings.home_page_url
       render js: "window.location = '#{path}'"
     else
       render json: { errors: auth.errors }, status: 422
@@ -40,11 +39,11 @@ class MemberAuthenticationsController < ApplicationController
     @member ||= Member.find_by(id: cookies.signed[:member_id], email: params[:email])
   end
 
-  def page
-    @page ||= Page.find(params[:page_id])
-  end
-
   def redirect_signed_up_members
-    redirect_to follow_up_page_path params[:page_id] if member && member.authentication
+    member = params['email'].present? && Member.find_by_email(params[:email])
+
+    if member && member.authentication.present?
+      redirect_to params[:follow_up_url] || Settings.home_page_url
+    end
   end
 end
