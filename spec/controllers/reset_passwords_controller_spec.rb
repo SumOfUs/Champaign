@@ -10,6 +10,13 @@ describe ResetPasswordsController do
       get :new
       expect(response).to render_template('new')
     end
+
+    it 'sets locale' do
+      expect do
+        get :new, locale: 'de'
+      end.to change { I18n.locale }
+        .from(:en).to(:de)
+    end
   end
 
   describe 'GET edit' do
