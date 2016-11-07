@@ -332,20 +332,23 @@ describe Page do
     end
   end
 
-  describe 'campaign_action_count' do
-    it 'gives action count of just page if no associated campaigns' do
-      allow(page).to receive(:campaign_id).and_return(nil)
-      allow(page).to receive(:action_count).and_return(1234)
-      expect(page.campaign_action_count).to equal 1234
-      expect(page).to have_received(:campaign_id)
+  describe '#campaign_action_count' do
+    context 'without campaign' do
+      subject { create(:page, action_count: 5) }
+
+      it 'returns action count for page' do
+        expect(subject.campaign_action_count).to eq(5)
+      end
     end
 
-    it 'gives action count of campaign if one is associated' do
-      campaign = create :campaign
-      page1 = create :page, action_count: 2000, campaign: campaign
-      page2 = create :page, action_count: 2500, campaign: campaign
-      expect(page1.campaign_action_count).to eq 4500
-      expect(page2.campaign_action_count).to eq 4500
+    context 'with campaign' do
+      let(:campaign) { create(:campaign) }
+      subject { create(:page, campaign: campaign) }
+
+      it 'returns count for all campaign pages' do
+        expect(campaign).to receive(:action_count)
+        subject.campaign_action_count
+      end
     end
   end
 
