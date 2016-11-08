@@ -153,6 +153,7 @@ describe 'Express Donation' do
 
   describe 'transaction' do
     before do
+      allow(Braintree::Transaction).to receive(:sale).and_call_original
       VCR.use_cassette('braintree_express_donation') do
         body = {
           payment: {
@@ -229,6 +230,18 @@ describe 'Express Donation' do
           },
           meta: hash_including({})
         )
+    end
+
+    it 'submits the transaction for settlement' do
+      expect(Braintree::Transaction).to have_received(:sale).with(hash_including(
+        options: { submit_for_settlement: true }
+      ))
+    end
+
+    it 'calls the Braintree API with the merchant_account_id' do
+      expect(Braintree::Transaction).to have_received(:sale).with(hash_including(
+        merchant_account_id: 'GBP'
+      ))
     end
   end
 end
