@@ -289,7 +289,6 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     data.device_data = JSON.parse(obj.deviceData);
 
     $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data)
-      .then(this.onSubmission.bind(this))
       .then(this.transactionSuccess.bind(this), this.transactionFailed.bind(this));
 
     if (this.directDebitOpened) {
@@ -297,19 +296,11 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     }
   },
 
-  onSubmission(data, status) {
-    if (this.submissionCallback) {
-      this.submissionCallback(data, status);
-    }
-    return data;
-  },
-
   submitOneClick(event) {
     event.preventDefault();
     const url = `/api/payment/braintree/pages/${this.pageId}/one_click`;
     this.disableOneClickButton();
     $.post(url, this.oneClickDonationData())
-      .then(this.onSubmission.bind(this))
       .then(this.transactionSuccess.bind(this), this.onOneClickFailed.bind(this));
   },
 
