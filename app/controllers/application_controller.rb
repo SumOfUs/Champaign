@@ -23,6 +23,10 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def set_default_locale
+    set_locale(session[:language] || I18n.default_locale)
+  end
+
   def set_locale(code)
     I18n.locale = code
   rescue I18n::InvalidLocale
@@ -31,18 +35,15 @@ class ApplicationController < ActionController::Base
     # if it's one explicitly registered under +i18n.available_locales+
   end
 
+  def store_locale_in_session
+    session[:langugage] = I18n.locale
+  end
+
   def localize_from_page_id
     page = Page.find_by(id: params[:page_id])
-    localize_by_page_language(page)
-  end
-
-  def localize_by_page_language(page)
-    return unless page.present? && page.language.present? && page.language.code.present?
-    set_locale(page.language.code)
-  end
-
-  def set_default_locale
-    I18n.locale = I18n.default_locale
+    if page && page.language.present?
+      set_locale(page.language.code)
+    end
   end
 
   def write_member_cookie(member_id)
@@ -58,7 +59,7 @@ class ApplicationController < ActionController::Base
 
   def render_liquid(liquid_layout, view)
     return redirect_to(Settings.home_page_url) unless @page.published? || user_signed_in?
-    localize_by_page_language(@page)
+    set_locale(@page.language.code) if @page.language.present?
 
     @rendered = renderer(liquid_layout).render
     @data = renderer(liquid_layout).personalization_data
