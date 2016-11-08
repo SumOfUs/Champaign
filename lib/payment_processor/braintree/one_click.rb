@@ -75,7 +75,11 @@ module PaymentProcessor::Braintree
     def make_sale
       @make_sale ||= ::Braintree::Transaction.sale(
         payment_method_token: payment_options.token,
-        amount: payment_options.amount
+        amount: payment_options.amount,
+        merchant_account_id: payment_options.merchant_account_id,
+        options: {
+          submit_for_settlement: true
+        }
       )
     end
 
