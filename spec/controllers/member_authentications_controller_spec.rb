@@ -9,8 +9,10 @@ describe MemberAuthenticationsController do
     before do
       allow(MemberAuthenticationBuilder).to receive(:build) { auth }
       allow(Page).to receive(:first) { page }
+      allow(I18n).to receive(:locale=)
 
       session[:follow_up_url] = '/a/b'
+      session[:language] = 'en'
       post :create, email: 'test@example.com', password: 'p', password_confirmation: 'p'
     end
 
@@ -19,8 +21,7 @@ describe MemberAuthenticationsController do
         .with(password: 'p', password_confirmation: 'p', email: 'test@example.com', language_code: 'en')
     end
 
-    # TODO: test it's being set from cookies
-    xit 'sets locale' do
+    it 'sets locale' do
       expect(I18n).to have_received(:locale=).with('en')
     end
 

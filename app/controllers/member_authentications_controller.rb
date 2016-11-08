@@ -21,7 +21,7 @@ class MemberAuthenticationsController < ApplicationController
       email: params[:email],
       password: params[:password],
       password_confirmation: params.fetch(:password_confirmation, ''),
-      language_code: 'en' # TODO: use language from cookies
+      language_code: session[:language] || I18n.default_locale
     )
 
     if auth.valid?
