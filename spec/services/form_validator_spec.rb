@@ -124,6 +124,11 @@ describe FormValidator do
           expect(subject).to_not be_valid
         end
 
+        it 'with a dot just after the @' do
+          params[:email] = 'this@.other.com'
+          expect(subject).to_not be_valid
+        end
+
         it 'with a two consecutive dots' do
           params[:email] = 'thi..s@other..com'
           expect(subject).to_not be_valid

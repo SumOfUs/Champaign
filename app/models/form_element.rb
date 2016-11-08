@@ -32,19 +32,20 @@ class FormElement < ActiveRecord::Base
   VALID_TYPES = %w(
     text
     paragraph
-    checkbox
     email
     phone
-    country
     postal
-    hidden
-    instruction
+    country
+    dropdown
     choice
+    checkbox
+    instruction
+    hidden
   ).freeze
   validates :data_type, inclusion: { in: VALID_TYPES }
 
   def liquid_data
-    return attributes.symbolize_keys unless data_type == 'choice'
+    return attributes.symbolize_keys unless data_type == 'choice' || data_type == 'dropdown'
     attributes.symbolize_keys.merge(choices: formatted_choices)
   end
 

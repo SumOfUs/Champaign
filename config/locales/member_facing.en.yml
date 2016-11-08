@@ -21,6 +21,7 @@ en:
     make_recurring: Make my donation monthly
     store_in_vault: Securely store my payment information
     thank_you: Thank you for your donation!
+    thank_you_with_amount: "Thank you for your donation of %{amount}"
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
     fine_print: "" # override this with org-specific details in your own yml file.
@@ -85,3 +86,33 @@ en:
   time:
     formats:
       default: "%-d %B %Y"
+
+  reset_passwords:
+    new:
+      title: 'Reset your password'
+      description: "Enter your email address and we will send you a link to reset your password."
+      email: 'Email'
+      button_label: 'Send password reset email'
+    create:
+      not_found: "Can't find that email, sorry."
+    show:
+      title: 'Reset your password'
+      description: "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder."
+    edit:
+      password: 'Password'
+      password_confirmation: 'Confirm password'
+      button_label: 'Change password'
+      title: 'Change password for'
+      description: 'Password must be at least 6 characters long.'
+      invalid_link: 'It looks like you clicked on an invalid password reset link. Please try again.'
+    success:
+      title: 'Your new password was successfully saved'
+      description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
+
+  reset_password_mailer:
+    reset_password_email:
+      subject: 'Please reset your password'
+      html:
+        body: "We heard that you lost your password. Sorry about that.<br />You can use the following link within the next day to reset your password:<br /><br />%{url}<br /><br />Thanks,<br />SumOfUs"
+      text:
+        body: "We heard that you lost your password. Sorry about that.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nThanks,\nSumOfUs"

@@ -5,11 +5,13 @@ const FormElementCreator = Backbone.View.extend({
   GENERIC_NAME: 'instruction', // since instruction fields are the only type with no need for a name
   GENERIC_LABEL: 'hidden', // since hidden fields are the only type with no need for a label
 
+  roles: ['defaultValue', 'defaultRevealer', 'choices', 'label', 'name', 'manyChoices'],
   modes: {
-    default:     { defaultValue: false, defaultRevealer: true,  choices: false, label: true, name: true,  requirable: true },
-    hidden:      { defaultValue: true,  defaultRevealer: false, choices: false, label: false, name: true,  requirable: false },
-    instruction: { defaultValue: false, defaultRevealer: false, choices: false, label: true, name: false, requirable: false },
-    choice:      { defaultValue: false, defaultRevealer: false, choices: true,  label: true, name: true,  requirable: true },
+    default:     ['defaultRevealer', 'label', 'name', 'requirable'],
+    hidden:      ['defaultValue',  'name'],
+    instruction: ['label'],
+    choice:      ['choices',  'label', 'name',  'requirable'],
+    dropdown:    ['manyChoices', 'label', 'name', 'requirable', 'defaultRevealer'],
   },
 
   events: {
@@ -43,32 +45,36 @@ const FormElementCreator = Backbone.View.extend({
   },
 
   setModeVisuals(mode) {
-    for (var role in this.modes[mode]) {
+    for (var role of this.roles) {
       let $el = this.$(`[data-editor-role=${role}]`);
-      $el.toggleClass('hidden-closed', !this.modes[mode][role]);
+      $el.toggleClass('hidden-closed', !this.hasField(role, mode));
     }
   },
 
   setModeValues(mode) {
-    if (!this.modes[mode].choices) {
+    if (!this.hasField('choices', mode)) {
       this.resetChoices();
     }
-    if (!this.modes[mode].defaultValue) {
+    if (!this.hasField('defaultValue', mode)) {
       this.resetDefaultValue();
     }
-    if (!this.modes[mode].requirable) {
+    if (!this.hasField('requirable', mode)) {
       this.resetRequired();
     }
-    if (this.modes[mode].name) {
+    if (this.hasField('name', mode)) {
       this.setNameAwayFromGeneric();
     } else {
       this.setNameToGeneric();
     }
-    if (this.modes[mode].label) {
+    if (this.hasField('label', mode)) {
       this.setLabelAwayFromGeneric();
     } else {
       this.setLabelToGeneric();
     }
+  },
+
+  hasField(role, mode) {
+    return this.modes[mode].indexOf(role) > -1;
   },
 
   setNameToGeneric() {
@@ -104,6 +110,7 @@ const FormElementCreator = Backbone.View.extend({
   resetChoices() {
     this.ensureCopyableChoiceField();
     this.$('.form-element__choice-fields').html('');
+    this.$('.form-element__many-choices-field textarea').val('');
     this.$('.form-element__choice-fields').append(this.$copyableChoiceField.clone());
   },
 

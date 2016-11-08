@@ -119,6 +119,14 @@ class Page < ActiveRecord::Base
     ]
   end
 
+  def campaign_action_count
+    @campaign_action_count ||= if campaign
+                                 campaign.action_count
+                               else
+                                 action_count
+                               end
+  end
+
   private
 
   def switch_plugins

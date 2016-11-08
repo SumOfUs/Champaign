@@ -89,13 +89,15 @@ Rails.application.routes.draw do
   get '/api/braintree/token', to: 'api/payment/braintree#token'
 
   resource :member_authentication
+  resource :reset_password
 
   namespace :api do
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
-        post 'pages/:page_id/transaction',  action: 'transaction', as: 'transaction'
-        post 'pages/:page_id/one_click',    action: 'one_click',   as: 'one_click'
+        post 'pages/:page_id/transaction',  action: 'transaction',  as: 'transaction'
+        post 'pages/:page_id/one_click',    action: 'one_click',    as: 'one_click'
+        get  'pages/:page_id/link_payment', action: 'link_payment', as: 'link_payment'
         post 'webhook', action: 'webhook'
       end
     end

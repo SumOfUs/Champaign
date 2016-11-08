@@ -29,13 +29,25 @@
         </label>
       {% when 'country' %}
         <label for="{{ field.name }}" class="survey__question">{{ field.label }}</label>
-        <select name="{{field.name}}" class="action-form__country-selector form__content">
+        <select name="{{field.name}}" class="survey-form__dropdown form__content">
           <option></option>
           {% if field.default_value == blank %}
             {{ country_option_tags }}
           {% else %}
             {{ country_option_tags | select_option: field.default_value }}
           {% endif %}
+        </select>
+      {% when 'dropdown' %}
+        <label for="{{ field.name }}" class="survey__question">{{ field.label }}</label>
+        <select name="{{ field.name }}" class="survey-form__dropdown form__content">
+          <option></option>
+          {% for choice in field.choices %}
+            {% if choice.value == field.default_value %}
+              <option value="{{ choice.value }}" selected="selected">{{ choice.label }}</option>
+            {% else %}
+              <option value="{{ choice.value }}">{{ choice.label }}</option>
+            {% endif %}
+          {% endfor %}
         </select>
       {% when 'choice' %}
         <div class="radio-container">

@@ -16,4 +16,8 @@ class Campaign < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   scope :active, -> { where(active: true) }
+
+  def action_count
+    pages.sum(:action_count)
+  end
 end

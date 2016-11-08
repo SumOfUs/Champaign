@@ -1,9 +1,12 @@
 # frozen_string_literal: true
+#
 class FormValidator
   MAX_LENGTH = {
     PARAGRAPH: 10_000,
     TEXT: 250
   }.freeze
+
+  EMAIL_REGEXP = /\A(?!.*\.{2})(?!.*@\.)(?!.*\.+@)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i
 
   def initialize(params, form_elements = nil)
     @params = params.symbolize_keys
@@ -98,9 +101,7 @@ class FormValidator
   end
 
   def is_email?(candidate)
-    /\A[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i =~ candidate &&
-      !(/\.\./ =~ candidate) && # Doesn't have two consecutive dots
-      !(/\A.*\.@/ =~ candidate) # Doesn't have a dot just before the @
+    !(EMAIL_REGEXP =~ candidate).nil?
   end
 
   def is_phone(candidate)

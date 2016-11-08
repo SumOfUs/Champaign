@@ -33,6 +33,12 @@ class ActionParamsBuilder
   end
 
   def fields
-    Form.find(params[:form_id]).form_elements.map(&:name)
+    form = Form.find_by(id: params[:form_id])
+
+    if form
+      form.form_elements.map(&:name)
+    else
+      []
+    end
   end
 end

@@ -35,7 +35,26 @@ class PagesController < ApplicationController
   end
 
   def show
-    render_liquid(@page.liquid_layout, :show)
+    if process_one_click
+
+      i18n_options = {
+        amount: view_context.number_to_currency(params[:amount], unit: params[:currency]).to_s
+      }
+
+      flash[:notice] = t('fundraiser.thank_you_with_amount', i18n_options)
+      redirect_to PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
+    else
+      render_liquid(@page.liquid_layout, :show)
+    end
+  end
+
+  def process_one_click
+    PaymentProcessor::Braintree::OneClickFromUri.new(
+      params,
+      page: @page,
+      member: recognized_member,
+      cookied_payment_methods: cookies.signed[:payment_methods]
+    ).process
   end
 
   def follow_up

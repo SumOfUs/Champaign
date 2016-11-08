@@ -1,0 +1,10 @@
+.header-logo.header-logo--light
+  a href = t('footer.home_url')
+    .header-logo__logo.sumofus-logo--positive
+.center-content
+  .center-content__one-column.registration
+    .center-content__central-square
+      h1.typography__highlight
+        = t('.title')
+
+      p = t('.description', url: Settings.members.dashboard_url).html_safe

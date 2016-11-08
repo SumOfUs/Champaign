@@ -9,7 +9,7 @@ gem 'readthis'
 gem 'hiredis'
 gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
 gem 'pg'
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0.6'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
@@ -43,7 +43,7 @@ gem 'compass-rails', git: 'https://github.com/compass/compass-rails'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
-gem 'slim-rails'
+gem 'slim-rails', '~> 3.1.1'
 gem 'liquid'
 gem 'remotipart', '~> 1.2'
 gem 'i18n-js', '>= 3.0.0.rc12'
@@ -139,6 +139,7 @@ group :test do
   gem 'webmock'
   gem 'timecop'
   gem 'coveralls', require: false
+  gem 'poltergeist'
 end
 
 # Rails Assets - reference any Bower components that you need as gems.

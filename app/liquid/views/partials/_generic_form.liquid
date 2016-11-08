@@ -1,0 +1,69 @@
+<form action='/api/pages/{{id}}/actions{{form_url_postscript}}' data-remote='true' method='post' class='form--big action-form'>
+  <div class="action-form__welcome-text hidden-irrelevant">
+    <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
+    <span class="action-form__welcome-name"></span> <br />
+    <a href="javascript:;" class=" action-form__clear-form">{{ 'form.switch_user' | t }}</a>
+  </div>
+  <input type='hidden' name='form_id' value='{{ form_id }}' />
+    {% for field in fields %}
+      <div class="form__group action-form__field-container">
+        {% case field.data_type %}
+        {% when 'text' or 'postal' %}
+          <input type="text" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" maxlength="249" value="{{ field.default_value }}" />
+        {% when 'hidden' %}
+          <input type="hidden" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
+        {% when 'paragraph' %}
+          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
+        {% when 'email' %}
+          <input type="email" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
+        {% when 'phone' %}
+          <input type="tel" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}"  value="{{ field.default_value }}" />
+        {% when 'checkbox' %}
+          {% if field.default_value == blank %}
+            {% assign checked = '' %}
+          {% else %}
+            {% assign checked = 'checked' %}
+          {% endif %}
+          <label class="checkbox-label">
+            <input name="{{field.name}}" type="hidden" value="0" />
+            <input type="checkbox" name="{{field.name}}" class="form__content" value="1" {{ checked }}/> {{ field.label }}
+          </label>
+        {% when 'country' %}
+          <select name="{{field.name}}" class="action-form__dropdown form__content" placeholder="{{field.label}}">
+            <option></option>
+            {% if field.default_value == blank %}
+              {{ country_option_tags }}
+            {% else %}
+              {{ country_option_tags | select_option: field.default_value }}
+            {% endif %}
+          </select>
+        {% when 'dropdown' %}
+          <select name="{{ field.name }}" class="action-form__dropdown form__content" placeholder="{{ field.label }}">
+            <option></option>
+            {% for choice in field.choices %}
+              {% if choice.value == field.default_value %}
+                <option value="{{ choice.value }}" selected="selected">{{ choice.label }}</option>
+              {% else %}
+                <option value="{{ choice.value }}">{{ choice.label }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        {% when 'choice' %}
+          <div class="radio-container">
+            <div class="">{{ field.label }}</div>
+            {% for choice in field.choices %}
+              <label for="{{ choice.id }}">
+                <input id="{{ choice.id }}" name="{{ field.name }}" type="radio" value="{{ choice.value }}">
+                {{ choice.label }}
+              </label>
+            {% endfor %}
+          </div>
+        {% when 'instruction' %}
+          <div class="form__instruction">
+            {{ field.label }}
+          </div>
+        {% endcase %}
+      </div>
+    {% endfor %}
+  <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
+</form>

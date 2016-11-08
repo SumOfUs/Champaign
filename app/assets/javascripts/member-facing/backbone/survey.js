@@ -32,7 +32,7 @@ const Survey = Backbone.View.extend({
     this.submitFirstFormIfComplete();
     this.followUpUrl = options.followUpUrl;
     if (!MobileCheck.isMobile()) {
-      this.selectizeCountry();
+      this.selectizeDropdowns();
     }
     GlobalEvents.bindEvents(this);
   },
@@ -41,8 +41,8 @@ const Survey = Backbone.View.extend({
     this.$('.survey__form').first().removeClass('hidden-closed');
   },
 
-  selectizeCountry() {
-    this.$('.action-form__country-selector').selectize();
+  selectizeDropdowns() {
+    this.$('.action-form__country-selector, .survey-form__dropdown').selectize();
   },
 
   // prefillValues - an object mapping form names to prefill values

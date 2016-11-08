@@ -58,7 +58,7 @@
     position: relative;
     top: -10px;
     input[type="checkbox"] {
-      top: -2px;
+      top: 1px;
     }
   }
   .form--big .has-error .selectize-control.single .selectize-input {
@@ -70,5 +70,12 @@
   label {
     margin-bottom: 5px;
     display: block;
+  }
+  .radio-container {
+    margin-top: 0;
+    label {
+      margin: 22px 0 5px 10px;
+      display: block;
+    }
   }
 }

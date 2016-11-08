@@ -1,3 +1,16 @@
+.form__group, .sweet-placeholder {
+  input, textarea {
+    &.has-error {
+      border-color: $orange;
+    }
+  }
+  &.has-error {
+    .selectize-control.single .selectize-input {
+      border-color: $orange;
+    }
+  }
+}
+
 .form {
   &__group {
     float: left;
@@ -5,16 +18,6 @@
     margin-bottom: 5px;
     position: relative;
 
-    input, textarea {
-      &.has-error {
-        border-color: $orange;
-      }
-    }
-    &.has-error {
-      .selectize-control.single .selectize-input {
-        border-color: $orange;
-      }
-    }
     .error-msg {
       color: $orange;
       font-size: 14px;
@@ -59,6 +62,7 @@
     }
     input[type="radio"] {
       margin-top: 0;
+      margin-right: 6px;
       width: auto;
       float: left;
     }
@@ -66,9 +70,9 @@
       height: 58px;
     }
 
-    label.checkbox-label {
+    label.checkbox-label, .form__instruction {
       margin: 10px 0 4px;
-      font-size: 14px;
+      font-size: 16px;
     }
 
     textarea {
@@ -86,7 +90,7 @@
     }
 
     .selectize-control {
-      height: 58px;
+      height: 60px;
     }
   }
 
@@ -98,25 +102,78 @@
 
 label.checkbox-label {
   display: block;
-  padding-left: 15px;
-  text-indent: -15px;
+  padding-left: 20px;
+  position: relative;
   input[type='checkbox'] {
     width: 14px;
     height: 14px;
     padding: 0;
     margin:0;
+    top: 0;
+    left: 0;
+    position: absolute;
     vertical-align: bottom;
-    position: relative;
     *overflow: hidden;
   }
 }
 
 .radio-container {
+  margin-top: 10px;
   &.has-error {
     border-right: 2px solid red;
     border-bottom: 2px solid red;
   }
   label {
-    margin: 22px 0 12px 10px;
+    margin: 12px 0 16px 10px;
+    display: block;
   }
+}
+
+.sweet-placeholder {
+  display: inline-block;
+  position: relative;
+  background-color: transparent;
+  width: 100%;
+  float: left;  
+
+  &__label {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    z-index: 9;
+    cursor: text;
+    pointer-events: auto;
+    color: rgba(black, 0.4);
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    transform: scale(1) translate3d(0px, 0px, 0px);
+    transform-origin: left top 0px;
+    -webkit-user-select: none;
+    font-size: 18px;
+    line-height: 28px;
+    white-space: nowrap;
+    max-width: calc(100% - 50px);
+    overflow: hidden;
+    &--active {
+      color: $teal;
+    }
+    &--full {
+      color: rgba(black, 0.6);
+    }
+    &--active, &--full {
+      transform: perspective(1px) scale(0.6) translate3d(0px, -15px, 0px);
+      max-width: 170%;
+    }
+  }
+  input.sweet-placeholder__field,
+  .selectize-control .selectize-input,
+  textarea.sweet-placeholder__field {
+    padding: 24px 18px 12px;
+    font-size: 18px;
+    line-height: 21px;
+  }
+}
+.form--big .sweet-placeholder .selectize-control.single .selectize-input {
+  padding: 23px 18px 11px;
+  font-size: 18px;
+  line-height: 21px;
 }
