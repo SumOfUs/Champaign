@@ -14,6 +14,7 @@
 #  updated_at    :datetime         not null
 #  name          :string
 #  position      :integer          default(0), not null
+#  choices       :jsonb
 #
 
 class FormElement < ActiveRecord::Base

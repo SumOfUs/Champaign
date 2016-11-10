@@ -1,4 +1,16 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: plugins_surveys
+#
+#  id         :integer          not null, primary key
+#  page_id    :integer
+#  active     :boolean          default(FALSE)
+#  ref        :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Plugins::Survey < ActiveRecord::Base
   has_many :forms, -> { order(position: :asc, created_at: :asc) }, as: :formable, dependent: :destroy
 

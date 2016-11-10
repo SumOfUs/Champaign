@@ -1,4 +1,22 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: member_authentications
+#
+#  id                     :integer          not null, primary key
+#  member_id              :integer
+#  password_digest        :string           not null
+#  facebook_uid           :string
+#  facebook_token         :string
+#  facebook_token_expiry  :datetime
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  token                  :string
+#  confirmed_at           :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#
+
 #
 # MemberAuthentication contains a member's authentication tokens
 # for all providers:

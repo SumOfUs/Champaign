@@ -3,11 +3,20 @@
 #
 # Table name: payment_braintree_payment_methods
 #
-#  id          :integer          not null, primary key
-#  token       :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  customer_id :integer
+#  id              :integer          not null, primary key
+#  token           :string
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  customer_id     :integer
+#  card_type       :string
+#  bin             :string
+#  cardholder_name :string
+#  last_4          :string
+#  expiration_date :string
+#  instrument_type :string
+#  email           :string
+#  store_in_vault  :boolean          default(FALSE)
+#  cancelled_at    :datetime
 #
 
 class Payment::Braintree::PaymentMethod < ActiveRecord::Base

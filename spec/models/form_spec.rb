@@ -12,6 +12,7 @@
 #  master        :boolean          default(FALSE)
 #  formable_id   :integer
 #  formable_type :string
+#  position      :integer          default(0), not null
 #
 
 require 'rails_helper'
