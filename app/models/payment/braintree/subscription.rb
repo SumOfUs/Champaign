@@ -3,16 +3,19 @@
 #
 # Table name: payment_braintree_subscriptions
 #
-#  id                  :integer          not null, primary key
-#  subscription_id     :string
-#  merchant_account_id :string
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  page_id             :integer
-#  amount              :decimal(10, 2)
-#  currency            :string
-#  action_id           :integer
-#  cancelled_at        :datetime
+#  id                   :integer          not null, primary key
+#  subscription_id      :string
+#  merchant_account_id  :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  page_id              :integer
+#  amount               :decimal(10, 2)
+#  currency             :string
+#  action_id            :integer
+#  cancelled_at         :datetime
+#  customer_id          :string
+#  billing_day_of_month :integer
+#  payment_method_id    :integer
 #
 
 class Payment::Braintree::Subscription < ActiveRecord::Base

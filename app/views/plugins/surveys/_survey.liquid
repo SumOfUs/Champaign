@@ -13,7 +13,7 @@
         %}
       {% endunless %}
     {% endfor %}
-    
+
     <script type="text/javascript">
       $(document).ready(function(){
         var wcp = window.champaign.personalization;
@@ -23,6 +23,7 @@
           prefill:          prefill,
           location:         window.champaign.personalization.location,
           source:           window.champaign.personalization.urlParams.source,
+          akid:             window.champaign.personalization.urlParams.akid,
           followUpUrl:      "{{ follow_up_url }}"
         });
       });
