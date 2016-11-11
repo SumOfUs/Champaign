@@ -27,7 +27,7 @@ class ManageSurveyResponse
   private
 
   def sanitize_params(params, form)
-    params.slice(*form.element_names)
+    params.slice(*form.element_names, 'akid')
   end
 
   def assign_member

@@ -22,7 +22,7 @@ class Api::SurveyResponsesController < ApplicationController
   end
 
   def survey_response_params
-    params.slice(*form.form_elements.map(&:name))
+    params.slice(*form.form_elements.map(&:name), 'akid')
   end
 
   def form

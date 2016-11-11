@@ -5,7 +5,7 @@ const GlobalEvents = require('shared/global_events');
 const Survey = Backbone.View.extend({
 
   el: '.survey',
-  HIDDEN_FIELDS: ['source', 'referrer_id'],
+  HIDDEN_FIELDS: ['source', 'referrer_id', 'akid'],
   DEFAULT_SCROLL_OFFSET: 80,
 
   events: {
@@ -31,6 +31,7 @@ const Survey = Backbone.View.extend({
     this.revealFirstForm();
     this.submitFirstFormIfComplete();
     this.followUpUrl = options.followUpUrl;
+    this.akid = options.akid;
     if (!MobileCheck.isMobile()) {
       this.selectizeDropdowns();
     }
