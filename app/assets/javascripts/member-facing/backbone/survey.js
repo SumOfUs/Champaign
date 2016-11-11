@@ -31,7 +31,6 @@ const Survey = Backbone.View.extend({
     this.revealFirstForm();
     this.submitFirstFormIfComplete();
     this.followUpUrl = options.followUpUrl;
-    this.akid = options.akid;
     if (!MobileCheck.isMobile()) {
       this.selectizeDropdowns();
     }
