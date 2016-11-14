@@ -144,7 +144,7 @@ describe ResetPasswordsController do
 
       it 'renders new' do
         expect(response).to render_template('new')
-        expect(flash[:alert]).to match(/Can't find that email, sorry./)
+        expect(flash[:alert]).to match(/[Cc]an't find that email/)
       end
     end
   end
