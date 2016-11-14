@@ -32,6 +32,7 @@ fr:
     make_recurring: Faire un don mensuel
     store_in_vault: Sauvegarder mes informations de paiement
     thank_you: Nous vous remercions pour votre don!
+    thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"

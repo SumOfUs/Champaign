@@ -1,7 +1,7 @@
 const Notification = Backbone.View.extend({
 
-  OPEN_AFTER: 1, // seconds
-  CLOSE_AFTER: 10, // seconds
+  OPEN_AFTER: 0.5, // seconds
+  CLOSE_AFTER: 20, // seconds
 
   el: '.notification',
 
