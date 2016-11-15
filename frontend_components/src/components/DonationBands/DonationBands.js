@@ -37,7 +37,6 @@ export class DonationBands extends Component {
     this.onInputBlurred('');
     if (typeof this.props.onSelectAmount === 'function') {
       this.props.onSelectAmount(amount);
-      console.log('onButtonClicked');
     }
   }
 
