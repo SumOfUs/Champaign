@@ -1,0 +1,32 @@
+.Button-root {
+  background-color: #f8492e;
+  box-sizing: border-box;
+  color: white;
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+  text-decoration: none;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  padding: 18px 0 0 0;
+  user-select: none;
+}
+
+.Button-root.disabled,
+.Button-root.disabled:hover,
+.Button-root.disabled:active {
+  background-color: #d3d3d3;
+  box-shadow: none;
+}
+
+.Button-root:hover {
+  background-color: #f73415;
+}
+
+.Button-root:active {
+  box-shadow: inset #d22207 0 3px 10px;
+}

@@ -1,0 +1,88 @@
+.Stepper-wrapper {
+  display: block;
+  position: relative;
+  padding: 0 26px 26px 26px;
+  box-sizing: border-box;
+}
+
+.Stepper-root {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  user-select: none;
+  cursor: default;
+}
+
+.Stepper-line {
+  z-index: 0;
+  width: calc(100% - 40px);
+  height: 2px;
+  top: 22px;
+  left: 20px;
+  margin: 0;
+  position: absolute;
+  background: #b2b5ba;
+  border: none;
+}
+
+.Step-label {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.Step-root {
+  z-index: 1;
+  align-self: vertical-align;
+  text-align: center;
+}
+.Step-root.complete {
+  cursor: pointer;
+}
+
+.Step-circle {
+  border-radius: 22px;
+  border-width: 2px;
+  border-color: #b2b5ba;
+  border-style: solid;
+  background-color: #dbdbdb;
+  margin: auto;
+  padding: 10px 15px;
+  height: 45px;
+  width: 45px;
+  font-size: 20px;
+  box-sizing: border-box;
+  background-color: #dbdbdb;
+  color: #b2b5ba;
+}
+
+.Step-label {
+  color: #b2b5ba;
+}
+
+.active .Step-circle {
+  color: white;
+  background: #30394f;
+  border-color: #30394f;
+}
+
+.active .Step-label {
+  color: #30394f;
+}
+
+.complete .Step-circle {
+  background-color: #b2b5ba;
+  color: white;
+}
+
+.complete:hover {
+  cursor: pointer;
+}
+.complete:hover .Step-label {
+  color: #30394f;
+}
+.complete:hover .Step-circle {
+  background-color: #30394f;
+  border-color: #30394f;
+}
