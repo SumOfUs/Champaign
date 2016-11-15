@@ -55,8 +55,7 @@ it('calls `onSelectAmount` when user clicks on an amount', () => {
   onSelectAmount.mockClear();
 });
 
-it('clears the input when the user clicks on a donation amount button', () => {
+it.skip('clears the input when the user clicks on a donation amount button', () => {
   const wrapper = mount(component);
   const input = wrapper.childAt(5);
-  console.log(wrapper.html());
 });
