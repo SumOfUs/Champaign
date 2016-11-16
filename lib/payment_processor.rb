@@ -9,6 +9,6 @@ module PaymentProcessor
   CURRENCY_DEFAULT_SYMBOL = '&#36;'
 
   def self.currency_to_symbol(currency)
-    CURRENCY_SYMBOLS.fetch(currency.to_sym, CURRENCY_DEFAULT_SYMBOL)
+    CURRENCY_SYMBOLS.fetch(currency.upcase.to_sym, CURRENCY_DEFAULT_SYMBOL)
   end
 end
