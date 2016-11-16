@@ -1,20 +1,25 @@
 /* @flow */
 import React, { Component } from 'react';
-import { injectIntl } from 'react-intl';
+import { FormattedNumber } from 'react-intl';
 import Button from '../Button/Button';
 import './DonationBands.css';
 
-type Props = {
-  customAmount: ?number;
-  amounts: number[];
-  currency: string;
-  onSelectAmount?: (amount: ?number) => void;
-  onChangeCustomAmount?: (amount: ?number) => void;
-  toggleProceedButton?: (visible: boolean) => void;
-  intl: any;
+const FORMATTED_NUMBER_DEFAULTS = {
+  style: 'currency',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 };
 
-const MAX_CUSTOM_VALUE = 100000; // 100k?
+type Props = {
+  amounts: number[];
+  currency: string;
+  customAmount?: number;
+  proceed: () => void;
+  selectAmount: (amount: ?number) => void;
+  toggleProceedButton?: (visible: boolean) => void;
+};
+
+const MAX_CUSTOM_VALUE = 10000000; // 10 million?
 
 export class DonationBands extends Component {
   props: Props;
@@ -26,18 +31,20 @@ export class DonationBands extends Component {
   constructor(props: Props) {
     super(props);
 
-    const { customAmount } = props;
+    let customAmount = '';
+    if (props.customAmount) {
+      customAmount = props.customAmount.toString();
+    }
+
     this.state = {
-      customAmount: customAmount? customAmount.toString() : '',
+      customAmount: customAmount,
     };
   }
 
   onButtonClicked(amount: number = 0) {
-    this.setState({ customAmount: '' })
-    this.onInputBlurred('');
-    if (typeof this.props.onSelectAmount === 'function') {
-      this.props.onSelectAmount(amount);
-    }
+    this.setState({ customAmount: '' });
+    this.props.selectAmount(amount);
+    this.props.proceed();
   }
 
   onInputUpdated(value: string) {
@@ -46,11 +53,14 @@ export class DonationBands extends Component {
       amount = parseFloat(value);
       this.setState({ customAmount: value });
     } else if (value === '') {
+      amount = null;
       this.setState({ customAmount: '' });
+    } else {
+      amount = parseFloat(this.state.customAmount);
     }
 
-    if (this.props.onChangeCustomAmount) {
-      this.props.onChangeCustomAmount(amount);
+    if (this.props.selectAmount) {
+      this.props.selectAmount(amount);
     }
   }
 
@@ -60,7 +70,7 @@ export class DonationBands extends Component {
     }
   }
 
-  onInputBlurred(value: string) {
+  onInputBlurred(value?: string = '') {
     const visible = !!value.length;
     if (this.props.toggleProceedButton) {
       this.props.toggleProceedButton(visible);
@@ -72,12 +82,7 @@ export class DonationBands extends Component {
       <Button key={i}
               className="DonationBands-button"
               onClick={() => this.onButtonClicked(amount)}>
-        {this.props.intl.formatNumber(amount, {
-          style: 'currency',
-          currency: this.props.currency,
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0
-       })}
+        <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS} currency={this.props.currency} value={amount} />
       </Button>
     );
   }
@@ -90,7 +95,7 @@ export class DonationBands extends Component {
         <input
           ref="customAmount"
           id="DonationBands-custom-amount"
-          className="DonationBands-input"
+          className="DonationBands-input styled"
           placeholder="Other"
           pattern={/^[0-9]+ff$/}
           value={this.state.customAmount || ''}
@@ -102,4 +107,4 @@ export class DonationBands extends Component {
   }
 }
 
-export default injectIntl(DonationBands);
+export default DonationBands;

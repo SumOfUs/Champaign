@@ -22,6 +22,6 @@ const Button = (props: Props) => {
       {props.children}
     </div>
   );
-}
+};
 
 export default Button;
