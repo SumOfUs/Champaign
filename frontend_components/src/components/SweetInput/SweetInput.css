@@ -1,0 +1,58 @@
+.SweetInput-root {
+  border-radius: 4px;
+  background: white;
+  border: 2px solid white;
+  display: flex;
+  height: 60px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  padding: 5px 15px 8px 15px;
+}
+
+.SweetInput-root.focused {
+  border: 2px solid rgba(0, 192, 207, 0.7);
+}
+
+.SweetInput-label {
+  color: #aaa;
+  font-size: 18px;
+  font-weight: 400;
+  pointer-events: none;
+  position: absolute;
+  transform: translate3d(0, 13px, 0) scale(1);
+  transform-origin: left top;
+  transition: 240ms;
+}
+
+.focused .SweetInput-label,
+.filled .SweetInput-label {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(0.7);
+}
+
+.focused .SweetInput-label {
+  color: #00c0cf;
+}
+
+.SweetInput-input {
+  flex-grow: 1;
+  align-self: flex-end;
+  border: none;
+  outline: none;
+  font-family: Menlo, Monaco, monospace;
+  font-size: 18px;
+}
+
+
+.SweetInput-input::placeholder {
+    color: transparent;
+    transition: 240ms;
+}
+
+.SweetInput-input:focus::placeholder {
+    transition: none;
+}
+
+.focused .SweetInput-input::placeholder {
+    color: #ccc;
+}

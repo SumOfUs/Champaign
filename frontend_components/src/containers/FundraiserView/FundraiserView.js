@@ -1,11 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormattedNumber, injectIntl } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import StepContent from '../../components/Stepper/StepContent';
 import StepWrapper from '../../components/Stepper/StepWrapper';
 import AmountSelection from '../../components/AmountSelection/AmountSelection';
 import MemberDetailsForm from '../../components/MemberDetailsForm/MemberDetailsForm';
+import Payment from '../../components/Payment/Payment';
 import {
   changeAmount,
   changeCurrency,
@@ -56,6 +57,9 @@ export class FundraiserView extends Component {
 
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
+  }
+
+  proceed() {
     this.props.changeStep(this.props.currentStep + 1);
   }
 
@@ -68,14 +72,7 @@ export class FundraiserView extends Component {
   }
 
   render() {
-    const { member, donationAmount, currentStep } = this.props;
-    const amountTitle = donationAmount ?
-      <FormattedNumber
-        value={this.props.donationAmount}
-        style="currency"
-        currency={this.props.currency}
-        minimumFractionDigits={0}
-        maximumFractionDigits={0} /> : 'amount';
+    const { member, donationAmount, currency, currentStep } = this.props;
 
     return (
       <div id="fundraiser-view" className="FundraiserView-container">
@@ -86,28 +83,30 @@ export class FundraiserView extends Component {
         </section>
 
         <StepWrapper currentStep={currentStep} changeStep={this.props.changeStep}>
-          <StepContent title={amountTitle}>
+          <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <AmountSelection
-              donationAmount={this.props.donationAmount}
+              donationAmount={donationAmount}
+              currency={currency}
               donationBands={this.props.donationBands}
-              currency={this.props.currency}
               currencies={this.props.currencies}
-              onSelectAmount={amount => this.selectAmount(amount)}
-              onChangeCurrency={this.props.selectCurrency.bind(this)}
-              customAmount={10}
+              nextStepTitle={ member ? 'payment' : MemberDetailsForm.title }
+              changeCurrency={this.props.selectCurrency.bind(this)}
+              selectAmount={amount => this.selectAmount(amount)}
+              proceed={this.proceed.bind(this)}
             />
           </StepContent>
 
           { !member &&
             <StepContent title="details">
-              <MemberDetailsForm />
+              <MemberDetailsForm
+                nextStepTitle={Payment.title}
+              />
             </StepContent> }
 
           <StepContent title="payment">
-            <div>PAYMENT FORM</div>
+            <Payment />
           </StepContent>
         </StepWrapper>
-
       </div>
     );
   }
