@@ -2,7 +2,7 @@
 
 class ResetPasswordsController < ApplicationController
   before_action :set_page_title
-  before_action :set_locale
+  before_action :set_locale_from_param
   layout 'generic'
 
   def default_url_options
@@ -54,7 +54,7 @@ class ResetPasswordsController < ApplicationController
     @title = t('reset_passwords.new.title')
   end
 
-  def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+  def set_locale_from_param
+    set_locale(params[:locale]) if params[:locale].present?
   end
 end

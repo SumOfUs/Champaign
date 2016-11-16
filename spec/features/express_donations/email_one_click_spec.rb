@@ -15,12 +15,12 @@ feature 'Express From Mailing Link' do
   end
 
   def register_member(member)
-    visit new_member_authentication_path(page_id: donation_page.id, email: member.email)
+    visit new_member_authentication_path(follow_up_url: '/a/page', email: member.email)
 
     fill_in 'password', with: 'password'
     fill_in 'password_confirmation', with: 'password'
     click_button 'Register'
-    expect(page).to have_content("window.location = '/a/foo-bar/follow-up?member_id=#{member.id}'")
+    expect(page).to have_content("window.location = '/a/page'")
   end
 
   def authenticate_member(auth)
