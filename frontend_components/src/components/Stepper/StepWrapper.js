@@ -1,7 +1,6 @@
 // @flow
 import React, { Component, Children, cloneElement } from 'react';
-import Stepper from './Stepper'
-import type { Props as StepProps } from './Step';
+import Stepper from './Stepper';
 import compact from 'lodash/compact';
 import './Stepper.css';
 
@@ -36,13 +35,13 @@ export default class StepWrapper extends Component {
   }
 
   render() {
-    const { currentStep, children } = this.props;
+    const { currentStep, changeStep, children } = this.props;
     return (
       <div className="StepWrapper-root">
         <Stepper
           steps={this.getTitles()}
-          currentStep={this.props.currentStep}
-          changeStep={this.props.changeStep}
+          currentStep={currentStep}
+          changeStep={changeStep}
         />
         {this.childrenWithExtraProps(children)}
       </div>

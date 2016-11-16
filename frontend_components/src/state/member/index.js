@@ -8,7 +8,7 @@ export function memberReducer(state: MemberState = initialState, action: MemberA
     case 'set_member':
       return { ...state, ...action.payload };
     case 'update_member':
-      return { ...state, ...action.payload }
+      return { ...state, ...action.payload };
     default:
       return state;
   }

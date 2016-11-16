@@ -16,7 +16,6 @@ addLocaleData([
   ...esLocaleData,
 ]);
 
-
 class App extends Component {
   props: {
     store: Store,
