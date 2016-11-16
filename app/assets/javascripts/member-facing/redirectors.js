@@ -18,7 +18,7 @@ const RegisterMemberRedirector = {
 
     function redirectToRegistration() {
       var url = `/member_authentication/new?follow_up_url=${encodeURIComponent(followUpUrl)}&email=${encodeURIComponent(member.email)}`;
-      window.location.href = url;
+      redirectTo(url);
     }
   }
 };
@@ -30,12 +30,12 @@ const AfterDonationRedirector = {
     }
 
     return true;
-
-    function redirectTo(url) {
-      window.location.href = url;
-    }
   }
 };
+
+function redirectTo(url) {
+  window.location.href = url;
+}
 
 module.exports = {
   RegisterMemberRedirector: RegisterMemberRedirector,
