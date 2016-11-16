@@ -12,6 +12,10 @@ describe PaymentProcessor do
       expect(
         PaymentProcessor.currency_to_symbol(:GBP)
       ).to eq('&#163;')
+
+      expect(
+        PaymentProcessor.currency_to_symbol('eur')
+      ).to eq('&#8364;')
     end
 
     it 'returns $ as default' do
