@@ -16,14 +16,19 @@ class ManageAction
   end
 
   def create
-    if !page.allow_duplicate_actions? && previous_action.present?
-      return previous_action
+    if multiple_actions_allowed?
+      build_action(@extra_attrs)
+    else
+      previous_action
     end
-
-    build_action(@extra_attrs)
   end
 
   private
+
+  def multiple_actions_allowed?
+    return true if is_donation? || previous_action.nil?
+    page.allow_duplicate_actions?
+  end
 
   def page
     @page ||= Page.find(params[:page_id])
