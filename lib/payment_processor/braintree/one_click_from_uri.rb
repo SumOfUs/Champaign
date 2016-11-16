@@ -13,7 +13,6 @@ module PaymentProcessor::Braintree
 
     def process
       return false unless one_click?
-
       PaymentProcessor::Braintree::OneClick.new(options).run
       true
     end
