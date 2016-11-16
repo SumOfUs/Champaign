@@ -20,6 +20,20 @@ mount(Petitionsomponent, 'petitions-sidebar', store);
 // etc
 ```
 
+### Integrating with Champaign
+
+I've been researching (a.k.a. googling) how other teams integrate modern frontend stacks in their
+existing rails projects, and although [react-rails](https://github.com/reactjs/react-rails) is
+a popular choice and is considered "the rails way", I do agree with
+[this thread](https://www.reddit.com/r/rails/comments/533yde/modern_front_end_development_in_rails/d7px5pe/) in that it
+fells like a _terrible shoehorning effort_, keeping JavaScript as a second class citizen. The discussion
+in that thread gravitates towards a hybrid build pipeline, letting JavaScript free of sprockets' shackles.
+
+* [React & Rails integration using Webpack](https://www.netguru.co/blog/react-rails-webpack).
+* [Using create-react-app with a Rails server](https://www.fullstackreact.com/articles/how-to-get-create-react-app-to-work-with-your-rails-api/).
+  One caveat is he doesn't render anything in Rails, but only serves the API. There's a couple of ideas there that seem
+  useful though.
+
 Below you will find some information on how to perform common tasks.<br>
 You can find the most recent (and complete) version of `create-react-app`'s guide [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
 
