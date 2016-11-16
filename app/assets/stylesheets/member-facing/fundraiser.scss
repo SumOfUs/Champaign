@@ -254,17 +254,34 @@
     .form--big .hosted-fields__host,
     .hosted-fields__host, input, select, .selectize-input {
       border-color: $slate-gray;
+      &.braintree-hosted-fields-focused {
+        border-color: $teal;
+      }
     }
 
-    .braintree-hosted-fields-focused {
-      border-color: $teal;
-    }
     .overlay-toggle__close-button {
       display: none;
     }
+
     .fundraiser-bar__step-number--upcoming {
       background: white;
     }
+
+    @media(max-width: 736px) {
+      label.checkbox-label input[type='checkbox'] {
+        position: relative;
+        vertical-align: middle;
+      }
+
+      .action-form__welcome-name {
+        line-height: 14px;
+      }
+
+      .action-form__clear-form {
+        line-height: 12px;
+      }
+    }
+
   }
 }
 
