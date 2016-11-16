@@ -1,3 +1,8 @@
 {
-  "extends": "react-app"
+  "extends": "react-app",
+  "rules": {
+    "no-extra-semi": "warn",
+    "semi-spacing": ["error", { "before": false, "after": true }],
+    "semi": "error"
+  }
 }
