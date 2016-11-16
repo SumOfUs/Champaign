@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class ResetPasswordsController < ApplicationController
-  before_filter :set_page_title
-
+  before_action :set_page_title
+  before_action :set_locale
   layout 'generic'
+
+  def default_url_options
+    { locale: I18n.locale }
+  end
 
   def create
     authentication = MemberAuthentication.find_by_email(params[:email])
@@ -48,5 +52,9 @@ class ResetPasswordsController < ApplicationController
 
   def set_page_title
     @title = t('reset_passwords.new.title')
+  end
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
   end
 end

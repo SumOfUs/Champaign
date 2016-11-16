@@ -21,6 +21,7 @@ de:
     make_recurring: Monatlich spenden
     store_in_vault: Meine Zahlungsinformationen speichern
     thank_you: Vielen Dank für Ihre Spende!
+    thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "" # override this with org-specific details in your own yml file.
@@ -86,3 +87,34 @@ de:
   time:
     formats:
       default: "%-d. %B %Y"
+
+  reset_passwords:
+    new:
+      title: 'Reset your password'
+      description: "Enter your email address and we will send you a link to reset your password."
+      email: 'Email'
+      button_label: 'Send password reset email'
+    create:
+      not_found: "Can't find that email, sorry."
+    show:
+      title: 'Reset your password'
+      description: "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder."
+    edit:
+      password: 'Password'
+      password_confirmation: 'Confirm password'
+      button_label: 'Change password'
+      title: 'Change password for'
+      description: 'Password must be at least 6 characters long.'
+      invalid_link: 'It looks like you clicked on an invalid password reset link. Please try again.'
+    success:
+      title: 'Your new password was successfully saved'
+      description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
+
+  reset_password_mailer:
+    reset_password_email:
+      subject: 'Please reset your password'
+      html:
+        body: "We heard that you lost your password. Sorry about that.<br />You can use the following link within the next day to reset your password:<br /><br />%{url}<br /><br />Thanks,<br />SumOfUs"
+      text:
+        body: "We heard that you lost your password. Sorry about that.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nThanks,\nSumOfUs"
+

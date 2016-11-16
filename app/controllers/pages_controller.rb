@@ -38,10 +38,13 @@ class PagesController < ApplicationController
     if process_one_click
 
       i18n_options = {
-        amount: view_context.number_to_currency(params[:amount], unit: params[:currency]).to_s
+        amount: view_context.number_to_currency(
+          params[:amount],
+          unit: PaymentProcessor.currency_to_symbol(params[:currency]).html_safe
+        )
       }
 
-      flash[:notice] = t('fundraiser.thank_you_with_amount', i18n_options)
+      flash[:notice] = t('fundraiser.thank_you_with_amount', i18n_options).html_safe
       redirect_to PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
     else
       render_liquid(@page.liquid_layout, :show)
