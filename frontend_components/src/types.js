@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 declare type FundraiserAction =
   { type: 'change_currency', payload: string }
@@ -41,3 +41,13 @@ declare type AppState = {
   member: MemberState;
   fundraiser: FundraiserState;
 };
+
+declare type WebpackModuleHot = {
+  accept: (path: string, callback: () => void) => void;
+}
+declare type WebpackModule = {
+  hot: WebpackModuleHot;
+};
+
+declare var module: WebpackModule;
+
