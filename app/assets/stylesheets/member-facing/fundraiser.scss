@@ -267,6 +267,16 @@
       background: white;
     }
 
+    .hosted-fields__button-container {
+      font-size: 16px;
+    }
+
+    //paypal
+    #bt-pp-cancel {
+      width: 80%;
+      text-align: left;
+    }
+
     @media(max-width: 736px) {
       label.checkbox-label input[type='checkbox'] {
         position: relative;
