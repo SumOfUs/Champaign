@@ -1,5 +1,7 @@
+import uri from 'urijs';
+
 const RegisterMemberRedirector = {
-  attemptRedirect:  function(followUpUrl, member) {
+  attemptRedirect(followUpUrl, member) {
 
     if(typeof(member) !== 'object') {
       member = window.champaign.personalization.member;
@@ -17,14 +19,22 @@ const RegisterMemberRedirector = {
     }
 
     function redirectToRegistration() {
-      var url = `/member_authentication/new?follow_up_url=${encodeURIComponent(followUpUrl)}&email=${encodeURIComponent(member.email)}`;
-      redirectTo(url);
+      redirectTo(
+        registrationUrl(followUpUrl, member.email)
+      );
+    }
+
+    function registrationUrl(url, email) {
+      return uri('/member_authentication/new')
+        .query(`follow_up_url=${uri.encode(url)}`)
+        .query(`email=${uri.encode(email)}`)
+        .toString();
     }
   }
 };
 
 const AfterDonationRedirector = {
-  attemptRedirect: function (followUpUrl, donationFormData) {
+  attemptRedirect(followUpUrl, donationFormData) {
     if(!(donationFormData.storeInVault && RegisterMemberRedirector.attemptRedirect(followUpUrl, donationFormData.member))) {
       redirectTo(followUpUrl);
     }
