@@ -7,13 +7,12 @@ import './index.css';
 
 const store = configureStore();
 
-ReactDOM.render(
-  <App store={store}/>,
-  document.getElementById('root')
-);
-
-
 if (process.env.NODE_ENV === 'development') {
+  ReactDOM.render(
+    <App store={store}/>,
+    document.getElementById('root')
+  );
+
   if (module.hot) {
     module.hot.accept('./App', () => {
       const UpdatedApp = require('./App').default;
