@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 describe 'api/members' do
-  let(:params) { { email: 'newbie@test.org', country: 'NZ', postal: '1A943', name: 'Anahera Parata' } }
+  let(:params) { { email: 'newbie@test.org', country: 'NZ', postal: '1A943', name: 'Anahera Parata', locale: 'en' } }
 
   subject do
     post api_members_path, params
@@ -34,6 +34,7 @@ describe 'api/members' do
           email: params[:email],
           name: params[:name],
           country: params[:country],
+          locale: params[:locale],
           postal: params[:postal]
         }
       )

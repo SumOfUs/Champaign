@@ -3,8 +3,8 @@ class Api::MembersController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    I18n.locale = params[:locale] if params[:locale].present?
-    workhorse = CreateMemberForApiMembersController.new(member_params)
+    I18n.locale = permitted_params[:locale] if permitted_params[:locale].present?
+    workhorse = CreateMemberForApiMembersController.new(permitted_params)
     if workhorse.create
       render json: { member: workhorse.member }
     else
@@ -14,7 +14,7 @@ class Api::MembersController < ApplicationController
 
   private
 
-  def member_params
-    params.permit(:name, :email, :country, :postal)
+  def permitted_params
+    params.permit(:name, :email, :country, :postal, :locale)
   end
 end
