@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import StepContent from '../../components/Stepper/StepContent';
 import StepWrapper from '../../components/Stepper/StepWrapper';
 import AmountSelection from '../../components/AmountSelection/AmountSelection';
@@ -99,7 +99,11 @@ export class FundraiserView extends Component {
           { !member &&
             <StepContent title="details">
               <MemberDetailsForm
-                nextStepTitle={Payment.title}
+                buttonText={<FormattedMessage
+                  id="proceed_to_x"
+                  defaultMessage="Proceed to {name}"
+                  values={{name: Payment.title}} />}
+                submit={this.submitDetails.bind(this)}
               />
             </StepContent> }
 
