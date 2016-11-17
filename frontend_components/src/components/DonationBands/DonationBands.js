@@ -93,6 +93,7 @@ export class DonationBands extends Component {
       <div className="DonationBands-container">
         {amounts.map((amount, i) => this.renderButton(amount, i))}
         <input
+          type="tel"
           ref="customAmount"
           id="DonationBands-custom-amount"
           className="DonationBands-input styled"

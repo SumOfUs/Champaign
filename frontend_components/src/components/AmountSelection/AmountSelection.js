@@ -49,11 +49,6 @@ export default class AmountSelection extends Component {
     };
   }
 
-
-  componentWillMount() {
-    console.log('COMPONENT WILL MOUNT');
-  }
-
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
   }
