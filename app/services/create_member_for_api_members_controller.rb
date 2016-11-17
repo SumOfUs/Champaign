@@ -3,17 +3,17 @@ class CreateMemberForApiMembersController
   attr_reader :member, :errors
 
   def initialize(params)
-    @params = params
+    @params = params.symbolize_keys
   end
 
   def create
-    validator = FormValidator.new(@params, member_validation)
+    validator = FormValidator.new(member_params, member_validation)
 
     if validator.valid?
-      @member = Member.find_or_initialize_by(email: @params[:email])
-      @member.assign_attributes(@params)
+      @member = Member.find_or_initialize_by(email: member_params[:email])
+      @member.assign_attributes(member_params)
       if @member.save
-        @member.publish_subscription
+        @member.publish_signup(@params[:locale])
         return true
       else
         @errors = member.errors
@@ -26,6 +26,12 @@ class CreateMemberForApiMembersController
   end
 
   private
+
+  def member_params
+    return @member_params if @member_params.present?
+    allowed = Member.new.attributes.keys.map(&:to_sym) + [:name]
+    @member_params = @params.select { |k, _| allowed.include? k }
+  end
 
   def member_validation
     [

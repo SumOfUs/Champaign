@@ -72,17 +72,15 @@ class Member < ActiveRecord::Base
                                     welcome_name: full_name.blank? ? email : full_name)
   end
 
-  def publish_subscription
-    ChampaignQueue.push(
-      type: 'subscribe_member',
-      params: {
-        email: email,
-        name: name,
-        country: country,
-        postal: postal
-
-      }
-    )
+  def publish_signup(locale = nil)
+    params = {
+      email: email,
+      name: name,
+      country: country,
+      postal: postal
+    }
+    params[:locale] = locale if locale.present?
+    ChampaignQueue.push(type: 'subscribe_member', params: params)
   end
 
   def token_payload
