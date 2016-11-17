@@ -11,9 +11,11 @@ const SweetPlaceholder = Backbone.View.extend({
   },
 
   initialize() {
-    for (let el of this.$el.find('.sweet-placeholder__field')) {
+    const $els = this.$el.find('.sweet-placeholder__field');
+
+    $els.each((el) => {
       this.decide({target: el});
-    }
+    });
   },
 
   focus(e) {
@@ -22,7 +24,7 @@ const SweetPlaceholder = Backbone.View.extend({
   },
 
   blur(e) {
-    let $field = this.rootEl(e.target).find('.sweet-placeholder__field'); 
+    let $field = this.rootEl(e.target).find('.sweet-placeholder__field');
     let $label = this.rootEl(e.target).find('.sweet-placeholder__label');
     if ($field.is(':focus')) return;
     $label.removeClass('sweet-placeholder__label--active');
