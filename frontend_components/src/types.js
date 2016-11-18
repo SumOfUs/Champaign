@@ -1,9 +1,20 @@
 // @flow
 
-declare type FundraiserAction =
-  { type: 'change_currency', payload: string }
-  | { type: 'change_amount',  payload: ?number }
-  | { type: 'change_step', payload: number };
+declare type FundraiserFormMember = {
+  email: string;
+  name: string;
+  country: string;
+  postal: string;
+};
+
+declare type FundraiserForm = {
+  amount: ?number;
+  currency: ?string;
+  recurring: boolean;
+  storeInVault: boolean;
+  paymentMethodNonce: ?string;
+  deviceData: any;
+};
 
 declare type FundraiserState = {
   amount: ?number;
@@ -14,8 +25,16 @@ declare type FundraiserState = {
   currentStep: number;
   recurring: boolean;
   storeInVault: boolean;
-  formId: ?number;
+  user: FundraiserFormMember;
+  formId: number;
+  form: FundraiserForm;
 };
+
+declare type FundraiserAction =
+  { type: 'change_currency', payload: string }
+  | { type: 'change_amount',  payload: ?number }
+  | { type: 'update_form_member', payload: FundraiserFormMember }
+  | { type: 'change_step', payload: number };
 
 declare type MemberState = {
   id: number;
