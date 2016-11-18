@@ -5,6 +5,7 @@
     "eslint": "eslint"
   },
   "dependencies": {
+    "airbrake-js": "^0.5.9",
     "babelify": "^6.1.3",
     "browserify": "~> 10.2.4",
     "browserify-incremental": "^3.0.1",
