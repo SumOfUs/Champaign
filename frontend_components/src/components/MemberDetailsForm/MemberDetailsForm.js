@@ -49,7 +49,7 @@ export class MemberDetailsForm extends Component {
   }
 
   isValid(): boolean {
-    return !!(this.props.user.email && this.props.user.country);
+    return !!(this.props.user.email );
   }
 
   getFieldError(field: string): FormattedMessage | void {
@@ -123,6 +123,7 @@ export class MemberDetailsForm extends Component {
               name="email"
               type="email"
               value={user.email}
+              required
               errorMessage={this.getFieldError('email')}
               label={<FormattedMessage id="email" defaultMessage="Email" />}
               onChange={email => updateUser({ ...user, email })}
@@ -139,9 +140,8 @@ export class MemberDetailsForm extends Component {
             />
           </div>
 
-          <div className="MemberDetailsForm-field">
+          <div className="MemberDetailsForm-field" style={{marginBottom: '10px'}}>
             <Select
-              style={{marginBottom: '10px'}}
               ref="countrySelect"
               name="country"
               placeholder={<FormattedMessage id="country" defaultMessage="Country" />}
