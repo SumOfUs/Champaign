@@ -33,6 +33,11 @@
   transition: 240ms;
 }
 
+.invalid .SweetInput-label,
+.focused.invalid .SweetInput-label {
+  color: rgba(255, 0, 0, .5);
+}
+
 .focused .SweetInput-label,
 .filled .SweetInput-label {
   opacity: 1;
