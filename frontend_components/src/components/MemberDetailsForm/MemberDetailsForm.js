@@ -59,24 +59,29 @@ export class MemberDetailsForm extends Component {
   }
 
   buttonText() {
-    if (this.state.loading) return 'loading...';
-    if (this.props.buttonText) return this.props.buttonText;
-    return <FormattedMessage id="submit" defaultMessage="submit" />;
-  }
-
-  handleSuccess() {
-    this.setState({ errors: {} });
-    if (this.props.proceed) {
-      this.props.proceed();
+    if (this.state.loading) {
+      return <FormattedMessage id="validating" defaultMessage="Validating..." />;
+    } else if (this.props.buttonText) {
+      return this.props.buttonText;
+    } else {
+      return <FormattedMessage id="submit" defaultMessage="submit" />;
     }
   }
 
+  handleSuccess() {
+    this.setState({ errors: {} }, () => {
+      if (this.props.proceed) {
+        this.props.proceed();
+      }
+    });
+  }
+
   handleFailure(response: any) {
-    const errors = mapValues(response.errors, ([message], field) => {
+    const errors = mapValues(response.errors, ([message]) => {
       return {
         id: 'field_error_message',
-        defaultMessage: '{field} {message}',
-        values: { field, message: message}
+        defaultMessage: 'This field {message}',
+        values: { message }
       };
     });
 
@@ -84,9 +89,12 @@ export class MemberDetailsForm extends Component {
   }
 
   submit(e: SyntheticEvent) {
+    this.setState({ loading: true });
+
     e.preventDefault();
-    // HACKISH☠ ️
-    //
+    // HACKISH ☠️
+    // Use a proper xhr lib if we want to make our lives easy.
+    // Ideally a
     fetch('/api/pages/1/actions/validate', {
       method: 'POST',
       headers: {
@@ -95,11 +103,12 @@ export class MemberDetailsForm extends Component {
       },
       body: JSON.stringify({ ...this.props.user, form_id: this.props.formId }),
     }).then(response => {
+      this.setState({ loading: false });
       if (response.ok) {
         return response.json().then(this.handleSuccess.bind(this));
       }
       return response.json().then(this.handleFailure.bind(this));
-    });
+    }).catch(() => this.setState({ loading: false }));
   }
 
   render() {
@@ -143,6 +152,7 @@ export class MemberDetailsForm extends Component {
               options={this.state.countries}
               onChange={(country => updateUser({ ...user, country }))}
             />
+            {this.getFieldError('country')}
           </div>
 
           <div className="MemberDetailsForm-field">
