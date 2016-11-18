@@ -142,7 +142,6 @@ module Payment::Braintree
       create_customer
       create_payment_method
       record = create_transaction
-
       return false unless successful?
       @customer.update(customer_attrs) if @save_customer && @customer
       record
