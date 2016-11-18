@@ -8,6 +8,7 @@ type OwnProps = {
   label: any;
   value: string;
   type?: string;
+  required?: boolean;
   errorMessage?: string;
   onChange?: (value: string) => void;
 };
@@ -61,6 +62,7 @@ export default class SweetInput extends Component {
           value={this.props.value || ''}
           name={this.props.name}
           type={this.props.type}
+          required={this.props.required}
           onChange={e => this.onChange(e.target.value)}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
