@@ -1,5 +1,6 @@
 {
-  "name": "Champaign",
+  "version": "1.0.0",
+  "name": "champaign",
   "description": "A web platform for online campaigning.",
   "scripts": {
     "eslint": "eslint"
