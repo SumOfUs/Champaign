@@ -1,28 +1,5 @@
 /* @flow */
 
-export type FormMember = {
-  formId: ?number;
-  email: ?string;
-  name: ?string;
-  country: ?string;
-  postal: ?string;
-};
-
-export type FundraiserForm = {
-  amount: ?number;
-  user: FormMember;
-  currency: ?string;
-  recurring: boolean;
-  storeInVault: boolean;
-  paymentMethodNonce: ?string;
-  deviceData: Object;
-};
-
-type FundraiserAction =
-  { type: 'change_step', payload: number }
-  | { type: 'proceed_step' };
-
-// Reducer
 const initialState: FundraiserState = {
   amount: null,
   currency: 'USD',
@@ -32,13 +9,21 @@ const initialState: FundraiserState = {
   currentStep: 0,
   recurring: false,
   storeInVault: false,
-  formId: null,
+  formId: 4,
   user: {
-    email: null,
-    name: null,
-    country: null,
-    postal: null,
+    email: '',
+    name: '',
+    country: '',
+    postal: '',
   },
+  form: {
+    amount: null,
+    paymentMethodNonce: null,
+    currency: null,
+    recurring: false,
+    storeInVault: false,
+    deviceData: {},
+  }
 };
 
 export function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
@@ -52,6 +37,8 @@ export function fundraiserReducer(state: FundraiserState = initialState, action:
     case 'proceed_step':
       const nextStep = state.currentStep + 1;
       return { ...state, currentStep: nextStep };
+    case 'update_form_member':
+      return { ...state, user: action.payload };
     case 'set_store_in_vault':
       return { ...state, storeInVault: action.payload };
     case 'set_recurring':

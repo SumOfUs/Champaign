@@ -1,4 +1,5 @@
 .Button-root {
+  border: 2px solid #f8492e;
   background-color: #f8492e;
   box-sizing: border-box;
   color: white;
@@ -12,13 +13,15 @@
   cursor: pointer;
   border-radius: 4px;
   margin-bottom: 6px;
-  padding: 18px 0 0 0;
   user-select: none;
+  width: 100%;
+  outline: none;
 }
 
 .Button-root.disabled,
 .Button-root.disabled:hover,
 .Button-root.disabled:active {
+  border: 2px solid #d0d0d0;
   background-color: #d3d3d3;
   box-shadow: none;
 }

@@ -103,7 +103,7 @@ export class FundraiserView extends Component {
                   id="proceed_to_x"
                   defaultMessage="Proceed to {name}"
                   values={{name: Payment.title}} />}
-                submit={this.submitDetails.bind(this)}
+                proceed={this.proceed.bind(this)}
               />
             </StepContent> }
 
