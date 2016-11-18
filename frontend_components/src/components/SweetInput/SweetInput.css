@@ -1,4 +1,5 @@
 .SweetInput-root {
+  position: relative;
   border-radius: 4px;
   background: white;
   display: flex;
@@ -8,9 +9,15 @@
   padding: 5px 15px 8px 15px;
   padding: 0;
   align-items: stretch;
+  border: 2px solid white;
+}
+.SweetInput-root.focused {
+    border: 2px solid rgba(0, 192, 207, 0.7);
 }
 
-.SweetInput-root.focused {
+
+.SweetInput-root.invalid {
+  border: 2px solid rgba(255, 0, 0, .5);
 }
 
 .SweetInput-label {
@@ -48,11 +55,6 @@
   border: 2px solid white;
 }
 
-.focused .SweetInput-input {
-    border: 2px solid rgba(0, 192, 207, 0.7);
-}
-
-
 .SweetInput-input::placeholder {
     color: transparent;
     transition: 240ms;
@@ -64,4 +66,13 @@
 
 .focused .SweetInput-input::placeholder {
     color: #ccc;
+}
+
+.SweetInput-error {
+  position: absolute;
+  right: 0;
+  padding: 5px 10px;
+  color: rgba(255, 0, 0, .6);
+  font-size: .8em;
+  font-style: italic;
 }

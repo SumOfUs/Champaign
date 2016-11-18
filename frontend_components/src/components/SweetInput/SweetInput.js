@@ -6,8 +6,9 @@ import './SweetInput.css';
 type OwnProps = {
   name: string;
   label: any;
+  value: string;
   type?: string;
-  value?: string;
+  errorMessage?: string;
   onChange?: (value: string) => void;
 };
 export default class SweetInput extends Component {
@@ -24,9 +25,11 @@ export default class SweetInput extends Component {
   }
 
   static defaultProps = {
+    value: '',
     name: '',
     label: '',
     type: 'text',
+    errorMessage: '',
   };
 
   onChange(value: string) {
@@ -35,15 +38,16 @@ export default class SweetInput extends Component {
     }
   }
 
-  toggleFocus(focused: boolean, filled?: boolean = false) {
-    this.setState({ focused, filled });
+  toggleFocus(focused: boolean) {
+    this.setState({ focused });
   }
 
   render() {
     const className = classnames({
       'SweetInput-root': true,
-      filled: this.state.filled,
+      filled: !!(this.props.value),
       focused: this.state.focused,
+      invalid: !!(this.props.errorMessage),
     });
 
     return(
@@ -51,14 +55,15 @@ export default class SweetInput extends Component {
         <label className="SweetInput-label">
           {this.props.label}
         </label>
+        <span className="SweetInput-error">{this.props.errorMessage}</span>
         <input
           ref="input"
-          value={this.props.value}
+          value={this.props.value || ''}
           name={this.props.name}
           type={this.props.type}
           onChange={e => this.onChange(e.target.value)}
-          onFocus={e => this.toggleFocus(true, e.target.value.length > 0)}
-          onBlur={e => this.toggleFocus(false, e.target.value.length > 0)}
+          onFocus={e => this.toggleFocus(true)}
+          onBlur={e => this.toggleFocus(false)}
           className="SweetInput-input"
         />
       </div>
