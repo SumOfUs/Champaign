@@ -35,8 +35,8 @@ class Payment::Braintree::Transaction < ActiveRecord::Base
     ChampaignQueue.push({
       type: 'subscription-payment',
       params: {
-        recurring_id: self.subscription.try(:action).form_data['subscription_id'],
-        success: self.status == 'success' ? 1 : 0
+        recurring_id: subscription.try(:action).form_data['subscription_id'],
+        success: status == 'success' ? 1 : 0
       }
     }, { delay: 120 })
   end
