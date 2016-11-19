@@ -4,6 +4,6 @@
 [include]
 
 [libs]
-src/types.js
+app/frontend/types.js
 
 [options]
