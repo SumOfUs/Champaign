@@ -29,6 +29,7 @@ module.exports = {
   appBuild: resolveApp('public/dist'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('app/frontend/sandbox.html'),
+  appApplicationJs: resolveApp('app/frontend/application.js'),
   appIndexJs: resolveApp('app/frontend/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('app/frontend'),
