@@ -1,4 +1,4 @@
 # Run Rails & Webpack concurrently
 # Example file from webpack-rails gem
 rails: bundle exec rails server
-webpack: npm run start
+webpack: PORT=$WEBPACK_PORT npm run start

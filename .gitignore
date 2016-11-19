@@ -32,7 +32,6 @@ queue_listeners/config/env.yml
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
-node_modules
 public/system
 
 config/settings.local.yml
@@ -42,3 +41,12 @@ config/environments/*.local.yml
 .ruby-gemset
 .ruby-version
 .byebug_history
+
+# node.js section
+node_modules
+npm-debug.log
+build
+.DS_Store
+npm-debug.log
+.#*
+public/dist

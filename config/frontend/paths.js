@@ -1,9 +1,9 @@
-var path = require('path');
-var fs = require('fs');
+const path = require('path');
+const fs = require('fs');
 
 // Make sure any symlinks in the project folder are resolved:
 // https://github.com/facebookincubator/create-react-app/issues/637
-var appDirectory = fs.realpathSync(process.cwd());
+const appDirectory = fs.realpathSync(process.cwd());
 function resolveApp(relativePath) {
   return path.resolve(appDirectory, relativePath);
 }
@@ -19,39 +19,21 @@ function resolveApp(relativePath) {
 // It will then be used by Webpack configs.
 // Jest doesn’t need this because it already handles `NODE_PATH` out of the box.
 
-var nodePaths = (process.env.NODE_PATH || '')
+const nodePaths = (process.env.NODE_PATH || '')
   .split(process.platform === 'win32' ? ';' : ':')
   .filter(Boolean)
   .map(resolveApp);
 
 // config after eject: we're in ./config/
 module.exports = {
-  appBuild: resolveApp('build'),
+  appBuild: resolveApp('public/dist'),
   appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveApp('src/index.js'),
+  appHtml: resolveApp('app/frontend/sandbox.html'),
+  appIndexJs: resolveApp('app/frontend/index.js'),
   appPackageJson: resolveApp('package.json'),
-  appSrc: resolveApp('src'),
-  testsSetup: resolveApp('src/setupTests.js'),
+  appSrc: resolveApp('app/frontend'),
+  testsSetup: resolveApp('app/frontend/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
   ownNodeModules: resolveApp('node_modules'),
   nodePaths: nodePaths
 };
-
-
-
-// config before publish: we're in ./packages/react-scripts/config/
-if (__dirname.indexOf(path.join('packages', 'react-scripts', 'config')) !== -1) {
-  module.exports = {
-    appBuild: resolveOwn('../../../build'),
-    appPublic: resolveOwn('../template/public'),
-    appHtml: resolveOwn('../template/public/index.html'),
-    appIndexJs: resolveOwn('../template/src/index.js'),
-    appPackageJson: resolveOwn('../package.json'),
-    appSrc: resolveOwn('../template/src'),
-    testsSetup: resolveOwn('../template/src/setupTests.js'),
-    appNodeModules: resolveOwn('../node_modules'),
-    ownNodeModules: resolveOwn('../node_modules'),
-    nodePaths: nodePaths
-  };
-}
