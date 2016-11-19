@@ -9,6 +9,7 @@ const initialState: FundraiserState = {
   currentStep: 0,
   recurring: false,
   storeInVault: false,
+  paymentMethods: [],
   formId: 4,
   user: {
     email: '',
@@ -28,6 +29,9 @@ const initialState: FundraiserState = {
 
 export function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
   switch (action.type) {
+    case 'parse_champaign_data':
+      const data = {};
+      return { ...state, ...data };
     case 'change_currency':
       return { ...state, currency: action.payload };
     case 'change_amount':

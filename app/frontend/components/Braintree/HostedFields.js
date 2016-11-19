@@ -84,7 +84,7 @@ export default class HostedFields extends Component {
     return (
       <div className="HostedFields-root">
         <form action="/" method="post" id="cardForm" onSubmit={this.teardown.bind(this)}>
-          <label className="hosted-fields--label" htmlhtmlFor="card-number">Card Number</label>
+          <label className="hosted-fields--label" htmlFor="card-number">Card Number</label>
           <div id="card-number" className="hosted-field"></div>
 
           <label className="hosted-fields--label" htmlFor="expiration-date">Expiration Date</label>
