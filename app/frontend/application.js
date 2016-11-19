@@ -37,6 +37,9 @@ window.mountComponent = (root: string, Component: ReactClass<any>, props: any = 
     document.getElementById(root)
   );
 
+  /* FIXME: this doesn't work because we're injecting a child into the wrapper
+  /*        so we need to create individual outputs / chunks for each Component
+  /*        and we're game (hot reloading!) */
   if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('./ComponentWrapper', () => {
       const UpdatedComponentWrapper = require('./ComponentWrapper').default;

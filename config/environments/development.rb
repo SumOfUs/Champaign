@@ -76,9 +76,7 @@ Rails.application.configure do
 
   config.webpack.config_file = 'config/webpack.config.dev.js'
 
-  # Host & port to use when generating asset URLS in the manifest helpers in dev
-  # server mode. Defaults to the requested host rather than localhost, so
-  # that requests from remote hosts work.
+  config.webpack.dev_server.host = 'localhost'
   config.webpack.dev_server.port = ENV.fetch('WEBPACK_PORT') { 4000 }
 
   # The host and port to use when fetching the manifest

@@ -85,7 +85,6 @@
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "1.0.0"
   },
-  "proxy": "http://localhost:3000",
   "jest": {
     "moduleFileExtensions": [
       "jsx",
