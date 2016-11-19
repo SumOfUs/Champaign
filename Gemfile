@@ -110,6 +110,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false
   gem 'annotate'
+  gem 'foreman', require: false
 end
 
 group :development, :test do
