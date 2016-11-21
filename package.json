@@ -102,10 +102,5 @@
       "<rootDir>/(build|coverage|db|flow-typed|lib|public|tmp|vendor|spec|docs|node_modules)/"
     ],
     "testEnvironment": "node"
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
   }
 }
