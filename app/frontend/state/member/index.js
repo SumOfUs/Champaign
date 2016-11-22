@@ -7,6 +7,10 @@ export function memberReducer(state: MemberState = initialState, action: MemberA
       if (!action.payload.member) return state;
 
       const m = action.payload.member;
+      if (!m.id) {
+        return null;
+      }
+
       const member: MemberState = {
         id: m.id,
         email: m.email,
