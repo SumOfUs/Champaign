@@ -11,7 +11,6 @@ import SweetInput from '../SweetInput/SweetInput';
 import { updateUser } from '../../state/fundraiser/actions';
 // import isEmail from 'validator/lib/isEmail';
 
-import './MemberDetailsForm.css';
 import 'react-select/dist/react-select.css';
 
 type ConnectedState = { user: FundraiserFormMember; formId: number; };
@@ -19,6 +18,9 @@ type ConnectedDispatch = { updateUser: (u: FundraiserFormMember) => void; };
 type OwnProps = {
   buttonText?: React$Element<any> | string;
   proceed?: () => void;
+  fields: object;
+  outstandingFields: array;
+  formId: number;
 };
 
 const countries =
@@ -60,11 +62,11 @@ export class MemberDetailsForm extends Component {
 
   buttonText() {
     if (this.state.loading) {
-      return <FormattedMessage id="validating" defaultMessage="Validating..." />;
+      return <FormattedMessage id="validating" defaultMessage={I18n.t('form.processing')} />;
     } else if (this.props.buttonText) {
       return this.props.buttonText;
     } else {
-      return <FormattedMessage id="submit" defaultMessage="submit" />;
+      return <FormattedMessage id="submit" defaultMessage={I18n.t('form.submit')} />;
     }
   }
 
@@ -88,14 +90,19 @@ export class MemberDetailsForm extends Component {
     this.setState({ errors });
   }
 
+  prefill(field) {
+    // this is where the prefill logic will live
+    return field.default_value;
+  }
+
   submit(e: SyntheticEvent) {
     this.setState({ loading: true });
 
     e.preventDefault();
-    // HACKISH ☠️
+    // HACKISH
     // Use a proper xhr lib if we want to make our lives easy.
     // Ideally a
-    fetch('/api/pages/1/actions/validate', {
+    fetch(`/api/pages/${this.props.formId}/actions/validate`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -111,59 +118,102 @@ export class MemberDetailsForm extends Component {
     }).catch(() => this.setState({ loading: false }));
   }
 
+  update(a, b) {
+    // this is clearly broken
+    const { user, updateUser } = this.props;
+    let newFields = {...user};
+    newFields[a] = b;
+    console.log(newFields);
+    updateUser(newFields);
+  }
+
+  smallInput(field) {
+    let type = 'text';
+    if (field.data_type === 'phone') type = 'tel';
+    if (field.data_type === 'email') type = 'email';
+    return (<SweetInput
+              name={field.name}
+              type={type}
+              value={this.prefill(field)}
+              required={field.required}
+              errorMessage={this.getFieldError('email')}
+              label={field.label}
+              onChange={val => this.update(field.name, val)}
+            />);
+  }
+
+  hiddenInput(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
+  textArea(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
+  checkbox(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
+  countryDropdown(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
+  dropdown(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
+  choice(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
+  instruction(field) {
+    return (<p>{field.data_type} pending implementation</p>);
+  }
+
   render() {
     const { user, updateUser } = this.props;
     const { loading } = this.state;
 
     return (
       <div className="MemberDetailsForm-root">
-        <form onSubmit={this.submit.bind(this)}>
-          <div className="MemberDetailsForm-field">
-            <SweetInput
-              name="email"
-              type="email"
-              value={user.email}
-              required
-              errorMessage={this.getFieldError('email')}
-              label={<FormattedMessage id="email" defaultMessage="Email" />}
-              onChange={email => updateUser({ ...user, email })}
-            />
-          </div>
+        <form onSubmit={this.submit.bind(this)} className="form--big action-form">
 
-          <div className="MemberDetailsForm-field">
-            <SweetInput
-              name="name"
-              value={user.name}
-              errorMessage={this.getFieldError('name')}
-              label={<FormattedMessage id="name" defaultMessage="Full name" />}
-              onChange={name => updateUser({ ...user, name })}
-            />
-          </div>
+          {this.props.fields.map((field, ii) => {
+            let inner;
+            switch (field.data_type) {
+              case 'text':
+              case 'postal':
+              case 'phone':
+              case 'email':
+                inner = this.smallInput(field);
+                break;
+              case 'hidden':
+                inner = this.hiddenInput(field);
+                break;
+              case 'paragraph':
+                inner = this.textArea(field);
+                break;
+              case 'checkbox':
+                inner = this.checkbox(field);
+                break;
+              case 'country':
+                inner = this.countryDropdown(field);
+                break;
+              case 'dropdown':
+                inner = this.dropdown(field);
+                break;
+              case 'choice':
+                inner = this.choice(field);
+                break;
+              case 'instruction':
+                inner = this.instruction(field);
+                break;
+            }
+            return (<div key={`MemberDetailsForm-field-${field.name}`} className="MemberDetailsForm-field form__group action-form__field-container">
+              { inner }
+            </div>);
+          })}
 
-          <div className="MemberDetailsForm-field" style={{marginBottom: '10px'}}>
-            <Select
-              ref="countrySelect"
-              name="country"
-              placeholder={<FormattedMessage id="country" defaultMessage="Country" />}
-              simpleValue
-              clearable
-              searchable
-              value={user.country}
-              options={this.state.countries}
-              onChange={(country => updateUser({ ...user, country }))}
-            />
-            {this.getFieldError('country')}
-          </div>
-
-          <div className="MemberDetailsForm-field">
-            <SweetInput
-              name="postal"
-              value={user.postal}
-              errorMessage={this.getFieldError('postal')}
-              label={<FormattedMessage id="postal" defaultMessage="Postal Code" />}
-              onChange={postal => updateUser({ ...user, postal })}
-            />
-          </div>
 
           <Button
             type="submit"

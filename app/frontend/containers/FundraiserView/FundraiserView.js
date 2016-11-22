@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage, injectIntl } from 'react-intl';
 import StepContent from '../../components/Stepper/StepContent';
 import StepWrapper from '../../components/Stepper/StepWrapper';
 import AmountSelection from '../../components/AmountSelection/AmountSelection';
@@ -27,7 +26,9 @@ type OwnProps = {
   selectCurrency: (currency: string) => void;
   submitDetails: (payload: any) => void;
   submitPayment: (payload: any) => void;
-  intl: any;
+  fields: array;
+  outstandingFields: object;
+  formId: number;
 };
 
 type OwnState = {
@@ -76,13 +77,7 @@ export class FundraiserView extends Component {
 
     return (
       <div id="fundraiser-view" className="FundraiserView-container">
-        <section className="FundraierView-steps section darken-background">
-          <h2 className="FundraiserView-title title">
-            Donate now
-          </h2>
-        </section>
-
-        <StepWrapper currentStep={currentStep} changeStep={this.props.changeStep}>
+        <StepWrapper title={this.props.title} currentStep={currentStep} changeStep={this.props.changeStep}>
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <AmountSelection
               donationAmount={donationAmount}
@@ -99,10 +94,10 @@ export class FundraiserView extends Component {
           { !member &&
             <StepContent title="details">
               <MemberDetailsForm
-                buttonText={<FormattedMessage
-                  id="proceed_to_x"
-                  defaultMessage="Proceed to {name}"
-                  values={{name: Payment.title}} />}
+                buttonText={I18n.t('fundraiser.proceed_to_payment')}
+                fields={this.props.fields}
+                outstandingFields={this.props.outstandingFields}
+                formId={this.props.formId}
                 proceed={this.proceed.bind(this)}
               />
             </StepContent> }
@@ -119,12 +114,16 @@ export class FundraiserView extends Component {
 export const mapStateToProps = (state: AppState) => ({
   member: state.member,
   amount: state.fundraiser.amount,
+  title: state.fundraiser.title,
   currency: state.fundraiser.currency,
   currencies: state.fundraiser.currencies,
   currentStep: state.fundraiser.currentStep,
   donationBands: state.fundraiser.donationBands,
   donationAmount: state.fundraiser.donationAmount,
   recurring: state.fundraiser.recurring,
+  fields: state.fundraiser.fields,
+  outstandingFields: state.fundraiser.outstandingFields,
+  formId: state.fundraiser.formId,
   storeInVault: state.fundraiser.storeInVault,
 });
 
@@ -136,4 +135,4 @@ export const mapDispatchToProps = (dispatch: Dispatch) => ({
   submitPayment: (payload: any) => dispatch(submitPayment(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectIntl(FundraiserView));
+export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);

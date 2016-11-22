@@ -5,4 +5,8 @@ module ChampaignLiquidFilters
     return tags_string if tags_string =~ /selected/
     tags_string.gsub(/(<option.*?value=["']#{to_select}["'])(.*?)>/, '\1 selected \2>')
   end
+
+  def jsonify(my_hash)
+    my_hash.to_json
+  end
 end

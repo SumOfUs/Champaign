@@ -2,11 +2,12 @@
 import React, { Component, Children, cloneElement } from 'react';
 import Stepper from './Stepper';
 import compact from 'lodash/compact';
-import './Stepper.css';
+import './Stepper.scss';
 
 type OwnProps = {
   changeStep: (step: number) => void;
   currentStep: number;
+  title: string;
   children?: any;
 };
 
@@ -40,10 +41,11 @@ export default class StepWrapper extends Component {
       <div className="StepWrapper-root">
         <Stepper
           steps={this.getTitles()}
-          currentStep={currentStep}
-          changeStep={changeStep}
+          {...this.props}
         />
-        {this.childrenWithExtraProps(children)}
+        <div className="fundraiser-bar__main">
+          {this.childrenWithExtraProps(children)}
+        </div>
       </div>
     );
   }
