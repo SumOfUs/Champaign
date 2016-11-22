@@ -27,7 +27,7 @@ window.FundraiserComponent = FundraiserView;
 window.mountComponent = (root: string, Component: ReactClass<any>, props: any = {}, initialState?: any = {}) => {
   const store: Store = props.store;
   if (store) {
-    store.dispatch({ type: 'parse_champaign_data', payload: window.champaign.personalization });
+    store.dispatch({ type: 'parse_champaign_data', payload: initialState });
   }
 
   render(

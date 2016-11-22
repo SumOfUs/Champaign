@@ -1,11 +1,11 @@
 /* @flow */
 import React, { Component } from 'react';
 import Step from './Step';
-import './Stepper.css';
 
 type Props = {
   steps: string[];
   currentStep: number;
+  title: string;
   changeStep: (step: number) => void;
 };
 
@@ -20,7 +20,8 @@ export default class Stepper extends Component {
 
   render() {
     return (
-      <div className="Stepper-wrapper darken-background">
+      <div className="Stepper-wrapper fundraiser-bar__top">
+        <h2>{ this.props.title }</h2>
         <div className="Stepper-root">
           <hr className="Stepper-line" />
           {this.props.steps.map((step, index) =>

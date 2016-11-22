@@ -67,6 +67,7 @@
     "http-proxy-middleware": "0.17.2",
     "jest": "16.0.2",
     "json-loader": "0.5.4",
+    "node-sass": "^3.13.0",
     "object-assign": "4.1.0",
     "path-exists": "2.1.0",
     "postcss-loader": "1.0.0",
@@ -75,6 +76,7 @@
     "react-dev-utils": "^0.3.0",
     "recursive-readdir": "2.1.0",
     "rimraf": "2.5.4",
+    "sass-loader": "^4.0.2",
     "sou-assets": "git://github.com/SumOfUs/sou-assets.git#npm",
     "stats-webpack-plugin": "^0.4.2",
     "strip-ansi": "3.0.1",
@@ -92,14 +94,14 @@
       "json"
     ],
     "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/jest/FileStub.js",
-      "^.+\\.css$": "<rootDir>/config/jest/CSSStub.js"
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/config/frontend/jest/FileStub.js",
+      "^.+\\.css$": "<rootDir>/config/frontend/jest/CSSStub.js"
     },
     "setupFiles": [
       "<rootDir>/config/frontend/polyfills.js"
     ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/(build|coverage|db|flow-typed|lib|public|tmp|vendor|spec|docs|node_modules)/"
+    "testPathDirs": [
+      "<rootDir>/app/frontend"
     ],
     "testEnvironment": "node"
   }
