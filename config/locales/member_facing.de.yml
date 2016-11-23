@@ -116,3 +116,4 @@ de:
         body: "Jemand (wahrscheinlich Sie selbst) möchte das Passwort für Ihren SumOfUs-Account zurücksetzen.\n\nDer folgende Link zum Zurücksetzen Ihres Passworts ist 24 Stunden gültig:\n\n %{url}\n\n Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail einfach ignorieren.\n\nVielen Dank,\nSumOfUs"
   facebook_share:
     caption: 'I just signed this petition on SumOfUs.org'
+    comment_field_label: "I'm signing because..."

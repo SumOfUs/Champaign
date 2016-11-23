@@ -118,4 +118,4 @@ en:
         body: "Someone (probably you) has requested a password reset on your SumOfUs account.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nIf you didn't request a new password, you can safely ignore this email.\n\nThanks,\nSumOfUs"
   facebook_share:
     caption: 'I just signed this petition on SumOfUs.org'
-
+    comment_field_label: "I'm signing because..."

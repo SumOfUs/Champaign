@@ -165,3 +165,4 @@ fr:
         body: "We heard that you lost your password. Sorry about that.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nThanks,\nSumOfUs"
   facebook_share:
     caption: 'I just signed this petition on SumOfUs.org'
+    comment_field_label: "I'm signing because..."
