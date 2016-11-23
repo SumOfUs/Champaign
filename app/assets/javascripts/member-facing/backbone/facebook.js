@@ -16,6 +16,7 @@ const FacebookShareView = Backbone.View.extend({
       origin: window.location.origin,
     });
 
+    this.model.bind('change', this.render.bind(this));
     this.initializeFbClient();
   },
 
@@ -32,7 +33,6 @@ const FacebookShareView = Backbone.View.extend({
         FB.getLoginStatus( (response) => {
           if(response.status !== 'connected'){
             this.model.disable();
-            this.render();
           }
         });
       }
@@ -43,7 +43,7 @@ const FacebookShareView = Backbone.View.extend({
     if( this.model.isEnabled() ) {
       this.model.set('message', this.$('textarea[name="fb_share_comment"]').val());
       this.model.post(FB, () => {
-        mixpanel.track("FaceBookSignShare", { page: this.model.get('path') }, cb);
+        mixpanel.track("FBSS:SHARE", { page: this.model.get('path') }, cb);
       });
     } else {
       cb();
@@ -67,7 +67,12 @@ const FacebookShareView = Backbone.View.extend({
         const options = { scope: 'publish_actions' };
 
         const loginHandler = (resp) => {
-          mixpanel.track("Logged in");
+          if(resp.status !== 'connected') {
+            this.model.disable();
+            mixpanel.track("FBSS:LOGIN", {sucess: false });
+          } else {
+            mixpanel.track("FBSS:LOGIN", {sucess: true });
+          }
         };
 
         FB.login( loginHandler, options );
