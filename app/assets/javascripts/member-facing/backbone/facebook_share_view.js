@@ -11,6 +11,8 @@ const FacebookShareView = Backbone.View.extend({
   initialize(options) {
     this.template =  _.template(this.$('script').html());
 
+    this.fbAppId = $("meta[property='fb:app_id']").val();
+
     this.model = new FacebookShareModel({
       path: window.location.pathname,
       origin: window.location.origin,
@@ -25,7 +27,7 @@ const FacebookShareView = Backbone.View.extend({
 
     $.getScript('//connect.facebook.net/en_US/sdk.js', () => {
       FB.init({
-        appId: '1510273688987734',
+        appId: `this.fbAppId`,
         version: 'v2.7',
       });
 
@@ -85,7 +87,7 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   render() {
-    this.$el.html( this.template( this.model.forTemplate() ) );
+    this.$el.html( this.template( this.model.toJSON() ) );
     new SweetPlaceholder(this.$('.sweet-placeholder__field'));
     return this;
   },

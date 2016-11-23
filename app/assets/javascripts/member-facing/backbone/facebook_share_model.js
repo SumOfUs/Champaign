@@ -44,13 +44,6 @@ const FacebookShareModel = Backbone.Model.extend({
     this.set('enabled', false);
     Cookie.set('facebookShare', 0);
   },
-
-  forTemplate() {
-    return {
-      enabled: this.get('enabled'),
-      name: this.get('name'),
-    }
-  }
 });
 
 module.exports = FacebookShareModel;
