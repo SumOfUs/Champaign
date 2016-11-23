@@ -11,7 +11,7 @@ const FacebookShareModel = Backbone.Model.extend({
     return {
       message: this.get('message'),
       link: this.buildLink(),
-      caption: "I just signed this petition on SumOfUs.org"
+      caption: I18n.t('facebook_share.caption')
     }
   },
 
