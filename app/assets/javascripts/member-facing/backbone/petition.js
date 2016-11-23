@@ -1,5 +1,5 @@
 const GlobalEvents = require('shared/global_events');
-const FacebookShareView = require('./facebook');
+const FacebookShareView = require('./facebook_share_view');
 
 const Petition = Backbone.View.extend({
 
