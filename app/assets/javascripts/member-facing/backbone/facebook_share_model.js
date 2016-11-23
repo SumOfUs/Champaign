@@ -28,7 +28,7 @@ const FacebookShareModel = Backbone.Model.extend({
   },
 
   buildLink() {
-    return `${this.get('origin')}${this.get('path')}`;
+    return `${this.get('origin')}${this.get('path')}?source=fbexpress`;
   },
 
   isEnabled() {
