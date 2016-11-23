@@ -4,6 +4,7 @@ const FacebookShareModel = Backbone.Model.extend({
   defaults: {
     name: '',
     message: '',
+    enabled: (Cookie.get('facebookShare') === '1' ),
   },
 
   feedOptions() {
@@ -31,22 +32,23 @@ const FacebookShareModel = Backbone.Model.extend({
   },
 
   isEnabled() {
-    const state = Cookie.get('facebookShare');
-    return window.parseInt(state) === 1;
+    return this.get('enabled');
   },
 
   enable() {
+    this.set('enabled', true);
     Cookie.set('facebookShare', 1);
   },
 
   disable() {
+    this.set('enabled', false);
     Cookie.set('facebookShare', 0);
   },
 
   forTemplate() {
     return {
-      enabled: this.isEnabled(),
-      name: this.get('name')
+      enabled: this.get('enabled'),
+      name: this.get('name'),
     }
   }
 });
