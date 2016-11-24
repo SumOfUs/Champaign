@@ -6,12 +6,13 @@ const FacebookShareView = Backbone.View.extend({
 
   events: {
     'click input[type="checkbox"]' : 'handleClick',
+    'change textarea' : 'updateMessage',
   },
 
   initialize(options) {
     this.template =  _.template(this.$('script').html());
 
-    this.fbAppId = $("meta[property='fb:app_id']").val();
+    this.fbAppId = $("meta[property='fb:app_id']").attr('content');
 
     this.model = new FacebookShareModel({
       path: window.location.pathname,
@@ -27,12 +28,13 @@ const FacebookShareView = Backbone.View.extend({
 
     $.getScript('//connect.facebook.net/en_US/sdk.js', () => {
       FB.init({
-        appId: `this.fbAppId`,
+        appId: `${this.fbAppId}`,
         version: 'v2.7',
       });
 
       if(this.model.isEnabled()) {
         FB.getLoginStatus( (response) => {
+          console.log(response.status);
           if(response.status !== 'connected'){
             this.model.disable();
           }
@@ -43,13 +45,16 @@ const FacebookShareView = Backbone.View.extend({
 
   post(cb) {
     if( this.model.isEnabled() ) {
-      this.model.set('message', this.$('textarea[name="fb_share_comment"]').val());
       this.model.post(FB, () => {
         mixpanel.track("FBSS:SHARE", { page: this.model.get('path') }, cb);
       });
     } else {
       cb();
     }
+  },
+
+  updateMessage(e) {
+    this.model.set('message', e.target.value);
   },
 
   handleClick() {

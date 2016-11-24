@@ -20,7 +20,7 @@ const FacebookShareModel = Backbone.Model.extend({
 
     client.api('/me/feed', 'post', options, (response) => {
       if (!response || response.error) {
-        console.log('error', response);
+        throw `Facebook Share: Unable to post to feed. ${response.error}`
       }
 
       cb();
