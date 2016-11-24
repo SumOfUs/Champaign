@@ -37,7 +37,17 @@ class Api::Payment::BraintreeController < PaymentController
 
   def one_click
     @result = client::OneClick.new(params).run
-    render status: :unprocessable_entity unless @result.success?
+
+    if @result.success?
+      payload = { success: true }
+        .merge(member: ::Payment::Braintree::PaymentMethod.find(params[:payment][:payment_method_id]).customer.member)
+        .merge(recurring: recurring?)
+
+      render json: payload
+    else
+      render status: :unprocessable_entity unless @result.success?
+    end
+
   end
 
   private

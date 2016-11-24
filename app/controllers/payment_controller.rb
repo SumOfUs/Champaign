@@ -28,9 +28,15 @@ class PaymentController < ApplicationController
 
     end
 
+    payload = { success: true }
+      .merge(follow_up)
+      .merge(id_for_response)
+      .merge(member: Member.find(builder.action.member_id))
+      .merge(recurring: recurring?)
+
     respond_to do |format|
       format.html { redirect_to follow_up_page_path(page) }
-      format.json { render json: { success: true }.merge(follow_up).merge(id_for_response) }
+      format.json { render json: payload }
     end
   end
 
