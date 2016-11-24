@@ -9,58 +9,64 @@ const field = {
   default_value: 'test value',
 };
 
-it('renders successfully', () => {
+test('renders successfully', () => {
   const wrapper = shallow(<FieldShape field={field} />);
   expect(wrapper.instance()).toBeInstanceOf(FieldShape);
 });
-it(`renders a <SweetInput type="text" .../> if (data_type === 'text')`, () => {
-  const wrapper = shallow(<FieldShape field={field} />);
-  expect(wrapper.text()).toEqual('<SweetInput />');
-  expect(wrapper.prop('type')).toEqual('text');
-});
 
-it(`renders a <SweetInput type="text" .../> if (data_type === 'postal')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'postal'}} />);
-  expect(wrapper.text()).toEqual('<SweetInput />');
-  expect(wrapper.prop('type')).toEqual('text');
-});
+describe('Match "data_type"', function () {
+  test(`text => <SweetInput type="text" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={field} />);
+    expect(wrapper.text()).toEqual('<SweetInput />');
+    expect(wrapper.prop('type')).toEqual('text');
+  });
 
-it(`renders a <SweetInput type="email" .../> if (data_type === 'email')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'email'}} />);
-  expect(wrapper.text()).toEqual('<SweetInput />');
-  expect(wrapper.prop('type')).toEqual('email');
-});
+  test(`postal => <SweetInput type="text" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'postal'}} />);
+    expect(wrapper.text()).toEqual('<SweetInput />');
+    expect(wrapper.prop('type')).toEqual('text');
+  });
 
-it(`renders a <SweetInput type="email" .../> if (data_type === 'email')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'email'}} />);
-  expect(wrapper.text()).toEqual('<SweetInput />');
-  expect(wrapper.prop('type')).toEqual('email');
-});
+  test(`email => <SweetInput type="email" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'email'}} />);
+    expect(wrapper.text()).toEqual('<SweetInput />');
+    expect(wrapper.prop('type')).toEqual('email');
+  });
 
-it(`renders a <SweetInput type="tel" .../> if (data_type === 'phone')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'phone'}} />);
-  expect(wrapper.text()).toEqual('<SweetInput />');
-  expect(wrapper.prop('type')).toEqual('tel');
-});
+  test(`phone => <SweetInput type="tel" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'phone'}} />);
+    expect(wrapper.text()).toEqual('<SweetInput />');
+    expect(wrapper.prop('type')).toEqual('tel');
+  });
 
-it(`renders a <SweetInput type="tel" .../> if (data_type === 'numeric')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'numeric'}} />);
-  expect(wrapper.text()).toEqual('<SweetInput />');
-  expect(wrapper.prop('type')).toEqual('tel');
-});
+  test(`numeric => <SweetInput type="tel" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'numeric'}} />);
+    expect(wrapper.text()).toEqual('<SweetInput />');
+    expect(wrapper.prop('type')).toEqual('tel');
+  });
 
-it(`renders a <SelectCountry .../> if (data_type === 'country')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'country'}} />);
-  expect(wrapper.text()).toEqual('<SelectCountry />');
-});
+  test(`country => <SelectCountry .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'country'}} />);
+    expect(wrapper.text()).toEqual('<SelectCountry />');
+  });
 
-it(`renders a <SelectCountry .../> if (data_type === 'dropdown')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'dropdown'}} />);
-  expect(wrapper.text()).toEqual('<Select />');
-});
+  test(`dropdown => <Select .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'dropdown'}} />);
+    expect(wrapper.text()).toEqual('<Select />');
+  });
 
-it(`renders a <SelectCountry .../> if (data_type === 'dropdown')`, () => {
-  const wrapper = shallow(<FieldShape field={{...field, data_type: 'hidden'}} />);
-  expect(wrapper.type()).toEqual('input');
-  expect(wrapper.prop('type')).toBe('hidden');
+  test(`hidden => <input type="hidden" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'hidden'}} />);
+    expect(wrapper.type()).toEqual('input');
+    expect(wrapper.prop('type')).toEqual('hidden');
+  });
+
+  test(`text => <SweetInput type="text" .../>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'text'}} />);
+    expect(wrapper.text()).toEqual('<SweetInput />');
+    expect(wrapper.prop('type')).toEqual('text');
+  });
+
+  test(`choice => ??? [PENDING]`);
+  test(`checkbox=> ??? [PENDING]`);
 });
