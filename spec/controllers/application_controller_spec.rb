@@ -78,7 +78,7 @@ describe ApplicationController do
 
   describe '#authenticate_user!' do
     controller do
-      before_action :authenticate_user!
+      before_action :authenticate_super_admin!
 
       def index
         render nothing: true
@@ -93,19 +93,19 @@ describe ApplicationController do
     end
 
     it "doesn't raise for whiltelisted users" do
-      Settings.admin_users = "foo@example.com,test@example.com"
+      Settings.admin_users = 'foo@example.com,test@example.com'
 
-      expect{
+      expect do
         get :index
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
-    it "raises for users not on the list" do
-      Settings.admin_users = "foo@example.com"
+    it 'raises for users not on the list' do
+      Settings.admin_users = 'foo@example.com'
 
-      expect{
+      expect do
         get :index
-      }.to raise_error(SecurityError)
+      end.to raise_error(SecurityError)
     end
   end
 end
