@@ -98,7 +98,8 @@ describe 'Braintree API' do
           expected_payload = {
             type: 'subscription-payment',
             params: {
-              recurring_id: /[a-z0-9]{6}/
+              recurring_id: /[a-z0-9]{6}/,
+              success: 1
             }
           }
 
@@ -148,7 +149,8 @@ describe 'Braintree API' do
           expected_payload = {
             type: 'subscription-payment',
             params: {
-              recurring_id: /[a-z0-9]{6}/
+              recurring_id: /[a-z0-9]{6}/,
+              success: 1
             }
           }
 

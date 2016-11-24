@@ -14,10 +14,15 @@ const Petition = Backbone.View.extend({
   initialize(options = {}) {
     this.followUpUrl = options.followUpUrl;
     this.submissionCallback = options.submissionCallback;
+    this.skipOnSuccessAction = options.skipOnSuccessAction;
     GlobalEvents.bindEvents(this);
   },
 
   handleSuccess(e, data) {
+    $.publish('petition:submitted');
+    if(this.skipOnSuccessAction) {
+      return;
+    }
     let hasCallbackFunction = (typeof this.submissionCallback === 'function');
     if (hasCallbackFunction) {
       this.submissionCallback(e, data);

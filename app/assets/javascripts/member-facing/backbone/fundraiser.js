@@ -34,9 +34,6 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   },
 
   // options: object with any of the following keys
-  //    followUpUrl: the url to redirect to after success
-  //    submissionCallback: a function to call after success, receives the
-  //      arguments received by the ajax call posting the donation
   //    member: an object for an existing member. registered and email fields are used
   //    currency: the three letter capitalized currency code to use
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
@@ -49,10 +46,6 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     this.initializeCurrency(options.currency, options.donationBands);
     this.changeStep(1);
     this.donationAmount = 0;
-    this.followUpUrl = options.followUpUrl;
-    if (typeof options.submissionCallback === 'function') {
-      this.submissionCallback = options.submissionCallback;
-    }
     if (typeof options.member === 'object') {
       this.member = options.member;
     } else {
@@ -296,7 +289,6 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     data.device_data = JSON.parse(obj.deviceData);
 
     $.post(`/api/payment/braintree/pages/${this.pageId}/transaction`, data)
-      .then(this.onSubmission.bind(this))
       .then(this.transactionSuccess.bind(this), this.transactionFailed.bind(this));
 
     if (this.directDebitOpened) {
@@ -304,52 +296,43 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     }
   },
 
-  onSubmission(data, status) {
-    if (this.submissionCallback) {
-      this.submissionCallback(data, status);
-    }
-    return data;
-  },
-
   submitOneClick(event) {
     event.preventDefault();
     const url = `/api/payment/braintree/pages/${this.pageId}/one_click`;
     this.disableOneClickButton();
     $.post(url, this.oneClickDonationData())
-      .then(this.onSubmission.bind(this))
-      .then(this.onOneClickSuccess.bind(this), this.onOneClickFailed.bind(this));
+      .then(this.transactionSuccess.bind(this), this.onOneClickFailed.bind(this));
   },
 
-  onOneClickSuccess(data) {
-    if ( this.memberShouldRegister() ) {
-      this.followRedirect(this.registrationPath(this.member.email));
+  formData() {
+    return {
+      storeInVault: this.readStoreInVault(),
+      member: _.pick(this.currentUser(), 'email', 'registered')
+    };
+  },
+
+  currentUser() {
+    var formUser = this.serializeUserForm();
+    if(this.member.email === formUser.email) {
+      return this.member;
     } else {
-      this.followRedirect((data && data.follow_up_url) || this.followUpUrl);
+      return formUser;
     }
   },
 
   transactionSuccess(data) {
-    let url = (data && data.follow_up_url) || this.followUpUrl;
-
-    if ( this.memberShouldRegister() ) {
-      const user = this.serializeUserForm();
-      url = this.registrationPath(user.email);
-    }
-
-    this.followRedirect(url);
-  },
-
-  registrationPath(email) {
-    return `/member_authentication/new?page_id=${this.pageId}&email=${encodeURIComponent(email)}`;
+    $.publish('fundraiser:transaction_success', [data, this.formData()])
   },
 
   onOneClickFailed() {
+    $.publish('fundraiser:transaction_error');
     this.enableOneClickButton();
     const $errors = this.$('.fundraiser-bar__errors');
     $errors.removeClass('hidden-closed');
   },
 
   transactionFailed(data, status) {
+    $.publish('fundraiser:transaction_error');
     this.enableButton();
     let $errors = this.$('.fundraiser-bar__errors');
     $errors.removeClass('hidden-closed');
@@ -428,21 +411,6 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       .prop('disabled', false);
   },
 
-  followRedirect(url) {
-    // If we have no redirect URL or submission callback,
-    // we display a thank you message
-    if (!url && !this.submissionCallback) {
-      window.alert(I18n.t('fundraiser.thank_you'));
-      return;
-    }
-
-    this.redirectTo(url);
-  },
-
-  redirectTo(url) {
-    window.location.href = url;
-  },
-
   displayDirectDebit(show) {
     if (show === true) {
       $('.hosted-fields__direct-debit-container').removeClass('hidden-irrelevant');
@@ -456,9 +424,9 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     $(window).on('message', (e) => {
       if (typeof e.originalEvent.data === 'object') {
         if (e.originalEvent.data.event === 'follow_up:loaded') {
-          this.redirectTo(this.followUpUrl);
           e.originalEvent.source.close();
           $.publish('direct_debit:donated');
+          this.transactionSuccess({});
         } else if (e.originalEvent.data.event === 'donation:error') {
           const messages = e.originalEvent.data.errors.map(({ message }) => message);
           this.showErrors(messages);
@@ -468,13 +436,6 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
     });
   },
 
-  memberRegistered() {
-    return this.member.registered;
-  },
-
-  memberShouldRegister() {
-    return !this.memberRegistered() && this.readStoreInVault();
-  },
 }));
 
 module.exports = Fundraiser;

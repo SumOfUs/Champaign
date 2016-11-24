@@ -96,4 +96,21 @@ describe Payment::Braintree::Transaction do
       expect(Payment::Braintree::Transaction.one_off).to match_array([transaction_without_subscription])
     end
   end
+
+  describe 'publish subscription payment' do
+    let(:action) { create(:action, form_data: { 'subscription_id' => 'subscription_id' }) }
+    let(:subscription) { create(:payment_braintree_subscription, subscription_id: 'subscription_id', action: action) }
+    let(:transaction) { create(:payment_braintree_transaction, subscription: subscription, status: 'success') }
+    it 'pushes a subscription payment event with a status to the queue' do
+      expected_payload = {
+        type: 'subscription-payment',
+        params: {
+          recurring_id: 'subscription_id',
+          success: 1
+        }
+      }
+      expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+      transaction.publish_subscription_charge
+    end
+  end
 end

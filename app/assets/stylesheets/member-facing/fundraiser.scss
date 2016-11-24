@@ -1,6 +1,8 @@
 @import "compass/css3/filter";
 
 .fundraiser-bar {
+  text-align: left;
+
   &__steps {
     position: relative;
     width: 100%;
@@ -101,6 +103,7 @@
     position: relative;
 
     font-size: 20px;
+    line-height: 20px;
     &--past {
       color: white;
       background: $slate-gray;
@@ -228,6 +231,67 @@
       position: relative;
       top: 2px;
     }
+  }
+  &--freestanding.fundraiser-bar {
+    position: static;
+    max-width: 400px;
+
+    .fundraiser-bar__top, .fundraiser-bar__main {
+      background-color: transparent;
+      position: relative;
+    }
+
+    .fundraiser-bar__top h2 {
+      font-size: 24px;
+      font-weight: normal;
+      text-align: center;
+    }
+
+    .form--big input,
+    .form--big select,
+    .form--big textarea,
+    .form--big .selectize-control.single .selectize-input,
+    .form--big .hosted-fields__host,
+    .hosted-fields__host, input, select, .selectize-input {
+      border-color: $slate-gray;
+      &.braintree-hosted-fields-focused {
+        border-color: $teal;
+      }
+    }
+
+    .overlay-toggle__close-button {
+      display: none;
+    }
+
+    .fundraiser-bar__step-number--upcoming {
+      background: white;
+    }
+
+    .hosted-fields__button-container {
+      font-size: 16px;
+    }
+
+    //paypal
+    #bt-pp-cancel {
+      width: 80%;
+      text-align: left;
+    }
+
+    @media(max-width: 736px) {
+      label.checkbox-label input[type='checkbox'] {
+        position: relative;
+        vertical-align: middle;
+      }
+
+      .action-form__welcome-name {
+        line-height: 14px;
+      }
+
+      .action-form__clear-form {
+        line-height: 12px;
+      }
+    }
+
   }
 }
 

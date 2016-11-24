@@ -48,6 +48,8 @@ module PaymentProcessor
           handle_subscription_cancelled
         when 'subscription_went_past_due'
           handle_past_due_subscription
+        when 'subscription_charged_unsuccessfully'
+          handle_failed_subscription_charge
         else
           Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{@notification.kind}'")
         end
@@ -68,23 +70,31 @@ module PaymentProcessor
 
       def handle_subscription_charged
         if original_action.blank?
-          Rails.logger.info("Failed to handle Braintree::WebhookNotification for subscription_id '#{@notification.subscription.id}'")
+          Rails.logger.info("Failed to handle Braintree::WebhookNotification for successful charge on subscription_id '#{@notification.subscription.id}'")
           return false
         end
 
         customer = Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
-
         record = Payment::Braintree.write_transaction(notification, original_action.page_id, original_action.member_id, customer, false)
         record.update(subscription: subscription)
-
-        ChampaignQueue.push({
-          type: 'subscription-payment',
-          params: {
-            recurring_id: original_action.form_data['subscription_id']
-          }
-        }, { delay: 120 })
+        record.publish_subscription_charge
 
         true
+      end
+
+      def handle_failed_subscription_charge
+        if original_action.blank?
+          Rails.logger.info("Failed to handle Braintree::WebhookNotification for failed charge on subscription_id '#{@notification.subscription.id}'")
+          return false
+        end
+
+        customer = Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
+        record = Payment::Braintree::Transaction.create!(
+          subscription: subscription,
+          customer: customer,
+          status: :failure
+        )
+        record.publish_subscription_charge
       end
 
       # This method should only be called if @notification.subscription is a subscription object

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 class Api::ActionsController < ApplicationController
-  before_filter :localize_from_page_id
+  before_action :localize_from_page_id
+  before_action :store_locale_in_session, only: :create
+
   skip_before_action :verify_authenticity_token
 
   def create

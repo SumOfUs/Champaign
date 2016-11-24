@@ -6,7 +6,7 @@ class FormValidator
     TEXT: 250
   }.freeze
 
-  EMAIL_REGEXP = /\A(?!.*\.{2})(?!.*@\.)(?!.*\.+@)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i
+  EMAIL_REGEXP = /\A(?!\.)(?!.*\.{2})(?!.*@\.)(?!.*\.+@)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i
 
   def initialize(params, form_elements = nil)
     @params = params.symbolize_keys

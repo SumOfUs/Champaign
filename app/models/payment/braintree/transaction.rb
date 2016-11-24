@@ -30,4 +30,14 @@ class Payment::Braintree::Transaction < ActiveRecord::Base
   enum status: [:success, :failure]
 
   scope :one_off, -> { where(subscription_id: nil) }
+
+  def publish_subscription_charge
+    ChampaignQueue.push({
+      type: 'subscription-payment',
+      params: {
+        recurring_id: subscription.try(:action).form_data['subscription_id'],
+        success: status == 'success' ? 1 : 0
+      }
+    }, { delay: 120 })
+  end
 end

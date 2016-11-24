@@ -270,97 +270,6 @@ describe("Fundraiser", function() {
         Backbone.off();
       });
 
-      describe('when store_in_vault is checked', function(){
-
-        beforeEach(function(){
-          $('input.fundraiser-bar__store-in-vault').prop('checked', true);
-        });
-
-        it('redirects to the member signup url if no url supplied in constructor or response', function(){
-          suite.fundraiser = new window.champaign.Fundraiser({pageId: '1'});
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess();
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.memberAuthUrl);
-          suite.fundraiser.redirectTo.restore();
-        });
-
-        it('overrides all follow up paths with member_authentication', function(){
-          suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/not-used', pageId: '1'});
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.memberAuthUrl);
-          suite.fundraiser.redirectTo.restore();
-        });
-
-        it('calls the callback function if it is supplied', function(){
-          var callback = sinon.spy();
-          suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, pageId: '1'});
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess();
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith(suite.memberAuthUrl);
-          expect(callback.called).to.eq(true);
-          suite.fundraiser.redirectTo.restore();
-        });
-
-        it('redirects to passed followUpUrl if member is already registered', function(){
-          suite.fundraiser = new window.champaign.Fundraiser({
-            followUpUrl: '/not-used',
-            pageId: '1',
-            member: { registered: true, email: 'adsf@asdf.com' }
-          });
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
-          suite.fundraiser.redirectTo.restore();
-        });
-      });
-
-      describe('when store_in_vault is not checked', function() {
-
-        beforeEach(function(){
-          $('input.fundraiser-bar__store-in-vault').prop('checked', false);
-        });
-
-        it('redirects to the followUpUrl if it is supplied', function(){
-          suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/other-url', pageId: '1'});
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess();
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/other-url');
-          suite.fundraiser.redirectTo.restore();
-        });
-
-        it('redirects to the follow_up_url in the response if one is present', function(){
-          suite.fundraiser = new window.champaign.Fundraiser({followUpUrl: '/not-used', pageId: '1'});
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess('{ "success": "true", "follow_up_url": "/this-one?a=b" }');
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/this-one?a=b');
-          suite.fundraiser.redirectTo.restore();
-        });
-
-        it('sends an alert if neither callback nor followUpUrl passed', function(){
-          window.alert = sinon.spy();
-          suite.fundraiser = new window.champaign.Fundraiser({pageId: '1'});
-          suite.triggerSuccess();
-          expect(window.alert.called).to.eq(true);
-        });
-
-        it('calls the callback function if it is supplied', function(){
-          var callback = sinon.spy();
-          suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, pageId: '1'});
-          suite.triggerSuccess();
-          expect(callback.called).to.eq(true);
-        });
-
-        it('calls the callback function and redirects to the followUpUrl if both supplied', function(){
-          var callback = sinon.spy();
-          suite.fundraiser = new window.champaign.Fundraiser({submissionCallback: callback, followUpUrl: '/other-url', pageId: '1'});
-          sinon.stub(suite.fundraiser, 'redirectTo');
-          suite.triggerSuccess();
-          expect(suite.fundraiser.redirectTo).to.have.been.calledWith('/other-url');
-          expect(callback.called).to.eq(true);
-          suite.fundraiser.redirectTo.restore();
-        });
-      });
     });
   });
 
@@ -370,12 +279,7 @@ describe("Fundraiser", function() {
 
       suite.follow_up_url = "/pages/636/follow-up";
       suite.fundraiser = new window.champaign.Fundraiser({ pageId: '1', followUpUrl: suite.follow_up_url });
-      sinon.stub(suite.fundraiser, 'redirectTo');
       suite.server.respond(); // respond to request for token
-    });
-
-    afterEach(function() {
-      suite.fundraiser.redirectTo.restore();
     });
 
     describe('loading and first panel', function(){
