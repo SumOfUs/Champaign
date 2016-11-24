@@ -18,22 +18,15 @@ type ConnectedDispatch = { updateUser: (u: FundraiserFormMember) => void; };
 type OwnProps = {
   buttonText?: React$Element<any> | string;
   proceed?: () => void;
-  fields: object;
-  outstandingFields: array;
+  fields: Object;
+  outstandingFields: any[];
   formId: number;
 };
-
-const countries =
-  sortBy(countryData
-    .filter(c => c.status === 'assigned')
-    .filter(c => c.ioc !== '')
-    .map(c => ({ value: c.alpha2, label: c.name })), 'label');
 
 export class MemberDetailsForm extends Component {
   props: OwnProps & ConnectedDispatch & ConnectedState;
 
   state: {
-    countries: any;
     errors: any;
     loading: boolean;
   };
@@ -44,7 +37,6 @@ export class MemberDetailsForm extends Component {
     super(props);
 
     this.state = {
-      countries,
       errors: {},
       loading: false,
     };
@@ -134,50 +126,22 @@ export class MemberDetailsForm extends Component {
     return (<SweetInput
               name={field.name}
               type={type}
-              value={this.prefill(field)}
+              value={field.default_value}
               required={field.required}
               errorMessage={this.getFieldError('email')}
               label={field.label}
               onChange={val => this.update(field.name, val)}
             />);
   }
-
-  hiddenInput(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
-  textArea(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
-  checkbox(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
-  countryDropdown(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
-  dropdown(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
-  choice(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
-  instruction(field) {
-    return (<p>{field.data_type} pending implementation</p>);
-  }
-
   render() {
     const { user, updateUser } = this.props;
     const { loading } = this.state;
 
     return (
       <div className="MemberDetailsForm-root">
-        <form onSubmit={this.submit.bind(this)} className="form--big action-form">
-
+        <form
+          onSubmit={this.submit.bind(this)}
+          className="form--big action-form">
           {this.props.fields.map((field, ii) => {
             let inner;
             switch (field.data_type) {
@@ -209,9 +173,11 @@ export class MemberDetailsForm extends Component {
                 inner = this.instruction(field);
                 break;
             }
-            return (<div key={`MemberDetailsForm-field-${field.name}`} className="MemberDetailsForm-field form__group action-form__field-container">
-              { inner }
-            </div>);
+            return (
+              <div key={`MemberDetailsForm-field-${field.name}`} className="MemberDetailsForm-field form__group action-form__field-container">
+                { inner }
+              </div>
+            );
           })}
 
 

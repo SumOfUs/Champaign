@@ -1,4 +1,6 @@
 // @flow
+// temp global i18n
+declare var I18n: any;
 declare type ChampaignDonationBands = any;
 
 declare type ChampaignPaymentMethod = any;
