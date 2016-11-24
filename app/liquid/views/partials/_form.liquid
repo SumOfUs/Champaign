@@ -87,9 +87,10 @@
     <div id="facebook_share-container">
       <script type='text/template'>
         <% var checked = enabled ? 'checked' : '' %>
+        <% var activeClass = message !== '' ? 'sweet-placeholder__label--active' : '' %>
 
         <div class="sweet-placeholder">
-          <label class="sweet-placeholder__label">
+          <label class="sweet-placeholder__label <%= activeClass %>">
             <%= I18n.t('facebook_share.comment_field_label') %>
           </label>
           <textarea name="fb_share_comment" class="form__content sweet-placeholder__field" id="" maxlength="3000"><%= message %></textarea>
