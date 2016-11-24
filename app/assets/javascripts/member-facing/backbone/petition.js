@@ -17,7 +17,9 @@ const Petition = Backbone.View.extend({
     this.submissionCallback = options.submissionCallback;
     this.skipOnSuccessAction = options.skipOnSuccessAction;
     GlobalEvents.bindEvents(this);
-    this.facebookShareView = new FacebookShareView().render();
+    this.facebookShareView = new FacebookShareView( {
+      mixpanel_token: window.champaign.personalization.mixpanel_token
+    }).render();
   },
 
   handleSuccess(e, data) {
