@@ -19,15 +19,14 @@ de:
     proceed_to_payment: Weiter zur Zahlung
     other_amount: Betrag
     make_recurring: Monatlich spenden
-    store_in_vault: Meine Zahlungsinformationen speichern
+    store_in_vault: Meine Zahlungsdaten sicher speichern
     thank_you: Vielen Dank für Ihre Spende!
-    thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
+    thank_you_with_amount: "<strong>Vielen Dank für Ihre Spende in Höhe von %{amount}!</strong> Sie haben Fragen oder versehentlich gespendet? Dann schreiben Sie uns an  hallo@sumofus.org."
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "" # override this with org-specific details in your own yml file.
     confirmation: Spende erhalten
     donate_now: Spenden Sie jetzt!
-    donate_with: "Spenden mit: "
     loading: Unser sicheres Spenden formular wird geladen
     oneclick:
       select_payment: "Wählen Sie eine der hinterlegten Zahlungsmethoden"
@@ -37,14 +36,14 @@ de:
     debit:
       recurring: "Sie machen eine monatliche Spende von %{amount} an SumOfUs"
       one_time: "Sie spenden %{amount} an SumOfUs"
-      direct_debit: Lastschrift
+      direct_debit: "Lastschrift"
     fields:
       cvv: Kartenprüfnr
       number: Kreditkartennummer
       expiration: Ablaufdatum
       expiration_format: MM/JJ
       postalCode: Postleitzahl
-    field_names: # these are used in sentence form, eg with errors.probably_invalid
+    field_names:
       cvv: Die Kartenprüfnummer
       number: Die Kreditkartennummer
       expiration: Das Ablaufdatum
@@ -81,40 +80,37 @@ de:
   validation:
     is_required: wird benötigt
     is_invalid_email: ist keine gültige E-Mail-Adresse
-    is_invalid_phone: "kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten"
+    is_invalid_phone: 'kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten'
     is_invalid_country: muss eine gültige Ländervorwahl sein
     is_invalid_length: 'darf maximal %{length} Zeichen enthalten'
   time:
     formats:
       default: "%-d. %B %Y"
-
   reset_passwords:
     new:
-      title: 'Reset your password'
-      description: "Enter your email address and we will send you a link to reset your password."
-      email: 'Email'
-      button_label: 'Send password reset email'
+      title: 'Mein Passwort zurücksetzen'
+      description: "Geben Sie Ihre E-Mail-Adresse ein. Wir schicken Ihnen dann einen Link, mit dem Sie Ihr Passwort zurücksetzen können."
+      email: 'E-Mail-Adresse'
+      button_label: 'Link zum Zurücksetzen des Passworts anfordern'
     create:
-      not_found: "Can't find that email, sorry."
+      not_found: "Diese E-Mail-Adresse ist uns leider nicht bekannt. "
     show:
-      title: 'Reset your password'
-      description: "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder."
+      title: 'Mein Passwort zurücksetzen'
+      description: "In wenigen Minuten sollten Sie unseren Link in Ihrem Posteingang haben. Sollten Sie unsere E-Mail nicht finden, schauen Sie bitte auch in Ihrem Spam-Ordner nach.  "
     edit:
-      password: 'Password'
-      password_confirmation: 'Confirm password'
-      button_label: 'Change password'
-      title: 'Change password for'
-      description: 'Password must be at least 6 characters long.'
-      invalid_link: 'It looks like you clicked on an invalid password reset link. Please try again.'
+      password: 'Passwort'
+      password_confirmation: 'Passwort bestätigen'
+      button_label: 'Passwort ändern'
+      title: 'Passwort ändern für'
+      description: 'Das Passwort muss aus mindestens 6 Zeichen bestehen.'
+      invalid_link: 'Der Link zum Zurücksetzen des Passworts scheint ungültig zu sein. Bitte probieren Sie es noch einmal. '
     success:
-      title: 'Your new password was successfully saved'
-      description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
-
+      title: 'Ihr Passwort wurde erfolgreich geändert'
+      description: "Gehen Sie auf <a href='%{url}'>Mein Account</a>, um sich einzuloggen."
   reset_password_mailer:
     reset_password_email:
-      subject: 'Please reset your password'
+      subject: 'Bitte setzen Sie Ihr Passwort zurück'
       html:
-        body: "We heard that you lost your password. Sorry about that.<br />You can use the following link within the next day to reset your password:<br /><br />%{url}<br /><br />Thanks,<br />SumOfUs"
+        body: "Jemand (wahrscheinlich Sie selbst) möchte das Passwort für Ihren SumOfUs-Account zurücksetzen. <br />Der folgende Link zum Zurücksetzen Ihres Passworts ist 24 Stunden gültig:<br /><br />%{url}<br /><br />Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail einfach ignorieren.<br /><br />Vielen Dank,<br />SumOfUs"
       text:
-        body: "We heard that you lost your password. Sorry about that.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nThanks,\nSumOfUs"
-
+        body: "Jemand (wahrscheinlich Sie selbst) möchte das Passwort für Ihren SumOfUs-Account zurücksetzen.\n\nDer folgende Link zum Zurücksetzen Ihres Passworts ist 24 Stunden gültig:\n\n %{url}\n\n Wenn Sie Ihr Passwort nicht zurücksetzen möchten, können Sie diese E-Mail einfach ignorieren.\n\nVielen Dank,\nSumOfUs"
