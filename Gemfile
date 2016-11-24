@@ -1,7 +1,7 @@
 # coding: utf-8
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.3.0'
+ruby '2.3.3'
 
 gem 'rails', '4.2.7.1'
 gem 'rails-observers'
