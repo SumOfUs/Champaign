@@ -11,7 +11,7 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   initialize(options) {
-    mixpanel.init('bd6d1b0f24d62eb5e9ac53b4ce2ad77f');
+    mixpanel.init(options.mixpanel_token);
 
     this.template =  _.template(this.$('script').html());
 
@@ -37,7 +37,6 @@ const FacebookShareView = Backbone.View.extend({
 
       if(this.model.isEnabled()) {
         FB.getLoginStatus( (response) => {
-          console.log(response.status);
           if(response.status !== 'connected'){
             this.model.disable();
           }

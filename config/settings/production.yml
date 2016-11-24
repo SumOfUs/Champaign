@@ -117,3 +117,6 @@ airbrake_api_key: <%= ENV['AIRBRAKE_API_KEY'] %>
 airbrake_project_id: <%= ENV['AIRBRAKE_PROJECT_ID'] %>
 
 admins: <%= ENV['ADMIN_WHITELIST'] %>
+
+mixpanel:
+  token: "<%= ENV['mixpanel_token'] %>"

@@ -89,3 +89,6 @@ members:
   dashboard_url: 'http://example.com'
 
 admins: ''
+
+mixpanel:
+  token: ''
