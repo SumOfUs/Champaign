@@ -13,7 +13,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
       = render partial: 'shared/optimizely_snippet'
     = render partial: 'shared/js_locale'
     = render partial: 'shared/google_analytics_snippet'
-    = render partial: 'shared/mixpanel_snippet'
     = csrf_meta_tags
     = favicon_link_tag 'images/favicon.ico'
     = metamagic

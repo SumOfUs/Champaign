@@ -1,5 +1,6 @@
 const FacebookShareModel = require('./facebook_share_model');
 const SweetPlaceholder = require('./sweet_placeholder');
+const mixpanel = require('mixpanel-browser');
 
 const FacebookShareView = Backbone.View.extend({
   el: '#facebook_share-container',
@@ -10,6 +11,8 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   initialize(options) {
+    mixpanel.init('bd6d1b0f24d62eb5e9ac53b4ce2ad77f');
+
     this.template =  _.template(this.$('script').html());
 
     this.fbAppId = $("meta[property='fb:app_id']").attr('content');
