@@ -18,7 +18,7 @@ module ActionQueue
     end
 
     def data
-      @action.form_data.symbolize_keys
+      @data ||= @action.form_data.symbolize_keys
     end
 
     def country(iso_code)
@@ -43,6 +43,10 @@ module ActionQueue
           subscribed_member: @action.subscribed_member
         }
       }
+    end
+
+    def currency
+      data[:currency].try(:upcase)
     end
 
     class_methods do
@@ -158,7 +162,7 @@ module ActionQueue
           },
           order: {
             amount:       data[:amount],
-            currency:     data[:currency],
+            currency:     currency,
             recurring_id: data[:subscription_id]
           }.merge(fake_card_info),
           action: action_data,
@@ -178,7 +182,7 @@ module ActionQueue
           },
           order: {
             amount:       data[:amount],
-            currency:     data[:currency]
+            currency:     currency
           }.merge(fake_card_info),
           action: action_data,
           user: user_data
@@ -208,7 +212,7 @@ module ActionQueue
     end
 
     def get_payment_account
-      "GoCardless #{data[:currency]}"
+      "GoCardless #{currency}"
     end
 
     def user_data
@@ -243,7 +247,7 @@ module ActionQueue
             card_code:      '007',
             exp_date_month: expire_month,
             exp_date_year:  expire_year,
-            currency:       data[:currency],
+            currency:       currency,
             recurring_id:   data[:subscription_id]
           },
           action: {
@@ -270,7 +274,7 @@ module ActionQueue
             card_code:      '007',
             exp_date_month: expire_month,
             exp_date_year:  expire_year,
-            currency:       data[:currency]
+            currency:       currency
           },
           action: {
             source: data[:source],
@@ -297,7 +301,7 @@ module ActionQueue
     #
     def get_payment_account
       provider = is_paypal? ? 'PayPal' : 'Braintree'
-      "#{provider} #{data[:currency]}"
+      "#{provider} #{currency}"
     end
 
     def is_paypal?
