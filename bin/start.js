@@ -4,7 +4,9 @@ process.env.NODE_ENV = 'development';
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.
 // https://github.com/motdotla/dotenv
-require('dotenv').config({ silent: true });
+require('dotenv').config({ silent: true, path: './env.yml' });
+
+console.log(process.env);
 
 const chalk = require('chalk');
 const webpack = require('webpack');
@@ -26,7 +28,7 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
-const DEFAULT_PORT = process.env.PORT || 3000;
+const DEFAULT_PORT = process.env.WEBPACK_PORT || 3000;
 let compiler;
 let handleCompile;
 

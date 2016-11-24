@@ -41,7 +41,7 @@ module.exports = {
     sandbox: [
       require.resolve('react-dev-utils/webpackHotDevClient'),
       require.resolve('./polyfills'),
-      paths.appIndexJs
+      require.resolve('../../app/frontend/containers/FundraiserView/index'),
     ],
   },
   output: {
