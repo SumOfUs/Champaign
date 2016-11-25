@@ -96,7 +96,6 @@ feature 'Express From Mailing Link' do
     expect(current_url).to match(%r{/foo-bar})
   end
 
-
   scenario 'Stanger makes a one-click donation' do
     VCR.use_cassette('feature_one_click_stranger') do
       visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
