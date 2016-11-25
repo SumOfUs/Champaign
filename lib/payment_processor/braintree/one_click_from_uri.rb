@@ -41,7 +41,7 @@ module PaymentProcessor::Braintree
     end
 
     def payment_method_id
-     if member.try(:customer)
+      if member.try(:customer)
         member.customer.payment_methods.stored.first.try(:id)
       else
         Payment::Braintree::PaymentMethod.find_by(token: token_from_cookie)
