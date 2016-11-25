@@ -72,7 +72,7 @@ feature 'Express From Mailing Link' do
     expect(current_url).to match(%r{/foo-bar/follow-up\?member_id=#{member.id}})
   end
 
-  scenario 'Cookied member makes a one-click donation' do
+  scenario 'Cookied customer makes a one-click donation' do
     store_payment_in_vault
 
     expect(customer.transactions.count).to eq(1)
@@ -86,6 +86,16 @@ feature 'Express From Mailing Link' do
     expect(Action.count).to eq(2)
     expect(current_url).to match(%r{/foo-bar/follow-up\?member_id=#{customer.member.id}})
   end
+
+  scenario 'Cookied member makes a one-click donation' do
+    VCR.use_cassette('feature_one_click_member_no_customer') do
+      visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
+    end
+
+    expect(Action.count).to eq(0)
+    expect(current_url).to match(%r{/foo-bar})
+  end
+
 
   scenario 'Stanger makes a one-click donation' do
     VCR.use_cassette('feature_one_click_stranger') do
