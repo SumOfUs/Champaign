@@ -119,4 +119,4 @@ airbrake_project_id: <%= ENV['AIRBRAKE_PROJECT_ID'] %>
 admins: <%= ENV['ADMIN_WHITELIST'] %>
 
 mixpanel:
-  token: "<%= ENV['mixpanel_token'] %>"
+  token: "<%= ENV['MIXPANEL_TOKEN'] %>"
