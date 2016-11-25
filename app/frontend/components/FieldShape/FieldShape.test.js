@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import FieldShape from './FieldShape';
 
 const field = {
@@ -10,7 +10,7 @@ const field = {
 };
 
 test('renders successfully', () => {
-  const wrapper = shallow(<FieldShape field={field} />);
+  const wrapper = mount(<FieldShape field={field} />);
   expect(wrapper.instance()).toBeInstanceOf(FieldShape);
 });
 

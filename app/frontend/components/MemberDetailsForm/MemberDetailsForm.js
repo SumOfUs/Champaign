@@ -1,15 +1,11 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
-import Select from 'react-select';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import sortBy from 'lodash/sortBy';
 import mapValues from 'lodash/mapValues';
-import countryData from 'country-data/data/countries.json';
 import Button from '../Button/Button';
-import SweetInput from '../SweetInput/SweetInput';
 import { updateUser } from '../../state/fundraiser/actions';
-// import isEmail from 'validator/lib/isEmail';
+import FieldShape from '../FieldShape/FieldShape';
 
 import 'react-select/dist/react-select.css';
 
@@ -113,28 +109,13 @@ export class MemberDetailsForm extends Component {
   update(a, b) {
     // this is clearly broken
     const { user, updateUser } = this.props;
-    let newFields = {...user};
+    const newFields = {...user};
     newFields[a] = b;
     console.log(newFields);
     updateUser(newFields);
   }
 
-  smallInput(field) {
-    let type = 'text';
-    if (field.data_type === 'phone') type = 'tel';
-    if (field.data_type === 'email') type = 'email';
-    return (<SweetInput
-              name={field.name}
-              type={type}
-              value={field.default_value}
-              required={field.required}
-              errorMessage={this.getFieldError('email')}
-              label={field.label}
-              onChange={val => this.update(field.name, val)}
-            />);
-  }
   render() {
-    const { user, updateUser } = this.props;
     const { loading } = this.state;
 
     return (
@@ -142,44 +123,15 @@ export class MemberDetailsForm extends Component {
         <form
           onSubmit={this.submit.bind(this)}
           className="form--big action-form">
-          {this.props.fields.map((field, ii) => {
-            let inner;
-            switch (field.data_type) {
-              case 'text':
-              case 'postal':
-              case 'phone':
-              case 'email':
-                inner = this.smallInput(field);
-                break;
-              case 'hidden':
-                inner = this.hiddenInput(field);
-                break;
-              case 'paragraph':
-                inner = this.textArea(field);
-                break;
-              case 'checkbox':
-                inner = this.checkbox(field);
-                break;
-              case 'country':
-                inner = this.countryDropdown(field);
-                break;
-              case 'dropdown':
-                inner = this.dropdown(field);
-                break;
-              case 'choice':
-                inner = this.choice(field);
-                break;
-              case 'instruction':
-                inner = this.instruction(field);
-                break;
-            }
-            return (
-              <div key={`MemberDetailsForm-field-${field.name}`} className="MemberDetailsForm-field form__group action-form__field-container">
-                { inner }
-              </div>
-            );
-          })}
-
+          {this.props.fields.map((field, ii) =>
+            <div key={field.name} className="MemberDetailsForm-field form__group action-form__field-container">
+              <FieldShape
+                errorMessage={this.getFieldError(field.name)}
+                onChange={(value) => this.props.updateUser({...this.props.user, [field.name]: value})}
+                value={this.props.user[field.name]}
+                field={field} />
+            </div>
+          )}
 
           <Button
             type="submit"
