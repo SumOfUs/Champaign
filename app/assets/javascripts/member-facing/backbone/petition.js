@@ -17,9 +17,10 @@ const Petition = Backbone.View.extend({
     this.submissionCallback = options.submissionCallback;
     this.skipOnSuccessAction = options.skipOnSuccessAction;
     GlobalEvents.bindEvents(this);
-    this.facebookShareView = new FacebookShareView( {
-      mixpanel_token: window.champaign.personalization.mixpanel_token
-    }).render();
+
+    if(FacebookShareView.isAvailable()) {
+      this.facebookShareView = new FacebookShareView().render();
+    }
   },
 
   handleSuccess(e, data) {
@@ -34,7 +35,7 @@ const Petition = Backbone.View.extend({
       this.submissionCallback(e, data);
     }
 
-    this.facebookShareView.post(() => {
+    const handleRedirect = () => {
       if (data && data.follow_up_url) {
         this.redirectTo(data.follow_up_url);
       } else if (this.followUpUrl) {
@@ -43,7 +44,13 @@ const Petition = Backbone.View.extend({
         // only do this option if no redirect or callback supplied
         alert(I18n.t('petition.excited_confirmation'));
       }
-    });
+    }
+
+    if(this.facebookShareView){
+      this.facebookShareView.post(handleRedirect.bind(this));
+    } else {
+      handleRedirect();
+    }
   },
 
   redirectTo(url) {
