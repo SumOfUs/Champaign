@@ -6,9 +6,9 @@ import Button from './Button';
 it(`accepts an onClick event handler`, () => {
   const fn = jest.fn();
   const wrapper = shallow(<Button onClick={fn} />);
-  expect(fn.mock.calls.length).toBe(0);
+  expect(fn).not.toHaveBeenCalled();
   wrapper.simulate('click');
-  expect(fn.mock.calls.length).toBe(1);
+  expect(fn).toHaveBeenCalled();
 });
 
 it(`accepts a className`, () => {

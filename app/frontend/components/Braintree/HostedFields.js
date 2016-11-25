@@ -14,6 +14,7 @@ export default class HostedFields extends Component {
       // this key is from their example docs so it's kinda public
       // so no worries here:
       authorization: 'sandbox_g42y39zw_348pk9cgf3bgyw2b',
+      recurring: false,
     }, (err, instance) => {
       if (err) {
         console.log('braintree.client.create:', err);
@@ -83,7 +84,7 @@ export default class HostedFields extends Component {
   render() {
     return (
       <div className="HostedFields-root">
-        <form action="/" method="post" id="cardForm" onSubmit={this.teardown.bind(this)}>
+        <form method="post" id="cardForm" onSubmit={this.teardown.bind(this)}>
           <label className="hosted-fields--label" htmlFor="card-number">Card Number</label>
           <div id="card-number" className="hosted-field"></div>
 
