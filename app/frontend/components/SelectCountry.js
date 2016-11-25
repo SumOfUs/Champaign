@@ -22,7 +22,13 @@ const countries = sortBy(countryData
   .map(c => ({ value: c.alpha2, label: c.name })), 'label');
 
 export default function SelectCountry(props: Props) {
-  return <Select {...props} options={props.options || countries} />;
+  return (
+    <Select
+      {...props}
+      options={props.options || countries}
+      onChange={item => props.onChange && props.onChange(item.value)}
+    />
+  );
 }
 
 
