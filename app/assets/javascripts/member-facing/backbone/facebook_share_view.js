@@ -10,8 +10,8 @@ const FacebookShareView = Backbone.View.extend({
     'change textarea' : 'updateMessage',
   },
 
-  initialize(options) {
-    mixpanel.init(options.mixpanel_token);
+  initialize() {
+    mixpanel.init( window.champaign.personalization.mixpanel_token );
 
     this.template =  _.template(this.$('script').html());
 
@@ -99,5 +99,9 @@ const FacebookShareView = Backbone.View.extend({
     return this;
   },
 });
+
+FacebookShareView.isAvailable = () => {
+  return !!$('#facebook_share-container').length;
+};
 
 module.exports = FacebookShareView;
