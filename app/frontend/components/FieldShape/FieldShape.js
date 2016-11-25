@@ -16,18 +16,19 @@ type Field = {
 export default class FieldShape extends Component {
   props: {
     field: Field;
+    value?: any;
     errorMessage?: string;
     onChange?: (v: SyntheticEvent | string) => void;
   };
 
   fieldProps() {
-    const { field } = this.props;
+    const { field, value } = this.props;
     return {
       name: field.name,
       label: field.label,
       disabled: field.disabled,
       required: field.required,
-      value: field.default_value,
+      value: value || field.default_value,
       errorMessage: this.props.errorMessage,
       onChange: this.props.onChange,
     };
@@ -38,7 +39,7 @@ export default class FieldShape extends Component {
   }
 
   render() {
-    const { field: { data_type, default_value, name } } = this.props;
+    const { field: { data_type, default_value, name }, onChange } = this.props;
     const fieldProps = this.fieldProps();
 
     switch (data_type) {
@@ -48,7 +49,7 @@ export default class FieldShape extends Component {
       case 'numeric':
         return <SweetInput type="tel" {...fieldProps} />;
       case 'country':
-        return <SelectCountry {...fieldProps} />;
+        return <SelectCountry {...fieldProps} onChange={country => onChange && onChange(country.value)} />;
       case 'dropdown':
         return <Select {...fieldProps} />;
       case 'hidden':
