@@ -49,7 +49,7 @@ export default class FieldShape extends Component {
       case 'numeric':
         return <SweetInput type="tel" {...fieldProps} />;
       case 'country':
-        return <SelectCountry {...fieldProps} onChange={country => onChange && onChange(country.value)} />;
+        return <SelectCountry {...fieldProps} />;
       case 'dropdown':
         return <Select {...fieldProps} />;
       case 'hidden':
