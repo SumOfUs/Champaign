@@ -103,9 +103,6 @@ gem 'metamagic'
 gem 'jwt'
 gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
 
-# JWT
-gem 'jwt'
-
 gem 'airbrake'
 
 group :development do
