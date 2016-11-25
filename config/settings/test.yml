@@ -111,3 +111,6 @@ default_mailer_address: 'info@example.com'
 
 members:
   dashboard_url: 'https://members.example.com/'
+
+mixpanel:
+  token: '1234'
