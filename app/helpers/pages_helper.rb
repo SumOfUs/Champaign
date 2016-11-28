@@ -114,7 +114,7 @@ module PagesHelper
       site_name: 'SumOfUs',
       title: page.title,
       description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 260),
-      url: page_url(page),
+      url: member_facing_page_url(page),
       type: 'website',
       article: { publisher: Settings.facebook_url },
       image: {
