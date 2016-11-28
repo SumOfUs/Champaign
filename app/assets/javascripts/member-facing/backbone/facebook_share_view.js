@@ -77,7 +77,6 @@ const FacebookShareView = Backbone.View.extend({
 
   handleClick() {
     const loginHandler = (resp) => {
-      resp.authResponse.grantedScopes
       if(resp.status !== 'connected' || resp.authResponse.grantedScopes.indexOf('publish_actions') === -1) {
         this.model.disable();
         this.render();
