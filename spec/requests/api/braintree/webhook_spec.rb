@@ -183,6 +183,15 @@ describe 'Braintree API' do
 
       subject { post api_payment_braintree_webhook_path, notification }
 
+      context 'subscription does not exist' do
+        let!(:subscription) { double(:fake_subscription, subscription_id: 'xx') }
+
+        it 'does nothing' do
+          expect { subject }.not_to change { subscription }
+          expect { subject }.not_to raise_error
+        end
+      end
+
       context 'for a subscription that is marked active' do
         describe 'for a credit card' do
           let(:amount) { 813.20 }
