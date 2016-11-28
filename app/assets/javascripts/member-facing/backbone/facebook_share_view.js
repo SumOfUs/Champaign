@@ -35,13 +35,29 @@ const FacebookShareView = Backbone.View.extend({
 
       FB.getLoginStatus( (response) => {
         if(response.status === 'connected'){
-          this.fbConnected = true;
-        }
-        else {
+          this.processConnected();
+        } else {
           this.model.disable();
           this.render();
         }
+      }.bind(this));
+    });
+  },
+
+  processConnected() {
+    let permitted = false;
+    FB.api('/me/permissions', (response) => {
+      _.forEach(response.data, function(item){
+        if(item.permission === 'publish_actions' && item.status === 'granted') {
+          permitted = true;
+        }
       });
+      if(permitted) {
+        this.fbConnected = true;
+      } else {
+        this.model.disable();
+        this.render();
+      }
     }.bind(this));
   },
 
@@ -61,9 +77,11 @@ const FacebookShareView = Backbone.View.extend({
 
   handleClick() {
     const loginHandler = (resp) => {
-      if(resp.status !== 'connected') {
+      resp.authResponse.grantedScopes
+      if(resp.status !== 'connected' || resp.authResponse.grantedScopes.indexOf('publish_actions') === -1) {
         this.model.disable();
         this.render();
+        this.fbConnected = false;
         mixpanel.track("FBSS:LOGIN", {sucess: false });
       } else {
         mixpanel.track("FBSS:LOGIN", {sucess: true });
@@ -71,8 +89,7 @@ const FacebookShareView = Backbone.View.extend({
     };
 
     const checked =  this.$('input[type="checkbox"]').prop('checked');
-    const options = { scope: 'publish_actions' };
-
+    const options = { scope: 'publish_actions', return_scopes: true };
 
     if(checked) {
       if(!this.fbConnected) FB.login( loginHandler, options );
