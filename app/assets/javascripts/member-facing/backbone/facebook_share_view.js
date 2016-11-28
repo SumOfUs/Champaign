@@ -12,9 +12,8 @@ const FacebookShareView = Backbone.View.extend({
 
   initialize() {
     mixpanel.init( window.champaign.personalization.mixpanel_token );
-
+    this.fbConnected = false;
     this.template =  _.template(this.$('script').html());
-
     this.fbAppId = $("meta[property='fb:app_id']").attr('content');
 
     this.model = new FacebookShareModel({
@@ -22,7 +21,6 @@ const FacebookShareView = Backbone.View.extend({
       origin: window.location.origin,
     });
 
-    this.model.bind('change', this.render.bind(this));
     this.initializeFbClient();
   },
 
@@ -35,13 +33,15 @@ const FacebookShareView = Backbone.View.extend({
         version: 'v2.7',
       });
 
-      if(this.model.isEnabled()) {
-        FB.getLoginStatus( (response) => {
-          if(response.status !== 'connected'){
-            this.model.disable();
-          }
-        });
-      }
+      FB.getLoginStatus( (response) => {
+        if(response.status === 'connected'){
+          this.fbConnected = true;
+        }
+        else {
+          this.model.disable();
+          this.render();
+        }
+      });
     }.bind(this));
   },
 
@@ -60,33 +60,26 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   handleClick() {
+    const loginHandler = (resp) => {
+      if(resp.status !== 'connected') {
+        this.model.disable();
+        this.render();
+        mixpanel.track("FBSS:LOGIN", {sucess: false });
+      } else {
+        mixpanel.track("FBSS:LOGIN", {sucess: true });
+      }
+    };
+
     const checked =  this.$('input[type="checkbox"]').prop('checked');
+    const options = { scope: 'publish_actions' };
+
 
     if(checked) {
-      this.loginToFb();
+      if(!this.fbConnected) FB.login( loginHandler, options );
       this.model.enable();
     } else {
       this.model.disable();
     }
-  },
-
-  loginToFb() {
-    FB.getLoginStatus( (response) => {
-      if(response.status !== 'connected'){
-        const options = { scope: 'publish_actions' };
-
-        const loginHandler = (resp) => {
-          if(resp.status !== 'connected') {
-            this.model.disable();
-            mixpanel.track("FBSS:LOGIN", {sucess: false });
-          } else {
-            mixpanel.track("FBSS:LOGIN", {sucess: true });
-          }
-        };
-
-        FB.login( loginHandler, options );
-      }
-    });
   },
 
   check(){
