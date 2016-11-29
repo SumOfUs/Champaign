@@ -123,9 +123,15 @@ describe 'Braintree API' do
             )
           end
 
-          it 'returns not found' do
+          it 'logs an error' do
+            expect(Rails.logger).to receive(:error).with("Braintree webhook handling failed for 'subscription_charged_successfully', for subscription ID 'xxx'")
             subject
-            expect(response.status).to eq 404
+          end
+
+          it 'does not create a transaction' do
+            expect(Payment::Braintree::Transaction.count).to eq(0)
+            subject
+            expect(@subscription.reload.transactions.count).to eq(0)
           end
         end
       end

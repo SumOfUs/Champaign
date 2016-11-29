@@ -77,14 +77,13 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
   end
 
   def publish_failed_subscription_charge
-    return if self.subscription.blank?
+    return if subscription.blank?
     ChampaignQueue.push({
-                          type: 'subscription-payment',
-                          params: {
-                            recurring_id: self.subscription.go_cardless_id,
-                            success: 0
-                          }
-                        }, { delay: 120 })
-
+      type: 'subscription-payment',
+      params: {
+        recurring_id: subscription.go_cardless_id,
+        success: 0
+      }
+    }, { delay: 120 })
   end
 end
