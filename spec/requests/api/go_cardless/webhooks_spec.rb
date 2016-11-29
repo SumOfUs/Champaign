@@ -109,19 +109,26 @@ describe 'subscriptions' do
                 'description' => 'Customer cancelled the mandate at their bank branch.',
                 'scheme' => 'bacs',
                 'reason_code' => 'ARRUD-1'
-              },
+              }
             }
           ]
         }.to_json
       end
+      let(:valid) { instance_double(PaymentProcessor::GoCardless::WebhookSignature) }
 
-      it 'posts a failed subscription charge to the queue' do
-        post('/api/go_cardless/webhook', events, headers)
-        byebug
+      before do
+        allow(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new).and_return(valid)
+        allow(valid).to receive(:valid?).and_return(true)
       end
 
+      it 'posts a failed subscription charge to the queue' do
+        expect(ChampaignQueue).to receive(:push).with({
+          type: 'subscription-payment',
+          params: { recurring_id: subscription.go_cardless_id, success: 0 }
+        }, { delay: 120 })
+        post('/api/go_cardless/webhook', events, headers)
+      end
     end
-
   end
 
   describe 'with invalid signature' do

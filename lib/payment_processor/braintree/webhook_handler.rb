@@ -51,8 +51,10 @@ module PaymentProcessor
         when 'subscription_charged_unsuccessfully'
           handle_failed_subscription_charge
         else
-          Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{@notification.kind}'")
+          Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{notification.kind}'")
         end
+      rescue
+        Rails.logger.error("Braintree webhook handling failed for '#{notification.kind}', for subscription ID '#{notification.subscription.id}'")
       end
 
       def notification
@@ -69,26 +71,13 @@ module PaymentProcessor
       end
 
       def handle_subscription_charged
-        if original_action.blank?
-          Rails.logger.info("Failed to handle Braintree::WebhookNotification for successful charge on subscription_id '#{@notification.subscription.id}'")
-          return false
-        end
-
-        customer = Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
         record = Payment::Braintree.write_transaction(notification, original_action.page_id, original_action.member_id, customer, false)
         record.update(subscription: subscription)
         record.publish_subscription_charge
-
         true
       end
 
       def handle_failed_subscription_charge
-        if original_action.blank?
-          Rails.logger.info("Failed to handle Braintree::WebhookNotification for failed charge on subscription_id '#{@notification.subscription.id}'")
-          return false
-        end
-
-        customer = Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
         record = Payment::Braintree::Transaction.create!(
           subscription: subscription,
           customer: customer,
@@ -99,7 +88,15 @@ module PaymentProcessor
 
       # This method should only be called if @notification.subscription is a subscription object
       def original_action
-        @action ||= subscription.try(:action)
+        @action ||= subscription.action
+      rescue ActiveRecord::RecordNotFound
+        Rails.logger.error("No action is associated with Braintree subscription with id #{subscription.id}!")
+      end
+
+      def customer
+        Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
+      rescue ActiveRecord::RecordNotFound
+        Rails.logger.error("No Braintree customer found for member with id #{original_action.member_id}!")
       end
 
       def subscription
