@@ -93,7 +93,7 @@ describe ApplicationController do
     end
 
     it "doesn't raise for whiltelisted users" do
-      Settings.admin_users = 'foo@example.com,test@example.com'
+      Settings.admins = 'foo@example.com,test@example.com'
 
       expect do
         get :index
