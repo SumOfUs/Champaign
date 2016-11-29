@@ -55,7 +55,7 @@ Rails.application.configure do
     params = event.payload[:params].reject do |k|
       %w(controller action).include? k
     end
-    log_hash = { 'params' => params, 'time' => event.time }
+    log_hash = { 'params' => params.except!(*:bt_payload), 'time' => event.time }
     unless event.payload[:exception].blank?
       log_hash['exception'] = event.payload[:exception]
     end
