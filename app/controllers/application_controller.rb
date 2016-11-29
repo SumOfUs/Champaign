@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_super_admin!
-    return true if authenticate_user! && Settings.admin_users =~ Regexp.new(current_user.email)
+    return true if authenticate_user! && Settings.admins =~ Regexp.new(current_user.email)
     raise SecurityError, "#{current_user.email} is not an administrator."
   end
 end
