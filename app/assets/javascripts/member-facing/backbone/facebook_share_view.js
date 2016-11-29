@@ -1,6 +1,5 @@
 const FacebookShareModel = require('./facebook_share_model');
 const SweetPlaceholder = require('./sweet_placeholder');
-const mixpanel = require('mixpanel-browser');
 
 const FacebookShareView = Backbone.View.extend({
   el: '#facebook_share-container',
@@ -11,7 +10,6 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   initialize() {
-    mixpanel.init( window.champaign.personalization.mixpanel_token );
     this.fbConnected = false;
     this.template =  _.template(this.$('script').html());
     this.fbAppId = $("meta[property='fb:app_id']").attr('content');
@@ -64,7 +62,13 @@ const FacebookShareView = Backbone.View.extend({
   post(cb) {
     if( this.model.isEnabled() ) {
       this.model.post(FB, () => {
-        mixpanel.track("FBSS:SHARE", { page: this.model.get('path') }, cb);
+        ga('send', 'event', 'fb:sign_share', 'shared');
+
+        if(this.model.get('message') !== ''){
+          ga('send', 'event', 'fb:sign_share', 'custom_comment');
+        }
+
+        cb();
       });
     } else {
       cb();
@@ -81,9 +85,9 @@ const FacebookShareView = Backbone.View.extend({
         this.model.disable();
         this.render();
         this.fbConnected = false;
-        mixpanel.track("FBSS:LOGIN", {sucess: false });
+        ga('send', 'event', 'fb:sign_share', 'aborts_authorisation');
       } else {
-        mixpanel.track("FBSS:LOGIN", {sucess: true });
+        ga('send', 'event', 'fb:sign_share', 'authorised');
       }
     };
 
@@ -91,9 +95,11 @@ const FacebookShareView = Backbone.View.extend({
     const options = { scope: 'publish_actions', return_scopes: true };
 
     if(checked) {
+      ga('send', 'event', 'fb:sign_share', 'enabled');
       if(!this.fbConnected) FB.login( loginHandler, options );
       this.model.enable();
     } else {
+      ga('send', 'event', 'fb:sign_share', 'disabled');
       this.model.disable();
     }
   },
