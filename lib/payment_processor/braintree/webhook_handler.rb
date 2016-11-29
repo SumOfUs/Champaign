@@ -62,7 +62,7 @@ module PaymentProcessor
       def handle_subscription_cancelled
         # If the subscription has already been marked as cancelled (cancellation through the member management
         # application), don't publish a cancellation event or send email
-        return subscription unless subscription.cancelled_at.nil?
+        return unless subscription && subscription.cancelled_at.nil?
         subscription.update(cancelled_at: Time.now)
         subscription.publish_cancellation('processor')
         subscription

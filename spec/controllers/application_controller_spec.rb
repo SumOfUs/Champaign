@@ -75,4 +75,37 @@ describe ApplicationController do
       end
     end
   end
+
+  describe '#authenticate_user!' do
+    controller do
+      before_action :authenticate_super_admin!
+
+      def index
+        render nothing: true
+      end
+    end
+
+    let(:user) { build(:user, email: 'test@example.com') }
+
+    before do
+      allow(request.env['warden']).to receive(:authenticate!) { user }
+      allow(controller).to receive(:current_user) { user }
+    end
+
+    it "doesn't raise for whiltelisted users" do
+      Settings.admin_users = 'foo@example.com,test@example.com'
+
+      expect do
+        get :index
+      end.not_to raise_error
+    end
+
+    it 'raises for users not on the list' do
+      Settings.admin_users = 'foo@example.com'
+
+      expect do
+        get :index
+      end.to raise_error(SecurityError)
+    end
+  end
 end

@@ -94,4 +94,9 @@ class ApplicationController < ActionController::Base
     @recognized_member ||= current_member ||
                            Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
   end
+
+  def authenticate_super_admin!
+    return true if authenticate_user! && Settings.admin_users =~ Regexp.new(current_user.email)
+    raise SecurityError, "#{current_user.email} is not an administrator."
+  end
 end

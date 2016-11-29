@@ -159,7 +159,7 @@ describe 'Express Donation' do
           payment: {
             amount: 2.00,
             payment_method_id: payment_method.id,
-            currency: 'GBP',
+            currency: 'gbp',
             recurring: false
           },
           user: {
