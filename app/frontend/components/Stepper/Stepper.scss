@@ -15,10 +15,10 @@
 
 .Stepper-line {
   z-index: 0;
-  width: calc(100% - 40px);
+  width: calc(100% - 15%);
   height: 2px;
   top: 22px;
-  left: 20px;
+  left: 5%;
   margin: 0;
   position: absolute;
   background: #b2b5ba;
@@ -48,7 +48,7 @@
   border-style: solid;
   background-color: #dbdbdb;
   margin: auto;
-  padding: 10px 15px;
+  padding: 10px 0;
   height: 45px;
   width: 45px;
   font-size: 20px;

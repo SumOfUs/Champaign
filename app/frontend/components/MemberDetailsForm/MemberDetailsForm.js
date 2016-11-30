@@ -120,9 +120,7 @@ export class MemberDetailsForm extends Component {
 
     return (
       <div className="MemberDetailsForm-root">
-        <form
-          onSubmit={this.submit.bind(this)}
-          className="form--big action-form">
+        <form onSubmit={this.submit.bind(this)} className="form--big action-form">
           {this.props.fields.map((field, ii) =>
             <FieldShape
               key={field.name}
