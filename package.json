@@ -28,8 +28,8 @@
     "react-select": "^1.0.0-rc.2",
     "redux": "^3.6.0",
     "redux-thunk": "^2.1.0",
-    "validator": "^6.1.0",
-    "urijs": "^1.18.2"
+    "urijs": "^1.18.2",
+    "validator": "^6.1.0"
   },
   "devDependencies": {
     "autoprefixer": "6.5.1",
@@ -48,6 +48,7 @@
     "css-loader": "0.25.0",
     "detect-port": "1.0.1",
     "dotenv": "2.0.0",
+    "empty": "^0.10.1",
     "enzyme": "^2.6.0",
     "eslint": "3.8.1",
     "eslint-config-react-app": "^0.3.0",
