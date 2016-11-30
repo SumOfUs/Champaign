@@ -20,6 +20,7 @@ type OwnProps = {
   currency: string;
   currencies: string[];
   donationBands: number[];
+  donationFeaturedAmount: ?number;
   donationAmount: ?number;
   changeStep: (step: number) => void;
   selectAmount: (amount: ?number) => void;
@@ -69,6 +70,7 @@ export class FundraiserView extends Component {
               donationAmount={donationAmount}
               currency={currency}
               donationBands={this.props.donationBands}
+              donationFeaturedAmount={this.props.donationFeaturedAmount}
               currencies={this.props.currencies}
               nextStepTitle={ member ? 'payment' : MemberDetailsForm.title }
               changeCurrency={this.props.selectCurrency.bind(this)}

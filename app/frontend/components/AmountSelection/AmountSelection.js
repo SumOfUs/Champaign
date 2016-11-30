@@ -13,6 +13,7 @@ const FORMATTED_NUMBER_DEFAULTS = {
 type OwnProps = {
   donationAmount: ?number;
   donationBands: number[];
+  donationFeaturedAmount: ?number;
   currency: string;
   currencies: string[];
   nextStepTitle: string;
@@ -76,6 +77,7 @@ export default class AmountSelection extends Component {
           amounts={this.props.donationBands}
           currency={this.props.currency}
           proceed={this.props.proceed}
+          featuredAmount={this.props.donationFeaturedAmount}
           selectAmount={this.selectAmount.bind(this)}
           toggleProceedButton={this.toggleProceedButton.bind(this)}
         />
