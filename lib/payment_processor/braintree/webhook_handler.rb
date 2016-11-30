@@ -43,13 +43,13 @@ module PaymentProcessor
       def process_notification
         case notification.kind
         when 'subscription_charged_successfully'
-          handle_subscription_charged
+          handle_subscription_charge(:success)
         when 'subscription_canceled'
           handle_subscription_cancelled
         when 'subscription_went_past_due'
           handle_past_due_subscription
         when 'subscription_charged_unsuccessfully'
-          handle_failed_subscription_charge
+          handle_subscription_charge(:failure)
         else
           Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{notification.kind}'")
         end
@@ -70,27 +70,21 @@ module PaymentProcessor
         subscription
       end
 
-      def handle_subscription_charged
-        record = Payment::Braintree.write_transaction(notification, original_action.page_id, original_action.member_id, customer, false)
-        record.update(subscription: subscription)
+      def handle_subscription_charge(status)
+        return unless subscription
+        record = Payment::Braintree::Transaction.create!(
+          subscription: subscription,
+          page: subscription.action.page,
+          customer: customer,
+          status: status
+        )
         record.publish_subscription_charge
         true
       end
 
-      def handle_failed_subscription_charge
-        record = Payment::Braintree::Transaction.create!(
-          subscription: subscription,
-          customer: customer,
-          status: :failure
-        )
-        record.publish_subscription_charge
-      end
-
       # This method should only be called if @notification.subscription is a subscription object
       def original_action
-        @action ||= subscription.action
-      rescue ActiveRecord::RecordNotFound
-        Rails.logger.error("No action is associated with Braintree subscription with id #{subscription.id}!")
+        @action ||= subscription.try(:action)
       end
 
       def customer
@@ -101,6 +95,10 @@ module PaymentProcessor
 
       def subscription
         @subscription ||= Payment::Braintree::Subscription.find_by(subscription_id: @notification.subscription.id)
+        if @subscription.blank?
+          Rails.logger.error("No locally persisted Braintree subscription found for subscription id #{@notification.subscription.id}!")
+        end
+        @subscription
       end
 
       def member
