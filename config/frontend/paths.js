@@ -28,13 +28,10 @@ const nodePaths = (process.env.NODE_PATH || '')
 module.exports = {
   appBuild: resolveApp('public/dist'),
   appPublic: resolveApp('public'),
-  appHtml: resolveApp('app/frontend/sandbox.html'),
-  appApplicationJs: resolveApp('app/frontend/application.js'),
-  appIndexJs: resolveApp('app/frontend/index.js'),
+  appIndexJs: resolveApp('app/frontend/components.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('app/frontend'),
   testsSetup: resolveApp('app/frontend/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
   ownNodeModules: resolveApp('node_modules'),
-  nodePaths: nodePaths
 };

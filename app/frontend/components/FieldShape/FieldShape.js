@@ -38,11 +38,11 @@ export default class FieldShape extends Component {
     return this.props.field.data_type;
   }
 
-  render() {
-    const { field: { data_type, default_value, name }, onChange } = this.props;
+  renderField(type: string): React$Element<any> {
     const fieldProps = this.fieldProps();
+    const { field: { data_type, default_value, name } } = this.props;
 
-    switch (data_type) {
+    switch (type) {
       case 'email':
         return <SweetInput type="email" {...fieldProps} />;
       case 'phone':
@@ -62,5 +62,13 @@ export default class FieldShape extends Component {
       default:
         return <SweetInput type="text" {...fieldProps} />;
     }
+  }
+
+  render() {
+    return (
+      <div key={this.props.field.name} className="MemberDetailsForm-field form__group action-form__field-container">
+        {this.renderField(this.props.field.data_type)}
+      </div>
+    );
   }
 }
