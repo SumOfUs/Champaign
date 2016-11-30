@@ -1,6 +1,7 @@
 /* @flow */
 import React, { Component } from 'react';
 import { FormattedNumber } from 'react-intl';
+import classnames from 'classnames';
 import Button from '../Button/Button';
 import './DonationBands.css';
 
@@ -12,6 +13,7 @@ const FORMATTED_NUMBER_DEFAULTS = {
 
 type Props = {
   amounts: number[];
+  featuredAmount: ?number;
   currency: string;
   customAmount?: number;
   proceed: () => void;
@@ -77,10 +79,15 @@ export class DonationBands extends Component {
     }
   }
 
-  renderButton(amount: number, i: number): Button {
+  renderButton(amount: number, index: number): Button {
+    const className = classnames({
+      'DonationBands-button': true,
+      'DonationBands-button--highlight': (this.props.featuredAmount === amount)
+    });
+
     return (
-      <Button key={i}
-              className="DonationBands-button"
+      <Button key={index}
+              className={className}
               onClick={() => this.onButtonClicked(amount)}>
         <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS} currency={this.props.currency} value={amount} />
       </Button>
