@@ -124,13 +124,12 @@ export class MemberDetailsForm extends Component {
           onSubmit={this.submit.bind(this)}
           className="form--big action-form">
           {this.props.fields.map((field, ii) =>
-            <div key={field.name} className="MemberDetailsForm-field form__group action-form__field-container">
-              <FieldShape
-                errorMessage={this.getFieldError(field.name)}
-                onChange={(value) => this.props.updateUser({...this.props.user, [field.name]: value})}
-                value={this.props.user[field.name]}
-                field={field} />
-            </div>
+            <FieldShape
+              key={field.name}
+              errorMessage={this.getFieldError(field.name)}
+              onChange={(value) => this.props.updateUser({...this.props.user, [field.name]: value})}
+              value={this.props.user[field.name]}
+              field={field} />
           )}
 
           <Button

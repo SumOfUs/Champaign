@@ -4,26 +4,22 @@ process.env.NODE_ENV = 'development';
 // if this file is missing. dotenv will never modify any environment variables
 // that have already been set.
 // https://github.com/motdotla/dotenv
-require('dotenv').config({ silent: true, path: './env.yml' });
-
-console.log(process.env);
+require('dotenv').config({ silent: true });
 
 const chalk = require('chalk');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const historyApiFallback = require('connect-history-api-fallback');
-const httpProxyMiddleware = require('http-proxy-middleware');
 const detect = require('detect-port');
 // const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const openBrowser = require('react-dev-utils/openBrowser');
 const prompt = require('react-dev-utils/prompt');
 const config = require('../config/frontend/webpack.config.dev');
 const paths = require('../config/frontend/paths');
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appIndexJs])) {
   process.exit(1);
 }
 
@@ -209,12 +205,7 @@ function runDevServer(host, port, protocol) {
       return console.log(err);
     }
 
-    // clearConsole();
     console.log(chalk.cyan('Starting the development server...'));
-    console.log();
-    if (process.env.WEBPACK_OPEN_BROWSER) {
-      openBrowser(protocol + '://' + host + ':' + port + '/');
-    }
   });
 }
 

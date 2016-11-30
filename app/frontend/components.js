@@ -12,7 +12,7 @@ import ComponentWrapper from './ComponentWrapper';
 
 import FundraiserView from './containers/FundraiserView/FundraiserView';
 
-import './application.css';
+import './components.css';
 
 addLocaleData([
   ...enLocaleData,
@@ -22,31 +22,26 @@ addLocaleData([
 ]);
 
 window.initializeStore = configureStore;
-window.FundraiserComponent = FundraiserView;
 
-window.mountComponent = (root: string, Component: ReactClass<any>, props: any = {}, initialState?: any = {}) => {
-  const store: Store = props.store;
+window.mountFundraiser = (root: string, store?: Store, initialState?: any = {})  => {
   if (store) {
     store.dispatch({ type: 'parse_champaign_data', payload: initialState });
   }
 
   render(
-    <ComponentWrapper store={props.store}>
-      <Component {...props} />
+    <ComponentWrapper store={store}>
+      <FundraiserView />
     </ComponentWrapper>,
     document.getElementById(root)
   );
 
-  /* FIXME: this doesn't work because we're injecting a child into the wrapper
-  /*        so we need to create individual outputs / chunks for each Component
-  /*        and we're game (hot reloading!) */
   if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('./ComponentWrapper', () => {
-      const UpdatedComponentWrapper = require('./ComponentWrapper').default;
+    module.hot.accept('./containers/FundraiserView/FundraiserView', () => {
+      const UpdatedFundraiserView = require('./containers/FundraiserView/FundraiserView').default;
       render(
-        <UpdatedComponentWrapper store={props.store}>
-          <Component {...props} />
-        </UpdatedComponentWrapper>,
+        <ComponentWrapper store={store}>
+          <UpdatedFundraiserView />
+        </ComponentWrapper>,
         document.getElementById(root)
       );
     });
