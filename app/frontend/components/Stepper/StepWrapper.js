@@ -36,7 +36,6 @@ export default class StepWrapper extends Component {
   }
 
   render() {
-    const { currentStep, changeStep, children } = this.props;
     return (
       <div className="StepWrapper-root">
         <Stepper
@@ -44,7 +43,7 @@ export default class StepWrapper extends Component {
           {...this.props}
         />
         <div className="fundraiser-bar__main">
-          {this.childrenWithExtraProps(children)}
+          {this.childrenWithExtraProps(this.props.children)}
         </div>
       </div>
     );

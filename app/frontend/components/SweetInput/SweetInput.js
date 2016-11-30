@@ -12,6 +12,7 @@ type OwnProps = {
   errorMessage?: string;
   onChange?: (value: string) => void;
 };
+
 export default class SweetInput extends Component {
   props: OwnProps;
 

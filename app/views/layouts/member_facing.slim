@@ -8,9 +8,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
     = stylesheet_link_tag "member-facing"
     = javascript_include_tag "member-facing"
-    = stylesheet_link_tag *webpack_asset_paths('application', extension: 'css')
-    = javascript_include_tag *webpack_asset_paths('application', extension: 'js')
-
     - unless @page.optimizely_disabled?
       = render partial: 'shared/optimizely_snippet'
     = render partial: 'shared/js_locale'
@@ -24,6 +21,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
   body
     = render partial: 'layouts/notification'
     = yield
+
+    = stylesheet_link_tag *webpack_asset_paths('components', extension: 'css')
+    = javascript_include_tag *webpack_asset_paths('components', extension: 'js')
 
     .mobile-indicator
 

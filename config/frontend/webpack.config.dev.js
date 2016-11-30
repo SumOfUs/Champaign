@@ -1,9 +1,7 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const findCacheDir = require('find-cache-dir');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const StatsPlugin = require('stats-webpack-plugin');
 const getClientEnvironment = require('./env');
@@ -33,15 +31,10 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: {
-    application: [
+    components: [
       require.resolve('./webpackHotDevClient'),
       require.resolve('./polyfills'),
-      paths.appApplicationJs
-    ],
-    sandbox: [
-      require.resolve('react-dev-utils/webpackHotDevClient'),
-      require.resolve('./polyfills'),
-      require.resolve('../../app/frontend/containers/FundraiserView/index'),
+      paths.appIndexJs,
     ],
   },
   output: {
@@ -150,22 +143,10 @@ module.exports = {
     ];
   },
   plugins: [
-    // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
-    // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    // In development, this will be an empty string.
-    new InterpolateHtmlPlugin({
-      PUBLIC_URL: publicUrl
-    }),
-    // Generates an `index.html` file with the <script> injected.
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: paths.appHtml,
-      chunks: ['sandbox'],
-    }),
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env),
-    // This is necessary to emit hot updates (currently CSS only):
+    // This is necessary to emit hot updates:
     new webpack.HotModuleReplacementPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
@@ -179,7 +160,6 @@ module.exports = {
     // We use this to generate a manifest.json that's used by webpack-rails
     // It must match config.webpack.manifest_filename
     new StatsPlugin('manifest.json', {
-      // We only need assetsByChunkName
       chunkModules: false,
       source: false,
       chunks: false,
