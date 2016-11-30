@@ -26,18 +26,13 @@ type OwnProps = {
   selectCurrency: (currency: string) => void;
   submitDetails: (payload: any) => void;
   submitPayment: (payload: any) => void;
-  fields: array;
-  outstandingFields: object;
+  fields: any[];
+  outstandingFields: Object;
   formId: number;
-};
-
-type OwnState = {
-  currencyDropdownVisible: boolean;
 };
 
 export class FundraiserView extends Component {
   props: OwnProps;
-  state: OwnState;
 
   static defaultProps = {
     currentStep: 0,
@@ -45,15 +40,6 @@ export class FundraiserView extends Component {
     currency: 'USD',
     currencies: ['USD'],
     donationBands: [2, 5, 10, 25, 50],
-  }
-
-  constructor(props: OwnProps) {
-    super(props);
-
-    this.state = {
-      currentStep: 0,
-      currencyDropdownVisible: false,
-    };
   }
 
   selectAmount(amount: ?number) {
