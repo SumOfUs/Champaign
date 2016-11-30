@@ -80,8 +80,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
 
       it 'logs error' do
         expect(Rails.logger).to receive(:error)
-          .with(/Braintree webhook handling failed for 'subscription_charged_successfully', for subscription ID 'invalid_subscription_id'/)
-
+          .with(/No locally persisted Braintree subscription found for subscription id invalid_subscription_id/)
         subject
       end
 
