@@ -103,7 +103,10 @@ export class MemberDetailsForm extends Component {
         return response.json().then(this.handleSuccess.bind(this));
       }
       return response.json().then(this.handleFailure.bind(this));
-    }).catch(() => this.setState({ loading: false }));
+    }, failure => {
+      console.log('setState on failure');
+      this.setState({ loading: false });
+    });
   }
 
   update(a, b) {

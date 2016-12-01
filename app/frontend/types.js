@@ -57,7 +57,10 @@ declare type FundraiserForm = {
   deviceData: any;
 };
 
+declare type Field = any;
+
 declare type FundraiserState = {
+  title: string;
   amount: ?number;
   currency: string;
   currencies: string[];
@@ -70,6 +73,7 @@ declare type FundraiserState = {
   user: FundraiserFormMember;
   formId: number;
   form: FundraiserForm;
+  fields: { [key: string]: Field }
 };
 
 declare type InitialAction = {
