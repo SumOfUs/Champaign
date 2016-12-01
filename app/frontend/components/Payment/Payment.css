@@ -1,0 +1,8 @@
+.Payment__option {
+  display: block;
+  background: #aaa;
+  padding: 10px;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}

@@ -11,10 +11,15 @@ import './Payment.css';
 
 export default class Payment extends Component {
   static title = <FormattedMessage id="payment" defaultMessage="payment" />;
+  paypal: PayPal;
+  cardFields: BraintreeCardFields;
+
   constructor(props) {
     super(props);
     this.state = {
       client: null,
+      loading: true,
+      paymentType: null,
     };
   }
 
@@ -24,7 +29,7 @@ export default class Payment extends Component {
       .then(data => {
         braintreeClient.create({ authorization: data.token }, (err, instance) => {
           // todo: handle err?
-          this.setState({ client: instance });
+          this.setState({ client: instance, loading: false });
         });
       });
   }
@@ -37,25 +42,55 @@ export default class Payment extends Component {
   }
 
   render() {
+    if (this.refs.cardFields) console.log('card fields:', this.refs.cardFields);
     return (
-      <div className="Payment-root section">
+      <div className="Payment section">
         <div style={{backgroundColor: 'pink', padding: '10px', marginBottom: '10px'}}>
           User placeholder
         </div>
+        // STORED PAYMENT METHODS
 
-        <PayPal
-          client={this.state.client}
-          flow="checkout"
-          onSuccess={this.onPayPalSuccess.bind(this)}
-          onClick={() => this.selectPaymentType('paypal')}
-          isActive={this.state.paymentType === 'paypal'}
-        />
+        <div className="Payment__options">
+          <label className="Payment__option">
+            <input
+              type="radio"
+              name="paymentOption"
+              value="gocardless"
+              onChange={(e) => this.selectPaymentType(e.currentTarget.value)} />
+            Go Cardless
+          </label>
+
+          <label className="Payment__option">
+            <input
+              type="radio"
+              name="paymentOption"
+              value="paypal"
+              onChange={(e) => this.selectPaymentType(e.currentTarget.value)} />
+            PayPal
+          </label>
+
+          <label className="Payment__option">
+            <input
+              type="radio"
+              name="paymentOption"
+              value="card"
+              onChange={(e) => this.selectPaymentType(e.currentTarget.value)} />
+            Credit or Debit Card
+          </label>
+        </div>
 
         <BraintreeCardFields
+          ref="btCardFields"
           client={this.state.client}
           onClick={() => this.selectPaymentType('card')}
           isActive={this.state.paymentType === 'card'}
         />
+
+        <hr />
+
+        <input type="checkbox" name="recurring" />
+
+        <input type="checkbox" name="recurring" />
 
       </div>
     );
