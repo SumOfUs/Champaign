@@ -11,7 +11,7 @@ module PagesHelper
 
   def format_ak_ui_url(api_url)
     return api_url unless Settings.ak_ui_url.present?
-    api_url.gsub(%r{ .*rest\/v1 }, Settings.ak_ui_url)
+    api_url.gsub(%r{.*rest\/v1}, Settings.ak_ui_url)
   end
 
   def serialize(data, field)

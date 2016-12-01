@@ -27,6 +27,27 @@ describe PagesHelper do
     end
   end
 
+  describe 'format_ak_ui_url' do
+    it 'returns the passed value if no Settings.ak_ui_url' do
+      Settings.ak_ui_url = nil
+      url = 'https://act.sumofus.org/rest/v1/petition/1234'
+      expect(helper.format_ak_ui_url(url)).to eq url
+    end
+
+    it "returns the passed value if it doesn't contain 'rest/v1'" do
+      Settings.ak_ui_url = 'https://google.com'
+      url = 'https://act.sumofus.org/petition/1234'
+      expect(helper.format_ak_ui_url(url)).to eq url
+    end
+
+    it "replaces everything leading up to 'rest/v1' with Settings.ak_ui_url" do
+      Settings.ak_ui_url = 'https://act.sumofus.org/admin/core'
+      initial = 'https://act.sumofus.org/rest/v1/petition/1234'
+      expected = 'https://act.sumofus.org/admin/core/petition/1234'
+      expect(helper.format_ak_ui_url(initial)).to eq expected
+    end
+  end
+
   describe '#prefill_link' do
     it 'prefills link for twitter' do
       variant = Share::Twitter.new
