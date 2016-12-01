@@ -1,3 +1,18 @@
+.BraintreeCardFields--root {
+  .BraintreeCardFields--form-container {
+    display: none;
+  }
+
+  &.active {
+    .BraintreeCardFields--form-container {
+      display: block;
+    }
+  }
+}
+
+
+
+
 .hosted-field {
   height: 50px;
   box-sizing: border-box;
