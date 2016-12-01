@@ -33,7 +33,7 @@ type OwnProps = {
 };
 
 export class FundraiserView extends Component {
-  props: OwnProps;
+  props: OwnProps & mapStateToProps;
 
   static defaultProps = {
     currentStep: 0,
