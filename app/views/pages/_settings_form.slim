@@ -17,6 +17,19 @@
       = label_with_tooltip(f, :liquid_layout_preview, t('pages.edit.follow_up_layout_select'), t('tooltips.follow_up'))
       = render 'collapsing_layout_select', f: f, field: :follow_up_liquid_layout_id, dom_name: 'follow_up', association: :follow_up_liquid_layout, offer_redirect: true
 
+    - has_ak_link = (page.try(:ak_petition_resource_uri).present? || page.try(:ak_donation_resource_uri).present?)
+    - if has_ak_link && Settings.ak_ui_url.present?
+      .form-group
+        label= t('pages.edit.ak_links')
+        - if page.try(:ak_petition_resource_uri).present?
+          br
+          - url = Settings.ak_ui_url + page.ak_petition_resource_uri
+          = link_to t('pages.edit.ak_petition_link'), url, target: '_blank'
+        - if page.try(:ak_donation_resource_uri).present?
+          br
+          - url = Settings.ak_ui_url + page.ak_donation_resource_uri
+          = link_to t('pages.edit.ak_donation_link'), url, target: '_blank'
+
     a data-toggle="collapse" data-target=".additional-settings" aria-expanded="false"
       = t('pages.edit.more_settings')
 
