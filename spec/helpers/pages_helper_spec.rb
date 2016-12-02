@@ -29,22 +29,20 @@ describe PagesHelper do
 
   describe 'format_ak_ui_url' do
     it 'returns the passed value if no Settings.ak_ui_url' do
-      Settings.ak_ui_url = nil
       url = 'https://act.sumofus.org/rest/v1/petition/1234'
-      expect(helper.format_ak_ui_url(url)).to eq url
+      expect(helper.format_ak_ui_url(url, nil)).to eq url
     end
 
     it "returns the passed value if it doesn't contain 'rest/v1'" do
-      Settings.ak_ui_url = 'https://google.com'
       url = 'https://act.sumofus.org/petition/1234'
-      expect(helper.format_ak_ui_url(url)).to eq url
+      expect(helper.format_ak_ui_url(url, 'https://google.com')).to eq url
     end
 
     it "replaces everything leading up to 'rest/v1' with Settings.ak_ui_url" do
-      Settings.ak_ui_url = 'https://act.sumofus.org/admin/core'
+      ak_ui_url = 'https://act.sumofus.org/admin/core'
       initial = 'https://act.sumofus.org/rest/v1/petition/1234'
       expected = 'https://act.sumofus.org/admin/core/petition/1234'
-      expect(helper.format_ak_ui_url(initial)).to eq expected
+      expect(helper.format_ak_ui_url(initial, ak_ui_url)).to eq expected
     end
   end
 
