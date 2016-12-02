@@ -94,6 +94,7 @@ class LiquidRenderer
       .merge(primary_image: image_urls(@page.image_to_display))
       .merge(shares: Shares.get_all(@page))
       .merge(follow_up_url: follow_up_url)
+      .merge(locale: @page.language&.code || 'en')
   end
 
   def member_data

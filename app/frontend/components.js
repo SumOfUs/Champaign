@@ -29,7 +29,7 @@ window.mountFundraiser = (root: string, store?: Store, initialState?: any = {}) 
   }
 
   render(
-    <ComponentWrapper store={store}>
+    <ComponentWrapper store={store} locale={initialState['locale']}>
       <FundraiserView />
     </ComponentWrapper>,
     document.getElementById(root)
@@ -39,7 +39,7 @@ window.mountFundraiser = (root: string, store?: Store, initialState?: any = {}) 
     module.hot.accept('./containers/FundraiserView/FundraiserView', () => {
       const UpdatedFundraiserView = require('./containers/FundraiserView/FundraiserView').default;
       render(
-        <ComponentWrapper store={store}>
+        <ComponentWrapper store={store} locale={initialState['locale']}>
           <UpdatedFundraiserView />
         </ComponentWrapper>,
         document.getElementById(root)
