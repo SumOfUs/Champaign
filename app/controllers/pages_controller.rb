@@ -45,7 +45,10 @@ class PagesController < ApplicationController
       }
 
       flash[:notice] = t('fundraiser.thank_you_with_amount', i18n_options).html_safe
-      redirect_to PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
+      redirect_to new_member_authentication_path(
+        email: recognized_member.email,
+        follow_up_url: PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
+      )
     else
       render_liquid(@page.liquid_layout, :show)
     end
