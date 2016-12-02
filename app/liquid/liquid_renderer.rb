@@ -53,6 +53,7 @@ class LiquidRenderer
       named_images:  named_images,
       primary_image: image_urls(@page.image_to_display),
       shares:        Shares.get_all(@page),
+      locale:        @page.language&.code || 'en',
       follow_up_url: follow_up_url
     }
       .merge(@page.liquid_data)
