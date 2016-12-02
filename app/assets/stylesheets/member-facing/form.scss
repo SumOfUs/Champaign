@@ -150,11 +150,15 @@ label.checkbox-label {
     -webkit-user-select: none;
     font-size: 18px;
     line-height: 28px;
-    white-space: nowrap;
     max-width: calc(100% - 50px);
     overflow: hidden;
+    white-space: nowrap;
+    &--multiline {
+      white-space: normal;
+    }
     &--active {
       color: $teal;
+      white-space: nowrap;
     }
     &--full {
       color: rgba(black, 0.6);
