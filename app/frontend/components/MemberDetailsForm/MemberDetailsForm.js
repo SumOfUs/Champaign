@@ -15,6 +15,7 @@ type OwnProps = {
   buttonText?: React$Element<any> | string;
   proceed?: () => void;
   fields: Object;
+  prefillValues: Object;
   outstandingFields: any[];
   formId: number;
 };
@@ -25,6 +26,7 @@ export class MemberDetailsForm extends Component {
   state: {
     errors: any;
     loading: boolean;
+    formValues: any;
   };
 
   static title = <FormattedMessage id="details" defaultMessage="details" />;
@@ -35,6 +37,7 @@ export class MemberDetailsForm extends Component {
     this.state = {
       errors: {},
       loading: false,
+      formValues: {},
     };
   }
 
@@ -79,8 +82,15 @@ export class MemberDetailsForm extends Component {
   }
 
   prefill(field) {
-    // this is where the prefill logic will live
-    return field.default_value;
+    return this.state.formValues[field.name] ||
+        this.props.prefillValues[field.name] ||
+        field.default_value;
+  }
+
+  updateField(key, value) {
+    let vals = this.state.formValues;
+    vals[key] = value;
+    this.setState({formValues: vals});
   }
 
   submit(e: SyntheticEvent) {
@@ -128,14 +138,14 @@ export class MemberDetailsForm extends Component {
             <FieldShape
               key={field.name}
               errorMessage={this.getFieldError(field.name)}
-              onChange={(value) => this.props.updateUser({...this.props.user, [field.name]: value})}
-              value={this.props.user[field.name]}
+              onChange={(value) => this.updateField(field.name, value)}
+              value={this.prefill(field)}
               field={field} />
           )}
 
           <Button
             type="submit"
-            disabled={!this.isValid() || loading }
+            disabled={ loading }
             onClick={this.submit.bind(this)}>
             {this.buttonText()}
           </Button>

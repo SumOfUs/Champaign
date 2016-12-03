@@ -5,7 +5,7 @@
     $(document).ready(function () {
       var global = champaign.personalization;
       var data = {
-        member: global.member,
+        member: $.extend(global.member, global.urlParams),
         paymentMethods: global.paymentMethods,
         fundraiser: {
           amount: global.urlParams.amount,

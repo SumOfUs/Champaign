@@ -79,12 +79,13 @@ export class FundraiserView extends Component {
             />
           </StepContent>
 
-          { !member &&
+          { this.props.outstandingFields !== [] &&
             <StepContent title="details">
               <MemberDetailsForm
                 buttonText={I18n.t('fundraiser.proceed_to_payment')}
                 fields={this.props.fields}
                 outstandingFields={this.props.outstandingFields}
+                prefillValues={this.props.member}
                 formId={this.props.formId}
                 proceed={this.proceed.bind(this)}
               />

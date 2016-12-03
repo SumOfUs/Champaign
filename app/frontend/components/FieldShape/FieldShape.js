@@ -51,7 +51,7 @@ export default class FieldShape extends Component {
       case 'country':
         return <SelectCountry {...fieldProps} />;
       case 'dropdown':
-        return <Select {...fieldProps} />;
+        return <Select {...fieldProps} options={this.props.field.choices} />;
       case 'hidden':
         return <input type="hidden" name={name} value={default_value} />;
       case 'checkbox':
