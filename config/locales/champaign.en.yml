@@ -149,6 +149,9 @@ en:
       sources: 'Sources'
       extras: 'Extras'
       no_images_notice: "You haven't any photos. Drag your pics into the box below."
+      ak_links: 'This page on ActionKit'
+      ak_petition_link: 'AK petition page'
+      ak_donation_link: 'AK donation page'
       clone_page: 'Clone this page'
       layout_select: 'Page layout'
       follow_up_layout_select: 'Follow-up action'

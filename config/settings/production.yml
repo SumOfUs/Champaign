@@ -22,6 +22,7 @@ ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
 
 # Direct ActionKit Connection variables.
 ak_api_url: <%= ENV['AK_API_URL'] %>
+ak_ui_url: <%= ENV['AK_UI_URL'] %>
 ak_username: <%= ENV['AK_USERNAME'] %>
 ak_password: <%= ENV['AK_PASSWORD'] %>
 action_kit:
