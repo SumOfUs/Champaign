@@ -53,7 +53,12 @@ module PaymentProcessor
         else
           Rails.logger.info("Unsupported Braintree::WebhookNotification received of type '#{notification.kind}'")
         end
-      rescue
+      rescue StandardError => e
+        log_failure
+        raise e
+      end
+
+      def log_failure
         Rails.logger.error("Braintree webhook handling failed for '#{notification.kind}', for subscription ID '#{notification.subscription.id}'")
       end
 
@@ -91,12 +96,14 @@ module PaymentProcessor
         Payment::Braintree::Customer.find_by(member_id: original_action.member_id)
       rescue ActiveRecord::RecordNotFound
         Rails.logger.error("No Braintree customer found for member with id #{original_action.member_id}!")
+        log_failure
       end
 
       def subscription
         @subscription ||= Payment::Braintree::Subscription.find_by(subscription_id: @notification.subscription.id)
         if @subscription.blank?
           Rails.logger.error("No locally persisted Braintree subscription found for subscription id #{@notification.subscription.id}!")
+          log_failure
         end
         @subscription
       end
