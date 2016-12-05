@@ -21,8 +21,7 @@ type OwnProps = {
   formValues: any;
   member: any;
   currency: string;
-  currencies: string[];
-  donationBands: number[];
+  donationBands: {[id:string]: number[]};
   donationFeaturedAmount: ?number;
   donationAmount: ?number;
   changeStep: (step: number) => void;
@@ -40,8 +39,9 @@ export class FundraiserView extends Component {
     currentStep: 0,
     member: null,
     currency: 'USD',
-    currencies: ['USD'],
-    donationBands: [2, 5, 10, 25, 50],
+    donationBands: { 'USD': [2, 5, 10, 25, 50],
+                     'GBP': [1, 2, 3, 4, 5]
+    }
   }
 
   selectAmount(amount: ?number) {

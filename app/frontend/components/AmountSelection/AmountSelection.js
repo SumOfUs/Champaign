@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
@@ -8,10 +9,9 @@ import type { Element } from 'react';
 
 type OwnProps = {
   donationAmount: ?number;
-  donationBands: number[];
+  donationBands: {[id:string]: number[]};
   donationFeaturedAmount?: number;
   currency: string;
-  currencies: string[];
   nextStepTitle: string;
   selectAmount: (amount: ?number) => void;
   changeCurrency: (currency: string) => void;
@@ -70,7 +70,7 @@ export default class AmountSelection extends Component {
       <div className="AmountSelection-container section">
         <DonationBands
           ref="donationBands"
-          amounts={this.props.donationBands}
+          amounts={this.props.donationBands[this.props.currency]}
           currency={this.props.currency}
           proceed={this.props.proceed}
           featuredAmount={this.props.donationFeaturedAmount}
@@ -90,9 +90,9 @@ export default class AmountSelection extends Component {
         {this.state.currencyDropdownVisible &&
           <select value={this.props.currency} className="AmountSelection__currency-selector"
             onChange={e => this.onSelectCurrency(e.target.value)}>
-            {this.props.currencies.map(c =>
-              <option key={c} value={c}>{c}</option>
-            )}
+            {_.forEach(this.props.donationBands, (v, currency) => {
+              return <option key={currency} value={currency}>{currency}</option>;
+            })}
           </select>
         }
 
