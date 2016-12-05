@@ -14,7 +14,12 @@ module PaymentProcessor::Braintree
     def process
       return false unless one_click?
       PaymentProcessor::Braintree::OneClick.new(options).run
-      true
+      self
+    end
+
+    def recurring?
+      Plugins::Fundraiser.donation_default_for_page(page.id) ||
+        ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
     end
 
     private
@@ -31,7 +36,8 @@ module PaymentProcessor::Braintree
         payment: {
           payment_method_id: payment_method_id,
           currency: params[:currency],
-          amount: params[:amount]
+          amount: params[:amount],
+          recurring: recurring?
         },
         user: {
           email: member.email
