@@ -125,6 +125,7 @@ describe 'Braintree API' do
 
           it 'logs an error about a missing subscription' do
             expect(Rails.logger).to receive(:error).with(/No locally persisted Braintree subscription found for subscription id xxx/)
+            expect(Rails.logger).to receive(:error).with(/Braintree webhook handling failed for 'subscription_charged_successfully', for subscription ID 'xxx'/)
             subject
           end
 
