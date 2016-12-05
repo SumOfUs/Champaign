@@ -17,7 +17,7 @@ module Paperclip
   class Thumbnail
     def make
       src = Rails.root.join('spec', 'fixtures', 'test-image.gif')
-      dst = Tempfile.new([@basename, @format].compact.join('.'))
+      dst = Tempfile.new([@basename, 'gif'].compact.join('.'))
       dst.binmode
       FileUtils.cp(src, dst.path)
       dst

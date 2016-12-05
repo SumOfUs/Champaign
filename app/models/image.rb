@@ -14,15 +14,20 @@
 #
 
 class Image < ActiveRecord::Base
+  # At what point should the image format be converted to jpg
+  TO_JPG_SIZE_THRESHOLD = 150_000
+
   has_paper_trail
 
   has_attached_file :content,
-                    styles: {
-                      medium: '300x300>',
-                      thumb: '100x100#',
-                      medium_square: '700x500#',
-                      facebook: '1200x630>',
-                      large: '1920x'
+                    styles: lambda { |attachment|
+                      {
+                        medium: '300x300>',
+                        thumb: '100x100#',
+                        medium_square: ['700x500#', attachment.instance.decide_format],
+                        facebook: ['1200x630>', attachment.instance.decide_format],
+                        large: ['1920x', attachment.instance.decide_format]
+                      }
                     },
                     convert_options: {
                       all: '-strip -interlace Plane'
@@ -36,4 +41,8 @@ class Image < ActiveRecord::Base
   belongs_to :page, touch: true
   has_one    :page_using_as_primary, class_name: 'Page', dependent: :nullify, foreign_key: :primary_image_id
   has_many   :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
+
+  def decide_format
+    content.size.to_i > TO_JPG_SIZE_THRESHOLD ? :jpg : content.content_type
+  end
 end
