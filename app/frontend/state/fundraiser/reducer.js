@@ -1,5 +1,6 @@
 /* @flow */
 import type { InitialAction } from '../reducers';
+import _ from 'lodash';
 
 export type FormField = {
   id: number;
@@ -19,7 +20,7 @@ export type FundraiserState = {
   title: string;
   currency: string;
   currencies: string[];
-  donationBands: number[];
+  donationBands: {[id:string]: number[]};
   donationAmount: ?number;
   currentStep: number;
   recurring: boolean;
@@ -47,8 +48,13 @@ export type FundraiserAction =
 const initialState: FundraiserState = {
   amount: null,
   currency: 'USD',
-  currencies: ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'NZD'],
-  donationBands: [1, 2, 5, 10, 25],
+  donationBands: { 'USD': [2, 5, 10, 25, 50],
+                   'GBP': [1, 2, 3, 4, 5],
+                   'EUR': [1, 2, 3, 4, 5],
+                   'CAD': [1, 2, 3, 4, 5],
+                   'AUD': [1, 2, 3, 4, 5],
+                   'NZD': [1, 2, 3, 4, 5]
+  },
   donationAmount: null,
   currentStep: 0,
   recurringDefault: 'one_off',
@@ -72,11 +78,19 @@ const initialState: FundraiserState = {
 export default function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
   switch (action.type) {
     case 'parse_champaign_data':
+      let donationBands;
+      if (_.isEmpty(action.payload.fundraiser.donationBands)) {
+        donationBands = state.donationBands;
+      }
+      else {
+        donationBands = action.payload.fundraiser.donationBands;
+      }
+
       return {
-        ...initialState,
+        ...state,
         ...action.payload.fundraiser,
         recurring: (action.payload.fundraiser.recurringDefault === 'only_recurring'),
-        donationBands: initialState.donationBands
+        donationBands: donationBands
       };
     case 'reset_member':
       return { ...state, outstandingFields: state.fields.map(field => field.name) };
