@@ -19,7 +19,7 @@ module PaymentProcessor::Braintree
 
     def recurring?
       Plugins::Fundraiser.donation_default_for_page(page.id) ||
-        ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
+        %w(recurring only_recurring).include?(params[:recurring_default])
     end
 
     private
