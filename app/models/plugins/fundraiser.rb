@@ -35,4 +35,13 @@ class Plugins::Fundraiser < ActiveRecord::Base
       recurring_default: recurring_default
     )
   end
+
+  def recurring?
+    read_attribute(:recurring_default) > 0
+  end
+
+  def self.donation_default_for_page(page_id)
+    plugin = Plugins::Fundraiser.find_by(page_id: page_id)
+    plugin ? plugin.recurring? : false
+  end
 end

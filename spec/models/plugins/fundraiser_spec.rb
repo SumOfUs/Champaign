@@ -63,4 +63,26 @@ describe Plugins::Fundraiser do
     fundraiser.only_recurring!
     expect(fundraiser.liquid_data[:recurring_default]).to eq 'only_recurring'
   end
+
+  describe '.donation_default_for_page' do
+    let(:page) { create(:page) }
+
+    context 'without recurring default' do
+      it 'determins if recurring for page' do
+        create :plugins_fundraiser, page: page, recurring_default: 0
+        expect(Plugins::Fundraiser.donation_default_for_page(page.id)).to eq(false)
+      end
+
+      it 'is false when there is no page' do
+        expect(Plugins::Fundraiser.donation_default_for_page(0)).to eq(false)
+      end
+    end
+
+    context 'with recurring default' do
+      it 'determins if recurring for page' do
+        create :plugins_fundraiser, page: page, recurring_default: 1
+        expect(Plugins::Fundraiser.donation_default_for_page(page.id)).to eq(true)
+      end
+    end
+  end
 end
