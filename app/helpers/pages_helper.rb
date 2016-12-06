@@ -9,6 +9,11 @@ module PagesHelper
     end
   end
 
+  def format_ak_ui_url(api_url, ak_ui_url)
+    return api_url unless ak_ui_url.present?
+    api_url.gsub(%r{.*rest\/v1}, ak_ui_url)
+  end
+
   def serialize(data, field)
     hash = HashWithIndifferentAccess.new(data)
     (hash[field].nil? ? {} : hash[field]).to_json.html_safe
@@ -114,7 +119,7 @@ module PagesHelper
       site_name: 'SumOfUs',
       title: page.title,
       description: truncate(strip_tags(CGI.unescapeHTML(page.content)), length: 260),
-      url: page_url(page),
+      url: member_facing_page_url(page),
       type: 'website',
       article: { publisher: Settings.facebook_url },
       image: {

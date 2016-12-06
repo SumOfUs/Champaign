@@ -88,6 +88,47 @@ describe 'subscriptions' do
         end
       end
     end
+
+    context 'with payment failed event from a subscription' do
+      let!(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'index_ID_123', action: action, amount: 100, page: page) }
+      let!(:transaction)  { create(:payment_go_cardless_transaction, go_cardless_id: 'this_will_fail_123', subscription: subscription) }
+      let(:events) do
+        {
+          'events' => [
+            {
+              'id' => 'EV456',
+              'created_at' => '2016-04-20T10:32:34.696Z',
+              'resource_type' => 'payments',
+              'action' => 'failed',
+              'links' => {
+                'payment' => 'this_will_fail_123'
+              },
+              'details' => {
+                'origin' => 'bank',
+                'cause' => 'mandate_cancelled',
+                'description' => 'Customer cancelled the mandate at their bank branch.',
+                'scheme' => 'bacs',
+                'reason_code' => 'ARRUD-1'
+              }
+            }
+          ]
+        }.to_json
+      end
+      let(:valid) { instance_double(PaymentProcessor::GoCardless::WebhookSignature) }
+
+      before do
+        allow(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new).and_return(valid)
+        allow(valid).to receive(:valid?).and_return(true)
+      end
+
+      it 'posts a failed subscription charge to the queue' do
+        expect(ChampaignQueue).to receive(:push).with({
+          type: 'subscription-payment',
+          params: { recurring_id: subscription.go_cardless_id, success: 0 }
+        }, { delay: 120 })
+        post('/api/go_cardless/webhook', events, headers)
+      end
+    end
   end
 
   describe 'with invalid signature' do

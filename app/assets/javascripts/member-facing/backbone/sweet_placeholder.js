@@ -10,8 +10,8 @@ const SweetPlaceholder = Backbone.View.extend({
     'input .sweet-placeholder__field': 'decide',
   },
 
-  initialize() {
-    const $els = this.$el.find('.sweet-placeholder__field');
+  initialize(els=null) {
+    const $els = els || this.$el.find('.sweet-placeholder__field');
 
     $els.each((el) => {
       this.decide({target: el});

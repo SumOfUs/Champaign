@@ -89,7 +89,7 @@ describe 'Braintree API' do
           @subscription = Payment::Braintree::Subscription.last
         end
 
-        it 'creates a Payment::Braintree::Transaction record with the right params' do
+        it 'creates a Payment::Braintree::Transaction that is associated with a page' do
           expect { subject }.to change { Payment::Braintree::Transaction.count }.by 1
           expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
         end
@@ -123,9 +123,16 @@ describe 'Braintree API' do
             )
           end
 
-          it 'returns not found' do
+          it 'logs an error about a missing subscription' do
+            expect(Rails.logger).to receive(:error).with(/No locally persisted Braintree subscription found for subscription id xxx/)
+            expect(Rails.logger).to receive(:error).with(/Braintree webhook handling failed for 'subscription_charged_successfully', for subscription ID 'xxx'/)
             subject
-            expect(response.status).to eq 404
+          end
+
+          it 'does not create a transaction' do
+            expect(Payment::Braintree::Transaction.count).to eq(0)
+            subject
+            expect(@subscription.reload.transactions.count).to eq(0)
           end
         end
       end
@@ -140,7 +147,7 @@ describe 'Braintree API' do
           end
         end
 
-        it 'creates a Payment::Braintree::Transaction record with the right params' do
+        it 'creates a Payment::Braintree::Transaction associated with a page' do
           expect { subject }.to change { Payment::Braintree::Transaction.count }.by 1
           expect(Payment::Braintree::Transaction.last.page_id).to eq(page.id)
         end
@@ -157,6 +164,10 @@ describe 'Braintree API' do
           expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
 
           subject
+        end
+
+        it 'does not create an action' do
+          expect { subject }.to_not change { Action.count }
         end
 
         include_examples 'has no unintended consequences'

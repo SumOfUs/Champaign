@@ -68,11 +68,22 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
     end
 
     event :run_fail do
-      transitions to: :failed
+      transitions to: :failed, after: :publish_failed_subscription_charge
     end
 
     event :run_charge_back do
       transitions to: :charged_back
     end
+  end
+
+  def publish_failed_subscription_charge
+    return if subscription.blank?
+    ChampaignQueue.push({
+      type: 'subscription-payment',
+      params: {
+        recurring_id: subscription.go_cardless_id,
+        success: 0
+      }
+    }, { delay: 120 })
   end
 end

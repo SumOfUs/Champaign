@@ -6,7 +6,13 @@
           <div class="overlay-toggle__mobile-ui">
             <a class="overlay-toggle__close-button">&#x2715;</a>
           </div>
-          <h2>{{ plugins.fundraiser[ref].title }}</h2>
+          <h2>
+          {% if title %}
+            {{ title }}
+          {% else %}
+            {{ plugins.fundraiser[ref].title }}
+          {% endif %}
+          </h2>
           <div class="fundraiser-bar__steps script-dependent">
             <hr class="fundraiser-bar__step-connector" />
             <div class="fundraiser-bar__step-label" data-step="1">
