@@ -43,4 +43,6 @@ let initializeApp = () => {
   initializeApp = airbrake.wrap(initializeApp);
 <% end %>
 
+require('member-facing/track_shares');
+
 initializeApp();

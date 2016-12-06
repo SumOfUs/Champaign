@@ -14,12 +14,17 @@ const FacebookShareView = Backbone.View.extend({
     this.template =  _.template(this.$('script').html());
     this.fbAppId = $("meta[property='fb:app_id']").attr('content');
 
-    this.model = new FacebookShareModel({
-      path: window.location.pathname,
-      origin: window.location.origin,
-    });
-
+    this.model = new FacebookShareModel(this.fbShareData());
     this.initializeFbClient();
+  },
+
+  fbShareData() {
+    return {
+      description: $("meta[property='og:description']").attr('content'),
+      title: $("meta[property='og:title']").attr('content'),
+      image: $("meta[property='og:image:url']").attr('content'),
+      url: $("meta[property='og:url']").attr('content'),
+    }
   },
 
   initializeFbClient() {
