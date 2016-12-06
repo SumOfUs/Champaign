@@ -13,7 +13,6 @@
 //= require shared/show_errors
 
 //= require member-facing/registration
-//= require member-facing/track_shares
 
 // external assets
 <% if Settings.external_js_path.present? %>
@@ -43,5 +42,7 @@ let initializeApp = () => {
   const airbrake = new airbrakeJs({projectId: "<%= Settings.airbrake_project_id %>", projectKey: "<%= Settings.airbrake_api_key %>"});
   initializeApp = airbrake.wrap(initializeApp);
 <% end %>
+
+require('member-facing/track_shares');
 
 initializeApp();

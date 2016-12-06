@@ -14,5 +14,5 @@ $(() => {
     }
   };
 
-  $(window).bind('share', handleShare)
+  $(window).bind('share', handleShare);
 });
