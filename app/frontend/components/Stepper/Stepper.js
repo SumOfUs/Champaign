@@ -22,7 +22,7 @@ export default class Stepper extends Component {
     return (
       <div className="Stepper-wrapper fundraiser-bar__top">
         <h2>{ this.props.title }</h2>
-        <div className="Stepper-root">
+        <div className="Stepper-root fundraiser-bar__steps">
           <hr className="Stepper-line" />
           {this.props.steps.map((step, index) =>
             <Step
