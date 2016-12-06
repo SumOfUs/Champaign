@@ -16,7 +16,7 @@ import {
 
 type OwnProps = {
   currentStep: number;
-  member: MemberState;
+  member: any;
   currency: string;
   currencies: string[];
   donationBands: number[];
@@ -28,7 +28,7 @@ type OwnProps = {
   submitDetails: (payload: any) => void;
   submitPayment: (payload: any) => void;
   fields: any[];
-  outstandingFields: Object;
+  outstandingFields: string[];
   formId: number;
 };
 
@@ -79,7 +79,7 @@ export class FundraiserView extends Component {
             />
           </StepContent>
 
-          { this.props.outstandingFields !== [] &&
+          { this.props.outstandingFields.length !== 0 &&
             <StepContent title="details">
               <MemberDetailsForm
                 buttonText={I18n.t('fundraiser.proceed_to_payment')}
