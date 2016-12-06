@@ -46,6 +46,21 @@ describe PagesHelper do
     end
   end
 
+
+  describe 'ak_resource_id' do
+
+    it 'parses an ak petition resource uri to an ID' do
+      ak_resource_url = 'https://act.sumofus.org/rest/v1/petitionpage/11207/'
+      expect(helper.ak_resource_id(ak_resource_url)).to eq '11207'
+    end
+
+    it 'parses an ak donation resource uri to an ID' do
+      ak_resource_url = 'https://act.sumofus.org/rest/v1/donationpage/12345/'
+      expect(helper.ak_resource_id(ak_resource_url)).to eq '12345'
+    end
+
+  end
+
   describe '#prefill_link' do
     it 'prefills link for twitter' do
       variant = Share::Twitter.new

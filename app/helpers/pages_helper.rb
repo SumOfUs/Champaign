@@ -14,6 +14,10 @@ module PagesHelper
     api_url.gsub(%r{.*rest\/v1}, ak_ui_url)
   end
 
+  def ak_resource_id(ak_resource_url)
+    /\/([^\/]*)\/$/.match(ak_resource_url)[1]
+  end
+
   def serialize(data, field)
     hash = HashWithIndifferentAccess.new(data)
     (hash[field].nil? ? {} : hash[field]).to_json.html_safe
