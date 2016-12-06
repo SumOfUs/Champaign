@@ -11,7 +11,10 @@ const FacebookShareModel = Backbone.Model.extend({
     return {
       message: this.get('message'),
       link: this.buildLink(),
-      caption: I18n.t('facebook_share.caption')
+      caption: I18n.t('facebook_share.caption'),
+      image: this.get('image'),
+      title: this.get('title'),
+      description: this.get('description'),
     }
   },
 
@@ -28,7 +31,7 @@ const FacebookShareModel = Backbone.Model.extend({
   },
 
   buildLink() {
-    return `${this.get('origin')}${this.get('path')}?source=fbexpress`;
+    return `${this.get('url')}?source=fbexpress`;
   },
 
   isEnabled() {
