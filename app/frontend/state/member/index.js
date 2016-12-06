@@ -5,29 +5,7 @@ export function memberReducer(state: MemberState = initialState, action: MemberA
   switch (action.type) {
     case 'parse_champaign_data':
       if (!action.payload.member) return state;
-
-      const m = action.payload.member;
-      if (!m.id) {
-        return null;
-      }
-
-      const member: MemberState = {
-        id: m.id,
-        email: m.email,
-        country: m.country,
-        name: m.name,
-        firstName: m.first_name,
-        lastName: m.last_name,
-        fullName: m.full_name,
-        welcomeName: m.welcome_name,
-        postal: m.postal,
-        donorStatus: m.donor_status,
-        registered: m.registered,
-        actionKitUserId: m.actionkit_user_id,
-        createdAt: m.created_at,
-        updatedAt: m.updated_at,
-      };
-      return { ...state, ...member};
+      return { ...state, ...action.payload.member};
     case 'reset_member':
       return initialState;
     case 'set_member':
