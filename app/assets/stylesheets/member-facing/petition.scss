@@ -8,6 +8,9 @@ $mobile-width: 700px;
   position: relative;
   z-index: 600;
   max-width: 500px;
+  @media(max-width: $mobile-width) {
+    max-width: none;
+  }
 
   &.petition-bar.stuck-right {
     margin-top: 17px;
@@ -187,6 +190,7 @@ $mobile-width: 700px;
     right: 10px;
     top: 10px;
     cursor: pointer;
+    z-index: 100;
   }
 }
 
