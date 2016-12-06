@@ -40,6 +40,10 @@ export default class SweetInput extends Component {
     }
   }
 
+  hasError() {
+    return !!(this.props.errorMessage);
+  }
+
   toggleFocus(focused: boolean) {
     if (focused) this.refs.input.focus();
     this.setState({ focused });
@@ -50,7 +54,7 @@ export default class SweetInput extends Component {
       'sweet-placeholder__label': true,
       'sweet-placeholder__label--full': !!(this.props.value),
       'sweet-placeholder__label--active': this.state.focused,
-      'has-error': !!(this.props.errorMessage),
+      'has-error': this.hasError(),
     });
 
     return(
@@ -58,7 +62,6 @@ export default class SweetInput extends Component {
         <label className={className} onClick={e => this.toggleFocus(true)}>
           {this.props.label}
         </label>
-        <span className="SweetInput-error">{this.props.errorMessage}</span>
         <input
           ref="input"
           value={this.props.value || ''}
@@ -68,8 +71,9 @@ export default class SweetInput extends Component {
           onChange={e => this.onChange(e.target.value)}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
-          className="sweet-placeholder__field"
+          className={`sweet-placeholder__field ${this.hasError() ? 'has-error' : ''}`}
         />
+        <span className="error-msg">{this.props.errorMessage}</span>
       </div>
     );
   }

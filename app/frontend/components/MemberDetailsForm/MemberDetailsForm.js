@@ -31,18 +31,33 @@ export class MemberDetailsForm extends Component {
 
   static title = <FormattedMessage id="details" defaultMessage="details" />;
 
+  HIDDEN_FIELDS = ['source', 'akid', 'referrer_id', 'bucket'];
+
   constructor(props: OwnProps) {
     super(props);
 
     this.state = {
       errors: {},
       loading: false,
-      formValues: {},
+      formValues: this.prefill(),
     };
   }
 
   isValid(): boolean {
     return !!(this.props.user.email );
+  }
+
+  prefill() {
+    const formValues = {};
+    for (const field of this.props.fields) {
+      formValues[field.name] = this.props.prefillValues[field.name] || field.default_value;
+    }
+    for (const fieldName of this.HIDDEN_FIELDS) {
+      if (this.props.prefillValues[fieldName]) {
+        formValues[fieldName] = this.props.prefillValues[fieldName];
+      }
+    }
+    return formValues;
   }
 
   getFieldError(field: string): FormattedMessage | void {
@@ -81,21 +96,14 @@ export class MemberDetailsForm extends Component {
     this.setState({ errors });
   }
 
-  prefill(field) {
-    return this.state.formValues[field.name] ||
-        this.props.prefillValues[field.name] ||
-        field.default_value;
-  }
-
   updateField(key, value) {
-    let vals = this.state.formValues;
+    const vals = this.state.formValues;
     vals[key] = value;
     this.setState({formValues: vals});
   }
 
   submit(e: SyntheticEvent) {
     this.setState({ loading: true });
-
     e.preventDefault();
     // HACKISH
     // Use a proper xhr lib if we want to make our lives easy.
@@ -106,7 +114,7 @@ export class MemberDetailsForm extends Component {
         'content-type': 'application/json',
         accept: 'application/json',
       },
-      body: JSON.stringify({ ...this.props.user, form_id: this.props.formId }),
+      body: JSON.stringify({ ...this.state.formValues, form_id: this.props.formId }),
     }).then(response => {
       this.setState({ loading: false });
       if (response.ok) {
@@ -114,18 +122,8 @@ export class MemberDetailsForm extends Component {
       }
       return response.json().then(this.handleFailure.bind(this));
     }, failure => {
-      console.log('setState on failure');
       this.setState({ loading: false });
     });
-  }
-
-  update(a, b) {
-    // this is clearly broken
-    const { user, updateUser } = this.props;
-    const newFields = {...user};
-    newFields[a] = b;
-    console.log(newFields);
-    updateUser(newFields);
   }
 
   render() {
@@ -139,7 +137,7 @@ export class MemberDetailsForm extends Component {
               key={field.name}
               errorMessage={this.getFieldError(field.name)}
               onChange={(value) => this.updateField(field.name, value)}
-              value={this.prefill(field)}
+              value={this.state.formValues[field.name]}
               field={field} />
           )}
 
