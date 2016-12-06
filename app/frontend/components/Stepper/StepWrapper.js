@@ -38,6 +38,9 @@ export default class StepWrapper extends Component {
   render() {
     return (
       <div className="StepWrapper-root">
+        <div className="overlay-toggle__mobile-ui">
+          <a className="overlay-toggle__close-button">&#x2715;</a>
+        </div>
         <Stepper
           steps={this.getTitles()}
           {...this.props}

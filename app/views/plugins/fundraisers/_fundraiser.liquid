@@ -1,5 +1,9 @@
 {% if plugins.fundraiser[ref].active %}
-  <div id="fundraiser-component" class="fundraiser-bar sidebar {{ extra_class }}"></div>
+  <div class="overlay-toggle">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
+      <div id="fundraiser-component" class="fundraiser-bar sidebar {{ extra_class }}"></div>
+    </div>
+  </div>
 
   <script type="text/javascript">
     $(document).ready(function () {
@@ -19,6 +23,7 @@
           recurring: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
         }
       };
+      champaign.overlayToggle = new champaign.OverlayToggle();
 
       var store = initializeStore();
       mountFundraiser('fundraiser-component', store, data);

@@ -34,13 +34,9 @@ export default class FieldShape extends Component {
     };
   }
 
-  fieldType() {
-    return this.props.field.data_type;
-  }
-
   renderField(type: string): React$Element<any> {
     const fieldProps = this.fieldProps();
-    const { field: { data_type, default_value, name } } = this.props;
+    const { field: { default_value, name } } = this.props;
 
     switch (type) {
       case 'email':
