@@ -39,5 +39,7 @@ module Champaign
     # We're using Redis as our cache. Configure that here.
     # we use 'redis' as the host name because that's configured by docker
     # during our setup as the host where our redis instance is stored.
+
+    config.webpack.config_file = Rails.root.join('config', 'frontend', 'webpack.config.prod.js')
   end
 end
