@@ -54,7 +54,8 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           type: 'subscription-payment',
           params: {
             recurring_id: 'foo',
-            success: 1
+            success: 1,
+            status: 'completed'
           }
         }
 
@@ -156,7 +157,8 @@ describe PaymentProcessor::Braintree::WebhookHandler do
         type: 'subscription-payment',
         params: {
           recurring_id: 'foo',
-          success: 0
+          success: 0,
+          status: 'failed'
         }
       }
       expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)

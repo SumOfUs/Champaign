@@ -99,7 +99,8 @@ describe 'Braintree API' do
             type: 'subscription-payment',
             params: {
               recurring_id: /[a-z0-9]{6}/,
-              success: 1
+              success: 1,
+              status: 'completed'
             }
           }
 
@@ -157,7 +158,8 @@ describe 'Braintree API' do
             type: 'subscription-payment',
             params: {
               recurring_id: /[a-z0-9]{6}/,
-              success: 1
+              success: 1,
+              status: 'completed'
             }
           }
 
