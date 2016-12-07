@@ -17,9 +17,7 @@ export default function loadTranslations(locale: string) {
 
 // Converts translations from Rails format to ReactIntl format.
 function sanitizeTranslations(translations) {
-  let reactTranslations = translateInterpolationFormat(translations);
-  reactTranslations = flattenTranslations(translations);
-  return reactTranslations;
+  return translateInterpolationFormat(flattenTranslations(translations));
 }
 
 // Translate interpolation format
