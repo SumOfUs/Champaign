@@ -12,9 +12,9 @@ export function changeStep(payload: number): FundraiserAction {
   return { type: 'change_step', payload };
 }
 
-export function updateUser(payload: FundraiserFormMember): FundraiserAction {
+export function updateForm(payload: FundraiserFormMember): FundraiserAction {
   return {
-    type: 'update_form_member',
+    type: 'update_form',
     payload: payload,
   };
 }

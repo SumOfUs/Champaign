@@ -42,21 +42,7 @@ declare type ChampaignPersonalizationData = {
   urlParams: { [key: string]: string };
 };
 
-declare type FundraiserFormMember = {
-  email: string;
-  name: string;
-  country: string;
-  postal: string;
-};
-
-declare type FundraiserForm = {
-  amount: ?number;
-  currency: ?string;
-  recurring: boolean;
-  storeInVault: boolean;
-  paymentMethodNonce: ?string;
-  deviceData: any;
-};
+declare type FundraiserForm = { [key: string]: any };
 
 declare type Field = any;
 
@@ -73,7 +59,6 @@ declare type FundraiserState = {
   storeInVault: boolean;
   paymentMethods: any[];
   currentPaymentType: ?string;
-  user: FundraiserFormMember;
   formId: number;
   pageId: string;
   form: FundraiserForm;
@@ -92,7 +77,7 @@ declare type FundraiserAction =
   | { type: 'set_recurring', payload: boolean }
   | { type: 'set_store_in_vault', payload: boolean }
   | { type: 'set_payment_type', payload: ?string }
-  | { type: 'update_form_member', payload: FundraiserFormMember }
+  | { type: 'update_form', payload: FundraiserForm }
   | { type: 'change_step', payload: number };
 
 declare type MemberState = {

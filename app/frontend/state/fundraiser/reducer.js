@@ -1,5 +1,4 @@
 /* @flow */
-
 const initialState: FundraiserState = {
   amount: null,
   currency: 'USD',
@@ -22,14 +21,7 @@ const initialState: FundraiserState = {
     country: '',
     postal: '',
   },
-  form: {
-    amount: null,
-    paymentMethodNonce: null,
-    currency: null,
-    recurring: false,
-    storeInVault: false,
-    deviceData: {},
-  }
+  form: {},
 };
 
 export function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
@@ -41,6 +33,8 @@ export function fundraiserReducer(state: FundraiserState = initialState, action:
         recurring: (action.payload.fundraiser.recurringDefault === 'only_recurring'),
         donationBands: initialState.donationBands
       };
+    case 'reset_member':
+      return { ...state, outstandingFields: state.fields.map(field => field.name) };
     case 'change_currency':
       return { ...state, currency: action.payload };
     case 'change_amount':
@@ -50,8 +44,8 @@ export function fundraiserReducer(state: FundraiserState = initialState, action:
     case 'proceed_step':
       const nextStep = state.currentStep + 1;
       return { ...state, currentStep: nextStep };
-    case 'update_form_member':
-      return { ...state, user: action.payload };
+    case 'update_form':
+      return { ...state, form: action.payload };
     case 'set_store_in_vault':
       return { ...state, storeInVault: action.payload };
     case 'set_payment_type':
