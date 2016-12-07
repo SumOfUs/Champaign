@@ -14,14 +14,14 @@ var filesize = require('filesize');
 var gzipSize = require('gzip-size').sync;
 var rimrafSync = require('rimraf').sync;
 var webpack = require('webpack');
-var config = require('../config/webpack.config.prod');
-var paths = require('../config/paths');
+var config = require('../config/frontend/webpack.config.prod');
+var paths = require('../config/frontend/paths');
 var checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 var recursive = require('recursive-readdir');
 var stripAnsi = require('strip-ansi');
 
 // Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
+if (!checkRequiredFiles([paths.appIndexJs])) {
   process.exit(1);
 }
 
@@ -68,9 +68,6 @@ recursive(paths.appBuild, (err, fileNames) => {
 
   // Start the webpack build
   build(previousSizeMap);
-
-  // Merge with the public folder
-  copyPublicFolder();
 });
 
 // Print a detailed summary of build files.
@@ -194,12 +191,5 @@ function build(previousSizeMap) {
       console.log('  ' + chalk.cyan(openCommand) + ' http://localhost:9000');
       console.log();
     }
-  });
-}
-
-function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appBuild, {
-    dereference: true,
-    filter: file => file !== paths.appHtml
   });
 }
