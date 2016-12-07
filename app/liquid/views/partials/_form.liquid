@@ -84,26 +84,6 @@
       </div>
     {% endfor %}
 
-    <div id="facebook_share-container">
-      <script type='text/template'>
-        <% var checked = enabled ? 'checked' : '' %>
-        <% var activeClass = message !== '' ? 'sweet-placeholder__label--active' : '' %>
-
-        <div class="sweet-placeholder">
-          <label class="sweet-placeholder__label <%= activeClass %>">
-            <%= I18n.t('facebook_share.comment_field_label') %>
-          </label>
-          <textarea name="fb_share_comment" class="form__content sweet-placeholder__field" id="" maxlength="3000"><%= message %></textarea>
-        </div>
-
-        <div class="form__group action-form__field-container">
-          <label class="checkbox-label">
-            <input type="checkbox" name="facebook_share" id='facebook_share_check' class="form__content"   <%= checked %> />Share on Facebook
-          </label>
-        </div>
-      </script>
-    </div>
-
     <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
 </form>
 <script type="text/javascript">
