@@ -40,6 +40,10 @@ class Plugins::Fundraiser < ActiveRecord::Base
     read_attribute(:recurring_default) > 0
   end
 
+  def set_as_pledger
+    update(pledge: true)
+  end
+
   def self.donation_default_for_page(page_id)
     plugin = Plugins::Fundraiser.find_by(page_id: page_id)
     plugin ? plugin.recurring? : false

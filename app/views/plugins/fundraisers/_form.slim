@@ -9,6 +9,14 @@
       .form-group
         = f.label :title, t('plugins.fundraiser.title')
         = f.text_field :title, class: 'form-control'
+      .checkbox
+        = f.label :pledge do
+          = f.check_box :pledge
+          = t('plugins.fundraiser.pledge')
+      .form-group
+        = f.label :pledge_target_in_actions, t('plugins.fundraiser.pledge_target')
+        = f.text_field :pledge_target_in_actions, class: 'form-control'
+
       .form-group
         = label_with_tooltip(f, :donation_band, t('plugins.fundraiser.donation_band'), t('tooltips.fundraiser.donation_band'))
         = f.select :donation_band_id, DonationBand.all.collect { |d| [d.name, d.id] }, {}, {class: 'form-control form-select'}

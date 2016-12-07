@@ -283,6 +283,8 @@ en:
       customise_form: "Edit survey section"
       create_form: "Add a new section to survey"
     fundraiser:
+      pledge: 'Accept donations as pledges'
+      pledge_target: 'Number of pledges to reach goal'
       donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"
       recurring_default: 'Default to recurring donation?'

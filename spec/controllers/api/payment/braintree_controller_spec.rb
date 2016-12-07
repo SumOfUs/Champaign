@@ -51,7 +51,7 @@ describe Api::Payment::BraintreeController do
         amount: params[:amount].to_f,
         user: params[:user],
         currency: params[:currency],
-        page_id: params[:page_id],
+        page: page,
         store_in_vault: false
       }
     end
