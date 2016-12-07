@@ -114,3 +114,6 @@ members:
 
 mixpanel:
   token: '1234'
+
+facebook:
+  pixel_id: ''

@@ -121,3 +121,6 @@ admins: <%= ENV['ADMIN_WHITELIST'] %>
 
 mixpanel:
   token: "<%= ENV['MIXPANEL_TOKEN'] %>"
+
+facebook:
+  pixel_id: <%= ENV['FACEBOOK_PIXEL_ID'] %>

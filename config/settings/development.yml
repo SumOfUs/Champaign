@@ -92,3 +92,6 @@ admins: ''
 
 mixpanel:
   token: ''
+
+facebook:
+  pixel_id: ''
