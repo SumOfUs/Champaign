@@ -4,13 +4,13 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import mapValues from 'lodash/mapValues';
 import Button from '../Button/Button';
-import { updateUser } from '../../state/fundraiser/actions';
+import { updateForm } from '../../state/fundraiser/actions';
 import FieldShape from '../FieldShape/FieldShape';
 
 import 'react-select/dist/react-select.css';
 
-type ConnectedState = { user: FundraiserFormMember; formId: number; };
-type ConnectedDispatch = { updateUser: (u: FundraiserFormMember) => void; };
+type ConnectedState = { form: FundraiserForm; formId: number; };
+type ConnectedDispatch = { updateForm: (form: FundraiserForm) => void; };
 type OwnProps = {
   buttonText?: React$Element<any> | string;
   proceed?: () => void;
@@ -26,7 +26,6 @@ export class MemberDetailsForm extends Component {
   state: {
     errors: any;
     loading: boolean;
-    formValues: any;
   };
 
   static title = <FormattedMessage id="details" defaultMessage="details" />;
@@ -39,25 +38,27 @@ export class MemberDetailsForm extends Component {
     this.state = {
       errors: {},
       loading: false,
-      formValues: this.prefill(),
     };
+
+    this.prefill();
   }
 
-  isValid(): boolean {
-    return !!(this.props.user.email );
+  getPrefillValue(name) {
+    if (!this.props.prefillValues) return null;
+
+    return this.props.prefillValues[name];
   }
 
   prefill() {
-    const formValues = {};
     for (const field of this.props.fields) {
-      formValues[field.name] = this.props.prefillValues[field.name] || field.default_value;
+      this.updateField(field.name, this.getPrefillValue(field.name) || field.default_value);
     }
-    for (const fieldName of this.HIDDEN_FIELDS) {
-      if (this.props.prefillValues[fieldName]) {
-        formValues[fieldName] = this.props.prefillValues[fieldName];
+
+    for (const name of this.HIDDEN_FIELDS) {
+      if (this.getPrefillValue(name)) {
+        this.updateField(name, this.props.prefillValues[name]);
       }
     }
-    return formValues;
   }
 
   getFieldError(field: string): FormattedMessage | void {
@@ -97,9 +98,10 @@ export class MemberDetailsForm extends Component {
   }
 
   updateField(key, value) {
-    const vals = this.state.formValues;
-    vals[key] = value;
-    this.setState({formValues: vals});
+    this.props.updateForm({
+      ...this.props.form,
+      [key]: value,
+    });
   }
 
   submit(e: SyntheticEvent) {
@@ -114,7 +116,7 @@ export class MemberDetailsForm extends Component {
         'content-type': 'application/json',
         accept: 'application/json',
       },
-      body: JSON.stringify({ ...this.state.formValues, form_id: this.props.formId }),
+      body: JSON.stringify({ ...this.props.form, form_id: this.props.formId }),
     }).then(response => {
       this.setState({ loading: false });
       if (response.ok) {
@@ -137,7 +139,7 @@ export class MemberDetailsForm extends Component {
               key={field.name}
               errorMessage={this.getFieldError(field.name)}
               onChange={(value) => this.updateField(field.name, value)}
-              value={this.state.formValues[field.name]}
+              value={this.props.form[field.name]}
               field={field} />
           )}
 
@@ -155,11 +157,11 @@ export class MemberDetailsForm extends Component {
 
 const mapStateToProps = (state: AppState): ConnectedState => ({
   formId: state.fundraiser.formId,
-  user: state.fundraiser.user,
+  form: state.fundraiser.form,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch): ConnectedDispatch => ({
-  updateUser: (user: FundraiserFormMember) => dispatch(updateUser(user)),
+  updateForm: (form: FundraiserForm) => dispatch(updateForm(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailsForm);

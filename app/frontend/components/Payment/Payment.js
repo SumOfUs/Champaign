@@ -60,21 +60,16 @@ export class Payment extends Component {
 
   componentDidMount() {
     // TODO: move to a service layer that returns a Promise
-    fetch('/api/payment/braintree/token')
-      .then(response => response.json())
+    $.get('/api/payment/braintree/token')
       .then(data => {
         braintreeClient.create({ authorization: data.token }, (error, client) => {
           // todo: handle err?
-          console.log('bt init error:', error);
           dataCollector.create({
             client,
             kount: true,
             paypal: true,
           }, (err, collectorInst) => {
-            if (err) {
-              console.log(err, collectorInst);
-              return;
-            }
+            if (err) { return this.setState({ client, loading: false }); }
 
             const deviceData = collectorInst.deviceData;
             this.setState({
@@ -93,11 +88,6 @@ export class Payment extends Component {
 
   resetMember() {
     this.props.resetMember();
-    this.props.changeStep(this.props.currentStep - 1);
-  }
-
-  paymentMethodReady() {
-    return this.state.paymentMethods[this.state.paymentMethod].ready;
   }
 
   paymentInitialized(name: string) {
@@ -105,17 +95,100 @@ export class Payment extends Component {
   }
 
   loading() {
-    return this.state.loading || this.state.initializing[this.props.currentPaymentType];
+    return this.state.loading || this.state.initializing[this.props.fundraiser.currentPaymentType];
   }
 
   disableSubmit() {
     return this.loading()
       || this.state.submitting
-      || !this.props.currentPaymentType
-      || !this.props.donationAmount;
+      || !this.props.fundraiser.currentPaymentType
+      || !this.props.fundraiser.donationAmount;
+  }
+
+  // this should actually be a selector (a fn that returns a slice of state)
+  donationData() {
+    const {
+      fundraiser: {
+        donationAmount,
+        currency,
+        recurring,
+        storeInVault,
+        form,
+      }
+    } = this.props;
+
+    return {
+      amount: donationAmount,
+      currency: currency,
+      recurring: recurring,
+      store_in_vault: storeInVault,
+      user: form,
+    };
+  }
+
+  delegate() {
+    const delegate = this.refs[this.props.fundraiser.currentPaymentType];
+
+    if (delegate && delegate.submit) {
+      return delegate;
+    } else if (delegate && delegate.getWrappedInstance().submit) {
+      return delegate.getWrappedInstance();
+    }
+
+    return null;
+  }
+
+  // to handle direct debit, which will probably be a bit different, we might need
+  // to tweak this
+  makePayment() {
+    const delegate = this.delegate();
+
+    this.setState({ submitting: true });
+
+    if (delegate && delegate.submit) {
+      delegate.submit().then(
+        success => this.submit(success),
+        reason => this.onError(reason),
+      );
+    } else {
+      this.submit();
+    }
+  }
+
+  submit(data) {
+    const payload = {
+      ...this.donationData(),
+      payment_method_nonce: data.nonce,
+      device_data: this.state.deviceData,
+    };
+
+    $.post(`/api/payment/braintree/pages/${this.props.fundraiser.pageId}/transaction`, payload)
+      .then(
+        success => this.onSuccess(success),
+        reason => this.onError(reason)
+      );
+  }
+
+  onSuccess(data) {
+    console.log('success:', data);
+  }
+
+  onError(reason) {
+    this.setState({ submitting: false });
   }
 
   render() {
+    const {
+      member,
+      fundraiser: {
+        currency,
+        donationAmount,
+        currentPaymentType,
+        recurring,
+        storeInVault,
+        disableRecurring,
+      }
+    } = this.props;
     return (
       <div className="Payment section">
         <WelcomeMember member={this.props.member} resetMember={() => this.resetMember()} />
@@ -128,7 +201,7 @@ export class Payment extends Component {
           <PaymentTypePill
             name="gocardless"
             disabled={this.state.loading}
-            checked={this.props.currentPaymentType === 'gocardless'}
+            checked={currentPaymentType === 'gocardless'}
             onChange={() => this.selectPaymentType('gocardless')}>
             <FormattedMessage
               id="fundraiser.debit.direct_debit"
@@ -138,7 +211,7 @@ export class Payment extends Component {
           <PaymentTypePill
             name="paypal"
             disabled={this.state.loading}
-            checked={this.props.currentPaymentType === 'paypal'}
+            checked={currentPaymentType === 'paypal'}
             onChange={() => this.selectPaymentType('paypal')}>
             PayPal
           </PaymentTypePill>
@@ -146,7 +219,7 @@ export class Payment extends Component {
           <PaymentTypePill
             name="card"
             disabled={this.state.loading}
-            checked={this.props.currentPaymentType === 'card'}
+            checked={currentPaymentType === 'card'}
             activeColor="#00c0cf"
             onChange={() => this.selectPaymentType('card')}>
             <FormattedMessage
@@ -158,14 +231,14 @@ export class Payment extends Component {
         <PayPal
           ref="paypal"
           client={this.state.client}
-          recurring={this.props.recurring}
+          recurring={recurring}
           onInit={() => this.paymentInitialized('paypal')} />
 
         <BraintreeCardFields
           ref="card"
           client={this.state.client}
-          recurring={this.props.recurring}
-          isActive={this.props.currentPaymentType === 'card'}
+          recurring={recurring}
+          isActive={currentPaymentType === 'card'}
           onInit={() => this.paymentInitialized('card')}
         />
 
@@ -177,8 +250,8 @@ export class Payment extends Component {
               <input
                 type="checkbox"
                 name="store_in_vault"
-                disabled={this.props.disableRecurring}
-                defaultChecked={this.props.recurring}
+                disabled={disableRecurring}
+                defaultChecked={recurring}
                 onChange={(e) => this.props.setRecurring(e.currentTarget.checked)}
               />
               <FormattedMessage
@@ -192,7 +265,7 @@ export class Payment extends Component {
               <input
                 type="checkbox"
                 name="store_in_vault"
-                defaultChecked={this.props.storeInVault}
+                defaultChecked={storeInVault}
                 onChange={(e) => this.props.setStoreInVault(e.currentTarget.checked)}
               />
               <FormattedMessage
@@ -213,8 +286,8 @@ export class Payment extends Component {
               values={{
                 amount: (
                   <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS}
-                    currency={this.props.currency}
-                    value={this.props.donationAmount || 0} />
+                    currency={currency}
+                    value={donationAmount || 0} />
                 )
               }} />
           }
@@ -230,88 +303,12 @@ export class Payment extends Component {
       </div>
     );
   }
-
-  donationData() {
-    return {
-      amount: this.props.donationAmount,
-      currency: this.props.currency,
-      recurring: this.props.recurring,
-      store_in_vault: this.props.storeInVault,
-      user: this.props.user,
-    };
-  }
-
-  delegate() {
-    const delegate = this.refs[this.props.currentPaymentType];
-
-    if (delegate && delegate.submit) {
-      return delegate;
-    } else if (delegate && delegate.getWrappedInstance().submit) {
-      return delegate.getWrappedInstance();
-    }
-
-    return null;
-  }
-
-  makePayment() {
-    const delegate = this.delegate();
-
-    this.setState({ submitting: true });
-
-    if (delegate && delegate.submit) {
-      console.log('calling delegated payment fn...');
-      delegate.submit().then(
-        success => this.submit(success),
-        reason => this.onError(reason),
-      );
-    } else {
-      console.log('calling calling submit directly...');
-      this.submit();
-    }
-  }
-
-  submit(data) {
-    console.log('submitting to chmpgn', data);
-    fetch(`/api/payment/braintree/pages/${this.props.pageId}/transaction`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        accept: 'application/json',
-      },
-      body: JSON.stringify({
-        ...this.donationData(),
-        payment_method_nonce: data.nonce,
-        device_data: this.state.deviceData,
-      })
-    })
-      .then(resp => resp.json(), reason => this.onError(reason))
-      .then(
-        success => this.onSuccess(success),
-        reason => this.onError(reason)
-      );
-  }
-
-  onSuccess(data) {
-    console.log('success:', data);
-  }
-
-  onError(reason) {
-    this.setState({ submitting: false });
-    console.log('failed with:', reason);
-  }
 }
 
 const mapStateToProps = (state: AppState) => ({
-  currency: state.fundraiser.currency,
-  donationAmount: state.fundraiser.donationAmount,
+  fundraiser: state.fundraiser,
   member: state.member,
-  user: state.fundraiser.user,
-  currentStep: state.fundraiser.currentStep,
-  recurring: state.fundraiser.recurring,
   disableRecurring: state.fundraiser.recurringDefault === 'only_recurring',
-  storeInVault: state.fundraiser.storeInVault,
-  currentPaymentType: state.fundraiser.currentPaymentType,
-  pageId: state.fundraiser.pageId,
 });
 
 const mapDispatchToProps = dispatch => ({
