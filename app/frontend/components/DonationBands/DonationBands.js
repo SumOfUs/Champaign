@@ -103,7 +103,7 @@ export class DonationBands extends Component {
           type="tel"
           ref="customAmount"
           id="DonationBands-custom-amount"
-          className="DonationBands-input styled"
+          className="DonationBands-input styled fundraiser-bar__custom-field"
           placeholder="Other"
           pattern={/^[0-9]+ff$/}
           value={this.state.customAmount || ''}
