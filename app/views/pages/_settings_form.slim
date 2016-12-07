@@ -23,11 +23,11 @@
         - if page.ak_petition_resource_uri.present?
           br
           - url = format_ak_ui_url(page.ak_petition_resource_uri, Settings.ak_ui_url)
-          = link_to t('pages.edit.ak_petition_link'), url, target: '_blank'
+          = link_to t('pages.edit.ak_petition_link', resource_id: ak_resource_id(page.ak_petition_resource_uri)), url, target: '_blank'
         - if page.ak_donation_resource_uri.present?
           br
           - url = format_ak_ui_url(page.ak_donation_resource_uri, Settings.ak_ui_url)
-          = link_to t('pages.edit.ak_donation_link'), url, target: '_blank'
+          = link_to t('pages.edit.ak_donation_link', resource_id: ak_resource_id(page.ak_donation_resource_uri)), url, target: '_blank'
 
     a data-toggle="collapse" data-target=".additional-settings" aria-expanded="false"
       = t('pages.edit.more_settings')
