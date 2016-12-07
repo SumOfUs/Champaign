@@ -15,7 +15,9 @@ module PagesHelper
   end
 
   def ak_resource_id(ak_resource_url)
-    %r{\/(\d+)\/?$}.match(ak_resource_url)[1]
+    match = %r{\/(\d+)\/?$}.match(ak_resource_url)
+    return unless match.present?
+    match[1]
   end
 
   def serialize(data, field)
