@@ -84,7 +84,7 @@ feature 'Express From Mailing Link' do
 
     expect(customer.reload.transactions.count).to eq(2)
     expect(Action.count).to eq(2)
-    expect(current_url).to match(%r{/foo-bar/follow-up\?member_id=#{customer.member.id}})
+    expect(current_url).to match(%r{/member_authentication/new})
   end
 
   scenario 'Cookied member makes a one-click donation' do

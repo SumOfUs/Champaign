@@ -60,7 +60,7 @@ module BraintreeServices
     end
 
     def page
-      @page = Page.find(params[:page_id])
+      @page ||= Page.find(params[:page_id])
     end
 
     def subscription_options

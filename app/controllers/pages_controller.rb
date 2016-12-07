@@ -35,7 +35,9 @@ class PagesController < ApplicationController
   end
 
   def show
-    if process_one_click
+    one_click_processor = process_one_click
+
+    if one_click_processor
 
       i18n_options = {
         amount: view_context.number_to_currency(
@@ -44,15 +46,26 @@ class PagesController < ApplicationController
         )
       }
 
-      flash[:notice] = t('fundraiser.thank_you_with_amount', i18n_options).html_safe
-      redirect_to PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
+      i18n_key = if one_click_processor.recurring?
+                   'fundraiser.recurring_thank_you_with_amount'
+                 else
+                   'fundraiser.thank_you_with_amount'
+                 end
+
+      flash[:notice] =
+        t(i18n_key, i18n_options).html_safe
+
+      redirect_to new_member_authentication_path(
+        email: recognized_member.email,
+        follow_up_url: PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
+      )
     else
       render_liquid(@page.liquid_layout, :show)
     end
   end
 
   def process_one_click
-    PaymentProcessor::Braintree::OneClickFromUri.new(
+    @prociess_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
       params,
       page: @page,
       member: recognized_member,
