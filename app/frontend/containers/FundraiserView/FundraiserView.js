@@ -48,7 +48,7 @@ export class FundraiserView extends Component {
   }
 
   proceed() {
-    this.props.changeStep(this.props.currentStep + 1);
+    this.props.changeStep(this.props.fundraiser.currentStep + 1);
   }
 
   submitDetails(payload: any) {
@@ -60,7 +60,20 @@ export class FundraiserView extends Component {
   }
 
   render() {
-    const { member, donationAmount, currency, currentStep } = this.props;
+    const {
+      member,
+      fundraiser: {
+        formId,
+        fields,
+        donationBands,
+        donationAmount,
+        donationFeaturedAmount,
+        currency,
+        currencies,
+        currentStep,
+        outstandingFields,
+      }
+    }  = this.props;
 
     return (
       <div id="fundraiser-view" className="FundraiserView-container">
@@ -69,9 +82,9 @@ export class FundraiserView extends Component {
             <AmountSelection
               donationAmount={donationAmount}
               currency={currency}
-              donationBands={this.props.donationBands}
-              donationFeaturedAmount={this.props.donationFeaturedAmount}
-              currencies={this.props.currencies}
+              donationBands={donationBands}
+              donationFeaturedAmount={donationFeaturedAmount}
+              currencies={currencies}
               nextStepTitle={ member ? 'payment' : MemberDetailsForm.title }
               changeCurrency={this.props.selectCurrency.bind(this)}
               selectAmount={amount => this.selectAmount(amount)}
@@ -79,14 +92,14 @@ export class FundraiserView extends Component {
             />
           </StepContent>
 
-          { this.props.outstandingFields.length !== 0 &&
+          { outstandingFields.length !== 0 &&
             <StepContent title="details">
               <MemberDetailsForm
                 buttonText={I18n.t('fundraiser.proceed_to_payment')}
-                fields={this.props.fields}
-                outstandingFields={this.props.outstandingFields}
-                prefillValues={this.props.member}
-                formId={this.props.formId}
+                fields={fields}
+                outstandingFields={outstandingFields}
+                prefillValues={member}
+                formId={formId}
                 proceed={this.proceed.bind(this)}
               />
             </StepContent> }
@@ -101,19 +114,8 @@ export class FundraiserView extends Component {
 }
 
 export const mapStateToProps = (state: AppState) => ({
+  fundraiser: state.fundraiser,
   member: state.member,
-  amount: state.fundraiser.amount,
-  title: state.fundraiser.title,
-  currency: state.fundraiser.currency,
-  currencies: state.fundraiser.currencies,
-  currentStep: state.fundraiser.currentStep,
-  donationBands: state.fundraiser.donationBands,
-  donationAmount: state.fundraiser.donationAmount,
-  recurring: state.fundraiser.recurring,
-  fields: state.fundraiser.fields,
-  outstandingFields: state.fundraiser.outstandingFields,
-  formId: state.fundraiser.formId,
-  storeInVault: state.fundraiser.storeInVault,
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
