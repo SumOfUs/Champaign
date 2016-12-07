@@ -1,4 +1,5 @@
 import React, { Component, Children } from 'react';
+import classnames from 'classnames';
 
 type OwnProps = {
   visible: boolean;
@@ -10,11 +11,12 @@ export default class StepContent extends Component {
 
   render() {
     const { children, visible } = this.props;
-
-    if (!visible) return null;
-
+    const className = classnames({
+      StepContent: true,
+      'StepContent-hidden': !visible,
+    });
     return (
-      <div className="StepContent-root">
+      <div className={className}>
         {Children.only(children)}
       </div>
     );
