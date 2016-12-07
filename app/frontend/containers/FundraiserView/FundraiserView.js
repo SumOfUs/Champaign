@@ -76,8 +76,8 @@ export class FundraiserView extends Component {
     }  = this.props;
 
     return (
-      <div id="fundraiser-view" className="FundraiserView-container">
-        <StepWrapper title={this.props.title} currentStep={currentStep} changeStep={this.props.changeStep}>
+      <div id="fundraiser-view" className="FundraiserView-container form--big">
+        <StepWrapper title={this.props.fundraiser.title} currentStep={currentStep} changeStep={this.props.changeStep}>
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <AmountSelection
               donationAmount={donationAmount}
