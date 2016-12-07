@@ -36,7 +36,8 @@ class Payment::Braintree::Transaction < ActiveRecord::Base
       type: 'subscription-payment',
       params: {
         recurring_id: subscription.try(:action).form_data['subscription_id'],
-        success: status == 'success' ? 1 : 0
+        success: status == 'success' ? 1 : 0,
+        status: status == 'success' ? 'completed' : 'failed'
       }
     }, { delay: 120 })
   end
