@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import SweetInput from '../SweetInput/SweetInput';
 import SelectCountry from '../SelectCountry';
+import SweetSelect from '../SweetSelect/SweetSelect';
 import Select from 'react-select';
 
 type Field = {
@@ -28,7 +29,7 @@ export default class FieldShape extends Component {
       label: field.label,
       disabled: field.disabled,
       required: field.required,
-      value: value || field.default_value,
+      value: value,
       errorMessage: this.props.errorMessage,
       onChange: this.props.onChange,
     };
@@ -47,12 +48,14 @@ export default class FieldShape extends Component {
       case 'country':
         return <SelectCountry {...fieldProps} />;
       case 'dropdown':
-        return <Select {...fieldProps} options={this.props.field.choices} />;
+      case 'select':
+        return <SweetSelect {...fieldProps} options={this.props.field.choices} />;
       case 'hidden':
         return <input type="hidden" name={name} value={default_value} />;
       case 'checkbox':
       case 'choice':
-        return <p>{data_type} pending implementation</p>;
+      case 'instruction':
+        return <div className="form__instruction">{ fieldProps.label }</div>;
       case 'text':
       case 'postal':
       default:

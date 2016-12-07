@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import Select from 'react-select';
+import SweetSelect from './SweetSelect/SweetSelect';
 import countryData from 'country-data/data/countries.json';
 import sortBy from 'lodash/sortBy';
 
@@ -23,7 +23,7 @@ const countries = sortBy(countryData
 
 export default function SelectCountry(props: Props) {
   return (
-    <Select
+    <SweetSelect
       {...props}
       options={props.options || countries}
       onChange={item => props.onChange && props.onChange(item.value)}
