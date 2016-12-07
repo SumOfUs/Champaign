@@ -9,7 +9,7 @@ type Props = {
   value?: string;
   onChange: (value: any) => void;
   options?: any[];
-  placeholder?: string | React$Element<any>;
+  placeholder?: React$Element<any>;
   disabled?: boolean;
   multiple?: boolean;
   errorMessage?: string;
@@ -61,6 +61,7 @@ export default class SweetSelect extends Component {
           openOnFocus={true}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
+          onChange={this.onChange.bind(this)}
         />
         <span className="error-msg">{this.props.errorMessage}</span>
       </div>

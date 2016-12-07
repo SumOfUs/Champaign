@@ -11,7 +11,7 @@ type Props = {
   value?: string;
   onChange: (value: any) => void;
   options?: Country[];
-  placeholder?: string | React$Element<any>;
+  placeholder?: React$Element<any>;
   disabled?: boolean;
   multiple?: boolean;
 };
@@ -26,7 +26,12 @@ export default function SelectCountry(props: Props) {
     <SweetSelect
       {...props}
       options={props.options || countries}
-      onChange={item => props.onChange && props.onChange(item.value)}
+      onChange={item => {
+        if (props.onChange) {
+          const value = item ? item.value : '';
+          props.onChange(value);
+        }
+      }}
     />
   );
 }
