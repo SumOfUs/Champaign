@@ -15,7 +15,7 @@ module PagesHelper
   end
 
   def ak_resource_id(ak_resource_url)
-    /\/([^\/]*)\/$/.match(ak_resource_url)[1]
+    %r{\/(\d+)\/?$}.match(ak_resource_url)[1]
   end
 
   def serialize(data, field)
