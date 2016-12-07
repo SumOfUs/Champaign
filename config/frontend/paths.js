@@ -26,7 +26,7 @@ const nodePaths = (process.env.NODE_PATH || '')
 
 // config after eject: we're in ./config/
 module.exports = {
-  appBuild: resolveApp('public/dist'),
+  appBuild: resolveApp('public/webpack'),
   appPublic: resolveApp('public'),
   appIndexJs: resolveApp('app/frontend/components.js'),
   appPackageJson: resolveApp('package.json'),
