@@ -131,6 +131,16 @@ class Page < ActiveRecord::Base
     language&.code || I18n.default_locale
   end
 
+  def pledger?
+    @fundraiser ||= Plugins::Fundraiser.find_by(page_id: id)
+
+    @fundraiser.try(:pledge) || false
+  end
+
+  def set_as_pledger
+    Plugins::Fundraiser.find_by(page_id: id).set_as_pledger
+  end
+
   private
 
   def switch_plugins

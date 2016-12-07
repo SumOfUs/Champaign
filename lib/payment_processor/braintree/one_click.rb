@@ -2,12 +2,12 @@
 
 module PaymentProcessor::Braintree
   class OneClick
-    attr_reader :params, :payment_options
+    attr_reader :params, :payment_options, :pledge
 
-    def initialize(params, member = nil)
+    def initialize(params, pledge: false)
       @params = params
-      @payment_options = BraintreeServices::PaymentOptions.new(params)
-      @member = member
+      @payment_options = BraintreeServices::PaymentOptions.new(params, pledge)
+      @pledge = pledge
     end
 
     def run
@@ -78,7 +78,7 @@ module PaymentProcessor::Braintree
         amount: payment_options.amount,
         merchant_account_id: payment_options.merchant_account_id,
         options: {
-          submit_for_settlement: true
+          submit_for_settlement: !pledge
         }
       )
     end

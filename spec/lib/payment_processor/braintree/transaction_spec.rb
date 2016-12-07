@@ -24,14 +24,14 @@ module PaymentProcessor
             amount: 100,
             currency: 'USD',
             user: { email: 'test@example.com', name: 'Bob' },
-            page_id: 1,
+            page: Page.new,
             device_data: { foo: 'bar' }
           }
         end
 
         subject { described_class }
 
-        [:nonce, :amount, :currency, :user, :page_id].each do |keyword|
+        [:nonce, :amount, :currency, :user, :page].each do |keyword|
           it "requires a #{keyword}" do
             expect do
               required_options.delete(keyword)

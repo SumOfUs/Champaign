@@ -36,7 +36,7 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def one_click
-    @result = client::OneClick.new(params).run
+    @result = client::OneClick.new(params, pledge: page.pledger?).run
     render status: :unprocessable_entity unless @result.success?
   end
 
@@ -48,7 +48,7 @@ class Api::Payment::BraintreeController < PaymentController
       amount: params[:amount].to_f,
       user: params[:user].merge(mobile_value),
       currency: params[:currency],
-      page_id: params[:page_id],
+      page: page,
       store_in_vault: store_in_vault?
     }
   end

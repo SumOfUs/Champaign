@@ -27,7 +27,8 @@ module BraintreeServices
         processor_response_code:         transaction.processor_response_code,
         customer_id:                     payment_options.customer.customer_id,
         payment_method:                  payment_options.payment_method,
-        page_id:                         payment_options.page.id
+        page_id:                         payment_options.page.id,
+        pledge:                          payment_options.pledge
       }
     end
   end

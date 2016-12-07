@@ -1,0 +1,146 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/customers
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <customer>
+        </customer>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 09 Dec 2016 16:15:22 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"1be9a0c38de94d2381708ac748436a8e"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - a0e22b67-019f-40ef-be43-68b5e2f25890
+      X-Runtime:
+      - '0.220278'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJrYSlgAA5SRwW6DMBBE7/kKy3cXbFHSRIbc+gXppbcFb4IlbJC9JCFf
+        X0KjpBLtoceZ59kdrfXu4lp2whBt5wsuX1LO0Nedsf5Y8I/9u3jju3Kl6yFS
+        5zCUK8a0NWWWrjOpsrVOJnHzJlY34ElMOvfH6tyMVDXhurmqoJOf9Pb6YEMk
+        4cEh87YtOIUBeTKjFv4ided68OPCRwe2Xbh90/nljANcFt4Zq2jpl30BgdAI
+        IEZjjwU3kyTrkJcqlbmQSqSbvcy38nWr1KdOnoE5P/Tmf/ln4Hv/fHNxsNia
+        +KhkLIkagon3oRACjPfGYEzAGHHBpm6PD/wCAAD//wMAUPwy5fMBAAA=
+    http_version: 
+  recorded_at: Fri, 09 Dec 2016 16:15:22 GMT
+- request:
+    method: post
+    uri: https://api.sandbox.braintreegateway.com/merchants/<merchant_id>/payment_methods
+    body:
+      encoding: UTF-8
+      string: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <payment-method>
+          <customer-id>40741247</customer-id>
+          <payment-method-nonce>fake-paypal-future-nonce</payment-method-nonce>
+        </payment-method>
+    headers:
+      Accept-Encoding:
+      - gzip
+      Accept:
+      - application/xml
+      User-Agent:
+      - Braintree Ruby Gem 2.54.0
+      X-Apiversion:
+      - '4'
+      Authorization:
+      - Basic djlmcGMyZ3pxZnh4NDVucTo0MWFlNWIxOGJlNTRjNTdjN2NiZmQyMTYxNDcxN2M2ZA==
+      Content-Type:
+      - application/xml
+  response:
+    status:
+      code: 201
+      message: Created
+    headers:
+      Date:
+      - Fri, 09 Dec 2016 16:15:23 GMT
+      Content-Type:
+      - application/xml; charset=utf-8
+      Transfer-Encoding:
+      - chunked
+      X-Frame-Options:
+      - SAMEORIGIN
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Authentication:
+      - basic_auth
+      X-User:
+      - 2vtm97htjg9x4v78
+      Vary:
+      - Accept-Encoding
+      Content-Encoding:
+      - gzip
+      Etag:
+      - W/"f80ccff886bfadd8904f478c500994d7"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - ef64156d-95c7-4b2e-8d2f-bac1616bbba0
+      X-Runtime:
+      - '0.197216'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAJvYSlgAA5SSy3LjIBBF9/kKFXuE5XjijAvJWeULMpvZpFqiLZNAQwHK
+        WH8/YHnKeW1mSffpx72N3J+sqd4wRO2oZU29YhXS4JSmsWW/nh75Pdt3N9LD
+        7MFwGAY3Uepuqkr22phMcRgDokVKXKuKtGlZChMycYaGgJBQcUhVmj22TOVn
+        0hZZt141d7xZ89XPp+Zu1/zYrW9/S3EtWOqnmJzFkHt3m9V206w32wy9ixZK
+        4QEm829E75xBINaVPaS4JM8gWtCmewHCWjl8wBNYb7AenJViyRVKWxiRT8F0
+        x5R83AkBMWKKdR9AU8pyx7zjH5hLocjWFPXPFtPRqWfjRicWu2pP4x7pTQdH
+        BWkjkOrdSYrrhDIvTn0cgvYp3yBeREAIMF9MTO4Vqdu+evKzFMurxCev/s/c
+        a8GiM/LhCERouCaddMl99vAAJmYTv0PPPbLScgc6uC+3N9rqMm2KyF1Q53N9
+        hKT4/K/+AgAA//8DALWkuDCQAgAA
+    http_version: 
+  recorded_at: Fri, 09 Dec 2016 16:15:23 GMT
+recorded_with: VCR 3.0.3

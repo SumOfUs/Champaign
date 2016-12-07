@@ -25,18 +25,18 @@ module PaymentProcessor
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
       attr_reader :action, :result
 
-      def self.make_subscription(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false, device_data: {})
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data)
+      def self.make_subscription(nonce:, amount:, currency:, user:, page:, store_in_vault: false, device_data: {})
+        builder = new(nonce, amount, currency, user, page, store_in_vault, device_data)
         builder.subscribe
         builder
       end
 
-      def initialize(nonce, amount, currency, user, page_id, store_in_vault, device_data)
+      def initialize(nonce, amount, currency, user, page, store_in_vault, device_data)
         @amount = amount
         @nonce = nonce
         @user = user
         @currency = currency
-        @page_id = page_id
+        @page_id = page.id
         @store_in_vault = store_in_vault
         @device_data = device_data
       end

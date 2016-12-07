@@ -6,9 +6,9 @@ module Payment::Braintree
     end
 
     # TODO: Why don't we have an options hash at the end?
-    # def write_transaction(bt_result, page_id, member_id, existing_customer, options = {})
-    def write_transaction(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault: false)
-      BraintreeTransactionBuilder.build(bt_result, page_id, member_id, existing_customer, save_customer, store_in_vault: store_in_vault)
+    # def write_transaction(bt_result, page, member_id, existing_customer, options = {})
+    def write_transaction(bt_result, page, member_id, existing_customer, save_customer = true, store_in_vault: false)
+      BraintreeTransactionBuilder.build(bt_result, page, member_id, existing_customer, save_customer, store_in_vault: store_in_vault)
     end
 
     def write_subscription(payment_method_id, customer_id, subscription_result, page_id, action_id, currency)
@@ -112,20 +112,20 @@ module Payment::Braintree
     # * +:bt_result+   - A Braintree::Transaction response object or a Braintree::Subscription response
     #                    (see https://developers.braintreepayments.com/reference/response/transaction/ruby)
     #                    or a Braintree::WebhookNotification
-    # * +:page_id+     - the id of the Page to associate with the transaction record
+    # * +:page+        - the Page to associate with the transaction record
     # * +:member_id+   - the member_id to associate with the customer record
     # * +:existing_customer+ - if passed, this customer is updated instead of creating a new one
     # * +:save_customer+     - optional, default true. whether to save the customer info too
     #
     #
 
-    def self.build(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault = false)
-      new(bt_result, page_id, member_id, existing_customer, save_customer, store_in_vault).build
+    def self.build(bt_result, page, member_id, existing_customer, save_customer = true, store_in_vault = false)
+      new(bt_result, page, member_id, existing_customer, save_customer, store_in_vault).build
     end
 
-    def initialize(bt_result, page_id, member_id, existing_customer, save_customer = true, store_in_vault: false)
+    def initialize(bt_result, page, member_id, existing_customer, save_customer = true, store_in_vault: false)
       @bt_result = bt_result
-      @page_id = page_id
+      @page = page
       @member_id = member_id
       @existing_customer = existing_customer
       @save_customer = save_customer
@@ -187,7 +187,8 @@ module Payment::Braintree
         customer_id:                     @customer.try(:customer_id),
         status:                          status,
         payment_method_id:               @local_payment_method_id,
-        page_id:                         @page_id
+        page:                            @page,
+        pledge:                          @page.pledger?
       }.tap do |data|
         if transaction.try(:subscription_id)
           data[:subscription] = Payment::Braintree::Subscription.find_by_subscription_id(transaction.subscription_id)
