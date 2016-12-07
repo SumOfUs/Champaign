@@ -7,10 +7,14 @@ const initialState: FundraiserState = {
   donationBands: [1, 2, 5, 10, 25],
   donationAmount: null,
   currentStep: 0,
+  recurringDefault: 'one_off',
   recurring: false,
   storeInVault: false,
+  currentPaymentType: null,
   paymentMethods: [],
+  pageId: '',
   title: '',
+  fields: {},
   formId: 4,
   user: {
     email: '',
@@ -31,7 +35,12 @@ const initialState: FundraiserState = {
 export function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
   switch (action.type) {
     case 'parse_champaign_data':
-      return { ...initialState, ...action.payload.fundraiser, donationBands: initialState.donationBands };
+      return {
+        ...initialState,
+        ...action.payload.fundraiser,
+        recurring: (action.payload.fundraiser.recurringDefault === 'only_recurring'),
+        donationBands: initialState.donationBands
+      };
     case 'change_currency':
       return { ...state, currency: action.payload };
     case 'change_amount':
@@ -45,6 +54,8 @@ export function fundraiserReducer(state: FundraiserState = initialState, action:
       return { ...state, user: action.payload };
     case 'set_store_in_vault':
       return { ...state, storeInVault: action.payload };
+    case 'set_payment_type':
+      return { ...state, currentPaymentType: action.payload };
     case 'set_recurring':
       return { ...state, recurring: action.payload };
     default:

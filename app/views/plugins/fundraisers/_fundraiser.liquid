@@ -13,6 +13,7 @@
         paymentMethods: global.paymentMethods,
         locale: '{{locale}}',
         fundraiser: {
+          pageId: "{{ id }}",
           amount: global.urlParams.amount,
           donationBands: global.donationBands,
           showDirectDebit: global.showDirectDebit,
@@ -20,7 +21,7 @@
           outstandingFields: global.outstandingFields,
           title: "{{ plugins.fundraiser[ref].title }}",
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
-          recurring: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
         }
       };
       champaign.overlayToggle = new champaign.OverlayToggle();
