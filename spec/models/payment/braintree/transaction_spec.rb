@@ -106,7 +106,8 @@ describe Payment::Braintree::Transaction do
         type: 'subscription-payment',
         params: {
           recurring_id: 'subscription_id',
-          success: 1
+          success: 1,
+          status: 'completed'
         }
       }
       expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
