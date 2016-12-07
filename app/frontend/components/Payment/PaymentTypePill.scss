@@ -1,0 +1,23 @@
+.PaymentTypePill {
+  display: block;
+  background: #989898;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  color: white;
+}
+.PaymentTypePill--active {
+  background-color: #199ad7;
+}
+
+.PaymentTypePill__label {
+  cursor: pointer;
+  display: block;
+  padding: 15px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.PaymentTypePill__label input {
+  margin: 0 10px 0 5px;
+}
+

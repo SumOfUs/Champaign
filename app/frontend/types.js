@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @flow
 // temp global i18n
 declare var I18n: any;
@@ -32,8 +33,8 @@ declare type ChampaignLocation = {
   longitude: string;
 };
 declare type ChampaignPersonalizationData = {
-  actionCount: number;
-  donationBands: ChampaignDonationBands;
+  fundraiser: Object;
+  locale: string;
   location: ChampaignLocation;
   member: ?ChampaignMember;
   paymentMethods: ChampaignPaymentMethod[];
@@ -68,10 +69,13 @@ declare type FundraiserState = {
   donationAmount: ?number;
   currentStep: number;
   recurring: boolean;
+  recurringDefault: 'one_off' | 'recurring' | 'only_recurring';
   storeInVault: boolean;
   paymentMethods: any[];
+  currentPaymentType: ?string;
   user: FundraiserFormMember;
   formId: number;
+  pageId: string;
   form: FundraiserForm;
   fields: { [key: string]: Field }
 };
@@ -80,28 +84,32 @@ declare type InitialAction = {
   type: 'parse_champaign_data';
   payload: ChampaignPersonalizationData;
 };
+
 declare type FundraiserAction =
   InitialAction
   | { type: 'change_currency', payload: string }
   | { type: 'change_amount',  payload: ?number }
+  | { type: 'set_recurring', payload: boolean }
+  | { type: 'set_store_in_vault', payload: boolean }
+  | { type: 'set_payment_type', payload: ?string }
   | { type: 'update_form_member', payload: FundraiserFormMember }
   | { type: 'change_step', payload: number };
 
 declare type MemberState = {
   id: number;
   email: string;
-  country: ?string;
-  name: ?string;
-  firstName: ?string;
-  lastName: ?string;
-  fullName: ?string;
-  welcomeName: ?string;
-  postal: ?string;
+  country?: string;
+  name?: string;
+  firstName?: string;
+  lastName?: string;
+  fullName?: string;
+  welcomeName?: string;
+  postal?: string;
   donorStatus: 'donor' | 'non_donor' | 'recurring_donor';
   registered: boolean;
-  actionKitUserId: ?string;
-  createdAt: ?string;
-  updatedAt: ?string;
+  actionKitUserId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 } | null;
 
 declare type MemberAction =
