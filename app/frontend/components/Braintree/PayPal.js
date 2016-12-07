@@ -1,13 +1,13 @@
 // @flow
-import React, { Component } from 'react';
+import { Component } from 'react';
 import paypal from 'braintree-web/paypal';
-import type { PayPalInstance, PayPalTokenizePayload } from 'braintree-web/paypal';
+import type { PayPalInstance, PayPalTokenizePayload, PayPalFlow } from 'braintree-web/paypal';
 
 type OwnProps = {
   client: BraintreeClient;
-  flow: 'checkout' | 'vault';
-  onSuccess: (payload: PayPalTokenizePayload) => void;
-  onClick?: () => void;
+  recurring: boolean;
+  onInit?: () => void;
+  onFailure?: (data: any) => void;
 };
 
 export default class PayPal extends Component {
@@ -26,15 +26,12 @@ export default class PayPal extends Component {
   }
 
   componentDidMount() {
-    console.log('paypal component did mount');
-    // create client instance
-    const { client } = this.props;
-    this.createPayPalInstance(client);
+    this.createPayPalInstance(this.props.client);
   }
 
   componentWillReceiveProps(newProps: OwnProps) {
-    if (newProps.client) {
-      paypal.create({ client: newProps.client }, this.onPayPalCreate.bind(this));
+    if (newProps.client !== this.props.client) {
+      this.createPayPalInstance(newProps.client);
     }
   }
 
@@ -45,41 +42,37 @@ export default class PayPal extends Component {
   onPayPalCreate(error: any, paypalInstance: any) {
     if (error) return;
 
-    console.log('paypal created, setting disabled to false');
-    this.setState({ paypalInstance, disabled: false });
+    this.setState({ paypalInstance, disabled: false }, () => {
+      if (this.props.onInit) {
+        this.props.onInit();
+      }
+    });
   }
 
-  onClick() {
-    const paypalInstance = this.state.paypalInstance;
-
-    if (!paypalInstance) return;
-
-    paypalInstance.tokenize({
-      flow: this.props.flow,
-    }, this.tokenizeCallback.bind(this));
-  }
-
-  tokenizeCallback(error: ?BraintreeError, payload: PayPalTokenizePayload) {
-    if (error) {
-      console.log('error during tokenize', error);
-      return;
+  componentWillUnmount() {
+    if (this.state.paypalInstance) {
+      this.state.paypalInstance.teardown();
     }
+  }
 
-    console.log('tokenize payload:', payload);
-    this.props.onSuccess(payload);
+  flow(): PayPalFlow {
+    if (this.props.recurring) return 'vault';
+    return 'checkout';
+  }
+
+  submit() {
+    const paypalInstance = this.state.paypalInstance;
+    return new Promise((resolve, reject) => {
+      if (!paypalInstance) return reject();
+
+      paypalInstance.tokenize({ flow: this.flow() }, (error: ?BraintreeError, payload: PayPalTokenizePayload) => {
+        if (error) return reject(error);
+        resolve(payload);
+      });
+    });
   }
 
   render() {
-    return (
-      <div className="BraintreePayPal-root" onClick={this.props.onClick}>
-        <button
-          className="BraintreePayPal-button"
-          disabled={this.state.disabled}
-          onClick={this.onClick.bind(this)}>
-          <input type="radio" name="paypal-radio"/>
-          <label htmlFor="paypal-radio">PayPal</label>
-        </button>
-      </div>
-    );
+    return null;
   }
 }

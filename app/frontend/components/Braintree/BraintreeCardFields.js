@@ -1,18 +1,22 @@
 // @flow
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
-import type { HostedFieldsInstance } from 'braintree-web/hosted-fields';
+import type { HostedFieldsInstance, HostedFieldsTokenizePayload } from 'braintree-web/hosted-fields';
 import './Braintree.scss';
 
 type OwnProps = {
   client: ?BraintreeClient;
-  onClick: () => void;
   isActive: boolean;
+  recurring: boolean;
+  intl: any;
+  onInit?: () => void;
+  onSuccess?: (data: any) => void;
+  onFailure?: (data: any) => void;
 };
 
-export default class BraintreeCardFields extends Component {
+class BraintreeCardFields extends Component {
   props: OwnProps;
 
   state: {
@@ -35,95 +39,100 @@ export default class BraintreeCardFields extends Component {
   }
 
   componentWillReceiveProps(newProps: OwnProps) {
-    if (newProps.client) {
+    if (newProps.client !== this.props.client) {
       this.createHostedFields(newProps.client);
     }
   }
 
+  componentWillUnmount() {
+    if (this.state.hostedFields) {
+      this.state.hostedFields.teardown();
+    }
+  }
 
   createHostedFields(client: BraintreeClient) {
+    const formatMessage = this.props.intl.formatMessage;
     hostedFields.create({
       client,
       styles: {
         input: {
+          color: '#ccc',
           'font-size': '16px',
-          'font-family': 'courier, monospace',
-          'font-weight': 'lighter',
-          'color': '#ccc'
         },
-        ':focus': {
-          'color': 'black'
-        },
-        '.valid': {
-          'color': '#8bdda8'
-        }
+        ':focus': { color: '#333' },
+        '.valid': { color: '#333' },
       },
       fields: {
         number: {
-          selector: '#card-number',
-          placeholder: 'Credit card number'
+          selector: '#braintree-card-number',
+          placeholder: formatMessage({ id: 'fundraiser.fields.number', defaultMessage: 'Card number' }),
         },
         cvv: {
-          selector: '#cvv',
-          placeholder: 'Security code'
+          selector: '#braintree-cvv',
+          placeholder: formatMessage({ id: 'fundraiser.fields.cvv', defaultMessage: 'CVV' }),
         },
         expirationDate: {
-          selector: '#expiration-date',
-          placeholder: 'MM/YY'
+          selector: '#braintree-expiration-date',
+          placeholder: formatMessage({ id: 'fundraiser.fields.expiration_format', defaultMessage: 'MM/YY' }),
         },
       }
     }, (err, hostedFieldsInstance) => {
-      this.setState({ hostedFields: hostedFieldsInstance });
+      this.setState({ hostedFields: hostedFieldsInstance }, () => {
+        if (this.props.onInit) {
+          this.props.onInit();
+        }
+      });
     });
   }
 
-  teardown(event: SyntheticEvent) {
-    event.preventDefault();
-
-    if (!this.state.hostedFields) return null;
+  teardown() {
     console.log('teardown...');
+    if (!this.state.hostedFields) return null;
+    this.state.hostedFields.teardown(() => this.createHostedFields(this.props.client));
   }
 
-  afterTeardown() {
-    this.createHostedFields();
-    this.setState({ hostedFields: null });
-  }
+  submit(event?: SyntheticEvent) {
+    if (event) event.preventDefault();
 
-  revealHostedFields(value: boolean) {
+    return new Promise((resolve, reject) => {
+      if (!this.state.hostedFields) return reject();
+
+      this.state.hostedFields.tokenize({
+        vault: this.props.recurring,
+      }, (error: ?BraintreeError, data: HostedFieldsTokenizePayload) => {
+        if (error) return reject(error);
+        this.teardown();
+        resolve(data);
+        console.log('success hosted fields:', data);
+      });
+    });
   }
 
   render() {
+    const prefix = 'BraintreeCardFields';
     const classNames = classnames({
-      'BraintreeCardFields--root': true,
-      active: this.props.isActive,
+      [prefix]: true,
+      [`${prefix}--active`]: this.props.isActive,
     });
 
     return (
       <div className={classNames}>
-        <button onClick={this.props.onClick}>
-          <FormattedMessage
-            id="credit_or_debit_card"
-            defaultMessage="Credit or Debit Card"
-          />
-        </button>
+        <form
+          id="braintree-hosted-fields-form"
+          className="BraintreeCardFields__form"
+          method="post"
+          onSubmit={this.submit.bind(this)}>
 
-        <div className="BraintreeCardFields--form-container">
-          <form method="post" id="cardForm" onSubmit={this.teardown.bind(this)}>
-            <label className="hosted-fields--label" htmlFor="card-number">Card Number</label>
-            <div id="card-number" className="hosted-field"></div>
+          <div id="braintree-card-number" className="BraintreeCardFields__hosted-field BraintreeCardFields__card-number"></div>
+          <div className="BraintreeCardFields__row">
+            <div id="braintree-cvv" className="BraintreeCardFields__hosted-field BraintreeCardFields__cvv"></div>
+            <div id="braintree-expiration-date" className="BraintreeCardFields__hosted-field BraintreeCardFields__expiration-date"></div>
+          </div>
 
-            <label className="hosted-fields--label" htmlFor="expiration-date">Expiration Date</label>
-            <div id="expiration-date" className="hosted-field"></div>
-
-            <label className="hosted-fields--label" htmlFor="cvv">CVV</label>
-            <div id="cvv" className="hosted-field"></div>
-
-            <div className="button-container">
-            <input type="submit" className="button button--small button--green" value="Purchase" id="submit"/>
-            </div>
-          </form>
-        </div>
+        </form>
       </div>
     );
   }
 }
+
+export default injectIntl(BraintreeCardFields, { withRef: true });

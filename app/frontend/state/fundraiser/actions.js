@@ -19,6 +19,18 @@ export function updateUser(payload: FundraiserFormMember): FundraiserAction {
   };
 }
 
+export function setRecurring(payload: boolean = false): FundraiserAction {
+  return { type: 'set_recurring', payload };
+}
+
+export function setStoreInVault(payload: boolean = false): FundraiserAction {
+  return { type: 'set_store_in_vault', payload };
+}
+
+export function setPaymentType(payload: ?string = null): FundraiserAction {
+  return { type: 'set_payment_type', payload };
+}
+
 export function submitDetails(details: any): Function {
   return (dispatch: Dispatch) => {
 
