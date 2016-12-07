@@ -88,7 +88,6 @@ en:
   time:
     formats:
       default: "%-d %B %Y"
-
   reset_passwords:
     new:
       title: 'Reset your password'
@@ -110,7 +109,6 @@ en:
     success:
       title: 'Your new password was successfully saved'
       description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
-
   reset_password_mailer:
     reset_password_email:
       subject: 'Please reset your password'
