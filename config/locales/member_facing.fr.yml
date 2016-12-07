@@ -5,23 +5,12 @@ fr:
   basics:
     or: ou
   branding:
-    tagline: L’humain avant le profit
-    license: Creative Commons Attribution 3.0 Unported License.
-    description: "SumOfUs est un mouvement mondial de personnes comme vous, qui travaillent ensemble afin de responsabiliser les entreprises et de tracer une nouvelle voie durable pour l’économie mondiale."
-  member_registration:
-    form:
-      password: Password
-      confirm_password: Confirm Password
-      your_email: Your email
-      register: Register
-    enter_password_message: "Just enter a password to get started"
-    create_account: "Now, create an account to finalize your donation."
-    create_account_explanation: "Creating an account takes 30 seconds, and allows you to securely manage your donations and payment information with SumOfUs, and allows you to cancel a donation at any time (or decide to chip in again!) "
+    description: "" # override this with org-specific details in your own yml file.
   fundraiser:
     amount: Montant
     details: Détails
     payment: Paiement
-    donate: "Donner %{amount}" # utilisé dans le bouton de validation, eg 'Donner 15€'
+    donate: "Donner %{amount}"
     month: mois
     error_intro: Votre don n’a pas pu être effectué!
     currency_in: "Monnaie en %{currency}"
@@ -30,16 +19,15 @@ fr:
     proceed_to_payment: Procéder au versement
     other_amount: Autre
     make_recurring: Faire un don mensuel
-    store_in_vault: Sauvegarder mes informations de paiement
+    store_in_vault: Enregistrer et sécuriser mes informations de paiement
     thank_you: Nous vous remercions pour votre don!
-    thank_you_with_amount: "<strong>Thank you for your donation of %{amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org."
+    thank_you_with_amount: "<strong>Merci pour votre don de %{amount}!</strong> si vous avez la moindre question ou si vous avez fait ce don par erreur, veuillez nous contacter via donations@sumofus.org."
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
-    fine_print: "SumOfUs est une ONG déclarée 501(c)4 à Washington DC, USA. Les contributions ou dons ne sont pas déductibles des impôts. Pour plus d’informations, veuillez nous contacter à cette adresse: info@sumofus.org"
+    fine_print: "" # override this with org-specific details in your own yml file.
     confirmation: Don reçu
     donate_now: Don maintenant
-    donate_with: "Donate with: (FR)"
-    loading: "Chargement du portail sécurisé de paiement"
+    loading: Chargement du portail sécurisé de paiement
     oneclick:
       select_payment: "Sélectionner un mode de paiement sauvegardé"
       credit_card_payment_method: "%{card_type} finissant par %{last_four_digits}"
@@ -55,25 +43,18 @@ fr:
       expiration: Date d’expiration
       expiration_format: mm/an
       postalCode: Code postal
-    field_names: # these are used in sentence form, eg with errors.probably_invalid
+    field_names:
       cvv: Le CVV
       number: Le numéro de votre carte
       expiration: La date d’expiration
-    generic:
-      title: "Merci d’avoir agi ! Pouvez-vous faire un don afin de faire progresser le combat? "
-      target: Vous
-      ask: "Pouvez-vous faire un don afin d’aider SumOfUs à continuer de combattre le pouvoir grandissant des grandes entreprises dans le monde ?"
-      body: "Merci d’avoir agi avec SumOfUs ! Votre action aide à combattre le pouvoir des grandes entreprises dans le monde. Il reste cependant beaucoup à faire. SumOfUs dépend presque entièrement de petits dons faits par des personnes comme vous. Chaque petit don compte.Votre don signifie que nous pouvons défier les multinationales les plus puissantes et les plus malveillantes ainsi que leur faire rendre des comptes. Pourriez-vous faire un don afin de nous aider à continuer le combat aujourd’hui?"
   petition:
     sign_it: Signez la pétition
     target_prefix: Pétition adressée à
     confirmation: Nom envoyé
     excited_confirmation: Nom envoyé!
     thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
-    fine_print: "SumOfUs protège %{privacy_link} et vous tiendra au courant de campagnes similaires."
-    privacy_link: vos informations personnelles
+    fine_print: "" # override this with org-specific details in your own yml file.
   form:
-    welcome_back: Bienvenue
     switch_user: Ce n’est pas vous?
     processing: En cours de traitement...
     submit: Envoyer
@@ -84,20 +65,14 @@ fr:
       postal: CODE POSTAL
   thermometer:
     signatures_until_goal: "%{remaining} signatures jusqu'à %{goal}"
-    signatures: signatures #, par exemple '225 signatures'
+    signatures: signatures
     million: million
   share:
     cta: Partagez la campagne avec vos ami(e)s afin de tripler votre impact!
     send_email: Envoyer un courriel
     share: Partagez
     tweet: Tweetez
-    twitter_handle: '@sumofus_fr'
-    two_step:
-      cta: 'Pouvez-vous partager maintenant la campagne avec vos ami-e-s afin de nous aider à gagner ?'
-      accept: 'Oui'
-      decline: 'Non'
-      declined: "Vous ne souhaitez pas partager ? Aucun problème. Merci de votre soutien !"
-      accepted: "Merci beaucoup ! Plus nous serons nombreux à nous mobiliser, plus notre mouvement sera fort."
+    twitter_handle: '' # override this with your orgs twitter handle
   errors:
     probably_invalid: semble invalide
     is_invalid: est invalide
@@ -108,61 +83,37 @@ fr:
     is_invalid_phone: 'peut uniquement comprendre des chiffres, tirets, plus, et des parenthèses'
     is_invalid_country: doit comprendre un code pays valide
     is_invalid_length: 'doit contenir moins de %{length} caractères'
-  footer:
-    home: Accueil
-    about: Nous Connaitre
-    privacy_policy: Mentions Légales
-    contact: Contact
-    controlshift: Lancez votre propre pétition
-    home_url: http://fr.sumofus.org/
-    about_url: http://fr.sumofus.org/a-propos
-    privacy_policy_url: http://fr.sumofus.org/politique-de-confidentialite
-    contact_url: http://fr.sumofus.org/contact
   time:
     formats:
       default: "%-d %B %Y"
-  confirmation_mailer:
-    confirmation_email:
-      subject: "E-mail confirmation for signing up for express donations with SumOfUs"
-      headline: "Thank you for your donation!"
-      visit_this: "To confirm your enrollment in our express donations plan, visit this"
-      link: "link"
-      url: ", or copy paste this URL to your browser: %{confirmation_url}"
-      plaintext: "To confirm your enrollment in our express donations plan, visit this address: %{confirmation_url}"
-    follow_up_page:
-      failure: "There was an issue signing up for express donations."
-      success: "You have successfully signed up for express donations!"
-      member_management_link: 'To manage your payment methods, you can visit our <a href="">member management application</a> at any time.'
-
   reset_passwords:
     new:
-      title: 'Reset your password'
-      description: "Enter your email address and we will send you a link to reset your password."
-      email: 'Email'
-      button_label: 'Send password reset email'
+      title: 'Réinitialiser votre mot de passe. '
+      description: "Veuillez indiquer votre adresse courriel ci-dessous, et nous vous enverrons un lien qui vous permettra de réinitialiser votre mot de passe "
+      email: 'Courriel'
+      button_label: 'Envoyer courriel pour réinitialiser le mot de passe'
     create:
-      not_found: "Can't find that email, sorry."
+      not_found: "Désolé, adresse courriel non reconnue"
     show:
-      title: 'Reset your password'
-      description: "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder."
+      title: 'Réinitialiser votre mot de passe. '
+      description: "Consulter votre boite de réception courriel.  Nous vous envoyons un lien que vous pourrez suivre pour réinitialiser votre mot de passe. Si vous ne recevez rien d'ici quelques minutes, merci de vérifier dans vos courriers indésirables."
     edit:
-      password: 'Password'
-      password_confirmation: 'Confirm password'
-      button_label: 'Change password'
-      title: 'Change password for'
-      description: 'Password must be at least 6 characters long.'
-      invalid_link: 'It looks like you clicked on an invalid password reset link. Please try again.'
+      password: 'Mot de passe'
+      password_confirmation: 'Confirmer votre mot de passe'
+      button_label: 'Changer votre mot de passe'
+      title: 'Changer votre mot de passe pour'
+      description: 'le mot de passe doit contenir au moins 6 caractères'
+      invalid_link: 'Il semble que vous ayez cliqué sur un lien de reinitialisation de mot passe erroné. Veuillez recommencer s''il vous plaît.  '
     success:
-      title: 'Your new password was successfully saved'
-      description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
-
+      title: 'Votre nouveau mot de passe a été correctement sauvegardé.'
+      description: "Consulter le <a href='%{url}'>tableau de bord</a> afin de vous identifier."
   reset_password_mailer:
     reset_password_email:
-      subject: 'Please reset your password'
+      subject: 'Veuillez réinitialiser votre mot de passe s''il vous plaît'
       html:
-        body: "We heard that you lost your password. Sorry about that.<br />You can use the following link within the next day to reset your password:<br /><br />%{url}<br /><br />Thanks,<br />SumOfUs"
+        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte SumOfUs. <br />Vous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : <br /><br />%{url}<br /><br />Si vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.<br /><br />Merci,<br />SumOfUs"
       text:
-        body: "We heard that you lost your password. Sorry about that.\n\nYou can use the following link within the next day to reset your password:\n\n%{url}\n\nThanks,\nSumOfUs"
+        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte SumOfUs.\n\nVous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : \n\n%{url}\n\nSi vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.\n\nMerci,\nSumOfUs"
   facebook_share:
-    caption: 'I just signed this petition on SumOfUs.org'
-    comment_field_label: "I'm signing because..."
+    caption: 'Je viens de signer cette pétition sur SumOfUs.org'
+    comment_field_label: "Je signe parce que..."
