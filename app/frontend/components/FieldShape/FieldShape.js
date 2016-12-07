@@ -54,6 +54,7 @@ export default class FieldShape extends Component {
         return <input type="hidden" name={name} value={default_value} />;
       case 'checkbox':
       case 'choice':
+        return <p>{type} pending implementation</p>;
       case 'instruction':
         return <div className="form__instruction">{ fieldProps.label }</div>;
       case 'text':
