@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import SweetInput from '../SweetInput/SweetInput';
 import SelectCountry from '../SelectCountry';
 import SweetSelect from '../SweetSelect/SweetSelect';
-import Select from 'react-select';
 
 type Field = {
   data_type: string;
@@ -19,7 +18,7 @@ export default class FieldShape extends Component {
     field: Field;
     value?: any;
     errorMessage?: string;
-    onChange?: (v: SyntheticEvent | string) => void;
+    onChange?: (v: ?SyntheticEvent | ?string) => void;
   };
 
   fieldProps() {
