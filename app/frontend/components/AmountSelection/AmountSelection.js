@@ -83,15 +83,14 @@ export default class AmountSelection extends Component {
         />
         <p>
           <FormattedMessage
-            id="AmountSelection_currencyInfo"
-            defaultMessage="Values are shown in {currency}. {link}."
-            values={{
-              currency: this.props.currency,
-              link: <a href="#" onClick={this.toggleCurrencyDropdown.bind(this)}>
-                <FormattedMessage id="change_currency" defaultMessage="Change currency" />
-              </a>
-            }}
-          />
+            id="fundraiser.currency_in"
+            defaultMessage="Values are shown in {currency}."
+            values={{ currency: this.props.currency }}
+          />.&nbsp;
+          <a href="#" onClick={this.toggleCurrencyDropdown.bind(this)}>
+            <FormattedMessage id="change_currency" defaultMessage="Change currency" />
+          </a>
+
         </p>
         {this.state.currencyDropdownVisible &&
           <select value={this.props.currency} onChange={e => this.onSelectCurrency(e.target.value)}>
