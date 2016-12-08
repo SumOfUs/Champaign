@@ -11,19 +11,18 @@
 }
 
 .BraintreeCardFields__hosted-field {
-  flex-grow: 1;
   height: 60px;
   box-sizing: border-box;
   padding: 15px;
   display: inline-block;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 18px;
   border-radius: 3px;
   line-height: 20px;
   background: #fff;
   margin-bottom: 2px;
-  transition: all 300ms ease-in-out;
-  border-color: white;
+  // transition: all 120ms ease-in-out;
+  border: 2px solid white;
 }
 
 .BraintreeCardFields__row {
@@ -44,10 +43,9 @@
 }
 
 .braintree-hosted-fields-focused {
-  border: 1px solid #64d18a;
-  background-position: left bottom;
+  border-color: #00c0cf;
 }
 
 .braintree-hosted-fields-invalid {
-  border: 1px solid #ed574a;
+  border-color: #f8492e;
 }
