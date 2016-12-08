@@ -2,7 +2,6 @@ import uri from 'urijs';
 
 const RegisterMemberRedirector = {
   attemptRedirect(followUpUrl, member) {
-
     if(typeof(member) !== 'object') {
       member = window.champaign.personalization.member;
     }
@@ -26,8 +25,8 @@ const RegisterMemberRedirector = {
 
     function registrationUrl(url, email) {
       return uri('/member_authentication/new')
-        .query(`follow_up_url=${uri.encode(url)}`)
-        .query(`email=${uri.encode(email)}`)
+        .addSearch('follow_up_url', url)
+        .addSearch('email', email)
         .toString();
     }
   }
