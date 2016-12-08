@@ -49,12 +49,17 @@ export class Payment extends Component {
       loading: true,
       submitting: false,
       initializing: {
-        gocardless: true,
+        gocardless: false,
         paypal: true,
         card: true,
       },
     };
 
+    const DEFAULT_PAYMENT_TYPE = 'card';
+    const cpt = this.props.fundraiser.currentPaymentType;
+    if (typeof cpt !== 'string' || cpt.length === 0) {
+      this.props.setPaymentType(DEFAULT_PAYMENT_TYPE);
+    }
     this.callbacks = {};
   }
 
@@ -138,9 +143,22 @@ export class Payment extends Component {
     return null;
   }
 
-  // to handle direct debit, which will probably be a bit different, we might need
-  // to tweak this
+  submitGoCardless() {
+    const payload = {
+      ...this.donationData(),
+      device_data: this.state.deviceData,
+      provider: 'GC',
+    };
+    console.log(payload);
+    let url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
+    window.open(url);
+  }
+
   makePayment() {
+    if (this.props.fundraiser.currentPaymentType == 'gocardless') {
+      this.submitGoCardless();
+      return;
+    }
     const delegate = this.delegate();
 
     this.setState({ submitting: true });
