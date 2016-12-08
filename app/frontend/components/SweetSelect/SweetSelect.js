@@ -47,7 +47,7 @@ export default class SweetSelect extends Component {
   render() {
     const className = classnames({
       'sweet-placeholder__label': true,
-      'sweet-placeholder__label--full': !!(this.props.value),
+      'sweet-placeholder__label--full': !!this.props.value && !this.state.focused,
       'sweet-placeholder__label--active': this.state.focused,
       'has-error': this.hasError(),
     });
@@ -63,6 +63,7 @@ export default class SweetSelect extends Component {
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
           onChange={this.onChange.bind(this)}
+          className={this.hasError() ? 'has-error' : ''}
         />
         <span className="error-msg">{this.props.errorMessage}</span>
       </div>

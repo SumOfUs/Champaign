@@ -52,7 +52,7 @@ export default class SweetInput extends Component {
   render() {
     const className = classnames({
       'sweet-placeholder__label': true,
-      'sweet-placeholder__label--full': !!(this.props.value),
+      'sweet-placeholder__label--full': !!this.props.value && !this.state.focused,
       'sweet-placeholder__label--active': this.state.focused,
       'has-error': this.hasError(),
     });

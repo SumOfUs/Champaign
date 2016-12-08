@@ -1,7 +1,7 @@
 {% if plugins.fundraiser[ref].active %}
   <div class="overlay-toggle">
     <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
-      <div id="fundraiser-component" class="fundraiser-bar sidebar {{ extra_class }}"></div>
+      <div id="fundraiser-component" class="fundraiser-bar sidebar stuck-right {{ extra_class }}"></div>
     </div>
   </div>
 
@@ -24,7 +24,10 @@
           recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
         }
       };
-      champaign.overlayToggle = new champaign.OverlayToggle();
+      window.setTimeout(function(){
+        champaign.overlayToggle = new champaign.OverlayToggle();
+        champaign.mySidebar     = new champaign.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
+      }, 100);
 
       var store = initializeStore();
       mountFundraiser('fundraiser-component', store, data);

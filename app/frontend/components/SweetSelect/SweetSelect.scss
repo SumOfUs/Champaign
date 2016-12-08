@@ -1,4 +1,7 @@
 .SweetSelect {
+  .Select.has-error .Select-control {
+    border-color: #f8492e;
+  }
   .Select.is-focused:not(.is-open) > .Select-control {
     border-color: #00c0cf;
   }
@@ -23,7 +26,7 @@
   .Select-menu-outer {
     border-color: white #00c0cf #00c0cf #00c0cf;
     z-index: 200;
-    border-width: 2px;
+    border-width: 0 2px 2px 2px;
   }
 
   .Select > .Select-control .Select-value, .Select > .Select-control {
@@ -38,7 +41,7 @@
     padding-left: 0;
     font-size: 18px;
     position: relative;
-    top: -2px;
+    top: -4px;
     input {
       padding: 5px 0 0 0;
     }
