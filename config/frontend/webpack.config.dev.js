@@ -179,5 +179,8 @@ module.exports = {
     net: 'empty',
     tls: 'empty'
   },
-  devServer: { port: process.env.WEBPACK_PORT, headers: { 'Access-Control-Allow-Origin': '*' } }
+  devServer: { port: process.env.WEBPACK_PORT, headers: { 'Access-Control-Allow-Origin': '*' } },
+  externals: {
+    jquery: 'jQuery',
+  },
 };

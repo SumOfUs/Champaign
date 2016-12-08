@@ -12,7 +12,7 @@ export function changeStep(payload: number): FundraiserAction {
   return { type: 'change_step', payload };
 }
 
-export function updateForm(payload: FundraiserFormMember): FundraiserAction {
+export function updateForm(payload: FundraiserForm): FundraiserAction {
   return {
     type: 'update_form',
     payload: payload,
@@ -29,14 +29,4 @@ export function setStoreInVault(payload: boolean = false): FundraiserAction {
 
 export function setPaymentType(payload: ?string = null): FundraiserAction {
   return { type: 'set_payment_type', payload };
-}
-
-export function submitDetails(details: any): Function {
-  return (dispatch: Dispatch) => {
-
-  };
-}
-
-export function submitPayment(details: any): Function {
-  return (dispatch: Dispatch) => {};
 }

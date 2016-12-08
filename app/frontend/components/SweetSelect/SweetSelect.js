@@ -9,7 +9,7 @@ type Props = {
   value?: string;
   onChange: (value: any) => void;
   options?: any[];
-  label?: React$Element<any>;
+  label?: string | React$Element<any>;
   disabled?: boolean;
   multiple?: boolean;
   errorMessage?: string;

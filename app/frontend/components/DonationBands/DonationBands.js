@@ -13,7 +13,7 @@ const FORMATTED_NUMBER_DEFAULTS = {
 
 type Props = {
   amounts: number[];
-  featuredAmount: ?number;
+  featuredAmount?: number;
   currency: string;
   customAmount?: number;
   proceed: () => void;

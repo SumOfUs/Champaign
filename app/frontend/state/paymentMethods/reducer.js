@@ -1,4 +1,5 @@
-type PaymentMethod = {
+// @flow
+export type PaymentMethod = {
   id: number;
   token: string;
   instrument_type: string;
