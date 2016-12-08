@@ -1,11 +1,12 @@
 // @flow
 import _ from 'lodash';
 const supportedLocales = ['en', 'fr', 'de'];
-const translations = {};
 
-for (const locale of supportedLocales) {
-  translations[locale] = require(`../../../config/locales/member_facing.${locale}.yml`)[locale];
-}
+const translations = {
+  de: require('../../../config/locales/member_facing.de.yml').de,
+  en: require('../../../config/locales/member_facing.en.yml').en,
+  fr: require('../../../config/locales/member_facing.fr.yml').fr,
+};
 
 export default function loadTranslations(locale: string) {
   if(translations[locale] === undefined) {

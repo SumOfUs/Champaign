@@ -1,7 +1,14 @@
 /* eslint-disable */
 // @flow
-// temp global i18n
-declare var I18n: any;
+
+declare type WebpackModuleHot = {
+  accept: (path: string, callback: () => void) => void;
+}
+declare type WebpackModule = {
+  hot: WebpackModuleHot;
+};
+declare var module: WebpackModule;
+
 declare type ChampaignDonationBands = any;
 
 declare type ChampaignPaymentMethod = any;
@@ -58,7 +65,7 @@ declare type FundraiserState = {
   recurringDefault: 'one_off' | 'recurring' | 'only_recurring';
   storeInVault: boolean;
   paymentMethods: any[];
-  currentPaymentType: ?string;
+  currentPaymentType?: string;
   formId: number;
   pageId: string;
   form: FundraiserForm;
@@ -105,14 +112,6 @@ declare type MemberAction =
 declare type AppState = {
   member: MemberState;
   fundraiser: FundraiserState;
+  paymentMethods: PaymentMethod[];
 };
-
-declare type WebpackModuleHot = {
-  accept: (path: string, callback: () => void) => void;
-}
-declare type WebpackModule = {
-  hot: WebpackModuleHot;
-};
-
-declare var module: WebpackModule;
 

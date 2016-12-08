@@ -1,13 +1,20 @@
+// @flow
+
+// npm
 import React, { Component } from 'react';
-import { FormattedMessage, FormattedNumber } from 'react-intl';
+import $ from 'jquery';
+import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import PayPal from '../Braintree/PayPal';
-import BraintreeCardFields from '../Braintree/BraintreeCardFields';
-import PaymentTypePill from './PaymentTypePill';
-import Button from '../Button/Button';
-import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
+
+// local
+import PayPal from '../Braintree/PayPal';
+import BraintreeCardFields from '../Braintree/BraintreeCardFields';
+import PaymentTypeSelection from './PaymentTypeSelection';
+import WelcomeMember from '../WelcomeMember/WelcomeMember';
+import DonateButton from '../DonateButton';
+// import ExpressDonation from '../ExpressDonation/ExpressDonation';
 import { resetMember } from '../../state/member/actions';
 import {
   changeStep,
@@ -16,32 +23,39 @@ import {
   setPaymentType,
 } from '../../state/fundraiser/actions';
 
+// Types
+import type { BraintreeClient } from 'braintree-web';
+
+// Styles
 import './Payment.css';
 
-const FORMATTED_NUMBER_DEFAULTS = {
-  style: 'currency',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-};
-
 type OwnProps = {
-  currency: string;
-  donationAmount: ?number;
+  fundraiser: FundraiserState;
   member: MemberState;
-  recurring: boolean;
   disableRecurring: boolean;
-  storeInVault: boolean;
-  changeStep: () => void;
-  setRecurring: () => void;
-  setStoreInVault: () => void;
+  resetMember: () => void;
+  changeStep: (step: number) => void;
+  setRecurring: (value: boolean) => void;
+  setStoreInVault: (value: boolean) => void;
+  setPaymentType: (value: ?string) => void;
 };
 export class Payment extends Component {
   props: OwnProps;
-  static title = <FormattedMessage id="payment" defaultMessage="payment" />;
-  paypal: PayPal;
-  cardFields: BraintreeCardFields;
+  state: {
+    client: BraintreeClient;
+    deviceData: Object;
+    loading: boolean;
+    submitting: boolean;
+    initializing: {
+      gocardless: boolean;
+      paypal: boolean;
+      card: boolean;
+    };
+  };
 
-  constructor(props) {
+  static title = <FormattedMessage id="payment" defaultMessage="payment" />;
+
+  constructor(props: OwnProps) {
     super(props);
     this.state = {
       client: null,
@@ -60,7 +74,6 @@ export class Payment extends Component {
     if (typeof cpt !== 'string' || cpt.length === 0) {
       this.props.setPaymentType(DEFAULT_PAYMENT_TYPE);
     }
-    this.callbacks = {};
   }
 
   componentDidMount() {
@@ -99,12 +112,15 @@ export class Payment extends Component {
     this.setState({ initializing: { ...this.state.initializing, [name]: false } });
   }
 
-  loading() {
-    return this.state.loading || this.state.initializing[this.props.fundraiser.currentPaymentType];
+  loading(paymentType: ?string) {
+    if (paymentType) {
+      return this.state.loading || this.state.initializing[paymentType];
+    }
+    return this.state.loading;
   }
 
   disableSubmit() {
-    return this.loading()
+    return this.loading(this.props.fundraiser.currentPaymentType)
       || this.state.submitting
       || !this.props.fundraiser.currentPaymentType
       || !this.props.fundraiser.donationAmount;
@@ -150,7 +166,7 @@ export class Payment extends Component {
       provider: 'GC',
     };
     console.log(payload);
-    let url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
+    const url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
     window.open(url);
   }
 
@@ -173,7 +189,7 @@ export class Payment extends Component {
     }
   }
 
-  submit(data) {
+  submit(data: any) {
     const payload = {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
@@ -187,64 +203,43 @@ export class Payment extends Component {
       );
   }
 
-  onSuccess(data) {
+  onSuccess(data: any) {
     console.log('success:', data);
   }
 
-  onError(reason) {
+  onError(reason: any) {
     this.setState({ submitting: false });
   }
 
   render() {
     const {
       member,
+      disableRecurring,
       fundraiser: {
         currency,
         donationAmount,
         currentPaymentType,
         recurring,
         storeInVault,
-        disableRecurring,
       }
     } = this.props;
+
     return (
       <div className="Payment section">
-        <WelcomeMember member={this.props.member} resetMember={() => this.resetMember()} />
+
+        <WelcomeMember member={member} resetMember={() => this.resetMember()} />
+
         <h3 className="Payment__prompt">
           <FormattedMessage
             id="fundraiser.payment_type_prompt"
             defaultMessage="How would you like to donate?" />
         </h3>
-        <div className="Payment__options">
-          <PaymentTypePill
-            name="gocardless"
-            disabled={this.state.loading}
-            checked={currentPaymentType === 'gocardless'}
-            onChange={() => this.selectPaymentType('gocardless')}>
-            <FormattedMessage
-              id="fundraiser.debit.direct_debit"
-              defaultMessage="Direct Debit" />
-          </PaymentTypePill>
 
-          <PaymentTypePill
-            name="paypal"
-            disabled={this.state.loading}
-            checked={currentPaymentType === 'paypal'}
-            onChange={() => this.selectPaymentType('paypal')}>
-            PayPal
-          </PaymentTypePill>
-
-          <PaymentTypePill
-            name="card"
-            disabled={this.state.loading}
-            checked={currentPaymentType === 'card'}
-            activeColor="#00c0cf"
-            onChange={() => this.selectPaymentType('card')}>
-            <FormattedMessage
-              id="fundraiser.pay_by_card"
-              defaultMessage="Credit or Debit Card" />
-          </PaymentTypePill>
-        </div>
+        <PaymentTypeSelection
+          disabled={this.state.loading}
+          currentPaymentType={currentPaymentType}
+          onChange={(p) => this.selectPaymentType(p)}
+        />
 
         <PayPal
           ref="paypal"
@@ -293,29 +288,23 @@ export class Payment extends Component {
           </div>
         </div>
 
-        <Button className="Payment__submit" onClick={this.makePayment.bind(this)} disabled={this.disableSubmit()}>
-
-          { this.loading() && <FormattedMessage id="loading" defaultMessage="Loading..." />}
-
-          { !this.loading() && <span className="fa fa-lock" />}
-          { !this.loading() && <FormattedMessage
-              id="fundraiser.donate"
-              defaultMessage="Donate {amount}"
-              values={{
-                amount: (
-                  <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS}
-                    currency={currency}
-                    value={donationAmount || 0} />
-                )
-              }} />
-          }
-        </Button>
+        <DonateButton
+          currency={currency}
+          amount={donationAmount || 0}
+          loading={this.loading(currentPaymentType)}
+          disabled={this.disableSubmit()}
+          onClick={() => this.makePayment()}
+        />
 
         <div className="Payment__fine-print">
           <FormattedMessage
             className="Payment__fine-print"
             id="fundraiser.fine_print"
-            defaultMessage="SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United States. Contributions or gifts to SumOfUs are not tax deductible. For further information, please contact info@sumofus.org."
+            defaultMessage={`
+              SumOfUs is a registered 501(c)4 non-profit incorporated in Washington, DC, United
+              States. Contributions or gifts to SumOfUs are not tax deductible.
+              For further information, please contact info@sumofus.org.
+            `}
           />
         </div>
       </div>

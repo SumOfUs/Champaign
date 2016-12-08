@@ -11,6 +11,7 @@ type Field = {
   default_value?: string;
   required?: boolean;
   disabled?: boolean;
+  choices: any;
 };
 
 export default class FieldShape extends Component {

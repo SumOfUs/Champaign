@@ -1,19 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { FormattedNumber, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
-
-const FORMATTED_NUMBER_DEFAULTS = {
-  style: 'currency',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-};
+import CurrencyAmount from '../../components/CurrencyAmount';
 
 type OwnProps = {
   donationAmount: ?number;
   donationBands: number[];
-  donationFeaturedAmount: ?number;
+  donationFeaturedAmount?: number;
   currency: string;
   currencies: string[];
   nextStepTitle: string;
@@ -32,11 +27,11 @@ export default class AmountSelection extends Component {
   props: OwnProps;
   state: OwnState;
 
-  static title(amount: ?number, currency: string): string {
+  static title(amount: ?number, currency: string): string | React$Element<any> {
     if (amount == null) {
       return <FormattedMessage id="amount" defaultMessage="AMOUNT" />;
     }
-    return <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS} value={amount} currency={currency} />;
+    return <CurrencyAmount amount={amount} currency={currency} />;
 
   }
 
@@ -90,7 +85,6 @@ export default class AmountSelection extends Component {
           <a href="#" onClick={this.toggleCurrencyDropdown.bind(this)}>
             <FormattedMessage id="change_currency" defaultMessage="Change currency" />
           </a>
-
         </p>
         {this.state.currencyDropdownVisible &&
           <select value={this.props.currency} onChange={e => this.onSelectCurrency(e.target.value)}>
