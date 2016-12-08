@@ -26,12 +26,6 @@ export default function SelectCountry(props: Props) {
     <SweetSelect
       {...props}
       options={props.options || countries}
-      onChange={item => {
-        if (props.onChange) {
-          const value = item ? item.value : '';
-          props.onChange(value);
-        }
-      }}
     />
   );
 }
