@@ -14,7 +14,7 @@ const initialState: FundraiserState = {
   pageId: '',
   title: '',
   fields: {},
-  formId: 4,
+  formId: null,
   user: {
     email: '',
     name: '',

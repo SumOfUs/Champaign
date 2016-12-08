@@ -69,11 +69,11 @@ export class MemberDetailsForm extends Component {
 
   buttonText() {
     if (this.state.loading) {
-      return <FormattedMessage id="validating" defaultMessage={I18n.t('form.processing')} />;
+      return <FormattedMessage id="form.processing" defaultMessage="Processing..." />;
     } else if (this.props.buttonText) {
       return this.props.buttonText;
     } else {
-      return <FormattedMessage id="submit" defaultMessage={I18n.t('form.submit')} />;
+      return <FormattedMessage id="form.submit" defaultMessage="Submit" />;
     }
   }
 
