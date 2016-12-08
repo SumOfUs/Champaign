@@ -28,8 +28,9 @@ export default class SweetSelect extends Component {
     };
   }
 
-  onChange(value: string) {
+  onChange(item: Object) {
     if (this.props.onChange) {
+      const value = item ? item.value : '';
       this.props.onChange(value);
     }
   }

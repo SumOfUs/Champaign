@@ -15,9 +15,13 @@
   padding: 15px;
   font-weight: bold;
   font-style: italic;
+  position: relative;
 }
 
 .PaymentTypePill__label input {
   margin: 0 10px 0 5px;
+  box-shadow: 0 0 0 3px white;
+  box-shadow: 0 0.5px 0 3px white;
+  border-radius: 8px;
 }
 
