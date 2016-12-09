@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
 import CurrencyAmount from '../../components/CurrencyAmount';
+import type { Element } from 'react';
 
 type OwnProps = {
   donationAmount: ?number;
@@ -27,7 +28,7 @@ export default class AmountSelection extends Component {
   props: OwnProps;
   state: OwnState;
 
-  static title(amount: ?number, currency: string): string | React$Element<any> {
+  static title(amount: ?number, currency: string): string | Element<any> {
     if (amount == null) {
       return <FormattedMessage id="amount" defaultMessage="AMOUNT" />;
     }

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 import StepContent from '../../components/Stepper/StepContent';
 import StepWrapper from '../../components/Stepper/StepWrapper';
 import AmountSelection from '../../components/AmountSelection/AmountSelection';
@@ -10,9 +11,10 @@ import {
   changeAmount,
   changeCurrency,
   changeStep,
-  submitDetails,
-  submitPayment,
 } from '../../state/fundraiser/actions';
+
+import type { Dispatch } from 'redux';
+import type { AppState } from '../../state';
 
 type OwnProps = {
   currentStep: number;
@@ -25,8 +27,6 @@ type OwnProps = {
   changeStep: (step: number) => void;
   selectAmount: (amount: ?number) => void;
   selectCurrency: (currency: string) => void;
-  submitDetails: (payload: any) => void;
-  submitPayment: (payload: any) => void;
   fields: any[];
   outstandingFields: string[];
   formId: number;
@@ -49,14 +49,6 @@ export class FundraiserView extends Component {
 
   proceed() {
     this.props.changeStep(this.props.fundraiser.currentStep + 1);
-  }
-
-  submitDetails(payload: any) {
-    this.props.submitPayment(payload);
-  }
-
-  submitPayment(payload: any) {
-    this.props.submitPayment(payload);
   }
 
   render() {
@@ -95,7 +87,7 @@ export class FundraiserView extends Component {
           { outstandingFields.length !== 0 &&
             <StepContent title="details">
               <MemberDetailsForm
-                buttonText={I18n.t('fundraiser.proceed_to_payment')}
+                buttonText={<FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment" />}
                 fields={fields}
                 outstandingFields={outstandingFields}
                 prefillValues={member}
@@ -118,12 +110,10 @@ export const mapStateToProps = (state: AppState) => ({
   member: state.member,
 });
 
-export const mapDispatchToProps = (dispatch: Dispatch) => ({
+export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeStep: (step: number) => dispatch(changeStep(step)),
   selectAmount: (amount: ?number) => dispatch(changeAmount(amount)),
   selectCurrency: (currency: string) => dispatch(changeCurrency(currency)),
-  submitDetails: (payload: any) => dispatch(submitDetails(payload)),
-  submitPayment: (payload: any) => dispatch(submitPayment(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);
