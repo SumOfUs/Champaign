@@ -90,9 +90,9 @@ export default class AmountSelection extends Component {
         {this.state.currencyDropdownVisible &&
           <select value={this.props.currency} className="AmountSelection__currency-selector"
             onChange={e => this.onSelectCurrency(e.target.value)}>
-            {_.forEach(this.props.donationBands, (v, currency) => {
-              return <option key={currency} value={currency}>{currency}</option>;
-            })}
+             {_.keys(this.props.donationBands).map((currency) => {
+               return <option key={currency} value={currency}>{currency}</option>;
+             })}
           </select>
         }
 
