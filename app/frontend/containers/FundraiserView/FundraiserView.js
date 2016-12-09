@@ -18,6 +18,7 @@ import type { AppState } from '../../state';
 
 type OwnProps = {
   currentStep: number;
+  formValues: any;
   member: any;
   currency: string;
   currencies: string[];
@@ -57,6 +58,7 @@ export class FundraiserView extends Component {
       fundraiser: {
         formId,
         fields,
+        formValues,
         donationBands,
         donationAmount,
         donationFeaturedAmount,
@@ -77,7 +79,7 @@ export class FundraiserView extends Component {
               donationBands={donationBands}
               donationFeaturedAmount={donationFeaturedAmount}
               currencies={currencies}
-              nextStepTitle={ member ? 'payment' : MemberDetailsForm.title }
+              nextStepTitle={ formValues ? 'payment' : MemberDetailsForm.title }
               changeCurrency={this.props.selectCurrency.bind(this)}
               selectAmount={amount => this.selectAmount(amount)}
               proceed={this.proceed.bind(this)}
@@ -90,7 +92,7 @@ export class FundraiserView extends Component {
                 buttonText={<FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment" />}
                 fields={fields}
                 outstandingFields={outstandingFields}
-                prefillValues={member}
+                prefillValues={formValues}
                 formId={formId}
                 proceed={this.proceed.bind(this)}
               />
