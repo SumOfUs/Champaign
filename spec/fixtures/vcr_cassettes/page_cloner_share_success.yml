@@ -1,0 +1,183 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://run.shareprogress.org/api/v1/buttons/update?key=<shareprogress_api_key>
+    body:
+      encoding: UTF-8
+      string: page_title=foo%20bar%20%5Bfacebook%5D&variants[facebook][][facebook_title]=share&variants[facebook][][facebook_description]=facebook%20share%20%7BLINK%7D&variants[facebook][][facebook_thumbnail]=%2Fsystem%2Fimages%2Fcontents%2F000%2F000%2F123%2Ffacebook%2Fcat.jpg%3F1481242689&variants[facebook][][id]=&page_url=http%3A%2F%2Factions.example.com%2Fa%2Ffoo-bar-1&button_template=sp_fb_large
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - close
+      Date:
+      - Fri, 09 Dec 2016 00:18:10 GMT
+      Status:
+      - 200 OK
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Ua-Compatible:
+      - chrome=1
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Remaining:
+      - '14'
+      X-Ratelimit-Reset:
+      - '1481242691'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"e05c6352d875e63800f1cba4868f6a1a"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f5a2fe4e-46a6-453e-8f91-ac2b6881e8a8
+      X-Runtime:
+      - '0.203659'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"response":[{"id":177433,"page_url":"http://actions.example.com/a/foo-bar-1","page_title":"foo
+        bar [facebook]","button_template":"sp_fb_large","share_button_html":"\u003Cdiv
+        class=''sp_177433 sp_fb_large'' \u003E\u003C/div\u003E","found_snippet":false,"is_active":false,"variants":{"facebook":[{"id":562717,"facebook_title":"share","facebook_description":"facebook
+        share {LINK}","facebook_thumbnail":"/system/images/contents/000/000/123/facebook/cat.jpg?1481242689"}],"email":[],"twitter":[]},"advanced_options":{"automatic_traffic_routing":"true","buttons_optimize_actions":"true","customize_params":{"param":"source","e":"mlt","f":"fb","t":"tw","o":"c2c"},"id_pass":{"member_id":"referrer_id","bucket":"bucket"}}}],"message":null}'
+    http_version: 
+  recorded_at: Fri, 09 Dec 2016 00:18:10 GMT
+- request:
+    method: post
+    uri: http://run.shareprogress.org/api/v1/buttons/update?key=<shareprogress_api_key>
+    body:
+      encoding: UTF-8
+      string: page_title=foo%20bar%20%5Btwitter%5D&variants[twitter][][twitter_message]=twitter%20share%20%7BLINK%7D&variants[twitter][][id]=&page_url=http%3A%2F%2Factions.example.com%2Fa%2Ffoo-bar-1&button_template=sp_tw_large
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - close
+      Date:
+      - Fri, 09 Dec 2016 00:18:10 GMT
+      Status:
+      - 200 OK
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Ua-Compatible:
+      - chrome=1
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Remaining:
+      - '13'
+      X-Ratelimit-Reset:
+      - '1481242691'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"cedf0ec739ee68359bc157a9b83b1d70"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - f6902678-f8a9-430b-9bb9-ac82a569a73e
+      X-Runtime:
+      - '0.058655'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"response":[{"id":177434,"page_url":"http://actions.example.com/a/foo-bar-1","page_title":"foo
+        bar [twitter]","button_template":"sp_tw_large","share_button_html":"\u003Cdiv
+        class=''sp_177434 sp_tw_large'' \u003E\u003C/div\u003E","found_snippet":false,"is_active":false,"variants":{"facebook":[],"email":[],"twitter":[{"id":562718,"twitter_message":"twitter
+        share {LINK}"}]},"advanced_options":{"automatic_traffic_routing":"true","buttons_optimize_actions":"true","customize_params":{"param":"source","e":"mlt","f":"fb","t":"tw","o":"c2c"},"id_pass":{"member_id":"referrer_id","bucket":"bucket"}}}],"message":null}'
+    http_version: 
+  recorded_at: Fri, 09 Dec 2016 00:18:10 GMT
+- request:
+    method: post
+    uri: http://run.shareprogress.org/api/v1/buttons/update?key=<shareprogress_api_key>
+    body:
+      encoding: UTF-8
+      string: page_title=foo%20bar%20%5Bemail%5D&variants[email][][email_subject]=forward%20this%20email&variants[email][][email_body]=They%20are%20on%20it%21%20%7BLINK%7D&variants[email][][id]=&page_url=http%3A%2F%2Factions.example.com%2Fa%2Ffoo-bar-1&button_template=sp_em_large
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Cowboy
+      Connection:
+      - close
+      Date:
+      - Fri, 09 Dec 2016 00:18:10 GMT
+      Status:
+      - 200 OK
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Xss-Protection:
+      - 1; mode=block
+      X-Content-Type-Options:
+      - nosniff
+      X-Ua-Compatible:
+      - chrome=1
+      X-Ratelimit-Limit:
+      - '30'
+      X-Ratelimit-Remaining:
+      - '12'
+      X-Ratelimit-Reset:
+      - '1481242691'
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - '"a5e3f6bddb7517f6adc812b03f675e3f"'
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Request-Id:
+      - 930e5138-54cb-4430-9cfd-3932c0fd03f2
+      X-Runtime:
+      - '0.059082'
+      Via:
+      - 1.1 vegur
+    body:
+      encoding: UTF-8
+      string: '{"success":true,"response":[{"id":177435,"page_url":"http://actions.example.com/a/foo-bar-1","page_title":"foo
+        bar [email]","button_template":"sp_em_large","share_button_html":"\u003Cdiv
+        class=''sp_177435 sp_em_large'' \u003E\u003C/div\u003E","found_snippet":false,"is_active":false,"variants":{"facebook":[],"email":[{"id":562719,"email_subject":"forward
+        this email","email_body":"They are on it! {LINK}"}],"twitter":[]},"advanced_options":{"automatic_traffic_routing":"true","buttons_optimize_actions":"true","customize_params":{"param":"source","e":"mlt","f":"fb","t":"tw","o":"c2c"},"id_pass":{"member_id":"referrer_id","bucket":"bucket"}}}],"message":null}'
+    http_version: 
+  recorded_at: Fri, 09 Dec 2016 00:18:10 GMT
+recorded_with: VCR 3.0.3
