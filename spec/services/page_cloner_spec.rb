@@ -18,9 +18,32 @@ describe PageCloner do
       action_count: 12_345
     )
   end
+  let!(:image) { create(:image, page: page, id: 123) }
+  let!(:fb_share) do
+    create(:share_facebook,
+           page: page,
+           description: 'facebook share {LINK}',
+           title: 'share',
+           image_id: image.id)
+  end
+  let!(:tw_share) do
+    create(:share_twitter,
+           page: page,
+           description: 'twitter share {LINK}')
+  end
+  let!(:email_share) do
+    create(:share_email,
+           page: page,
+           subject: 'forward this email',
+           body: 'They are on it! {LINK}')
+  end
   let!(:link) { create(:link, page: page) }
 
-  subject(:cloned_page) { PageCloner.clone(page).reload }
+  subject(:cloned_page) do
+    VCR.use_cassette('page_cloner_share_success') do
+      PageCloner.clone(page).reload
+    end
+  end
 
   it 'clones page' do
     expect(cloned_page.id).not_to eq(page.id)
@@ -29,6 +52,27 @@ describe PageCloner do
   it 'clones links' do
     expect(cloned_page.links).not_to eq(page.links)
     expect(cloned_page.links.size).to eq(1)
+  end
+
+  it 'clones shares' do
+    expect(cloned_page.shares).to_not eq(page.shares)
+    expect(cloned_page.shares.size).to eq(page.shares.size)
+    cloned_page.shares.each do |share|
+      case share.class.name.downcase.demodulize
+      when 'facebook'
+        expect(share.id).to_not eq(fb_share.id)
+        expect(share.description).to eq('facebook share {LINK}')
+        expect(share.title).to eq('share')
+        expect(share.image_id).to eq(123)
+      when 'twitter'
+        expect(share.id).to_not eq(tw_share.id)
+        expect(share.description).to eq('twitter share {LINK}')
+      when 'email'
+        expect(share.id).to_not eq(email_share.id)
+        expect(share.subject).to eq('forward this email')
+        expect(share.body).to eq('They are on it! {LINK}')
+      end
+    end
   end
 
   it 'clones tag associations' do
@@ -66,7 +110,11 @@ describe PageCloner do
     end
 
     context 'new title passed in' do
-      subject(:cloned_page) { PageCloner.clone(page, 'The English Patient') }
+      subject(:cloned_page) do
+        VCR.use_cassette('page_cloner_share_success') do
+          PageCloner.clone(page, 'The English Patient')
+        end
+      end
 
       it 'assigns new title' do
         expect(cloned_page.title).to eq('The English Patient')
