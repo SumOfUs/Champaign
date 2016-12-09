@@ -33,6 +33,7 @@ export type FundraiserState = {
   form: Object;
   currentPaymentType: ?string;
   suggestedAmount?: number;
+  showDirectDebit?: boolean;
 };
 
 export type FundraiserAction =
