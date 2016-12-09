@@ -43,7 +43,9 @@ export class MemberDetailsForm extends Component {
       errors: {},
       loading: false,
     };
+  }
 
+  componentDidMount() {
     this.prefill();
   }
 
@@ -54,15 +56,17 @@ export class MemberDetailsForm extends Component {
   }
 
   prefill() {
+    const data = {};
     for (const field of this.props.fields) {
-      this.updateField(field.name, this.getPrefillValue(field.name) || field.default_value);
+      data[field.name] = this.getPrefillValue(field.name) || field.default_value;
     }
 
     for (const name of this.HIDDEN_FIELDS) {
       if (this.getPrefillValue(name)) {
-        this.updateField(name, this.props.prefillValues[name]);
+        data[name] = this.props.prefillValues[name];
       }
     }
+    this.props.updateForm({...this.props.form, ...data});
   }
 
   getFieldError(field: string): FormattedMessage | void {
