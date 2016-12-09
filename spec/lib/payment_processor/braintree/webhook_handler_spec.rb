@@ -79,12 +79,10 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           .not_to change { subscription.transactions.count }
       end
 
-      it 'logs error' do
-        expect(Rails.logger).to receive(:error)
-          .with(/Braintree webhook handling failed for 'subscription_charged_successfully', for subscription ID 'invalid_subscription_id'/)
-        expect(Rails.logger).to receive(:error)
-          .with(/No locally persisted Braintree subscription found for subscription id invalid_subscription_id/)
-        subject
+      # We're failing silently if the subscription isn't persisted locally because we get a lot of webhooks
+      # for subscriptions that were created on our legacy platform.
+      it 'fails silently' do
+        expect(Rails.logger).to_not receive(:error)
       end
 
       it 'writes notification' do
