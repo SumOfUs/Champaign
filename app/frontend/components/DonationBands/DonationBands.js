@@ -21,8 +21,6 @@ type Props = {
   toggleProceedButton?: (visible: boolean) => void;
 };
 
-const MAX_CUSTOM_VALUE = 10000000; // 10 million?
-
 export class DonationBands extends Component {
   props: Props;
 
@@ -85,7 +83,7 @@ export class DonationBands extends Component {
   customFieldDisplay() {
     const amountString = this.state.customAmount || '';
     if (amountString === '') return '';
-    let currencySymbol = this.props.currency == 'GBP' ? '£' : '$';
+    let currencySymbol = this.props.currency === 'GBP' ? '£' : '$';
     if (this.props.currency === 'EUR') currencySymbol = '€';
     return `${currencySymbol}${amountString}`;
   }

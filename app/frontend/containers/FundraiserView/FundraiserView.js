@@ -45,7 +45,6 @@ export class FundraiserView extends Component {
 
   render() {
     const {
-      member,
       fundraiser: {
         formId,
         fields,

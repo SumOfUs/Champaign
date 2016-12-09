@@ -1,6 +1,5 @@
 // @flow
 import _ from 'lodash';
-const supportedLocales = ['en', 'fr', 'de'];
 
 const translations = {
   de: require('../../../config/locales/member_facing.de.yml').de,
