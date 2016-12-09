@@ -35,15 +35,6 @@ type OwnProps = {
 export class FundraiserView extends Component {
   props: OwnProps & mapStateToProps;
 
-  static defaultProps = {
-    currentStep: 0,
-    member: null,
-    currency: 'USD',
-    donationBands: { 'USD': [2, 5, 10, 25, 50],
-                     'GBP': [1, 2, 3, 4, 5]
-    }
-  }
-
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
   }
