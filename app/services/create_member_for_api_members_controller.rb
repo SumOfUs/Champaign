@@ -36,7 +36,7 @@ class CreateMemberForApiMembersController
   def member_validation
     [
       { name: 'email', data_type: 'email', required: true },
-      { name: 'country', data_type: 'country', required: false },
+      { name: 'country', data_type: 'country', required: true },
       { name: 'postal', data_type: 'postal', required: false },
       { name: 'name', data_type: 'text', required: true }
     ]
