@@ -8,6 +8,7 @@ export default class PaymentTypeSelection extends Component {
     disabled?: boolean;
     currentPaymentType?: string;
     onChange: (paymentType: string) => void;
+    showDirectDebit: ?boolean;
   };
 
   render() {
@@ -15,15 +16,17 @@ export default class PaymentTypeSelection extends Component {
 
     return (
       <div className="PaymentTypeSelection Payment__options">
-        <PaymentTypePill
-          name="gocardless"
-          disabled={disabled}
-          checked={currentPaymentType === 'gocardless'}
-          onChange={() => onChange('gocardless')}>
-          <FormattedMessage
-            id="fundraiser.debit.direct_debit"
-            defaultMessage="Direct Debit" />
-        </PaymentTypePill>
+        { this.props.showDirectDebit &&
+          <PaymentTypePill
+            name="gocardless"
+            disabled={disabled}
+            checked={currentPaymentType === 'gocardless'}
+            onChange={() => onChange('gocardless')}>
+            <FormattedMessage
+              id="fundraiser.debit.direct_debit"
+              defaultMessage="Direct Debit" />
+          </PaymentTypePill>
+        }
 
         <PaymentTypePill
           name="paypal"

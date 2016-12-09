@@ -232,6 +232,7 @@ export class Payment extends Component {
           disabled={this.state.loading}
           currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
           onChange={(p) => this.selectPaymentType(p)}
+          showDirectDebit={this.props.fundraiser.showDirectDebit}
         />
 
         <PayPal
