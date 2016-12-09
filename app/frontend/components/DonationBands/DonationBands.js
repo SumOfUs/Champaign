@@ -83,10 +83,10 @@ export class DonationBands extends Component {
   }
 
   customFieldDisplay() {
-    let amountString = this.state.customAmount || '';
+    const amountString = this.state.customAmount || '';
     if (amountString === '') return '';
     let currencySymbol = this.props.currency == 'GBP' ? '£' : '$';
-    if (this.props.currency == 'EUR') currencySymbol = '€';
+    if (this.props.currency === 'EUR') currencySymbol = '€';
     return `${currencySymbol}${amountString}`;
   }
 
