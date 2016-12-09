@@ -7,12 +7,16 @@ import Button from '../Button/Button';
 import { updateForm } from '../../state/fundraiser/actions';
 import FieldShape from '../FieldShape/FieldShape';
 
+import type { Element } from 'react';
+import type { Dispatch } from 'redux';
+import type { AppState } from '../../state';
+
 import 'react-select/dist/react-select.css';
 
-type ConnectedState = { form: FundraiserForm; formId: number; };
-type ConnectedDispatch = { updateForm: (form: FundraiserForm) => void; };
+type ConnectedState = { form: Object; formId: number; };
+type ConnectedDispatch = { updateForm: (form: Object) => void; };
 type OwnProps = {
-  buttonText?: React$Element<any> | string;
+  buttonText?: Element<any> | string;
   proceed?: () => void;
   fields: Object;
   prefillValues: Object;
@@ -21,7 +25,7 @@ type OwnProps = {
 };
 
 export class MemberDetailsForm extends Component {
-  props: OwnProps & ConnectedDispatch & ConnectedState;
+  props: OwnProps & $Shape<mapStateToProps>;
 
   state: {
     errors: any;
@@ -160,8 +164,8 @@ const mapStateToProps = (state: AppState): ConnectedState => ({
   form: state.fundraiser.form,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): ConnectedDispatch => ({
-  updateForm: (form: FundraiserForm) => dispatch(updateForm(form)),
+const mapDispatchToProps = (dispatch: Dispatch<*>): ConnectedDispatch => ({
+  updateForm: (form: Object) => dispatch(updateForm(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailsForm);

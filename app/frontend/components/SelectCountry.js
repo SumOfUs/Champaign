@@ -3,6 +3,7 @@ import React from 'react';
 import SweetSelect from './SweetSelect/SweetSelect';
 import countryData from 'country-data/data/countries.json';
 import sortBy from 'lodash/sortBy';
+import type { Element } from 'react';
 
 export type Country = { value: string; label: string; };
 
@@ -11,7 +12,7 @@ type Props = {
   value?: string;
   onChange: (value: any) => void;
   options?: Country[];
-  placeholder?: React$Element<any>;
+  placeholder?: Element<any> | string;
   disabled?: boolean;
   multiple?: boolean;
 };

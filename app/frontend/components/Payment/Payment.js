@@ -1,6 +1,4 @@
 // @flow
-
-// npm
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { FormattedMessage } from 'react-intl';
@@ -8,30 +6,27 @@ import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
 
-// local
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
 import PaymentTypeSelection from './PaymentTypeSelection';
 import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
-// import ExpressDonation from '../ExpressDonation/ExpressDonation';
 import { resetMember } from '../../state/member/actions';
-import {
-  changeStep,
-  setRecurring,
-  setStoreInVault,
-  setPaymentType,
-} from '../../state/fundraiser/actions';
+import { changeStep, setRecurring, setStoreInVault, setPaymentType } from '../../state/fundraiser/actions';
+// import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
-// Types
+import type { Dispatch } from 'redux';
 import type { BraintreeClient } from 'braintree-web';
+import type { AppState, Member, FundraiserState } from '../../state';
 
 // Styles
 import './Payment.css';
 
+const DEFAULT_PAYMENT_TYPE = 'card';
+
 type OwnProps = {
+  member: Member;
   fundraiser: FundraiserState;
-  member: MemberState;
   disableRecurring: boolean;
   resetMember: () => void;
   changeStep: (step: number) => void;
@@ -39,19 +34,21 @@ type OwnProps = {
   setStoreInVault: (value: boolean) => void;
   setPaymentType: (value: ?string) => void;
 };
+
+type OwnState = {
+  client: BraintreeClient;
+  deviceData: Object;
+  loading: boolean;
+  submitting: boolean;
+  initializing: {
+    gocardless: boolean;
+    paypal: boolean;
+    card: boolean;
+  };
+};
 export class Payment extends Component {
   props: OwnProps;
-  state: {
-    client: BraintreeClient;
-    deviceData: Object;
-    loading: boolean;
-    submitting: boolean;
-    initializing: {
-      gocardless: boolean;
-      paypal: boolean;
-      card: boolean;
-    };
-  };
+  state: OwnState;
 
   static title = <FormattedMessage id="payment" defaultMessage="payment" />;
 
@@ -69,11 +66,9 @@ export class Payment extends Component {
       },
     };
 
-    const DEFAULT_PAYMENT_TYPE = 'card';
     const cpt = this.props.fundraiser.currentPaymentType;
     if (typeof cpt !== 'string' || cpt.length === 0) {
-      this.props.setPaymentType(DEFAULT_PAYMENT_TYPE);
-    }
+      this.props.setPaymentType(DEFAULT_PAYMENT_TYPE); }
   }
 
   componentDidMount() {
@@ -171,7 +166,7 @@ export class Payment extends Component {
   }
 
   makePayment() {
-    if (this.props.fundraiser.currentPaymentType == 'gocardless') {
+    if (this.props.fundraiser.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
       return;
     }
@@ -226,18 +221,15 @@ export class Payment extends Component {
 
     return (
       <div className="Payment section">
-
         <WelcomeMember member={member} resetMember={() => this.resetMember()} />
 
         <h3 className="Payment__prompt">
-          <FormattedMessage
-            id="fundraiser.payment_type_prompt"
-            defaultMessage="How would you like to donate?" />
+          <FormattedMessage id="fundraiser.payment_type_prompt" defaultMessage="How would you like to donate?" />
         </h3>
 
         <PaymentTypeSelection
           disabled={this.state.loading}
-          currentPaymentType={currentPaymentType}
+          currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
           onChange={(p) => this.selectPaymentType(p)}
         />
 
@@ -245,7 +237,8 @@ export class Payment extends Component {
           ref="paypal"
           client={this.state.client}
           recurring={recurring}
-          onInit={() => this.paymentInitialized('paypal')} />
+          onInit={() => this.paymentInitialized('paypal')}
+        />
 
         <BraintreeCardFields
           ref="card"
@@ -265,7 +258,7 @@ export class Payment extends Component {
                 name="store_in_vault"
                 disabled={disableRecurring}
                 defaultChecked={recurring}
-                onChange={(e) => this.props.setRecurring(e.currentTarget.checked)}
+                onChange={(e) => this.props.setRecurring(e.target.checked)}
               />
               <FormattedMessage
                 id="fundraiser.make_recurring"
@@ -318,7 +311,7 @@ const mapStateToProps = (state: AppState) => ({
   disableRecurring: state.fundraiser.recurringDefault === 'only_recurring',
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   resetMember: () => dispatch(resetMember()),
   changeStep: (step: number) => dispatch(changeStep(step)),
   setRecurring: (value: boolean) => dispatch(setRecurring(value)),

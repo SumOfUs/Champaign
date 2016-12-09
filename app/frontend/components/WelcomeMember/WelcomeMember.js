@@ -16,9 +16,16 @@
  */
 import React  from 'react';
 import { FormattedMessage } from 'react-intl';
+
+import type { Member } from '../../state';
+
 import './WelcomeMember.css';
 
-type OwnProps = { member: MemberState, resetMember: () => void };
+type OwnProps = {
+  member: Member,
+  resetMember: () => void;
+};
+
 export default function WelcomeMember(props: OwnProps) {
   if (!props.member || !props.member.name) return null;
 

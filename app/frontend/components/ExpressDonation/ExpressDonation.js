@@ -3,9 +3,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 import { FormattedMessage } from 'react-intl';
+
 import type {
-  PaymentMethod
+  AppState,
+  PaymentMethod,
+  FundraiserState
 } from '../../state';
+
 import './ExpressDonation.scss';
 
 type OwnProps = {
@@ -15,7 +19,7 @@ type OwnProps = {
 
 type OwnState = { currentPaymentMethod: ?PaymentMethod };
 
-const stateSlice = (state: AppState): OwnProps => ({
+const mapStateToProps = (state: AppState): OwnProps => ({
   paymentMethods: state.paymentMethods,
   fundraiser: state.fundraiser,
 });
@@ -128,4 +132,4 @@ export class ExpressDonation extends Component {
   }
 }
 
-export default connect(stateSlice)(ExpressDonation);
+export default connect(mapStateToProps)(ExpressDonation);
