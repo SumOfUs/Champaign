@@ -44,7 +44,7 @@ describe 'api/members' do
       expect { post api_members_path, email: 'private' }.not_to change { Member.count }
       expect(response.code).to eq '422'
       json = JSON.parse(response.body).deep_symbolize_keys
-      expect(json).to eq(errors: { name: ['is required'], email: ['is not a valid email address'] })
+      expect(json).to eq(errors: { name: ['is required'], email: ['is not a valid email address'], country: ['is required'] })
     end
   end
 end
