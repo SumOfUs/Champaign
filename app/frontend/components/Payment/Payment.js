@@ -11,6 +11,7 @@ import BraintreeCardFields from '../Braintree/BraintreeCardFields';
 import PaymentTypeSelection from './PaymentTypeSelection';
 import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
+import Checkbox from '../Checkbox/Checkbox';
 import { resetMember } from '../../state/member/actions';
 import { changeStep, setRecurring, setStoreInVault, setPaymentType } from '../../state/fundraiser/actions';
 // import ExpressDonation from '../ExpressDonation/ExpressDonation';
@@ -250,36 +251,21 @@ export class Payment extends Component {
 
         <hr className="Payment__divider" />
 
-        <div className="Payment__config">
-          <div className="Payment__form-group">
-            <label className="Payment__form-group-label">
-              <input
-                type="checkbox"
-                name="store_in_vault"
-                disabled={disableRecurring}
-                defaultChecked={recurring}
-                onChange={(e) => this.props.setRecurring(e.target.checked)}
-              />
-              <FormattedMessage
-                id="fundraiser.make_recurring"
-                defaultMessage="Make my donation monthly" />
-            </label>
-          </div>
+        <Checkbox
+          className="Payment__config"
+          disabled={disableRecurring}
+          defaultChecked={recurring}
+          onChange={(e) => this.props.setRecurring(e.target.checked)}>
+          <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
+        </Checkbox>
 
-          <div className="Payment__form-group">
-            <label className="Payment__form-group-label">
-              <input
-                type="checkbox"
-                name="store_in_vault"
-                defaultChecked={storeInVault}
-                onChange={(e) => this.props.setStoreInVault(e.currentTarget.checked)}
-              />
-              <FormattedMessage
-                id="fundraiser.store_in_vault"
-                defaultMessage="Securely store my payment information" />
-            </label>
-          </div>
-        </div>
+        <Checkbox
+          className="Payment__config"
+          disabled={disableRecurring}
+          defaultChecked={storeInVault}
+          onChange={(e) => this.props.setStoreInVault(e.target.checked)}>
+          <FormattedMessage id="fundraiser.store_in_vault" defaultMessage="Securely store my payment information" />
+        </Checkbox>
 
         <DonateButton
           currency={currency}

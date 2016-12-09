@@ -1,0 +1,17 @@
+.Checkbox {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+
+  &__label {
+    display: block;
+    margin-left: 24px;
+    display: inline;
+  }
+
+  &__label input {
+    position: absolute;
+    left: 0;
+    top: -4px;
+  }
+}
