@@ -101,11 +101,6 @@ module PaymentProcessor
 
       def subscription
         @subscription ||= Payment::Braintree::Subscription.find_by(subscription_id: @notification.subscription.id)
-        if @subscription.blank?
-          Rails.logger.error("No locally persisted Braintree subscription found for subscription id #{@notification.subscription.id}!")
-          log_failure
-        end
-        @subscription
       end
 
       def member
