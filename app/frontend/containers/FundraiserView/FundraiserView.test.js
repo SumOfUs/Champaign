@@ -48,15 +48,15 @@ describe('Donation Amount Tab', function () {
 
     // transitioning
     it.skip('transitions to the next step when we select an amount', () => {});
-  })
+  });
 });
 
 describe('mapStateToProps', function () {
-  let stateFromProps;
+  let stateFromProps: Object = {};
   beforeEach(() => stateFromProps = mapStateToProps(configureStore().getState()));
 
   it('returns member from state', () => {
-    expect(stateFromProps.member).toBe(null)
+    expect(stateFromProps.member).toBe(null);
   });
 
   it('returns the list of currencies from state', () => {

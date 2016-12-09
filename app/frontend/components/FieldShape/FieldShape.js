@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import SweetInput from '../SweetInput/SweetInput';
 import SelectCountry from '../SelectCountry';
 import SweetSelect from '../SweetSelect/SweetSelect';
+import type { Element } from 'react';
 
 type Field = {
   data_type: string;
@@ -35,7 +36,7 @@ export default class FieldShape extends Component {
     };
   }
 
-  renderField(type: string): React$Element<any> {
+  renderField(type: string): Element<any> {
     const fieldProps = this.fieldProps();
     const { field: { default_value, name } } = this.props;
 
