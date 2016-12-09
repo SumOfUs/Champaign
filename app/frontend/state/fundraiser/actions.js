@@ -1,4 +1,5 @@
 // @flow
+import type { FundraiserAction } from './reducer';
 
 export function changeAmount(payload: ?number): FundraiserAction {
   return { type: 'change_amount', payload };
@@ -12,11 +13,8 @@ export function changeStep(payload: number): FundraiserAction {
   return { type: 'change_step', payload };
 }
 
-export function updateForm(payload: FundraiserForm): FundraiserAction {
-  return {
-    type: 'update_form',
-    payload: payload,
-  };
+export function updateForm(payload: Object): FundraiserAction {
+  return { type: 'update_form', payload };
 }
 
 export function setRecurring(payload: boolean = false): FundraiserAction {

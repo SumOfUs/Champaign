@@ -1,7 +1,7 @@
 /* @flow */
 import { combineReducers } from 'redux';
-import { memberReducer as member } from './member';
-import { fundraiserReducer as fundraiser } from './fundraiser/reducer';
+import member from './member/reducer';
+import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 
 const reducers = {
