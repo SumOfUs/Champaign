@@ -83,12 +83,13 @@ export default class AmountSelection extends Component {
             defaultMessage="Values are shown in {currency}."
             values={{ currency: this.props.currency }}
           />.&nbsp;
-          <a href="#" onClick={this.toggleCurrencyDropdown.bind(this)}>
+          <a onClick={this.toggleCurrencyDropdown.bind(this)}>
             <FormattedMessage id="change_currency" defaultMessage="Change currency" />
           </a>
         </p>
         {this.state.currencyDropdownVisible &&
-          <select value={this.props.currency} onChange={e => this.onSelectCurrency(e.target.value)}>
+          <select value={this.props.currency} className="AmountSelection__currency-selector"
+            onChange={e => this.onSelectCurrency(e.target.value)}>
             {this.props.currencies.map(c =>
               <option key={c} value={c}>{c}</option>
             )}
@@ -96,7 +97,7 @@ export default class AmountSelection extends Component {
         }
 
         { proceedButtonVisible && (
-          <Button className="btn" onClick={() => this.props.proceed()} disabled={!this.props.donationAmount}>
+          <Button className="btn AmountSelection__proceed-button" onClick={() => this.props.proceed()} disabled={!this.props.donationAmount}>
             <FormattedMessage
               id="proceed_to_details"
               defaultMessage="Proceed {name}"

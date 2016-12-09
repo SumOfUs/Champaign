@@ -51,10 +51,13 @@ export class DonationBands extends Component {
 
   onInputUpdated(value: string) {
     let amount = null;
-    if (value.match(/^(\d{1,10})$/) && parseFloat(value) <= MAX_CUSTOM_VALUE) {
-      amount = parseFloat(value);
-      this.setState({ customAmount: value });
-    } else if (value === '') {
+    // \u00a3 is £, \u20ac is €
+    const match = value.match(/^[\$\u20ac\u00a3]*(\d{0,10})/);
+
+    if (match && match[1].length) {
+      amount = parseFloat(match[1]);
+      this.setState({ customAmount: amount.toString() });
+    } else if (value === '' || (match && match[1] === '')) {
       amount = null;
       this.setState({ customAmount: '' });
     } else {
@@ -73,10 +76,18 @@ export class DonationBands extends Component {
   }
 
   onInputBlurred(value?: string = '') {
-    const visible = !!value.length;
+    const visible = !!value.match(/\d+/);
     if (this.props.toggleProceedButton) {
       this.props.toggleProceedButton(visible);
     }
+  }
+
+  customFieldDisplay() {
+    let amountString = this.state.customAmount || '';
+    if (amountString === '') return '';
+    let currencySymbol = this.props.currency == 'GBP' ? '£' : '$';
+    if (this.props.currency == 'EUR') currencySymbol = '€';
+    return `${currencySymbol}${amountString}`;
   }
 
   renderButton(amount: number, index: number): Button {
@@ -106,7 +117,7 @@ export class DonationBands extends Component {
           className="DonationBands-input styled fundraiser-bar__custom-field"
           placeholder="Other"
           pattern={/^[0-9]+ff$/}
-          value={this.state.customAmount || ''}
+          value={this.customFieldDisplay()}
           onFocus={(e) => this.onInputFocused(e.target.value)}
           onBlur={e => this.onInputBlurred(e.target.value)}
           onChange={({target}) => this.onInputUpdated(target.value)}/>
