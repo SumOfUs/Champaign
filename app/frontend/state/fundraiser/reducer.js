@@ -59,7 +59,7 @@ const initialState: FundraiserState = {
   currentStep: 0,
   recurringDefault: 'one_off',
   recurring: false,
-  storeInVault: false,
+  storeInVault: true,
   currentPaymentType: null,
   paymentMethods: [],
   pageId: '',
