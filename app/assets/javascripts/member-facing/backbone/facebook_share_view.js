@@ -9,11 +9,15 @@ const FacebookShareView = Backbone.View.extend({
     'change textarea' : 'updateMessage',
   },
 
+  trackEvent(name) {
+    ga('send', 'event', 'fb:sign_share', name, window.champaign.personalization.urlParams.id);
+  },
+
   initialize() {
     this.fbConnected = false;
     this.template =  _.template(this.$('script').html());
     this.fbAppId = $("meta[property='fb:app_id']").attr('content');
-
+    this.trackEvent('landed_on_page');
     this.model = new FacebookShareModel(this.fbShareData());
     this.initializeFbClient();
   },
@@ -67,14 +71,14 @@ const FacebookShareView = Backbone.View.extend({
   post(cb) {
     if( this.model.isEnabled() ) {
       this.model.post(FB, () => {
-        ga('send', 'event', 'fb:sign_share', 'shared');
+        this.trackEvent('shared');
 
         if(this.model.get('message') !== ''){
-          ga('send', 'event', 'fb:sign_share', 'custom_comment');
+          this.trackEvent('custom_comment');
         }
 
         cb();
-      });
+      }.bind(this));
     } else {
       cb();
     }
@@ -90,9 +94,9 @@ const FacebookShareView = Backbone.View.extend({
         this.model.disable();
         this.render();
         this.fbConnected = false;
-        ga('send', 'event', 'fb:sign_share', 'aborts_authorisation');
+        this.trackEvent('aborts_authorisation');
       } else {
-        ga('send', 'event', 'fb:sign_share', 'authorised');
+        this.trackEvent('authorised');
       }
     };
 
@@ -100,11 +104,11 @@ const FacebookShareView = Backbone.View.extend({
     const options = { scope: 'publish_actions', return_scopes: true };
 
     if(checked) {
-      ga('send', 'event', 'fb:sign_share', 'enabled');
+      this.trackEvent('enabled');
       if(!this.fbConnected) FB.login( loginHandler, options );
       this.model.enable();
     } else {
-      ga('send', 'event', 'fb:sign_share', 'disabled');
+      this.trackEvent('disabled');
       this.model.disable();
     }
   },

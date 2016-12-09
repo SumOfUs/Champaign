@@ -10,7 +10,7 @@ $(() => {
     shared = true;
 
     if(share.share_type === 'f') {
-      ga('send', 'event', 'fb:sign_share', 'share_progress_share');
+      ga('send', 'event', 'fb:sign_share', 'share_progress_share', window.champaign.personalization.urlParams.id);
     }
   };
 
