@@ -19,7 +19,6 @@ export type FormField = {
 export type FundraiserState = {
   title: string;
   currency: string;
-  currencies: string[];
   donationBands: {[id:string]: number[]};
   donationAmount: ?number;
   currentStep: number;
