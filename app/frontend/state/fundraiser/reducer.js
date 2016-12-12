@@ -51,12 +51,13 @@ export type FundraiserAction =
 const initialState: FundraiserState = {
   amount: null,
   currency: 'USD',
-  donationBands: { 'USD': [2, 5, 10, 25, 50],
-                   'GBP': [1, 2, 3, 4, 5],
-                   'EUR': [1, 2, 3, 4, 5],
-                   'CAD': [1, 2, 3, 4, 5],
-                   'AUD': [1, 2, 3, 4, 5],
-                   'NZD': [1, 2, 3, 4, 5]
+  donationBands: {
+    USD: [2, 5, 10, 25, 50],
+    GBP: [1, 2, 3, 4, 5],
+    EUR: [1, 2, 3, 4, 5],
+    CAD: [1, 2, 3, 4, 5],
+    AUD: [1, 2, 3, 4, 5],
+    NZD: [1, 2, 3, 4, 5]
   },
   donationAmount: null,
   currentStep: 0,
