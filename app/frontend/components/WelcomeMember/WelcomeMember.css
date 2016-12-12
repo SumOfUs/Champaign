@@ -1,11 +1,17 @@
 .WelcomeMember {
-  display: flex;
+  position: relative;
   border-top: 1px solid #cdcece;
   border-bottom: 1px solid #cdcece;
   margin-bottom: 15px;
   padding: 16px;
+  padding-left: 52px;
   font-size: 14px;
   color: #30394f;
+}
+
+.WelcomeMember__icon {
+  position: absolute;
+  left: 20px;
 }
 
 .WelcomeMember__icon,

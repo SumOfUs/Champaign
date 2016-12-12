@@ -14,6 +14,8 @@ export default (state: PaymentMethod[] = initialState, action: any): PaymentMeth
   switch (action.type) {
     case 'parse_champaign_data':
       return action.payload.paymentMethods;
+    case 'reset_member':
+      return initialState;
     default:
       return state;
   }
