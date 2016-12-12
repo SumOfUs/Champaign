@@ -130,9 +130,9 @@ export class Payment extends Component {
         donationAmount,
         currency,
         recurring,
-        storeInVault,
-        form,
-      }
+        storeInVault
+      },
+      member
     } = this.props;
 
     return {
@@ -140,7 +140,7 @@ export class Payment extends Component {
       currency: currency,
       recurring: recurring,
       store_in_vault: storeInVault,
-      user: form,
+      user: member,
     };
   }
 
