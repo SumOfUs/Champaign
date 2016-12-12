@@ -40,7 +40,6 @@ export default class PaymentTypeSelection extends Component {
           name="card"
           disabled={disabled}
           checked={currentPaymentType === 'card'}
-          activeColor="#00c0cf"
           onChange={() => onChange('card')}>
           <FormattedMessage
             id="fundraiser.pay_by_card"

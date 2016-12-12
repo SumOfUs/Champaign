@@ -4,9 +4,10 @@
   border-radius: 3px;
   margin-bottom: 5px;
   color: white;
-}
-.PaymentTypePill--active {
-  background-color: #199ad7;
+
+  &:hover, &--active {
+    background-color: #199ad7;
+  }
 }
 
 .PaymentTypePill__label {
