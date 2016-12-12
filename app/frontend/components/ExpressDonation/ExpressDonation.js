@@ -26,7 +26,10 @@ type OwnProps = {
   setRecurring: (value: boolean) => void;
 };
 
-type OwnState = { currentPaymentMethod: ?PaymentMethod };
+type OwnState = {
+  currentPaymentMethod: ?PaymentMethod;
+  submitting: boolean;
+};
 
 export class ExpressDonation extends Component {
   props: OwnProps;
@@ -37,6 +40,7 @@ export class ExpressDonation extends Component {
 
     this.state = {
       currentPaymentMethod: props.paymentMethods ? props.paymentMethods[0] : null,
+      submitting: false,
     };
   }
 
@@ -47,20 +51,47 @@ export class ExpressDonation extends Component {
     this.setState({ currentPaymentMethod: newProps.paymentMethods[0] });
   }
 
+  oneClickData() {
+    if (!this.state.currentPaymentMethod) return null;
+
+    return {
+      payment: {
+        currency: this.props.fundraiser.currency,
+        amount: this.props.fundraiser.donationAmount,
+        recurring: this.props.fundraiser.recurring,
+        payment_method_id: this.state.currentPaymentMethod.id,
+      },
+      user: {
+        form_id: this.props.fundraiser.formId,
+        // formValues will have the prefillValues
+        ...this.props.fundraiser.formValues,
+        // form will have the user's submitted values
+        ...this.props.fundraiser.form
+      }
+    };
+  }
+
   async onSuccess(data: any) {
-    console.log(data);
+    console.log('one click success:', data, this.oneClickData());
     return data;
   }
 
   async onFailure(reason: any) {
-    console.log(reason);
+    console.log('one click failure:', reason, this.oneClickData());
     return reason;
   }
 
   submit() {
     const { fundraiser: { pageId } }  = this.props;
-    return $.post(`/api/payment/braintree/pages/${pageId}/one_click`)
-      .then(this.onSuccess.bind(this), this.onFailure.bind(this));
+    const data = this.oneClickData();
+    if (data) {
+      this.setState({ submitting: true });
+      $.post(`/api/payment/braintree/pages/${pageId}/one_click`, data)
+        .then(
+          this.onSuccess.bind(this),
+          this.onFailure.bind(this)
+        );
+    }
   }
 
   selectPaymentMethod(paymentMethod: PaymentMethod) {
@@ -135,7 +166,7 @@ export class ExpressDonation extends Component {
         <DonateButton
           currency={this.props.fundraiser.currency}
           amount={this.props.fundraiser.donationAmount || 0}
-          disabled={!this.state.currentPaymentMethod}
+          disabled={!this.state.currentPaymentMethod || this.state.submitting}
           onClick={() => this.submit()}
         />
       </div>
