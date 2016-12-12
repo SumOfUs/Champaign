@@ -30,7 +30,8 @@ class Image < ActiveRecord::Base
                       }
                     },
                     convert_options: {
-                      all: '-strip -interlace Plane'
+                      all: '-strip -interlace Plane',
+                      large: '-quality 80'
                     },
                     default_url: '/images/:style/missing.png'
 
