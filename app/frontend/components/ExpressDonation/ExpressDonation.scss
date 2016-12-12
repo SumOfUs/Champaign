@@ -3,7 +3,35 @@
   margin-bottom: 20px;
 }
 
-.ExpressDonation__icon {
+.ExpressDonation__prompt {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.ExpressDonation__payment-methods {
+  padding: 16px;
+  padding-left: 52px;
+  margin-bottom: 15px;
+}
+
+.ExpressDonation__toggle {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.PaymentMethod {
+  margin: 10px auto;
+  font-size: 13px;
+}
+
+.PaymentMethod input {
+  height: 14px;
+  width: 14px;
+}
+
+.PaymentMethodWrapper__icon {
   position: absolute;
   top: 20px;
+  left: 20px;
+  font-size: 22px;
 }

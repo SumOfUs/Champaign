@@ -4,6 +4,7 @@ import Button from './Button/Button';
 import CurrencyAmount from './CurrencyAmount';
 import LoadingThen from './LoadingThen';
 import { FormattedMessage } from 'react-intl';
+import './DonateButton.css';
 
 type OwnProps = {
   currency: string;

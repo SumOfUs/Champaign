@@ -4,25 +4,29 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 import { FormattedMessage } from 'react-intl';
 
+import Checkbox from '../Checkbox/Checkbox';
+import DonateButton from '../DonateButton';
+import PaymentMethodWrapper from './PaymentMethodWrapper';
+import PaymentMethodItem from './PaymentMethod';
+import { setRecurring, showExpressDonations } from '../../state/fundraiser/actions';
+
+import type { Dispatch } from 'redux';
 import type {
   AppState,
   PaymentMethod,
   FundraiserState
-} from '../../state';
+} from '../../state/index';
 
 import './ExpressDonation.scss';
 
 type OwnProps = {
   fundraiser: FundraiserState;
   paymentMethods: PaymentMethod[];
+  hideExpressDonations: () => void;
+  setRecurring: (value: boolean) => void;
 };
 
 type OwnState = { currentPaymentMethod: ?PaymentMethod };
-
-const mapStateToProps = (state: AppState): OwnProps => ({
-  paymentMethods: state.paymentMethods,
-  fundraiser: state.fundraiser,
-});
 
 export class ExpressDonation extends Component {
   props: OwnProps;
@@ -36,6 +40,9 @@ export class ExpressDonation extends Component {
     };
   }
 
+  // Payment methods don't really change after we've loaded them from
+  // Champaign so in theory we don't need this, however, should the `parse_champaign_data`
+  // action get dispatched after we've rendered, this would update us.
   componentWillReceiveProps(newProps: OwnProps) {
     this.setState({ currentPaymentMethod: newProps.paymentMethods[0] });
   }
@@ -56,37 +63,19 @@ export class ExpressDonation extends Component {
       .then(this.onSuccess.bind(this), this.onFailure.bind(this));
   }
 
-  messageDescriptor(paymentMethod: PaymentMethod) {
-    const type = paymentMethod.instrument_type;
-    if (type === 'credit_card') {
-      return {
-        id: 'fundraiser.oneclick.credit_card_payment_method',
-        defaultMessage: '{card_type} ending in {last_four_digits}',
-        values: {
-          card_type: paymentMethod.card_type,
-          last_four_digits: paymentMethod.last_4,
-        },
-      };
-    }
-
-    if (type === 'paypal_account') {
-      return {
-        id: 'fundraiser.oneclick.paypal_payment_method',
-        defaultMessage: 'PayPal ({email})',
-        values: { email: paymentMethod.email },
-      };
-    }
-
-    return {
-      id: 'fundraiser.oneclick.payment_method',
-      defaultMessage: 'Payment method'
-    };
+  selectPaymentMethod(paymentMethod: PaymentMethod) {
+    this.setState({ currentPaymentMethod: paymentMethod });
   }
 
-  renderPaymentMethod(paymentMethod: PaymentMethod) {
+  renderPaymentMethodRadio(paymentMethod: PaymentMethod) {
     return (
-      <div className="ExpressDonation__payment-method">
-        <FormattedMessage {...this.messageDescriptor(paymentMethod)} />
+      <div className="ExpressDonation__payment-method-radio">
+        <input
+          type="radio"
+          checked={this.state.currentPaymentMethod === paymentMethod}
+          onChange={() => this.selectPaymentMethod(paymentMethod)}
+        />
+        <PaymentMethodItem paymentMethod={paymentMethod} />
       </div>
     );
   }
@@ -95,41 +84,73 @@ export class ExpressDonation extends Component {
     const item = this.state.currentPaymentMethod;
     if (!item) return null;
     return (
-      <div className="ExpressDonation__payment-methods">
-        <i className="ExpressDonation__icon fa fa-credit-card" />
+      <PaymentMethodWrapper>
         <div className="ExpressDonation__single-item">
-          {this.renderPaymentMethod(item)}
+          <PaymentMethodItem paymentMethod={item} />
         </div>
-      </div>
+      </PaymentMethodWrapper>
     );
   }
 
-  renderSelection() {
+  renderChoices() {
     return (
-      <div className="ExpressDonation__payment-methods">
-        <i className="ExpressDonation__icon fa fa-credit-card" />
-        <span className="ExpressDonation__single-item">
+      <PaymentMethodWrapper>
+        <span className="ExpressDonation__prompt">
           <FormattedMessage id="fundraiser.oneclick.select_payment" defaultMessage="Select a saved payment method" />
         </span>
-      </div>
+
+        { this.props.paymentMethods.map(paymentMethod =>
+            <PaymentMethodItem
+              key={paymentMethod.id}
+              paymentMethod={paymentMethod}
+              checked={this.state.currentPaymentMethod === paymentMethod}
+              onChange={() => this.selectPaymentMethod(paymentMethod)}
+            />
+          )
+        }
+      </PaymentMethodWrapper>
     );
-  }
-
-  renderPaymentMethods() {
-    if (this.props.paymentMethods.length === 1) return this.renderSingle();
-
-    return this.renderSelection();
   }
 
   render() {
-    if (this.props.paymentMethods.length === 0) return null;
+    if (!this.props.paymentMethods.length) return null;
 
     return (
       <div className="ExpressDonation">
-        { this.renderPaymentMethods() }
+        <div className="ExpressDonation__payment-methods">
+          { this.props.paymentMethods.length === 1 ? this.renderSingle() : this.renderChoices() }
+          <a className="ExpressDonation__toggle" onClick={() => this.props.hideExpressDonations()}>
+            <FormattedMessage id="fundraiser.oneclick.new_payment_method" defaultMessage="Add payment method" />
+          </a>
+        </div>
+
+        <Checkbox
+          className="Payment__config"
+          disabled={this.props.fundraiser.recurringDefault === 'one_off'}
+          defaultChecked={this.props.fundraiser.recurring}
+          onChange={(e) => this.props.setRecurring(e.target.checked)}>
+          <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
+        </Checkbox>
+
+        <DonateButton
+          currency={this.props.fundraiser.currency}
+          amount={this.props.fundraiser.donationAmount || 0}
+          disabled={!this.state.currentPaymentMethod}
+          onClick={() => this.submit()}
+        />
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(ExpressDonation);
+const mapStateToProps = (state: AppState) => ({
+  paymentMethods: state.paymentMethods,
+  fundraiser: state.fundraiser,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
+  hideExpressDonations: () => dispatch(showExpressDonations(false)),
+  setRecurring: (value: boolean) => dispatch(setRecurring(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpressDonation);
