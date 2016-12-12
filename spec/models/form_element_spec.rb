@@ -38,46 +38,56 @@ describe FormElement do
     end
 
     describe 'name fixing' do
+      let(:base_params) { { label: 'My label!', form: form, name: 'foo_bar' } }
+
       it 'keeps name if whitelisted' do
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'address1').name
-        ).to eq('address1')
+        name = FormElement.create(label: 'My label!', form: form, name: 'address1').name
+        expect(name).to eq('address1')
       end
 
       it 'prefixes custom names' do
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'email').name
-        ).to eq('action_foo_bar')
+        name = FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'email').name
+        expect(name).to eq('action_foo_bar')
       end
 
-      it 'prefixes names based on checkbox/paragraph types' do
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'checkbox').name
-        ).to eq('action_box_foo_bar')
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'paragraph').name
-        ).to eq('action_textentry_foo_bar')
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'foo_bar', data_type: 'text').name
-        ).to eq('action_textentry_foo_bar')
+      it 'prefixes the name to indicate checkboxes' do
+        name = FormElement.create(base_params.merge(data_type: 'checkbox')).name
+        expect(name).to eq('action_box_foo_bar')
+      end
+
+      it 'prefixes the name to indicate paragraphs' do
+        name = FormElement.create(base_params.merge(data_type: 'paragraph')).name
+        expect(name).to eq('action_textentry_foo_bar')
+      end
+
+      it 'prefixes the name to indicate text' do
+        name = FormElement.create(base_params.merge(data_type: 'text')).name
+        expect(name).to eq('action_textentry_foo_bar')
+      end
+
+      it 'prefixes the name to indicate dropdowns' do
+        name = FormElement.create(base_params.merge(data_type: 'dropdown')).name
+        expect(name).to eq('action_dropdown_foo_bar')
+      end
+
+      it 'prefixes the name to indicate multiple choice' do
+        name = FormElement.create(base_params.merge(data_type: 'choice')).name
+        expect(name).to eq('action_choice_foo_bar')
       end
 
       it 'does nothing when prefix is present' do
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'action_foo_bar').name
-        ).to eq('action_foo_bar')
+        name = FormElement.create(label: 'My label!', form: form, name: 'action_foo_bar').name
+        expect(name).to eq('action_foo_bar')
       end
 
       it 'does nothing when name is blank' do
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: '').name
-        ).to eq('')
+        name = FormElement.create(label: 'My label!', form: form, name: '').name
+        expect(name).to eq('')
       end
 
       it 'does nothing when name is "action_"' do
-        expect(
-          FormElement.create(label: 'My label!', form: form, name: 'action_').name
-        ).to eq('action_')
+        name = FormElement.create(label: 'My label!', form: form, name: 'action_').name
+        expect(name).to eq('action_')
       end
     end
   end
