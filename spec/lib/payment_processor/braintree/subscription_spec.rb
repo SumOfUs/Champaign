@@ -10,7 +10,7 @@ module PaymentProcessor
             amount: '437.14',
             currency: 'AUD',
             nonce: '12ax',
-            page_id: '12',
+            page: Page.new(id: 12),
             device_data: { foo: 'bar' },
             user: {
               email: 'test@example.com',
@@ -43,7 +43,7 @@ module PaymentProcessor
         end
 
         describe 'parameters' do
-          [:nonce, :amount, :currency, :user, :page_id].each do |keyword|
+          [:nonce, :amount, :currency, :user, :page].each do |keyword|
             it "requires a #{keyword}" do
               expect do
                 required_options.delete(keyword)
@@ -215,7 +215,7 @@ module PaymentProcessor
                 end
 
                 it 'calls Payment.write_subscription with the right params' do
-                  expect(Payment::Braintree).to have_received(:write_subscription).with(payment_method.id, customer.customer_id, subscription_success, '12', action.id, 'AUD')
+                  expect(Payment::Braintree).to have_received(:write_subscription).with(payment_method.id, customer.customer_id, subscription_success, 12, action.id, 'AUD')
                 end
               end
             end
