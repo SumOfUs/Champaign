@@ -112,9 +112,9 @@ export class DonationBands extends Component {
           type="tel"
           ref="customAmount"
           id="DonationBands-custom-amount"
-          className="DonationBands-input styled fundraiser-bar__custom-field"
+          className="DonationBands__input"
           placeholder="Other"
-          pattern={/^[0-9]+ff$/}
+          pattern={/^[0-9]+$/}
           value={this.customFieldDisplay()}
           onFocus={(e) => this.onInputFocused(e.target.value)}
           onBlur={e => this.onInputBlurred(e.target.value)}
