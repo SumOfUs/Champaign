@@ -122,6 +122,7 @@ declare module 'braintree-web/hosted-fields' {
       callback: (error: BraintreeError, data: HostedFieldsTokenizePayload) => void
     ) => void;
     teardown: (callback?: () => void) => void;
+    on: (eventType: string, callback: (event:any) => void) => void;
   };
 
   declare function create(

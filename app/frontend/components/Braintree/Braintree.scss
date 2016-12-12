@@ -3,6 +3,10 @@
   &--active {
     display: block;
   }
+
+  .clearfix {
+    clear: both;
+  }
 }
 
 #braintree-hosted-fields-form {
@@ -41,6 +45,20 @@
   flex-grow: 1;
   margin-left: 3px;
 }
+
+.BraintreeCardFields__error-msg {
+  color: #f8492e;
+  font-size: 14px;
+  text-align: right;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  &--col {
+    float: left;
+    width: 48%;
+    margin-right:2%;
+  }
+}
+
 
 .braintree-hosted-fields-focused {
   border-color: #00c0cf;
