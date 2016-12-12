@@ -53,10 +53,6 @@ module PaymentProcessor
         @result.try(:transaction).try(:id)
       end
 
-      def store_in_vault?
-        @store_in_vault || @page.pledger?
-      end
-
       def submit_for_settlement?
         !@page.pledger?
       end
@@ -72,7 +68,7 @@ module PaymentProcessor
 
           options: {
             submit_for_settlement: submit_for_settlement?,
-            store_in_vault_on_success: store_in_vault?
+            store_in_vault_on_success: @store_in_vault
           },
           customer: customer_options,
           billing: billing_options
