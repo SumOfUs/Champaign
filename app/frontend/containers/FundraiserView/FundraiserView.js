@@ -86,7 +86,8 @@ export class FundraiserView extends Component {
                 formId={formId}
                 proceed={this.proceed.bind(this)}
               />
-            </StepContent> }
+            </StepContent>
+          }
 
           <StepContent title="payment">
             <Payment />

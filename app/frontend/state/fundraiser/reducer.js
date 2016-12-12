@@ -30,6 +30,7 @@ export type FundraiserState = {
   pageId: string;
   fields: FormField[];
   form: Object;
+  formValues: Object;
   currentPaymentType: ?string;
   suggestedAmount?: number;
   showDirectDebit?: boolean;
@@ -75,6 +76,7 @@ const initialState: FundraiserState = {
     postal: '',
   },
   form: {},
+  formValues: {},
 };
 
 export default function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
@@ -100,6 +102,7 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
         ...state,
         showExpressDonations: false,
         outstandingFields: state.fields.map(field => field.name),
+        formValues: {},
       };
     case 'change_currency':
       return { ...state, currency: action.payload };
