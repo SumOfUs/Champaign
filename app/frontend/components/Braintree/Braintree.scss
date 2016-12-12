@@ -52,11 +52,15 @@
   text-align: right;
   margin-top: 2px;
   margin-bottom: 8px;
-  &--col {
+  &--col-left, &--col-right {
     float: left;
     width: 48%;
     margin-right:2%;
   }
+
+  &--col-left { float: left; }
+  &--col-right { float: right; }
+
 }
 
 
