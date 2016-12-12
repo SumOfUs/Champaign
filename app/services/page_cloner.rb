@@ -2,6 +2,8 @@
 class ClonePageError < StandardError; end
 
 class PageCloner
+  include Rails.application.routes.url_helpers
+
   attr_reader :page, :cloned_page, :title
 
   def self.clone(page, title = nil)
@@ -19,6 +21,7 @@ class PageCloner
       plugins
       tags
       images
+      shares
     end
   end
 
@@ -71,5 +74,31 @@ class PageCloner
 
       cloned_page.primary_image = new_image if image == primary_image
     end
+  end
+
+  def shares
+    page.shares.each do |share|
+      ShareProgressVariantBuilder.create(
+        params: share_params(share),
+        variant_type: share_class(share),
+        page: cloned_page,
+        url: member_facing_page_url(cloned_page, host: Settings.host)
+      )
+    end
+  end
+
+  def share_params(share)
+    case share_class(share)
+    when :facebook
+      share.slice(:description, :title, :image_id)
+    when :twitter
+      share.slice(:description)
+    when :email
+      share.slice(:subject, :body)
+    end
+  end
+
+  def share_class(share)
+    share.class.name.downcase.demodulize.to_sym
   end
 end
