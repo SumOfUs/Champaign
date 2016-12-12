@@ -143,8 +143,8 @@ class BraintreeCardFields extends Component {
             <div id="braintree-cvv" className="BraintreeCardFields__hosted-field BraintreeCardFields__cvv"></div>
             <div id="braintree-expiration-date" className="BraintreeCardFields__hosted-field BraintreeCardFields__expiration-date"></div>
           </div>
-          { this.state.errors.cvv && this.renderError('cvv', "BraintreeCardFields__error-msg--col") }
-          { this.state.errors.expirationDate && this.renderError('expiration', "BraintreeCardFields__error-msg--col") }
+          { this.state.errors.cvv && this.renderError('cvv', "BraintreeCardFields__error-msg--col-left") }
+          { this.state.errors.expirationDate && this.renderError('expiration', "BraintreeCardFields__error-msg--col-right") }
 
         </form>
       </div>
