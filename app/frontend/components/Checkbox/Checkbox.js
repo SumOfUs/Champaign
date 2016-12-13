@@ -8,6 +8,7 @@ import './Checkbox.scss';
 type OwnProps = {
   className?: string;
   disabled?: boolean;
+  checked?: boolean;
   defaultChecked?: boolean;
   children?: Element<any>;
   onChange: (e: SyntheticInputEvent) => void;
