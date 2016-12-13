@@ -25,8 +25,8 @@ const RegisterMemberRedirector = {
 
     function registrationUrl(url, email) {
       return uri('/member_authentication/new')
-        .addSearch('follow_up_url', url)
-        .addSearch('email', email)
+        .query(`follow_up_url=${uri.encode(url)}`)
+        .addQuery(`email=${uri.encode(email)}`)
         .toString();
     }
   }
