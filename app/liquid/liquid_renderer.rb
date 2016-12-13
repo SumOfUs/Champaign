@@ -2,7 +2,7 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  HIDDEN_FIELDS = %w(source bucket referrer_id akid)
+  HIDDEN_FIELDS = %w(source bucket referrer_id akid).freeze
 
   def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
     @page = page
@@ -91,9 +91,9 @@ class LiquidRenderer
   end
 
   def form_values
-    field_keys = @page.plugins.map{ |p| p.try(:form_fields) }.compact.flatten.map{ |ff| ff[:name] }
+    field_keys = @page.plugins.map { |p| p.try(:form_fields) }.compact.flatten.map { |ff| ff[:name] }
     field_keys += HIDDEN_FIELDS
-    (member_data || {}).merge(@url_params).stringify_keys.select{ |k, _| field_keys.include? k }
+    (member_data || {}).merge(@url_params).stringify_keys.select { |k, _| field_keys.include? k }
   end
 
   def show_direct_debit?

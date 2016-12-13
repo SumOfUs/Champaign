@@ -85,6 +85,6 @@ Rails.application.configure do
   # to communicate among each other
   config.webpack.dev_server.manifest_host = 'localhost'
   config.webpack.dev_server.manifest_port = ENV.fetch('WEBPACK_PORT') { 4000 }
-  config.webpack.output_dir = "public/dist"
-  config.webpack.public_path = ""
+  config.webpack.output_dir = 'public/dist'
+  config.webpack.public_path = ''
 end
