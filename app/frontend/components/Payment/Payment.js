@@ -278,6 +278,7 @@ export class Payment extends Component {
               currency={currency}
               amount={donationAmount || 0}
               loading={this.loading(currentPaymentType)}
+              recurring={this.props.fundraiser.recurring}
               disabled={this.disableSubmit()}
               onClick={() => this.makePayment()}
             />
