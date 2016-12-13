@@ -14,6 +14,7 @@
         locale: '{{locale}}',
         fundraiser: {
           pageId: "{{ id }}",
+          currency: global.urlParams.currency || global.location.currency,
           amount: global.urlParams.amount,
           donationBands: global.donationBands,
           showDirectDebit: global.showDirectDebit,

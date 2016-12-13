@@ -60,7 +60,7 @@ export default class FieldShape extends Component {
         return <input type="hidden" name={name} value={default_value} />;
       case 'checkbox':
         fieldProps.value = (fieldProps.value || '0').toString();
-        let checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
+        const checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
         return (<Checkbox checked={checked} onChange={this.checkboxToggle.bind(this)}>
                   {fieldProps.label}
                 </Checkbox>);

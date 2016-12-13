@@ -35,6 +35,13 @@ type OwnProps = {
 export class FundraiserView extends Component {
   props: OwnProps & mapStateToProps;
 
+  componentDidMount() {
+    if (this.props.fundraiser && this.props.fundraiser.amount > 0) {
+      this.props.selectAmount(this.props.fundraiser.amount);
+      this.props.changeStep(1);
+    }
+  }
+
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
   }
