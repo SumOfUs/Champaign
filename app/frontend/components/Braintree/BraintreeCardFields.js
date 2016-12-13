@@ -93,7 +93,7 @@ class BraintreeCardFields extends Component {
       hostedFieldsInstance.on('validityChange', (event) => {
         const field = event.fields[event.emittedBy];
         const newErrors = {};
-        newErrors[event.emittedBy] = !field.isValid;
+        newErrors[event.emittedBy] = !field.isPotentiallyValid;
         this.setState({ errors: _.assign(this.state.errors, newErrors)});
       });
     });
@@ -128,7 +128,6 @@ class BraintreeCardFields extends Component {
       [prefix]: true,
       [`${prefix}--active`]: this.props.isActive,
     });
-
     return (
       <div className={classNames}>
         <form
@@ -152,7 +151,7 @@ class BraintreeCardFields extends Component {
   }
 
   renderError(field: string, className="") {
-    return <div className={`BraintreeCardFields__error-msg ${className}`}>
+    return <div className={`BraintreeCardFields__error-msg error-msg ${className}`}>
       <FormattedMessage id={`fundraiser.field_names.${field}`} defaultMessage={`${field} (missing transl)`} />
       &nbsp;
       <FormattedMessage id="errors.probably_invalid" defaultMessage="doesn't look right (missing transl)" />
