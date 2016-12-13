@@ -38,7 +38,7 @@ test:
     - cat circle/docker-compose-template.yml | envsubst > circle/docker-compose.yml
     - cat circle/test.template.env | envsubst > circle/test.env
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
-    # - annotate-output docker-compose -f circle/docker-compose.yml run web
+    - annotate-output docker-compose -f circle/docker-compose.yml run web
 
 database:
   override:
