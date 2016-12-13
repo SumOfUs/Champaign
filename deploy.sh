@@ -27,6 +27,10 @@ function sync_s3() {
     id=$(docker create soutech/champaign_web:$SHA1)
     docker cp $id:/myapp/public/assets statics
     aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
+    docker cp $id:/myapp/public/webpack statics-webpack
+    aws s3 sync statics-webpack/ s3://$STATIC_BUCKET/webpack/
+    # aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
+    # --exclude "*" --include "assets" --include "webpack"
 
     echo 'Shipping source bundle to S3...'
     zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
