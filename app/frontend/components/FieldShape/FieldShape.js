@@ -24,8 +24,8 @@ export default class FieldShape extends Component {
     onChange?: (v: ?SyntheticEvent | ?string) => void;
   };
 
-  checkboxToggle(event) {
-    this.props.onChange(event.target.checked ? '1' : '0');
+  checkboxToggle(event: SyntheticInputEvent) {
+    this.props.onChange && this.props.onChange(event.target.checked ? '1' : '0');
   }
 
   fieldProps() {
@@ -71,7 +71,7 @@ export default class FieldShape extends Component {
                     <label key={choice.id} htmlFor={choice.id}>
                       <input id={choice.id} name={fieldProps.name}
                         type='radio' value={choice.value} checked={choice.value === fieldProps.value}
-                        onChange={event => this.props.onChange(event.target.value)} />
+                        onChange={(event: SyntheticInputEvent) => this.props.onChange && this.props.onChange(event.target.value)} />
                       { choice.label }
                     </label>
                   )}
