@@ -17,6 +17,7 @@ dependencies:
     # build the image
     - npm install
     - bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3 --without development test
+    - npm run build
     - RAILS_ENV=production bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSET_PATHS]
     - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
 
