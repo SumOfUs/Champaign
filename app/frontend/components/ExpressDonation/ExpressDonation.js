@@ -157,8 +157,8 @@ export class ExpressDonation extends Component {
 
         <Checkbox
           className="Payment__config"
-          disabled={this.props.fundraiser.recurringDefault === 'one_off'}
-          defaultChecked={this.props.fundraiser.recurring}
+          disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
+          checked={this.props.fundraiser.recurring}
           onChange={(e) => this.props.setRecurring(e.target.checked)}>
           <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
         </Checkbox>

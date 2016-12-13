@@ -13,11 +13,11 @@ type OwnProps = {
   onChange: (e: SyntheticInputEvent) => void;
 };
 
-export default function Checkbox({ className, disabled, defaultChecked, onChange, children }: OwnProps) {
+export default function Checkbox({ className, disabled, defaultChecked, checked, onChange, children }: OwnProps) {
   return (
     <div className={classnames('Checkbox', className)}>
       <label className="Checkbox__label">
-        <input type="checkbox" disabled={disabled} defaultChecked={defaultChecked} onChange={onChange} />
+        <input type="checkbox" disabled={disabled} checked={checked} defaultChecked={defaultChecked} onChange={onChange} />
         {children}
       </label>
     </div>
