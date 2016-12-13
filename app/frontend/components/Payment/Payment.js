@@ -30,6 +30,7 @@ type OwnProps = {
   member: Member;
   fundraiser: FundraiserState;
   disableRecurring: boolean;
+  formData: { member: any; storeInVault: boolean; };
   resetMember: () => void;
   changeStep: (step: number) => void;
   setRecurring: (value: boolean) => void;
@@ -202,9 +203,11 @@ export class Payment extends Component {
 
   onSuccess(data: any) {
     console.log('success:', data);
+    $.publish('fundraiser:transaction_success', [data, this.props.formData]);
   }
 
   onError(reason: any) {
+    $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
     this.setState({ submitting: false });
   }
 
@@ -305,6 +308,13 @@ const mapStateToProps = (state: AppState) => ({
   fundraiser: state.fundraiser,
   member: state.member,
   disableRecurring: state.fundraiser.recurringDefault === 'only_recurring',
+  formData: {
+    storeInVault: state.fundraiser.storeInVault,
+    member: {
+      ...state.fundraiser.formValues,
+      ...state.fundraiser.form,
+    },
+  }
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

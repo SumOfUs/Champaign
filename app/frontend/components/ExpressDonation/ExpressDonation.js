@@ -22,6 +22,7 @@ import './ExpressDonation.scss';
 type OwnProps = {
   fundraiser: FundraiserState;
   paymentMethods: PaymentMethod[];
+  formData: { member: any; storeInVault: boolean; };
   hideExpressDonations: () => void;
   setRecurring: (value: boolean) => void;
 };
@@ -72,12 +73,13 @@ export class ExpressDonation extends Component {
   }
 
   async onSuccess(data: any) {
-    console.log('one click success:', data, this.oneClickData());
+    $.publish('fundraiser:transaction_success', [data, this.props.formData]);
     return data;
   }
 
   async onFailure(reason: any) {
     console.log('one click failure:', reason, this.oneClickData());
+    $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
     return reason;
   }
 
@@ -178,6 +180,13 @@ export class ExpressDonation extends Component {
 const mapStateToProps = (state: AppState) => ({
   paymentMethods: state.paymentMethods,
   fundraiser: state.fundraiser,
+  formData: {
+    storeInVault: state.fundraiser.storeInVault,
+    member: {
+      ...state.fundraiser.formValues,
+      ...state.fundraiser.form,
+    },
+  }
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

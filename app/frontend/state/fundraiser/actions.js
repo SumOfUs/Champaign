@@ -1,15 +1,20 @@
 // @flow
+import $ from 'jquery';
+
 import type { FundraiserAction } from './reducer';
 
 export function changeAmount(payload: ?number): FundraiserAction {
+  $.publish('fundraiser:change_amount', [payload]);
   return { type: 'change_amount', payload };
 }
 
 export function changeCurrency(payload: string): FundraiserAction {
+  $.publish('fundraiser:change_currency', [payload]);
   return { type: 'change_currency', payload };
 }
 
 export function changeStep(payload: number): FundraiserAction {
+  $.publish('fundraiser:change_step', [payload]);
   return { type: 'change_step', payload };
 }
 
