@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import classnames from 'classnames';
-import './Button.css';
+import './Button.scss';
 
 import type { Element } from 'react';
 

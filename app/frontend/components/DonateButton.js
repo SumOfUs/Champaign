@@ -10,6 +10,7 @@ type OwnProps = {
   currency: string;
   amount?: number;
   loading?: boolean;
+  recurring?: boolean;
   disabled?: boolean;
   onClick: () => void;
 };
@@ -19,7 +20,7 @@ export default (props: OwnProps) => (
     <LoadingThen loading={props.loading}>
       <span className="fa fa-lock" />&nbsp;
       <FormattedMessage
-        id="fundraiser.donate"
+        id={ props.recurring ? 'fundraiser.donate_monthly' : "fundraiser.donate" }
         defaultMessage="Donate {amount}"
         values={{
           amount: (<CurrencyAmount amount={props.amount || 0} currency={props.currency} />)

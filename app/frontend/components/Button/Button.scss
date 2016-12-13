@@ -4,9 +4,10 @@
   box-sizing: border-box;
   color: white;
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 16px;
   text-align: center;
   text-decoration: none;
+  text-transform: uppercase;
   height: 60px;
   display: flex;
   justify-content: center;
@@ -16,6 +17,10 @@
   user-select: none;
   width: 100%;
   outline: none;
+  .fa {
+    margin-right: 6px;
+    font-size: 20px;
+  }
 }
 
 .Button-root.disabled,

@@ -10,7 +10,8 @@ fr:
     amount: Montant
     details: Détails
     payment: Paiement
-    donate: "Donner %{amount}"
+    donate: "Donner %{amount}" # utilisé dans le bouton de validation, eg 'Donner 15€'
+    donate_monthly: "Donner %{amount} / mois"
     month: mois
     error_intro: Votre don n’a pas pu être effectué!
     currency_in: "Monnaie en %{currency}"
