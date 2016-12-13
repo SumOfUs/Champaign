@@ -65,7 +65,17 @@ export default class FieldShape extends Component {
                   {fieldProps.label}
                 </Checkbox>);
       case 'choice':
-        return <p>{type} pending implementation</p>;
+        return (<div className="radio-container">
+                  <div className="form__instruction">{ fieldProps.label }</div>
+                  {this.props.field.choices.map( choice =>
+                    <label key={choice.id} htmlFor={choice.id}>
+                      <input id={choice.id} name={fieldProps.name}
+                        type='radio' value={choice.value} checked={choice.value === fieldProps.value}
+                        onChange={event => this.props.onChange(event.target.value)} />
+                      { choice.label }
+                    </label>
+                  )}
+                </div>);
       case 'instruction':
         return <div className="form__instruction">{ fieldProps.label }</div>;
       case 'text':
