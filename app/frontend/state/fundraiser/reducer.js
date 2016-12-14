@@ -1,6 +1,7 @@
 /* @flow */
+import isEmpty from 'lodash/isEmpty';
+import includes from 'lodash/includes';
 import type { InitialAction } from '../reducers';
-import _ from 'lodash';
 
 export type FormField = {
   id: number;
@@ -80,23 +81,36 @@ const initialState: FundraiserState = {
   formValues: {},
 };
 
+// `supportedCurrency` gets a currency string and compares it against our list of supported currencies.
+// If our currency is not in the list of supported currencies, it will return the default currency (which,
+// by default, is the first currency in our supoortedCurrencies list)
+function supportedCurrency(currency: string, supportedCurrencies: string[]): string {
+  const list = isEmpty(supportedCurrencies) ? Object.keys(initialState.donationBands) : supportedCurrencies;
+
+  if (includes(list, currency)) {
+    return currency;
+  } else {
+    return list[0];
+  }
+}
+
 export default function fundraiserReducer(state: FundraiserState = initialState, action: FundraiserAction): FundraiserState {
   switch (action.type) {
     case 'parse_champaign_data':
-      let donationBands;
-      if (_.isEmpty(action.payload.fundraiser.donationBands)) {
-        donationBands = state.donationBands;
-      }
-      else {
-        donationBands = action.payload.fundraiser.donationBands;
-      }
+      const {
+        currency,
+        donationBands,
+        paymentMethods,
+        recurringDefault,
+      } = action.payload.fundraiser;
 
       return {
         ...state,
         ...action.payload.fundraiser,
-        recurring: (action.payload.fundraiser.recurringDefault === 'only_recurring'),
-        showExpressDonations: (action.payload.paymentMethods.length > 0),
-        donationBands: donationBands
+        currency: supportedCurrency(currency, donationBands),
+        donationBands: isEmpty(donationBands) ? state.donationBands : donationBands,
+        recurring: (recurringDefault === 'only_recurring'),
+        showExpressDonations: (paymentMethods.length > 0),
       };
     case 'reset_member':
       return {
@@ -106,7 +120,7 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
         formValues: {},
       };
     case 'change_currency':
-      return { ...state, currency: action.payload };
+      return { ...state, currency: supportedCurrency(action.payload, Object.keys(state.donationBands)) };
     case 'change_amount':
       return { ...state, donationAmount: action.payload || null };
     case 'change_step':
