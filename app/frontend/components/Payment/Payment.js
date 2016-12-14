@@ -111,10 +111,12 @@ export class Payment extends Component {
   }
 
   loading(paymentType: ?string) {
+    const loading = this.state.loading || this.state.submitting;
     if (paymentType) {
-      return this.state.loading || this.state.initializing[paymentType];
+      return loading || this.state.initializing[paymentType];
+    } else {
+      return loading;
     }
-    return this.state.loading;
   }
 
   disableSubmit() {
@@ -280,7 +282,7 @@ export class Payment extends Component {
             <DonateButton
               currency={currency}
               amount={donationAmount || 0}
-              loading={this.loading(currentPaymentType)}
+              submitting={this.state.submitting}
               recurring={this.props.fundraiser.recurring}
               disabled={this.disableSubmit()}
               onClick={() => this.makePayment()}

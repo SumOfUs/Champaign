@@ -169,6 +169,7 @@ export class ExpressDonation extends Component {
           currency={this.props.fundraiser.currency}
           amount={this.props.fundraiser.donationAmount || 0}
           recurring={this.props.fundraiser.recurring}
+          submitting={this.state.submitting}
           disabled={!this.state.currentPaymentMethod || this.state.submitting}
           onClick={() => this.submit()}
         />
