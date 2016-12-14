@@ -250,7 +250,7 @@ export class Payment extends Component {
             <PayPal
               ref="paypal"
               client={this.state.client}
-              recurring={recurring}
+              vault={this.props.fundraiser.storeInVault}
               onInit={() => this.paymentInitialized('paypal')}
             />
 
