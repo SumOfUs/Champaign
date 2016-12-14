@@ -86,9 +86,10 @@ const initialState: FundraiserState = {
 // by default, is the first currency in our supoortedCurrencies list)
 function supportedCurrency(currency: string, supportedCurrencies: string[]): string {
   const list = isEmpty(supportedCurrencies) ? Object.keys(initialState.donationBands) : supportedCurrencies;
+  const value = currency.toUpperCase();
 
-  if (includes(list, currency)) {
-    return currency;
+  if (includes(list, value)) {
+    return value;
   } else {
     return list[0];
   }
