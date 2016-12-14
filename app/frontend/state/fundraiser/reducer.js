@@ -107,7 +107,7 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
       return {
         ...state,
         ...action.payload.fundraiser,
-        currency: supportedCurrency(currency, donationBands),
+        currency: supportedCurrency(currency, Object.keys(donationBands)),
         donationBands: isEmpty(donationBands) ? state.donationBands : donationBands,
         recurring: (recurringDefault === 'only_recurring'),
         showExpressDonations: (action.payload.paymentMethods.length > 0),
