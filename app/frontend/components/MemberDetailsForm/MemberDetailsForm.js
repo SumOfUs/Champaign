@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import mapValues from 'lodash/mapValues';
 import Button from '../Button/Button';
 import { updateForm } from '../../state/fundraiser/actions';
-import { setMember  } from '../../state/member/actions';
 import FieldShape from '../FieldShape/FieldShape';
 
 import type { Element } from 'react';
@@ -15,7 +14,7 @@ import type { AppState } from '../../state';
 import 'react-select/dist/react-select.css';
 
 type ConnectedState = { form: Object; formId: number; };
-type ConnectedDispatch = { updateForm: (form: Object) => void; setMember: (form: Object) => void; };
+type ConnectedDispatch = { updateForm: (form: Object) => void; };
 type OwnProps = {
   buttonText?: Element<any> | string;
   proceed?: () => void;
@@ -92,7 +91,6 @@ export class MemberDetailsForm extends Component {
         this.props.proceed();
       }
     });
-    this.props.setMember(this.props.form);
   }
 
   handleFailure(response: any) {
@@ -172,7 +170,6 @@ const mapStateToProps = (state: AppState): ConnectedState => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<*>): ConnectedDispatch => ({
   updateForm: (form: Object) => dispatch(updateForm(form)),
-  setMember: (member) => dispatch(setMember(member))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailsForm);
