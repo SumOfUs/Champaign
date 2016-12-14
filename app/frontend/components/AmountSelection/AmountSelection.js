@@ -98,10 +98,7 @@ export default class AmountSelection extends Component {
 
         { proceedButtonVisible && (
           <Button className="btn AmountSelection__proceed-button" onClick={() => this.props.proceed()} disabled={!this.props.donationAmount}>
-            <FormattedMessage
-              id="proceed_to_details"
-              defaultMessage="Proceed {name}"
-              values={{name: this.props.nextStepTitle}}/>
+            {this.props.nextStepTitle}
           </Button>
         )}
       </div>
