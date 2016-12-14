@@ -12,16 +12,27 @@
   padding: 16px;
   padding-left: 52px;
   margin-bottom: 15px;
+  border-top: 1px solid #cdcece;
+  border-bottom: 1px solid #cdcece;
+}
+
+.ExpressDonation__single-item {
+  .PaymentMethod {
+    margin: 0 auto;
+    font-weight: bold;
+  }
 }
 
 .ExpressDonation__toggle {
   font-size: 12px;
   cursor: pointer;
+  margin-top: 6px;
+  display: block;
 }
 
 .PaymentMethod {
   margin: 10px auto;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .PaymentMethod input {
@@ -31,7 +42,7 @@
 
 .PaymentMethodWrapper__icon {
   position: absolute;
-  top: 20px;
+  top: 17px;
   left: 20px;
   font-size: 22px;
 }
