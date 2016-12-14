@@ -44,7 +44,7 @@ en:
       cvv: CVV
       number: Card number
       expiration: Expiration date
-      expiration_format: mm/yy
+      expiration_format: MM / YY
       postalCode: Postal code
     field_names: # these are used in sentence form, eg with errors.probably_invalid
       cvv: CVV

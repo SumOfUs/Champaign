@@ -42,7 +42,7 @@ fr:
       cvv: CVV
       number: Numéro de votre carte
       expiration: Date d’expiration
-      expiration_format: mm/an
+      expiration_format: MM / AN
       postalCode: Code postal
     field_names:
       cvv: Le CVV

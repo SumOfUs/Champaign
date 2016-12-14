@@ -42,7 +42,7 @@ de:
       cvv: Kartenprüfnr
       number: Kreditkartennummer
       expiration: Ablaufdatum
-      expiration_format: MM/JJ
+      expiration_format: MM / JJ
       postalCode: Postleitzahl
     field_names:
       cvv: Die Kartenprüfnummer
