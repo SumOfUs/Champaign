@@ -1,13 +1,13 @@
-var autoprefixer = require('autoprefixer');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var url = require('url');
-var paths = require('./paths');
-var getClientEnvironment = require('./env');
-var StatsPlugin = require('stats-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const url = require('url');
+const paths = require('./paths');
+const getClientEnvironment = require('./env');
+const StatsPlugin = require('stats-webpack-plugin');
 
 function ensureSlash(path, needsSlash) {
-  var hasSlash = path.endsWith('/');
+  const hasSlash = path.endsWith('/');
   if (hasSlash && !needsSlash) {
     return path.substr(path, path.length - 1);
   } else if (!hasSlash && needsSlash) {
@@ -22,17 +22,17 @@ function ensureSlash(path, needsSlash) {
 // single-page apps that may serve index.html for nested URLs like /todos/42.
 // We can't use a relative path in HTML because we don't want to load something
 // like /todos/42/static/js/bundle.7289d.js. We have to know the root.
-var homepagePath = require(paths.appPackageJson).homepage;
-var homepagePathname = homepagePath ? url.parse(homepagePath).pathname : '/';
+const homepagePath = require(paths.appPackageJson).homepage;
+const homepagePathname = homepagePath ? url.parse(homepagePath).pathname : '/';
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
-var publicPath = ensureSlash(homepagePathname, true);
+const publicPath = ensureSlash(homepagePathname, true);
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_PATH%/xyz looks better than %PUBLIC_PATH%xyz.
-var publicUrl = ensureSlash(homepagePathname, false);
-// Get environment variables to inject into our app.
-var env = getClientEnvironment(publicUrl);
+const publicUrl = ensureSlash(homepagePathname, false);
+// Get environment constiables to inject into our app.
+const env = getClientEnvironment(publicUrl);
 
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
@@ -69,7 +69,7 @@ module.exports = {
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
-    // We read `NODE_PATH` environment variable in `paths.js` and pass paths here.
+    // We read `NODE_PATH` environment constiable in `paths.js` and pass paths here.
     // We use `fallback` instead of `root` because we want `node_modules` to "win"
     // if there any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
@@ -176,7 +176,7 @@ module.exports = {
     ];
   },
   plugins: [
-    // Makes some environment variables available to the JS code, for example:
+    // Makes some environment constiables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
     // Otherwise React will be compiled in the very slow development mode.
