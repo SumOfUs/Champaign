@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import isEmpty from 'lodash/isEmpty';
 import StepContent from '../../components/Stepper/StepContent';
 import StepWrapper from '../../components/Stepper/StepWrapper';
 import AmountSelection from '../../components/AmountSelection/AmountSelection';
@@ -66,6 +67,11 @@ export class FundraiserView extends Component {
       }
     }  = this.props;
 
+    // todo move this into AmountSelection (connect it to store)
+    const firstStepButtonTitle = isEmpty(formValues) ?
+      <FormattedMessage id="fundraiser.proceed_to_details" defaultMessage="Proceed to details (default)" /> :
+      <FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment (default)" />;
+
     return (
       <div id="fundraiser-view" className="FundraiserView-container form--big">
         <StepWrapper title={this.props.fundraiser.title} currentStep={currentStep} changeStep={this.props.changeStep}>
@@ -76,7 +82,7 @@ export class FundraiserView extends Component {
               donationBands={donationBands}
               donationFeaturedAmount={donationFeaturedAmount}
               currencies={currencies}
-              nextStepTitle={ formValues ? 'payment' : MemberDetailsForm.title }
+              nextStepTitle={firstStepButtonTitle}
               changeCurrency={this.props.selectCurrency.bind(this)}
               selectAmount={amount => this.selectAmount(amount)}
               proceed={this.proceed.bind(this)}
