@@ -5,7 +5,7 @@ import type { PayPalInstance, PayPalTokenizePayload, PayPalFlow } from 'braintre
 
 type OwnProps = {
   client: BraintreeClient;
-  recurring: boolean;
+  vault: boolean;
   onInit?: () => void;
   onFailure?: (data: any) => void;
 };
@@ -56,7 +56,7 @@ export default class PayPal extends Component {
   }
 
   flow(): PayPalFlow {
-    if (this.props.recurring) return 'vault';
+    if (this.props.vault) return 'vault';
     return 'checkout';
   }
 
