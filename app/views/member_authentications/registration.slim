@@ -1,0 +1,23 @@
+.header-logo.header-logo--light
+  a href = t('footer.home_url')
+    .header-logo__logo.sumofus-logo--positive
+
+.center-content
+  .center-content__one-column.registration
+    .center-content__central-square
+      h1.typography__highlight = t('member_registration.thanks')
+      h2 = t('member_registration.create_account')
+
+      p = t('member_registration.create_account_description')
+      form.form--big.dark.registration-form action='/member_authentication' data-remote='true' method='post'
+        .form__group.action-form__field-container
+          input.form-control.form__content type='text' name='email' value=@email maxlength='30' disabled=true
+        .form__group.action-form__field-container
+          input.form-control.form__content type='password' name='password' placeholder=t('member_registration.form.password') maxlength='30'
+        .form__group.action-form__field-container
+          input.form-control.form__content type='password' name='password_confirmation' placeholder=t('member_registration.form.confirm_password') maxlength='30'
+        .form__group.action-form__field-container
+          button.button.registation-form__submit-button type='submit' = t('member_registration.form.register')
+
+        input type='hidden' name='page_id' value=@page_id
+        input type='hidden' name='email' value=@email

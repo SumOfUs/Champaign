@@ -6,14 +6,8 @@ class MemberAuthenticationsController < ApplicationController
   def new
     session[:follow_up_url] = params[:follow_up_url]
     @title = I18n.t('member_registration.title')
-    # FIXME, the rendering process needs a @page to exist, refactor to use a slim template
-    @page = Page.first
-
-    ## FIXME seed and fetch from DB
-    view = File.read("#{Rails.root}/app/liquid/views/layouts/member-registration.liquid")
-    template = Liquid::Template.parse(view)
-    @rendered = template.render('email' => params[:email]).html_safe
-    render 'pages/show_generic', layout: 'generic'
+    @email = params[:email]
+    render 'member_authentications/registration', layout: 'generic'
   end
 
   def create
