@@ -161,8 +161,47 @@
         {% endunless %}
         chmp.hostedFields  = new chmp.BraintreeHostedFields();
         chmp.overlayToggle = new chmp.OverlayToggle();
+
+        {% if plugins.fundraiser[ref].pledge %}
+          var pledgeTarget = {{ plugins.fundraiser[ref].pledge_target_in_actions }};
+          var explanation = I18n.t('fundraiser.pledges.explanation', { goal: pledgeTarget.toLocaleString()});
+          var pledgeCount = chmp.personalization.actionCount;
+          var percentFilled = Math.ceil((pledgeCount / pledgeTarget) * 100);
+          if (percentFilled >= 100) percentFilled = 100;
+
+          if (pledgeCount > pledgeTarget) {
+            var remainderText = I18n.t('fundraiser.pledges.met_goal', {goal: pledgeTarget.toLocaleString()});
+          } else {
+            var remainderCount = (pledgeTarget - pledgeCount).toLocaleString();
+            var remainderText = I18n.t('fundraiser.pledges.to_go', { remainder: remainderCount });
+          }
+
+          var $bar = $('.main-feature').parent().prepend('<div class="pre-main-bar pre-main-bar--all-width"></div>').find('.pre-main-bar');
+          $bar.html($('#pledge-template').html());
+          $bar.find('.thermometer__signatures').text(I18n.t('fundraiser.pledges.count', { pledge_count: pledgeCount.toLocaleString() }));
+          $bar.find('.thermometer__remaining').text(remainderText);
+          $bar.find('.thermometer__mercury').css('width', percentFilled+'%');
+          $bar.find('.thermometer__explanation').text(explanation);
+
+          $('.fundraiser-bar__step-panel[data-step="3"] .button').before('<div class="thermometer__explanation thermometer__explanation--no-spacing">'+explanation+'</div>');
+        {% endif %}
       });
+
     </script>
   </div>
+
+  <script type="text/template" id="pledge-template">
+    <div class='thermometer thermometer--pledge'>
+      <h2>{{ 'fundraiser.pledges.title' | t }}</h2>
+      <div class="thermometer__stats">
+        <div class='thermometer__signatures'></div>
+        <div class="thermometer__remaining"></div>
+      </div>
+      <div class="thermometer__bg">
+        <div class="thermometer__mercury" style="width: 10%"></div>
+      </div>
+      <div class="thermometer__explanation"></div>
+    </div>
+  </script>
 
 {% endif %}
