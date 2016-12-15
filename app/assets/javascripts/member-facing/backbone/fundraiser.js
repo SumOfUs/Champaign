@@ -39,7 +39,7 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
-  //    recurringDefault: either 'donation', 'recurring', or 'only_recurring'
+  //    recurringDefault: either 'one_off', 'recurring', or 'only_recurring'
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize(options = {}) {
@@ -68,19 +68,14 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   },
 
-  initializeRecurring(recurringDefault) {
+  initializeRecurring(decision) {
     const $checkbox = this.$('input.fundraiser-bar__recurring, input.fundraiser-bar__recurring-one-click');
 
-    switch(recurringDefault) {
-      case 'only_recurring':
-        $checkbox.parents('label').addClass('hidden-irrelevant');
-        // deliberate fall-through to next case (no break)
-      case 'recurring':
-        $checkbox.prop('checked', true);
-        break;
-      default:
-        $checkbox.prop('checked', false);
-    }
+    const hiddenAndDisabled = (decision === 'only_recurring' || decision === 'only_one_off');
+    const checked = (decision === 'only_recurring' || decision === 'recurring');
+    $checkbox.prop('disabled', hiddenAndDisabled);
+    $checkbox.prop('checked', checked);
+    if (hiddenAndDisabled) $checkbox.parents('label').addClass('hidden-irrelevant');
   },
 
   initializeSkipping(options){
