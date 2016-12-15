@@ -231,6 +231,10 @@
       position: relative;
       top: 2px;
     }
+    &__label {
+      display: inline-block;
+      margin-top: 4px;
+    }
   }
   &--freestanding.fundraiser-bar {
     position: static;
