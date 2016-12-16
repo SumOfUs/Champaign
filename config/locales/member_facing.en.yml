@@ -9,10 +9,10 @@ en:
   fundraiser:
     payment_methods:
       gocardless: "Direct Debit"
-      paypal: "Paypal"
+      paypal: "PayPal"
       card: 'Credit or debit card'
       ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider"
-      ready_for_paypal: "Click 'Donate' to finish donating through Paypal"
+      ready_for_paypal: "Click 'Donate' to finish donating through PayPal"
       ready_for_card: ""
     payment_type_prompt: Payment Method
     amount: Amount
