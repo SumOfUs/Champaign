@@ -107,7 +107,7 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
         ...action.payload.fundraiser,
         currency: supportedCurrency(currency, Object.keys(donationBands)),
         donationBands: isEmpty(donationBands) ? state.donationBands : donationBands,
-        recurring: (recurringDefault === 'only_recurring'),
+        recurring: (recurringDefault === 'recurring') || (recurringDefault === 'only_recurring'),
       };
     case 'reset_member':
       return {
