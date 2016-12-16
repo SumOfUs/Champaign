@@ -19,7 +19,7 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
 import type { Dispatch } from 'redux';
 import type { BraintreeClient } from 'braintree-web';
-import type { AppState, Member, FundraiserState } from '../../state';
+import type { AppState, Member, FundraiserState, PaymentMethod } from '../../state';
 
 // Styles
 import './Payment.css';
@@ -29,6 +29,7 @@ const DEFAULT_PAYMENT_TYPE = 'card';
 type OwnProps = {
   member: Member;
   fundraiser: FundraiserState;
+  paymentMethods: PaymentMethod[],
   disableRecurring: boolean;
   formData: { member: any; storeInVault: boolean; };
   resetMember: () => void;
@@ -43,6 +44,7 @@ type OwnState = {
   deviceData: Object;
   loading: boolean;
   submitting: boolean;
+  showExpress: boolean;
   initializing: {
     gocardless: boolean;
     paypal: boolean;
@@ -62,6 +64,7 @@ export class Payment extends Component {
       deviceData: {},
       loading: true,
       submitting: false,
+      showExpress: (this.props.paymentMethods.length > 0),
       initializing: {
         gocardless: false,
         paypal: true,
@@ -96,6 +99,10 @@ export class Payment extends Component {
           });
         });
       });
+  }
+
+  showExpressDonations() {
+    return this.state.showExpress && (this.props.paymentMethods.length > 0);
   }
 
   selectPaymentType(paymentType: string) {
@@ -234,58 +241,59 @@ export class Payment extends Component {
       <div className="Payment section">
         <WelcomeMember member={member} resetMember={() => this.resetMember()} />
 
-        <ShowIf condition={!!this.props.fundraiser.showExpressDonations}>
-          <ExpressDonation onToggle={() => console.log('toggle express')} />
+        <ShowIf condition={this.showExpressDonations()}>
+          <ExpressDonation
+            hidden={this.showExpressDonations()}
+            onHide={() => this.setState({ showExpress: false })}
+          />
         </ShowIf>
 
-        <ShowIf condition={!this.props.fundraiser.showExpressDonations}>
-          <div>
-            <PaymentTypeSelection
-              disabled={this.state.loading}
-              currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
-              onChange={(p) => this.selectPaymentType(p)}
-              showDirectDebit={this.props.fundraiser.showDirectDebit}
+        <ShowIf condition={!this.showExpressDonations()}>
+          <PaymentTypeSelection
+            disabled={this.state.loading}
+            currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
+            onChange={(p) => this.selectPaymentType(p)}
+            showDirectDebit={this.props.fundraiser.showDirectDebit}
+          />
+
+          <PayPal
+            ref="paypal"
+            client={this.state.client}
+            vault={recurring || storeInVault}
+            onInit={() => this.paymentInitialized('paypal')}
+          />
+
+          <BraintreeCardFields
+            ref="card"
+            client={this.state.client}
+            recurring={recurring}
+            isActive={currentPaymentType === 'card'}
+            onInit={() => this.paymentInitialized('card')}
+          />
+
+          <Checkbox
+            className="Payment__config"
+            disabled={disableRecurring}
+            defaultChecked={recurring}
+            onChange={(e) => this.props.setRecurring(e.target.checked)}>
+            <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
+          </Checkbox>
+
+          <Checkbox
+            className="Payment__config"
+            defaultChecked={storeInVault}
+            onChange={(e) => this.props.setStoreInVault(e.target.checked)}>
+            <FormattedMessage id="fundraiser.store_in_vault" defaultMessage="Securely store my payment information" />
+          </Checkbox>
+
+          <DonateButton
+            currency={currency}
+            amount={donationAmount || 0}
+            submitting={this.state.submitting}
+            recurring={recurring}
+            disabled={this.disableSubmit()}
+            onClick={() => this.makePayment()}
             />
-
-            <PayPal
-              ref="paypal"
-              client={this.state.client}
-              vault={recurring || storeInVault}
-              onInit={() => this.paymentInitialized('paypal')}
-            />
-
-            <BraintreeCardFields
-              ref="card"
-              client={this.state.client}
-              recurring={recurring}
-              isActive={currentPaymentType === 'card'}
-              onInit={() => this.paymentInitialized('card')}
-            />
-
-            <Checkbox
-              className="Payment__config"
-              disabled={disableRecurring}
-              defaultChecked={recurring}
-              onChange={(e) => this.props.setRecurring(e.target.checked)}>
-              <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
-            </Checkbox>
-
-            <Checkbox
-              className="Payment__config"
-              defaultChecked={storeInVault}
-              onChange={(e) => this.props.setStoreInVault(e.target.checked)}>
-              <FormattedMessage id="fundraiser.store_in_vault" defaultMessage="Securely store my payment information" />
-            </Checkbox>
-
-            <DonateButton
-              currency={currency}
-              amount={donationAmount || 0}
-              submitting={this.state.submitting}
-              recurring={recurring}
-              disabled={this.disableSubmit()}
-              onClick={() => this.makePayment()}
-            />
-          </div>
         </ShowIf>
 
         <div className="Payment__fine-print">
@@ -306,6 +314,7 @@ export class Payment extends Component {
 
 const mapStateToProps = (state: AppState) => ({
   fundraiser: state.fundraiser,
+  paymentMethods: state.paymentMethods,
   member: state.member,
   disableRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {

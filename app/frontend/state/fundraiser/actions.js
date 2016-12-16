@@ -33,7 +33,3 @@ export function setStoreInVault(payload: boolean = false): FundraiserAction {
 export function setPaymentType(payload: ?string = null): FundraiserAction {
   return { type: 'set_payment_type', payload };
 }
-
-export function showExpressDonations(payload: boolean): FundraiserAction {
-  return { type: 'toggle_express_donations', payload };
-}
