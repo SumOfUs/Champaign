@@ -23,23 +23,25 @@ export default class PaymentTypeSelection extends Component {
             <FormattedMessage id="fundraiser.payment_type_prompt" />
           </span>
 
-          {methods.map((method) => {
-            return (<div className="PaymentMethod">
-              <label>
-                  <input
-                    disabled={disabled}
-                    type="radio"
-                    checked={currentPaymentType === method}
-                    onChange={(e) => onChange(method)}
-                  />
-                <FormattedMessage id={`fundraiser.payment_methods.${method}`} />
-              </label>
-              { currentPaymentType === method && currentPaymentType !== 'card' &&
-                <div className="PaymentMethod__guidance">
-                  <FormattedMessage id={`fundraiser.payment_methods.ready_for_${method}`} />
-                </div>
-              }
-            </div>);
+          {methods.map((method, i) => {
+            return (
+              <div className="PaymentMethod" key={i}>
+                <label>
+                    <input
+                      disabled={disabled}
+                      type="radio"
+                      checked={currentPaymentType === method}
+                      onChange={(e) => onChange(method)}
+                    />
+                  <FormattedMessage id={`fundraiser.payment_methods.${method}`} />
+                </label>
+                { currentPaymentType === method && currentPaymentType !== 'card' &&
+                  <div className="PaymentMethod__guidance">
+                    <FormattedMessage id={`fundraiser.payment_methods.ready_for_${method}`} />
+                  </div>
+                }
+              </div>
+            );
           })}
         </PaymentMethodWrapper>
       </div>
