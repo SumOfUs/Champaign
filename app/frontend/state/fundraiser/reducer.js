@@ -35,7 +35,6 @@ export type FundraiserState = {
   currentPaymentType: ?string;
   suggestedAmount?: number;
   showDirectDebit?: boolean;
-  showExpressDonations?: boolean;
 };
 
 export type FundraiserAction =
@@ -46,8 +45,7 @@ export type FundraiserAction =
   | { type: 'set_store_in_vault', payload: boolean }
   | { type: 'set_payment_type', payload: ?string }
   | { type: 'change_step', payload: number }
-  | { type: 'update_form', payload: {[key: string]: any} }
-  | { type: 'toggle_express_donations', payload: boolean };
+  | { type: 'update_form', payload: {[key: string]: any} };
 
 const initialState: FundraiserState = {
   amount: null,
@@ -110,12 +108,10 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
         currency: supportedCurrency(currency, Object.keys(donationBands)),
         donationBands: isEmpty(donationBands) ? state.donationBands : donationBands,
         recurring: (recurringDefault === 'only_recurring'),
-        showExpressDonations: (action.payload.paymentMethods.length > 0),
       };
     case 'reset_member':
       return {
         ...state,
-        showExpressDonations: false,
         outstandingFields: state.fields.map(field => field.name),
         formValues: {},
       };
@@ -136,8 +132,6 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
       return { ...state, currentPaymentType: action.payload };
     case 'set_recurring':
       return { ...state, recurring: action.payload };
-    case 'toggle_express_donations':
-      return { ...state, showExpressDonations: action.payload };
     default:
       return state;
   }

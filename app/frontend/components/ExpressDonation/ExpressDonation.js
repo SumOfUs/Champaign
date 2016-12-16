@@ -8,7 +8,7 @@ import Checkbox from '../Checkbox/Checkbox';
 import DonateButton from '../DonateButton';
 import PaymentMethodWrapper from './PaymentMethodWrapper';
 import PaymentMethodItem from './PaymentMethod';
-import { setRecurring, showExpressDonations } from '../../state/fundraiser/actions';
+import { setRecurring } from '../../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
 import type {
@@ -20,11 +20,12 @@ import type {
 import './ExpressDonation.scss';
 
 type OwnProps = {
+  hidden: boolean;
   fundraiser: FundraiserState;
   paymentMethods: PaymentMethod[];
   formData: { member: any; storeInVault: boolean; };
-  hideExpressDonations: () => void;
   setRecurring: (value: boolean) => void;
+  onHide: () => void;
 };
 
 type OwnState = {
@@ -152,13 +153,13 @@ export class ExpressDonation extends Component {
       <div className="ExpressDonation">
         <div className="ExpressDonation__payment-methods">
           { this.props.paymentMethods.length === 1 ? this.renderSingle() : this.renderChoices() }
-          <a className="ExpressDonation__toggle" onClick={() => this.props.hideExpressDonations()}>
+          <a className="ExpressDonation__toggle" onClick={() => this.props.onHide()}>
             <FormattedMessage id="fundraiser.oneclick.new_payment_method" defaultMessage="Add payment method" />
           </a>
         </div>
 
         <Checkbox
-          className="Payment__config"
+          className="ExpressDonation__recurring-checkbox"
           disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
           checked={this.props.fundraiser.recurring}
           onChange={(e) => this.props.setRecurring(e.target.checked)}>
@@ -187,11 +188,10 @@ const mapStateToProps = (state: AppState) => ({
       ...state.fundraiser.formValues,
       ...state.fundraiser.form,
     },
-  }
+  },
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  hideExpressDonations: () => dispatch(showExpressDonations(false)),
   setRecurring: (value: boolean) => dispatch(setRecurring(value)),
 });
 
