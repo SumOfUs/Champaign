@@ -22,6 +22,7 @@ class BraintreeCardFields extends Component {
 
   state: {
     hostedFields: ?HostedFieldsInstance;
+    cardType: '';
     errors: { [key:string]: boolean };
   };
 
@@ -96,6 +97,14 @@ class BraintreeCardFields extends Component {
         newErrors[event.emittedBy] = !field.isPotentiallyValid;
         this.setState({ errors: _.assign(this.state.errors, newErrors)});
       });
+
+      hostedFieldsInstance.on('cardTypeChange', (event) => {
+        if (event.cards.length === 1) {
+          this.setState({ cardType: event.cards[0].type });
+        } else {
+          this.setState({ cardType: '' });
+        }
+      });
     });
   }
 
@@ -122,6 +131,18 @@ class BraintreeCardFields extends Component {
     });
   }
 
+  currentCardClass(cardType: string) {
+    const icons = {
+      'diners-club': 'fa-cc-diners-club',
+      'jcb': 'fa-cc-jcb',
+      'american-express': 'fa-cc-amex',
+      'discover': 'fa-cc-discover',
+      'master-card': 'fa-cc-mastercard',
+      'visa': 'fa-cc-visa',
+    };
+    return icons[cardType] || 'hidden-irrelevant';
+  }
+
   render() {
     const prefix = 'BraintreeCardFields';
     const classNames = classnames({
@@ -137,6 +158,7 @@ class BraintreeCardFields extends Component {
           onSubmit={this.submit.bind(this)}>
 
           <div id="braintree-card-number" className="BraintreeCardFields__hosted-field BraintreeCardFields__card-number"> </div>
+          <span ref="card_type" className={"BraintreeCardFields__card-type fa " + this.currentCardClass(this.state.cardType)}></span>
           { this.state.errors.number && this.renderError('number') }
           <div className="BraintreeCardFields__row clearfix">
             <div id="braintree-cvv" className="BraintreeCardFields__hosted-field BraintreeCardFields__cvv"></div>
