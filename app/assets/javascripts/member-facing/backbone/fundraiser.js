@@ -40,12 +40,15 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
   //    recurringDefault: either 'one_off', 'recurring', or 'only_recurring'
+  //    pledge: true if this is a pledge drive, false otherwise.
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize(options = {}) {
     this.initializeCurrency(options.currency, options.donationBands);
     this.changeStep(1);
     this.donationAmount = 0;
+    this.pledge = options.pledge || false;
+
     if (typeof options.member === 'object') {
       this.member = options.member;
     } else {
@@ -174,8 +177,9 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
       let monthly = this.readRecurring() ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
+      let translationKey = this.pledge ? 'fundraiser.pledge' : 'fundraiser.donate';
       this.buttonText = `<span class="fa fa-lock"></span>
-                         <span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>
+                         <span>${I18n.t(translationKey, {amount: donationAmount})}</span>
                          ${monthly}`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
       this.$('.fundraiser-bar__submit-button').html(this.buttonText);

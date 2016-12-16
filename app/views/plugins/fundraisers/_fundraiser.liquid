@@ -142,9 +142,11 @@
           prefill:           true
         });
         var onlyOneOff = false;
+        var pledge = false;
         {% if plugins.fundraiser[ref].pledge %}
           onlyOneOff = 'only_one_off';
           chmp.personalization.showDirectDebit = false;
+          pledge = true;
         {% endif %}
         chmp.myFundraiser = new chmp.Fundraiser({
           pageId:           "{{ id }}",
@@ -154,6 +156,7 @@
           donationBands:    chmp.personalization.donationBands,
           amount:           chmp.personalization.urlParams.amount,
           recurringDefault: onlyOneOff || chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          pledge:           pledge,
           paymentMethods:   chmp.personalization.paymentMethods
         });
         {% unless freestanding %}
@@ -192,7 +195,6 @@
 
   <script type="text/template" id="pledge-template">
     <div class='thermometer thermometer--pledge'>
-      <h2>{{ 'fundraiser.pledges.title' | t }}</h2>
       <div class="thermometer__stats">
         <div class='thermometer__signatures'></div>
         <div class="thermometer__remaining"></div>
