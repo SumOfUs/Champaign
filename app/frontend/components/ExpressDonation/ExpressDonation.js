@@ -147,7 +147,7 @@ export class ExpressDonation extends Component {
   }
 
   render() {
-    if (!this.props.paymentMethods.length) return null;
+    if (!this.props.paymentMethods.length || this.props.hidden) return null;
 
     return (
       <div className="ExpressDonation">
