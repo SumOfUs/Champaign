@@ -7,6 +7,26 @@
   .clearfix {
     clear: both;
   }
+
+  &__card-type {
+    position: absolute;
+    right: 13px;
+    top: 11px;
+    font-size: 32px;
+    color: #dbdbdb;
+    padding: 4px;
+    border-radius: 3px;
+  }
+  &__form {
+    position: relative;
+  }
+}
+
+.braintree-hosted-fields-invalid + .BraintreeCardFields__card-type{
+  display: none;
+}
+.braintree-hosted-fields-focused + .BraintreeCardFields__card-type {
+  color: #00c0cf;
 }
 
 #braintree-hosted-fields-form {
