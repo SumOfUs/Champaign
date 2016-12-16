@@ -30,7 +30,7 @@ export default class AmountSelection extends Component {
 
   static title(amount: ?number, currency: string): string | Element<any> {
     if (amount == null) {
-      return <FormattedMessage id="amount" defaultMessage="AMOUNT" />;
+      return <FormattedMessage id="fundraiser.amount" defaultMessage="AMOUNT" />;
     }
     return <CurrencyAmount amount={amount} currency={currency} />;
 
@@ -84,7 +84,7 @@ export default class AmountSelection extends Component {
             values={{ currency: this.props.currency }}
           />.&nbsp;
           <a onClick={this.toggleCurrencyDropdown.bind(this)}>
-            <FormattedMessage id="change_currency" defaultMessage="Change currency" />
+            <FormattedMessage id="fundraiser.switch_currency" defaultMessage="Switch currency" />
           </a>
         </p>
         {this.state.currencyDropdownVisible &&
