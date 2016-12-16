@@ -240,10 +240,6 @@ export class Payment extends Component {
 
         <ShowIf condition={!this.props.fundraiser.showExpressDonations}>
           <div>
-            <h3 className="Payment__prompt">
-              <FormattedMessage id="fundraiser.payment_type_prompt" defaultMessage="How would you like to donate?" />
-            </h3>
-
             <PaymentTypeSelection
               disabled={this.state.loading}
               currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
@@ -265,8 +261,6 @@ export class Payment extends Component {
               isActive={currentPaymentType === 'card'}
               onInit={() => this.paymentInitialized('card')}
             />
-
-            <hr className="Payment__divider" />
 
             <Checkbox
               className="Payment__config"

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
-import PaymentTypePill from './PaymentTypePill';
 import { FormattedMessage } from 'react-intl';
+import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
 
 export default class PaymentTypeSelection extends Component {
   props: {
@@ -13,38 +13,35 @@ export default class PaymentTypeSelection extends Component {
 
   render() {
     const { disabled, currentPaymentType, onChange } = this.props;
+    const methods = ['card', 'paypal'];
+    if (this.props.showDirectDebit) methods.push('gocardless');
 
     return (
-      <div className="PaymentTypeSelection Payment__options">
-        { this.props.showDirectDebit &&
-          <PaymentTypePill
-            name="gocardless"
-            disabled={disabled}
-            checked={currentPaymentType === 'gocardless'}
-            onChange={() => onChange('gocardless')}>
-            <FormattedMessage
-              id="fundraiser.debit.direct_debit"
-              defaultMessage="Direct Debit" />
-          </PaymentTypePill>
-        }
+      <div className='ExpressDonation__payment-methods'>
+        <PaymentMethodWrapper>
+          <span className="ExpressDonation__prompt">
+            <FormattedMessage id="fundraiser.payment_type_prompt" />
+          </span>
 
-        <PaymentTypePill
-          name="paypal"
-          disabled={disabled}
-          checked={currentPaymentType === 'paypal'}
-          onChange={() => onChange('paypal')}>
-          PayPal
-        </PaymentTypePill>
-
-        <PaymentTypePill
-          name="card"
-          disabled={disabled}
-          checked={currentPaymentType === 'card'}
-          onChange={() => onChange('card')}>
-          <FormattedMessage
-            id="fundraiser.pay_by_card"
-            defaultMessage="Credit or Debit Card" />
-        </PaymentTypePill>
+          {methods.map((method) => {
+            return (<div className="PaymentMethod">
+              <label>
+                  <input
+                    disabled={disabled}
+                    type="radio"
+                    checked={currentPaymentType === method}
+                    onChange={(e) => onChange(method)}
+                  />
+                <FormattedMessage id={`fundraiser.payment_methods.${method}`} />
+              </label>
+              { currentPaymentType === method && currentPaymentType !== 'card' &&
+                <div className="PaymentMethod__guidance">
+                  <FormattedMessage id={`fundraiser.payment_methods.ready_for_${method}`} />
+                </div>
+              }
+            </div>);
+          })}
+        </PaymentMethodWrapper>
       </div>
     );
   }

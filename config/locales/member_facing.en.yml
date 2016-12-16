@@ -7,6 +7,14 @@ en:
   branding:
     description: "" # override this with org-specific details in your own yml file.
   fundraiser:
+    payment_methods:
+      gocardless: "Direct Debit"
+      paypal: "Paypal"
+      card: 'Credit or debit card'
+      ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider"
+      ready_for_paypal: "Click 'Donate' to finish donating through Paypal"
+      ready_for_card: ""
+    payment_type_prompt: Payment Method
     amount: Amount
     details: Details
     payment: Payment
@@ -58,7 +66,7 @@ en:
     thank_you: 'Thanks for adding your name to "%{petition_title}"'
     fine_print: "" # override this with org-specific details in your own yml file.
   form:
-    switch_user: Not you?
+    switch_user: Sign out
     processing: Processing...
     submit: Submit
     default:

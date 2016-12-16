@@ -5,7 +5,7 @@
   margin-bottom: 15px;
   padding: 16px;
   padding-left: 52px;
-  font-size: 14px;
+  font-size: 16px;
   color: #30394f;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .WelcomeMember__link {
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 6px;
   cursor: pointer;
 }
