@@ -30,7 +30,7 @@ type OwnProps = {
   member: Member;
   fundraiser: FundraiserState;
   paymentMethods: PaymentMethod[],
-  disableRecurring: boolean;
+  hideRecurring: boolean;
   formData: { member: any; storeInVault: boolean; };
   resetMember: () => void;
   changeStep: (step: number) => void;
@@ -44,7 +44,7 @@ type OwnState = {
   deviceData: Object;
   loading: boolean;
   submitting: boolean;
-  showExpress: boolean;
+  expressHidden: boolean;
   initializing: {
     gocardless: boolean;
     paypal: boolean;
@@ -64,7 +64,7 @@ export class Payment extends Component {
       deviceData: {},
       loading: true,
       submitting: false,
-      showExpress: (this.props.paymentMethods.length > 0),
+      expressHidden: false,
       initializing: {
         gocardless: false,
         paypal: true,
@@ -99,10 +99,6 @@ export class Payment extends Component {
           });
         });
       });
-  }
-
-  showExpressDonations() {
-    return this.state.showExpress && (this.props.paymentMethods.length > 0);
   }
 
   selectPaymentType(paymentType: string) {
@@ -227,7 +223,7 @@ export class Payment extends Component {
   render() {
     const {
       member,
-      disableRecurring,
+      hideRecurring,
       fundraiser: {
         currency,
         donationAmount,
@@ -241,14 +237,12 @@ export class Payment extends Component {
       <div className="Payment section">
         <WelcomeMember member={member} resetMember={() => this.resetMember()} />
 
-        <ShowIf condition={this.showExpressDonations()}>
-          <ExpressDonation
-            hidden={this.showExpressDonations()}
-            onHide={() => this.setState({ showExpress: false })}
-          />
-        </ShowIf>
+        <ExpressDonation
+          hidden={this.state.expressHidden || this.props.paymentMethods.length === 0}
+          onHide={() => this.setState({ expressHidden: true })}
+        />
 
-        <ShowIf condition={!this.showExpressDonations()}>
+        <ShowIf condition={this.state.expressHidden}>
           <PaymentTypeSelection
             disabled={this.state.loading}
             currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
@@ -271,13 +265,15 @@ export class Payment extends Component {
             onInit={() => this.paymentInitialized('card')}
           />
 
-          <Checkbox
-            className="Payment__config"
-            disabled={disableRecurring}
-            defaultChecked={recurring}
-            onChange={(e) => this.props.setRecurring(e.target.checked)}>
-            <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
-          </Checkbox>
+          { !hideRecurring &&
+            <Checkbox
+              className="Payment__config"
+              disabled={hideRecurring}
+              defaultChecked={recurring}
+              onChange={(e) => this.props.setRecurring(e.target.checked)}>
+              <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
+            </Checkbox>
+          }
 
           <Checkbox
             className="Payment__config"
@@ -316,7 +312,7 @@ const mapStateToProps = (state: AppState) => ({
   fundraiser: state.fundraiser,
   paymentMethods: state.paymentMethods,
   member: state.member,
-  disableRecurring: state.fundraiser.recurringDefault === 'only_recurring',
+  hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {
     storeInVault: state.fundraiser.storeInVault,
     member: {
