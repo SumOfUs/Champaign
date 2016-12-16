@@ -35,7 +35,7 @@ export default function WelcomeMember(props: OwnProps) {
       <div>
         <span className="WelcomeMember__name">{props.member.name}</span>
         <a className="WelcomeMember__link" onClick={props.resetMember}>
-          <FormattedMessage id="form.switch_user" defaultMessage="Not you?" />
+          <FormattedMessage id="form.switch_user" />
         </a>
       </div>
     </div>
