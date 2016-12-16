@@ -250,7 +250,7 @@ export class Payment extends Component {
             <PayPal
               ref="paypal"
               client={this.state.client}
-              vault={this.props.fundraiser.storeInVault}
+              vault={recurring || storeInVault}
               onInit={() => this.paymentInitialized('paypal')}
             />
 
@@ -281,7 +281,7 @@ export class Payment extends Component {
               currency={currency}
               amount={donationAmount || 0}
               submitting={this.state.submitting}
-              recurring={this.props.fundraiser.recurring}
+              recurring={recurring}
               disabled={this.disableSubmit()}
               onClick={() => this.makePayment()}
             />
