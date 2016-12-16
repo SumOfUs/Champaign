@@ -19,6 +19,7 @@ en:
     payment: Payment
     donate: "Donate %{amount}" # used on the submit button, eg 'Donate $15'
     donate_monthly: "Donate %{amount} / month"
+    pledge: "Pledge %{amount}"
     month: month
     error_intro: We were unable to process your donation!
     currency_in: "Values shown in %{currency}"
