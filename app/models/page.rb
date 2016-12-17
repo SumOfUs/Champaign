@@ -134,11 +134,11 @@ class Page < ActiveRecord::Base
   def pledger?
     @fundraiser ||= Plugins::Fundraiser.find_by(page_id: id)
 
-    @fundraiser.try(:pledge) || false
+    @fundraiser&.pledge || false
   end
 
   def set_as_pledger
-    Plugins::Fundraiser.find_by(page_id: id).set_as_pledger
+    Plugins::Fundraiser.find_by!(page_id: id).set_as_pledger
   end
 
   private
