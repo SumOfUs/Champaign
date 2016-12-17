@@ -23,7 +23,7 @@ namespace :champaign do
             puts "#{log_id} failed with #{resp.message}"
           end
         end
-      rescue Exception => e
+      rescue StandardError => e
         puts "#{log_id} errored out with #{e}"
       end
     end
