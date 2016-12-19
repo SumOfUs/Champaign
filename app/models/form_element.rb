@@ -104,16 +104,25 @@ class FormElement < ActiveRecord::Base
     self.position = last_position
   end
 
+  def field_prefix(data_type)
+    case data_type
+    when 'paragraph', 'text'
+      'action_textentry_'
+    when 'checkbox'
+      'action_box_'
+    when 'dropdown'
+      'action_dropdown_'
+    when 'choice'
+      'action_choice_'
+    else
+      'action_'
+    end
+  end
+
   def set_name
     unless name.blank? || ActionKitFields::ACTIONKIT_FIELDS_WHITELIST.include?(name)
       if !(name =~ ActionKitFields::VALID_PREFIX_RE) && !(name =~ /^(action_)+$/)
-        self.name = if data_type == 'paragraph' || data_type == 'text'
-                      "action_textentry_#{name}"
-                    elsif data_type == 'checkbox'
-                      "action_box_#{name}"
-                    else
-                      "action_#{name}"
-                    end
+        self.name = field_prefix(data_type) + name
       end
     end
   end
