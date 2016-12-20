@@ -40,6 +40,7 @@ module PaymentProcessor::Braintree
           recurring: recurring?
         },
         user: {
+          akid: params[:akid],
           email: member.email
         },
         page_id: page.id

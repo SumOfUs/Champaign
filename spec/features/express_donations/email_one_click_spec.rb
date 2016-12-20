@@ -9,6 +9,51 @@ feature 'Express From Mailing Link' do
   let(:email)    { 'donor@example.com' }
   let(:member)   { Member.find_by(email: email) }
   let(:customer) { Payment::Braintree::Customer.find_by(email: email) }
+  let(:queue_payload) do
+    {
+      type: 'donation',
+      payment_provider: 'braintree',
+      params: {
+        donationpage: {
+          name: 'foo-bar-donation', payment_account: 'Braintree GBP'
+        },
+        order: {
+          amount: '2.10',
+          card_num: '1881',
+          card_code: '007',
+          exp_date_month: '12',
+          exp_date_year: '2020',
+          currency: 'GBP'
+        },
+        action: {
+          source: nil,
+          fields: { action_express_donation: 1 }
+        },
+        user: {
+          first_name: 'Foo',
+          last_name: 'Bar',
+          email: 'donor@example.com',
+          country: 'United States',
+          akid: '25429.9032842.mRJhnM',
+          postal: nil,
+          address1: nil,
+          source: nil,
+          user_express_cookie: 1,
+          user_express_account: @is_authenticated,
+          user_en: 1
+        }
+      },
+      meta: a_hash_including(
+        title: 'Foo Bar',
+        uri: '/a/foo-bar',
+        slug: 'foo-bar',
+        first_name: 'Foo',
+        last_name: 'Bar',
+        country: 'United States',
+        subscribed_member: false
+      )
+    }
+  end
 
   before do
     allow(ChampaignQueue).to receive(:push)
@@ -61,8 +106,11 @@ feature 'Express From Mailing Link' do
     expect(Action.count).to eq(1)
     expect(customer.transactions.count).to eq(1)
 
+    @is_authenticated = 1
+    expect(ChampaignQueue).to receive(:push).with(queue_payload)
+
     VCR.use_cassette('feature_member_email_donation') do
-      visit page_path(donation_page, amount: '2.10', currency: 'GBP', one_click: true)
+      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: '25429.9032842.mRJhnM', one_click: true)
     end
 
     expect(customer.reload.transactions.count).to eq(2)
@@ -78,8 +126,11 @@ feature 'Express From Mailing Link' do
     expect(customer.transactions.count).to eq(1)
     expect(Action.count).to eq(1)
 
+    @is_authenticated = 0
+    expect(ChampaignQueue).to receive(:push).with(queue_payload)
+
     VCR.use_cassette('feature_one_click_cookie') do
-      visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true)
+      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: '25429.9032842.mRJhnM', one_click: true)
     end
 
     expect(customer.reload.transactions.count).to eq(2)
