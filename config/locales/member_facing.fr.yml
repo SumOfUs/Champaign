@@ -107,6 +107,10 @@ fr:
     success:
       title: 'Votre nouveau mot de passe a été correctement sauvegardé.'
       description: "Consulter le <a href='%{url}'>tableau de bord</a> afin de vous identifier."
+  survey:
+    next: 'Suivant'
+    finish: 'Terminer'
+    skip: 'Passer'
   reset_password_mailer:
     reset_password_email:
       subject: 'Veuillez réinitialiser votre mot de passe s''il vous plaît'

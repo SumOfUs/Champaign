@@ -7,8 +7,8 @@
             <a class="overlay-toggle__close-button">&#x2715;</a>
           </div>
           <h2>
-          {% if title %}
-            {{ title }}
+          {% if fundraiser_title %}
+            {{ fundraiser_title }}
           {% else %}
             {{ plugins.fundraiser[ref].title }}
           {% endif %}

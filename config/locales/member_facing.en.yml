@@ -109,6 +109,10 @@ en:
     success:
       title: 'Your new password was successfully saved'
       description: "Visit the <a href='%{url}'>Member Dashboard</a> to log-in."
+  survey:
+    next: 'Next'
+    finish: 'Finish'
+    skip: 'Skip'
   reset_password_mailer:
     reset_password_email:
       subject: 'Please reset your password'
