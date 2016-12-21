@@ -41,6 +41,38 @@ export default class FieldShape extends Component {
     };
   }
 
+  errorMessage(fieldProps) {
+    if (fieldProps.errorMessage !== null && fieldProps.errorMessage !== undefined) {
+      return <span className='error-msg'>{ fieldProps.errorMessage }</span>;
+    }
+  }
+
+  renderCheckbox(fieldProps) {
+    fieldProps.value = (fieldProps.value || '0').toString();
+    const checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
+    return (<div>
+              <Checkbox checked={checked} onChange={this.checkboxToggle.bind(this)}>
+                {fieldProps.label}
+              </Checkbox>
+              { this.errorMessage(fieldProps)}
+            </div>);
+  }
+
+  renderChoice(fieldProps) {
+    return (<div className="radio-container">
+              <div className="form__instruction">{ fieldProps.label }</div>
+              {this.props.field.choices.map( choice =>
+                <label key={choice.id} htmlFor={choice.id}>
+                  <input id={choice.id} name={fieldProps.name}
+                    type='radio' value={choice.value} checked={choice.value === fieldProps.value}
+                    onChange={(event: SyntheticInputEvent) => this.props.onChange && this.props.onChange(event.target.value)} />
+                  { choice.label }
+                </label>
+              )}
+              { this.errorMessage(fieldProps)}
+            </div>);
+  }
+
   renderField(type: string): Element<any> {
     const fieldProps = this.fieldProps();
     const { field: { default_value, name } } = this.props;
@@ -59,23 +91,9 @@ export default class FieldShape extends Component {
       case 'hidden':
         return <input type="hidden" name={name} value={default_value} />;
       case 'checkbox':
-        fieldProps.value = (fieldProps.value || '0').toString();
-        const checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
-        return (<Checkbox checked={checked} onChange={this.checkboxToggle.bind(this)}>
-                  {fieldProps.label}
-                </Checkbox>);
+        return this.renderCheckbox(fieldProps);
       case 'choice':
-        return (<div className="radio-container">
-                  <div className="form__instruction">{ fieldProps.label }</div>
-                  {this.props.field.choices.map( choice =>
-                    <label key={choice.id} htmlFor={choice.id}>
-                      <input id={choice.id} name={fieldProps.name}
-                        type='radio' value={choice.value} checked={choice.value === fieldProps.value}
-                        onChange={(event: SyntheticInputEvent) => this.props.onChange && this.props.onChange(event.target.value)} />
-                      { choice.label }
-                    </label>
-                  )}
-                </div>);
+        return this.renderChoice(fieldProps);
       case 'instruction':
         return <div className="form__instruction">{ fieldProps.label }</div>;
       case 'text':
