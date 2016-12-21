@@ -108,9 +108,9 @@ de:
       title: 'Ihr Passwort wurde erfolgreich geändert'
       description: "Gehen Sie auf <a href='%{url}'>Mein Account</a>, um sich einzuloggen."
   survey:
-    next: 'Next (missing transl)'
-    finish: 'Finish (missing transl)'
-    skip: 'Skip (missing transl)'
+    next: 'Weiter'
+    finish: 'Fertig!'
+    skip: 'Überspringen'
   reset_password_mailer:
     reset_password_email:
       subject: 'Bitte setzen Sie Ihr Passwort zurück'
