@@ -3,11 +3,10 @@
   <div class="script-dependent">
     {% for form in plugins.survey[ref].forms %}
       {% unless form.fields == empty %}
-        {% capture cta %}{% if forloop.last == true %}Finish{% else %}Next{% endif %}{% endcapture %}
+        {% capture cta %}{% if forloop.last == true %}{{ 'survey.finish' | t }}{% else %}{{ 'survey.next' | t }}{% endif %}{% endcapture %}
 
         {% include 'Survey Form',
           cta: cta,
-          skip: 'Skip',
           last: forloop.last,
           form: form
         %}
