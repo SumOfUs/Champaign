@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client.debug';
 import dataCollector from 'braintree-web/data-collector';
+import _ from 'lodash';
 
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
@@ -50,6 +51,7 @@ type OwnState = {
     paypal: boolean;
     card: boolean;
   };
+  errors: string[];
 };
 export class Payment extends Component {
   props: OwnProps;
@@ -70,6 +72,7 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
+      errors: []
     };
 
     const cpt = this.props.fundraiser.currentPaymentType;
@@ -223,20 +226,35 @@ export class Payment extends Component {
     };
 
     $.post(`/api/payment/braintree/pages/${this.props.fundraiser.pageId}/transaction`, payload)
-      .then(
-        success => this.onSuccess(success),
-        reason => this.onError(reason)
-      );
+      .then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
   }
 
   onSuccess(data: any) {
     console.log('success:', data);
     $.publish('fundraiser:transaction_success', [data, this.props.formData]);
+    this.setState({ errors: [] });
   }
 
   onError(reason: any) {
     $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
-    this.setState({ submitting: false });
+    this.setState({ submitting: false});
+  }
+
+  onBraintreeError(response: any) {
+    let errors;
+    if (response.status === 422 && response.responseJSON && response.responseJSON.errors) {
+      errors = response.responseJSON.errors.map(function(error){
+        if (error.declined) {
+          return <FormattedMessage id="fundraiser.card_declined"/>;
+        } else {
+          return error.message;
+        }
+      });
+    } else {
+      errors = [<FormattedMessage id="fundraiser.unknown_error" />];
+    }
+    this.setState({ errors: errors });
+    this.onError(response);
   }
 
   render() {
@@ -254,6 +272,20 @@ export class Payment extends Component {
 
     return (
       <div className="Payment section">
+        <ShowIf condition={!_.isEmpty(this.state.errors)}>
+          <div className="fundraiser-bar__errors">
+            <span className="fa fa-exclamation-triangle"></span>
+            <div className="fundraiser-bar__error-intro">
+              <FormattedMessage id="fundraiser.error_intro" defaultMessage="Unable to process donation!" />
+              {
+                this.state.errors.map((e, i) => {
+                  return <div key={i} className="fundraiser-bar__error-detail">{e}</div>;
+                })
+              }
+            </div>
+          </div>
+        </ShowIf>
+
         <WelcomeMember member={member} resetMember={() => this.resetMember()} />
 
         <ExpressDonation

@@ -126,7 +126,7 @@ class BraintreeCardFields extends Component {
         if (error) return reject(error);
         this.teardown();
         resolve(data);
-        console.log('success hosted fields:', data);
+        console.log('Success BraintreeCardFields:', data);
       });
     });
   }
