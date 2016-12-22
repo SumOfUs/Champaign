@@ -175,6 +175,25 @@ export class Payment extends Component {
     console.log(payload);
     const url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
     window.open(url);
+
+    if (!this.waitingForGoCardless) {
+      window.addEventListener('message', this.waitForGoCardless.bind(this));
+      this.waitingForGoCardless = true;
+    }
+  }
+
+  waitForGoCardless(event) {
+    if (typeof event.data === 'object') {
+      if (event.data.event === 'follow_up:loaded') {
+        event.source.close();
+        $.publish('direct_debit:donated');
+        this.onSuccess({});
+      } else if (event.data.event === 'donation:error') {
+        const messages = event.data.errors.map(({ message }) => message);
+        this.onError(messages);
+        event.source.close();
+      }
+    }
   }
 
   makePayment() {
