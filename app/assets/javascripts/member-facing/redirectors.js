@@ -1,4 +1,5 @@
 import uri from 'urijs';
+import delay from 'lodash/delay';
 
 const RegisterMemberRedirector = {
   attemptRedirect(followUpUrl, member) {
@@ -43,7 +44,9 @@ const AfterDonationRedirector = {
 };
 
 function redirectTo(url) {
-  window.location.href = url;
+  delay(() => {
+    window.location.href = url;
+  }, window.DELAY_REDIRECT || 0);
 }
 
 module.exports = {
