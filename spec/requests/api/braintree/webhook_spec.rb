@@ -95,18 +95,21 @@ describe 'Braintree API' do
         end
 
         it 'pushes to the queue with the right params' do
-          expected_payload = {
-            type: 'subscription-payment',
-            params: {
-              recurring_id: /[a-z0-9]{6}/,
-              success: 1,
-              status: 'completed'
+          Timecop.freeze do
+            expected_payload = {
+              type: 'subscription-payment',
+              params: {
+                created_at: Time.now,
+                recurring_id: /[a-z0-9]{6}/,
+                success: 1,
+                status: 'completed'
+              }
             }
-          }
 
-          expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+            expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
 
-          subject
+            subject
+          end
         end
 
         it 'creates transaction on subscription' do
@@ -155,18 +158,20 @@ describe 'Braintree API' do
         end
 
         it 'pushes to the queue with the right params' do
-          expected_payload = {
-            type: 'subscription-payment',
-            params: {
-              recurring_id: /[a-z0-9]{6}/,
-              success: 1,
-              status: 'completed'
+          Timecop.freeze do
+            expected_payload = {
+              type: 'subscription-payment',
+              params: {
+                created_at: Time.now,
+                recurring_id: /[a-z0-9]{6}/,
+                success: 1,
+                status: 'completed'
+              }
             }
-          }
 
-          expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
-
-          subject
+            expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+            subject
+          end
         end
 
         it 'does not create an action' do
