@@ -105,7 +105,8 @@ describe Payment::Braintree::Transaction do
       expected_payload = {
         type: 'subscription-payment',
         params: {
-          created_at: transaction.created_at,
+          # Matches the only string format AK accepts, e.g. "2016-12-22 17:47:42"
+          created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
           recurring_id: 'subscription_id',
           success: 1,
           status: 'completed'
