@@ -131,7 +131,8 @@ describe 'subscriptions' do
         expect(ChampaignQueue).to receive(:push).with({
           type: 'subscription-payment',
           params: {
-            created_at: transaction.reload.created_at,
+            # Matches the only string format AK accepts, e.g. "2016-12-22 17:47:42"
+            created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
             recurring_id: subscription.go_cardless_id,
             success: 0,
             status: 'failed'
