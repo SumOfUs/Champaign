@@ -81,8 +81,10 @@ class Payment::GoCardless::Transaction < ActiveRecord::Base
     ChampaignQueue.push({
       type: 'subscription-payment',
       params: {
+        created_at: created_at,
         recurring_id: subscription.go_cardless_id,
-        success: 0
+        success: 0,
+        status: 'failed'
       }
     }, { delay: 120 })
   end

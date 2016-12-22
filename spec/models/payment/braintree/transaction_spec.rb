@@ -100,11 +100,12 @@ describe Payment::Braintree::Transaction do
   describe 'publish subscription payment' do
     let(:action) { create(:action, form_data: { 'subscription_id' => 'subscription_id' }) }
     let(:subscription) { create(:payment_braintree_subscription, subscription_id: 'subscription_id', action: action) }
-    let(:transaction) { create(:payment_braintree_transaction, subscription: subscription, status: 'success') }
+    let!(:transaction) { create(:payment_braintree_transaction, subscription: subscription, status: 'success') }
     it 'pushes a subscription payment event with a status to the queue' do
       expected_payload = {
         type: 'subscription-payment',
         params: {
+          created_at: transaction.created_at,
           recurring_id: 'subscription_id',
           success: 1,
           status: 'completed'

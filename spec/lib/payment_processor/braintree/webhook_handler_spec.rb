@@ -50,19 +50,22 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       end
 
       it 'posts a successful subscription payment event to the queue' do
-        expected_payload = {
-          type: 'subscription-payment',
-          params: {
-            recurring_id: 'foo',
-            success: 1,
-            status: 'completed'
+        Timecop.freeze do
+          expected_payload = {
+            type: 'subscription-payment',
+            params: {
+              created_at: Time.now,
+              recurring_id: 'foo',
+              success: 1,
+              status: 'completed'
+            }
           }
-        }
 
-        expect(ChampaignQueue).to receive(:push)
-          .with(expected_payload, delay: 120)
+          expect(ChampaignQueue).to receive(:push)
+            .with(expected_payload, delay: 120)
 
-        subject
+          subject
+        end
       end
     end
 
@@ -151,16 +154,19 @@ describe PaymentProcessor::Braintree::WebhookHandler do
     end
 
     it 'pushes a failed subscription charge event to the queue' do
-      expected_payload = {
-        type: 'subscription-payment',
-        params: {
-          recurring_id: 'foo',
-          success: 0,
-          status: 'failed'
+      Timecop.freeze do
+        expected_payload = {
+          type: 'subscription-payment',
+          params: {
+            created_at: Time.now,
+            recurring_id: 'foo',
+            success: 0,
+            status: 'failed'
+          }
         }
-      }
-      expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
-      subject
+        expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+        subject
+      end
     end
   end
 end
