@@ -35,7 +35,7 @@ class Payment::Braintree::Transaction < ActiveRecord::Base
     ChampaignQueue.push({
       type: 'subscription-payment',
       params: {
-        created_at: created_at,
+        created_at: created_at.strftime('%Y-%m-%d %H:%M:%S'),
         recurring_id: subscription.try(:action).form_data['subscription_id'],
         success: status == 'success' ? 1 : 0,
         status: status == 'success' ? 'completed' : 'failed'
