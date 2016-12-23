@@ -76,10 +76,6 @@ gem 'aws-sdk-v1'
 gem 'logger'
 gem 'lograge'
 
-# # Caching for production
-# gem 'rack-cache'
-# gem 'redis-rack-cache'
-
 # Cross browser rich text editor
 gem 'summernote-rails'
 
@@ -97,6 +93,8 @@ gem 'friendly_id'
 # The Config gem is used as a way to easily access configuration variables without calling directly
 # to the ENV.
 gem 'config'
+
+gem 'twilio-ruby'
 
 # Metamagic is used to insert meta tags onto pages in a developer-friendly way. These tags can be used for
 # SEO and to improve page targeting for A/B testing using Optimizely.
