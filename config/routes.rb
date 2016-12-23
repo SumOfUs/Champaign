@@ -141,6 +141,9 @@ Rails.application.routes.draw do
       end
     end
 
+
+    post '/twilio', to: 'twilio#index'
+
     resources :members
 
     # Respond to CORS Preflight requests (OPTIONS) with a
