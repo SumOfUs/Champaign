@@ -1,16 +1,47 @@
 # frozen_string_literal: true
 class PostalValidator
-  # These regular expressions graciously provided by David Gil in his project located at https://github.com/dgilperez/validates_zipcode/blob/master/lib/validates_zipcode/cldr_regex_collection.rb
-  # After testing on a live system, we discovered that this level of validation was detrimental to our data capture,
-  # and our data analysts didn't need the added validity anyway. As a result, we've disabled everything but the US validation
-  # due to the fact that ActionKit validates only US Zip Codes and we wish to avoid approving data the back-end database
-  # cannot process.
   ZIPCODES_REGEX = {
     US: /\A\d{5}([ \-]\d{4})?\z/
   }.freeze
+  MAX_LENGTH = 9
 
-  def self.valid?(postal_code, country_code: nil)
-    return true unless ZIPCODES_REGEX.key? country_code
-    !(ZIPCODES_REGEX[country_code] =~ postal_code).nil?
+  attr_accessor :errors
+
+  def initialize(postal_code, country_code: nil)
+    @postal_code = postal_code
+    @country_code = country_code
+    @errors = []
+  end
+
+  def valid?
+    @errors = []
+    validate_country_format
+    validate_characters
+    validate_length
+    @errors.empty?
+  end
+
+  private
+
+  def validate_country_format
+    return unless ZIPCODES_REGEX.key? @country_code
+    if (ZIPCODES_REGEX[@country_code] =~ @postal_code).nil?
+      @errors << I18n.t('validation.is_invalid_postal')
+    end
+  end
+
+  # Matching Braintree validation
+  def validate_characters
+    if (/\A[a-zA-Z\d\s\-]*\z/ =~ @postal_code).nil?
+      @errors << I18n.t('validation.postal.has_invalid_characters')
+    end
+  end
+
+  # Matching Braintree validation
+  def validate_length
+    stripped_postal = @postal_code.gsub(/[^a-zA-Z\d]/, '')
+    if stripped_postal.length > MAX_LENGTH
+      @errors << I18n.t('validation.postal.too_long')
+    end
   end
 end

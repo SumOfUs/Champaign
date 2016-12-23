@@ -83,6 +83,9 @@ fr:
     is_invalid_phone: 'peut uniquement comprendre des chiffres, tirets, plus, et des parenthèses'
     is_invalid_country: doit comprendre un code pays valide
     is_invalid_length: 'doit contenir moins de %{length} caractères'
+    postal:
+      has_invalid_characters: 'can only contain letters, numbers, spaces, and hyphens (missing translation)'
+      too_long: 'may contain no more than 9 letter or number characters (missing translation)'
   time:
     formats:
       default: "%-d %B %Y"

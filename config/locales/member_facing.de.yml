@@ -83,6 +83,9 @@ de:
     is_invalid_phone: 'kann nur Nummern, Schrägstriche, Pluszeichen und Klammern enthalten'
     is_invalid_country: muss eine gültige Ländervorwahl sein
     is_invalid_length: 'darf maximal %{length} Zeichen enthalten'
+    postal:
+      has_invalid_characters: 'can only contain letters, numbers, spaces, and hyphens (missing translation)'
+      too_long: 'may contain no more than 9 letter or number characters (missing translation)'
   time:
     formats:
       default: "%-d. %B %Y"

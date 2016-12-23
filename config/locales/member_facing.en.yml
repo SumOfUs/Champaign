@@ -85,6 +85,9 @@ en:
     is_invalid_phone: 'can only have numbers, dash, plus, and parentheses'
     is_invalid_country: must be a valid country code
     is_invalid_length: 'must be less than %{length} characters long'
+    postal:
+      has_invalid_characters: 'can only contain letters, numbers, spaces, and hyphens'
+      too_long: 'may contain no more than 9 letter or number characters'
   time:
     formats:
       default: "%-d %B %Y"
