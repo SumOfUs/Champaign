@@ -38,7 +38,7 @@ test:
     - cat circle/docker-compose-template.yml | envsubst > circle/docker-compose.yml
     - cat circle/test.template.env | envsubst > circle/test.env
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
-    - annotate-output docker-compose -f circle/docker-compose.yml run web
+    #- annotate-output docker-compose -f circle/docker-compose.yml run web
 
 database:
   override:
@@ -52,7 +52,7 @@ deployment:
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
-    branch: development
+    branch: 'call-tool'
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web
