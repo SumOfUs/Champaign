@@ -6,6 +6,8 @@ class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :follow_up]
   before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics]
   before_action :get_page_or_homepage, only: [:show]
+  before_action :redirect_unless_published, only: [:show, :follow_up]
+  before_action :localize, only: [:show, :follow_up]
 
   def index
     @search_params = search_params
@@ -38,7 +40,6 @@ class PagesController < ApplicationController
     one_click_processor = process_one_click
 
     if one_click_processor
-
       i18n_options = {
         amount: view_context.number_to_currency(
           params[:amount],
@@ -60,17 +61,10 @@ class PagesController < ApplicationController
         follow_up_url: PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
       )
     else
-      render_liquid(@page.liquid_layout, :show)
+      @rendered = renderer.render
+      @data = renderer.personalization_data
+      render :show, layout: 'member_facing'
     end
-  end
-
-  def process_one_click
-    @prociess_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
-      params,
-      page: @page,
-      member: recognized_member,
-      cookied_payment_methods: cookies.signed[:payment_methods]
-    ).process
   end
 
   def follow_up
@@ -83,8 +77,9 @@ class PagesController < ApplicationController
     if !params[:member_id].present? && recognized_member.try(:id).present?
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
-    liquid_layout = @page.follow_up_liquid_layout || @page.liquid_layout
-    render_liquid(liquid_layout, :follow_up)
+    @rendered = renderer.render_follow_up
+    @data = renderer.personalization_data
+    render :follow_up, layout: 'member_facing'
   end
 
   def update
@@ -103,19 +98,13 @@ class PagesController < ApplicationController
   private
 
   def get_page
-    @page = Page.find(params[:id])
+    @page = Page.find(params[:id].downcase)
   end
 
   def get_page_or_homepage
-    get_lowercase_page
+    get_page
   rescue ActiveRecord::RecordNotFound
     redirect_to Settings.home_page_url
-  end
-
-  def get_lowercase_page
-    @page = Page.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    @page = Page.find(params[:id].downcase)
   end
 
   def page_params
@@ -141,5 +130,24 @@ class PagesController < ApplicationController
     default_params = { publish_status: Page.publish_statuses.values_at(:published, :unpublished) }
     params[:search] ||= {}
     params[:search].reverse_merge default_params
+  end
+
+  def process_one_click
+    @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
+      params,
+      page: @page,
+      member: recognized_member,
+      cookied_payment_methods: cookies.signed[:payment_methods]
+    ).process
+  end
+
+  def redirect_unless_published
+    redirect_to(Settings.home_page_url) unless @page.published? || user_signed_in?
+  end
+
+  def localize
+    if @page && @page.language.present?
+      set_locale(@page.language.code)
+    end
   end
 end

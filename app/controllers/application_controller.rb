@@ -57,13 +57,11 @@ class ApplicationController < ActionController::Base
     { action_referer: request.referer }
   end
 
-  def render_liquid(liquid_layout, view)
-    return redirect_to(Settings.home_page_url) unless @page.published? || user_signed_in?
-    set_locale(@page.language.code) if @page.language.present?
-
-    @rendered = renderer(liquid_layout).render
-    @data = renderer(liquid_layout).personalization_data
-    render "pages/#{view}", layout: 'member_facing'
+  def renderer
+    @renderer ||= LiquidRenderer.new(@page, location: request.location,
+                                            member: recognized_member,
+                                            url_params: params,
+                                            payment_methods: payment_methods)
   end
 
   def payment_methods
@@ -73,14 +71,6 @@ class ApplicationController < ActionController::Base
       payment_method_ids = (cookies.signed[:payment_methods] || '').split(',')
       PaymentMethodFetcher.new(recognized_member, filter: payment_method_ids).fetch
     end
-  end
-
-  def renderer(layout)
-    @renderer ||= LiquidRenderer.new(@page, location: request.location,
-                                            member: recognized_member,
-                                            layout: layout,
-                                            url_params: params,
-                                            payment_methods: payment_methods)
   end
 
   def current_member
