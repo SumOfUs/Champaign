@@ -26,7 +26,9 @@ class Plugins::CallTool < ActiveRecord::Base
 
   def liquid_data(supplemental_data={})
     {
-      active: active
+      active: active,
+      targets: targets,
+      target_countries: target_countries
     }
   end
 
@@ -36,5 +38,20 @@ class Plugins::CallTool < ActiveRecord::Base
     Form.create! formable: self,
                  name: "call_tool_#{id}",
                  master: false
+  end
+
+  # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
+  def target_countries
+    return [] if targets.blank?
+    locale = page.language&.code || :en
+    targets.keys.map do |key|
+      country_name = ISO3166::Country[key]&.translation(locale)
+      if country_name.present?
+        {
+          name: country_name,
+          code: key
+        }
+      end
+    end.compact
   end
 end
