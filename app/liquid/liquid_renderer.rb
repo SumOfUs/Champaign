@@ -32,6 +32,7 @@ class LiquidRenderer
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
       thermometer: thermometer,
+      call_tool: call_tool_data,
       action_count: @page.action_count,
       show_direct_debit: show_direct_debit?,
       payment_methods: @payment_methods
@@ -111,6 +112,10 @@ class LiquidRenderer
 
   def thermometer
     plugin_data.deep_symbolize_keys[:plugins][:thermometer].try(:values).try(:first)
+  end
+
+  def call_tool_data
+    plugin_data.deep_symbolize_keys[:plugins][:call_tool]
   end
 
   def isolate_from_plugin_data(field)

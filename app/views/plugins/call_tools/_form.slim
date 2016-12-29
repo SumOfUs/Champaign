@@ -4,7 +4,7 @@
       = render 'plugins/shared/plugin_metadata', f: f
       .form-group
         = label_with_tooltip(f, :targets, 'Targets', t('tooltips.petition.target'))
-        = f.text_area :targets, class: 'form-control'
+        = f.text_area :targets, class: 'form-control', value: f.object.targets.to_json
 
       .form-group
         = f.submit
