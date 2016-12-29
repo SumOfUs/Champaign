@@ -9,10 +9,11 @@
 
     <div class="sweet-placeholder">
       <label>Country</label>
-      <select name="{{field.name}}" class="action-form__dropdown form__content sweet-placeholder__field selectize">
+      <select name="{{field.name}}" class="action-form__country action-form__dropdown form__content sweet-placeholder__field selectize">
         <option></option>
-        <option value='{{"ARG"}}'>{{"Argentina"}}</option>
-        <option value='{{"CHL"}}'>{{"Chile"}}</option>
+        {% for country in plugins.call_tool[ref].target_countries %}
+          <option value="{{ country.code }}"> {{ country.name }} </option>
+        {% endfor %}
       </select>
     </div>
 
@@ -29,22 +30,47 @@
   <script>
     $(document).ready(function() {
       var form = $('form.action-form');
+      var countrySelect = form.find('select.action-form__country');
       var phoneInput = form.find('input[type=tel]');
       var submitButton = form.find('button[type=submit]');
       var pageId = window.champaign.personalization.urlParams.id;
+      var targets = window.champaign.personalization.callTool.default.targets;
+      var selectedTarget = null;
 
       submitButton.click(function(e) {
         e.preventDefault();
 
         var data = {
           call: {
-            phone: phoneInput.val()
+            phone: phoneInput.val(),
+            target_id: (selectedTarget === null) ? null : selectedTarget.id
           }
         }
 
         $.post(`/api/pages/${this.pageId}/call`, data)
           .then(callCreationSuccess, callCreationFailed);
       });
+
+      countrySelect.change(function() { updateTarget(); });
+      updateTarget();
+
+      function updateTarget() {
+        selectNewTarget();
+        var targetSpan = $(".action-form__target span");
+        if(selectedTarget !== null) {
+          targetSpan.text(selectedTarget.name);
+        } else {
+          targetSpan.text('');
+        }
+      }
+
+      function selectNewTarget() {
+        if(targets[countrySelect.val()] !== undefined) {
+          selectedTarget = _.sample(targets[countrySelect.val()]);
+        } else {
+          selectedTarget = null;
+        }
+      }
 
       function callCreationSuccess(data) {
         console.log("Call creation succeeded");
