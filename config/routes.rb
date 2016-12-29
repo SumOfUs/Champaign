@@ -75,6 +75,7 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     resources :texts, only: :update
+    resources :call_tools, only: :update
     post 'surveys/:plugin_id/form', to: 'surveys#add_form', as: 'add_survey_form'
     put 'surveys/:plugin_id/sort', to: 'surveys#sort_forms', as: 'sort_survey_forms'
     get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'
@@ -117,6 +118,7 @@ Rails.application.routes.draw do
         post 'validate', on: :collection, action: 'validate'
       end
       resources :survey_responses, only: [:create]
+      resource :call, only: [:create]
     end
 
     namespace :stateless, defaults: { format: 'json' } do
