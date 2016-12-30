@@ -143,9 +143,6 @@ Rails.application.routes.draw do
       end
     end
 
-
-    post '/twilio', to: 'twilio#index'
-
     resources :members
 
     # Respond to CORS Preflight requests (OPTIONS) with a
@@ -154,6 +151,8 @@ Rails.application.routes.draw do
       [204, { 'Content-Type' => 'text/plain' }, []]
     }
   end
+
+  post '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
 
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']
