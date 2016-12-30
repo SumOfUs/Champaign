@@ -34,12 +34,16 @@ class Call < ActiveRecord::Base
   end
 
   def target_id_is_valid
-    #TODO Impplement: check that the target id actually exists in the call tool
-    true
+    if call_tool.find_target(target_id).blank?
+      errors.add(:target_id, "doesn't match an target in the page call tool plugin")
+    end
   end
 
   def member_phone_number_is_valid
-    #TODO validate format?
-    true
+    valid_characters = (/\A[0-9\-\+\(\) ]+\z/i =~ member_phone_number).present?
+    has_at_least_six_numbers = (member_phone_number.scan(/[0-9]/).size > 5)
+    if !valid_characters || !has_at_least_six_numbers
+      errors.add(:member_phone_number, I18n.t('validation.is_invalid_phone'))
+    end
   end
 end
