@@ -290,6 +290,8 @@ en:
         one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
+    call_tool:
+      title: "Title"
 
   ak_logs:
     index:
