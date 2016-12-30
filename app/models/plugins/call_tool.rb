@@ -32,6 +32,12 @@ class Plugins::CallTool < ActiveRecord::Base
     }
   end
 
+  def find_target(id)
+    targets.values.flatten.first do |target|
+      target['id'] == id
+    end
+  end
+
   private
 
   def create_form

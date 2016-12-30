@@ -47,7 +47,7 @@
           }
         }
 
-        $.post(`/api/pages/${this.pageId}/call`, data)
+        $.post(`/api/pages/${pageId}/call`, data)
           .then(callCreationSuccess, callCreationFailed);
       });
 

@@ -117,3 +117,7 @@ mixpanel:
 
 facebook:
   pixel_id: ''
+
+twilio:
+  account_sid: 'abc'
+  auth_token: '123'
