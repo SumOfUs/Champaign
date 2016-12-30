@@ -1,15 +1,15 @@
 {% if plugins.call_tool[ref].active %}
-  <h1> Call Tool </h1>
+  <h1> {{ plugins.call_tool[ref].title }} </h1>
 
-  <form class='action-form' >
+  <form class='action-form form--big' >
     <div class="sweet-placeholder">
-      <label>Phone Number</label>
-      <input type="tel" name="action[phone_number]" class="" value="" />
+      <label class="sweet-placeholder__label">Phone Number</label>
+      <input type="tel" name="action[phone_number]" class="form__content sweet-placeholder__field" value="" />
     </div>
 
     <div class="sweet-placeholder">
-      <label>Country</label>
-      <select name="{{field.name}}" class="action-form__country action-form__dropdown form__content sweet-placeholder__field selectize">
+      <label class="sweet-placeholder__label">Country</label>
+      <select name="{{field.name}}" class="action-form__dropdown form__content sweet-placeholder__field selectize action-form__country">
         <option></option>
         {% for country in plugins.call_tool[ref].target_countries %}
           <option value="{{ country.code }}"> {{ country.name }} </option>
@@ -17,7 +17,7 @@
       </select>
     </div>
 
-    <div class="action-form__target">
+    <div class="action-form__target form__instruction">
       <p>
         <strong> Target: </strong>
         <span> </span>
@@ -29,6 +29,7 @@
 
   <script>
     $(document).ready(function() {
+      new window.champaign.SweetPlaceholder();
       var form = $('form.action-form');
       var countrySelect = form.find('select.action-form__country');
       var phoneInput = form.find('input[type=tel]');
