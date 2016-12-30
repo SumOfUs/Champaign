@@ -3,6 +3,10 @@
     = form_for plugin, remote: true, html: { class: 'form-element', data: { type: "plugins_petition_#{plugin.id}"} } do |f|
       = render 'plugins/shared/plugin_metadata', f: f
       .form-group
+        = f.label(:title, t('plugins.call_tool.title'))
+        = f.text_field :title, class: 'form-control'
+
+      .form-group
         = label_with_tooltip(f, :targets, 'Targets', t('tooltips.petition.target'))
         = f.text_area :targets, class: 'form-control', value: f.object.targets.to_json
 

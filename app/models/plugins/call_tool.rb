@@ -28,7 +28,8 @@ class Plugins::CallTool < ActiveRecord::Base
     {
       active: active,
       targets: targets,
-      target_countries: target_countries
+      target_countries: target_countries,
+      title: title
     }
   end
 
