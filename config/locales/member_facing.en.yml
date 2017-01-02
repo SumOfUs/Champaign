@@ -77,6 +77,8 @@ en:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
     million: million
+  call_tool:
+    calling: "Calling..."
   share:
     cta: Share the campaign!
     send_email: Send Email
