@@ -5,8 +5,11 @@
 }
 
 .call-tool {
-  .sweet-placeholder {
-    margin-bottom: 1em;
+  .action-form__target {
+    text-align: center;
+    span {
+      font-weight: normal;
+    }
   }
 }
 
