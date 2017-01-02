@@ -49,6 +49,7 @@ const CallTool = function() {
   function callCreationSuccess(data) {
     console.log("Call creation succeeded");
     console.log(data);
+    disableButton();
   }
 
   function callCreationFailed(data, status) {
@@ -58,6 +59,10 @@ const CallTool = function() {
     ErrorDisplay.show({target: form}, data);
   }
 
+  function disableButton() {
+    submitButton.text(I18n.t('call_tool.calling'));
+    submitButton.addClass('button--disabled');
+  }
 }
 
 module.exports = CallTool;
