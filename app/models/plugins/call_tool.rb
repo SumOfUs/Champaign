@@ -34,7 +34,7 @@ class Plugins::CallTool < ActiveRecord::Base
   end
 
   def find_target(id)
-    targets.values.flatten.first do |target|
+    targets.values.flatten.find do |target|
       target['id'] == id
     end
   end
