@@ -11,7 +11,7 @@ class CallCreator
     page = Page.find(@params[:page_id])
     @call = Call.new(page: page,
                      member_id: @params[:member_id],
-                     member_phone_number: @params[:phone],
+                     member_phone_number: @params[:member_phone_number],
                      target_id: @params[:target_id])
     if @call.save
       place_call
