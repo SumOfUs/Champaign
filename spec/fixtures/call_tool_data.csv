@@ -1,0 +1,5 @@
+country,postal,target phone,target name,target title,
+germany,,490000000,Abe Ben,MEP for Germany,"<-- No specific postcode, target based on country."
+uk,a number or range of postcodes,440000000,Claire Do,MEP South East England,<-- A target for specific postcodes in the UK
+``,another number or range of postcodes,4411111111,Emily Fred,MEP for South West England,
+``,``,442222222,George Harris,MEP for South West England,<-- A second target for the same postal group as above. Calls split randomly.
