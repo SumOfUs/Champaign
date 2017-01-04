@@ -1,20 +1,19 @@
 module Plugins
   class CallToolsController < BaseController
+    def update
+      @call_tool = Plugins::CallTool.find(params[:id])
+      updater = ::CallTool::PluginUpdater.new(@call_tool, update_params)
+      if updater.run
+        render json: {}
+      else
+        render json: { errors: updater.errors, name: :plugins_call_tool }, status: :unprocessable_entity
+      end
+    end
+
     private
 
-    def permitted_params
-      call_params = params.require(:plugins_call_tool).permit(:targets, :active, :title)
-      #TODO handle JSON parsing errors (in the model maybe?)
-      call_params[:targets] = JSON.parse(call_params[:targets])
-      call_params
-    end
-
-    def plugin_class
-      ::Plugins::CallTool
-    end
-
-    def plugin_symbol
-      raise "undefined method"
+    def update_params
+      params.require(:plugins_call_tool).permit(:targets_csv_file, :active, :title)
     end
   end
 end

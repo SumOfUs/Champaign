@@ -14,9 +14,10 @@
 
 class Plugins::CallTool < ActiveRecord::Base
   belongs_to :page, touch: true
-
-  after_create :create_form
   belongs_to :form
+
+  validate :targets_are_valid
+  after_create :create_form
 
   DEFAULTS = {}.freeze
 
@@ -33,10 +34,19 @@ class Plugins::CallTool < ActiveRecord::Base
     }
   end
 
+  # TODO: remove
   def find_target(id)
     targets.values.flatten.find do |target|
       target['id'] == id
     end
+  end
+
+  def targets=(target_objects)
+    write_attribute :targets, target_objects.map(&:to_hash)
+  end
+
+  def targets
+    read_attribute(:targets).map {|t| ::CallTool::Target.new(t)}
   end
 
   private
@@ -60,5 +70,11 @@ class Plugins::CallTool < ActiveRecord::Base
         }
       end
     end.compact
+  end
+
+  def targets_are_valid
+    unless targets.all?(&:valid?)
+      errors.add(:targets, "A target is invalid (TODO: improve error reporting)")
+    end
   end
 end
