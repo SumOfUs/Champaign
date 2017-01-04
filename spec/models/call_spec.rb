@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: calls
+#
+#  id                  :integer          not null, primary key
+#  page_id             :integer
+#  member_id           :integer
+#  member_phone_number :string
+#  target_index        :integer
+#  created_at          :datetime
+#  updated_at          :datetime
+#
+
 require 'rails_helper'
 
 describe Call do
