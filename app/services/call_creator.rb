@@ -1,8 +1,4 @@
 class CallCreator
-  def self.run(params)
-    new(params).run
-  end
-
   def initialize(params)
     @params = params
   end
@@ -12,29 +8,27 @@ class CallCreator
     @call = Call.new(page: page,
                      member_id: @params[:member_id],
                      member_phone_number: @params[:member_phone_number],
-                     target_id: @params[:target_id])
+                     target_index: @params[:target_index])
     if @call.save
       place_call
     end
-    @call
+
+    @call.persisted?
+  end
+
+  def errors
+    @call.errors.messages
   end
 
   private
 
-  def find_call_tool(page_id)
-    Plugins::CallTool.find_by_page_id(page_id) ||
-      raise(ActiveRecord::RecordNotFound)
-  end
-
   def place_call
-    client = Twilio::REST::Client.new
-
-    client.account.calls.create(
+    client = Twilio::REST::Client.new.account.calls
+    client.create(
       :from => Settings.calls.default_caller_id,
       :to => @call.member_phone_number,
       #TODO move host config out of here
       :url => Rails.application.routes.url_helpers.call_twiml_url(@call, host: Settings.host)
     )
   end
-
 end

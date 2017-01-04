@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170103230538) do
+ActiveRecord::Schema.define(version: 20170104204704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20170103230538) do
     t.integer  "page_id"
     t.integer  "member_id"
     t.string   "member_phone_number"
-    t.integer  "target_id"
+    t.integer  "target_index"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -421,7 +421,6 @@ ActiveRecord::Schema.define(version: 20170103230538) do
     t.integer  "page_id"
     t.boolean  "active"
     t.string   "ref"
-    t.integer  "form_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"

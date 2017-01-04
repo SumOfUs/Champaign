@@ -166,6 +166,7 @@ describe LiquidRenderer do
         show_direct_debit
         payment_methods
         form_values
+        call_tool
       )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)

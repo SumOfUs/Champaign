@@ -92,6 +92,7 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     Warden.test_mode!
+    # FactoryGirl.lint TODO: Fix or remove invalid factories and add linting
   end
 
   config.before do

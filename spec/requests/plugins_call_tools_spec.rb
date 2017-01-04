@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "PUT plugins/call_tools/:id", :focus, type: :request do
+describe "PUT plugins/call_tools/:id", type: :request do
   let(:call_tool) { create(:call_tool) }
 
   before(:each) { login_as(build(:user), scope: :user) }
