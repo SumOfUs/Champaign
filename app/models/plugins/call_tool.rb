@@ -17,7 +17,6 @@ class Plugins::CallTool < ActiveRecord::Base
   belongs_to :form
 
   validate :targets_are_valid
-  after_create :create_form
 
   DEFAULTS = {}.freeze
 
@@ -32,13 +31,6 @@ class Plugins::CallTool < ActiveRecord::Base
       target_countries: target_countries,
       title: title
     }
-  end
-
-  # TODO: remove
-  def find_target(id)
-    targets.values.flatten.find do |target|
-      target['id'] == id
-    end
   end
 
   def targets=(target_objects)
