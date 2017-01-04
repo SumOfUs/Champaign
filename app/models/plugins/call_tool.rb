@@ -7,18 +7,20 @@
 #  active     :boolean
 #  ref        :string
 #  form_id    :integer
-#  targets    :json
 #  created_at :datetime
 #  updated_at :datetime
+#  title      :string
+#  targets    :json             is an Array
 #
 
 class Plugins::CallTool < ActiveRecord::Base
+  DEFAULTS = {}.freeze
+
   belongs_to :page, touch: true
   belongs_to :form
 
   validate :targets_are_valid
 
-  DEFAULTS = {}.freeze
 
   def name
     self.class.name.demodulize
@@ -27,7 +29,8 @@ class Plugins::CallTool < ActiveRecord::Base
   def liquid_data(supplemental_data={})
     {
       active: active,
-      targets: targets,
+      targets_by_country: targets_by_country,
+      targets: json_targets,
       target_countries: target_countries,
       title: title
     }
@@ -38,30 +41,29 @@ class Plugins::CallTool < ActiveRecord::Base
   end
 
   def targets
-    read_attribute(:targets).map {|t| ::CallTool::Target.new(t)}
+    json_targets.map {|t| ::CallTool::Target.new(t)}
   end
 
   private
 
-  def create_form
-    Form.create! formable: self,
-                 name: "call_tool_#{id}",
-                 master: false
+  # Temporary until fully targetting is implemented on front end
+  def targets_by_country
+    json_targets.group_by { |t| t['country_code'] }
+  end
+
+  def json_targets
+    read_attribute(:targets)
   end
 
   # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
   def target_countries
-    return [] if targets.blank?
     locale = page.language&.code || :en
-    targets.keys.map do |key|
-      country_name = ISO3166::Country[key]&.translation(locale)
-      if country_name.present?
-        {
-          name: country_name,
-          code: key
-        }
-      end
-    end.compact
+    targets.map(&:country_code).uniq.map do |country_code|
+      {
+        name: ISO3166::Country[country_code].translation(locale),
+        code: country_code
+      }
+    end
   end
 
   def targets_are_valid

@@ -6,6 +6,7 @@ const CallTool = function() {
   var phoneInput = form.find('input[type=tel]');
   var submitButton = form.find('button[type=submit]');
   var pageId = window.champaign.personalization.urlParams.id;
+  var targets_by_country = window.champaign.personalization.callTool.default.targets_by_country;
   var targets = window.champaign.personalization.callTool.default.targets;
   var selectedTarget = null;
 
@@ -20,7 +21,7 @@ const CallTool = function() {
     var data = {
       call: {
         member_phone_number: phoneInput.val(),
-        target_id: (selectedTarget === null) ? null : selectedTarget.id
+        target_index: (selectedTarget === null) ? null : _.findIndex(targets, selectedTarget)
       }
     }
 
@@ -32,15 +33,15 @@ const CallTool = function() {
     selectNewTarget();
     var targetSpan = $(".action-form__target span");
     if(selectedTarget !== null) {
-      targetSpan.text(selectedTarget.name);
+      targetSpan.text(`${selectedTarget.name}, ${selectedTarget.title}`);
     } else {
       targetSpan.text('');
     }
   }
 
   function selectNewTarget() {
-    if(targets[countrySelect.val()] !== undefined) {
-      selectedTarget = _.sample(targets[countrySelect.val()]);
+    if(targets_by_country[countrySelect.val()] !== undefined) {
+      selectedTarget = _.sample(targets_by_country[countrySelect.val()]);
     } else {
       selectedTarget = null;
     }

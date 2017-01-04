@@ -6,7 +6,7 @@
 #  page_id             :integer
 #  member_id           :integer
 #  member_phone_number :string
-#  target_id           :integer
+#  target_index        :integer
 #  created_at          :datetime
 #  updated_at          :datetime
 #
@@ -17,25 +17,24 @@ class Call < ActiveRecord::Base
 
   validates :page, presence: true
   validates :member_phone_number, presence: true
-  validates :target_id, presence: true
+  validates :target_index, presence: true
 
-  validate :target_id_is_valid
+  validate :target_index_is_valid, if: ->(o){ o.target_index.present? }
   validate :member_phone_number_is_valid
 
   def target_phone_number
-    call_tool.find_target(target_id)['phone']
+    call_tool.targets[target_index].phone_number
   end
 
   private
 
   def call_tool
-    @call_tool ||= Plugins::CallTool.find_by_page_id(page.id) ||
-      raise(ActiveRecord::NotFound)
+    @call_tool ||= Plugins::CallTool.find_by_page_id!(page.id)
   end
 
-  def target_id_is_valid
-    if call_tool.find_target(target_id).blank?
-      errors.add(:target_id, "doesn't match an target in the page call tool plugin")
+  def target_index_is_valid
+    if call_tool.targets[target_index].blank?
+      errors.add(:target_index, "is invalid")
     end
   end
 

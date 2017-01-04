@@ -16,7 +16,7 @@ class CallTool::TargetsParser
 
       CSV.parse(csv_string, CSV_OPTIONS) do |row|
         params = {
-          country:      new_target_value(previous_target.country, row['country']),
+          country_name: new_target_value(previous_target.country_name, row['country']),
           postal_code:  new_target_value(previous_target.postal_code, row['postal']),
           phone_number: new_target_value(previous_target.phone_number, row['target phone']),
           name:         new_target_value(previous_target.name, row['target name']),
