@@ -18,22 +18,26 @@ export default class Stepper extends Component {
     }
   }
 
+  renderStep(step: Step, index: number) {
+    const { currentStep } = this.props;
+    return (
+      <Step
+        key={index}
+        index={index}
+        label={step}
+        active={currentStep === index}
+        complete={currentStep > index}
+        onClick={() => this.changeStep(index)} />
+    );
+  }
+
   render() {
     return (
-      <div className="Stepper-wrapper fundraiser-bar__top">
-        <h2>{ this.props.title }</h2>
-        <div className="Stepper-root fundraiser-bar__steps">
-          <hr className="Stepper-line" />
-          {this.props.steps.map((step, index) =>
-            <Step
-              key={index}
-              index={index}
-              label={step}
-              active={this.props.currentStep === index}
-              complete={this.props.currentStep > index}
-              onClick={() => this.changeStep(index)}
-            />
-          )}
+      <div className="Stepper">
+        <h2 className="Stepper__header">{this.props.title}</h2>
+        <div className="Stepper__steps">
+          <hr className="Stepper__line" />
+          {this.props.steps.map((step, index) => this.renderStep(step, index))}
         </div>
       </div>
     );

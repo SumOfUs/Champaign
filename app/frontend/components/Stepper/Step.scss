@@ -1,0 +1,66 @@
+.Step {
+  z-index: 1;
+  align-self: vertical-align;
+  text-align: center;
+
+  &.complete {
+    cursor: pointer;
+  }
+}
+
+.Step__label {
+  text-transform: uppercase;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 6px;
+  color: #b2b5ba;
+}
+
+
+.Step__circle {
+  border-radius: 22px;
+  border-width: 2px;
+  border-color: #b2b5ba;
+  border-style: solid;
+  background-color: #dbdbdb;
+  margin: auto;
+  padding: 10px 0;
+  height: 45px;
+  width: 45px;
+  font-size: 20px;
+  box-sizing: border-box;
+  background-color: #dbdbdb;
+  color: #b2b5ba;
+}
+
+.Step--complete {
+  .Step__circle {
+    background-color: #b2b5ba;
+    color: white;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .Step__label {
+      color: #30394f;
+    }
+
+    .Step__circle {
+      background-color: #30394f;
+      border-color: #30394f;
+    }
+  }
+}
+
+.Step--active {
+  .Step__circle {
+    color: white;
+    background: #30394f;
+    border-color: #30394f;
+  }
+  .Step__label {
+    color: #30394f;
+  }
+}
+
