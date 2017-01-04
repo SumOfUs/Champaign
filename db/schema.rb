@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161230231232) do
+ActiveRecord::Schema.define(version: 20170103230538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -422,10 +422,10 @@ ActiveRecord::Schema.define(version: 20161230231232) do
     t.boolean  "active"
     t.string   "ref"
     t.integer  "form_id"
-    t.json     "targets"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
+    t.json     "targets",    default: [], array: true
   end
 
   create_table "plugins_fundraisers", force: :cascade do |t|
