@@ -18,7 +18,7 @@ export default class Stepper extends Component {
     }
   }
 
-  renderStep(step: Step, index: number) {
+  renderStep(step: string, index: number) {
     const { currentStep } = this.props;
     return (
       <Step
