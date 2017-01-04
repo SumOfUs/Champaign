@@ -7,8 +7,8 @@
         = f.text_field :title, class: 'form-control'
 
       .form-group
-        = label_with_tooltip(f, :targets, 'Targets', t('tooltips.petition.target'))
-        = f.text_area :targets, class: 'form-control', value: f.object.targets.to_json
+        = label_with_tooltip(f, :targets_csv_file, 'Targets CSV', t('tooltips.petition.target'))
+        = f.file_field :targets_csv_file, class: 'form-control'
 
       .form-group
         = f.submit
