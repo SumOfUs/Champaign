@@ -68,3 +68,4 @@ export type InitialAction = {
   payload: ChampaignPersonalizationData;
 };
 
+export const INITIAL_ACTION = 'parse_champaign_data';
