@@ -1,6 +1,7 @@
 class CallCreator
   def initialize(params)
     @params = params
+    @errors = {}
   end
 
   def run
@@ -13,15 +14,21 @@ class CallCreator
       place_call
     end
 
-    @call.persisted?
+    errors.blank?
   end
 
   def errors
-    @call.errors.messages
+    @call.errors.messages.tap do |e|
+      @errors.each do |key, val|
+        e[key] ||= []
+        e[key] += val
+      end
+    end
   end
 
   private
 
+  #TODO Move method to service class, handle error messages in there.
   def place_call
     client = Twilio::REST::Client.new.account.calls
     client.create(
@@ -30,5 +37,18 @@ class CallCreator
       #TODO move host config out of here
       :url => Rails.application.routes.url_helpers.call_twiml_url(@call, host: Settings.host)
     )
+  rescue Twilio::REST::RequestError => e
+    # 13223: Dial: Invalid phone number format
+    # 13224: Dial: Invalid phone number
+    # 13225: Dial: Forbidden phone number
+    # 13226: Dial: Invalid country code
+    # 21211: Invalid 'To' Phone Number
+    # 21214: 'To' phone number cannot be reached
+    if (e.code >= 13223 && e.code <= 13226) || [21211, 21214].include?(e.code)
+      @errors[:member_phone_number] ||= []
+      @errors[:member_phone_number] << "is invalid" #TODO: add translation
+    else
+      raise e
+    end
   end
 end
