@@ -7,15 +7,15 @@ import type { Country } from './SelectCountry';
 const mockFn = jest.fn();
 
 const component = shallow(
-  <SelectCountry name="country" onChange={mockFn} placeholder="Select a country" />
+  <SelectCountry name="country" onChange={mockFn} label="Select yourself a country" />
 );
 
 it('renders no problem', () => {
-  expect(component.text()).toEqual('<Select />');
+  expect(component.text()).toEqual('<SweetSelect />');
 });
 
 it('renders a list of countries by default', () => {
-  const select = component.find('Select');
+  const select = component.find('SweetSelect');
   const countries: Country[] = select.props().options;
   expect(countries.length).toBeGreaterThan(100);
 });
@@ -26,12 +26,13 @@ it('accepts a custom list of countries', () => {
     { label: 'United States', value: 'USA' },
   ];
   const wrapper = shallow(<SelectCountry name="countries" options={list} onChange={mockFn} />);
-  const countries: Country[] = wrapper.find('Select').props().options;
+  const countries: Country[] = wrapper.find('SweetSelect').props().options;
 
   expect(countries.length).toEqual(2);
 });
 
-it('accepts a placeholder', () => {
+it('accepts a label', () => {
+  expect(component.find('SweetSelect').props().label).toMatch('Select yourself a country');
 });
 
 it('accepts an onChange prop', () => {

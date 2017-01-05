@@ -12,7 +12,7 @@ type Props = {
   value?: string;
   onChange: (value: any) => void;
   options?: Country[];
-  placeholder?: Element<any> | string;
+  label?: Element<any> | string;
   disabled?: boolean;
   multiple?: boolean;
 };

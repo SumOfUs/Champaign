@@ -1,5 +1,5 @@
 // @flow
-import $ from 'jquery';
+import $ from '../../util/PubSub';
 
 import type { FundraiserAction } from './reducer';
 
