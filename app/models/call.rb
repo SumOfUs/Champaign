@@ -40,7 +40,7 @@ class Call < ActiveRecord::Base
 
   def member_phone_number_is_valid
     return if member_phone_number.blank?
-    valid_characters = (/\A[0-9\-\+\(\) ]+\z/i =~ member_phone_number).present?
+    valid_characters = (/\A[0-9\-\+\(\) \.]+\z/i =~ member_phone_number).present?
     has_at_least_six_numbers = (member_phone_number.scan(/[0-9]/).size > 5)
     if !valid_characters || !has_at_least_six_numbers
       errors.add(:member_phone_number, I18n.t('validation.is_invalid_phone'))
