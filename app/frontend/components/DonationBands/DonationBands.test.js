@@ -69,7 +69,7 @@ it('clears the input when the user clicks on a donation amount button', () => {
     throw new Error('Unexpected element type');
   }
 
-  expect(inputEl.value).toBe('123');
+  expect(inputEl.value).toBe('£123');
   wrapper.childAt(0).simulate('click');
   expect(inputEl.value).toBe('');
 });

@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from 'jquery';
+import $ from '../../util/PubSub';
 import { FormattedMessage } from 'react-intl';
 
 import Checkbox from '../Checkbox/Checkbox';

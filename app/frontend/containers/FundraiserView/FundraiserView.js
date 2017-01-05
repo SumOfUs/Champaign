@@ -51,6 +51,11 @@ export class FundraiserView extends Component {
     this.props.changeStep(this.props.fundraiser.currentStep + 1);
   }
 
+  showStepTwo() {
+    const outstandingFields = this.props.fundraiser.outstandingFields;
+    return !outstandingFields || outstandingFields.length !== 0;
+  }
+
   render() {
     const {
       fundraiser: {
@@ -89,7 +94,7 @@ export class FundraiserView extends Component {
             />
           </StepContent>
 
-          { outstandingFields.length !== 0 &&
+          { this.showStepTwo() &&
             <StepContent title="details">
               <MemberDetailsForm
                 buttonText={<FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment" />}

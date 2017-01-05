@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import $ from 'jquery';
+import $ from '../../util/PubSub';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client.debug';
