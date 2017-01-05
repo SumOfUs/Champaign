@@ -33,3 +33,9 @@
 .StepContent-hidden {
   display: none;
 }
+
+@media(min-width: 700px) {
+  .StepContent, .Stepper__steps {
+    max-width: 290px;
+  }
+}
