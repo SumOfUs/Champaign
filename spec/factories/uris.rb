@@ -16,5 +16,6 @@ FactoryGirl.define do
     domain 'google.com'
     path '/'
     page_id nil
+    association :page
   end
 end
