@@ -50,6 +50,7 @@ const CallTool = function() {
   function callCreationSuccess(data) {
     console.log("Call creation succeeded");
     console.log(data);
+    alert("Call creation succeded");
     disableButton();
   }
 
@@ -57,6 +58,7 @@ const CallTool = function() {
     console.log("Call creation failed");
     console.log(status);
     console.log(data);
+    alert("Call creation failed");
     ErrorDisplay.show({target: form}, data);
   }
 
