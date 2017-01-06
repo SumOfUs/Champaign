@@ -70,6 +70,11 @@ describe('Match "data_type"', function () {
     expect(wrapper.find('input').first().prop('value')).toEqual('a2');
   });
 
+  test(`paragraph => <textarea>`, () => {
+    const wrapper = shallow(<FieldShape field={{...field, data_type: 'paragraph'}} />);
+    expect(wrapper.find('textarea').length).toEqual(1);
+  });
+
   test(`checkbox => <Checkbox .../>`, () => {
     const wrapper = shallow(<FieldShape field={{...field, data_type: 'checkbox'}} />);
     expect(wrapper.find('Checkbox').length).toEqual(1);
