@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CreatePluginsCallTool < ActiveRecord::Migration
   def change
     create_table :plugins_call_tools do |t|

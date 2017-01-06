@@ -99,6 +99,8 @@ en:
       default_value: "The field will be pre-populated with whatever you write here. Write '1' or 'checked' to pre-check checkboxes. Countries should be two character country code."
       choices: 'Simply write the choices to be shown (eg. Apple) or, if you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
       many_choices: 'Put each choice on its own line. If you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
+    call_tool:
+      audio: 'Audio clip to be played to then caller'
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
@@ -292,6 +294,7 @@ en:
         only_recurring: 'Only allow recurring donations'
     call_tool:
       title: "Title"
+      click_to_play: 'Click to play'
 
   ak_logs:
     index:

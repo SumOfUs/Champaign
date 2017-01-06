@@ -75,7 +75,10 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     resources :texts, only: :update
-    resources :call_tools, only: :update
+    resources :call_tools, only: :update do
+      delete :sound_clip, on: :member, action: :delete_sound_clip
+    end
+
     post 'surveys/:plugin_id/form', to: 'surveys#add_form', as: 'add_survey_form'
     put 'surveys/:plugin_id/sort', to: 'surveys#sort_forms', as: 'sort_survey_forms'
     get 'forms/:plugin_type/:plugin_id/', to: 'forms#show', as: 'form_preview'

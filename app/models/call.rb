@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: calls
@@ -19,8 +20,10 @@ class Call < ActiveRecord::Base
   validates :member_phone_number, presence: true
   validates :target_index, presence: true
 
-  validate :target_index_is_valid, if: ->(o){ o.target_index.present? }
+  validate :target_index_is_valid, if: ->(o) { o.target_index.present? }
   validate :member_phone_number_is_valid
+
+  delegate :sound_clip, to: :call_tool
 
   def target_phone_number
     call_tool.targets[target_index].phone_number
@@ -34,7 +37,7 @@ class Call < ActiveRecord::Base
 
   def target_index_is_valid
     if call_tool.targets[target_index].blank?
-      errors.add(:target_index, "is invalid")
+      errors.add(:target_index, 'is invalid')
     end
   end
 
