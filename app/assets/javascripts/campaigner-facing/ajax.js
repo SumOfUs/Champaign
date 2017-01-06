@@ -41,4 +41,6 @@ $(function(){
   $('body').on('ajax:beforeSend', handleStart);
   $('body').on('ajax:success',    handleSuccess);
   $('body').on('ajax:error',      handleError);
+
+  //$('form.plugin-call-tool').on('ajax:error', function(a,b,c, d){console.log('error', c, d);});
 });

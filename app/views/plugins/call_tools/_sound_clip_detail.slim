@@ -1,0 +1,24 @@
+audio.call-tool-sound-clip preload='auto' autobuffer='true'
+  source src=plugin.sound_clip.url
+
+ul.list-inline
+  li
+    strong = plugin.sound_clip.original_filename
+  li
+    a
+      i.fa-play.fa.call-tool-play-sound
+  li
+    = link_to delete_sound_clip_plugins_call_tool_path(plugin),
+      { method: :delete,
+        remote: true,
+        class: 'call-tool-delete-sound',
+        data: { confirm: t('common.confirm') } } do
+      small
+        span.glyphicon.glyphicon-remove
+
+
+javascript:
+  $('.call-tool-play-sound').on('click', function(e) {
+    e.preventDefault();
+    $('.call-tool-sound-clip').get(0).play();
+  });

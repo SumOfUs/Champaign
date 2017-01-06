@@ -1,17 +1,25 @@
 .row.plugin.call-tool.collection-editor data-plugin-id=plugin.id
   .col-md-7
-    = form_for plugin, remote: true, html: { class: 'form-element', data: { type: "plugins_petition_#{plugin.id}"} } do |f|
+    = form_for plugin, remote: true, html: { class: 'form-element' } do |f|
       = render 'plugins/shared/plugin_metadata', f: f
       .form-group
         = f.label(:title, t('plugins.call_tool.title'))
         = f.text_field :title, class: 'form-control'
 
       .form-group
+        = label_with_tooltip(f, :sound_clip, 'Sound Clip', t('tooltips.call_tool.audio'))
+        = f.file_field :sound_clip, class: 'form-control'
+
+      .sound-clip-detail
+        - if plugin.sound_clip.present?
+          = render partial: 'plugins/call_tools/sound_clip_detail', locals: { plugin: plugin }
+
+      .form-group
         = label_with_tooltip(f, :targets_csv_file, 'Targets CSV', t('tooltips.petition.target'))
         = f.file_field :targets_csv_file, class: 'form-control'
 
       .form-group
-        = f.submit
+        = submit_tag t('common.save'), class: 'btn btn-default xhr-feedback'
 
 javascript:
   $.publish("collection:edit:loaded");

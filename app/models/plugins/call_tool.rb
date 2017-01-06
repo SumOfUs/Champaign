@@ -19,6 +19,9 @@ class Plugins::CallTool < ActiveRecord::Base
   belongs_to :page, touch: true
   belongs_to :form
 
+  has_attached_file :sound_clip, default_url: ''
+  validates_attachment_content_type :sound_clip, content_type: /\Aaudio\/.*\Z/, allow_nil: true
+
   validate :targets_are_valid
 
 

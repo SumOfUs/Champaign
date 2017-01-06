@@ -424,7 +424,11 @@ ActiveRecord::Schema.define(version: 20170104204704) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
-    t.json     "targets",    default: [], array: true
+    t.string   "sound_clip_file_name"
+    t.string   "sound_clip_content_type"
+    t.integer  "sound_clip_file_size"
+    t.datetime "sound_clip_updated_at"
+    t.json     "targets",                 default: [], array: true
   end
 
   create_table "plugins_fundraisers", force: :cascade do |t|

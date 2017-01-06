@@ -22,6 +22,8 @@ class Call < ActiveRecord::Base
   validate :target_index_is_valid, if: ->(o){ o.target_index.present? }
   validate :member_phone_number_is_valid
 
+  delegate :sound_clip, to: :call_tool
+
   def target_phone_number
     call_tool.targets[target_index].phone_number
   end
