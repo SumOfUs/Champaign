@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module Plugins
   class CallToolsController < BaseController
     before_filter :find_call_tool, only: [:update, :delete_sound_clip]

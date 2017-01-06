@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class TwimlGenerator
   def self.run(call)
     Twilio::TwiML::Response.new do |r|

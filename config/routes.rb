@@ -155,7 +155,7 @@ Rails.application.routes.draw do
     }
   end
 
-  #get '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
+  # get '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
   get '/twilio/calls/:id/twiml_g', to: 'twilio/calls#twiml', as: :get_call_twiml
   post '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
 

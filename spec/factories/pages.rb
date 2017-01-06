@@ -50,7 +50,7 @@ FactoryGirl.define do
     end
 
     trait :with_call_tool do
-      after(:create) do |page, evaluator|
+      after(:create) do |page, _evaluator|
         create(:call_tool, page: page)
       end
     end

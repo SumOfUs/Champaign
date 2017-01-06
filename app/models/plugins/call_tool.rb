@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: plugins_call_tools
@@ -20,16 +21,15 @@ class Plugins::CallTool < ActiveRecord::Base
   belongs_to :form
 
   has_attached_file :sound_clip, default_url: ''
-  validates_attachment_content_type :sound_clip, content_type: /\Aaudio\/.*\Z/, allow_nil: true
+  validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
   validate :targets_are_valid
-
 
   def name
     self.class.name.demodulize
   end
 
-  def liquid_data(supplemental_data={})
+  def liquid_data(_supplemental_data = {})
     {
       active: active,
       targets_by_country: targets_by_country,
@@ -44,7 +44,7 @@ class Plugins::CallTool < ActiveRecord::Base
   end
 
   def targets
-    json_targets.map {|t| ::CallTool::Target.new(t)}
+    json_targets.map { |t| ::CallTool::Target.new(t) }
   end
 
   private
