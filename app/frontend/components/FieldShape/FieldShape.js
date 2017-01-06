@@ -47,6 +47,10 @@ export default class FieldShape extends Component {
     }
   }
 
+  renderParagraph(fieldProps) {
+    return <textarea name={ fieldProps.name } value={ fieldProps.value } placeholder={fieldProps.label} maxLength="9999"></textarea>;
+  }
+
   renderCheckbox(fieldProps) {
     fieldProps.value = (fieldProps.value || '0').toString();
     const checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
@@ -96,6 +100,8 @@ export default class FieldShape extends Component {
         return this.renderChoice(fieldProps);
       case 'instruction':
         return <div className="form__instruction">{ fieldProps.label }</div>;
+      case 'paragraph':
+        return this.renderParagraph(fieldProps);
       case 'text':
       case 'postal':
       default:
