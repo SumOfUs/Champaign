@@ -14,7 +14,8 @@ export function changeCurrency(payload: string): FundraiserAction {
 }
 
 export function changeStep(payload: number): FundraiserAction {
-  $.publish('fundraiser:change_step', [payload]);
+  // we put it in a timeout because otherwise the event is fired before the step has switched
+  window.setTimeout(() => { $.publish('fundraiser:change_step', [payload]); }, 100);
   return { type: 'change_step', payload };
 }
 
