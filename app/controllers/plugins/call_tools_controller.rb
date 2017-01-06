@@ -6,9 +6,7 @@ module Plugins
     def update
       updater = ::CallTool::PluginUpdater.new(@call_tool, update_params)
       if updater.run
-        respond_to do |format|
-          format.js
-        end
+        render :update
       else
         render json: { errors: updater.errors, name: :plugins_call_tool }, status: :unprocessable_entity
       end
@@ -16,10 +14,7 @@ module Plugins
 
     def delete_sound_clip
       @call_tool.update(sound_clip: nil)
-
-      respond_to do |format|
-        format.js
-      end
+      render :delete_sound_clip
     end
 
     private
