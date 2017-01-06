@@ -76,7 +76,7 @@ Rails.application.routes.draw do
     resources :surveys, only: :update
     resources :texts, only: :update
     resources :call_tools, only: :update do
-      delete :delete_sound_clip, on: :member
+      delete :sound_clip, on: :member, action: :delete_sound_clip
     end
 
     post 'surveys/:plugin_id/form', to: 'surveys#add_form', as: 'add_survey_form'
@@ -155,8 +155,6 @@ Rails.application.routes.draw do
     }
   end
 
-  # get '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
-  get '/twilio/calls/:id/twiml_g', to: 'twilio/calls#twiml', as: :get_call_twiml
   post '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
 
   root to: 'uris#show'
