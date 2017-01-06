@@ -33,7 +33,7 @@ export default class Stepper extends Component {
 
   render() {
     return (
-      <div className="Stepper">
+      <div className="Stepper fundraiser-bar__top">
         <h2 className="Stepper__header">{this.props.title}</h2>
         <div className="Stepper__steps">
           <hr className="Stepper__line" />
