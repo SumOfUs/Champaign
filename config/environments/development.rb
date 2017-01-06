@@ -56,7 +56,6 @@ Rails.application.configure do
 
   # to allow services consuming images through the API to have absolute URLs
   config.action_controller.asset_host = 'http://localhost:3000'
-  config.action_controller.asset_host = 'http://cd19de10.ngrok.io'
 
   config.cache_store = :null_store
 
