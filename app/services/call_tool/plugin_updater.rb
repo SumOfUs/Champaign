@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CallTool::PluginUpdater
   def initialize(call_tool, params)
     @call_tool = call_tool
@@ -23,5 +24,4 @@ class CallTool::PluginUpdater
       []
     end
   end
-
 end

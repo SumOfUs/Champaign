@@ -1,5 +1,6 @@
+# frozen_string_literal: true
 class CallTool::TargetsParser
-  REPEAT_PREVIOUS_ROW_SYMBOL = '``'.freeze
+  REPEAT_PREVIOUS_ROW_SYMBOL = '``'
   CSV_OPTIONS = {
     return_headers: false,
     headers: :first_row,
@@ -8,7 +9,6 @@ class CallTool::TargetsParser
   }.freeze
 
   class << self
-
     def parse_csv(csv_string)
       # Headers  ["country", "postal", "target phone", "target name", "target title"];
       targets = []
@@ -41,7 +41,5 @@ class CallTool::TargetsParser
         new_row_value
       end
     end
-
   end
 end
-

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class CallTool::Target
   include ActiveModel::Model
 
@@ -32,8 +33,7 @@ class CallTool::Target
 
   def country_is_valid
     if country_name.present? && country_code.blank?
-      errors.add(:country, "is invalid")
+      errors.add(:country, 'is invalid')
     end
   end
-
 end
