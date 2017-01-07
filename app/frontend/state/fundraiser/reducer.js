@@ -52,11 +52,11 @@ const initialState: FundraiserState = {
   currency: 'USD',
   donationBands: {
     USD: [2, 5, 10, 25, 50],
-    GBP: [1, 2, 3, 4, 5],
-    EUR: [1, 2, 3, 4, 5],
-    CAD: [1, 2, 3, 4, 5],
-    AUD: [1, 2, 3, 4, 5],
-    NZD: [1, 2, 3, 4, 5]
+    GBP: [2, 5, 10, 25, 50],
+    EUR: [2, 5, 10, 25, 50],
+    CAD: [2, 5, 10, 25, 50],
+    AUD: [2, 5, 10, 25, 50],
+    NZD: [2, 5, 10, 25, 50]
   },
   donationAmount: null,
   currentStep: 0,

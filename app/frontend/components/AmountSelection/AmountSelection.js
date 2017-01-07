@@ -83,7 +83,7 @@ export default class AmountSelection extends Component {
             defaultMessage="Values are shown in {currency}."
             values={{ currency: this.props.currency }}
           />.&nbsp;
-          <a onClick={this.toggleCurrencyDropdown.bind(this)}>
+          <a onClick={this.toggleCurrencyDropdown.bind(this)} className="AmountSelection__currency-toggle">
             <FormattedMessage id="fundraiser.switch_currency" defaultMessage="Switch currency" />
           </a>
         </p>
