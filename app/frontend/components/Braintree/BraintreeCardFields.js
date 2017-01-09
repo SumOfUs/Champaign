@@ -188,6 +188,7 @@ class BraintreeCardFields extends Component {
           { this.state.errors.expirationDate && this.renderError('expiration', "BraintreeCardFields__error-msg--col-right") }
 
         </form>
+        <div className="clearfix"> </div>
       </div>
     );
   }
