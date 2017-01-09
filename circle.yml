@@ -1,14 +1,14 @@
 machine:
   node:
-    version: 7.2.1
+    version: 7.4.0
   pre:
     # Update docker version
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
     - docker
   environment:
-    YARN_VERSION: 0.18.0
-    PATH: "${PATH}:${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+    YARN_VERSION: 0.18.1
+    PATH: "${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${PATH}"
 
 dependencies:
   pre:

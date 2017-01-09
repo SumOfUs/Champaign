@@ -21,12 +21,14 @@ done
 
 echo "OK"
 
-# Lint codebase 
+# Run front end tests
+npm run test
+
+# Lint codebase
 bundle exec rubocop
 
 # Runs tests
 bundle exec rspec spec
-npm run test
 
 # Try to run all of the DB-related rake tasks
 bundle exec rake RAILS_ENV=test db:migrate db:seed champaign:seed_liquid
