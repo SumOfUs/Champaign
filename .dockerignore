@@ -1,7 +1,6 @@
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 .gitignore
-.git
 node_modules/*
 log/*
 tmp/*
