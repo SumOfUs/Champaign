@@ -39,7 +39,6 @@ class BraintreeCardFields extends Component {
     };
   }
 
-
   componentDidMount() {
     if(this.props.client) {
       this.createHostedFields(this.props.client);
@@ -95,7 +94,7 @@ class BraintreeCardFields extends Component {
         const field = event.fields[event.emittedBy];
         const newErrors = {};
         newErrors[event.emittedBy] = !field.isPotentiallyValid;
-        this.setState({ errors: _.assign(this.state.errors, newErrors)});
+        this.setState({ errors: _.assign({}, this.state.errors, newErrors)});
       });
 
       hostedFieldsInstance.on('cardTypeChange', (event) => {
@@ -116,6 +115,7 @@ class BraintreeCardFields extends Component {
 
   submit(event?: SyntheticEvent) {
     if (event) event.preventDefault();
+    this.resetErrors();
 
     return new Promise((resolve, reject) => {
       if (!this.state.hostedFields) return reject();
@@ -123,12 +123,32 @@ class BraintreeCardFields extends Component {
       this.state.hostedFields.tokenize({
         vault: this.props.recurring,
       }, (error: ?BraintreeError, data: HostedFieldsTokenizePayload) => {
-        if (error) return reject(error);
+        if (error) {
+          this.processTokenizeErrors(error);
+          return reject(error);
+        }
         this.teardown();
         resolve(data);
-        console.log('Success BraintreeCardFields:', data);
       });
     });
+  }
+
+  resetErrors() {
+    const newErrors = {};
+    Object.keys(this.state.errors).forEach((key) => {
+      newErrors[key] = false;
+    });
+    this.setState({errors: newErrors});
+  }
+
+  processTokenizeErrors(error) {
+    if (error.code === "HOSTED_FIELDS_FIELDS_INVALID") {
+      const errors = Object.assign({}, this.state.errors);
+      for(const key of error.details.invalidFieldKeys) {
+        errors[key] = true;
+      }
+      this.setState({ errors: errors });
+    }
   }
 
   currentCardClass(cardType: string) {
