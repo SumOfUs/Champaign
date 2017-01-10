@@ -20,7 +20,7 @@ SOURCE_BUNDLE=$SHA1-config.zip
 
 echo 'Shipping static assets to S3...'
 id=$(docker create soutech/champaign_web:$SHA1)
-docker cp $id:/myapp/public/assets statics
+docker cp $id:/champaign/public/assets statics
 
 aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
 
