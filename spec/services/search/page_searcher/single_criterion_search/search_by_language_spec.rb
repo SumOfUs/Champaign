@@ -37,22 +37,22 @@ describe 'Search ::' do
 
         describe 'returns one page when searching' do
           it 'with a language that only one page belongs to' do
-            expect(Search::PageSearcher.new(language: [pig_latin.id]).search).to match_array([single_return_page])
+            expect(Search::PageSearcher.new(language: [french.id]).search).to match_array([single_return_page])
           end
         end
 
         describe 'returns some pages when searching' do
           it 'with a used language and an unused language' do
-            expect(Search::PageSearcher.new(language: [pig_latin.id, unused_language.id]).search).to match_array([single_return_page])
+            expect(Search::PageSearcher.new(language: [french.id, unused_language.id]).search).to match_array([single_return_page])
           end
         end
 
         describe 'returns multiple pages when searching' do
           it 'with mutiple languages that different pages belong to' do
-            expect(Search::PageSearcher.new(language: [pig_latin.id, klingon.id]).search).to match_array([single_return_page, twin_page_1, twin_page_2])
+            expect(Search::PageSearcher.new(language: [french.id, german.id]).search).to match_array([single_return_page, twin_page_1, twin_page_2])
           end
           it 'with a language that several pages belong to' do
-            expect(Search::PageSearcher.new(language: [klingon.id]).search).to match_array([twin_page_1, twin_page_2])
+            expect(Search::PageSearcher.new(language: [german.id]).search).to match_array([twin_page_1, twin_page_2])
           end
         end
       end

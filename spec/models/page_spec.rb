@@ -413,6 +413,13 @@ describe Page do
         expect(page.friendly_id).to eq('complex-slug')
       end
     end
+
+    context 'Given the title has non ascii characters' do
+      let!(:page) { create(:page, title: 'öla', language: create(:language, :german)) }
+      it 'transliterates the title according to the pages language' do
+        expect(page.slug).to eq('oela')
+      end
+    end
   end
 
   describe 'follow_up_plan' do
