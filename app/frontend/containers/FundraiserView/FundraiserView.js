@@ -108,7 +108,7 @@ export class FundraiserView extends Component {
           }
 
           <StepContent title="payment">
-            <Payment />
+            <Payment disableFormReveal={this.showStepTwo()} />
           </StepContent>
         </StepWrapper>
       </div>

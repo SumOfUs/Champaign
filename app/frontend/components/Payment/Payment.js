@@ -32,6 +32,7 @@ type OwnProps = {
   fundraiser: FundraiserState;
   paymentMethods: PaymentMethod[],
   hideRecurring: boolean;
+  disableFormReveal: boolean;
   formData: { member: any; storeInVault: boolean; };
   resetMember: () => void;
   changeStep: (step: number) => void;
@@ -286,14 +287,16 @@ export class Payment extends Component {
           </div>
         </ShowIf>
 
-        <WelcomeMember member={member} resetMember={() => this.resetMember()} />
+        { !this.props.disableFormReveal &&
+          <WelcomeMember member={member} resetMember={() => this.resetMember()} />
+        }
 
         <ExpressDonation
           hidden={this.state.expressHidden || this.props.paymentMethods.length === 0}
           onHide={() => this.setState({ expressHidden: true })}
         />
 
-        <ShowIf condition={this.state.expressHidden}>
+        <ShowIf condition={this.state.expressHidden || this.props.paymentMethods.length === 0}>
           <PaymentTypeSelection
             disabled={this.state.loading}
             currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}

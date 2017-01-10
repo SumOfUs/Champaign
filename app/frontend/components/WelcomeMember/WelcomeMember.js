@@ -27,13 +27,13 @@ type OwnProps = {
 };
 
 export default function WelcomeMember(props: OwnProps) {
-  if (!props.member || !props.member.name) return null;
+  if (!props.member || (!props.member.name && !props.member.email)) return null;
 
   return (
     <div className="WelcomeMember">
       <i className="WelcomeMember__icon fa fa-check-square-o" />
       <div>
-        <span className="WelcomeMember__name">{props.member.name}</span>
+        <span className="WelcomeMember__name">{props.member.name || props.member.email}</span>
         <a className="WelcomeMember__link" onClick={props.resetMember}>
           <FormattedMessage id="form.switch_user" />
         </a>

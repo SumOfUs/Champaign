@@ -17,9 +17,9 @@ export default class PaymentTypeSelection extends Component {
     if (this.props.showDirectDebit) methods.push('gocardless');
 
     return (
-      <div className='ExpressDonation__payment-methods'>
+      <div className='PaymentTypeSelection__payment-methods'>
         <PaymentMethodWrapper>
-          <span className="ExpressDonation__prompt">
+          <span className="PaymentTypeSelection__prompt">
             <FormattedMessage id="fundraiser.payment_type_prompt" />
           </span>
 
