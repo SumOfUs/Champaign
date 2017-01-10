@@ -24,6 +24,7 @@
           title: "{{ plugins.fundraiser[ref].title }}",
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
           recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          freestanding: {% if freestanding %} true {% else %} false {% endif %}
         }
       };
       window.setTimeout(function(){
@@ -64,6 +65,4 @@
     });
     */
   </script>
-</div>
-
 {% endif %}

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
 import StepContent from '../../components/Stepper/StepContent';
 import StepWrapper from '../../components/Stepper/StepWrapper';
@@ -77,8 +78,15 @@ export class FundraiserView extends Component {
       <FormattedMessage id="fundraiser.proceed_to_details" defaultMessage="Proceed to details (default)" /> :
       <FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment (default)" />;
 
+
+    const classNames = classnames({
+      "FundraiserView-container": true,
+      "form--big": true,
+      "fundraiser-bar--freestanding": this.props.fundraiser.freestanding
+    });
+
     return (
-      <div id="fundraiser-view" className="FundraiserView-container form--big">
+      <div id="fundraiser-view" className={classNames}>
         <StepWrapper title={this.props.fundraiser.title} currentStep={currentStep} changeStep={this.props.changeStep}>
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <AmountSelection

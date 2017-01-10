@@ -35,6 +35,7 @@ export type FundraiserState = {
   currentPaymentType: ?string;
   suggestedAmount?: number;
   showDirectDebit?: boolean;
+  freestanding?: boolean;
 };
 
 export type FundraiserAction =
@@ -77,6 +78,7 @@ const initialState: FundraiserState = {
   },
   form: {},
   formValues: {},
+  freestanding: false
 };
 
 // `supportedCurrency` gets a currency string and compares it against our list of supported currencies.
