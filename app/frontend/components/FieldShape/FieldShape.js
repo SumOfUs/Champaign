@@ -48,7 +48,15 @@ export default class FieldShape extends Component {
   }
 
   renderParagraph(fieldProps) {
-    return <textarea name={ fieldProps.name } value={ fieldProps.value } placeholder={fieldProps.label} maxLength="9999"></textarea>;
+    return (<div>
+      <textarea name={ fieldProps.name }
+                value={ fieldProps.value }
+                placeholder={fieldProps.label}
+                onChange={e => fieldProps.onChange(e.target.value)}
+                className={fieldProps.errorMessage ? 'has-error' : ''}
+                maxLength="9999"></textarea>
+      { this.errorMessage(fieldProps) }
+    </div>);
   }
 
   renderCheckbox(fieldProps) {
