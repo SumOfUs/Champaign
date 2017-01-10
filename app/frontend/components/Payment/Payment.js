@@ -319,6 +319,18 @@ export class Payment extends Component {
             onInit={() => this.paymentInitialized('card')}
           />
 
+          { currentPaymentType === 'paypal' &&
+            <div className="PaymentMethod__guidance">
+              <FormattedMessage id={'fundraiser.payment_methods.ready_for_paypal'} />
+            </div>
+          }
+
+          { currentPaymentType === 'gocardless' &&
+            <div className="PaymentMethod__guidance">
+              <FormattedMessage id={'fundraiser.payment_methods.ready_for_gocardless'} />
+            </div>
+          }
+
           { !hideRecurring &&
             <Checkbox
               className="Payment__config"
