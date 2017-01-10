@@ -2,13 +2,20 @@
 require 'rails_helper'
 
 describe 'Liquid page rendering' do
+  before(:all) do
+    LiquidMarkupSeeder.seed(quiet: true)
+  end
+
+  after(:all) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   LiquidMarkupSeeder.titles.each do |title|
     describe "page with layout #{title}" do
       [:en, :fr, :de].each do |language_code|
         it "can render in #{language_code} without errors" do
           language = create :language, code: language_code
-          LiquidMarkupSeeder.seed(quiet: true) # transactional fixtures nuke em every test :/
-          layout = LiquidLayout.find_by(title: title)
+          layout = LiquidLayout.find_by!(title: title)
 
           unless LiquidTagFinder.new(layout.content).skip_smoke_tests?
             page = create :page, liquid_layout: layout, language: language
