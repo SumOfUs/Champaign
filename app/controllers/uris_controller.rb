@@ -22,7 +22,7 @@ class UrisController < ApplicationController
 
     if uri&.page.present? && (uri.page.published? || user_signed_in?)
       @page = uri.page
-      localize_from_page(page)
+      localize_from_page(@page)
       @rendered = renderer.render_follow_up
       @data = renderer.personalization_data
       render 'pages/show', layout: 'member_facing'
