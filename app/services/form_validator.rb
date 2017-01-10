@@ -98,7 +98,7 @@ class FormValidator
     country = (@params[:country].blank? ? :US : @params[:country].to_sym)
     validator = PostalValidator.new(postal, country_code: country)
 
-    if !validator.valid?
+    unless validator.valid?
       @errors[form_element[:name]] += validator.errors
     end
   end
