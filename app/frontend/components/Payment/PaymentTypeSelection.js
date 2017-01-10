@@ -35,11 +35,6 @@ export default class PaymentTypeSelection extends Component {
                     />
                   <FormattedMessage id={`fundraiser.payment_methods.${method}`} />
                 </label>
-                { currentPaymentType === method && currentPaymentType !== 'card' &&
-                  <div className="PaymentMethod__guidance">
-                    <FormattedMessage id={`fundraiser.payment_methods.ready_for_${method}`} />
-                  </div>
-                }
               </div>
             );
           })}
