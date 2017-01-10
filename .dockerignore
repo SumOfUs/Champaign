@@ -1,3 +1,7 @@
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 .gitignore
+# Ignore transient files
+log/*
+node_modules/*
+vendor/bundle
