@@ -12,7 +12,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.lis
 
 # Install system dependencies
 RUN apt-get update -qq
-RUN apt-get install -y nodejs yarn && update-alternatives --install /usr/bin/node nodejs /usr/bin/nodejs 100
+RUN apt-get install -y nodejs yarn
 
 RUN mkdir /myapp
 WORKDIR /myapp
