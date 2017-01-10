@@ -10,6 +10,9 @@ const suite = {};
 
 const fundraiserDefaults = {
   fields: [
+    { id: 771, form_id: 180, label: "Email Address", data_type: "email", default_value: null, required: true, visible: null, name: "email", position: 0, choices: []},
+    { id: 772, form_id: 180, label: "Full name", data_type: "text", default_value: null, required: true, visible: null, name: "name", position: 1, choices: []},
+    { id: 773, form_id: 180, label: "Country", data_type: "country", default_value: null, required: false, visible: null, name: "country", position: 2, choices: []},
   ],
   formId: 180,
   formValues: {},
@@ -25,6 +28,24 @@ const mountView = () => {
       </IntlProvider>
     </Provider>
   );
+}
+
+const cardMethod = {
+  id: 17,
+  last_4: "1111",
+  instrument_type: "credit_card",
+  card_type: "Visa",
+  email: null,
+  token: "5gr378",
+}
+
+const paypalMethod = {
+  id: 19,
+  last_4: null,
+  instrument_type: "paypal_account",
+  card_type: null,
+  email: "payer@example.com",
+  token: "5qnwgp",
 }
 
 const fetchInitialState = (vals) => {
@@ -196,6 +217,123 @@ describe('Donation Amount Tab', function () {
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
     });
 
+  });
+});
+
+describe('Payment Panel', function() {
+
+  describe('Initial state', () => {
+    it("displays the user's name if they are logged in", () => {
+      initialize({member: {email: 'asdf@gmail.com', name: 'As Df', country: 'US'}, outstandingFields: [], amount: 5});
+      expect(suite.wrapper.find('.WelcomeMember').length).toEqual(1);
+      expect(suite.wrapper.find('.WelcomeMember__name').text()).toEqual('As Df');
+    });
+
+    it("displays the user's email if they are logged in but have no name", () => {
+      initialize({member: {email: 'asdf@gmail.com', country: 'US'}, outstandingFields: [], amount: 5});
+      expect(suite.wrapper.find('.WelcomeMember').length).toEqual(1);
+      expect(suite.wrapper.find('.WelcomeMember__name').text()).toEqual('asdf@gmail.com');
+    });
+
+    it('does not display the user panel if no user known', () => {
+      initialize({ outstandingFields: [], member: {}, amount: 5});
+      expect(suite.wrapper.find('.WelcomeMember').length).toEqual(0);
+    });
+
+    it('does not display the user panel if user known but step 2 is displayed', () => {
+      initialize({ outstandingFields: ['texting_opt_in'], member: {email: 'asdf@gmail.com'}});
+      expect(suite.wrapper.find('.WelcomeMember').length).toEqual(0);
+    });
+
+    it('displays the new payment method form when no known payment methods', () => {
+      initialize({ outstandingFields: [], amount: 2 });
+      expect(suite.wrapper.find('PaymentTypeSelection').length).toEqual(1);
+      expect(suite.wrapper.find('PaymentTypeSelection').parent().prop('style')).toEqual('yooo');
+      expect(suite.wrapper.find('Paypal').length).toEqual(1);
+      expect(suite.wrapper.find('BraintreeCardFields').length).toEqual(1);
+      expect(suite.wrapper.find('DonateButton').length).toEqual(1);
+    });
+
+    it('does not display the new payment method form when there are known payment methods', () => {
+      initialize({ outstandingFields: [], amount: 2, paymentMethods: [cardMethod] });
+      expect(suite.wrapper.find('PaymentTypeSelection').parents('div').prop('style')).toEqual({display: 'none'});
+    });
+
+    it('displays saved payment options as a list of radio buttons', () => {
+      initialize({ outstandingFields: [], amount: 13, paymentMethods: [cardMethod, paypalMethod]});
+      expect(suite.wrapper.find('.ExpressDonation .PaymentMethod input[type="radio"]').length).toEqual(2);
+    });
+
+    it('displays just one payment option if only one exists', () => {
+      initialize({ outstandingFields: [], amount: 13, paymentMethods: [cardMethod]});
+      expect(suite.wrapper.find('.ExpressDonation .PaymentMethod input[type="radio"]').length).toEqual(0);
+      expect(suite.wrapper.find('.ExpressDonation__single-item').length).toEqual(1);
+    });
+
+    it('displays the GoCardless button when told to', () => {
+      initialize({ outstandingFields: [], amount: 2, showDirectDebit: true });
+      expect(suite.wrapper.find('.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]').length).toEqual(3);
+    });
+
+    it('does not display the GoCardless button when told not to', () => {
+      initialize({ outstandingFields: [], amount: 2, showDirectDebit: false });
+      expect(suite.wrapper.find('.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]').length).toEqual(2);
+    });
+  });
+
+  describe('UI interactions', () => {
+    describe('clicking sign-out button', () => {
+      beforeEach(() => {
+        initialize({outstandingFields: [], paymentMethods: [cardMethod, paypalMethod],
+          member: {email: 'asdf@gmail.com', name: 'As Df'}, amount: 4});
+      });
+
+      it('returns to step 2', () => {
+        expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
+        const lastStep = suite.wrapper.find('StepContent').last();
+        expect(lastStep.prop('title')).toEqual('payment');
+        expect(lastStep.prop('visible')).toEqual(true);
+
+        suite.wrapper.find('.WelcomeMember__link').simulate('click');
+
+        expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
+        expect(lastStep.prop('visible')).toEqual(false);
+      });
+
+      it('hides the saved payment methods', () => {
+        expect(suite.wrapper.find('.ExpressDonation').length).toEqual(1);
+        suite.wrapper.find('.WelcomeMember__link').simulate('click');
+        suite.wrapper.find('FundraiserView').instance().proceed();
+        expect(suite.wrapper.find('.ExpressDonation').length).toEqual(0);
+      });
+
+      it('clears the formValues', () => {
+        expect(suite.wrapper.find('FundraiserView').prop('fundraiser').formValues).toEqual(['surely not this']);
+        suite.wrapper.find('.WelcomeMember__link').simulate('click');
+        expect(suite.wrapper.find('FundraiserView').prop('fundraiser').formValues).toEqual(['surely not this']);
+      });
+    });
+
+    describe("clicking 'Add Payment Method'", () => {
+      it('hides the panel of existing payment methods');
+      it('reveals the panel to add a new payment method');
+    });
+
+    describe('existing payment methods', () => {
+      it('can toggle correctly between them');
+      it('submits the correct selected payment method');
+    });
+
+    describe('new payment method', () => {
+      it('can toggle correctly between them');
+      it('shows the credit card fields only if that is the selected method');
+      it('shows a PayPal advisory over the button if that is the selected method');
+      it('shows a GoCardless advisory over the button if that is the selected method');
+    });
+
+    describe('error reporting', () => {
+      // TODO
+    });
   });
 });
 

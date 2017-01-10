@@ -6,12 +6,12 @@
   }
 }
 
-.ExpressDonation__prompt {
+.ExpressDonation__prompt, .PaymentTypeSelection__prompt {
   font-size: 16px;
   font-weight: bold;
 }
 
-.ExpressDonation__payment-methods {
+.ExpressDonation__payment-methods, .PaymentTypeSelection__payment-methods {
   padding: 16px 16px 6px;
   padding-left: 52px;
   margin-bottom: 20px;
