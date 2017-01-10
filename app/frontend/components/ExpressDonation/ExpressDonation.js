@@ -46,13 +46,6 @@ export class ExpressDonation extends Component {
     };
   }
 
-  // Payment methods don't really change after we've loaded them from
-  // Champaign so in theory we don't need this, however, should the `parse_champaign_data`
-  // action get dispatched after we've rendered, this would update us.
-  componentWillReceiveProps(newProps: OwnProps) {
-    this.setState({ currentPaymentMethod: newProps.paymentMethods[0] });
-  }
-
   oneClickData() {
     if (!this.state.currentPaymentMethod) return null;
 
