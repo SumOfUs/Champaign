@@ -1,31 +1,26 @@
 FROM ruby:2.3.3
 
-# Pre install dependencies
-RUN apt-get update -qq
-RUN apt-get install -y apt-transport-https imagemagick netcat
+# With --build-arg ci=false we'll skip the bundle install part
+ARG ci
+ENV CI ${ci:-false}
+ENV APP_ROOT /champaign
 
-# Add Node and Yarn sources
-RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-RUN curl -s https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo 'deb https://deb.nodesource.com/node_7.x jessie main' > /etc/apt/sources.list.d/nodesource.list
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+# Install ImageMagick and apt-transport-https (to install nodesource)
+RUN apt-get update -qq && apt-get install -y apt-transport-https imagemagick
 
-# Install system dependencies
-RUN apt-get update -qq
-RUN apt-get install -y nodejs yarn
+# Install Node.js 7.x
+RUN curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
+ && echo 'deb https://deb.nodesource.com/node_7.x jessie main' > /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update -qq && apt-get install -y nodejs
 
-RUN mkdir /myapp
-WORKDIR /myapp
+# Create app folder and add current dir contents
+RUN mkdir $APP_ROOT
+ADD . $APP_ROOT
+WORKDIR $APP_ROOT
 
-ADD Gemfile* /myapp/
-ADD package.json /myapp/
-ADD yarn.lock /myapp/
-
-RUN yarn global add phantomjs-prebuilt --no-progress --no-emoji && yarn install --no-progress --no-emoji
-RUN bundle install --jobs 4
+# Install all gems if CI=false. Install deployment gems if CI=true
+RUN if [ $CI = false ]; then bundle install --jobs 4; fi
+RUN if [ $CI = true ]; then bundle install --jobs 4 --deployment --without development:test:doc; fi
 
 EXPOSE 3000
-
-ADD . /myapp
-
 CMD bundle exec puma -b tcp://0.0.0.0 -p 3000 -t 5:16

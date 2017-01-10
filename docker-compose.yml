@@ -1,7 +1,7 @@
 web:
   build: .
   volumes:
-    - .:/myapp
+    - .:/champaign
     - ../sou-assets:/sou-assets
   ports:
     - "3000:3000"

@@ -11,5 +11,5 @@
     }
   ],
   "Volumes": [],
-  "Logging": "/myapp/log"
+  "Logging": "/champaign/log"
 }

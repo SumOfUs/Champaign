@@ -25,9 +25,9 @@ function ebextensions_setup() {
 function sync_s3() {
     echo 'Shipping static assets to S3...'
     id=$(docker create soutech/champaign_web:$SHA1)
-    docker cp $id:/myapp/public/assets statics
+    docker cp $id:/champaign/public/assets statics
     aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
-    docker cp $id:/myapp/public/webpack statics-webpack
+    docker cp $id:/champaign/public/webpack statics-webpack
     aws s3 sync statics-webpack/ s3://$STATIC_BUCKET/webpack/
     # aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
     # --exclude "*" --include "assets" --include "webpack"
