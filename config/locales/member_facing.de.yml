@@ -133,3 +133,30 @@ de:
   facebook_share:
     caption: 'Ich habe gerade diese SumOfUs-Petition unterschrieben'
     comment_field_label: "Ich habe unterschrieben, weil..."
+  member_registration:
+    title: "Mitglieder-Registrierung"
+    form:
+      password: Passwort
+      confirm_password: Passwort bestätigen
+      your_email: Ihre E-mail-Adresse
+      register: Registrieren
+    thanks: 'Vielen Dank für Ihre Spende'
+    enter_password_message: "Geben Sie bitte ein Passwort ein"
+    create_account: "Erstellen Sie jetzt ein Konto – so können Sie beim nächsten Mal noch einfacher spenden."
+    create_account_description: "Ein Konto zu erstellen, dauert nur 30 Sekunden. Sie können damit Ihre Spenden und Zahlungsdetails sicher verwalten und Spenden jederzeit rückgängig machen."
+    check_email: "<strong>Vielen Dank, dass Sie sich registriert haben.</strong> <span>Bitte überprüfen Sie Ihr E-mail-Postfach. Dort sollten Sie eine E-mail</span>"
+  confirmation_mailer:
+    title: "Account-Bestätigung"
+    confirmation_email:
+      subject: "Bitte bestätigen Sie Ihren Account"
+      headline: "Vielen Dank, dass Sie einen Account eingerichtet haben"
+      body_html: "Um Ihren Account zu bestätigen, klicken Sie bitte auf <a href='%{confirmation_url}'>diesen Link</a><br/><br/>Vielen Dank<br/>Das Team"
+      body_text: "Um Ihre Registrierung zu bestätigen, klicken Sie bitte auf diesen Link: %{confirmation_url} "
+    follow_up_page:
+      account_not_found: 'Leider konnten wir keinen passenden Account zu diesem Link finden. Bitte senden Sie uns eine Nachricht, damit wir das Problem für Sie lösen können. '
+      account_already_confirmed: 'Ihr Account wurde bereits bestätigt!'
+      failure: 'Leider gab es bei der Einrichtung Ihres Accounts ein Problem. Bitte schreiben Sie uns eine Nachricht, damit wir das Problem für Sie lösen können. '
+      success: 'Sie haben Ihren Account erfolgreich bestätigt. Vielen Dank!'
+      member_management: "Um Ihre Zahlungsoptionen und -details zu verwalten, können Sie jederzeit die <a href='%{url}'>Seite für Mitglieder</a> besuchen."
+  footer:
+    home_url: '' # replace with your homepage

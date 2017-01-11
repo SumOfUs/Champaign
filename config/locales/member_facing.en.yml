@@ -135,3 +135,30 @@ en:
   facebook_share:
     caption: 'I just signed this petition on SumOfUs.org'
     comment_field_label: "I'm signing because..."
+  member_registration:
+    title: "Member Registration"
+    form:
+      password: Password
+      confirm_password: Confirm Password
+      your_email: Your email
+      register: Register
+    thanks: 'Thanks! Just one more step:'
+    enter_password_message: "Just enter a password to get started"
+    create_account: "We're processing your donation."
+    create_account_description: "Now, create an account to securely manage your donations, and cancel a donation at any time."
+    check_email: "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>"
+  confirmation_mailer:
+    title: "Account Confirmation"
+    confirmation_email:
+      subject: "Confirm your account"
+      headline: "Thank you for registering an account"
+      body_html: "To confirm your account, please <a href='%{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>"
+      body_text: "To confirm your registration, please follow this link: %{confirmation_url}"
+    follow_up_page:
+      account_not_found: 'Sorry, no account was found associated with this link.'
+      account_already_confirmed: 'Your account has already been confirmed!'
+      failure: 'Sorry, there was an issue confirming your account.'
+      success: 'You have successfully confirmed your account. Thanks!'
+      member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
+  footer:
+    home_url: '' # replace with your homepage

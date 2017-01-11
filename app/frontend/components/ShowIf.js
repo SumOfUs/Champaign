@@ -15,15 +15,17 @@ type OwnProps = {
 };
 export default (props: OwnProps) => {
   const style = {};
+  let className = 'ShowIf--visible';
 
   if (!props.children) return null;
 
   if (!props.condition) {
     style.display = 'none';
+    className = 'ShowIf--hidden';
   }
 
   return (
-    <div style={style}>
+    <div style={style} className={'ShowIf '+className}>
       {props.children}
     </div>
   );

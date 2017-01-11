@@ -127,9 +127,36 @@ fr:
     reset_password_email:
       subject: 'Veuillez réinitialiser votre mot de passe s''il vous plaît'
       html:
-        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte SumOfUs. <br />Vous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : <br /><br />%{url}<br /><br />Si vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.<br /><br />Merci,<br />SumOfUs"
+        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte. <br />Vous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : <br /><br />%{url}<br /><br />Si vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.<br /><br />Merci,<br />SumOfUs"
       text:
-        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte SumOfUs.\n\nVous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : \n\n%{url}\n\nSi vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.\n\nMerci,\nSumOfUs"
+        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte.\n\nVous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : \n\n%{url}\n\nSi vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.\n\nMerci,\nSumOfUs"
   facebook_share:
     caption: 'Je viens de signer cette pétition sur SumOfUs.org'
     comment_field_label: "Je signe parce que..."
+  member_registration:
+    title: "Inscription"
+    form:
+      password: Mot de passe
+      confirm_password: Confirmez votre mot de passe
+      your_email: Adresse e-mail
+      register: S'inscrire
+    thanks: 'Merci pour votre don.'
+    enter_password_message: "Entrez un mot de passe pour commencer"
+    create_account: "Passez maintenant à l'étape supérieure et créez un compte."
+    create_account_description: "Créer un compte ne vous prendra que 30 secondes et vous permettra de gérer en toute sécurité vos dons et informations de paiement. Vous pourrez aussi annuler votre donation à tout moment."
+    check_email: "<strong>Merci pour votre inscription.</strong> <span>Pour activer votre compte, cliquez sur le lien de confirmation qui vient de vous être envoyé par mail.</span>"
+  confirmation_mailer:
+    title: "Confirmation du compte"
+    confirmation_email:
+      subject: "Confirmez votre compte"
+      headline: "Merci d'avoir créé un compte"
+      body_html: "Pour activer votre compte, <a href='%{confirmation_url}'>cliquez sur le lien de confirmation qui vient de vous être envoyé.</a><br/><br/>Merci!<br/>"
+      body_text: "Pour valider votre inscription, veuillez cliquer sur le lien suivant : %{confirmation_url}"
+    follow_up_page:
+      account_not_found: 'Désolé, aucun compte n''est associé à ce lien. Si vous rencontrez des difficultés, n''hésitez pas à nous contacter'
+      account_already_confirmed: 'Votre compte a déjà été confirmé !'
+      failure: 'Désolé, nous n''avons pas pu confirmer votre compte. Si vous rencontrez des difficultés, n''hésitez pas à nous contacter'
+      success: 'Félicitations, votre compte a bien été confirmé. Merci !'
+      member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a>."
+  footer:
+    home_url: '' # replace with your homepage

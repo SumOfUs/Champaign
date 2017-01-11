@@ -245,18 +245,19 @@ describe('Payment Panel', function() {
       expect(suite.wrapper.find('.WelcomeMember').length).toEqual(0);
     });
 
-    it.skip('displays the new payment method form when no known payment methods', () => {
+    it('displays the new payment method form when no known payment methods', () => {
       initialize({ outstandingFields: [], amount: 2 });
-      expect(suite.wrapper.find('PaymentTypeSelection').length).toEqual(1);
-      expect(suite.wrapper.find('PaymentTypeSelection').parent().prop('style')).toEqual('yooo');
-      expect(suite.wrapper.find('Paypal').length).toEqual(1);
+      expect(suite.wrapper.find('.ShowIf--hidden').find('PaymentTypeSelection').length).toEqual(0);
+      expect(suite.wrapper.find('.ShowIf--visible').find('PaymentTypeSelection').length).toEqual(1);
+      expect(suite.wrapper.find('PayPal').length).toEqual(1);
       expect(suite.wrapper.find('BraintreeCardFields').length).toEqual(1);
-      expect(suite.wrapper.find('DonateButton').length).toEqual(1);
+      // expect(suite.wrapper.find('DonateButton').length).toEqual(1);
     });
 
-    it.skip('does not display the new payment method form when there are known payment methods', () => {
+    it('does not display the new payment method form when there are known payment methods', () => {
       initialize({ outstandingFields: [], amount: 2, paymentMethods: [cardMethod] });
-      expect(suite.wrapper.find('PaymentTypeSelection').parents('div').prop('style')).toEqual({display: 'none'});
+      expect(suite.wrapper.find('.ShowIf--hidden').find('PaymentTypeSelection').length).toEqual(1);
+      expect(suite.wrapper.find('.ShowIf--visible').find('PaymentTypeSelection').length).toEqual(0);
     });
 
     it('displays saved payment options as a list of radio buttons', () => {

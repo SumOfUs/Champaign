@@ -363,7 +363,7 @@ describe LiquidRenderer do
 
       it 'has values from url_params and member_data filtered by keys from both forms' do
         fundraiser && petition # lazy eval
-        renderer = LiquidRenderer.new(page, layout: nil, member: member, url_params: url_params)
+        renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
         expected = { country: 'NI', email: 'sup@dude.com', phone: '6697729' }
         expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
       end
@@ -371,7 +371,7 @@ describe LiquidRenderer do
       it 'allows all the hidden field params' do
         fundraiser # lazy eval
         url_params.merge!(akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd')
-        renderer = LiquidRenderer.new(page, layout: nil, member: member, url_params: url_params)
+        renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
         expected = { country: 'NI', email: 'sup@dude.com', akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd' }
         expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
       end
