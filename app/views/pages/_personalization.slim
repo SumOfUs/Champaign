@@ -3,9 +3,11 @@ javascript:
   window.champaign.personalization = {
     outstandingFields: #{serialize(data, 'outstanding_fields')},
     showDirectDebit: #{ serialize(data, 'show_direct_debit') },
+    paymentMethods: #{serialize(data, 'payment_methods')},
     donationBands: #{serialize(data, 'donation_bands')},
     actionCount: #{ serialize(data, 'action_count') },
     thermometer: #{ serialize(data, 'thermometer') },
+    formValues: #{serialize(data, 'form_values') },
     urlParams: #{ serialize(data, 'url_params') },
     location: #{ serialize(data, 'location') },
     member: #{serialize(data, 'member') },

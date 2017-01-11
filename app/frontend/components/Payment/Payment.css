@@ -1,0 +1,46 @@
+.Payment__config {
+  margin-bottom: 10px;
+}
+
+.Payment__form-group-label {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.Payment__form-group-label > input {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.Payment__paypal-logo {
+  margin: 0;
+  height: 25px;
+}
+
+.Payment__submit {
+  margin-top: 20px;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.Payment__submit span {
+  margin-right: 10px;
+}
+
+.Payment__prompt {
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  color: #989898;
+}
+
+.Payment__fine-print {
+    color: #989898;
+    font-size: 12px;
+    line-height: 16px;
+    width: 100%;
+    float: left;
+    margin-top: 10px;
+}

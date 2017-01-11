@@ -2,6 +2,8 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
+  HIDDEN_FIELDS = %w(source bucket referrer_id akid).freeze
+
   def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
     @page = page
     @location = location
@@ -26,6 +28,7 @@ class LiquidRenderer
       url_params: @url_params,
       member:     member_data,
       location:   location,
+      form_values: form_values,
       outstanding_fields: outstanding_fields,
       donation_bands: donation_bands,
       thermometer: thermometer,
@@ -53,6 +56,7 @@ class LiquidRenderer
       named_images:  named_images,
       primary_image: image_urls(@page.image_to_display),
       shares:        Shares.get_all(@page),
+      locale:        @page.language&.code || 'en',
       follow_up_url: follow_up_url
     }
       .merge(@page.liquid_data)
@@ -79,11 +83,17 @@ class LiquidRenderer
   # markup_data, which is used to create the cached html, and in
   # personalization_data, which is not cached.
   def plugin_data
-    @plugin_data ||= Plugins.data_for_view(@page, form_values: member_data, donation_band: @url_params[:donation_band])
+    @plugin_data ||= Plugins.data_for_view(@page, form_values: form_values, donation_band: @url_params[:donation_band])
   end
 
   def member_data
     @member.try(:liquid_data)
+  end
+
+  def form_values
+    field_keys = @page.plugins.map { |p| p.try(:form_fields) }.compact.flatten.map { |ff| ff[:name] }
+    field_keys += HIDDEN_FIELDS
+    (member_data || {}).merge(@url_params).stringify_keys.select { |k, _| field_keys.include? k }
   end
 
   def show_direct_debit?

@@ -25,6 +25,7 @@ RUN yarn global add phantomjs-prebuilt --no-progress --no-emoji && yarn install 
 RUN bundle install --jobs 4
 
 EXPOSE 3000
+
 ADD . /myapp
 
 CMD bundle exec puma -b tcp://0.0.0.0 -p 3000 -t 5:16

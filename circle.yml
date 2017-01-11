@@ -28,6 +28,7 @@ dependencies:
     # build the image
     - yarn install --no-progress --no-emoji
     - bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3 --without development test
+    - npm run build
     - RAILS_ENV=production bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSET_PATHS]
     - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
 
@@ -51,7 +52,7 @@ deployment:
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
-    branch: 'development'
+    branch: development
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web

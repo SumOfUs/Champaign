@@ -126,6 +126,7 @@ describe LiquidRenderer do
         follow_up_url
         primary_image
         petition_target
+        locale
       )
 
       expected_keys += page.liquid_data.keys.map(&:to_s)
@@ -164,6 +165,7 @@ describe LiquidRenderer do
         action_count
         show_direct_debit
         payment_methods
+        form_values
       )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
@@ -351,6 +353,30 @@ describe LiquidRenderer do
       end
     end
 
+    describe 'form_values' do
+      let(:form1) { create :form_with_email_and_optional_country }
+      let(:form2) { create :form_with_phone_and_country }
+      let(:fundraiser) { create :plugins_fundraiser, page: page, form: form1 }
+      let(:petition) { create :plugins_petition, page: page, form: form2 }
+      let(:member) { build :member, first_name: 'Lemony', last_name: 'Snicket', email: 'sup@dude.com' }
+      let(:url_params) { { controller: 'actions', country: 'NI', phone: '6697729' } }
+
+      it 'has values from url_params and member_data filtered by keys from both forms' do
+        fundraiser && petition # lazy eval
+        renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
+        expected = { country: 'NI', email: 'sup@dude.com', phone: '6697729' }
+        expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
+      end
+
+      it 'allows all the hidden field params' do
+        fundraiser # lazy eval
+        url_params.merge!(akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd')
+        renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
+        expected = { country: 'NI', email: 'sup@dude.com', akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd' }
+        expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
+      end
+    end
+
     describe 'thermometer' do
       it 'is nil if no plugins' do
         expect(page.plugins.size).to eq 0
@@ -405,7 +431,7 @@ describe LiquidRenderer do
     let(:partial) { [double(:partial, cache_key: 'foobar')] }
 
     describe '.invalidate' do
-      it 'incremenets invalidator seed' do
+      it 'increments invalidator seed' do
         expect(Rails.cache).to receive(:increment).with('cache_invalidator')
         LiquidRenderer::Cache.invalidate
       end

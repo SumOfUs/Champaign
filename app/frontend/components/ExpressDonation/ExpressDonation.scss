@@ -1,0 +1,65 @@
+.ExpressDonation {
+  position: relative;
+  margin-bottom: 20px;
+  label {
+    cursor: pointer;
+  }
+}
+
+.ExpressDonation__prompt, .PaymentTypeSelection__prompt {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.ExpressDonation__payment-methods, .PaymentTypeSelection__payment-methods {
+  padding: 16px 16px 6px;
+  padding-left: 52px;
+  margin-bottom: 20px;
+  border-top: 1px solid #cdcece;
+  border-bottom: 1px solid #cdcece;
+  position: relative;
+  overflow: hidden;
+}
+
+.ExpressDonation__single-item {
+  .PaymentMethod {
+    margin: 0 auto;
+    font-weight: bold;
+  }
+}
+
+.ExpressDonation__toggle {
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 6px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.PaymentMethod {
+  margin: 10px auto;
+  font-size: 16px;
+  label, input[type="radio"] {
+    cursor: pointer;
+  }
+}
+
+.PaymentMethod input {
+  height: 14px;
+  width: 14px;
+}
+
+.PaymentMethodWrapper__icon {
+  position: absolute;
+  top: 15px;
+  left: 19px;
+  font-size: 22px;
+}
+
+.PaymentMethod__guidance {
+  width: 100%;
+  font-size: 14px;
+  font-style: italic;
+  line-height: 17px;
+  margin: 3px 0 5px;
+}

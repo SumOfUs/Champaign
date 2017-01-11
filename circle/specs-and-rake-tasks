@@ -21,11 +21,10 @@ done
 
 echo "OK"
 
-# Run javascript tests
-RAILS_ENV=test rake db:schema:load
-RAILS_ENV=test JS_TEST=1 bundle exec teaspoon
+# Run front end tests
+npm run test
 
-# Lint codebase 
+# Lint codebase
 bundle exec rubocop
 
 # Runs tests

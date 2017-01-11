@@ -10,7 +10,7 @@
     @include transition(width 0.2s linear);
 
     &--two-step {
-    @include transition(width 0s linear);
+      @include transition(width 0s linear);
       position: relative;
       width: 70%;
       margin: 21px auto 0;
@@ -101,7 +101,6 @@
     text-align: center;
     margin: 0 auto;
     position: relative;
-
     font-size: 20px;
     line-height: 20px;
     &--past {
@@ -164,7 +163,7 @@
       margin-top: 6px;
     }
   }
-  &__submit-button span{
+  &__submit-button span {
     vertical-align: middle;
     &.fa {
       margin-right: 6px;
@@ -232,7 +231,7 @@
       top: 2px;
     }
   }
-  &--freestanding.fundraiser-bar {
+  &--freestanding {
     position: static;
     max-width: 400px;
 
@@ -291,7 +290,40 @@
         line-height: 12px;
       }
     }
-
+  }
+  // React component specific
+  &--freestanding.FundraiserView-container {
+    margin: auto;
+    .StepContent {
+      max-width: 340px;
+    }
+    .BraintreeCardFields__hosted-field {
+      border: #b2b5ba 2px solid;
+    }
+    .Stepper__steps,
+    .StepContent {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .AmountSelection-container {
+      font-size: 14px;
+    }
+    input {
+      font-size: 18px;
+    }
+    .selectize-input {
+      border: #b2b5ba;
+    }
+    .Checkbox {
+      line-height: 16px;
+      margin: 0;
+    }
+    label.Checkbox__label {
+      font-size: 16px;
+      input {
+        position: relative;
+      }
+    }
   }
 }
 
@@ -312,7 +344,7 @@
     &.braintree-hosted-fields-invalid {
       border-color: $orange;
     }
-    &.braintree-hosted-fields-invalid + .hosted-fields__card-type{
+    &.braintree-hosted-fields-invalid + .hosted-fields__card-type {
       display: none;
     }
     &.hosted-fields__number {
@@ -368,6 +400,7 @@
     float: left;
   }
 }
+
 #hosted-fields {
   #braintree-paypal-button {
     background: $paypal;
@@ -395,6 +428,7 @@
     margin-left: 36px !important;
   }
 }
+
 .donation-error {
   width: 100%;
   margin: 100px auto;

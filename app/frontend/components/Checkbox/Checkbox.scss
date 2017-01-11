@@ -1,0 +1,21 @@
+.Checkbox {
+  margin: 10px 0 4px;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+
+  &__label {
+    display: block;
+    margin-left: 24px;
+    display: inline;
+    cursor: pointer;
+  }
+
+  &__label input {
+    position: absolute;
+    left: 0;
+    top: -3px;
+    cursor: pointer;
+    max-width: 16px;
+  }
+}
