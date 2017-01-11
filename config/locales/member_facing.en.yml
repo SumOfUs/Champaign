@@ -80,6 +80,11 @@ en:
     million: million
   call_tool:
     calling: "Calling..."
+    errors:
+      unknown: "Oops, something went wrong, please try a different phone number or again in a few minutes"
+    form:
+      phone_number: "Phone number"
+      country: "Country"
   share:
     cta: Share the campaign!
     send_email: Send Email

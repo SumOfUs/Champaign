@@ -1,0 +1,14 @@
+{% if plugins.call_tool[ref].active %}
+  <div id='call-tool-component'></div>
+
+  <script>
+    $(document).ready(function() {
+      var state = {
+        locale: 'en',
+        pageId: window.champaign.personalization.urlParams.id
+      };
+      _.assign(state, window.champaign.personalization.callTool['{{ref}}']);
+      mountCallTool('call-tool-component', state);
+    });
+  </script>
+{% endif %}
