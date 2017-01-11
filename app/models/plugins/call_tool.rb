@@ -33,7 +33,8 @@ class Plugins::CallTool < ActiveRecord::Base
     {
       active: active,
       targets_by_country: targets_by_country,
-      targets: json_targets,
+      # TODO: improve
+      targets: json_targets.map {|t| t.transform_keys {|k| k.camelize(:lower)} },
       target_countries: target_countries,
       title: title
     }

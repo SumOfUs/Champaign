@@ -47,3 +47,26 @@ window.mountFundraiser = (root: string, store?: Store, initialState?: any = {}) 
     });
   }
 };
+
+// Call Tool -----------------
+
+import CallToolView   from './containers/CallToolView/CallToolView';
+import callToolReducer from './state/callTool/reducer';
+import { createStore } from 'redux';
+
+window.mountCallTool = (root, initialState) => {
+  // Store not being used yet. And if we use it, should we use
+  // the same store as the fundraiser component?
+  const store = createStore(callToolReducer);
+
+  render(
+    <ComponentWrapper store={store} locale={initialState['locale']}>
+      <CallToolView
+        title={initialState.title}
+        targets={initialState.targets}
+        targetCountries={initialState.target_countries}
+        pageId={initialState.pageId} />
+    </ComponentWrapper>,
+    document.getElementById(root)
+  );
+};
