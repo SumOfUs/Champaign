@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect } from 'react-redux';
 import _ from 'lodash';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { operationResponse } from '../../util/ChampaignAPI';
@@ -171,6 +170,24 @@ export class CallToolView extends Component {
     );
   }
 }
+
+CallToolView.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  pageId: React.PropTypes.string.isRequired,
+  targets: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      countryCode: React.PropTypes.string.isRequired,
+      name:        React.PropTypes.string.isRequired,
+      title:       React.PropTypes.string.isRequired
+    })
+  ),
+  targetCountries: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      code: React.PropTypes.string.isRequired,
+      name: React.PropTypes.string.isRequired
+    })
+  )
+};
 
 export default CallToolView;
 
