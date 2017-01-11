@@ -23,7 +23,7 @@ const fundraiserDefaults = {
   formValues: {},
   outstandingFields: ['email', 'name', 'country'],
   donationBands: {},
-}
+};
 
 const mountView = () => {
   return mount(
@@ -33,7 +33,7 @@ const mountView = () => {
       </IntlProvider>
     </Provider>
   );
-}
+};
 
 const cardMethod = {
   id: 17,
@@ -42,7 +42,7 @@ const cardMethod = {
   card_type: "Visa",
   email: null,
   token: "5gr378",
-}
+};
 
 const paypalMethod = {
   id: 19,
@@ -51,7 +51,7 @@ const paypalMethod = {
   card_type: null,
   email: "payer@example.com",
   token: "5qnwgp",
-}
+};
 
 const fetchInitialState = (vals) => {
   vals = vals || {};
@@ -72,14 +72,14 @@ const fetchInitialState = (vals) => {
       fields: vals.fields || fundraiserDefaults.fields,
       recurringDefault: vals.recurringDefault || 'one_off',
     }
-  }
+  };
 };
 
 const initialize = (vals) => {
   suite.store = configureStore();
   suite.store.dispatch({ type: 'parse_champaign_data', payload: fetchInitialState(vals) });
   suite.wrapper = mountView();
-}
+};
 
 describe('Initial rendering', function () {
 
