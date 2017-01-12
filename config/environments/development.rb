@@ -56,7 +56,6 @@ Rails.application.configure do
 
   # to allow services consuming images through the API to have absolute URLs
   config.action_controller.asset_host = 'http://localhost:3000'
-
   config.cache_store = :null_store
 
   # Accept requests from any origin in development mode
@@ -88,3 +87,5 @@ Rails.application.configure do
   config.webpack.output_dir = 'public/dist'
   config.webpack.public_path = ''
 end
+
+Rails.application.routes.default_url_options[:host] = Settings.host
