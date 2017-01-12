@@ -2,6 +2,7 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import $ from 'jquery';
+import { camelizeKeys } from './util';
 
 export type OperationResponse = {
   success: boolean,
@@ -30,14 +31,6 @@ const parseResponse = (response):OperationResponse => {
   }
 };
 
-const camelizeKeys = (obj) => {
-  const ret = {};
-  _.forEach(obj, (value, key) => {
-    const newKey = _.camelCase(key);
-    ret[newKey] = value;
-  });
-  return ret;
-};
 
 const createCall = function(params: {pageId: string, memberPhoneNumber: string, targetIndex: string}) {
   const payload = {

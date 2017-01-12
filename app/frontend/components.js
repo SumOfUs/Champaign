@@ -53,19 +53,21 @@ window.mountFundraiser = (root: string, store?: Store, initialState?: any = {}) 
 import CallToolView   from './containers/CallToolView/CallToolView';
 import callToolReducer from './state/callTool/reducer';
 import { createStore } from 'redux';
+import { camelizeKeys } from './util/util';
 
-window.mountCallTool = (root, initialState) => {
+window.mountCallTool = (root, props) => {
   // Store not being used yet. And if we use it, should we use
   // the same store as the fundraiser component?
   const store = createStore(callToolReducer);
+  props = camelizeKeys(props);
 
   render(
-    <ComponentWrapper store={store} locale={initialState['locale']}>
+    <ComponentWrapper store={store} locale={props.locale}>
       <CallToolView
-        title={initialState.title}
-        targets={initialState.targets}
-        targetCountries={initialState.target_countries}
-        pageId={initialState.pageId} />
+        title={props.title}
+        targets={props.targets}
+        targetCountries={props.targetCountries}
+        pageId={props.pageId} />
     </ComponentWrapper>,
     document.getElementById(root)
   );

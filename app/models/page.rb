@@ -127,6 +127,10 @@ class Page < ActiveRecord::Base
                                end
   end
 
+  def language_code
+    language&.code || I18n.default_locale
+  end
+
   private
 
   def switch_plugins
