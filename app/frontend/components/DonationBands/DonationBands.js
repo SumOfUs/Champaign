@@ -93,12 +93,13 @@ export class DonationBands extends Component {
       'DonationBands-button': true,
       'DonationBands-button--highlight': (this.props.featuredAmount === amount)
     });
+    const currency = ['AUD', 'CAD', 'NZD'].indexOf(this.props.currency) > -1 ? 'USD' : this.props.currency;
 
     return (
       <Button key={index}
               className={className}
               onClick={() => this.onButtonClicked(amount)}>
-        <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS} currency={this.props.currency} value={amount} />
+        <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS} currency={currency} value={amount} />
       </Button>
     );
   }
