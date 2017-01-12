@@ -1,64 +1,44 @@
+// @flow weak
+
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { operationResponse } from '../../util/ChampaignAPI';
 
-import FieldShape from '../../components/FieldShape/FieldShape';
+import Form from '../../components/CallTool/Form';
 
-const memberPhoneNumberField = {
-  data_type: 'text',
-  name: 'call_tool[member_phone_number]',
-  label: <FormattedMessage id='call_tool.form.phone_number' />,
-  default_value: '',
-  required: true,
-  disabled: false
-};
+type OwnState = {
+  form: {
+    memberPhoneNumber?: string;
+    countryCode?: string;
+  };
+  errors: {
+    memberPhoneNumber?: any;
+    countryCode?: any;
+    base?: any[];
+  };
+  loading: boolean;
+  selectedTarget?: {
+    countryCode: string,
+    name: string,
+    title: string
+  };
+}
 
-const countryCodeField = {
-  data_type: 'select',
-  name: 'call_tool[country_code]',
-  label: <FormattedMessage id='call_tool.form.country' />,
-  default_value: null,
-  required: true,
-  disabled: false,
-  choices: []
-};
+class CallToolView extends Component {
+  state: OwnState;
 
-export class CallToolView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      form: {
-        memberPhoneNumber: props.memberPhoneNumber,
-        countryCode: props.countryCode
-      },
-      errors: {
-        memberPhoneNumber: null,
-        countryCode: null,
-        base: []
-      },
-      loading: false,
-      selectedTarget: null
-    };
-
-    this.fields = {
-      memberPhoneNumberField: memberPhoneNumberField,
-      countryCodeField: Object.assign({}, countryCodeField, { choices: this.countryCodeOptions() })
+      form: {},
+      errors: {},
+      loading: false
     };
   }
 
-  countryCodeOptions() {
-    return this.props.targetCountries.map((country) => {
-      return { value: country.code, label: country.name };
-    });
-  }
-
-  getFieldError(field: string): FormattedMessage | void {
-    return this.state.errors[field];
-  }
-
-  updateCountryCode(countryCode) {
+  countryCodeChanged(countryCode) {
     this.setState({
       form: Object.assign({}, this.state.form, {countryCode: countryCode}),
       selectedTarget: this.selectNewTarget(countryCode),
@@ -66,7 +46,7 @@ export class CallToolView extends Component {
     });
   }
 
-  updateMemberPhoneNumber(memberPhoneNumber) {
+  memberPhoneNumberChanged(memberPhoneNumber) {
     this.setState({
       form: Object.assign({}, this.state.form, {memberPhoneNumber: memberPhoneNumber}),
       errors: Object.assign({}, this.state.errors, { memberPhoneNumber: null })
@@ -79,7 +59,7 @@ export class CallToolView extends Component {
   }
 
   selectedTargetIndex() {
-    return _.findIndex(this.state.targets, this.state.selectedTarget);
+    return _.findIndex(this.props.targets, this.state.selectedTarget);
   }
 
   submit(event) {
@@ -131,7 +111,7 @@ export class CallToolView extends Component {
       <div>
         <h1> { this.props.title } </h1>
 
-        { !_.isEmpty(this.state.errors) &&
+        { !_.isEmpty(this.state.errors.base) &&
           <ul>
             { this.state.errors.base.map((error, index) => {
                 return <li key={`error-${index}`}> {error} </li>;
@@ -139,52 +119,39 @@ export class CallToolView extends Component {
             }
           </ul>
         }
-
-        <form className='action-form form--big' data-remote="true" >
-          <FieldShape
-          key="memberPhoneNumber"
-          errorMessage={this.getFieldError("memberPhoneNumber")}
-          onChange={this.updateMemberPhoneNumber.bind(this)}
-          value={this.state.form.memberPhoneNumber}
-          field={this.fields.memberPhoneNumberField} />
-
-          <FieldShape
-          key="countryCode"
-          errorMessage={this.getFieldError("countryCode")}
-          onChange={this.updateCountryCode.bind(this)}
-          value={this.state.form.countryCode}
-          field={this.fields.countryCodeField} />
-
-          { !_.isEmpty(this.state.selectedTarget) &&
-            <div className="action-form__target form__instruction">
-              <p>
-                <strong> Target: </strong>
-                <span> {this.state.selectedTarget.name}, {this.state.selectedTarget.title} </span>
-              </p>
-            </div>
-          }
-
-          <button onClick={this.submit.bind(this)} type="submit" className="button action-form__submit-button">{ "Submit" }</button>
-        </form>
+        <Form
+          targetCountries={this.props.targetCountries}
+          targets={this.props.targets}
+          selectedTarget={this.state.selectedTarget}
+          form={this.state.form}
+          errors={this.state.errors}
+          onCountryCodeChange={this.countryCodeChanged.bind(this)}
+          onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
+          onSubmit={this.submit.bind(this)}
+        />
       </div>
     );
   }
 }
 
+const types = React.PropTypes;
+
 CallToolView.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  pageId: React.PropTypes.string.isRequired,
-  targets: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      countryCode: React.PropTypes.string.isRequired,
-      name:        React.PropTypes.string.isRequired,
-      title:       React.PropTypes.string.isRequired
+  memberPhoneNumber: types.string,
+  countryCode: types.string,
+  title: types.string.isRequired,
+  pageId: types.string.isRequired,
+  targets: types.arrayOf(
+    types.shape({
+      countryCode: types.string.isRequired,
+      name:        types.string.isRequired,
+      title:       types.string.isRequired
     })
   ),
-  targetCountries: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      code: React.PropTypes.string.isRequired,
-      name: React.PropTypes.string.isRequired
+  targetCountries: types.arrayOf(
+    types.shape({
+      code: types.string.isRequired,
+      name: types.string.isRequired
     })
   )
 };
