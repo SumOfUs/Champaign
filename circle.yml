@@ -1,11 +1,24 @@
 machine:
+  node:
+    version: 7.4.0
   pre:
     # Update docker version
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   services:
     - docker
+  environment:
+    YARN_VERSION: 0.18.1
+    PATH: "${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${PATH}"
 
 dependencies:
+  pre:
+    - |
+      if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
+        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
+      fi
+  cache_directories:
+    - ~/.yarn
+    - ~/.cache/yarn
   override:
     - docker info
     # our circle setup uses compose - install it
@@ -13,8 +26,9 @@ dependencies:
     # install AWS CLI
     - sudo pip install awscli
     # build the image
-    - npm install
+    - yarn install --no-progress --no-emoji
     - bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3 --without development test
+    - npm run build
     - RAILS_ENV=production bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSET_PATHS]
     - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
 
@@ -38,7 +52,7 @@ deployment:
       - docker push soutech/champaign_web
       - ./deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
-    branch: 'development'
+    branch: fundreactor-tweaks
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push soutech/champaign_web

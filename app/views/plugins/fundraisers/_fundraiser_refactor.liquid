@@ -1,0 +1,70 @@
+{% if plugins.fundraiser[ref].active %}
+  <div class="overlay-toggle">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
+      <div class="fundraiser-bar__content">
+        <div id="fundraiser-component" class="fundraiser-bar sidebar stuck-right {{ extra_class }}"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      var global = champaign.personalization;
+      var data = {
+        paymentMethods: global.paymentMethods,
+        member: global.member,
+        locale: '{{locale}}',
+        fundraiser: {
+          pageId: "{{ id }}",
+          currency: global.urlParams.currency || global.location.currency,
+          amount: global.urlParams.amount,
+          donationBands: global.donationBands,
+          showDirectDebit: global.showDirectDebit,
+          formValues: global.formValues,
+          formId: "{{ plugins.fundraiser[ref].form_id }}",
+          outstandingFields: global.outstandingFields,
+          title: "{{ plugins.fundraiser[ref].title }}",
+          fields: {{ plugins.fundraiser[ref].fields | jsonify }},
+          recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+          freestanding: {% if freestanding %} true {% else %} false {% endif %}
+        }
+      };
+      window.setTimeout(function(){
+        champaign.overlayToggle = new champaign.OverlayToggle();
+        champaign.mySidebar     = new champaign.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
+      }, 100);
+
+      var store = initializeStore();
+      mountFundraiser('fundraiser-component', store, data);
+    })
+    /*
+    $(document).ready(function(){
+      var chmp = window.champaign; // convenience binding
+      chmp.myActionForm  = new chmp.ActionForm({
+        member:            chmp.personalization.member,
+        outstandingFields: chmp.personalization.outstandingFields,
+        location:          chmp.personalization.location,
+        akid:              chmp.personalization.urlParams.akid,
+        source:            chmp.personalization.urlParams.source,
+        referrer_id:       chmp.personalization.urlParams.referrer_id,
+        bucket:            chmp.personalization.urlParams.bucket,
+        prefill:           true
+      });
+      chmp.myFundraiser = new chmp.Fundraiser({
+        pageId:           "{{ id }}",
+        followUpUrl:      "{{ follow_up_url }}",
+        member:           chmp.personalization.member,
+        showDirectDebit:  chmp.personalization.showDirectDebit,
+        currency:         chmp.personalization.urlParams.currency || chmp.personalization.location.currency,
+        donationBands:    chmp.personalization.donationBands,
+        amount:           chmp.personalization.urlParams.amount,
+        recurringDefault: chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
+        paymentMethods:   chmp.personalization.paymentMethods
+      });
+      chmp.mySidebar     = new chmp.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
+      chmp.hostedFields  = new chmp.BraintreeHostedFields();
+      chmp.overlayToggle = new chmp.OverlayToggle();
+    });
+    */
+  </script>
+{% endif %}

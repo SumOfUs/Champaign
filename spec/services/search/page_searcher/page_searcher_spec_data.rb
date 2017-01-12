@@ -23,8 +23,8 @@ RSpec.shared_context 'page_searcher_spec_data' do
   let!(:messy_layout) { create(:liquid_layout, title: 'has kinda tacky UX') }
   let!(:twin_layout) { create(:liquid_layout, title: 'Layout that has two pages associated with it') }
   let!(:language) { create(:language) }
-  let!(:klingon) { create(:language, code: 'KLI', name: 'Klingon') }
-  let!(:pig_latin) { create(:language, code: 'PIG', name: 'Oink_oink') }
+  let!(:german) { create(:language, :german) }
+  let!(:french) { create(:language, :french) }
   let!(:unused_language) { create(:language, code: 'NIL', name: 'Esperanto') }
 
   let!(:content_tag_plugin_layout_match) do
@@ -48,7 +48,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
     create(:page,
            title: 'a special snowflake',
            tags: [hipster_tag, unpopular_tag],
-           language: pig_latin,
+           language: french,
            campaign: unimpactful_campaign,
            liquid_layout: messy_layout)
   end
@@ -57,7 +57,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
     create(:page,
            title: 'looks suspiciously like twin page 2',
            tags: [only_tag],
-           language: klingon,
+           language: german,
            campaign: twin_campaign,
            liquid_layout: twin_layout)
   end
@@ -66,7 +66,7 @@ RSpec.shared_context 'page_searcher_spec_data' do
     create(:page,
            title: 'looks suspiciously like twin page 1',
            tags: [only_tag],
-           language: klingon,
+           language: german,
            campaign: twin_campaign,
            liquid_layout: twin_layout)
   end
@@ -74,7 +74,6 @@ RSpec.shared_context 'page_searcher_spec_data' do
   let!(:page_that_doesnt_match_anything) do
     create(:page,
            title: 'Not a good match',
-           language: build(:language, code: 'FIN', name: 'Finnish'),
            tags: [
              create(:tag, name: 'tag not found', actionkit_uri: '/foo/404'),
              create(:tag, name: 'tag erroror', actionkit_uri: '/foo/500')

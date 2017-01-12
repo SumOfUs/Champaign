@@ -26,6 +26,7 @@ gem 'money'
 gem 'google_currency'
 gem 'rack-cors', require: 'rack/cors'
 gem 'httparty'
+gem 'webpack-rails'
 
 # Sprockets 3 breaks Teaspoon.
 # see https://github.com/modeset/teaspoon/issues/443
@@ -109,6 +110,7 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'rubocop', require: false
   gem 'annotate'
+  gem 'foreman', require: false
 end
 
 group :development, :test do

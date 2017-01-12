@@ -114,8 +114,8 @@ class Page < ActiveRecord::Base
 
   def slug_candidates
     [
-      :title,
-      [:title, :number_of_pages_with_matching_title]
+      :transliterated_title,
+      [:transliterated_title, :number_of_pages_with_matching_title]
     ]
   end
 
@@ -141,5 +141,9 @@ class Page < ActiveRecord::Base
     unless primary_image_id.blank? || images.map(&:id).include?(primary_image_id)
       errors.add(:primary_image_id, "is not one of the page's images")
     end
+  end
+
+  def transliterated_title
+    I18n.transliterate(title, locale: self&.language&.code || I18n.default_locale)
   end
 end

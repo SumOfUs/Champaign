@@ -17,7 +17,7 @@ describe 'URI masking' do
   end
 
   it 'renders matching URI record when path is not root' do
-    uri = create :uri, domain: 'www.example.com', path: 'random', page: page
+    create :uri, domain: 'www.example.com', path: 'random', page: page
     allow(LiquidRenderer).to receive(:new).and_call_original
     get '/random'
     expect(response.status).to eq 200

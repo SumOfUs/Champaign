@@ -1,0 +1,51 @@
+.SweetSelect {
+  max-height: 61px;
+
+  .Select.has-error .Select-control {
+    border-color: #f8492e;
+  }
+  .Select.is-focused:not(.is-open) > .Select-control {
+    border-color: #00c0cf;
+  }
+  .Select.is-open > .Select-control {
+    border-color: #00c0cf #00c0cf white #00c0cf;
+  }
+  .Select > .Select-control,
+  .Select.is-focused:not(.is-open) > .Select-control,
+  .Select.is-open > .Select-control {
+    border-width: 2px;
+    box-shadow: none;
+    outline: none;
+  }
+  .Select-option.is-selected {
+    background: white;
+    color: #333;
+  }
+  .Select-option.is-focused {
+    background: #00c0cf;
+    color: white;
+  }
+  .Select-menu-outer {
+    border-color: white #00c0cf #00c0cf #00c0cf;
+    z-index: 200;
+    border-width: 0 2px 2px 2px;
+  }
+
+  .Select > .Select-control .Select-value, .Select > .Select-control {
+    border-color: white;
+    padding: 24px 18px 12px;
+    border-width: 2px;
+  }
+
+  .Select-input, .Select-value .Select-value-label {
+    height: 21px;
+    line-height: 21px;
+    padding-left: 0;
+    font-size: 18px;
+    position: relative;
+    top: -4px;
+    input {
+      padding: 5px 0 0 0;
+    }
+  }
+}

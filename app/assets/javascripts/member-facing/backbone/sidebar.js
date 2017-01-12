@@ -7,6 +7,7 @@ const Sidebar = Backbone.View.extend({
 
   globalEvents: {
     'sidebar:height_change': 'policeHeights',
+    'fundraiser:change_step': 'policeHeights',
   },
 
   initialize(options = {}) {

@@ -6,7 +6,14 @@ describe PagesController do
   let(:default_language) { instance_double(Language, code: :en) }
   let(:language) { instance_double(Language, code: :fr) }
   let(:page) { instance_double('Page', published?: true, featured?: true, to_param: 'foo', id: '1', liquid_layout: '3', follow_up_liquid_layout: '4', language: default_language) }
-  let(:renderer) { instance_double('LiquidRenderer', render: 'my rendered html', personalization_data: { some: 'data' }) }
+  let(:renderer) do
+    instance_double(
+      'LiquidRenderer',
+      render: 'my rendered html',
+      render_follow_up: 'my rendered html',
+      personalization_data: { some: 'data' }
+    )
+  end
 
   include_examples 'session authentication'
 
@@ -179,7 +186,6 @@ describe PagesController do
                                                          location: {},
                                                          member: nil,
                                                          payment_methods: [],
-                                                         layout: page.liquid_layout,
                                                          url_params: url_params)
       expect(renderer).to have_received(:render)
     end
@@ -234,7 +240,6 @@ describe PagesController do
         expect(LiquidRenderer).to have_received(:new).with(page,
                                                            location: {},
                                                            member: anything,
-                                                           layout: page.liquid_layout,
                                                            payment_methods: [],
                                                            url_params: anything)
       end
@@ -247,9 +252,8 @@ describe PagesController do
                                                            location: {},
                                                            member: member,
                                                            payment_methods: [],
-                                                           layout: page.follow_up_liquid_layout,
                                                            url_params: url_params)
-        expect(renderer).to have_received(:render)
+        expect(renderer).to have_received(:render_follow_up)
       end
     end
 

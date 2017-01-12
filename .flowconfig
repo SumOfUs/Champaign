@@ -1,0 +1,11 @@
+[ignore]
+<PROJECT_ROOT>/node_modules/fbjs/.*
+
+[include]
+
+[libs]
+app/frontend/types.js
+
+[options]
+module.name_mapper='.*\(.scss\)' -> 'empty/object'
+module.name_mapper='.*\(.yml\)' -> 'empty/object'

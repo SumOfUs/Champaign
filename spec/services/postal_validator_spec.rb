@@ -2,42 +2,33 @@
 require 'rails_helper'
 
 describe PostalValidator do
-  let(:basic_us_postal)   { '12345' }
-  let(:complex_us_postal) { '12345-1234' }
-  let(:valid_uk)          { 'CR0 3RL' }
-  let(:valid_de)          { '13187' }
-  let(:valid_fr)          { '75008' }
-  let(:invalid_postal)    { 'I can\'t believe it\'s not valid' }
-
-  it 'successfully validates valid postal codes when given the country code' do
-    expect(PostalValidator.valid?(basic_us_postal, country_code: :US)).to be(true)
-    expect(PostalValidator.valid?(complex_us_postal, country_code: :US)).to be(true)
-    expect(PostalValidator.valid?(valid_uk, country_code: :UK)).to be(true)
-    expect(PostalValidator.valid?(valid_de, country_code: :DE)).to be(true)
-    expect(PostalValidator.valid?(valid_fr, country_code: :FR)).to be(true)
-    expect(PostalValidator.valid?(invalid_postal, country_code: :UK)).to be(true)
-    expect(PostalValidator.valid?(invalid_postal, country_code: :DE)).to be(true)
-    expect(PostalValidator.valid?(invalid_postal, country_code: :FR)).to be(true)
+  def valid?(postal, country = nil)
+    PostalValidator.new(postal, country_code: country).valid?
   end
 
-  it 'successfully validates valid postal codes when not given the country code' do
-    expect(PostalValidator.valid?(basic_us_postal)).to be(true)
-    expect(PostalValidator.valid?(complex_us_postal)).to be(true)
-    expect(PostalValidator.valid?(valid_uk)).to be(true)
-    expect(PostalValidator.valid?(valid_de)).to be(true)
-    expect(PostalValidator.valid?(valid_fr)).to be(true)
-    expect(PostalValidator.valid?(invalid_postal)).to be(true)
+  context 'given a US country code' do
+    it 'validats US specific format' do
+      expect(valid?('12345', :US)).to be(true)
+      expect(valid?('12345-1234', :US)).to be(true)
+      expect(valid?('12345678', :US)).to be(false)
+    end
   end
 
-  it 'successfully identifies invalid postal codes and rejects them when given country codes' do
-    expect(PostalValidator.valid?(invalid_postal, country_code: :US)).to be(false)
+  context 'given generic valid postal codes' do
+    it 'successfully validates them' do
+      expect(valid?('abCd')).to be(true)
+      expect(valid?('1234')).to be(true)
+      expect(valid?('abc-123-B')).to be(true)
+    end
   end
 
-  it 'successfully identifies invalid postal codes when given the incorrect country code' do
-    expect(PostalValidator.valid?(valid_uk, country_code: :US)).to be(false)
+  it 'validates only accepted characters are present' do
+    expect(valid?('_abc')).to be(false)
+    expect(valid?('*123')).to be(false)
   end
 
-  it 'successfully validates letter-based postal codes with lower-case letters' do
-    expect(PostalValidator.valid?(valid_uk.downcase, country_code: :UK)).to be(true)
+  it "validates it's no longer than 9 chars" do
+    expect(valid?('123456789')).to be(true)
+    expect(valid?('123456789a')).to be(false)
   end
 end

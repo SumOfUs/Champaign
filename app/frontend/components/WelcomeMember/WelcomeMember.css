@@ -1,0 +1,37 @@
+.WelcomeMember {
+  position: relative;
+  border-top: 1px solid #cdcece;
+  border-bottom: 1px solid #cdcece;
+  margin-bottom: 15px;
+  padding: 16px;
+  padding-left: 52px;
+  font-size: 16px;
+  color: #30394f;
+}
+
+.WelcomeMember__icon {
+  position: absolute;
+  left: 20px;
+}
+
+.WelcomeMember__icon,
+.WelcomeMember__name,
+.WelcomeMember__link {
+  display: block;
+  align-self: center;
+}
+
+.WelcomeMember__icon {
+  font-size: 26px;
+  min-width: 36px;
+}
+
+.WelcomeMember__name {
+  font-weight: bold;
+}
+
+.WelcomeMember__link {
+  font-size: 14px;
+  margin-top: 6px;
+  cursor: pointer;
+}

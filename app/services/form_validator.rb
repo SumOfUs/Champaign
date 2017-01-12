@@ -93,10 +93,13 @@ class FormValidator
   end
 
   def validate_postal(postal, form_element)
-    country = (@params[:country].blank? ? :US : @params[:country].to_sym)
+    return if form_element[:data_type] != 'postal' || postal.blank?
 
-    if form_element[:data_type] == 'postal' && postal.present? && !is_postal(postal, country)
-      @errors[form_element[:name]] << I18n.t('validation.is_invalid_postal')
+    country = (@params[:country].blank? ? :US : @params[:country].to_sym)
+    validator = PostalValidator.new(postal, country_code: country)
+
+    unless validator.valid?
+      @errors[form_element[:name]] += validator.errors
     end
   end
 
@@ -112,9 +115,5 @@ class FormValidator
 
   def is_country_code(candidate)
     ISO3166::Country.all_names_with_codes.map(&:last).include?(candidate)
-  end
-
-  def is_postal(candidate, country)
-    PostalValidator.valid?(candidate, country_code: country)
   end
 end

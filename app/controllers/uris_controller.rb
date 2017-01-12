@@ -19,9 +19,13 @@ class UrisController < ApplicationController
 
   def show
     uri = Uri.where(domain: request.host, path: request.path).first
-    if uri.present? && uri.page.present?
+
+    if uri&.page.present? && (uri.page.published? || user_signed_in?)
       @page = uri.page
-      render_liquid(@page.liquid_layout, :show)
+      localize_from_page(@page)
+      @rendered = renderer.render_follow_up
+      @data = renderer.personalization_data
+      render 'pages/show', layout: 'member_facing'
     elsif user_signed_in?
       redirect_to pages_path
     else
@@ -29,7 +33,7 @@ class UrisController < ApplicationController
     end
   end
 
-  # Deactives campaign and its associated pages
+  # Deactivates campaign and its associated pages
   def destroy
     @uri.destroy
     render json: { status: :ok }, status: :ok
@@ -53,5 +57,12 @@ class UrisController < ApplicationController
 
   def find_uri
     @uri = Uri.find params['id']
+  end
+
+  # DUP localize
+  def localize_from_page(page)
+    if page.language.present?
+      set_locale(page.language.code)
+    end
   end
 end

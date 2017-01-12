@@ -26,6 +26,7 @@ describe 'Search ::' do
                  tags:  [tag3, tag4, tag5])
         end
         let(:tag_searcher) { Search::PageSearcher.new(tags: [tag.id]) }
+
         it 'searches for a page based on the tags on that page' do
           expect(tag_searcher.search).to match_array([content_tag_plugin_layout_match])
         end

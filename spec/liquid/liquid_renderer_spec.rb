@@ -5,25 +5,25 @@ describe LiquidRenderer do
   let!(:body_partial) { create :liquid_partial, title: 'body_text', content: '<p>{{ content }}</p>' }
   let(:liquid_layout) { create :liquid_layout, content: "<h1>{{ title }}</h1> {% include 'body_text' %}" }
   let(:page)          { create :page, liquid_layout: liquid_layout, content: 'sliiiiide to the left' }
-  let(:renderer)      { LiquidRenderer.new(page, layout: liquid_layout) }
+  let(:renderer)      { LiquidRenderer.new(page) }
   let(:cache_helper)  { double(:cache_helper, key_for_data: 'foo', key_for_markup: 'bar') }
 
   describe 'new' do
     it 'receives the correct arguments' do
       expect do
-        LiquidRenderer.new(page, layout: liquid_layout, location: {}, member: {}, url_params: { hi: 'a' })
+        LiquidRenderer.new(page, location: {}, member: {}, url_params: { hi: 'a' })
       end.not_to raise_error
     end
 
     it 'requires only page and layout' do
       expect do
-        LiquidRenderer.new(page, layout: liquid_layout)
+        LiquidRenderer.new(page)
       end.not_to raise_error
     end
 
     it 'does not receive arbitrary keyword arguments' do
       expect do
-        LiquidRenderer.new(page, layout: liquid_layout, follow_up_layout: liquid_layout)
+        LiquidRenderer.new(page, follow_up_layout: liquid_layout)
       end.to raise_error(ArgumentError)
     end
 
@@ -31,21 +31,21 @@ describe LiquidRenderer do
       describe 'leaves english as the locale when page' do
         it 'has no language' do
           page.language = nil
-          LiquidRenderer.new(page, layout: liquid_layout)
+          LiquidRenderer.new(page)
           expect(I18n.locale).to eq :en
           expect(I18n.t('common.save')).to eq 'Save'
         end
 
         it 'has a nonsense language code' do
           page.language = build :language, code: 'xxx'
-          LiquidRenderer.new(page, layout: liquid_layout)
+          LiquidRenderer.new(page)
           expect(I18n.locale).to eq :en
           expect(I18n.t('common.save')).to eq 'Save'
         end
 
         it 'has an unsupported language code' do
           page.language = build :language, code: 'es'
-          LiquidRenderer.new(page, layout: liquid_layout)
+          LiquidRenderer.new(page)
           expect(I18n.locale).to eq :en
           expect(I18n.t('common.save')).to eq 'Save'
         end
@@ -109,7 +109,7 @@ describe LiquidRenderer do
     end
     let(:empty_img_hash) { { 'urls' => { 'large' => '', 'small' => '', 'original' => '' } } }
 
-    subject { renderer.markup_data }
+    subject { renderer.send(:markup_data) }
 
     it 'has string keys' do
       expect(subject.keys.map(&:class).uniq).to eq [String]
@@ -126,6 +126,7 @@ describe LiquidRenderer do
         follow_up_url
         primary_image
         petition_target
+        locale
       )
 
       expected_keys += page.liquid_data.keys.map(&:to_s)
@@ -164,6 +165,7 @@ describe LiquidRenderer do
         action_count
         show_direct_debit
         payment_methods
+        form_values
       )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
@@ -181,17 +183,17 @@ describe LiquidRenderer do
       end
 
       it 'calls DirectDebitDecider with url_params[:recurring_default] if both present' do
-        LiquidRenderer.new(page, layout: nil, member: member, url_params: { recurring_default: 'one_off' }).personalization_data
+        LiquidRenderer.new(page, member: member, url_params: { recurring_default: 'one_off' }).personalization_data
         expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'one_off')
       end
 
       it 'calls DirectDebitDecider with fundraiser.recurring_default if no url_params[:recurring_default]' do
-        LiquidRenderer.new(page, layout: nil, member: member).personalization_data
+        LiquidRenderer.new(page, member: member).personalization_data
         expect(DirectDebitDecider).to have_received(:decide).with([nil, 'DE'], 'recurring')
       end
 
       it 'calls DirectDebitDecider with location country and member country' do
-        LiquidRenderer.new(page, layout: nil, member: member, location: location).personalization_data
+        LiquidRenderer.new(page, member: member, location: location).personalization_data
         expect(DirectDebitDecider).to have_received(:decide).with(%w(US DE), 'recurring')
       end
     end
@@ -199,18 +201,18 @@ describe LiquidRenderer do
     describe 'outstanding_fields' do
       it 'is [] if it has no plugins' do
         expect(page.plugins.size).to eq 0
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq []
+        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to eq []
       end
 
       it "is [] if it's plugins don't have forms" do
         create :plugins_thermometer, page: page
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq []
+        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to eq []
       end
 
       it 'has the fields from one plugin form' do
         form = create :form_with_email_and_name
         create :plugins_fundraiser, page: page, form: form
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to eq %w(email name)
+        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to eq %w(email name)
       end
 
       it "checks with the member's liquid data" do
@@ -219,7 +221,7 @@ describe LiquidRenderer do
         member = create :member, name: 'Humphrey Bogart', email: 'psycho@killer.com'
         expect(member.liquid_data.keys).to include(:name)
         expect(member.attributes.keys).not_to include(:name)
-        expect(LiquidRenderer.new(page, layout: liquid_layout, member: member).personalization_data['outstanding_fields']).to eq []
+        expect(LiquidRenderer.new(page, member: member).personalization_data['outstanding_fields']).to eq []
       end
 
       it 'has from both plugin forms' do
@@ -227,7 +229,7 @@ describe LiquidRenderer do
         p2 = create :plugins_petition, page: page
         p1.update_attributes(form: create(:form_with_email_and_name))
         p2.update_attributes(form: create(:form_with_phone_and_country))
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['outstanding_fields']).to match_array %w(email name phone country)
+        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to match_array %w(email name phone country)
       end
     end
 
@@ -246,13 +248,13 @@ describe LiquidRenderer do
 
       it 'is nil if it has no plugins and no url_params' do
         expect(page.plugins.size).to eq 0
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq nil
+        expect(LiquidRenderer.new(page).personalization_data['donation_bands']).to eq nil
       end
 
       it "is {} if it's plugins don't have donation bands and no url_params" do
         fundraiser = create :plugins_fundraiser, page: page
         expect(fundraiser.donation_band).to eq nil
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq({})
+        expect(LiquidRenderer.new(page).personalization_data['donation_bands']).to eq({})
       end
 
       it "has the fundraiser's donation band if no url_param" do
@@ -260,7 +262,7 @@ describe LiquidRenderer do
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: b
         expected = { 'USD' => Donations::Utils.round_and_dedup(b.amounts.map { |v| v / 100 }) }
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
+        expect(LiquidRenderer.new(page).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
 
       it "has the first fundraiser's donation band if multiple" do
@@ -269,7 +271,7 @@ describe LiquidRenderer do
         create :plugins_fundraiser, page: page, donation_band: a
         create :plugins_fundraiser, page: page, donation_band: b
         expected = { 'USD' => Donations::Utils.round_and_dedup(b.amounts.map { |v| v / 100 }) }
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
+        expect(LiquidRenderer.new(page).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
 
       it "has the fundraiser's donation band if url_param nonsensical" do
@@ -277,7 +279,7 @@ describe LiquidRenderer do
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: b
         expected = { 'USD' => Donations::Utils.round_and_dedup(b.amounts.map { |v| v / 100 }) }
-        expect(LiquidRenderer.new(page, layout: liquid_layout, url_params: { donation_band: 'slurp' }).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
+        expect(LiquidRenderer.new(page, url_params: { donation_band: 'slurp' }).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
 
       it 'uses the url_params donation band if passed' do
@@ -285,7 +287,7 @@ describe LiquidRenderer do
         b = create :donation_band, name: 'bee boy'
         create :plugins_fundraiser, page: page, donation_band: b
         expected = { 'USD' => Donations::Utils.round_and_dedup(a.amounts.map { |v| v / 100 }) }
-        expect(LiquidRenderer.new(page, layout: liquid_layout, url_params: { donation_band: a.name }).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
+        expect(LiquidRenderer.new(page, url_params: { donation_band: a.name }).personalization_data['donation_bands']).to eq stubbed_conversion.merge(expected)
       end
     end
 
@@ -299,7 +301,7 @@ describe LiquidRenderer do
       it 'returns the location its passed' do
         allow(location).to receive(:data) { { region: 'USA' } }
         allow(location).to receive(:country_code) { nil }
-        renderer = LiquidRenderer.new(page, layout: nil, location: location)
+        renderer = LiquidRenderer.new(page, location: location)
         expect(renderer.personalization_data['location']).to eq location.data.stringify_keys
         expect(Donations::Utils).not_to have_received(:currency_from_country_code).with('DE')
       end
@@ -308,7 +310,7 @@ describe LiquidRenderer do
         member = build :member, country: 'DE'
         allow(location).to receive(:country_code) { 'GB' }
         allow(location).to receive(:data) { { country_code: 'GB' } }
-        LiquidRenderer.new(page, layout: nil, member: member, location: location).personalization_data
+        LiquidRenderer.new(page, member: member, location: location).personalization_data
         expect(Donations::Utils).to have_received(:currency_from_country_code).with('DE')
       end
 
@@ -316,7 +318,7 @@ describe LiquidRenderer do
         member = build :member, country: nil
         allow(location).to receive(:country_code) { 'GB' }
         allow(location).to receive(:data) { { country_code: 'GB' } }
-        LiquidRenderer.new(page, layout: nil, member: member, location: location).personalization_data
+        LiquidRenderer.new(page, member: member, location: location).personalization_data
         expect(Donations::Utils).to have_received(:currency_from_country_code).with('GB')
       end
 
@@ -324,7 +326,7 @@ describe LiquidRenderer do
         member = build :member, country: 'DE'
         allow(location).to receive(:country_code) { 'GB' }
         allow(location).to receive(:data) { { country_code: 'GB' } }
-        renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
+        renderer = LiquidRenderer.new(page, member: member, location: location)
         expect(renderer.personalization_data['location']).to eq('country_code' => 'GB', 'currency' => 'USD', 'country' => 'DE')
       end
 
@@ -332,7 +334,7 @@ describe LiquidRenderer do
         member = build :member, country: nil
         allow(location).to receive(:country_code) { 'GB' }
         allow(location).to receive(:data) { { country_code: 'GB' } }
-        renderer = LiquidRenderer.new(page, layout: nil, member: member, location: location)
+        renderer = LiquidRenderer.new(page, member: member, location: location)
         expect(renderer.personalization_data['location']).to eq('country_code' => 'GB', 'currency' => 'USD', 'country' => 'GB')
       end
     end
@@ -340,34 +342,58 @@ describe LiquidRenderer do
     describe 'member' do
       it 'gives email as welcome name if no name' do
         member = build :member, first_name: nil, last_name: '', email: 'sup@dude.com'
-        renderer = LiquidRenderer.new(page, layout: nil, member: member)
+        renderer = LiquidRenderer.new(page, member: member)
         expect(renderer.personalization_data['member']['welcome_name']).to eq 'sup@dude.com'
       end
 
       it 'gives first name and last name if available' do
         member = build :member, first_name: 'big', last_name: 'dog', email: 'sup@dude.com'
-        renderer = LiquidRenderer.new(page, layout: nil, member: member)
+        renderer = LiquidRenderer.new(page, member: member)
         expect(renderer.personalization_data['member']['welcome_name']).to eq 'big dog'
+      end
+    end
+
+    describe 'form_values' do
+      let(:form1) { create :form_with_email_and_optional_country }
+      let(:form2) { create :form_with_phone_and_country }
+      let(:fundraiser) { create :plugins_fundraiser, page: page, form: form1 }
+      let(:petition) { create :plugins_petition, page: page, form: form2 }
+      let(:member) { build :member, first_name: 'Lemony', last_name: 'Snicket', email: 'sup@dude.com' }
+      let(:url_params) { { controller: 'actions', country: 'NI', phone: '6697729' } }
+
+      it 'has values from url_params and member_data filtered by keys from both forms' do
+        fundraiser && petition # lazy eval
+        renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
+        expected = { country: 'NI', email: 'sup@dude.com', phone: '6697729' }
+        expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
+      end
+
+      it 'allows all the hidden field params' do
+        fundraiser # lazy eval
+        url_params.merge!(akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd')
+        renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
+        expected = { country: 'NI', email: 'sup@dude.com', akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd' }
+        expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
       end
     end
 
     describe 'thermometer' do
       it 'is nil if no plugins' do
         expect(page.plugins.size).to eq 0
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq nil
+        expect(LiquidRenderer.new(page).personalization_data['thermometer']).to eq nil
       end
 
       it 'is nil if no thermometer plugin' do
         create :plugins_fundraiser, page: page
         expect(page.plugins.size).to eq 1
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']).to eq nil
+        expect(LiquidRenderer.new(page).personalization_data['thermometer']).to eq nil
       end
 
       it "is serializes the thermometer plugin's data" do
         t1 = create :plugins_thermometer, page: page
         t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
-        actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
+        actual = LiquidRenderer.new(page).personalization_data['thermometer']
         # disagreement over timestamps is not what this test is about
         [expected, actual].each do |h|
           h.delete('updated_at')
@@ -382,7 +408,7 @@ describe LiquidRenderer do
         expect(page.plugins.size).to eq 2
         t1.current_progress # allow goal to update
         expected = t1.liquid_data.stringify_keys
-        actual = LiquidRenderer.new(page, layout: liquid_layout).personalization_data['thermometer']
+        actual = LiquidRenderer.new(page).personalization_data['thermometer']
         # disagreement over timestamps is not what this test is about
         [expected, actual].each do |h|
           h.delete('updated_at')
@@ -395,22 +421,17 @@ describe LiquidRenderer do
     describe 'action_count' do
       it 'serializes page.action_count' do
         page.action_count = 1337
-        expect(LiquidRenderer.new(page, layout: liquid_layout).personalization_data['action_count']).to eq 1337
+        expect(LiquidRenderer.new(page).personalization_data['action_count']).to eq 1337
       end
     end
   end
 
   describe LiquidRenderer::Cache do
-    subject { LiquidRenderer::Cache.new(page, liquid_layout) }
+    subject { LiquidRenderer::Cache.new('foo', 'bar') }
     let(:partial) { [double(:partial, cache_key: 'foobar')] }
 
-    before do
-      allow(page).to receive(:cache_key) { 'foo' }
-      allow(liquid_layout).to receive(:cache_key) { 'bar' }
-    end
-
     describe '.invalidate' do
-      it 'incremenets invalidator seed' do
+      it 'increments invalidator seed' do
         expect(Rails.cache).to receive(:increment).with('cache_invalidator')
         LiquidRenderer::Cache.invalidate
       end
@@ -418,7 +439,7 @@ describe LiquidRenderer do
 
     describe '#key_for_markup' do
       it 'follows pattern' do
-        expect(subject.key_for_markup).to eq('liquid_markup:0:foo:bar')
+        expect(subject.send(:key_for_markup)).to eq('liquid_markup:0:foo:bar')
       end
     end
   end
