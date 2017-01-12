@@ -1,9 +1,30 @@
+// @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import FieldShape from '../../components/FieldShape/FieldShape';
+import type { Country, Target } from '../../containers/CallToolView/CallToolView';
+import type { Element } from 'react';
+import type { Field } from '../../components/FieldShape/FieldShape';
 
-const memberPhoneNumberField = {
+type OwnProps = {
+  targetCountries: Country[];
+  targets: Target[];
+  selectedTarget: Target;
+  form: {
+    memberPhoneNumber?: string;
+    countryCode?: string;
+  };
+  errors: {
+    memberPhoneNumber?: string | Element<*>;
+    countryCode?: string | Element<*>;
+  };
+  onCountryCodeChange: (string) => void;
+  onMemberPhoneNumberChange: (string) => void;
+  onSubmit: (any) => void;
+}
+
+const memberPhoneNumberField:Field = {
   data_type: 'text',
   name: 'call_tool[member_phone_number]',
   label: <FormattedMessage id='call_tool.form.phone_number' />,
@@ -12,7 +33,7 @@ const memberPhoneNumberField = {
   disabled: false
 };
 
-const countryCodeField = {
+const countryCodeField:Field = {
   data_type: 'select',
   name: 'call_tool[country_code]',
   label: <FormattedMessage id='call_tool.form.country' />,
@@ -22,9 +43,12 @@ const countryCodeField = {
   choices: []
 };
 
-class Form extends Component {
 
-  constructor(props) {
+class Form extends Component {
+  props: OwnProps;
+  fields: { [key: string]: Field };
+
+  constructor(props: OwnProps) {
     super(props);
 
     this.fields = {
@@ -72,35 +96,5 @@ class Form extends Component {
     );
   }
 }
-
-const types = React.PropTypes;
-
-const targetShape = types.shape({
-  countryCode: types.string.isRequired,
-  name:        types.string.isRequired,
-  title:       types.string.isRequired
-});
-
-Form.propTypes = {
-  targetCountries: types.arrayOf(
-    types.shape({
-      code: types.string.isRequired,
-      name: types.string.isRequired
-    })
-  ),
-  targets: types.arrayOf(targetShape),
-  selectedTarget: targetShape,
-  form: types.shape({
-    memberPhoneNumber: types.string,
-    countryCode:       types.string
-  }),
-  errors: types.shape({
-    memberPhoneNumber: types.oneOfType([types.string, types.element]),
-    countryCode: types.oneOfType([types.string, types.element])
-  }),
-  onCountryCodeChange: types.func.isRequired,
-  onMemberPhoneNumberChange: types.func.isRequired,
-  onSubmit: types.func.isRequired
-};
 
 export default Form;
