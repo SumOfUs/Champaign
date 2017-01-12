@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170104204704) do
+ActiveRecord::Schema.define(version: 20170112103852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,7 +72,10 @@ ActiveRecord::Schema.define(version: 20170104204704) do
     t.integer  "target_index"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.jsonb    "log",                 default: {}, null: false
   end
+
+  add_index "calls", ["log"], name: "index_calls_on_log", using: :gin
 
   create_table "campaigns", force: :cascade do |t|
     t.string   "name"
