@@ -43,3 +43,5 @@ module Champaign
     config.webpack.config_file = Rails.root.join('config', 'frontend', 'webpack.config.prod.js')
   end
 end
+
+Rails.application.routes.default_url_options[:host] = Settings.host

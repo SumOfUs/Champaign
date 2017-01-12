@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-
-# rubocop:disable ClassLength
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 

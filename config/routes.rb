@@ -156,6 +156,7 @@ Rails.application.routes.draw do
   end
 
   post '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
+  post '/twilio/calls/:id/log',   to: 'twilio/calls#log',   as: :call_log
 
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']

@@ -33,8 +33,7 @@ class CallCreator
     client.create(
       from: Settings.calls.default_caller_id,
       to: @call.member_phone_number,
-      # TODO: move host config out of here
-      url: Rails.application.routes.url_helpers.call_twiml_url(@call, host: Settings.host)
+      url: twiml_url
     )
   rescue Twilio::REST::RequestError => e
     # 13223: Dial: Invalid phone number format
@@ -49,5 +48,9 @@ class CallCreator
     else
       raise e
     end
+  end
+
+  def twiml_url
+    Rails.application.routes.url_helpers.call_twiml_url(@call)
   end
 end
