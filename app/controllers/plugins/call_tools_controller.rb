@@ -24,7 +24,7 @@ module Plugins
     end
 
     def update_params
-      params.require(:plugins_call_tool).permit(:targets_csv_file, :active, :title, :sound_clip)
+      params.require(:plugins_call_tool).permit(:targets_csv_file, :active, :title, :sound_clip, :description)
     end
   end
 end

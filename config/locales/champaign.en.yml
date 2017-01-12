@@ -293,8 +293,10 @@ en:
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
     call_tool:
-      title: "Title"
+      title: 'Title'
       click_to_play: 'Click to play'
+      talking_points: 'Talking points'
+
 
   ak_logs:
     index:
