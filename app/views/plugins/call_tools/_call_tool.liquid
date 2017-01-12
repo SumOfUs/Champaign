@@ -1,40 +1,14 @@
 {% if plugins.call_tool[ref].active %}
-  <h1> {{ plugins.call_tool[ref].title }} </h1>
-
-  <form class='action-form form--big' data-remote="true" >
-    <div class="form__group action-form__field-container">
-      <div class="sweet-placeholder">
-        <label class="sweet-placeholder__label">Phone Number</label>
-        <input type="tel" name="call[member_phone_number]" class="form__content sweet-placeholder__field" value="" />
-      </div>
-    </div>
-
-
-    <div class="form__group action-form__field-container">
-      <div class="sweet-placeholder">
-        <label class="sweet-placeholder__label">Country</label>
-        <select name="call[target_id]" class="action-form__dropdown form__content sweet-placeholder__field selectize action-form__country">
-          <option></option>
-          {% for country in plugins.call_tool[ref].target_countries %}
-            <option value="{{ country.code }}"> {{ country.name }} </option>
-          {% endfor %}
-        </select>
-      </div>
-    </div>
-
-    <div class="action-form__target form__instruction">
-      <p>
-        <strong> Target: </strong>
-        <span> </span>
-      </p>
-    </div>
-
-    <button type="submit" class="button action-form__submit-button">{{ "Submit" }}</button>
-  </form>
+  <div id='call-tool-component'></div>
 
   <script>
     $(document).ready(function() {
-      window.champaign.CallTool();
+      var state = {
+        locale: 'en',
+        pageId: window.champaign.personalization.urlParams.id
+      };
+      _.assign(state, window.champaign.personalization.callTool['{{ref}}']);
+      mountCallTool('call-tool-component', state);
     });
   </script>
 {% endif %}
