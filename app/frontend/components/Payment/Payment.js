@@ -105,6 +105,10 @@ export class Payment extends Component {
       });
   }
 
+  componentDidUpdate() {
+    $.publish('sidebar:height_change');
+  }
+
   selectPaymentType(paymentType: string) {
     this.props.setPaymentType(paymentType);
   }
@@ -275,15 +279,15 @@ export class Payment extends Component {
       <div className="Payment section">
         <ShowIf condition={!_.isEmpty(this.state.errors)}>
           <div className="fundraiser-bar__errors">
-            <span className="fa fa-exclamation-triangle"></span>
             <div className="fundraiser-bar__error-intro">
+              <span className="fa fa-exclamation-triangle"></span>
               <FormattedMessage id="fundraiser.error_intro" defaultMessage="Unable to process donation!" />
-              {
-                this.state.errors.map((e, i) => {
-                  return <div key={i} className="fundraiser-bar__error-detail">{e}</div>;
-                })
-              }
             </div>
+            {
+              this.state.errors.map((e, i) => {
+                return <div key={i} className="fundraiser-bar__error-detail">{e}</div>;
+              })
+            }
           </div>
         </ShowIf>
 

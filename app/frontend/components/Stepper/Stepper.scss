@@ -9,6 +9,15 @@
   overflow: visible;
 }
 
+.Stepper__steps .Step {
+  &:first-of-type {
+    margin-right: auto;
+  }
+  &:last-of-type {
+    margin-left: auto;
+  }
+}
+
 .Stepper__steps {
   position: relative;
   display: flex;

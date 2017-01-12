@@ -13,7 +13,6 @@ de:
       card: 'Kreditkarte oder Debitkarte (DE)'
       ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider (DE)"
       ready_for_paypal: "Click 'Donate' to finish donating through PayPal (DE)"
-      ready_for_card: ""
     payment_type_prompt: Payment Method (DE)
     amount: Betrag
     details: Kontaktdaten

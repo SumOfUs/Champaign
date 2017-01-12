@@ -4,6 +4,5 @@
 # Ignore transient files
 log/*
 node_modules/*
-tmp/*
 vendor/bundle
 vendor/bundle/*
