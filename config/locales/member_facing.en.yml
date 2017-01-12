@@ -85,6 +85,7 @@ en:
     form:
       phone_number: "Phone number"
       country: "Country"
+      submit: "Submit"
   share:
     cta: Share the campaign!
     send_email: Send Email
