@@ -113,7 +113,7 @@ Rails.application.routes.draw do
       get 'featured', on: :collection
 
       resource  :analytics
-      resources :actions do
+      resources :actions, only: [:create] do
         post 'validate', on: :collection, action: 'validate'
       end
       resources :survey_responses, only: [:create]
