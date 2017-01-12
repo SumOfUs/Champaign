@@ -1,12 +1,22 @@
-// @flow weak
-
+// @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import ChampaignAPI from '../../util/ChampaignAPI';
-import type { operationResponse } from '../../util/ChampaignAPI';
+import type { OperationResponse } from '../../util/ChampaignAPI';
 
 import Form from '../../components/CallTool/Form';
+
+export type Target = {
+  countryCode: string;
+  name: string;
+  title: string;
+}
+
+export type Country = {
+  code: string;
+  name: string;
+}
 
 type OwnState = {
   form: {
@@ -19,17 +29,23 @@ type OwnState = {
     base?: any[];
   };
   loading: boolean;
-  selectedTarget?: {
-    countryCode: string,
-    name: string,
-    title: string
-  };
+  selectedTarget?: Target;
+}
+
+type OwnProps = {
+  memberPhoneNumber?: string;
+  countryCode?: string;
+  title?: string;
+  pageId: string | number;
+  targets: Target[];
+  targetCountries: Country[];
 }
 
 class CallToolView extends Component {
   state: OwnState;
+  props: OwnProps;
 
-  constructor(props) {
+  constructor(props: OwnProps) {
     super(props);
     this.state = {
       form: {},
@@ -38,7 +54,7 @@ class CallToolView extends Component {
     };
   }
 
-  countryCodeChanged(countryCode) {
+  countryCodeChanged(countryCode: string) {
     this.setState({
       form: Object.assign({}, this.state.form, {countryCode: countryCode}),
       selectedTarget: this.selectNewTarget(countryCode),
@@ -46,14 +62,14 @@ class CallToolView extends Component {
     });
   }
 
-  memberPhoneNumberChanged(memberPhoneNumber) {
+  memberPhoneNumberChanged(memberPhoneNumber: string) {
     this.setState({
       form: Object.assign({}, this.state.form, {memberPhoneNumber: memberPhoneNumber}),
       errors: Object.assign({}, this.state.errors, { memberPhoneNumber: null })
     });
   }
 
-  selectNewTarget(countryCode) {
+  selectNewTarget(countryCode: string) {
     const candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
     return _.sample(candidates);
   }
@@ -62,7 +78,7 @@ class CallToolView extends Component {
     return _.findIndex(this.props.targets, this.state.selectedTarget);
   }
 
-  submit(event) {
+  submit(event: any) {
     event.preventDefault();
     if(!this.validateForm()) return;
     this.setState({ loading: true });
@@ -90,11 +106,11 @@ class CallToolView extends Component {
     return _.isEmpty(newErrors);
   }
 
-  submitSuccessful(response:operationResponse) {
+  submitSuccessful(response: OperationResponse) {
     this.setState({errors: {}, loading: false});
   }
 
-  submitFailed(response:operationResponse) {
+  submitFailed(response: OperationResponse) {
     const newErrors = Object.assign({}, this.state.errors);
     if(!_.isEmpty(response.errors.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = response.errors.memberPhoneNumber[0];
@@ -121,6 +137,7 @@ class CallToolView extends Component {
             }
           </ul>
         }
+
         <Form
           targetCountries={this.props.targetCountries}
           targets={this.props.targets}
@@ -135,28 +152,6 @@ class CallToolView extends Component {
     );
   }
 }
-
-const types = React.PropTypes;
-
-CallToolView.propTypes = {
-  memberPhoneNumber: types.string,
-  countryCode: types.string,
-  title: types.string,
-  pageId: types.oneOfType([types.string, types.number]).isRequired,
-  targets: types.arrayOf(
-    types.shape({
-      countryCode: types.string.isRequired,
-      name:        types.string.isRequired,
-      title:       types.string.isRequired
-    })
-  ),
-  targetCountries: types.arrayOf(
-    types.shape({
-      code: types.string.isRequired,
-      name: types.string.isRequired
-    })
-  )
-};
 
 export default CallToolView;
 

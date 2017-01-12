@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
@@ -20,10 +21,10 @@ const parseResponse = (response):OperationResponse => {
     case 204:
       return { success: true, errors: {} };
     case 422:
-      return { sucess: false, errors: camelizeKeys(response.responseJSON.errors) };
+      return { success: false, errors: camelizeKeys(response.responseJSON.errors) };
     default:
       return {
-        sucess: false,
+        success: false,
         errors: {
           base: [<FormattedMessage id="call_tool.errors.unknown" defaultMessage={`Unknown error, code ${response.code}`} />]
         }
