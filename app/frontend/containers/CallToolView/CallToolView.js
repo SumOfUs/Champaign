@@ -109,7 +109,9 @@ class CallToolView extends Component {
   render() {
     return (
       <div>
-        <h1> { this.props.title } </h1>
+        { this.props.title &&
+          <h1> { this.props.title } </h1>
+        }
 
         { !_.isEmpty(this.state.errors.base) &&
           <ul>
@@ -139,8 +141,8 @@ const types = React.PropTypes;
 CallToolView.propTypes = {
   memberPhoneNumber: types.string,
   countryCode: types.string,
-  title: types.string.isRequired,
-  pageId: types.string.isRequired,
+  title: types.string,
+  pageId: types.oneOfType([types.string, types.number]).isRequired,
   targets: types.arrayOf(
     types.shape({
       countryCode: types.string.isRequired,

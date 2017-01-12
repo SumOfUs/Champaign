@@ -3,12 +3,10 @@
 
   <script>
     $(document).ready(function() {
-      var state = {
-        locale: 'en',
-        pageId: window.champaign.personalization.urlParams.id
-      };
-      _.assign(state, window.champaign.personalization.callTool['{{ref}}']);
-      mountCallTool('call-tool-component', state);
+      mountCallTool(
+        'call-tool-component',
+        window.champaign.personalization.callTool['{{ref}}']
+      );
     });
   </script>
 {% endif %}

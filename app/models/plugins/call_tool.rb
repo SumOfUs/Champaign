@@ -31,10 +31,10 @@ class Plugins::CallTool < ActiveRecord::Base
 
   def liquid_data(_supplemental_data = {})
     {
+      page_id: page_id,
+      locale: page.language_code,
       active: active,
-      targets_by_country: targets_by_country,
-      # TODO: improve
-      targets: json_targets.map { |t| t.transform_keys { |k| k.camelize(:lower) } },
+      targets: json_targets,
       target_countries: target_countries,
       title: title
     }
@@ -49,11 +49,6 @@ class Plugins::CallTool < ActiveRecord::Base
   end
 
   private
-
-  # Temporary until fully targetting is implemented on front end
-  def targets_by_country
-    json_targets.group_by { |t| t['country_code'] }
-  end
 
   def json_targets
     read_attribute(:targets)
