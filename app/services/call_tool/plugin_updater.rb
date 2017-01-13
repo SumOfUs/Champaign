@@ -7,21 +7,13 @@ class CallTool::PluginUpdater
   end
 
   def run
-    @params[:targets] = parse_targets
+    if @targets_csv.present?
+      @params[:targets] = CallTool::TargetsParser.parse_csv(@targets_csv)
+    end
     @call_tool.update(@params)
   end
 
   def errors
     @call_tool.errors
-  end
-
-  private
-
-  def parse_targets
-    if @targets_csv.present?
-      CallTool::TargetsParser.parse_csv(@targets_csv)
-    else
-      []
-    end
   end
 end
