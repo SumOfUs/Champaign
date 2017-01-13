@@ -2,6 +2,9 @@
 class UrisController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :find_uri, only: [:edit, :update, :destroy]
+  before_action :filter_requests, only: [:show]
+
+  SKIP_PATTERN = %r{\A/(api|assets)}
 
   def index
     @uris = Uri.all
@@ -63,6 +66,12 @@ class UrisController < ApplicationController
   def localize_from_page(page)
     if page.language.present?
       set_locale(page.language.code)
+    end
+  end
+
+  def filter_requests
+    if request.path =~ SKIP_PATTERN
+      raise ActiveRecord::RecordNotFound
     end
   end
 end

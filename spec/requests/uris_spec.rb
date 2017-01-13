@@ -5,6 +5,14 @@ describe 'URI masking' do
   let(:user) { instance_double('User', id: '1') }
   let(:page) { create :page }
 
+  describe 'when path matches SKIP filter' do
+    it 'raises 404' do
+      %w(/api /assets).each do |path|
+        expect { get(path) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+  end
+
   describe 'when no record matches' do
     it 'routes to homepage  if requested by an unauthenticated user' do
       expect(get('/random')).to redirect_to(Settings.home_page_url)
