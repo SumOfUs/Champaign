@@ -39,6 +39,7 @@ type OwnProps = {
   pageId: string | number;
   targets: Target[];
   targetCountries: Country[];
+  onSuccess?: () => void;
 }
 
 class CallToolView extends Component {
@@ -108,6 +109,7 @@ class CallToolView extends Component {
 
   submitSuccessful(response: OperationResponse) {
     this.setState({errors: {}, loading: false});
+    this.props.onSuccess && this.props.onSuccess();
   }
 
   submitFailed(response: OperationResponse) {

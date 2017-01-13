@@ -70,7 +70,8 @@ window.mountCallTool = (root: string, props: callToolInitialState) => {
         title={props.title}
         targets={props.targets}
         targetCountries={props.targetCountries}
-        pageId={props.pageId} />
+        pageId={props.pageId}
+        onSuccess={props.onSuccess} />
     </ComponentWrapper>,
     document.getElementById(root)
   );

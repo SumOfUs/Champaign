@@ -3,10 +3,13 @@
 
   <script>
     $(document).ready(function() {
-      mountCallTool(
-        'call-tool-component',
-        window.champaign.personalization.callTool['{{ref}}']
-      );
+      var data = _.clone(window.champaign.personalization.callTool['{{ref}}']);
+
+      data.onSuccess = function() {
+        window.location.href = "{{ follow_up_url }}";
+      };
+
+      mountCallTool('call-tool-component', data);
     });
   </script>
 {% endif %}
