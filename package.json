@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "airbrake-js": "^0.5.9",
+    "babel-polyfill": "^6.20.0",
     "braintree-web": "^3.5.0",
     "classnames": "^2.2.5",
     "country-data": "^0.0.31",
