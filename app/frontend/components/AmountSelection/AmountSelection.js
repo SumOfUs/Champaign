@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
+import $ from '../../util/PubSub';
 import CurrencyAmount from '../../components/CurrencyAmount';
 import type { Element } from 'react';
 
@@ -46,8 +47,8 @@ export default class AmountSelection extends Component {
     };
   }
 
-  selectAmount(amount: ?number) {
-    this.props.selectAmount(amount);
+  componentDidUpdate() {
+    $.publish('sidebar:height_change');
   }
 
   toggleCurrencyDropdown() {
@@ -74,7 +75,7 @@ export default class AmountSelection extends Component {
           currency={this.props.currency}
           proceed={this.props.proceed}
           featuredAmount={this.props.donationFeaturedAmount}
-          selectAmount={this.selectAmount.bind(this)}
+          selectAmount={this.props.selectAmount}
           toggleProceedButton={this.toggleProceedButton.bind(this)}
         />
         <p>
