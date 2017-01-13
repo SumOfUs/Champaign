@@ -2,6 +2,7 @@
 
 class MemberAuthenticationsController < ApplicationController
   before_action :redirect_signed_up_members
+  skip_before_action :verify_authenticity_token
 
   def new
     session[:follow_up_url] = params[:follow_up_url]
