@@ -23,7 +23,9 @@ class Api::PagesController < ApplicationController
 
   def index
     @pages = PageService.list(language: params[:language], limit: params[:limit])
-    render :index, format: :json
+    respond_to do |format|
+      format.json { render :index }
+    end
   end
 
   def show
