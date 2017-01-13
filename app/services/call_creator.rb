@@ -44,7 +44,7 @@ class CallCreator
     # 21214: 'To' phone number cannot be reached
     if (e.code >= 13_223 && e.code <= 13_226) || [21_211, 21_214].include?(e.code)
       @errors[:member_phone_number] ||= []
-      @errors[:member_phone_number] << 'is invalid' # TODO: add translation
+      @errors[:member_phone_number] << I18n.t('call_tool.errors.phone_number.cant_connect')
     else
       raise e
     end

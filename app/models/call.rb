@@ -50,7 +50,7 @@ class Call < ActiveRecord::Base
     end
 
     unless has_at_least_six_numbers
-      errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number_too_short'))
+      errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number.too_short'))
     end
   end
 end
