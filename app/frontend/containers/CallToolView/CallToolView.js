@@ -147,6 +147,7 @@ class CallToolView extends Component {
           onCountryCodeChange={this.countryCodeChanged.bind(this)}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
           onSubmit={this.submit.bind(this)}
+          loading={this.state.loading}
         />
       </div>
     );

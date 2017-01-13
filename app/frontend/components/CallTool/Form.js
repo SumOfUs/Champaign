@@ -22,6 +22,7 @@ type OwnProps = {
   onCountryCodeChange: (string) => void;
   onMemberPhoneNumberChange: (string) => void;
   onSubmit: (any) => void;
+  loading: boolean;
 }
 
 const memberPhoneNumberField:Field = {
@@ -89,7 +90,11 @@ class Form extends Component {
           </div>
         }
 
-        <button onClick={this.props.onSubmit} type="submit" className="button action-form__submit-button">
+        <button
+        type="submit"
+        onClick={this.props.onSubmit}
+        className="button action-form__submit-button"
+        disabled={ this.props.loading ? 'disabled' : '' }>
           <FormattedMessage id="call_tool.form.submit" />
         </button>
       </form>
