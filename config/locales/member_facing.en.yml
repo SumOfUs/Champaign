@@ -81,6 +81,7 @@ en:
     calling: "Calling..."
     errors:
       unknown: "Oops, something went wrong, please try a different phone number or again in a few minutes"
+      phone_number_too_short: "must have at least 6 digits"
     form:
       phone_number: "Phone number"
       country: "Country"

@@ -45,8 +45,12 @@ class Call < ActiveRecord::Base
     return if member_phone_number.blank?
     valid_characters = (/\A[0-9\-\+\(\) \.]+\z/i =~ member_phone_number).present?
     has_at_least_six_numbers = (member_phone_number.scan(/[0-9]/).size > 5)
-    if !valid_characters || !has_at_least_six_numbers
+    unless valid_characters
       errors.add(:member_phone_number, I18n.t('validation.is_invalid_phone'))
+    end
+
+    unless has_at_least_six_numbers
+      errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number_too_short'))
     end
   end
 end
