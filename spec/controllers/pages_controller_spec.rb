@@ -192,7 +192,7 @@ describe PagesController do
     end
 
     context 'on pages with localization' do
-      let(:french_page)  do
+      let(:french_page) do
         instance_double(Page, valid?: true, published?: true, language_code: language.code, id: '42', liquid_layout: '5')
       end
       let(:english_page) do

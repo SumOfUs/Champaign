@@ -58,5 +58,4 @@ class UrisController < ApplicationController
   def find_uri
     @uri = Uri.find params['id']
   end
-
 end
