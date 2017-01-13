@@ -22,7 +22,7 @@ class UrisController < ApplicationController
 
     if uri&.page.present? && (uri.page.published? || user_signed_in?)
       @page = uri.page
-      localize_from_page(@page)
+      set_locale(@page.language_code)
       @rendered = renderer.render_follow_up
       @data = renderer.personalization_data
       render 'pages/show', layout: 'member_facing'
@@ -59,10 +59,4 @@ class UrisController < ApplicationController
     @uri = Uri.find params['id']
   end
 
-  # DUP localize
-  def localize_from_page(page)
-    if page.language.present?
-      set_locale(page.language.code)
-    end
-  end
 end

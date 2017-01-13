@@ -148,6 +148,6 @@ class Page < ActiveRecord::Base
   end
 
   def transliterated_title
-    I18n.transliterate(title, locale: self&.language&.code || I18n.default_locale)
+    I18n.transliterate(title, locale: language_code || I18n.default_locale)
   end
 end
