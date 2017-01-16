@@ -10,7 +10,7 @@ export type OperationResponse = {
   errors: ?{[id:string]: string[]}
 }
 
-const parseResponse = (response):OperationResponse => {
+const parseResponse = (response, textStatus, other):OperationResponse => {
   if(response === undefined) {
     return { success: true, errors: {} };
   }
@@ -41,14 +41,7 @@ const createCall = function(params: {pageId: string, memberPhoneNumber: string, 
     }
   };
 
-  return new Promise((resolve, reject) => {
-    $.post(`/api/pages/${params.pageId}/call`, payload)
-    .done(response => {
-      resolve(parseResponse(response));
-    }).fail(response => {
-      reject(parseResponse(response));
-    });
-  });
+  return $.post(`/api/pages/${params.pageId}/call`, payload).then(parseResponse, parseResponse);
 };
 
 const ChampaignAPI = {
