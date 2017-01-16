@@ -69,10 +69,10 @@ RSpec.configure do |config|
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
+    Settings.reload!
   end
 
   config.before(:each, type: :feature) do
-    Settings.reload!
     # :rack_test driver's Rack app under test shares database connection
     # with the specs, so continue to use transaction strategy for speed.
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
