@@ -101,6 +101,7 @@ en:
       many_choices: 'Put each choice on its own line. If you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
     call_tool:
       audio: 'Audio clip to be played to then caller'
+      targets: 'CSV File should must adhere to the specified format. First row will be considered as headers. Each following row must have these fields in order: Country, Postal, Target Phone, Target Name, Target Title. Country, Target Phone and Target Name are required fields'
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
@@ -296,6 +297,14 @@ en:
       title: 'Title'
       click_to_play: 'Click to play'
       talking_points: 'Talking points'
+      no_targets_loaded: 'There are no targets loaded'
+      show_targets: 'Show Targets'
+      targets:
+        country: 'Country'
+        postal: 'Postal Code'
+        name: 'Name'
+        title: 'Title'
+        phone_number: 'Phone Number'
 
 
   ak_logs:

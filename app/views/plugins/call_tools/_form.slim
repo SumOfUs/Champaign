@@ -15,8 +15,10 @@
           = render partial: 'plugins/call_tools/sound_clip_detail', locals: { plugin: plugin }
 
       .form-group
-        = label_with_tooltip(f, :targets_csv_file, 'Targets CSV', t('tooltips.petition.target'))
+        = label_with_tooltip(f, :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
         = f.file_field :targets_csv_file, class: 'form-control'
+
+      = render partial: 'plugins/call_tools/targets', locals: { targets: plugin.targets }
 
       .form-group
         = label_with_tooltip(f, :description, t('plugins.call_tool.talking_points'), t('tooltips.content'))
