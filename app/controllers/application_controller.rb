@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_locale_in_session
-    session[:langugage] = I18n.locale
+    session[:language] = I18n.locale
   end
 
   def localize_from_page_id

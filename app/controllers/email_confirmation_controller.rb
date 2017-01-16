@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class EmailConfirmationController < ApplicationController
+  before_filter :find_member
+
   def verify
     begin
       I18n.locale = params[:language]
@@ -8,8 +10,14 @@ class EmailConfirmationController < ApplicationController
     end
 
     @title = I18n.t('confirmation_mailer.title')
-    @member = Member.find_by_email(params[:email])
     @errors = EmailVerifierService.verify(params[:token], params[:email], cookies)
     render 'email_confirmation/follow_up', layout: 'generic'
+  end
+
+  private
+
+  def find_member
+    raise ActiveRecord::RecordNotFound if params[:email].blank?
+    @member = Member.find_by_email!(params[:email])
   end
 end

@@ -50,4 +50,16 @@ describe 'Email Confirmation when signing up to express donations' do
       expect(auth.reload.confirmed_at).to be nil
     end
   end
+
+  context 'with missing memeber' do
+    it 'renders error' do
+      expect do
+        get '/email_confirmation'
+      end.to raise_error(ActiveRecord::RecordNotFound)
+
+      expect do
+        get '/email_confirmation', email: 'no@example.com'
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

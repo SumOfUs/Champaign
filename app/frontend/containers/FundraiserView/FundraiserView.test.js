@@ -5,6 +5,11 @@ import configureStore from '../../state';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import FundraiserView, { mapStateToProps, mapDispatchToProps } from './FundraiserView';
+import {
+  changeAmount,
+  changeCurrency,
+  changeStep,
+} from '../../state/fundraiser/actions';
 
 const suite = {};
 
@@ -18,7 +23,7 @@ const fundraiserDefaults = {
   formValues: {},
   outstandingFields: ['email', 'name', 'country'],
   donationBands: {},
-}
+};
 
 const mountView = () => {
   return mount(
@@ -28,7 +33,7 @@ const mountView = () => {
       </IntlProvider>
     </Provider>
   );
-}
+};
 
 const cardMethod = {
   id: 17,
@@ -37,7 +42,7 @@ const cardMethod = {
   card_type: "Visa",
   email: null,
   token: "5gr378",
-}
+};
 
 const paypalMethod = {
   id: 19,
@@ -46,7 +51,7 @@ const paypalMethod = {
   card_type: null,
   email: "payer@example.com",
   token: "5qnwgp",
-}
+};
 
 const fetchInitialState = (vals) => {
   vals = vals || {};
@@ -64,17 +69,17 @@ const fetchInitialState = (vals) => {
       formId: vals.formId || fundraiserDefaults.formId,
       outstandingFields: vals.outstandingFields || fundraiserDefaults.outstandingFields,
       title: vals.title || 'Gimme the loot',
-      fields: vals.fields || [],
+      fields: vals.fields || fundraiserDefaults.fields,
       recurringDefault: vals.recurringDefault || 'one_off',
     }
-  }
+  };
 };
 
 const initialize = (vals) => {
   suite.store = configureStore();
   suite.store.dispatch({ type: 'parse_champaign_data', payload: fetchInitialState(vals) });
   suite.wrapper = mountView();
-}
+};
 
 describe('Initial rendering', function () {
 
@@ -209,7 +214,7 @@ describe('Donation Amount Tab', function () {
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
     });
 
-    it('transitions to the next step when we click an amount button', () => {
+    it('transitions to the next step when we click proceed with an amount entered', () => {
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(0);
       suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
       suite.wrapper.find('#DonationBands-custom-amount').simulate('change', {target: {value: '8'}});
@@ -285,33 +290,38 @@ describe('Payment Panel', function() {
   describe('UI interactions', () => {
     describe('clicking sign-out button', () => {
       beforeEach(() => {
+        suite.memberVals = {email: 'asdf@gmail.com', name: 'As Df'};
         initialize({outstandingFields: [], paymentMethods: [cardMethod, paypalMethod],
-          member: {email: 'asdf@gmail.com', name: 'As Df'}, amount: 4});
+          member: suite.memberVals, formValues: suite.memberVals, amount: 4});
       });
 
-      it.skip('returns to step 2', () => {
+      it('returns to step 2', () => {
         expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
-        const lastStep = suite.wrapper.find('StepContent').last();
-        expect(lastStep.prop('title')).toEqual('payment');
-        expect(lastStep.prop('visible')).toEqual(true);
+        expect(suite.wrapper.find('StepContent').length).toEqual(2);
+        expect(suite.wrapper.find('.StepContent').last().hasClass('StepContent-hidden')).toEqual(false);
 
         suite.wrapper.find('.WelcomeMember__link').simulate('click');
 
         expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
-        expect(lastStep.prop('visible')).toEqual(false);
+        expect(suite.wrapper.find('StepContent').length).toEqual(3);
+        expect(suite.wrapper.find('.StepContent').last().hasClass('StepContent-hidden')).toEqual(true);
       });
 
-      it.skip('hides the saved payment methods', () => {
+      it('hides the saved payment methods', () => {
+        expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
         expect(suite.wrapper.find('.ExpressDonation').length).toEqual(1);
         suite.wrapper.find('.WelcomeMember__link').simulate('click');
-        suite.wrapper.find('FundraiserView').instance().proceed();
+        expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
+
+        suite.store.dispatch(changeStep(2));
+        expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(2);
         expect(suite.wrapper.find('.ExpressDonation').length).toEqual(0);
       });
 
-      it.skip('clears the formValues', () => {
-        expect(suite.wrapper.find('FundraiserView').prop('fundraiser').formValues).toEqual(['surely not this']);
+      it('clears the formValues', () => {
+        expect(suite.wrapper.find('FundraiserView').prop('fundraiser').formValues).toEqual(suite.memberVals);
         suite.wrapper.find('.WelcomeMember__link').simulate('click');
-        expect(suite.wrapper.find('FundraiserView').prop('fundraiser').formValues).toEqual(['surely not this']);
+        expect(suite.wrapper.find('FundraiserView').prop('fundraiser').formValues).toEqual({});
       });
     });
 

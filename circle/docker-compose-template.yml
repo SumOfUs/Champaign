@@ -3,7 +3,7 @@ web:
   links:
     - db
     - redis
-  command: /myapp/circle/specs-and-rake-tasks
+  command: /champaign/circle/specs-and-rake-tasks
   env_file:
     - test.env
 

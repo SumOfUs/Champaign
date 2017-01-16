@@ -1,14 +1,16 @@
 machine:
-  node:
-    version: 7.4.0
   pre:
     # Update docker version
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
-  services:
-    - docker
+  node:
+    version: 7.4.0
   environment:
     YARN_VERSION: 0.18.1
     PATH: "${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${PATH}"
+  services:
+    - docker
+    - redis
+    - postgresql
 
 dependencies:
   pre:
@@ -17,50 +19,38 @@ dependencies:
         curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
       fi
   cache_directories:
+    - node_modules # we're using yarn so no need to worry
     - ~/.yarn
     - ~/.cache/yarn
   override:
     - docker info
-    # our circle setup uses compose - install it
-    - sudo pip install --upgrade docker-compose==1.2.0
     # install AWS CLI
     - sudo pip install awscli
-    # build the image
     - yarn install --no-progress --no-emoji
-    - bundle check --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3 --without development test
-    - npm run build
-    - RAILS_ENV=production bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSET_PATHS]
-    - docker build -t soutech/champaign_web:$CIRCLE_SHA1 .
-
-test:
-  override:
-    # tests the built image
-    - cat circle/docker-compose-template.yml | envsubst > circle/docker-compose.yml
-    - cat circle/test.template.env | envsubst > circle/test.env
+    - bundle install --without development
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
-    - annotate-output docker-compose -f circle/docker-compose.yml run web
 
 database:
   override:
-    - echo "look in circle/specs-and-rake-tasks for database setup for testing environment"
+    - bundle exec rake RAILS_ENV=test db:create db:migrate db:seed champaign:seed_liquid
+
+test:
+  override:
+    - yarn run lint && CI=true yarn run test && bundle exec rubocop && bundle exec rspec spec
 
 deployment:
   production:
-    branch: "master"
+    branch: master
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
+      - ./bin/build.sh
+      - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
-    branch: fundreactor-tweaks
+    branch: development
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push soutech/champaign_web
-      - ./deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+      - ./bin/build.sh
+      - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
   testing:
-    # Change the branch value to your branch name to push up your branch to the testing server automatically.
-    branch: usersnap
+    branch: testing
     commands:
-      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push soutech/champaign_web
-      - ./deploy_testing.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'
+      - ./bin/build.sh
+      - ./bin/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'
