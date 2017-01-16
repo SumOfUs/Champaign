@@ -36,7 +36,8 @@ class Plugins::CallTool < ActiveRecord::Base
       active: active,
       targets: json_targets,
       target_countries: target_countries,
-      title: title
+      title: title,
+      description: description
     }
   end
 
