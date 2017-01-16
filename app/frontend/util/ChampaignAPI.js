@@ -7,7 +7,7 @@ import { camelizeKeys } from './util';
 
 export type OperationResponse = {
   success: boolean,
-  errors: ?{[id:string]: string[]}
+  errors: {[id:string]: string[]}
 }
 
 const parseResponse = (response, textStatus, other):OperationResponse => {
@@ -33,7 +33,7 @@ const parseResponse = (response, textStatus, other):OperationResponse => {
 };
 
 
-const createCall = function(params: {pageId: string, memberPhoneNumber: string, targetIndex: string}) {
+const createCall = function(params: {pageId: string|number, memberPhoneNumber?: string, targetIndex: string}) {
   const payload = {
     call: {
       member_phone_number: params.memberPhoneNumber,

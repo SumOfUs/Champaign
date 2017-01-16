@@ -56,17 +56,21 @@ class CallToolView extends Component {
   }
 
   countryCodeChanged(countryCode: string) {
-    this.setState({
-      form: Object.assign({}, this.state.form, {countryCode: countryCode}),
-      selectedTarget: this.selectNewTarget(countryCode),
-      errors: Object.assign({}, this.state.errors, { countryCode: null })
+    this.setState((prevState, props) => {
+      return {
+        form: { ...prevState.form, countryCode },
+        selectedTarget: this.selectNewTarget(countryCode),
+        errors: {...prevState.errors, countryCode: null }
+      };
     });
   }
 
   memberPhoneNumberChanged(memberPhoneNumber: string) {
-    this.setState({
-      form: Object.assign({}, this.state.form, {memberPhoneNumber: memberPhoneNumber}),
-      errors: Object.assign({}, this.state.errors, { memberPhoneNumber: null })
+    this.setState((prevState) => {
+      return {
+        form: {...prevState.form, memberPhoneNumber },
+        errors: {...prevState.errors, memberPhoneNumber: null }
+      };
     });
   }
 
