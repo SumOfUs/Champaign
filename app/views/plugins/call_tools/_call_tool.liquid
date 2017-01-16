@@ -1,0 +1,15 @@
+{% if plugins.call_tool[ref].active %}
+  <div id='call-tool-component'></div>
+
+  <script>
+    $(document).ready(function() {
+      var data = _.clone(window.champaign.personalization.callTool['{{ref}}']);
+
+      data.onSuccess = function() {
+        window.location.href = "{{ follow_up_url }}";
+      };
+
+      mountCallTool('call-tool-component', data);
+    });
+  </script>
+{% endif %}

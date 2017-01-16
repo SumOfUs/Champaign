@@ -77,6 +77,17 @@ en:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'
     million: million
+  call_tool:
+    calling: "Calling..."
+    errors:
+      unknown: "Oops, something went wrong, please try a different phone number or again in a few minutes"
+      phone_number:
+        too_short: "must have at least 6 digits"
+        cant_connect: "can't connect to this phone number, please check it's correct or try another one"
+    form:
+      phone_number: "Phone number"
+      country: "Country"
+      submit: "Submit"
   share:
     cta: Share the campaign!
     send_email: Send Email

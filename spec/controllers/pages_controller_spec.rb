@@ -164,6 +164,7 @@ describe PagesController do
     before do
       allow(Page).to            receive(:find) { page }
       allow(page).to            receive(:update)
+      allow(page).to            receive(:language_code).and_return('en')
       allow(LiquidRenderer).to  receive(:new) { renderer }
     end
 
@@ -191,8 +192,12 @@ describe PagesController do
     end
 
     context 'on pages with localization' do
-      let(:french_page)  { instance_double(Page, valid?: true, published?: true, language: language,         id: '42', liquid_layout: '5') }
-      let(:english_page) { instance_double(Page, valid?: true, published?: true, language: default_language, id: '66', liquid_layout: '5') }
+      let(:french_page) do
+        instance_double(Page, valid?: true, published?: true, language_code: language.code, id: '42', liquid_layout: '5')
+      end
+      let(:english_page) do
+        instance_double(Page, valid?: true, published?: true, language_code: default_language.code, id: '66', liquid_layout: '5')
+      end
 
       context 'with french' do
         subject { french_page }
@@ -220,6 +225,7 @@ describe PagesController do
     before do
       allow(Page).to receive(:find) { page }
       allow(page).to receive(:update)
+      allow(page).to receive(:language_code).and_return('en')
       allow(LiquidRenderer).to receive(:new) { renderer }
     end
 
