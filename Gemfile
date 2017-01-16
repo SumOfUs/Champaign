@@ -38,12 +38,11 @@ gem 'country_select'
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
 gem 'rmagick' # rmagick for image processing
-gem 'paperclip'
+gem 'paperclip', '~> 5.0.0'
+gem 'aws-sdk', '~> 2'
 gem 'action_parameter'
 # AWS SDK for Rails - makes SES integration easy
 gem 'aws-sdk-rails'
-# Paperclip has a hard requirement for aws-sdk version < 2.0 because hey why not?   ...
-gem 'aws-sdk-v1'
 gem 'logger'
 gem 'lograge'
 gem 'summernote-rails'

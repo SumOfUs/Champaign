@@ -93,6 +93,7 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     storage: :s3,
+    s3_region: Settings.aws_region,
     s3_host_name: Settings.s3_host_name,
     s3_host_alias: Settings.cloudfront_url,
     s3_protocol: 'https',
