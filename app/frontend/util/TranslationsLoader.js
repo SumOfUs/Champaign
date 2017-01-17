@@ -1,10 +1,9 @@
 // @flow
-import _ from 'lodash';
 
 const translations = {
-  de: require('../../../config/locales/member_facing.de.yml').de,
-  en: require('../../../config/locales/member_facing.en.yml').en,
-  fr: require('../../../config/locales/member_facing.fr.yml').fr,
+  ...require('../../../config/locales/member_facing.de.yml'),
+  ...require('../../../config/locales/member_facing.en.yml'),
+  ...require('../../../config/locales/member_facing.fr.yml'),
 };
 
 export default function loadTranslations(locale: string) {
@@ -31,12 +30,13 @@ function translateInterpolationFormat(translations) {
 // { page: { hello: 'hola'}} => { 'page.hello' => 'hola'}
 function flattenTranslations(translations, prefix = '') {
   const flatTranslations = {};
-  _.each(translations, (val, key) => {
+  Object.keys(translations).forEach((key) => {
+    const val = translations[key];
     const fullKey = (prefix === '') ? key : `${prefix}.${key}`;
     if(typeof(val) === 'string'){
       flatTranslations[fullKey] = val;
     } else {
-      _.assign(
+      Object.assign(
         flatTranslations,
         flattenTranslations(translations[key], fullKey)
       );
@@ -44,4 +44,3 @@ function flattenTranslations(translations, prefix = '') {
   });
   return flatTranslations;
 }
-
