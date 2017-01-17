@@ -13,4 +13,18 @@ class Plugins::BaseController < ApplicationController
       end
     end
   end
+
+  private
+
+  def permitted_params
+    raise 'undefined method'
+  end
+
+  def plugin_class
+    raise 'undefined method'
+  end
+
+  def plugin_symbol
+    raise 'undefined method'
+  end
 end

@@ -35,7 +35,7 @@ class PaymentMethodFetcher
   def payment_methods
     return @payment_methods if @payment_methods
 
-    query = @member.customer.payment_methods.stored
+    query = @member.customer.payment_methods.stored.active
     query = query.where(token: @filter) unless @filter.nil?
 
     @payment_methods = query

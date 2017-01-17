@@ -15,27 +15,9 @@ require 'paper_trail/frameworks/rspec'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 
-Capybara.javascript_driver = :poltergeist
-
-# Add additional requires below this line. Rails is not loaded until this point!
-
-# Requires supporting ruby files with custom matchers and macros, etc, in
-# spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
-# run as spec files by default. This means that files in spec/support that end
-# in _spec.rb will both be required and run as specs, causing the specs to be
-# run twice. It is recommended that you do not name files matching this glob to
-# end with _spec.rb. You can configure this pattern with the --pattern
-# option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
-#
-# The following line is provided for convenience purposes. It has the downside
-# of increasing the boot-up time by auto-requiring all files in the support
-# directory. Alternatively, in the individual `*_spec.rb` files, manually
-# require only the support files necessary.
-#
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-# Checks for pending migrations before tests are run.
-# If you are not using ActiveRecord, you can remove this line.
+Capybara.javascript_driver = :poltergeist
 ActiveRecord::Migration.maintain_test_schema!
 
 VCR.configure do |config|
@@ -47,9 +29,6 @@ VCR.configure do |config|
     record: :once
   }
 
-  # The filter_sensitive_data configuration option prevents
-  # sensitive data from being written to your cassette files.
-  #
   %w(merchant_id public_key private_key).each do |env|
     config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }
   end
@@ -62,10 +41,6 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-  # If you're not using ActiveRecord, or you'd prefer not to run each of your
-  # examples within a transaction, remove the following line or assign false
-  # instead of true.
-  config.use_transactional_fixtures = true
   config.include Devise::TestHelpers, type: :controller
   config.include HelperFunctions
   config.include OmniAuthHelper
@@ -74,52 +49,27 @@ RSpec.configure do |config|
   config.extend ControllerMacros,     type: :controller
   config.include Warden::Test::Helpers, type: :request
   config.include Requests::RequestHelpers, type: :request
-
-  # RSpec Rails can automatically mix in different behaviours to your tests
-  # based on their file location, for example enabling you to call `get` and
-  # `post` in specs under `spec/controllers`.
-  #
-  # You can disable this behaviour by removing the line below, and instead
-  # explicitly tag your specs with their type, e.g.:
-  #
-  #     RSpec.describe UsersController, :type => :controller do
-  #       # ...
-  #     end
-  #
-  # The different available types are documented in the features, such as in
-  # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
-  config.before(:suite) do
-    Warden.test_mode!
-  end
-
-  config.before do
-    Settings.reload!
-  end
-end
-
-RSpec.configure do |config|
+  # During testing, the app-under-test that the browser driver connects to
+  # uses a different database connection to the database connection used by
+  # the spec. The app's database connection would not be able to access
+  # uncommitted transaction data setup over the spec's database connection.
   config.use_transactional_fixtures = false
 
   config.before(:suite) do
-    if config.use_transactional_fixtures?
-      raise(<<-MSG)
-        Delete line `config.use_transactional_fixtures = true` from rails_helper.rb
-        (or set it to false) to prevent uncommitted transactions being used in
-        JavaScript-dependent specs.
-
-        During testing, the app-under-test that the browser driver connects to
-        uses a different database connection to the database connection used by
-        the spec. The app's database connection would not be able to access
-        uncommitted transaction data setup over the spec's database connection.
-      MSG
-    end
+    Warden.test_mode!
     DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.cleaning do
+      FactoryGirl.lint
+    end
   end
 
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
+    Settings.reload!
   end
 
   config.before(:each, type: :feature) do
@@ -133,10 +83,6 @@ RSpec.configure do |config|
       # specs, so use truncation strategy.
       DatabaseCleaner.strategy = :truncation
     end
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
   end
 
   config.append_after(:each) do

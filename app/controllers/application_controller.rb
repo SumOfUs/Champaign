@@ -41,9 +41,7 @@ class ApplicationController < ActionController::Base
 
   def localize_from_page_id
     page = Page.find_by(id: params[:page_id])
-    if page && page.language.present?
-      set_locale(page.language.code)
-    end
+    set_locale(page.language_code) if page.present?
   end
 
   def write_member_cookie(member_id)

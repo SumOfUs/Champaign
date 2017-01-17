@@ -1,0 +1,21 @@
+.generic-caller {
+  &__right-column {
+    background-color: rgb(236, 236, 236)
+  }
+}
+
+.call-tool {
+  .action-form__target {
+    text-align: center;
+    span {
+      font-weight: normal;
+    }
+  }
+
+  button[type='submit'] {
+    margin-bottom: 30px;
+  }
+
+}
+
+

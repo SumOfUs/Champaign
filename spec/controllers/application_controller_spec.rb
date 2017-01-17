@@ -18,13 +18,6 @@ describe ApplicationController do
         expect(controller).not_to have_received(:set_locale)
       end
 
-      it 'does nothing if page has no language' do
-        page.update_attributes(language_id: nil)
-        allow(controller).to receive(:params).and_return(page_id: page.id)
-        controller.send(:localize_from_page_id)
-        expect(controller).not_to have_received(:set_locale)
-      end
-
       it 'sets locale with page language code' do
         allow(controller).to receive(:params).and_return(page_id: page.id)
         controller.send(:localize_from_page_id)

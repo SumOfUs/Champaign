@@ -48,5 +48,11 @@ FactoryGirl.define do
     trait :unpublished do
       publish_status :unpublished
     end
+
+    trait :with_call_tool do
+      after(:create) do |page, _evaluator|
+        create(:call_tool, page: page)
+      end
+    end
   end
 end

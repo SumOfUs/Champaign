@@ -47,3 +47,32 @@ window.mountFundraiser = (root: string, store?: Store, initialState?: any = {}) 
     });
   }
 };
+
+// Call Tool -----------------
+
+import CallToolView   from './containers/CallToolView/CallToolView';
+import { camelizeKeys } from './util/util';
+
+type callToolInitialState = {
+  locale: string;
+  title?: string;
+  targets: any[];
+  targetCountries: any[];
+  pageId: string | number;
+}
+
+window.mountCallTool = (root: string, props: callToolInitialState) => {
+  props = camelizeKeys(props);
+
+  render(
+    <ComponentWrapper locale={props.locale}>
+      <CallToolView
+        title={props.title}
+        targets={props.targets}
+        targetCountries={props.targetCountries}
+        pageId={props.pageId}
+        onSuccess={props.onSuccess} />
+    </ComponentWrapper>,
+    document.getElementById(root)
+  );
+};

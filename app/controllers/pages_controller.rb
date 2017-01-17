@@ -146,8 +146,6 @@ class PagesController < ApplicationController
   end
 
   def localize
-    if @page && @page.language.present?
-      set_locale(@page.language.code)
-    end
+    set_locale(@page.language_code)
   end
 end

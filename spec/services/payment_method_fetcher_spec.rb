@@ -46,4 +46,18 @@ describe PaymentMethodFetcher do
       expect(subject.fetch).to match_array([])
     end
   end
+
+  context 'with cancelled payment method' do
+    subject { PaymentMethodFetcher.new(member) }
+
+    before do
+      method_a.update(cancelled_at: Time.now)
+    end
+
+    it 'only fetches active methods' do
+      expected = [method_b].map(&formatter)
+
+      expect(subject.fetch).to match_array(expected)
+    end
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161103092722) do
+ActiveRecord::Schema.define(version: 20170112134749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,18 @@ ActiveRecord::Schema.define(version: 20161103092722) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
+
+  create_table "calls", force: :cascade do |t|
+    t.integer  "page_id"
+    t.integer  "member_id"
+    t.string   "member_phone_number"
+    t.integer  "target_index"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.jsonb    "log",                 default: {}, null: false
+  end
+
+  add_index "calls", ["log"], name: "index_calls_on_log", using: :gin
 
   create_table "campaigns", force: :cascade do |t|
     t.string   "name"
@@ -407,6 +419,21 @@ ActiveRecord::Schema.define(version: 20161103092722) do
   end
 
   add_index "payment_go_cardless_webhook_events", ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id", using: :btree
+
+  create_table "plugins_call_tools", force: :cascade do |t|
+    t.integer  "page_id"
+    t.boolean  "active"
+    t.string   "ref"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "title"
+    t.string   "sound_clip_file_name"
+    t.string   "sound_clip_content_type"
+    t.integer  "sound_clip_file_size"
+    t.datetime "sound_clip_updated_at"
+    t.json     "targets",                 default: [], array: true
+    t.text     "description"
+  end
 
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"

@@ -7,21 +7,34 @@ import loadTranslations from './util/TranslationsLoader';
 
 class ComponentWrapper extends Component {
   props: {
-    store: Store;
+    store?: Store;
     children?: React$Element<any>;
     locale: string;
   };
 
   render() {
     return (
-      <Provider store={this.props.store}>
-        <IntlProvider locale={this.props.locale} messages={ loadTranslations(this.props.locale) }>
-          <div className="App">
-            {this.props.children}
-          </div>
-        </IntlProvider>
-      </Provider>
+      <IntlProvider locale={this.props.locale} messages={ loadTranslations(this.props.locale) }>
+        { this.wrapInStoreProvider(
+            <div className="App">
+              {this.props.children}
+            </div>
+          )
+        }
+      </IntlProvider>
     );
+  }
+
+  wrapInStoreProvider(inner) {
+    if (this.props.store) {
+      return (
+        <Provider store={this.props.store}>
+          { inner }
+        </Provider>
+      );
+    } else {
+      return inner;
+    }
   }
 }
 
