@@ -1,5 +1,4 @@
 /* @flow */
-import 'babel-polyfill';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
