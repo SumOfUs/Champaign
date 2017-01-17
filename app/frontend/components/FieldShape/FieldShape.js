@@ -31,7 +31,8 @@ export default class FieldShape extends Component {
     field: Field;
     value?: any;
     errorMessage?: string;
-    onChange?: (v?: string) => void;
+    onChange?: (v: ?SyntheticEvent | ?string) => void;
+    className?: string;
   };
 
   checkboxToggle(event: SyntheticInputEvent) {
@@ -135,7 +136,7 @@ export default class FieldShape extends Component {
 
   render() {
     return (
-      <div key={this.props.field.name} className="MemberDetailsForm-field form__group action-form__field-container">
+      <div key={this.props.field.name} className={`MemberDetailsForm-field form__group action-form__field-container ${this.props.className || ''}`}>
         {this.renderField(this.props.field.data_type)}
       </div>
     );

@@ -58,6 +58,7 @@ type callToolInitialState = {
   title?: string;
   targets: any[];
   targetCountries: any[];
+  countriesPhoneCodes: any[];
   pageId: string | number;
 }
 
@@ -71,7 +72,9 @@ window.mountCallTool = (root: string, props: callToolInitialState) => {
         targets={props.targets}
         targetCountries={props.targetCountries}
         pageId={props.pageId}
-        onSuccess={props.onSuccess} />
+        onSuccess={props.onSuccess}
+        countriesPhoneCodes={props.countriesPhoneCodes}
+        targetCountryCode={props.targetCountryCode} />
     </ComponentWrapper>,
     document.getElementById(root)
   );

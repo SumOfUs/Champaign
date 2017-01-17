@@ -2,30 +2,27 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
+import classnames from 'classnames';
 import FieldShape from '../../components/FieldShape/FieldShape';
-import type { Country, Target } from '../../containers/CallToolView/CallToolView';
+import type { Country, CountryPhoneCode, Target, FormType, Errors } from '../../containers/CallToolView/CallToolView';
 import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
   targetCountries: Country[];
   targets: Target[];
+  countriesPhoneCodes: CountryPhoneCode[];
   selectedTarget: Target;
-  form: {
-    memberPhoneNumber?: string;
-    countryCode?: string;
-  };
-  errors: {
-    memberPhoneNumber?: string;
-    countryCode?: string;
-  };
-  onCountryCodeChange: (v?: string) => void;
-  onMemberPhoneNumberChange: (v?: string) => void;
+  form: FormType;
+  errors: Errors;
+  onTargetCountryCodeChange: (string) => void;
+  onMemberPhoneNumberChange: (string) => void;
+  onMemberPhoneCountryCodeChange: (string) => void;
   onSubmit: (any) => void;
   loading: boolean;
 }
 
-const memberPhoneNumberField: Field = {
-  data_type: 'text',
+const memberPhoneNumberField:Field = {
+  data_type: 'phone',
   name: 'call_tool[member_phone_number]',
   label: <FormattedMessage id='call_tool.form.phone_number' />,
   default_value: '',
@@ -33,7 +30,16 @@ const memberPhoneNumberField: Field = {
   disabled: false
 };
 
-const countryCodeField:Field = {
+const memberPhoneCountryCodeField:Field = {
+  data_type: 'phone',
+  name: 'call_tool[member_phone_number]',
+  label: <FormattedMessage id='call_tool.form.phone_country_code' />,
+  default_value: '',
+  required: true,
+  disabled: false
+};
+
+const targetCountryCodeField:Field = {
   data_type: 'select',
   name: 'call_tool[country_code]',
   label: <FormattedMessage id='call_tool.form.country' />,
@@ -42,7 +48,6 @@ const countryCodeField:Field = {
   disabled: false,
   choices: []
 };
-
 
 class Form extends Component {
   props: OwnProps;
@@ -53,43 +58,73 @@ class Form extends Component {
 
     this.fields = {
       memberPhoneNumberField: memberPhoneNumberField,
-      countryCodeField: Object.assign({}, countryCodeField, { choices: this.countryCodeOptions() })
+      memberPhoneCountryCodeField: memberPhoneCountryCodeField,
+      targetCountryCodeField: { ...targetCountryCodeField, choices: this.targetCountryCodeOptions() }
     };
   }
 
-  countryCodeOptions() {
+  targetCountryCodeOptions() {
     return this.props.targetCountries.map((country) => {
       return { value: country.code, label: country.name };
     });
+  }
+
+  phoneNumberCountryName() {
+    const countryPhoneCode = _.find(this.props.countriesPhoneCodes, (countryCode) => {
+      return countryCode.code === this.props.form.memberPhoneCountryCode;
+    });
+
+    return countryPhoneCode ? countryPhoneCode.name : '';
   }
 
   render() {
     return(
       <form className='action-form form--big' data-remote="true" >
         <FieldShape
-          key="memberPhoneNumber"
-          errorMessage={this.props.errors.memberPhoneNumber}
-          onChange={this.props.onMemberPhoneNumberChange}
-          value={this.props.form.memberPhoneNumber}
-          field={this.fields.memberPhoneNumberField}
+        key="targetCountryCode"
+        errorMessage={this.props.errors.targetCountryCode}
+        onChange={this.props.onTargetCountryCodeChange}
+        value={this.props.form.targetCountryCode}
+        field={this.fields.targetCountryCodeField}
+        className="targetCountryCodeField"
         />
+
+        <div className="selectedTarget">
+          <p>
+            { !_.isEmpty(this.props.selectedTarget) &&
+              <span>
+                <FormattedMessage id="call_tool.you_will_be_calling" />
+                &nbsp;
+                <span className="selectedTargetName">
+                  {this.props.selectedTarget.name}
+                </span>
+                , {this.props.selectedTarget.title}
+              </span>
+            }
+          </p>
+        </div>
 
         <FieldShape
-          key="countryCode"
-          errorMessage={this.props.errors.countryCode}
-          onChange={this.props.onCountryCodeChange}
-          value={this.props.form.countryCode}
-          field={this.fields.countryCodeField}
-        />
+        key="memberPhoneCountryCode"
+        errorMessage={this.props.errors.memberPhoneCountryCode}
+        onChange={this.props.onMemberPhoneCountryCodeChange}
+        value={this.props.form.memberPhoneCountryCode}
+        field={this.fields.memberPhoneCountryCodeField}
+        className="phoneCountryCodeField" />
 
-        { !_.isEmpty(this.props.selectedTarget) &&
-          <div className="action-form__target form__instruction">
-            <p>
-              <strong> Target: </strong>
-              <span> {this.props.selectedTarget.name}, {this.props.selectedTarget.title} </span>
-            </p>
-          </div>
-        }
+        <FieldShape
+        key="memberPhoneNumber"
+        errorMessage={this.props.errors.memberPhoneNumber}
+        onChange={this.props.onMemberPhoneNumberChange}
+        value={this.props.form.memberPhoneNumber}
+        field={this.fields.memberPhoneNumberField}
+        className="phoneNumberField" />
+
+        <p className={classnames({'guessed-country-name': true, hidden: !_.isEmpty(this.props.errors.memberPhoneNumber) })}>
+          <span>
+            { this.phoneNumberCountryName() }
+          </span>
+        </p>
 
         <button
         type="submit"

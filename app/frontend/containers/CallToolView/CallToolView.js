@@ -2,8 +2,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
+import classnames from 'classnames';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { OperationResponse } from '../../util/ChampaignAPI';
+import type { Element } from 'react';
 
 import Form from '../../components/CallTool/Form';
 
@@ -16,29 +18,42 @@ export type Target = {
 export type Country = {
   code: string;
   name: string;
+  phoneCode: string;
+}
+
+export type CountryPhoneCode = {
+  code: string;
+  name: string;
+}
+
+export type FormType = {
+  memberPhoneNumber: string;
+  memberPhoneCountryCode: string;
+  targetCountryCode: string;
+}
+
+export type Errors = {
+  memberPhoneNumber?: string | Element<*>;
+  memberPhoneCountryCode?: string | Element<*>;
+  targetCountryCode?: any;
+  base?: any[];
 }
 
 type OwnState = {
-  form: {
-    memberPhoneNumber?: string;
-    countryCode?: string;
-  };
-  errors: {
-    memberPhoneNumber?: any;
-    countryCode?: any;
-    base?: any[];
-  };
+  form: FormType;
+  errors: Errors;
   loading: boolean;
   selectedTarget?: Target;
 }
 
 type OwnProps = {
   memberPhoneNumber?: string;
-  countryCode?: string;
+  targetCountryCode?: string;
   title?: string;
   pageId: string | number;
   targets: Target[];
   targetCountries: Country[];
+  countriesPhoneCodes: CountryPhoneCode[];
   onSuccess?: () => void;
 }
 
@@ -49,23 +64,36 @@ class CallToolView extends Component {
   constructor(props: OwnProps) {
     super(props);
     this.state = {
-      form: {},
+      form: {
+        memberPhoneNumber: '',
+        memberPhoneCountryCode: '',
+        targetCountryCode: this.props.targetCountryCode || '',
+      },
       errors: {},
       loading: false
     };
   }
 
-  countryCodeChanged(countryCode?: string) {
+  componentDidMount() {
+    this.targetCountryCodeChanged(this.state.form.targetCountryCode);
+  }
+
+  targetCountryCodeChanged(targetCountryCode: string) {
     this.setState((prevState, props) => {
       return {
-        form: { ...prevState.form, countryCode },
-        selectedTarget: this.selectNewTarget(countryCode),
-        errors: {...prevState.errors, countryCode: null }
+        form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(targetCountryCode), targetCountryCode },
+        selectedTarget: this.selectNewTarget(targetCountryCode),
+        errors: {...prevState.errors, targetCountryCode: null }
       };
     });
   }
 
-  memberPhoneNumberChanged(memberPhoneNumber?: string) {
+  guessMemberPhoneCountryCode(countryCode: string) {
+    const target = _.find(this.props.targetCountries, t => { return t.code === countryCode; });
+    return target && target.phoneCode;
+  }
+
+  memberPhoneNumberChanged(memberPhoneNumber: string) {
     this.setState((prevState) => {
       return {
         form: {...prevState.form, memberPhoneNumber },
@@ -74,8 +102,17 @@ class CallToolView extends Component {
     });
   }
 
-  selectNewTarget(countryCode?: string) {
-    const candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
+  memberPhoneCountryCodeChanged(memberPhoneCountryCode: string) {
+    this.setState((prevState) => {
+      return {
+        form: {...prevState.form, memberPhoneCountryCode },
+        errors: {...prevState.errors, memberPhoneCountryCode: null }
+      };
+    });
+  }
+
+  selectNewTarget(targetCountryCode: string) {
+    const candidates = _.filter(this.props.targets, t => { return t.countryCode === targetCountryCode; });
     return _.sample(candidates);
   }
 
@@ -86,27 +123,30 @@ class CallToolView extends Component {
   submit(event: any) {
     event.preventDefault();
     if(!this.validateForm()) return;
-    this.setState({ loading: true });
+    this.setState({ errors: {}, loading: true });
     ChampaignAPI.calls.create({
       pageId: this.props.pageId,
-      memberPhoneNumber: this.state.form.memberPhoneNumber,
+      memberPhoneNumber: this.state.form.memberPhoneCountryCode + this.state.form.memberPhoneNumber,
       targetIndex: this.selectedTargetIndex()
     }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
   validateForm() {
     const newErrors = {};
+
+    if(_.isEmpty(this.state.form.memberPhoneCountryCode)) {
+      newErrors.memberPhoneCountryCode = <FormattedMessage id="validation.is_required" />;
+    }
+
     if(_.isEmpty(this.state.form.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = <FormattedMessage id="validation.is_required" />;
     }
 
-    if(_.isEmpty(this.state.form.countryCode)) {
-      newErrors.countryCode = <FormattedMessage id="validation.is_required" />;
+    if(_.isEmpty(this.state.form.targetCountryCode)) {
+      newErrors.targetCountryCode = <FormattedMessage id="validation.is_required" />;
     }
 
-    this.setState({
-      errors: Object.assign({}, this.state.errors, newErrors)
-    });
+    this.updateErrors(newErrors);
 
     return _.isEmpty(newErrors);
   }
@@ -117,7 +157,8 @@ class CallToolView extends Component {
   }
 
   submitFailed(response: OperationResponse) {
-    const newErrors = Object.assign({}, this.state.errors);
+    const newErrors = {};
+
     if(!_.isEmpty(response.errors.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = response.errors.memberPhoneNumber[0];
     }
@@ -125,7 +166,15 @@ class CallToolView extends Component {
     if(!_.isEmpty(response.errors.base)) {
       newErrors.base = response.errors.base;
     }
-    this.setState({errors: newErrors, loading: false});
+
+    this.updateErrors(newErrors);
+    this.setState({loading: false});
+  }
+
+  updateErrors(newErrors: any) {
+    this.setState((prevState, props) => {
+      return { errors: {...prevState.errors, ...newErrors } };
+    });
   }
 
   render() {
@@ -136,26 +185,40 @@ class CallToolView extends Component {
           <h1> { this.props.title } </h1>
         }
 
-        { !_.isEmpty(errors.base) &&
-          <ul>
-            { errors.base && errors.base.map((error, index) => {
-                return <li key={`error-${index}`}> {error} </li>;
-              })
-            }
-          </ul>
+        { !_.isEmpty(this.state.errors.base) &&
+          <div className="base-errors">
+            <ul>
+              { this.state.errors.base.map((error, index) => {
+                  return <li key={`error-${index}`}> {error} </li>;
+                })
+              }
+            </ul>
+          </div>
         }
-
-        <Form
-          targetCountries={this.props.targetCountries}
-          targets={this.props.targets}
-          selectedTarget={this.state.selectedTarget}
-          form={this.state.form}
-          errors={errors}
-          onCountryCodeChange={this.countryCodeChanged.bind(this)}
-          onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
-          onSubmit={this.submit.bind(this)}
-          loading={this.state.loading}
-        />
+        <div className="form-row">
+          <div className="col1 mobile-hidden"> &nbsp; </div>
+          <div className="col2">
+            <Form
+              targetCountries={this.props.targetCountries}
+              countriesPhoneCodes={this.props.countriesPhoneCodes}
+              targets={this.props.targets}
+              selectedTarget={this.state.selectedTarget}
+              form={this.state.form}
+              errors={this.state.errors}
+              onTargetCountryCodeChange={this.targetCountryCodeChanged.bind(this)}
+              onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
+              onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(this)}
+              onSubmit={this.submit.bind(this)}
+              loading={this.state.loading}
+            />
+            <p className="fine-print"> <FormattedMessage id='call_tool.fine_print' /> </p>
+          </div>
+          <div className="col3 mobile-hidden">
+            <p className={classnames({'has-error': !_.isEmpty(this.state.errors.targetCountryCode), 'select-target-text': true})  } >
+              <FormattedMessage id="call_tool.select_target" />
+            </p>
+          </div>
+        </div>
       </div>
     );
   }

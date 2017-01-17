@@ -36,6 +36,7 @@ class Plugins::CallTool < ActiveRecord::Base
       active: active,
       targets: json_targets,
       target_countries: target_countries,
+      countries_phone_codes: countries_phone_codes,
       title: title,
       description: description
     }
@@ -57,13 +58,35 @@ class Plugins::CallTool < ActiveRecord::Base
 
   # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
   def target_countries
-    locale = page.language&.code || :en
     targets.map(&:country_code).uniq.map do |country_code|
+      country = ISO3166::Country[country_code]
       {
-        name: ISO3166::Country[country_code].translation(locale),
-        code: country_code
+        name: country.translation(page.language_code),
+        code: country_code,
+        phoneCode: "+#{country.country_code}"
       }
     end
+  end
+
+  # Temporary ugly solution until we figure out if we want all countries here or
+  # only a subset.
+  def countries_phone_codes
+    list = ISO3166::Country.all.reject do |country|
+      country.country_code.blank?
+    end
+
+    list.map! do |country|
+      {
+        name: country.translation(page.language_code),
+        code: "+#{country.country_code}"
+      }
+    end
+
+    # Prioritize US
+    us = list.find { |c| c[:name] == ISO3166::Country['US'].translation(page.language_code) }
+    list.delete(us)
+    list.unshift(us)
+    list
   end
 
   def targets_are_valid

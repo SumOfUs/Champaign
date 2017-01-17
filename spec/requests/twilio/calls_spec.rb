@@ -8,10 +8,6 @@ describe 'POST /twilio/calls/:id/calls' do
     post "/twilio/calls/#{call.id}/twiml"
     expect(response).to be_success
   end
-end
-
-describe 'POST /twilio/calls/:id/log' do
-  let(:call) { create(:call) }
 
   it 'updates call log' do
     post "/twilio/calls/#{call.id}/log", foo: 'bar'
