@@ -14,7 +14,7 @@ type OwnProps = {
   onChange: (e: SyntheticInputEvent) => void;
 };
 
-export default function Checkbox({ className, disabled, defaultChecked, checked, onChange, children }: OwnProps) {
+const Checkbox = ({ className, disabled, defaultChecked, checked, onChange, children }: OwnProps) => {
   return (
     <div className={classnames('Checkbox', className)}>
       <label className="Checkbox__label">
@@ -23,4 +23,6 @@ export default function Checkbox({ className, disabled, defaultChecked, checked,
       </label>
     </div>
   );
-}
+};
+
+export default Checkbox;
