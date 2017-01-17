@@ -50,3 +50,6 @@ build
 npm-debug.log
 .#*
 public/webpack
+
+# ignore json locales (they're converted automatically)
+app/frontend/locales/*.json

@@ -1,15 +1,14 @@
 /* @flow */
 import React from 'react';
-import { mount } from 'enzyme';
 import configureStore from '../../state';
 import { Provider } from 'react-redux';
-import { IntlProvider } from 'react-intl';
 import FundraiserView, { mapStateToProps, mapDispatchToProps } from './FundraiserView';
 import {
   changeAmount,
   changeCurrency,
   changeStep,
 } from '../../state/fundraiser/actions';
+import { mountWithIntl } from '../../jest/intl-enzyme-test-helpers';
 
 const suite = {};
 
@@ -26,11 +25,9 @@ const fundraiserDefaults = {
 };
 
 const mountView = () => {
-  return mount(
+  return mountWithIntl(
     <Provider store={suite.store}>
-      <IntlProvider locale="en">
-        <FundraiserView />
-      </IntlProvider>
+      <FundraiserView />
     </Provider>
   );
 };
@@ -117,7 +114,6 @@ describe('Initial rendering', function () {
 describe('Donation Amount Tab', function () {
 
   describe('Initial state', () => {
-
     it('shows a default donation band', () => {
       initialize({ donationBands: {}});
       expect(suite.wrapper.find('DonationBands').find('Button').length).toEqual(5);
@@ -133,16 +129,6 @@ describe('Donation Amount Tab', function () {
       initialize({ donationBands: { USD: [1, 2, 3, 4, 5, 6, 7] }, currency: 'USD'});
       const labels = suite.wrapper.find('DonationBands').find('Button').map(node => node.text());
       expect(labels).toEqual(['$1', '$2', '$3', '$4', '$5', '$6', '$7']);
-    });
-
-    it('does not show the currency menu', () => {
-      initialize();
-      expect(suite.wrapper.find('AmountSelection').find('select').length).toEqual(0);
-    });
-
-    it('does not show the "Proceed" button', () => {
-      initialize();
-      expect(suite.wrapper.find('.AmountSelection__proceed-button').length).toEqual(0);
     });
   });
 
@@ -326,8 +312,8 @@ describe('Payment Panel', function() {
     });
 
     describe("clicking 'Add Payment Method'", () => {
-      it('hides the panel of existing payment methods');
-      it('reveals the panel to add a new payment method');
+      it.skip('hides the panel of existing payment methods', () => {});
+      it.skip('reveals the panel to add a new payment method', () => {});
     });
 
     describe('existing payment methods', () => {
@@ -345,40 +331,5 @@ describe('Payment Panel', function() {
     describe('error reporting', () => {
       // TODO
     });
-  });
-});
-
-describe('mapStateToProps', function () {
-  let stateFromProps: Object = {};
-  beforeEach(() => stateFromProps = mapStateToProps(configureStore().getState()));
-
-  it.skip('returns member from state', () => {
-    expect(stateFromProps.formData.member).toBe(null);
-  });
-
-  it.skip('returns the list of currencies from state', () => {
-    expect(stateFromProps.fundraiser.currencies.length).toBe(6);
-  });
-
-  it.skip('returns donationBands from state', () => {
-    expect(stateFromProps.fundraiser.donationBands.length).toBe(5);
-  });
-
-  it.skip('returns currently selected donation amount', () => {
-    expect(stateFromProps.fundraiser.donationAmount).toBe(null);
-  });
-});
-
-describe('mapDispatchToProps', function () {
-  const dispatch = jest.fn();
-  const props = mapDispatchToProps(dispatch);
-
-  it('.selectAmount dispatches `changeAmount`', () => {
-    props.selectAmount(1);
-    expect(dispatch).toHaveBeenCalledWith({ type: 'change_amount', payload: 1 });
-  });
-
-  it('.selectCurrency dispatches `changeCurrency`', () => {
-    props.selectCurrency('USD'); expect(dispatch).toHaveBeenCalledWith({ type: 'change_currency', payload: 'USD' });
   });
 });

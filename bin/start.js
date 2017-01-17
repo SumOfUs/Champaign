@@ -24,22 +24,9 @@ if (!checkRequiredFiles([paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
-const DEFAULT_PORT = process.env.WEBPACK_PORT || 3000;
+const DEFAULT_PORT = process.env.WEBPACK_PORT || '3000';
 let compiler;
 let handleCompile;
-
-// You can safely remove this after ejecting.
-// We only use this block for testing of Create React App itself:
-const isSmokeTest = process.argv.some(arg => arg.indexOf('--smoke-test') > -1);
-if (isSmokeTest) {
-  handleCompile = function (err, stats) {
-    if (err || stats.hasErrors() || stats.hasWarnings()) {
-      process.exit(1);
-    } else {
-      process.exit(0);
-    }
-  };
-}
 
 function setupCompiler(host, port, protocol) {
   // "Compiler" is a low-level interface to Webpack.
@@ -219,7 +206,7 @@ function run(port) {
 // We attempt to use the default port but if it is busy, we offer the user to
 // run on a different port. `detect()` Promise resolves to the next free port.
 detect(DEFAULT_PORT).then(port => {
-  if (port === DEFAULT_PORT) {
+  if (port.toString() === DEFAULT_PORT) {
     run(port);
     return;
   }
