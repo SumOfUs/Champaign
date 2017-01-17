@@ -8,18 +8,18 @@ import $ from '../../util/PubSub';
 import CurrencyAmount from '../../components/CurrencyAmount';
 import type { Element } from 'react';
 
-type OwnProps = {
+export type OwnProps = {
   donationAmount: ?number;
   donationBands: {[id:string]: number[]};
   donationFeaturedAmount?: number;
   currency: string;
-  nextStepTitle: string;
+  nextStepTitle?: string;
   selectAmount: (amount: ?number) => void;
   changeCurrency: (currency: string) => void;
   proceed: () => void;
 };
 
-type OwnState = {
+export type OwnState = {
   customAmount: ?number;
   currencyDropdownVisible: boolean;
   proceedButtonVisible: boolean;
@@ -99,7 +99,10 @@ export default class AmountSelection extends Component {
 
         { proceedButtonVisible && (
           <Button className="btn AmountSelection__proceed-button" onClick={() => this.props.proceed()} disabled={!this.props.donationAmount}>
-            {this.props.nextStepTitle}
+            { this.props.nextStepTitle ?
+              this.props.nextStepTitle :
+              <FormattedMessage id="fundraiser.proceed_to_details" defaultMessage="Proceed to details" />
+            }
           </Button>
         )}
       </div>
