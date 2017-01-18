@@ -13,6 +13,7 @@ import {
   changeAmount,
   changeCurrency,
   changeStep,
+  setSubmitting,
 } from '../../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
@@ -29,6 +30,8 @@ type OwnProps = {
   changeStep: (step: number) => void;
   selectAmount: (amount: ?number) => void;
   selectCurrency: (currency: string) => void;
+  setSubmitting: (submitting: boolean) => void;
+  submitting: boolean;
   fields: any[];
   outstandingFields: string[];
   formId: number;
@@ -70,6 +73,7 @@ export class FundraiserView extends Component {
         currencies,
         currentStep,
         outstandingFields,
+        submitting,
       }
     }  = this.props;
 
@@ -87,7 +91,9 @@ export class FundraiserView extends Component {
 
     return (
       <div id="fundraiser-view" className={classNames}>
-        <StepWrapper title={this.props.fundraiser.title} currentStep={currentStep} changeStep={this.props.changeStep}>
+        <StepWrapper title={this.props.fundraiser.title}
+                     submitting={submitting}
+                     currentStep={currentStep} changeStep={this.props.changeStep}>
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <AmountSelection
               donationAmount={donationAmount}
@@ -116,7 +122,7 @@ export class FundraiserView extends Component {
           }
 
           <StepContent title="payment">
-            <Payment disableFormReveal={this.showStepTwo()} />
+            <Payment disableFormReveal={this.showStepTwo()} setSubmitting={s => this.props.setSubmitting(s)} />
           </StepContent>
         </StepWrapper>
       </div>
@@ -133,6 +139,7 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeStep: (step: number) => dispatch(changeStep(step)),
   selectAmount: (amount: ?number) => dispatch(changeAmount(amount)),
   selectCurrency: (currency: string) => dispatch(changeCurrency(currency)),
+  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);

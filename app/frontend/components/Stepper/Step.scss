@@ -64,3 +64,23 @@
   }
 }
 
+.submission-interstitial {
+  box-sizing: border-box;
+  height: 100vh;
+
+  width: 100%;
+  background: #ececec;
+  position: absolute;
+  z-index: 100;
+  padding: 30px;
+  text-align: center;
+
+  &__title {
+    font-size: 30px;
+    margin-top: 80px;
+    .fa {
+      margin-right: 10px;
+    }
+  }
+}
+

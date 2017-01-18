@@ -36,6 +36,7 @@ export type FundraiserState = {
   suggestedAmount?: number;
   showDirectDebit?: boolean;
   freestanding?: boolean;
+  submitting: boolean;
 };
 
 export type FundraiserAction =
@@ -78,6 +79,7 @@ const initialState: FundraiserState = {
   },
   form: {},
   formValues: {},
+  submitting: false,
   freestanding: false
 };
 
@@ -117,6 +119,8 @@ export default function fundraiserReducer(state: FundraiserState = initialState,
         outstandingFields: state.fields.map(field => field.name),
         formValues: {},
       };
+    case 'set_submitting':
+      return { ...state, submitting: action.payload };
     case 'change_currency':
       return { ...state, currency: supportedCurrency(action.payload, Object.keys(state.donationBands)) };
     case 'change_amount':

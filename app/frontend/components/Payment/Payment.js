@@ -39,13 +39,13 @@ type OwnProps = {
   setRecurring: (value: boolean) => void;
   setStoreInVault: (value: boolean) => void;
   setPaymentType: (value: ?string) => void;
+  setSubmitting: (value: boolean) => void;
 };
 
 type OwnState = {
   client: BraintreeClient;
   deviceData: Object;
   loading: boolean;
-  submitting: boolean;
   expressHidden: boolean;
   initializing: {
     gocardless: boolean;
@@ -124,7 +124,7 @@ export class Payment extends Component {
   }
 
   loading(paymentType: ?string) {
-    const loading = this.state.loading || this.state.submitting;
+    const loading = this.state.loading;
     if (paymentType) {
       return loading || this.state.initializing[paymentType];
     } else {
@@ -134,7 +134,6 @@ export class Payment extends Component {
 
   disableSubmit() {
     return this.loading(this.props.fundraiser.currentPaymentType)
-      || this.state.submitting
       || !this.props.fundraiser.currentPaymentType
       || !this.props.fundraiser.donationAmount;
   }
@@ -213,7 +212,7 @@ export class Payment extends Component {
     }
     const delegate = this.delegate();
 
-    this.setState({ submitting: true });
+    this.props.setSubmitting(true);
 
     if (delegate && delegate.submit) {
       delegate.submit().then(
@@ -244,7 +243,7 @@ export class Payment extends Component {
 
   onError(reason: any) {
     $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
-    this.setState({ submitting: false});
+    this.props.setSubmitting(false);
   }
 
   onBraintreeError(response: any) {
@@ -298,6 +297,7 @@ export class Payment extends Component {
         }
 
         <ExpressDonation
+          setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.state.expressHidden || this.props.paymentMethods.length === 0}
           onHide={() => this.setState({ expressHidden: true })}
         />

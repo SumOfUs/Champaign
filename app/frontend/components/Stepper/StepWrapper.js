@@ -1,12 +1,14 @@
 // @flow
 import React, { Component, Children, cloneElement } from 'react';
 import Stepper from './Stepper';
+import ShowIf from '../ShowIf';
 import compact from 'lodash/compact';
 import './Stepper.scss';
 
 type OwnProps = {
   changeStep: (step: number) => void;
   currentStep: number;
+  submitting: boolean;
   title: string;
   children?: any;
 };
@@ -35,7 +37,7 @@ export default class StepWrapper extends Component {
     );
   }
 
-  render() {
+  normalState() {
     return (
       <div className="StepWrapper-root">
         <div className="overlay-toggle__mobile-ui">
@@ -48,6 +50,28 @@ export default class StepWrapper extends Component {
         <div className="fundraiser-bar__main">
           {this.childrenWithExtraProps(this.props.children)}
         </div>
+      </div>
+    );
+  }
+
+  submissionState() {
+    return (
+      <div className="submission-interstitial">
+        <h1 className="submission-interstitial__title"><i className="fa fa-spin fa-cog"></i>Processing</h1>
+        <h4>Please do not close this tab<br />or use the back button.</h4>
+      </div>
+    );
+  }
+
+  render() {
+    return (
+      <div>
+        <ShowIf condition={!this.props.submitting}>
+          { this.normalState() }
+        </ShowIf>
+        <ShowIf condition={this.props.submitting}>
+          {this.submissionState() }
+        </ShowIf>
       </div>
     );
   }

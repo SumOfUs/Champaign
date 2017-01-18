@@ -13,6 +13,10 @@ export function changeCurrency(payload: string): FundraiserAction {
   return { type: 'change_currency', payload };
 }
 
+export function setSubmitting(payload: boolean): FundraiserAction {
+  return { type: 'set_submitting', payload };
+}
+
 export function changeStep(payload: number): FundraiserAction {
   // we put it in a timeout because otherwise the event is fired before the step has switched
   window.setTimeout(() => { $.publish('fundraiser:change_step', [payload]); }, 100);
