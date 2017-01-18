@@ -6,14 +6,24 @@ import SweetSelect from '../SweetSelect/SweetSelect';
 import Checkbox from '../Checkbox/Checkbox';
 import type { Element } from 'react';
 
-type Field = {
+export type Field = {
   data_type: string;
   name: string;
   label: string;
-  default_value?: string;
+  default_value: string | null;
   required?: boolean;
   disabled?: boolean;
-  choices: any;
+  choices?: any;
+};
+
+type FieldProps = {
+  name: string;
+  label: string;
+  disabled?: boolean;
+  required?: boolean;
+  value?: any;
+  errorMessage?: string;
+  onChange?: (v?: string) => void;
 };
 
 export default class FieldShape extends Component {
@@ -21,14 +31,15 @@ export default class FieldShape extends Component {
     field: Field;
     value?: any;
     errorMessage?: string;
-    onChange?: (v: ?SyntheticEvent | ?string) => void;
+    onChange?: (v?: string) => void;
   };
 
   checkboxToggle(event: SyntheticInputEvent) {
-    this.props.onChange && this.props.onChange(event.target.checked ? '1' : '0');
+    const checked = event.target.checked;
+    this.props.onChange && this.props.onChange(checked ? '1' : '0');
   }
 
-  fieldProps() {
+  fieldProps(): FieldProps {
     const { field, value } = this.props;
     return {
       name: field.name,
@@ -41,39 +52,44 @@ export default class FieldShape extends Component {
     };
   }
 
-  errorMessage(fieldProps) {
+  errorMessage(fieldProps: FieldProps) {
     if (fieldProps.errorMessage !== null && fieldProps.errorMessage !== undefined) {
       return <span className='error-msg'>{ fieldProps.errorMessage }</span>;
     }
   }
 
-  renderParagraph(fieldProps) {
+  renderParagraph(fieldProps: FieldProps) {
     return (<div>
-      <textarea name={ fieldProps.name }
-                value={ fieldProps.value }
-                placeholder={fieldProps.label}
-                onChange={e => fieldProps.onChange(e.target.value)}
-                className={fieldProps.errorMessage ? 'has-error' : ''}
-                maxLength="9999"></textarea>
+      <textarea
+        name={ fieldProps.name }
+        value={ fieldProps.value }
+        placeholder={fieldProps.label}
+        onChange={e => fieldProps.onChange && fieldProps.onChange(e.target.value)}
+        className={fieldProps.errorMessage ? 'has-error' : ''}
+        maxLength="9999">
+      </textarea>
       { this.errorMessage(fieldProps) }
     </div>);
   }
 
-  renderCheckbox(fieldProps) {
+  renderCheckbox(fieldProps: FieldProps) {
     fieldProps.value = (fieldProps.value || '0').toString();
     const checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
-    return (<div>
-              <Checkbox checked={checked} onChange={this.checkboxToggle.bind(this)}>
-                {fieldProps.label}
-              </Checkbox>
-              { this.errorMessage(fieldProps)}
-            </div>);
+    return (
+      <div>
+        <Checkbox checked={checked} onChange={this.checkboxToggle.bind(this)}>
+          {fieldProps.label}
+        </Checkbox>
+        { this.errorMessage(fieldProps)}
+      </div>
+    );
   }
 
-  renderChoice(fieldProps) {
+  renderChoice(fieldProps: FieldProps) {
+    const { field } = this.props;
     return (<div className="radio-container">
               <div className="form__instruction">{ fieldProps.label }</div>
-              {this.props.field.choices.map( choice =>
+              {field.choices && field.choices.map( choice =>
                 <label key={choice.id} htmlFor={choice.id}>
                   <input id={choice.id} name={fieldProps.name}
                     type='radio' value={choice.value} checked={choice.value === fieldProps.value}

@@ -22,7 +22,7 @@ class BraintreeCardFields extends Component {
 
   state: {
     hostedFields: ?HostedFieldsInstance;
-    cardType: '';
+    cardType?: string;
     errors: { [key:string]: boolean };
   };
 
@@ -151,16 +151,18 @@ class BraintreeCardFields extends Component {
     }
   }
 
-  currentCardClass(cardType: string) {
+  currentCardClass(cardType?: string = 'hidden-irrelevant') {
     const icons = {
       'diners-club': 'fa-cc-diners-club',
-      'jcb': 'fa-cc-jcb',
+      jcb: 'fa-cc-jcb',
       'american-express': 'fa-cc-amex',
-      'discover': 'fa-cc-discover',
+      discover: 'fa-cc-discover',
       'master-card': 'fa-cc-mastercard',
-      'visa': 'fa-cc-visa',
+      visa: 'fa-cc-visa',
+      'hidden-irrelevant': 'hidden-irrelevant'
     };
-    return icons[cardType] || 'hidden-irrelevant';
+
+    return icons[cardType];
   }
 
   render() {

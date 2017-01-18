@@ -6,11 +6,11 @@ import $ from 'jquery';
 import { camelizeKeys } from './util';
 
 export type OperationResponse = {
-  success: boolean,
-  errors: {[id:string]: string[]}
+  success: boolean;
+  errors: {[id:string]: string[]};
 }
 
-const parseResponse = (response, textStatus, other):OperationResponse => {
+const parseResponse = (response, textStatus, other): OperationResponse => {
   if(response === undefined) {
     return { success: true, errors: {} };
   }
@@ -32,8 +32,7 @@ const parseResponse = (response, textStatus, other):OperationResponse => {
   }
 };
 
-
-const createCall = function(params: {pageId: string|number, memberPhoneNumber?: string, targetIndex: string}) {
+const createCall = function(params: {pageId: string|number, memberPhoneNumber?: string, targetIndex: number}): Promise<OperationResponse> {
   const payload = {
     call: {
       member_phone_number: params.memberPhoneNumber,
