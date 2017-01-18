@@ -170,6 +170,11 @@ describe PagesController do
 
     include_examples 'show and follow-up'
 
+    it 'finds page by un-altered slug' do
+      expect(Page).to receive(:find).with('foo-BaR')
+      get :show, id: 'foo-BaR'
+    end
+
     it 'renders show template' do
       subject
       expect(response).to render_template :show

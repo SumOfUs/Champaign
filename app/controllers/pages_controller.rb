@@ -98,7 +98,7 @@ class PagesController < ApplicationController
   private
 
   def get_page
-    @page = Page.find(params[:id].downcase)
+    @page = Page.find(params[:id])
   end
 
   def get_page_or_homepage
