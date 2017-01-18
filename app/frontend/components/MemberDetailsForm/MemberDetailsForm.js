@@ -154,6 +154,7 @@ export class MemberDetailsForm extends Component {
           <Button
             type="submit"
             disabled={ loading }
+            className='action-form__submit-button'
             onClick={this.submit.bind(this)}>
             {this.buttonText()}
           </Button>
