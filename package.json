@@ -10,7 +10,7 @@
   },
   "scripts": {
     "eslint": "eslint",
-    "flow": "flow check",
+    "flow-check": "flow check",
     "lint": "eslint app/frontend",
     "start": "node bin/start.js",
     "build": "node bin/build.js",
