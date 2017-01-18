@@ -7,9 +7,9 @@ describe 'pages' do
   let!(:page) { create(:page, title: 'I am a page', content: 'super awesome text content yo!') }
 
   describe 'GET show' do
-    it 'is case sensitive to campaign pages slugs' do
+    it 'is case insensitive to campaign pages slugs' do
       get "/pages/#{page.slug.capitalize}"
-      expect(response.status).to be 302
+      expect(response.status).to be 200
     end
 
     it 'redirects pages that really are not found' do

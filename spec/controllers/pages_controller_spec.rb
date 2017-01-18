@@ -175,6 +175,12 @@ describe PagesController do
       get :show, id: 'foo-BaR'
     end
 
+    it 'finds page with downcased version of slug' do
+      expect(Page).to receive(:find).with('foo-BaR').and_raise(ActiveRecord::RecordNotFound)
+      expect(Page).to receive(:find).with('foo-bar').and_return(page)
+      get :show, id: 'foo-BaR'
+    end
+
     it 'renders show template' do
       subject
       expect(response).to render_template :show

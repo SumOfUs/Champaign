@@ -99,6 +99,8 @@ class PagesController < ApplicationController
 
   def get_page
     @page = Page.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @page = Page.find(params[:id].downcase)
   end
 
   def get_page_or_homepage
