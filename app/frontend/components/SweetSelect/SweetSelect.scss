@@ -1,5 +1,4 @@
 .SweetSelect {
-  max-height: 61px;
 
   .Select.has-error .Select-control {
     border-color: #f8492e;
@@ -47,5 +46,9 @@
     input {
       padding: 5px 0 0 0;
     }
+  }
+
+  .error-msg:empty{
+    display: none;
   }
 }
