@@ -20,7 +20,7 @@ export default class PaymentTypeSelection extends Component {
       <div className='PaymentTypeSelection__payment-methods'>
         <PaymentMethodWrapper>
           <span className="PaymentTypeSelection__prompt">
-            <FormattedMessage id="fundraiser.payment_type_prompt" />
+            <FormattedMessage id="fundraiser.payment_type_prompt" defaultMessage="Payment Method" />
           </span>
 
           {methods.map((method, i) => {
@@ -33,7 +33,7 @@ export default class PaymentTypeSelection extends Component {
                       checked={currentPaymentType === method}
                       onChange={(e) => onChange(method)}
                     />
-                  <FormattedMessage id={`fundraiser.payment_methods.${method}`} />
+                  <FormattedMessage id={`fundraiser.payment_methods.${method}`} defaultMessage="Unknown payment method" />
                 </label>
               </div>
             );
