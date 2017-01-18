@@ -4,7 +4,6 @@ import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
 import type { HostedFieldsInstance, HostedFieldsTokenizePayload } from 'braintree-web/hosted-fields';
-import _ from 'lodash';
 import './Braintree.scss';
 
 type OwnProps = {
@@ -94,7 +93,7 @@ class BraintreeCardFields extends Component {
         const field = event.fields[event.emittedBy];
         const newErrors = {};
         newErrors[event.emittedBy] = !field.isPotentiallyValid;
-        this.setState({ errors: _.assign({}, this.state.errors, newErrors)});
+        this.setState({ errors: Object.assign({}, this.state.errors, newErrors)});
       });
 
       hostedFieldsInstance.on('cardTypeChange', (event) => {

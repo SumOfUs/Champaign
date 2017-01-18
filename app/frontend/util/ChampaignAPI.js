@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
 import $ from 'jquery';
 import { camelizeKeys } from './util';
 
