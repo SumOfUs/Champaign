@@ -2,12 +2,8 @@
 import React from 'react';
 import configureStore from '../../state';
 import { Provider } from 'react-redux';
-import FundraiserView, { mapStateToProps, mapDispatchToProps } from './FundraiserView';
-import {
-  changeAmount,
-  changeCurrency,
-  changeStep,
-} from '../../state/fundraiser/actions';
+import FundraiserView from './FundraiserView';
+import { changeStep } from '../../state/fundraiser/actions';
 import { mountWithIntl } from '../../jest/intl-enzyme-test-helpers';
 
 const suite = {};

@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import $ from '../../util/PubSub';
 import { FormattedMessage } from 'react-intl';
@@ -53,6 +53,7 @@ type OwnState = {
     card: boolean;
   };
   errors: string[];
+  waitingForGoCardless: boolean;
 };
 export class Payment extends Component {
   props: OwnProps;
@@ -73,7 +74,8 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
-      errors: []
+      errors: [],
+      waitingForGoCardless: false,
     };
 
     const cpt = this.props.fundraiser.currentPaymentType;
@@ -184,13 +186,13 @@ export class Payment extends Component {
     const url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
     window.open(url);
 
-    if (!this.waitingForGoCardless) {
+    if (!this.state.waitingForGoCardless) {
       window.addEventListener('message', this.waitForGoCardless.bind(this));
-      this.waitingForGoCardless = true;
+      this.setState({waitingForGoCardless: true });
     }
   }
 
-  waitForGoCardless(event) {
+  waitForGoCardless(event: any) {
     if (typeof event.data === 'object') {
       if (event.data.event === 'follow_up:loaded') {
         event.source.close();

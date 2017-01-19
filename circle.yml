@@ -36,7 +36,12 @@ database:
 
 test:
   override:
-    - yarn run lint && CI=true yarn run test && bundle exec rubocop && bundle exec rspec spec
+    - |
+      yarn run lint &&
+      yarn run flow-check &&
+      yarn run test &&
+      bundle exec rubocop &&
+      bundle exec rspec spec
 
 deployment:
   production:

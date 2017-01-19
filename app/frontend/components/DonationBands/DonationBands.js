@@ -50,7 +50,7 @@ export class DonationBands extends Component {
   onInputUpdated(value: string) {
     let amount = null;
     // \u00a3 is £, \u20ac is €
-    const match = value.match(/^[\$\u20ac\u00a3]*(\d{0,10})/);
+    const match = value.match(/^[$\u20ac\u00a3]*(\d{0,10})/);
 
     if (match && match[1].length) {
       amount = parseFloat(match[1]);

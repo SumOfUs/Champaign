@@ -6,9 +6,9 @@ import Checkbox from './Checkbox';
 it('renders checkbox field', () => {
   const wrapper = shallow(<Checkbox />);
 
-  expect(wrapper.find('input').
-         prop('type')).
-         toEqual('checkbox');
+  expect(wrapper.find('input')
+         .prop('type'))
+         .toEqual('checkbox');
 });
 
 it('renders children', () => {
@@ -22,17 +22,17 @@ it('renders children', () => {
 it('can be disabled', () => {
   const wrapper = shallow(<Checkbox disabled={true}/>);
 
-  expect(wrapper.find('input').
-         prop('disabled')).
-         toBeTrue;
+  expect(wrapper.find('input')
+         .prop('disabled'))
+         .toBeTruthy();
 });
 
 it('can be checked', () => {
   const wrapper = shallow(<Checkbox checked={true}/>);
 
-  expect(wrapper.find('input').
-         prop('checked')).
-         toBeTrue;
+  expect(wrapper.find('input')
+         .prop('checked'))
+         .toBeTruthy();
 });
 
 it('invokes hanlder on change event', () => {
