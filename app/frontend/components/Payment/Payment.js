@@ -46,6 +46,7 @@ type OwnState = {
   client: BraintreeClient;
   deviceData: Object;
   loading: boolean;
+  submitting: boolean;
   expressHidden: boolean;
   initializing: {
     gocardless: boolean;
