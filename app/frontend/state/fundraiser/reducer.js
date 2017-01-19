@@ -1,7 +1,7 @@
 /* @flow */
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
-import type { InitialAction } from '../reducers';
+import type { FundraiserAction } from './actions';
 
 export type FormField = {
   id: number;
@@ -38,16 +38,6 @@ export type FundraiserState = {
   freestanding?: boolean;
   submitting: boolean;
 };
-
-export type FundraiserAction =
-  InitialAction
-  | { type: 'change_currency', payload: string }
-  | { type: 'change_amount',  payload: ?number }
-  | { type: 'set_recurring', payload: boolean }
-  | { type: 'set_store_in_vault', payload: boolean }
-  | { type: 'set_payment_type', payload: ?string }
-  | { type: 'change_step', payload: number }
-  | { type: 'update_form', payload: {[key: string]: any} };
 
 const initialState: FundraiserState = {
   amount: null,
