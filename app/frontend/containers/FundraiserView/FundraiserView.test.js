@@ -2,12 +2,8 @@
 import React from 'react';
 import configureStore from '../../state';
 import { Provider } from 'react-redux';
-import FundraiserView, { mapStateToProps, mapDispatchToProps } from './FundraiserView';
-import {
-  changeAmount,
-  changeCurrency,
-  changeStep,
-} from '../../state/fundraiser/actions';
+import FundraiserView from './FundraiserView';
+import { changeStep } from '../../state/fundraiser/actions';
 import { mountWithIntl } from '../../jest/intl-enzyme-test-helpers';
 
 const suite = {};
@@ -248,7 +244,7 @@ describe('Payment Panel', function() {
     it('does not display the new payment method form when there are known payment methods', () => {
       initialize({ outstandingFields: [], amount: 2, paymentMethods: [cardMethod] });
       expect(suite.wrapper.find('.ShowIf--hidden').find('PaymentTypeSelection').length).toEqual(1);
-      expect(suite.wrapper.find('.ShowIf--visible').find('PaymentTypeSelection').length).toEqual(0);
+      expect(suite.wrapper.find('PaymentTypeSelection').length).toEqual(1); // check that's the only one
     });
 
     it('displays saved payment options as a list of radio buttons', () => {

@@ -12,8 +12,7 @@
  * https://github.com/flowtype/flow-typed
  */
 
-type Client = any;
-declare type BraintreeClient = Client;
+declare type BraintreeClient = any;
 declare type BraintreeError = any;
 
 declare module 'braintree-web' {
@@ -23,7 +22,7 @@ declare module 'braintree-web' {
 declare module 'braintree-web/client' {
   declare function create(
     options: { authorization: string },
-    callback: (error: BraintreeError, data: Client) => void
+    callback: (error: BraintreeError, data: BraintreeClient) => void
   ): void;
 }
 
@@ -99,7 +98,7 @@ declare module 'braintree-web/paypal' {
   };
 
   declare function create(
-    options: { client: Client },
+    options: { client: BraintreeClient },
     callback: (error: ?BraintreeError, data: PayPalInstance) => void
   ): void;
 }
@@ -127,7 +126,7 @@ declare module 'braintree-web/hosted-fields' {
 
   declare function create(
     options: {
-      client: Client;
+      client: BraintreeClient;
       fields: Object;
       styles: Object;
     },

@@ -26,6 +26,7 @@ type OwnProps = {
   formData: { member: any; storeInVault: boolean; };
   setRecurring: (value: boolean) => void;
   onHide: () => void;
+  setSubmitting: (boolean) => void;
 };
 
 type OwnState = {
@@ -73,6 +74,8 @@ export class ExpressDonation extends Component {
 
   async onFailure(reason: any) {
     console.log('one click failure:', reason, this.oneClickData());
+    this.setState({submitting: false});
+    this.props.setSubmitting(false);
     $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
     return reason;
   }
@@ -82,6 +85,7 @@ export class ExpressDonation extends Component {
     const data = this.oneClickData();
     if (data) {
       this.setState({ submitting: true });
+      this.props.setSubmitting(true);
       $.post(`/api/payment/braintree/pages/${pageId}/one_click`, data)
         .then(
           this.onSuccess.bind(this),

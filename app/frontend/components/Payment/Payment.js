@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import $ from '../../util/PubSub';
 import { FormattedMessage } from 'react-intl';
@@ -39,6 +39,7 @@ type OwnProps = {
   setRecurring: (value: boolean) => void;
   setStoreInVault: (value: boolean) => void;
   setPaymentType: (value: ?string) => void;
+  setSubmitting: (value: boolean) => void;
 };
 
 type OwnState = {
@@ -53,6 +54,7 @@ type OwnState = {
     card: boolean;
   };
   errors: string[];
+  waitingForGoCardless: boolean;
 };
 export class Payment extends Component {
   props: OwnProps;
@@ -73,7 +75,8 @@ export class Payment extends Component {
         paypal: true,
         card: true,
       },
-      errors: []
+      errors: [],
+      waitingForGoCardless: false,
     };
 
     const cpt = this.props.fundraiser.currentPaymentType;
@@ -122,7 +125,7 @@ export class Payment extends Component {
   }
 
   loading(paymentType: ?string) {
-    const loading = this.state.loading || this.state.submitting;
+    const loading = this.state.loading;
     if (paymentType) {
       return loading || this.state.initializing[paymentType];
     } else {
@@ -132,7 +135,6 @@ export class Payment extends Component {
 
   disableSubmit() {
     return this.loading(this.props.fundraiser.currentPaymentType)
-      || this.state.submitting
       || !this.props.fundraiser.currentPaymentType
       || !this.props.fundraiser.donationAmount;
   }
@@ -184,13 +186,13 @@ export class Payment extends Component {
     const url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
     window.open(url);
 
-    if (!this.waitingForGoCardless) {
+    if (!this.state.waitingForGoCardless) {
       window.addEventListener('message', this.waitForGoCardless.bind(this));
-      this.waitingForGoCardless = true;
+      this.setState({waitingForGoCardless: true });
     }
   }
 
-  waitForGoCardless(event) {
+  waitForGoCardless(event: any) {
     if (typeof event.data === 'object') {
       if (event.data.event === 'follow_up:loaded') {
         event.source.close();
@@ -211,7 +213,7 @@ export class Payment extends Component {
     }
     const delegate = this.delegate();
 
-    this.setState({ submitting: true });
+    this.props.setSubmitting(true);
 
     if (delegate && delegate.submit) {
       delegate.submit().then(
@@ -242,7 +244,7 @@ export class Payment extends Component {
 
   onError(reason: any) {
     $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
-    this.setState({ submitting: false});
+    this.props.setSubmitting(false);
   }
 
   onBraintreeError(response: any) {
@@ -296,6 +298,7 @@ export class Payment extends Component {
         }
 
         <ExpressDonation
+          setSubmitting={s => this.props.setSubmitting(s)}
           hidden={this.state.expressHidden || this.props.paymentMethods.length === 0}
           onHide={() => this.setState({ expressHidden: true })}
         />

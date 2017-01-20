@@ -32,7 +32,7 @@ it('accepts a custom list of countries', () => {
 });
 
 it('accepts a label', () => {
-  expect(component.find('SweetSelect').props().label).toMatch('Select yourself a country');
+  expect(component.find('SweetSelect').props().label).toMatch(/Select yourself a country/);
 });
 
 it('accepts an onChange prop', () => {

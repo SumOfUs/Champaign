@@ -55,7 +55,7 @@ class CallToolView extends Component {
     };
   }
 
-  countryCodeChanged(countryCode: string) {
+  countryCodeChanged(countryCode?: string) {
     this.setState((prevState, props) => {
       return {
         form: { ...prevState.form, countryCode },
@@ -65,7 +65,7 @@ class CallToolView extends Component {
     });
   }
 
-  memberPhoneNumberChanged(memberPhoneNumber: string) {
+  memberPhoneNumberChanged(memberPhoneNumber?: string) {
     this.setState((prevState) => {
       return {
         form: {...prevState.form, memberPhoneNumber },
@@ -74,7 +74,7 @@ class CallToolView extends Component {
     });
   }
 
-  selectNewTarget(countryCode: string) {
+  selectNewTarget(countryCode?: string) {
     const candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
     return _.sample(candidates);
   }
@@ -129,15 +129,16 @@ class CallToolView extends Component {
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div>
         { this.props.title &&
           <h1> { this.props.title } </h1>
         }
 
-        { !_.isEmpty(this.state.errors.base) &&
+        { !_.isEmpty(errors.base) &&
           <ul>
-            { this.state.errors.base.map((error, index) => {
+            { errors.base && errors.base.map((error, index) => {
                 return <li key={`error-${index}`}> {error} </li>;
               })
             }
@@ -149,7 +150,7 @@ class CallToolView extends Component {
           targets={this.props.targets}
           selectedTarget={this.state.selectedTarget}
           form={this.state.form}
-          errors={this.state.errors}
+          errors={errors}
           onCountryCodeChange={this.countryCodeChanged.bind(this)}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
           onSubmit={this.submit.bind(this)}

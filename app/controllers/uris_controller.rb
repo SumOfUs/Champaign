@@ -23,7 +23,7 @@ class UrisController < ApplicationController
     if uri&.page.present? && (uri.page.published? || user_signed_in?)
       @page = uri.page
       set_locale(@page.language_code)
-      @rendered = renderer.render_follow_up
+      @rendered = renderer.render
       @data = renderer.personalization_data
       render 'pages/show', layout: 'member_facing'
     elsif user_signed_in?

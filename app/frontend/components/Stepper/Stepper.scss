@@ -1,3 +1,5 @@
+@import '../../../assets/stylesheets/member-facing/_mixins.scss';
+
 .Stepper {
   display: block;
   position: relative;
@@ -48,3 +50,24 @@
     max-width: 290px;
   }
 }
+
+.submission-interstitial {
+  box-sizing: border-box;
+  @include viewport-unit(height, 100vh);
+
+  width: 100%;
+  background: #ececec;
+  position: absolute;
+  z-index: 100;
+  padding: 30px;
+  text-align: center;
+
+  &__title {
+    font-size: 30px;
+    margin-top: 80px;
+    .fa {
+      margin-right: 10px;
+    }
+  }
+}
+

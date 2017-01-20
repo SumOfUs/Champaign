@@ -11,7 +11,7 @@ type OwnProps = {
   checked?: boolean;
   defaultChecked?: boolean;
   children?: Element<any>;
-  onChange: (e: SyntheticInputEvent) => void;
+  onChange?: (e: SyntheticInputEvent) => void;
 };
 
 const Checkbox = ({ className, disabled, defaultChecked, checked, onChange, children }: OwnProps) => {

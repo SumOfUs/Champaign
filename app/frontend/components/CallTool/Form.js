@@ -4,7 +4,6 @@ import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import FieldShape from '../../components/FieldShape/FieldShape';
 import type { Country, Target } from '../../containers/CallToolView/CallToolView';
-import type { Element } from 'react';
 import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
@@ -16,16 +15,16 @@ type OwnProps = {
     countryCode?: string;
   };
   errors: {
-    memberPhoneNumber?: string | Element<*>;
-    countryCode?: string | Element<*>;
+    memberPhoneNumber?: string;
+    countryCode?: string;
   };
-  onCountryCodeChange: (string) => void;
-  onMemberPhoneNumberChange: (string) => void;
+  onCountryCodeChange: (v?: string) => void;
+  onMemberPhoneNumberChange: (v?: string) => void;
   onSubmit: (any) => void;
   loading: boolean;
 }
 
-const memberPhoneNumberField:Field = {
+const memberPhoneNumberField: Field = {
   data_type: 'text',
   name: 'call_tool[member_phone_number]',
   label: <FormattedMessage id='call_tool.form.phone_number' />,
@@ -68,18 +67,20 @@ class Form extends Component {
     return(
       <form className='action-form form--big' data-remote="true" >
         <FieldShape
-        key="memberPhoneNumber"
-        errorMessage={this.props.errors.memberPhoneNumber}
-        onChange={this.props.onMemberPhoneNumberChange}
-        value={this.props.form.memberPhoneNumber}
-        field={this.fields.memberPhoneNumberField} />
+          key="memberPhoneNumber"
+          errorMessage={this.props.errors.memberPhoneNumber}
+          onChange={this.props.onMemberPhoneNumberChange}
+          value={this.props.form.memberPhoneNumber}
+          field={this.fields.memberPhoneNumberField}
+        />
 
         <FieldShape
-        key="countryCode"
-        errorMessage={this.props.errors.countryCode}
-        onChange={this.props.onCountryCodeChange}
-        value={this.props.form.countryCode}
-        field={this.fields.countryCodeField} />
+          key="countryCode"
+          errorMessage={this.props.errors.countryCode}
+          onChange={this.props.onCountryCodeChange}
+          value={this.props.form.countryCode}
+          field={this.fields.countryCodeField}
+        />
 
         { !_.isEmpty(this.props.selectedTarget) &&
           <div className="action-form__target form__instruction">

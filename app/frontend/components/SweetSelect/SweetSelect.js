@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
 import './SweetSelect.scss';
+import type { Element } from 'react';
 
 type Props = {
   name: string;
@@ -12,7 +13,7 @@ type Props = {
   label?: string | React$Element<any>;
   disabled?: boolean;
   multiple?: boolean;
-  errorMessage?: string;
+  errorMessage?: string | Element<any>;
 };
 
 export default class SweetSelect extends Component {

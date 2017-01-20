@@ -1,7 +1,18 @@
 // @flow
 import $ from '../../util/PubSub';
+import type { InitialAction } from '../reducers';
 
-import type { FundraiserAction } from './reducer';
+export type FundraiserAction =
+  InitialAction
+  | { type: 'change_currency', payload: string }
+  | { type: 'change_amount',  payload: ?number }
+  | { type: 'set_recurring', payload: boolean }
+  | { type: 'set_submitting', payload: boolean}
+  | { type: 'set_store_in_vault', payload: boolean }
+  | { type: 'set_payment_type', payload: ?string }
+  | { type: 'change_step', payload: number }
+  | { type: 'update_form', payload: {[key: string]: any} };
+
 
 export function changeAmount(payload: ?number): FundraiserAction {
   $.publish('fundraiser:change_amount', [payload]);
@@ -11,6 +22,10 @@ export function changeAmount(payload: ?number): FundraiserAction {
 export function changeCurrency(payload: string): FundraiserAction {
   $.publish('fundraiser:change_currency', [payload]);
   return { type: 'change_currency', payload };
+}
+
+export function setSubmitting(payload: boolean): FundraiserAction {
+  return { type: 'set_submitting', payload };
 }
 
 export function changeStep(payload: number): FundraiserAction {
