@@ -5,7 +5,6 @@ import _ from 'lodash';
 import classnames from 'classnames';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { OperationResponse } from '../../util/ChampaignAPI';
-import type { Element } from 'react';
 
 import Form from '../../components/CallTool/Form';
 
@@ -33,8 +32,8 @@ export type FormType = {
 }
 
 export type Errors = {
-  memberPhoneNumber?: string | Element<*>;
-  memberPhoneCountryCode?: string | Element<*>;
+  memberPhoneNumber?: any;
+  memberPhoneCountryCode?: any;
   targetCountryCode?: any;
   base?: any[];
 }

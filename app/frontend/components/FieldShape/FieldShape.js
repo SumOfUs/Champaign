@@ -22,7 +22,7 @@ type FieldProps = {
   disabled?: boolean;
   required?: boolean;
   value?: any;
-  errorMessage?: string | Element<*>;
+  errorMessage?: any;
   onChange?: (v: string) => void;
 };
 
@@ -30,7 +30,7 @@ export default class FieldShape extends Component {
   props: {
     field: Field;
     value?: any;
-    errorMessage?: string | Element<*>;
+    errorMessage?: any;
     onChange?: (v: string) => void;
     className?: string;
   };

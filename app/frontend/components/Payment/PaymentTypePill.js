@@ -4,7 +4,7 @@ import './PaymentTypePill.scss';
 
 type OwnProps = {
   checked: boolean;
-  children: React$Element<any>;
+  children: any;
   onChange: (value: string) => void;
   activeColor?: string;
 };
