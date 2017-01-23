@@ -70,8 +70,9 @@ class Form extends Component {
   }
 
   phoneNumberCountryName() {
+    const strippedCountryCode = this.props.form.memberPhoneCountryCode.replace('+', '');
     const countryPhoneCode = _.find(this.props.countriesPhoneCodes, (countryCode) => {
-      return countryCode.code === this.props.form.memberPhoneCountryCode;
+      return countryCode.code === strippedCountryCode;
     });
 
     return countryPhoneCode ? countryPhoneCode.name : '';

@@ -63,7 +63,7 @@ class Plugins::CallTool < ActiveRecord::Base
       {
         name: country.translation(page.language_code),
         code: country_code,
-        phoneCode: "+#{country.country_code}"
+        phoneCode: country.country_code.to_s
       }
     end
   end
@@ -78,7 +78,7 @@ class Plugins::CallTool < ActiveRecord::Base
     list.map! do |country|
       {
         name: country.translation(page.language_code),
-        code: "+#{country.country_code}"
+        code: country.country_code.to_s
       }
     end
 
