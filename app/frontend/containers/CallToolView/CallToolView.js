@@ -178,17 +178,17 @@ class CallToolView extends Component {
   }
 
   render() {
-    const { errors } = this.state;
+    const {errors} = this.state;
     return (
       <div>
         { this.props.title &&
           <h1> { this.props.title } </h1>
         }
 
-        { !_.isEmpty(this.state.errors.base) &&
+        { errors.base !== undefined && !_.isEmpty(this.state.errors.base) &&
           <div className="base-errors">
             <ul>
-              { this.state.errors.base.map((error, index) => {
+              { this.state.errors.base && this.state.errors.base.map((error, index) => {
                   return <li key={`error-${index}`}> {error} </li>;
                 })
               }

@@ -22,16 +22,16 @@ type FieldProps = {
   disabled?: boolean;
   required?: boolean;
   value?: any;
-  errorMessage?: string;
-  onChange?: (v?: string) => void;
+  errorMessage?: string | Element<*>;
+  onChange?: (v: string) => void;
 };
 
 export default class FieldShape extends Component {
   props: {
     field: Field;
     value?: any;
-    errorMessage?: string;
-    onChange?: (v: ?SyntheticEvent | ?string) => void;
+    errorMessage?: string | Element<*>;
+    onChange?: (v: string) => void;
     className?: string;
   };
 
