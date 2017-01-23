@@ -62,11 +62,16 @@ class CallToolView extends Component {
 
   constructor(props: OwnProps) {
     super(props);
+    // Assign targetCountryCode only if it's a valid one
+    const preselectedTarget = _.find(this.props.targets, target => {
+      return target.countryCode === this.props.targetCountryCode;
+    });
+
     this.state = {
       form: {
         memberPhoneNumber: '',
         memberPhoneCountryCode: '',
-        targetCountryCode: this.props.targetCountryCode || '',
+        targetCountryCode: preselectedTarget ? preselectedTarget.countryCode : '',
       },
       errors: {},
       loading: false
