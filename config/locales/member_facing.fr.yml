@@ -8,17 +8,17 @@ fr:
     description: "" # override this with org-specific details in your own yml file.
   fundraiser:
     payment_methods:
-      gocardless: "Direct Debit (FR)"
+      gocardless: "Prélèvement SEPA"
       paypal: "PayPal"
-      card: 'Kreditkarte oder Debitkarte (FR)'
-      ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider (FR)"
-      ready_for_paypal: "Click 'Donate' to finish donating through PayPal (FR)"
-    payment_type_prompt: Payment Method (FR)
+      card: 'Carte de paiement'
+      ready_for_gocardless: "Cliquez sur «faire un don» afin de procéder au don via GoCardless, notre prestataire sécurisé de prélèvement automatique."
+      ready_for_paypal: "En cliquant sur le bouton ci-dessous, Paypal vous guidera afin de finaliser votre don."
+    payment_type_prompt: Moyen de paiement
     amount: Montant
     details: Détails
     payment: Paiement
-    donate: "Donner %{amount}" # utilisé dans le bouton de validation, eg 'Donner 15€'
-    donate_monthly: "Donner %{amount} / mois"
+    donate: "Donner %{amount}"
+    donate_monthly: "Donner  %{amount} tous les mois"
     month: mois
     error_intro: Votre don n’a pas pu être effectué!
     currency_in: "Monnaie en %{currency}"
@@ -30,6 +30,7 @@ fr:
     store_in_vault: Enregistrer et sécuriser mes informations de paiement
     thank_you: Nous vous remercions pour votre don!
     thank_you_with_amount: "<strong>Merci pour votre don de %{amount}!</strong> si vous avez la moindre question ou si vous avez fait ce don par erreur, veuillez nous contacter via donations@sumofus.org."
+    recurring_thank_you_with_amount: "<strong>Merci pour votre don de %{amount}!</strong> Si vous avez la moindre question ou si vous avez fait ce don par erreur, veuillez nous contacter via donations@sumofus.org."
     card_declined: Votre carte a été refusée par le service de paiement. Veuillez choisir une autre méthode de paiement.
     unknown_error: Notre équipe technique a été notifiée de ce problème. Veuillez revérifier vos informations ou choisir une autre méthode de paiement.
     fine_print: "" # override this with org-specific details in your own yml file.
@@ -63,7 +64,7 @@ fr:
     thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
     fine_print: "" # override this with org-specific details in your own yml file.
   form:
-    switch_user: Ce n’est pas vous?
+    switch_user: 'Déconnexion'
     processing: En cours de traitement...
     submit: Envoyer
     default:
@@ -75,6 +76,17 @@ fr:
     signatures_until_goal: "%{remaining} signatures jusqu'à %{goal}"
     signatures: signatures
     million: million
+  call_tool:
+    calling: "Appel en cours..."
+    errors:
+      unknown: "Oups, une erreur est survenue ! Veuillez essayer un numéro de téléphone différent ou essayer à nouveau dans quelques minutes"
+      phone_number:
+        too_short: "Doit comporter au moins 6 chiffres"
+        cant_connect: "Nous ne pouvons vous mettre en relation avec ce correspondant. Veuillez vérifier le numéro de téléphone, ou en essayer un autre. "
+    form:
+      phone_number: "Numéro de téléphone"
+      country: "Pays"
+      submit: "Envoyer"
   share:
     cta: Partagez la campagne avec vos ami(e)s afin de tripler votre impact!
     send_email: Envoyer un courriel
@@ -92,8 +104,8 @@ fr:
     is_invalid_country: doit comprendre un code pays valide
     is_invalid_length: 'doit contenir moins de %{length} caractères'
     postal:
-      has_invalid_characters: 'can only contain letters, numbers, spaces, and hyphens (missing translation)'
-      too_long: 'may contain no more than 9 letter or number characters (missing translation)'
+      has_invalid_characters: 'Peut uniquement comprendre des lettres, chiffres, espaces et tirets.'
+      too_long: 'Ne peut contenir plus de 9 lettres, chiffres ou caractères.'
   time:
     formats:
       default: "%-d %B %Y"
@@ -126,9 +138,9 @@ fr:
     reset_password_email:
       subject: 'Veuillez réinitialiser votre mot de passe s''il vous plaît'
       html:
-        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte. <br />Vous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : <br /><br />%{url}<br /><br />Si vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.<br /><br />Merci,<br />SumOfUs"
+        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte SumOfUs. <br />Vous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : <br /><br />%{url}<br /><br />Si vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.<br /><br />Merci,<br />SumOfUs"
       text:
-        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte.\n\nVous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : \n\n%{url}\n\nSi vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.\n\nMerci,\nSumOfUs"
+        body: "Quelqu'un (probablement vous) à fait une demande de changement de mot de passe pour votre compte SumOfUs.\n\nVous pouvez utiliser le lien suivant pendant 24 heures afin de réinitiliser votre mot de passe : \n\n%{url}\n\nSi vous n'avez pas demander à changer de mot de passe, vous pouvez ignorer ce courriel en toute sécurité.\n\nMerci,\nSumOfUs"
   facebook_share:
     caption: 'Je viens de signer cette pétition sur SumOfUs.org'
     comment_field_label: "Je signe parce que..."
@@ -137,25 +149,25 @@ fr:
     form:
       password: Mot de passe
       confirm_password: Confirmez votre mot de passe
-      your_email: Adresse e-mail
-      register: S'inscrire
-    thanks: 'Merci pour votre don.'
+      your_email: Votre adresse courriel
+      register: 'S''inscrire '
+    thanks: 'Merci ! Encore une toute dernière étape :'
     enter_password_message: "Entrez un mot de passe pour commencer"
-    create_account: "Passez maintenant à l'étape supérieure et créez un compte."
-    create_account_description: "Créer un compte ne vous prendra que 30 secondes et vous permettra de gérer en toute sécurité vos dons et informations de paiement. Vous pourrez aussi annuler votre donation à tout moment."
-    check_email: "<strong>Merci pour votre inscription.</strong> <span>Pour activer votre compte, cliquez sur le lien de confirmation qui vient de vous être envoyé par mail.</span>"
+    create_account: "Nous traitons votre don."
+    create_account_description: "Maintenant, créez un compte afin de gérer vos dons sécurisés avec SumOfUs. Cela vous permettra également d'annuler un don à tout moment."
+    check_email: "<strong>Merci pour votre inscription.</strong> <span>Pour activer votre compte, cliquez sur le lien de confirmation qui vient de vous être envoyé par email.</span>"
   confirmation_mailer:
     title: "Confirmation du compte"
     confirmation_email:
-      subject: "Confirmez votre compte"
-      headline: "Merci d'avoir créé un compte"
-      body_html: "Pour activer votre compte, <a href='%{confirmation_url}'>cliquez sur le lien de confirmation qui vient de vous être envoyé.</a><br/><br/>Merci!<br/>"
+      subject: "Confirmez votre compte SumOfUs"
+      headline: "Merci d'avoir créé un compte avec SumOfUs"
+      body_html: "Pour activer votre compte, <a href='%{confirmation_url}'>cliquez sur le lien de confirmation qui vient de vous être envoyé.</a><br/><br/>Merci,<br/>L'équipe SumOfUs"
       body_text: "Pour valider votre inscription, veuillez cliquer sur le lien suivant : %{confirmation_url}"
     follow_up_page:
-      account_not_found: 'Désolé, aucun compte n''est associé à ce lien. Si vous rencontrez des difficultés, n''hésitez pas à nous contacter'
+      account_not_found: 'Désolé, aucun compte n''est associé à ce lien. Si vous rencontrez des difficultés, contactez-nous en écrivant un email à : donations@sumofus.org.'
       account_already_confirmed: 'Votre compte a déjà été confirmé !'
-      failure: 'Désolé, nous n''avons pas pu confirmer votre compte. Si vous rencontrez des difficultés, n''hésitez pas à nous contacter'
-      success: 'Félicitations, votre compte a bien été confirmé. Merci !'
-      member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a>."
+      failure: 'Désolé, nous n''avons pas pu confirmer votre compte. Si vous rencontrez des difficultés, contactez-nous ici : donations@sumofus.org.'
+      success: 'Félicitations, votre compte SumOfUs a bien été confirmé. Merci !'
+      member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a> de SumOfUs."
   footer:
     home_url: '' # replace with your homepage
