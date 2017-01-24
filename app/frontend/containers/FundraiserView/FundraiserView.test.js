@@ -52,10 +52,13 @@ const fetchInitialState = (vals) => {
     paymentMethods: vals.paymentMethods || [],
     member: vals.member || {},
     locale: vals.locale || 'en',
+    page: {
+      id: '1',
+      title: 'Test Title',
+    },
     fundraiser: {
-      pageId: vals.pageId || '65',
       currency: vals.currency || 'USD',
-      amount: vals.amount || null,
+      donationAmount: vals.donationAmount || null,
       donationBands: vals.donationBands || fundraiserDefaults.donationBands,
       showDirectDebit: vals.showDirectDebit || false,
       formValues: vals.formValues || fundraiserDefaults.formValues,
@@ -82,7 +85,7 @@ describe('Initial rendering', function () {
   });
 
   it('skips the first step when initialized with a default amount', () => {
-    initialize({amount: 12});
+    initialize({ donationAmount: 12 });
     expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1); // 0 index, 1 is second step
   });
 
@@ -98,7 +101,7 @@ describe('Initial rendering', function () {
   });
 
   it('begins on the third step when amount is passed and outstandingFields is empty', () => {
-    initialize({outstandingFields: [], amount: 5});
+    initialize({outstandingFields: [], donationAmount: 5});
      // 0 index, 1 is third step when seconds step is hidden
     expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
     const lastStep = suite.wrapper.find('StepContent').last();
@@ -211,29 +214,29 @@ describe('Payment Panel', function() {
 
   describe('Initial state', () => {
     it("displays the user's name if they are logged in", () => {
-      initialize({member: {email: 'asdf@gmail.com', name: 'As Df', country: 'US'}, outstandingFields: [], amount: 5});
+      initialize({member: {email: 'asdf@gmail.com', name: 'As Df', country: 'US'}, outstandingFields: [], donationAmount: 5});
       expect(suite.wrapper.find('.WelcomeMember').length).toEqual(1);
       expect(suite.wrapper.find('.WelcomeMember__name').text()).toEqual('As Df');
     });
 
     it("displays the user's email if they are logged in but have no name", () => {
-      initialize({member: {email: 'asdf@gmail.com', country: 'US'}, outstandingFields: [], amount: 5});
+      initialize({member: {email: 'asdf@gmail.com', country: 'US'}, outstandingFields: [], donationAmount: 5});
       expect(suite.wrapper.find('.WelcomeMember').length).toEqual(1);
       expect(suite.wrapper.find('.WelcomeMember__name').text()).toEqual('asdf@gmail.com');
     });
 
     it('does not display the user panel if no user known', () => {
-      initialize({ outstandingFields: [], member: {}, amount: 5});
+      initialize({ outstandingFields: [], member: {}, donationAmount: 5});
       expect(suite.wrapper.find('.WelcomeMember').length).toEqual(0);
     });
 
     it('does not display the user panel if user known but step 2 is displayed', () => {
-      initialize({ outstandingFields: ['texting_opt_in'], member: {email: 'asdf@gmail.com'}});
+      initialize({ outstandingFields: ['texting_opt_in'], donationAmount: 5, member: {email: 'asdf@gmail.com'}});
       expect(suite.wrapper.find('.WelcomeMember').length).toEqual(0);
     });
 
     it('displays the new payment method form when no known payment methods', () => {
-      initialize({ outstandingFields: [], amount: 2 });
+      initialize({ outstandingFields: [], donationAmount: 2 });
       expect(suite.wrapper.find('.ShowIf--hidden').find('PaymentTypeSelection').length).toEqual(0);
       expect(suite.wrapper.find('.ShowIf--visible').find('PaymentTypeSelection').length).toEqual(1);
       expect(suite.wrapper.find('PayPal').length).toEqual(1);
@@ -242,29 +245,29 @@ describe('Payment Panel', function() {
     });
 
     it('does not display the new payment method form when there are known payment methods', () => {
-      initialize({ outstandingFields: [], amount: 2, paymentMethods: [cardMethod] });
+      initialize({ outstandingFields: [], donationAmount: 2, paymentMethods: [cardMethod] });
       expect(suite.wrapper.find('.ShowIf--hidden').find('PaymentTypeSelection').length).toEqual(1);
       expect(suite.wrapper.find('PaymentTypeSelection').length).toEqual(1); // check that's the only one
     });
 
     it('displays saved payment options as a list of radio buttons', () => {
-      initialize({ outstandingFields: [], amount: 13, paymentMethods: [cardMethod, paypalMethod]});
+      initialize({ outstandingFields: [], donationAmount: 13, paymentMethods: [cardMethod, paypalMethod]});
       expect(suite.wrapper.find('.ExpressDonation .PaymentMethod input[type="radio"]').length).toEqual(2);
     });
 
     it('displays just one payment option if only one exists', () => {
-      initialize({ outstandingFields: [], amount: 13, paymentMethods: [cardMethod]});
+      initialize({ outstandingFields: [], donationAmount: 13, paymentMethods: [cardMethod]});
       expect(suite.wrapper.find('.ExpressDonation .PaymentMethod input[type="radio"]').length).toEqual(0);
       expect(suite.wrapper.find('.ExpressDonation__single-item').length).toEqual(1);
     });
 
     it('displays the GoCardless button when told to', () => {
-      initialize({ outstandingFields: [], amount: 2, showDirectDebit: true });
+      initialize({ outstandingFields: [], donationAmount: 2, showDirectDebit: true });
       expect(suite.wrapper.find('.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]').length).toEqual(3);
     });
 
     it('does not display the GoCardless button when told not to', () => {
-      initialize({ outstandingFields: [], amount: 2, showDirectDebit: false });
+      initialize({ outstandingFields: [], donationAmount: 2, showDirectDebit: false });
       expect(suite.wrapper.find('.PaymentTypeSelection__payment-methods .PaymentMethod input[type="radio"]').length).toEqual(2);
     });
   });
@@ -273,8 +276,13 @@ describe('Payment Panel', function() {
     describe('clicking sign-out button', () => {
       beforeEach(() => {
         suite.memberVals = {email: 'asdf@gmail.com', name: 'As Df'};
-        initialize({outstandingFields: [], paymentMethods: [cardMethod, paypalMethod],
-          member: suite.memberVals, formValues: suite.memberVals, amount: 4});
+        initialize({
+          outstandingFields: [],
+          paymentMethods: [cardMethod, paypalMethod],
+          member: suite.memberVals,
+          formValues: suite.memberVals,
+          donationAmount: 4,
+        });
       });
 
       it('returns to step 2', () => {
