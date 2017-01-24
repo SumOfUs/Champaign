@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import SweetInput from '../SweetInput/SweetInput';
-import SelectCountry from '../SelectCountry';
+import SelectCountry from '../SelectCountry/SelectCountry';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import Checkbox from '../Checkbox/Checkbox';
 import type { Element } from 'react';
