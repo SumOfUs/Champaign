@@ -8,9 +8,13 @@ import frLocaleData from 'react-intl/locale-data/fr';
 import esLocaleData from 'react-intl/locale-data/es';
 
 import configureStore from './state';
+import { camelizeKeys } from './util/util';
 import ComponentWrapper from './ComponentWrapper';
-
 import FundraiserView from './containers/FundraiserView/FundraiserView';
+import CallToolView   from './containers/CallToolView/CallToolView';
+
+import type { Store } from 'redux';
+import type { AppState } from './state/reducers';
 
 import './components.css';
 
@@ -23,10 +27,11 @@ addLocaleData([
 
 window.initializeStore = configureStore;
 
-window.mountFundraiser = (root: string, store?: Store, initialState?: any = {})  => {
-  if (store) {
-    store.dispatch({ type: 'parse_champaign_data', payload: initialState });
-  }
+const store: Store<AppState, *> = configureStore({});
+
+window.mountFundraiser = (root: string, initialState?: any = {})  => {
+  store.dispatch({ type: 'initialize_page', payload: window.champaign.page });
+  store.dispatch({ type: 'parse_champaign_data', payload: initialState });
 
   render(
     <ComponentWrapper store={store} locale={initialState['locale']}>
@@ -48,11 +53,6 @@ window.mountFundraiser = (root: string, store?: Store, initialState?: any = {}) 
   }
 };
 
-// Call Tool -----------------
-
-import CallToolView   from './containers/CallToolView/CallToolView';
-import { camelizeKeys } from './util/util';
-
 type callToolInitialState = {
   locale: string;
   title?: string;
@@ -60,7 +60,7 @@ type callToolInitialState = {
   targetCountries: any[];
   countriesPhoneCodes: any[];
   pageId: string | number;
-}
+};
 
 window.mountCallTool = (root: string, props: callToolInitialState) => {
   props = camelizeKeys(props);
