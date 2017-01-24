@@ -97,6 +97,7 @@ fr:
     probably_invalid: semble invalide
     is_invalid: est invalide
     this_field: Ce champ
+    this_field_with_message: Ce champ %{message}
   validation:
     is_required: est requis
     is_invalid_email: n’est pas une adresse email valide
