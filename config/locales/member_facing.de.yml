@@ -85,6 +85,7 @@ de:
     probably_invalid: sieht nicht richtig aus
     is_invalid: ist ungültig
     this_field: Dieses Feld
+    this_field_with_message: Dieses Feld %{message}
   validation:
     is_required: wird benötigt
     is_invalid_email: ist keine gültige E-Mail-Adresse

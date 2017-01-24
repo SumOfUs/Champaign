@@ -101,6 +101,7 @@ en:
     probably_invalid: doesn't look right
     is_invalid: is invalid
     this_field: This field
+    this_field_with_message: This field %{message}
   validation:
     is_required: is required
     is_invalid_email: is not a valid email address

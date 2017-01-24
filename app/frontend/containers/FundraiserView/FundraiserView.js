@@ -109,19 +109,20 @@ export class FundraiserView extends Component {
           </StepContent>
 
           { this.showStepTwo() &&
-            <StepContent title="details">
+            <StepContent title={<FormattedMessage id="fundraiser.details" />}>
               <MemberDetailsForm
                 buttonText={<FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment" />}
                 fields={fields}
                 outstandingFields={outstandingFields}
                 prefillValues={formValues}
                 formId={formId}
+                pageId={this.props.fundraiser.pageId}
                 proceed={this.proceed.bind(this)}
               />
             </StepContent>
           }
 
-          <StepContent title="payment">
+          <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
             <Payment disableFormReveal={this.showStepTwo()} setSubmitting={s => this.props.setSubmitting(s)} />
           </StepContent>
         </StepWrapper>
