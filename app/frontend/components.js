@@ -25,8 +25,6 @@ addLocaleData([
   ...esLocaleData,
 ]);
 
-window.initializeStore = configureStore;
-
 const store: Store<AppState, *> = configureStore({});
 
 window.mountFundraiser = (root: string, initialState?: any = {})  => {
