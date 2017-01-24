@@ -94,7 +94,7 @@ class CallToolView extends Component {
 
   guessMemberPhoneCountryCode(countryCode: string) {
     const target = _.find(this.props.targetCountries, t => { return t.code === countryCode; });
-    return target && target.phoneCode;
+    return target ? target.phoneCode : '';
   }
 
   memberPhoneNumberChanged(memberPhoneNumber: string) {
