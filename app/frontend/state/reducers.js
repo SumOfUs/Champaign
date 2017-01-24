@@ -14,15 +14,14 @@ export default combineReducers(reducers);
 
 // import types
 import type { Member } from './member/reducer';
-import type { FundraiserState } from './fundraiser/reducer';
+import type { Fundraiser } from './fundraiser/reducer';
 import type { PaymentMethod } from './paymentMethods/reducer';
 
 export type AppState = {
   member: Member;
-  fundraiser: FundraiserState;
+  fundraiser: Fundraiser;
   paymentMethods: PaymentMethod[];
 };
-
 
 type ChampaignPaymentMethod = any;
 

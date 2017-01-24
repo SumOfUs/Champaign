@@ -20,7 +20,7 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
 import type { Dispatch } from 'redux';
 import type { BraintreeClient } from 'braintree-web';
-import type { AppState, Member, FundraiserState, PaymentMethod } from '../../state';
+import type { AppState, Member, Fundraiser, PaymentMethod } from '../../state';
 
 // Styles
 import './Payment.css';
@@ -29,7 +29,7 @@ const DEFAULT_PAYMENT_TYPE = 'card';
 
 type OwnProps = {
   member: Member;
-  fundraiser: FundraiserState;
+  fundraiser: Fundraiser;
   paymentMethods: PaymentMethod[],
   hideRecurring: boolean;
   disableFormReveal: boolean;
