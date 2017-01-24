@@ -3,11 +3,13 @@ import { combineReducers } from 'redux';
 import member from './member/reducer';
 import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
+import page from './page/reducer';
 
 const reducers = {
   member,
   fundraiser,
   paymentMethods,
+  page,
 };
 
 export default combineReducers(reducers);
@@ -16,11 +18,13 @@ export default combineReducers(reducers);
 import type { Member } from './member/reducer';
 import type { Fundraiser } from './fundraiser/reducer';
 import type { PaymentMethod } from './paymentMethods/reducer';
+import type { Page } from './page/reducer';
 
 export type AppState = {
   member: Member;
   fundraiser: Fundraiser;
   paymentMethods: PaymentMethod[];
+  page: Page;
 };
 
 type ChampaignPaymentMethod = any;
