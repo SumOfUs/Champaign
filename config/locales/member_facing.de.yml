@@ -8,17 +8,17 @@ de:
     description: "" # override this with org-specific details in your own yml file.
   fundraiser:
     payment_methods:
-      gocardless: "Direct Debit (DE)"
+      gocardless: "Lastschrift"
       paypal: "PayPal"
-      card: 'Kreditkarte oder Debitkarte (DE)'
-      ready_for_gocardless: "Click 'Donate' to finish donating through GoCardless, our direct debit provider (DE)"
-      ready_for_paypal: "Click 'Donate' to finish donating through PayPal (DE)"
-    payment_type_prompt: Payment Method (DE)
+      card: 'Kreditkarte'
+      ready_for_gocardless: "Klicken Sie auf \"Spenden\", um den Vorgang mit unserem Zahlungsdienstleister GoCardless abzuschließen."
+      ready_for_paypal: "Wenn Sie auf das Feld unten klicken, leitet Paypal Sie durch die letzten Schritte, um Ihre Spende abzuschließen. "
+    payment_type_prompt: Zahlungsmethode
     amount: Betrag
     details: Kontaktdaten
     payment: Zahlung
     donate: "%{amount} Spenden"
-    donate_monthly: "%{amount} Spenden / Monat"
+    donate_monthly: "%{amount} pro Monat spenden"
     month: Monat
     error_intro: Leider konnten wir Ihre Zahlung nicht bearbeiten!
     currency_in: "Beträge werden in %{currency} angezeigt"
@@ -30,6 +30,7 @@ de:
     store_in_vault: Meine Zahlungsdaten sicher speichern
     thank_you: Vielen Dank für Ihre Spende!
     thank_you_with_amount: "<strong>Vielen Dank für Ihre Spende in Höhe von %{amount}!</strong> Sie haben Fragen oder versehentlich gespendet? Dann schreiben Sie uns an  hallo@sumofus.org."
+    recurring_thank_you_with_amount: "<strong> Vielen Dank für Ihre regelmäßige Spende in Höhe von %{amount}!</strong> Falls Sie eine Frage an uns haben oder diese Spende unabsichtlich getätigt haben, schreiben Sie uns gern eine Nachricht an hallo@sumofus.org."
     card_declined: Der Zahlungsdienst hat Ihre Kreditkarte nicht akzeptiert. Bitte wählen Sie eine andere Zahlungsmethode.
     unknown_error: Unbekannter Fehler. Unser Team wurde benachrichtigt. Bitte überprüfen Sie Ihre Eingaben oder wählen Sie eine andere Zahlungsmethode.
     fine_print: "" # override this with org-specific details in your own yml file.
@@ -63,7 +64,7 @@ de:
     thank_you: 'Vielen Dank, dass Sie "%{petition_title}" mit Ihrer Unterschrift unterstützen.'
     fine_print: "" # override this with org-specific details in your own yml file.
   form:
-    switch_user: Nicht Sie?
+    switch_user: Ausloggen
     processing: In Bearbeitung...
     submit: Abschicken
     default:
@@ -75,6 +76,17 @@ de:
     signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
     signatures: Unterschriften
     million: Millionen
+  call_tool:
+    calling: "Verbindung wird hergestellt..."
+    errors:
+      unknown: "Entschuldigung, etwas ist schiefgegangen. Bitte rufen Sie eine andere Nummer an oder versuchen Sie es in einigen Minuten noch einmal"
+      phone_number:
+        too_short: "enthält mindestens 6 Ziffern"
+        cant_connect: "Es kann keine Verbindung zu dieser Telefonnummer hergestellt werden. Bitte überprüfen Sie, ob die Nummer korrekt ist, oder versuchen Sie es über eine andere Nummer"
+    form:
+      phone_number: "Telefonnummer"
+      country: "LAND"
+      submit: "Abschicken"
   share:
     cta: Teilen Sie die Kampagne mit Ihren Freunden und verdreifachen Sie Ihre Wirkung!
     send_email: E-Mail senden
@@ -92,8 +104,8 @@ de:
     is_invalid_country: muss eine gültige Ländervorwahl sein
     is_invalid_length: 'darf maximal %{length} Zeichen enthalten'
     postal:
-      has_invalid_characters: 'can only contain letters, numbers, spaces, and hyphens (missing translation)'
-      too_long: 'may contain no more than 9 letter or number characters (missing translation)'
+      has_invalid_characters: 'Kann nur Buchstaben, Nummern, Leerzeichen und Bindestriche enthalten '
+      too_long: 'Darf nicht mehr als 9 Buchstaben oder Zahlen enthalten'
   time:
     formats:
       default: "%-d. %B %Y"
@@ -137,25 +149,25 @@ de:
     form:
       password: Passwort
       confirm_password: Passwort bestätigen
-      your_email: Ihre E-mail-Adresse
+      your_email: Ihre E-Mail-Adresse
       register: Registrieren
-    thanks: 'Vielen Dank für Ihre Spende'
+    thanks: 'Vielen Dank! Noch ein letzter Schritt:'
     enter_password_message: "Geben Sie bitte ein Passwort ein"
-    create_account: "Erstellen Sie jetzt ein Konto – so können Sie beim nächsten Mal noch einfacher spenden."
-    create_account_description: "Ein Konto zu erstellen, dauert nur 30 Sekunden. Sie können damit Ihre Spenden und Zahlungsdetails sicher verwalten und Spenden jederzeit rückgängig machen."
-    check_email: "<strong>Vielen Dank, dass Sie sich registriert haben.</strong> <span>Bitte überprüfen Sie Ihr E-mail-Postfach. Dort sollten Sie eine E-mail</span>"
+    create_account: "Ihre Spende wird bearbeitet."
+    create_account_description: "Bitte registrieren Sie sich. So können Sie Ihre Spenden an SumOfUs sicher verwalten und jederzeit wieder kündigen."
+    check_email: "<strong>Vielen Dank, dass Sie sich registriert haben.</strong> <span>Bitte überprüfen Sie Ihr E-Mail-Postfach. Dort sollten Sie eine E-Mail mit einem Bestätigungs-Link finden.</span>"
   confirmation_mailer:
-    title: "Account-Bestätigung"
+    title: "Konto-Bestätigung"
     confirmation_email:
-      subject: "Bitte bestätigen Sie Ihren Account"
-      headline: "Vielen Dank, dass Sie einen Account eingerichtet haben"
-      body_html: "Um Ihren Account zu bestätigen, klicken Sie bitte auf <a href='%{confirmation_url}'>diesen Link</a><br/><br/>Vielen Dank<br/>Das Team"
+      subject: "Bitte bestätigen Sie Ihr SumOfUs-Konto"
+      headline: "Vielen Dank, dass Sie ein SumOfUs-Konto eingerichtet haben"
+      body_html: "Um Ihr SumOfUs-Konto zu bestätigen, klicken Sie bitte auf <a href='%{confirmation_url}'>diesen Link.</a><br/><br/>Vielen Dank!<br/> "
       body_text: "Um Ihre Registrierung zu bestätigen, klicken Sie bitte auf diesen Link: %{confirmation_url} "
     follow_up_page:
-      account_not_found: 'Leider konnten wir keinen passenden Account zu diesem Link finden. Bitte senden Sie uns eine Nachricht, damit wir das Problem für Sie lösen können. '
-      account_already_confirmed: 'Ihr Account wurde bereits bestätigt!'
-      failure: 'Leider gab es bei der Einrichtung Ihres Accounts ein Problem. Bitte schreiben Sie uns eine Nachricht, damit wir das Problem für Sie lösen können. '
-      success: 'Sie haben Ihren Account erfolgreich bestätigt. Vielen Dank!'
-      member_management: "Um Ihre Zahlungsoptionen und -details zu verwalten, können Sie jederzeit die <a href='%{url}'>Seite für Mitglieder</a> besuchen."
+      account_not_found: 'Leider konnten wir kein passendes Konto zu diesem Link finden. '
+      account_already_confirmed: 'Ihr Konto wurde bereits bestätigt!'
+      failure: 'Leider gab es bei der Einrichtung Ihres Kontos ein Problem. '
+      success: 'Sie haben Ihr SumOfUs-Konto erfolgreich bestätigt. Vielen Dank!'
+      member_management: "Um Ihre Zahlungsoptionen und -details zu verwalten, können Sie jederzeit die <a href='%{url}'>Seite für SumOfUs-Mitglieder</a> besuchen."
   footer:
     home_url: '' # replace with your homepage
