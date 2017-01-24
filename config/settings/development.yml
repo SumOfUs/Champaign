@@ -28,6 +28,9 @@ s3_asset_bucket: your-asset-bucket
 rails_serve_static_assets: true
 compile_static: true
 
+asset_host: 'localhost:3000'
+webpack_host: 'localhost'
+
 # NewRelic Connection information.
 newrelic_license_key: 'fake-newrelic-agent'
 
