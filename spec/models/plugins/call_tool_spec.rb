@@ -24,8 +24,8 @@ describe Plugins::CallTool do
 
     it 'returns a list of phone codes' do
       list = call_tool.liquid_data[:countries_phone_codes]
-      expect(list).to include(name: 'Argentina', code: '+54')
-      expect(list).to include(name: 'United States', code: '+1')
+      expect(list).to include(name: 'Argentina', code: '54')
+      expect(list).to include(name: 'United States', code: '1')
     end
 
     it 'should return US in first place' do
