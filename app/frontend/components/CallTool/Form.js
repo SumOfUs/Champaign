@@ -81,6 +81,7 @@ class Form extends Component {
   render() {
     return(
       <form className='action-form form--big' data-remote="true" >
+        <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
         <FieldShape
         key="targetCountryCode"
         errorMessage={this.props.errors.targetCountryCode}
@@ -89,21 +90,6 @@ class Form extends Component {
         field={this.fields.targetCountryCodeField}
         className="targetCountryCodeField"
         />
-
-        <div className="selectedTarget">
-          <p>
-            { !_.isEmpty(this.props.selectedTarget) &&
-              <span>
-                <FormattedMessage id="call_tool.you_will_be_calling" />
-                &nbsp;
-                <span className="selectedTargetName">
-                  {this.props.selectedTarget.name}
-                </span>
-                , {this.props.selectedTarget.title}
-              </span>
-            }
-          </p>
-        </div>
 
         <FieldShape
         key="memberPhoneCountryCode"
@@ -126,6 +112,23 @@ class Form extends Component {
             { this.phoneNumberCountryName() }
           </span>
         </p>
+
+        <div className="clearfix"> </div>
+
+        <div className="selectedTarget">
+          <p>
+            { !_.isEmpty(this.props.selectedTarget) &&
+              <span>
+                <FormattedMessage id="call_tool.you_will_be_calling" />
+                &nbsp;
+                <span className="selectedTargetName">
+                  {this.props.selectedTarget.name}
+                </span>
+                , {this.props.selectedTarget.title}
+              </span>
+            }
+          </p>
+        </div>
 
         <button
         type="submit"

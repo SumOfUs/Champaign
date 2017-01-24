@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
-import classnames from 'classnames';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { OperationResponse } from '../../util/ChampaignAPI';
 
@@ -94,7 +93,7 @@ class CallToolView extends Component {
 
   guessMemberPhoneCountryCode(countryCode: string) {
     const target = _.find(this.props.targetCountries, t => { return t.code === countryCode; });
-    return target ? target.phoneCode : '';
+    return target ? `+${target.phoneCode}` : '';
   }
 
   memberPhoneNumberChanged(memberPhoneNumber: string) {
@@ -199,30 +198,21 @@ class CallToolView extends Component {
             </ul>
           </div>
         }
-        <div className="form-row">
-          <div className="col1 mobile-hidden"> &nbsp; </div>
-          <div className="col2">
-            <Form
-              targetCountries={this.props.targetCountries}
-              countriesPhoneCodes={this.props.countriesPhoneCodes}
-              targets={this.props.targets}
-              selectedTarget={this.state.selectedTarget}
-              form={this.state.form}
-              errors={this.state.errors}
-              onTargetCountryCodeChange={this.targetCountryCodeChanged.bind(this)}
-              onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
-              onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(this)}
-              onSubmit={this.submit.bind(this)}
-              loading={this.state.loading}
-            />
-            <p className="fine-print"> <FormattedMessage id='call_tool.fine_print' /> </p>
-          </div>
-          <div className="col3 mobile-hidden">
-            <p className={classnames({'has-error': !_.isEmpty(this.state.errors.targetCountryCode), 'select-target-text': true})  } >
-              <FormattedMessage id="call_tool.select_target" />
-            </p>
-          </div>
-        </div>
+
+        <Form
+          targetCountries={this.props.targetCountries}
+          countriesPhoneCodes={this.props.countriesPhoneCodes}
+          targets={this.props.targets}
+          selectedTarget={this.state.selectedTarget}
+          form={this.state.form}
+          errors={this.state.errors}
+          onTargetCountryCodeChange={this.targetCountryCodeChanged.bind(this)}
+          onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
+          onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(this)}
+          onSubmit={this.submit.bind(this)}
+          loading={this.state.loading}
+        />
+        <p className="fine-print"> <FormattedMessage id='call_tool.fine_print' /> </p>
       </div>
     );
   }
