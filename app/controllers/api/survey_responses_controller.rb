@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Api::SurveyResponsesController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :localize_from_page_id, :store_locale_in_session, only: :create
+  before_action :localize_from_page_id, only: :create
 
   def create
     service = ManageSurveyResponse.new(

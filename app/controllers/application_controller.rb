@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_default_locale
-    set_locale(session[:language] || I18n.default_locale)
+    set_locale(I18n.default_locale)
   end
 
   def set_locale(code)
@@ -33,10 +33,6 @@ class ApplicationController < ActionController::Base
     # by setting the +i18n.enforce_available_locales+ flag to true but
     # catching the resulting error, it allows us to only set the locale
     # if it's one explicitly registered under +i18n.available_locales+
-  end
-
-  def store_locale_in_session
-    session[:language] = I18n.locale
   end
 
   def localize_from_page_id

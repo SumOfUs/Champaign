@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class MemberAuthenticationsController < ApplicationController
-  before_action :redirect_signed_up_members
+  before_action :redirect_signed_up_members, :localize_by_recent_action
   skip_before_action :verify_authenticity_token
 
   def new
@@ -16,7 +16,7 @@ class MemberAuthenticationsController < ApplicationController
       email: params[:email],
       password: params[:password],
       password_confirmation: params.fetch(:password_confirmation, ''),
-      language_code: session[:language] || I18n.default_locale
+      language_code: I18n.locale
     )
 
     if auth.valid?
@@ -32,6 +32,11 @@ class MemberAuthenticationsController < ApplicationController
 
   def member
     @member ||= Member.find_by(id: cookies.signed[:member_id], email: params[:email])
+  end
+
+  def localize_by_recent_action
+    code = member&.actions&.sort_by(&:created_at)&.first&.page&.language&.code
+    set_locale(code) if code.present?
   end
 
   def redirect_signed_up_members
