@@ -14,14 +14,14 @@ import type { Dispatch } from 'redux';
 import type {
   AppState,
   PaymentMethod,
-  FundraiserState
+  Fundraiser
 } from '../../state/index';
 
 import './ExpressDonation.scss';
 
 type OwnProps = {
   hidden: boolean;
-  fundraiser: FundraiserState;
+  fundraiser: Fundraiser;
   paymentMethods: PaymentMethod[];
   formData: { member: any; storeInVault: boolean; };
   setRecurring: (value: boolean) => void;
