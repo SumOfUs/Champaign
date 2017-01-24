@@ -233,11 +233,24 @@ export class Payment extends Component {
       device_data: this.state.deviceData,
     };
 
+    fbq('track', 'AddPaymentInfo', {
+      value: this.props.fundraiser.donationAmount,
+      currency: this.props.fundraiser.currency,
+      content_category: this.props.fundraiser.currentPaymentType,
+    });
+
     $.post(`/api/payment/braintree/pages/${this.props.page.id}/transaction`, payload)
       .then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
   }
 
   onSuccess(data: any) {
+    fbq('track', 'Purchase', {
+      value: this.props.fundraiser.donationAmount,
+      currency: this.props.fundraiser.currency,
+      content_name: this.props.page.title,
+      content_ids: [this.props.page.id],
+      content_type: this.props.fundraiser.recurring ? 'recurring' : 'not_recurring',
+    });
     $.publish('fundraiser:transaction_success', [data, this.props.formData]);
     this.setState({ errors: [] });
   }

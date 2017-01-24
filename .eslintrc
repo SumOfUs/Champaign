@@ -6,6 +6,7 @@ globals:
   Backbone: Backbone
   _: _
   slugChecker: SlugChecker
+  fbq: fbq
 rules:
   no-fallthrough: warn
   no-extra-semi: warn
