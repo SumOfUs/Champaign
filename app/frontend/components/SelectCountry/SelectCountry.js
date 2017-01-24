@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
-import SweetSelect from './SweetSelect/SweetSelect';
-import countriesEn from './../locales/countries/en.json';
-import countriesDe from './../locales/countries/de.json';
-import countriesEs from './../locales/countries/es.json';
-import countriesFr from './../locales/countries/fr.json';
+import SweetSelect from '../SweetSelect/SweetSelect';
+import countriesEn from './countries/en.json';
+import countriesDe from './countries/de.json';
+import countriesEs from './countries/es.json';
+import countriesFr from './countries/fr.json';
 import {injectIntl, intlShape} from 'react-intl';
 import type { Element } from 'react';
 
