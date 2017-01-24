@@ -1,4 +1,4 @@
-// @flow weak
+// @flow
 import React, { Component } from 'react';
 import $ from '../../util/PubSub';
 import { FormattedMessage } from 'react-intl';
@@ -20,7 +20,7 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
 import type { Dispatch } from 'redux';
 import type { BraintreeClient } from 'braintree-web';
-import type { AppState, Member, Fundraiser, PaymentMethod } from '../../state';
+import type { AppState, Member, Fundraiser, Page, PaymentMethod } from '../../state';
 
 // Styles
 import './Payment.css';
@@ -31,6 +31,7 @@ type OwnProps = {
   member: Member;
   fundraiser: Fundraiser;
   paymentMethods: PaymentMethod[],
+  page: Page,
   hideRecurring: boolean;
   disableFormReveal: boolean;
   formData: { member: any; storeInVault: boolean; };
@@ -183,7 +184,7 @@ export class Payment extends Component {
       provider: 'GC',
     };
     console.log(payload);
-    const url = `/api/go_cardless/pages/${this.props.fundraiser.pageId}/start_flow?${$.param(payload)}`;
+    const url = `/api/go_cardless/pages/${this.props.page.id}/start_flow?${$.param(payload)}`;
     window.open(url);
 
     if (!this.state.waitingForGoCardless) {
@@ -232,12 +233,11 @@ export class Payment extends Component {
       device_data: this.state.deviceData,
     };
 
-    $.post(`/api/payment/braintree/pages/${this.props.fundraiser.pageId}/transaction`, payload)
+    $.post(`/api/payment/braintree/pages/${this.props.page.id}/transaction`, payload)
       .then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
   }
 
   onSuccess(data: any) {
-    console.log('success:', data);
     $.publish('fundraiser:transaction_success', [data, this.props.formData]);
     this.setState({ errors: [] });
   }
@@ -383,6 +383,7 @@ export class Payment extends Component {
 
 const mapStateToProps = (state: AppState) => ({
   fundraiser: state.fundraiser,
+  page: state.page,
   paymentMethods: state.paymentMethods,
   member: state.member,
   hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
