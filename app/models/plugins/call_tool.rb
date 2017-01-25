@@ -93,7 +93,7 @@ class Plugins::CallTool < ActiveRecord::Base
     targets.each_with_index.each do |target, index|
       target.valid?
       target.errors.full_messages.each do |message|
-        errors.add(:targets, "#{message} (row #{index + 1}")
+        errors.add(:targets, "#{message} (row #{index + 1})")
       end
     end
   end

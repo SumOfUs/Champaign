@@ -1,3 +1,0 @@
-<%- if @call_tool.sound_clip.present? %>
-  $('.sound-clip-detail').html('<%= j(render(partial: 'plugins/call_tools/sound_clip_detail', locals: {plugin: @call_tool})) %>');
-<%- end %>

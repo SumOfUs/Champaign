@@ -1,30 +1,31 @@
-- if targets.blank?
-  p
-    span = t 'plugins.call_tool.no_targets_loaded'
+.targets-wrapper
+  - if targets.blank?
+    p
+      span = t 'plugins.call_tool.no_targets_loaded'
 
-- else
-  p
-    a.toggle-targets = t 'plugins.call_tool.show_targets'
-  .targets style= 'display:none'
-      table.table.table-stripped
-        tr
-          th = t 'plugins.call_tool.targets.country'
-          th = t 'plugins.call_tool.targets.postal'
-          th = t 'plugins.call_tool.targets.name'
-          th = t 'plugins.call_tool.targets.title'
-          th = t 'plugins.call_tool.targets.phone_number'
-
-        - targets.each do |target|
+  - else
+    p
+      a.toggle-targets = t 'plugins.call_tool.show_targets'
+    .targets style=(show_targets ? '' : 'display:none')
+        table.table.table-stripped
           tr
-            td = target.country_name
-            td = target.postal_code
-            td = target.name
-            td = target.title
-            td = target.phone_number
+            th = t 'plugins.call_tool.targets.country'
+            th = t 'plugins.call_tool.targets.postal'
+            th = t 'plugins.call_tool.targets.name'
+            th = t 'plugins.call_tool.targets.title'
+            th = t 'plugins.call_tool.targets.phone_number'
 
-javascript:
-  $(function() {
-    $('.call-tool-form a.toggle-targets').click(function() {
-      $('.call-tool-form .targets').slideToggle();
-    })
-  });
+          - targets.each do |target|
+            tr
+              td = target.country_name
+              td = target.postal_code
+              td = target.name
+              td = target.title
+              td = target.phone_number
+
+  javascript:
+    $(function() {
+      $('.call-tool .toggle-targets').click(function() {
+        $('.call-tool .targets').slideToggle();
+      })
+    });
