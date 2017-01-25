@@ -13,8 +13,6 @@ import type { AppState } from '../../state';
 
 import 'react-select/dist/react-select.css';
 
-type ConnectedState = { form: Object; formId: number; };
-type ConnectedDispatch = { updateForm: (form: Object) => void; };
 type OwnProps = {
   buttonText?: Element<any> | string;
   proceed?: () => void;
@@ -23,6 +21,9 @@ type OwnProps = {
   outstandingFields: any[];
   pageId: number;
   formId: number;
+  form: Object;
+  formId: number;
+  updateForm: (form: Object) => void;
 };
 
 export class MemberDetailsForm extends Component {
@@ -165,12 +166,12 @@ export class MemberDetailsForm extends Component {
   }
 }
 
-const mapStateToProps = (state: AppState): ConnectedState => ({
+const mapStateToProps = (state: AppState) => ({
   formId: state.fundraiser.formId,
   form: state.fundraiser.form,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>): ConnectedDispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   updateForm: (form: Object) => dispatch(updateForm(form)),
 });
 

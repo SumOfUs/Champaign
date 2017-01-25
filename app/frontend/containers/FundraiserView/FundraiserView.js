@@ -116,7 +116,7 @@ export class FundraiserView extends Component {
                 outstandingFields={outstandingFields}
                 prefillValues={formValues}
                 formId={formId}
-                pageId={this.props.fundraiser.pageId}
+                pageId={this.props.page.id}
                 proceed={this.proceed.bind(this)}
               />
             </StepContent>
