@@ -35,7 +35,7 @@ class MemberAuthenticationsController < ApplicationController
   end
 
   def localize_by_recent_action
-    code = member&.actions&.sort_by(&:created_at)&.first&.page&.language&.code
+    code = member&.actions&.last&.page&.language&.code
     set_locale(code) if code.present?
   end
 
