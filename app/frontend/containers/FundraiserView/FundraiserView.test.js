@@ -102,7 +102,7 @@ describe('Initial rendering', function () {
      // 0 index, 1 is third step when seconds step is hidden
     expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
     const lastStep = suite.wrapper.find('StepContent').last();
-    expect(lastStep.prop('title')).toEqual('payment');
+    expect(lastStep.prop('title').props['id']).toEqual('fundraiser.payment');
     expect(lastStep.prop('visible')).toEqual(true);
   });
 });
