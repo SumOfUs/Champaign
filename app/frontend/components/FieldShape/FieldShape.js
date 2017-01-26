@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import SweetInput from '../SweetInput/SweetInput';
-import SelectCountry from '../SelectCountry';
+import SelectCountry from '../SelectCountry/SelectCountry';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import Checkbox from '../Checkbox/Checkbox';
 import type { Element } from 'react';
@@ -22,16 +22,17 @@ type FieldProps = {
   disabled?: boolean;
   required?: boolean;
   value?: any;
-  errorMessage?: string;
-  onChange?: (v?: string) => void;
+  errorMessage?: any;
+  onChange?: (v: string) => void;
 };
 
 export default class FieldShape extends Component {
   props: {
     field: Field;
     value?: any;
-    errorMessage?: string;
-    onChange?: (v?: string) => void;
+    errorMessage?: any;
+    onChange?: (v: string) => void;
+    className?: string;
   };
 
   checkboxToggle(event: SyntheticInputEvent) {
@@ -135,7 +136,7 @@ export default class FieldShape extends Component {
 
   render() {
     return (
-      <div key={this.props.field.name} className="MemberDetailsForm-field form__group action-form__field-container">
+      <div key={this.props.field.name} className={`MemberDetailsForm-field form__group action-form__field-container ${this.props.className || ''}`}>
         {this.renderField(this.props.field.data_type)}
       </div>
     );

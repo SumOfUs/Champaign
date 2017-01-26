@@ -18,37 +18,39 @@ import {
 
 import type { Dispatch } from 'redux';
 import type { AppState } from '../../state';
+import type { Member, Fundraiser, Page } from '../../state';
 
 type OwnProps = {
-  currentStep: number;
-  formValues: any;
-  member: any;
-  currency: string;
-  donationBands: {[id:string]: number[]};
-  donationFeaturedAmount: ?number;
-  donationAmount: ?number;
-  changeStep: (step: number) => void;
-  selectAmount: (amount: ?number) => void;
-  selectCurrency: (currency: string) => void;
-  setSubmitting: (submitting: boolean) => void;
-  submitting: boolean;
-  fields: any[];
-  outstandingFields: string[];
-  formId: number;
-};
+  fundraiser: Fundraiser;
+  member: Member;
+  page: Page;
+  changeStep: (number) => any;
+  selectAmount: (?number) => any;
+  selectCurrency: (string) => any;
+  setSubmitting: (boolean) => any;
+}
 
 export class FundraiserView extends Component {
-  props: OwnProps & mapStateToProps;
+  props: OwnProps;
 
   componentDidMount() {
-    if (this.props.fundraiser && this.props.fundraiser.amount > 0) {
-      this.props.selectAmount(this.props.fundraiser.amount);
+    const { donationAmount } = this.props.fundraiser;
+
+    if (donationAmount && donationAmount > 0) {
+      this.props.selectAmount(donationAmount);
       this.props.changeStep(1);
     }
   }
 
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
+    fbq('track', 'InitiateCheckout', {
+      value: this.props.fundraiser.donationAmount,
+      currency: this.props.fundraiser.currency,
+      content_name: this.props.page.title,
+      content_ids: [this.props.page.id],
+      content_type: 'product',
+    });
   }
 
   proceed() {
@@ -56,7 +58,7 @@ export class FundraiserView extends Component {
   }
 
   showStepTwo() {
-    const outstandingFields = this.props.fundraiser.outstandingFields;
+    const { outstandingFields } = this.props.fundraiser;
     return !outstandingFields || outstandingFields.length !== 0;
   }
 
@@ -70,7 +72,6 @@ export class FundraiserView extends Component {
         donationAmount,
         donationFeaturedAmount,
         currency,
-        currencies,
         currentStep,
         outstandingFields,
         submitting,
@@ -100,7 +101,6 @@ export class FundraiserView extends Component {
               currency={currency}
               donationBands={donationBands}
               donationFeaturedAmount={donationFeaturedAmount}
-              currencies={currencies}
               nextStepTitle={firstStepButtonTitle}
               changeCurrency={this.props.selectCurrency.bind(this)}
               selectAmount={amount => this.selectAmount(amount)}
@@ -109,19 +109,20 @@ export class FundraiserView extends Component {
           </StepContent>
 
           { this.showStepTwo() &&
-            <StepContent title="details">
+            <StepContent title={<FormattedMessage id="fundraiser.details" />}>
               <MemberDetailsForm
                 buttonText={<FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment" />}
                 fields={fields}
                 outstandingFields={outstandingFields}
                 prefillValues={formValues}
                 formId={formId}
+                pageId={this.props.page.id}
                 proceed={this.proceed.bind(this)}
               />
             </StepContent>
           }
 
-          <StepContent title="payment">
+          <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
             <Payment disableFormReveal={this.showStepTwo()} setSubmitting={s => this.props.setSubmitting(s)} />
           </StepContent>
         </StepWrapper>
@@ -133,6 +134,7 @@ export class FundraiserView extends Component {
 export const mapStateToProps = (state: AppState) => ({
   fundraiser: state.fundraiser,
   member: state.member,
+  page: state.page,
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

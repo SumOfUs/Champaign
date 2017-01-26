@@ -13,15 +13,17 @@ import type { AppState } from '../../state';
 
 import 'react-select/dist/react-select.css';
 
-type ConnectedState = { form: Object; formId: number; };
-type ConnectedDispatch = { updateForm: (form: Object) => void; };
 type OwnProps = {
   buttonText?: Element<any> | string;
   proceed?: () => void;
   fields: Object;
   prefillValues: Object;
   outstandingFields: any[];
+  pageId: number;
   formId: number;
+  form: Object;
+  formId: number;
+  updateForm: (form: Object) => void;
 };
 
 export class MemberDetailsForm extends Component {
@@ -96,7 +98,7 @@ export class MemberDetailsForm extends Component {
   handleFailure(response: any) {
     const errors = mapValues(response.errors, ([message]) => {
       return {
-        id: 'field_error_message',
+        id: 'errors.this_field_with_message',
         defaultMessage: 'This field {message}',
         values: { message }
       };
@@ -118,7 +120,7 @@ export class MemberDetailsForm extends Component {
     // HACKISH
     // Use a proper xhr lib if we want to make our lives easy.
     // Ideally a
-    fetch(`/api/pages/${this.props.formId}/actions/validate`, {
+    fetch(`/api/pages/${this.props.pageId}/actions/validate`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -164,12 +166,12 @@ export class MemberDetailsForm extends Component {
   }
 }
 
-const mapStateToProps = (state: AppState): ConnectedState => ({
+const mapStateToProps = (state: AppState) => ({
   formId: state.fundraiser.formId,
   form: state.fundraiser.form,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<*>): ConnectedDispatch => ({
+const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   updateForm: (form: Object) => dispatch(updateForm(form)),
 });
 

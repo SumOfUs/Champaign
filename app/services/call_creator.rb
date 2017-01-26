@@ -46,7 +46,8 @@ class CallCreator
       @errors[:member_phone_number] ||= []
       @errors[:member_phone_number] << I18n.t('call_tool.errors.phone_number.cant_connect')
     else
-      raise e
+      Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{@call.attributes.inspect}")
+      @errors[:base] << I18n.t('call_tool.errors.unknown')
     end
   end
 

@@ -7,7 +7,7 @@ import loadTranslations from './util/TranslationsLoader';
 class ComponentWrapper extends Component {
   props: {
     store?: Store;
-    children?: React$Element<any>;
+    children?: any;
     locale: string;
   };
 

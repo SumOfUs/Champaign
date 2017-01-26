@@ -14,14 +14,16 @@ import type { Dispatch } from 'redux';
 import type {
   AppState,
   PaymentMethod,
-  FundraiserState
-} from '../../state/index';
+  Fundraiser,
+  Page,
+} from '../../state';
 
 import './ExpressDonation.scss';
 
 type OwnProps = {
   hidden: boolean;
-  fundraiser: FundraiserState;
+  fundraiser: Fundraiser;
+  page: Page;
   paymentMethods: PaymentMethod[];
   formData: { member: any; storeInVault: boolean; };
   setRecurring: (value: boolean) => void;
@@ -81,12 +83,11 @@ export class ExpressDonation extends Component {
   }
 
   submit() {
-    const { fundraiser: { pageId } }  = this.props;
     const data = this.oneClickData();
     if (data) {
       this.setState({ submitting: true });
       this.props.setSubmitting(true);
-      $.post(`/api/payment/braintree/pages/${pageId}/one_click`, data)
+      $.post(`/api/payment/braintree/pages/${this.props.page.id}/one_click`, data)
         .then(
           this.onSuccess.bind(this),
           this.onFailure.bind(this)
@@ -179,6 +180,7 @@ export class ExpressDonation extends Component {
 const mapStateToProps = (state: AppState) => ({
   paymentMethods: state.paymentMethods,
   fundraiser: state.fundraiser,
+  page: state.page,
   formData: {
     storeInVault: state.fundraiser.storeInVault,
     member: {

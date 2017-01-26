@@ -6,7 +6,6 @@ import DonationBands from '../DonationBands/DonationBands';
 import Button from '../Button/Button';
 import $ from '../../util/PubSub';
 import CurrencyAmount from '../../components/CurrencyAmount';
-import type { Element } from 'react';
 
 export type OwnProps = {
   donationAmount: ?number;
@@ -29,7 +28,7 @@ export default class AmountSelection extends Component {
   props: OwnProps;
   state: OwnState;
 
-  static title(amount: ?number, currency: string): string | Element<any> {
+  static title(amount: ?number, currency: string): any {
     if (amount == null) {
       return <FormattedMessage id="fundraiser.amount" defaultMessage="AMOUNT" />;
     }

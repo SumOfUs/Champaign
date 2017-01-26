@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from 'react';
-import { FormattedNumber } from 'react-intl';
+import { FormattedNumber, injectIntl } from 'react-intl';
 import classnames from 'classnames';
 import Button from '../Button/Button';
 import './DonationBands.css';
@@ -17,6 +17,7 @@ type Props = {
   currency: string;
   customAmount?: number;
   proceed: () => void;
+  intl: any,
   selectAmount: (amount: ?number) => void;
   toggleProceedButton?: (visible: boolean) => void;
 };
@@ -114,7 +115,7 @@ export class DonationBands extends Component {
           ref="customAmount"
           id="DonationBands-custom-amount"
           className="DonationBands__input"
-          placeholder="Other"
+          placeholder={this.props.intl.formatMessage({id: 'fundraiser.other_amount'})}
           pattern={/^[0-9]+$/}
           value={this.customFieldDisplay()}
           onFocus={(e) => this.onInputFocused(e.target.value)}
@@ -125,4 +126,4 @@ export class DonationBands extends Component {
   }
 }
 
-export default DonationBands;
+export default injectIntl(DonationBands);

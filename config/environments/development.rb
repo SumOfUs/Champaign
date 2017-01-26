@@ -55,7 +55,7 @@ Rails.application.configure do
   Paperclip.options[:command_path] = '/usr/bin/'
 
   # to allow services consuming images through the API to have absolute URLs
-  config.action_controller.asset_host = 'http://localhost:3000'
+  config.action_controller.asset_host = Settings.asset_host
   config.cache_store = :null_store
 
   # Accept requests from any origin in development mode
@@ -75,7 +75,7 @@ Rails.application.configure do
 
   config.webpack.config_file = 'config/webpack.config.dev.js'
 
-  config.webpack.dev_server.host = 'localhost'
+  config.webpack.dev_server.host = Settings.webpack_host
   config.webpack.dev_server.port = ENV.fetch('WEBPACK_PORT') { 4000 }
 
   # The host and port to use when fetching the manifest

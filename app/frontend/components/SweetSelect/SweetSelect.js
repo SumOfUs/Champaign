@@ -3,17 +3,16 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
 import './SweetSelect.scss';
-import type { Element } from 'react';
 
 type Props = {
   name: string;
   value?: string;
   onChange: (value: any) => void;
   options?: any[];
-  label?: string | React$Element<any>;
+  label?: any;
   disabled?: boolean;
   multiple?: boolean;
-  errorMessage?: string | Element<any>;
+  errorMessage?: any;
 };
 
 export default class SweetSelect extends Component {

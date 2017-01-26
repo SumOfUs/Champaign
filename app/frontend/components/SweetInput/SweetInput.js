@@ -1,8 +1,7 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import './SweetInput.css';
-import type { Element } from 'react';
 
 type OwnProps = {
   name: string;
@@ -10,7 +9,7 @@ type OwnProps = {
   value: string;
   type?: string;
   required?: boolean;
-  errorMessage?: string | Element<any>;
+  errorMessage?: any;
   onChange?: (value: string) => void;
 };
 

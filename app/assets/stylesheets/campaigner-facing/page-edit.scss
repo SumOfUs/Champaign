@@ -3,6 +3,7 @@ $page-edit-text-color: #ccc;
 $save-box-color: lighten($page-edit-bar-color, 10%);
 $bootstrap-bg-gray: #f5f5f5;
 $bootstrap-border-gray: #e3e3e3;
+$orange: #f8492e;
 
 body.page-edit-body {
   position: relative;
@@ -494,5 +495,25 @@ body.page-edit-body {
   opacity: 0.5;
   &:hover, &:active {
     opacity: 1;
+  }
+}
+
+.call-tool {
+  input[type="submit"] {
+    margin-left: 10px;
+  }
+
+  .error-msg {
+    color: $orange;
+  }
+
+  .targets-section {
+    .targets-wrapper {
+      margin-top: 10px;
+    }
+  }
+
+  .call-tool-sound-clip, .sound-clip-detail {
+    margin-top: 10px;
   }
 }

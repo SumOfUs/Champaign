@@ -1,0 +1,2 @@
+javascript:
+  champaign.page = #{@page.as_json(except: [:content, :javascript, :liquid_layout_id, :compiled_html, :messages]).to_json.html_safe}

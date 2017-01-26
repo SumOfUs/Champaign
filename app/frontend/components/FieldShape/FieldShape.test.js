@@ -47,7 +47,7 @@ describe('Match "data_type"', function () {
 
   test(`country => <SelectCountry .../>`, () => {
     const wrapper = shallow(<FieldShape field={{...field, data_type: 'country'}} />);
-    expect(wrapper.text()).toEqual('<SelectCountry />');
+    expect(wrapper.text()).toEqual('<InjectIntl(SelectCountry) />');
   });
 
   test(`dropdown => <Select .../>`, () => {

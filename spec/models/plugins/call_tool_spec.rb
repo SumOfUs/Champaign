@@ -18,4 +18,19 @@ describe Plugins::CallTool do
       expect(subject.sound_clip.present?).not_to be_present
     end
   end
+
+  describe 'country_phone_codes' do
+    let(:call_tool) { build(:call_tool) }
+
+    it 'returns a list of phone codes' do
+      list = call_tool.liquid_data[:countries_phone_codes]
+      expect(list).to include(name: 'Argentina', code: '54')
+      expect(list).to include(name: 'United States', code: '1')
+    end
+
+    it 'should return US in first place' do
+      list = call_tool.liquid_data[:countries_phone_codes]
+      expect(list.first[:name]).to eql('United States')
+    end
+  end
 end
