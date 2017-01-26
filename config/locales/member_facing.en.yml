@@ -85,7 +85,7 @@ en:
       phone_number:
         too_short: "must have at least 6 digits"
         cant_connect: "can't connect to this phone number, please check it's correct or try another one"
-    fine_print: "We won’t store your phone number or use it to contact you without your permission."
+    fine_print: 'SumOfUs will protect <a href="https://sumofus.org/privacy" target="_blank">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.'
     form:
       phone_number: "My phone number"
       phone_country_code: "Code"
