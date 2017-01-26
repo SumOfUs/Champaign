@@ -1,9 +1,10 @@
 // @flow
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import _ from 'lodash';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { OperationResponse } from '../../util/ChampaignAPI';
+import type { IntlShape } from 'react-intl';
 
 import Form from '../../components/CallTool/Form';
 
@@ -53,6 +54,7 @@ type OwnProps = {
   targetCountries: Country[];
   countriesPhoneCodes: CountryPhoneCode[];
   onSuccess?: () => void;
+  intl: IntlShape;
 }
 
 class CallToolView extends Component {
@@ -212,11 +214,11 @@ class CallToolView extends Component {
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
         />
-        <p className="fine-print"> <FormattedMessage id='call_tool.fine_print' /> </p>
+        <p className="fine-print" dangerouslySetInnerHTML={{ __html: this.props.intl.formatMessage({ id: 'call_tool.fine_print' })}} />
       </div>
     );
   }
 }
 
-export default CallToolView;
+export default injectIntl(CallToolView);
 
