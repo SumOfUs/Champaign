@@ -58,18 +58,16 @@ module ActionQueue
 
   module Donatable
     def user_data
-      {
+      data.select{ |k, v| v.present? && ActionKitFields.is_predefined_by_ak(k) }.merge({
         first_name: member.first_name,
         last_name:  member.last_name,
         email:      member.email,
         country:    country(member.country),
         akid:       data[:akid],
-        postal:     data[:postal],
-        address1:   data[:address1],
         source:     data[:source],
         user_express_cookie: data[:store_in_vault] ? 1 : 0,
         user_express_account: data[:express_account] ? 1 : 0
-      }.merge(UserLanguageISO.for(page.language))
+      }).merge(UserLanguageISO.for(page.language))
     end
 
     def action_fields

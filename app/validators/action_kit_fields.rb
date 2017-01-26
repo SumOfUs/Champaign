@@ -77,6 +77,10 @@ class ActionKitFields < ActiveModel::Validator
     end
   end
 
+  def self.is_predefined_by_ak(name)
+    ACTIONKIT_FIELDS_WHITELIST.include?(name.to_s)
+  end
+
   private
 
   # Does the name match an existing ActionKit field name, else

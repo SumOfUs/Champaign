@@ -35,8 +35,6 @@ feature 'Express From Mailing Link' do
           email: 'donor@example.com',
           country: 'United States',
           akid: '25429.9032842.mRJhnM',
-          postal: nil,
-          address1: nil,
           source: nil,
           user_express_cookie: 1,
           user_express_account: @is_authenticated,
