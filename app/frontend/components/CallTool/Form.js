@@ -81,7 +81,6 @@ class Form extends Component {
   render() {
     return(
       <form className='action-form form--big' data-remote="true" >
-        <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
         <FieldShape
         key="targetCountryCode"
         errorMessage={this.props.errors.targetCountryCode}
