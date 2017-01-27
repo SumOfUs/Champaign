@@ -25,7 +25,7 @@ class MemberUpdater
   end
 
   def member_attributes
-    @member_attributes ||= Member.new.attributes.keys.map(&:to_sym).select{ |k| k != :id }
+    @member_attributes ||= Member.new.attributes.keys.map(&:to_sym).select { |k| k != :id }
   end
 
   def belongs_in_more?(k)
