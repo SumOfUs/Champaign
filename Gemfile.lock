@@ -333,6 +333,7 @@ GEM
     parser (2.3.1.2)
       ast (~> 2.2)
     pg (0.18.4)
+    phony (2.15.40)
     poltergeist (1.11.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -582,6 +583,7 @@ DEPENDENCIES
   paper_trail
   paperclip (~> 5.0.0)
   pg
+  phony
   poltergeist
   puma (~> 2.15.3)
   rack-cors

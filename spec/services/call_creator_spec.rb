@@ -30,6 +30,14 @@ describe CallCreator do
       expect(call.target_index).to eql(1)
     end
 
+    it 'normalizes the phone number' do
+      params[:member_phone_number] = '+46 0(70)27-86972'
+      CallCreator.new(params).run
+      call = Call.last
+      # Removes the leading 0 and non-numeric chars
+      expect(call.member_phone_number).to eql('46702786972')
+    end
+
     it 'places the call' do
       expect_any_instance_of(Twilio::REST::Calls).to(
         receive(:create)
