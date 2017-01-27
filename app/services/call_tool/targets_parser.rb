@@ -38,7 +38,7 @@ class CallTool::TargetsParser
       elsif new_row_value == REPEAT_PREVIOUS_ROW_SYMBOL
         previous_value
       else
-        new_row_value.force_encoding("UTF-8")
+        new_row_value.force_encoding('UTF-8')
       end
     end
   end
