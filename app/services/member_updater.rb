@@ -6,13 +6,15 @@ class MemberUpdater
 
   def initialize(member, params)
     @member = member
-    @params = params
+    @params = params.try(:to_unsafe_hash) || params.to_h
+    @params = @params.symbolize_keys.compact
   end
 
   def run
     @member.name = @params[:name] if @params.key? :name
     @member.actionkit_user_id = action_kit_user_id if action_kit_user_id.present?
-    @member.assign_attributes(filtered_params)
+    @member.assign_attributes(@params.select { |k| member_attributes.include? k })
+    @member.more = (@member.more || {}).merge(@params.select { |k| belongs_in_more? k })
     @member.save!
   end
 
@@ -22,12 +24,11 @@ class MemberUpdater
     AkidParser.parse(@params[:akid], Settings.action_kit.akid_secret)[:actionkit_user_id]
   end
 
-  def filtered_params
-    hash = @params.try(:to_unsafe_hash) || @params.to_h # for ActionController::Params
-    hash.symbolize_keys.compact.keep_if { |k| permitted_keys.include? k }
+  def member_attributes
+    @member_attributes ||= Member.new.attributes.keys.map(&:to_sym).select{ |k| k != :id }
   end
 
-  def permitted_keys
-    Member.new.attributes.keys.map(&:to_sym).reject! { |k| k == :id }
+  def belongs_in_more?(k)
+    !member_attributes.include?(k) && ActionKitFields.has_valid_form(k)
   end
 end
