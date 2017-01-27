@@ -39,10 +39,10 @@
     font-weight: lighter;
     line-height: 1.4em;
   }
-  .form--big input, 
-  .form--big select, 
-  .form--big textarea, 
-  .form--big .selectize-control.single .selectize-input, 
+  .form--big input,
+  .form--big select,
+  .form--big textarea,
+  .form--big .selectize-control.single .selectize-input,
   .form--big .hosted-fields__host {
     border-color: $overcast-gray;
     &.has-error {
@@ -76,6 +76,15 @@
     label {
       margin: 22px 0 5px 10px;
       display: block;
+    }
+  }
+
+  &.post-call{
+    // make room for fixed footer
+    padding-bottom: 150px;
+
+    .survey__form {
+      margin-bottom: 10px;
     }
   }
 }

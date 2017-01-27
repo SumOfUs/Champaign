@@ -37,3 +37,7 @@ Style/GuardClause:
 
 Style/IfUnlessModifier:
   MaxLineLength: 40
+
+Lint/HandleExceptions:
+  Enabled: false
+

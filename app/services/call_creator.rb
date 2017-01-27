@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 class CallCreator
   def initialize(params)
-    @params = params
+    @params = params.clone
     @errors = {}
   end
 
   def run
+    sanitize_params!
     page = Page.find(@params[:page_id])
     @call = Call.new(page: page,
                      member_id: @params[:member_id],
@@ -27,6 +28,13 @@ class CallCreator
 
   private
 
+  def sanitize_params!
+    if @params[:member_phone_number].present?
+      @params[:member_phone_number] = Phony.normalize(@params[:member_phone_number])
+    end
+  rescue Phony::NormalizationError
+  end
+
   # TODO: Move method to service class, handle error messages in there.
   def place_call
     client = Twilio::REST::Client.new.account.calls
@@ -47,6 +55,7 @@ class CallCreator
       @errors[:member_phone_number] << I18n.t('call_tool.errors.phone_number.cant_connect')
     else
       Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{@call.attributes.inspect}")
+      @errors[:base] ||= []
       @errors[:base] << I18n.t('call_tool.errors.unknown')
     end
   end

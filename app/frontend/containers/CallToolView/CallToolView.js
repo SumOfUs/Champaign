@@ -190,6 +190,8 @@ class CallToolView extends Component {
           <h1> { this.props.title } </h1>
         }
 
+        <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
+
         { errors.base !== undefined && !_.isEmpty(this.state.errors.base) &&
           <div className="base-errors">
             <ul>

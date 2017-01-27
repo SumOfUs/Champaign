@@ -15,6 +15,7 @@ gem 'selectize-rails' # why not npm?
 gem 'codemirror-rails'
 gem 'countries'
 gem 'geocoder'
+gem 'phony'
 gem 'browserify-rails', '~> 2.2.0'
 gem 'font-awesome-sass'
 gem 'money'
