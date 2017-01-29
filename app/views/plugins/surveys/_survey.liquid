@@ -3,7 +3,17 @@
   <div class="script-dependent">
     {% for form in plugins.survey[ref].forms %}
       {% unless form.fields == empty %}
-        {% capture cta %}{% if forloop.last == true %}{{ 'survey.finish' | t }}{% else %}{{ 'survey.next' | t }}{% endif %}{% endcapture %}
+        {% capture cta %}
+          {% if forloop.last == true %}
+            {% if last_section_submit_text %}
+              {{ last_section_submit_text }}
+            {% else %}
+              {{ 'survey.finish' | t }}
+            {% endif  %}
+          {% else %}
+            {{ 'survey.next' | t }}
+          {% endif %}
+        {% endcapture %}
 
         {% include 'Survey Form',
           cta: cta,
