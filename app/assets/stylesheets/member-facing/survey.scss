@@ -83,8 +83,17 @@
     // make room for fixed footer
     padding-bottom: 150px;
 
+    .post-call__intro {
+      margin-bottom: 1em;
+    }
+
+    .post-call__talking-points {
+      padding-top: 1em;
+    }
+
     .survey__form {
-      margin-bottom: 10px;
+      margin-bottom: 95px;
+      margin-top: 60px;
     }
   }
 }
