@@ -10,7 +10,7 @@ module Twilio
 
     def log
       @call.update(log: params)
-      head :ok
+      render xml: Twilio::TwiML::Response.new.text
     end
 
     private
