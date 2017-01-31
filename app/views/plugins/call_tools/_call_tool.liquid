@@ -5,8 +5,13 @@
     $(document).ready(function() {
       var data = _.clone(window.champaign.personalization.callTool['{{ref}}']);
       data.targetCountryCode = window.champaign.personalization.member.country;
-      data.onSuccess = function() {
-        window.location.href = "{{ follow_up_url }}";
+      data.onSuccess = function(selectedTarget) {
+        var followUpUrl = window.URI("{{ follow_up_url }}");
+        followUpUrl.addQuery({
+          'target[name]': selectedTarget.name,
+          'target[title]': selectedTarget.title
+        });
+        window.location.href = followUpUrl.toString();
       };
 
       mountCallTool('call-tool-component', data);
