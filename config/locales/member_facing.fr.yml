@@ -64,7 +64,7 @@ fr:
     thank_you: 'Merci d’avoir ajouté votre nom à la pétition "%{petition_title}"!'
     fine_print: "" # override this with org-specific details in your own yml file.
   form:
-    switch_user: 'Déconnexion'
+    switch_user: Déconnexion
     processing: En cours de traitement...
     submit: Envoyer
     default:
@@ -77,16 +77,19 @@ fr:
     signatures: signatures
     million: million
   call_tool:
-    calling: "Appel en cours..."
+    you_will_be_calling: "Nous allons vous appeler et vous mettre en relation avec "
+    select_target: "Ecrivez simplement votre pays et votre numéro de téléphone -- et nous vous contacterons dans quelques instants."
     errors:
-      unknown: "Oups, une erreur est survenue ! Veuillez essayer un numéro de téléphone différent ou essayer à nouveau dans quelques minutes"
+      unknown: "Oups ! Quelque chose n'a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
       phone_number:
         too_short: "Doit comporter au moins 6 chiffres"
         cant_connect: "Nous ne pouvons vous mettre en relation avec ce correspondant. Veuillez vérifier le numéro de téléphone, ou en essayer un autre. "
+    fine_print: 'SumOfUs protège <a href="https://sumofus.org/privacy" target="_blank"> vos données personnelles, et vous tiendra au courant de la suite ainsi que de nos différentes campagnes, possiblement par SMS si vous nous avez transmis votre téléphone mobile.'
     form:
-      phone_number: "Numéro de téléphone"
+      phone_number: "Mon numéro de téléphone"
+      phone_country_code: "Code"
       country: "Pays"
-      submit: "Envoyer"
+      submit: "Appelez-moi"
   share:
     cta: Partagez la campagne avec vos ami(e)s afin de tripler votre impact!
     send_email: Envoyer un courriel
