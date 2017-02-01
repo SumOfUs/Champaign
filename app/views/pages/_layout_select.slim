@@ -16,7 +16,7 @@
       = f.radio_button :follow_up_plan, :with_liquid, class: 'hidden-irrelevant'
       span.layout-settings__title Redirect to another page
       span.layout-settings__description
-        = f.select :follow_up_page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.follow_up_page_id), {}, {class: 'selectize-container', multiple: false}
+        = f.select :follow_up_page_id, options_from_collection_for_select(Page.all, 'id', 'title', f.object.follow_up_page_id), {}, {class: 'selectize-container--clear-on-open', multiple: false}
 .checkbox
   = check_box_tag specify_layout_types(field), 'Show all', false, {class: 'layout-type-checkbox'}
   = label_tag specify_layout_types(field) do
