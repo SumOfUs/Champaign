@@ -67,6 +67,10 @@ class ActionKitFields < ActiveModel::Validator
     action_
   ).freeze
 
+  def initialize(name)
+    @name = name.to_s
+  end
+
   def validate(record)
     @name = record.name
     unless has_valid_form
@@ -77,23 +81,31 @@ class ActionKitFields < ActiveModel::Validator
     end
   end
 
-  private
-
   # Does the name match an existing ActionKit field name, else
   # does it have a valid prefix ( +action_+, or +user_+ ).
   def has_valid_form
     is_predefined_by_ak || has_valid_prefix
   end
 
-  def has_valid_characters
-    @name =~ VALID_CHARS_RE
-  end
-
   def is_predefined_by_ak
     ACTIONKIT_FIELDS_WHITELIST.include?(@name)
   end
 
+  def self.is_predefined_by_ak(name)
+    new(name).is_predefined_by_ak
+  end
+
+  def self.has_valid_form(name)
+    new(name).has_valid_form
+  end
+
+  private
+
+  def has_valid_characters
+    (@name =~ VALID_CHARS_RE).present?
+  end
+
   def has_valid_prefix
-    @name =~ VALID_PREFIX_RE
+    (@name =~ VALID_PREFIX_RE).present?
   end
 end

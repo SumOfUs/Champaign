@@ -409,6 +409,7 @@ describe 'GoCardless API' do
                 address1: '25 Elm Drive',
                 first_name: 'Bernie',
                 last_name: 'Sanders',
+                name: 'Bernie Sanders',
                 akid: '123.456.789',
                 source: 'fb',
                 user_en: 1
