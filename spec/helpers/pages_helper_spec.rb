@@ -197,11 +197,7 @@ describe PagesHelper do
         description: 'scripting',
         image: 'this/is/a/url'
       }
-      expect(facebook_meta(page, share_data)).to include(share_data.merge(image: {
-        width: '1200',
-        height: '630',
-        url: 'this/is/a/url'
-      }))
+      expect(facebook_meta(page, share_data)).to include(share_data.merge(image: 'this/is/a/url'))
     end
 
     it 'ignores share_card if empty' do
@@ -218,11 +214,7 @@ describe PagesHelper do
       expect(facebook_meta(page, share_card)).to include(
         title: page.title,
         description: 'scripting',
-        image: {
-          width: '1200',
-          height: '630',
-          url: 'this/is/a/url'
-        }
+        image: 'this/is/a/url'
       )
     end
   end
