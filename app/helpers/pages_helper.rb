@@ -121,6 +121,8 @@ module PagesHelper
   end
 
   def facebook_meta(page, share_card = {})
+    share_card.delete_if { |_, v| v.blank? }
+
     {
       site_name: 'SumOfUs',
       title: page.title,
@@ -128,18 +130,8 @@ module PagesHelper
       url: member_facing_page_url(page),
       type: 'website',
       article: { publisher: Settings.facebook_url },
-      image: {
-        width: '1200',
-        height: '630',
-        url: page.primary_image.try(:content).try(:url)
-      }
-    }.merge(share_card) do |key, v1, v2|
-      if key == :image
-        v2.blank? ? v1 : v1.merge(url: v2)
-      else
-        v2.blank? ? v1 : v2
-      end
-    end
+      image: page.primary_image.try(:content).try(:url)
+    }.merge(share_card)
   end
 
   def share_card(page)
