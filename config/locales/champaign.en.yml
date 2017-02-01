@@ -140,6 +140,7 @@ en:
       settings: 'Settings'
       pictures: 'Pictures'
       shares: 'Shares'
+      more_on_sp: 'See more on ShareProgress about %{link} performance'
       show: "Show the page"
       view: 'View'
       tags: "Tags"
