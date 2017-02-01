@@ -5,7 +5,7 @@ en:
   basics:
     or: or
   branding:
-    description: "" # override this with org-specific details in your own yml file.
+    description: "This is who we are." # override this with org-specific details in your own yml file.
   fundraiser:
     payment_methods:
       gocardless: "Direct Debit"
@@ -34,7 +34,7 @@ en:
 
     card_declined: Your card was declined by the payment processor. Please try a different payment method.
     unknown_error: Our technical team has been notified. Please double check your info or try a different payment method.
-    fine_print: "" # override this with org-specific details in your own yml file.
+    fine_print: "Donations are not tax deductable. For more information please email us." # override this with org-specific details in your own yml file.
     confirmation: Donation received
     donate_now: Donate now
     loading: Loading secure <br> payment portal
@@ -63,7 +63,7 @@ en:
     confirmation: Name submitted
     excited_confirmation: Name submitted!
     thank_you: 'Thanks for adding your name to "%{petition_title}"'
-    fine_print: "" # override this with org-specific details in your own yml file.
+    fine_print: "We will protect your privacy, and keep you updated about this and similar campaigns." # override this with org-specific details in your own yml file.
   form:
     switch_user: Sign out
     processing: Processing...
@@ -96,7 +96,7 @@ en:
     send_email: Send Email
     share: Share
     tweet: Tweet
-    twitter_handle: '' # override this with your orgs twitter handle
+    twitter_handle: '@sumofus' # override this with your orgs twitter handle
   errors:
     probably_invalid: doesn't look right
     is_invalid: is invalid
@@ -175,4 +175,4 @@ en:
       success: 'You have successfully confirmed your account. Thanks!'
       member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
   footer:
-    home_url: '' # replace with your homepage
+    home_url: 'http://yourhomepage.org' # replace with your homepage

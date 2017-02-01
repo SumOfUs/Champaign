@@ -65,11 +65,14 @@ class Member < ActiveRecord::Base
 
   def liquid_data
     full_name = name
-    attributes.symbolize_keys.merge(donor_status: donor_status, # to get the string not enum int
-                                    name: full_name,
-                                    registered: authentication.present?,
-                                    full_name: full_name,
-                                    welcome_name: full_name.blank? ? email : full_name)
+    additional_values = {
+      donor_status: donor_status, # to get the string not enum int
+      name: full_name,
+      registered: authentication.present?,
+      full_name: full_name,
+      welcome_name: full_name.blank? ? email : full_name
+    }
+    (more || {}).merge(attributes).symbolize_keys.merge(additional_values)
   end
 
   def publish_signup(locale = nil)

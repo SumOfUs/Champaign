@@ -158,7 +158,7 @@ class CallToolView extends Component {
 
   submitSuccessful(response: OperationResponse) {
     this.setState({errors: {}, loading: false});
-    this.props.onSuccess && this.props.onSuccess();
+    this.props.onSuccess && this.props.onSuccess(this.state.selectedTarget);
   }
 
   submitFailed(response: OperationResponse) {
