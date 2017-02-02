@@ -4,6 +4,7 @@ $(function(){
     closeAfterSelect: true
   });
 
+  var lastVal;
   $('.selectize-container--clear-on-open').selectize({
     onDropdownOpen: function() {
       lastVal = this.getValue();
