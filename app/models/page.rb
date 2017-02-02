@@ -23,6 +23,7 @@
 #  ak_donation_resource_uri   :string
 #  follow_up_plan             :integer          default(0), not null
 #  follow_up_page_id          :integer
+#  enforce_styles             :boolean          default(FALSE), not null
 #  javascript                 :text
 #  publish_status             :integer          default(1), not null
 #  optimizely_status          :integer          default(0), not null
