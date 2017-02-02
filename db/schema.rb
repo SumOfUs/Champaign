@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170201202503) do
+ActiveRecord::Schema.define(version: 20170202005759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,6 +235,7 @@ ActiveRecord::Schema.define(version: 20170201202503) do
     t.string   "canonical_url"
     t.boolean  "allow_duplicate_actions",    default: false
     t.boolean  "enforce_styles",             default: false,     null: false
+    t.text     "notes"
   end
 
   add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
