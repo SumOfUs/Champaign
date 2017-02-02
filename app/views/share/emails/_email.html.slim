@@ -1,4 +1,4 @@
-- only_stats = false unless defined?(only_stats) && only_stats
+- only_stats = local_assigns.fetch(:only_stats, false)
 
 - unless only_stats
   = render 'share/emails/summary_row', share: email

@@ -37,6 +37,7 @@
     tbody
       - @page.shares.each do |variation|
         = render variation, page: @page, only_stats: true
+      = render 'links_to_share_progress', only_stats: true
 
 javascript:
   $( function() {
