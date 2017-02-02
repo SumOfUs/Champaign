@@ -138,6 +138,7 @@ en:
       add_javascript: 'Add javascript'
       javascript: 'Javascript'
       settings: 'Settings'
+      enforce_styles: 'Override formatting to match standard page style'
       pictures: 'Pictures'
       shares: 'Shares'
       more_on_sp: 'See more on ShareProgress about %{link} performance'
