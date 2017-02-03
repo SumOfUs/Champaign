@@ -28,7 +28,7 @@ export type Fundraiser = {
   recurringDefault: 'one_off' | 'recurring' | 'only_recurring';
   storeInVault: boolean;
   paymentMethods: any[];
-  formId: number;
+  formId: string;
   fields: FormField[];
   form: Object;
   formValues: Object;
@@ -60,7 +60,7 @@ const initialState: Fundraiser = {
   paymentMethods: [],
   title: '',
   fields: [],
-  formId: 0,
+  formId: "",
   form: {},
   formValues: {},
   submitting: false,
@@ -85,23 +85,14 @@ function supportedCurrency(currency: string, supportedCurrencies: string[]): str
 export default function fundraiserReducer(state: Fundraiser = initialState, action: FundraiserAction): Fundraiser {
   switch (action.type) {
     case 'parse_champaign_data':
+      const { fundraiser } = action.payload;
       const {
-        donationAmount,
         currency,
         donationBands,
         recurringDefault,
-        fields,
-        showDirectDebit,
-        outstandingFields,
-        formValues,
-      } = action.payload.fundraiser;
+      } = fundraiser;
 
-      return Object.assign({}, state, {
-        donationAmount,
-        fields,
-        showDirectDebit,
-        outstandingFields,
-        formValues,
+      return Object.assign({}, state, fundraiser, {
         currency: supportedCurrency(currency, Object.keys(donationBands)),
         donationBands: isEmpty(donationBands) ? state.donationBands : donationBands,
         recurring: (recurringDefault === 'recurring') || (recurringDefault === 'only_recurring'),
