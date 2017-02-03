@@ -72,10 +72,10 @@ module ActionBuilder
 
   def form_data
     @params.tap do |params|
-      if params[:referrer_id]
-        member = Member.find_by(id: params[:referrer_id])
-        params[:action_referrer_email] = member.email if member.try(:email).present?
-      end
+      member = nil
+      member = Member.find_by_akid(params[:referring_akid]) if params[:referring_akid].present?
+      member = Member.find_by(id: params[:referrer_id]) if params[:referrer_id].present?
+      params[:action_referrer_email] = member.email if member.try(:email).present?
     end
   end
 end
