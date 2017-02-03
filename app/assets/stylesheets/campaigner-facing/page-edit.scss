@@ -517,3 +517,10 @@ body.page-edit-body {
     margin-top: 10px;
   }
 }
+.edit-page-checkbox {
+  font-weight: normal;
+  cursor: pointer;
+  input {
+    margin: 0 5px 0 0;
+  }
+}

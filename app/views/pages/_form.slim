@@ -13,6 +13,10 @@
         = label_with_tooltip(f, :content, t('pages.edit.content'), t('tooltips.content'))
         = render 'shared/wysiwyg', id: 'page_body', f: f
 
+        label.edit-page-checkbox
+          = f.check_box :enforce_styles
+          = t('pages.edit.enforce_styles')
+
       .form-group
         - js_hidden = ''
         - if page.javascript.blank?

@@ -1,0 +1,10 @@
+- only_stats = local_assigns.fetch(:only_stats, false)
+- buttons = Share::Button.where(page_id: @page.id)
+- if buttons.present?
+  tr
+    td colspan='7'
+      - links = buttons.map do |btn|
+        - url = "https://run.shareprogress.org/analytics/#{btn.sp_id}"
+        - "<a href='#{url}' target='_blank'>#{btn.sp_type}</a>"
+      .shares-editor__stats-heading class="#{only_stats ? '' : 'hidden-closed'}"
+        = I18n.t('pages.edit.more_on_sp', {link: links.to_sentence}).html_safe
