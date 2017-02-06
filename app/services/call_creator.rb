@@ -46,7 +46,7 @@ class CallCreator
       url: call_twiml_url(@call),
       status_callback: call_event_url(@call),
       status_callback_method: 'POST',
-      status_callback_event: %w{ ringing answered completed }
+      status_callback_event: %w(ringing answered completed)
     )
   rescue Twilio::REST::RequestError => e
     # 13223: Dial: Invalid phone number format
@@ -64,5 +64,4 @@ class CallCreator
       @errors[:base] << I18n.t('call_tool.errors.unknown')
     end
   end
-
 end

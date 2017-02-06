@@ -14,7 +14,6 @@ describe 'POST /twilio/calls/:id/calls' do
     expect(call.reload.log['foo']).to eq('bar')
     expect(response).to be_success
   end
-
 end
 
 describe 'POST /twilio/calls/:id/event' do
