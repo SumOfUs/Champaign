@@ -1,22 +1,24 @@
 # frozen_string_literal: true
 module Twilio
   class CallsController < ApplicationController
-    before_filter :find_call
     skip_before_action :verify_authenticity_token
 
     def twiml
+      @call = Call.find(params[:id])
       render xml: TwimlGenerator.run(@call)
     end
 
     def log
-      @call.update(log: params)
+      @call = Call.find(params[:id])
+      @call.update!(log: params)
       render xml: Twilio::TwiML::Response.new.text
     end
 
-    private
-
-    def find_call
+    def create_event
       @call = Call.find(params[:id])
+      @call.member_call_events << params
+      @call.save!
+      head :ok
     end
   end
 end

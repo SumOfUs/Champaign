@@ -14,4 +14,29 @@ describe 'POST /twilio/calls/:id/calls' do
     expect(call.reload.log['foo']).to eq('bar')
     expect(response).to be_success
   end
+
+end
+
+describe 'POST /twilio/calls/:id/event' do
+  let(:call) { create(:call) }
+  let(:params) do
+    {
+      'Called' => '+14152300381',
+      'CallbackSource' => 'call-progress-events',
+      'To' => '+14152300381',
+      'CallStatus' => 'completed'
+    }
+  end
+
+  it 'returns successfully' do
+    post "/twilio/calls/#{call.id}/event", params
+    expect(response).to be_success
+  end
+
+  it 'updates the call' do
+    post "/twilio/calls/#{call.id}/event", params
+    call.reload
+    expect(call.member_call_events.count).to eql 1
+    expect(call.member_call_events.first['CallStatus']).to eql 'completed'
+  end
 end

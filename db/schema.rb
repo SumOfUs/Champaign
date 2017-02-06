@@ -431,7 +431,7 @@ ActiveRecord::Schema.define(version: 20170220145423) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
-    t.json     "targets",                 default: [],   array: true
+    t.json     "targets",                 default: [], array: true
     t.string   "sound_clip_file_name"
     t.string   "sound_clip_content_type"
     t.integer  "sound_clip_file_size"

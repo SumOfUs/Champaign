@@ -160,6 +160,7 @@ Rails.application.routes.draw do
 
   post '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
   post '/twilio/calls/:id/log',   to: 'twilio/calls#log',   as: :call_log
+  post '/twilio/calls/:id/event', to: 'twilio/calls#create_event', as: :call_event
 
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']
