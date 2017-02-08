@@ -78,13 +78,21 @@ module PaymentProcessor
       def handle_subscription_charge(status)
         return unless subscription
         record = Payment::Braintree::Transaction.create!(
+          transaction_id: '',
           subscription: subscription,
           page: subscription.action.page,
           customer: customer,
-          status: status
+          status: status,
+          amount: subscription_amount
         )
         record.publish_subscription_charge
         true
+      end
+
+      def subscription_amount
+        # The subscription hook contains an array of transactions with the latest one first. We need to pass the
+        # amount to ActionKit to be able to override subscription prices when we've updated a subscription on BT.
+        notification.subscription.transactions.first&.amount || 0
       end
 
       # This method should only be called if @notification.subscription is a subscription object
