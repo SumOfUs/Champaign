@@ -62,7 +62,7 @@ class BraintreeCardFields extends Component {
       client,
       styles: {
         input: {
-          color: '#ccc',
+          color: '#333',
           'font-size': '16px',
         },
         ':focus': { color: '#333' },
