@@ -1,7 +1,6 @@
 // @flow weak
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import './SweetInput.css';
 
 type OwnProps = {
   name: string;

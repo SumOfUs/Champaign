@@ -69,6 +69,11 @@
     select {
       height: 58px;
     }
+    @media(max-width: 420px) {
+      input:not([type=checkbox]):not([type=radio]) {
+        -webkit-appearance: none;
+      }
+    }
 
     label.checkbox-label, .form__instruction {
       margin: 10px 0 4px;
@@ -145,8 +150,8 @@ label.checkbox-label {
     pointer-events: auto;
     color: rgba(black, 0.4);
     transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-    transform: scale(1) translate3d(0px, 0px, 0px);
-    transform-origin: left top 0px;
+    @include transform(scale(1) translate3d(0px, 0px, 0px));
+    @include transform-origin(left, top, 0px);
     -webkit-user-select: none;
     font-size: 18px;
     line-height: 28px;
@@ -164,7 +169,7 @@ label.checkbox-label {
       color: rgba(black, 0.6);
     }
     &--active, &--full {
-      transform: perspective(1px) scale(0.6) translate3d(0px, -15px, 0px);
+      @include transform(perspective(1px) scale(0.6) translate3d(0px, -15px, 0px));
       max-width: 170%;
     }
   }

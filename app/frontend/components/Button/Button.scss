@@ -22,6 +22,10 @@
     font-size: 20px;
   }
 }
+.Button-root > span {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .Button-root.disabled,
 .Button-root.disabled:hover,
