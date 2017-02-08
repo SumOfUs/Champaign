@@ -220,6 +220,9 @@ describe ActionBuilder do
 
   describe 'action_referrer_email' do
     let(:base_params) { { page_id: page.id, email: member.email } }
+    let(:akid) { '1234.5678.tKK7gX' }
+    let(:ak_user_id) { akid.split('.')[1] }
+
     describe 'is not added if referrer_id' do
       it 'is not included' do
         action = MockActionBuilder.new(base_params).build_action
@@ -243,9 +246,24 @@ describe ActionBuilder do
       end
     end
 
-    it 'is added to form_data if it is the id of a member' do
+    it 'is added to form_data if referrer_id is the id of a member' do
       m2 = create :member, email: 'asdf@hjkl.com'
       action = MockActionBuilder.new(base_params.merge(referrer_id: m2.id)).build_action
+      expect(action.form_data['action_referrer_email']).to eq 'asdf@hjkl.com'
+    end
+
+    it 'is added to form_data if referring_akid has the ak_user_id of a member' do
+      m3 = create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
+      action = MockActionBuilder.new(base_params.merge(referring_akid: akid)).build_action
+      expect(action.form_data['action_referrer_email']).to eq 'qwer@hjkl.com'
+    end
+
+    it 'adds the email of a matching referrer_id if both referrer_id and referring_akid are present' do
+      m2 = create :member, email: 'asdf@hjkl.com'
+      m3 = create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
+      action = MockActionBuilder.new(base_params.merge(
+        referrer_id: m2.id, referring_akid: akid
+      )).build_action
       expect(action.form_data['action_referrer_email']).to eq 'asdf@hjkl.com'
     end
   end
