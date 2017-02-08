@@ -58,7 +58,8 @@ describe PaymentProcessor::Braintree::WebhookHandler do
               created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
               recurring_id: 'foo',
               success: 1,
-              status: 'completed'
+              status: 'completed',
+              amount: /\A\d+[.]\d+\z/
             }
           }
 
@@ -163,7 +164,8 @@ describe PaymentProcessor::Braintree::WebhookHandler do
             created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
             recurring_id: 'foo',
             success: 0,
-            status: 'failed'
+            status: 'failed',
+            amount: '0.0'
           }
         }
         expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
