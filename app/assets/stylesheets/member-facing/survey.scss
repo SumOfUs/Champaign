@@ -79,7 +79,7 @@
     }
   }
 
-  &.post-call{
+  &.post-call {
     // make room for fixed footer
     padding-bottom: 150px;
 
@@ -98,6 +98,10 @@
 
     .hidden {
       display: none;
+    }
+
+    .post-call__toggle-button {
+      font-weight: bold;
     }
   }
 }
