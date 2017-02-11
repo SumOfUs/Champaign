@@ -21,7 +21,7 @@ class PageCloner
       plugins
       tags
       images
-      shares
+      shares # needs to go after images
     end
   end
 
@@ -67,11 +67,12 @@ class PageCloner
   end
 
   def images
+    @image_id_mapping ||= {}
     primary_image = page.primary_image
 
     page.images.each do |image|
       new_image = Image.create(content: image.content, page: cloned_page)
-
+      @image_id_mapping[image.id] = new_image.id
       cloned_page.primary_image = new_image if image == primary_image
     end
   end
@@ -90,12 +91,20 @@ class PageCloner
   def share_params(share)
     case share_class(share)
     when :facebook
-      share.slice(:description, :title, :image_id)
+      facebook_params(share)
     when :twitter
       share.slice(:description)
     when :email
       share.slice(:subject, :body)
     end
+  end
+
+  def facebook_params(share)
+    vals = share.slice(:description, :title, :image_id)
+    if @image_id_mapping.present? && vals[:image_id].present?
+      vals[:image_id] = @image_id_mapping[vals[:image_id]]
+    end
+    vals
   end
 
   def share_class(share)
