@@ -10,6 +10,7 @@ describe PageCloner do
   let(:page) do
     create(
       :page,
+      :featured,
       tags: [tag],
       campaign: campaign,
       liquid_layout: liquid_layout,
@@ -111,6 +112,11 @@ describe PageCloner do
   it 'sets the new pages action_count to 0' do
     expect(page.action_count).not_to eq(0)
     expect(cloned_page.action_count).to eq(0)
+  end
+
+  it 'unfeatures page' do
+    expect(page.featured).to be true
+    expect(cloned_page.featured).to be false
   end
 
   describe 'title and slug' do
