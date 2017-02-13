@@ -41,6 +41,9 @@ FactoryGirl.define do
     ak_petition_resource_uri 'http://example.com/petition'
     ak_donation_resource_uri 'http://example.com/donation'
 
+    trait :featured do
+      featured true
+    end
     trait :published do
       publish_status :published
     end
