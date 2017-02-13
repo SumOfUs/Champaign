@@ -15,6 +15,11 @@
       .form-group
         = label_with_tooltip(f, :recurring_default, t('plugins.fundraiser.recurring_default'), t('tooltips.fundraiser.recurring_default'))
         = f.select :recurring_default, Plugins::Fundraiser.recurring_defaults.keys.to_a.map { |key| [t("plugins.fundraiser.recurring_defaults.#{key}"), key] }, {}, {class: 'form-control form-select'}
+      .form-group
+        label.fundraiser-preselect-amount-checkbox
+          = t('plugins.fundraiser.preselect_amount')
+          | &nbsp;
+          = f.check_box :preselect_amount
 
     .well
       = render partial: 'plugins/shared/apply_form_template', locals: { plugin: plugin }

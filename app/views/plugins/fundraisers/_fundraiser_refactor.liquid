@@ -24,6 +24,7 @@
           formId: "{{ plugins.fundraiser[ref].form_id }}",
           outstandingFields: global.outstandingFields,
           title: "{{ plugins.fundraiser[ref].title }}",
+          preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
           recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
           freestanding: {% if freestanding %} true {% else %} false {% endif %}
