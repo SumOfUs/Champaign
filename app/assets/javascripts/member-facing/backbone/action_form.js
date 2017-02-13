@@ -5,7 +5,7 @@ const GlobalEvents = require('shared/global_events');
 const ActionForm = Backbone.View.extend({
 
   el: 'form.action-form',
-  HIDDEN_FIELDS: ['source', 'akid', 'referrer_id', 'bucket'],
+  HIDDEN_FIELDS: ['source', 'akid', 'referrer_id', 'bucket', 'referring_akid'],
 
   events: {
     'click .action-form__clear-form': 'clearForm',
@@ -25,6 +25,7 @@ const ActionForm = Backbone.View.extend({
   //    outstandingFields: the names of step 2 form fields that aren't satisfied by
   //      the values in the member hash.
   //    member: an object with fields that will prefill the form
+  //    referring_akid: if passed, submitted to the server in the form
   //    referrer_id: if passed, submitted to the server in the form
   //    bucket: if passed, submitted to the server in the form
   //    location: a hash of location values inferred from the user's request

@@ -5,7 +5,7 @@ const GlobalEvents = require('shared/global_events');
 const Survey = Backbone.View.extend({
 
   el: '.survey',
-  HIDDEN_FIELDS: ['source', 'referrer_id', 'akid'],
+  HIDDEN_FIELDS: ['source', 'referrer_id', 'akid', 'referring_akid'],
   DEFAULT_SCROLL_OFFSET: 80,
 
   events: {
@@ -18,6 +18,7 @@ const Survey = Backbone.View.extend({
   // options: object with any of the following keys
   //    source: the referring source to save
   //    referrer_id: the champaign id of the referrer
+  //    referring_akid: the AK id of the referrer
   //    prefill: an object with fields that will prefill the form
   //    followUpUrl: the url to redirect to after the survey is completed
   //    scrollOffset: the gap to leave between the top of the browser
