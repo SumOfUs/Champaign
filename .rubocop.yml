@@ -8,6 +8,8 @@ AllCops:
     - 'vendor/**/*'
     - 'node_modules/**/*'
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
 Style/IndentationConsistency:
   EnforcedStyle: normal
 
