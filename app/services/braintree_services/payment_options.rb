@@ -2,10 +2,11 @@
 
 module BraintreeServices
   class PaymentOptions
-    attr_reader :params
+    attr_reader :params, :pledge
 
-    def initialize(params)
+    def initialize(params, pledge)
       @params = params
+      @pledge = pledge
     end
 
     def payment_method

@@ -37,6 +37,12 @@ fr:
     confirmation: Don reçu
     donate_now: Don maintenant
     loading: Chargement du portail sécurisé de paiement
+    pledges:
+      count: "%{pledge_count} pledges"
+      to_go: "%{remainder} more needed to activate donations!"
+      met_goal: "We've met our goal of %{goal} pledges!"
+      explanation: "Donations will only be charged if we reach %{goal} pledges."
+      title: 'Pledge Drive'
     oneclick:
       select_payment: "Sélectionner un mode de paiement sauvegardé"
       credit_card_payment_method: "%{card_type} finissant par %{last_four_digits}"

@@ -25,7 +25,6 @@ class PaymentController < ApplicationController
         value: existing_payment_methods.uniq.join(','),
         expires: 1.year.from_now
       }
-
     end
 
     respond_to do |format|

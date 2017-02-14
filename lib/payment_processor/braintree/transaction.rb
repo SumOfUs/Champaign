@@ -18,22 +18,22 @@ module PaymentProcessor
       # * +:currency+ - Billing currency (required)
       # * +:user+     - Hash of information describing the customer. Must include email, and name (required)
       # * +:customer+ - Instance of existing Braintree customer. Must respond to +customer_id+ (optional)
-      attr_reader :action, :result, :store_in_vault
+      attr_reader :action, :result
 
-      def self.make_transaction(nonce:, amount:, currency:, user:, page_id:, store_in_vault: false, device_data: {})
-        builder = new(nonce, amount, currency, user, page_id, store_in_vault, device_data)
+      def self.make_transaction(nonce:, amount:, currency:, user:, page:, store_in_vault: false, device_data: {})
+        builder = new(nonce, amount, currency, user, page, store_in_vault, device_data)
         builder.transact
         builder
       end
 
       # Long parameter list is doing my head in - let's replace with a parameter object
       #
-      def initialize(nonce, amount, currency, user, page_id, store_in_vault = false, device_data = {})
+      def initialize(nonce, amount, currency, user, page, store_in_vault = false, device_data = {})
         @amount = amount
         @nonce = nonce
         @user = user
         @currency = currency
-        @page_id = page_id
+        @page = page
         @store_in_vault = store_in_vault
         @device_data = device_data
       end
@@ -42,15 +42,19 @@ module PaymentProcessor
         @result = ::Braintree::Transaction.sale(options)
 
         if @result.success?
-          @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page_id), braintree_result: @result, is_subscription: false, store_in_vault: @store_in_vault)
-          Payment::Braintree.write_transaction(@result, @page_id, @action.member_id, existing_customer, store_in_vault: @store_in_vault)
+          @action = ManageBraintreeDonation.create(params: @user.merge(page_id: @page.id), braintree_result: @result, is_subscription: false, store_in_vault: @store_in_vault)
+          Payment::Braintree.write_transaction(@result, @page, @action.member_id, existing_customer, store_in_vault: @store_in_vault)
         else
-          Payment::Braintree.write_transaction(@result, @page_id, nil, existing_customer, store_in_vault: @store_in_vault)
+          Payment::Braintree.write_transaction(@result, @page, nil, existing_customer, store_in_vault: @store_in_vault)
         end
       end
 
       def transaction_id
         @result.try(:transaction).try(:id)
+      end
+
+      def submit_for_settlement?
+        !@page.pledger?
       end
 
       private
@@ -63,11 +67,8 @@ module PaymentProcessor
           device_data: @device_data,
 
           options: {
-            submit_for_settlement: true,
-            # we always want to store in vault unless we're using an existing
-            # payment_method_token. we haven't built anything to do that yet,
-            # so for now always store the payment method.
-            store_in_vault_on_success: store_in_vault
+            submit_for_settlement: submit_for_settlement?,
+            store_in_vault_on_success: @store_in_vault
           },
           customer: customer_options,
           billing: billing_options

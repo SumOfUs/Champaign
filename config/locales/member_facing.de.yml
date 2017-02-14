@@ -37,6 +37,12 @@ de:
     confirmation: Spende erhalten
     donate_now: Spenden Sie jetzt!
     loading: Unser sicheres Spenden formular wird geladen
+    pledges:
+      count: "%{pledge_count} pledges"
+      to_go: "%{remainder} more needed to activate donations!"
+      met_goal: "We've met our goal of %{goal} pledges!"
+      explanation: "Donations will only be charged if we reach %{goal} pledges."
+      title: 'Pledge Drive'
     oneclick:
       select_payment: "Wählen Sie eine der hinterlegten Zahlungsmethoden"
       credit_card_payment_method: "%{card_type} gültig bis %{last_four_digits}"

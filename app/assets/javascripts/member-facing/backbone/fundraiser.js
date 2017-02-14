@@ -39,13 +39,16 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
   //    amount: a preselected donation amount, if > 0 the first step will be skipped
   //    showDirectDebit: boolean, whether to show the direct debit option
   //    donationBands: an object with three letter currency codes as keys
-  //    recurringDefault: either 'donation', 'recurring', or 'only_recurring'
+  //    recurringDefault: either 'one_off', 'recurring', or 'only_recurring'
+  //    pledge: true if this is a pledge drive, false otherwise.
   //    pageId: the ID of the plugin's page database record.
   //      and array of numbers, integers or floats, to display as donation amounts
   initialize(options = {}) {
     this.initializeCurrency(options.currency, options.donationBands);
     this.changeStep(1);
     this.donationAmount = 0;
+    this.pledge = options.pledge || false;
+
     if (typeof options.member === 'object') {
       this.member = options.member;
     } else {
@@ -68,19 +71,14 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
   },
 
-  initializeRecurring(recurringDefault) {
+  initializeRecurring(decision) {
     const $checkbox = this.$('input.fundraiser-bar__recurring, input.fundraiser-bar__recurring-one-click');
 
-    switch(recurringDefault) {
-      case 'only_recurring':
-        $checkbox.parents('label').addClass('hidden-irrelevant');
-        // deliberate fall-through to next case (no break)
-      case 'recurring':
-        $checkbox.prop('checked', true);
-        break;
-      default:
-        $checkbox.prop('checked', false);
-    }
+    const hiddenAndDisabled = (decision === 'only_recurring' || decision === 'only_one_off');
+    const checked = (decision === 'only_recurring' || decision === 'recurring');
+    $checkbox.prop('disabled', hiddenAndDisabled);
+    $checkbox.prop('checked', checked);
+    if (hiddenAndDisabled) $checkbox.parents('label').addClass('hidden-irrelevant');
   },
 
   initializeSkipping(options){
@@ -179,8 +177,9 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
       let digits = (this.donationAmount === Math.floor(this.donationAmount)) ? 0 : 2;
       let donationAmount = `${currencySymbol}${this.donationAmount.toFixed(digits)}`;
       let monthly = this.readRecurring() ? `<span> / ${I18n.t('fundraiser.month')}</span>` : '';
+      let translationKey = this.pledge ? 'fundraiser.pledge' : 'fundraiser.donate';
       this.buttonText = `<span class="fa fa-lock"></span>
-                         <span>${I18n.t('fundraiser.donate', {amount: donationAmount})}</span>
+                         <span>${I18n.t(translationKey, {amount: donationAmount})}</span>
                          ${monthly}`;
       this.$('.fundraiser-bar__display-amount').text(donationAmount);
       this.$('.fundraiser-bar__submit-button').html(this.buttonText);
