@@ -1,7 +1,6 @@
 /* @flow */
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
-import mapValues from 'lodash/mapValues';
 import type { FundraiserAction } from './actions';
 
 export type FormField = {
