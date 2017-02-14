@@ -29,6 +29,7 @@ describe Plugins::Fundraiser do
   it { is_expected.to respond_to :title }
   it { is_expected.to respond_to :ref }
   it { is_expected.to respond_to :page }
+  it { is_expected.to respond_to :preselect_amount }
 
   it 'is included in Plugins.registered' do
     expect(Plugins.registered).to include(Plugins::Fundraiser)
@@ -83,6 +84,12 @@ describe Plugins::Fundraiser do
         create :plugins_fundraiser, page: page, recurring_default: 1
         expect(Plugins::Fundraiser.donation_default_for_page(page.id)).to eq(true)
       end
+    end
+  end
+
+  describe '.preselect_amount' do
+    it 'defaults to false' do
+      expect(fundraiser.preselect_amount).to eq(false)
     end
   end
 end
