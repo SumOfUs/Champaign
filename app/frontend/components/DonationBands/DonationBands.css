@@ -16,6 +16,11 @@
   font-size: 24px;
 }
 
+.DonationBands-button--shade:not(:hover) {
+  background-color: darkgray;
+  border-color: darkgray;
+}
+
 input.DonationBands__input {
   height: 60px;
   margin: 0;

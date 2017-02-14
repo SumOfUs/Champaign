@@ -1,6 +1,7 @@
 /* @flow */
 import isEmpty from 'lodash/isEmpty';
 import includes from 'lodash/includes';
+import mapValues from 'lodash/mapValues';
 import type { FundraiserAction } from './actions';
 
 export type FormField = {
@@ -17,10 +18,13 @@ export type FormField = {
   updated_at: string;
 };
 
+export type DonationBands = {[id: string]: number[]};
+export type FeaturedAmounts = {[id: string]: number};
+
 export type Fundraiser = {
   title: string;
   currency: string;
-  donationBands: {[id:string]: number[]};
+  donationBands: DonationBands;
   donationFeaturedAmount?: number;
   donationAmount: ?number;
   currentStep: number;
@@ -37,6 +41,7 @@ export type Fundraiser = {
   showDirectDebit?: boolean;
   freestanding?: boolean;
   submitting: boolean;
+  preselectAmount: boolean;
   outstandingFields: string[];
 };
 
@@ -66,6 +71,7 @@ const initialState: Fundraiser = {
   submitting: false,
   freestanding: false,
   outstandingFields: [],
+  preselectAmount: false,
 };
 
 // `supportedCurrency` gets a currency string and compares it against our list of supported currencies.
@@ -82,6 +88,11 @@ function supportedCurrency(currency: string, supportedCurrencies: string[]): str
   }
 }
 
+export function pickMedianAmount(bands: DonationBands, currency: string): number {
+  const amounts = bands[currency];
+  return amounts[Math.floor(amounts.length / 2)] || 0;
+}
+
 export default function fundraiserReducer(state: Fundraiser = initialState, action: FundraiserAction): Fundraiser {
   switch (action.type) {
     case 'parse_champaign_data':
@@ -91,10 +102,12 @@ export default function fundraiserReducer(state: Fundraiser = initialState, acti
         donationBands,
         recurringDefault,
       } = fundraiser;
+      const amounts = isEmpty(donationBands) ? state.donationBands : donationBands;
 
       return Object.assign({}, state, fundraiser, {
         currency: supportedCurrency(currency, Object.keys(donationBands)),
-        donationBands: isEmpty(donationBands) ? state.donationBands : donationBands,
+        donationBands: amounts,
+        donationFeaturedAmount: fundraiser.preselectAmount ? pickMedianAmount(amounts, currency) : undefined,
         recurring: (recurringDefault === 'recurring') || (recurringDefault === 'only_recurring'),
       });
     case 'reset_member':
@@ -108,7 +121,8 @@ export default function fundraiserReducer(state: Fundraiser = initialState, acti
       });
     case 'change_currency':
       return Object.assign({}, state, {
-        currency: supportedCurrency(action.payload, Object.keys(state.donationBands))
+        currency: supportedCurrency(action.payload, Object.keys(state.donationBands)),
+        donationFeaturedAmount: state.preselectAmount ? pickMedianAmount(state.donationBands, state.currency): undefined,
       });
     case 'change_amount':
       return Object.assign({}, state, {
