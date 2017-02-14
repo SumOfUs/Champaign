@@ -10,6 +10,7 @@ describe PageCloner do
   let(:page) do
     create(
       :page,
+      :featured,
       tags: [tag],
       campaign: campaign,
       liquid_layout: liquid_layout,
@@ -57,21 +58,36 @@ describe PageCloner do
   it 'clones shares' do
     expect(cloned_page.shares).to_not eq(page.shares)
     expect(cloned_page.shares.size).to eq(page.shares.size)
-    cloned_page.shares.each do |share|
-      case share.class.name.downcase.demodulize
-      when 'facebook'
-        expect(share.id).to_not eq(fb_share.id)
-        expect(share.description).to eq('facebook share {LINK}')
-        expect(share.title).to eq('share')
-        expect(share.image_id).to eq(123)
-      when 'twitter'
-        expect(share.id).to_not eq(tw_share.id)
-        expect(share.description).to eq('twitter share {LINK}')
-      when 'email'
-        expect(share.id).to_not eq(email_share.id)
-        expect(share.subject).to eq('forward this email')
-        expect(share.body).to eq('They are on it! {LINK}')
-      end
+  end
+
+  it 'clones facebook shares' do
+    fb_shares = cloned_page.shares.select { |s| s.class.name.downcase.demodulize == 'facebook' }
+    expect(fb_shares.length).to eq 1
+    fb_shares.each do |share|
+      expect(share.id).to_not eq(fb_share.id)
+      expect(share.description).to eq('facebook share {LINK}')
+      expect(share.title).to eq('share')
+      expect(share.image_id).not_to eq(123)
+      expect(cloned_page.images.map(&:id)).to include(share.image_id)
+    end
+  end
+
+  it 'clones twitter shares' do
+    tw_shares = cloned_page.shares.select { |s| s.class.name.downcase.demodulize == 'twitter' }
+    expect(tw_shares.length).to eq 1
+    tw_shares.each do |share|
+      expect(share.id).to_not eq(tw_share.id)
+      expect(share.description).to eq('twitter share {LINK}')
+    end
+  end
+
+  it 'clones email shares' do
+    em_shares = cloned_page.shares.select { |s| s.class.name.downcase.demodulize == 'email' }
+    expect(em_shares.length).to eq 1
+    em_shares.each do |share|
+      expect(share.id).to_not eq(email_share.id)
+      expect(share.subject).to eq('forward this email')
+      expect(share.body).to eq('They are on it! {LINK}')
     end
   end
 
@@ -96,6 +112,11 @@ describe PageCloner do
   it 'sets the new pages action_count to 0' do
     expect(page.action_count).not_to eq(0)
     expect(cloned_page.action_count).to eq(0)
+  end
+
+  it 'unfeatures page' do
+    expect(page.featured).to be true
+    expect(cloned_page.featured).to be false
   end
 
   describe 'title and slug' do
@@ -132,6 +153,7 @@ describe PageCloner do
     end
 
     it 'clones images' do
+      expect { cloned_page }.to change { Image.count }.by 2
       expect(cloned_page.images.count).to eq(page.reload.images.count)
     end
 

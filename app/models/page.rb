@@ -103,7 +103,8 @@ class Page < ActiveRecord::Base
     clone.assign_attributes(
       primary_image: nil,
       slug: nil,
-      action_count: 0
+      action_count: 0,
+      featured: false
     )
 
     clone

@@ -371,9 +371,10 @@ describe LiquidRenderer do
 
       it 'allows all the hidden field params' do
         fundraiser # lazy eval
-        url_params.merge!(akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd')
+        hiddens = { akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd', referring_akid: 'e' }
+        url_params.merge!(hiddens)
         renderer = LiquidRenderer.new(page, member: member, url_params: url_params)
-        expected = { country: 'NI', email: 'sup@dude.com', akid: 'a', bucket: 'b', source: 'c', referrer_id: 'd' }
+        expected = { country: 'NI', email: 'sup@dude.com' }.merge(hiddens)
         expect(renderer.personalization_data['form_values']).to eq(expected.stringify_keys)
       end
     end
