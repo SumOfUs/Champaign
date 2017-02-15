@@ -3,7 +3,7 @@ puts 'Seeding...'
 
 # Forms
 %w(en fr de).each do |locale|
-  DefaultFormBuilder.create(locale: locale)
+  DefaultFormBuilder.find_or_create(locale: locale)
 end
 
 # Liquid Markup

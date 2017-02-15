@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class DefaultFormBuilder
   class << self
-    def create(locale: 'en')
+    def find_or_create(locale: 'en')
       @locale = locale
       form = Form.masters.find_or_initialize_by(name: default_name)
 
