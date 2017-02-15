@@ -3,14 +3,25 @@
 .edit-block
   h1.page-edit-step__title
     = t('.title')
-  = form_for Page.new, url: clone_pages_path, class: '' do |f|
 
-    .form-group
-      = f.label :title, t('.labels.title')
-      = f.text_field :title, class: 'form-control', value: @page.title
-    .form-group
-      p
-        = f.submit t('.labels.submit'), class: 'btn btn-sm btn-primary submit-new-page'
-        = link_to t('common.cancel'), :back, class: 'btn btn-sm'
-      = hidden_field_tag :id, @page.id
+  .col-md-6
+    = form_for Page.new, url: clone_pages_path, class: '' do |f|
+      .form-group
+        = f.label :title, t('.labels.title')
+        = f.text_field :title, class: 'form-control', value: @page.title
+
+      .form-group
+        = f.label :language_id, t('pages.edit.language_label')
+        = f.select :language_id, Language.all.map { |lang| [lang.name, lang.id] }, { selected: @page.language_id}, class: "form-control"
+
+      .form-group
+        label.edit-page-checkbox
+          = check_box_tag :override_forms
+          = t('.labels.override_forms')
+
+      .form-group
+        p
+          = f.submit t('.labels.submit'), class: 'btn btn-sm btn-primary submit-new-page'
+          = link_to t('common.cancel'), :back, class: 'btn btn-sm'
+        = hidden_field_tag :id, @page.id
 
