@@ -1,0 +1,26 @@
+- content_for(:title, "Actions | #{@page.title}")
+
+= render "sidebar", action: :actions, id: @page.id
+
+.edit-block
+  h1.edit-block__title= "Actions - #{@page.title}"
+  - private_keys = %w( action_referrer_email action_express_donation)
+  - prefixes = %w(action_textentry_ action_box_ action_dropdown_ action_choice_ action_)
+  - keys = @actions.map { |a| a.form_data.keys }.flatten.uniq.reject { |k| private_keys.include?(k) }
+  - keys = keys.select { |k| ActionKitFields.has_valid_form(k) }
+  
+  .edit-block__constrained-width
+    table.table
+      thead
+        - keys.each do |key|
+          th
+            - prefixes.each do |p|
+                - key = key.remove(p)
+            = key.titleize
+
+      tbody
+        - @actions.each do |action|
+          tr
+            - keys.each do |key|
+              td = action.form_data[key]
+

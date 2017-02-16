@@ -4,7 +4,7 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :follow_up]
-  before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics]
+  before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics, :actions]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: [:show, :follow_up]
   before_action :localize, only: [:show, :follow_up]
@@ -15,6 +15,10 @@ class PagesController < ApplicationController
   end
 
   def analytics
+  end
+
+  def actions
+    @actions = @page.actions
   end
 
   def new
