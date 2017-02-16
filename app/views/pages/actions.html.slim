@@ -1,0 +1,19 @@
+- content_for(:title, "Actions | #{@page.title}")
+
+= render "sidebar", action: :actions, id: @page.id
+
+.edit-block
+  h1.edit-block__title= "Actions - #{@page.title}"
+  
+  .edit-block__constrained-width
+    table.table
+      thead
+        - @headers.each do |header|
+          th = header
+
+      tbody
+        - @hashes.each do |row|
+          tr
+            - @keys.each do |key|
+              td = row[key]
+

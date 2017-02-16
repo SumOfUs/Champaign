@@ -237,6 +237,12 @@ body.page-edit-body {
     cursor: pointer;
   }
 
+  &__constrained-width {
+    width: 100%;
+    height: auto;
+    overflow: scroll;
+  }
+
   .four-ninths.form-group {
     width: 43%;
     margin-right: 1%;

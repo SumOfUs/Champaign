@@ -18,7 +18,10 @@ class PagesController < ApplicationController
   end
 
   def actions
-    @actions = @page.actions
+    respond_to do |format|
+      format.html { @hashes, @keys, @headers = ActionCollator.run(@page.actions) }
+      format.csv { render text: ActionCollator.csv(@page.actions) }
+    end
   end
 
   def new
