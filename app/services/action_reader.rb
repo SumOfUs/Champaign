@@ -2,7 +2,7 @@
 class ActionReader
   attr_reader :query
 
-  DEFAULT_PER_PAGE = 4
+  DEFAULT_PER_PAGE = 30
 
   def initialize(query)
     @query = query
