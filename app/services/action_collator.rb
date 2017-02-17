@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class ActionCollator
-  PRIVATE_KEYS = %w(action_referrer_email action_express_donation).freeze
+  PRIVATE_KEYS = %w(action_referrer_email action_referer action_express_donation).freeze
   PREFIXES = %w(action_textentry_ action_box_ action_dropdown_ action_choice_ action_).freeze
 
   def self.run(actions)

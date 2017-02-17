@@ -17,7 +17,8 @@ describe ActionCollator do
     end
 
     it 'excludes action_referrer_email and action_express_donation' do
-      form_data = { action_referrer_email: 'a', action_express_donation: '1', country: 'NI' }
+      form_data = { action_referrer_email: 'a', action_express_donation: '1',
+                    action_referer: 'blah', country: 'NI' }
       a = build :action, form_data: form_data
       expect(ActionCollator.new([a]).keys).to match_array ['country']
     end
