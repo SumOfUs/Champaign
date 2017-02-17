@@ -111,6 +111,7 @@ en:
       title: "Clone Page"
       labels:
         title: "Edit Page Title"
+        override_forms: Replace page's forms with the default in the selected language
         submit: "Clone!"
   pages:
     index:
@@ -294,6 +295,7 @@ en:
       donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"
       recurring_default: 'Default to recurring donation?'
+      preselect_amount: "Preselect an amount?"
       recurring_defaults:
         one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'

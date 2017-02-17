@@ -1,0 +1,37 @@
+- content_for(:title, "Actions | #{@page.title}")
+
+= render "sidebar", action: :actions, id: @page.id
+
+.edit-block
+  h1.edit-block__title= "Actions - #{@page.title}"
+  
+  .edit-block__constrained-width
+    table.table
+      thead
+        - @headers.each do |header|
+          th = header
+
+      tbody
+        - @hashes.each do |row|
+          tr
+            - @keys.each do |key|
+              td = row[key]
+
+
+  - range = 'actions ' + record_range(@paginator.current_page, @paginator.size)
+  - range = "last #{@paginator.size} actions" if @paginator.last_page?
+  .pagination
+    .pagination--left
+      - if @paginator.total_pages > 1
+        = "Showing #{range}"
+    .pagination--right
+      = paginate @paginator, param_name: :page_number
+  br
+  - show_paged_csv = @paginator.total_pages > 1 || @page.action_count > 10_000
+  - show_all_csv = @page.action_count <= 10_000
+  - if show_paged_csv
+    = link_to "Download #{range} in CSV", actions_page_path(@page, page_number: @paginator.current_page, format: :csv)
+  - if show_paged_csv && show_all_csv
+    = ' | ' 
+  - if show_all_csv
+    = link_to "Download all actions in CSV", actions_page_path(@page, format: :csv)

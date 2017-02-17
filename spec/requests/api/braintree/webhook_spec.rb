@@ -103,7 +103,8 @@ describe 'Braintree API' do
                 created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
                 recurring_id: /[a-z0-9]{6}/,
                 success: 1,
-                status: 'completed'
+                status: 'completed',
+                amount: /\A\d+[.]\d+\z/
               }
             }
 
@@ -167,7 +168,8 @@ describe 'Braintree API' do
                 created_at: /\A\d{4}(-\d{2}){2} (\d{2}:){2}\d{2}\z/,
                 recurring_id: /[a-z0-9]{6}/,
                 success: 1,
-                status: 'completed'
+                status: 'completed',
+                amount: /\A\d+[.]\d+\z/
               }
             }
 

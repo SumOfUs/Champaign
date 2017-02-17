@@ -43,7 +43,7 @@ body.page-edit-body {
     overflow: hidden;
     @include transition (height 0.2s ease-out);
     &--open {
-      height: 182px
+      height: 228px
     }
     &--closed {
       height: 50px
@@ -235,6 +235,12 @@ body.page-edit-body {
 
   a {
     cursor: pointer;
+  }
+
+  &__constrained-width {
+    width: 100%;
+    height: auto;
+    overflow: scroll;
   }
 
   .four-ninths.form-group {

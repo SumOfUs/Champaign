@@ -13,12 +13,12 @@ const FORMATTED_NUMBER_DEFAULTS = {
 
 type Props = {
   amounts: number[];
-  featuredAmount?: number;
   currency: string;
   customAmount?: number;
   proceed: () => void;
   intl: any,
   selectAmount: (amount: ?number) => void;
+  featuredAmount?: number;
   toggleProceedButton?: (visible: boolean) => void;
 };
 
@@ -90,9 +90,11 @@ export class DonationBands extends Component {
   }
 
   renderButton(amount: number, index: number): Button {
+    const featuredAmount = this.props.featuredAmount;
     const className = classnames({
       'DonationBands-button': true,
-      'DonationBands-button--highlight': (this.props.featuredAmount === amount)
+      'DonationBands-button--highlight': (featuredAmount === amount),
+      'DonationBands-button--shade': (!!featuredAmount && featuredAmount !== amount)
     });
     const currency = ['AUD', 'CAD', 'NZD'].indexOf(this.props.currency) > -1 ? 'USD' : this.props.currency;
 

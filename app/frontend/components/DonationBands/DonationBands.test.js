@@ -2,6 +2,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
+import translations from '../../locales/translations-json';
 import DonationBands from './DonationBands';
 
 const amounts = [1, 2, 3, 4, 5];
@@ -10,7 +11,7 @@ const selectAmount = jest.fn();
 const proceed = jest.fn();
 
 const component = (
-  <IntlProvider locale="en-CA">
+  <IntlProvider locale="en" messages={translations.en}>
     <DonationBands
       customAmount={10}
       amounts={amounts}
@@ -72,4 +73,31 @@ it('clears the input when the user clicks on a donation amount button', () => {
   expect(inputEl.value).toBe('£123');
   wrapper.childAt(0).simulate('click');
   expect(inputEl.value).toBe('');
+});
+
+describe('Featured Amount', function () {
+  const wrapper = mount(
+    <IntlProvider locale="en" messages={translations.en}>
+      <DonationBands
+        amounts={amounts}
+        currency="GBP"
+        proceed={proceed}
+        selectAmount={selectAmount}
+        featuredAmount={3}
+      />
+    </IntlProvider>
+  );
+
+  it('highlights the featured amount if there is a match', () => {
+    const nodes = wrapper.find('.DonationBands-button--highlight');
+    expect(nodes.at(0).text()).toEqual('£3');
+  });
+
+  it('shades all amounts that do not match the featured amounts', () => {
+    const nodes = wrapper.find('.DonationBands-button--shade');
+    expect(nodes.length).toEqual(4);
+    expect(nodes.at(0).hasClass('DonationBands-button--shade')).toBeTruthy();
+    expect(nodes.at(3).hasClass('DonationBands-button--shade')).toBeTruthy();
+  });
+
 });

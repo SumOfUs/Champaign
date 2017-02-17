@@ -6,19 +6,22 @@ class PageCloner
 
   attr_reader :page, :cloned_page, :title
 
-  def self.clone(page, title = nil)
-    new(page, title).clone
+  def self.clone(page, title = nil, language_id = nil, override_forms = false)
+    new(page, title, language_id, override_forms).clone
   end
 
-  def initialize(page, title = nil)
+  def initialize(page, title = nil, language_id = nil, override_forms = false)
     @page = page
     @title = title
+    @language_id = language_id&.to_i
+    @override_forms = override_forms
   end
 
   def clone
     clone_page do
+      language
       links
-      plugins
+      plugins # needs to go after language
       tags
       images
       shares # needs to go after images
@@ -55,6 +58,7 @@ class PageCloner
     page.plugins.each do |plugin|
       plugin.dup.tap do |clone|
         clone.page = cloned_page
+        update_form(clone) if @override_forms
         clone.save!
       end
     end
@@ -64,6 +68,19 @@ class PageCloner
     page.tags.each do |tag|
       cloned_page.tags << tag
     end
+  end
+
+  def language
+    return unless @language_id.present?
+    language_record = Language.find_by(id: @language_id)
+    cloned_page.update_attributes(language_id: language_record.id) if language_record.present?
+  end
+
+  def update_form(plugin)
+    # plugins_with_forms = page.plugins.select { |p| p.try(:form).present? }
+    return unless plugin.respond_to?(:form=)
+    default_form = DefaultFormBuilder.find_or_create(locale: cloned_page.language.code)
+    plugin.form = FormDuplicator.duplicate(default_form)
   end
 
   def images

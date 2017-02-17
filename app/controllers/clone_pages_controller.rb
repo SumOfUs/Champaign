@@ -7,7 +7,8 @@ class ClonePagesController < ApplicationController
   end
 
   def create
-    new_page = PageCloner.clone(@page, params[:page][:title])
+    override_forms = (params[:override_forms].to_i == 1)
+    new_page = PageCloner.clone(@page, params[:page][:title], params[:page][:language_id], override_forms)
     QueueManager.push(new_page, job_type: :create)
     redirect_to edit_page_path(new_page)
   end

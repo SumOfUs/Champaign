@@ -41,8 +41,11 @@ describe PageCloner do
   let!(:link) { create(:link, page: page) }
 
   subject(:cloned_page) do
+    @title ||= nil
+    @language_id ||= nil
+    @override_forms ||= nil
     VCR.use_cassette('page_cloner_share_success') do
-      PageCloner.clone(page).reload
+      PageCloner.clone(page, @title, @language_id, @override_forms).reload
     end
   end
 
@@ -107,6 +110,12 @@ describe PageCloner do
 
   it 'duplicates content' do
     expect(cloned_page.content).to eq('Foo Bar')
+  end
+
+  it 'updates the language when language_id is passed' do
+    @language_id = create(:language, :french).id
+    expect(cloned_page.language_id).to eq(@language_id)
+    expect(cloned_page.language.code).to eq 'fr'
   end
 
   it 'sets the new pages action_count to 0' do
@@ -209,10 +218,25 @@ describe PageCloner do
 
       it 'clones form elements' do
         expect(cloned_form.form_elements).not_to match_array(form.form_elements)
+        expect(cloned_form.form_elements.map(&:name)).to match_array(form.form_elements.map(&:name))
+      end
 
-        expect(
-          cloned_form.form_elements.map(&:name)
-        ).to include('action_textentry_foo_bar')
+      context 'when override_forms is passed' do
+        before :each do
+          @override_forms = true
+        end
+
+        it 'with a language_id it creates a new form with the same language' do
+          @language_id = create(:language, :german).id
+          expect { cloned_page }.to change { Form.count }.by 2 # it also creates the german master form
+          expect(cloned_form.form_elements.map(&:name)).not_to match_array(form.form_elements.map(&:name))
+          expect(cloned_form.form_elements.map(&:label)).to include('VOLLSTÄNDIGER NAME')
+        end
+
+        it 'without a language_id' do
+          expect { cloned_page }.to change { Form.count }.by 1
+          expect(cloned_form.form_elements.map(&:name)).not_to match_array(form.form_elements.map(&:name))
+        end
       end
     end
   end

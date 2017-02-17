@@ -4,7 +4,7 @@
 .edit-block
   h1.edit-block__title= t('.title')
 
-  .row
+  .row.edit-block__constrained-width
     .col-md-12
       = link_to t('.new'), new_page_path, class: 'btn btn-primary btn-md'
     .col-md-12
@@ -22,6 +22,7 @@
             th
             th
             th
+            th
         tbody
           - @pages.each do |page|
             tr id="page-#{page.id}"
@@ -34,6 +35,7 @@
               = render(partial: 'featured_column', locals: {page: page})
               td = link_to_if !page.archived?, t('common.edit'), edit_page_path(page)
               td = link_to t('.stats'), analytics_page_path(page)
+              td = link_to t('menu.actions'), actions_page_path(page)
               td = link_to_if !page.archived?, t('menu.clone'), new_clone_page_path(id: page.id)
               td
                 - if page.archived?
