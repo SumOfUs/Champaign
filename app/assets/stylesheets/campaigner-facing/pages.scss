@@ -45,3 +45,17 @@
 #pages-table .toggle-featured a {
   color: black;
 }
+
+.pagination {
+  width: 100%;
+  &--right {
+    float: right;
+  }
+  &--left {
+    float: left;
+  }
+  .pagination {
+    width: auto;
+    margin: 0;
+  }
+}

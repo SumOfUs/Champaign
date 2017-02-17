@@ -17,3 +17,17 @@
             - @keys.each do |key|
               td = row[key]
 
+
+  - range = 'actions ' + record_range(@paginator.current_page, @paginator.size)
+  - range = "last #{@paginator.size} actions" if @paginator.last_page?
+  .pagination
+    .pagination--left
+      - if @paginator.total_pages > 1
+        = "Showing #{range}"
+    .pagination--right
+      = paginate @paginator, param_name: :page_number
+  br
+  - if @paginator.total_pages > 1
+    = link_to "Download #{range} in CSV", actions_page_path(@page, page_number: @paginator.current_page, format: :csv)
+    = ' | ' 
+  = link_to "Download all actions in CSV", actions_page_path(@page, format: :csv)
