@@ -18,9 +18,11 @@ class PagesController < ApplicationController
   end
 
   def actions
+    reader = ActionReader.new({page_id: @page.id}) # rubocop:disable all
+    page_number = { page_number: params[:page_number] }
     respond_to do |format|
-      format.html { @hashes, @keys, @headers = ActionCollator.run(@page.actions) }
-      format.csv { render text: ActionCollator.csv(@page.actions) }
+      format.html { @hashes, @keys, @headers, @paginator = reader.run(**page_number) }
+      format.csv { render text: reader.csv(**page_number) }
     end
   end
 

@@ -7,12 +7,14 @@ class ActionCollator
     new(actions).run
   end
 
-  def self.csv(actions)
-    new(actions).csv
+  def self.csv(actions, keys: nil, skip_headers: false)
+    new(actions, keys: keys, skip_headers: skip_headers).csv
   end
 
-  def initialize(actions)
+  def initialize(actions, keys: nil, skip_headers: false)
     @actions = actions
+    @keys = keys
+    @skip_headers = skip_headers
   end
 
   def run
@@ -23,7 +25,8 @@ class ActionCollator
     rows = @actions.map do |action|
       keys.map { |k| action.form_data[k] }
     end
-    rows.unshift(headers).map { |r| r.join(',') }.join("\n")
+    rows = rows.unshift(headers) unless @skip_headers
+    rows.map { |r| r.join(',') }.join("\n")
   end
 
   def hashes

@@ -49,6 +49,8 @@ describe ActionCollator do
   end
 
   describe 'csv' do
+    let(:content_rows) { [',Pocus,90019,bar', '12345,Hocus,,'] }
+
     it 'has the headers as the first line' do
       expect(ActionCollator.csv([a1, a2]).split("\n")[0]).to eq('Phone,Name,Postal,Foo')
     end
@@ -58,9 +60,11 @@ describe ActionCollator do
     end
 
     it 'has all the values for each action' do
-      expect(ActionCollator.csv([a1, a2]).split("\n").last(2)).to match_array([
-        ',Pocus,90019,bar', '12345,Hocus,,'
-      ])
+      expect(ActionCollator.csv([a1, a2]).split("\n").last(2)).to match_array(content_rows)
+    end
+
+    it 'does not have the headers if skip_headers is passed as true' do
+      expect(ActionCollator.csv([a1, a2], skip_headers: true).split("\n")).to match_array(content_rows)
     end
   end
 

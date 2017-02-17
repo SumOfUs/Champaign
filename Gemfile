@@ -36,6 +36,8 @@ gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'activeadmin', github: 'activeadmin'
 gem 'country_select'
+gem 'kaminari'
+
 # Use Paper Trail for containing a full history of our edits.
 gem 'paper_trail'
 gem 'rmagick' # rmagick for image processing
