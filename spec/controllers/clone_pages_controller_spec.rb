@@ -39,7 +39,7 @@ describe ClonePagesController do
       allow(PageCloner).to receive(:clone) { cloned_page }
       allow(QueueManager).to receive(:push)
 
-      post :create, id: '1', page: { title: 'foo' }
+      post :create, id: '1', page: { title: 'foo', language_id: 3 }, override_forms: '1'
     end
 
     it 'authenticates session' do
@@ -51,7 +51,7 @@ describe ClonePagesController do
     end
 
     it 'clones page' do
-      expect(PageCloner).to have_received(:clone).with(page, 'foo')
+      expect(PageCloner).to have_received(:clone).with(page, 'foo', '3', true)
     end
 
     it 'posts page to queue' do

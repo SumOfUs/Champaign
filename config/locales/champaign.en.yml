@@ -111,6 +111,7 @@ en:
       title: "Clone Page"
       labels:
         title: "Edit Page Title"
+        override_forms: Replace page's forms with the default in the selected language
         submit: "Clone!"
   pages:
     index:
