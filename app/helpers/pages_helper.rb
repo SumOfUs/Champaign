@@ -25,6 +25,12 @@ module PagesHelper
     (hash[field].nil? ? {} : hash[field]).to_json.html_safe
   end
 
+  def record_range(page_number, per_page)
+    last = page_number * per_page
+    first = last - per_page + 1
+    "#{first} to #{last}"
+  end
+
   def prefill_link(new_variant)
     new_variant.description = '{LINK}' if new_variant.name == 'twitter'
     new_variant.body = '{LINK}' if new_variant.name == 'email'

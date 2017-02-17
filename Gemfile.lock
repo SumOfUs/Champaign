@@ -572,6 +572,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jwt
+  kaminari
   liquid
   logger
   lograge

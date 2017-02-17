@@ -4,7 +4,7 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: [:show, :follow_up]
-  before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics]
+  before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics, :actions]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: [:show, :follow_up]
   before_action :localize, only: [:show, :follow_up]
@@ -15,6 +15,15 @@ class PagesController < ApplicationController
   end
 
   def analytics
+  end
+
+  def actions
+    reader = ActionReader.new({page_id: @page.id}) # rubocop:disable all
+    page_number = { page_number: params[:page_number] }
+    respond_to do |format|
+      format.html { @hashes, @keys, @headers, @paginator = reader.run(**page_number) }
+      format.csv { render text: reader.csv(**page_number) }
+    end
   end
 
   def new
@@ -110,21 +119,10 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params
-      .require(:page)
+    params.require(:page)
       .permit(
-        :id,
-        :title,
-        :slug,
-        :active,
-        :content,
-        :featured,
-        :template_id,
-        :campaign_id,
-        :language_id,
-        :liquid_layout_id,
-        :follow_up_liquid_layout_id,
-        tag_ids: []
+        :id, :title, :slug, :active, :content, :featured, :template_id, :campaign_id,
+        :language_id, :liquid_layout_id, :follow_up_liquid_layout_id, tag_ids: []
       )
   end
 
