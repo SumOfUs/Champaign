@@ -16,7 +16,7 @@ class ActionCollator
   end
 
   def run
-    return hashes, keys, headers
+    [hashes, keys, headers]
   end
 
   def csv
@@ -43,5 +43,5 @@ class ActionCollator
       PREFIXES.each { |p| key = key.remove(p) }
       key.titleize
     end
-  end          
+  end
 end

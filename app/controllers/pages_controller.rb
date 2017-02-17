@@ -117,21 +117,10 @@ class PagesController < ApplicationController
   end
 
   def page_params
-    params
-      .require(:page)
+    params.require(:page)
       .permit(
-        :id,
-        :title,
-        :slug,
-        :active,
-        :content,
-        :featured,
-        :template_id,
-        :campaign_id,
-        :language_id,
-        :liquid_layout_id,
-        :follow_up_liquid_layout_id,
-        tag_ids: []
+        :id, :title, :slug, :active, :content, :featured, :template_id, :campaign_id,
+        :language_id, :liquid_layout_id, :follow_up_liquid_layout_id, tag_ids: []
       )
   end
 
