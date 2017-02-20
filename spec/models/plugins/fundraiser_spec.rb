@@ -13,6 +13,7 @@
 #  form_id           :integer
 #  donation_band_id  :integer
 #  recurring_default :integer          default(0), not null
+#  preselect_amount  :boolean          default(FALSE)
 #
 
 require 'rails_helper'

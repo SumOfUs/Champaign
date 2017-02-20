@@ -28,6 +28,8 @@
 #  optimizely_status          :integer          default(0), not null
 #  canonical_url              :string
 #  allow_duplicate_actions    :boolean          default(FALSE)
+#  enforce_styles             :boolean          default(FALSE), not null
+#  notes                      :text
 #
 
 FactoryGirl.define do

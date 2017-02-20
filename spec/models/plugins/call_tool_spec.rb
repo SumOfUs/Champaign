@@ -1,4 +1,24 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: plugins_call_tools
+#
+#  id                      :integer          not null, primary key
+#  page_id                 :integer
+#  active                  :boolean
+#  ref                     :string
+#  created_at              :datetime
+#  updated_at              :datetime
+#  title                   :string
+#  targets                 :json             is an Array
+#  sound_clip_file_name    :string
+#  sound_clip_content_type :string
+#  sound_clip_file_size    :integer
+#  sound_clip_updated_at   :datetime
+#  description             :text
+#  target_by_country       :boolean          default(TRUE)
+#
+
 require 'rails_helper'
 
 describe Plugins::CallTool do
