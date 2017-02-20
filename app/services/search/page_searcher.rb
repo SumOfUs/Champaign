@@ -1,44 +1,42 @@
 # frozen_string_literal: true
 class Search::PageSearcher
+  def self.search(params)
+    new(params).search
+  end
+
   def initialize(params)
-    @queries = params
+    @queries = params.blank? ? {} : params
     @collection = Page.all
   end
 
   def search
-    [*@queries].each do |search_type, query|
-      if !validate_query(query)
-        next
-      else
-        case search_type.to_s
-        when 'content_search'
-          search_by_text(query)
-        when 'tags'
-          search_by_tags(query)
-        when 'language'
-          search_by_language(query)
-        when 'layout'
-          search_by_layout(query)
-        when 'campaign'
-          search_by_campaign(query)
-        when 'plugin_type'
-          search_by_plugin_type(query)
-        when 'publish_status'
-          search_by_publish_status(query)
-        when 'order_by'
-          order_by(query)
-        end
+    @queries.each_pair do |search_type, query|
+      next unless query.present?
+      case search_type.to_sym
+      when :content_search
+        search_by_text(query)
+      when :tags
+        search_by_tags(query)
+      when :language
+        search_by_language(query)
+      when :layout
+        search_by_layout(query)
+      when :campaign
+        search_by_campaign(query)
+      when :plugin_type
+        search_by_plugin_type(query)
+      when :publish_status
+        search_by_publish_status(query)
+      when :limit
+        limit(query)
+      when :order_by
+        order_by(query)
       end
     end
     @collection | []
   end
 
   private
-
-  def validate_query(query)
-    # if query is an empty array, nil or an empty string, skip filtering for that query
-    ([[], nil, ''].include? query) ? false : true
-  end
 
   def combine_collections(collection1, collection2)
     # get union of unique values in collection1 and collection2
@@ -83,6 +81,10 @@ class Search::PageSearcher
     @collection = @collection.where(liquid_layout: query)
   end
 
+  def limit(query)
+    @collection = @collection.limit(query)
+  end
+
   def search_by_plugin_type(query)
     matches_by_plugins = []
     filtered_pages = @collection.pluck(:id)
@@ -115,13 +117,9 @@ class Search::PageSearcher
   end
 
   def order_by(query)
-    if validate_order_by(query)
-      @collection = if query.is_a? Array
-                      @collection.order("#{query[0]} #{query[1]}")
-                    else
-                      @collection.order(query)
-                    end
-    end
+    return unless validate_order_by(query)
+    query = "#{query[0]} #{query[1]}" if query.is_a? Array
+    @collection = @collection.order(query)
   end
 
   def validate_order_by(query)
