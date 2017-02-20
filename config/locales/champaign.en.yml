@@ -103,6 +103,7 @@ en:
     call_tool:
       audio: 'Audio clip to be played to then caller'
       targets: 'CSV File should must adhere to the specified format. First row will be considered as headers. Each following row must have these fields in order: Country, Postal, Target Phone, Target Name, Target Title. Country, Target Phone and Target Name are required fields'
+      target_by_country: "Check if you'd like the call tool to display a Country dropdown, which will cause the tool to randomly select a target from the selected country. When checked, targets must have a valid country in the Country column in the uploaded CSV"
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
@@ -306,6 +307,7 @@ en:
       talking_points: 'Talking points'
       no_targets_loaded: 'There are no targets loaded'
       show_targets: 'Show Targets'
+      target_by_country: 'Target by country'
       targets:
         country: 'Country'
         postal: 'Postal Code'

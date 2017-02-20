@@ -5,6 +5,13 @@
       - plugin.errors.full_messages.each do |error|
         li = error
 
+- name = "plugins_call_tool_#{plugin.id}"
+= form_for plugin, remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
+  .form-group
+    = f.check_box :target_by_country, class: 'target-by-country'
+    span &nbsp;
+    = label_with_tooltip(f, :target_by_country, t('plugins.call_tool.target_by_country'), t('tooltips.call_tool.target_by_country'))
+
 = form_for plugin, method: :post, url: targets_plugins_call_tool_path(plugin), remote: true, html: {class: 'targets-form form-inline'} do |f|
   div
     = label_with_tooltip(f, :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
@@ -23,5 +30,15 @@ javascript:
       $('.call-tool .targets-section').html(data.responseText)
     } else {
       alert("Oops! Something went wrong!");
+    }
+  });
+
+  var allTargetsHaveCountry = #{ plugin.targets.all? {|t| t.country_code.present? } };
+
+  $('.call-tool .target-by-country').click(function(e) {
+    var el = $(this);
+    if($(this).is(':checked') && !allTargetsHaveCountry) {
+      e.preventDefault();
+      alert("In order to enable this feature all targets must have a valid Country. Please update the list of targets before trying to enable targetting by country");
     }
   });
