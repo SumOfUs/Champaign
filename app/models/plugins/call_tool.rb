@@ -24,6 +24,7 @@ class Plugins::CallTool < ActiveRecord::Base
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
   validate :targets_are_valid
+  validate :target_countries_are_present, if: :target_by_country?
 
   def name
     self.class.name.demodulize
@@ -95,6 +96,12 @@ class Plugins::CallTool < ActiveRecord::Base
       target.errors.full_messages.each do |message|
         errors.add(:targets, "#{message} (row #{index + 1})")
       end
+    end
+  end
+
+  def target_countries_are_present
+    targets.select { |t| t.country_code.blank? }.each_with_index do |_, index|
+      errors.add(:targets, "Country can't be blank (row #{index + 1})")
     end
   end
 end

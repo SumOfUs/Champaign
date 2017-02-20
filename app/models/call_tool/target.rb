@@ -4,7 +4,6 @@ class CallTool::Target
 
   attr_accessor :country_code, :postal_code, :phone_number, :name, :title
 
-  validates :country_name, presence: true
   validate  :country_is_valid
   validates :phone_number, presence: true
   validates :name,         presence: true
