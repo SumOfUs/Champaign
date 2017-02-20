@@ -8,6 +8,7 @@ import type { Country, CountryPhoneCode, Target, FormType, Errors } from '../../
 import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
+  targetByCountryEnabled: boolean;
   targetCountries: Country[];
   targets: Target[];
   countriesPhoneCodes: CountryPhoneCode[];
@@ -81,14 +82,16 @@ class Form extends Component {
   render() {
     return(
       <form className='action-form form--big' data-remote="true" >
-        <FieldShape
-        key="targetCountryCode"
-        errorMessage={this.props.errors.targetCountryCode}
-        onChange={this.props.onTargetCountryCodeChange}
-        value={this.props.form.targetCountryCode}
-        field={this.fields.targetCountryCodeField}
-        className="targetCountryCodeField"
-        />
+        { this.props.targetByCountryEnabled &&
+          <FieldShape
+          key="targetCountryCode"
+          errorMessage={this.props.errors.targetCountryCode}
+          onChange={this.props.onTargetCountryCodeChange}
+          value={this.props.form.targetCountryCode}
+          field={this.fields.targetCountryCodeField}
+          className="targetCountryCodeField"
+          />
+        }
 
         <FieldShape
         key="memberPhoneCountryCode"

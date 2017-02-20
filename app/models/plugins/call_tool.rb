@@ -36,6 +36,7 @@ class Plugins::CallTool < ActiveRecord::Base
       locale: page.language_code,
       active: active,
       targets: json_targets,
+      target_by_country_enabled: target_by_country,
       target_countries: target_countries,
       countries_phone_codes: countries_phone_codes,
       title: title,
@@ -59,7 +60,7 @@ class Plugins::CallTool < ActiveRecord::Base
 
   # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
   def target_countries
-    targets.map(&:country_code).uniq.map do |country_code|
+    targets.map(&:country_code).uniq.compact.map do |country_code|
       country = ISO3166::Country[country_code]
       {
         name: country.translation(page.language_code),
