@@ -22,14 +22,17 @@
 FactoryGirl.define do
   factory :call_tool, class: 'Plugins::CallTool' do
     association :page
-    targets { Array.new(3) { build(:call_tool_target) } }
+    targets { Array.new(3) { build(:call_tool_target, :with_country) } }
   end
 
   factory :call_tool_target, class: 'CallTool::Target' do
     skip_create
-    country_name { 'United Kingdom' }
     name { Faker::Name.name }
     title { Faker::Name.title }
     phone_number { Faker::PhoneNumber.cell_phone }
+
+    trait :with_country do
+      country_name { 'United Kingdom' }
+    end
   end
 end

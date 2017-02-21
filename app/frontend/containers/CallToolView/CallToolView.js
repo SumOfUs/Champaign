@@ -46,6 +46,7 @@ type OwnState = {
 }
 
 type OwnProps = {
+  targetByCountryEnabled: boolean;
   memberPhoneNumber?: string;
   targetCountryCode?: string;
   title?: string;
@@ -80,7 +81,11 @@ class CallToolView extends Component {
   }
 
   componentDidMount() {
-    this.targetCountryCodeChanged(this.state.form.targetCountryCode);
+    if(this.props.targetByCountryEnabled) {
+      this.targetCountryCodeChanged(this.state.form.targetCountryCode);
+    } else {
+      this.setState({selectedTarget: this.selectNewTarget() });
+    }
   }
 
   targetCountryCodeChanged(targetCountryCode: string) {
@@ -116,8 +121,14 @@ class CallToolView extends Component {
     });
   }
 
-  selectNewTarget(targetCountryCode: string) {
-    const candidates = _.filter(this.props.targets, t => { return t.countryCode === targetCountryCode; });
+  selectNewTarget(targetCountryCode: ?string = null) {
+    let candidates;
+    if(targetCountryCode) {
+      candidates = _.filter(this.props.targets, t => { return t.countryCode === targetCountryCode; });
+    } else {
+      candidates = this.props.targets;
+    }
+
     return _.sample(candidates);
   }
 
@@ -139,16 +150,18 @@ class CallToolView extends Component {
   validateForm() {
     const newErrors = {};
 
-    if(_.isEmpty(this.state.form.memberPhoneCountryCode)) {
-      newErrors.memberPhoneCountryCode = <FormattedMessage id="validation.is_required" />;
+    if(this.props.targetByCountryEnabled) {
+      if(_.isEmpty(this.state.form.memberPhoneCountryCode)) {
+        newErrors.memberPhoneCountryCode = <FormattedMessage id="validation.is_required" />;
+      }
+
+      if(_.isEmpty(this.state.form.targetCountryCode)) {
+        newErrors.targetCountryCode = <FormattedMessage id="validation.is_required" />;
+      }
     }
 
     if(_.isEmpty(this.state.form.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = <FormattedMessage id="validation.is_required" />;
-    }
-
-    if(_.isEmpty(this.state.form.targetCountryCode)) {
-      newErrors.targetCountryCode = <FormattedMessage id="validation.is_required" />;
     }
 
     this.updateErrors(newErrors);
@@ -190,7 +203,10 @@ class CallToolView extends Component {
           <h1> { this.props.title } </h1>
         }
 
-        <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
+        { this.props.targetByCountryEnabled &&
+          <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
+        }
+
 
         { errors.base !== undefined && !_.isEmpty(this.state.errors.base) &&
           <div className="base-errors">
@@ -204,6 +220,7 @@ class CallToolView extends Component {
         }
 
         <Form
+          targetByCountryEnabled={this.props.targetByCountryEnabled}
           targetCountries={this.props.targetCountries}
           countriesPhoneCodes={this.props.countriesPhoneCodes}
           targets={this.props.targets}
