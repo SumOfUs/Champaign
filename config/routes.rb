@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     resources :texts, only: :update
+    resources :email_targets
     resources :call_tools, only: :update do
       delete :sound_clip, on: :member, action: :delete_sound_clip
       post :sound_clip, on: :member, action: :update_sound_clip
@@ -100,6 +101,8 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resources :email_targets, only: [:create]
+
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'

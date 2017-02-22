@@ -307,6 +307,12 @@ en:
         one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
+    email_target:
+      subject: 'Email subject'
+      email_body: 'Email body'
+      from_address: "'from' email address"
+      tooltips:
+        from_address: 'Must be a valid address using a validated domain'
     call_tool:
       title: 'Title'
       click_to_play: 'Click to play'

@@ -1,0 +1,16 @@
+.row.plugin.email_a_target.collection-editor data-plugin-id=plugin.id
+  .col-md-7
+    - name = "plugins_email_a_target_#{plugin.id}"
+    = form_for plugin, remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
+      = render 'plugins/shared/plugin_metadata', f: f
+      .form-group
+        = label_with_tooltip(f, :email_from, t('plugins.email_target.from_address'), t('plugins.email_target.tooltips.from_address'))
+        = f.text_field :email_from, class: 'form-control'
+
+      .form-group
+        = f.label(:email_subject, t('plugins.email_target.subject'))
+        = f.text_field :email_subject, class: 'form-control'
+
+      .form-group
+        = f.label(:email_body, t('plugins.email_target.email_body'))
+        = f.text_area :email_body, class: 'form-control text-area-height'

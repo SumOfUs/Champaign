@@ -1,0 +1,25 @@
+.email__target-body {
+  textarea {
+    height: 300px;
+    font-size: 100%;
+  }
+
+  label {
+    font-size: 120%;
+  }
+}
+
+button {
+  width: 100px;
+
+}
+
+select {
+  display:none;
+}
+
+label {
+  font-weight: bold;
+  margin: 10px 0 5px;
+  display: block;
+}

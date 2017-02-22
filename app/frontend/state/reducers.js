@@ -4,10 +4,12 @@ import member from './member/reducer';
 import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
+import { reducer as emailTarget } from  './email_target/actions';
 
 const reducers = {
   member,
   fundraiser,
+  emailTarget,
   paymentMethods,
   page,
 };

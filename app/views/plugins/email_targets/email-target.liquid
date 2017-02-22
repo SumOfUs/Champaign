@@ -1,0 +1,21 @@
+{% comment %} Description: A page with the call tool widget. {% endcomment %}
+{% comment %} Primary layout: true {% endcomment %}
+
+{% include 'Full Width Header', extra_class: 'caller-header' %}
+
+<div class="content email-target">
+  <div class="body-text text-top">
+    {{ content }}
+  </div>
+
+  {% include 'Email Target' %}
+
+  <div class="body-text text-bottom">
+    {% if plugins.email_target[ref].active %}
+      {{ plugins.email_target[ref].body }}
+    {% endif %}
+  </div>
+</div>
+
+{% include 'Simple Footer' %}
+
