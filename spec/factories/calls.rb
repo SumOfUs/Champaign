@@ -10,6 +10,8 @@
 #  target_index        :integer
 #  created_at          :datetime
 #  updated_at          :datetime
+#  log                 :jsonb            not null
+#  member_call_events  :json             is an Array
 #
 
 FactoryGirl.define do

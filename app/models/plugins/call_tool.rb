@@ -3,15 +3,20 @@
 #
 # Table name: plugins_call_tools
 #
-#  id         :integer          not null, primary key
-#  page_id    :integer
-#  active     :boolean
-#  ref        :string
-#  form_id    :integer
-#  created_at :datetime
-#  updated_at :datetime
-#  title      :string
-#  targets    :json             is an Array
+#  id                      :integer          not null, primary key
+#  page_id                 :integer
+#  active                  :boolean
+#  ref                     :string
+#  created_at              :datetime
+#  updated_at              :datetime
+#  title                   :string
+#  targets                 :json             is an Array
+#  sound_clip_file_name    :string
+#  sound_clip_content_type :string
+#  sound_clip_file_size    :integer
+#  sound_clip_updated_at   :datetime
+#  description             :text
+#  target_by_country       :boolean          default(TRUE)
 #
 
 class Plugins::CallTool < ActiveRecord::Base
@@ -24,6 +29,7 @@ class Plugins::CallTool < ActiveRecord::Base
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
   validate :targets_are_valid
+  validate :target_countries_are_present, if: :target_by_country?
 
   def name
     self.class.name.demodulize
@@ -35,6 +41,7 @@ class Plugins::CallTool < ActiveRecord::Base
       locale: page.language_code,
       active: active,
       targets: json_targets,
+      target_by_country_enabled: target_by_country,
       target_countries: target_countries,
       countries_phone_codes: countries_phone_codes,
       title: title,
@@ -58,7 +65,7 @@ class Plugins::CallTool < ActiveRecord::Base
 
   # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
   def target_countries
-    targets.map(&:country_code).uniq.map do |country_code|
+    targets.map(&:country_code).uniq.compact.map do |country_code|
       country = ISO3166::Country[country_code]
       {
         name: country.translation(page.language_code),
@@ -95,6 +102,12 @@ class Plugins::CallTool < ActiveRecord::Base
       target.errors.full_messages.each do |message|
         errors.add(:targets, "#{message} (row #{index + 1})")
       end
+    end
+  end
+
+  def target_countries_are_present
+    targets.select { |t| t.country_code.blank? }.each_with_index do |_, index|
+      errors.add(:targets, "Country can't be blank (row #{index + 1})")
     end
   end
 end

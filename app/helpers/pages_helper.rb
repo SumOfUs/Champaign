@@ -59,7 +59,11 @@ module PagesHelper
 
   def plugin_title(plugin)
     detail = plugin.ref.present? ? " - #{plugin.ref}" : ''
-    "#{plugin.name}#{detail}"
+    "#{plugin_human_name(plugin)}#{detail}"
+  end
+
+  def plugin_human_name(plugin)
+    plugin.name.underscore.humanize
   end
 
   def plugin_section_id(plugin)
@@ -77,7 +81,8 @@ module PagesHelper
       thermometer: 'neuter',
       survey: 'edit',
       text: 'paragraph',
-      fundraiser: 'money'
+      fundraiser: 'money',
+      call_tool: 'phone'
     }
     name = plugin.name.underscore.to_sym
     registered.fetch(name, 'cubes')

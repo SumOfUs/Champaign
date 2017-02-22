@@ -7,8 +7,6 @@
         = f.label(:title, t('plugins.call_tool.title'))
         = f.text_field :title, class: 'form-control'
 
-
-
       .form-group
         = label_with_tooltip(f, :description, t('plugins.call_tool.talking_points'), t('tooltips.content'))
         .wysiwyg id='call-tool-wysiwyg'
@@ -19,9 +17,6 @@
 
     .well.sound-clip-section
       = render partial: 'plugins/call_tools/sound_clip_form.slim', locals: { plugin: plugin }
-
-
-
 
 javascript:
   $.publish("collection:edit:loaded");
