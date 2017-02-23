@@ -28,13 +28,13 @@ export type CountryPhoneCode = {
 export type FormType = {
   memberPhoneNumber: string;
   memberPhoneCountryCode: string;
-  targetCountryCode: string;
+  countryCode: string;
 }
 
 export type Errors = {
   memberPhoneNumber?: any;
   memberPhoneCountryCode?: any;
-  targetCountryCode?: any;
+  countryCode?: any;
   base?: any[];
 }
 
@@ -48,11 +48,11 @@ type OwnState = {
 type OwnProps = {
   targetByCountryEnabled: boolean;
   memberPhoneNumber?: string;
-  targetCountryCode?: string;
+  countryCode?: string;
   title?: string;
   pageId: string | number;
   targets: Target[];
-  targetCountries: Country[];
+  countries: Country[];
   countriesPhoneCodes: CountryPhoneCode[];
   onSuccess?: () => void;
   intl: IntlShape;
@@ -64,16 +64,16 @@ class CallToolView extends Component {
 
   constructor(props: OwnProps) {
     super(props);
-    // Assign targetCountryCode only if it's a valid one
+    // Assign countryCode only if it's a valid one
     const preselectedTarget = _.find(this.props.targets, target => {
-      return target.countryCode === this.props.targetCountryCode;
+      return target.countryCode === this.props.countryCode;
     });
 
     this.state = {
       form: {
         memberPhoneNumber: '',
         memberPhoneCountryCode: '',
-        targetCountryCode: preselectedTarget ? preselectedTarget.countryCode : '',
+        countryCode: preselectedTarget ? preselectedTarget.countryCode : '',
       },
       errors: {},
       loading: false
@@ -82,25 +82,31 @@ class CallToolView extends Component {
 
   componentDidMount() {
     if(this.props.targetByCountryEnabled) {
-      this.targetCountryCodeChanged(this.state.form.targetCountryCode);
+      this.countryCodeChanged(this.state.form.countryCode);
     } else {
       this.setState({selectedTarget: this.selectNewTarget() });
     }
   }
 
-  targetCountryCodeChanged(targetCountryCode: string) {
-    this.setState((prevState, props) => {
-      return {
-        form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(targetCountryCode), targetCountryCode },
-        selectedTarget: this.selectNewTarget(targetCountryCode),
-        errors: {...prevState.errors, targetCountryCode: null }
-      };
-    });
+  countryCodeChanged(countryCode: string) {
+    if(this.props.targetByCountryEnabled) {
+      this.setState((prevState, props) => {
+        return {
+          form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode },
+          selectedTarget: this.selectNewTarget(countryCode),
+          errors: {...prevState.errors, countryCode: null }
+        };
+      });
+    } else {
+      this.setState((prevState, props) => {
+        return { form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode }};
+      });
+    }
   }
 
   guessMemberPhoneCountryCode(countryCode: string) {
-    const target = _.find(this.props.targetCountries, t => { return t.code === countryCode; });
-    return target ? `+${target.phoneCode}` : '';
+    const country = _.find(this.props.countries, t => { return t.code === countryCode; });
+    return country ? `+${country.phoneCode}` : '';
   }
 
   memberPhoneNumberChanged(memberPhoneNumber: string) {
@@ -121,10 +127,10 @@ class CallToolView extends Component {
     });
   }
 
-  selectNewTarget(targetCountryCode: ?string = null) {
+  selectNewTarget(countryCode: ?string = null) {
     let candidates;
-    if(targetCountryCode) {
-      candidates = _.filter(this.props.targets, t => { return t.countryCode === targetCountryCode; });
+    if(countryCode) {
+      candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
     } else {
       candidates = this.props.targets;
     }
@@ -155,8 +161,8 @@ class CallToolView extends Component {
         newErrors.memberPhoneCountryCode = <FormattedMessage id="validation.is_required" />;
       }
 
-      if(_.isEmpty(this.state.form.targetCountryCode)) {
-        newErrors.targetCountryCode = <FormattedMessage id="validation.is_required" />;
+      if(_.isEmpty(this.state.form.countryCode)) {
+        newErrors.countryCode = <FormattedMessage id="validation.is_required" />;
       }
     }
 
@@ -221,13 +227,13 @@ class CallToolView extends Component {
 
         <Form
           targetByCountryEnabled={this.props.targetByCountryEnabled}
-          targetCountries={this.props.targetCountries}
+          countries={this.props.countries}
           countriesPhoneCodes={this.props.countriesPhoneCodes}
           targets={this.props.targets}
           selectedTarget={this.state.selectedTarget}
           form={this.state.form}
           errors={this.state.errors}
-          onTargetCountryCodeChange={this.targetCountryCodeChanged.bind(this)}
+          onCountryCodeChange={this.countryCodeChanged.bind(this)}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
           onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(this)}
           onSubmit={this.submit.bind(this)}

@@ -53,7 +53,7 @@ class PageCloner
   end
 
   def plugins
-    cloned_page.plugins.each(&:destroy)
+    cloned_page.plugins.each(&:destroy!)
 
     page.plugins.each do |plugin|
       plugin.dup.tap do |clone|

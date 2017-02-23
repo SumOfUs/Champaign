@@ -31,6 +31,9 @@ Style/BracesAroundHashParameters:
 Lint/BlockAlignment:
   AlignWith: start_of_block
 
+Lint/EndAlignment:
+  AlignWith: keyword
+
 Lint/InheritException:
   Enabled: false
 
@@ -42,4 +45,3 @@ Style/IfUnlessModifier:
 
 Lint/HandleExceptions:
   Enabled: false
-
