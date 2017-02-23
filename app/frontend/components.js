@@ -66,15 +66,7 @@ window.mountCallTool = (root: string, props: callToolProps) => {
 
   render(
     <ComponentWrapper locale={props.locale}>
-      <CallToolView
-        title={props.title}
-        targets={props.targets}
-        countries={props.countries}
-        pageId={props.pageId}
-        onSuccess={props.onSuccess}
-        countriesPhoneCodes={props.countriesPhoneCodes}
-        countryCode={props.countryCode} />
-        targetByCountryEnabled={props.targetByCountryEnabled}
+      <CallToolView {...props} />
     </ComponentWrapper>,
     document.getElementById(root)
   );
