@@ -115,20 +115,9 @@ class Form extends Component {
 
         <div className="clearfix"> </div>
 
-        <div className="selectedTarget">
-          <p>
-            { !_.isEmpty(this.props.selectedTarget) &&
-              <span>
-                <FormattedMessage id="call_tool.you_will_be_calling" />
-                &nbsp;
-                <span className="selectedTargetName">
-                  {this.props.selectedTarget.name}
-                </span>
-                , {this.props.selectedTarget.title}
-              </span>
-            }
-          </p>
-        </div>
+        { !_.isEmpty(this.props.selectedTarget) &&
+          <SelectedTarget {...this.props.selectedTarget}/>
+        }
 
         <button
         type="submit"
@@ -140,6 +129,25 @@ class Form extends Component {
       </form>
     );
   }
+}
+
+function SelectedTarget(props: {name: string, title?: string}) {
+  return(
+    <div className="selectedTarget">
+        <p>
+          <span>
+            <FormattedMessage id="call_tool.you_will_be_calling" />
+            &nbsp;
+            <span className="selectedTargetName">
+              {props.name}
+            </span>
+            { props.title &&
+              <span>, {props.title} </span>
+            }
+          </span>
+        </p>
+    </div>
+  );
 }
 
 export default Form;
