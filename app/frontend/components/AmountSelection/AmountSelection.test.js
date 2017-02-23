@@ -5,7 +5,7 @@ import AmountSelection from './AmountSelection';
 import type { OwnProps } from './AmountSelection';
 
 const defaultProps: OwnProps = {
-  donationAmount: null,
+  donationAmount: undefined,
   donationBands: {
     USD: [1, 2, 3, 4, 5],
     GBP: [6, 7, 8, 9, 10],
@@ -39,12 +39,6 @@ describe('Donation bands', () => {
     // select last amount ($5)
     component.find('DonationBands').find('Button').last().simulate('click');
     expect(defaultProps.selectAmount).toBeCalledWith(5);
-  });
-
-  it('toggles the proceed button if we focus on the custom amount', () => {
-    component.find('DonationBands').find('input').simulate('focus');
-    const button = component.find('.AmountSelection__proceed-button');
-    expect(button.prop('disabled')).toBeTruthy();
   });
 });
 
@@ -85,14 +79,19 @@ describe('Changing currency', () => {
 });
 
 describe('Proceed button', () => {
-  const component = mountWithIntl(<AmountSelection {...defaultProps} />);
 
-  it('is hidden by default', () => {
-    expect(component.find('.AmountSelection__proceed-button').length).toBe(0);
+  it('is disabled by default', () => {
+    const component = mountWithIntl(<AmountSelection {...defaultProps} />);
+    expect(component.find('.AmountSelection__proceed-button').prop('disabled')).toBe(true);
   });
 
-  it('is toggled if we focus on the custom input', () => {
-    component.find('DonationBands').find('input').simulate('focus');
-    expect(component.find('.AmountSelection__proceed-button').length).toBe(1);
+  it('is enabled if there is a featured amount', () => {
+    const component = mountWithIntl(<AmountSelection {...defaultProps} donationFeaturedAmount={1} />);
+    expect(component.find('.AmountSelection__proceed-button').prop('disabled')).toBe(false);
+  });
+
+  it('is enabled if there is a donation amount', () => {
+    const component = mountWithIntl(<AmountSelection {...defaultProps} donationAmount={1} />);
+    expect(component.find('.AmountSelection__proceed-button').prop('disabled')).toBe(false);
   });
 });
