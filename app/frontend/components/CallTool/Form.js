@@ -9,13 +9,13 @@ import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
   targetByCountryEnabled: boolean;
-  targetCountries: Country[];
+  countries: Country[];
   targets: Target[];
   countriesPhoneCodes: CountryPhoneCode[];
   selectedTarget: Target;
   form: FormType;
   errors: Errors;
-  onTargetCountryCodeChange: (string) => void;
+  onCountryCodeChange: (string) => void;
   onMemberPhoneNumberChange: (string) => void;
   onMemberPhoneCountryCodeChange: (string) => void;
   onSubmit: (any) => void;
@@ -40,7 +40,7 @@ const memberPhoneCountryCodeField:Field = {
   disabled: false
 };
 
-const targetCountryCodeField:Field = {
+const countryCodeField:Field = {
   data_type: 'select',
   name: 'call_tool[country_code]',
   label: <FormattedMessage id='call_tool.form.country' />,
@@ -60,12 +60,12 @@ class Form extends Component {
     this.fields = {
       memberPhoneNumberField: memberPhoneNumberField,
       memberPhoneCountryCodeField: memberPhoneCountryCodeField,
-      targetCountryCodeField: { ...targetCountryCodeField, choices: this.targetCountryCodeOptions() }
+      countryCodeField: { ...countryCodeField, choices: this.countryCodeOptions() }
     };
   }
 
-  targetCountryCodeOptions() {
-    return this.props.targetCountries.map((country) => {
+  countryCodeOptions() {
+    return this.props.countries.map((country) => {
       return { value: country.code, label: country.name };
     });
   }
@@ -82,16 +82,14 @@ class Form extends Component {
   render() {
     return(
       <form className='action-form form--big' data-remote="true" >
-        { this.props.targetByCountryEnabled &&
-          <FieldShape
-          key="targetCountryCode"
-          errorMessage={this.props.errors.targetCountryCode}
-          onChange={this.props.onTargetCountryCodeChange}
-          value={this.props.form.targetCountryCode}
-          field={this.fields.targetCountryCodeField}
-          className="targetCountryCodeField"
-          />
-        }
+        <FieldShape
+        key="countryCode"
+        errorMessage={this.props.errors.countryCode}
+        onChange={this.props.onCountryCodeChange}
+        value={this.props.form.countryCode}
+        field={this.fields.countryCodeField}
+        className="countryCodeField"
+        />
 
         <FieldShape
         key="memberPhoneCountryCode"
