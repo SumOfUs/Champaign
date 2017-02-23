@@ -4,7 +4,14 @@ import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import loadTranslations from './util/TranslationsLoader';
 
-class ComponentWrapper extends Component {
+function WrapInStore({ store, children }) {
+  if (store) {
+    return <Provider store={store}>{children}</Provider>;
+  }
+  return children;
+}
+
+export default class ComponentWrapper extends Component {
   props: {
     store?: Store;
     children?: any;
@@ -14,27 +21,12 @@ class ComponentWrapper extends Component {
   render() {
     return (
       <IntlProvider locale={this.props.locale} messages={ loadTranslations(this.props.locale) }>
-        { this.wrapInStoreProvider(
-            <div className="App">
-              {this.props.children}
-            </div>
-          )
-        }
+        <WrapInStore store={this.props.store}>
+          <div className="App">
+            {this.props.children}
+          </div>
+        </WrapInStore>
       </IntlProvider>
     );
   }
-
-  wrapInStoreProvider(inner) {
-    if (this.props.store) {
-      return (
-        <Provider store={this.props.store}>
-          { inner }
-        </Provider>
-      );
-    } else {
-      return inner;
-    }
-  }
 }
-
-export default ComponentWrapper;
