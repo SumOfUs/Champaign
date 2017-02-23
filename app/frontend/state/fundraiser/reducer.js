@@ -25,7 +25,7 @@ export type Fundraiser = {
   currency: string;
   donationBands: DonationBands;
   donationFeaturedAmount?: number;
-  donationAmount: ?number;
+  donationAmount?: number;
   currentStep: number;
   recurring: boolean;
   recurringDefault: 'one_off' | 'recurring' | 'only_recurring';
@@ -54,7 +54,7 @@ const initialState: Fundraiser = {
     AUD: [2, 5, 10, 25, 50],
     NZD: [2, 5, 10, 25, 50]
   },
-  donationAmount: null,
+  donationAmount: undefined,
   currentStep: 0,
   recurringDefault: 'one_off',
   recurring: false,
@@ -125,7 +125,7 @@ export default function fundraiserReducer(state: Fundraiser = initialState, acti
       });
     case 'change_amount':
       return Object.assign({}, state, {
-        donationAmount: action.payload || null
+        donationAmount: action.payload || undefined
       });
     case 'change_step':
       return Object.assign({}, state, {

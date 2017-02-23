@@ -19,7 +19,6 @@ type Props = {
   intl: any,
   selectAmount: (amount: ?number) => void;
   featuredAmount?: number;
-  toggleProceedButton?: (visible: boolean) => void;
 };
 
 export class DonationBands extends Component {
@@ -68,19 +67,6 @@ export class DonationBands extends Component {
     }
   }
 
-  onInputFocused(value: string) {
-    if (this.props.toggleProceedButton) {
-      this.props.toggleProceedButton(true);
-    }
-  }
-
-  onInputBlurred(value?: string = '') {
-    const visible = !!value.match(/\d+/);
-    if (this.props.toggleProceedButton) {
-      this.props.toggleProceedButton(visible);
-    }
-  }
-
   customFieldDisplay() {
     const amountString = this.state.customAmount || '';
     if (amountString === '') return '';
@@ -120,8 +106,6 @@ export class DonationBands extends Component {
           placeholder={this.props.intl.formatMessage({id: 'fundraiser.other_amount'})}
           pattern={/^[0-9]+$/}
           value={this.customFieldDisplay()}
-          onFocus={(e) => this.onInputFocused(e.target.value)}
-          onBlur={e => this.onInputBlurred(e.target.value)}
           onChange={({target}) => this.onInputUpdated(target.value)}/>
       </div>
     );
