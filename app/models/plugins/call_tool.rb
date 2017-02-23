@@ -65,13 +65,14 @@ class Plugins::CallTool < ActiveRecord::Base
 
   # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
   def countries
-    list = if target_by_country
-      targets.map(&:country_code).uniq.compact.map do |country_code|
-        ISO3166::Country[country_code]
+    list =
+      if target_by_country
+        targets.map(&:country_code).uniq.compact.map do |country_code|
+          ISO3166::Country[country_code]
+        end
+      else
+        ISO3166::Country.all
       end
-    else
-      ISO3166::Country.all
-    end
 
     list.map do |country|
       {
