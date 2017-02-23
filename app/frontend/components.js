@@ -51,28 +51,22 @@ window.mountFundraiser = (root: string, initialState?: any = {})  => {
   }
 };
 
-type callToolInitialState = {
+type callToolProps = {
   locale: string;
   title?: string;
   targets: any[];
   targetCountries: any[];
   countriesPhoneCodes: any[];
   pageId: string | number;
+  targetByCountryEnabled: boolean;
 };
 
-window.mountCallTool = (root: string, props: callToolInitialState) => {
+window.mountCallTool = (root: string, props: callToolProps) => {
   props = camelizeKeys(props);
 
   render(
     <ComponentWrapper locale={props.locale}>
-      <CallToolView
-        title={props.title}
-        targets={props.targets}
-        targetCountries={props.targetCountries}
-        pageId={props.pageId}
-        onSuccess={props.onSuccess}
-        countriesPhoneCodes={props.countriesPhoneCodes}
-        targetCountryCode={props.targetCountryCode} />
+      <CallToolView {...props} />
     </ComponentWrapper>,
     document.getElementById(root)
   );
