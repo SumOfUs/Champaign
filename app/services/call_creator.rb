@@ -22,7 +22,7 @@ class CallCreator
   end
 
   def errors
-    @call.errors.messages.tap do |e|
+    @call.errors.messages.clone.tap do |e|
       @errors.each do |key, val|
         e[key] ||= []
         e[key] += val
