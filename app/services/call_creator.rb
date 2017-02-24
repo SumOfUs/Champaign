@@ -14,7 +14,9 @@ class CallCreator
                      member_id: @params[:member_id],
                      member_phone_number: @params[:member_phone_number],
                      target_index: @params[:target_index])
-    place_call if @call.save
+    Call.transaction do
+      place_call if @call.save
+    end
 
     errors.blank?
   end
@@ -55,6 +57,7 @@ class CallCreator
     # 13226: Dial: Invalid country code
     # 21211: Invalid 'To' Phone Number
     # 21214: 'To' phone number cannot be reached
+    @call.update!(twilio_error_code: e.code)
     if (e.code >= 13_223 && e.code <= 13_226) || [21_211, 21_214].include?(e.code)
       @errors[:member_phone_number] ||= []
       @errors[:member_phone_number] << I18n.t('call_tool.errors.phone_number.cant_connect')
