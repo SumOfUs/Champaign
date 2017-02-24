@@ -70,4 +70,28 @@ describe CallCreator do
       expect(service.errors).to be_present
     end
   end
+
+  context 'given twilio API responds with error' do
+    before do
+      allow_any_instance_of(Twilio::REST::Calls)
+        .to receive(:create)
+        .and_raise(Twilio::REST::RequestError.new('Error', 13_223))
+    end
+
+    let(:params) do
+      { page_id: page.id,
+        member_id: member.id,
+        member_phone_number: '1234567',
+        target_index: 1 }
+    end
+
+    it 'returns false' do
+      expect(CallCreator.new(params).run).to be false
+    end
+
+    it 'stores the twilio error code on the call record' do
+      CallCreator.new(params).run
+      expect(Call.last.twilio_error_code).to eq(13_223)
+    end
+  end
 end

@@ -7,7 +7,6 @@ class CallTool::Target
   validate  :country_is_valid
   validates :phone_number, presence: true
   validates :name,         presence: true
-  validates :title,        presence: true
 
   def to_hash
     {

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import $ from '../../util/PubSub';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import braintreeClient from 'braintree-web/client.debug';
+import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
 import _ from 'lodash';
 

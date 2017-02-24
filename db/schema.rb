@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220145423) do
+ActiveRecord::Schema.define(version: 20170224140212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20170220145423) do
     t.datetime "updated_at"
     t.jsonb    "log",                 default: {}, null: false
     t.json     "member_call_events",  default: [],              array: true
+    t.integer  "twilio_error_code"
   end
 
   add_index "calls", ["log"], name: "index_calls_on_log", using: :gin
@@ -431,7 +432,7 @@ ActiveRecord::Schema.define(version: 20170220145423) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
-    t.json     "targets",                 default: [], array: true
+    t.json     "targets",                 default: [],   array: true
     t.string   "sound_clip_file_name"
     t.string   "sound_clip_content_type"
     t.integer  "sound_clip_file_size"

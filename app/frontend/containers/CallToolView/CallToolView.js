@@ -64,26 +64,37 @@ class CallToolView extends Component {
 
   constructor(props: OwnProps) {
     super(props);
-    // Assign countryCode only if it's a valid one
-    const preselectedTarget = _.find(this.props.targets, target => {
-      return target.countryCode === this.props.countryCode;
-    });
 
     this.state = {
       form: {
         memberPhoneNumber: '',
         memberPhoneCountryCode: '',
-        countryCode: preselectedTarget ? preselectedTarget.countryCode : '',
+        countryCode: this.preselectedCountryCode()
       },
       errors: {},
       loading: false
     };
   }
 
-  componentDidMount() {
+  preselectedCountryCode() {
+    let countryCode;
+
     if(this.props.targetByCountryEnabled) {
-      this.countryCodeChanged(this.state.form.countryCode);
+      // Assign countryCode only if it's a valid one
+      const preselectedTarget = _.find(this.props.targets, target => {
+        return target.countryCode === this.props.countryCode;
+      });
+      countryCode = preselectedTarget ? preselectedTarget.countryCode : '';
     } else {
+      countryCode = this.props.countryCode || '';
+    }
+
+    return countryCode;
+  }
+
+  componentDidMount() {
+    this.countryCodeChanged(this.state.form.countryCode);
+    if(!this.props.targetByCountryEnabled) {
       this.setState({selectedTarget: this.selectNewTarget() });
     }
   }
@@ -93,7 +104,7 @@ class CallToolView extends Component {
       this.setState((prevState, props) => {
         return {
           form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode },
-          selectedTarget: this.selectNewTarget(countryCode),
+          selectedTarget: this.selectNewTargetFromCountryCode(countryCode),
           errors: {...prevState.errors, countryCode: null }
         };
       });
@@ -127,14 +138,12 @@ class CallToolView extends Component {
     });
   }
 
-  selectNewTarget(countryCode: ?string = null) {
-    let candidates;
-    if(countryCode) {
-      candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
-    } else {
-      candidates = this.props.targets;
-    }
+  selectNewTarget() {
+    return _.sample(this.props.targets);
+  }
 
+  selectNewTargetFromCountryCode(countryCode: string) {
+    const candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
     return _.sample(candidates);
   }
 
@@ -209,10 +218,7 @@ class CallToolView extends Component {
           <h1> { this.props.title } </h1>
         }
 
-        { this.props.targetByCountryEnabled &&
-          <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
-        }
-
+        <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
 
         { errors.base !== undefined && !_.isEmpty(this.state.errors.base) &&
           <div className="base-errors">
