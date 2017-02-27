@@ -14,7 +14,13 @@ describe TwimlGenerator do
       end
 
       it 'has Dial number of target' do
-        expect(subject).to match(%r{<Dial.*>#{Regexp.quote(call.target_phone_number)}</Dial>})
+        expect(subject).to match(%r{<Dial.*><Number>#{Regexp.quote(call.target_phone_number)}</Number></Dial>})
+      end
+
+      it 'includes extension if one is supplied' do
+        allow(call).to receive(:target_phone_number).and_return('12345678ext234')
+        re = %r{<Dial.*><Number sendDigits="234">12345678</Number></Dial>}
+        expect(subject).to match re
       end
 
       it 'has no Play element' do
