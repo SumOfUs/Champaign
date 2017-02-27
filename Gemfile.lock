@@ -77,9 +77,9 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    airbrake (5.6.1)
-      airbrake-ruby (~> 1.6)
-    airbrake-ruby (1.6.0)
+    airbrake (5.7.1)
+      airbrake-ruby (~> 1.7)
+    airbrake-ruby (1.8.0)
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
@@ -536,7 +536,7 @@ DEPENDENCIES
   action_parameter
   actionkit_connector!
   activeadmin!
-  airbrake
+  airbrake (~> 5.7.1)
   annotate
   aws-sdk (~> 2)
   aws-sdk-rails
