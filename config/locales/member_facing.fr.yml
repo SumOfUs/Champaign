@@ -84,7 +84,7 @@ fr:
       phone_number:
         too_short: "Doit comporter au moins 6 chiffres"
         cant_connect: "Nous ne pouvons vous mettre en relation avec ce correspondant. Veuillez vérifier le numéro de téléphone, ou en essayer un autre. "
-    fine_print: 'SumOfUs protège <a href="https://sumofus.org/privacy" target="_blank"> vos données personnelles, et vous tiendra au courant de la suite ainsi que de nos différentes campagnes, possiblement par SMS si vous nous avez transmis votre téléphone mobile.'
+    fine_print: 'SumOfUs protège <a href="https://sumofus.org/fr/privacy" target="_blank"> vos données personnelles, et vous tiendra au courant de la suite ainsi que de nos différentes campagnes, possiblement par SMS si vous nous avez transmis votre téléphone mobile.'
     form:
       phone_number: "Mon numéro de téléphone"
       phone_country_code: "Code"
