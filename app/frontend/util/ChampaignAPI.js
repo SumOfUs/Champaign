@@ -6,7 +6,7 @@ import { camelizeKeys } from './util';
 
 export type OperationResponse = {
   success: boolean;
-  errors: {[id:string]: string[]};
+  errors: {[id:string]: any[]};
 }
 
 const parseResponse = (response, textStatus, other): OperationResponse => {
