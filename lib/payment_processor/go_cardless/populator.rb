@@ -70,7 +70,7 @@ module PaymentProcessor
       def complete_redirect_flow
         @complete_redirect_flow ||= client.redirect_flows.complete(@redirect_flow_id, params: { session_token: @session_token })
       rescue GoCardlessPro::InvalidStateError => e
-        raise e unless e.message =~ /already completed/
+        raise e unless e.message.match?(/already completed/)
         @complete_redirect_flow = client.redirect_flows.get(@redirect_flow_id)
       end
 
