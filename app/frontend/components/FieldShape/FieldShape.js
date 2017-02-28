@@ -9,7 +9,7 @@ import type { Element } from 'react';
 export type Field = {
   data_type: string;
   name: string;
-  label: string;
+  label: any;
   default_value: string | null;
   required?: boolean;
   disabled?: boolean;

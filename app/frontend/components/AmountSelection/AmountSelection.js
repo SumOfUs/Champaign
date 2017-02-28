@@ -12,7 +12,7 @@ export type OwnProps = {
   donationBands: {[id:string]: number[]};
   donationFeaturedAmount?: number;
   currency: string;
-  nextStepTitle?: string;
+  nextStepTitle?: any;
   selectAmount: (amount: ?number) => void;
   changeCurrency: (currency: string) => void;
   proceed: () => void;

@@ -54,7 +54,7 @@ type OwnState = {
     paypal: boolean;
     card: boolean;
   };
-  errors: string[];
+  errors: any[];
   waitingForGoCardless: boolean;
 };
 export class Payment extends Component {
