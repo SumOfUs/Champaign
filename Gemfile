@@ -1,9 +1,9 @@
 # coding: utf-8
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.3.3'
+ruby '2.4.0'
 
-gem 'rails', '4.2.7.1'
+gem 'rails', '4.2.8'
 gem 'rake'
 gem 'rails-observers'
 gem 'readthis'
@@ -34,7 +34,7 @@ gem 'liquid'
 gem 'remotipart', '~> 1.2' # [Q] Are we using this?
 gem 'devise'
 gem 'omniauth-google-oauth2'
-gem 'activeadmin', github: 'activeadmin'
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 gem 'country_select'
 gem 'kaminari'
 
@@ -58,14 +58,12 @@ gem 'config'
 gem 'twilio-ruby'
 gem 'metamagic'
 gem 'jwt'
-gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
+gem 'actionkit_connector', git: 'https://github.com/SumOfUs/actionkit_connector', branch: 'master'
 gem 'airbrake', '~> 5.7.1'
 gem 'envyable', require: 'envyable/rails-now'
 gem 'webpack-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
-# Sprockets 3 breaks Teaspoon.
-# see https://github.com/modeset/teaspoon/issues/443
-gem 'sprockets-rails', '< 3.0'
+gem 'sprockets-rails'
 gem 'compass-rails', '~> 3.0.2' # was using git master branch before
 gem 'sass-rails', '~> 5.0.6'
 gem 'uglifier', '>= 1.3.0'
@@ -80,8 +78,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'vcr'
-  gem 'teaspoon'
-  gem 'teaspoon-mocha'
   gem 'magic_lamp'
   gem 'spring-commands-rspec'
 end

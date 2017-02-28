@@ -280,7 +280,7 @@ describe 'Braintree API' do
                    first_name: 'Bernie',
                    last_name:  'Sanders',
                    country: 'United States',
-                   action_id: instance_of(Fixnum))
+                   action_id: instance_of(Integer))
   end
 
   let(:action_express_donation) { 0 }

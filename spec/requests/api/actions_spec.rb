@@ -48,7 +48,7 @@ describe 'Api Actions' do
                              created_at: be_within(1.second).of(Time.now),
                              country: 'France',
                              subscribed_member: true,
-                             action_id: instance_of(Fixnum)),
+                             action_id: instance_of(Integer)),
 
         params: hash_including(page:    'foo-bar-petition',
                                email:  'hello@example.com',

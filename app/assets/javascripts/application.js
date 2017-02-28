@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require underscore
 //= require backbone
-//= require jquery-ui/sortable
+//= require jquery-ui/widgets/sortable
 //= require jquery.remotipart
 //= require d3
 //= require odometer
