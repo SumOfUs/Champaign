@@ -169,6 +169,17 @@ Style/SingleLineBlockParams:
   Exclude:
     - 'spec/support/helper_functions.rb'
 
+Style/EmptyMethod:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - Guardfile
+    - app/admin/**
+    - config/**/*
+    - lib/**/*
+    - spec/**/*
+    - app/controllers/pages_controller.rb
 Metrics/LineLength:
   Max: 120
   Exclude:

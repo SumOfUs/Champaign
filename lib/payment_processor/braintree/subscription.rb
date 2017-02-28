@@ -63,9 +63,9 @@ module PaymentProcessor
         if existing_customer.present?
           payment_method_result = ::Braintree::PaymentMethod.create(payment_method_options)
           break_if_rejected(payment_method_result)
-          return payment_method_result.payment_method
+          payment_method_result.payment_method
         else
-          return customer_result.customer.payment_methods.first
+          customer_result.customer.payment_methods.first
         end
       end
 

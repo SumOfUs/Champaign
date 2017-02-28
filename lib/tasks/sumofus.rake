@@ -18,7 +18,7 @@ namespace :sumofus do
     else
       puts 'Loading page data'
       page_data_handle = open(args[:action_file])
-      page_data = JSON.load(page_data_handle.read)
+      page_data = JSON.parse(page_data_handle.read)
       page_data_handle.close
       puts 'Page data loaded'
     end
@@ -91,7 +91,7 @@ namespace :sumofus do
     else
       puts 'Loading page data'
       page_data_handle = open(args[:action_file])
-      page_data = JSON.load(page_data_handle.read)
+      page_data = JSON.parse(page_data_handle.read)
       page_data_handle.close
       puts 'Page data loaded'
     end
@@ -202,7 +202,7 @@ namespace :sumofus do
       petition.description = entry['petition_ask'].delete('"').gsub('Petition Text:', '')
       petition.target = entry['petition_target'].gsub(/Sign our petition to /i, '').gsub(/Sign the petition to /, '').delete(':')
       petition.save!
-      next unless page.images.count == 0
+      next unless page.images.count.zero?
       if existing_image.blank?
         existing_image = page.images.create(content: page_image_handle)
       else

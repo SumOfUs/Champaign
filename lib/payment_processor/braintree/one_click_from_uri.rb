@@ -27,7 +27,7 @@ module PaymentProcessor::Braintree
     def one_click?
       params.fetch(:one_click, '') == 'true' &&
         payment_method_id &&
-        params.fetch(:amount, 0).to_f > 0 &&
+        params.fetch(:amount, 0).to_f.positive? &&
         params[:currency].present?
     end
 

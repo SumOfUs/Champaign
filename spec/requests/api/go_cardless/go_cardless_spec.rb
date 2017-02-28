@@ -59,7 +59,7 @@ describe 'GoCardless API' do
           URI.parse(assigns(:flow).redirect_flow_instance.success_redirect_url).query
         )
         request.params.each_pair do |key, val|
-          next if key =~ /controller|action/
+          next if key.match?(/controller|action/)
           expect(success_redirect_params[key]).to eq val
         end
       end

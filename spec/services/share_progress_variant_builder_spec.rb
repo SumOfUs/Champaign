@@ -15,7 +15,7 @@ describe ShareProgressVariantBuilder do
            id: '1',
            share_button_html: '<div />',
            page_url: 'http://example.com/foo',
-           variants: { facebook:  sp_variants })
+           variants: { facebook: sp_variants })
   end
 
   let(:failure_sp_button) do

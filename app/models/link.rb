@@ -26,7 +26,7 @@ class Link < ActiveRecord::Base
   private
 
   def url_has_protocol
-    unless %r{^(https?:)?\/\/}i =~ url
+    unless %r{^(https?:)?\/\/}i.match?(url)
       errors.add(:url, 'must have a protocol (like http://)')
     end
   end

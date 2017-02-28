@@ -20,6 +20,6 @@ class Share::Twitter < ActiveRecord::Base
   validate :has_link
 
   def has_link
-    errors.add(:description, 'does not contain {LINK}') unless description =~ /\{LINK\}/
+    errors.add(:description, 'does not contain {LINK}') unless description.match?(/\{LINK\}/)
   end
 end
