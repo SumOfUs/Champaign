@@ -21,7 +21,7 @@ class Call < ActiveRecord::Base
 
   validates :page, presence: true
   validates :member_phone_number, presence: true
-  validates :target_index, presence: true
+  validates :target, presence: true
 
   validate :target_index_is_valid, if: ->(o) { o.target_index.present? }
   validate :member_phone_number_is_valid
@@ -32,8 +32,18 @@ class Call < ActiveRecord::Base
     target.phone_number
   end
 
+  def target_index=(index)
+    write_attribute(:target_index, index)
+    self.target = call_tool.targets[index] 
+  end
+
+  def target=(target_object)
+    write_attribute(:target, target_object&.to_hash)
+  end
+
   def target
-    call_tool.targets[target_index]
+    target_json = read_attribute(:target)
+    CallTool::Target.new(target_json) if target_json.present?
   end
 
   private

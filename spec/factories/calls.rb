@@ -19,6 +19,6 @@ FactoryGirl.define do
   factory :call do
     association :page, :with_call_tool
     member_phone_number { Faker::PhoneNumber.cell_phone }
-    target_index 0
+    target { build(:call_tool_target) }
   end
 end

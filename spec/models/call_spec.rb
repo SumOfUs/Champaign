@@ -37,4 +37,31 @@ describe Call do
       expect(call).to be_valid
     end
   end
+
+  describe '#target' do 
+    let(:call) { Call.new }
+    let(:target) { build(:call_tool_target) }
+
+    it "returns nil if no target is set" do
+      expect(call.target).to be_nil   
+    end
+
+    it "returns the target if it's already set" do
+      call.target = target
+      expect(call.target.name).to eq target.name
+      expect(call.target.phone_number).to eq target.phone_number
+    end
+  end
+
+  describe '#target_index=' do
+    let!(:page) { create(:page) }
+    let!(:targets) { build_list(:call_tool_target, 3, :with_country) }
+    let!(:call_tool) { create(:call_tool, page: page, targets: targets) }
+    let(:call) { build(:call, page: page, target: nil) }
+
+    it "sets the target" do
+      call.target_index = 1
+      expect(call.target).to be == targets[1]
+    end
+  end
 end

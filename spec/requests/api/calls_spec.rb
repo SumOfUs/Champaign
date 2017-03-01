@@ -33,6 +33,7 @@ describe 'API::Calls' do
         expect(call.page_id).to eq(page.id)
         expect(call.member_phone_number).to eq('123456789')
         expect(call.target_index).to eq(1)
+        expect(call.target).to eq(call.send(:call_tool).targets[1])
       end
 
       it 'creates a call on Twilio' do

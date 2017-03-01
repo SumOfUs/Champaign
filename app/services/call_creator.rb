@@ -13,7 +13,7 @@ class CallCreator
     @call = Call.new(page: page,
                      member_id: @params[:member_id],
                      member_phone_number: @params[:member_phone_number],
-                     target_index: @params[:target_index])
+                     target_index: target_index)
     Call.transaction do
       place_call if @call.save
     end
@@ -66,5 +66,12 @@ class CallCreator
       @errors[:base] ||= []
       @errors[:base] << I18n.t('call_tool.errors.unknown')
     end
+  end
+
+  def target_index
+    Integer(@params[:target_index])
+  rescue
+    @errors[:base] << I18n.t('call_tool.errors.unknown')
+    0
   end
 end
