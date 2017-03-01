@@ -9,7 +9,7 @@ de:
   fundraiser:
     payment_methods:
       gocardless: "Lastschrift"
-      paypal: "PayPal"
+      paypal: "Paypal"
       card: 'Kreditkarte'
       ready_for_gocardless: "Klicken Sie auf \"Spenden\", um den Vorgang mit unserem Zahlungsdienstleister GoCardless abzuschließen."
       ready_for_paypal: "Wenn Sie auf das Feld unten klicken, leitet Paypal Sie durch die letzten Schritte, um Ihre Spende abzuschließen. "
