@@ -17,7 +17,7 @@ class Share::Twitter < ActiveRecord::Base
   include Share::Variant
 
   validates :description, presence: true
-  validate :has_link
+  validate :has_link, unless: -> { description.nil? }
 
   def has_link
     errors.add(:description, 'does not contain {LINK}') unless description.match?(/\{LINK\}/)
