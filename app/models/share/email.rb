@@ -17,7 +17,7 @@ class Share::Email < ActiveRecord::Base
   include Share::Variant
 
   validates :subject, :body, presence: true
-  validate :has_link
+  validate :has_link, unless: -> { body.nil? }
 
   def has_link
     errors.add(:body, 'does not contain {LINK}') unless body.match?(/\{LINK\}/)
