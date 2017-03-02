@@ -1,0 +1,9 @@
+//= require jquery
+//= require jquery_ujs
+//= require underscore
+//= require backbone
+//= require sticky
+//= require braintree-web
+//= require selectize
+//= require i18n
+//= require i18n/translations
