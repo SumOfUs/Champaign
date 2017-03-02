@@ -8,11 +8,11 @@ import $ from '../../util/PubSub';
 import CurrencyAmount from '../../components/CurrencyAmount';
 
 export type OwnProps = {
-  donationAmount: ?number;
+  donationAmount?: number;
   donationBands: {[id:string]: number[]};
   donationFeaturedAmount?: number;
   currency: string;
-  nextStepTitle?: string;
+  nextStepTitle?: any;
   selectAmount: (amount: ?number) => void;
   changeCurrency: (currency: string) => void;
   proceed: () => void;
@@ -21,7 +21,6 @@ export type OwnProps = {
 export type OwnState = {
   customAmount: ?number;
   currencyDropdownVisible: boolean;
-  proceedButtonVisible: boolean;
 };
 
 export default class AmountSelection extends Component {
@@ -41,7 +40,6 @@ export default class AmountSelection extends Component {
 
     this.state = {
       customAmount: null,
-      proceedButtonVisible: false,
       currencyDropdownVisible: false,
     };
   }
@@ -56,16 +54,26 @@ export default class AmountSelection extends Component {
     });
   }
 
-  toggleProceedButton(visible: boolean) {
-    this.setState({ proceedButtonVisible: visible });
-  }
-
   onSelectCurrency(currency: string) {
     this.props.changeCurrency(currency);
   }
 
+  selectFeaturedAmount() {
+    if (this.props.donationFeaturedAmount) {
+      this.props.selectAmount(this.props.donationFeaturedAmount);
+      this.props.proceed();
+    }
+  }
+
+  proceed() {
+    if (!this.props.donationAmount && this.props.donationFeaturedAmount) {
+      this.props.selectAmount(this.props.donationFeaturedAmount);
+    }
+
+    this.props.proceed();
+  }
+
   render() {
-    const { proceedButtonVisible } = this.state;
     return (
       <div className="AmountSelection-container section">
         <DonationBands
@@ -75,7 +83,6 @@ export default class AmountSelection extends Component {
           proceed={this.props.proceed}
           featuredAmount={this.props.donationFeaturedAmount}
           selectAmount={this.props.selectAmount}
-          toggleProceedButton={this.toggleProceedButton.bind(this)}
         />
         <p>
           <FormattedMessage
@@ -87,7 +94,7 @@ export default class AmountSelection extends Component {
             <FormattedMessage id="fundraiser.switch_currency" defaultMessage="Switch currency" />
           </a>
         </p>
-        {this.state.currencyDropdownVisible &&
+        { this.state.currencyDropdownVisible &&
           <select value={this.props.currency} className="AmountSelection__currency-selector"
             onChange={e => this.onSelectCurrency(e.target.value)}>
              {_.keys(this.props.donationBands).map((currency) => {
@@ -96,14 +103,15 @@ export default class AmountSelection extends Component {
           </select>
         }
 
-        { proceedButtonVisible && (
-          <Button className="btn AmountSelection__proceed-button" onClick={() => this.props.proceed()} disabled={!this.props.donationAmount}>
-            { this.props.nextStepTitle ?
-              this.props.nextStepTitle :
-              <FormattedMessage id="fundraiser.proceed_to_details" defaultMessage="Proceed to details" />
-            }
-          </Button>
-        )}
+        <Button
+          className="btn AmountSelection__proceed-button"
+          onClick={() => this.proceed()}
+          disabled={!(this.props.donationAmount || this.props.donationFeaturedAmount)}>
+          { this.props.nextStepTitle ?
+            this.props.nextStepTitle :
+            <FormattedMessage id="fundraiser.proceed_to_details" defaultMessage="Proceed to details" />
+          }
+        </Button>
       </div>
     );
   }

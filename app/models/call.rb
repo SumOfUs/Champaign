@@ -29,7 +29,11 @@ class Call < ActiveRecord::Base
   delegate :sound_clip, to: :call_tool
 
   def target_phone_number
-    call_tool.targets[target_index].phone_number
+    target.phone_number
+  end
+
+  def target
+    call_tool.targets[target_index]
   end
 
   private

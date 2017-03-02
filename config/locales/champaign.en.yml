@@ -211,6 +211,8 @@ en:
     destroy:
       notice: "The campaign '%{name}' was deactivated. Contact an admin if you'd like to reactivate it."
     error: "There was an error, please try again."
+    edit:
+      campaign_pages: 'Campaign pages'
 
   forms:
     index:

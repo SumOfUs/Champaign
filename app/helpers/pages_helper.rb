@@ -88,35 +88,6 @@ module PagesHelper
     registered.fetch(name, 'cubes')
   end
 
-  def determine_ascending
-    if params[:search].nil?
-      'asc'
-    elsif params[:search][:order_by].nil?
-      'asc'
-    elsif params[:search][:order_by][1] == 'desc'
-      'asc'
-    else
-      'desc'
-    end
-  end
-
-  def determine_icon_location
-    return '' if params[:search].nil? || params[:search][:order_by].nil?
-    if params[:search][:order_by].is_a? Array
-      params[:search][:order_by][0]
-    else
-      params[:search][:order_by]
-    end
-  end
-
-  def determine_icon_header
-    if determine_ascending == 'asc'
-      'glyphicon-menu-up'
-    else
-      'glyphicon-menu-down'
-    end
-  end
-
   def twitter_meta(page, share_card = {})
     {
       card: 'summary_large_image',

@@ -24,11 +24,11 @@ type OwnProps = {
   fundraiser: Fundraiser;
   member: Member;
   page: Page;
-  changeStep: (number) => any;
-  selectAmount: (?number) => any;
-  selectCurrency: (string) => any;
-  setSubmitting: (boolean) => any;
-}
+  changeStep: (number) => any,
+  selectAmount: (?number) => any,
+  selectCurrency: (string) => any,
+  setSubmitting: (boolean) => any,
+};
 
 export class FundraiserView extends Component {
   props: OwnProps;

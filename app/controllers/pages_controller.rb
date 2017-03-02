@@ -10,11 +10,11 @@ class PagesController < ApplicationController
   before_action :localize, only: [:show, :follow_up]
 
   def index
-    @search_params = search_params
-    @pages = Search::PageSearcher.new(@search_params).search.sort_by(&:updated_at).reverse!
+    @pages = Search::PageSearcher.search(search_params)
   end
 
   def analytics
+    @calls = Call.where(page_id: @page.id)
   end
 
   def actions
@@ -131,9 +131,12 @@ class PagesController < ApplicationController
   end
 
   def search_params
-    default_params = { publish_status: Page.publish_statuses.values_at(:published, :unpublished) }
-    params[:search] ||= {}
-    params[:search].reverse_merge default_params
+    default_params = {
+      publish_status: Page.publish_statuses.values_at(:published, :unpublished),
+      limit: 500,
+      order_by: [:updated_at, :desc]
+    }
+    @search_params = default_params.merge(params.to_unsafe_hash.symbolize_keys)
   end
 
   def process_one_click

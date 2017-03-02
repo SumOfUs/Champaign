@@ -153,15 +153,6 @@ describe('Donation Amount Tab', function () {
       expect(suite.wrapper.find('Step').find('FormattedNumber').text()).toEqual('$8');
     });
 
-    it('shows a "Proceed" button when the custom amount input is used', () => {
-      expect(suite.wrapper.find('.AmountSelection__proceed-button').length).toEqual(0);
-      suite.wrapper.find('#DonationBands-custom-amount').simulate('focus');
-      suite.wrapper.find('#DonationBands-custom-amount').simulate('change', {target: {value: '8'}});
-      expect(suite.wrapper.find('.AmountSelection__proceed-button').length).toEqual(1);
-      expect(suite.wrapper.find('.AmountSelection__proceed-button').prop('disabled')).toEqual(false);
-    });
-
-
     // changing the currency
     it('reveals a currency dropdown when we click on the "Change currency" link', () => {
       expect(suite.wrapper.find('.AmountSelection__currency-selector').length).toEqual(0);
