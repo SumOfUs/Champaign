@@ -117,11 +117,13 @@ Rails.application.routes.draw do
 
     resources :pages do
       get 'share-rows', on: :member, action: 'share_rows'
+      get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
 
       resource  :analytics
       resources :actions, only: [:create] do
         post 'validate', on: :collection, action: 'validate'
+        put 'publish', on: :member, action: 'publish'
       end
       resources :survey_responses, only: [:create]
       resource :call, only: [:create]

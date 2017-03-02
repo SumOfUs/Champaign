@@ -27,6 +27,14 @@ class Api::ActionsController < ApplicationController
     end
   end
 
+  def publish
+    action = Action.find(params[:id])
+    action.update(publish_status: params[:publish_status])
+    render json: {}, status: 200
+  rescue ArgumentError => e
+    render json: { errors: { publish_status: e.message } }, status: 422
+  end
+
   private
 
   def action_params

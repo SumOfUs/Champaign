@@ -1,3 +1,7 @@
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/controllers/api/actions_controller_spec.rb'
+
 Lint/UnusedMethodArgument:
   Exclude:
     - 'lib/payment_processor/braintree/error_processing.rb'

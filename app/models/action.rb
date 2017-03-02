@@ -20,6 +20,8 @@ class Action < ActiveRecord::Base
   belongs_to :page, counter_cache: :action_count
   belongs_to :member
 
+  enum publish_status: [:default, :published, :hidden]
+
   has_paper_trail on: [:update, :destroy]
   scope :donation, -> { where(donation: true) }
   scope :not_donation, -> { where.not(donation: true) }

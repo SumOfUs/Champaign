@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170224140212) do
     t.jsonb    "form_data",         default: {}
     t.boolean  "subscribed_member", default: true
     t.boolean  "donation",          default: false
+    t.integer  "publish_status",    default: 0,     null: false
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
@@ -238,6 +239,7 @@ ActiveRecord::Schema.define(version: 20170224140212) do
     t.boolean  "allow_duplicate_actions",    default: false
     t.boolean  "enforce_styles",             default: false,     null: false
     t.text     "notes"
+    t.integer  "publish_actions",            default: 0,         null: false
   end
 
   add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
