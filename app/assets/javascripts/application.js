@@ -48,6 +48,7 @@ require('campaigner-facing/sidebar');
 require('campaigner-facing/tooltips');
 require('campaigner-facing/collection_editor');
 require('campaigner-facing/shares_editor');
+require('campaigner-facing/actions_editor');
 require('campaigner-facing/layout_picker');
 
 window.PageEditBar =  require('campaigner-facing/page_edit_bar');

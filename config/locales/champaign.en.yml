@@ -75,6 +75,7 @@ en:
     campaign: "Action counters of pages belonging to the same campaign are consolidated."
     canonical_url: "If a page is accessible through multiple URLs, then pick the best one for SEO. Defaults to https://our.site/a/page-slug"
     optimizely_status: "Optimizely can be slow to load, but we load it on all pages so we can run site-wide experiments. Please only disable for exceptional pages like microsites."
+    publish_actions: 'Use this to make member responses to the page accessible through the API.'
     shares:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
@@ -180,6 +181,7 @@ en:
       saving: "Saving..."
       canonical_url: "Canonical URL"
       optimizely_status: "Optimizely"
+      publish_actions: 'Publish actions'
       more_settings: "More options"
     analytics:
       hours_chart_title: "Total actions last 12 hours"
