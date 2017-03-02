@@ -14,6 +14,7 @@ class PagesController < ApplicationController
   end
 
   def analytics
+    @calls = Call.where(page_id: @page.id)
   end
 
   def actions
