@@ -1,47 +1,44 @@
 .col-md-12.page-filter-form
   form action='/pages' method='get'
+    - multi_select_options = { class: 'selectize-container', multiple: true }
+    - label_class = 'control-label col-lg-3'
     legend Only show pages that...
     .page-filter__row
-      / pass params[:search] that contains all search options for filtering.
-      = label_tag 'search[content_search]', 'Contain the following text: ', class: 'control-label col-lg-3'
+      = label_tag :content_search, 'Contain the following text: ', class: label_class
       .col-lg-3
-        input type='text' class='form-control' placeholder='A long time ago in a galaxy far far away...' id='search[content_search]' name='search[content_search]' value=@search_params[:content_search]
+        = text_field_tag :content_search, @search_params[:content_search], { class: 'form-control' }
 
-      = label_tag 'search[campaign]', 'Belong to one of these campaigns:', class: 'control-label col-lg-3'
+      = label_tag :campaign, 'Belong to one of these campaigns:', class: label_class
       .col-lg-3
-        = select_tag 'search[campaign]', options_from_collection_for_select(Campaign.all, 'id', 'name', @search_params[:campaign]),
-                     html_options= {class: 'selectize-container selectize-tag', multiple: true}
+        = select_tag :campaign, options_from_collection_for_select(Campaign.all, 'id', 'name', @search_params[:campaign]), { class: 'selectize-container selectize-tag', multiple: true }
     .page-filter__row
-      = label_tag 'search[layout]', 'Use one of these layouts:', class: 'control-label col-lg-3'
+      = label_tag :layout, 'Use one of these layouts:', class: label_class
       .col-lg-3
-        = select_tag 'search[layout]', options_from_collection_for_select(LiquidLayout.all, 'id', 'title', @search_params[:layout]),
-                     html_options= {class: 'selectize-container', multiple: true}
+        = select_tag :layout, options_from_collection_for_select(LiquidLayout.all, 'id', 'title', @search_params[:layout]), multi_select_options
 
-      = label_tag 'search[language]', 'Belong to one of these languages: ', class: 'control-label col-lg-3'
+      = label_tag :language, 'Belong to one of these languages: ', class: label_class
       .col-lg-3
-        = select_tag 'search[language]', options_from_collection_for_select(Language.all, 'id', 'name', @search_params[:language]),
-                     html_options= {:class => 'selectize-container', multiple: true}
+        = select_tag :language, options_from_collection_for_select(Language.all, 'id', 'name', @search_params[:language]), multi_select_options
     .page-filter__row
-      = label_tag 'search[tags]', 'Contain all of these tags:', class: 'control-label col-lg-3'
+      = label_tag :tags, 'Contain all of these tags:', class: label_class
       .col-lg-3
-        = select_tag 'search[tags]', options_from_collection_for_select(Tag.all, 'id', 'name', @search_params[:tags]),
-                     html_options= {class: 'selectize-container', multiple: true}
+        = select_tag :tags, options_from_collection_for_select(Tag.all, 'id', 'name', @search_params[:tags]), multi_select_options
 
-      = label_tag 'search[plugin_type]', 'Contain all of these plugins:', class: 'control-label col-lg-3'
+      = label_tag :plugin_type, 'Contain all of these plugins:', class: label_class
       .col-lg-3
-        = select_tag 'search[plugin_type]', options_from_collection_for_select(Plugins.registered, 'to_s',
-                                                                               lambda { |plugin| plugin.name.demodulize },
-                                                                               @search_params[:plugin_type]),
-                     html_options= {class: 'selectize-container', multiple: true}
+        - collection = [Plugins.registered, 'to_s', lambda { |plugin| plugin.name.demodulize }, @search_params[:plugin_type]]
+        = select_tag :plugin_type, options_from_collection_for_select(*collection), multi_select_options
 
     .page-filter__row
-      = label_tag 'search[publish_status]', 'Publish status:', class: 'control-label col-lg-3'
+      = label_tag :publish_status, 'Publish status:', class: label_class
       .col-lg-3
-        = select_tag 'search[publish_status]', options_for_select(Page.publish_statuses.to_a, @search_params[:publish_status]),
-                     html_options= {class: 'selectize-container', multiple: true}
+        = select_tag :publish_status, options_for_select(Page.publish_statuses.to_a, @search_params[:publish_status]), multi_select_options
+      = label_tag :limit, 'Limit number of pages loaded:', class: label_class
+      .col-lg-3
+        = select_tag :limit, options_for_select([500, 1000], @search_params[:limit]), { class: 'form-control', include_blank: 'No limit' }
 
       .col-md-12
-        = submit_tag 'Filter by these criteria', class: 'btn btn-primary page-filter__submit', id: 'search_button'
+        = submit_tag 'Filter by these criteria', class: 'btn btn-primary page-filter__submit', id: 'search_button', name: nil
         = button_tag 'Reset filters', type: 'button',  class: 'btn btn-danger page-filter__reset', id: 'filter_reset_button'
 
   javascript:

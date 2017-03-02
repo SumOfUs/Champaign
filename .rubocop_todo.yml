@@ -58,6 +58,9 @@ Metrics/ClassLength:
 # Offense count: 3
 Metrics/CyclomaticComplexity:
   Max: 10
+  Exclude:
+    - 'app/services/search/page_searcher.rb'
+
 
 # Offense count: 51
 # Configuration parameters: CountComments.
@@ -127,7 +130,6 @@ Style/GuardClause:
     - 'app/models/form.rb'
     - 'app/models/link.rb'
     - 'app/services/page_builder.rb'
-    - 'app/services/search/page_searcher.rb'
     - 'lib/payment_processor/braintree/subscription.rb'
 
 # Offense count: 7
