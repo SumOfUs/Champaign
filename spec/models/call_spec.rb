@@ -53,14 +53,14 @@ describe Call do
     end
   end
 
-  describe '#target_index=' do
+  describe '#target_id=' do
     let!(:page) { create(:page) }
     let!(:targets) { build_list(:call_tool_target, 3, :with_country) }
     let!(:call_tool) { create(:call_tool, page: page, targets: targets) }
     let(:call) { build(:call, page: page, target: nil) }
 
     it "sets the target" do
-      call.target_index = 1
+      call.target_id = targets[1].id
       expect(call.target).to be == targets[1]
     end
   end

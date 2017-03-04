@@ -13,10 +13,12 @@ class CallCreator
     @call = Call.new(page: page,
                      member_id: @params[:member_id],
                      member_phone_number: @params[:member_phone_number],
-                     target_index: target_index)
+                     target_id: @params[:target_id])
     Call.transaction do
       place_call if @call.save
     end
+    
+    validate_target
 
     errors.blank?
   end
@@ -68,10 +70,13 @@ class CallCreator
     end
   end
 
-  def target_index
-    Integer(@params[:target_index])
-  rescue
-    @errors[:base] << I18n.t('call_tool.errors.unknown')
-    0
+  # If the targets are updated while the user is on the call tool page, the list
+  # of target_ids on the browser are no longer valid. 
+  # This validation checks for this edge case.
+  def validate_target
+    if @call.target.blank? && @params[:target_id].present?
+      @errors[:base] = [I18n.t('call_tool.errors.target.outdated')]
+    end
   end
+
 end

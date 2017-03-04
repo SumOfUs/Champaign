@@ -23,7 +23,6 @@ class Call < ActiveRecord::Base
   validates :member_phone_number, presence: true
   validates :target, presence: true
 
-  validate :target_index_is_valid, if: ->(o) { o.target_index.present? }
   validate :member_phone_number_is_valid
 
   delegate :sound_clip, to: :call_tool
@@ -32,9 +31,8 @@ class Call < ActiveRecord::Base
     target.phone_number
   end
 
-  def target_index=(index)
-    write_attribute(:target_index, index)
-    self.target = call_tool.targets[index] 
+  def target_id=(id)
+    self.target = call_tool.find_target(id)
   end
 
   def target=(target_object)
@@ -50,12 +48,6 @@ class Call < ActiveRecord::Base
 
   def call_tool
     @call_tool ||= Plugins::CallTool.find_by_page_id!(page.id)
-  end
-
-  def target_index_is_valid
-    if call_tool.targets[target_index].blank?
-      errors.add(:target_index, 'is invalid')
-    end
   end
 
   def member_phone_number_is_valid

@@ -31,6 +31,10 @@ class CallTool::Target
     to_hash == other.to_hash
   end
 
+  def id
+    Digest::SHA1.hexdigest(to_hash.to_s)
+  end
+
   private
 
   def country_is_valid

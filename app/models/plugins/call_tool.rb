@@ -57,6 +57,10 @@ class Plugins::CallTool < ActiveRecord::Base
     json_targets.map { |t| ::CallTool::Target.new(t) }
   end
 
+  def find_target(id)
+    targets.find { |t| t.id == id }
+  end
+
   private
 
   def json_targets

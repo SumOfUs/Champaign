@@ -82,6 +82,8 @@ en:
     select_target: "Just enter your home country and phone number -- and we'll call shortly after."
     errors:
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
+      target:
+        outdated: "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again."
       phone_number:
         too_short: "must have at least 6 digits"
         cant_connect: "can't connect to this phone number, please check it's correct or try another one"
