@@ -7,12 +7,12 @@
 #  page_id             :integer
 #  member_id           :integer
 #  member_phone_number :string
-#  target_index        :integer
 #  created_at          :datetime
 #  updated_at          :datetime
 #  log                 :jsonb            not null
 #  member_call_events  :json             is an Array
 #  twilio_error_code   :integer
+#  target              :json
 #
 
 require 'rails_helper'
