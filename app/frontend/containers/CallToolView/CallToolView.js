@@ -12,6 +12,7 @@ export type Target = {
   countryCode: string;
   name: string;
   title: string;
+  id: string;
 }
 
 export type Country = {
@@ -147,10 +148,6 @@ class CallToolView extends Component {
     return _.sample(candidates);
   }
 
-  selectedTargetIndex() {
-    return _.findIndex(this.props.targets, this.state.selectedTarget);
-  }
-
   submit(event: any) {
     event.preventDefault();
     if(!this.validateForm()) return;
@@ -158,7 +155,7 @@ class CallToolView extends Component {
     ChampaignAPI.calls.create({
       pageId: this.props.pageId,
       memberPhoneNumber: this.state.form.memberPhoneCountryCode + this.state.form.memberPhoneNumber,
-      targetIndex: this.selectedTargetIndex()
+      targetId: this.state.selectedTarget.id
     }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 

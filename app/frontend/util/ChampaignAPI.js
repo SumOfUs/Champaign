@@ -35,7 +35,7 @@ const createCall = function(params: {pageId: string|number, memberPhoneNumber?: 
   const payload = {
     call: {
       member_phone_number: params.memberPhoneNumber,
-      target_index: params.targetIndex
+      target_id: params.targetId
     }
   };
 
