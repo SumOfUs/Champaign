@@ -66,4 +66,16 @@ describe Payment::Braintree::Subscription do
       subscription.publish_cancellation('user')
     end
   end
+
+  describe 'publish amount update event' do
+    let(:subscription) { create(:payment_braintree_subscription, subscription_id: 'asd123', amount: 100) }
+    it 'pushes to the event queue with correct parameters' do
+      expect(ChampaignQueue).to receive(:push).with(type: 'recurring_payment_update',
+                                                    params: {
+                                                      recurring_id: 'asd123',
+                                                      amount: '100.0'
+                                                    })
+      subscription.publish_amount_update
+    end
+  end
 end

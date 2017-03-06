@@ -68,7 +68,7 @@ module PaymentProcessor
 
       def handle_subscription_cancelled
         # If the subscription has already been marked as cancelled (cancellation through the member management
-        # application), don't publish a cancellation event or send email
+        # application), don't publish a cancellation event
         return unless subscription && subscription.cancelled_at.nil?
         subscription.update(cancelled_at: Time.now)
         subscription.publish_cancellation('processor')
@@ -77,6 +77,25 @@ module PaymentProcessor
 
       def handle_subscription_charge(status)
         return unless subscription
+        update_subscription(status)
+        create_subscription_charge(status)
+        true
+      end
+
+      def subscription_amount
+        # The subscription hook contains an array of transactions with the latest one first.
+        @subscription_amount ||= notification.subscription.transactions.first&.amount || 0
+      end
+
+      def update_subscription(status)
+        return unless status == :success
+        if subscription.amount != subscription_amount
+          subscription.update!(amount: subscription_amount)
+          subscription.publish_amount_update
+        end
+      end
+
+      def create_subscription_charge(status)
         record = Payment::Braintree::Transaction.create!(
           transaction_id: '',
           subscription: subscription,
@@ -86,13 +105,6 @@ module PaymentProcessor
           amount: subscription_amount
         )
         record.publish_subscription_charge
-        true
-      end
-
-      def subscription_amount
-        # The subscription hook contains an array of transactions with the latest one first. We need to pass the
-        # amount to ActionKit to be able to override subscription prices when we've updated a subscription on BT.
-        notification.subscription.transactions.first&.amount || 0
       end
 
       # This method should only be called if @notification.subscription is a subscription object
