@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315101746) do
+ActiveRecord::Schema.define(version: 20170306224919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,13 @@ ActiveRecord::Schema.define(version: 20170315101746) do
     t.string   "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb    "log",                 default: {}, null: false
+    t.jsonb    "target_call_info",    default: {}, null: false
     t.json     "member_call_events",  default: [],              array: true
     t.integer  "twilio_error_code"
     t.json     "target"
   end
 
-  add_index "calls", ["log"], name: "index_calls_on_log", using: :gin
+  add_index "calls", ["target_call_info"], name: "index_calls_on_target_call_info", using: :gin
 
   create_table "campaigns", force: :cascade do |t|
     t.string   "name"

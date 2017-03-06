@@ -9,9 +9,9 @@ describe 'POST /twilio/calls/:id/calls' do
     expect(response).to be_success
   end
 
-  it 'updates call log' do
+  it 'updates call target_call_info' do
     post "/twilio/calls/#{call.id}/log", foo: 'bar'
-    expect(call.reload.log['foo']).to eq('bar')
+    expect(call.reload.target_call_info['foo']).to eq('bar')
     expect(response).to be_success
   end
 end

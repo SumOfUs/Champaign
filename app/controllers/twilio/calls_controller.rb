@@ -10,7 +10,7 @@ module Twilio
 
     def log
       @call = Call.find(params[:id])
-      @call.update!(log: params)
+      @call.update!(target_call_info: params)
       render xml: Twilio::TwiML::Response.new.text
     end
 
