@@ -1,0 +1,10 @@
+.call-tool-analytics
+  h1 Call Tool
+  - if @calls.present?
+    - completed_calls = @calls.select { |c| c.log["DialCallStatus"] == 'completed' }
+    - by_day = Hash.new(0)
+    - completed_calls.each { |c| by_day[c.updated_at.to_date] += 1 }
+    = "Members have completed #{completed_calls.size} calls"
+    ul
+    - by_day.to_a.sort_by { |p| p[0] }.each do |date, count|
+      li = "#{count} #{'call'.pluralize(count)} on #{date.strftime('%B %d, %Y')}"

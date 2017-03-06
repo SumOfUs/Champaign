@@ -5,49 +5,9 @@
 .edit-block
   h1.edit-block__title= @page.title
 
-  #analytics-dashboard
-    .col-md-10
-      .col-md-8
-        .analytics-chart.short-view
-          svg.chart
-        h4.chart-title = t('.hours_chart_title')
-
-        button.btn.btn-default#refresh-data
-          span> = t('.refresh')
-          span.glyphicon.glyphicon-refresh
-
-      .col-md-4
-        .totals
-          dl.actions
-            dt.odometer.total-actions-all
-            dd = t('.total_actions')
-          .analytics-chart.mini-total.mini
-            svg.chart
-        .totals
-          dl.new-members
-            dt.odometer.total-actions-new
-            dd = t('.new_members')
-          .analytics-chart.mini-new.mini
-            svg.chart
-
-  table.table
-    thead.shares-editor__stats-heading
-      = render 'share_analytics_header'
-
-    tbody
-      - @page.shares.each do |variation|
-        = render variation, page: @page, only_stats: true
-      = render 'links_to_share_progress', only_stats: true
-
-  - if @calls.present?
-    - completed_calls = @calls.select { |c| c.log["DialCallStatus"] == 'completed' }
-    - by_day = Hash.new(0)
-    - completed_calls.each { |c| by_day[c.updated_at.to_date] += 1 }
-    = "Members have completed #{completed_calls.size} calls"
-    ul
-    - by_day.to_a.sort_by { |p| p[0] }.each do |date, count|
-      li = "#{count} #{'call'.pluralize(count)} on #{date.strftime('%B %d, %Y')}"
-
+  = render 'actions_analytics'
+  = render 'shares_analytics'
+  = render 'calls_analytics' if @call_stats.present?
 
 javascript:
   $( function() {
