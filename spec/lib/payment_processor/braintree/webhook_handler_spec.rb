@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'rails_helper'
-require 'byebug'
 
 describe PaymentProcessor::Braintree::WebhookHandler do
   def notification_faker(type, object_id)
@@ -183,7 +182,6 @@ describe PaymentProcessor::Braintree::WebhookHandler do
 
   # This describes the event where we have updated the subscription on the Braintree dashboard but not on Champaign
   describe 'subscription that comes in with a different amount from the original' do
-
     let(:action) { create(:action, member: member, form_data: { subscription_id: 'subscription_id' }) }
 
     let!(:existing_subscription) do
@@ -207,7 +205,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
              kind: 'subscription_charged_successfully',
              subscription: double('notification_subscription',
                                   id: 'subscription_id',
-                                  transactions: [ double('transaction', amount: 10) ]))
+                                  transactions: [double('transaction', amount: 10)]))
     end
 
     before do
@@ -244,6 +242,5 @@ describe PaymentProcessor::Braintree::WebhookHandler do
         subject
       end
     end
-
   end
 end
