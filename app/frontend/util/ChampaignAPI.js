@@ -31,7 +31,12 @@ const parseResponse = (response, textStatus, other): OperationResponse => {
   }
 };
 
-const createCall = function(params: {pageId: string|number, memberPhoneNumber?: string, targetIndex: number}): Promise<OperationResponse> {
+type CreateCallParams = {
+  pageId: string | number,
+  memberPhoneNumber?: string,
+  targetId: string,
+};
+const createCall = function(params: CreateCallParams): Promise<OperationResponse> {
   const payload = {
     call: {
       member_phone_number: params.memberPhoneNumber,
