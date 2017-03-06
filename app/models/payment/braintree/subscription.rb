@@ -38,4 +38,12 @@ class Payment::Braintree::Subscription < ActiveRecord::Base
                           canceled_by: reason
                         })
   end
+
+  def publish_amount_update
+    ChampaignQueue.push(type: 'recurring_payment_update',
+                        params: {
+                          recurring_id: subscription_id,
+                          amount: amount.to_s
+                        })
+  end
 end
