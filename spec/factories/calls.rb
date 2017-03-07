@@ -21,5 +21,13 @@ FactoryGirl.define do
     association :page, :with_call_tool
     member_phone_number { Faker::PhoneNumber.cell_phone }
     target { build(:call_tool_target) }
+
+    trait :with_busy_status do
+      target_call_info('DialCallStatus' => 'busy')
+    end
+
+    trait :with_completed_status do
+      target_call_info('DialCallStatus' => 'completed')
+    end
   end
 end

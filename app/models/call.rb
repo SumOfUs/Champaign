@@ -47,6 +47,12 @@ class Call < ActiveRecord::Base
     CallTool::Target.new(target_json) if target_json.present?
   end
 
+  # Returns: completed | answered | busy | no-answer |
+  #          failed | canceled | unknown
+  def target_call_status
+    target_call_info['DialCallStatus'] || 'unknown'
+  end
+
   private
 
   def call_tool
