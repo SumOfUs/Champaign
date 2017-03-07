@@ -147,6 +147,8 @@ Rails.application.routes.draw do
         post :facebook
         get :test_authentication
       end
+
+      get :location, to: 'location#index'
     end
 
     resources :members

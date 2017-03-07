@@ -104,6 +104,7 @@ group :test do
   gem 'timecop'
   gem 'coveralls', require: false
   gem 'poltergeist'
+  gem 'rspec-json_expectations'
 end
 
 # Rails Assets - reference any Bower components that you need as gems.
