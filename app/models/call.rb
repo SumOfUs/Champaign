@@ -7,12 +7,12 @@
 #  page_id             :integer
 #  member_id           :integer
 #  member_phone_number :string
-#  target_index        :integer
 #  created_at          :datetime
 #  updated_at          :datetime
 #  log                 :jsonb            not null
 #  member_call_events  :json             is an Array
 #  twilio_error_code   :integer
+#  target              :json
 #
 
 class Call < ActiveRecord::Base
@@ -21,9 +21,8 @@ class Call < ActiveRecord::Base
 
   validates :page, presence: true
   validates :member_phone_number, presence: true
-  validates :target_index, presence: true
+  validates :target, presence: true
 
-  validate :target_index_is_valid, if: ->(o) { o.target_index.present? }
   validate :member_phone_number_is_valid
 
   delegate :sound_clip, to: :call_tool
@@ -32,20 +31,23 @@ class Call < ActiveRecord::Base
     target.phone_number
   end
 
+  def target_id=(id)
+    self.target = call_tool.find_target(id)
+  end
+
+  def target=(target_object)
+    write_attribute(:target, target_object&.to_hash)
+  end
+
   def target
-    call_tool.targets[target_index]
+    target_json = read_attribute(:target)
+    CallTool::Target.new(target_json) if target_json.present?
   end
 
   private
 
   def call_tool
     @call_tool ||= Plugins::CallTool.find_by_page_id!(page.id)
-  end
-
-  def target_index_is_valid
-    if call_tool.targets[target_index].blank?
-      errors.add(:target_index, 'is invalid')
-    end
   end
 
   def member_phone_number_is_valid

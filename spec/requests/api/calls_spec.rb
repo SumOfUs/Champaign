@@ -8,17 +8,18 @@ describe 'API::Calls' do
 
   describe 'POST /api/pages/:id/call' do
     let!(:page) { create(:page, :with_call_tool) }
-
-    let(:params) do
-      {
-        call: {
-          member_phone_number: '+123456789',
-          target_index: 1
-        }
-      }
-    end
+    let(:target) { Plugins::CallTool.find_by_page_id(page.id).targets.sample }
 
     context 'given valid params' do
+      let(:params) do
+        {
+          call: {
+            member_phone_number: '+123456789',
+            target_id: target.id
+          }
+        }
+      end
+
       it 'returns successfully' do
         post "/api/pages/#{page.id}/call", params
         expect(response).to have_http_status(:no_content)
@@ -32,7 +33,7 @@ describe 'API::Calls' do
         call = Call.last
         expect(call.page_id).to eq(page.id)
         expect(call.member_phone_number).to eq('123456789')
-        expect(call.target_index).to eq(1)
+        expect(call.target).to eq target
       end
 
       it 'creates a call on Twilio' do
@@ -51,7 +52,7 @@ describe 'API::Calls' do
         {
           call: {
             member_phone_number: 'wrong number',
-            target_index: 1
+            target_id: target.id
           }
         }
       end
