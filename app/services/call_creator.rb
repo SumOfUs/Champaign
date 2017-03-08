@@ -17,7 +17,7 @@ class CallCreator
     Call.transaction do
       place_call if @call.save
     end
-    
+
     validate_target
 
     errors.blank?
@@ -71,12 +71,11 @@ class CallCreator
   end
 
   # If the targets are updated while the user is on the call tool page, the list
-  # of target_ids on the browser are no longer valid. 
+  # of target_ids on the browser are no longer valid.
   # This validation checks for this edge case.
   def validate_target
     if @call.target.blank? && @params[:target_id].present?
       @errors[:base] = [I18n.t('call_tool.errors.target.outdated')]
     end
   end
-
 end

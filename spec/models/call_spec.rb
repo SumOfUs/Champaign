@@ -38,12 +38,12 @@ describe Call do
     end
   end
 
-  describe '#target' do 
+  describe '#target' do
     let(:call) { Call.new }
     let(:target) { build(:call_tool_target) }
 
-    it "returns nil if no target is set" do
-      expect(call.target).to be_nil   
+    it 'returns nil if no target is set' do
+      expect(call.target).to be_nil
     end
 
     it "returns the target if it's already set" do
@@ -59,7 +59,7 @@ describe Call do
     let!(:call_tool) { create(:call_tool, page: page, targets: targets) }
     let(:call) { build(:call, page: page, target: nil) }
 
-    it "sets the target" do
+    it 'sets the target' do
       call.target_id = targets[1].id
       expect(call.target).to be == targets[1]
     end

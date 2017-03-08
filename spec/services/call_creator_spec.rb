@@ -4,7 +4,6 @@ require 'rails_helper'
 describe CallCreator do
   let(:page) { create(:page, :with_call_tool) }
   let(:target) { Plugins::CallTool.find_by_page_id(page.id).targets.sample }
-  
   let(:member) { create(:member) }
 
   context 'given valid params' do
