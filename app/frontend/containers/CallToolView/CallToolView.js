@@ -155,7 +155,8 @@ class CallToolView extends Component {
     ChampaignAPI.calls.create({
       pageId: this.props.pageId,
       memberPhoneNumber: this.state.form.memberPhoneCountryCode + this.state.form.memberPhoneNumber,
-      targetId: (this.state.selectedTarget && this.state.selectedTarget.id) || '' //The || is just to comply with flow
+      // $FlowIgnore
+      targetId: this.state.selectedTarget.id
     }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
