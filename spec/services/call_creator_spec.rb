@@ -3,6 +3,8 @@ require 'rails_helper'
 
 describe CallCreator do
   let(:page) { create(:page, :with_call_tool) }
+  let(:target) { Plugins::CallTool.find_by_page_id(page.id).targets.sample }
+  
   let(:member) { create(:member) }
 
   context 'given valid params' do
@@ -14,7 +16,7 @@ describe CallCreator do
       { page_id: page.id,
         member_id: member.id,
         member_phone_number: '12345678',
-        target_index: 1 }
+        target_id: target.id }
     end
 
     it 'returns true' do
@@ -27,7 +29,6 @@ describe CallCreator do
       expect(call.page_id).to eql(page.id)
       expect(call.member_id).to eql(member.id)
       expect(call.member_phone_number).to eql('12345678')
-      expect(call.target_index).to eql(1)
     end
 
     it 'normalizes the phone number' do
@@ -56,7 +57,7 @@ describe CallCreator do
       { page_id: page.id,
         member_id: member.id,
         member_phone_number: 'wrong',
-        target_index: 1 }
+        target_id: target.id }
     end
 
     let(:service) { CallCreator.new(params) }
@@ -82,7 +83,7 @@ describe CallCreator do
       { page_id: page.id,
         member_id: member.id,
         member_phone_number: '1234567',
-        target_index: 1 }
+        target_id: target.id }
     end
 
     it 'returns false' do
@@ -92,6 +93,25 @@ describe CallCreator do
     it 'stores the twilio error code on the call record' do
       CallCreator.new(params).run
       expect(Call.last.twilio_error_code).to eq(13_223)
+    end
+  end
+
+  context 'given the target id is invalid' do
+    let(:params) do
+      { page_id: page.id,
+        member_id: member.id,
+        member_phone_number: '1234567',
+        target_id: 'wrong' }
+    end
+
+    it 'returns false' do
+      expect(CallCreator.new(params).run).to be false
+    end
+
+    it 'returns an appropriate error message' do
+      service = CallCreator.new(params)
+      service.run
+      expect(service.errors[:base]).to include(/no longer available/)
     end
   end
 end

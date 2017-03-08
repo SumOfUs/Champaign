@@ -27,6 +27,14 @@ class CallTool::Target
     self.country_code = ISO3166::Country.find_country_by_name(country_name)&.alpha2
   end
 
+  def ==(other)
+    to_hash == other.to_hash
+  end
+
+  def id
+    Digest::SHA1.hexdigest(to_hash.to_s)
+  end
+
   private
 
   def country_is_valid

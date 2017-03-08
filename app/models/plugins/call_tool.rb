@@ -36,17 +36,7 @@ class Plugins::CallTool < ActiveRecord::Base
   end
 
   def liquid_data(_supplemental_data = {})
-    {
-      page_id: page_id,
-      locale: page.language_code,
-      active: active,
-      targets: json_targets,
-      target_by_country_enabled: target_by_country,
-      countries: countries,
-      countries_phone_codes: countries_phone_codes,
-      title: title,
-      description: description
-    }
+    Presenter.new(self).to_hash
   end
 
   def targets=(target_objects)
@@ -57,51 +47,14 @@ class Plugins::CallTool < ActiveRecord::Base
     json_targets.map { |t| ::CallTool::Target.new(t) }
   end
 
+  def find_target(id)
+    targets.find { |t| t.id == id }
+  end
+
   private
 
   def json_targets
     read_attribute(:targets)
-  end
-
-  # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
-  def countries
-    list =
-      if target_by_country
-        targets.map(&:country_code).uniq.compact.map do |country_code|
-          ISO3166::Country[country_code]
-        end
-      else
-        ISO3166::Country.all
-      end
-
-    list.map do |country|
-      {
-        name: country.translation(page.language_code),
-        code: country.alpha2,
-        phoneCode: country.country_code.to_s
-      }
-    end
-  end
-
-  # Temporary ugly solution until we figure out if we want all countries here or
-  # only a subset.
-  def countries_phone_codes
-    list = ISO3166::Country.all.reject do |country|
-      country.country_code.blank?
-    end
-
-    list.map! do |country|
-      {
-        name: country.translation(page.language_code),
-        code: country.country_code.to_s
-      }
-    end
-
-    # Prioritize US
-    us = list.find { |c| c[:name] == ISO3166::Country['US'].translation(page.language_code) }
-    list.delete(us)
-    list.unshift(us)
-    list
   end
 
   def targets_are_valid
@@ -116,6 +69,76 @@ class Plugins::CallTool < ActiveRecord::Base
   def target_countries_are_present
     targets.select { |t| t.country_code.blank? }.each_with_index do |_, index|
       errors.add(:targets, "Country can't be blank (row #{index + 1})")
+    end
+  end
+
+  class Presenter
+    attr_reader :obj
+    def initialize(call_tool)
+      @obj = call_tool
+    end
+
+    def to_hash
+      {
+        page_id: obj.page_id,
+        locale: obj.page.language_code,
+        active: obj.active,
+        targets: targets,
+        target_by_country_enabled: obj.target_by_country,
+        countries: countries,
+        countries_phone_codes: countries_phone_codes,
+        title: obj.title,
+        description: obj.description
+      }
+    end
+
+    private
+
+    def targets
+      obj.targets.map { |t| t.to_hash.merge(id: t.id) }
+    end
+
+    # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
+    def countries
+      list =
+        if obj.target_by_country
+          obj.targets.map(&:country_code).uniq.compact.map do |country_code|
+            ISO3166::Country[country_code]
+          end
+        else
+          ISO3166::Country.all
+        end
+
+      list.map do |country|
+        {
+          name: country.translation(language_code),
+          code: country.alpha2,
+          phoneCode: country.country_code.to_s
+        }
+      end
+    end
+
+    def countries_phone_codes
+      list = ISO3166::Country.all.reject do |country|
+        country.country_code.blank?
+      end
+
+      list.map! do |country|
+        {
+          name: country.translation(language_code),
+          code: country.country_code.to_s
+        }
+      end
+
+      # Prioritize US
+      us = list.find { |c| c[:name] == ISO3166::Country['US'].translation(language_code) }
+      list.delete(us)
+      list.unshift(us)
+      list
+    end
+
+    def language_code
+      obj.page.language_code
     end
   end
 end
