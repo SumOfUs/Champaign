@@ -17,7 +17,7 @@
 #
 
 class Call < ActiveRecord::Base
-  enum status: [:unstarted, :started, :connected]
+  enum status: [:unstarted, :started, :connected, :failed]
   belongs_to :page
   belongs_to :member
 
