@@ -13,9 +13,11 @@
 #  member_call_events  :json             is an Array
 #  twilio_error_code   :integer
 #  target              :json
+#  status              :integer          default(0)
 #
 
 class Call < ActiveRecord::Base
+  enum status: [:unstarted, :started, :connected]
   belongs_to :page
   belongs_to :member
 

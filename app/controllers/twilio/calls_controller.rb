@@ -3,9 +3,16 @@ module Twilio
   class CallsController < ApplicationController
     skip_before_action :verify_authenticity_token
 
-    def twiml
+    def start
       @call = Call.find(params[:id])
-      render xml: TwimlGenerator.run(@call)
+      @call.started! if @call.unstarted?
+      render xml: TwimlGenerator::StartCall.run(@call)
+    end
+
+    def connect
+      @call = Call.find(params[:id])
+      @call.connected! if @call.started?
+      render xml: TwimlGenerator::ConnectCall.run(@call)
     end
 
     def log
