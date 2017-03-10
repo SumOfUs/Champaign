@@ -66,6 +66,11 @@ const Fundraiser = Backbone.View.extend(_.extend(CurrencyMethods, {
 
     GlobalEvents.bindEvents(this);
 
+    this.reveal();
+  },
+
+  reveal() {
+    this.$('.fundraiser-bar__top').removeClass('hidden-closed');
   },
 
   initializeRecurring(recurringDefault) {
