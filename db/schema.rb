@@ -432,11 +432,11 @@ ActiveRecord::Schema.define(version: 20170304165947) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
-    t.json     "targets",                 default: [],   array: true
     t.string   "sound_clip_file_name"
     t.string   "sound_clip_content_type"
     t.integer  "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
+    t.json     "targets",                 default: [],   array: true
     t.text     "description"
     t.boolean  "target_by_country",       default: true
   end
