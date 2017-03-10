@@ -2,7 +2,7 @@
   <div class="fundraiser-bar sidebar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% endif %}">
     <div class="{% unless freestanding %}overlay-toggle__mobile-view overlay-toggle__mobile-view--closed{% endunless %}">
       <div class="fundraiser-bar__content">
-        <div class="fundraiser-bar__top script-dependent__for-height">
+        <div class="fundraiser-bar__top script-dependent__for-height hidden-closed">
           <div class="overlay-toggle__mobile-ui">
             <a class="overlay-toggle__close-button">&#x2715;</a>
           </div>
@@ -43,7 +43,7 @@
               {{ 'fundraiser.error_intro' | t }}
             </div>
           </div>
-          <div class="fundraiser-bar__step-panel script-dependent" data-step="1">
+          <div class="fundraiser-bar__step-panel script-dependent hidden-closed" data-step="1">
             <div class="fundraiser-bar__amount-buttons">
             </div>
             <input class="fundraiser-bar__custom-field" placeholder="{{ 'fundraiser.other_amount' | t }}" />
@@ -56,7 +56,7 @@
               {{ 'fundraiser.proceed_to_details' | t }}
             </button>
           </div>
-          <div class="fundraiser-bar__step-panel script-dependent" data-step="2">
+          <div class="fundraiser-bar__step-panel script-dependent hidden-closed" data-step="2">
             {% capture cta %}{{ 'fundraiser.proceed_to_payment' | t }}{% endcapture %}
             {% include 'Form',
               cta: cta,
@@ -68,7 +68,7 @@
               {{ 'petition.fine_print' | t }}
             </div>
           </div>
-          <div class="fundraiser-bar__step-panel form--big script-dependent hosted-fields-view" data-step="3">
+          <div class="fundraiser-bar__step-panel form--big script-dependent hosted-fields-view hidden-closed" data-step="3">
             <div class="action-form__welcome-text hidden-irrelevant">
               <i class="fa fa-check-square-o fundraiser-bar__user-icon"></i>
               <span class="action-form__welcome-name"></span> <br />
