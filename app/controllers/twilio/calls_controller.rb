@@ -15,13 +15,13 @@ module Twilio
       render xml: TwimlGenerator::ConnectCall.run(@call)
     end
 
-    def log
+    def create_target_call_status
       @call = Call.find(params[:id])
       @call.update!(target_call_info: params)
       render xml: Twilio::TwiML::Response.new.text
     end
 
-    def create_event
+    def create_member_call_event
       @call = Call.find(params[:id])
       @call.member_call_events << params
       @call.save!

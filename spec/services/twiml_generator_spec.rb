@@ -38,7 +38,7 @@ describe TwimlGenerator do
     subject { TwimlGenerator::ConnectCall.run(call) }
 
     it 'has Dial action attribute' do
-      expect(subject).to match(%r{<Dial action=".*twilio/calls/#{call.id}/log.*"})
+      expect(subject).to match(%r{<Dial action=".*twilio/calls/#{call.id}/target_call_status.*"})
     end
 
     it 'has Dial number of target' do

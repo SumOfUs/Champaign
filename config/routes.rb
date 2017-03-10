@@ -161,10 +161,10 @@ Rails.application.routes.draw do
     }
   end
 
-  post '/twilio/calls/:id/start',   to: 'twilio/calls#start', as: :call_twiml
-  post '/twilio/calls/:id/connect', to: 'twilio/calls#connect', as: :call_connect
-  post '/twilio/calls/:id/log',     to: 'twilio/calls#log', as: :call_log
-  post '/twilio/calls/:id/event',   to: 'twilio/calls#create_event', as: :call_event
+  post '/twilio/calls/:id/start',              to: 'twilio/calls#start', as: :call_twiml
+  post '/twilio/calls/:id/connect',            to: 'twilio/calls#connect', as: :call_connect
+  post '/twilio/calls/:id/target_call_status', to: 'twilio/calls#create_target_call_status', as: :target_call_status
+  post '/twilio/calls/:id/member_call_event',  to: 'twilio/calls#create_member_call_event', as: :member_call_event
 
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']

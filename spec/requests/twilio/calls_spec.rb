@@ -31,17 +31,17 @@ describe 'POST /twilio/calls/:id/connect' do
   end
 end
 
-describe 'POST /twilio/calls/:id/log' do
+describe 'POST /twilio/calls/:id/target_call_status' do
   let(:call) { create(:call) }
 
   it 'updates call target_call_info' do
-    post "/twilio/calls/#{call.id}/log", foo: 'bar'
+    post "/twilio/calls/#{call.id}/target_call_status", foo: 'bar'
     expect(call.reload.target_call_info['foo']).to eq('bar')
     expect(response).to be_success
   end
 end
 
-describe 'POST /twilio/calls/:id/event' do
+describe 'POST /twilio/calls/:id/member_call_event' do
   let(:call) { create(:call) }
   let(:params) do
     {
@@ -53,12 +53,12 @@ describe 'POST /twilio/calls/:id/event' do
   end
 
   it 'returns successfully' do
-    post "/twilio/calls/#{call.id}/event", params
+    post "/twilio/calls/#{call.id}/member_call_event", params
     expect(response).to be_success
   end
 
   it 'updates the call' do
-    post "/twilio/calls/#{call.id}/event", params
+    post "/twilio/calls/#{call.id}/member_call_event", params
     call.reload
     expect(call.member_call_events.count).to eql 1
     expect(call.member_call_events.first['CallStatus']).to eql 'completed'
