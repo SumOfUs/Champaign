@@ -1,8 +1,9 @@
 module CallTool
+  # TODO Refactor to MemberCallStatus
   module CallStatus
     TIME_OUT_THRESHOLD = 15.seconds
 
-    # Returns one of: connecting, ringing, answered, completed, timed_out
+    # Returns one of: connecting, ringing, in-progress, answered, completed, timed_out
     def self.for(call)
       status = call.member_call_events.last&.[]('CallStatus')
 
@@ -15,4 +16,6 @@ module CallTool
       end
     end
   end
+
+  MemberCallStatus = CallStatus
 end

@@ -14,8 +14,7 @@ class PagesController < ApplicationController
   end
 
   def analytics
-    @calls = Call.where(page_id: @page.id)
-    @calls_stats = CallTool::Stats.for(@page)
+    @display_call_stats = Plugins::CallTool.exists?(page_id: @page.id)
   end
 
   def actions

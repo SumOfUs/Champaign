@@ -125,7 +125,10 @@ Rails.application.routes.draw do
       get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
 
-      resource  :analytics
+      resource  :analytics, only: [:show] do
+        get 'call_tool', on: :member
+      end
+
       resources :actions, only: [:create, :update] do
         post 'validate', on: :collection, action: 'validate'
       end

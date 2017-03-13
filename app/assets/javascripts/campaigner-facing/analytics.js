@@ -209,6 +209,7 @@ module.exports = {
       createMiniChart('mini-new',   data.days_new.reverse())
         .render();
     });
-  }
+  },
+  CallTool: require('campaigner-facing/call_tool_analytics')
 }
 

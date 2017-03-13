@@ -7,7 +7,8 @@
 
   = render 'actions_analytics'
   = render 'shares_analytics'
-  = render 'calls_analytics' if @call_stats.present?
+  = render 'calls_analytics' if @display_call_stats
+
 
 javascript:
   $( function() {
