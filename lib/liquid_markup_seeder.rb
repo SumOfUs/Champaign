@@ -61,7 +61,7 @@ module LiquidMarkupSeeder
   end
 
   def klass(file)
-    file =~ /\_\w+\.liquid$/ ? 'LiquidPartial' : 'LiquidLayout'
+    file.match?(/\_\w+\.liquid$/) ? 'LiquidPartial' : 'LiquidLayout'
   end
 
   def set_metadata_fields(view)

@@ -34,7 +34,7 @@ class Form < ActiveRecord::Base
 
   after_touch do
     formable.try(:page) do |page|
-      page.touch if page
+      page&.touch
     end
   end
 

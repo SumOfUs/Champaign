@@ -15,7 +15,7 @@ class LiquidHelper
       options = []
       names_with_codes = ISO3166::Country.all_names_with_codes(I18n.locale.to_s)
       names_with_codes.each do |name, code|
-        selected = (user_country_code == code) ? "selected='selected'" : ''
+        selected = user_country_code == code ? "selected='selected'" : ''
         options << "<option value='#{code}' #{selected}>#{name}</option>"
       end
       options.join("\n")

@@ -49,7 +49,7 @@ class ShareProgressVariantBuilder
 
     if sp_button.save
       button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html, url: sp_button.page_url)
-      variant.update(sp_id:  sp_button.variants[@variant_type].last[:id])
+      variant.update(sp_id: sp_button.variants[@variant_type].last[:id])
     else
       add_sp_errors_to_variant(sp_button, variant)
     end

@@ -38,7 +38,7 @@ class Plugins::Fundraiser < ActiveRecord::Base
   end
 
   def recurring?
-    read_attribute(:recurring_default) > 0
+    read_attribute(:recurring_default).positive?
   end
 
   def self.donation_default_for_page(page_id)

@@ -32,7 +32,7 @@ module PaymentProcessor
         .flatten
         .freeze
 
-      FILTER = -> (error) { USER_ERROR_CODES.include?(error.code.to_i) }
+      FILTER = ->(error) { USER_ERROR_CODES.include?(error.code.to_i) }
 
       # locale is unused, added to match API for GoCardless
       def initialize(response, locale: nil)

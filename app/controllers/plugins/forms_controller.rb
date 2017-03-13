@@ -15,7 +15,7 @@ class Plugins::FormsController < ApplicationController
 
   def show
     plugin = Plugins.find_for permitted_params[:plugin_type], permitted_params[:plugin_id]
-    partial_dir = (plugin.name == 'Survey') ? 'surveys' : 'shared'
+    partial_dir = plugin.name == 'Survey' ? 'surveys' : 'shared'
     render partial: "plugins/#{partial_dir}/preview", locals: { plugin: plugin }
   end
 

@@ -20,7 +20,7 @@ describe 'GoCardless API' do
                    slug:       'foo-bar',
                    first_name: 'Bernie',
                    last_name:  'Sanders',
-                   action_id:  instance_of(Fixnum),
+                   action_id:  instance_of(Integer),
                    created_at: be_within(30.seconds).of(Time.now),
                    country: 'United States')
   end
@@ -59,7 +59,7 @@ describe 'GoCardless API' do
           URI.parse(assigns(:flow).redirect_flow_instance.success_redirect_url).query
         )
         request.params.each_pair do |key, val|
-          next if key =~ /controller|action/
+          next if key.match?(/controller|action/)
           expect(success_redirect_params[key]).to eq val
         end
       end

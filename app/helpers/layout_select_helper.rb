@@ -9,7 +9,7 @@ module LayoutSelectHelper
   end
 
   def specify_layout_types(field)
-    (field == :liquid_layout_id) ? 'primary' : 'follow-up'
+    field == :liquid_layout_id ? 'primary' : 'follow-up'
   end
 
   private

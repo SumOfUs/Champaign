@@ -53,7 +53,7 @@ class Page < ActiveRecord::Base
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
 
-  scope :language,  -> (code) { code ? joins(:language).where(languages: { code: code }) : all }
+  scope :language,  ->(code) { code ? joins(:language).where(languages: { code: code }) : all }
   scope :featured,  -> { where(featured: true) }
 
   validates :title, presence: true
@@ -139,7 +139,7 @@ class Page < ActiveRecord::Base
   def switch_plugins
     fields = %w(liquid_layout_id follow_up_liquid_layout_id follow_up_plan)
     if fields.any? { |f| changed.include?(f) }
-      secondary = (follow_up_plan == 'with_liquid') ? follow_up_liquid_layout : nil
+      secondary = follow_up_plan == 'with_liquid' ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
     end
   end

@@ -116,21 +116,21 @@ class PageUpdater
   end
 
   def update_share(share_params, _name)
-    if share_params[:id].present?
-      variant = ShareProgressVariantBuilder.update(
-        params: without_name(share_params),
-        variant_type: share_params[:name],
-        page: @page,
-        id: share_params[:id]
-      )
-    else
-      variant = ShareProgressVariantBuilder.create(
-        params: without_name(share_params),
-        variant_type: share_params[:name],
-        page: @page,
-        url: @page_url
-      )
-    end
+    variant = if share_params[:id].present?
+                ShareProgressVariantBuilder.update(
+                  params: without_name(share_params),
+                  variant_type: share_params[:name],
+                  page: @page,
+                  id: share_params[:id]
+                )
+              else
+                ShareProgressVariantBuilder.create(
+                  params: without_name(share_params),
+                  variant_type: share_params[:name],
+                  page: @page,
+                  url: @page_url
+                )
+              end
     variant.errors
   end
 

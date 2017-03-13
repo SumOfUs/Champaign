@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
   Exclude:
     - 'bin/**/*'
     - 'db/schema.rb'
@@ -28,12 +28,6 @@ Style/MultilineMethodCallIndentation:
 Style/BracesAroundHashParameters:
   EnforcedStyle: context_dependent
 
-Lint/BlockAlignment:
-  AlignWith: start_of_block
-
-Lint/EndAlignment:
-  AlignWith: keyword
-
 Lint/InheritException:
   Enabled: false
 
@@ -42,6 +36,9 @@ Style/GuardClause:
 
 Style/IfUnlessModifier:
   MaxLineLength: 40
+
+Style/VariableNumber:
+  Enabled: false
 
 Lint/HandleExceptions:
   Enabled: false

@@ -55,7 +55,7 @@ module Payment::Braintree
         @customer = Payment::Braintree::Customer.create(customer_attrs)
       end
 
-      payment_method = Payment::Braintree::PaymentMethod.find_or_create_by!(token:  @bt_payment_method.token) do |pm|
+      payment_method = Payment::Braintree::PaymentMethod.find_or_create_by!(token: @bt_payment_method.token) do |pm|
         pm.customer = @customer
         pm.store_in_vault = @store_in_vault
       end
@@ -159,15 +159,15 @@ module Payment::Braintree
     end
 
     def create_payment_method
-      if payment_method_token.nil? || @bt_result.transaction.nil?
-        @local_payment_method_id = nil
-      else
-        @local_payment_method_id = BraintreeServices::PaymentMethodBuilder.new(
-          transaction: @bt_result.transaction,
-          customer: @customer,
-          store_in_vault: @store_in_vault
-        ).create.id
-      end
+      @local_payment_method_id = if payment_method_token.nil? || @bt_result.transaction.nil?
+                                   nil
+                                 else
+                                   BraintreeServices::PaymentMethodBuilder.new(
+                                     transaction: @bt_result.transaction,
+                                     customer: @customer,
+                                     store_in_vault: @store_in_vault
+                                   ).create.id
+                                 end
     end
 
     def create_transaction

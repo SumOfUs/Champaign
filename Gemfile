@@ -1,89 +1,85 @@
 # coding: utf-8
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.3.3'
+ruby '2.4.0'
 
-gem 'rails', '4.2.7.1'
-gem 'rake'
-gem 'rails-observers'
-gem 'readthis'
-gem 'hiredis'
-gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
-gem 'pg'
-gem 'jquery-rails'
-gem 'selectize-rails' # why not npm?
+gem 'aasm'
+gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
+gem 'bcrypt', '~> 3.1.7'
+gem 'braintree', '~> 2.54.0'
+gem 'browserify-rails', '~> 2.2.0'
 gem 'codemirror-rails'
 gem 'countries'
-gem 'geocoder'
-gem 'phony'
-gem 'browserify-rails', '~> 2.2.0'
-gem 'font-awesome-sass'
-gem 'money'
-gem 'google_currency'
-gem 'rack-cors', require: 'rack/cors'
-gem 'httparty'
-gem 'jbuilder', '~> 2.0'
-gem 'braintree', '~> 2.54.0'
-gem 'gocardless_pro'
-gem 'aasm'
-gem 'i18n-js', '>= 3.0.0.rc12'
-gem 'rails-i18n', '~> 4.0.0'
-gem 'bcrypt', '~> 3.1.7'
-gem 'slim-rails', '~> 3.1.1'
-gem 'liquid'
-gem 'remotipart', '~> 1.2' # [Q] Are we using this?
-gem 'devise'
-gem 'omniauth-google-oauth2'
-gem 'activeadmin', github: 'activeadmin'
 gem 'country_select'
+gem 'devise'
+gem 'font-awesome-sass'
+gem 'geocoder'
+gem 'gocardless_pro'
+gem 'google_currency'
+gem 'hiredis'
+gem 'httparty'
+gem 'i18n-js', '>= 3.0.0.rc12'
+gem 'jbuilder', '~> 2.0'
+gem 'jquery-rails'
 gem 'kaminari'
+gem 'liquid'
+gem 'money'
+gem 'omniauth-google-oauth2'
+gem 'pg'
+gem 'phony'
+gem 'rack-cors', require: 'rack/cors'
+gem 'rails', '4.2.8'
+gem 'rails-i18n', '~> 4.0.0'
+gem 'rails-observers'
+gem 'rake'
+gem 'readthis'
+gem 'redis', '>= 3.2.0', require: ['redis', 'redis/connection/hiredis']
+gem 'remotipart', '~> 1.2' # [Q] Are we using this?
+gem 'selectize-rails' # why not npm?
+gem 'slim-rails', '~> 3.1.1'
 
 # Use Paper Trail for containing a full history of our edits.
+gem 'action_parameter'
+gem 'aws-sdk', '~> 2'
+gem 'paperclip', '~> 5.0.0'
 gem 'paper_trail'
 gem 'rmagick' # rmagick for image processing
-gem 'paperclip', '~> 5.0.0'
-gem 'aws-sdk', '~> 2'
-gem 'action_parameter'
 # AWS SDK for Rails - makes SES integration easy
+gem 'actionkit_connector', git: 'https://github.com/SumOfUs/actionkit_connector', branch: 'master'
+gem 'airbrake', '~> 5.7.1'
 gem 'aws-sdk-rails'
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'browser', '~> 2.0', '>= 2.0.3'
+gem 'coffee-rails', '~> 4.1.0'
+gem 'compass-rails', '~> 3.0.2' # was using git master branch before
+gem 'config'
+gem 'envyable', require: 'envyable/rails-now'
+gem 'friendly_id'
+gem 'jwt'
 gem 'logger'
 gem 'lograge'
-gem 'summernote-rails'
-gem 'browser', '~> 2.0', '>= 2.0.3'
-gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
+gem 'metamagic'
 gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
-gem 'friendly_id'
-gem 'config'
-gem 'twilio-ruby'
-gem 'metamagic'
-gem 'jwt'
-gem 'actionkit_connector', github: 'SumOfUs/actionkit_connector', branch: 'master'
-gem 'airbrake', '~> 5.7.1'
-gem 'envyable', require: 'envyable/rails-now'
-gem 'webpack-rails'
-gem 'bootstrap-sass', '~> 3.3.5'
-# Sprockets 3 breaks Teaspoon.
-# see https://github.com/modeset/teaspoon/issues/443
-gem 'sprockets-rails', '< 3.0'
-gem 'compass-rails', '~> 3.0.2' # was using git master branch before
 gem 'sass-rails', '~> 5.0.6'
+gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
+gem 'sprockets-rails'
+gem 'summernote-rails'
+gem 'twilio-ruby'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
+gem 'webpack-rails'
 
 group :development, :test do
-  gem 'rubocop', require: false
-  gem 'spring'
-  gem 'rspec-rails'
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
-  gem 'vcr'
-  gem 'teaspoon'
-  gem 'teaspoon-mocha'
   gem 'magic_lamp'
+  gem 'rspec-rails'
+  gem 'rubocop', require: false
+  gem 'spring'
   gem 'spring-commands-rspec'
+  gem 'vcr'
 end
 
 group :doc do
@@ -91,20 +87,20 @@ group :doc do
 end
 
 group :development do
-  gem 'guard-rspec', require: false
-  gem 'byebug'
-  gem 'web-console', '~> 2.0'
   gem 'annotate'
+  gem 'byebug'
   gem 'foreman', require: false
+  gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard' # [OSX] brew install terminal-notifier
+  gem 'web-console', '~> 2.0'
 end
 
 group :test do
-  gem 'webmock'
-  gem 'timecop'
   gem 'coveralls', require: false
   gem 'poltergeist'
   gem 'rspec-json_expectations'
+  gem 'timecop'
+  gem 'webmock'
 end
 
 # Rails Assets - reference any Bower components that you need as gems.
