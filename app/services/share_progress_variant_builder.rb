@@ -1,17 +1,37 @@
 # frozen_string_literal: true
 require 'share_progress'
 
+# rubocop:disable ClassLength
 class ShareProgressVariantBuilder
-  def self.create(params:, variant_type:, page:, url:)
-    new(params, variant_type, page, url, nil).create
-  end
+  class << self
+    def create(params:, variant_type:, page:, url:)
+      new(params, variant_type, page, url, nil).create
+    end
 
-  def self.update(params:, variant_type:, page:, id:)
-    new(params, variant_type, page, nil, id).update
-  end
+    def update(params:, variant_type:, page:, id:)
+      new(params, variant_type, page, nil, id).update
+    end
 
-  def self.destroy(params:, variant_type:, page:, id:)
-    new(params, variant_type, page, nil, id).destroy
+    def update_button_url(button, url)
+      sp = ShareProgress::Button.new(page_url: url,
+                                button_template: "sp_#{variant_initials(button.sp_type)}_large",
+                                id: button.sp_id)
+      if sp&.save
+        button.update(url: url)
+      end
+    end
+
+    def destroy(params:, variant_type:, page:, id:)
+      new(params, variant_type, page, nil, id).destroy
+    end
+
+    def variant_initials(variant_type)
+      {
+        facebook: 'fb',
+        twitter:  'tw',
+        email:    'em'
+      }[variant_type.to_sym]
+    end
   end
 
   def initialize(params, variant_type, page, url = nil, id = nil)
@@ -26,7 +46,7 @@ class ShareProgressVariantBuilder
     variant = variant_class.find(@id)
     variant.assign_attributes(@params)
 
-    return variant if variant.changed.empty? || variant.invalid?
+    return variant if !variant.changed? || variant.invalid?
 
     button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new(share_progress_button_params(variant, button))
@@ -139,10 +159,6 @@ class ShareProgressVariantBuilder
   end
 
   def variant_initials
-    {
-      facebook: 'fb',
-      twitter:  'tw',
-      email:    'em'
-    }[@variant_type]
+    self.class.variant_initials(@variant_type)
   end
 end
