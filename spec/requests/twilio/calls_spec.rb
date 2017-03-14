@@ -16,6 +16,15 @@ describe 'POST /twilio/calls/:id/start' do
   end
 end
 
+describe 'POST /twilio/calls/:id/menu' do
+  let(:call) { create(:call) }
+
+  it 'returns successfully' do
+    post "/twilio/calls/#{call.id}/menu"
+    expect(response).to be_success
+  end
+end
+
 describe 'POST /twilio/calls/:id/connect' do
   let(:call) { create(:call) }
 

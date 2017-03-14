@@ -47,7 +47,7 @@ class CallCreator
     client.create(
       from: Settings.calls.default_caller_id,
       to: @call.member_phone_number,
-      url: call_twiml_url(@call),
+      url: call_start_url(@call),
       status_callback: member_call_event_url(@call),
       status_callback_method: 'POST',
       status_callback_event: %w(initiated ringing answered completed)

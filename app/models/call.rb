@@ -28,6 +28,7 @@ class Call < ActiveRecord::Base
   validate :member_phone_number_is_valid
 
   delegate :sound_clip, to: :call_tool
+  delegate :menu_sound_clip, to: :call_tool
 
   def target_phone_number
     target.phone_number
