@@ -27,3 +27,11 @@
       = render 'share/new_form', page: @page, share: Share::Facebook.new, css_class: nil
       = render 'share/new_form', page: @page, share: prefill_link(Share::Twitter.new), css_class: 'hidden-closed'
       = render 'share/new_form', page: @page, share: prefill_link(Share::Email.new), css_class: 'hidden-closed'
+
+  - if @page.shares.any?
+    = form_for [@page, @variations.first.button], remote: true, html: { class: 'shares-editor__new-from'} do |form|
+      .form-group
+        = form.label :url, t('share.form.url')
+        = form.text_field :url, class: 'form-control'
+      = form.submit 'Update', class: 'btn btn-primary', 'data-disable-with' => t('common.saving')
+

@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   resources :pages do
     namespace :share do
+      resources :buttons, only: [:update]
       resources :facebooks
       resources :twitters
       resources :emails
