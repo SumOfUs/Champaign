@@ -102,3 +102,5 @@ facebook:
 twilio:
   account_sid: ''
   auth_token: ''
+
+development_database: 'champaign'
