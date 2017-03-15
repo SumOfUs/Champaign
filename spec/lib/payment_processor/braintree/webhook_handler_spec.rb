@@ -44,17 +44,6 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           .from(0).to(1)
       end
 
-      it 'writes notification' do
-        subject
-
-        record = Payment::Braintree::Notification.first
-
-        expect(record.attributes).to include(
-          'signature' => notification[:bt_signature],
-          'payload'   => notification[:bt_payload]
-        )
-      end
-
       it 'posts a successful subscription payment event to the queue' do
         Timecop.freeze do
           expected_payload = {
@@ -95,17 +84,6 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       it 'fails silently' do
         expect(Rails.logger).to_not receive(:error)
       end
-
-      it 'writes notification' do
-        subject
-
-        record = Payment::Braintree::Notification.first
-
-        expect(record.attributes).to include(
-          'signature' => notification[:bt_signature],
-          'payload'   => notification[:bt_payload]
-        )
-      end
     end
   end
 
@@ -122,17 +100,6 @@ describe PaymentProcessor::Braintree::WebhookHandler do
         expect { subject }.to change { subscription.reload.cancelled_at }
           .from(nil)
           .to(instance_of(ActiveSupport::TimeWithZone))
-      end
-
-      it 'writes notification' do
-        subject
-
-        record = Payment::Braintree::Notification.first
-
-        expect(record.attributes).to include(
-          'signature' => notification[:bt_signature],
-          'payload'   => notification[:bt_payload]
-        )
       end
 
       it 'pushes an event to the queue' do
