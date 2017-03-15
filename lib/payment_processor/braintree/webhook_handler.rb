@@ -27,18 +27,10 @@ module PaymentProcessor
       end
 
       def handle
-        store_notification
         process_notification
       end
 
       private
-
-      def store_notification
-        Payment::Braintree::Notification.create(
-          signature: @signature,
-          payload:   @payload
-        )
-      end
 
       def process_notification
         case notification.kind

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304165947) do
+ActiveRecord::Schema.define(version: 20170315101746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -270,13 +270,6 @@ ActiveRecord::Schema.define(version: 20170304165947) do
   end
 
   add_index "payment_braintree_customers", ["member_id"], name: "index_payment_braintree_customers_on_member_id", using: :btree
-
-  create_table "payment_braintree_notifications", force: :cascade do |t|
-    t.text     "payload"
-    t.text     "signature"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
 
   create_table "payment_braintree_payment_methods", force: :cascade do |t|
     t.string   "token"
