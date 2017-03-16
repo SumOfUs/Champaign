@@ -8,9 +8,11 @@ class Api::EmailTargetsController < ApplicationController
       new(email_options).
       create
 
+    action = ManageAction.create(action_params)
+    write_member_cookie(action.member_id)
+
     render json: params
   end
-
 
   private
 
@@ -21,5 +23,13 @@ class Api::EmailTargetsController < ApplicationController
       slice(:body, :subject, :page,
                  :to_name, :to_email, :from_email,
                  :from_name)
+  end
+
+  def action_params
+    {
+      page_id: params[:page],
+      name: params[:from_name],
+      email: params[:from_email],
+    }
   end
 end

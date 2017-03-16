@@ -42,7 +42,7 @@ class EmailTargetService
   end
 
   def self.dynamodb
-    @dynamodb ||= Aws::DynamoDB::Client.new(
+    @dynamodb = Aws::DynamoDB::Client.new(
       region: 'us-west-2',
     )
   end
