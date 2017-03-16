@@ -77,8 +77,8 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrake (5.7.1)
-      airbrake-ruby (~> 1.7)
+    airbrake (5.8.1)
+      airbrake-ruby (~> 1.8)
     airbrake-ruby (1.8.0)
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
@@ -534,7 +534,7 @@ DEPENDENCIES
   action_parameter
   actionkit_connector!
   activeadmin!
-  airbrake (~> 5.7.1)
+  airbrake (~> 5.8.0)
   annotate
   aws-sdk (~> 2)
   aws-sdk-rails
