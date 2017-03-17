@@ -41,7 +41,7 @@ describe 'renderin smoke tests' do
     describe 'edit' do
       it 'renders without error' do
         assign :page, build(:page, id: 1)
-        assign :variations, [build(:share_facebook, id: 1)]
+        assign :variations, [build(:share_facebook, id: 1, button: build(:share_button, sp_id: 2, sp_type: 'facebook'))]
         expect { render template: 'pages/edit' }.not_to raise_error
       end
     end
