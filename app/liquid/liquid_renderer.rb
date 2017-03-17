@@ -137,7 +137,7 @@ class LiquidRenderer
 
   def image_urls(img)
     return { urls: { large: '', small: '', original: '' } } if img.blank? || img.content.blank?
-    { urls: { large: img.content.url(:large), small: img.content.url(:thumb), original: img.content.url(:original) } }
+    { urls: { large: img.content.url(:large), small: img.content.url(:thumb), mobile: img.content.url(:mobile), original: img.content.url(:original) } }
   end
 
   def follow_up_url

@@ -26,12 +26,14 @@ class Image < ActiveRecord::Base
                         thumb: '100x100#',
                         medium_square: ['700x500#', attachment.instance.decide_format],
                         facebook: ['1200x630>', attachment.instance.decide_format],
-                        large: ['1920x', attachment.instance.decide_format]
+                        large: ['1920x', attachment.instance.decide_format],
+                        mobile: ['480x', attachment.instance.decide_format],
                       }
                     },
                     convert_options: {
                       all: '-strip -interlace Plane',
-                      large: '-quality 80'
+                      large: '-quality 80',
+                      mobile: '-quality 60'
                     },
                     default_url: '/images/:style/missing.png'
 
