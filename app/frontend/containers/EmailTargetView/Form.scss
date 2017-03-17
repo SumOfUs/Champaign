@@ -3,23 +3,21 @@
     height: 300px;
     font-size: 100%;
   }
+}
+.email-target-thanks {
+  /*transform: translate(130%);*/
+  background: white;
+  padding: 10px;
+}
 
-  label {
-    font-size: 120%;
+.email-target.completed {
+  .email-target-form {
+    transform: translate(-130%);
+    transition-duration: 500ms;
   }
-}
 
-button {
-  width: 100px;
-
-}
-
-select {
-  display:none;
-}
-
-label {
-  font-weight: bold;
-  margin: 10px 0 5px;
-  display: block;
+  .email-target-thanks {
+    transform: translate(-130%);
+    transition-duration: 500ms;
+  }
 }

@@ -6,10 +6,14 @@ import type { OperationResponse } from '../../util/ChampaignAPI';
 import { connect } from 'react-redux';
 import Select from '../../components/SweetSelect/SweetSelect';
 import './Form.scss';
+import Input from '../../components/SweetInput/SweetInput';
+import FieldShape from '../../components/FieldShape/FieldShape';
+import Button from '../../components/Button/Button';
 
 import {
   changeBody,
   changeSubject,
+  changeSubmitting,
   changeEmail,
   changeName,
   changeFund,
@@ -23,13 +27,13 @@ const fundsData = {
     email: "osahyoun@gmail.com",
     fund_name: "FUND A",
   },
+
   'FUND B' : {
     contact_name: "George",
     email: "omar+fund-b@sumofus.org",
     fund_name: 'FUND B',
   },
 };
-
 
 class EmailTargetView extends Component {
   render() {
@@ -57,25 +61,55 @@ class EmailTargetView extends Component {
         to_email: this.props.fundEmail,
       };
 
+      this.props.changeSubmitting(true);
 
-      $.post('/api/email_targets', payload);
+      $.post('/api/email_targets', payload).done((a,b,c) => {
+
+      });
     };
 
     return(
-      <div>
+      <div className='email-target'>
+        <div className='email-target-form'>
         <form onSubmit={onSubmit} className='action-form form--big'>
         <div className='form__group'>
-          <label>Subject</label>
-          <input
+          <Select className='form-control'
+            value={this.props.fund}
+            onChange={changeFund}
+            label="Select pension fund" name='select-fund' options={funds} />
+        </div>
+
+
+        <div className='form__group'>
+          <Input
             name='email_subject'
-            placeholder='subject'
+            label='Subject'
             value={this.props.subject}
-            onChange={(event) => this.props.changeSubject(event.currentTarget.value)} />
+            onChange={(value) => this.props.changeSubject(value)} />
+        </div>
+
+        <div className='form__group form__group--half-width form__group--half-width--left'>
+          <Input
+            name='name'
+            label='Your Name'
+            value={this.props.name}
+            required={true}
+            onChange={(value) => this.props.changeName(value)} />
+
+        </div>
+
+        <div className='form__group form__group--half-width'>
+          <Input
+            name='email'
+            label='Your Email'
+            value={this.props.email}
+            required={true}
+            onChange={(value) => this.props.changeEmail(value) } />
         </div>
 
         <div className='form__group'>
           <div className='email__target-body'>
-        <label className='email__target-to'>Dear {this.props.to},</label>
+
           <textarea
             name='email_body'
             value={this.props.body}
@@ -85,37 +119,13 @@ class EmailTargetView extends Component {
           </div>
         </div>
 
-        <div className='form__group form__group--half-width form__group--half-width--left'>
-          <label>Your Name</label>
-          <input
-            name='name'
-            placeholder='name'
-            value={this.props.name}
-            onChange={(event) => this.props.changeName(event.currentTarget.value)} />
-        </div>
-
-        <div className='form__group form__group--half-width'>
-          <label>Your Email</label>
-          <input
-            name='email'
-            placeholder='email'
-            value={this.props.email}
-            onChange={(event) => this.props.changeEmail(event.currentTarget.value)} />
-        </div>
         <div className='form__group'>
-
-        <Select className='form-control'
-          value={this.props.fund}
-          //onChange={(value) => this.props.changeFund(value)}
-          onChange={changeFund}
-          label="Select pension fund" name='select-fund' options={funds} />
+          <Button disabled={this.props.isSubmitting ? 'disabled': ''} className='button action-form__submit-button'>Send Email</Button>
         </div>
-
-        <div className='form__group'>
-            <button className='button action-form__submit-button'>Send Email</button>
-          </div>
-        </form>
+      </form>
       </div>
+
+    </div>
     );
   }
 }
@@ -130,12 +140,17 @@ export const mapStateToProps = (state) => ({
   fundEmail: state.emailTarget.fundEmail,
   to: state.emailTarget.to,
   page: state.emailTarget.page,
+  isSubmitting: state.emailTarget.isSubmitting,
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeBody: (body: string) => dispatch(changeBody(body)),
+  changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
   changeSubject: (subject: string) => dispatch(changeSubject(subject)),
-  changeName: (name: string) => dispatch(changeName(name)),
+  changeName: (name: string) => {
+    console.log('hello');
+    dispatch(changeName(name));
+  },
   changeEmail: (email: string) => dispatch(changeEmail(email)),
   changeFund: (fund: string) => dispatch(changeFund(fund)),
 });

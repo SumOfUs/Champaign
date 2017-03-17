@@ -11,7 +11,7 @@ class Api::EmailTargetsController < ApplicationController
     action = ManageAction.create(action_params)
     write_member_cookie(action.member_id)
 
-    render json: params
+    render js: "window.location = '#{PageFollower.new_from_page(page).follow_up_path}'"
   end
 
   private
@@ -31,5 +31,9 @@ class Api::EmailTargetsController < ApplicationController
       name: params[:from_name],
       email: params[:from_email],
     }
+  end
+
+  def page
+    Page.find(params[:page])
   end
 end

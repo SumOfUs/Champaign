@@ -80,6 +80,7 @@ type emailTargetInitialState = {
   email: string;
   name: string;
   pageId: string | number;
+  isSubmitting: boolean;
 };
 
 window.mountEmailTarget = (root: string, props: emailTargetInitialState) => {

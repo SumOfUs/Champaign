@@ -5,9 +5,9 @@ const initialState = {
   email: '',
   fund: 'Fund A',
   to: 'Bob Fisher',
-  page: ''
+  page: '',
+  isSubmitting: false,
 };
-
 
 const funds = {
   'FUND A': {
@@ -23,6 +23,8 @@ const funds = {
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'email_target:change_submitting':
+      return { ...state, isSubmitting: action.submitting };
     case 'email_target:change_body':
       return { ...state, emailBody: action.emailBody };
     case 'email_target:change_subject':
@@ -41,6 +43,10 @@ export const reducer = (state = initialState, action) => {
     default:
       return state;
   };
+};
+
+export const changeSubmitting = (submitting) => {
+  return { type: 'email_target:change_submitting', submitting };
 };
 
 export const changeBody = (emailBody) => {
