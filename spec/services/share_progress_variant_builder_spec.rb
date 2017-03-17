@@ -70,6 +70,40 @@ describe ShareProgressVariantBuilder do
         expect(button.sp_button_html).to eq('<div />')
         expect(button.url).to eq 'http://example.com/foo'
       end
+
+      context 'with existing URL' do
+        context 'no url is passed in params' do
+          it 'uses URL from previous' do
+            variant = create_variant
+            expected_url = variant.button.url
+
+            new_variant = ShareProgressVariantBuilder.create(
+              params: params,
+              variant_type: 'facebook',
+              page: page,
+              url: 'http://ignored.com'
+            )
+
+            expect(new_variant.button.url).to eq(expected_url)
+          end
+        end
+
+        context 'new URL is passed in params' do
+          it 'updates button with new URL' do
+            create_variant
+
+            expect(ShareProgress::Button).to receive(:new)
+              .with(hash_including(page_url: 'http://new.url.com'))
+
+            ShareProgressVariantBuilder.create(
+              params: params.merge(url: 'http://new.url.com'),
+              variant_type: 'facebook',
+              page: page,
+              url: 'http://ignored.com'
+            )
+          end
+        end
+      end
     end
 
     describe 'failure' do
