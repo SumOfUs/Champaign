@@ -1,12 +1,12 @@
-$(() => {
-  const $banner = $('.cover-photo');
-  const width = $(window).width();
-  const mobile_breakpoint = 480;
-  const data = $banner.data();
-  const tempImage = new Image();
+$(function() {
+  var $banner = $('.cover-photo'),
+      width = $(window).width(),
+      mobile_breakpoint = 480,
+      data = $banner.data(),
+      tempImage = new Image();
 
-  tempImage.onload = () => {
-    $banner.css('backgroundImage', `url("${tempImage.src}")`);
+  tempImage.onload = function() {
+    $banner.css('backgroundImage', "url('" + tempImage.src + "')");
     $banner.addClass('visible');
   };
 
