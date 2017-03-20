@@ -27,7 +27,7 @@ class Image < ActiveRecord::Base
                         medium_square: ['700x500#', attachment.instance.decide_format],
                         facebook: ['1200x630>', attachment.instance.decide_format],
                         large: ['1920x', attachment.instance.decide_format],
-                        mobile: ['480x', attachment.instance.decide_format],
+                        mobile: ['480x', attachment.instance.decide_format]
                       }
                     },
                     convert_options: {
