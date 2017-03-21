@@ -61,6 +61,8 @@ class EmailTargetView extends Component {
         body: this.props.body,
         subject: this.props.subject,
         page: this.props.page,
+        target_name: this.props.fund,
+        country: this.props.country,
         from_name: this.props.name,
         from_email: this.props.email,
         to_name: this.props.fundContact,

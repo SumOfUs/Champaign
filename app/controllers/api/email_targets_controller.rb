@@ -20,7 +20,7 @@ class Api::EmailTargetsController < ApplicationController
     params.
       to_hash.
       symbolize_keys.
-      slice(:body, :subject, :page,
+      slice(:body, :subject, :page, :country, :target_name,
                  :to_name, :to_email, :from_email,
                  :from_name)
   end
@@ -30,6 +30,9 @@ class Api::EmailTargetsController < ApplicationController
       page_id: params[:page],
       name: params[:from_name],
       email: params[:from_email],
+      country: params[:country],
+      action_target: params[:target_name],
+      action_target_email: params[:to_email],
     }
   end
 

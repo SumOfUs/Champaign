@@ -3,7 +3,7 @@
 class EmailTargetService
   include ActionView::Helpers::TextHelper
 
-  def initialize(page:, to_name:, to_email:, from_name:, from_email:, subject:, body:)
+  def initialize(page:, to_name:, to_email:, from_name:, from_email:, target_name:, country:, subject:, body:)
     @page = page.to_s
     @body = simple_format(body)
     @subject = subject
@@ -11,6 +11,8 @@ class EmailTargetService
     @from_name = from_name
     @to_email = to_email
     @to_name = to_name
+    @target_name = target_name
+    @country = country
   end
 
   def create
@@ -28,6 +30,8 @@ class EmailTargetService
         Subject: @subject,
         ToName: @to_name,
         ToEmail: @to_email,
+        TargetName: @target_name,
+        Country: @country,
         FromName: @from_name,
         FromEmail: @from_email,
         SourceEmail: source_email,

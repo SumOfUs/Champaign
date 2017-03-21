@@ -22,6 +22,8 @@ describe 'Emailing Targets' do
         to_name: "Target's Name",
         to_email: 'recipient@example.com',
         body: 'Body text',
+        target_name: 'Target name',
+        country: 'GB',
         subject: 'Subject',
       }
     end
@@ -43,6 +45,8 @@ describe 'Emailing Targets' do
           FromName: "Sender's Name",
           FromEmail: "sender@example.com",
           SourceEmail: "origin@example.com",
+          Country: 'GB',
+          TargetName: 'Target name',
         }
       }
 
@@ -55,7 +59,8 @@ describe 'Emailing Targets' do
       expect(Action.first.member.attributes).to include({
         email: 'sender@example.com',
         first_name: "Sender's",
-        last_name: 'Name'
+        last_name: 'Name',
+        country: 'GB',
       }.stringify_keys)
     end
 
@@ -66,6 +71,8 @@ describe 'Emailing Targets' do
           params: hash_including({
             page: 'foo-bar-petition',
             name: "Sender's Name",
+            action_target: 'Target name',
+            action_target_email: 'recipient@example.com',
           })
         }
       )
