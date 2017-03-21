@@ -69,6 +69,10 @@ redis:
   host:
   port:
 
+cache:
+  host:
+  port:
+
 geocoder:
   host: 'no host'
 

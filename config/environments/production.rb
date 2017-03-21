@@ -107,17 +107,12 @@ Rails.application.configure do
   }
 
   # config.action_controller.perform_caching = true
-  #
-  # We don't want to use memory_store, it's just a convenient choice for development.
-  # AWS provides a managed memcached/redis service, with a t2.micro instances (1Gb) as
-  # part of their free tier.
-  #
-  # config.cache_store = :memory_store, { size: 10.megabytes }
+
   config.cache_store = :readthis_store, {
     namespace: 'cache',
     expires_in: 1.day.to_i,
-    redis:     { host: Settings.redis.host,
-                 port: Settings.redis.port, drive: :hiredis }
+    redis:     { host: Settings.cache.host,
+                 port: Settings.cache.port, drive: :hiredis }
   }
 
   # In production, we only accept CORS request from sumofus.org or its subdomains.
