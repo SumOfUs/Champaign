@@ -101,6 +101,7 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resources :pension_funds
     resources :email_targets, only: [:create]
 
     namespace :payment do
