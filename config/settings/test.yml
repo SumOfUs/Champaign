@@ -88,8 +88,11 @@ gocardless:
 
 redis:
   host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
-
   port: <%= ENV["REDIS_PORT_6379_TCP_PORT"] %>
+
+cache:
+  host: <%= ENV["CACHE_HOST"] %>
+  port: <%= ENV["CACHE_PORT"] %>
 
 robots: 'staging'
 
