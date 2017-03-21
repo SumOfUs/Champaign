@@ -1,30 +1,21 @@
 const initialState = {
+  country: '',
   emailBody: '',
   emailSubject: '',
   name: '',
   email: '',
-  fund: 'Fund A',
-  to: 'Bob Fisher',
+  fund: '',
+  to: '',
   page: '',
   isSubmitting: false,
 };
-
-const funds = {
-  'FUND A': {
-    name: "Bob Fisher",
-    email: 'bob@example.com',
-  },
-  'FUND B': {
-    name: "Michael Dank",
-    email: 'michael@example.com',
-  }
-};
-
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'email_target:change_submitting':
       return { ...state, isSubmitting: action.submitting };
+    case 'email_target:change_country':
+      return { ...state, country: action.country };
     case 'email_target:change_body':
       return { ...state, emailBody: action.emailBody };
     case 'email_target:change_subject':
@@ -33,10 +24,17 @@ export const reducer = (state = initialState, action) => {
       return { ...state, email: action.email };
     case 'email_target:change_name':
       return { ...state, name: action.name };
+    case 'email_target:change_pension_funds':
+      return { ...state, pensionFunds: action.funds};
     case 'email_target:change_fund':
       const fund = action.fund;
-      const contact = {fundEmail: fund.email, fundContact: fund.contact_name, fund: fund.fund_name };
-      console.log(contact, action);
+      const contact = {
+        fundEmail: fund.email,
+        fundContact: fund.name,
+        fundId: fund._id,
+        fund: fund.fund,
+      };
+
       return { ...state, ...contact};
     case 'email_target:initialize':
       return { ...state, ...action.payload };
@@ -53,6 +51,10 @@ export const changeBody = (emailBody) => {
   return { type: 'email_target:change_body', emailBody };
 };
 
+export const changeCountry = (country) => {
+  return { type: 'email_target:change_country', country };
+};
+
 export const changeSubject = (emailSubject) => {
   return { type: 'email_target:change_subject', emailSubject };
 };
@@ -67,4 +69,8 @@ export const changeEmail = (email) => {
 
 export const changeFund = (fund) => {
   return { type: 'email_target:change_fund', fund };
+};
+
+export const changePensionFunds = (funds) => {
+  return { type: 'email_target:change_pension_funds', funds };
 };

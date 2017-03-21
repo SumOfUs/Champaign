@@ -9,11 +9,14 @@ import './Form.scss';
 import Input from '../../components/SweetInput/SweetInput';
 import FieldShape from '../../components/FieldShape/FieldShape';
 import Button from '../../components/Button/Button';
+import SelectCountry from '../../components/SelectCountry/SelectCountry';
 
 import {
+  changeCountry,
   changeBody,
   changeSubject,
   changeSubmitting,
+  changePensionFunds,
   changeEmail,
   changeName,
   changeFund,
@@ -21,32 +24,35 @@ import {
 
 import type { Dispatch } from 'redux';
 
-const fundsData = {
-  'FUND A' : {
-    contact_name: "Bob",
-    email: "osahyoun@gmail.com",
-    fund_name: "FUND A",
-  },
-
-  'FUND B' : {
-    contact_name: "George",
-    email: "omar+fund-b@sumofus.org",
-    fund_name: 'FUND B',
-  },
-};
-
 class EmailTargetView extends Component {
-  render() {
+  componentDidMount() {
+    this.getPensionFunds(this.props.country);
+  }
 
+  getPensionFunds(country) {
+    if(!country) return;
+
+    $.getJSON(`/api/pension_funds?country=${country.toLowerCase()}`).
+     done((data) => {
+      data.forEach((fund) => {
+        fund.value = fund._id;
+        fund.label = fund.fund;
+      });
+
+      this.props.changePensionFunds(data);
+    });
+  }
+
+  changeCountry(value) {
+    this.getPensionFunds(value);
+    this.props.changeCountry(value);
+  }
+
+  render() {
     const changeFund = (value) => {
-      const contact = fundsData[value];
+      const contact = _.find(this.props.pensionFunds, {_id: value});
       this.props.changeFund(contact);
     };
-
-    const funds = [
-      {value: 'FUND A', label: 'Fund A'},
-      {value: 'FUND B', label: 'Fund B'},
-    ];
 
     const onSubmit = (e) => {
       e.preventDefault();
@@ -73,10 +79,20 @@ class EmailTargetView extends Component {
         <div className='email-target-form'>
         <form onSubmit={onSubmit} className='action-form form--big'>
         <div className='form__group'>
+          <SelectCountry
+            value={this.props.country}
+            name='country'
+            label='Select country'
+            className='form-control'
+            onChange={this.changeCountry.bind(this)}
+            />
+        </div>
+
+        <div className='form__group'>
           <Select className='form-control'
-            value={this.props.fund}
+            value={this.props.fundId}
             onChange={changeFund}
-            label="Select pension fund" name='select-fund' options={funds} />
+            label="Select pension fund" name='select-fund' options={this.props.pensionFunds} />
         </div>
 
 
@@ -88,7 +104,7 @@ class EmailTargetView extends Component {
             onChange={(value) => this.props.changeSubject(value)} />
         </div>
 
-        <div className='form__group form__group--half-width form__group--half-width--left'>
+        <div className='form__group'>
           <Input
             name='name'
             label='Your Name'
@@ -98,7 +114,7 @@ class EmailTargetView extends Component {
 
         </div>
 
-        <div className='form__group form__group--half-width'>
+        <div className='form__group'>
           <Input
             name='email'
             label='Your Email'
@@ -133,8 +149,11 @@ class EmailTargetView extends Component {
 export const mapStateToProps = (state) => ({
   body: state.emailTarget.emailBody,
   subject: state.emailTarget.emailSubject,
+  country: state.emailTarget.country,
   email: state.emailTarget.email,
   name: state.emailTarget.name,
+  pensionFunds: state.emailTarget.pensionFunds,
+  fundId: state.emailTarget.fundId,
   fund: state.emailTarget.fund,
   fundContact: state.emailTarget.fundContact,
   fundEmail: state.emailTarget.fundEmail,
@@ -145,12 +164,19 @@ export const mapStateToProps = (state) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeBody: (body: string) => dispatch(changeBody(body)),
+
+  changeCountry: (country: string) => {
+    dispatch(changeCountry(country));
+  },
+
   changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
   changeSubject: (subject: string) => dispatch(changeSubject(subject)),
+  changePensionFunds: (pensionFunds: array) => dispatch(changePensionFunds(pensionFunds)),
+
   changeName: (name: string) => {
-    console.log('hello');
     dispatch(changeName(name));
   },
+
   changeEmail: (email: string) => dispatch(changeEmail(email)),
   changeFund: (fund: string) => dispatch(changeFund(fund)),
 });

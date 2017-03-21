@@ -1,9 +1,15 @@
 # frozen_string_literal: true
 class Api::PensionFundsController < ApplicationController
+  rescue_from Errno::ENOENT, with: :funds_not_found
+
   def index
     funds = File.read("spec/fixtures/pension_funds/#{params[:country]}.json")
-    #funds = JSON.parse(funds)
-    #funds = funds.map{|fund| {value:fund['name'], label:fund['name']} }
     render json: funds
+  end
+
+  private
+
+  def funds_not_found
+    head 404
   end
 end

@@ -76,9 +76,10 @@ window.mountCallTool = (root: string, props: callToolProps) => {
 type emailTargetInitialState = {
   locale: string;
   emailSubject?: string;
+  country?: string;
   emailBody?: string;
-  email: string;
-  name: string;
+  email?: string;
+  name?: string;
   pageId: string | number;
   isSubmitting: boolean;
 };
