@@ -6,4 +6,3 @@ FactoryGirl.define do
     email_from 'foo@example.com'
   end
 end
-

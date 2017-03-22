@@ -28,8 +28,7 @@ module Plugins
        Plugins::Survey,
        Plugins::Text,
        Plugins::CallTool,
-       Plugins::EmailTarget
-      ]
+       Plugins::EmailTarget]
     end
 
     def translate_defaults(defaults, locale)

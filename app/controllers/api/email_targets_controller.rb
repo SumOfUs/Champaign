@@ -4,9 +4,9 @@ class Api::EmailTargetsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    EmailTargetService.
-      new(email_options).
-      create
+    EmailTargetService
+      .new(email_options)
+      .create
 
     action = ManageAction.create(action_params)
     write_member_cookie(action.member_id)
@@ -17,12 +17,12 @@ class Api::EmailTargetsController < ApplicationController
   private
 
   def email_options
-    params.
-      to_hash.
-      symbolize_keys.
-      slice(:body, :subject, :page, :country, :target_name,
-                 :to_name, :to_email, :from_email,
-                 :from_name)
+    params
+      .to_hash
+      .symbolize_keys
+      .slice(:body, :subject, :page, :country, :target_name,
+             :to_name, :to_email, :from_email,
+             :from_name)
   end
 
   def action_params
@@ -32,7 +32,7 @@ class Api::EmailTargetsController < ApplicationController
       email: params[:from_email],
       country: params[:country],
       action_target: params[:target_name],
-      action_target_email: params[:to_email],
+      action_target_email: params[:to_email]
     }
   end
 

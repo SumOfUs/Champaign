@@ -1,15 +1,14 @@
 // @flow
 import React, { Component } from 'react';
 import _ from 'lodash';
-import ChampaignAPI from '../../util/ChampaignAPI';
-import type { OperationResponse } from '../../util/ChampaignAPI';
+import $ from 'jquery';
 import { connect } from 'react-redux';
 import Select from '../../components/SweetSelect/SweetSelect';
-import './Form.scss';
+import './EmailTargetView.scss';
 import Input from '../../components/SweetInput/SweetInput';
-import FieldShape from '../../components/FieldShape/FieldShape';
 import Button from '../../components/Button/Button';
 import SelectCountry from '../../components/SelectCountry/SelectCountry';
+import { FormattedMessage } from 'react-intl';
 
 import {
   changeCountry,
@@ -29,18 +28,21 @@ class EmailTargetView extends Component {
     this.getPensionFunds(this.props.country);
   }
 
-  getPensionFunds(country) {
+  getPensionFunds(country: string) {
     if(!country) return;
 
-    $.getJSON(`/api/pension_funds?country=${country.toLowerCase()}`).
-     done((data) => {
+    const url = `/api/pension_funds?country=${country.toLowerCase()}`;
+
+    const handleSuccess = (data) => {
       data.forEach((fund) => {
         fund.value = fund._id;
         fund.label = fund.fund;
       });
 
       this.props.changePensionFunds(data);
-    });
+    };
+
+    $.getJSON(url).done(handleSuccess);
   }
 
   changeCountry(value) {
@@ -84,7 +86,7 @@ class EmailTargetView extends Component {
           <SelectCountry
             value={this.props.country}
             name='country'
-            label='Select country'
+            label={<FormattedMessage id="email_target.form.select_country" defaultMessage="Select country (default)" />}
             className='form-control'
             onChange={this.changeCountry.bind(this)}
             />
@@ -94,22 +96,23 @@ class EmailTargetView extends Component {
           <Select className='form-control'
             value={this.props.fundId}
             onChange={changeFund}
-            label="Select pension fund" name='select-fund' options={this.props.pensionFunds} />
+            label={<FormattedMessage id="email_target.form.select_target" defaultMessage="Select a fund (default)" />}
+            name='select-fund' options={this.props.pensionFunds} />
         </div>
 
 
         <div className='form__group'>
           <Input
             name='email_subject'
-            label='Subject'
             value={this.props.subject}
+            label={<FormattedMessage id="email_target.form.subject" defaultMessage="Subejct (default)" />}
             onChange={(value) => this.props.changeSubject(value)} />
         </div>
 
         <div className='form__group'>
           <Input
             name='name'
-            label='Your Name'
+            label={<FormattedMessage id="email_target.form.your_name" defaultMessage="Your name (default)" />}
             value={this.props.name}
             required={true}
             onChange={(value) => this.props.changeName(value)} />
@@ -119,7 +122,7 @@ class EmailTargetView extends Component {
         <div className='form__group'>
           <Input
             name='email'
-            label='Your Email'
+            label={<FormattedMessage id="email_target.form.your_email" defaultMessage="Your email (default)" />}
             value={this.props.email}
             required={true}
             onChange={(value) => this.props.changeEmail(value) } />
@@ -138,7 +141,9 @@ class EmailTargetView extends Component {
         </div>
 
         <div className='form__group'>
-          <Button disabled={this.props.isSubmitting ? 'disabled': ''} className='button action-form__submit-button'>Send Email</Button>
+          <Button disabled={this.props.isSubmitting} className='button action-form__submit-button'>
+            <FormattedMessage id="email_target.form.send_email" defaultMessage="Send email (default)" />
+          </Button>
         </div>
       </form>
       </div>
@@ -148,7 +153,27 @@ class EmailTargetView extends Component {
   }
 }
 
-export const mapStateToProps = (state) => ({
+type EmailTargetType = {
+  emailBody: string,
+  emailSubject: string,
+  country: string,
+  email: string,
+  name: string,
+  pensionFunds: Array<string>,
+  isSubmitting: boolean,
+  to: string,
+  fundId: string,
+  fund: string,
+  fundContact: string,
+  fundEmail: string,
+  page: string,
+}
+
+type OwnState = {
+  emailTarget: EmailTargetType,
+}
+
+export const mapStateToProps = (state: OwnState) => ({
   body: state.emailTarget.emailBody,
   subject: state.emailTarget.emailSubject,
   country: state.emailTarget.country,
@@ -173,7 +198,7 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 
   changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
   changeSubject: (subject: string) => dispatch(changeSubject(subject)),
-  changePensionFunds: (pensionFunds: array) => dispatch(changePensionFunds(pensionFunds)),
+  changePensionFunds: (pensionFunds: Array<string>) => dispatch(changePensionFunds(pensionFunds)),
 
   changeName: (name: string) => {
     dispatch(changeName(name));

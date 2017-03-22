@@ -7,7 +7,7 @@ describe 'Emailing Targets' do
   before do
     allow(ChampaignQueue).to receive(:push)
     allow(Aws::DynamoDB::Client).to receive(:new) { aws_client }
-    allow(aws_client).to receive(:put_item){ true }
+    allow(aws_client).to receive(:put_item) { true }
   end
 
   describe 'POST#create' do
@@ -24,29 +24,29 @@ describe 'Emailing Targets' do
         body: 'Body text',
         target_name: 'Target name',
         country: 'GB',
-        subject: 'Subject',
+        subject: 'Subject'
       }
     end
 
     before do
-      post "/api/email_targets", params
+      post '/api/email_targets', params
     end
 
     it 'saves email to dynamodb' do
       expected_options = {
-        table_name: "UserMailing",
+        table_name: 'UserMailing',
         item: {
           MailingId: /foo-bar:\d*/,
-          UserId: "sender@example.com",
-          Body: "<p>Body text</p>",
-          Subject: "Subject",
+          UserId: 'sender@example.com',
+          Body: '<p>Body text</p>',
+          Subject: 'Subject',
           ToName: "Target's Name",
-          ToEmail: "recipient@example.com",
+          ToEmail: 'recipient@example.com',
           FromName: "Sender's Name",
-          FromEmail: "sender@example.com",
-          SourceEmail: "origin@example.com",
+          FromEmail: 'sender@example.com',
+          SourceEmail: 'origin@example.com',
           Country: 'GB',
-          TargetName: 'Target name',
+          TargetName: 'Target name'
         }
       }
 
@@ -60,21 +60,17 @@ describe 'Emailing Targets' do
         email: 'sender@example.com',
         first_name: "Sender's",
         last_name: 'Name',
-        country: 'GB',
+        country: 'GB'
       }.stringify_keys)
     end
 
     it 'posts action to queue' do
       expected_options = hash_including(
-        {
-          type: 'action',
-          params: hash_including({
-            page: 'foo-bar-petition',
-            name: "Sender's Name",
-            action_target: 'Target name',
-            action_target_email: 'recipient@example.com',
-          })
-        }
+        type: 'action',
+        params: hash_including(page: 'foo-bar-petition',
+                               name: "Sender's Name",
+                               action_target: 'Target name',
+                               action_target_email: 'recipient@example.com')
       )
 
       expect(ChampaignQueue).to have_received(:push).with(expected_options)

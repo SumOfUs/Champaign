@@ -1,0 +1,26 @@
+.content.email-target {
+  .body-text.text-top {
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+    color: black;
+  }
+  .email__target-body {
+    textarea {
+      height: 300px;
+      font-size: 100%;
+    }
+  }
+  .email-target.completed {
+    .email-target-form {
+      transform: translate(-130%);
+      transition-duration: 500ms;
+    }
+
+    .email-target-thanks {
+      transform: translate(-130%);
+      transition-duration: 500ms;
+    }
+  }
+}

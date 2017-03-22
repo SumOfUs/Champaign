@@ -167,6 +167,7 @@ describe LiquidRenderer do
         payment_methods
         form_values
         call_tool
+        email_target
       )
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)

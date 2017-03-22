@@ -6,6 +6,14 @@ en:
     or: or
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
+  email_target:
+    form:
+      select_country: 'Select your Country'
+      select_target: 'Select your Pension Fund'
+      subject: 'Subject'
+      your_name: 'Your Name'
+      your_email: 'Your Email'
+      send_email: 'Send Email'
   fundraiser:
     payment_methods:
       gocardless: "Direct Debit"

@@ -47,11 +47,6 @@ const createCall = function(params: CreateCallParams): Promise<OperationResponse
   return $.post(`/api/pages/${params.pageId}/call`, payload).then(parseResponse, parseResponse);
 };
 
-
-const createEmailTarget = (state) => {
-  console.log(state);
-};
-
 const ChampaignAPI = {
   calls: { create: createCall }
 };

@@ -40,7 +40,7 @@ export const reducer = (state = initialState, action) => {
       return { ...state, ...action.payload };
     default:
       return state;
-  };
+  }
 };
 
 export const changeSubmitting = (submitting) => {
