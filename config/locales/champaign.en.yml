@@ -256,7 +256,7 @@ en:
     get_started: "Click 'new variation' below to get started"
     form:
       new_variation: 'Create new share variant'
-      url: 'URL to share (leave blank to use default)'
+      url: 'URL to share (leave blank to share this page)'
 
     facebook:
       title: 'Facebook Share Headline'
