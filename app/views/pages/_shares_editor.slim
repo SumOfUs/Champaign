@@ -12,18 +12,19 @@
         = render variation, page: @page
       = render 'links_to_share_progress'
 
-  .well
-    h4 data-toggle="collapse" data-target=".shares-editor__new-forms" aria-expanded="false"
-      i.fa.fa-caret-right
-      = t('share.form.new_variation')
-      = render 'tooltip', tooltip_text: t('tooltips.shares.new'), space_left: true
+  .col-md-8
+    .well
+      h4 data-toggle="collapse" data-target=".shares-editor__new-forms" aria-expanded="false"
+        i.fa.fa-caret-right
+        = t('share.form.new_variation')
+        = render 'tooltip', tooltip_text: t('tooltips.shares.new'), space_left: true
 
-    .shares-editor__new-forms.collapse
-      .form-group
-        .shares-editor__new-type-toggle.btn-group
-          = toggle_switch 'facebook', 'facebook', 'Facebook'
-          = toggle_switch 'twitter', 'facebook', 'Twitter'
-          = toggle_switch 'email', 'facebook', 'Email'
-      = render 'share/new_form', page: @page, share: Share::Facebook.new, css_class: nil
-      = render 'share/new_form', page: @page, share: prefill_link(Share::Twitter.new), css_class: 'hidden-closed'
-      = render 'share/new_form', page: @page, share: prefill_link(Share::Email.new), css_class: 'hidden-closed'
+      .shares-editor__new-forms.collapse
+        .form-group
+          .shares-editor__new-type-toggle.btn-group
+            = toggle_switch 'facebook', 'facebook', 'Facebook'
+            = toggle_switch 'twitter', 'facebook', 'Twitter'
+            = toggle_switch 'email', 'facebook', 'Email'
+        = render 'share/new_form', page: @page, share: Share::Facebook.new, css_class: nil
+        = render 'share/new_form', page: @page, share: prefill_link(Share::Twitter.new), css_class: 'hidden-closed'
+        = render 'share/new_form', page: @page, share: prefill_link(Share::Email.new), css_class: 'hidden-closed'
