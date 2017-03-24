@@ -1,5 +1,6 @@
 let setupOnce = require('campaigner-facing/setup_once');
 const GlobalEvents = require('shared/global_events');
+const Clipboard = require('clipboard');
 
 (function(){
 
@@ -133,3 +134,13 @@ const GlobalEvents = require('shared/global_events');
     setupOnce('.shares-editor', SharesEditor);
   });
 }());
+
+
+
+$(function(){
+  new Clipboard('.share-copy-url');
+
+  $('.shares-editor__existing').on('click', '.share-copy-url', (e) => {
+    e.preventDefault();
+  });
+});

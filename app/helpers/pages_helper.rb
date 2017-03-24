@@ -144,4 +144,8 @@ module PagesHelper
       content_tag :span, '', class: klass
     end
   end
+
+  def share_url(button)
+    "http://sumof.us/99/#{button.sp_id}/#{button.sp_type}"
+  end
 end

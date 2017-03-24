@@ -3,6 +3,7 @@ tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
     span.fa.fa-envelope-o
   td colspan=2 = share.subject
   td colspan=3 = simple_format share.body
+  td.shares-editor__button-cell = render 'share/copy_button', share: share
   td.shares-editor__button-cell = render 'share/btn_edit_share'
   td.shares-editor__button-cell
     = button_to 'Delete', page_share_email_path(@page.id, share.id), {form_class: 'shares-editor__delete-variant', class: 'btn btn-danger', method: :delete, remote: true, 'data-disable-with' => t('common.working') }

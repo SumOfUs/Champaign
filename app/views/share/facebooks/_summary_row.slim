@@ -8,6 +8,8 @@ tr.shares-editor__summary-row id="share_summary_#{share.name}_#{share.id}"
     - else
       = t('share.facebook.no_image')
   td colspan=2 = simple_format share.description
+  td.shares-editor__button-cell = render 'share/copy_button', share: share
+
   td.shares-editor__button-cell = render 'share/btn_edit_share'
   td.shares-editor__button-cell
     = button_to 'Delete', page_share_facebook_path(@page.id, share.id),  {form_class: 'shares-editor__delete-variant', class: 'btn btn-danger', method: :delete, remote: true, 'data-disable-with' => t('common.working')}
