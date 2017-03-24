@@ -26,6 +26,23 @@ class Share::SharesController < ApplicationController
       params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
+      id: @page.shares.first
+    )
+
+    respond_to do |format|
+      if @share.errors.empty?
+        format.html { redirect_to index_path }
+      else
+        format.html { render 'share/edit' }
+      end
+    end
+  end
+
+  def update_url
+    @share = ShareProgressVariantBuilder.update(
+      params: {url: params[:facebook_share_url]},
+      variant_type: 'facebook',
+      page: @page,
       id: params[:id]
     )
 
