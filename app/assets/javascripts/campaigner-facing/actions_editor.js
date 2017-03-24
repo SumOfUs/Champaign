@@ -11,7 +11,6 @@ let setupOnce = require('campaigner-facing/setup_once');
 
     initialize(){
       this.pageId = this.$el.data('page-id');
-      console.log('initialized, found page id', this.pageId)
     },
 
     updateButtons($publisher, desired) {
@@ -30,7 +29,7 @@ let setupOnce = require('campaigner-facing/setup_once');
     updateAction($publisher, desired, last) {
       console.log('updateAction', $publisher, desired, last);
       this.updateButtons($publisher, desired);
-      $.ajax(`/api/pages/${this.pageId}/actions/${$publisher.data('id')}/publish`, {
+      $.ajax(`/api/pages/${this.pageId}/actions/${$publisher.data('id')}`, {
         method: 'PUT',
         data: { publish_status: desired }
       }).fail(() => {

@@ -1,6 +1,6 @@
 Style/BlockDelimiters:
   Exclude:
-    - 'spec/controllers/api/actions_controller_spec.rb'
+    - 'spec/'
 
 Lint/UnusedMethodArgument:
   Exclude:

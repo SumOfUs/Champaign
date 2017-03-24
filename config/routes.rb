@@ -121,9 +121,8 @@ Rails.application.routes.draw do
       get 'featured', on: :collection
 
       resource  :analytics
-      resources :actions, only: [:create] do
+      resources :actions, only: [:create, :update] do
         post 'validate', on: :collection, action: 'validate'
-        put 'publish', on: :member, action: 'publish'
       end
       resources :survey_responses, only: [:create]
       resource :call, only: [:create]
