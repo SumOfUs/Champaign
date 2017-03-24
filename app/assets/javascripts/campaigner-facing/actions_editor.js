@@ -27,7 +27,6 @@ let setupOnce = require('campaigner-facing/setup_once');
     },
 
     updateAction($publisher, desired, last) {
-      console.log('updateAction', $publisher, desired, last);
       this.updateButtons($publisher, desired);
       $.ajax(`/api/pages/${this.pageId}/actions/${$publisher.data('id')}`, {
         method: 'PUT',
