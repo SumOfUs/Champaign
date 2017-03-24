@@ -1,6 +1,6 @@
 Style/BlockDelimiters:
   Exclude:
-    - 'spec/'
+    - 'spec/**/*'
 
 Lint/UnusedMethodArgument:
   Exclude:

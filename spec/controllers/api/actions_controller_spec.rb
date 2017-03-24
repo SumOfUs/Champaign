@@ -184,18 +184,18 @@ describe Api::ActionsController do
     end
   end
 
-  describe 'PUT publish' do
+  describe 'PUT update' do
     let!(:a) { create :action }
 
     describe 'successful' do
       it 'returns 200' do
-        put :publish, page_id: 2, id: a.id, publish_status: 'published'
+        put :update, page_id: 2, id: a.id, publish_status: 'published'
         expect(response).to be_success
       end
 
       it 'changes the status to published' do
         expect {
-          put :publish, page_id: 2, id: a.id, publish_status: 'published'
+          put :update, page_id: 2, id: a.id, publish_status: 'published'
         }.to change {
           a.reload.publish_status
         }.from('default').to('published')
@@ -203,7 +203,7 @@ describe Api::ActionsController do
 
       it 'changes the status to hidden' do
         expect {
-          put :publish, page_id: 2, id: a.id, publish_status: 'hidden'
+          put :update, page_id: 2, id: a.id, publish_status: 'hidden'
         }.to change {
           a.reload.publish_status
         }.from('default').to('hidden')
@@ -212,7 +212,7 @@ describe Api::ActionsController do
       it 'changes the status to default' do
         a.published!
         expect {
-          put :publish, page_id: 2, id: a.id, publish_status: 'default'
+          put :update, page_id: 2, id: a.id, publish_status: 'default'
         }.to change {
           a.reload.publish_status
         }.from('published').to('default')
@@ -224,19 +224,19 @@ describe Api::ActionsController do
 
       it 'raises not found if no action is found with that id' do
         expect {
-          put :publish, page_id: 2, id: 9999, publish_status: 'default'
+          put :update, page_id: 2, id: 9999, publish_status: 'default'
         }.to raise_error ActiveRecord::RecordNotFound
       end
 
       it 'returns errors and 422 if given an invalid publish_status' do
-        put :publish, page_id: 2, id: a.id, publish_status: 'invalid'
+        put :update, page_id: 2, id: a.id, publish_status: 'invalid'
         expect(response.code).to eq '422'
         expect(response.body).to eq '{"errors":{"publish_status":"\'invalid\' is not a valid publish_status"}}'
       end
 
       it 'does not update the action when given an invalid publish_status' do
         expect {
-          put :publish, page_id: 2, id: a.id, publish_status: 'invalid'
+          put :update, page_id: 2, id: a.id, publish_status: 'invalid'
         }.not_to change {
           a.reload.publish_status
         }
