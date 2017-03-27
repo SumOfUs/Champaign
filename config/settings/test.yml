@@ -29,9 +29,7 @@ oauth_domain_whitelist:
 # page creation/update information or page signature events to a background processor listening on the specified
 # queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
 # in production situations.
-aws_access_key_id: 'fakeaccesskeyid'
-aws_secret_access_key: 'fakesecretaccesskey'
-aws_region: 'US-West-2'
+aws_region: 'us-west-2'
 sqs_queue_url: 'http://example.com'
 ak_processor_url: 'http://example.com'
 
