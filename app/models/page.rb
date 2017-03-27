@@ -52,6 +52,7 @@ class Page < ActiveRecord::Base
   has_many :pages_tags, dependent: :destroy
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
+  has_many :share_buttons, class_name: 'Share::Button'
 
   scope :language,  ->(code) { code ? joins(:language).where(languages: { code: code }) : all }
   scope :featured,  -> { where(featured: true) }

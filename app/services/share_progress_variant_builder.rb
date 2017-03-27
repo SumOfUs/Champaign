@@ -23,6 +23,18 @@ class ShareProgressVariantBuilder
         email:    'em'
       }[variant_type.to_sym]
     end
+
+    def update_button_url(url, button)
+      sp_button = ShareProgress::Button.new({
+        id: button.sp_id,
+        page_url: url,
+        button_template: "sp_#{variant_initials(button.sp_type)}_large"
+      })
+
+
+      button.update(url: url) if sp_button.save
+      sp_button
+    end
   end
 
   def initialize(params, variant_type, page, url = nil, id = nil)
