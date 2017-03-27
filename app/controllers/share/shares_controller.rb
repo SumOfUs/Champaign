@@ -39,20 +39,15 @@ class Share::SharesController < ApplicationController
   end
 
   def update_url
-    @share = ShareProgressVariantBuilder.update(
-      params: {url: params[:facebook_share_url]},
-      variant_type: 'facebook',
-      page: @page,
-      id: params[:id]
-    )
+    @page.share_buttons.each do |button|
+      url = params["#{button.sp_type}_url".to_sym]
 
-    respond_to do |format|
-      if @share.errors.empty?
-        format.html { redirect_to index_path }
-      else
-        format.html { render 'share/edit' }
+      if url
+        ShareProgressVariantBuilder.update_button_url(url, button)
       end
     end
+
+    render js: "console.log('hello');"
   end
 
   def create
