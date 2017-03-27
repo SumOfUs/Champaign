@@ -11,9 +11,6 @@ oauth_domain_whitelist:
   - 'sumofus.org'
 
 
-# AWS Config Variables.
-aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 aws_region: <%= ENV['AWS_REGION'] %>
 sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
 s3_host_name: <%= ENV['S3_HOST_NAME'] %>
