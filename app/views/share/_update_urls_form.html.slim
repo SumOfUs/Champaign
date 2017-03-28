@@ -1,0 +1,16 @@
+.well
+  h4 data-toggle="collapse" data-target=".shares-editor__share-urls" aria-expanded="false"
+    i.fa.fa-caret-right
+    | Share a different page's URL
+  - collapse = true # some logic here to collapse it only if all three urls are blank or the default
+  .shares-editor__share-urls class="#{collapse ? 'collapse' : ''}"
+    - if @page.share_buttons.empty?
+      p First create a share before editing its URL
+    - else
+      = form_tag page_share_endpoint_path(@page), method: :put, remote: true
+        - @page.share_buttons.each do |button|
+          .form-group
+            = label_tag button.sp_type, "URL to share on #{button.sp_type.capitalize}"
+            = text_field_tag button.sp_type, button.url, class: 'form-control'
+        = submit_tag t('common.save'), class: 'btn btn-primary xhr-feedback', 'data-disable-with' => t('common.saving')
+
