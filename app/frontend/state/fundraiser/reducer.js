@@ -121,7 +121,7 @@ export default function fundraiserReducer(state: Fundraiser = initialState, acti
     case 'change_currency':
       return Object.assign({}, state, {
         currency: supportedCurrency(action.payload, Object.keys(state.donationBands)),
-        donationFeaturedAmount: state.preselectAmount ? pickMedianAmount(state.donationBands, state.currency): undefined,
+        donationFeaturedAmount: state.preselectAmount ? pickMedianAmount(state.donationBands, action.payload): undefined,
       });
     case 'change_amount':
       return Object.assign({}, state, {

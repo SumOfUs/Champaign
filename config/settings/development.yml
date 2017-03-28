@@ -6,9 +6,6 @@ liquid_templating_source: db
 oauth_domain_whitelist:
   - 'your-domain.org'
 
-# AWS Config Variables.
-aws_access_key_id: 'fake-aws-access-key-id'
-aws_secret_access_key: 'fake-aws-secret-access-key'
 aws_region: 'aws-region'
 sqs_queue_url: 'sqs-queue-url'
 s3_host_name: 's3-host'

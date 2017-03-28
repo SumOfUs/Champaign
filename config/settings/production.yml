@@ -7,13 +7,11 @@ omniauth_client_id: <%= ENV['OMNIAUTH_CLIENT_ID'] %>
 liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'store' %>
 home_page_url: <%= ENV['HOME_PAGE_URL'] %>
 facebook_url: 'https://www.facebook.com/SumOfUs-181924628560212/'
+media_url: <%= ENV['MEDIA_URL'] %>
 oauth_domain_whitelist:
   - 'sumofus.org'
 
 
-# AWS Config Variables.
-aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
-aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 aws_region: <%= ENV['AWS_REGION'] %>
 sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
 s3_host_name: <%= ENV['S3_HOST_NAME'] %>

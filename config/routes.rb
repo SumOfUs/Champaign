@@ -164,6 +164,7 @@ Rails.application.routes.draw do
   post '/twilio/calls/:id/log',   to: 'twilio/calls#log',   as: :call_log
   post '/twilio/calls/:id/event', to: 'twilio/calls#create_event', as: :call_event
 
+  get '/media', to: redirect(Settings.media_url)
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']
   get '*path' => 'uris#show' unless defined?(MagicLamp) && ENV['JS_TEST']
