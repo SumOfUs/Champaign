@@ -84,7 +84,7 @@
     "recursive-readdir": "2.1.0",
     "rimraf": "2.5.4",
     "sass-loader": "^4.1.1",
-    "sou-assets": "git://github.com/SumOfUs/sou-assets.git#npm",
+    "sou-assets": "git://github.com/SumOfUs/sou-assets.git",
     "stats-webpack-plugin": "^0.4.3",
     "strip-ansi": "3.0.1",
     "style-loader": "^0.13.1",
