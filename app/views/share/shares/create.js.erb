@@ -1,3 +1,6 @@
 <%- if @share.errors.empty? %>
   $("table.shares-editor__existing tbody").append('<%= escape_javascript(render @share, page: @page) %>');
 <% end %>
+
+$("#share-url-updater").
+  html('<%= escape_javascript(render 'share/update_urls_form') %>');

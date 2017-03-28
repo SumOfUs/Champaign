@@ -12,7 +12,7 @@ class Share::EmailsController < Share::SharesController
   def permitted_params
     params
       .require(:share_email)
-      .permit(:subject, :body, :url)
+      .permit(:subject, :body)
   end
 
   def share_class

@@ -40,14 +40,14 @@ class Share::SharesController < ApplicationController
 
   def update_url
     @page.share_buttons.each do |button|
-      url = params["#{button.sp_type}_url".to_sym]
+      url = params[button.sp_type.to_sym]
 
       if url
         ShareProgressVariantBuilder.update_button_url(url, button)
       end
     end
 
-    render js: "console.log('hello');"
+    render :update_url_form
   end
 
   def create
