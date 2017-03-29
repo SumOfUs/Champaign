@@ -20,6 +20,7 @@ FactoryGirl.define do
     title 'MyString'
     url 'MyString'
     page_id 1
+    sp_id 2
 
     trait :facebook do
       sp_type 'facebook'

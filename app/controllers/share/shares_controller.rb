@@ -26,7 +26,7 @@ class Share::SharesController < ApplicationController
       params: permitted_params,
       variant_type: @resource.to_sym,
       page: @page,
-      id: @page.shares.first
+      id: params[:id]
     )
 
     respond_to do |format|

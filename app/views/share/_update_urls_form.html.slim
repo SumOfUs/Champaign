@@ -2,8 +2,7 @@
   h4 data-toggle="collapse" data-target=".shares-editor__share-urls" aria-expanded="false"
     i.fa.fa-caret-right
     | Share a different page's URL
-  - collapse = true # some logic here to collapse it only if all three urls are blank or the default
-  .shares-editor__share-urls class="#{collapse ? 'collapse' : ''}"
+  .shares-editor__share-urls class="#{collapse_share_url_form(@page) ? 'collapse' : ''}"
     - if @page.share_buttons.empty?
       p First create a share before editing its URL
     - else
