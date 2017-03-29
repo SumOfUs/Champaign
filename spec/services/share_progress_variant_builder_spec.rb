@@ -24,6 +24,29 @@ describe ShareProgressVariantBuilder do
            errors: { 'variants' => [['email_body needs {LINK}']] })
   end
 
+  describe '.update_button_url' do
+    let(:button) { create(:share_button, :facebook) }
+    let(:sp_button) { double(:ShareProgressButton, save: true) }
+
+    before do
+      allow(ShareProgress::Button).to receive(:new) { sp_button }
+      ShareProgressVariantBuilder.update_button_url('http://example.com', button)
+    end
+
+    it 'saves button on ShareProgress' do
+      expect(ShareProgress::Button).to have_received(:new)
+        .with(id: '2',
+              page_url: 'http://example.com',
+              button_template: 'sp_fb_large')
+
+      expect(sp_button).to have_received(:save)
+    end
+
+    it 'updates button URL' do
+      expect(button.reload.url).to eq('http://example.com')
+    end
+  end
+
   describe '.create' do
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(
@@ -69,6 +92,20 @@ describe ShareProgressVariantBuilder do
         expect(button.sp_id).to eq('1')
         expect(button.sp_button_html).to eq('<div />')
         expect(button.url).to eq 'http://example.com/foo'
+      end
+
+      it 'uses URL from previous' do
+        variant = create_variant
+        expected_url = variant.button.url
+
+        new_variant = ShareProgressVariantBuilder.create(
+          params: params,
+          variant_type: 'facebook',
+          page: page,
+          url: 'http://ignored.com'
+        )
+
+        expect(new_variant.button.url).to eq(expected_url)
       end
     end
 

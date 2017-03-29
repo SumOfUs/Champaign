@@ -1,17 +1,37 @@
 # frozen_string_literal: true
 require 'share_progress'
 
+# rubocop:disable ClassLength
 class ShareProgressVariantBuilder
-  def self.create(params:, variant_type:, page:, url:)
-    new(params, variant_type, page, url, nil).create
-  end
+  class << self
+    def create(params:, variant_type:, page:, url:)
+      new(params, variant_type, page, url, nil).create
+    end
 
-  def self.update(params:, variant_type:, page:, id:)
-    new(params, variant_type, page, nil, id).update
-  end
+    def update(params:, variant_type:, page:, id:)
+      new(params, variant_type, page, nil, id).update
+    end
 
-  def self.destroy(params:, variant_type:, page:, id:)
-    new(params, variant_type, page, nil, id).destroy
+    def destroy(params:, variant_type:, page:, id:)
+      new(params, variant_type, page, nil, id).destroy
+    end
+
+    def update_button_url(url, button)
+      sp_button = ShareProgress::Button.new(id: button.sp_id,
+                                            page_url: url,
+                                            button_template: "sp_#{variant_initials(button.sp_type)}_large")
+
+      button.update(url: url) if sp_button.save
+      sp_button
+    end
+
+    def variant_initials(variant_type)
+      {
+        facebook: 'fb',
+        twitter:  'tw',
+        email:    'em'
+      }[variant_type.to_sym]
+    end
   end
 
   def initialize(params, variant_type, page, url = nil, id = nil)
@@ -87,7 +107,7 @@ class ShareProgressVariantBuilder
   def share_progress_button_params(variant, button)
     {
       page_url: @url || button.url,
-      button_template: "sp_#{variant_initials}_large",
+      button_template: "sp_#{self.class.variant_initials(@variant_type)}_large",
       page_title: "#{@page.title} [#{@variant_type}]",
       variants: send("#{@variant_type}_variants", variant),
       id: button.sp_id
@@ -136,13 +156,5 @@ class ShareProgressVariantBuilder
 
   def variant_class
     "Share::#{@variant_type.to_s.classify}".constantize
-  end
-
-  def variant_initials
-    {
-      facebook: 'fb',
-      twitter:  'tw',
-      email:    'em'
-    }[@variant_type]
   end
 end

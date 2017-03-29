@@ -38,6 +38,18 @@ class Share::SharesController < ApplicationController
     end
   end
 
+  def update_url
+    @page.share_buttons.each do |button|
+      url = params[button.sp_type.to_sym]
+
+      if url
+        ShareProgressVariantBuilder.update_button_url(url, button)
+      end
+    end
+
+    render :update_url_form
+  end
+
   def create
     @share = ShareProgressVariantBuilder.create(
       params: permitted_params,

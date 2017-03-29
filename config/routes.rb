@@ -44,6 +44,7 @@ Rails.application.routes.draw do
 
   resources :pages do
     namespace :share do
+      put 'endpoint', to: 'shares#update_url', as: 'endpoint'
       resources :facebooks
       resources :twitters
       resources :emails

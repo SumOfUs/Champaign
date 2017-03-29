@@ -5,6 +5,8 @@ module Share::Variant
   included do
     belongs_to :button
     belongs_to :page, touch: true
+
+    attr_accessor :url
   end
 
   def add_errors(errors_to_add)
