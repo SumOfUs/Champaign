@@ -24,6 +24,29 @@ describe ShareProgressVariantBuilder do
            errors: { 'variants' => [['email_body needs {LINK}']] })
   end
 
+  describe '.update_button_url' do
+    let(:button) { create(:share_button, :facebook) }
+    let(:sp_button) { double(:ShareProgressButton, save: true) }
+
+    before do
+      allow(ShareProgress::Button).to receive(:new) { sp_button }
+      ShareProgressVariantBuilder.update_button_url('http://example.com', button)
+    end
+
+    it 'saves button on ShareProgress' do
+      expect(ShareProgress::Button).to have_received(:new)
+        .with(id: '2',
+              page_url: 'http://example.com',
+              button_template: 'sp_fb_large')
+
+      expect(sp_button).to have_received(:save)
+    end
+
+    it 'updates button URL' do
+      expect(button.reload.url).to eq('http://example.com')
+    end
+  end
+
   describe '.create' do
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(
@@ -71,38 +94,18 @@ describe ShareProgressVariantBuilder do
         expect(button.url).to eq 'http://example.com/foo'
       end
 
-      context 'with existing URL' do
-        context 'no url is passed in params' do
-          it 'uses URL from previous' do
-            variant = create_variant
-            expected_url = variant.button.url
+      it 'uses URL from previous' do
+        variant = create_variant
+        expected_url = variant.button.url
 
-            new_variant = ShareProgressVariantBuilder.create(
-              params: params,
-              variant_type: 'facebook',
-              page: page,
-              url: 'http://ignored.com'
-            )
+        new_variant = ShareProgressVariantBuilder.create(
+          params: params,
+          variant_type: 'facebook',
+          page: page,
+          url: 'http://ignored.com'
+        )
 
-            expect(new_variant.button.url).to eq(expected_url)
-          end
-        end
-
-        context 'new URL is passed in params' do
-          it 'updates button with new URL' do
-            create_variant
-
-            expect(ShareProgress::Button).to receive(:new)
-              .with(hash_including(page_url: 'http://new.url.com'))
-
-            ShareProgressVariantBuilder.create(
-              params: params.merge(url: 'http://new.url.com'),
-              variant_type: 'facebook',
-              page: page,
-              url: 'http://ignored.com'
-            )
-          end
-        end
+        expect(new_variant.button.url).to eq(expected_url)
       end
     end
 

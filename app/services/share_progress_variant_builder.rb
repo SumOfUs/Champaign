@@ -16,24 +16,21 @@ class ShareProgressVariantBuilder
       new(params, variant_type, page, nil, id).destroy
     end
 
+    def update_button_url(url, button)
+      sp_button = ShareProgress::Button.new(id: button.sp_id,
+                                            page_url: url,
+                                            button_template: "sp_#{variant_initials(button.sp_type)}_large")
+
+      button.update(url: url) if sp_button.save
+      sp_button
+    end
+
     def variant_initials(variant_type)
       {
         facebook: 'fb',
         twitter:  'tw',
         email:    'em'
       }[variant_type.to_sym]
-    end
-
-    def update_button_url(url, button)
-      sp_button = ShareProgress::Button.new({
-        id: button.sp_id,
-        page_url: url,
-        button_template: "sp_#{variant_initials(button.sp_type)}_large"
-      })
-
-
-      button.update(url: url) if sp_button.save
-      sp_button
     end
   end
 
@@ -45,23 +42,14 @@ class ShareProgressVariantBuilder
     @id = id
   end
 
-  def url
-    return @params[:url] unless @params[:url].blank?
-    button&.url || @url
-  end
-
-  def button
-    @button ||= Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
-  end
-
   def update
     variant = variant_class.find(@id)
     variant.assign_attributes(@params)
 
-    return variant if !variant.changed? || variant.invalid?
+    return variant if variant.changed.empty? || variant.invalid?
 
-    params = share_progress_button_params(variant, button)
-    sp_button = ShareProgress::Button.new(params)
+    button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
+    sp_button = ShareProgress::Button.new(share_progress_button_params(variant, button))
 
     if sp_button.save
       variant.save
@@ -90,6 +78,7 @@ class ShareProgressVariantBuilder
 
   def destroy
     variant = variant_class.find(@id)
+    button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
     sp_button = ShareProgress::Button.new(share_progress_button_params(variant, button))
     sp_variant = sp_variant_class.new(id: variant.sp_id, button: sp_button)
     if sp_variant.destroy
@@ -117,8 +106,8 @@ class ShareProgressVariantBuilder
 
   def share_progress_button_params(variant, button)
     {
-      page_url: url,
-      button_template: "sp_#{variant_initials}_large",
+      page_url: @url || button.url,
+      button_template: "sp_#{self.class.variant_initials(@variant_type)}_large",
       page_title: "#{@page.title} [#{@variant_type}]",
       variants: send("#{@variant_type}_variants", variant),
       id: button.sp_id
@@ -167,9 +156,5 @@ class ShareProgressVariantBuilder
 
   def variant_class
     "Share::#{@variant_type.to_s.classify}".constantize
-  end
-
-  def variant_initials
-    self.class.variant_initials(@variant_type)
   end
 end

@@ -148,4 +148,8 @@ module PagesHelper
   def share_url(button)
     "http://sumof.us/99/#{button.sp_id}/#{button.sp_type}"
   end
+
+  def collapse_share_url_form(page)
+    page.share_buttons.map(&:url).uniq == [member_facing_page_url(page)]
+  end
 end
