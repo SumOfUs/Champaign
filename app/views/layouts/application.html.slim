@@ -26,3 +26,4 @@ html
     = render 'shared/flash'
 
     = yield
+    = javascript_include_tag *webpack_asset_paths('components', extension: 'js') unless Rails.env.test?

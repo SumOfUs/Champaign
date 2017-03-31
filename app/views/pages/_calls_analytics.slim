@@ -29,6 +29,6 @@
 
 javascript:
   $(function(){
-    window.Analytics.CallTool.initChart("#call-tool-analytics .chart", #{@page.id});
+    window.mountCallToolAnalytics("call-tool-analytics", { pageId: #{@page.id} });
   });
 

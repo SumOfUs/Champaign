@@ -13,6 +13,7 @@ import ComponentWrapper from './ComponentWrapper';
 import FundraiserView from './containers/FundraiserView/FundraiserView';
 import CallToolView   from './containers/CallToolView/CallToolView';
 import EmailTargetView   from './containers/EmailTargetView/EmailTargetView';
+import CallToolAnalyticsView   from './containers/CallToolAnalyticsView/CallToolAnalyticsView';
 
 import type { Store } from 'redux';
 import type { AppState } from './state/reducers';
@@ -94,6 +95,21 @@ window.mountEmailTarget = (root: string, props: emailTargetInitialState) => {
   render(
     <ComponentWrapper store={store} locale={props.locale}>
       <EmailTargetView />
+    </ComponentWrapper>,
+    document.getElementById(root)
+  );
+}
+
+type callToolAnalyticsProps = {
+  pageId: string | number;
+}
+
+window.mountCallToolAnalytics = (root: string, props: callToolAnalyticsProps) => {
+  console.log(root);
+  console.log(document.getElementById(root));
+  render(
+    <ComponentWrapper locale='en'>
+      <CallToolAnalyticsView {...props} />
     </ComponentWrapper>,
     document.getElementById(root)
   );
