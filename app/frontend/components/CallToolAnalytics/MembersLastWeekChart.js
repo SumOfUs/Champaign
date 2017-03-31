@@ -7,7 +7,6 @@ type OwnProps = {
   data: any
 }
 
-
 class LastWeekChart extends Component {
   props: OwnProps;
 
@@ -33,6 +32,9 @@ class LastWeekChart extends Component {
       axis: {
         x: {
           type: 'category'
+        },
+        y: {
+          label: 'calls'
         }
       }
     });
