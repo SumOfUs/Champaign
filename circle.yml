@@ -53,7 +53,7 @@ deployment:
     branch:  development
     commands:
       - ./bin/build.sh
-      - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'champaign-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+      - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
   testing:
     branch: testing
     commands:
