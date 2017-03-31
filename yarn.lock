@@ -5937,9 +5937,9 @@ sort-keys@^1.0.0:
   dependencies:
     is-plain-obj "^1.0.0"
 
-"sou-assets@git://github.com/SumOfUs/sou-assets.git#npm":
+"sou-assets@git://github.com/SumOfUs/sou-assets.git":
   version "1.0.0"
-  resolved "git://github.com/SumOfUs/sou-assets.git#69d62987cca36ffa500e935dca634457abd1b90f"
+  resolved "git://github.com/SumOfUs/sou-assets.git#231fab41d6cdc0f11d49c5a34148f3cbc2267f49"
 
 source-list-map@^0.1.4, source-list-map@~0.1.7:
   version "0.1.8"

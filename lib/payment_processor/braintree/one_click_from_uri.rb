@@ -8,7 +8,7 @@ module PaymentProcessor::Braintree
       @params = params
       @page = page
       @member = member
-      @cookied_payment_methods = cookied_payment_methods
+      @cookied_payment_methods = cookied_payment_methods || ''
     end
 
     def process
@@ -48,7 +48,14 @@ module PaymentProcessor::Braintree
     end
 
     def payment_method_id
-      member.customer.payment_methods.stored.first.try(:id) if member.try(:customer)
+      cookied_payment_methods.split(',').each do |token|
+        pm = member.customer.payment_methods.find_by(token: token, cancelled_at: nil, store_in_vault: true)
+        if pm && pm.expiration_date.to_date > Date.today
+          return pm.id
+        end
+      end
+
+      false
     end
 
     def token_from_cookie
