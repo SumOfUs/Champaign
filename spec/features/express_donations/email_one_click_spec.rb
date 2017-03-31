@@ -9,6 +9,8 @@ feature 'Express From Mailing Link' do
   let(:email)    { 'donor@example.com' }
   let(:member)   { Member.find_by(email: email) }
   let(:customer) { Payment::Braintree::Customer.find_by(email: email) }
+  let(:valid_akid) { '25429.9032842.RNP4O4' }
+
   let(:queue_payload) do
     {
       type: 'donation',
@@ -34,7 +36,7 @@ feature 'Express From Mailing Link' do
           last_name: 'Bar',
           email: 'donor@example.com',
           country: 'United States',
-          akid: '25429.9032842.mRJhnM',
+          akid: valid_akid,
           source: nil,
           user_express_cookie: 1,
           user_express_account: @is_authenticated,
@@ -73,7 +75,7 @@ feature 'Express From Mailing Link' do
     expect(auth.reload.confirmed_at).not_to be nil
   end
 
-  def store_payment_in_vault
+  def store_payment_in_vault(index = 1)
     params = {
       payment_method_nonce: 'fake-valid-nonce',
       recurring: false,
@@ -89,11 +91,18 @@ feature 'Express From Mailing Link' do
       }
     }
 
-    VCR.use_cassette('feature_store_card_in_vault') do
+    cassette = 'feature_store_card_in_vault'
+    cassette += "_#{index}" if index > 1
+
+    VCR.use_cassette(cassette) do
       page.driver.post api_payment_braintree_transaction_path(donation_page.id), params
     end
 
     expect(JSON.parse(page.body)['success']).to eq(true)
+  end
+
+  def delete_cookies_from_browser
+    page.driver.browser.clear_cookies
   end
 
   scenario 'Authenticated member makes a one-click donation' do
@@ -108,7 +117,7 @@ feature 'Express From Mailing Link' do
     expect(ChampaignQueue).to receive(:push).with(queue_payload)
 
     VCR.use_cassette('feature_member_email_donation') do
-      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: '25429.9032842.mRJhnM', one_click: true)
+      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
     end
 
     expect(customer.reload.transactions.count).to eq(2)
@@ -128,7 +137,7 @@ feature 'Express From Mailing Link' do
     expect(ChampaignQueue).to receive(:push).with(queue_payload)
 
     VCR.use_cassette('feature_one_click_cookie') do
-      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: '25429.9032842.mRJhnM', one_click: true)
+      visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
     end
 
     expect(customer.reload.transactions.count).to eq(2)
@@ -151,6 +160,21 @@ feature 'Express From Mailing Link' do
     end
 
     expect(Action.count).to eq(0)
+    expect(current_url).to match(%r{/foo-bar})
+  end
+
+  scenario 'One-click donation with AKID, but without cookied payment methods' do
+    store_payment_in_vault
+    store_payment_in_vault(2)
+
+    delete_cookies_from_browser
+
+    VCR.use_cassette('feature_one_click_stranger') do
+      expect do
+        visit page_path(donation_page, amount: 1.50, currency: 'GBP', one_click: true, akid: valid_akid)
+      end.to_not change { customer.transactions.count }.from(2)
+    end
+
     expect(current_url).to match(%r{/foo-bar})
   end
 end
