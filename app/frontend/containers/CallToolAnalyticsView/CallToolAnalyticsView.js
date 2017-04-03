@@ -1,6 +1,5 @@
 //@flow
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import { fetchJson } from './Helpers';
 import MembersLastWeekChart from '../../components/CallToolAnalytics/MembersLastWeekChart';

@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+//@flow
+import React from 'react';
 
 type OwnProps = {
   data: any

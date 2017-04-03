@@ -1,6 +1,5 @@
 //@flow
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import c3 from 'c3';
 
 type OwnProps = {
@@ -45,6 +44,6 @@ class LastWeekChart extends Component {
   render() {
     return <div id="call-tool-analytics-last-week-chart"> Chart </div>;
   }
-};
+}
 
 export default LastWeekChart;

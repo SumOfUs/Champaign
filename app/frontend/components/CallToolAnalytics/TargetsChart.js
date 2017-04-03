@@ -1,6 +1,5 @@
 //@flow
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import c3 from 'c3';
 
 type OwnProps = {
@@ -49,6 +48,6 @@ class TargetsChart extends Component {
   render() {
     return <div id="call-tool-analytics-targets-chart"> Chart </div>;
   }
-};
+}
 
 export default TargetsChart;
