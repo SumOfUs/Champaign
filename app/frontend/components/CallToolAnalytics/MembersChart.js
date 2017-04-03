@@ -26,7 +26,7 @@ class LastWeekChart extends Component {
         json: this.props.data,
         keys: {
           x: 'date',
-          value: ['failed', 'unstarted', 'started', 'connected']
+          value: ['unstarted', 'started', 'connected']
         },
         type: 'bar',
       },

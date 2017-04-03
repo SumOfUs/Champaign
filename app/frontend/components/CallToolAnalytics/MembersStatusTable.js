@@ -11,10 +11,6 @@ function MembersStatusTable(props:OwnProps) {
     <table className="table totals">
       <tbody>
         <tr>
-          <th> Failed </th>
-          <td> { data.failed } </td>
-        </tr>
-        <tr>
           <th> Unstarted </th>
           <td> { data.unstarted } </td>
         </tr>
