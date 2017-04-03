@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import c3 from 'c3';
 
 type OwnProps = {
-  data: any
+  data: any,
+  xLabel?: string
 }
 
 class LastWeekChart extends Component {
@@ -18,6 +19,7 @@ class LastWeekChart extends Component {
   }
 
   createChart() {
+    const xLabel = this.props.xLabel || '';
     const chart = c3.generate({
       bindto: '#call-tool-analytics-last-week-chart',
       data: {
@@ -30,7 +32,8 @@ class LastWeekChart extends Component {
       },
       axis: {
         x: {
-          type: 'category'
+          type: 'category',
+          label: xLabel
         },
         y: {
           label: 'calls'

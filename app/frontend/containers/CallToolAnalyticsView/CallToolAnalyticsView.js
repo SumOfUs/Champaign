@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
 import { fetchJson } from './Helpers';
-import MembersLastWeekChart from '../../components/CallToolAnalytics/MembersLastWeekChart';
+import MembersChart from '../../components/CallToolAnalytics/MembersChart';
 import MembersStatusTable from '../../components/CallToolAnalytics/MembersStatusTable';
 import TargetsChart from '../../components/CallToolAnalytics/TargetsChart';
 import TargetsStatusTable from '../../components/CallToolAnalytics/TargetsStatusTable';
@@ -18,7 +18,11 @@ type OwnState = {
     last_week: {
       member_calls: any,
       target_calls: any
+    },
+    all_time: {
+      member_calls: any
     }
+
   },
   filter: string
 }
@@ -81,7 +85,10 @@ class CallToolViewAnalytics extends Component {
 
         <div className="row">
           <div className="col1">
-            <MembersLastWeekChart data={this.state.data['last_week']['member_calls']['status_totals_by_day']} />
+            { (this.state.filter == 'last-week') &&
+                <MembersChart data={this.state.data['last_week']['member_calls']['status_totals_by_day']} /> }
+            { (this.state.filter == 'all-time') &&
+                <MembersChart data={this.state.data['all_time']['member_calls']['status_totals_by_week']} xLabel='week' /> }
           </div>
 
           <div className="col2">

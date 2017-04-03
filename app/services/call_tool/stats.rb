@@ -21,6 +21,11 @@ module CallTool
             status_totals_by_target: target_calls_stats.last_week_status_totals_by_target,
             status_totals: target_calls_stats.last_week_status_totals
           }
+        },
+        all_time: {
+          member_calls: {
+            status_totals_by_week: member_calls_stats.status_totals_by_week
+          }
         }
       }
     end

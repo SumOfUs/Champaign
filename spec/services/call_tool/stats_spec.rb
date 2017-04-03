@@ -6,7 +6,7 @@ describe CallTool::Stats do
   let(:targets) { build_list(:call_tool_target, 3, :with_country) }
   subject { CallTool::Stats.new(page) }
 
-  describe 'member_calls:member_calls:status_totals_by_day' do
+  describe 'member_calls:status_totals_by_day' do
     let(:data) { subject.to_h[:last_week][:member_calls][:status_totals_by_day] }
     before do
       Timecop.travel(3.days.ago) do
@@ -31,6 +31,33 @@ describe CallTool::Stats do
       expect(data[3]['connected']).to eq 3
       expect(data[3]['started']).to eq 1
       expect(data[3].slice('unstarted', 'failed').values).to eq [0,0]
+    end
+  end
+
+  describe 'member_calls:status_totals_by_week' do
+    let(:data) { subject.to_h[:all_time][:member_calls][:status_totals_by_week] }
+    before do
+      create_list(:call, 2, :connected, page: page)
+      Timecop.travel(2.weeks.ago) do
+        create(:call, :started, page: page)
+      end
+    end
+
+    it 'returns an array of 5 items (last 5 weeks)' do
+      expect(data.count).to eq 5
+    end
+
+    it 'returns empty rows for weeks that had no calls' do
+      expect(data[0]['date']).to eq 4.weeks.ago.beginning_of_week.to_date.to_s(:short)
+      expect(data[0].slice('unstarted', 'started', 'connected', 'failed').values).to eq [0,0,0,0]
+    end
+
+    it 'returns the appropriate calls count for the weeks that had calls' do
+      expect(data.last['date']).to eq Date.today.beginning_of_week.to_s(:short)
+      expect(data.last['connected']).to eq 2
+
+      expect(data[2]['date']).to eq 2.weeks.ago.to_date.beginning_of_week.to_s(:short)
+      expect(data[2]['started']).to eq 1
     end
   end
 

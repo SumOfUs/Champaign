@@ -23,6 +23,21 @@ module CallTool
     end
 
     def status_totals_by_week
+      by_week = ActiveSupport::OrderedHash.new
+      4.downto(0) do |i|
+        date = (Date.today.beginning_of_week) - i.weeks
+        by_week[date] = {}
+        Call.statuses.keys.each do |status|
+          by_week[date][status] = 0
+        end
+      end
+
+      last_five_weeks_calls.each do |call|
+        week_date = call.created_at.to_date.beginning_of_week
+        by_week[week_date][call.status] += 1
+      end
+
+      by_week.map { |date, stats| stats.merge('date' => date.to_s(:short)) }
     end
 
     def last_week_status_totals
@@ -52,6 +67,12 @@ module CallTool
 
     def last_week_calls
       @last_week_calls ||= @calls.select { |c| c.created_at > 7.days.ago }
+    end
+
+    def last_five_weeks_calls
+      @last_five_weeks_calls ||= @calls.select do |c|
+        c.created_at.to_date >= 4.weeks.ago.beginning_of_week
+      end
     end
   end
 end
