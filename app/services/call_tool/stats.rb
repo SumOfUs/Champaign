@@ -24,7 +24,8 @@ module CallTool
         },
         all_time: {
           member_calls: {
-            status_totals_by_week: member_calls_stats.status_totals_by_week
+            status_totals_by_week: member_calls_stats.status_totals_by_week,
+            status_totals: member_calls_stats.all_time_status_totals
           }
         }
       }

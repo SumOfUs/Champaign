@@ -58,17 +58,26 @@ class CallToolViewAnalytics extends Component {
     this.setState({filter});
   }
 
+  membersStatusTableData() {
+    if(!this.state.data) { return {}; }
+    if(this.state.filter === 'last-week') {
+      return this.state.data['last_week']['member_calls']['status_totals'];
+    } else {
+      return this.state.data['all_time']['member_calls']['status_totals'];
+    }
+  }
+
   render() {
+    if(!this.state.data) {
+      return this.renderLoading();
+    }
+
     const lastWeekButtonClasses = classnames(
             {btn: true, 'btn-default': true, active: this.state.filter === 'last-week'}
           ),
           allTimeButtonClasses = classnames(
             {btn: true, 'btn-default': true, active: this.state.filter === 'all-time'}
           );
-
-    if(!this.state.data) {
-      return this.renderLoading();
-    }
 
     return(
       <div>
@@ -85,13 +94,13 @@ class CallToolViewAnalytics extends Component {
         <div className="row">
           <div className="col1">
             { (this.state.filter == 'last-week') &&
-                <MembersChart data={this.state.data['last_week']['member_calls']['status_totals_by_day']} /> }
+                <MembersChart data={this.state.data && this.state.data['last_week']['member_calls']['status_totals_by_day']} /> }
             { (this.state.filter == 'all-time') &&
-                <MembersChart data={this.state.data['all_time']['member_calls']['status_totals_by_week']} xLabel='week' /> }
+                <MembersChart data={this.state.data && this.state.data['all_time']['member_calls']['status_totals_by_week']} xLabel='week' /> }
           </div>
 
           <div className="col2">
-            <MembersStatusTable data={this.state.data['last_week']['member_calls']['status_totals']} />
+            <MembersStatusTable data={this.membersStatusTableData()} />
           </div>
         </div>
 
@@ -99,11 +108,11 @@ class CallToolViewAnalytics extends Component {
 
         <div className="row">
           <div className="col1">
-            <TargetsChart data={this.state.data['last_week']['target_calls']['status_totals_by_target']} />
+            <TargetsChart data={this.state.data && this.state.data['last_week']['target_calls']['status_totals_by_target']} />
           </div>
 
           <div className="col2">
-            <TargetsStatusTable data={this.state.data['last_week']['target_calls']['status_totals']} />
+            <TargetsStatusTable data={this.state.data && this.state.data['last_week']['target_calls']['status_totals']} />
           </div>
         </div>
       </div>
