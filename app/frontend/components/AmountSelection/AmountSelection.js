@@ -1,5 +1,4 @@
 // @flow
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import DonationBands from '../DonationBands/DonationBands';
@@ -97,7 +96,7 @@ export default class AmountSelection extends Component {
         { this.state.currencyDropdownVisible &&
           <select value={this.props.currency} className="AmountSelection__currency-selector"
             onChange={e => this.onSelectCurrency(e.target.value)}>
-             {_.keys(this.props.donationBands).map((currency) => {
+             {Object.keys(this.props.donationBands).map((currency) => {
                return <option key={currency} value={currency}>{currency}</option>;
              })}
           </select>

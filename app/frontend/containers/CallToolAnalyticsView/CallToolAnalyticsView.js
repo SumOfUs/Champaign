@@ -1,6 +1,5 @@
 //@flow
 import React, { Component } from 'react';
-import _ from 'lodash';
 import classnames from 'classnames';
 import { fetchJson } from './Helpers';
 import MembersChart from '../../components/CallToolAnalytics/MembersChart';
