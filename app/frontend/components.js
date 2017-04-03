@@ -105,8 +105,6 @@ type callToolAnalyticsProps = {
 }
 
 window.mountCallToolAnalytics = (root: string, props: callToolAnalyticsProps) => {
-  console.log(root);
-  console.log(document.getElementById(root));
   render(
     <ComponentWrapper locale='en'>
       <CallToolAnalyticsView {...props} />

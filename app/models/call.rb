@@ -17,6 +17,7 @@
 #
 
 class Call < ActiveRecord::Base
+  TWILIO_STATUSES = %w{ completed answered busy no-answer failed canceled unknown }
   enum status: [:unstarted, :started, :connected, :failed]
   belongs_to :page
   belongs_to :member
@@ -29,6 +30,8 @@ class Call < ActiveRecord::Base
 
   delegate :sound_clip, to: :call_tool
   delegate :menu_sound_clip, to: :call_tool
+
+  scope :not_failed, -> { where.not(status: statuses['failed']) }
 
   def target_phone_number
     target.phone_number

@@ -1,10 +1,11 @@
+//@flow
 import React, { Component } from 'react';
 
 type OwnProps = {
   data: any
 }
 
-function MembersLastWeekTable(props:OwnProps) {
+function MembersStatusTable(props:OwnProps) {
   const data = props.data;
   return(
     <table className="table totals">
@@ -34,4 +35,4 @@ function MembersLastWeekTable(props:OwnProps) {
   );
 }
 
-export default MembersLastWeekTable;
+export default MembersStatusTable;

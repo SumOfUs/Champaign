@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 describe CallTool::Stats do
-  let!(:page) { create(:page, :with_call_tool) }
+  let!(:page) { create(:page) }
+  let!(:call_tool) { create(:call_tool, page: page, targets: targets )}
+  let(:targets) { build_list(:call_tool_target, 3, :with_country) }
   subject { CallTool::Stats.new(page) }
 
   describe 'member_calls:member_calls:status_totals_by_day' do
@@ -47,42 +49,42 @@ describe CallTool::Stats do
     end
   end
 
-  describe '#calls_by_day_and_status' do
+  describe 'last_week:target_calls' do
+    let(:target_a) { targets[0] }
+    let(:target_b) { targets[1] }
+    let(:target_c) { targets[2] }
     before do
-      Timecop.travel 1.day.ago do
-        create_list(:call, 2, :with_busy_target_status, page: page)
-        create_list(:call, 1, :with_completed_target_status, page: page)
+      Timecop.travel 1.month.ago do
+        create(:call, :with_busy_target_status, page: page, target: target_a)
       end
-      create_list(:call, 1, :with_completed_target_status, page: page)
+      create_list(:call, 2, :with_busy_target_status, page: page, target: target_a)
+      create(:call, :with_completed_target_status, page: page, target: target_a)
+      create(:call, :with_completed_target_status, page: page, target: target_b)
     end
 
-    it 'returns the right values' do
-      one_day_ago = 1.day.ago.to_date.to_s
-      today = Date.today.to_s
+    describe "status_totals_by_target" do
+      let(:data) { subject.to_h[:last_week][:target_calls][:status_totals_by_target] }
+      it 'returns the right values' do
+        target_a_row = data.find {|r| r['target_name'] == target_a.name }
+        target_b_row = data.find {|r| r['target_name'] == target_b.name }
+        target_c_row = data.find {|r| r['target_name'] == target_c.name }
 
-      stats = subject.calls_by_day_and_status
-      expect(stats[one_day_ago]['busy']).to eql 2
-      expect(stats[one_day_ago]['completed']).to eql 1
-      expect(stats[today]['completed']).to eql 1
-    end
-  end
-
-  describe '#calls_by_target' do
-    let(:call_tool) { Plugins::CallTool.find_by(page: page) }
-    let(:target_a) { call_tool.targets.first }
-    let(:target_b) { call_tool.targets[1] }
-
-    before do
-      create_list(:call, 2, :with_completed_target_status, page: page, target: target_a)
-      create_list(:call, 1, :with_busy_target_status,      page: page, target: target_a)
-      create_list(:call, 1, :with_completed_target_status, page: page, target: target_b)
+        expect(target_a_row['busy']).to eql 2
+        expect(target_a_row['completed']).to eql 1
+        expect(target_b_row['completed']).to eql 1
+        expect(target_c_row.slice(*CallTool::TargetCallsStats::STATUSES)).to be_empty
+      end
     end
 
-    it 'returns the right values' do
-      stats = subject.calls_by_target
-      expect(stats[target_a.id]['completed']).to eql 2
-      expect(stats[target_a.id]['busy']).to eql 1
-      expect(stats[target_b.id]['completed']).to eql 1
+    describe 'status_totals' do
+      let(:data) { subject.to_h[:last_week][:target_calls][:status_totals] }
+
+      it 'returns the right values' do
+        expect(data['completed']).to eql 2
+        expect(data['busy']).to eql 2
+        expect(data['no-answer']).to eql 0
+        expect(data['failed']).to eql 0
+      end
     end
   end
 end
