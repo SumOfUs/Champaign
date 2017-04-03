@@ -7,12 +7,17 @@ en:
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
   email_target:
+    suggest_fund: "Sorry about that. If you email over the name of your fund we'll do our best to add it to our database."
+
+    section:
+      select_target: "Select Your Target"
+      compose: "Compose Your Email"
     form:
       select_country: 'Select your Country'
       select_target: 'Select your Pension Fund'
-      subject: 'Subject'
+      subject: 'Subject Line'
       your_name: 'Your Name'
-      your_email: 'Your Email'
+      your_email: 'Your Email Address'
       send_email: 'Send Email'
   fundraiser:
     payment_methods:

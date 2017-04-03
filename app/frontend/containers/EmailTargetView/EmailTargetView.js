@@ -24,6 +24,13 @@ import {
 import type { Dispatch } from 'redux';
 
 class EmailTargetView extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      shouldShowFundSuggestion: false
+    };
+  }
+
   componentDidMount() {
     this.getPensionFunds(this.props.country);
   }
@@ -51,9 +58,28 @@ class EmailTargetView extends Component {
   }
 
   render() {
+
+    const toWho = () => {
+      return `Dear ${this.props.fundContact || '[select a fund]'},`;
+    };
+
+    const fromWho = () => {
+      return `Regards, ${this.props.name || '[enter your name]'}`;
+    };
+
     const changeFund = (value) => {
       const contact = _.find(this.props.pensionFunds, {_id: value});
       this.props.changeFund(contact);
+    };
+
+    const showFundSuggestion = () => {
+      if (this.state.shouldShowFundSuggestion){
+        return(
+          <p>
+            <FormattedMessage id="email_target.suggest_fund" />
+          </p>
+        );
+      }
     };
 
     const onSubmit = (e) => {
@@ -82,61 +108,82 @@ class EmailTargetView extends Component {
       <div className='email-target'>
         <div className='email-target-form'>
         <form onSubmit={onSubmit} className='action-form form--big'>
-        <div className='form__group'>
-          <SelectCountry
-            value={this.props.country}
-            name='country'
-            label={<FormattedMessage id="email_target.form.select_country" defaultMessage="Select country (default)" />}
-            className='form-control'
-            onChange={this.changeCountry.bind(this)}
-            />
-        </div>
+          <div className='email-target-action'>
+            <h2>
+              <FormattedMessage id="email_target.section.select_target" defaultMessage="Select Your Target" />
+            </h2>
 
-        <div className='form__group'>
-          <Select className='form-control'
-            value={this.props.fundId}
-            onChange={changeFund}
-            label={<FormattedMessage id="email_target.form.select_target" defaultMessage="Select a fund (default)" />}
-            name='select-fund' options={this.props.pensionFunds} />
-        </div>
+            <div className='form__group'>
+              <SelectCountry
+                value={this.props.country}
+                name='country'
+                label={<FormattedMessage id="email_target.form.select_country" defaultMessage="Select country (default)" />}
+                className='form-control'
+                onChange={this.changeCountry.bind(this)} />
+            </div>
 
+            <div className='form__group'>
+              <Select className='form-control'
+                value={this.props.fundId}
+                onChange={changeFund}
+                label={<FormattedMessage id="email_target.form.select_target" defaultMessage="Select a fund (default)" />}
+                name='select-fund' options={this.props.pensionFunds} />
+            </div>
+            <div className='email__target-suggest-fund'>
+              <p><a onClick={() => this.setState({shouldShowFundSuggestion: !this.state.shouldShowFundSuggestion})} >Can't find your pension fund?</a></p>
+              { showFundSuggestion() }
+            </div>
+          </div>
+          <div className='email-target-action'>
+            <h2>
+              <FormattedMessage id="email_target.section.compose" defaultMessage="Compose Your Email" />
+            </h2>
 
-        <div className='form__group'>
-          <Input
-            name='email_subject'
-            value={this.props.subject}
-            label={<FormattedMessage id="email_target.form.subject" defaultMessage="Subejct (default)" />}
-            onChange={(value) => this.props.changeSubject(value)} />
-        </div>
+            <div className='form__group'>
+              <Input
+                name='email_subject'
+                value={this.props.subject}
+                label={<FormattedMessage id="email_target.form.subject" defaultMessage="Subejct (default)" />}
+                onChange={(value) => this.props.changeSubject(value)} />
+            </div>
 
-        <div className='form__group'>
-          <Input
-            name='name'
-            label={<FormattedMessage id="email_target.form.your_name" defaultMessage="Your name (default)" />}
-            value={this.props.name}
-            required={true}
-            onChange={(value) => this.props.changeName(value)} />
+          <div className='form__group'>
+            <Input
+              name='name'
+              label={<FormattedMessage id="email_target.form.your_name" defaultMessage="Your name (default)" />}
+              value={this.props.name}
+              required={true}
+              onChange={(value) => this.props.changeName(value)} />
+          </div>
 
-        </div>
+          <div className='form__group'>
+            <Input
+              name='email'
+              label={<FormattedMessage id="email_target.form.your_email" defaultMessage="Your email (default)" />}
+              value={this.props.email}
+              required={true}
+              onChange={(value) => this.props.changeEmail(value) } />
+          </div>
 
-        <div className='form__group'>
-          <Input
-            name='email'
-            label={<FormattedMessage id="email_target.form.your_email" defaultMessage="Your email (default)" />}
-            value={this.props.email}
-            required={true}
-            onChange={(value) => this.props.changeEmail(value) } />
-        </div>
-
-        <div className='form__group'>
-          <div className='email__target-body'>
-
-          <textarea
-            name='email_body'
-            value={this.props.body}
-            onChange={(event) => this.props.changeBody(event.currentTarget.value)}
-            maxLength="9999">
-          </textarea>
+          <div className='form__group'>
+            <div className='email__target-body'>
+            <span className='email__target-greeting'>
+              <Input
+                readonly='true'
+                value={toWho()} />
+            </span>
+            <textarea
+              name='email_body'
+              value={this.props.body}
+              onChange={(event) => this.props.changeBody(event.currentTarget.value)}
+              maxLength="9999">
+            </textarea>
+            <span className='email__target-sign-off'>
+              <Input
+                readonly='true'
+                value={fromWho()} />
+            </span>
+          </div>
           </div>
         </div>
 

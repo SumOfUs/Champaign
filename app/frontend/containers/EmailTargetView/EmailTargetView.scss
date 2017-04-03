@@ -1,7 +1,22 @@
-.content.email-target {
+.email-target {
+  h2 {
+    margin-bottom: 10px;
+
+  }
+
+  .email-target-action {
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    margin-bottom: 20px;
+  }
+
   .body-text.text-top {
     margin-top: 20px;
-    padding: 10px;
+    padding: 10px 0;
     width: 100%;
     margin-bottom: 5px;
     color: black;
@@ -9,18 +24,30 @@
   .email__target-body {
     textarea {
       height: 300px;
+      border-radius: 0;
       font-size: 100%;
     }
   }
-  .email-target.completed {
-    .email-target-form {
-      transform: translate(-130%);
-      transition-duration: 500ms;
-    }
 
-    .email-target-thanks {
-      transform: translate(-130%);
-      transition-duration: 500ms;
+  .email__target-greeting input {
+    border-radius: 3px 0;
+    padding-top: 12px;
+    padding-bottom: 0;
+  }
+
+  .email__target-sign-off input {
+    border-radius: 0 3px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: -3px;
+  }
+
+  .email__target-suggest-fund {
+    margin: 10px 0 0 0;
+    font-size: 85%;
+
+    p {
+      padding-bottom: 5px;
     }
   }
 }
