@@ -22,7 +22,7 @@ class EmailTargetService
         Body: simple_format(opts[:body]),
         Subject: opts[:subject],
         ToName: opts[:to_name],
-        ToEmail: opts[:to_email],
+        ToEmail: to_email,
         TargetName: opts[:target_name],
         Country: opts[:country],
         FromName: opts[:from_name],
@@ -32,15 +32,32 @@ class EmailTargetService
     }
   end
 
+  private
+
+  def to_email
+    test_email || opts[:to_email]
+  end
+
   def source_email
-    page = Page.find_by(slug: opts[:page])
-    plugin = Plugins::EmailTarget.find_by page_id: page.id
     plugin.email_from
+  end
+
+  def test_email
+    plugin.test_email_address
+  end
+
+  def plugin
+    @plugin ||= Plugins::EmailTarget.find_by page_id: page.id
+  end
+
+  def page
+    @page ||= Page.find_by(slug: opts[:page])
   end
 
   def self.dynamodb
     @dynamodb = Aws::DynamoDB::Client.new(
-      region: 'us-west-2'
+      region: 'us-west-2',
+      profile: 'default'
     )
   end
 end

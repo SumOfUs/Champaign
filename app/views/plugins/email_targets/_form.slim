@@ -8,6 +8,10 @@
         = f.text_field :email_from, class: 'form-control'
 
       .form-group
+        = f.label(:test_email_address, t('plugins.email_target.email_address_for_testing'))
+        = f.text_field :test_email_address, class: 'form-control'
+
+      .form-group
         = f.label(:email_subject, t('plugins.email_target.subject'))
         = f.text_field :email_subject, class: 'form-control'
 

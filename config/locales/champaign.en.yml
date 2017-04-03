@@ -310,6 +310,7 @@ en:
     email_target:
       subject: 'Email subject'
       email_body: 'Email body'
+      email_address_for_testing: 'Email address to send to (use for testing only)'
       from_address: "'from' email address"
       tooltips:
         from_address: 'Must be a valid address using a validated domain'
