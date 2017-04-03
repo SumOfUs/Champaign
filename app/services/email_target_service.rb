@@ -32,6 +32,10 @@ class EmailTargetService
     }
   end
 
+  def self.dynamodb
+    @dynamodb = Aws::DynamoDB::Client.new(region: 'us-west-2')
+  end
+
   private
 
   def to_email
@@ -52,12 +56,5 @@ class EmailTargetService
 
   def page
     @page ||= Page.find_by(slug: opts[:page])
-  end
-
-  def self.dynamodb
-    @dynamodb = Aws::DynamoDB::Client.new(
-      region: 'us-west-2',
-      profile: 'default'
-    )
   end
 end

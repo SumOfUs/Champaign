@@ -1,602 +1,411 @@
-[
-  {
-    "_id": "58d12f1e8ff78d8b52ddb438",
-    "name": "Sweet Dunlap",
-    "fund": "Realysis US",
-    "email": "sweetdunlap@realysis.com"
-  },
-  {
-    "_id": "58d12f1e60381342d593c2c5",
-    "name": "Charlotte Armstrong",
-    "fund": "Waterbaby US",
-    "email": "charlottearmstrong@waterbaby.com"
-  },
-  {
-    "_id": "58d12f1ec05065b56515b83b",
-    "name": "Robinson Herrera",
-    "fund": "Otherway US",
-    "email": "robinsonherrera@otherway.com"
-  },
-  {
-    "_id": "58d12f1e66f0f09af9384874",
-    "name": "Monique Greer",
-    "fund": "Duoflex US",
-    "email": "moniquegreer@duoflex.com"
-  },
-  {
-    "_id": "58d12f1ef1a62c724c3867e8",
-    "name": "Yvonne Church",
-    "fund": "Comtrak US",
-    "email": "yvonnechurch@comtrak.com"
-  },
-  {
-    "_id": "58d12f1e214f0d885a4fd9eb",
-    "name": "Chapman Wagner",
-    "fund": "Eventix US",
-    "email": "chapmanwagner@eventix.com"
-  },
-  {
-    "_id": "58d12f1e714947aad98e7f46",
-    "name": "Cornelia Forbes",
-    "fund": "Cubicide US",
-    "email": "corneliaforbes@cubicide.com"
-  },
-  {
-    "_id": "58d12f1ebd1991c853fd9206",
-    "name": "Kline Clements",
-    "fund": "Splinx US",
-    "email": "klineclements@splinx.com"
-  },
-  {
-    "_id": "58d12f1e1be0c78fa846c369",
-    "name": "Gaines Hull",
-    "fund": "Comtours US",
-    "email": "gaineshull@comtours.com"
-  },
-  {
-    "_id": "58d12f1e800e4b2e1f9545e6",
-    "name": "Mitchell Suarez",
-    "fund": "Concility US",
-    "email": "mitchellsuarez@concility.com"
-  },
-  {
-    "_id": "58d12f1e602acc32b618a3a1",
-    "name": "Stark Terrell",
-    "fund": "Gorganic US",
-    "email": "starkterrell@gorganic.com"
-  },
-  {
-    "_id": "58d12f1ebb21757a863e821c",
-    "name": "Jamie Cooper",
-    "fund": "Emoltra US",
-    "email": "jamiecooper@emoltra.com"
-  },
-  {
-    "_id": "58d12f1e9530f6d2f9f9eb41",
-    "name": "Malone English",
-    "fund": "Rodemco US",
-    "email": "maloneenglish@rodemco.com"
-  },
-  {
-    "_id": "58d12f1e798336b576d648f8",
-    "name": "Corinne Harmon",
-    "fund": "Xumonk US",
-    "email": "corinneharmon@xumonk.com"
-  },
-  {
-    "_id": "58d12f1e0035e6ad77901cfa",
-    "name": "Vaughan Johns",
-    "fund": "Animalia US",
-    "email": "vaughanjohns@animalia.com"
-  },
-  {
-    "_id": "58d12f1e99c862a5e124ac4d",
-    "name": "Andrea Frank",
-    "fund": "Naxdis US",
-    "email": "andreafrank@naxdis.com"
-  },
-  {
-    "_id": "58d12f1eecd755e25fe00b5f",
-    "name": "Luann Wilkinson",
-    "fund": "Steeltab US",
-    "email": "luannwilkinson@steeltab.com"
-  },
-  {
-    "_id": "58d12f1e8b2d7dfcee82cd6a",
-    "name": "Boyer Carey",
-    "fund": "Buzzworks US",
-    "email": "boyercarey@buzzworks.com"
-  },
-  {
-    "_id": "58d12f1e27f4a1903ba0ee02",
-    "name": "Roxanne Becker",
-    "fund": "Sentia US",
-    "email": "roxannebecker@sentia.com"
-  },
-  {
-    "_id": "58d12f1e6e906aee0d968ea9",
-    "name": "Phillips Bentley",
-    "fund": "Imant US",
-    "email": "phillipsbentley@imant.com"
-  },
-  {
-    "_id": "58d12f1e1854023421467786",
-    "name": "Janell Gilliam",
-    "fund": "Geekus US",
-    "email": "janellgilliam@geekus.com"
-  },
-  {
-    "_id": "58d12f1e97ed03ffd253b048",
-    "name": "Wiggins Peck",
-    "fund": "Roboid US",
-    "email": "wigginspeck@roboid.com"
-  },
-  {
-    "_id": "58d12f1e1bfe989acca27c51",
-    "name": "Elma Tyler",
-    "fund": "Sustenza US",
-    "email": "elmatyler@sustenza.com"
-  },
-  {
-    "_id": "58d12f1e1dbf9485941b2a3a",
-    "name": "Edwards Glover",
-    "fund": "Firewax US",
-    "email": "edwardsglover@firewax.com"
-  },
-  {
-    "_id": "58d12f1e57a6a8cb5125b6ee",
-    "name": "Bridget Harding",
-    "fund": "Limage US",
-    "email": "bridgetharding@limage.com"
-  },
-  {
-    "_id": "58d12f1e1a7ef3cae0288c51",
-    "name": "Dunn Larsen",
-    "fund": "Zisis US",
-    "email": "dunnlarsen@zisis.com"
-  },
-  {
-    "_id": "58d12f1ec03dcca15caa8c95",
-    "name": "Reba Grimes",
-    "fund": "Cytrek US",
-    "email": "rebagrimes@cytrek.com"
-  },
-  {
-    "_id": "58d12f1e4fe8b551a5a50fe0",
-    "name": "Katherine Pacheco",
-    "fund": "Wrapture US",
-    "email": "katherinepacheco@wrapture.com"
-  },
-  {
-    "_id": "58d12f1e57900944c1a56917",
-    "name": "Lloyd Bishop",
-    "fund": "Zenco US",
-    "email": "lloydbishop@zenco.com"
-  },
-  {
-    "_id": "58d12f1e93b5ce980e6ae4ef",
-    "name": "Gabrielle Bond",
-    "fund": "Squish US",
-    "email": "gabriellebond@squish.com"
-  },
-  {
-    "_id": "58d12f1ed452c5fe2f3f3622",
-    "name": "Cline Williams",
-    "fund": "Beadzza US",
-    "email": "clinewilliams@beadzza.com"
-  },
-  {
-    "_id": "58d12f1ecab046cba100dc18",
-    "name": "Gilda Clay",
-    "fund": "Oatfarm US",
-    "email": "gildaclay@oatfarm.com"
-  },
-  {
-    "_id": "58d12f1e64a0febe31207f7d",
-    "name": "Mercado Rice",
-    "fund": "Imperium US",
-    "email": "mercadorice@imperium.com"
-  },
-  {
-    "_id": "58d12f1e3bc932c8bfe2cbfc",
-    "name": "Georgina Watts",
-    "fund": "Franscene US",
-    "email": "georginawatts@franscene.com"
-  },
-  {
-    "_id": "58d12f1efc332d4ea74ac687",
-    "name": "Hammond Vargas",
-    "fund": "Gracker US",
-    "email": "hammondvargas@gracker.com"
-  },
-  {
-    "_id": "58d12f1e1c0d26a7ada2b19d",
-    "name": "Hull Morin",
-    "fund": "Idealis US",
-    "email": "hullmorin@idealis.com"
-  },
-  {
-    "_id": "58d12f1ee9f4c27a14acf8ae",
-    "name": "Ursula Chang",
-    "fund": "Trollery US",
-    "email": "ursulachang@trollery.com"
-  },
-  {
-    "_id": "58d12f1ef8af5eb38618c870",
-    "name": "Ana Mccarty",
-    "fund": "Shepard US",
-    "email": "anamccarty@shepard.com"
-  },
-  {
-    "_id": "58d12f1ea60b5392a250ff29",
-    "name": "Frye Walter",
-    "fund": "Neteria US",
-    "email": "fryewalter@neteria.com"
-  },
-  {
-    "_id": "58d12f1ee33688ff38898a34",
-    "name": "Snow Sellers",
-    "fund": "Geeketron US",
-    "email": "snowsellers@geeketron.com"
-  },
-  {
-    "_id": "58d12f1ed8fbc9a67cfa5567",
-    "name": "Leonor Mckee",
-    "fund": "Honotron US",
-    "email": "leonormckee@honotron.com"
-  },
-  {
-    "_id": "58d12f1ee098f5cef9df4315",
-    "name": "Weiss Frye",
-    "fund": "Cujo US",
-    "email": "weissfrye@cujo.com"
-  },
-  {
-    "_id": "58d12f1eed8aee3f4c3e03ef",
-    "name": "Bryant Hicks",
-    "fund": "Gadtron US",
-    "email": "bryanthicks@gadtron.com"
-  },
-  {
-    "_id": "58d12f1eaebeda870d138996",
-    "name": "Underwood Christian",
-    "fund": "Inventure US",
-    "email": "underwoodchristian@inventure.com"
-  },
-  {
-    "_id": "58d12f1e57bf3166abbfeb0f",
-    "name": "Cote Lara",
-    "fund": "Digique US",
-    "email": "cotelara@digique.com"
-  },
-  {
-    "_id": "58d12f1e81732b59a4850929",
-    "name": "Merle Nelson",
-    "fund": "Accufarm US",
-    "email": "merlenelson@accufarm.com"
-  },
-  {
-    "_id": "58d12f1e470f23de904ae564",
-    "name": "Abby Vazquez",
-    "fund": "Extro US",
-    "email": "abbyvazquez@extro.com"
-  },
-  {
-    "_id": "58d12f1e7c07b17ce642d11f",
-    "name": "Santiago Mcleod",
-    "fund": "Netplax US",
-    "email": "santiagomcleod@netplax.com"
-  },
-  {
-    "_id": "58d12f1ea98e3e3100b94f01",
-    "name": "Jo Hines",
-    "fund": "Immunics US",
-    "email": "johines@immunics.com"
-  },
-  {
-    "_id": "58d12f1e2278bd59492ed2e4",
-    "name": "Nanette Hale",
-    "fund": "Buzzopia US",
-    "email": "nanettehale@buzzopia.com"
-  },
-  {
-    "_id": "58d12f1e3eeff17222c6b206",
-    "name": "Erika Morrow",
-    "fund": "Pathways US",
-    "email": "erikamorrow@pathways.com"
-  },
-  {
-    "_id": "58d12f1e1174af2c8d598c5b",
-    "name": "Coffey Duran",
-    "fund": "Radiantix US",
-    "email": "coffeyduran@radiantix.com"
-  },
-  {
-    "_id": "58d12f1eb0043679e1901a9e",
-    "name": "Puckett Mcknight",
-    "fund": "Ovium US",
-    "email": "puckettmcknight@ovium.com"
-  },
-  {
-    "_id": "58d12f1eb105f7e24fa8f8a6",
-    "name": "Dean Beard",
-    "fund": "Namebox US",
-    "email": "deanbeard@namebox.com"
-  },
-  {
-    "_id": "58d12f1ef1b331a953622730",
-    "name": "Evelyn Burris",
-    "fund": "Protodyne US",
-    "email": "evelynburris@protodyne.com"
-  },
-  {
-    "_id": "58d12f1e4489ac89493b943f",
-    "name": "Lilian David",
-    "fund": "Isosphere US",
-    "email": "liliandavid@isosphere.com"
-  },
-  {
-    "_id": "58d12f1e2138b36e5790ad5b",
-    "name": "Patrice Thornton",
-    "fund": "Sulfax US",
-    "email": "patricethornton@sulfax.com"
-  },
-  {
-    "_id": "58d12f1e19ce5a4402d40302",
-    "name": "Crane Mathis",
-    "fund": "Kaggle US",
-    "email": "cranemathis@kaggle.com"
-  },
-  {
-    "_id": "58d12f1e9a9432f39d06557f",
-    "name": "Shelia Murray",
-    "fund": "Fortean US",
-    "email": "sheliamurray@fortean.com"
-  },
-  {
-    "_id": "58d12f1ee88098b9560b9b1b",
-    "name": "Rae Fry",
-    "fund": "Bicol US",
-    "email": "raefry@bicol.com"
-  },
-  {
-    "_id": "58d12f1e68db3d6e960558ed",
-    "name": "Lou Burks",
-    "fund": "Macronaut US",
-    "email": "louburks@macronaut.com"
-  },
-  {
-    "_id": "58d12f1e86c089e69a43fd1a",
-    "name": "Leigh Kline",
-    "fund": "Permadyne US",
-    "email": "leighkline@permadyne.com"
-  },
-  {
-    "_id": "58d12f1ef836c4a40395d6de",
-    "name": "Flores Steele",
-    "fund": "Isostream US",
-    "email": "floressteele@isostream.com"
-  },
-  {
-    "_id": "58d12f1e8575fce8e6ff8e14",
-    "name": "Beatriz Nixon",
-    "fund": "Furnafix US",
-    "email": "beatriznixon@furnafix.com"
-  },
-  {
-    "_id": "58d12f1ec7ff8fdba48eddc9",
-    "name": "Gallagher Wiley",
-    "fund": "Dognost US",
-    "email": "gallagherwiley@dognost.com"
-  },
-  {
-    "_id": "58d12f1e523b0370336c090e",
-    "name": "Krystal Merrill",
-    "fund": "Gazak US",
-    "email": "krystalmerrill@gazak.com"
-  },
-  {
-    "_id": "58d12f1e24966ac51e1d360f",
-    "name": "Kim Saunders",
-    "fund": "Pyrami US",
-    "email": "kimsaunders@pyrami.com"
-  },
-  {
-    "_id": "58d12f1e781d0da45de280f1",
-    "name": "Hall Ross",
-    "fund": "Delphide US",
-    "email": "hallross@delphide.com"
-  },
-  {
-    "_id": "58d12f1e2418f546e115d5eb",
-    "name": "Reyna Craft",
-    "fund": "Boink US",
-    "email": "reynacraft@boink.com"
-  },
-  {
-    "_id": "58d12f1e79f4b5afdce2a5f8",
-    "name": "Anderson Flowers",
-    "fund": "Renovize US",
-    "email": "andersonflowers@renovize.com"
-  },
-  {
-    "_id": "58d12f1e7d70de3cfb211c5b",
-    "name": "Lottie Boyer",
-    "fund": "Zanity US",
-    "email": "lottieboyer@zanity.com"
-  },
-  {
-    "_id": "58d12f1e3a0a2a595363e63d",
-    "name": "Mooney Castro",
-    "fund": "Sultraxin US",
-    "email": "mooneycastro@sultraxin.com"
-  },
-  {
-    "_id": "58d12f1e0e324e60017e5067",
-    "name": "Miranda Prince",
-    "fund": "Corpulse US",
-    "email": "mirandaprince@corpulse.com"
-  },
-  {
-    "_id": "58d12f1e1712c7835ff874cc",
-    "name": "Iva Boyle",
-    "fund": "Strozen US",
-    "email": "ivaboyle@strozen.com"
-  },
-  {
-    "_id": "58d12f1e2af159e4176c86db",
-    "name": "Carter Roy",
-    "fund": "Anixang US",
-    "email": "carterroy@anixang.com"
-  },
-  {
-    "_id": "58d12f1ed4cccc06e4963986",
-    "name": "Jane Ford",
-    "fund": "Zolarex US",
-    "email": "janeford@zolarex.com"
-  },
-  {
-    "_id": "58d12f1e7d256e4045d26cf2",
-    "name": "Cindy Stone",
-    "fund": "Techmania US",
-    "email": "cindystone@techmania.com"
-  },
-  {
-    "_id": "58d12f1ebf3b5107552cb929",
-    "name": "Francisca Logan",
-    "fund": "Proxsoft US",
-    "email": "franciscalogan@proxsoft.com"
-  },
-  {
-    "_id": "58d12f1e67a2e33bbc442df8",
-    "name": "Vicki Holcomb",
-    "fund": "Mediot US",
-    "email": "vickiholcomb@mediot.com"
-  },
-  {
-    "_id": "58d12f1e17a06b65df6abe8f",
-    "name": "Amelia Ward",
-    "fund": "Suretech US",
-    "email": "ameliaward@suretech.com"
-  },
-  {
-    "_id": "58d12f1e0ee9fb826b9843d8",
-    "name": "Irwin Farley",
-    "fund": "Printspan US",
-    "email": "irwinfarley@printspan.com"
-  },
-  {
-    "_id": "58d12f1e9176ce630db6464f",
-    "name": "Ruthie King",
-    "fund": "Pivitol US",
-    "email": "ruthieking@pivitol.com"
-  },
-  {
-    "_id": "58d12f1ebcc901bd3dd02f39",
-    "name": "Tasha Soto",
-    "fund": "Skyplex US",
-    "email": "tashasoto@skyplex.com"
-  },
-  {
-    "_id": "58d12f1eeea07ba2f0550bf6",
-    "name": "Nieves Randolph",
-    "fund": "Menbrain US",
-    "email": "nievesrandolph@menbrain.com"
-  },
-  {
-    "_id": "58d12f1e8a13dfdefd669a1e",
-    "name": "Blanca Faulkner",
-    "fund": "Apextri US",
-    "email": "blancafaulkner@apextri.com"
-  },
-  {
-    "_id": "58d12f1ecb353ee681a15430",
-    "name": "Maricela Quinn",
-    "fund": "Songbird US",
-    "email": "maricelaquinn@songbird.com"
-  },
-  {
-    "_id": "58d12f1e07fa0879814108e0",
-    "name": "Powers Dudley",
-    "fund": "Idego US",
-    "email": "powersdudley@idego.com"
-  },
-  {
-    "_id": "58d12f1e289b2aa46afb68a0",
-    "name": "Abbott Rasmussen",
-    "fund": "Daisu US",
-    "email": "abbottrasmussen@daisu.com"
-  },
-  {
-    "_id": "58d12f1eb8200b7b98fe6ee7",
-    "name": "May Roach",
-    "fund": "Comtract US",
-    "email": "mayroach@comtract.com"
-  },
-  {
-    "_id": "58d12f1e117675d0fb122b1b",
-    "name": "Olivia Hayden",
-    "fund": "Plexia US",
-    "email": "oliviahayden@plexia.com"
-  },
-  {
-    "_id": "58d12f1eb0376904e4c3a1cc",
-    "name": "Sharpe Caldwell",
-    "fund": "Zilencio US",
-    "email": "sharpecaldwell@zilencio.com"
-  },
-  {
-    "_id": "58d12f1ea186a12369d5b4b5",
-    "name": "Obrien Workman",
-    "fund": "Typhonica US",
-    "email": "obrienworkman@typhonica.com"
-  },
-  {
-    "_id": "58d12f1e6de3d7f16e1af773",
-    "name": "Hensley Bowman",
-    "fund": "Endipine US",
-    "email": "hensleybowman@endipine.com"
-  },
-  {
-    "_id": "58d12f1ee6f2a7e4e39e8859",
-    "name": "Clara Kerr",
-    "fund": "Talkalot US",
-    "email": "clarakerr@talkalot.com"
-  },
-  {
-    "_id": "58d12f1e9e8c223b59ca4eb7",
-    "name": "Barnett Farmer",
-    "fund": "Tetratrex US",
-    "email": "barnettfarmer@tetratrex.com"
-  },
-  {
-    "_id": "58d12f1ec3d8ac5f7cfd6dc5",
-    "name": "Massey Woodard",
-    "fund": "Fishland US",
-    "email": "masseywoodard@fishland.com"
-  },
-  {
-    "_id": "58d12f1e36047a37e47e61c5",
-    "name": "Wilkinson Hughes",
-    "fund": "Iplax US",
-    "email": "wilkinsonhughes@iplax.com"
-  },
-  {
-    "_id": "58d12f1e636d5d4b88591055",
-    "name": "Tammy Combs",
-    "fund": "Bittor US",
-    "email": "tammycombs@bittor.com"
-  },
-  {
-    "_id": "58d12f1e7535e4ae7a74e607",
-    "name": "Lindsey Valenzuela",
-    "fund": "Andryx US",
-    "email": "lindseyvalenzuela@andryx.com"
-  },
-  {
-    "_id": "58d12f1e5dde7ec0516b1a32",
-    "name": "Pruitt Rollins",
-    "fund": "Orbixtar US",
-    "email": "pruittrollins@orbixtar.com"
-  }
-]
+[{
+	"_id": "fc01de44b5d1c628a64e807289934b8b",
+	"email": "gary.bader@alaska.gov",
+	"name": "Gary Bader",
+	"fund": "Alaska Retirement Management Board"
+}, {
+	"_id": "525e301f7e1dad4209f05b2574e76145",
+	"email": "andrew.ryu@apg-am.com",
+	"name": "Andrew Ryu",
+	"fund": "APG Asset Management US, Inc."
+}, {
+	"_id": "ed2e86acd034a44d4941d5076d23cfa2",
+	"email": "ryanp7@psprs.com",
+	"name": "Ryan Parham",
+	"fund": "Arizona Public Safety Personnel Retirement System"
+}, {
+	"_id": "9e528706524606535a81633196529a64",
+	"email": "lupitab@asrs.state.az.us",
+	"name": "Lupita Breland",
+	"fund": "Arizona State Retirement System"
+}, {
+	"_id": "9ab1b70e0f5ed012e0dbdfeef3867ef4",
+	"email": "ggoodman@cdpq.com",
+	"name": "Gina Goodman",
+	"fund": "Caisse de Depot et Placement du Quebec"
+}, {
+	"_id": "321f99b78f77c35906389bc571f37849",
+	"email": "anne_simpson@calpers.ca.gov",
+	"name": "Anne Simpson",
+	"fund": "California Public Employees' Retirement System"
+}, {
+	"_id": "f877c65a9b028a34448664610b7cc05a",
+	"email": "amastagni@calstrs.com",
+	"name": "Aeisha Mastagni",
+	"fund": "California State Teachers Retirement System"
+}, {
+	"_id": "3b383a9ee97d863bf38754ddde9e7474",
+	"email": "linda.pihlak@qwest.com",
+	"name": "Linda Pihlak",
+	"fund": "CenturyLink Investment Management Company"
+}, {
+	"_id": "49621d8a3406d92abcea3c6ee5d70f00",
+	"email": "wcobb@cpg.org",
+	"name": "William Cobb",
+	"fund": "Church Pension Fund (Episcopal)"
+}, {
+	"_id": "0eed70d5c4c12adcbd910a13ddd33b13",
+	"email": "cseet@fcgov.com",
+	"name": "Chuck Seet",
+	"fund": "City of Fort Collins, Colorado"
+}, {
+	"_id": "4dbf5431d13090654357319f335b2b15",
+	"email": "anthony.francisco@ci.norman.ok.us",
+	"name": "Anthony Francisco",
+	"fund": "City of Norman (OK)"
+}, {
+	"_id": "5b777b620f619ead1f5171a3aa2a97b5",
+	"email": "laurie.martin@ct.gov",
+	"name": "Laurie Martin",
+	"fund": "Connecticut Retirement Plans and Trust Funds"
+}, {
+	"_id": "16cbe096769035d3c397dcde807000f9",
+	"email": "btilton@cppib.ca",
+	"name": "Brian Tilton",
+	"fund": "CPP Investment Board"
+}, {
+	"_id": "560f9643ab7230e10f183f5a5fbd4313",
+	"email": "Michael_Ward@csx.com",
+	"name": "Michael Ward",
+	"fund": "CSX Capital Management, Inc."
+}, {
+	"_id": "81c868cad9f1b7d7a40d9168d90412f1",
+	"email": "klagmichaelr@johndeere.com",
+	"name": "Michael Klag",
+	"fund": "Deere & Company"
+}, {
+	"_id": "1efd93398de3ca9eab01d8c7b11b982d",
+	"email": "stuart.r.davies@usa.dupont.com",
+	"name": "Stuart Davies",
+	"fund": "DuPont Capital Management Corporation"
+}, {
+	"_id": "347c58f5db00cb0dddea09023573ebb1",
+	"email": "tom.tull@ers.state.tx.us",
+	"name": "Charles Tull",
+	"fund": "Employees Retirement System of Texas"
+}, {
+	"_id": "8d16ef51da9863b319bd31bcf63f688e",
+	"email": "trevor.w.nysetvold@exxonmobil.com",
+	"name": "Trevor Nysetvold",
+	"fund": "ExxonMobil Investment Management, Inc."
+}, {
+	"_id": "226a359a0f4ebe84c28f707c6bbf7a45",
+	"email": "ash.williams@sbafla.com",
+	"name": "Ashbel Williams",
+	"fund": "Florida State Board of Administration"
+}, {
+	"_id": "198abcf857c6f8f8293be51a8f2fbf2d",
+	"email": "Joelle.Mevi@fwretirement.org",
+	"name": "Joelle Mevi",
+	"fund": "Fort Worth Employees Retirement Fund"
+}, {
+	"_id": "21dfdb6561106d5e4efbbea68e658384",
+	"email": "mgoodman@272welfare.com",
+	"name": "Mark Goodman",
+	"fund": "Garage Employees Union Local 272"
+}, {
+	"_id": "f0bdf0a92498223219e57945b4466a2f",
+	"email": "mmajure@divinv.net",
+	"name": "Michael Majure",
+	"fund": "Georgia Division of Investment Services"
+}, {
+	"_id": "bef33c1855e1f148fd52f8127696cb9c",
+	"email": "cpeluso@us.ibm.com",
+	"name": "Carrie Peluso",
+	"fund": "IBM Retirement Fund"
+}, {
+	"_id": "d8357de40eb06f07d2ab362616d11889",
+	"email": "dhvanishah-investments@imrf.org",
+	"name": "Dhvani Shah",
+	"fund": "Illinois Municipal Retirement Fund"
+}, {
+	"_id": "6d07209ba2b4f7e8047db4b8b43e1f06",
+	"email": "william.atwood@illinois.gov",
+	"name": "William Atwood",
+	"fund": "Illinois State Board of Investment"
+}, {
+	"_id": "2f6fa7518e623f2dea40c08bb0045141",
+	"email": "Ravi.Jacob@intel.com",
+	"name": "Ravi Jacob",
+	"fund": "Intel Corporation"
+}, {
+	"_id": "445eddcf3a477d036bc1c34b2711e6b4",
+	"email": "david.peden@kyret.ky.gov",
+	"name": "David Peden",
+	"fund": "Kentucky Retirement Systems"
+}, {
+	"_id": "00201c3336b38bbb574aa4cd6a5cd791",
+	"email": "tom.siderewicz@ky.gov",
+	"name": "Tom Siderewicz",
+	"fund": "Kentucky Teachers' Retirement System"
+}, {
+	"_id": "55f796e23bdbba890162ab7a5de8b20a",
+	"email": "marillyn.hewson@lmco.com",
+	"name": "Marillyn Hewson",
+	"fund": "Lockheed Martin Investment Management Co."
+}, {
+	"_id": "9e286e24d6f23b68b3db69481c3e9526",
+	"email": "jrosenberg@loews.com",
+	"name": "Joseph Rosenberg",
+	"fund": "Loews Corporation (Investments)"
+}, {
+	"_id": "bede51dddb5fd912669badf8d2232095",
+	"email": "tom.lopez@lafpp.com",
+	"name": "Tom Lopez",
+	"fund": "Los Angeles Fire & Police Pension System"
+}, {
+	"_id": "5efca6ce51d3f7724164fee09d409ee7",
+	"email": "executivedirector@lasersonline.org",
+	"name": "Cynthia Rougeou",
+	"fund": "Louisiana State Employees' Retirement System"
+}, {
+	"_id": "83bc0bfd7a7bca0f83b8c1d969af1ae6",
+	"email": "apalmer@sra.state.md.us",
+	"name": "Andrew Palmer",
+	"fund": "Maryland State Retirement & Pension System"
+}, {
+	"_id": "df8c75a2b00c2b430c752da53a6719de",
+	"email": "mtrotsky@mapension.com.",
+	"name": "Michael Trotsky",
+	"fund": "Massachusetts Pension Reserves Investment Mgmt Bd."
+}, {
+	"_id": "c6a3cb9ee91ba9a2b82f0b09e89e0298",
+	"email": "pnelson@invest.treas.state.mi.us",
+	"name": "Paul Nelson",
+	"fund": "Michigan Department of Treasury"
+}, {
+	"_id": "5ab56cd6a3593b2571be0fe2668d229f",
+	"email": "Mansco.Perry@state.mn.us",
+	"name": "Mansco Perry",
+	"fund": "Minnesota State Board of Investment"
+}, {
+	"_id": "7ec536f1958c61edc250fad97f1aba9a",
+	"email": "SConrad@psrsmo.org",
+	"name": "Susan Conrad",
+	"fund": "Missouri Public School Retirement System"
+}, {
+	"_id": "36deb172a8571259a180048a83f65905",
+	"email": "karens@mosers.org",
+	"name": "Karen Stohlgren",
+	"fund": "Missouri State Employees' Retirement System"
+}, {
+	"_id": "dd8ee7ab502b2078ded998f55d2fc6cc",
+	"email": "jcollen@mt.gov",
+	"name": "Joseph Collen",
+	"fund": "Montana Board of Investments"
+}, {
+	"_id": "89e17507ddc1b0da43913e09b9d32835",
+	"email": "gwerner-robertson@mail.state.ne.us",
+	"name": "Gail Werner-Robertson",
+	"fund": "Nebraska State Investment Council"
+}, {
+	"_id": "6265289f8aaa1b95c10a0383ced061bd",
+	"email": "michael.wszolek@treas.nj.gov",
+	"name": "Michael Wszolek",
+	"fund": "New Jersey Division of Investment"
+}, {
+	"_id": "86904fbd396b635ccceea7d9b916d86b",
+	"email": "Jan.Goodwin@state.nm.us",
+	"name": "Jan Goodwin",
+	"fund": "New Mexico Educational Retirement Board"
+}, {
+	"_id": "30b5cefbf67e20e221c9882a33dd274c",
+	"email": "vfuller@osc.state.ny.us",
+	"name": "Vicki Fuller",
+	"fund": "New York State Common Retirement Fund"
+}, {
+	"_id": "98e5d87c03c23dab6b39a82037322a57",
+	"email": "thomas.lee@nystrs.org",
+	"name": "Thomas Lee",
+	"fund": "New York State Teachers' Retirement System"
+}, {
+	"_id": "c93a69ff955574fc917a9c827a1902a5",
+	"email": "Kevin.Sigrist@nctreasurer.com",
+	"name": "Kevin Sigrist",
+	"fund": "North Carolina Retirement Systems"
+}, {
+	"_id": "49b4a29ae07f0206ec917cd2a0116e67",
+	"email": "d.j.hunter@nd.gov",
+	"name": "David Hunter",
+	"fund": "North Dakota Retirement and Investment Office SIB"
+}, {
+	"_id": "b9f79eb017c7320b3ba394983075e10a",
+	"email": "thall@op-f.org",
+	"name": "Theodore Hall",
+	"fund": "Ohio Police & Fire Pension Fund"
+}, {
+	"_id": "0383e41a80f3bef74e93e0f468efe4f3",
+	"email": "kcarraher@opers.org",
+	"name": "Karen Carraher",
+	"fund": "Ohio Public Employees Retirement System"
+}, {
+	"_id": "39e189288d887193631bf6a030e81e32",
+	"email": "fmajeed@ohsers.org",
+	"name": "Farouki Majeed",
+	"fund": "Ohio School Employees Retirement System"
+}, {
+	"_id": "c6507f92242beea1f6b9cb253a997ed6",
+	"email": "gmiller@ocers.org",
+	"name": "Girard Miller",
+	"fund": "Orange County Employees Retirement System"
+}, {
+	"_id": "79586f4d2b4d5a0e8c12b6bd356d587b",
+	"email": "mike.g.mueller@state.or.us",
+	"name": "Michael Mueller",
+	"fund": "Oregon Public Employees Retirement System"
+}, {
+	"_id": "2ca4e765f1733f7416d979cd90662ba5",
+	"email": "jgrossman@pa.gov",
+	"name": "James Grossman",
+	"fund": "Pennsylvania Public School Employees Retirement System"
+}, {
+	"_id": "ce57a7f93bc6da32bc8f8a557db87070",
+	"email": "tbrier@state.pa.us",
+	"name": "Thomas Brier",
+	"fund": "Pennsylvania State Employees' Retirement System"
+}, {
+	"_id": "a4c9534d9c5d1b4f5224e1000057354c",
+	"email": "Jpinto@pentegra.com",
+	"name": "John Pinto",
+	"fund": "Pentegra Retirement Services"
+}, {
+	"_id": "84428622d55309e9ecb8f484d2d44c06",
+	"email": "jstieler@PorticoBenefits.org",
+	"name": "Josh Stieler",
+	"fund": "Portico Benefit Services"
+}, {
+	"_id": "b67928cf2313c0da6b6581d22fceaca6",
+	"email": "jpaquette@copera.org",
+	"name": "Jennifer Paquette",
+	"fund": "Public Employees' Retirement Association of CO"
+}, {
+	"_id": "da3c5bdc1f7171be4ffeff7bff047199",
+	"email": "stensrudr@saccounty.net",
+	"name": "Richard Stensrud",
+	"fund": "Sacramento County Employees' Retirement System"
+}, {
+	"_id": "e667b7a83917c18613c8d26b59b08268",
+	"email": "bill.coaker@sfgov.org",
+	"name": "William Coaker",
+	"fund": "San Francisco City & County Employees' Retirement System"
+}, {
+	"_id": "870dc0877457d6cc715fecc226025ab6",
+	"email": "shood@samcera.org",
+	"name": "Scott Hood",
+	"fund": "San Mateo County Employees' Retirement Association"
+}, {
+	"_id": "610392699eebf6a676eb43555483ca2c",
+	"email": "rlryan@shellus.com",
+	"name": "Ronald Ryan",
+	"fund": "Shell Oil Company Pension Plan"
+}, {
+	"_id": "4789692d12b620a9a864aac58bd86866",
+	"email": "gberg@ic.sc.gov",
+	"name": "Geoffrey Berg",
+	"fund": "South Carolina Retirement Systems"
+}, {
+	"_id": "93b4a4b14428c60d5aeddad789deb021",
+	"email": "matt.clark@state.sd.us",
+	"name": "Matthew Clark",
+	"fund": "South Dakota Investment Council"
+}, {
+	"_id": "6dcfe6ae79d07cac2c8bf4c77dcc2eaf",
+	"email": "terrijo.saarela@swib.state.wi.us",
+	"name": "Terri Saarela",
+	"fund": "State of Wisconsin Investment Board"
+}, {
+	"_id": "c500cbcc81f7cc78e4b0023351bcd881",
+	"email": "morrowj@strsoh.org",
+	"name": "John Morrow",
+	"fund": "State Teachers Retirement System of Ohio"
+}, {
+	"_id": "4d6ef980507310d8eb328a069bf977c4",
+	"email": "dwesley@surs.com",
+	"name": "Douglas Wesley",
+	"fund": "State Universities Retirement System of Illinois"
+}, {
+	"_id": "2e941c5741f0308a0421ac50efb4b7e7",
+	"email": "britt.harris@trs.texas.gov",
+	"name": "Thomas Harris",
+	"fund": "Teacher Retirement System of Texas"
+}, {
+	"_id": "9585d377064433ea6e8fcf49f2ecb42d",
+	"email": "srupnik@trs.illinois.gov",
+	"name": "Stanley Rupnik",
+	"fund": "Teachers' Retirement System of the State of Illinois"
+}, {
+	"_id": "d41a6b09bd28a088ee7538c288a3d11b",
+	"email": "michael.brakebill@tn.gov",
+	"name": "Michael Brakebill",
+	"fund": "Tennessee Consolidated Retirement System"
+}, {
+	"_id": "1ef94cc037939b78f273281d9607a31f",
+	"email": "dgavia@tmrs.com",
+	"name": "David Gavia",
+	"fund": "Texas Municipal Retirement System"
+}, {
+	"_id": "63ede5992293cf55f478111cf4b15bbe",
+	"email": "david.bronner@rsa-al.gov",
+	"name": "David Bronner",
+	"fund": "The Retirement Systems of Alabama"
+}, {
+	"_id": "a1b0d1df027f40a7599dc29d527b4636",
+	"email": "mmaharaj@tiaa.org",
+	"name": "Mohani Maharaj",
+	"fund": "TIAA Global Asset Management"
+}, {
+	"_id": "132c1174be65ee63c61cc5e6b8820609",
+	"email": "t.darling@troymi.gov",
+	"name": "Thomas Darling",
+	"fund": "Troy Employee Retirement System"
+}, {
+	"_id": "2196b2d2c7b97221262c7f5f8796a062",
+	"email": "sarvizu@unims.org",
+	"name": "Sergio Arvizu",
+	"fund": "United Nations Joint Staff Pension Fund"
+}, {
+	"_id": "255eb10c62a98f819697cd275ae05631",
+	"email": "wdonovan@uss.com",
+	"name": "William Donovan",
+	"fund": "United States Steel & Carnegie Pension Fund, Inc."
+}, {
+	"_id": "3e6b52621251acf0c36ae20e91167eea",
+	"email": "Chenevert@united-technologies.com",
+	"name": "Louis Chênevert",
+	"fund": "United Technologies Corporation Master Retirement Trust"
+}, {
+	"_id": "78bfd33248ec3fadbd6b6a2d0f88c71e",
+	"email": "bruce.cundick@urs.org",
+	"name": "Bruce Cundick",
+	"fund": "Utah Retirement Systems"
+}, {
+	"_id": "98500c8236f7357e988b8304ac814558",
+	"email": "david.l.beik@verizon.com",
+	"name": "David Beik",
+	"fund": "Verizon Investment Management Corporation"
+}, {
+	"_id": "cd3c8500a18f83e905eb44469ba9bb95",
+	"email": "muellerw@villageoflambrad.org",
+	"name": "William Mueller",
+	"fund": "Village of Lombard"
+}, {
+	"_id": "a4737c682914fe01a005a63672ff2573",
+	"email": "rschmitz@varetire.org",
+	"name": "Ronald Schmitz",
+	"fund": "Virginia Retirement System"
+}, {
+	"_id": "d4f5d4e9e9a2ff9161f51d2c2bcd6c50",
+	"email": "twhitmarsh@sib.wa.gov",
+	"name": "Theresa Whitmarsh",
+	"fund": "Washington State Investment Board"
+}, {
+	"_id": "b1694ce2ad8d45719e96c75cfd3955d2",
+	"email": "john.kreiter@wyo.gov",
+	"name": "John Kreiter",
+	"fund": "Wyoming Retirement System"
+}, {
+	"_id": "88b8ee16dcf732272736dcc2d63d7bf1",
+	"email": "reisner@ymcaret.org",
+	"name": "Hunter Reisner",
+	"fund": "YMCA Retirement Fund"
+}]
