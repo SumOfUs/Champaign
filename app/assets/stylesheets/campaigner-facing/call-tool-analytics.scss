@@ -3,14 +3,18 @@
 
   h1 {
     text-align: left;
-  }
-
-  .nav {
     margin-bottom: 1em;
   }
 
+  .nav {
+    margin-bottom: 24px;
+  }
+
+  .row {
+    margin-bottom: 24px;
+  }
+
   .col1 {
-    height: 400px;
     max-width: 500px;
     float:left
   }
@@ -23,5 +27,11 @@
   table.totals {
     margin-top: 35px;
     margin-left: 50px;
+  }
+
+  table tr:first-of-type {
+    td, th {
+      border-top: none;
+    }
   }
 }

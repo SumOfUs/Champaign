@@ -66,7 +66,7 @@ class CallToolViewAnalytics extends Component {
 
         <h4> Members stats </h4>
 
-        <div className="clearfix">
+        <div className="row">
           <div className="col1">
             <MembersLastWeekChart data={this.state.data['last_week']['member_calls']['status_totals_by_day']} />
           </div>
@@ -78,7 +78,7 @@ class CallToolViewAnalytics extends Component {
 
         <h4> Targets stats </h4>
 
-        <div className="clearfix">
+        <div className="row">
           <div className="col1">
             <TargetsChart data={this.state.data['last_week']['target_calls']['status_totals_by_target']} />
           </div>
