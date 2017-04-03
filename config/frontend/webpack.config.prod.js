@@ -1,10 +1,12 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const url = require('url');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const StatsPlugin = require('stats-webpack-plugin');
+const path = require('path');
 
 function ensureSlash(path, needsSlash) {
   const hasSlash = path.endsWith('/');
@@ -51,9 +53,16 @@ module.exports = {
   devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
   entry: {
-    components: [
-      require.resolve('./polyfills'),
-      paths.appIndexJs,
+    campaigners: [
+      require.resolve('./webpackHotDevClient'),
+      require.resolve(path.join(paths.appSrc, 'bootstrap')),
+      require.resolve(path.join(paths.appSrc, 'bundles', 'campaigners')),
+    ],
+    members: [
+      require.resolve('babel-polyfill'),
+      require.resolve('./webpackHotDevClient'),
+      require.resolve(path.join(paths.appSrc, 'bootstrap')),
+      require.resolve(path.join(paths.appSrc, 'bundles', 'members')),
     ],
   },
   output: {
@@ -80,10 +89,9 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     extensions: ['.js', '.json', '.jsx', ''],
     alias: {
-      // Support React Native Web
-      // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
-    }
+      react: 'preact-compat',
+      'react-dom': 'preact-compat',
+    },
   },
 
   module: {
@@ -210,6 +218,12 @@ module.exports = {
       chunks: false,
       modules: false,
       assets: true
+    }),
+
+    // Compress resulting bundles
+    new CompressionPlugin({
+			asset: '[path].gz[query]',
+			algorithm: 'gzip',
     }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
