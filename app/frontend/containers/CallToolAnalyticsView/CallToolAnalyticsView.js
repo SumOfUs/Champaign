@@ -1,6 +1,7 @@
 //@flow
 import React, { Component } from 'react';
 import _ from 'lodash';
+import classnames from 'classnames';
 import { fetchJson } from './Helpers';
 import MembersLastWeekChart from '../../components/CallToolAnalytics/MembersLastWeekChart';
 import MembersStatusTable from '../../components/CallToolAnalytics/MembersStatusTable';
@@ -18,7 +19,8 @@ type OwnState = {
       member_calls: any,
       target_calls: any
     }
-  }
+  },
+  filter: string
 }
 
 class CallToolViewAnalytics extends Component {
@@ -29,7 +31,8 @@ class CallToolViewAnalytics extends Component {
     super(props);
 
     this.state = {
-      dataLoaded: false
+      dataLoaded: false,
+      filter: 'all-time'
     };
   }
 
@@ -48,7 +51,18 @@ class CallToolViewAnalytics extends Component {
     });
   }
 
+  updateFilter(filter:string) {
+    this.setState({filter});
+  }
+
   render() {
+    const lastWeekButtonClasses = classnames(
+            {btn: true, 'btn-default': true, active: this.state.filter === 'last-week'}
+          ),
+          allTimeButtonClasses = classnames(
+            {btn: true, 'btn-default': true, active: this.state.filter === 'all-time'}
+          );
+
     if(!this.state.data) {
       return this.renderLoading();
     }
@@ -58,8 +72,8 @@ class CallToolViewAnalytics extends Component {
         <h1> Call Tool </h1>
         <div className="nav">
           <div className="btn-group" role="group">
-            <button className="btn btn-default active" type="button"> Last Week </button>
-            <button className="btn btn-default" type="button"> All Time </button>
+            <button className={lastWeekButtonClasses} type="button" onClick={() => { this.updateFilter('last-week'); }}> Last Week </button>
+            <button className={allTimeButtonClasses} type="button" onClick={() => { this.updateFilter('all-time'); }}> All Time </button>
           </div>
         </div>
 
