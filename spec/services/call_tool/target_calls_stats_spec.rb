@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe CallTool::TargetCallsStats do
   let!(:page) { create(:page) }
-  let!(:call_tool) { create(:call_tool, page: page, targets: targets )}
+  let!(:call_tool) { create(:call_tool, page: page, targets: targets) }
   let(:targets) { build_list(:call_tool_target, 3, :with_country) }
   let(:target_a) { targets[0] }
   let(:target_b) { targets[1] }
@@ -22,9 +22,9 @@ describe CallTool::TargetCallsStats do
   describe '#last_week_status_totals_by_target' do
     let(:data) { subject.last_week_status_totals_by_target }
     it 'returns the right values' do
-      target_a_row = data.find {|r| r['target_name'] == target_a.name }
-      target_b_row = data.find {|r| r['target_name'] == target_b.name }
-      target_c_row = data.find {|r| r['target_name'] == target_c.name }
+      target_a_row = data.find { |r| r['target_name'] == target_a.name }
+      target_b_row = data.find { |r| r['target_name'] == target_b.name }
+      target_c_row = data.find { |r| r['target_name'] == target_c.name }
 
       expect(target_a_row['busy']).to eql 2
       expect(target_a_row['completed']).to eql 1
@@ -36,7 +36,7 @@ describe CallTool::TargetCallsStats do
   describe '#status_totals_by_target' do
     let(:data) { subject.status_totals_by_target }
     it 'returns the right values' do
-      target_a_row = data.find {|r| r['target_name'] == target_a.name }
+      target_a_row = data.find { |r| r['target_name'] == target_a.name }
       expect(target_a_row['busy']).to eql 3
     end
   end

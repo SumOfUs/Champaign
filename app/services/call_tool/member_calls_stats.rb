@@ -25,7 +25,7 @@ module CallTool
     def status_totals_by_week
       by_week = ActiveSupport::OrderedHash.new
       4.downto(0) do |i|
-        date = (Date.today.beginning_of_week) - i.weeks
+        date = Date.today.beginning_of_week - i.weeks
         by_week[date] = {}
         Call.statuses.keys.each do |status|
           by_week[date][status] = 0

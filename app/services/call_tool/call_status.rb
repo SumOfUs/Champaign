@@ -1,5 +1,5 @@
 module CallTool
-  # TODO Refactor to MemberCallStatus
+  # TODO: Refactor to MemberCallStatus
   module CallStatus
     TIME_OUT_THRESHOLD = 15.seconds
 

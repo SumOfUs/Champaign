@@ -4,7 +4,7 @@ describe CallTool::MemberCallsStats do
   let!(:page) { create(:page, :with_call_tool) }
   subject { CallTool::MemberCallsStats.new(Call.not_failed.where(page: page)) }
 
-  describe '#status_totals_by_day'do
+  describe '#status_totals_by_day' do
     let(:data) { subject.status_totals_by_day }
 
     before do
@@ -23,13 +23,13 @@ describe CallTool::MemberCallsStats do
       expect(data.first.keys).to include('unstarted', 'started', 'connected', 'failed')
       expect(
         data.first.slice('unstarted', 'started', 'connected', 'failed').values
-      ).to eq [0,0,0,0]
+      ).to eq [0, 0, 0, 0]
     end
 
     it 'returns the appropriate calls count when calls are made' do
       expect(data[3]['connected']).to eq 3
       expect(data[3]['started']).to eq 1
-      expect(data[3].slice('unstarted', 'failed').values).to eq [0,0]
+      expect(data[3].slice('unstarted', 'failed').values).to eq [0, 0]
     end
   end
 
@@ -48,7 +48,7 @@ describe CallTool::MemberCallsStats do
 
     it 'returns empty rows for weeks that had no calls' do
       expect(data[0]['date']).to eq 4.weeks.ago.beginning_of_week.to_date.to_s(:short)
-      expect(data[0].slice('unstarted', 'started', 'connected', 'failed').values).to eq [0,0,0,0]
+      expect(data[0].slice('unstarted', 'started', 'connected', 'failed').values).to eq [0, 0, 0, 0]
     end
 
     it 'returns the appropriate calls count for the weeks that had calls' do

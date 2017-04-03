@@ -1,6 +1,6 @@
 module CallTool
   class TargetCallsStats
-    STATUSES = %w{completed busy no-answer failed}.freeze
+    STATUSES = %w(completed busy no-answer failed).freeze
     def initialize(page, calls)
       @page = page
       @calls = calls
@@ -42,14 +42,14 @@ module CallTool
       by_target = ActiveSupport::OrderedHash.new
       # Initialize targets so they're listed even if they have no calls
       targets.each do |target|
-        by_target[target.id] = {'target_name' => target.name}
+        by_target[target.id] = { 'target_name' => target.name }
       end
 
       call_list.each do |call|
         status = status_for(call)
         target = call.target
         # Check in case the target was deleted from CallTool
-        by_target[target.id] ||= {'target_name' => target.name}
+        by_target[target.id] ||= { 'target_name' => target.name }
         by_target[target.id][status] ||= 0
         by_target[target.id][status] += 1
       end
