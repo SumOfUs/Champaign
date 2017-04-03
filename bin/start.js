@@ -12,16 +12,10 @@ const WebpackDevServer = require('webpack-dev-server');
 const historyApiFallback = require('connect-history-api-fallback');
 const detect = require('detect-port');
 // const clearConsole = require('react-dev-utils/clearConsole');
-const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const prompt = require('react-dev-utils/prompt');
 const config = require('../config/frontend/webpack.config.dev');
 const paths = require('../config/frontend/paths');
-
-// Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appIndexJs])) {
-  process.exit(1);
-}
 
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = process.env.WEBPACK_PORT || '3000';
