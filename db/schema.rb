@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315101746) do
+ActiveRecord::Schema.define(version: 20170313211603) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,14 @@ ActiveRecord::Schema.define(version: 20170315101746) do
     t.string   "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb    "log",                 default: {}, null: false
+    t.jsonb    "target_call_info",    default: {}, null: false
     t.json     "member_call_events",  default: [],              array: true
     t.integer  "twilio_error_code"
     t.json     "target"
+    t.integer  "status",              default: 0
   end
 
-  add_index "calls", ["log"], name: "index_calls_on_log", using: :gin
+  add_index "calls", ["target_call_info"], name: "index_calls_on_target_call_info", using: :gin
 
   create_table "campaigns", force: :cascade do |t|
     t.string   "name"
@@ -425,13 +426,18 @@ ActiveRecord::Schema.define(version: 20170315101746) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
+    t.json     "targets",                      default: [],   array: true
     t.string   "sound_clip_file_name"
     t.string   "sound_clip_content_type"
     t.integer  "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
     t.json     "targets",                 default: [],   array: true
     t.text     "description"
-    t.boolean  "target_by_country",       default: true
+    t.boolean  "target_by_country",            default: true
+    t.string   "menu_sound_clip_file_name"
+    t.string   "menu_sound_clip_content_type"
+    t.integer  "menu_sound_clip_file_size"
+    t.datetime "menu_sound_clip_updated_at"
   end
 
   create_table "plugins_fundraisers", force: :cascade do |t|

@@ -1,4 +1,4 @@
-= form_for plugin, method: :post, url: sound_clip_plugins_call_tool_path(plugin), remote: true, html: {class: 'sound-clip-form form-inline'} do |f|
+= form_for plugin, method: :post, url: sound_clip_plugins_call_tool_path(plugin), remote: true, html: {class: 'sound-clip-form'} do |f|
   .error-msg
     - if plugin.errors.present?
       span Something went wrong, please make sure the uploaded file has the correct format
@@ -6,18 +6,25 @@
         - plugin.errors.full_messages.each do |error|
           li = error
 
-  div
-    = label_with_tooltip(f, :sound_clip, 'Sound Clip', t('tooltips.call_tool.audio'))
+  .form-group
+    = label_with_tooltip(f, :sound_clip, 'Main Sound Clip', t('tooltips.call_tool.campaign_audio'))
+    = f.file_field :sound_clip, class: 'form-control'
+
+  .sound-clip-detail.main
+    - if plugin.errors.blank? && plugin.sound_clip.present?
+      = render partial: 'plugins/call_tools/main_sound_clip_player', locals: { plugin: plugin }
 
   .form-group
-    = f.file_field :sound_clip, class: 'form-control'
+    = label_with_tooltip(f, :menu_sound_clip, 'Menu Sound Clip', t('tooltips.call_tool.menu_audio'))
+    = f.file_field :menu_sound_clip, class: 'form-control'
+
+  .sound-clip-detail.menu
+    - if plugin.errors.blank? && plugin.menu_sound_clip.present?
+      = render partial: 'plugins/call_tools/menu_sound_clip_player', locals: { plugin: plugin }
 
   .form-group
     = submit_tag 'Upload', class: 'btn btn-default xhr-feedback'
 
-.sound-clip-detail
-  - if plugin.errors.blank? && plugin.sound_clip.present?
-    = render partial: 'plugins/call_tools/sound_clip_detail', locals: { plugin: plugin }
 
 javascript:
   $(".call-tool form.sound-clip-form").on("ajax:success", function(e, data, status, xhr) {

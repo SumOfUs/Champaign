@@ -41,7 +41,7 @@ describe 'API::Calls' do
           .to receive(:create)
           .with(hash_including(from: Settings.calls.default_caller_id,
                                to: '123456789',
-                               url: %r{/twilio/calls/\d+/twiml}))
+                               url: %r{/twilio/calls/\d+/start}))
 
         post "/api/pages/#{page.id}/call", params
       end

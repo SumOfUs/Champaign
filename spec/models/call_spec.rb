@@ -9,10 +9,11 @@
 #  member_phone_number :string
 #  created_at          :datetime
 #  updated_at          :datetime
-#  log                 :jsonb            not null
+#  target_call_info    :jsonb            not null
 #  member_call_events  :json             is an Array
 #  twilio_error_code   :integer
 #  target              :json
+#  status              :integer          default(0)
 #
 
 require 'rails_helper'

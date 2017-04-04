@@ -101,7 +101,8 @@ en:
       choices: 'Simply write the choices to be shown (eg. Apple) or, if you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
       many_choices: 'Put each choice on its own line. If you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
     call_tool:
-      audio: 'Audio clip to be played to then caller'
+      campaign_audio: 'Audio clip to be played to the caller as soon as they pick up the phone.'
+      menu_audio: "Audio clip to be played to the caller after the main one. This file should explain the menu to the member: Press 1 to connect to the target; press 2 to listen to the campaigner's message again."
       targets: 'CSV File should must adhere to the specified format. First row will be considered as headers. Each following row must have these fields in order: Country, Postal, Target Phone, Target Name, Target Title. Country, Target Phone and Target Name are required fields'
       target_by_country: "Check if you'd like the call tool to display a Country dropdown, which will cause the tool to randomly select a target from the selected country. When checked, targets must have a valid country in the Country column in the uploaded CSV"
   oauth:

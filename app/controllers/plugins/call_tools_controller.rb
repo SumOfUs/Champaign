@@ -25,8 +25,9 @@ module Plugins
 
     def delete_sound_clip
       @call_tool = Plugins::CallTool.find(params[:id])
-      @call_tool.update(sound_clip: nil)
-      render :delete_sound_clip
+      key = params['role'] == 'main' ? :sound_clip : :menu_sound_clip
+      @call_tool.update!(key => nil)
+      render '_sound_clip_form', locals: { plugin: @call_tool }
     end
 
     private
@@ -40,7 +41,7 @@ module Plugins
     end
 
     def sound_clip_params
-      params[:plugins_call_tool]&.permit(:sound_clip) || {}
+      params[:plugins_call_tool]&.permit(:sound_clip, :menu_sound_clip) || {}
     end
   end
 end

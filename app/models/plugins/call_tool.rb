@@ -28,6 +28,9 @@ class Plugins::CallTool < ActiveRecord::Base
   has_attached_file :sound_clip, default_url: ''
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
+  has_attached_file :menu_sound_clip, default_url: ''
+  validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
+
   validate :targets_are_valid
   validate :target_countries_are_present, if: :target_by_country?
 
