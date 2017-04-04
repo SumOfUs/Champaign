@@ -39,7 +39,7 @@ class EmailTargetService
   private
 
   def to_email
-    test_email || opts[:to_email]
+    test_email.blank? ? opts[:to_email] : test_email
   end
 
   def source_email
