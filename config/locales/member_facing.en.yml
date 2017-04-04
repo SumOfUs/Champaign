@@ -80,6 +80,7 @@ en:
   call_tool:
     you_will_be_calling: "We will call you and connect you to"
     select_target: "Just enter your home country and phone number -- and we'll call shortly after."
+    text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
     errors:
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
       target:

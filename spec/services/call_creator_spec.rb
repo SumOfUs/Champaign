@@ -44,7 +44,8 @@ describe CallCreator do
         .with(
           hash_including(from: Settings.calls.default_caller_id,
                          to: '12345678',
-                         url: %r{twilio/calls/\d+/twiml})
+                         url: %r{twilio/calls/\d+/start},
+                         status_callback: %r{twilio/calls/\d+/member_call_event})
         )
       )
       CallCreator.new(params).run
