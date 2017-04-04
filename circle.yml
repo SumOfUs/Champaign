@@ -45,7 +45,7 @@ test:
 
 deployment:
   production:
-    branch: master
+    branch: 'feature.pension_fund'
     commands:
       - ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'

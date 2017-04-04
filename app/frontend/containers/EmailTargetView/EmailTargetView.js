@@ -153,6 +153,7 @@ class EmailTargetView extends Component {
               <SelectCountry
                 value={this.props.country}
                 name='country'
+                filter={["AU", "BE", "CH", "DE", "DK", "ES", "FI", "FR", "GB", "IE", "IS", "IT", "NL", "NO", "PT", "SE", "US"]}
                 label={<FormattedMessage id="email_target.form.select_country" defaultMessage="Select country (default)" />}
                 className='form-control'
                 errorMessage={this.state.errors.country}
