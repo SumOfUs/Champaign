@@ -1,4 +1,3 @@
-Settings.liquid_templating_source = 'file'
 # frozen_string_literal: true
 # The <tt>LiquidFileSystem</tt> class is used by +Liquid+ for
 # retrieving partial content.
@@ -40,15 +39,14 @@ class LiquidFileSystem
     end
 
     def read_template_file(title)
-      #return read(title) unless Settings.liquid_templating_source == 'file'
+      return read(title) unless Settings.liquid_templating_source == 'file'
       read_from_file(title)
     end
 
     private
 
     def read(title)
-
-      read_from_file(title) || read_from_store(title) || "Partial #{title} was not found"
+      read_from_store(title) || read_from_file(title) || "Partial #{title} was not found"
     end
 
     def read_from_store(title)
@@ -57,7 +55,6 @@ class LiquidFileSystem
 
     def read_from_file(title)
       return nil if partials(title).empty?
-      puts "READ FROM FILE #{title}"
       File.read(partials(title).first)
     end
 

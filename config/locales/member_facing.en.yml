@@ -7,7 +7,7 @@ en:
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
   email_target:
-    suggest_fund: "Sorry about that. If you email over the name of your fund we'll do our best to add it to our database."
+    suggest_fund: "Sorry about that. If you email over the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
 
     section:
       select_target: "Select Your Target"
@@ -19,6 +19,14 @@ en:
       your_name: 'Your Name'
       your_email: 'Your Email Address'
       send_email: 'Send Email'
+      errors:
+        message: "Whoops! There are some errors with the form. Please check you've filled in the required fields."
+        country: 'Please select a country'
+        subject: 'Please add a subject line'
+        email: 'Please add your email address'
+        name: 'Please add you name'
+        fund: 'Please select a pension fund'
+
   fundraiser:
     payment_methods:
       gocardless: "Direct Debit"
