@@ -17,7 +17,6 @@
 //= require jquery-ui/widgets/sortable
 //= require jquery.remotipart
 //= require d3
-//= require c3
 //= require odometer
 //= require moment
 
