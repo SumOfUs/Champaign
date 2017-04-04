@@ -152,9 +152,9 @@ describe Api::ActionsController do
 
     describe 'filtering' do
       it 'does not permit params not in the form' do
-        expect do
+        expect {
           post :validate, page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar'
-        end.to raise_error(
+        }.to raise_error(
           ActionController::UnpermittedParameters,
           'found unpermitted parameter: not_permitted'
         )
@@ -180,6 +180,66 @@ describe Api::ActionsController do
       it 'does not set the cookie' do
         expect(cookies.signed['member_id']).to eq nil
         expect(response.cookies[:member_id]).to eq nil
+      end
+    end
+  end
+
+  describe 'PUT update' do
+    let!(:a) { create :action }
+
+    describe 'successful' do
+      it 'returns 200' do
+        put :update, page_id: 2, id: a.id, publish_status: 'published'
+        expect(response).to be_success
+      end
+
+      it 'changes the status to published' do
+        expect {
+          put :update, page_id: 2, id: a.id, publish_status: 'published'
+        }.to change {
+          a.reload.publish_status
+        }.from('default').to('published')
+      end
+
+      it 'changes the status to hidden' do
+        expect {
+          put :update, page_id: 2, id: a.id, publish_status: 'hidden'
+        }.to change {
+          a.reload.publish_status
+        }.from('default').to('hidden')
+      end
+
+      it 'changes the status to default' do
+        a.published!
+        expect {
+          put :update, page_id: 2, id: a.id, publish_status: 'default'
+        }.to change {
+          a.reload.publish_status
+        }.from('published').to('default')
+      end
+    end
+
+    describe 'unsuccessful' do
+      let!(:a) { create :action }
+
+      it 'raises not found if no action is found with that id' do
+        expect {
+          put :update, page_id: 2, id: 9999, publish_status: 'default'
+        }.to raise_error ActiveRecord::RecordNotFound
+      end
+
+      it 'returns errors and 422 if given an invalid publish_status' do
+        put :update, page_id: 2, id: a.id, publish_status: 'invalid'
+        expect(response.code).to eq '422'
+        expect(response.body).to eq '{"errors":{"publish_status":"\'invalid\' is not a valid publish_status"}}'
+      end
+
+      it 'does not update the action when given an invalid publish_status' do
+        expect {
+          put :update, page_id: 2, id: a.id, publish_status: 'invalid'
+        }.not_to change {
+          a.reload.publish_status
+        }
       end
     end
   end

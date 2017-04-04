@@ -19,11 +19,11 @@ describe Api::ActionsController do
       )
     end
 
-    it 'does not route to GET#create' do
+    it 'GET#create routes to api/pages' do
       expect(get: '/api/pages/1/actions').to route_to(
-        controller: 'uris',
-        action: 'show',
-        path: 'api/pages/1/actions'
+        controller: 'api/pages',
+        action: 'actions',
+        id: '1'
       )
     end
   end
