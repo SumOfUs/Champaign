@@ -12,6 +12,7 @@ import { camelizeKeys } from './util/util';
 import ComponentWrapper from './ComponentWrapper';
 import FundraiserView from './containers/FundraiserView/FundraiserView';
 import CallToolView   from './containers/CallToolView/CallToolView';
+import EmailTargetView   from './containers/EmailTargetView/EmailTargetView';
 
 import type { Store } from 'redux';
 import type { AppState } from './state/reducers';
@@ -67,6 +68,32 @@ window.mountCallTool = (root: string, props: callToolProps) => {
   render(
     <ComponentWrapper locale={props.locale}>
       <CallToolView {...props} />
+    </ComponentWrapper>,
+    document.getElementById(root)
+  );
+};
+
+type emailTargetInitialState = {
+  locale: string;
+  emailSubject?: string;
+  country?: string;
+  emailBody?: string;
+  emailHeader?: string;
+  emailFooter?: string;
+  email?: string;
+  name?: string;
+  pageId: string | number;
+  isSubmitting: boolean;
+};
+
+window.mountEmailTarget = (root: string, props: emailTargetInitialState) => {
+  props = camelizeKeys(props);
+
+  store.dispatch({ type: 'email_target:initialize', payload: props});
+
+  render(
+    <ComponentWrapper store={store} locale={props.locale}>
+      <EmailTargetView />
     </ComponentWrapper>,
     document.getElementById(root)
   );

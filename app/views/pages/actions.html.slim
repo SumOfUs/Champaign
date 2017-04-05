@@ -1,21 +1,31 @@
 - content_for(:title, "Actions | #{@page.title}")
 
 = render "sidebar", action: :actions, id: @page.id
+- keys = @headers.keys
 
 .edit-block
   h1.edit-block__title= "Actions - #{@page.title}"
   
   .edit-block__constrained-width
-    table.table
+    table.table.actions-editor data-page-id="#{@page.id}"
       thead
-        - @headers.each do |header|
-          th = header
+        th
+          | Publish status
+        - keys.each do |key|
+          th = @headers[key]
 
       tbody
         - @hashes.each do |row|
           tr
-            - @keys.each do |key|
-              td = row[key]
+            td
+              .action-publisher.btn-group-vertical data-id="#{row[:id]}"
+                = toggle_switch 'default', row[:publish_status], 'Page default'
+                = toggle_switch 'published', row[:publish_status], 'Published'
+                = toggle_switch 'hidden', row[:publish_status], 'Hidden'
+
+            - keys.each do |key|
+              td
+                = row[key]
 
 
   - range = 'actions ' + record_range(@paginator.current_page, @paginator.size)
@@ -35,3 +45,6 @@
     = ' | ' 
   - if show_all_csv
     = link_to "Download all actions in CSV", actions_page_path(@page, format: :csv)
+
+javascript:
+  $.publish('actions:edit');

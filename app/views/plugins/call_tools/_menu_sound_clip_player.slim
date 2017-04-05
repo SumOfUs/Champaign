@@ -1,0 +1,23 @@
+audio.call-tool-menu-sound-clip preload='auto' autobuffer='true'
+  source src=plugin.menu_sound_clip.url
+
+ul.list-inline
+  li
+    strong = plugin.menu_sound_clip.original_filename
+  li
+    a
+      i.fa-play.fa.call-tool-play-menu-clip
+  li
+    = link_to sound_clip_plugins_call_tool_path(plugin, role: 'menu'),
+      { method: :delete,
+        remote: true,
+        data: { confirm: t('common.confirm') } } do
+      small
+        span.glyphicon.glyphicon-remove
+
+
+javascript:
+  $('.call-tool-play-menu-clip').on('click', function(e) {
+    e.preventDefault();
+    $('.call-tool-menu-sound-clip').get(0).play();
+  });

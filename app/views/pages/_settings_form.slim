@@ -48,6 +48,10 @@
         = f.select :campaign_id, options_from_collection_for_select(Campaign.all.order(name: :asc), 'id', 'name', page.campaign_id), {include_blank: true}, class: 'form-control'
 
       .form-group
+        = label_with_tooltip(f, :publish_actions, t('pages.edit.publish_actions'), t('tooltips.publish_actions'))
+        = f.select :publish_actions, Page.publish_actions.to_a.map{ |k, v| [k.humanize, k] }, {}, class: "form-control"
+
+      .form-group
         = label_with_tooltip(f, :optimizely_status, t('pages.edit.optimizely_status'), t('tooltips.optimizely_status'))
         = f.select :optimizely_status, Page.optimizely_statuses.to_a.map{ |k, v| [k.humanize, k] }, {}, class: "form-control"
 

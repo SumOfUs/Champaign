@@ -2,6 +2,7 @@
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
   before_filter :get_page, except: [:index, :featured]
+  before_filter :authenticate_user!, except: [:index, :featured, :show, :actions]
 
   layout false
 
@@ -35,6 +36,20 @@ class Api::PagesController < ApplicationController
   def featured
     @pages = PageService.list_featured(language: params[:language])
     render :index, format: :json
+  end
+
+  def actions
+    return head :forbidden if @page.secure?
+    query = if @page.default_hidden?
+              published_status = Action.publish_statuses['published']
+              "page_id = '#{@page.id}' AND publish_status = '#{published_status}'"
+            else
+              hidden_status = Action.publish_statuses['hidden']
+              "page_id = '#{@page.id}' AND publish_status != '#{hidden_status}'"
+            end
+    page_number = { page_number: params[:page_number], per_page: params[:per_page] }
+    hashes, headers, _paginator = ActionReader.new(query).run(**page_number)
+    render json: { actions: hashes, headers: headers }
   end
 
   private

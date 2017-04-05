@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import _ from 'lodash';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import countriesEn from './countries/en.json';
 import countriesDe from './countries/de.json';
@@ -10,6 +11,8 @@ import type { Element } from 'react';
 
 export type Country = { value: string; label: string; };
 
+type FilterCountry = string;
+
 type Props = {
   name?: string;
   value?: string;
@@ -19,6 +22,7 @@ type Props = {
   disabled?: boolean;
   multiple?: boolean;
   intl: intlShape;
+  filter?: FilterCountry[];
 };
 
 const countriesByLocale = {
@@ -34,6 +38,12 @@ const SelectCountry = (props: Props) => {
   countries = Object.keys(countries).map((c) => {
     return {value: c, label: countries[c]};
   });
+
+  if(props.filter && props.filter.length) {
+    countries = countries.filter((c) => {
+      return _.indexOf(props.filter, c.value) > -1;
+    });
+  }
 
   return (
     <SweetSelect

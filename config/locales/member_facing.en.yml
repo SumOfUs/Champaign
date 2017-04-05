@@ -6,6 +6,26 @@ en:
     or: or
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
+  email_target:
+    suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
+
+    section:
+      compose: "Compose Your Email to your Fund Manager"
+    form:
+      select_country: 'Select your Country'
+      select_target: 'Select your Pension or Mutual Fund'
+      subject: 'Subject Line'
+      your_name: 'Your Name'
+      your_email: 'Your Email Address'
+      send_email: 'Send Email'
+      errors:
+        message: "Whoops! There are some errors with the form. Please check you've filled in the required fields."
+        country: 'Please select a country'
+        subject: 'Please add a subject line'
+        email: 'Please add your email address'
+        name: 'Please add you name'
+        fund: 'Please select a pension fund'
+
   fundraiser:
     payment_methods:
       gocardless: "Direct Debit"
@@ -80,6 +100,7 @@ en:
   call_tool:
     you_will_be_calling: "We will call you and connect you to"
     select_target: "Just enter your home country and phone number -- and we'll call shortly after."
+    text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
     errors:
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
       target:

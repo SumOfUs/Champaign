@@ -505,10 +505,6 @@ body.page-edit-body {
 }
 
 .call-tool {
-  input[type="submit"] {
-    margin-left: 10px;
-  }
-
   .error-msg {
     color: $orange;
   }
@@ -517,12 +513,27 @@ body.page-edit-body {
     .targets-wrapper {
       margin-top: 10px;
     }
+
+    input[type="submit"] {
+      margin-left: 10px;
+    }
   }
 
-  .call-tool-sound-clip, .sound-clip-detail {
-    margin-top: 10px;
+  .sound-clip-section {
+    input[type="submit"] {
+      margin-top: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 5px;
+    }
+  }
+
+  .sound-clip-detail {
+    margin-bottom: 1.5em;
   }
 }
+
 .edit-page-checkbox {
   font-weight: normal;
   cursor: pointer;

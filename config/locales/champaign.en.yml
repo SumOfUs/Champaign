@@ -75,6 +75,7 @@ en:
     campaign: "Action counters of pages belonging to the same campaign are consolidated."
     canonical_url: "If a page is accessible through multiple URLs, then pick the best one for SEO. Defaults to https://our.site/a/page-slug"
     optimizely_status: "Optimizely can be slow to load, but we load it on all pages so we can run site-wide experiments. Please only disable for exceptional pages like microsites."
+    publish_actions: 'Use this to make member responses to the page accessible through the API.'
     shares:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
@@ -101,7 +102,8 @@ en:
       choices: 'Simply write the choices to be shown (eg. Apple) or, if you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
       many_choices: 'Put each choice on its own line. If you want to have values different than the labels, write JSON hashes with label and value (eg {"label": "Apple", "value": 0})'
     call_tool:
-      audio: 'Audio clip to be played to then caller'
+      campaign_audio: 'Audio clip to be played to the caller as soon as they pick up the phone.'
+      menu_audio: "Audio clip to be played to the caller after the main one. This file should explain the menu to the member: Press 1 to connect to the target; press 2 to listen to the campaigner's message again."
       targets: 'CSV File should must adhere to the specified format. First row will be considered as headers. Each following row must have these fields in order: Country, Postal, Target Phone, Target Name, Target Title. Country, Target Phone and Target Name are required fields'
       target_by_country: "Check if you'd like the call tool to display a Country dropdown, which will cause the tool to randomly select a target from the selected country. When checked, targets must have a valid country in the Country column in the uploaded CSV"
   oauth:
@@ -180,6 +182,7 @@ en:
       saving: "Saving..."
       canonical_url: "Canonical URL"
       optimizely_status: "Optimizely"
+      publish_actions: 'Publish actions'
       more_settings: "More options"
     analytics:
       hours_chart_title: "Total actions last 12 hours"
@@ -304,6 +307,15 @@ en:
         one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
+    email_target:
+      subject: 'Email subject'
+      email_header: "Header (member can't edit)"
+      email_body: 'Body'
+      email_footer: "Footer (member can't edit)"
+      email_address_for_testing: 'Email address to send to (use for testing only)'
+      from_address: "'from' email address"
+      tooltips:
+        from_address: 'Must be a valid address using a validated domain'
     call_tool:
       title: 'Title'
       click_to_play: 'Click to play'

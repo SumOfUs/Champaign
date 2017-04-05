@@ -9,13 +9,15 @@
 #  member_phone_number :string
 #  created_at          :datetime
 #  updated_at          :datetime
-#  log                 :jsonb            not null
+#  target_call_info    :jsonb            not null
 #  member_call_events  :json             is an Array
 #  twilio_error_code   :integer
 #  target              :json
+#  status              :integer          default(0)
 #
 
 class Call < ActiveRecord::Base
+  enum status: [:unstarted, :started, :connected]
   belongs_to :page
   belongs_to :member
 
@@ -26,6 +28,7 @@ class Call < ActiveRecord::Base
   validate :member_phone_number_is_valid
 
   delegate :sound_clip, to: :call_tool
+  delegate :menu_sound_clip, to: :call_tool
 
   def target_phone_number
     target.phone_number

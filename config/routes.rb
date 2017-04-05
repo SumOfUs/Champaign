@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     resources :texts, only: :update
+    resources :email_targets
     resources :call_tools, only: :update do
       delete :sound_clip, on: :member, action: :delete_sound_clip
       post :sound_clip, on: :member, action: :update_sound_clip
@@ -100,6 +101,9 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resources :pension_funds, only: [:index]
+    resources :email_targets, only: [:create]
+
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
@@ -118,10 +122,11 @@ Rails.application.routes.draw do
 
     resources :pages do
       get 'share-rows', on: :member, action: 'share_rows'
+      get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
 
       resource  :analytics
-      resources :actions, only: [:create] do
+      resources :actions, only: [:create, :update] do
         post 'validate', on: :collection, action: 'validate'
       end
       resources :survey_responses, only: [:create]
@@ -161,9 +166,11 @@ Rails.application.routes.draw do
     }
   end
 
-  post '/twilio/calls/:id/twiml', to: 'twilio/calls#twiml', as: :call_twiml
-  post '/twilio/calls/:id/log',   to: 'twilio/calls#log',   as: :call_log
-  post '/twilio/calls/:id/event', to: 'twilio/calls#create_event', as: :call_event
+  post '/twilio/calls/:id/start',              to: 'twilio/calls#start', as: :call_start
+  post '/twilio/calls/:id/menu',               to: 'twilio/calls#menu', as: :call_menu
+  post '/twilio/calls/:id/connect',            to: 'twilio/calls#connect', as: :call_connect
+  post '/twilio/calls/:id/target_call_status', to: 'twilio/calls#create_target_call_status', as: :target_call_status
+  post '/twilio/calls/:id/member_call_event',  to: 'twilio/calls#create_member_call_event', as: :member_call_event
 
   root to: 'uris#show'
   mount MagicLamp::Genie, at: '/magic_lamp' if defined?(MagicLamp) && ENV['JS_TEST']
