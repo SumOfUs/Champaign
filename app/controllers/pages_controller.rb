@@ -46,7 +46,6 @@ class PagesController < ApplicationController
   end
 
   def show
-    load 'app/liquid/liquid_file_system.rb'
     respond_to do |format|
       format.html do
         one_click_processor = process_one_click
