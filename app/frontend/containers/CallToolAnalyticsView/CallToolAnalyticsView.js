@@ -85,9 +85,9 @@ class CallToolViewAnalytics extends Component {
 
         <div className="row">
           <div className="col1">
-            { (this.state.filter == 'last_week') &&
+            { (this.state.filter === 'last_week') &&
                 <MembersChart data={this.state.data && this.state.data['last_week']['member_calls']['status_totals_by_day']} /> }
-            { (this.state.filter == 'all_time') &&
+            { (this.state.filter === 'all_time') &&
                 <MembersChart data={this.state.data && this.state.data['all_time']['member_calls']['status_totals_by_week']} xLabel='week' /> }
           </div>
 
