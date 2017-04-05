@@ -16,5 +16,13 @@
         = f.text_field :email_subject, class: 'form-control'
 
       .form-group
-        = f.label(:email_body, t('plugins.email_target.email_body'))
-        = f.text_area :email_body, class: 'form-control text-area-height'
+        = f.label(:email_body_a, t('plugins.email_target.email_header'))
+        = f.text_area :email_body_a, class: 'form-control', height: 100
+
+      .form-group
+        = f.label(:email_body_b, t('plugins.email_target.email_body'))
+        = f.text_area :email_body_b, class: 'form-control text-area-height'
+
+      .form-group
+        = f.label(:email_body_c, t('plugins.email_target.email_footer'))
+        = f.text_area :email_body_c, class: 'form-control', height: 100

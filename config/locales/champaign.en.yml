@@ -309,7 +309,9 @@ en:
         only_recurring: 'Only allow recurring donations'
     email_target:
       subject: 'Email subject'
-      email_body: 'Email body'
+      email_header: 'Header (fixed)'
+      email_body: 'Body'
+      email_footer: 'Footer (fixed)'
       email_address_for_testing: 'Email address to send to (use for testing only)'
       from_address: "'from' email address"
       tooltips:

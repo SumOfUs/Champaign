@@ -17,7 +17,9 @@ class Plugins::EmailTarget < ActiveRecord::Base
       active: active,
       page: page.slug,
       email_subject: email_subject,
-      email_body: email_body
+      email_header: email_body_a,
+      email_body: email_body_b,
+      email_footer: email_body_c
     }
   end
 end

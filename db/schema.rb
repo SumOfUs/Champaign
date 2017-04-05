@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170331172831) do
+ActiveRecord::Schema.define(version: 20170405092358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -447,10 +447,12 @@ ActiveRecord::Schema.define(version: 20170331172831) do
     t.boolean  "active",             default: false
     t.string   "email_from"
     t.string   "email_subject"
-    t.text     "email_body"
+    t.text     "email_body_b"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "test_email_address"
+    t.text     "email_body_a"
+    t.text     "email_body_c"
   end
 
   add_index "plugins_email_targets", ["page_id"], name: "index_plugins_email_targets_on_page_id", using: :btree
