@@ -78,6 +78,8 @@ type emailTargetInitialState = {
   emailSubject?: string;
   country?: string;
   emailBody?: string;
+  emailHeader?: string;
+  emailFooter?: string;
   email?: string;
   name?: string;
   pageId: string | number;

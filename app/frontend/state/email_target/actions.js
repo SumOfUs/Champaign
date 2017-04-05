@@ -1,6 +1,8 @@
 const initialState = {
   country: '',
   emailBody: '',
+  emailHeader: '',
+  emailFooter: '',
   emailSubject: '',
   name: '',
   email: '',

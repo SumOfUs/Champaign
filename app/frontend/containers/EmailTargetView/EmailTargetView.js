@@ -91,12 +91,18 @@ class EmailTargetView extends Component {
       }
     };
 
-    const toWho = () => {
-      return `Dear ${this.props.fundContact || '[select a fund]'},`;
+    const parse = (template) => {
+      template = template.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      template= _.template(template);
+      return template(this.props);
     };
 
-    const fromWho = () => {
-      return `Regards, ${this.props.name || '[enter your name]'}`;
+    const parseHeader = () => {
+      return {__html: parse(this.props.header)};
+    };
+
+    const parseFooter = () => {
+      return {__html: parse(this.props.footer)};
     };
 
     const changeFund = (value) => {
@@ -145,10 +151,6 @@ class EmailTargetView extends Component {
         <div className='email-target-form'>
         <form onSubmit={onSubmit} className='action-form form--big'>
           <div className='email-target-action'>
-            <h2>
-              <FormattedMessage id="email_target.section.select_target" defaultMessage="Select Your Target" />
-            </h2>
-
             <div className='form__group'>
               <SelectCountry
                 value={this.props.country}
@@ -207,22 +209,14 @@ class EmailTargetView extends Component {
 
           <div className='form__group'>
             <div className='email__target-body'>
-            <span className='email__target-greeting'>
-              <Input
-                readonly='true'
-                value={toWho()} />
-            </span>
+            <div className='email__target-header' dangerouslySetInnerHTML={parseHeader()}></div>
             <textarea
               name='email_body'
               value={this.props.body}
               onChange={(event) => this.props.changeBody(event.currentTarget.value)}
               maxLength="9999">
             </textarea>
-            <span className='email__target-sign-off'>
-              <Input
-                readonly='true'
-                value={fromWho()} />
-            </span>
+            <div className='email__target-footer' dangerouslySetInnerHTML={parseFooter()}></div>
           </div>
           </div>
         </div>
@@ -243,6 +237,8 @@ class EmailTargetView extends Component {
 
 type EmailTargetType = {
   emailBody: string,
+  emailHeader: string,
+  emailFooter: string,
   emailSubject: string,
   country: string,
   email: string,
@@ -263,6 +259,8 @@ type OwnState = {
 
 export const mapStateToProps = (state: OwnState) => ({
   body: state.emailTarget.emailBody,
+  header: state.emailTarget.emailHeader,
+  footer: state.emailTarget.emailFooter,
   subject: state.emailTarget.emailSubject,
   country: state.emailTarget.country,
   email: state.emailTarget.email,
