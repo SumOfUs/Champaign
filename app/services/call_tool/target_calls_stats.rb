@@ -1,14 +1,15 @@
 module CallTool
   class TargetCallsStats
     STATUSES = %w(completed busy no-answer failed).freeze
-    def initialize(page, calls)
+    def initialize(page)
       @page = page
-      @calls = calls
+      @calls = Call.connected.where(page: page)
+      @last_week_calls = @calls.select { |c| c.created_at > 7.days.ago }
     end
 
     # Returns hash with format { <target_id> => { name:, statusA: count, statusB: count, ...}}
     def last_week_status_totals_by_target
-      group_calls_by_target_and_status(last_week_calls)
+      group_calls_by_target_and_status(@last_week_calls)
     end
 
     def status_totals_by_target
@@ -16,7 +17,7 @@ module CallTool
     end
 
     def last_week_status_totals
-      status_totals(last_week_calls)
+      status_totals(@last_week_calls)
     end
 
     def status_totals(calls = @calls)
@@ -33,10 +34,6 @@ module CallTool
     end
 
     private
-
-    def last_week_calls
-      @last_week_calls ||= @calls.select { |c| c.created_at > 7.days.ago }
-    end
 
     def group_calls_by_target_and_status(call_list)
       by_target = ActiveSupport::OrderedHash.new

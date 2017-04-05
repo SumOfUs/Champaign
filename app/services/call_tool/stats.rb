@@ -38,11 +38,11 @@ module CallTool
     private
 
     def member_calls_stats
-      @member_calls_stats ||= MemberCallsStats.new(calls)
+      @member_calls_stats ||= MemberCallsStats.new(@page)
     end
 
     def target_calls_stats
-      @target_calls_stats ||= TargetCallsStats.new(@page, calls)
+      @target_calls_stats ||= TargetCallsStats.new(@page)
     end
 
     def calls

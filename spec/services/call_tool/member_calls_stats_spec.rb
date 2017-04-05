@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe CallTool::MemberCallsStats do
   let!(:page) { create(:page, :with_call_tool) }
-  subject { CallTool::MemberCallsStats.new(Call.not_failed.where(page: page)) }
+  subject { CallTool::MemberCallsStats.new(page) }
 
   describe '#status_totals_by_day' do
     let(:data) { subject.status_totals_by_day }

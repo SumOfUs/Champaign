@@ -1,7 +1,8 @@
 module CallTool
   class MemberCallsStats
-    def initialize(calls)
-      @calls = calls
+    def initialize(page)
+      @calls = Call.not_failed.where(page: page)
+      @last_week_calls = @calls.select { |c| c.created_at > 7.days.ago }
     end
 
     def status_totals_by_day
@@ -15,7 +16,7 @@ module CallTool
         end
       end
 
-      last_week_calls.each do |call|
+      @last_week_calls.each do |call|
         by_date[call.created_at.to_date][call.status] += 1
       end
 
@@ -41,7 +42,7 @@ module CallTool
     end
 
     def last_week_status_totals
-      status_totals(last_week_calls)
+      status_totals(@last_week_calls)
     end
 
     def all_time_status_totals
@@ -63,10 +64,6 @@ module CallTool
       ret['total'] = ret.values.sum
 
       ret
-    end
-
-    def last_week_calls
-      @last_week_calls ||= @calls.select { |c| c.created_at > 7.days.ago }
     end
 
     def last_five_weeks_calls

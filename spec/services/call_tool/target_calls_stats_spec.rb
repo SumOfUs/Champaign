@@ -8,7 +8,7 @@ describe CallTool::TargetCallsStats do
   let(:target_b) { targets[1] }
   let(:target_c) { targets[2] }
 
-  subject { CallTool::TargetCallsStats.new(page, Call.not_failed.where(page: page)) }
+  subject { CallTool::TargetCallsStats.new(page) }
 
   before do
     Timecop.travel 1.month.ago do
