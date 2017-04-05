@@ -5,4 +5,3 @@ class AdjustPluginsEmailTargetTable < ActiveRecord::Migration
     add_column :plugins_email_targets, :email_body_c, :text
   end
 end
-

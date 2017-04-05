@@ -120,6 +120,8 @@ class EmailTargetView extends Component {
       }
     };
 
+    const prepBody = () => `${parseHeader().__html}\n\n${this.props.body}\n\n${parseFooter().__html}`;
+
     const onSubmit = (e) => {
       e.preventDefault();
 
@@ -128,7 +130,7 @@ class EmailTargetView extends Component {
       if (!valid) return;
 
       const payload = {
-        body: this.props.body,
+        body: prepBody(),
         subject: this.props.subject,
         page: this.props.page,
         target_name: this.props.fund,
