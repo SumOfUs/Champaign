@@ -143,9 +143,7 @@ class EmailTargetView extends Component {
 
       this.props.changeSubmitting(true);
 
-      $.post('/api/email_targets', payload).done((a,b,c) => {
-
-      });
+      $.post('/api/email_targets', payload).done((a,b,c) => {});
     };
 
     return(
@@ -178,9 +176,9 @@ class EmailTargetView extends Component {
             </div>
           </div>
           <div className='email-target-action'>
-            <h2>
+            <h3>
               <FormattedMessage id="email_target.section.compose" defaultMessage="Compose Your Email" />
-            </h2>
+            </h3>
 
             <div className='form__group'>
               <Input

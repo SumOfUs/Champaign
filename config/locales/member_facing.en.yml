@@ -13,7 +13,7 @@ en:
       compose: "Compose Your Email to your Fund Manager"
     form:
       select_country: 'Select your Country'
-      select_target: 'Select your Pension Fund'
+      select_target: 'Select your Pension or Mutual Fund'
       subject: 'Subject Line'
       your_name: 'Your Name'
       your_email: 'Your Email Address'

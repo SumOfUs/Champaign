@@ -1,7 +1,9 @@
 .email-target {
-  h2 {
-    margin-bottom: 10px;
+  padding: 0 20px;
+  line-height: 1.2em;
 
+  h3 {
+    margin-bottom: 10px;
   }
 
   .email-target-action {
@@ -16,7 +18,7 @@
 
   .body-text.text-top {
     margin-top: 20px;
-    padding: 10px 0;
+    padding: 10px 20px;
     width: 100%;
     margin-bottom: 5px;
     color: black;
@@ -29,16 +31,15 @@
       font-size: 100%;
       font: inherit;
       line-height: 1.4em;
-      background: #fdffea;
     }
   }
 
   .email__target-header {
     background: white;
+    color: #999;
     padding: 20px 20px 0 20px;
     line-height: 1.4em;
     font-size: 100%;
-    color: black;
     border-radius: 5px 5px 0 0;
     p {
       padding: 18px 0 0 0;
@@ -47,11 +48,11 @@
 
   .email__target-footer {
     background: white;
-    padding: 0px 20px 20px 20px;
+    padding: 10px 20px 20px 20px;
     line-height: 1.4em;
     font-size: 100%;
-    color: black;
-    margin-top: -3px;
+    color: #999;
+    margin-top: -5px;
     border-radius: 0 0 5px 5px;
     p {
       padding: 10px 0;

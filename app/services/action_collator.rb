@@ -27,7 +27,7 @@ class ActionCollator
     rows = @actions.map do |action|
       keys.map do |k|
         value = val(k, action)
-        (value.is_a?(String) && value.index(COMMA).present?) ? "\"#{value}\"" : value
+        value.is_a?(String) && value.index(COMMA).present? ? "\"#{value}\"" : value
       end
     end
     rows = rows.unshift(keys.map { |k| headers[k] }) unless @skip_headers
