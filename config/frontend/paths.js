@@ -28,7 +28,6 @@ const nodePaths = (process.env.NODE_PATH || '')
 module.exports = {
   appBuild: resolveApp('public/webpack'),
   appPublic: resolveApp('public'),
-  appIndexJs: resolveApp('app/frontend/components.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('app/frontend'),
   testsSetup: resolveApp('app/frontend/setupTests.js'),

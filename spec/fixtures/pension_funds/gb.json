@@ -1,0 +1,131 @@
+[{
+	"_id": "3c2e84389284abe59e91cfa16d1bbdd7",
+	"email": "ruth.wells@bankofengland.co.uk",
+	"name": "Ruth",
+	"fund": "Bank of England Pension Fund"
+}, {
+	"_id": "7d86fba4ee5fed81b8c68b3637ca2cae",
+	"email": "douglas.macleod@bp.com",
+	"name": "Douglas",
+	"fund": "BP Investment Management Limited"
+}, {
+	"_id": "f1fc1edfcfa2bac5b5e985097efe9c2b",
+	"email": "michelle.m-smith@bapensions.com",
+	"name": "Michelle",
+	"fund": "British Airways Pension Investment Management Ltd."
+}, {
+	"_id": "8e36151cf2892ed4495cc0b79254959a",
+	"email": "h.smart@bspf.co.uk",
+	"name": "Hugh",
+	"fund": "British Steel Pension Scheme"
+}, {
+	"_id": "3d418037b9eb1f1b7d07f08c5c9b7e27",
+	"email": "mike.grapes@businessworldtravel.net",
+	"name": "Mike",
+	"fund": "Business World Travel Limited Directors Pension Scheme"
+}, {
+	"_id": "07d4f3215e0ba43bf5527dfd2771e755",
+	"email": "joana.marfoh@islington.gov.uk",
+	"name": "Joana",
+	"fund": "Council of the London Borough of Islington"
+}, {
+	"_id": "622d8f03b377c6a23ea77d2600174873",
+	"email": "blambert@cppib.com",
+	"name": "Benjamin",
+	"fund": "CPP Investment Board"
+}, {
+	"_id": "3fcf3ebed2014ed378c4707d2d1514dd",
+	"email": "richard.fanshawe@derbyshire.gov.uk",
+	"name": "Richard",
+	"fund": "Derbyshire County Council Pension Fund"
+}, {
+	"_id": "098da212e09323fe136b34f9dfd0fc71",
+	"email": "d.ward@dorsetcc.gov.uk",
+	"name": "Debbie",
+	"fund": "Dorset County Pension Fund"
+}, {
+	"_id": "ad9926d0b21fd26100c86dd3d7a0ef88",
+	"email": "mark.lyon@eastriding.gov.uk",
+	"name": "Mark",
+	"fund": "East Riding Pension Fund"
+}, {
+	"_id": "c955c68d51bced853accbf9c83e1cc87",
+	"email": "tma@lincolnshire.gov.uk",
+	"name": "Tony",
+	"fund": "Lincolnshire County Council Pension Fund"
+}, {
+	"_id": "448617134c15948be93588996d82ecb6",
+	"email": "richard.savage@localpensionspartnership.org.uk",
+	"name": "Richard",
+	"fund": "Local Pensions Partnership Investments Limited"
+}, {
+	"_id": "ee8f2f78d87918ac9f31ba008610f82f",
+	"email": "bina.chauhan-wild@brent.co.uk",
+	"name": "Bina",
+	"fund": "London Borough of Brent Superannuation Fund"
+}, {
+	"_id": "c4d6b50df8c51a00a300e0c68e6b8207",
+	"email": "lotter@wirral.gov.uk",
+	"name": "Leyland",
+	"fund": "Merseyside Pension Fund"
+}, {
+	"_id": "1ea78e1f9b90e1681e9dd2a08b5527ac",
+	"email": "paul_campbell@middlesbrough.gov.uk",
+	"name": "Paul",
+	"fund": "Middlesbrough Borough Council"
+}, {
+	"_id": "ced58a51868bf6540c5d619e77b99484",
+	"email": "simon.cunnington@nottscc.gov.uk",
+	"name": "Simon",
+	"fund": "Nottinghamshire County Council Pension Fund"
+}, {
+	"_id": "1c51df462551e708f8a22b48f3d257e2",
+	"email": "maggie_fanari@otpp.com",
+	"name": "Maggie",
+	"fund": "Ontario Teachers' Pension Plan Board"
+}, {
+	"_id": "75857f68b9c8524c1b14fcc7955af8bc",
+	"email": "mike.weston@pipfunds.co.uk",
+	"name": "Michael",
+	"fund": "Pensions Infrastructure Platform Limited"
+}, {
+	"_id": "a607ba68d5115f931413ea97965d22a5",
+	"email": "richard.williams@rpmi.co.uk",
+	"name": "Richard",
+	"fund": "Railpen Investments"
+}, {
+	"_id": "ec84620363156592da9a3595a06dffd3",
+	"email": "paul.woof@reedelsevier.com",
+	"name": "Paul",
+	"fund": "Reed Elsevier Pension Investment Management Ltd."
+}, {
+	"_id": "00dec31b704a254a5fb419e54cf3e7e9",
+	"email": "nick.greenwood@rbwm.gov.uk",
+	"name": "Nicholas",
+	"fund": "Royal County of Berkshire Pension Fund"
+}, {
+	"_id": "0bd31ba62f72405e215cff52d39d4cd0",
+	"email": "asweet@somerset.gov.uk",
+	"name": "Anton",
+	"fund": "Somerset County Council Pension Fund"
+}, {
+	"_id": "4e1dfaaec9559606accf39bf1a585eac",
+	"email": "wwilkinson@sypa.org.uk",
+	"name": "William",
+	"fund": "South Yorkshire Pensions Authority"
+}, {
+	"_id": "454dc05a86401c19fdcabfc4d14717ba",
+	"email": "steven.daniels@uk.tesco.com",
+	"name": "Steven",
+	"fund": "Tesco Pension Investment, Ltd."
+}, {
+	"_id": "6170127d56ab0547a6e0cccc1c8d92c9",
+	"email": "jason.fletcher@wolverhampton.gov.uk",
+	"name": "Jason",
+	"fund": "West Midlands Pension Fund"
+}, {
+	"_id": "aeed88548587bd0383faa3f100da5411",
+	"email": "debra.hopkins@bradford.gov.uk",
+	"name": "Debra",
+	"fund": "West Yorkshire Pension Fund"
+}]

@@ -39,6 +39,7 @@ class Page < ActiveRecord::Base
   enum follow_up_plan: [:with_liquid, :with_page] # TODO: - :with_link
   enum publish_status: [:published, :unpublished, :archived]
   enum optimizely_status: [:optimizely_enabled, :optimizely_disabled]
+  enum publish_actions: [:secure, :default_hidden, :default_published]
 
   belongs_to :language
   belongs_to :campaign # Note that some pages do not necessarily belong to campaigns

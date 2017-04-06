@@ -1,7 +1,10 @@
 // @flow
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import filter from 'lodash/filter';
+import find from 'lodash/find';
+import sample from 'lodash/sample';
 import ChampaignAPI from '../../util/ChampaignAPI';
 import type { OperationResponse } from '../../util/ChampaignAPI';
 import type { IntlShape } from 'react-intl';
@@ -82,7 +85,7 @@ class CallToolView extends Component {
 
     if(this.props.targetByCountryEnabled) {
       // Assign countryCode only if it's a valid one
-      const preselectedTarget = _.find(this.props.targets, target => {
+      const preselectedTarget = find(this.props.targets, target => {
         return target.countryCode === this.props.countryCode;
       });
       countryCode = preselectedTarget ? preselectedTarget.countryCode : '';
@@ -117,7 +120,7 @@ class CallToolView extends Component {
   }
 
   guessMemberPhoneCountryCode(countryCode: string) {
-    const country = _.find(this.props.countries, t => { return t.code === countryCode; });
+    const country = find(this.props.countries, t => { return t.code === countryCode; });
     return country ? `+${country.phoneCode}` : '';
   }
 
@@ -140,12 +143,12 @@ class CallToolView extends Component {
   }
 
   selectNewTarget() {
-    return _.sample(this.props.targets);
+    return sample(this.props.targets);
   }
 
   selectNewTargetFromCountryCode(countryCode: string) {
-    const candidates = _.filter(this.props.targets, t => { return t.countryCode === countryCode; });
-    return _.sample(candidates);
+    const candidates = filter(this.props.targets, t => { return t.countryCode === countryCode; });
+    return sample(candidates);
   }
 
   submit(event: any) {
@@ -164,22 +167,22 @@ class CallToolView extends Component {
     const newErrors = {};
 
     if(this.props.targetByCountryEnabled) {
-      if(_.isEmpty(this.state.form.memberPhoneCountryCode)) {
+      if(isEmpty(this.state.form.memberPhoneCountryCode)) {
         newErrors.memberPhoneCountryCode = <FormattedMessage id="validation.is_required" />;
       }
 
-      if(_.isEmpty(this.state.form.countryCode)) {
+      if(isEmpty(this.state.form.countryCode)) {
         newErrors.countryCode = <FormattedMessage id="validation.is_required" />;
       }
     }
 
-    if(_.isEmpty(this.state.form.memberPhoneNumber)) {
+    if(isEmpty(this.state.form.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = <FormattedMessage id="validation.is_required" />;
     }
 
     this.updateErrors(newErrors);
 
-    return _.isEmpty(newErrors);
+    return isEmpty(newErrors);
   }
 
   submitSuccessful(response: OperationResponse) {
@@ -190,11 +193,11 @@ class CallToolView extends Component {
   submitFailed(response: OperationResponse) {
     const newErrors = {};
 
-    if(!_.isEmpty(response.errors.memberPhoneNumber)) {
+    if(!isEmpty(response.errors.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = response.errors.memberPhoneNumber[0];
     }
 
-    if(!_.isEmpty(response.errors.base)) {
+    if(!isEmpty(response.errors.base)) {
       newErrors.base = response.errors.base;
     }
 
@@ -218,7 +221,7 @@ class CallToolView extends Component {
 
         <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
 
-        { errors.base !== undefined && !_.isEmpty(this.state.errors.base) &&
+        { errors.base !== undefined && !isEmpty(this.state.errors.base) &&
           <div className="base-errors">
             <ul>
               { this.state.errors.base && this.state.errors.base.map((error, index) => {

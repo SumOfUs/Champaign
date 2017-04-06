@@ -77,6 +77,7 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     resources :texts, only: :update
+    resources :email_targets
     resources :call_tools, only: :update do
       delete :sound_clip, on: :member, action: :delete_sound_clip
       post :sound_clip, on: :member, action: :update_sound_clip
@@ -100,6 +101,9 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resources :pension_funds, only: [:index]
+    resources :email_targets, only: [:create]
+
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
@@ -118,10 +122,14 @@ Rails.application.routes.draw do
 
     resources :pages do
       get 'share-rows', on: :member, action: 'share_rows'
+      get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
 
-      resource  :analytics
-      resources :actions, only: [:create] do
+      resource :analytics, only: [:show] do
+        get 'call_tool', on: :member
+      end
+
+      resources :actions, only: [:create, :update] do
         post 'validate', on: :collection, action: 'validate'
       end
       resources :survey_responses, only: [:create]

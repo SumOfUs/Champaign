@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
-import loadTranslations from './util/TranslationsLoader';
+import loadTranslations from '../util/TranslationsLoader';
 
 function WrapInStore({ store, children }) {
   if (store) {

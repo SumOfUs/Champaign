@@ -1,0 +1,24 @@
+#analytics-dashboard
+  .col-md-10
+    .col-md-8
+      .analytics-chart.short-view
+        svg.chart
+      h4.chart-title = t('pages.analytics.hours_chart_title')
+
+      button.btn.btn-default#refresh-data
+        span> = t('pages.analytics.refresh')
+        span.glyphicon.glyphicon-refresh
+
+    .col-md-4
+      .totals
+        dl.actions
+          dt.odometer.total-actions-all
+          dd = t('pages.analytics.total_actions')
+        .analytics-chart.mini-total.mini
+          svg.chart
+      .totals
+        dl.new-members
+          dt.odometer.total-actions-new
+          dd = t('pages.analytics.new_members')
+        .analytics-chart.mini-new.mini
+          svg.chart

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170313211603) do
+ActiveRecord::Schema.define(version: 20170306224919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170313211603) do
     t.jsonb    "form_data",         default: {}
     t.boolean  "subscribed_member", default: true
     t.boolean  "donation",          default: false
+    t.integer  "publish_status",    default: 0,     null: false
   end
 
   add_index "actions", ["member_id"], name: "index_actions_on_member_id", using: :btree
@@ -239,6 +240,7 @@ ActiveRecord::Schema.define(version: 20170313211603) do
     t.boolean  "allow_duplicate_actions",    default: false
     t.boolean  "enforce_styles",             default: false,     null: false
     t.text     "notes"
+    t.integer  "publish_actions",            default: 0,         null: false
   end
 
   add_index "pages", ["campaign_id"], name: "index_pages_on_campaign_id", using: :btree
@@ -426,12 +428,11 @@ ActiveRecord::Schema.define(version: 20170313211603) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "title"
-    t.json     "targets",                      default: [],   array: true
     t.string   "sound_clip_file_name"
     t.string   "sound_clip_content_type"
     t.integer  "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
-    t.json     "targets",                 default: [],   array: true
+    t.json     "targets",                      default: [],   array: true
     t.text     "description"
     t.boolean  "target_by_country",            default: true
     t.string   "menu_sound_clip_file_name"
@@ -439,6 +440,22 @@ ActiveRecord::Schema.define(version: 20170313211603) do
     t.integer  "menu_sound_clip_file_size"
     t.datetime "menu_sound_clip_updated_at"
   end
+
+  create_table "plugins_email_targets", force: :cascade do |t|
+    t.string   "ref"
+    t.integer  "page_id"
+    t.boolean  "active",             default: false
+    t.string   "email_from"
+    t.string   "email_subject"
+    t.text     "email_body_b"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "test_email_address"
+    t.text     "email_body_a"
+    t.text     "email_body_c"
+  end
+
+  add_index "plugins_email_targets", ["page_id"], name: "index_plugins_email_targets_on_page_id", using: :btree
 
   create_table "plugins_fundraisers", force: :cascade do |t|
     t.string   "title"

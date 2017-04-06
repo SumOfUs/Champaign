@@ -115,6 +115,7 @@ GEM
       sprockets (> 3.0.2)
     builder (3.2.3)
     byebug (9.0.5)
+    c3-rails (0.4.11)
     capybara (2.7.1)
       addressable
       mime-types (>= 1.16)
@@ -544,6 +545,7 @@ DEPENDENCIES
   browser (~> 2.0, >= 2.0.3)
   browserify-rails (~> 2.2.0)
   byebug
+  c3-rails
   capybara
   codemirror-rails
   coffee-rails (~> 4.1.0)
@@ -630,4 +632,4 @@ RUBY VERSION
    ruby 2.4.0p0
 
 BUNDLED WITH
-   1.13.7
+   1.14.6

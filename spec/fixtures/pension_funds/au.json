@@ -1,0 +1,126 @@
+[{
+	"_id": "bffab428c0b99ad1a8c43be43310756b",
+	"email": "greg.cantor@catholicsuper.com.au",
+	"name": "Greg",
+	"fund": "Australian Catholic Superannuation and Retirement Fund"
+}, {
+	"_id": "446209fdbe815032bb03feb02e4f34bd",
+	"email": "kchristodoulou@australiansuper.com",
+	"name": "Kelly",
+	"fund": "AustralianSuper"
+}, {
+	"_id": "4d178d42e5497e7c68a87d5ec71dbb57",
+	"email": "MFredericks@australiansuper.com",
+	"name": "Michelle",
+	"fund": "AustralianSuper"
+}, {
+	"_id": "2079075ebdd51286c03599ded7cc48dc",
+	"email": "kathy.hocker@boc.com",
+	"name": "Kathy",
+	"fund": "BOC Gases Superannuation Fund"
+}, {
+	"_id": "afc13b510c4b05629bf1bd0c160a7bb3",
+	"email": "blette@bussq.com.au",
+	"name": "Bob",
+	"fund": "BUSS (Queensland) Proprietary Limited"
+}, {
+	"_id": "466ffa7afb4fc13ab54d85921188b710",
+	"email": "xjia@caresuper.com.au",
+	"name": "Xinting",
+	"fund": "Care Super"
+}, {
+	"_id": "988e88b24584409bc45c7ed80602edb6",
+	"email": "aweickart@cbusmail.com.au",
+	"name": "Anna",
+	"fund": "Cbus"
+}, {
+	"_id": "dd136915e409c677a0dffdde8e0f5769",
+	"email": "pmurphy@christiansuper.com.au",
+	"name": "Peter",
+	"fund": "Christian Super Pty. Limited"
+}, {
+	"_id": "85a3c97aa5e7e48fbb4101cb89799ff0",
+	"email": "alex.hutchison@eisuper.com.au",
+	"name": "Alexander",
+	"fund": "Energy Industries Superannuation Scheme Pty Ltd."
+}, {
+	"_id": "d74864c64709300feaeba3486967bb40",
+	"email": "robyn.petrou@energysuper.com.au",
+	"name": "Robyn",
+	"fund": "Energy Super"
+}, {
+	"_id": "ed2644131595320f7890d8c086afd3cb",
+	"email": "michael_dwyer@firststatesuper.com.au",
+	"name": "Michael",
+	"fund": "First State Superannuation Scheme"
+}, {
+	"_id": "a621f8957a59ea80d3790d976d8876a3",
+	"email": "John.Langoulant@gesb.com.au",
+	"name": "John",
+	"fund": "Government Employees Superannuation Fund"
+}, {
+	"_id": "afedf0dc3ae4cd543001ffc41d80c031",
+	"email": "delia@mail.hostplus.com.au",
+	"name": "David",
+	"fund": "Host-Plus Pty Limited"
+}, {
+	"_id": "bb66c3c8dba6802d257c8182280f7fd4",
+	"email": "bofarrell@intrust.com.au",
+	"name": "Brendan",
+	"fund": "Intrust Super Fund"
+}, {
+	"_id": "cbe7aa85d4349b0bd3335b2afa725073",
+	"email": "esmith@legalsuper.com.au",
+	"name": "Edward",
+	"fund": "legalsuper"
+}, {
+	"_id": "5c603c39af90997d9f2aad3cc0623284",
+	"email": "pLambert@lgsuper.com.au",
+	"name": "Peter",
+	"fund": "Local Government Superannuation Scheme"
+}, {
+	"_id": "5c804797f570d1d2809ccc95eac416f5",
+	"email": "charlie.donnelly@lucrf.com.au",
+	"name": "Charles",
+	"fund": "LUCRF Pty Ltd"
+}, {
+	"_id": "476e8a25cf6e3071bc0f1fd7cd58535f",
+	"email": "leeannet@mtaasuper.com.au",
+	"name": "Leeanne",
+	"fund": "MTAA Super"
+}, {
+	"_id": "1503702bbc640f057ffab69ad6f7e172",
+	"email": "kent.alan@samfs.sa.gov.au",
+	"name": "Alan",
+	"fund": "S.A. Metropolitan Fire Service Superannuation Fund"
+}, {
+	"_id": "0cc0f2aec72e74bbeffd03ccd237318a",
+	"email": "cmichalakis@statewide.com.au",
+	"name": "Con",
+	"fund": "Statewide Superannuation Trust"
+}, {
+	"_id": "a36fcdc34a646a0920d342dd4ecd30e2",
+	"email": "greg_barnes@sunsuper.com.au",
+	"name": "Gregory",
+	"fund": "Sunsuper Pty. Ltd."
+}, {
+	"_id": "f3bf4b7c0772d4095c2de31545f72cad",
+	"email": "ilundy@tasplan.com.au",
+	"name": "Ian",
+	"fund": "Tasplan Superannuation Fund"
+}, {
+	"_id": "9a9dda5a2474afa6a3a8f357229baf69",
+	"email": "mwyrsch@visionsuper.com.au",
+	"name": "Michael",
+	"fund": "Vision Super Pty Ltd"
+}, {
+	"_id": "775b3f9b12ab0614c78e339c595b5f90",
+	"email": "john.mcnally@walgsp.com.au",
+	"name": "John",
+	"fund": "WA Local Government Superannuation Plan Pty Ltd"
+}, {
+	"_id": "f44e695ff16a82bdf9080bdde36ac267",
+	"email": "craig.masarei@watercorporation.com.au",
+	"name": "Craig",
+	"fund": "Water Corporation Superannuation Plan"
+}]

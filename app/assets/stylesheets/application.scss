@@ -1,4 +1,5 @@
 // campaigner facing stylesheet
+//= require c3
 
 // third-party styles
 // except this first one which overrides bootstrap SASS vars
@@ -28,3 +29,4 @@
 @import "campaigner-facing/switch";
 @import "campaigner-facing/page-edit";
 @import "campaigner-facing/devise";
+@import "campaigner-facing/call-tool-analytics"

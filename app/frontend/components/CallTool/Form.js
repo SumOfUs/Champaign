@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
+import find from 'lodash/find';
 import classnames from 'classnames';
 import FieldShape from '../../components/FieldShape/FieldShape';
 import type { Country, CountryPhoneCode, Target, FormType, Errors } from '../../containers/CallToolView/CallToolView';
@@ -72,7 +73,7 @@ class Form extends Component {
 
   phoneNumberCountryName() {
     const strippedCountryCode = this.props.form.memberPhoneCountryCode.replace('+', '');
-    const countryPhoneCode = _.find(this.props.countriesPhoneCodes, (countryCode) => {
+    const countryPhoneCode = find(this.props.countriesPhoneCodes, (countryCode) => {
       return countryCode.code === strippedCountryCode;
     });
 
@@ -107,7 +108,7 @@ class Form extends Component {
         field={this.fields.memberPhoneNumberField}
         className="phoneNumberField" />
 
-        <p className={classnames({'guessed-country-name': true, hidden: !_.isEmpty(this.props.errors.memberPhoneNumber) })}>
+        <p className={classnames({'guessed-country-name': true, hidden: !isEmpty(this.props.errors.memberPhoneNumber) })}>
           <span>
             { this.phoneNumberCountryName() }
           </span>
@@ -115,7 +116,7 @@ class Form extends Component {
 
         <div className="clearfix"> </div>
 
-        { !_.isEmpty(this.props.selectedTarget) &&
+        { !isEmpty(this.props.selectedTarget) &&
           <SelectedTarget {...this.props.selectedTarget}/>
         }
 

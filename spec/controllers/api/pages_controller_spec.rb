@@ -40,22 +40,34 @@ describe Api::PagesController do
   end
 
   describe 'PUT update' do
-    before do
-      allow(PageUpdater).to receive(:new) { page_updater }
-      put :update, id: 1
+    it 'is redirected if the user is not logged in' do
+      allow(controller).to receive(:user_signed_in?).and_return(false)
+      expect(put(:update, id: 1)).to redirect_to(new_user_session_url)
     end
 
-    it 'finds page' do
-      expect(Page).to have_received(:find).with('1')
-    end
-
-    context 'PageUpdater' do
-      it 'is instantiated' do
-        expect(PageUpdater).to have_received(:new).with(page, 'http://test.host/pages/1')
+    context 'logged in' do
+      before do
+        allow(PageUpdater).to receive(:new).and_return(page_updater)
+        allow(request.env['warden']).to receive(:authenticate!) { double }
+        put :update, id: 1
       end
 
-      it 'calls update with params' do
-        expect(page_updater).to have_received(:update).with({})
+      it 'finds page' do
+        expect(Page).to have_received(:find).with('1')
+      end
+
+      it 'returns success' do
+        expect(response.code).to eq '200'
+      end
+
+      describe 'PageUpdater' do
+        it 'is instantiated' do
+          expect(PageUpdater).to have_received(:new).with(page, 'http://test.host/pages/1')
+        end
+
+        it 'calls update with params' do
+          expect(page_updater).to have_received(:update).with({})
+        end
       end
     end
   end
@@ -82,6 +94,26 @@ describe Api::PagesController do
       it 'renders json' do
         expect(response.body).to match(/No record was found/)
       end
+    end
+  end
+
+  describe 'GET actions' do
+    subject { get :actions, id: '2' }
+
+    it 'returns a 403 if the page publish_actions is secure' do
+      allow(page).to receive(:secure?).and_return(true)
+      subject
+      expect(response.code).to eq '403'
+    end
+
+    it 'calls ActionReader if page publish_actions is default_hidden' do
+      allow(page).to receive(:secure?).and_return(false)
+      allow(page).to receive(:default_hidden?).and_return(true)
+      ar = instance_double(ActionReader, run: [])
+      allow(ActionReader).to receive(:new).and_return(ar)
+      expect(ActionReader).to receive(:new)
+      expect(ar).to receive(:run)
+      subject
     end
   end
 end

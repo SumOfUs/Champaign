@@ -9,4 +9,10 @@ class Api::AnalyticsController < ApplicationController
       end
     end
   end
+
+  def call_tool
+    @page = Page.find(params[:page_id])
+    stats = CallTool::Stats.for(@page)
+    render json: { data: stats }
+  end
 end
