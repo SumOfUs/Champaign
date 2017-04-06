@@ -30,6 +30,7 @@ class Api::EmailTargetsController < ApplicationController
       page_id: params[:page],
       name: params[:from_name],
       email: params[:from_email],
+      postal: '10000',
       country: params[:country],
       action_target: params[:target_name],
       action_target_email: params[:to_email]

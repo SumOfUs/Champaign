@@ -28,6 +28,12 @@ label.radio {
   font-weight: normal;
 }
 
-textarea.text-area-height {
-  height: 300px;
+.email_a_target {
+  textarea.height-large {
+    height: 300px;
+  }
+
+  textarea.height-short {
+    height: 100px;
+  }
 }

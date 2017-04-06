@@ -314,8 +314,10 @@ en:
       email_footer: "Footer (member can't edit)"
       email_address_for_testing: 'Email address to send to (use for testing only)'
       from_address: "'from' email address"
+      test_email_warning: "Don't forget to remove the test address before publishing."
       tooltips:
         from_address: 'Must be a valid address using a validated domain'
+        email_address_for_testing: 'ALL emails will be delivered to this address - use when you want to test a campaign before publishing.'
     call_tool:
       title: 'Title'
       click_to_play: 'Click to play'
