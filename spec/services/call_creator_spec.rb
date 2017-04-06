@@ -94,6 +94,11 @@ describe CallCreator do
       CallCreator.new(params).run
       expect(Call.last.twilio_error_code).to eq(13_223)
     end
+
+    it 'sets the status to failed' do
+      CallCreator.new(params).run
+      expect(Call.last.status).to eql('failed')
+    end
   end
 
   context 'given the target id is invalid' do

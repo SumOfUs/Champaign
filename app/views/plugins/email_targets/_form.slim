@@ -7,9 +7,12 @@
         = label_with_tooltip(f, :email_from, t('plugins.email_target.from_address'), t('plugins.email_target.tooltips.from_address'))
         = f.text_field :email_from, class: 'form-control'
 
-      .form-group
-        = f.label(:test_email_address, t('plugins.email_target.email_address_for_testing'))
+      .form-group.field_with_errors
+        = label_with_tooltip(f, :test_email_address, t('plugins.email_target.email_address_for_testing'), t('plugins.email_target.tooltips.email_address_for_testing'))
         = f.text_field :test_email_address, class: 'form-control'
+        - if plugin.test_email_address
+          .has-error
+            strong = t('plugins.email_target.test_email_warning')
 
       .form-group
         = f.label(:email_subject, t('plugins.email_target.subject'))
@@ -17,12 +20,12 @@
 
       .form-group
         = f.label(:email_body_a, t('plugins.email_target.email_header'))
-        = f.text_area :email_body_a, class: 'form-control', height: 100
+        = f.text_area :email_body_a, class: 'form-control height-short'
 
       .form-group
         = f.label(:email_body_b, t('plugins.email_target.email_body'))
-        = f.text_area :email_body_b, class: 'form-control text-area-height'
+        = f.text_area :email_body_b, class: 'form-control height-large'
 
       .form-group
         = f.label(:email_body_c, t('plugins.email_target.email_footer'))
-        = f.text_area :email_body_c, class: 'form-control', height: 100
+        = f.text_area :email_body_c, class: 'form-control height-short'

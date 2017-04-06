@@ -4,6 +4,7 @@ const findCacheDir = require('find-cache-dir');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const StatsPlugin = require('stats-webpack-plugin');
+const path = require('path');
 const getClientEnvironment = require('./env');
 
 const paths = require('./paths');
@@ -31,10 +32,16 @@ module.exports = {
   // This means they will be the "root" imports that are included in JS bundle.
   // The first two entry points enable "hot" CSS and auto-refreshes for JS.
   entry: {
-    components: [
+    campaigners: [
       require.resolve('./webpackHotDevClient'),
-      require.resolve('./polyfills'),
-      paths.appIndexJs,
+      require.resolve(path.join(paths.appSrc, 'bootstrap')),
+      require.resolve(path.join(paths.appSrc, 'bundles', 'campaigners')),
+    ],
+    members: [
+      require.resolve('babel-polyfill'),
+      require.resolve('./webpackHotDevClient'),
+      require.resolve(path.join(paths.appSrc, 'bootstrap')),
+      require.resolve(path.join(paths.appSrc, 'bundles', 'members')),
     ],
   },
   output: {
@@ -61,7 +68,11 @@ module.exports = {
     // We also include JSX as a common component filename extension to support
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebookincubator/create-react-app/issues/290
-    extensions: ['.js', '.json', '.jsx', '']
+    extensions: ['.js', '.json', '.jsx', ''],
+    alias: {
+      react: 'preact-compat',
+      'react-dom': 'preact-compat',
+    },
   },
 
   module: {

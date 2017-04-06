@@ -17,7 +17,8 @@
 #
 
 class Call < ActiveRecord::Base
-  enum status: [:unstarted, :started, :connected]
+  TWILIO_STATUSES = %w(completed answered busy no-answer failed canceled unknown).freeze
+  enum status: [:unstarted, :started, :connected, :failed]
   belongs_to :page
   belongs_to :member
 
@@ -29,6 +30,8 @@ class Call < ActiveRecord::Base
 
   delegate :sound_clip, to: :call_tool
   delegate :menu_sound_clip, to: :call_tool
+
+  scope :not_failed, -> { where.not(status: statuses['failed']) }
 
   def target_phone_number
     target.phone_number
@@ -45,6 +48,12 @@ class Call < ActiveRecord::Base
   def target
     target_json = read_attribute(:target)
     CallTool::Target.new(target_json) if target_json.present?
+  end
+
+  # Returns: completed | answered | busy | no-answer |
+  #          failed | canceled | unknown
+  def target_call_status
+    target_call_info['DialCallStatus'] || 'unknown'
   end
 
   private

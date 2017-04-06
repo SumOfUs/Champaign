@@ -1,32 +1,16 @@
 /* @flow */
 import React from 'react';
 import { render } from 'react-dom';
-import { addLocaleData } from 'react-intl';
-import enLocaleData from 'react-intl/locale-data/en';
-import deLocaleData from 'react-intl/locale-data/de';
-import frLocaleData from 'react-intl/locale-data/fr';
-import esLocaleData from 'react-intl/locale-data/es';
 
-import configureStore from './state';
-import { camelizeKeys } from './util/util';
-import ComponentWrapper from './ComponentWrapper';
-import FundraiserView from './containers/FundraiserView/FundraiserView';
-import CallToolView   from './containers/CallToolView/CallToolView';
-import EmailTargetView   from './containers/EmailTargetView/EmailTargetView';
+import { camelizeKeys } from '../util/util';
+import ComponentWrapper from '../components/ComponentWrapper';
+import FundraiserView from '../containers/FundraiserView/FundraiserView';
+import CallToolView   from '../containers/CallToolView/CallToolView';
+import EmailTargetView   from '../containers/EmailTargetView/EmailTargetView';
 
-import type { Store } from 'redux';
-import type { AppState } from './state/reducers';
+import type { AppState } from '../state/reducers';
 
-import './components.css';
-
-addLocaleData([
-  ...enLocaleData,
-  ...deLocaleData,
-  ...frLocaleData,
-  ...esLocaleData,
-]);
-
-const store: Store<AppState, *> = configureStore({});
+const store: Store<AppState, *> = window.champaignStore;
 
 window.mountFundraiser = (root: string, initialState?: any = {})  => {
   store.dispatch({ type: 'initialize_page', payload: window.champaign.page });
@@ -40,8 +24,8 @@ window.mountFundraiser = (root: string, initialState?: any = {})  => {
   );
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
-    module.hot.accept('./containers/FundraiserView/FundraiserView', () => {
-      const UpdatedFundraiserView = require('./containers/FundraiserView/FundraiserView').default;
+    module.hot.accept('../containers/FundraiserView/FundraiserView', () => {
+      const UpdatedFundraiserView = require('../containers/FundraiserView/FundraiserView').default;
       render(
         <ComponentWrapper store={store} locale={initialState['locale']}>
           <UpdatedFundraiserView />
