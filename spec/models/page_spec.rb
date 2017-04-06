@@ -30,6 +30,7 @@
 #  allow_duplicate_actions    :boolean          default(FALSE)
 #  enforce_styles             :boolean          default(FALSE), not null
 #  notes                      :text
+#  publish_actions            :integer          default(0), not null
 #
 
 require 'rails_helper'
