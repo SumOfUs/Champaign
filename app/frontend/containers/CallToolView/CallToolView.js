@@ -213,6 +213,14 @@ class CallToolView extends Component {
     });
   }
 
+  instructionsMessageId() {
+    if(this.props.restrictedCountryCode) {
+      return 'call_tool.instructions_without_country';
+    } else {
+      return 'call_tool.instructions';
+    }
+  }
+
   render() {
     const {errors} = this.state;
     return (
@@ -221,7 +229,7 @@ class CallToolView extends Component {
           <h1> { this.props.title } </h1>
         }
 
-        <p className='select-home-country'> <FormattedMessage id="call_tool.select_target" /> </p>
+        <p className='select-home-country'> <FormattedMessage id={this.instructionsMessageId()} /> </p>
 
         { errors.base !== undefined && !isEmpty(this.state.errors.base) &&
           <div className="base-errors">

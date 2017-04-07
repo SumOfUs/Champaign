@@ -99,7 +99,8 @@ en:
     million: million
   call_tool:
     you_will_be_calling: "We will call you and connect you to"
-    select_target: "Just enter your home country and phone number -- and we'll call shortly after."
+    instructions: "Just enter your home country and phone number -- and we'll call shortly after."
+    instructions_without_country: "Just enter your phone number including the area code -- and we'll call shortly after."
     text_to_speach_menu: "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again."
     errors:
       unknown: "Oops! Something went wrong, please try a different phone number or again in a few minutes."
@@ -108,6 +109,7 @@ en:
       phone_number:
         too_short: "must have at least 6 digits"
         cant_connect: "can't connect to this phone number, please check it's correct or try another one"
+        is_invalid: "is not a valid phone number"
     fine_print: 'SumOfUs will protect <a href="https://sumofus.org/privacy" target="_blank">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.'
     form:
       phone_number: "My phone number"

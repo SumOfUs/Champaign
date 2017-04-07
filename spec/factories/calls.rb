@@ -19,7 +19,9 @@
 FactoryGirl.define do
   factory :call do
     association :page, :with_call_tool
-    member_phone_number { Faker::PhoneNumber.cell_phone }
+    member_phone_number {
+      ['+448008085429', '+448000119712', '+61261885481', '+13437003482'].sample
+    }
     target { build(:call_tool_target) }
 
     trait :with_busy_target_status do
