@@ -14,7 +14,7 @@ describe CallCreator do
     let(:params) do
       { page_id: page.id,
         member_id: member.id,
-        member_phone_number: '12345678',
+        member_phone_number: '+1 343-700-3482',
         target_id: target.id }
     end
 
@@ -27,7 +27,7 @@ describe CallCreator do
       call = Call.last
       expect(call.page_id).to eql(page.id)
       expect(call.member_id).to eql(member.id)
-      expect(call.member_phone_number).to eql('12345678')
+      expect(call.member_phone_number).to eql('13437003482')
     end
 
     it 'normalizes the phone number' do
@@ -43,7 +43,7 @@ describe CallCreator do
         receive(:create)
         .with(
           hash_including(from: Settings.calls.default_caller_id,
-                         to: '12345678',
+                         to: '13437003482',
                          url: %r{twilio/calls/\d+/start},
                          status_callback: %r{twilio/calls/\d+/member_call_event})
         )
@@ -82,7 +82,7 @@ describe CallCreator do
     let(:params) do
       { page_id: page.id,
         member_id: member.id,
-        member_phone_number: '1234567',
+        member_phone_number: '+1 343-700-3482',
         target_id: target.id }
     end
 

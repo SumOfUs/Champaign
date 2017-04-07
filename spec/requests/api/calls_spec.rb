@@ -14,7 +14,7 @@ describe 'API::Calls' do
       let(:params) do
         {
           call: {
-            member_phone_number: '+123456789',
+            member_phone_number: '+1 343-700-3482',
             target_id: target.id
           }
         }
@@ -32,7 +32,7 @@ describe 'API::Calls' do
 
         call = Call.last
         expect(call.page_id).to eq(page.id)
-        expect(call.member_phone_number).to eq('123456789')
+        expect(call.member_phone_number).to eq('13437003482')
         expect(call.target).to eq target
       end
 
@@ -40,7 +40,7 @@ describe 'API::Calls' do
         expect_any_instance_of(Twilio::REST::Calls)
           .to receive(:create)
           .with(hash_including(from: Settings.calls.default_caller_id,
-                               to: '123456789',
+                               to: '13437003482',
                                url: %r{/twilio/calls/\d+/start}))
 
         post "/api/pages/#{page.id}/call", params

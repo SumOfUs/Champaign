@@ -73,5 +73,9 @@ class Call < ActiveRecord::Base
     unless has_at_least_six_numbers
       errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number.too_short'))
     end
+
+    unless Phony.plausible?(member_phone_number)
+      errors.add(:member_phone_number, I18n.t('call_tool.errors.phone_number.is_invalid'))
+    end
   end
 end

@@ -108,6 +108,7 @@ en:
       phone_number:
         too_short: "must have at least 6 digits"
         cant_connect: "can't connect to this phone number, please check it's correct or try another one"
+        is_invalid: "is not a valid phone number"
     fine_print: 'SumOfUs will protect <a href="https://sumofus.org/privacy" target="_blank">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.'
     form:
       phone_number: "My phone number"

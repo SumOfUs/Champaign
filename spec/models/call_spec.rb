@@ -34,7 +34,7 @@ describe Call do
     end
 
     it 'allows valid phone numbers' do
-      call.member_phone_number = '+54 (261) 123-12345'
+      call.member_phone_number = '+54 (261) 123-1234'
       expect(call).to be_valid
     end
   end
