@@ -3,20 +3,25 @@
 #
 # Table name: plugins_call_tools
 #
-#  id                      :integer          not null, primary key
-#  page_id                 :integer
-#  active                  :boolean
-#  ref                     :string
-#  created_at              :datetime
-#  updated_at              :datetime
-#  title                   :string
-#  targets                 :json             is an Array
-#  sound_clip_file_name    :string
-#  sound_clip_content_type :string
-#  sound_clip_file_size    :integer
-#  sound_clip_updated_at   :datetime
-#  description             :text
-#  target_by_country       :boolean          default(TRUE)
+#  id                           :integer          not null, primary key
+#  page_id                      :integer
+#  active                       :boolean
+#  ref                          :string
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  title                        :string
+#  targets                      :json             is an Array
+#  sound_clip_file_name         :string
+#  sound_clip_content_type      :string
+#  sound_clip_file_size         :integer
+#  sound_clip_updated_at        :datetime
+#  description                  :text
+#  target_by_country            :boolean          default(TRUE)
+#  menu_sound_clip_file_name    :string
+#  menu_sound_clip_content_type :string
+#  menu_sound_clip_file_size    :integer
+#  menu_sound_clip_updated_at   :datetime
+#  restricted_country_code      :string
 #
 
 class Plugins::CallTool < ActiveRecord::Base
@@ -33,6 +38,7 @@ class Plugins::CallTool < ActiveRecord::Base
 
   validate :targets_are_valid
   validate :target_countries_are_present, if: :target_by_country?
+  validate :restricted_country_code_is_valid
 
   def name
     self.class.name.demodulize
@@ -54,10 +60,21 @@ class Plugins::CallTool < ActiveRecord::Base
     targets.find { |t| t.id == id }
   end
 
+  def restricted_country_code=(code)
+    new_value = code.present? ? code : nil
+    write_attribute(:restricted_country_code, new_value)
+  end
+
   private
 
   def json_targets
     read_attribute(:targets)
+  end
+
+  def restricted_country_code_is_valid
+    if restricted_country_code.present? && ISO3166::Country[restricted_country_code].blank?
+      errors.add(:restricted_country_code, 'is invalid')
+    end
   end
 
   def targets_are_valid
@@ -86,6 +103,7 @@ class Plugins::CallTool < ActiveRecord::Base
         page_id: obj.page_id,
         locale: obj.page.language_code,
         active: obj.active,
+        restricted_country_code: restricted_country_code,
         targets: targets,
         target_by_country_enabled: obj.target_by_country,
         countries: countries,
@@ -97,6 +115,15 @@ class Plugins::CallTool < ActiveRecord::Base
 
     private
 
+    # TODO: guarantee present or nil on AR object
+    def restricted_country_code
+      if obj.restricted_country_code.blank?
+        nil
+      else
+        obj.restricted_country_code
+      end
+    end
+
     def targets
       obj.targets.map { |t| t.to_hash.merge(id: t.id) }
     end
@@ -104,7 +131,9 @@ class Plugins::CallTool < ActiveRecord::Base
     # Returns [{ code: <country-code>, name: <country-name>}, {..} ...]
     def countries
       list =
-        if obj.target_by_country
+        if obj.restricted_country_code.present?
+          [ISO3166::Country[restricted_country_code]]
+        elsif obj.target_by_country
           obj.targets.map(&:country_code).uniq.compact.map do |country_code|
             ISO3166::Country[country_code]
           end

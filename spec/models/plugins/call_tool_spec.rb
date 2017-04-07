@@ -3,20 +3,25 @@
 #
 # Table name: plugins_call_tools
 #
-#  id                      :integer          not null, primary key
-#  page_id                 :integer
-#  active                  :boolean
-#  ref                     :string
-#  created_at              :datetime
-#  updated_at              :datetime
-#  title                   :string
-#  targets                 :json             is an Array
-#  sound_clip_file_name    :string
-#  sound_clip_content_type :string
-#  sound_clip_file_size    :integer
-#  sound_clip_updated_at   :datetime
-#  description             :text
-#  target_by_country       :boolean          default(TRUE)
+#  id                           :integer          not null, primary key
+#  page_id                      :integer
+#  active                       :boolean
+#  ref                          :string
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  title                        :string
+#  targets                      :json             is an Array
+#  sound_clip_file_name         :string
+#  sound_clip_content_type      :string
+#  sound_clip_file_size         :integer
+#  sound_clip_updated_at        :datetime
+#  description                  :text
+#  target_by_country            :boolean          default(TRUE)
+#  menu_sound_clip_file_name    :string
+#  menu_sound_clip_content_type :string
+#  menu_sound_clip_file_size    :integer
+#  menu_sound_clip_updated_at   :datetime
+#  restricted_country_code      :string
 #
 
 require 'rails_helper'
@@ -72,6 +77,27 @@ describe Plugins::CallTool do
       it 'allows targets with blank countries' do
         expect(call_tool).to be_valid
       end
+    end
+  end
+
+  describe '#restricted_country_code=' do
+    it 'nullifies value when trying to set an empty string' do
+      call_tool = build(:call_tool, restricted_country_code: 'AR')
+      call_tool.restricted_country_code = ''
+      expect(call_tool.restricted_country_code).to be_nil
+    end
+  end
+
+  describe 'restricted_country_code validation' do
+    it "doesn't allow invalid country codes" do
+      call_tool = build(:call_tool, restricted_country_code: 'wrong')
+      expect(call_tool).to be_invalid
+      expect(call_tool.errors[:restricted_country_code]).to be_present
+    end
+
+    it 'allows valid country codes' do
+      call_tool = build(:call_tool, restricted_country_code: 'AR')
+      expect(call_tool).to be_valid
     end
   end
 end

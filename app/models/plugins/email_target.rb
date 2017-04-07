@@ -1,4 +1,21 @@
 # frozen_string_literal: true
+# == Schema Information
+#
+# Table name: plugins_email_targets
+#
+#  id                 :integer          not null, primary key
+#  ref                :string
+#  page_id            :integer
+#  active             :boolean          default(FALSE)
+#  email_from         :string
+#  email_subject      :string
+#  email_body_b       :text
+#  created_at         :datetime
+#  updated_at         :datetime
+#  test_email_address :string
+#  email_body_a       :text
+#  email_body_c       :text
+#
 
 class Plugins::EmailTarget < ActiveRecord::Base
   DEFAULTS = {}.freeze

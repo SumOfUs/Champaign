@@ -36,17 +36,7 @@ window.mountFundraiser = (root: string, initialState?: any = {})  => {
   }
 };
 
-type callToolProps = {
-  locale: string;
-  title?: string;
-  targets: any[];
-  targetCountries: any[];
-  countriesPhoneCodes: any[];
-  pageId: string | number;
-  targetByCountryEnabled: boolean;
-};
-
-window.mountCallTool = (root: string, props: callToolProps) => {
+window.mountCallTool = (root: string, props: any) => {
   props = camelizeKeys(props);
 
   render(

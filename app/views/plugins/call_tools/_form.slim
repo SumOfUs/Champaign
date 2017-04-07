@@ -12,6 +12,10 @@
         .wysiwyg id='call-tool-wysiwyg'
         = f.hidden_field :description, id: "call-tool-wysiwyg_content"
 
+      .form-group
+        = label_with_tooltip(f, :restricted_country_code, t('plugins.call_tool.restricted_country_code'), t('tooltips.call_tool.restricted_country_code'))
+        = f.select :restricted_country_code, ISO3166::Country.all.map {|c| [c.name, c.alpha2]}, { include_blank: true }, class: 'form-control restricted_country_code'
+
     .well.targets-section
       = render partial: 'plugins/call_tools/target_form.slim', locals: { plugin: plugin }
 
@@ -24,4 +28,4 @@ javascript:
   $.publish("wysiwyg:setup", "call-tool-wysiwyg");
   $('.call-tool form.one-form').on('ajax:before', function(){
     $.publish('wysiwyg:submit')
-  })
+  });

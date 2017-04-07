@@ -50,6 +50,7 @@ type OwnState = {
 }
 
 type OwnProps = {
+  restrictedCountryCode: ?string;
   targetByCountryEnabled: boolean;
   memberPhoneNumber?: string;
   countryCode?: string;
@@ -83,7 +84,9 @@ class CallToolView extends Component {
   preselectedCountryCode() {
     let countryCode;
 
-    if(this.props.targetByCountryEnabled) {
+    if(this.props.restrictedCountryCode) {
+      countryCode = this.props.restrictedCountryCode;
+    } else if(this.props.targetByCountryEnabled) {
       // Assign countryCode only if it's a valid one
       const preselectedTarget = find(this.props.targets, target => {
         return target.countryCode === this.props.countryCode;
@@ -92,7 +95,6 @@ class CallToolView extends Component {
     } else {
       countryCode = this.props.countryCode || '';
     }
-
     return countryCode;
   }
 
@@ -234,6 +236,7 @@ class CallToolView extends Component {
 
         <Form
           targetByCountryEnabled={this.props.targetByCountryEnabled}
+          restrictToSingleCountry={!!this.props.restrictedCountryCode}
           countries={this.props.countries}
           countriesPhoneCodes={this.props.countriesPhoneCodes}
           targets={this.props.targets}

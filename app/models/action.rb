@@ -14,6 +14,7 @@
 #  form_data         :jsonb
 #  subscribed_member :boolean          default(TRUE)
 #  donation          :boolean          default(FALSE)
+#  publish_status    :integer          default(0), not null
 #
 
 class Action < ActiveRecord::Base
