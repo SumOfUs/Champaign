@@ -17,7 +17,6 @@
 #  email_body_c       :text
 #
 
-
 class Plugins::EmailTarget < ActiveRecord::Base
   DEFAULTS = {}.freeze
 

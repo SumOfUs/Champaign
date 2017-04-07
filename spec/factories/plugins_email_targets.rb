@@ -17,7 +17,6 @@
 #  email_body_c       :text
 #
 
-
 FactoryGirl.define do
   factory :email_target, class: 'Plugins::EmailTarget' do
     association :page

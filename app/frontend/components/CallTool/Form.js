@@ -10,6 +10,7 @@ import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
   targetByCountryEnabled: boolean;
+  restrictToSingleCountry: boolean;
   countries: Country[];
   targets: Target[];
   countriesPhoneCodes: CountryPhoneCode[];
@@ -81,24 +82,33 @@ class Form extends Component {
   }
 
   render() {
+    const formClassNames = classnames({
+      'action-form': true,
+      'form--big': true,
+      'single-country': this.props.restrictToSingleCountry
+    });
     return(
-      <form className='action-form form--big' data-remote="true" >
-        <FieldShape
-        key="countryCode"
-        errorMessage={this.props.errors.countryCode}
-        onChange={this.props.onCountryCodeChange}
-        value={this.props.form.countryCode}
-        field={this.fields.countryCodeField}
-        className="countryCodeField"
-        />
+      <form className={formClassNames} data-remote="true" >
+        { !this.props.restrictToSingleCountry &&
+          <FieldShape
+          key="countryCode"
+          errorMessage={this.props.errors.countryCode}
+          onChange={this.props.onCountryCodeChange}
+          value={this.props.form.countryCode}
+          field={this.fields.countryCodeField}
+          className="countryCodeField"
+          />
+        }
 
-        <FieldShape
-        key="memberPhoneCountryCode"
-        errorMessage={this.props.errors.memberPhoneCountryCode}
-        onChange={this.props.onMemberPhoneCountryCodeChange}
-        value={this.props.form.memberPhoneCountryCode}
-        field={this.fields.memberPhoneCountryCodeField}
-        className="phoneCountryCodeField" />
+        { !this.props.restrictToSingleCountry &&
+          <FieldShape
+          key="memberPhoneCountryCode"
+          errorMessage={this.props.errors.memberPhoneCountryCode}
+          onChange={this.props.onMemberPhoneCountryCodeChange}
+          value={this.props.form.memberPhoneCountryCode}
+          field={this.fields.memberPhoneCountryCodeField}
+          className="phoneCountryCodeField" />
+        }
 
         <FieldShape
         key="memberPhoneNumber"
@@ -108,11 +118,13 @@ class Form extends Component {
         field={this.fields.memberPhoneNumberField}
         className="phoneNumberField" />
 
-        <p className={classnames({'guessed-country-name': true, hidden: !isEmpty(this.props.errors.memberPhoneNumber) })}>
-          <span>
-            { this.phoneNumberCountryName() }
-          </span>
-        </p>
+        { !this.props.restrictToSingleCountry &&
+          <p className={classnames({'guessed-country-name': true, hidden: !isEmpty(this.props.errors.memberPhoneNumber) })}>
+            <span>
+              { this.phoneNumberCountryName() }
+            </span>
+          </p>
+        }
 
         <div className="clearfix"> </div>
 
