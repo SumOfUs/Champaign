@@ -1,0 +1,111 @@
+[{
+	"_id": "28cc511e4849c175cb20edb6692c5f64",
+	"email": "dbroderson@atrf.com",
+	"name": "Derek",
+	"fund": "Alberta Teachers' Retirement Fund Board"
+}, {
+	"_id": "46c418b584e535cac7d24ee2806802b3",
+	"email": "keenan.m@bimcor.ca",
+	"name": "Michael",
+	"fund": "Bimcor Inc."
+}, {
+	"_id": "fc927ab546e1c3fe3324b0be4c222a93",
+	"email": "gordon.fyfe@bcimc.com",
+	"name": "Gordon",
+	"fund": "British Columbia Investment Management Corp."
+}, {
+	"_id": "c3c047f3f63ac20e8e4919c2106f1438",
+	"email": "masaucier-nadeau@lacaisse.com",
+	"name": "Mark-Andre",
+	"fund": "Caisse de Depot et Placement du Quebec"
+}, {
+	"_id": "77b10acae9f849fc81cbcf7265295e47",
+	"email": "pat.palmieri@canadapost.ca",
+	"name": "Pat",
+	"fund": "Canada Post Corporation Pension Plan"
+}, {
+	"_id": "470421223c4b14d28e66b8992bfa49f9",
+	"email": "dalves@cbcpension.ca",
+	"name": "Debra",
+	"fund": "CBC Pension Fund Administration"
+}, {
+	"_id": "e754913641ea8933f35d07e56bec81cf",
+	"email": "pharrison@cnid.ca",
+	"name": "Peter",
+	"fund": "CN Investment Division"
+}, {
+	"_id": "152822671812fa1f6a41245b700dd680",
+	"email": "pnaccarato@cppib.ca",
+	"name": "Pat",
+	"fund": "CPP Investment Board"
+}, {
+	"_id": "8d65c361e2d5e8f421177148a24bdbdf",
+	"email": "jwendling@hoopp.com",
+	"name": "Jeffrey",
+	"fund": "HOOPP Investment Management"
+}, {
+	"_id": "f13314b0e53ab591302b15958412a228",
+	"email": "tremblay.stephane@hydro.qc.ca",
+	"name": "Stéphane",
+	"fund": "Hydro-Québec Pension Fund"
+}, {
+	"_id": "279e3463d74aa7aa3e4718e4df2adf66",
+	"email": "gdesautels@caisse-abr.com",
+	"name": "Guy",
+	"fund": "Montréal Policemen Pension Fund (ABRPCUM)"
+}, {
+	"_id": "32c8899eb360e57e6785d42383bef6e9",
+	"email": "srai@omers.com",
+	"name": "Satish",
+	"fund": "OMERS Administration Corporation"
+}, {
+	"_id": "abd9a5d37b52a373d5f7b98677df8a7b",
+	"email": "vincenza.sera@opb.ca",
+	"name": "Vincenza",
+	"fund": "Ontario Pension Board"
+}, {
+	"_id": "3e2555ffe3224c11ab86b281ac588ee0",
+	"email": "david.kaposi@opg.com",
+	"name": "David",
+	"fund": "Ontario Power Generation Pension Fund"
+}, {
+	"_id": "8b4d2922eb8d1d16be54d6bb6f63e952",
+	"email": "ken_manget@otpp.com",
+	"name": "Ken",
+	"fund": "Ontario Teachers' Pension Plan Board"
+}, {
+	"_id": "2e4843a7d1a0d9827254a9967939d5d9",
+	"email": "mlevesque@investpsp.ca",
+	"name": "Marc",
+	"fund": "PSP Investments"
+}, {
+	"_id": "e2eaa695f5be1ee5bd69fd6ffce63435",
+	"email": "jacynthe.cote@riotinto.com",
+	"name": "Jacynthe",
+	"fund": "Rio Tinto Alcan"
+}, {
+	"_id": "88ee316972ded1d912b738b183ef9450",
+	"email": "gilles.horrobin@stm.info",
+	"name": "Gilles",
+	"fund": "Société de transport de Montréal (STM)"
+}, {
+	"_id": "c2f0290fbd9b21d872b6821c7e18b2e8",
+	"email": "jeffrey.puritt@telus.com",
+	"name": "Jeffrey",
+	"fund": "Telus Corporation (Pension Fund)"
+}, {
+	"_id": "edaef9786d6e040c9710e1a8dcfbd505",
+	"email": "lfuller@cssb.mb.ca",
+	"name": "Lindsey",
+	"fund": "The Civil Service Superannuation Board of Manitoba"
+}, {
+	"_id": "5f1a0f07885e20103c44bd496902dbdd",
+	"email": "wolffsr@nspension.ca",
+	"name": "Steven",
+	"fund": "The Nova Scotia Pension Services Corporation"
+}, {
+	"_id": "cf894f2018ed4b2e4121a9ad00993c2a",
+	"email": "john.sinclair@vestcorinvestments.com",
+	"name": "John",
+	"fund": "Vestcor Investment Management Corporation"
+}]
