@@ -48,14 +48,15 @@ module PaymentProcessor::Braintree
     end
 
     def payment_method_id
-      cookied_payment_methods.split(',').each do |token|
-        pm = member.customer.payment_methods.find_by(token: token, cancelled_at: nil, store_in_vault: true)
-        if pm && pm.expiration_date.to_date > Date.today
-          return pm.id
-        end
-      end
-
-      false
+      member
+        .customer
+        .payment_methods
+        .stored
+        .active
+        .where(token: cookied_payment_methods.split(','))
+        .order('created_at DESC')
+        .first
+        &.id
     end
 
     def token_from_cookie
