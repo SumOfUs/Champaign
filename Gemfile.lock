@@ -79,7 +79,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     airbrake (5.7.1)
       airbrake-ruby (~> 1.7)
-    airbrake-ruby (1.8.0)
+    airbrake-ruby (1.7.1)
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
@@ -536,6 +536,7 @@ DEPENDENCIES
   actionkit_connector!
   activeadmin!
   airbrake (~> 5.7.1)
+  airbrake-ruby (= 1.7.1)
   annotate
   aws-sdk (~> 2)
   aws-sdk-rails
