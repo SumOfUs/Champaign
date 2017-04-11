@@ -48,7 +48,7 @@ module PaymentProcessor::Braintree
     end
 
     def payment_method_id
-      return nil unless member
+      return nil unless member&.customer
 
       member
         .customer
