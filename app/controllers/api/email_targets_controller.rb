@@ -36,7 +36,8 @@ class Api::EmailTargetsController < ApplicationController
       action_target_email: params[:to_email],
       akid: params[:akid],
       referring_akid: params[:referring_akid],
-      referrer_id: params[:referrer_id]
+      referrer_id: params[:referrer_id],
+      source: params[:source]
     }
   end
 

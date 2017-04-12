@@ -26,7 +26,8 @@ describe 'Emailing Targets' do
         target_name: 'Target name',
         country: 'GB',
         subject: 'Subject',
-        akid: akid
+        akid: akid,
+        source: 'fb'
       }
     end
 
@@ -72,6 +73,7 @@ describe 'Emailing Targets' do
         params: hash_including(page: 'foo-bar-petition',
                                name: "Sender's Name",
                                action_target: 'Target name',
+                               source: 'fb',
                                action_target_email: 'recipient@example.com',
                                akid: akid)
       )
