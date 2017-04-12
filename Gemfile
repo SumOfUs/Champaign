@@ -98,7 +98,7 @@ group :development do
 end
 
 group :test do
-  gem 'coveralls', require: false
+  gem 'coveralls', '~> 0.8.20', require: false
   gem 'poltergeist'
   gem 'rspec-json_expectations'
   gem 'timecop'
