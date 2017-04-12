@@ -3,6 +3,7 @@ require 'rails_helper'
 
 describe 'Emailing Targets' do
   let(:aws_client) { double(:aws_client, put_item: true) }
+  let(:akid) { '25429.9032842.RNP4O4' }
 
   before do
     allow(ChampaignQueue).to receive(:push)
@@ -24,7 +25,8 @@ describe 'Emailing Targets' do
         body: 'Body text',
         target_name: 'Target name',
         country: 'GB',
-        subject: 'Subject'
+        subject: 'Subject',
+        akid: akid
       }
     end
 
@@ -70,7 +72,8 @@ describe 'Emailing Targets' do
         params: hash_including(page: 'foo-bar-petition',
                                name: "Sender's Name",
                                action_target: 'Target name',
-                               action_target_email: 'recipient@example.com')
+                               action_target_email: 'recipient@example.com',
+                               akid: akid)
       )
 
       expect(ChampaignQueue).to have_received(:push).with(expected_options)

@@ -33,7 +33,10 @@ class Api::EmailTargetsController < ApplicationController
       postal: '10000',
       country: params[:country],
       action_target: params[:target_name],
-      action_target_email: params[:to_email]
+      action_target_email: params[:to_email],
+      akid: params[:akid],
+      referring_akid: params[:referring_akid],
+      referrer_id: params[:referrer_id]
     }
   end
 
