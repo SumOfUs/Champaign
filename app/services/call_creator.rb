@@ -18,7 +18,11 @@ class CallCreator
 
     if errors.blank?
       Call.transaction do
-        place_call if call.save
+        place_call if @call.save
+      end
+
+      if @call.persisted? && !@call.failed?
+        publish_event
       end
     end
 
@@ -90,6 +94,11 @@ class CallCreator
       Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{call.attributes.inspect}")
       add_error(:base, I18n.t('call_tool.errors.unknown'))
     end
+  end
+
+  def publish_event
+    return if @call.member.blank? # handle this in worker
+    CallEvent::New.publish(@call)
   end
 
   # If the targets are updated while the user is on the call tool page, the list

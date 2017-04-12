@@ -46,6 +46,11 @@ describe CallCreator do
       )
       CallCreator.new(params).run
     end
+
+    it 'publishes the event' do
+      expect(CallEvent::New).to receive(:publish).with(an_instance_of(Call))
+      CallCreator.new(params).run
+    end
   end
 
   context 'given valid params' do

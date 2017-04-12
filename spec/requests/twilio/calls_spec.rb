@@ -1,7 +1,9 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'POST /twilio/calls/:id/start' do
+  before { allow(CallEvent::Update).to receive(:publish) }
   let(:call) { create(:call) }
 
   it 'returns successfully' do
@@ -13,6 +15,11 @@ describe 'POST /twilio/calls/:id/start' do
     expect(call.unstarted?).to be true
     post "/twilio/calls/#{call.id}/start"
     expect(call.reload.started?).to be true
+  end
+
+  it 'publishes an event' do
+    expect(CallEvent::Update).to receive(:publish).with(call)
+    post "/twilio/calls/#{call.id}/start"
   end
 end
 
@@ -26,6 +33,7 @@ describe 'POST /twilio/calls/:id/menu' do
 end
 
 describe 'POST /twilio/calls/:id/connect' do
+  before { allow(CallEvent::Update).to receive(:publish) }
   let(:call) { create(:call) }
 
   it 'returns successfully' do
@@ -38,9 +46,15 @@ describe 'POST /twilio/calls/:id/connect' do
     post "/twilio/calls/#{call.id}/connect"
     expect(call.reload.connected?).to be true
   end
+
+  it 'publishes an event' do
+    expect(CallEvent::Update).to receive(:publish).with(call)
+    post "/twilio/calls/#{call.id}/start"
+  end
 end
 
 describe 'POST /twilio/calls/:id/target_call_status' do
+  before { allow(CallEvent::Update).to receive(:publish) }
   let(:call) { create(:call) }
 
   it 'updates call target_call_info' do
@@ -48,9 +62,15 @@ describe 'POST /twilio/calls/:id/target_call_status' do
     expect(call.reload.target_call_info['foo']).to eq('bar')
     expect(response).to be_success
   end
+
+  it 'publishes an event' do
+    expect(CallEvent::Update).to receive(:publish).with(call)
+    post "/twilio/calls/#{call.id}/start"
+  end
 end
 
 describe 'POST /twilio/calls/:id/member_call_event' do
+  before { allow(CallEvent::Update).to receive(:publish) }
   let(:call) { create(:call) }
   let(:params) do
     {
@@ -71,5 +91,10 @@ describe 'POST /twilio/calls/:id/member_call_event' do
     call.reload
     expect(call.member_call_events.count).to eql 1
     expect(call.member_call_events.first['CallStatus']).to eql 'completed'
+  end
+
+  it 'publishes an event' do
+    expect(CallEvent::Update).to receive(:publish).with(call)
+    post "/twilio/calls/#{call.id}/start"
   end
 end

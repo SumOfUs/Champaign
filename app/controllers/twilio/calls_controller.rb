@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 module Twilio
   class CallsController < ApplicationController
     skip_before_action :verify_authenticity_token, raise: false
 
     def start
       @call = Call.find(params[:id])
-      @call.started! if @call.unstarted?
+      CallTool::CallStatusUpdater.start!(@call)
       render xml: CallTool::TwimlGenerator::Start.run(@call)
     end
 
@@ -16,20 +17,19 @@ module Twilio
 
     def connect
       @call = Call.find(params[:id])
-      @call.connected! if @call.started?
+      CallTool::CallStatusUpdater.connect!(@call)
       render xml: CallTool::TwimlGenerator::Connect.run(@call)
     end
 
     def create_target_call_status
       @call = Call.find(params[:id])
-      @call.update!(target_call_info: params)
+      CallTool::CallStatusUpdater.update!(@call, target_call_info: params)
       render xml: CallTool::TwimlGenerator::Empty.run
     end
 
     def create_member_call_event
       @call = Call.find(params[:id])
-      @call.member_call_events << params
-      @call.save!
+      CallTool::CallStatusUpdater.new_member_call_event!(@call, params)
       head :ok
     end
 
