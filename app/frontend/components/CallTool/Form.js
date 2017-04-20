@@ -57,7 +57,7 @@ const countryCodeField:Field = {
 const targetField: Field = {
   data_type: 'select',
   name: 'call_tool[target]',
-  label: <FormattedMessage id="call_tool.you_will_be_calling" />,
+  label: <FormattedMessage id="call_tool.manual_target_selection" />,
   default_value: null,
   required: true,
   disabled: false,

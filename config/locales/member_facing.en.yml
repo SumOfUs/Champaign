@@ -98,6 +98,7 @@ en:
     signatures: signatures # as in '225 signatures'
     million: million
   call_tool:
+    manual_target_selection: "Please select your relevant minister"
     you_will_be_calling: "We will call you and connect you to"
     instructions: "Just enter your home country and phone number -- and we'll call shortly after."
     instructions_without_country: "Just enter your phone number including the area code -- and we'll call shortly after."

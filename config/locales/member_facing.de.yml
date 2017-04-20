@@ -77,6 +77,7 @@ de:
     signatures: Unterschriften
     million: Millionen
   call_tool:
+    manual_target_selection: "Please select your relevant minister (DE)"
     you_will_be_calling: "Wir rufen Sie gleich an und verbinden Sie anschließend mit"
     select_target: "Geben Sie Ihr Land und Ihre Telefonnummer ein -- wir rufen Sie dann umgehend an. "
     errors:
