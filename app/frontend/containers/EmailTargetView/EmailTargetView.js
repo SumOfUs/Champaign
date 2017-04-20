@@ -3,11 +3,11 @@ import _ from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import Select from '../../components/SweetSelect/SweetSelect';
-import './EmailTargetView.scss';
 import Input from '../../components/SweetInput/SweetInput';
 import Button from '../../components/Button/Button';
 import SelectCountry from '../../components/SelectCountry/SelectCountry';
 import { FormattedMessage } from 'react-intl';
+import './EmailTargetView.scss';
 
 import {
   changeCountry,
@@ -36,12 +36,12 @@ class EmailTargetView extends Component {
   }
 
   getPensionFunds(country: string) {
-    if(!country) return;
+    if (!country) return;
 
     const url = `/api/pension_funds?country=${country.toLowerCase()}`;
 
-    const handleSuccess = (data) => {
-      data.forEach((fund) => {
+    const handleSuccess = data => {
+      data.forEach(fund => {
         fund.value = fund._id;
         fund.label = fund.fund;
       });
@@ -60,59 +60,53 @@ class EmailTargetView extends Component {
   validateForm() {
     const errors = {};
 
-    const fields = [
-      'country',
-      'subject',
-      'name',
-      'email',
-      'fund'
-    ];
+    const fields = ['country', 'subject', 'name', 'email', 'fund'];
 
-    fields.forEach((field) => {
-      if(_.isEmpty(this.props[field])) {
+    fields.forEach(field => {
+      if (_.isEmpty(this.props[field])) {
         const location = `email_target.form.errors.${field}`;
         const message = <FormattedMessage id={location} />;
         errors[field] = message;
       }
     });
 
-    this.setState({errors: errors});
+    this.setState({ errors: errors });
     return _.isEmpty(errors);
   }
 
   render() {
     const errorNotice = () => {
-      if (!_.isEmpty(this.state.errors)){
+      if (!_.isEmpty(this.state.errors)) {
         return (
           <span className="error-msg left-align">
-            <FormattedMessage id='email_target.form.errors.message' />
+            <FormattedMessage id="email_target.form.errors.message" />
           </span>
         );
       }
     };
 
-    const parse = (template) => {
+    const parse = template => {
       template = template.replace(/(?:\r\n|\r|\n)/g, '<br />');
-      template= _.template(template);
+      template = _.template(template);
       return template(this.props);
     };
 
     const parseHeader = () => {
-      return {__html: parse(this.props.header)};
+      return { __html: parse(this.props.header) };
     };
 
     const parseFooter = () => {
-      return {__html: parse(this.props.footer)};
+      return { __html: parse(this.props.footer) };
     };
 
-    const changeFund = (value) => {
-      const contact = _.find(this.props.pensionFunds, {_id: value});
+    const changeFund = value => {
+      const contact = _.find(this.props.pensionFunds, { _id: value });
       this.props.changeFund(contact);
     };
 
     const showFundSuggestion = () => {
-      if (this.state.shouldShowFundSuggestion){
-        return(
+      if (this.state.shouldShowFundSuggestion) {
+        return (
           <p>
             <FormattedMessage id="email_target.suggest_fund" />
           </p>
@@ -120,9 +114,10 @@ class EmailTargetView extends Component {
       }
     };
 
-    const prepBody = () => `${parseHeader().__html}\n\n${this.props.body}\n\n${parseFooter().__html}`;
+    const prepBody = () =>
+      `${parseHeader().__html}\n\n${this.props.body}\n\n${parseFooter().__html}`;
 
-    const onSubmit = (e) => {
+    const onSubmit = e => {
       e.preventDefault();
 
       const valid = this.validateForm();
@@ -143,94 +138,170 @@ class EmailTargetView extends Component {
 
       this.props.changeSubmitting(true);
 
-      $.post('/api/email_targets', payload).done((a,b,c) => {});
+      $.post('/api/email_targets', payload).done((a, b, c) => {});
     };
 
-    return(
-      <div className='email-target'>
-        <div className='email-target-form'>
-        <form onSubmit={onSubmit} className='action-form form--big'>
-          <div className='email-target-action'>
-            <div className='form__group'>
-              <SelectCountry
-                value={this.props.country}
-                name='country'
-                filter={["AU", "BE", "CA", "CH", "DE", "DK", "ES", "FI", "FR", "GB", "IE", "IS", "IT", "NL", "NO", "PT", "SE", "US"]}
-                label={<FormattedMessage id="email_target.form.select_country" defaultMessage="Select country (default)" />}
-                className='form-control'
-                errorMessage={this.state.errors.country}
-                onChange={this.changeCountry.bind(this)} />
+    return (
+      <div className="email-target">
+        <div className="email-target-form">
+          <form onSubmit={onSubmit} className="action-form form--big">
+            <div className="email-target-action">
+              <div className="form__group">
+                <SelectCountry
+                  value={this.props.country}
+                  name="country"
+                  filter={[
+                    'AU',
+                    'BE',
+                    'CA',
+                    'CH',
+                    'DE',
+                    'DK',
+                    'ES',
+                    'FI',
+                    'FR',
+                    'GB',
+                    'IE',
+                    'IS',
+                    'IT',
+                    'NL',
+                    'NO',
+                    'PT',
+                    'SE',
+                    'US',
+                  ]}
+                  label={
+                    <FormattedMessage
+                      id="email_target.form.select_country"
+                      defaultMessage="Select country (default)"
+                    />
+                  }
+                  className="form-control"
+                  errorMessage={this.state.errors.country}
+                  onChange={this.changeCountry.bind(this)}
+                />
+              </div>
+
+              <div className="form__group">
+                <Select
+                  className="form-control"
+                  value={this.props.fundId}
+                  onChange={changeFund}
+                  errorMessage={this.state.errors.fund}
+                  label={
+                    <FormattedMessage
+                      id="email_target.form.select_target"
+                      defaultMessage="Select a fund (default)"
+                    />
+                  }
+                  name="select-fund"
+                  options={this.props.pensionFunds}
+                />
+              </div>
+              <div className="email__target-suggest-fund">
+                <p>
+                  <a
+                    onClick={() =>
+                      this.setState({
+                        shouldShowFundSuggestion: !this.state.shouldShowFundSuggestion,
+                      })}
+                  >
+                    Can't find your pension fund?
+                  </a>
+                </p>
+                {showFundSuggestion()}
+              </div>
+            </div>
+            <div className="email-target-action">
+              <h3>
+                <FormattedMessage
+                  id="email_target.section.compose"
+                  defaultMessage="Compose Your Email"
+                />
+              </h3>
+
+              <div className="form__group">
+                <Input
+                  name="email_subject"
+                  errorMessage={this.state.errors.subject}
+                  value={this.props.subject}
+                  label={
+                    <FormattedMessage
+                      id="email_target.form.subject"
+                      defaultMessage="Subejct (default)"
+                    />
+                  }
+                  onChange={value => this.props.changeSubject(value)}
+                />
+              </div>
+
+              <div className="form__group">
+                <Input
+                  name="name"
+                  label={
+                    <FormattedMessage
+                      id="email_target.form.your_name"
+                      defaultMessage="Your name (default)"
+                    />
+                  }
+                  value={this.props.name}
+                  errorMessage={this.state.errors.name}
+                  onChange={value => this.props.changeName(value)}
+                />
+              </div>
+
+              <div className="form__group">
+                <Input
+                  name="email"
+                  label={
+                    <FormattedMessage
+                      id="email_target.form.your_email"
+                      defaultMessage="Your email (default)"
+                    />
+                  }
+                  value={this.props.email}
+                  errorMessage={this.state.errors.country}
+                  onChange={value => this.props.changeEmail(value)}
+                />
+              </div>
+
+              <div className="form__group">
+                <div className="email__target-body">
+                  <div
+                    className="email__target-header"
+                    dangerouslySetInnerHTML={parseHeader()}
+                  />
+                  <textarea
+                    name="email_body"
+                    value={this.props.body}
+                    onChange={event =>
+                      this.props.changeBody(event.currentTarget.value)}
+                    maxLength="9999"
+                  />
+                  <div
+                    className="email__target-footer"
+                    dangerouslySetInnerHTML={parseFooter()}
+                  />
+                </div>
+              </div>
             </div>
 
-            <div className='form__group'>
-              <Select className='form-control'
-                value={this.props.fundId}
-                onChange={changeFund}
-                errorMessage={this.state.errors.fund}
-                label={<FormattedMessage id="email_target.form.select_target" defaultMessage="Select a fund (default)" />}
-                name='select-fund' options={this.props.pensionFunds} />
+            <div className="form__group">
+              <Button
+                disabled={this.props.isSubmitting}
+                className="button action-form__submit-button"
+              >
+                <FormattedMessage
+                  id="email_target.form.send_email"
+                  defaultMessage="Send email (default)"
+                />
+              </Button>
+              {errorNotice()}
             </div>
-            <div className='email__target-suggest-fund'>
-              <p><a onClick={() => this.setState({shouldShowFundSuggestion: !this.state.shouldShowFundSuggestion})} >Can't find your pension fund?</a></p>
-              { showFundSuggestion() }
-            </div>
-          </div>
-          <div className='email-target-action'>
-            <h3>
-              <FormattedMessage id="email_target.section.compose" defaultMessage="Compose Your Email" />
-            </h3>
-
-            <div className='form__group'>
-              <Input
-                name='email_subject'
-                errorMessage={this.state.errors.subject}
-                value={this.props.subject}
-                label={<FormattedMessage id="email_target.form.subject" defaultMessage="Subejct (default)" />}
-                onChange={(value) => this.props.changeSubject(value)} />
-            </div>
-
-          <div className='form__group'>
-            <Input
-              name='name'
-              label={<FormattedMessage id="email_target.form.your_name" defaultMessage="Your name (default)" />}
-              value={this.props.name}
-              errorMessage={this.state.errors.name}
-              onChange={(value) => this.props.changeName(value)} />
-          </div>
-
-          <div className='form__group'>
-            <Input
-              name='email'
-              label={<FormattedMessage id="email_target.form.your_email" defaultMessage="Your email (default)" />}
-              value={this.props.email}
-              errorMessage={this.state.errors.country}
-              onChange={(value) => this.props.changeEmail(value) } />
-          </div>
-
-          <div className='form__group'>
-            <div className='email__target-body'>
-            <div className='email__target-header' dangerouslySetInnerHTML={parseHeader()}></div>
-            <textarea
-              name='email_body'
-              value={this.props.body}
-              onChange={(event) => this.props.changeBody(event.currentTarget.value)}
-              maxLength="9999">
-            </textarea>
-            <div className='email__target-footer' dangerouslySetInnerHTML={parseFooter()}></div>
-          </div>
-          </div>
+          </form>
         </div>
 
-        <div className='form__group'>
-          <Button disabled={this.props.isSubmitting} className='button action-form__submit-button'>
-            <FormattedMessage id="email_target.form.send_email" defaultMessage="Send email (default)" />
-          </Button>
-          {errorNotice()}
-        </div>
-      </form>
       </div>
-
-    </div>
     );
   }
 }
@@ -251,11 +322,11 @@ type EmailTargetType = {
   fundContact: string,
   fundEmail: string,
   page: string,
-}
+};
 
 type OwnState = {
   emailTarget: EmailTargetType,
-}
+};
 
 export const mapStateToProps = (state: OwnState) => ({
   body: state.emailTarget.emailBody,
@@ -284,7 +355,8 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
 
   changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),
   changeSubject: (subject: string) => dispatch(changeSubject(subject)),
-  changePensionFunds: (pensionFunds: Array<string>) => dispatch(changePensionFunds(pensionFunds)),
+  changePensionFunds: (pensionFunds: Array<string>) =>
+    dispatch(changePensionFunds(pensionFunds)),
 
   changeName: (name: string) => {
     dispatch(changeName(name));

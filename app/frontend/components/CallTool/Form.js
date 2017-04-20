@@ -9,6 +9,7 @@ import type { Country, CountryPhoneCode, Target, FormType, Errors } from '../../
 import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
+  allowManualTargetSelection: boolean;
   targetByCountryEnabled: boolean;
   restrictToSingleCountry: boolean;
   countries: Country[];
@@ -20,6 +21,7 @@ type OwnProps = {
   onCountryCodeChange: (string) => void;
   onMemberPhoneNumberChange: (string) => void;
   onMemberPhoneCountryCodeChange: (string) => void;
+  onTargetSelected: (id: string) => void;
   onSubmit: (any) => void;
   loading: boolean;
 }
@@ -52,6 +54,16 @@ const countryCodeField:Field = {
   choices: []
 };
 
+const targetField: Field = {
+  data_type: 'select',
+  name: 'call_tool[target]',
+  label: <FormattedMessage id="call_tool.you_will_be_calling" />,
+  default_value: null,
+  required: true,
+  disabled: false,
+  choices: []
+};
+
 class Form extends Component {
   props: OwnProps;
   fields: { [key: string]: Field };
@@ -62,14 +74,50 @@ class Form extends Component {
     this.fields = {
       memberPhoneNumberField: memberPhoneNumberField,
       memberPhoneCountryCodeField: memberPhoneCountryCodeField,
-      countryCodeField: { ...countryCodeField, choices: this.countryCodeOptions() }
+      countryCodeField: { ...countryCodeField, choices: this.countryCodeOptions() },
     };
+  }
+
+  componentWillReceiveProps(newProps: OwnProps) {
+    console.log('new props: ', newProps);
+    if (this.fields) {
+      this.fields.targets = { ...targetField, choices: this.targetOptions(newProps.targets) };
+    }
   }
 
   countryCodeOptions() {
     return this.props.countries.map((country) => {
       return { value: country.code, label: country.name };
     });
+  }
+
+  targetField(targets: Target[]) {
+    return {
+      data_type: 'select',
+      name: 'call_tool[target]',
+      label: <FormattedMessage id="call_tool.you_will_be_calling" />,
+      default_value: null,
+      required: true,
+      disabled: false,
+      choices: this.targetOptions(targets),
+    };
+  }
+
+  targetOptions(targets: Target[]) {
+    return targets.map((target: Target) => ({
+      value: target.id,
+      label: (
+        <div>
+          <p style={{fontSize: '90%'}}>
+            <strong>{target.name}</strong>
+            {' '}
+            <span style={{fontSize: '70%'}}>{target.title}</span>
+            {' '}
+            {target.postalCode && <span style={{fontSize: '70%'}}>({target.postalCode})</span>}
+          </p>
+        </div>
+      ),
+    }));
   }
 
   phoneNumberCountryName() {
@@ -127,6 +175,17 @@ class Form extends Component {
         }
 
         <div className="clearfix"> </div>
+
+        { this.props.allowManualTargetSelection &&
+          this.props.targetByCountryEnabled &&
+          this.props.selectedTarget &&
+          <FieldShape
+            key="selectedTarget"
+            onChange={this.props.onTargetSelected}
+            value={this.props.selectedTarget.id}
+            field={this.fields.targets}
+          />
+        }
 
         { !isEmpty(this.props.selectedTarget) &&
           <SelectedTarget {...this.props.selectedTarget}/>

@@ -327,6 +327,7 @@ en:
       show_targets: 'Show Targets'
       restricted_country_code: 'Restrict calls to'
       target_by_country: 'Target by country'
+      allow_manual_target_selection: "Allow manual target selection"
       targets:
         country: 'Country'
         postal: 'Postal Code'
@@ -370,5 +371,3 @@ en:
     domain: 'Domain'
     path: 'Path'
     page: 'Page'
-
-
