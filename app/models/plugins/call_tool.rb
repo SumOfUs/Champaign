@@ -22,6 +22,7 @@
 #  menu_sound_clip_file_size    :integer
 #  menu_sound_clip_updated_at   :datetime
 #  restricted_country_code      :string
+#  allow_manual_target_selection :boolean         default(FALSE)
 #
 
 class Plugins::CallTool < ActiveRecord::Base
@@ -109,7 +110,8 @@ class Plugins::CallTool < ActiveRecord::Base
         countries: countries,
         countries_phone_codes: countries_phone_codes,
         title: obj.title,
-        description: obj.description
+        description: obj.description,
+        allow_manual_target_selection: obj.allow_manual_target_selection
       }
     end
 

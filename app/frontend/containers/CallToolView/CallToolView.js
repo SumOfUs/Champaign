@@ -47,9 +47,11 @@ type OwnState = {
   errors: Errors;
   loading: boolean;
   selectedTarget?: Target;
+  selectedCountryCode?: string;
 }
 
 type OwnProps = {
+  allowManualTargetSelection: boolean;
   restrictedCountryCode: ?string;
   targetByCountryEnabled: boolean;
   memberPhoneNumber?: string;
@@ -77,7 +79,8 @@ class CallToolView extends Component {
         countryCode: this.preselectedCountryCode()
       },
       errors: {},
-      loading: false
+      loading: false,
+      selectedCountryCode: undefined,
     };
   }
 
@@ -111,14 +114,25 @@ class CallToolView extends Component {
         return {
           form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode },
           selectedTarget: this.selectNewTargetFromCountryCode(countryCode),
-          errors: {...prevState.errors, countryCode: null }
+          errors: {...prevState.errors, countryCode: null },
+          selectedCountryCode: countryCode,
         };
       });
     } else {
       this.setState((prevState, props) => {
-        return { form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode }};
+        return { form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode } };
       });
     }
+  }
+
+  candidates(countryCode) {
+    const code = countryCode || this.state.selectedCountryCode;
+    if (this.props.targetByCountryEnabled) {
+      const candidates = filter(this.props.targets, t => t.countryCode === code);
+      console.log('candidates: ', candidates);
+      return candidates;
+    }
+    return this.props.targets;
   }
 
   guessMemberPhoneCountryCode(countryCode: string) {
@@ -145,12 +159,20 @@ class CallToolView extends Component {
   }
 
   selectNewTarget() {
-    return sample(this.props.targets);
+    return sample(this.candidates());
+  }
+
+  selectTarget = (id: string) => {
+    console.log('selectTarget:', id);
+    const target = find(this.props.targets, { id });
+    this.setState((prevState) => ({
+      ...prevState,
+      selectedTarget: target,
+    }));
   }
 
   selectNewTargetFromCountryCode(countryCode: string) {
-    const candidates = filter(this.props.targets, t => { return t.countryCode === countryCode; });
-    return sample(candidates);
+    return sample(this.candidates(countryCode));
   }
 
   submit(event: any) {
@@ -243,17 +265,19 @@ class CallToolView extends Component {
         }
 
         <Form
+          allowManualTargetSelection={this.props.allowManualTargetSelection}
           targetByCountryEnabled={this.props.targetByCountryEnabled}
           restrictToSingleCountry={!!this.props.restrictedCountryCode}
           countries={this.props.countries}
           countriesPhoneCodes={this.props.countriesPhoneCodes}
-          targets={this.props.targets}
+          targets={this.candidates()}
           selectedTarget={this.state.selectedTarget}
           form={this.state.form}
           errors={this.state.errors}
           onCountryCodeChange={this.countryCodeChanged.bind(this)}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
           onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(this)}
+          onTargetSelected={(id) => this.selectTarget(id)}
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
         />
@@ -264,4 +288,3 @@ class CallToolView extends Component {
 }
 
 export default injectIntl(CallToolView);
-
