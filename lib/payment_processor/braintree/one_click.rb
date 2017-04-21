@@ -4,9 +4,9 @@ module PaymentProcessor::Braintree
   class OneClick
     attr_reader :params, :payment_options
 
-    def initialize(params, member = nil)
+    def initialize(params, cookied_payment_methods, member = nil)
       @params = params
-      @payment_options = BraintreeServices::PaymentOptions.new(params)
+      @payment_options = BraintreeServices::PaymentOptions.new(params, cookied_payment_methods)
       @member = member
     end
 
