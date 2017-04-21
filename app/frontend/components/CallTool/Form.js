@@ -109,11 +109,11 @@ class Form extends Component {
       label: (
         <div>
           <p style={{fontSize: '90%'}}>
+            {target.postalCode && <span>({target.postalCode})</span>}
+            {' - '}
             <strong>{target.name}</strong>
             {' '}
             <span style={{fontSize: '70%'}}>{target.title}</span>
-            {' '}
-            {target.postalCode && <span style={{fontSize: '70%'}}>({target.postalCode})</span>}
           </p>
         </div>
       ),
