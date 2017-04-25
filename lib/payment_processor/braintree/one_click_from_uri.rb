@@ -48,17 +48,9 @@ module PaymentProcessor::Braintree
     end
 
     def payment_method_id
-      return nil unless member&.customer
-
-      member
-        .customer
-        .payment_methods
-        .stored
-        .active
-        .where(token: cookied_payment_methods.split(','))
-        .order('created_at DESC')
-        .first
-        &.id
+      customer = member&.customer
+      return nil unless customer
+      customer.valid_payment_method_id(cookied_payment_methods.split(','))
     end
 
     def token_from_cookie

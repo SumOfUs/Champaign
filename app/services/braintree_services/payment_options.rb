@@ -24,14 +24,7 @@ module BraintreeServices
       return nil unless valid_payment_method_id
       return nil unless member&.customer
 
-      member
-        .customer
-        .payment_methods
-        .stored
-        .active
-        .where(token: params[:payment][:payment_method_id])
-        .first
-        &.id
+      customer.valid_payment_method_id(params[:payment][:payment_method_id])
     end
 
     def amount
