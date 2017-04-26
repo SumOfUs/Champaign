@@ -4,12 +4,27 @@ module BraintreeServices
   class PaymentOptions
     attr_reader :params
 
-    def initialize(params)
+    def initialize(params, cookied_payment_methods)
       @params = params
+      @cookied_payment_methods = cookied_payment_methods
     end
 
     def payment_method
       @payment_method ||= customer.payment_methods.find(params[:payment][:payment_method_id])
+
+      raise PaymentProcessor::Exceptions::PaymentMethodNotFound unless @payment_method
+      @payment_method
+    end
+
+    def valid_payment_method_id
+      cookied_payment_methods.split(',').include?(params[:payment][:payment_method_id])
+    end
+
+    def payment_method_id
+      return nil unless valid_payment_method_id
+      return nil unless member&.customer
+
+      customer.valid_payment_method_id(params[:payment][:payment_method_id])
     end
 
     def amount
@@ -48,7 +63,9 @@ module BraintreeServices
     end
 
     def customer
-      @customer ||= member.braintree_customer
+      @customer ||= member.try(:braintree_customer)
+      raise PaymentProcessor::Exceptions::CustomerNotFound unless @customer
+      @customer
     end
 
     def member

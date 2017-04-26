@@ -23,7 +23,7 @@ describe BraintreeServices::PaymentOptions do
 
       it 'returns PYPL' do
         expect(
-          described_class.new(params).last_4
+          described_class.new(params, '').last_4
         ).to eq('PYPL')
       end
     end
@@ -33,7 +33,7 @@ describe BraintreeServices::PaymentOptions do
 
       it 'returns last 4 digits' do
         expect(
-          described_class.new(params).last_4
+          described_class.new(params, '').last_4
         ).to eq('1234')
       end
     end

@@ -34,4 +34,14 @@ class Payment::Braintree::Customer < ActiveRecord::Base
   def default_payment_method
     payment_methods.order('created_at desc').first
   end
+
+  def valid_payment_method_id(token)
+    payment_methods
+      .stored
+      .active
+      .where(token: token)
+      .order('created_at DESC')
+      .first
+      &.id
+  end
 end
