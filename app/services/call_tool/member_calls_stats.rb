@@ -2,7 +2,7 @@ module CallTool
   class MemberCallsStats
     def initialize(page)
       @calls = Call.not_failed.where(page: page)
-      @last_week_calls = @calls.select { |c| c.created_at > 7.days.ago }
+      @last_week_calls = @calls.select { |c| c.created_at > 6.days.ago }
     end
 
     def status_totals_by_day
