@@ -3,29 +3,32 @@
 #
 # Table name: plugins_call_tools
 #
-#  id                           :integer          not null, primary key
-#  page_id                      :integer
-#  active                       :boolean
-#  ref                          :string
-#  created_at                   :datetime
-#  updated_at                   :datetime
-#  title                        :string
-#  targets                      :json             is an Array
-#  sound_clip_file_name         :string
-#  sound_clip_content_type      :string
-#  sound_clip_file_size         :integer
-#  sound_clip_updated_at        :datetime
-#  description                  :text
-#  target_by_country            :boolean          default(TRUE)
-#  menu_sound_clip_file_name    :string
-#  menu_sound_clip_content_type :string
-#  menu_sound_clip_file_size    :integer
-#  menu_sound_clip_updated_at   :datetime
-#  restricted_country_code      :string
+#  id                            :integer          not null, primary key
+#  page_id                       :integer
+#  active                        :boolean
+#  ref                           :string
+#  created_at                    :datetime
+#  updated_at                    :datetime
+#  title                         :string
+#  targets                       :json             is an Array
+#  sound_clip_file_name          :string
+#  sound_clip_content_type       :string
+#  sound_clip_file_size          :integer
+#  sound_clip_updated_at         :datetime
+#  description                   :text
+#  target_by_country             :boolean          default(TRUE)
+#  menu_sound_clip_file_name     :string
+#  menu_sound_clip_content_type  :string
+#  menu_sound_clip_file_size     :integer
+#  menu_sound_clip_updated_at    :datetime
+#  restricted_country_code       :string
+#  allow_manual_target_selection :boolean          default(FALSE)
+#  caller_phone_number_id        :integer
 #
 
 FactoryGirl.define do
   factory :call_tool, class: 'Plugins::CallTool' do
+    association :caller_phone_number, factory: :phone_number
     association :page
     targets { Array.new(3) { build(:call_tool_target, :with_country) } }
   end

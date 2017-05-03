@@ -14,11 +14,15 @@ class CallCreator
                      member_id: @params[:member_id],
                      member_phone_number: @params[:member_phone_number],
                      target_id: @params[:target_id])
-    Call.transaction do
-      place_call if @call.save
-    end
 
     validate_target
+    validate_call_tool
+
+    if errors.blank?
+      Call.transaction do
+        place_call if @call.save
+      end
+    end
 
     errors.blank?
   end
@@ -45,7 +49,7 @@ class CallCreator
   def place_call
     client = Twilio::REST::Client.new.account.calls
     client.create(
-      from: Settings.calls.default_caller_id,
+      from: @call.caller_id,
       to: @call.member_phone_number,
       url: call_start_url(@call),
       status_callback: member_call_event_url(@call),
@@ -61,12 +65,10 @@ class CallCreator
     # 21214: 'To' phone number cannot be reached
     @call.update!(twilio_error_code: e.code, status: 'failed')
     if (e.code >= 13_223 && e.code <= 13_226) || [21_211, 21_214].include?(e.code)
-      @errors[:member_phone_number] ||= []
-      @errors[:member_phone_number] << I18n.t('call_tool.errors.phone_number.cant_connect')
+      add_error(:member_phone_number, I18n.t('call_tool.errors.phone_number.cant_connect'))
     else
       Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{@call.attributes.inspect}")
-      @errors[:base] ||= []
-      @errors[:base] << I18n.t('call_tool.errors.unknown')
+      add_error(:base, I18n.t('call_tool.errors.unknown'))
     end
   end
 
@@ -75,7 +77,18 @@ class CallCreator
   # This validation checks for this edge case.
   def validate_target
     if @call.target.blank? && @params[:target_id].present?
-      @errors[:base] = [I18n.t('call_tool.errors.target.outdated')]
+      add_error(:base, I18n.t('call_tool.errors.target.outdated'))
     end
+  end
+
+  def validate_call_tool
+    if @call.caller_id.blank?
+      add_error(:base, 'Please configure a Caller ID before trying to use the call tool')
+    end
+  end
+
+  def add_error(key, message)
+    @errors[key] ||= []
+    @errors[key] << message
   end
 end

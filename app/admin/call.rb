@@ -13,9 +13,7 @@ ActiveAdmin.register Call do
       call.target.try(:phone_number)
     end
 
-    column :target_call_status do |call|
-      call.log['CallStatus']
-    end
+    column :target_call_status
 
     column :member_call_status do |call|
       CallTool::CallStatus.for(call)

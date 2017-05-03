@@ -14,6 +14,7 @@
 #  twilio_error_code   :integer
 #  target              :json
 #  status              :integer          default(0)
+#  action_id           :integer
 #
 
 class Call < ActiveRecord::Base
@@ -56,11 +57,15 @@ class Call < ActiveRecord::Base
     target_call_info['DialCallStatus'] || 'unknown'
   end
 
-  private
-
   def call_tool
     @call_tool ||= Plugins::CallTool.find_by_page_id!(page.id)
   end
+
+  def caller_id
+    call_tool.caller_phone_number&.number
+  end
+
+  private
 
   def member_phone_number_is_valid
     return if member_phone_number.blank?

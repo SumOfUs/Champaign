@@ -2,7 +2,7 @@ module CallTool::TwimlGenerator
   class Connect < Base
     def run
       Twilio::TwiML::Response.new do |r|
-        r.Dial action: target_call_status_url(call) do |dial|
+        r.Dial action: target_call_status_url(call), callerId: call.caller_id do |dial|
           dial.Number(*number_params)
         end
       end.text

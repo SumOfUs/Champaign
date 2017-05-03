@@ -8,6 +8,7 @@ describe 'API::Calls' do
 
   describe 'POST /api/pages/:id/call' do
     let!(:page) { create(:page, :with_call_tool) }
+    let!(:call_tool) { Plugins::CallTool.find_by_page_id(page.id) }
     let(:target) { Plugins::CallTool.find_by_page_id(page.id).targets.sample }
 
     context 'given valid params' do
@@ -39,7 +40,7 @@ describe 'API::Calls' do
       it 'creates a call on Twilio' do
         expect_any_instance_of(Twilio::REST::Calls)
           .to receive(:create)
-          .with(hash_including(from: Settings.calls.default_caller_id,
+          .with(hash_including(from: call_tool.caller_phone_number.number,
                                to: '13437003482',
                                url: %r{/twilio/calls/\d+/start}))
 
