@@ -34,10 +34,6 @@ class Call < ActiveRecord::Base
 
   scope :not_failed, -> { where.not(status: statuses['failed']) }
 
-  def target_phone_number
-    target.phone_number
-  end
-
   def target_id=(id)
     self.target = call_tool.find_target(id)
   end
@@ -62,7 +58,11 @@ class Call < ActiveRecord::Base
   end
 
   def caller_id
-    call_tool.caller_phone_number&.number
+    if target&.caller_id.present?
+      target.caller_id
+    else
+      call_tool.caller_phone_number&.number
+    end
   end
 
   private

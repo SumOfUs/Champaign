@@ -10,18 +10,20 @@
         table.table.table-stripped
           tr
             th = t 'plugins.call_tool.targets.country'
-            th = t 'plugins.call_tool.targets.postal'
             th = t 'plugins.call_tool.targets.name'
             th = t 'plugins.call_tool.targets.title'
             th = t 'plugins.call_tool.targets.phone_number'
+            th = t 'plugins.call_tool.targets.phone_extension'
+            th = t 'plugins.call_tool.targets.caller_id'
 
           - targets.each do |target|
             tr
               td = target.country_name
-              td = target.postal_code
               td = target.name
               td = target.title
-              td = target.phone_number
+              td = format_phone_number(target.phone_number)
+              td = target.phone_extension
+              td = format_phone_number(target.caller_id)
 
   javascript:
     $(function() {

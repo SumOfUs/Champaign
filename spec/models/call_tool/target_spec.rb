@@ -30,4 +30,19 @@ describe CallTool::Target do
       expect(target.errors[:country]).to include('is invalid')
     end
   end
+
+  describe 'caller_id=' do
+    it 'normalizes the entered phone number' do
+      target.caller_id = '+1 (234) 123456'
+      expect(target.caller_id).to eq '1234123456'
+    end
+  end
+
+  describe 'caller_id' do
+    it "makes sure it's a valid phone number" do
+      target.caller_id = '1234 4'
+      target.valid?
+      expect(target.errors[:caller_id]).to include('is an invalid number')
+    end
+  end
 end

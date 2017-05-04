@@ -332,11 +332,11 @@ en:
       allow_manual_target_selection: "Allow manual target selection"
       targets:
         country: 'Country'
-        postal: 'Postal Code'
         name: 'Name'
         title: 'Title'
         phone_number: 'Phone Number'
-
+        phone_extension: 'Phone Extension'
+        caller_id: 'Caller ID'
 
   ak_logs:
     index:

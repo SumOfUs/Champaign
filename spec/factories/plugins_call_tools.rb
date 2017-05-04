@@ -30,14 +30,16 @@ FactoryGirl.define do
   factory :call_tool, class: 'Plugins::CallTool' do
     association :caller_phone_number, factory: :phone_number
     association :page
-    targets { Array.new(3) { build(:call_tool_target, :with_country) } }
+    targets {  build_list(:call_tool_target, 3, :with_country) }
   end
 
   factory :call_tool_target, class: 'CallTool::Target' do
     skip_create
     name { Faker::Name.name }
     title { Faker::Name.title }
-    phone_number { Faker::PhoneNumber.cell_phone }
+    phone_number {
+      ['+448008085429', '+448000119712', '+61261885481', '+13437003482'].sample
+    }
 
     trait :with_country do
       country_name { 'United Kingdom' }
