@@ -30,7 +30,7 @@ FactoryGirl.define do
   factory :call_tool, class: 'Plugins::CallTool' do
     association :caller_phone_number, factory: :phone_number
     association :page
-    targets {  build_list(:call_tool_target, 3, :with_country) }
+    targets { build_list(:call_tool_target, 3, :with_country) }
   end
 
   factory :call_tool_target, class: 'CallTool::Target' do
