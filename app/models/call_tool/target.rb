@@ -8,8 +8,7 @@ class CallTool::Target
                 :phone_extension,
                 :name,
                 :title,
-                :caller_id,
-                :postal_code # not used
+                :caller_id
 
   validate  :country_is_valid
   validates :phone_number, presence: true
