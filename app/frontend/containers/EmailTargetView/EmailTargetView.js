@@ -27,12 +27,34 @@ class EmailTargetView extends Component {
     super(props);
     this.state = {
       shouldShowFundSuggestion: false,
+      newPensionFundName: '',
+      isSubmittingNewPensionFundName: false,
+      newPensionFundSuggested: false,
       errors: {},
     };
   }
 
   componentDidMount() {
     this.getPensionFunds(this.props.country);
+  }
+
+  postSuggestedFund(fund: string) {
+    if (!fund) return;
+
+    const url = `/api/pension_funds/suggest_fund`;
+
+    this.setState({isSubmittingNewPensionFundName: true});
+
+    $.post(url, {"email_target[name]": fund}).done((a) => {
+      this.setState({
+        shouldShowFundSuggestion: false,
+        newPensionFundName: '',
+        newPensionFundSuggested: true,
+        isSubmittingNewPensionFundName: false,
+      });
+    }).fail((a) => {
+      console.log('err');
+    });
   }
 
   getPensionFunds(country: string) {
@@ -107,9 +129,40 @@ class EmailTargetView extends Component {
     const showFundSuggestion = () => {
       if (this.state.shouldShowFundSuggestion) {
         return (
-          <p>
-            <FormattedMessage id="email_target.suggest_fund" />
-          </p>
+            <div className='email-target_box'>
+              <h3><span>We're sorry you couldn't find your pension fund.
+                Send us its name and we'll update our records.</span></h3>
+              <div className="form__group">
+                <Input
+                  name="new_pension_fund"
+                  label={
+                    <FormattedMessage
+                      id="email_target.form.new_pension_fund"
+                      defaultMessage="Name of your pension fund"
+                    />
+                  }
+                  value={ this.state.newPensionFundName }
+                  onChange={ (value) => {
+                    this.setState({newPensionFundName: value});
+                  }
+                }
+              />
+              </div>
+
+              <div className="form__group">
+                <Button
+                  disabled={this.state.isSubmittingNewPensionFundName}
+                  className="button action-form__submit-button"
+                  onClick={
+                    (e) => {
+                      e.preventDefault();
+                      this.postSuggestedFund(this.state.newPensionFundName);
+                    }
+                  }>
+                  Send
+                </Button>
+              </div>
+            </div>
         );
       }
     };
@@ -204,14 +257,14 @@ class EmailTargetView extends Component {
                     onClick={() =>
                       this.setState({
                         shouldShowFundSuggestion: !this.state.shouldShowFundSuggestion,
-                      })}
-                  >
+                      })}>
                     Can't find your pension fund?
                   </a>
                 </p>
                 {showFundSuggestion()}
               </div>
             </div>
+
             <div className="email-target-action">
               <h3>
                 <FormattedMessage
@@ -246,8 +299,7 @@ class EmailTargetView extends Component {
                   }
                   value={this.props.name}
                   errorMessage={this.state.errors.name}
-                  onChange={value => this.props.changeName(value)}
-                />
+                  onChange={value => this.props.changeName(value)} />
               </div>
 
               <div className="form__group">
@@ -289,8 +341,7 @@ class EmailTargetView extends Component {
             <div className="form__group">
               <Button
                 disabled={this.props.isSubmitting}
-                className="button action-form__submit-button"
-              >
+                className="button action-form__submit-button">
                 <FormattedMessage
                   id="email_target.form.send_email"
                   defaultMessage="Send email (default)"
@@ -300,7 +351,6 @@ class EmailTargetView extends Component {
             </div>
           </form>
         </div>
-
       </div>
     );
   }

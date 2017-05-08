@@ -1,4 +1,19 @@
 .email-target {
+  .email-target_box {
+    border: 1px solid #f8492e;
+    border-radius: 5px;
+    padding: 10px;
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+   .email-target_notice {
+      font-size: 16px;
+   }
+  }
+
   padding: 0 20px;
   line-height: 1.2em;
 
