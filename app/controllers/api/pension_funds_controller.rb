@@ -7,6 +7,12 @@ class Api::PensionFundsController < ApplicationController
     render json: funds
   end
 
+  def suggest_fund
+    name = params['email_target']['name']
+    PensionFundSuggestion.create(name)
+    head :ok
+  end
+
   private
 
   def funds_not_found

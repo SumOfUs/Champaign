@@ -6,7 +6,7 @@ liquid_templating_source: db
 oauth_domain_whitelist:
   - 'your-domain.org'
 
-aws_region: 'aws-region'
+aws_region: 'us-west-2'
 sqs_queue_url: 'sqs-queue-url'
 s3_host_name: 's3-host'
 ak_processor_url: 'url of your worker that subscribes to your SQS and ships messages to AK'
