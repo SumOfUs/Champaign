@@ -88,10 +88,6 @@ module.exports = {
     // some tools, although we do not recommend using it, see:
     // https://github.com/facebookincubator/create-react-app/issues/290
     extensions: ['.js', '.json', '.jsx', ''],
-    alias: {
-      react: 'preact-compat',
-      'react-dom': 'preact-compat',
-    },
   },
 
   module: {
