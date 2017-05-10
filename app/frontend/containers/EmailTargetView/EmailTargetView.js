@@ -189,8 +189,9 @@ class EmailTargetView extends Component {
         to_email: this.props.fundEmail,
       };
 
-      this.props.changeSubmitting(true);
+      _.merge(payload, this.props.formValues);
 
+      this.props.changeSubmitting(true);
       $.post('/api/email_targets', payload).done((a, b, c) => {});
     };
 
@@ -394,6 +395,7 @@ export const mapStateToProps = (state: OwnState) => ({
   to: state.emailTarget.to,
   page: state.emailTarget.page,
   isSubmitting: state.emailTarget.isSubmitting,
+  formValues: state.emailTarget.formValues
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
