@@ -67,6 +67,7 @@ gem 'sass-rails', '~> 5.0.6'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 gem 'sprockets-rails'
 gem 'summernote-rails'
+gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpack-rails'
