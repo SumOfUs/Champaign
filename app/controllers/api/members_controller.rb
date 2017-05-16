@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Api::MembersController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def create
     I18n.locale = permitted_params[:locale] if permitted_params[:locale].present?

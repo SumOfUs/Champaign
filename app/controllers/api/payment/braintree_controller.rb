@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::Payment::BraintreeController < PaymentController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }

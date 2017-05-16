@@ -4,7 +4,7 @@ module Api
     # Api::AuthController allows clients to authenticate and receive a
     # token in response
     class AuthController < StatelessController
-      before_filter :authenticate_request!, only: [:test_authentication]
+      before_action :authenticate_request!, only: [:test_authentication]
 
       def password
         credentials = password_authentication_params

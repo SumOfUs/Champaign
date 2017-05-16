@@ -3,7 +3,7 @@ module Api
   module Stateless
     module GoCardless
       class SubscriptionsController < StatelessController
-        before_filter :authenticate_request!
+        before_action :authenticate_request!
 
         def index
           @subscriptions = PaymentHelper::GoCardless.active_subscriptions_for_member(@current_member)

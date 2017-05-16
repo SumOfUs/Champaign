@@ -95,7 +95,7 @@ class LiquidRenderer
   def form_values
     field_keys = @page.plugins.map { |p| p.try(:form_fields) }.compact.flatten.map { |ff| ff[:name] }
     field_keys += HIDDEN_FIELDS
-    (member_data || {}).merge(@url_params).stringify_keys.select { |k, _| field_keys.include? k }
+    (member_data || {}).merge(@url_params.to_unsafe_hash).stringify_keys.select { |k, _| field_keys.include? k }
   end
 
   def show_direct_debit?

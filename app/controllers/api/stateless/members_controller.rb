@@ -3,7 +3,7 @@
 module Api
   module Stateless
     class MembersController < StatelessController
-      before_filter :authenticate_request!, except: [:create]
+      before_action :authenticate_request!, except: [:create]
 
       def show
         @current_member

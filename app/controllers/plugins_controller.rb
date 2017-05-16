@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class PluginsController < ApplicationController
-  before_filter :find_page
+  before_action :find_page
 
   def index
     plugins = @page.plugins
