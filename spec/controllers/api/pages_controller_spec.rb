@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::PagesController do
@@ -12,7 +13,7 @@ describe Api::PagesController do
   describe 'GET index' do
     before do
       allow(PageService).to receive(:list)
-      get :index, language: 'en', format: :json
+      get :index, params: { language: 'en', format: :json }
     end
 
     it 'gets list of pages' do
@@ -27,7 +28,7 @@ describe Api::PagesController do
   describe 'GET featured' do
     before do
       allow(PageService).to receive(:list_featured)
-      get :featured, language: 'en', format: :json
+      get :featured, params: { language: 'en', format: :json }
     end
 
     it 'gets list of pages' do
@@ -42,14 +43,14 @@ describe Api::PagesController do
   describe 'PUT update' do
     it 'is redirected if the user is not logged in' do
       allow(controller).to receive(:user_signed_in?).and_return(false)
-      expect(put(:update, id: 1)).to redirect_to(new_user_session_url)
+      expect(put(:update, params: { id: 1 })).to redirect_to(new_user_session_url)
     end
 
     context 'logged in' do
       before do
         allow(PageUpdater).to receive(:new).and_return(page_updater)
         allow(request.env['warden']).to receive(:authenticate!) { double }
-        put :update, id: 1
+        put :update, params: { id: 1 }
       end
 
       it 'finds page' do
@@ -74,7 +75,7 @@ describe Api::PagesController do
 
   describe 'GET show' do
     context 'for existing page' do
-      before { get :show, id: '2', format: 'json' }
+      before { get :show, params: { id: '2', format: 'json' } }
 
       it 'finds page' do
         expect(Page).to have_received(:find).with('2')
@@ -88,7 +89,7 @@ describe Api::PagesController do
     context 'record not found' do
       before do
         allow(Page).to receive(:find) { raise ActiveRecord::RecordNotFound }
-        get :show, id: '2'
+        get :show, params: { id: '2' }
       end
 
       it 'renders json' do
@@ -98,7 +99,7 @@ describe Api::PagesController do
   end
 
   describe 'GET actions' do
-    subject { get :actions, id: '2' }
+    subject { get :actions, params: { id: '2' } }
 
     it 'returns a 403 if the page publish_actions is secure' do
       allow(page).to receive(:secure?).and_return(true)

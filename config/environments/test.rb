@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.configure do
   {
     SQS_QUEUE_URL: 'http://example.com',
@@ -53,12 +54,12 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # CORS
-  config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
+  config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
       origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
                headers: :any,
-               methods: [:get, :post, :delete, :put, :patch, :options, :head],
+               methods: %i[get post delete put patch options head],
                max_age: 86_400
     end
   end

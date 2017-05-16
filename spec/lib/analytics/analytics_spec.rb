@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
-require './lib/analytics'
 
 describe Analytics do
   before do

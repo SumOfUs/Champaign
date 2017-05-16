@@ -7,7 +7,7 @@
 #  actionkit_page_type :string           not null
 #
 
-class ActionkitPageType < ActiveRecord::Base
+class ActionkitPageType < ApplicationRecord
   has_many :actionkit_page
 
   validates :actionkit_page_type, presence: true, uniqueness: true

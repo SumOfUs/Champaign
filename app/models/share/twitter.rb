@@ -13,7 +13,7 @@
 #  updated_at  :datetime         not null
 #
 
-class Share::Twitter < ActiveRecord::Base
+class Share::Twitter < ApplicationRecord
   include Share::Variant
 
   validates :description, presence: true

@@ -1,4 +1,4 @@
-class CreatePluginEmailTargetTable < ActiveRecord::Migration
+class CreatePluginEmailTargetTable < ActiveRecord::Migration[4.2]
   def change
     create_table :plugins_email_targets do |t|
       t.string :ref

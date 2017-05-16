@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreatePluginsFundraisers < ActiveRecord::Migration
+
+class CreatePluginsFundraisers < ActiveRecord::Migration[4.2]
   def change
     create_table :plugins_fundraisers do |t|
       t.string :title

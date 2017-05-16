@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateShareEmails < ActiveRecord::Migration
+
+class CreateShareEmails < ActiveRecord::Migration[4.2]
   def change
     create_table :share_emails do |t|
       t.string :subject

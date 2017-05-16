@@ -1,5 +1,5 @@
 .row.plugin.survey.collection-editor data-plugin-id=plugin.id
-  
+
     = render partial: 'plugins/shared/toggle_form', locals: { plugin: plugin, path: plugins_survey_path(plugin) }
 
     .col-md-7
@@ -26,8 +26,8 @@
         = render partial: 'plugins/surveys/preview', locals: { plugin: plugin }
 
 javascript:
-  $.publish("collection:edit:loaded");
-  $.publish("plugin:form:loaded");
   $(document).ready(function(){
+    $.publish("collection:edit:loaded");
+    $.publish("plugin:form:loaded");
     new SurveyEditor();
   });

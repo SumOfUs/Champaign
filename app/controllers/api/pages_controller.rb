@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_filter :get_page, except: [:index, :featured]
-  before_filter :authenticate_user!, except: [:index, :featured, :show, :actions]
+  before_action :get_page, except: [:index, :featured]
+  before_action :authenticate_user!, except: [:index, :featured, :show, :actions]
 
   layout false
 
@@ -68,7 +68,7 @@ class Api::PagesController < ApplicationController
     # which turns {'page[title]' => 'hi'} into {page: {title: 'hi'}}
     # it also doesn't use strong params.
     unwrapped = {}
-    Rack::Utils.parse_nested_query(params.to_query).each_pair do |key, nested|
+    Rack::Utils.parse_nested_query(unsafe_params.to_query).each_pair do |key, nested|
       next unless nested.is_a? Hash
       nested.each_pair do |_subkey, subnested|
         unwrapped[key] = subnested if subnested.is_a? Hash
@@ -84,6 +84,6 @@ class Api::PagesController < ApplicationController
   end
 
   def get_page
-    @page ||= Page.find(params[:id])
+    @page ||= Page.find(unsafe_params[:id])
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class EmailConfirmationController < ApplicationController
-  before_filter :find_member
+  before_action :find_member
 
   def verify
     begin

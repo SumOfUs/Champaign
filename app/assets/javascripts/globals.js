@@ -1,0 +1,11 @@
+//= require jquery
+//= require jquery_ujs
+//= require jquery-ui/widgets/sortable
+//= require selectize
+//= require sticky
+//= require lodash
+//= require backbone
+//= require i18n
+//= require i18n/translations
+//= require moment
+//= require braintree-web

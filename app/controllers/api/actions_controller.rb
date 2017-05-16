@@ -2,10 +2,10 @@
 class Api::ActionsController < ApplicationController
   before_action :localize_from_page_id
 
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    validator = FormValidator.new(action_params)
+    validator = FormValidator.new(action_params.to_h)
 
     if validator.valid?
       action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
@@ -19,7 +19,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def validate
-    validator = FormValidator.new(action_params)
+    validator = FormValidator.new(action_params.to_h)
     if validator.valid?
       render json: {}, status: 200
     else

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreatePaymentGoCardlessWebhookEvents < ActiveRecord::Migration
+
+class CreatePaymentGoCardlessWebhookEvents < ActiveRecord::Migration[4.2]
   def change
     create_table :payment_go_cardless_webhook_events do |t|
       t.string :event_id, index: true

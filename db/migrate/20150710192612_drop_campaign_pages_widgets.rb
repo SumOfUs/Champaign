@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class DropCampaignPagesWidgets < ActiveRecord::Migration
+
+class DropCampaignPagesWidgets < ActiveRecord::Migration[4.2]
   def up
     drop_table :campaign_pages_widgets, force: :cascade
   end

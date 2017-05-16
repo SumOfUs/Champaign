@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class DonationBand < ActiveRecord::Base
+class DonationBand < ApplicationRecord
   has_paper_trail
 
   def internationalize

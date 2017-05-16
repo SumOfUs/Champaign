@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe DonationBandsController do
@@ -11,7 +12,7 @@ describe DonationBandsController do
   include_examples 'session authentication',
                    [{ get:  [:index] },
                     { get:  [:new] },
-                    { get:  [:edit, id: 1] }]
+                    { get:  [:edit, params: { id: 1 }] }]
 
   describe 'GET index' do
     it 'authenticates session' do
@@ -50,7 +51,7 @@ describe DonationBandsController do
 
   describe 'GET edit' do
     before do
-      get :edit, id: 1
+      get :edit, params: { id: 1 }
     end
 
     it 'authenticates session' do
@@ -76,7 +77,7 @@ describe DonationBandsController do
 
     before do
       allow(DonationBand).to receive(:create) { donation_band }
-      post :create, donation_band: fake_params
+      post :create, params: { donation_band: fake_params }
     end
 
     it 'authenticates session' do
@@ -84,7 +85,8 @@ describe DonationBandsController do
     end
 
     it 'creates a new donation_band' do
-      expect(DonationBand).to have_received(:create).with(converted_params)
+      ActionController::Parameters.permit_all_parameters = true
+      expect(DonationBand).to have_received(:create).with(ActionController::Parameters.new(converted_params))
     end
 
     it 'responds with notice' do

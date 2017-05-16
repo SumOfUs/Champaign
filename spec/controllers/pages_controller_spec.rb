@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PagesController do
@@ -18,6 +19,7 @@ describe PagesController do
   include_examples 'session authentication'
 
   before do
+    ActionController::Parameters.permit_all_parameters = true
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
@@ -42,7 +44,7 @@ describe PagesController do
 
     before do
       allow(PageBuilder).to receive(:create) { page }
-      post :create, page: { title: 'Foo Bar' }
+      post :create, params: { page: { title: 'Foo Bar' } }
     end
 
     it 'authenticates session' do
@@ -53,7 +55,7 @@ describe PagesController do
       expected_params = { title: 'Foo Bar' }
 
       expect(PageBuilder).to have_received(:create)
-        .with(expected_params)
+        .with(ActionController::Parameters.new(expected_params))
     end
 
     context 'successfully created' do
@@ -81,7 +83,7 @@ describe PagesController do
       allow(QueueManager).to receive(:push)
     end
 
-    subject { put :update, id: '1', page: { title: 'bar' } }
+    subject { put :update, params: { id: '1', page: { title: 'bar' } } }
 
     it 'authenticates session' do
       subject
@@ -94,7 +96,9 @@ describe PagesController do
     end
 
     it 'updates page' do
-      expect(page).to receive(:update).with(title: 'bar')
+      expect(page).to receive(:update).with(
+        ActionController::Parameters.new(title: 'bar')
+      )
       subject
     end
 
@@ -159,7 +163,7 @@ describe PagesController do
   end
 
   describe 'GET #show' do
-    subject { get :show, id: '1' }
+    subject { get :show, params: { id: '1' } }
 
     before do
       allow(Page).to            receive(:find) { page }
@@ -173,19 +177,19 @@ describe PagesController do
     context 'unsupported mimetype' do
       it 'raises 415' do
         expect do
-          get :show, id: 'foo-BaR', format: :json
+          get :show, params: { id: 'foo-BaR', format: :json }
         end.to raise_error(ActionController::UnknownFormat)
       end
     end
     it 'finds page by un-altered slug' do
       expect(Page).to receive(:find).with('foo-BaR')
-      get :show, id: 'foo-BaR'
+      get :show, params: { id: 'foo-BaR' }
     end
 
     it 'finds page with downcased version of slug' do
       expect(Page).to receive(:find).with('foo-BaR').and_raise(ActiveRecord::RecordNotFound)
       expect(Page).to receive(:find).with('foo-bar').and_return(page)
-      get :show, id: 'foo-BaR'
+      get :show, params: { id: 'foo-BaR' }
     end
 
     it 'renders show template' do
@@ -195,7 +199,7 @@ describe PagesController do
 
     it 'redirects to homepage if page is not found' do
       allow(Page).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-      expect(get(:show, id: '1000000')).to redirect_to(Settings.home_page_url)
+      expect(get(:show, params: { id: '1000000' })).to redirect_to(Settings.home_page_url)
     end
 
     it 'instantiates a LiquidRenderer and calls render' do
@@ -222,7 +226,7 @@ describe PagesController do
         before { allow(Page).to receive(:find) { french_page } }
 
         it 'sets the locality to :fr' do
-          get :show, id: '42'
+          get :show, params: { id: '42' }
           expect(I18n.locale).to eq :fr
         end
 
@@ -231,7 +235,7 @@ describe PagesController do
           before { allow(Page).to receive(:find) { english_page } }
 
           it 'sets the locality to :en' do
-            get :show, id: '66'
+            get :show, params: { id: '66' }
             expect(I18n.locale).to eq :en
           end
         end
@@ -282,7 +286,7 @@ describe PagesController do
     end
 
     describe 'with no recognized member' do
-      subject { get :follow_up, id: '1' }
+      subject { get :follow_up, params: { id: '1' } }
 
       let(:url_params) { { 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' } }
       let(:member) { nil }
@@ -295,11 +299,12 @@ describe PagesController do
       let(:member) { create :member }
 
       before :each do
-        allow(cookies).to receive(:signed).and_return(member_id: member.id)
+        cookies.signed[:member_id] = member.id
+        allow(controller).to receive(:cookies).and_return(cookies)
       end
 
       describe 'and member_id' do
-        subject { get :follow_up, id: '1', member_id: member.id }
+        subject { get :follow_up, params: { id: '1', member_id: member.id } }
 
         let(:url_params) { { 'member_id' => member.id.to_s, 'id' => '1', 'controller' => 'pages', 'action' => 'follow_up' } }
 
@@ -308,7 +313,7 @@ describe PagesController do
       end
 
       describe 'and no member_id' do
-        subject { get :follow_up, id: '1' }
+        subject { get :follow_up, params: { id: '1' } }
 
         it 'redirects to the same route with member id set' do
           subject

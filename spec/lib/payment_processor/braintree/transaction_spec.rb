@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 module PaymentProcessor
@@ -31,7 +32,7 @@ module PaymentProcessor
 
         subject { described_class }
 
-        [:nonce, :amount, :currency, :user, :page_id].each do |keyword|
+        %i[nonce amount currency user page_id].each do |keyword|
           it "requires a #{keyword}" do
             expect do
               required_options.delete(keyword)

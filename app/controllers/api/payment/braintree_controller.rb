@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class Api::Payment::BraintreeController < PaymentController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def token
     render json: { token: ::Braintree::ClientToken.generate }
   end
 
   def webhook
-    if client::WebhookHandler.handle(params[:bt_signature], params[:bt_payload])
+    if client::WebhookHandler.handle(unsafe_params[:bt_signature], unsafe_params[:bt_payload])
       head :ok
     else
       head :not_found
@@ -16,7 +16,7 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def one_click
-    @result = client::OneClick.new(params, cookies.signed[:payment_methods]).run
+    @result = client::OneClick.new(unsafe_params, cookies.signed[:payment_methods]).run
     render status: :unprocessable_entity unless @result.success?
   end
 
@@ -24,11 +24,11 @@ class Api::Payment::BraintreeController < PaymentController
 
   def payment_options
     {
-      nonce: params[:payment_method_nonce],
-      amount: params[:amount].to_f,
-      user: params[:user].merge(mobile_value),
-      currency: params[:currency],
-      page_id: params[:page_id],
+      nonce: unsafe_params[:payment_method_nonce],
+      amount: unsafe_params[:amount].to_f,
+      user: unsafe_params[:user].merge(mobile_value),
+      currency: unsafe_params[:currency],
+      page_id: unsafe_params[:page_id],
       store_in_vault: store_in_vault?
     }
   end
@@ -38,10 +38,10 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def page
-    @page ||= Page.find(params[:page_id])
+    @page ||= Page.find(unsafe_params[:page_id])
   end
 
   def recurring?
-    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
+    @recurring ||= ActiveRecord::Type::Boolean.new.cast(unsafe_params[:recurring])
   end
 end

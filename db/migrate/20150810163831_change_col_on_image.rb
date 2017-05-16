@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class ChangeColOnImage < ActiveRecord::Migration
+
+class ChangeColOnImage < ActiveRecord::Migration[4.2]
   def change
     add_column     :images, :created_at, :datetime
     add_column     :images, :updated_at, :datetime

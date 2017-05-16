@@ -39,14 +39,14 @@ describe 'subscriptions' do
     end
 
     it 'processes events' do
-      post('/api/go_cardless/webhook', events, headers)
+      post('/api/go_cardless/webhook', params: events, headers: headers)
       expect(subscription.reload.aasm_state).to eq('active')
     end
 
     context 'with missing subscription' do
       it 'stores event' do
         Payment::GoCardless::Subscription.delete_all
-        post('/api/go_cardless/webhook', events, headers)
+        post('/api/go_cardless/webhook', params: events, headers: headers)
         expect(Payment::GoCardless::WebhookEvent.first.resource_id).to eq('index_ID_123')
       end
     end
@@ -55,7 +55,7 @@ describe 'subscriptions' do
       before do
         subscription.transactions.create!(go_cardless_id: 'PM123')
         allow(ChampaignQueue).to receive(:push)
-        post('/api/go_cardless/webhook', events, headers)
+        post('/api/go_cardless/webhook', params: events, headers: headers)
       end
 
       describe 'transaction' do
@@ -138,7 +138,7 @@ describe 'subscriptions' do
             status: 'failed'
           }
         }, { delay: 120 })
-        post('/api/go_cardless/webhook', events, headers)
+        post('/api/go_cardless/webhook', params: events, headers: headers)
       end
     end
   end
@@ -157,7 +157,7 @@ describe 'subscriptions' do
         'HTTP_WEBHOOK_SIGNATURE' => 'not_valid'
       }
 
-      post('/api/go_cardless/webhook', events, headers)
+      post('/api/go_cardless/webhook', params: events, headers: headers)
       expect(response.status).to eq(427)
     end
   end

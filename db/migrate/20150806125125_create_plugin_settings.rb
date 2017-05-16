@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreatePluginSettings < ActiveRecord::Migration
+
+class CreatePluginSettings < ActiveRecord::Migration[4.2]
   def change
     create_table :plugin_settings do |t|
       t.string :plugin_name

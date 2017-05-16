@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddDefaultsToCampaignPages < ActiveRecord::Migration
+
+class AddDefaultsToCampaignPages < ActiveRecord::Migration[4.2]
   def change
     remove_column :campaign_pages, :featured
     remove_column :campaign_pages, :active

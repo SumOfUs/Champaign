@@ -39,14 +39,11 @@ ak_api_url: 'https://act.sumofus.org/rest/v1'
 ak_username: 'ak_username'
 ak_password: 'ak_password'
 
-
-# CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
-# by default in development, they should be overridden in production settings to speed up Champaign's page performance.
-cloudfront_url: 'http://fake-cloudfront.com'
+# Assets config
+asset_host: 'http://assets.example.com'
 s3_asset_bucket: 'fake_s3_asset_bucket'
 rails_serve_static_assets: false
 compile_static: false
-
 
 # NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
 # performance and error information to the NewRelic Dashboard. Disabled by default, except in production.

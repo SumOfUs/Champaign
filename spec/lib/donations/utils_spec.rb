@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
-require './lib/donations/utils'
 
 describe Donations::Utils do
   subject { Donations::Utils }

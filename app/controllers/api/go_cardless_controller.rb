@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 class Api::GoCardlessController < PaymentController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def start_flow
     session[:go_cardless_session_id] = SecureRandom.uuid
-    @flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url, params)
+    @flow = GoCardlessDirector.new(session[:go_cardless_session_id], success_url, unsafe_params)
 
     if @flow.success?
       redirect_to @flow.redirect_url
@@ -20,14 +20,14 @@ class Api::GoCardlessController < PaymentController
     validator = PaymentProcessor::GoCardless::WebhookSignature.new(
       secret: Settings.gocardless.secret,
       signature: signature,
-      body: { events: params[:events] }.to_json
+      body: { events: unsafe_params[:events] }.to_json
     )
 
     if validator.valid?
-      PaymentProcessor::GoCardless::WebhookHandler::ProcessEvents.process(params[:events])
+      PaymentProcessor::GoCardless::WebhookHandler::ProcessEvents.process(unsafe_params[:events])
       head :ok
     else
-      head status: 427
+      head 427
     end
   end
 
@@ -36,7 +36,7 @@ class Api::GoCardlessController < PaymentController
   def success_url
     local_params = Rack::Utils.parse_query(
       URI.parse(request.url).query
-    ).merge(params.slice(:page_id)).to_query
+    ).merge(unsafe_params.slice(:page_id)).to_query
 
     "#{request.base_url}/api/go_cardless/pages/#{page.id}/transaction?#{local_params}"
   end
@@ -47,11 +47,11 @@ class Api::GoCardlessController < PaymentController
 
   def payment_options
     {
-      amount: params[:amount],
-      currency: params[:currency],
-      user: params[:user].merge(mobile_value),
-      page_id: params[:page_id],
-      redirect_flow_id: params[:redirect_flow_id],
+      amount: unsafe_params[:amount],
+      currency: unsafe_params[:currency],
+      user: unsafe_params[:user].merge(mobile_value),
+      page_id: unsafe_params[:page_id],
+      redirect_flow_id: unsafe_params[:redirect_flow_id],
       session_token: session[:go_cardless_session_id]
     }
   end

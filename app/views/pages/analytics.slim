@@ -11,8 +11,8 @@
 
 
 javascript:
-  $( function() {
+  $(function() {
+    $.publish("pages:analytics");
     Analytics.makeDashboard("#{@page.id}");
   });
 
-  $.publish("pages:analytics");

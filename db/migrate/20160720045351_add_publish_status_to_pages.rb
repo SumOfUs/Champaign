@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddPublishStatusToPages < ActiveRecord::Migration
+
+class AddPublishStatusToPages < ActiveRecord::Migration[4.2]
   class Page < ActiveRecord::Base
   end
 

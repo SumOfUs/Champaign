@@ -1,12 +1,13 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FeaturedPagesController do
   let(:page) { double('Page') }
 
   include_examples 'session authentication',
-                   [{ post:   [:create, format: :js] },
-                    { delete: [:destroy, id: '1', format: :js] }]
+                   [{ post:   [:create, params: { format: :js }] },
+                    { delete: [:destroy, params: { id: '1', format: :js }] }]
 
   before do
     allow(Page).to receive(:find) { page }
@@ -15,7 +16,7 @@ describe FeaturedPagesController do
 
   describe 'POST #create' do
     before do
-      post :create, id: '1', format: :js
+      post :create, params: { id: '1', format: :js }
     end
 
     it 'finds page' do
@@ -33,7 +34,7 @@ describe FeaturedPagesController do
 
   describe 'DELETE #destroy' do
     before do
-      delete :destroy, id: '1', format: :js
+      delete :destroy, params: { id: '1', format: :js }
     end
 
     it 'finds page' do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe LinksController do
@@ -14,7 +15,7 @@ describe LinksController do
       allow(Page).to receive(:find) { page }
       allow(Link).to receive(:new) { link }
 
-      post :create, page_id: '1', link: params
+      post :create, params: { page_id: '1', link: params }
     end
 
     it 'authenticates session' do
@@ -26,7 +27,10 @@ describe LinksController do
     end
 
     it 'creates link' do
-      expect(Link).to have_received(:new).with(params)
+      ActionController::Parameters.permit_all_parameters = true
+
+      expect(Link).to have_received(:new)
+        .with(ActionController::Parameters.new(params))
     end
 
     it 'saves link' do
@@ -45,7 +49,7 @@ describe LinksController do
       allow(Link).to receive(:find) { link }
       allow(link).to receive(:destroy)
 
-      delete :destroy, page_id: '1', id: '2', format: :json
+      delete :destroy, params: { page_id: '1', id: '2', format: :json }
     end
 
     it 'finds link' do

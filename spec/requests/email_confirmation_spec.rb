@@ -9,9 +9,11 @@ describe 'Email Confirmation when signing up to express donations' do
 
   context 'success' do
     let(:params) do
-      { token: auth.token,
+      {
+        token: auth.token,
         email: 'test@example.com',
-        language: 'EN' }
+        language: 'EN'
+      }
     end
 
     it 'confirms user authentication' do
@@ -30,7 +32,8 @@ describe 'Email Confirmation when signing up to express donations' do
     let(:params) do
       { token: auth.token,
         email: 'test@example.com',
-        language: 'de' }
+        language: 'de'
+      }
     end
 
     it 'sets locale to passed language code' do
@@ -58,7 +61,7 @@ describe 'Email Confirmation when signing up to express donations' do
       end.to raise_error(ActiveRecord::RecordNotFound)
 
       expect do
-        get '/email_confirmation', email: 'no@example.com'
+        get '/email_confirmation', params: { email: 'no@example.com' }
       end.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

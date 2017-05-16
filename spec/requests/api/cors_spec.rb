@@ -30,22 +30,22 @@ describe 'CORS support' do
       }
 
       it 'responds allowing the exact subdomain' do
-        options('/api/pages', nil, headers)
+        options '/api/pages', headers: headers
         expect(allow_origin).to eq('http://actions.sumofus.org')
       end
 
       it 'also allows requests from sumofus.org (no subdomain)' do
-        options('/api/pages', nil, accept: 'application/json', origin: 'http://sumofus.org')
+        options '/api/pages', headers: { accept: 'application/json', origin: 'http://sumofus.org'}
         expect(allow_origin).to eq('http://sumofus.org')
       end
 
       it 'allows all HTTP methods' do
-        options('/api/pages', nil, headers)
+        options '/api/pages', headers: headers
         expect(allow_methods).to match(/(GET|POST|PUT|DELETE|OPTIONS|PATCH)/)
       end
 
       it 'allows all Credentials' do
-        options('/api/pages', nil, headers)
+        options '/api/pages', headers: headers
         expect(allow_credentials).to eq('true')
       end
     end
@@ -54,17 +54,17 @@ describe 'CORS support' do
       headers = { origin: 'http://www.not-sumofus.org' }
 
       it 'does not have the allow-origin cors header' do
-        options('/api/pages', nil, headers)
+        options '/api/pages', headers: headers
         expect(allow_origin).to be_nil
       end
 
       it 'does not have the allow-methods cors header' do
-        options('/api/pages', nil, headers)
+        options '/api/pages', headers: headers
         expect(allow_methods).to be_nil
       end
 
       it 'does not have the allow-credentials cors header' do
-        options('/api/pages', nil, headers)
+        options '/api/pages', headers: headers
         expect(allow_credentials).to be_nil
       end
     end
@@ -80,7 +80,7 @@ describe 'CORS support' do
       }
 
       it 'responds allowing the exact domain' do
-        get('/api/pages', nil, headers)
+        get '/api/pages', headers: headers
         expect(allow_origin).to eq('https://actions.sumofus.org')
       end
     end
@@ -92,7 +92,7 @@ describe 'CORS support' do
       }
 
       it 'responds without the CORS headers' do
-        get('/api/pages', nil, headers)
+        get '/api/pages', headers: headers
         expect(allow_origin).to be_nil
         expect(response.status).to be(200)
       end

@@ -87,7 +87,7 @@ class PagesController < ApplicationController
     # conditional below ensures that the member_id is present if it should be, but it is
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
-    if !params[:member_id].present? && recognized_member.try(:id).present?
+    if !unsafe_params[:member_id].present? && recognized_member.try(:id).present?
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
     @rendered = renderer.render_follow_up
@@ -141,7 +141,7 @@ class PagesController < ApplicationController
 
   def process_one_click
     @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
-      params,
+      params.to_unsafe_hash,
       page: @page,
       member: recognized_member,
       cookied_payment_methods: cookies.signed[:payment_methods]

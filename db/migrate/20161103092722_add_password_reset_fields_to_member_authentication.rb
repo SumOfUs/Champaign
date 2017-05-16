@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddPasswordResetFieldsToMemberAuthentication < ActiveRecord::Migration
+
+class AddPasswordResetFieldsToMemberAuthentication < ActiveRecord::Migration[4.2]
   def change
     add_column :member_authentications, :reset_password_sent_at, :timestamp
     add_column :member_authentications, :reset_password_token, :string

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PaymentController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
   before_action :localize_from_page_id, only: :transaction
 
   def transaction
@@ -56,11 +56,11 @@ class PaymentController < ApplicationController
   private
 
   def recurring?
-    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
+    @recurring ||= ActiveRecord::Type::Boolean.new.cast(params[:recurring])
   end
 
   def store_in_vault?
-    (ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:store_in_vault]) || false) && provider_not_gc
+    (ActiveRecord::Type::Boolean.new.cast(params[:store_in_vault]) || false) && provider_not_gc
   end
 
   def provider_not_gc
@@ -76,7 +76,7 @@ class PaymentController < ApplicationController
   end
 
   def follow_up
-    follow_up_params = params[:user].merge(member_id: builder.action.member_id)
+    follow_up_params = params[:user].merge(member_id: builder.action.member_id).to_unsafe_hash
     follow_up_url = PageFollower.new_from_page(page, follow_up_params).follow_up_path
     { follow_up_url: follow_up_url }
   end

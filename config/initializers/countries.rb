@@ -28,7 +28,6 @@ class CountriesExtension
     bn: 'Brunei',
     tl: 'East Timor',
     fk: 'Falkland Islands',
-    an: 'Netherlands Antilles',
     sh: 'St. Helena',
     vn: 'Vietnam'
   }.freeze

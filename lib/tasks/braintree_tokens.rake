@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :champaign do
   desc 'Create braintree payment method tokens out of existing token columns'
   task braintree_tokens: :environment do

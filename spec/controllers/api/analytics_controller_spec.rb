@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::AnalyticsController do
@@ -7,7 +8,7 @@ describe Api::AnalyticsController do
 
     before do
       allow(Analytics::Page).to receive(:new) { page }
-      get :show, page_id: '1', format: 'json'
+      get :show, params: { page_id: '1', format: 'json' }
     end
 
     it 'assigns page' do

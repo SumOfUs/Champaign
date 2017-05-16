@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 shared_examples 'transaction and subscription' do |method|
   let(:gc_service_class) do
     if method == :make_subscription
@@ -9,7 +10,7 @@ shared_examples 'transaction and subscription' do |method|
   end
 
   describe 'call signature' do
-    [:amount, :currency, :user, :page_id, :redirect_flow_id, :session_token].each do |keyword|
+    %i[amount currency user page_id redirect_flow_id session_token].each do |keyword|
       it "requires a #{keyword}" do
         expect do
           required_options.delete(keyword)

@@ -11,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-class Uri < ActiveRecord::Base
+class Uri < ApplicationRecord
   belongs_to :page
 
   validates :domain, allow_nil: false, format: { with: /\A.+\..+\z/i }

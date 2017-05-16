@@ -2,4 +2,6 @@
 = f.hidden_field :content, id: "#{id}_content"
 
 javascript:
-  $.publish("wysiwyg:setup", "#{id}");
+  $(function () {
+    $.publish("wysiwyg:setup", "#{id}");
+  });

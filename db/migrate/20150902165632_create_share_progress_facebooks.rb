@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateShareProgressFacebooks < ActiveRecord::Migration
+
+class CreateShareProgressFacebooks < ActiveRecord::Migration[4.2]
   def change
     create_table :share_facebooks do |t|
       t.string :title

@@ -31,8 +31,8 @@ describe 'Express Donation' do
         },
         page_id: page.id
       }
-      post api_payment_braintree_one_click_path(page.id), body
-      post api_payment_braintree_one_click_path(page.id), body
+      post api_payment_braintree_one_click_path(page.id), params: body
+      post api_payment_braintree_one_click_path(page.id), params: body
     end
 
     it 'creates an action and a transaction for each payment' do
@@ -64,7 +64,7 @@ describe 'Express Donation' do
           page_id: page.id
         }
 
-        post api_payment_braintree_one_click_path(page.id), body
+        post api_payment_braintree_one_click_path(page.id), params: body
       end
     end
 
@@ -128,7 +128,7 @@ describe 'Express Donation' do
             page_id: page.id
           }
 
-          post api_payment_braintree_one_click_path(page.id), body
+          post api_payment_braintree_one_click_path(page.id), params: body
         end
       end
 
@@ -170,7 +170,7 @@ describe 'Express Donation' do
           page_id: page.id
         }
 
-        post api_payment_braintree_one_click_path(page.id), body
+        post api_payment_braintree_one_click_path(page.id), params: body
       end
     end
 
@@ -360,8 +360,8 @@ describe 'Braintree API' do
         end
 
         subject do
-          post api_payment_braintree_transaction_path(page.id), first_donation
-          post api_payment_braintree_transaction_path(page.id), second_donation
+          post api_payment_braintree_transaction_path(page.id), params: first_donation
+          post api_payment_braintree_transaction_path(page.id), params: second_donation
         end
 
         it 'creates a transaction for each payment' do
@@ -389,7 +389,7 @@ describe 'Braintree API' do
 
         before do
           VCR.use_cassette('braintree_transaction no_vault') do
-            post api_payment_braintree_transaction_path(page.id), params
+            post api_payment_braintree_transaction_path(page.id), params: params
           end
         end
 
@@ -462,7 +462,7 @@ describe 'Braintree API' do
               let(:params) { basic_params.merge(user: user_params, amount: amount) }
               subject do
                 VCR.use_cassette('transaction success basic existing customer') do
-                  post api_payment_braintree_transaction_path(page.id), params
+                  post api_payment_braintree_transaction_path(page.id), params: params
                 end
               end
 
@@ -594,7 +594,7 @@ describe 'Braintree API' do
 
               subject do
                 VCR.use_cassette('transaction success paypal existing customer') do
-                  post api_payment_braintree_transaction_path(page.id), params
+                  post api_payment_braintree_transaction_path(page.id), params: params
                 end
               end
 
@@ -672,7 +672,7 @@ describe 'Braintree API' do
               let(:params) { basic_params.merge(user: user_params, amount: amount) }
               subject do
                 VCR.use_cassette('transaction success basic new customer') do
-                  post api_payment_braintree_transaction_path(page.id), params
+                  post api_payment_braintree_transaction_path(page.id), params: params
                 end
               end
 
@@ -804,7 +804,7 @@ describe 'Braintree API' do
 
               subject do
                 VCR.use_cassette('transaction success paypal new customer') do
-                  post api_payment_braintree_transaction_path(page.id), params
+                  post api_payment_braintree_transaction_path(page.id), params: params
                 end
               end
 
@@ -874,7 +874,7 @@ describe 'Braintree API' do
 
               subject do
                 VCR.use_cassette('transaction success basic new customer') do
-                  post api_payment_braintree_transaction_path(page.id), params
+                  post api_payment_braintree_transaction_path(page.id), params: params
                 end
               end
 
@@ -993,7 +993,7 @@ describe 'Braintree API' do
 
             subject do
               VCR.use_cassette('subscription success basic existing customer') do
-                post api_payment_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params: params
               end
             end
 
@@ -1142,7 +1142,7 @@ describe 'Braintree API' do
             subject do
               VCR.use_cassette('subscription success paypal existing customer') do
                 params[:store_in_vault] = true
-                post api_payment_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params: params
               end
             end
 
@@ -1201,7 +1201,7 @@ describe 'Braintree API' do
 
             subject do
               VCR.use_cassette('subscription success basic new customer') do
-                post api_payment_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params: params
               end
             end
 
@@ -1348,7 +1348,7 @@ describe 'Braintree API' do
 
             subject do
               VCR.use_cassette('subscription success paypal new customer') do
-                post api_payment_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params: params
               end
             end
 
@@ -1421,7 +1421,7 @@ describe 'Braintree API' do
 
             subject do
               VCR.use_cassette('subscription success basic new customer') do
-                post api_payment_braintree_transaction_path(page.id), params
+                post api_payment_braintree_transaction_path(page.id), params: params
               end
             end
 
@@ -1481,7 +1481,7 @@ describe 'Braintree API' do
 
       subject do
         VCR.use_cassette('transaction_existing_customer_storing_multiple_tokens') do
-          post api_payment_braintree_transaction_path(page.id), params
+          post api_payment_braintree_transaction_path(page.id), params: params
         end
       end
 
@@ -1520,7 +1520,7 @@ describe 'Braintree API' do
         new_token = customer.default_payment_method
 
         VCR.use_cassette('transaction_existing_customer_storing_multiple_tokens_second_request') do
-          post api_payment_braintree_transaction_path(page.id), params
+          post api_payment_braintree_transaction_path(page.id), params: params
         end
 
         customer.reload
@@ -1539,7 +1539,7 @@ describe 'Braintree API' do
       let(:params) { basic_params.merge(user: user_params, amount: amount) }
       subject do
         VCR.use_cassette('transaction_existing_customer_storing_multiple_tokens') do
-          post api_payment_braintree_transaction_path(page.id), params
+          post api_payment_braintree_transaction_path(page.id), params: params
         end
       end
     end

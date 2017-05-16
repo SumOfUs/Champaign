@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe UrisController do
@@ -29,7 +30,7 @@ describe UrisController do
     before do
       allow(Uri).to receive(:new) { uri }
 
-      post :create, uri: params
+      post :create, params: { uri: params }
     end
 
     it 'authenticates session' do
@@ -55,7 +56,7 @@ describe UrisController do
     before do
       allow(uri).to receive(:destroy)
 
-      delete :destroy, id: '2', format: :json
+      delete :destroy, params: { id: '2', format: :json }
     end
 
     it 'authenticates session' do

@@ -13,7 +13,7 @@
 #  updated_at :datetime         not null
 #
 
-class Share::Email < ActiveRecord::Base
+class Share::Email < ApplicationRecord
   include Share::Variant
 
   validates :subject, :body, presence: true

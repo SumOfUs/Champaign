@@ -2,7 +2,7 @@
 
 class MemberAuthenticationsController < ApplicationController
   before_action :redirect_signed_up_members, :localize_by_recent_action
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def new
     session[:follow_up_url] = params[:follow_up_url]

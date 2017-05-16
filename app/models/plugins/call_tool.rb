@@ -26,7 +26,7 @@
 #  caller_phone_number_id        :integer
 #
 
-class Plugins::CallTool < ActiveRecord::Base
+class Plugins::CallTool < ApplicationRecord
   DEFAULTS = {}.freeze
 
   belongs_to :page, touch: true

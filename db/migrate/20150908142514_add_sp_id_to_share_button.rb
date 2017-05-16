@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddSpIdToShareButton < ActiveRecord::Migration
+
+class AddSpIdToShareButton < ActiveRecord::Migration[4.2]
   def change
     add_column :share_buttons,   :sp_id, :string
     add_column :share_buttons,   :campaign_page_id, :integer

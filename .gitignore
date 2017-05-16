@@ -43,7 +43,6 @@ config/environments/*.local.yml
 .byebug_history
 
 # node.js section
-node_modules
 npm-debug.log
 build
 .DS_Store
@@ -53,3 +52,8 @@ public/webpack
 
 # ignore json locales (they're converted automatically)
 app/frontend/locales/*.json
+
+yarn-error.log
+/public/packs
+/public/packs-test
+/node_modules

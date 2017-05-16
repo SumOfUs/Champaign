@@ -13,7 +13,7 @@
 #  page_id              :integer
 #
 
-class Image < ActiveRecord::Base
+class Image < ApplicationRecord
   # At what point should the image format be converted to jpg
   TO_JPG_SIZE_THRESHOLD = 150_000
 

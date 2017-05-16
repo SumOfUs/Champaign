@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateActionkitPages < ActiveRecord::Migration
+
+class CreateActionkitPages < ActiveRecord::Migration[4.2]
   def change
     create_table :actionkit_pages do |t|
       t.integer :actionkit_id, null: false, unique: true

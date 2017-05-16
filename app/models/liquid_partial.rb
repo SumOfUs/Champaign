@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: liquid_partials
@@ -10,7 +11,7 @@
 #  updated_at :datetime         not null
 #
 
-class LiquidPartial < ActiveRecord::Base
+class LiquidPartial < ApplicationRecord
   include HasLiquidPartials
   has_paper_trail
 
@@ -18,6 +19,9 @@ class LiquidPartial < ActiveRecord::Base
   validates :content, presence: true, allow_blank: false
 
   validate :one_plugin
+
+  after_save { LiquidRenderer::Cache.invalidate }
+  after_destroy { LiquidRenderer::Cache.invalidate }
 
   def plugin_name
     LiquidTagFinder.new(content).plugin_names[0]

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe CampaignsController do
@@ -11,8 +12,8 @@ describe CampaignsController do
   include_examples 'session authentication',
                    [{ get:  [:index] },
                     { get:  [:new] },
-                    { get:  [:edit, id: 1] },
-                    { get:  [:show, id: 1] }]
+                    { get:  [:edit, params: { id: 1 }] },
+                    { get:  [:show, params: { id: 1 }] }]
 
   describe 'GET index' do
     it 'renders index' do
@@ -42,7 +43,7 @@ describe CampaignsController do
 
   describe 'GET edit' do
     before do
-      get :edit, id: 1
+      get :edit, params: { id: 1 }
     end
 
     it 'instantiates instance of Campaign' do
@@ -61,11 +62,11 @@ describe CampaignsController do
   describe 'GET show' do
     it 'finds campaign' do
       expect(Campaign).to receive(:find).with('1')
-      get :show, id: 1
+      get :show, params: { id: '1' }
     end
 
     it 'assigns campaign' do
-      get :show, id: '1'
+      get :show, params: { id: '1' }
       expect(assigns(:campaign)).to eq(campaign)
     end
   end
@@ -76,12 +77,12 @@ describe CampaignsController do
 
     before do
       allow(CampaignCreator).to receive(:run) { campaign }
-      post :create, campaign: fake_params
+      post :create, params: { campaign: fake_params }
     end
 
     it 'authenticates session' do
       expect(request.env['warden']).to receive(:authenticate!)
-      post :create, campaign: fake_params
+      post :create, params: { campaign: fake_params }
     end
 
     it 'calls CampaignCreator.run' do

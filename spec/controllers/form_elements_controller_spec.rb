@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FormElementsController do
@@ -8,13 +9,13 @@ describe FormElementsController do
   include_examples 'session authentication'
 
   describe 'POST #create' do
-    let(:params) { { label: 'Label', data_type: 'text', required: true } }
+    let(:params) { { label: 'Label', data_type: 'text', required: 'true' } }
 
     before do
       allow(Form).to receive(:find) { form }
       allow(FormElementBuilder).to receive(:create) { element }
 
-      post :create, form_id: '1', form_element: params
+      post :create, params: { form_id: '1', form_element: params }
     end
 
     it 'authenticates session' do
@@ -26,7 +27,9 @@ describe FormElementsController do
     end
 
     it 'creates form element' do
-      expect(FormElementBuilder).to have_received(:create).with(form, params)
+      ActionController::Parameters.permit_all_parameters = true
+      expect(FormElementBuilder).to have_received(:create)
+        .with(form, ActionController::Parameters.new(params))
     end
 
     context 'successfully created' do
@@ -42,7 +45,7 @@ describe FormElementsController do
       allow(form).to receive(:touch)
       allow(form).to receive(:form_elements) { [] }
 
-      post :sort, form_id: '1', form_element_ids: ''
+      post :sort, params: { form_id: '1', form_element_ids: '' }
     end
 
     it 'authenticates session' do
@@ -65,7 +68,7 @@ describe FormElementsController do
       allow(element).to receive(:destroy)
       allow(element).to receive(:can_destroy?) { should_destroy }
 
-      delete :destroy, form_id: '1', id: '2', format: :json
+      delete :destroy, params: { form_id: '1', id: '2', format: :json }
     end
 
     describe 'successfully' do

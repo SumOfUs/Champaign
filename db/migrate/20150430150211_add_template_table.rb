@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddTemplateTable < ActiveRecord::Migration
+
+class AddTemplateTable < ActiveRecord::Migration[4.2]
   def change
     create_table :templates do |t|
       t.string :template_name, unique: true

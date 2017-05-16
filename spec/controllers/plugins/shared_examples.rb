@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 shared_examples 'plugins controller' do |plugin_class, plugin_name|
   let(:user) { instance_double('User', id: '1') }
 
@@ -14,7 +15,7 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
       before do
         allow(plugin_class).to receive(:find).with('1') { plugin }
         allow(plugin).to receive(:update) { true }
-        put :update, id: '1', plugin_name => { title: 'bar' }, format: :js
+        put :update, params: { id: '1', plugin_name => { title: 'bar' }, format: :js }
       end
 
       it 'finds the plugin' do
@@ -22,7 +23,10 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
       end
 
       it 'updates the plugin' do
-        expect(plugin).to have_received(:update).with(title: 'bar')
+        ActionController::Parameters.permit_all_parameters = true
+
+        expect(plugin).to have_received(:update)
+          .with(ActionController::Parameters.new(title: 'bar'))
       end
 
       it 'returns 422' do
@@ -38,8 +42,8 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
       before do
         allow(plugin_class).to receive(:find).with('1') { plugin }
         allow(plugin).to receive(:update) { false }
-        allow(plugin).to receive(:errors) { Hash.new }
-        put :update, id: '1', plugin_name => { title: 'bar' }, format: :js
+        allow(plugin).to receive(:errors) { {} }
+        put :update, params: { id: '1', plugin_name => { title: 'bar' }, format: :js }
       end
 
       it 'returns 422' do

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 shared_examples 'shares' do |share_class, service|
   let(:share) { instance_double(share_class, valid?: true, errors: {}) }
   let(:failed_share) { instance_double(share_class, valid?: true, errors: { base: ['email_body needs {LINK}'] }) }
@@ -7,6 +8,7 @@ shared_examples 'shares' do |share_class, service|
   include_examples 'session authentication'
 
   before do
+    ActionController::Parameters.permit_all_parameters = true
     allow(Page).to receive(:find).with('1') { page }
   end
 
@@ -14,7 +16,7 @@ shared_examples 'shares' do |share_class, service|
     before do
       allow(share_class).to receive(:where) { [share] }
 
-      get :index, page_id: '1'
+      get :index, params: { page_id: '1' }
     end
 
     it 'finds campaign page' do
@@ -39,7 +41,7 @@ shared_examples 'shares' do |share_class, service|
     before do
       allow(share_class).to receive(:new) { share }
 
-      get :new, page_id: '1'
+      get :new, params: { page_id: '1' }
     end
 
     it 'finds campaign page' do
@@ -62,7 +64,7 @@ shared_examples 'shares' do |share_class, service|
   describe 'GET#edit' do
     before do
       allow(share_class).to receive(:find) { share }
-      get :edit, page_id: '1', id: '2'
+      get :edit, params: { page_id: '1', id: '2' }
     end
 
     it 'finds campaign page' do
@@ -83,7 +85,7 @@ shared_examples 'shares' do |share_class, service|
       before do
         allow(ShareProgressVariantBuilder).to receive(:update) { share }
 
-        put :update, page_id: 1, id: 2, "share_#{service}": params
+        put :update, params: { page_id: 1, id: 2, "share_#{service}": params }
       end
 
       it 'finds campaign page' do
@@ -93,7 +95,7 @@ shared_examples 'shares' do |share_class, service|
       it 'updates' do
         expect(ShareProgressVariantBuilder).to have_received(:update)
           .with(
-            params: params,
+            params: ActionController::Parameters.new(params),
             variant_type: service.to_sym,
             page: page,
             id: '2'
@@ -108,7 +110,7 @@ shared_examples 'shares' do |share_class, service|
     describe 'failure' do
       before do
         allow(ShareProgressVariantBuilder).to receive(:update) { failed_share }
-        put :update, page_id: 1, id: 2, "share_#{service}": params
+        put :update, params: { page_id: 1, id: 2, "share_#{service}": params }
       end
 
       it 'renders share/edit' do
@@ -126,7 +128,7 @@ shared_examples 'shares' do |share_class, service|
       before do
         allow(ShareProgressVariantBuilder).to receive(:create) { share }
 
-        post :create, page_id: 1, "share_#{service}": params
+        post :create, params: { page_id: 1, "share_#{service}": params }
       end
 
       it 'finds campaign page' do
@@ -136,7 +138,7 @@ shared_examples 'shares' do |share_class, service|
       it 'creates' do
         expect(ShareProgressVariantBuilder).to have_received(:create)
           .with(
-            params: params,
+            params: ActionController::Parameters.new(params),
             variant_type: service.to_sym,
             page: page,
             url: 'http://test.host/a/1'
@@ -151,7 +153,7 @@ shared_examples 'shares' do |share_class, service|
     describe 'success' do
       before do
         allow(ShareProgressVariantBuilder).to receive(:create) { failed_share }
-        post :create, page_id: 1, "share_#{service}": params
+        post :create, params: { page_id: 1, "share_#{service}": params }
       end
 
       it 'renders share/edit' do

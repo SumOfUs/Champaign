@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateCampaignPagesWidgets < ActiveRecord::Migration
+
+class CreateCampaignPagesWidgets < ActiveRecord::Migration[4.2]
   def change
     create_table :campaign_pages_widgets do |t|
       t.jsonb :content, null: false

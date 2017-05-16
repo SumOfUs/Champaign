@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateDonationBands < ActiveRecord::Migration
+
+class CreateDonationBands < ActiveRecord::Migration[4.2]
   def change
     create_table :donation_bands do |t|
       t.string :name

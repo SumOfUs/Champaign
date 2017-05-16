@@ -25,7 +25,7 @@ describe 'API::Stateless Members' do
     end
 
     it 'returns member information for the member' do
-      get "/api/stateless/members/#{member.id}", nil, auth_headers
+      get "/api/stateless/members/#{member.id}", headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.keys).to include(
         'id',
@@ -87,7 +87,7 @@ describe 'API::Stateless Members' do
       end
 
       subject do
-        put "/api/stateless/members/#{member.id}", params, auth_headers
+        put "/api/stateless/members/#{member.id}", params: params, headers: auth_headers
       end
 
       it 'updates the member locally and sends it back as json' do
@@ -142,7 +142,7 @@ describe 'API::Stateless Members' do
       end
 
       it 'sends back error messages if the parameters are invalid' do
-        put "/api/stateless/members/#{member.id}", bad_params, auth_headers
+        put "/api/stateless/members/#{member.id}", params: bad_params, headers: auth_headers
 
         expect(response.status).to be 422
 
@@ -169,7 +169,7 @@ describe 'API::Stateless Members' do
       let(:member) { Member.first }
 
       it 'creates a member with authentication' do
-        post api_stateless_members_path, member: member_params, format: :json
+        post api_stateless_members_path, params: { member: member_params, format: :json }
 
         expect(response.body).to eq(member.to_json)
         expect(member.authentication).to be_a(MemberAuthentication)
@@ -178,7 +178,7 @@ describe 'API::Stateless Members' do
 
     context 'invalid request' do
       it 'creates a member with authentication' do
-        post api_stateless_members_path, member: member_params.except(:email), format: :json
+        post api_stateless_members_path, params: { member: member_params.except(:email), format: :json }
 
         body = JSON.parse(response.body).deep_symbolize_keys
         expect(body).to eq(errors: { email: ["can't be blank"] })

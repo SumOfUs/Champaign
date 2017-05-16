@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require './lib/liquid_markup_seeder'
+
+require './app/lib/liquid_markup_seeder'
 
 namespace :champaign do
   desc 'Seed database with liquid markup for partials and templates'

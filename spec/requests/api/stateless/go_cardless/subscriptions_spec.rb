@@ -69,7 +69,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
 
   describe 'GET index' do
     it 'returns subscriptions with nested transactions and payment method' do
-      get '/api/stateless/go_cardless/subscriptions', nil, auth_headers
+      get '/api/stateless/go_cardless/subscriptions', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to be_an Array
       subscription = json_hash.first.deep_symbolize_keys!
@@ -92,7 +92,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
     end
 
     it 'does not show subscriptions that have been marked as cancelled' do
-      get '/api/stateless/go_cardless/subscriptions', nil, auth_headers
+      get '/api/stateless/go_cardless/subscriptions', headers: auth_headers
       expect(json_hash.to_s).to_not include(cancelled_subscription.id.to_s)
     end
   end
@@ -121,7 +121,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
     it 'cancels the subscription on GoCardless and marks the local subscription as cancelled' do
       Timecop.freeze do
         VCR.use_cassette('stateless api cancel go_cardless subscription') do
-          delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", nil, auth_headers
+          delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", headers: auth_headers
           expect(response.success?).to eq true
           expect(Payment::GoCardless::Subscription.find(delete_subscription.id).cancelled_at)
             .to be_within(1.second).of Time.now
@@ -133,7 +133,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
       VCR.use_cassette('stateless api cancel go_cardless subscription failure') do
         expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling'\
         ' subscription idontexist: Resource not found')
-        delete "/api/stateless/go_cardless/subscriptions/#{nonexistent_subscription.id}", nil, auth_headers
+        delete "/api/stateless/go_cardless/subscriptions/#{nonexistent_subscription.id}", headers: auth_headers
         expect(response.success?).to eq false
         expect(json_hash['errors']).to eq([{ 'reason' => 'resource_not_found', 'message' => 'Resource not found' }])
         expect(Payment::GoCardless::Subscription.find(nonexistent_subscription.id).cancelled_at).to be nil
@@ -148,7 +148,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
                                                         canceled_by: 'user'
                                                       })
 
-        delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", nil, auth_headers
+        delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", headers: auth_headers
       end
     end
   end

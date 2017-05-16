@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class DropWidgetTypes < ActiveRecord::Migration
+
+class DropWidgetTypes < ActiveRecord::Migration[4.2]
   def up
     drop_table :widget_types, force: :cascade
     drop_table :templates_widget_types, force: :cascade

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateUris < ActiveRecord::Migration
+
+class CreateUris < ActiveRecord::Migration[4.2]
   def change
     create_table :uris do |t|
       t.string :domain

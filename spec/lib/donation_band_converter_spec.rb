@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 require 'spec_helper'
-require './lib/donation_band_converter'
 
 describe DonationBandConverter do
   let(:initial_string) { '1 2 3 4 5' }

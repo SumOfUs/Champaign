@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Plugins::SurveysController do
@@ -22,7 +23,7 @@ describe Plugins::SurveysController do
   end
 
   describe 'POST add_form' do
-    let(:params) { { plugin_id: survey.id, format: 'js' } }
+    let(:params) { { params: { plugin_id: survey.id, format: 'js' } } }
     let(:new_form) { instance_double(Form, save: true, errors: []) }
 
     before :each do
@@ -35,7 +36,7 @@ describe Plugins::SurveysController do
 
     it 'instantiates a form' do
       expect(Form).to have_received(:new).with(
-        name: "survey_form_#{params[:plugin_id]}",
+        name: "survey_form_#{survey.id}",
         master: false,
         formable: survey,
         position: 3

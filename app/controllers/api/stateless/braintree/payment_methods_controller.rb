@@ -3,7 +3,7 @@ module Api
   module Stateless
     module Braintree
       class PaymentMethodsController < StatelessController
-        before_filter :authenticate_request!
+        before_action :authenticate_request!
 
         def index
           @payment_methods = PaymentHelper::Braintree.payment_methods_for_member(@current_member).active

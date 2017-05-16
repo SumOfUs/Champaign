@@ -33,7 +33,7 @@
 #  publish_actions            :integer          default(0), not null
 #
 
-class Page < ActiveRecord::Base
+class Page < ApplicationRecord
   extend FriendlyId
   has_paper_trail
 
@@ -49,9 +49,11 @@ class Page < ActiveRecord::Base
   belongs_to :follow_up_liquid_layout, class_name: 'LiquidLayout'
   belongs_to :primary_image, class_name: 'Image'
 
-  has_many :tags, through: :pages_tags
-  has_many :actions
   has_many :pages_tags, dependent: :destroy
+  has_many :tags, through: :pages_tags
+
+
+  has_many :actions
   has_many :images,     dependent: :destroy
   has_many :links,      dependent: :destroy
   has_many :share_buttons, class_name: 'Share::Button'
@@ -141,7 +143,7 @@ class Page < ActiveRecord::Base
 
   def switch_plugins
     fields = %w(liquid_layout_id follow_up_liquid_layout_id follow_up_plan)
-    if fields.any? { |f| changed.include?(f) }
+    if fields.any? { |f| saved_changes.keys.include?(f) }
       secondary = follow_up_plan == 'with_liquid' ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
     end

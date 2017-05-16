@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -9,9 +9,9 @@ Bundler.require(*Rails.groups)
 
 module Champaign
   class Application < Rails::Application
-    # allow nested structure in Models directory without additional namespacing
-    # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
-    config.autoload_paths << Rails.root.join('lib')
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
+
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -25,22 +25,11 @@ module Champaign
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.i18n.available_locales = [:en, :fr, :de]
+    config.i18n.available_locales = %i[en fr de]
     config.i18n.enforce_available_locales = true
-
-    config.active_record.observers = :liquid_partial_observer
-
-    # We're using Redis as our cache. Configure that here.
-    # we use 'redis' as the host name because that's configured by docker
-    # during our setup as the host where our redis instance is stored.
-
-    config.webpack.config_file = Rails.root.join('config', 'frontend', 'webpack.config.prod.js')
   end
 end
 

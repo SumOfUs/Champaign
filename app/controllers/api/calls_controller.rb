@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Api::CallsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def create
     service = CallCreator.new(call_params)

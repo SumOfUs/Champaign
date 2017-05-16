@@ -1,34 +1,22 @@
 machine:
-  pre:
-    # Update docker version
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   node:
-    version: 7.4.0
+    version: 8.1.0
   environment:
-    YARN_VERSION: 0.18.1
-    PATH: "${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${PATH}"
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+
   services:
     - docker
     - redis
     - postgresql
 
 dependencies:
-  pre:
-    - |
-      if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
-        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
-      fi
   cache_directories:
-    - node_modules # we're using yarn so no need to worry
-    - ~/.yarn
     - ~/.cache/yarn
   override:
-    - docker info
-    # install AWS CLI
-    - sudo pip install awscli
-    - yarn install --no-progress --no-emoji
-    - bundle install --without development
+    - yarn
+    - bundle check || bundle install --without development --jobs=4 --retry=3
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
+    - RAILS_ENV=production bundle exec rake assets:download_external_assets[$EXTERNAL_ASSET_PATHS,$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH]
 
 database:
   override:
@@ -37,25 +25,18 @@ database:
 test:
   override:
     - |
-      yarn run lint &&
-      yarn run flow-check &&
+      yarn run flow check &&
       yarn run test &&
-      bundle exec rubocop &&
       bundle exec rspec spec
 
 deployment:
   production:
     branch: 'master'
     commands:
-      - ./bin/build.sh
+      - BRAINTREE_TOKEN_URL=$PRODUCTION_BRAINTREE_TOKEN_URL ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
     branch:  'development'
     commands:
-      - ./bin/build.sh
+      - BRAINTREE_TOKEN_URL=$STAGING_BRAINTREE_TOKEN_URL ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
-  testing:
-    branch: testing
-    commands:
-      - ./bin/build.sh
-      - ./bin/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'

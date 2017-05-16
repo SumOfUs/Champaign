@@ -34,5 +34,7 @@
         = render partial: 'plugins/shared/preview', locals: { plugin: plugin }
 
 javascript:
-  $.publish("collection:edit:loaded");
-  $.publish("plugin:form:loaded");
+  $(function() {
+    $.publish("collection:edit:loaded");
+    $.publish("plugin:form:loaded");
+  });

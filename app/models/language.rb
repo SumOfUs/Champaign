@@ -11,7 +11,7 @@
 #  actionkit_uri :string
 #
 
-class Language < ActiveRecord::Base
+class Language < ApplicationRecord
   has_paper_trail on: [:update, :destroy]
   has_many :pages
 

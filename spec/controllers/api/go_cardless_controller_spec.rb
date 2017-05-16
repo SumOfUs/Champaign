@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::GoCardlessController do
@@ -27,7 +28,7 @@ describe Api::GoCardlessController do
       subject
     end
 
-    subject { get :start_flow, page_id: '1', foo: 'bar' }
+    subject { get :start_flow, params: { page_id: '1', foo: 'bar' } }
 
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new)
@@ -84,7 +85,7 @@ describe Api::GoCardlessController do
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
-          post :transaction, params.merge(recurring: true)
+          post :transaction, params: params.merge(recurring: true)
         end
 
         it 'calls Subscription.make_subscription' do
@@ -99,7 +100,7 @@ describe Api::GoCardlessController do
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
-          post :transaction, params
+          post :transaction, params: params
         end
 
         it 'calls Transaction.make_transaction' do
@@ -147,7 +148,7 @@ describe Api::GoCardlessController do
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
-          post :transaction, params.merge(recurring: true)
+          post :transaction, params: params.merge(recurring: true)
         end
 
         it 'calls Subscription.make_subscription' do
@@ -163,7 +164,7 @@ describe Api::GoCardlessController do
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
-          post :transaction, params
+          post :transaction, params: params
         end
 
         it 'calls Transaction.make_transaction' do
@@ -190,13 +191,13 @@ describe Api::GoCardlessController do
               body: { events: { an: :event } }.to_json)
 
       request.headers['HTTP_WEBHOOK_SIGNATURE'] = 'foobar'
-      post 'webhook', events: { an: :event }
+      post 'webhook', params: { events: { an: :event } }
     end
 
     context 'with invalid events' do
       before do
         allow(validator).to receive(:valid?) { false }
-        post 'webhook', events: {}
+        post 'webhook'
       end
 
       it 'does not process events' do
@@ -213,7 +214,7 @@ describe Api::GoCardlessController do
     context 'with valid events' do
       before do
         allow(validator).to receive(:valid?) { true }
-        post 'webhook', events: {}
+        post 'webhook', params: { events: {} }
       end
 
       it 'processes events' do

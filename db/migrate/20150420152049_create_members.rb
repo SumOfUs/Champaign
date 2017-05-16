@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateMembers < ActiveRecord::Migration
+
+class CreateMembers < ActiveRecord::Migration[4.2]
   def change
     create_table :members do |t|
       t.string :email_address, null: false, unique: true

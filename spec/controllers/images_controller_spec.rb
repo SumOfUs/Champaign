@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ImagesController do
@@ -16,7 +17,7 @@ describe ImagesController do
       allow(page).to receive_message_chain(:images, :create).and_return(image)
     end
 
-    subject { post :create, page_id: '1', image: { content: 'foo' }, format: :js }
+    subject { post :create, params: { page_id: '1', image: { content: 'foo' }, format: :js } }
 
     it 'authenticates session' do
       subject
@@ -29,14 +30,17 @@ describe ImagesController do
     end
 
     it 'creates image' do
-      expect(page).to receive_message_chain(:images, :create).with(content: 'foo')
+      ActionController::Parameters.permit_all_parameters = true
+
+      expect(page).to receive_message_chain(:images, :create)
+        .with(ActionController::Parameters.new(content: 'foo'))
       subject
     end
 
     it 'responds with errors if unsuccessful' do
       image = instance_double('Image', id: nil, errors: instance_double('ActiveRecord::Errors', empty?: false, full_messages: ['Content type is invalid', 'File is too large']))
       allow(page).to receive_message_chain(:images, :create).and_return(image)
-      post :create, page_id: '1', image: { content: 'foo' }, format: :js
+      post :create, params: { page_id: '1', image: { content: 'foo' }, format: :js }
       expect(response.status).to eq 422
       expect(response.body).to eq 'Content type is invalid'
     end
@@ -48,7 +52,7 @@ describe ImagesController do
       allow(page).to receive_message_chain(:images, :find) { image }
     end
 
-    subject { delete :destroy, page_id: '1', id: '2', format: :json }
+    subject { delete :destroy, params: { page_id: '1', id: '2', format: :json } }
 
     it 'authenticates session' do
       subject

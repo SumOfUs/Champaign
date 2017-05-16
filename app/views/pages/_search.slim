@@ -42,4 +42,6 @@
         = button_tag 'Reset filters', type: 'button',  class: 'btn btn-danger page-filter__reset', id: 'filter_reset_button'
 
   javascript:
-    $.publish('search:load')
+    $(function () {
+      $.publish('search:load')
+    });

@@ -25,7 +25,7 @@ class ActionParamsBuilder
   end
 
   def build_params
-    params.permit(fields + base_params).merge(donation: true)
+    ActionController::Parameters.new(params).permit(fields + base_params).merge(donation: true)
   end
 
   def base_params

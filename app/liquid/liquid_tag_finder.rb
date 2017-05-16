@@ -27,7 +27,7 @@ class LiquidTagFinder
   # 'petition' will be in the list returned by this method.
   def plugin_names
     markups = all_liquid_tags.map { |li| li.instance_values['markup'] }
-    plugins = markups.map { |markup| markup.match(/plugins\.([a-zA-Z0-9_]+)/) }
+    plugins = markups.compact.map { |markup| markup.match(/plugins\.([a-zA-Z0-9_]+)/) }
     plugins.select(&:present?).map { |matches| matches[1] }.uniq
   end
 
@@ -93,7 +93,7 @@ class LiquidTagFinder
   private
 
   def string_comments
-    all_comment_tags.map { |node| node.instance_values['nodelist'].select { |subnode| subnode.is_a? String } }
+    all_comment_tags.map { |node| node.nodelist.select { |subnode| subnode.is_a? String } }
   end
 
   def all_liquid_tags
@@ -102,7 +102,7 @@ class LiquidTagFinder
 
   def all_comment_tags
     all_liquid_tags.select do |node|
-      (node.class == Liquid::Comment) && !node.instance_values['nodelist'].empty?
+      (node.class == Liquid::Comment) && !node.nodelist.empty?
     end
   end
 
@@ -111,7 +111,7 @@ class LiquidTagFinder
   end
 
   def partial_name_from_include(incl)
-    strip_quotes(incl.instance_values['template_name'])
+    strip_quotes(incl.instance_values['template_name_expr'])
   end
 
   def ref_from_include(incl)

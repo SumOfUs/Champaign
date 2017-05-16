@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'open-uri'
 
 namespace :sumofus do
@@ -25,7 +26,7 @@ namespace :sumofus do
 
     puts 'Errors listed below, empty means no errors:'
 
-    %w(en fr de).map do |locale|
+    %w[en fr de].map do |locale|
       expected_title = I18n.t('fundraiser.generic.title', locale: locale)
       page = Page.find_by(title: expected_title)
       if page.blank?
@@ -79,7 +80,7 @@ namespace :sumofus do
     end
   end
 
-  task :seed_legacy_actions, [:action_file, :page_img_file, :follow_img_file] => :environment do |_task, args|
+  task :seed_legacy_actions, %i[action_file page_img_file follow_img_file] => :environment do |_task, args|
     if args[:page_img_file].blank?
       abort('Requires a valid url to a file containing a default header image to attach to the page.')
     else
@@ -104,7 +105,7 @@ namespace :sumofus do
 
     def create_post_action_pages(layout_id, image_handle)
       pages = {}
-      %w(en fr de).map do |locale|
+      %w[en fr de].map do |locale|
         page = Page.find_or_initialize_by(title: I18n.t('fundraiser.generic.title', locale: locale))
         page.liquid_layout_id = layout_id
         page.language_id = language_ids[locale]

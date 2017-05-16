@@ -15,12 +15,12 @@
 #  post_action_layout          :boolean
 #
 
-class LiquidLayout < ActiveRecord::Base
+class LiquidLayout < ApplicationRecord
   include HasLiquidPartials
   has_paper_trail
 
   has_many :pages
-  belongs_to :default_follow_up_layout, class_name: LiquidLayout
+  belongs_to :default_follow_up_layout, class_name: 'LiquidLayout'
 
   validates :title, presence: true, allow_blank: false
   validates :content, presence: true, allow_blank: false

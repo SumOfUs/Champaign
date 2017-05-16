@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Plugins::FormsController do
@@ -12,14 +13,14 @@ describe Plugins::FormsController do
   end
 
   describe 'GET show' do
-    let(:params) { { plugin_type: 'petition', plugin_id: '3' } }
+    let(:params) { { params: { plugin_type: 'petition', plugin_id: '3' } } }
 
     before :each do
       get :show, params
     end
 
     it 'finds the plugin' do
-      expect(Plugins).to have_received(:find_for).with(params[:plugin_type], params[:plugin_id])
+      expect(Plugins).to have_received(:find_for).with('petition', '3')
     end
 
     it 'renders the form preview' do
@@ -28,7 +29,7 @@ describe Plugins::FormsController do
   end
 
   describe 'POST create' do
-    let(:params) { { master_id: '2', plugin_type: 'petition', plugin_id: '3' } }
+    let(:params) { { params: { master_id: '2', plugin_type: 'petition', plugin_id: '3' } } }
     let(:first_form) { instance_double('Form', id: 1, master: true) }
     let(:second_form) { instance_double('Form', id: 7, master: false) }
 
@@ -41,11 +42,11 @@ describe Plugins::FormsController do
     end
 
     it 'finds form by form_id' do
-      expect(Form).to have_received(:find).with(params[:master_id])
+      expect(Form).to have_received(:find).with('2')
     end
 
     it 'finds plugin by plugin type and id' do
-      expect(Plugins).to have_received(:find_for).with(params[:plugin_type], params[:plugin_id])
+      expect(Plugins).to have_received(:find_for).with('petition', '3')
     end
 
     it 'duplicates the form' do
@@ -60,13 +61,13 @@ describe Plugins::FormsController do
       expect(response.status).to eq 200
       expect(response).to render_template(partial: 'forms/_edit')
       body = JSON.parse(response.body)
-      expect(body.keys).to match_array %w(html form_id)
+      expect(body.keys).to match_array %w[html form_id]
       expect(body['form_id']).to eq second_form.id
     end
   end
 
   describe 'strong params' do
-    let(:params) { { master_id: '2', plugin_type: 'petition', plugin_id: '3', form_id: 'disallowed' } }
+    let(:params) { { params: { master_id: '2', plugin_type: 'petition', plugin_id: '3', form_id: 'disallowed' } } }
 
     it 'are used for POST create' do
       expect { post :create, params }.to raise_error(ActionController::UnpermittedParameters)

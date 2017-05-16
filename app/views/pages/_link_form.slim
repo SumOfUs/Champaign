@@ -20,4 +20,6 @@
       = submit_tag t('pages.edit.add_link'), class: 'btn btn-default xhr-feedback', 'data-disable-with' => t('common.saving')
 
 javascript:
-  $.publish("collection:edit:loaded");
+  $(function () {
+    $.publish("collection:edit:loaded");
+  });

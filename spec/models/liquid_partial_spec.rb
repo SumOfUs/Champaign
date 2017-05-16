@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: liquid_partials
@@ -75,7 +76,7 @@ describe LiquidPartial do
     describe 'without nested partials' do
       it 'returns its own plugin with the passed ref' do
         pa = create :liquid_partial, title: 'a', content: '<p>{{ plugins.my_plugin[ref] }}</p>'
-        expect(pa.plugin_refs(ref: 'my_ref')).to eq [%w(my_plugin my_ref)]
+        expect(pa.plugin_refs(ref: 'my_ref')).to eq [%w[my_plugin my_ref]]
       end
 
       it 'returns empty array if no plugins' do
@@ -98,7 +99,7 @@ describe LiquidPartial do
         pc = create :liquid_partial, title: 'c', content: '<p>{% include "e" %}{% include "d" %}</p>'
         pb = create :liquid_partial, title: 'b', content: '<p>{% include "e", ref: "lol" %}</p>'
         pa = create :liquid_partial, title: 'a', content: '<p>{% include "b", ref: "heyy" %}</p>{% include "c" %}'
-        expect(pa.plugin_refs).to match_array [%w(e lol), ['e', nil]]
+        expect(pa.plugin_refs).to match_array [%w[e lol], ['e', nil]]
       end
 
       it 'with a tree of partials with different plugins' do
@@ -107,16 +108,16 @@ describe LiquidPartial do
         pc = create :liquid_partial, title: 'c', content: '<p>{% include "e" %}{% include "d" %} {{ plugins.c[ref] }}</p>'
         pb = create :liquid_partial, title: 'b', content: '<p>{% include "e", ref: "lol" %} {{ plugins.b[ref] }}</p>'
         pa = create :liquid_partial, title: 'a', content: '<p>{% include "b", ref: "heyy" %}</p>{% include "c" %} {{ plugins.a[ref] }}'
-        expect(pa.plugin_refs).to match_array [['a', nil], %w(b heyy), ['c', nil], ['d', nil], ['e', nil], %w(e lol)]
+        expect(pa.plugin_refs).to match_array [['a', nil], %w[b heyy], ['c', nil], ['d', nil], ['e', nil], %w[e lol]]
       end
 
       it 'with multiple partials with the same plugin' do
         pc = create :liquid_partial, title: 'c', content: '<p>{{ plugins.my_plugin[ref] }}</p>'
         pb = create :liquid_partial, title: 'b', content: '<p>{{ plugins.my_plugin[ref] }}</p>'
         pa = create :liquid_partial, title: 'a', content: '<p>{% include "b", ref: "yay" %}</p>{% include "c" %}{{ plugins.my_plugin[ref] }}'
-        expect(pa.plugin_refs).to match_array [%w(my_plugin yay), ['my_plugin', nil]]
-        expect(pa.plugin_refs(ref: 'yay')).to match_array [%w(my_plugin yay), ['my_plugin', nil]]
-        expect(pa.plugin_refs(ref: 'nae')).to match_array [%w(my_plugin yay), ['my_plugin', nil], %w(my_plugin nae)]
+        expect(pa.plugin_refs).to match_array [%w[my_plugin yay], ['my_plugin', nil]]
+        expect(pa.plugin_refs(ref: 'yay')).to match_array [%w[my_plugin yay], ['my_plugin', nil]]
+        expect(pa.plugin_refs(ref: 'nae')).to match_array [%w[my_plugin yay], ['my_plugin', nil], %w[my_plugin nae]]
       end
     end
 
@@ -142,7 +143,7 @@ describe LiquidPartial do
 
   describe 'missing_partials' do
     it 'filters out none if none exist' do
-      nonexistent = %w(fake not_a_real_partial seriouslyyy)
+      nonexistent = %w[fake not_a_real_partial seriouslyyy]
       expect(LiquidPartial.missing_partials(nonexistent)).to eq nonexistent
     end
 
@@ -157,6 +158,24 @@ describe LiquidPartial do
       p1 = create :liquid_partial
       p2 = create :liquid_partial
       expect(LiquidPartial.missing_partials([p1.title, 'lies', p2.title])).to eq ['lies']
+    end
+  end
+
+  describe 'Cache' do
+    let!(:record) { create(:liquid_partial) }
+
+    context 'after save' do
+      it 'invalidates cache' do
+        expect(LiquidRenderer::Cache).to receive(:invalidate)
+        record.save
+      end
+    end
+
+    context 'after destroy' do
+      it 'invalidates cache' do
+        expect(LiquidRenderer::Cache).to receive(:invalidate)
+        record.destroy
+      end
     end
   end
 end

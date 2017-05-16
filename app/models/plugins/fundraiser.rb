@@ -16,7 +16,7 @@
 #  preselect_amount  :boolean          default(FALSE)
 #
 
-class Plugins::Fundraiser < ActiveRecord::Base
+class Plugins::Fundraiser < ApplicationRecord
   include Plugins::HasForm
 
   enum recurring_default: [:one_off, :recurring, :only_recurring]
@@ -38,7 +38,7 @@ class Plugins::Fundraiser < ActiveRecord::Base
   end
 
   def recurring?
-    read_attribute(:recurring_default).positive?
+    ['recurring', 'only_recurring'].include?(recurring_default)
   end
 
   def self.donation_default_for_page(page_id)

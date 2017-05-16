@@ -14,7 +14,7 @@ module CallTool::TwimlGenerator
     private
 
     def sound_clip_url
-      ActionController::Base.new.view_context.asset_url call.sound_clip.url
+      call.sound_clip.url
     end
   end
 end
