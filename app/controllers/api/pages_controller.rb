@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_filter :get_page, except: [:index, :featured]
-  before_filter :authenticate_user!, except: [:index, :featured, :show, :actions]
+  before_action :get_page, except: [:index, :featured]
+  before_action :authenticate_user!, except: [:index, :featured, :show, :actions]
 
   layout false
 

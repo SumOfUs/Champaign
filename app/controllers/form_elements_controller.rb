@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class FormElementsController < ApplicationController
-  before_filter :find_form, only: [:create, :sort]
+  before_action :find_form, only: [:create, :sort]
   before_action :authenticate_user!
 
   def create

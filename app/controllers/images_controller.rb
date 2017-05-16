@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class ImagesController < ApplicationController
   before_action :authenticate_user!
-  before_filter :find_page
+  before_action :find_page
 
   def create
     @image = @page.images.create(image_params)

@@ -2,7 +2,7 @@
 class Api::ActionsController < ApplicationController
   before_action :localize_from_page_id
 
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def create
     validator = FormValidator.new(action_params)

@@ -59,7 +59,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Accept requests from any origin in development mode
-  config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
+  config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
       origins '*'
       resource '*',

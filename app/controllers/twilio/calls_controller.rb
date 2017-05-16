@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 module Twilio
   class CallsController < ApplicationController
-    skip_before_action :verify_authenticity_token
+    skip_before_action :verify_authenticity_token, raise: false
 
     def start
       @call = Call.find(params[:id])

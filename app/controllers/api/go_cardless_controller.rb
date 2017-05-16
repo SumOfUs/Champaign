@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Api::GoCardlessController < PaymentController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
 
   def start_flow
     session[:go_cardless_session_id] = SecureRandom.uuid

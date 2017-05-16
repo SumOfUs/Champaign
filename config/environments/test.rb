@@ -53,7 +53,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # CORS
-  config.middleware.insert_before 0, 'Rack::Cors', logger: (-> { Rails.logger }) do
+  config.middleware.insert_before 0, Rack::Cors, logger: (-> { Rails.logger }) do
     allow do
       origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
@@ -62,4 +62,7 @@ Rails.application.configure do
                max_age: 86_400
     end
   end
+
+
+
 end

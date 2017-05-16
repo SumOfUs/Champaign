@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Api::SurveyResponsesController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :verify_authenticity_token, raise: false
   before_action :localize_from_page_id, only: :create
 
   def create

@@ -3,7 +3,7 @@
 class ApplicationController < ActionController::Base
   include AuthToken
 
-  before_filter :set_default_locale
+  before_action :set_default_locale
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 class Plugins::PetitionsController < ApplicationController
-  before_filter :find_form
+  before_action :find_form
 
   def update
     @plugin = Plugins::Petition.find(params[:id])
