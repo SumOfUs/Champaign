@@ -15,7 +15,7 @@
 #  cancelled_at              :datetime
 #
 
-class Payment::GoCardless::PaymentMethod < ActiveRecord::Base
+class Payment::GoCardless::PaymentMethod < ApplicationRecord
   include AASM
 
   ACTION_FROM_STATE = {

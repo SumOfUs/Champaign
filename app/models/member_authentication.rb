@@ -32,7 +32,7 @@
 #   - facebook_token
 #   - facebook_expiry
 #
-class MemberAuthentication < ActiveRecord::Base
+class MemberAuthentication < ApplicationRecord
   VALID_TOKEN_AGE_IN_DAYS = 1
 
   has_secure_password

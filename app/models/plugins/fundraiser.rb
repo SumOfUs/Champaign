@@ -16,7 +16,7 @@
 #  preselect_amount  :boolean          default(FALSE)
 #
 
-class Plugins::Fundraiser < ActiveRecord::Base
+class Plugins::Fundraiser < ApplicationRecord
   include Plugins::HasForm
 
   enum recurring_default: [:one_off, :recurring, :only_recurring]

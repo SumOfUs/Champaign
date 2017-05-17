@@ -17,7 +17,7 @@
 #  email_body_c       :text
 #
 
-class Plugins::EmailTarget < ActiveRecord::Base
+class Plugins::EmailTarget < ApplicationRecord
   DEFAULTS = {}.freeze
 
   belongs_to :page, touch: true

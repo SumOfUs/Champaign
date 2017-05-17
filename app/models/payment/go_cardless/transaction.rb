@@ -21,7 +21,7 @@
 #  subscription_id   :integer
 #
 
-class Payment::GoCardless::Transaction < ActiveRecord::Base
+class Payment::GoCardless::Transaction < ApplicationRecord
   include AASM
 
   belongs_to :page

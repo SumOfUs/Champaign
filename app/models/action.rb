@@ -17,7 +17,7 @@
 #  publish_status    :integer          default(0), not null
 #
 
-class Action < ActiveRecord::Base
+class Action < ApplicationRecord
   belongs_to :page, counter_cache: :action_count
   belongs_to :member
 

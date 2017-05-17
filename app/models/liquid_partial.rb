@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 
-class LiquidPartial < ActiveRecord::Base
+class LiquidPartial < ApplicationRecord
   include HasLiquidPartials
   has_paper_trail
 

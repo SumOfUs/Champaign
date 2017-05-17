@@ -16,7 +16,7 @@
 #  status              :integer          default(0)
 #
 
-class Call < ActiveRecord::Base
+class Call < ApplicationRecord
   TWILIO_STATUSES = %w(completed answered busy no-answer failed canceled unknown).freeze
   enum status: [:unstarted, :started, :connected, :failed]
   belongs_to :page

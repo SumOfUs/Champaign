@@ -20,7 +20,7 @@
 #  member_id                     :integer
 #
 
-class Payment::Braintree::Customer < ActiveRecord::Base
+class Payment::Braintree::Customer < ApplicationRecord
   belongs_to :member
   has_many   :payment_methods,  class_name: 'Payment::Braintree::PaymentMethod',
                                 foreign_key: 'customer_id'

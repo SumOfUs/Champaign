@@ -20,7 +20,7 @@
 #  cancelled_at      :datetime
 #
 
-class Payment::GoCardless::Subscription < ActiveRecord::Base
+class Payment::GoCardless::Subscription < ApplicationRecord
   class Charge
     attr_reader :subscription, :event
 
@@ -53,7 +53,7 @@ class Payment::GoCardless::Subscription < ActiveRecord::Base
   end
 end
 
-class Payment::GoCardless::Subscription < ActiveRecord::Base
+class Payment::GoCardless::Subscription < ApplicationRecord
   include AASM
 
   validates :go_cardless_id, presence: true, allow_blank: false

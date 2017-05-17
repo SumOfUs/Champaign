@@ -15,7 +15,7 @@
 #  post_action_layout          :boolean
 #
 
-class LiquidLayout < ActiveRecord::Base
+class LiquidLayout < ApplicationRecord
   include HasLiquidPartials
   has_paper_trail
 

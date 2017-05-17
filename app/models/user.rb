@@ -21,7 +21,7 @@
 #  admin                  :boolean
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   has_paper_trail

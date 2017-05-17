@@ -16,7 +16,7 @@
 #  updated_at     :datetime         not null
 #
 
-class Payment::GoCardless::Customer < ActiveRecord::Base
+class Payment::GoCardless::Customer < ApplicationRecord
   belongs_to :member
 
   has_many :payment_methods, class_name: 'Payment::GoCardless::PaymentMethod'

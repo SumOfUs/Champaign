@@ -25,7 +25,7 @@
 #  allow_manual_target_selection :boolean         default(FALSE)
 #
 
-class Plugins::CallTool < ActiveRecord::Base
+class Plugins::CallTool < ApplicationRecord
   DEFAULTS = {}.freeze
 
   belongs_to :page, touch: true

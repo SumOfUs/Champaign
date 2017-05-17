@@ -12,7 +12,7 @@
 #  updated_at :datetime
 #
 
-class Plugins::Text < ActiveRecord::Base
+class Plugins::Text < ApplicationRecord
   belongs_to :page, touch: true
 
   DEFAULTS = {}.freeze

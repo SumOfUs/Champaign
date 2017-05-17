@@ -19,7 +19,7 @@
 #  cancelled_at    :datetime
 #
 
-class Payment::Braintree::PaymentMethod < ActiveRecord::Base
+class Payment::Braintree::PaymentMethod < ApplicationRecord
   belongs_to :customer, class_name: 'Payment::Braintree::Customer'
 
   has_many   :subscriptions, class_name: 'Payment::Braintree::Subscription',

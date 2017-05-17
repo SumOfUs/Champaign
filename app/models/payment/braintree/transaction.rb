@@ -22,7 +22,7 @@
 #  subscription_id         :integer
 #
 
-class Payment::Braintree::Transaction < ActiveRecord::Base
+class Payment::Braintree::Transaction < ApplicationRecord
   belongs_to :page
   belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'
   belongs_to :customer,       class_name: 'Payment::Braintree::Customer', primary_key: 'customer_id'

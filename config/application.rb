@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -9,6 +9,9 @@ Bundler.require(*Rails.groups)
 
 module Champaign
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 5.1
+
     # allow nested structure in Models directory without additional namespacing
     # from http://stackoverflow.com/questions/18934115/rails-4-organize-rails-models-in-sub-path-without-namespacing-models
     config.autoload_paths << Rails.root.join('lib')
