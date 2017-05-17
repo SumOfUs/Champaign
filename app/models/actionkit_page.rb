@@ -8,7 +8,7 @@
 #  actionkit_page_type_id :integer          not null
 #
 
-class ActionkitPage < ActiveRecord::Base
+class ActionkitPage < ApplicationRecord
   belongs_to :page
   has_paper_trail
 end

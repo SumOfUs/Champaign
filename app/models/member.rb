@@ -20,7 +20,7 @@
 #  more              :jsonb
 #
 
-class Member < ActiveRecord::Base
+class Member < ApplicationRecord
   has_many :go_cardless_customers, class_name: 'Payment::GoCardless::Customer'
   has_one :customer,               class_name: 'Payment::Braintree::Customer'
   has_one :braintree_customer,     class_name: 'Payment::Braintree::Customer'

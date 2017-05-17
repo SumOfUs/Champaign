@@ -9,7 +9,7 @@
 #  updated_at :datetime
 #
 
-class Campaign < ActiveRecord::Base
+class Campaign < ApplicationRecord
   has_paper_trail
   has_many :pages
 

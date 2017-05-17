@@ -8,7 +8,7 @@
 #  tag_id  :integer
 #
 
-class PagesTag < ActiveRecord::Base
-  belongs_to :tag
-  belongs_to :page
+class PagesTag < ApplicationRecord
+  belongs_to :tag,  optional: true
+  belongs_to :page,  optional: true
 end

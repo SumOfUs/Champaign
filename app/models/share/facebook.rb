@@ -17,7 +17,7 @@
 #  image_id    :integer
 #
 
-class Share::Facebook < ActiveRecord::Base
+class Share::Facebook < ApplicationRecord
   include Share::Variant
 
   validates :description, :title, presence: true

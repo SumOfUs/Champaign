@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 Rails.application.configure do
+  # Use an evented file watcher to asynchronously detect changes in source code,
+  # routes, locales, etc. This feature depends on the listen gem.
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
   # Whitelisting IP for docker-compose to prevent console from spamming that the console cannot be rendered
   config.web_console.whitelisted_ips = ['172.17.42.1', '192.168.2.5', '10.5.50.113', '10.5.50.113']
   # Disable the web console gem from complaining about being unable to render

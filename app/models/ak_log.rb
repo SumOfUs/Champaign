@@ -12,5 +12,5 @@
 #  updated_at      :datetime         not null
 #
 
-class AkLog < ActiveRecord::Base
+class AkLog < ApplicationRecord
 end

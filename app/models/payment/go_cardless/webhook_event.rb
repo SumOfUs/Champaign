@@ -13,5 +13,5 @@
 #  resource_id   :string
 #
 
-class Payment::GoCardless::WebhookEvent < ActiveRecord::Base
+class Payment::GoCardless::WebhookEvent < ApplicationRecord
 end

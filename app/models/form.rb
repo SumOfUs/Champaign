@@ -15,7 +15,7 @@
 #  position      :integer          default(0), not null
 #
 
-class Form < ActiveRecord::Base
+class Form < ApplicationRecord
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.
   #

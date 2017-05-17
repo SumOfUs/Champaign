@@ -11,7 +11,7 @@
 #  updated_at :datetime
 #
 
-class Plugins::Survey < ActiveRecord::Base
+class Plugins::Survey < ApplicationRecord
   has_many :forms, -> { order(position: :asc, created_at: :asc) }, as: :formable, dependent: :destroy
 
   belongs_to :page, touch: true

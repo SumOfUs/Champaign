@@ -10,8 +10,8 @@ if Settings.external_asset_paths.present?
   lambdas = Settings.external_asset_paths.split(':').map do |path|
     ->(p) { p.starts_with?(Rails.root.join(path).to_s) }
   end
-  #Rails.application.config.browserify_rails.paths += lambdas
-  #Rails.application.config.assets.precompile += %w(*.png *.jpg *.gif *.ico)
+  Rails.application.config.browserify_rails.paths += lambdas
+  Rails.application.config.assets.precompile += %w(*.png *.jpg *.gif *.ico)
 end
 
 # Precompile additional assets.
@@ -20,4 +20,4 @@ end
 Rails.application.config.assets.precompile += %w(dependencies.js member-facing.css member-facing.js)
 
 # to get browserify to turn everything into es6
-#Rails.application.config.browserify_rails.commandline_options = '--transform babelify --extension=".js"'
+Rails.application.config.browserify_rails.commandline_options = '--transform babelify --extension=".js"'

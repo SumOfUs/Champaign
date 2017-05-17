@@ -15,7 +15,7 @@
 #  analytics      :text
 #
 
-class Share::Button < ActiveRecord::Base
+class Share::Button < ApplicationRecord
   belongs_to :page
   validates :url, presence: true, allow_blank: false
 end

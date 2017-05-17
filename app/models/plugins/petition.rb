@@ -15,7 +15,7 @@
 #  cta         :string
 #
 
-class Plugins::Petition < ActiveRecord::Base
+class Plugins::Petition < ApplicationRecord
   include Plugins::HasForm
 
   belongs_to :page, touch: true

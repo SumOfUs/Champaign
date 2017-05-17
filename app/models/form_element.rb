@@ -17,7 +17,7 @@
 #  choices       :jsonb
 #
 
-class FormElement < ActiveRecord::Base
+class FormElement < ApplicationRecord
   belongs_to :form, touch: true
   has_paper_trail
 

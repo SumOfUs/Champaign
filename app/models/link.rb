@@ -13,7 +13,7 @@
 #  updated_at :datetime         not null
 #
 
-class Link < ActiveRecord::Base
+class Link < ApplicationRecord
   belongs_to :page, touch: true
   has_paper_trail on: [:update, :destroy]
 

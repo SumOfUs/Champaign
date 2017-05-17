@@ -10,7 +10,7 @@
 #  updated_at    :datetime         not null
 #
 
-class Tag < ActiveRecord::Base
+class Tag < ApplicationRecord
   validates :name, :actionkit_uri, presence: true, uniqueness: true
   has_paper_trail on: [:update, :destroy]
 

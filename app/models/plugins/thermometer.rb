@@ -13,7 +13,7 @@
 #  ref        :string
 #
 
-class Plugins::Thermometer < ActiveRecord::Base
+class Plugins::Thermometer < ApplicationRecord
   belongs_to :page, touch: true
 
   DEFAULTS = { offset: 0 }.freeze
