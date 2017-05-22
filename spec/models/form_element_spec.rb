@@ -148,14 +148,14 @@ describe FormElement do
 
     describe 'when the choice is a string' do
       it 'returns the string as the value and label and generates an ID' do
-        element.choices = '["Blueberries", "Or a Blackberry"]'
+        element.choices = ["Blueberries", "Or a Blackberry"]
         expected1 = { label: 'Blueberries', value: 'Blueberries', id: 'action_berry_blueberries' }
         expected2 = { label: 'Or a Blackberry', value: 'Or a Blackberry', id: 'action_berry_or_a_blackberry' }
         expect(element.formatted_choices).to eq [expected1, expected2]
       end
 
       it 'returns a properly formatted id' do
-        element.choices = '["this - now this! is a DEGENERATE label_    don\'t_you___think"]'
+        element.choices = ["this - now this! is a DEGENERATE label_    don\'t_you___think"]
         expected = 'action_berry_this_now_this_is_a_degenerate_label_dont_you_think'
         expect(element.formatted_choices.first[:id]).to eq expected
       end
@@ -165,12 +165,12 @@ describe FormElement do
       let(:expected) { { label: 'This\'ll be fun', value: 'lotsa_fun', id: 'action_berry_lotsa_fun' } }
 
       it 'returns the hash value for label and value and generates an ID' do
-        element.choices = '[{"label": "This\'ll be fun", "value": "lotsa_fun"}]'
+        element.choices = [{label: "This\'ll be fun", value: "lotsa_fun"}]
         expect(element.formatted_choices).to eq([expected])
       end
 
       it 'overrides the id even if one included' do
-        element.choices = '[{"label": "This\'ll be fun", "value": "lotsa_fun", "id": "another_id"}]'
+        element.choices = [{label: "This'll be fun", value: "lotsa_fun", id: "another_id"}]
         expect(element.formatted_choices).to eq([expected])
       end
     end
@@ -241,32 +241,32 @@ describe FormElement do
 
         it 'is empty string' do
           subject.choices = ''
-          expect(subject).to be_valid
+          expect(subject).not_to be_valid
         end
 
         it 'is an empty list' do
-          subject.choices = '[]'
+          subject.choices = []
           expect(subject).to be_valid
         end
 
         it 'is a list of strings' do
-          subject.choices = '["apple", "orange", "pear"]'
+          subject.choices = ["apple", "orange", "pear"]
           expect(subject).to be_valid
           expect(subject.choices).to eq %w(apple orange pear)
         end
 
         it 'is a list of hashes with appropriate keys' do
-          subject.choices = '[{"label": "Very Satisfied", "value": "10"},
-                              {"label": "Unsatisfied", "value": "1", "id": "some_id"}]'
+          subject.choices = [{label: "Very Satisfied", value: "10"},
+                              {label: "Unsatisfied", value: "1", id: "some_id"}]
           expect(subject).to be_valid
           expect(subject.choices).to eq [{ 'label' => 'Very Satisfied', 'value' => '10' },
                                          { 'label' => 'Unsatisfied', 'value' => '1', 'id' => 'some_id' }]
         end
 
         it 'is a list of strings and hashes with appropriate keys' do
-          subject.choices = '[{"label": "Very Satisfied", "value": "10"},
+          subject.choices = [{label: "Very Satisfied", value: "10"},
                               "Blueberry!",
-                              {"label": "Unsatisfied", "value": "1", "id": "some_id"}]'
+                              {label: "Unsatisfied", value: "1", id: "some_id"}]
           expect(subject).to be_valid
           expect(subject.choices).to eq [{ 'label' => 'Very Satisfied', 'value' => '10' },
                                          'Blueberry!',
@@ -274,8 +274,8 @@ describe FormElement do
         end
 
         it 'is a list of objects and one object has a bad key' do
-          subject.choices = '[{"label": "Very Satisfied", "value": "10"},
-                              {"label": "Unsatisfied", "value": "1", "squid": "WRONG"}]'
+          subject.choices = [{label: "Very Satisfied", value: "10"},
+                              {label: "Unsatisfied", value: "1", squid: "WRONG"}]
           expect(subject).to be_valid
         end
       end
@@ -287,13 +287,13 @@ describe FormElement do
         end
 
         it 'is an object, even with the right keys' do
-          subject.choices = '{"label": "Very Satisfied", "value": "10"}'
+          subject.choices = '{label: "Very Satisfied", value: "10"}'
           expect(subject).to be_invalid
         end
 
         it 'is a list of objects and one object is missing a key' do
-          subject.choices = '[{"label": "Very Satisfied", "value": "10"},
-                              {"label": "Unsatisfied"}]'
+          subject.choices = '[{label: "Very Satisfied", value: "10"},
+                              {label: "Unsatisfied"}]'
           expect(subject).to be_invalid
         end
 
