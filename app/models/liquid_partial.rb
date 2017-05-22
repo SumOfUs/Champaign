@@ -38,3 +38,6 @@ class LiquidPartial < ApplicationRecord
     errors.add(:content, "can only reference one partial, but found #{plugin_names.join(',')}")
   end
 end
+
+# TEMP fix: See https://github.com/rails/rails-observers/issues/45
+ActiveRecord::Base.add_observer LiquidPartialObserver.instance
