@@ -8,7 +8,7 @@ describe PluginsController do
   before do
     allow(Plugins).to receive(:find_for) { plugin }
     allow(Page).to receive(:find) { page }
-    get :show, id: '1', page_id: '2', type: 'example'
+    get :show, params: { id: '1', page_id: '2', type: 'example' }
   end
 
   describe 'GET #show' do

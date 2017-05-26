@@ -12,7 +12,7 @@ describe ClonePagesController do
 
   describe 'GET #new' do
     before do
-      get :new, id: '1'
+      get :new, params: { id: '1' }
     end
 
     it 'authenticates session' do
@@ -39,7 +39,7 @@ describe ClonePagesController do
       allow(PageCloner).to receive(:clone) { cloned_page }
       allow(QueueManager).to receive(:push)
 
-      post :create, id: '1', page: { title: 'foo', language_id: 3 }, override_forms: '1'
+      post :create, params: { id: '1', page: { title: 'foo', language_id: 3 }, override_forms: '1' }
     end
 
     it 'authenticates session' do

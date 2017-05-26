@@ -13,7 +13,7 @@ describe ResetPasswordsController do
 
     it 'sets locale' do
       expect do
-        get :new, locale: 'de'
+        get :new, params: { locale: 'de' }
       end.to change { I18n.locale }
         .from(:en).to(:de)
     end
@@ -23,7 +23,7 @@ describe ResetPasswordsController do
     context 'with valid token' do
       before do
         allow(MemberAuthentication).to receive(:find_by_valid_reset_password_token) { authentication }
-        get :edit, token: '1234'
+        get :edit, params: { token: '1234' }
       end
 
       it 'finds authentication by reset_password_token' do
@@ -43,7 +43,7 @@ describe ResetPasswordsController do
     context 'with invalid token' do
       before do
         allow(MemberAuthentication).to receive(:find_by_valid_reset_password_token) { nil }
-        get :edit, token: '1234'
+        get :edit, params: { token: '1234' }
       end
 
       it 'finds authentication by reset_password_token' do
@@ -67,7 +67,7 @@ describe ResetPasswordsController do
       before do
         allow(MemberAuthentication).to receive(:find_by) { authentication }
         allow(authentication).to receive(:reset_password) { true }
-        put :update, token: '1234', password: 'password', password_confirmation: 'password'
+        put :update, params: { token: '1234', password: 'password', password_confirmation: 'password' }
       end
 
       it 'finds member authentication' do
@@ -89,7 +89,7 @@ describe ResetPasswordsController do
       before do
         allow(MemberAuthentication).to receive(:find_by) { authentication }
         allow(authentication).to receive(:reset_password) { false }
-        put :update, token: '1234', password: 'password', password_confirmation: 'password'
+        put :update, params: { token: '1234', password: 'password', password_confirmation: 'password' }
       end
 
       it 'renders edit' do
@@ -106,7 +106,7 @@ describe ResetPasswordsController do
     context 'with valid token' do
       before do
         allow(MemberAuthentication).to receive(:find_by_email) { authentication }
-        post :create, email: 'test@example.com'
+        post :create, params: { email: 'test@example.com' }
       end
 
       it 'finds member authentication' do
@@ -129,7 +129,7 @@ describe ResetPasswordsController do
     context 'with invalid token' do
       before do
         allow(MemberAuthentication).to receive(:find_by_email) { nil }
-        post :create, email: 'test@example.com'
+        post :create, params: { email: 'test@example.com' }
       end
 
       it 'finds member authentication' do

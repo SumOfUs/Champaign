@@ -14,7 +14,7 @@ describe FormElementsController do
       allow(Form).to receive(:find) { form }
       allow(FormElementBuilder).to receive(:create) { element }
 
-      post :create, form_id: '1', form_element: params
+      post :create, params: { form_id: '1', form_element: params }
     end
 
     it 'authenticates session' do
@@ -42,7 +42,7 @@ describe FormElementsController do
       allow(form).to receive(:touch)
       allow(form).to receive(:form_elements) { [] }
 
-      post :sort, form_id: '1', form_element_ids: ''
+      post :sort, params: { form_id: '1', form_element_ids: '' }
     end
 
     it 'authenticates session' do
@@ -65,7 +65,7 @@ describe FormElementsController do
       allow(element).to receive(:destroy)
       allow(element).to receive(:can_destroy?) { should_destroy }
 
-      delete :destroy, form_id: '1', id: '2', format: :json
+      delete :destroy, params: { form_id: '1', id: '2', format: :json }
     end
 
     describe 'successfully' do

@@ -99,6 +99,7 @@ group :test do
   gem 'rspec-json_expectations'
   gem 'timecop'
   gem 'webmock'
+  gem 'rails-controller-testing'
 end
 
 # Rails Assets - reference any Bower components that you need as gems.

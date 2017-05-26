@@ -12,7 +12,7 @@ describe MemberAuthenticationsController do
       allow(I18n).to receive(:locale=)
 
       session[:follow_up_url] = '/a/b'
-      post :create, email: 'test@example.com', password: 'p', password_confirmation: 'p'
+      post :create, params: { email: 'test@example.com', password: 'p', password_confirmation: 'p' }
     end
 
     it 'builds authentication' do

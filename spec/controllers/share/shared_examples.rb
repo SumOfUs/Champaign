@@ -83,7 +83,8 @@ shared_examples 'shares' do |share_class, service|
       before do
         allow(ShareProgressVariantBuilder).to receive(:update) { share }
 
-        put :update, page_id: 1, id: 2, "share_#{service}": params
+        put page_share_twitter_path(page_id: 1, id: 2)
+        # , "share_#{service}": params)
       end
 
       it 'finds campaign page' do
