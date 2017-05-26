@@ -1,4 +1,4 @@
-FROM ruby:2.4.0
+FROM ruby:2.4.1
 
 # With --build-arg ci=false we'll skip the bundle install part
 ARG ci
