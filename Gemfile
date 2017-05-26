@@ -1,7 +1,7 @@
 # coding: utf-8
 # frozen_string_literal: true
 source 'https://rubygems.org'
-ruby '2.4.0'
+ruby '2.4.1'
 
 gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
