@@ -26,7 +26,7 @@ describe Api::ActionsController do
     describe 'successful' do
       before do
         allow(controller).to receive(:verify_authenticity_token)
-        post :create, page_id: 2, form_id: 3, foo: 'bar'
+        post :create, params: { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
       it 'does not verify authenticity token' do
@@ -60,7 +60,7 @@ describe Api::ActionsController do
     describe 'filtering' do
       it 'does not permit params not in the form' do
         expect do
-          post :create, page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar'
+          post :create, params: { page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar' }
         end.to raise_error(
           ActionController::UnpermittedParameters,
           'found unpermitted parameter: not_permitted'
@@ -70,7 +70,7 @@ describe Api::ActionsController do
 
     describe 'URL params' do
       before do
-        post :create, page_id: 2, form_id: 3, foo: 'bar', source: 'FB', akid: '123.456.rfs'
+        post :create, params: { page_id: 2, form_id: 3, foo: 'bar', source: 'FB', akid: '123.456.rfs' }
       end
 
       it 'takes source' do
@@ -89,7 +89,7 @@ describe Api::ActionsController do
 
       before :each do
         allow(FormValidator).to receive(:new) { validator }
-        post :create, page_id: 2, form_id: 3, foo: 'bar'
+        post :create, params: { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
       it 'does not create an action' do
@@ -121,7 +121,7 @@ describe Api::ActionsController do
 
       before do
         allow(FormValidator).to receive(:new) { validator }
-        post :validate, page_id: 2, form_id: 3, foo: 'bar'
+        post :validate, params: { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
       it 'finds form' do
@@ -153,7 +153,7 @@ describe Api::ActionsController do
     describe 'filtering' do
       it 'does not permit params not in the form' do
         expect {
-          post :validate, page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar'
+          post :validate, params: { page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar' }
         }.to raise_error(
           ActionController::UnpermittedParameters,
           'found unpermitted parameter: not_permitted'
@@ -166,7 +166,7 @@ describe Api::ActionsController do
 
       before :each do
         allow(FormValidator).to receive(:new) { validator }
-        post :validate, page_id: 2, form_id: 3, foo: 'bar'
+        post :validate, params: { page_id: 2, form_id: 3, foo: 'bar' }
       end
 
       it 'does not create an action' do
@@ -189,13 +189,13 @@ describe Api::ActionsController do
 
     describe 'successful' do
       it 'returns 200' do
-        put :update, page_id: 2, id: a.id, publish_status: 'published'
+        put :update, params: { page_id: 2, id: a.id, publish_status: 'published' }
         expect(response).to be_success
       end
 
       it 'changes the status to published' do
         expect {
-          put :update, page_id: 2, id: a.id, publish_status: 'published'
+          put :update, params: { page_id: 2, id: a.id, publish_status: 'published' }
         }.to change {
           a.reload.publish_status
         }.from('default').to('published')
@@ -203,7 +203,7 @@ describe Api::ActionsController do
 
       it 'changes the status to hidden' do
         expect {
-          put :update, page_id: 2, id: a.id, publish_status: 'hidden'
+          put :update, params: { page_id: 2, id: a.id, publish_status: 'hidden' }
         }.to change {
           a.reload.publish_status
         }.from('default').to('hidden')
@@ -212,7 +212,7 @@ describe Api::ActionsController do
       it 'changes the status to default' do
         a.published!
         expect {
-          put :update, page_id: 2, id: a.id, publish_status: 'default'
+          put :update, params: { page_id: 2, id: a.id, publish_status: 'default' }
         }.to change {
           a.reload.publish_status
         }.from('published').to('default')
@@ -224,19 +224,19 @@ describe Api::ActionsController do
 
       it 'raises not found if no action is found with that id' do
         expect {
-          put :update, page_id: 2, id: 9999, publish_status: 'default'
+          put :update, params: { page_id: 2, id: 9999, publish_status: 'default' }
         }.to raise_error ActiveRecord::RecordNotFound
       end
 
       it 'returns errors and 422 if given an invalid publish_status' do
-        put :update, page_id: 2, id: a.id, publish_status: 'invalid'
+        put :update, params: { page_id: 2, id: a.id, publish_status: 'invalid' }
         expect(response.code).to eq '422'
         expect(response.body).to eq '{"errors":{"publish_status":"\'invalid\' is not a valid publish_status"}}'
       end
 
       it 'does not update the action when given an invalid publish_status' do
         expect {
-          put :update, page_id: 2, id: a.id, publish_status: 'invalid'
+          put :update, params: { page_id: 2, id: a.id, publish_status: 'invalid' }
         }.not_to change {
           a.reload.publish_status
         }

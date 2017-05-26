@@ -14,7 +14,7 @@ describe LinksController do
       allow(Page).to receive(:find) { page }
       allow(Link).to receive(:new) { link }
 
-      post :create, page_id: '1', link: params
+      post :create, params: { page_id: '1', link: params }
     end
 
     it 'authenticates session' do
@@ -45,7 +45,7 @@ describe LinksController do
       allow(Link).to receive(:find) { link }
       allow(link).to receive(:destroy)
 
-      delete :destroy, page_id: '1', id: '2', format: :json
+      delete :destroy, params: { page_id: '1', id: '2', format: :json }
     end
 
     it 'finds link' do

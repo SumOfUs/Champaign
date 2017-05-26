@@ -14,7 +14,7 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
       before do
         allow(plugin_class).to receive(:find).with('1') { plugin }
         allow(plugin).to receive(:update) { true }
-        put :update, id: '1', plugin_name => { title: 'bar' }, format: :js
+        put :update, params: { id: '1', plugin_name => { title: 'bar' }, format: :js }
       end
 
       it 'finds the plugin' do
@@ -39,7 +39,7 @@ shared_examples 'plugins controller' do |plugin_class, plugin_name|
         allow(plugin_class).to receive(:find).with('1') { plugin }
         allow(plugin).to receive(:update) { false }
         allow(plugin).to receive(:errors) { Hash.new }
-        put :update, id: '1', plugin_name => { title: 'bar' }, format: :js
+        put :update, params: { id: '1', plugin_name => { title: 'bar' }, format: :js }
       end
 
       it 'returns 422' do

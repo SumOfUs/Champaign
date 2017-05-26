@@ -37,11 +37,13 @@ describe Api::Payment::BraintreeController do
 
     let(:params) do
       {
-        payment_method_nonce: 'wqeuinv-50238-FIERN',
-        amount: '40.19',
-        user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'mobile' },
-        currency: 'NZD',
-        page_id: '12'
+        params: {
+          payment_method_nonce: 'wqeuinv-50238-FIERN',
+          amount: '40.19',
+          user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'mobile' },
+          currency: 'NZD',
+          page_id: '12'
+        }
       }
     end
 
@@ -66,7 +68,7 @@ describe Api::Payment::BraintreeController do
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
-          post :transaction, params.merge(recurring: true)
+          post :transaction, params[:params].merge(recurring: true)
         end
 
         it 'calls Subscription.make_subscription' do
@@ -133,7 +135,7 @@ describe Api::Payment::BraintreeController do
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
-          post :transaction, params.merge(recurring: true)
+          post :transaction, params[:params].merge(recurring: true)
         end
 
         it 'calls Subscription.make_subscription' do

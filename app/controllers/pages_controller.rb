@@ -87,6 +87,8 @@ class PagesController < ApplicationController
     # conditional below ensures that the member_id is present if it should be, but it is
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
+    puts params
+    puts "***********************"
     if !params[:member_id].present? && recognized_member.try(:id).present?
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end

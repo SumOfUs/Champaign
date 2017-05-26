@@ -22,7 +22,7 @@ describe Plugins::SurveysController do
   end
 
   describe 'POST add_form' do
-    let(:params) { { plugin_id: survey.id, format: 'js' } }
+    let(:params) { { params: { plugin_id: survey.id, format: 'js' } } }
     let(:new_form) { instance_double(Form, save: true, errors: []) }
 
     before :each do

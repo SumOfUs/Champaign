@@ -49,7 +49,7 @@ describe ApplicationController do
   describe '#mobile_value' do
     controller do
       def index
-        render nothing: true
+        head :ok
       end
     end
 
@@ -74,7 +74,7 @@ describe ApplicationController do
       before_action :authenticate_super_admin!
 
       def index
-        render nothing: true
+        head :ok
       end
     end
 

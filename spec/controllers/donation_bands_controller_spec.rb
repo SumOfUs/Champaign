@@ -11,7 +11,7 @@ describe DonationBandsController do
   include_examples 'session authentication',
                    [{ get:  [:index] },
                     { get:  [:new] },
-                    { get:  [:edit, id: 1] }]
+                    { get:  [:edit, params: { id: 1 }] }]
 
   describe 'GET index' do
     it 'authenticates session' do
@@ -50,7 +50,7 @@ describe DonationBandsController do
 
   describe 'GET edit' do
     before do
-      get :edit, id: 1
+      get :edit, params: { id: 1 }
     end
 
     it 'authenticates session' do
@@ -76,7 +76,7 @@ describe DonationBandsController do
 
     before do
       allow(DonationBand).to receive(:create) { donation_band }
-      post :create, donation_band: fake_params
+      post :create, params: { donation_band: fake_params }
     end
 
     it 'authenticates session' do

@@ -27,7 +27,7 @@ describe Api::GoCardlessController do
       subject
     end
 
-    subject { get :start_flow, page_id: '1', foo: 'bar' }
+    subject { get :start_flow, params: { page_id: '1', foo: 'bar' } }
 
     it 'instantiates GoCardlessDirector' do
       expect(GoCardlessDirector).to have_received(:new)
@@ -43,13 +43,15 @@ describe Api::GoCardlessController do
     let(:client) { PaymentProcessor::GoCardless }
 
     let(:params) do
-      {
-        amount: '40.19',
-        user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet' },
-        currency: 'EUR',
-        page_id: '12',
-        redirect_flow_id: 'RE2109123',
-        session_token: '4f592f2a-2bc2-4028-8a8c-19b222e2faa7'
+      { params:
+        {
+          amount: '40.19',
+          user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet' },
+          currency: 'EUR',
+          page_id: '12',
+          redirect_flow_id: 'RE2109123',
+          session_token: '4f592f2a-2bc2-4028-8a8c-19b222e2faa7'
+        }
       }
     end
 
@@ -190,13 +192,13 @@ describe Api::GoCardlessController do
               body: { events: { an: :event } }.to_json)
 
       request.headers['HTTP_WEBHOOK_SIGNATURE'] = 'foobar'
-      post 'webhook', events: { an: :event }
+      post 'webhook', params: { events: { an: :event } }
     end
 
     context 'with invalid events' do
       before do
         allow(validator).to receive(:valid?) { false }
-        post 'webhook', events: {}
+        post 'webhook', params: { events: {} }
       end
 
       it 'does not process events' do
@@ -213,7 +215,7 @@ describe Api::GoCardlessController do
     context 'with valid events' do
       before do
         allow(validator).to receive(:valid?) { true }
-        post 'webhook', events: {}
+        post 'webhook', params: { events: {} }
       end
 
       it 'processes events' do

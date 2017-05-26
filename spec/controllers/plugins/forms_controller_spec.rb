@@ -12,7 +12,7 @@ describe Plugins::FormsController do
   end
 
   describe 'GET show' do
-    let(:params) { { plugin_type: 'petition', plugin_id: '3' } }
+    let(:params) { { params: { plugin_type: 'petition', plugin_id: '3' } } }
 
     before :each do
       get :show, params
@@ -28,7 +28,7 @@ describe Plugins::FormsController do
   end
 
   describe 'POST create' do
-    let(:params) { { master_id: '2', plugin_type: 'petition', plugin_id: '3' } }
+    let(:params) { { params: { master_id: '2', plugin_type: 'petition', plugin_id: '3' } } }
     let(:first_form) { instance_double('Form', id: 1, master: true) }
     let(:second_form) { instance_double('Form', id: 7, master: false) }
 
@@ -66,7 +66,7 @@ describe Plugins::FormsController do
   end
 
   describe 'strong params' do
-    let(:params) { { master_id: '2', plugin_type: 'petition', plugin_id: '3', form_id: 'disallowed' } }
+    let(:params) { { params: { master_id: '2', plugin_type: 'petition', plugin_id: '3', form_id: 'disallowed' } } }
 
     it 'are used for POST create' do
       expect { post :create, params }.to raise_error(ActionController::UnpermittedParameters)
