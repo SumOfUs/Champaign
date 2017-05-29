@@ -14,6 +14,7 @@
 #  twilio_error_code   :integer
 #  target              :json
 #  status              :integer          default(0)
+#  action_id           :integer
 #
 
 class Call < ActiveRecord::Base
@@ -32,10 +33,6 @@ class Call < ActiveRecord::Base
   delegate :menu_sound_clip, to: :call_tool
 
   scope :not_failed, -> { where.not(status: statuses['failed']) }
-
-  def target_phone_number
-    target.phone_number
-  end
 
   def target_id=(id)
     self.target = call_tool.find_target(id)
@@ -56,11 +53,19 @@ class Call < ActiveRecord::Base
     target_call_info['DialCallStatus'] || 'unknown'
   end
 
-  private
-
   def call_tool
     @call_tool ||= Plugins::CallTool.find_by_page_id!(page.id)
   end
+
+  def caller_id
+    if target&.caller_id.present?
+      target.caller_id
+    else
+      call_tool.caller_phone_number&.number
+    end
+  end
+
+  private
 
   def member_phone_number_is_valid
     return if member_phone_number.blank?

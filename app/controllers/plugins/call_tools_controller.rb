@@ -33,7 +33,9 @@ module Plugins
     private
 
     def update_params
-      params.require(:plugins_call_tool).permit(:targets_csv_file, :active, :title, :sound_clip, :description)
+      params.require(:plugins_call_tool).permit(
+        :targets_csv_file, :active, :title, :sound_clip, :description, :caller_phone_number_id
+      )
     end
 
     def targets_params

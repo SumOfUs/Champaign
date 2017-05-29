@@ -2,18 +2,17 @@ module CallTool::TwimlGenerator
   class Connect < Base
     def run
       Twilio::TwiML::Response.new do |r|
-        r.Dial action: target_call_status_url(call) do |dial|
-          dial.Number(*number_params)
+        r.Dial action: target_call_status_url(call), callerId: call.caller_id do |dial|
+          dial.Number(call.target.phone_number, dial_options)
         end
       end.text
     end
 
     private
 
-    def number_params
-      number = call.target_phone_number.split('ext')
-      options = number.length > 1 ? { sendDigits: number[1] } : {}
-      [number[0], options]
+    def dial_options
+      extension = call.target.phone_extension
+      extension.present? ? { sendDigits: extension } : {}
     end
   end
 end

@@ -1,20 +1,30 @@
 # frozen_string_literal: true
 class CallTool::Target
   include ActiveModel::Model
+  extend HasPhoneNumber
 
-  attr_accessor :country_code, :postal_code, :phone_number, :name, :title
+  attr_accessor :country_code,
+                :phone_number,
+                :phone_extension,
+                :name,
+                :title,
+                :caller_id
 
   validate  :country_is_valid
   validates :phone_number, presence: true
   validates :name,         presence: true
 
+  validate_phone_number :phone_number, :caller_id
+  normalize_phone_number :phone_number, :caller_id
+
   def to_hash
     {
       country_code: country_code,
-      postal_code: postal_code,
       phone_number: phone_number,
+      phone_extension: phone_extension,
       name: name,
-      title: title
+      title: title,
+      caller_id: caller_id
     }
   end
 

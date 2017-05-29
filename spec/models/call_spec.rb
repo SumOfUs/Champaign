@@ -14,6 +14,7 @@
 #  twilio_error_code   :integer
 #  target              :json
 #  status              :integer          default(0)
+#  action_id           :integer
 #
 
 require 'rails_helper'
