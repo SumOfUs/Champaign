@@ -13,8 +13,19 @@
         = f.hidden_field :description, id: "call-tool-wysiwyg_content"
 
       .form-group
+        = label_with_tooltip(f, :caller_phone_number_id, t('plugins.call_tool.caller_id'), t('tooltips.call_tool.caller_id'))
+        = f.select :caller_phone_number_id,
+                   PhoneNumber.all.map { |p| ["#{p.country} #{p.number}", p.id] },
+                   {include_blank: true},
+                   class: 'form-control restricted_country_code'
+
+      .form-group
         = label_with_tooltip(f, :restricted_country_code, t('plugins.call_tool.restricted_country_code'), t('tooltips.call_tool.restricted_country_code'))
-        = f.select :restricted_country_code, ISO3166::Country.all.map {|c| [c.name, c.alpha2]}, { include_blank: true }, class: 'form-control restricted_country_code'
+        = f.select :restricted_country_code,
+                   ISO3166::Country.all.map {|c| [c.name, c.alpha2]},
+                   { include_blank: true },
+                   class: 'form-control restricted_country_code'
+
       .form-group
         label
           = t('plugins.call_tool.allow_manual_target_selection')

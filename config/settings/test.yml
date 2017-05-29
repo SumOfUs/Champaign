@@ -122,6 +122,3 @@ facebook:
 twilio:
   account_sid: 'abc'
   auth_token: '123'
-
-calls:
-  default_caller_id: '+1234567890'

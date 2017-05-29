@@ -107,6 +107,7 @@ en:
       targets: 'CSV File should must adhere to the specified format. First row will be considered as headers. Each following row must have these fields in order: Country, Postal, Target Phone, Target Name, Target Title. Country, Target Phone and Target Name are required fields'
       target_by_country: "When enabled the Call Tool will randomly select a target from the selected country on the dropdown. When disabled a random target is chosen disregarding its country. When checked, targets must have a valid country in the Country column in the uploaded CSV."
       restricted_country_code: "If you plan to use the Call tool to call numbers only on a specific country, please select the country name here. Leave blank if you'd like to be able to call multiple countries."
+      caller_id: "Calls made with the CallTool will be seen as made from this phone number"
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
@@ -326,15 +327,16 @@ en:
       no_targets_loaded: 'There are no targets loaded'
       show_targets: 'Show Targets'
       restricted_country_code: 'Restrict calls to'
+      caller_id: 'Caller ID'
       target_by_country: 'Target by country'
       allow_manual_target_selection: "Allow manual target selection"
       targets:
         country: 'Country'
-        postal: 'Postal Code'
         name: 'Name'
         title: 'Title'
         phone_number: 'Phone Number'
-
+        phone_extension: 'Phone Extension'
+        caller_id: 'Caller ID'
 
   ak_logs:
     index:
