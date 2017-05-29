@@ -16,7 +16,7 @@
         = label_with_tooltip(f, :caller_phone_number_id, t('plugins.call_tool.caller_id'), t('tooltips.call_tool.caller_id'))
         = f.select :caller_phone_number_id,
                    PhoneNumber.all.map { |p| ["#{p.country} #{p.number}", p.id] },
-                   {},
+                   {include_blank: true},
                    class: 'form-control restricted_country_code'
 
       .form-group
