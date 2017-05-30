@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
   end
 
   def localize_from_page_id
-    page = Page.find_by(id: params[:page_id])
+    page = Page.find_by(id: unsafe_params[:page_id])
     set_locale(page.language_code) if page.present?
   end
 
@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   def renderer
     @renderer ||= LiquidRenderer.new(@page, location: request.location,
                                             member: recognized_member,
-                                            url_params: params,
+                                            url_params: unsafe_params,
                                             payment_methods: payment_methods)
   end
 
@@ -76,11 +76,15 @@ class ApplicationController < ActionController::Base
 
   def recognized_member
     @recognized_member ||= current_member ||
-                           Member.find_from_request(akid: params[:akid], id: cookies.signed[:member_id])
+                           Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
   end
 
   def authenticate_super_admin!
     return true if authenticate_user! && Settings.admins =~ Regexp.new(current_user.email)
     raise SecurityError, "#{current_user.email} is not an administrator."
+  end
+
+  def unsafe_params
+    params.to_unsafe_hash
   end
 end
