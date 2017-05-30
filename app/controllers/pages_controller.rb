@@ -87,10 +87,6 @@ class PagesController < ApplicationController
     # conditional below ensures that the member_id is present if it should be, but it is
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
-    puts unsafe_params
-    puts !unsafe_params[:member_id].present?
-    puts recognized_member.try(:id).present?
-    puts "**********"
     if !unsafe_params[:member_id].present? && recognized_member.try(:id).present?
       puts "GOING TO REDIRECT"
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
@@ -132,7 +128,7 @@ class PagesController < ApplicationController
       .permit(
         :id, :title, :slug, :active, :content, :featured, :template_id, :campaign_id,
         :language_id, :liquid_layout_id, :follow_up_liquid_layout_id, tag_ids: []
-      )
+      ).to_h
   end
 
   def search_params
