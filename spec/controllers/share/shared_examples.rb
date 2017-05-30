@@ -14,7 +14,7 @@ shared_examples 'shares' do |share_class, service|
     before do
       allow(share_class).to receive(:where) { [share] }
 
-      get :index, page_id: '1'
+      get :index, params: { page_id: '1' }
     end
 
     it 'finds campaign page' do
@@ -39,7 +39,7 @@ shared_examples 'shares' do |share_class, service|
     before do
       allow(share_class).to receive(:new) { share }
 
-      get :new, page_id: '1'
+      get :new, params: { page_id: '1' }
     end
 
     it 'finds campaign page' do
@@ -62,7 +62,7 @@ shared_examples 'shares' do |share_class, service|
   describe 'GET#edit' do
     before do
       allow(share_class).to receive(:find) { share }
-      get :edit, page_id: '1', id: '2'
+      get :edit, params: { page_id: '1', id: '2' }
     end
 
     it 'finds campaign page' do
@@ -83,8 +83,7 @@ shared_examples 'shares' do |share_class, service|
       before do
         allow(ShareProgressVariantBuilder).to receive(:update) { share }
 
-        put page_share_twitter_path(page_id: 1, id: 2)
-        # , "share_#{service}": params)
+        put :update, params: { page_id: 1, id: 2, "share_#{service}": params }
       end
 
       it 'finds campaign page' do
@@ -109,7 +108,7 @@ shared_examples 'shares' do |share_class, service|
     describe 'failure' do
       before do
         allow(ShareProgressVariantBuilder).to receive(:update) { failed_share }
-        put :update, page_id: 1, id: 2, "share_#{service}": params
+        put :update, params: { page_id: 1, id: 2, "share_#{service}": params }
       end
 
       it 'renders share/edit' do
@@ -127,7 +126,7 @@ shared_examples 'shares' do |share_class, service|
       before do
         allow(ShareProgressVariantBuilder).to receive(:create) { share }
 
-        post :create, page_id: 1, "share_#{service}": params
+        post :create, params: { page_id: 1, "share_#{service}": params }
       end
 
       it 'finds campaign page' do
@@ -152,7 +151,7 @@ shared_examples 'shares' do |share_class, service|
     describe 'success' do
       before do
         allow(ShareProgressVariantBuilder).to receive(:create) { failed_share }
-        post :create, page_id: 1, "share_#{service}": params
+        post :create, params: { page_id: 1, "share_#{service}": params }
       end
 
       it 'renders share/edit' do

@@ -23,7 +23,7 @@ class Share::SharesController < ApplicationController
 
   def update
     @share = ShareProgressVariantBuilder.update(
-      params: permitted_params,
+      params: permitted_params.to_h,
       variant_type: @resource.to_sym,
       page: @page,
       id: params[:id]
@@ -52,7 +52,7 @@ class Share::SharesController < ApplicationController
 
   def create
     @share = ShareProgressVariantBuilder.create(
-      params: permitted_params,
+      params: permitted_params.to_h,
       variant_type: @resource.to_sym,
       page: @page,
       url: member_facing_page_url(@page)
