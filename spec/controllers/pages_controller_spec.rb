@@ -295,7 +295,8 @@ describe PagesController do
       let(:member) { create :member }
 
       before :each do
-        allow(cookies).to receive(:signed).and_return(member_id: member.id)
+        cookies.signed[:member_id] = member.id
+        allow(controller).to receive(:cookies).and_return(cookies)
       end
 
       describe 'and member_id' do
@@ -310,7 +311,7 @@ describe PagesController do
       describe 'and no member_id' do
         subject { get :follow_up, params: { id: '1' } }
 
-        it 'redirects to the same route with member id set', :focus do
+        it 'redirects to the same route with member id set' do
           subject
           expect(response).to redirect_to follow_up_member_facing_page_path(page, member_id: member.id)
         end
