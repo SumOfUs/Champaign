@@ -72,6 +72,7 @@ gem 'uglifier'
 gem 'webpack-rails'
 gem 'rails-observers', git: 'https://github.com/rails/rails-observers'
 group :development, :test do
+  gem 'byebug'
   gem 'capybara' # Capybara for integration testing
   gem 'database_cleaner'
   gem 'factory_girl_rails'
@@ -86,7 +87,6 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'byebug'
   gem 'foreman', require: false
   gem 'guard-rspec', require: false
   gem 'terminal-notifier-guard' # [OSX] brew install terminal-notifier
