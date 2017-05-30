@@ -79,7 +79,7 @@ describe Api::GoCardlessController do
         end
       end
 
-      describe 'with recurring: true', :focus do
+      describe 'with recurring: true' do
         let(:builder) { instance_double('PaymentProcessor::GoCardless::Subscription', action: action, success?: true, subscription_id: 'SU243980') }
 
         before do
@@ -99,7 +99,7 @@ describe Api::GoCardlessController do
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
-          post :transaction, params
+          post :transaction, params: params
         end
 
         it 'calls Transaction.make_transaction' do
@@ -147,7 +147,7 @@ describe Api::GoCardlessController do
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
-          post :transaction, params.merge(recurring: true)
+          post :transaction, params: params.merge(recurring: true)
         end
 
         it 'calls Subscription.make_subscription' do
@@ -163,7 +163,7 @@ describe Api::GoCardlessController do
 
         before :each do
           allow(client::Transaction).to receive(:make_transaction).and_return(builder)
-          post :transaction, params
+          post :transaction, params: params
         end
 
         it 'calls Transaction.make_transaction' do
@@ -196,7 +196,7 @@ describe Api::GoCardlessController do
     context 'with invalid events' do
       before do
         allow(validator).to receive(:valid?) { false }
-        post 'webhook', params: { events: {} }
+        post 'webhook'
       end
 
       it 'does not process events' do
