@@ -56,11 +56,11 @@ class PaymentController < ApplicationController
   private
 
   def recurring?
-    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
+    @recurring ||= ActiveRecord::Type::Boolean.new.cast(params[:recurring])
   end
 
   def store_in_vault?
-    (ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:store_in_vault]) || false) && provider_not_gc
+    (ActiveRecord::Type::Boolean.new.cast(params[:store_in_vault]) || false) && provider_not_gc
   end
 
   def provider_not_gc

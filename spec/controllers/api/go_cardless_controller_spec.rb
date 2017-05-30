@@ -43,15 +43,13 @@ describe Api::GoCardlessController do
     let(:client) { PaymentProcessor::GoCardless }
 
     let(:params) do
-      { params:
-        {
-          amount: '40.19',
-          user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet' },
-          currency: 'EUR',
-          page_id: '12',
-          redirect_flow_id: 'RE2109123',
-          session_token: '4f592f2a-2bc2-4028-8a8c-19b222e2faa7'
-        }
+      {
+        amount: '40.19',
+        user: { email: 'snake@hips.com', name: 'Snake Hips', action_mobile: 'tablet' },
+        currency: 'EUR',
+        page_id: '12',
+        redirect_flow_id: 'RE2109123',
+        session_token: '4f592f2a-2bc2-4028-8a8c-19b222e2faa7'
       }
     end
 
@@ -81,12 +79,12 @@ describe Api::GoCardlessController do
         end
       end
 
-      describe 'with recurring: true' do
+      describe 'with recurring: true', :focus do
         let(:builder) { instance_double('PaymentProcessor::GoCardless::Subscription', action: action, success?: true, subscription_id: 'SU243980') }
 
         before do
           allow(client::Subscription).to receive(:make_subscription).and_return(builder)
-          post :transaction, params.merge(recurring: true)
+          post :transaction, params: params.merge(recurring: true)
         end
 
         it 'calls Subscription.make_subscription' do

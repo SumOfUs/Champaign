@@ -42,6 +42,6 @@ class Api::Payment::BraintreeController < PaymentController
   end
 
   def recurring?
-    @recurring ||= ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:recurring])
+    @recurring ||= ActiveRecord::Type::Boolean.new.cast(params[:recurring])
   end
 end

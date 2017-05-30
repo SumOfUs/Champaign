@@ -49,7 +49,7 @@ class GoCardlessDirector
   end
 
   def recurring?
-    ActiveRecord::Type::Boolean.new.type_cast_from_user(@params[:recurring])
+    ActiveRecord::Type::Boolean.new.cast(@params[:recurring])
   end
 
   def amount_string

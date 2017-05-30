@@ -90,7 +90,7 @@ module BraintreeServices
     end
 
     def recurring?
-      ActiveRecord::Type::Boolean.new.type_cast_from_user(params[:payment][:recurring])
+      ActiveRecord::Type::Boolean.new.cast(params[:payment][:recurring])
     end
   end
 end
