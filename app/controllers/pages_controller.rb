@@ -87,9 +87,12 @@ class PagesController < ApplicationController
     # conditional below ensures that the member_id is present if it should be, but it is
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
-    puts params
-    puts "***********************"
-    if !params[:member_id].present? && recognized_member.try(:id).present?
+    puts unsafe_params
+    puts !unsafe_params[:member_id].present?
+    puts recognized_member.try(:id).present?
+    puts "**********"
+    if !unsafe_params[:member_id].present? && recognized_member.try(:id).present?
+      puts "GOING TO REDIRECT"
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
     @rendered = renderer.render_follow_up
@@ -156,5 +159,9 @@ class PagesController < ApplicationController
 
   def localize
     set_locale(@page.language_code)
+  end
+
+  def unsafe_params
+    params.to_unsafe_hash
   end
 end
