@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 class Plugins::SurveysController < Plugins::BaseController
   def add_form
-    survey = Plugins.find_for('survey', params[:plugin_id])
+    survey = Plugins.find_for('survey', unsafe_params[:plugin_id])
     position = survey.forms.last.position + 1
-    @form = Form.new(name: "survey_form_#{params[:plugin_id]}",
+    @form = Form.new(name: "survey_form_#{unsafe_params[:plugin_id]}",
                      master: false,
                      formable: survey,
                      position: position)
@@ -18,7 +18,7 @@ class Plugins::SurveysController < Plugins::BaseController
   end
 
   def sort_forms
-    ids = params[:form_ids].split(',')
+    ids = unsafe_params[:form_ids].split(',')
     ids.each_with_index do |id, index|
       Form.where(id: id).first.update!(position: index)
     end
@@ -32,6 +32,10 @@ class Plugins::SurveysController < Plugins::BaseController
     params
       .require(:plugins_survey)
       .permit(:active, :id)
+  end
+
+  def unsafe_params
+    params.to_unsafe_hash
   end
 
   def plugin_class
