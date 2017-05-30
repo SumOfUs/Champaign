@@ -1,5 +1,6 @@
 # coding: utf-8
 # frozen_string_literal: true
+
 source 'https://rubygems.org'
 ruby '2.4.1'
 
@@ -31,7 +32,6 @@ gem 'phony'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1'
 gem 'rails-i18n'
-#gem 'rails-observers'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
 gem 'remotipart', '~> 1.2' # [Q] Are we using this?
@@ -41,8 +41,8 @@ gem 'slim-rails'
 ## Use Paper Trail for containing a full history of our edits.
 gem 'action_parameter'
 gem 'aws-sdk', '~> 2'
-gem 'paperclip'
 gem 'paper_trail'
+gem 'paperclip'
 gem 'rmagick' # rmagick for image processing
 ## AWS SDK for Rails - makes SES integration easy
 gem 'actionkit_connector', git: 'https://github.com/SumOfUs/actionkit_connector', branch: 'master'
@@ -51,7 +51,6 @@ gem 'airbrake-ruby', '1.7.1'
 gem 'aws-sdk-rails'
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'browser', '~> 2.0', '>= 2.0.3'
-#gem 'coffee-rails', '~> 4.1.0'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
 gem 'envyable', require: 'envyable/rails-now'
@@ -62,6 +61,7 @@ gem 'lograge'
 gem 'metamagic'
 gem 'newrelic_rpm'
 gem 'puma', '~> 2.15.3'
+gem 'rails-observers', git: 'https://github.com/rails/rails-observers'
 gem 'sass-rails'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 gem 'sprockets-rails'
@@ -69,8 +69,8 @@ gem 'summernote-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
-gem 'webpack-rails'
-gem 'rails-observers', git: 'https://github.com/rails/rails-observers'
+gem 'webpacker', '~> 2.0'
+
 group :development, :test do
   gem 'byebug'
   gem 'capybara' # Capybara for integration testing
