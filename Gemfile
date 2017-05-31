@@ -8,8 +8,6 @@ gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 gem 'bcrypt', '~> 3.1.7'
 gem 'braintree', '~> 2.54.0'
-gem 'browserify-rails'
-gem 'c3-rails'
 gem 'codemirror-rails'
 gem 'countries', require: 'countries/global'
 gem 'country_select'
@@ -64,7 +62,6 @@ gem 'puma', '~> 2.15.3'
 gem 'rails-observers', git: 'https://github.com/rails/rails-observers'
 gem 'sass-rails'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
-gem 'sprockets-rails'
 gem 'summernote-rails'
 gem 'turnout'
 gem 'twilio-ruby'
@@ -96,46 +93,8 @@ end
 group :test do
   gem 'coveralls', '~> 0.8.20', require: false
   gem 'poltergeist'
+  gem 'rails-controller-testing'
   gem 'rspec-json_expectations'
   gem 'timecop'
   gem 'webmock'
-  gem 'rails-controller-testing'
-end
-
-# Rails Assets - reference any Bower components that you need as gems.
-## https://rails-assets.org/
-## Can we move these to NPM?
-source 'https://rails-assets.org' do
-  ## Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
-  gem 'rails-assets-backbone'
-
-  ## JavaScript's utility _ belt http://underscorejs.org
-  gem 'rails-assets-underscore'
-
-  ## Reduce user-misspelled email addresses in your forms.
-  gem 'rails-assets-mailcheck'
-
-  ## Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
-  gem 'rails-assets-dropzone'
-
-  # Generate a slug – transliteration with a lot of options
-  gem 'rails-assets-speakingurl'
-
-  # braintree js
-  gem 'rails-assets-braintree-web'
-
-  # for js testing
-  gem 'rails-assets-chai-jquery'
-
-  # A JavaScript visualization library for HTML and SVG.
-  gem 'rails-assets-d3'
-
-  # Transition numbers with ease
-  gem 'rails-assets-odometer'
-
-  # Parse, validate, manipulate, and display dates in javascript.
-  gem 'rails-assets-moment'
-
-  # make tables kick ass
-  gem 'rails-assets-datatables'
 end
