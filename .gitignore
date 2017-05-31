@@ -56,3 +56,4 @@ app/frontend/locales/*.json
 
 /public/packs
 /node_modules
+yarn-error.log
