@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 shared_examples 'shares' do |share_class, service|
   let(:share) { instance_double(share_class, valid?: true, errors: {}) }
   let(:failed_share) { instance_double(share_class, valid?: true, errors: { base: ['email_body needs {LINK}'] }) }

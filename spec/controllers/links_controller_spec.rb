@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe LinksController do
@@ -26,7 +27,10 @@ describe LinksController do
     end
 
     it 'creates link' do
-      expect(Link).to have_received(:new).with(params)
+      ActionController::Parameters.permit_all_parameters = true
+
+      expect(Link).to have_received(:new)
+        .with(ActionController::Parameters.new(params))
     end
 
     it 'saves link' do
