@@ -42,7 +42,6 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://rails-assets.org/
   specs:
     aasm (4.12.0)
       concurrent-ruby (~> 1.0)
@@ -122,13 +121,8 @@ GEM
     braintree (2.54.0)
       builder (>= 2.0.0)
     browser (2.4.0)
-    browserify-rails (4.2.0)
-      addressable (>= 2.4.0)
-      railties (>= 4.0.0, < 5.2)
-      sprockets (>= 3.6.0)
     builder (3.2.3)
     byebug (9.0.6)
-    c3-rails (0.4.11)
     capybara (2.14.0)
       addressable
       mime-types (>= 1.16)
@@ -387,20 +381,6 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.1.1)
       sprockets-rails (>= 2.0.0)
-    rails-assets-backbone (1.3.3)
-      rails-assets-underscore (>= 1.8.3)
-    rails-assets-braintree-web (3.15.0)
-    rails-assets-chai-jquery (2.0.1)
-    rails-assets-d3 (4.9.0)
-    rails-assets-datatables (1.10.15)
-      rails-assets-jquery (>= 1.7.0)
-    rails-assets-dropzone (4.3.0)
-    rails-assets-jquery (3.2.1)
-    rails-assets-mailcheck (1.1.2)
-    rails-assets-moment (2.18.1)
-    rails-assets-odometer (0.4.8)
-    rails-assets-speakingurl (13.0.0)
-    rails-assets-underscore (1.8.3)
     rails-controller-testing (1.0.2)
       actionpack (~> 5.x, >= 5.0.1)
       actionview (~> 5.x, >= 5.0.1)
@@ -546,8 +526,10 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    webpack-rails (0.9.9)
-      rails (>= 3.2.0)
+    webpacker (2.0)
+      activesupport (>= 4.2)
+      multi_json (~> 1.2)
+      railties (>= 4.2)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -571,9 +553,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.5)
   braintree (~> 2.54.0)
   browser (~> 2.0, >= 2.0.3)
-  browserify-rails
   byebug
-  c3-rails
   capybara
   codemirror-rails
   compass-rails
@@ -616,17 +596,6 @@ DEPENDENCIES
   puma (~> 2.15.3)
   rack-cors
   rails (~> 5.1)
-  rails-assets-backbone!
-  rails-assets-braintree-web!
-  rails-assets-chai-jquery!
-  rails-assets-d3!
-  rails-assets-datatables!
-  rails-assets-dropzone!
-  rails-assets-mailcheck!
-  rails-assets-moment!
-  rails-assets-odometer!
-  rails-assets-speakingurl!
-  rails-assets-underscore!
   rails-controller-testing
   rails-i18n
   rails-observers!
@@ -653,10 +622,10 @@ DEPENDENCIES
   vcr
   web-console
   webmock
-  webpack-rails
+  webpacker (~> 2.0)
 
 RUBY VERSION
-   ruby 2.4.0p0
+   ruby 2.4.1p111
 
 BUNDLED WITH
-   1.14.6
+   1.15.0

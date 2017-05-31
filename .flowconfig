@@ -4,10 +4,9 @@
 [include]
 
 [libs]
-app/frontend/types.js
+app/javascript/types.js
 
 [options]
 suppress_comment=\\(.\\|\n\\)*\\s*\\$FlowIgnore.*
 module.name_mapper='.*\(.scss\)' -> 'empty/object'
 module.name_mapper='.*\(.yml\)' -> 'empty/object'
-

@@ -53,3 +53,7 @@ public/webpack
 
 # ignore json locales (they're converted automatically)
 app/frontend/locales/*.json
+
+/public/packs
+/node_modules
+yarn-error.log

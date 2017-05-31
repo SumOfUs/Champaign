@@ -68,28 +68,12 @@ Rails.application.configure do
       origins '*'
       resource '*',
                headers: :any,
-               methods: [:get, :post, :delete, :put, :patch, :options, :head]
+               methods: %i[get post delete put patch options head]
     end
   end
 
   config.action_mailer.delivery_method = :test
   config.action_mailer.raise_delivery_errors = true
-
-  # webpack-rails configuration
-
-  config.webpack.config_file = 'config/webpack.config.dev.js'
-
-  config.webpack.dev_server.host = Settings.webpack_host
-  config.webpack.dev_server.port = ENV.fetch('WEBPACK_PORT') { 4000 }
-
-  # The host and port to use when fetching the manifest
-  # This is helpful for e.g. docker containers, where the host and port you
-  # use via the web browser is not the same as those that the containers use
-  # to communicate among each other
-  config.webpack.dev_server.manifest_host = 'localhost'
-  config.webpack.dev_server.manifest_port = ENV.fetch('WEBPACK_PORT') { 4000 }
-  config.webpack.output_dir = 'public/dist'
-  config.webpack.public_path = ''
 end
 
 Rails.application.routes.default_url_options[:host] = Settings.host
