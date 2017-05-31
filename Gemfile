@@ -62,6 +62,7 @@ gem 'puma', '~> 2.15.3'
 gem 'rails-observers', git: 'https://github.com/rails/rails-observers'
 gem 'sass-rails'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
+gem 'sprockets-rails'
 gem 'summernote-rails'
 gem 'turnout'
 gem 'twilio-ruby'
