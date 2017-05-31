@@ -63,7 +63,7 @@ describe Api::ActionsController do
           post :create, params: { page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar' }
         end.to raise_error(
           ActionController::UnpermittedParameters,
-          'found unpermitted parameter: not_permitted'
+          'found unpermitted parameter: :not_permitted'
         )
       end
     end
@@ -156,7 +156,7 @@ describe Api::ActionsController do
           post :validate, params: { page_id: 2, form_id: 3, not_permitted: 'no, no!', foo: 'bar' }
         }.to raise_error(
           ActionController::UnpermittedParameters,
-          'found unpermitted parameter: not_permitted'
+          'found unpermitted parameter: :not_permitted'
         )
       end
     end

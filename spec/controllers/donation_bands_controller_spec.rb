@@ -84,7 +84,8 @@ describe DonationBandsController do
     end
 
     it 'creates a new donation_band' do
-      expect(DonationBand).to have_received(:create).with(converted_params)
+      ActionController::Parameters.permit_all_parameters = true
+      expect(DonationBand).to have_received(:create).with(ActionController::Parameters.new(converted_params))
     end
 
     it 'responds with notice' do
