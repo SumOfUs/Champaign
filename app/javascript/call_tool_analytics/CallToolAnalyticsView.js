@@ -1,11 +1,11 @@
 //@flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { fetchJson } from './Helpers';
-import MembersChart from '../../components/CallToolAnalytics/MembersChart';
-import MembersStatusTable from '../../components/CallToolAnalytics/MembersStatusTable';
-import TargetsChart from '../../components/CallToolAnalytics/TargetsChart';
-import TargetsStatusTable from '../../components/CallToolAnalytics/TargetsStatusTable';
+import { fetchJson } from './helper';
+import MembersChart from '../components/CallToolAnalytics/MembersChart';
+import MembersStatusTable from '../components/CallToolAnalytics/MembersStatusTable';
+import TargetsChart from '../components/CallToolAnalytics/TargetsChart';
+import TargetsStatusTable from '../components/CallToolAnalytics/TargetsStatusTable';
 
 
 type Filter = 'all_time' | 'last_week'
