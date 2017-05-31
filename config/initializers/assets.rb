@@ -18,6 +18,3 @@ end
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w(dependencies.js member-facing.css member-facing.js)
-
-# to get browserify to turn everything into es6
-# Rails.application.config.browserify_rails.commandline_options = '--transform babelify --extension=".js"'
