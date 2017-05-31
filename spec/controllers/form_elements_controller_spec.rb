@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe FormElementsController do
@@ -8,7 +9,7 @@ describe FormElementsController do
   include_examples 'session authentication'
 
   describe 'POST #create' do
-    let(:params) { { label: 'Label', data_type: 'text', required: true } }
+    let(:params) { { label: 'Label', data_type: 'text', required: 'true' } }
 
     before do
       allow(Form).to receive(:find) { form }
@@ -26,7 +27,9 @@ describe FormElementsController do
     end
 
     it 'creates form element' do
-      expect(FormElementBuilder).to have_received(:create).with(form, params)
+      ActionController::Parameters.permit_all_parameters = true
+      expect(FormElementBuilder).to have_received(:create)
+        .with(form, ActionController::Parameters.new(params))
     end
 
     context 'successfully created' do

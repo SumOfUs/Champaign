@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Plugins::FormsController do
@@ -60,7 +61,7 @@ describe Plugins::FormsController do
       expect(response.status).to eq 200
       expect(response).to render_template(partial: 'forms/_edit')
       body = JSON.parse(response.body)
-      expect(body.keys).to match_array %w(html form_id)
+      expect(body.keys).to match_array %w[html form_id]
       expect(body['form_id']).to eq second_form.id
     end
   end

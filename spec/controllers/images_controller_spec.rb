@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ImagesController do
@@ -29,7 +30,10 @@ describe ImagesController do
     end
 
     it 'creates image' do
-      expect(page).to receive_message_chain(:images, :create).with(content: 'foo')
+      ActionController::Parameters.permit_all_parameters = true
+
+      expect(page).to receive_message_chain(:images, :create)
+        .with(ActionController::Parameters.new(content: 'foo'))
       subject
     end
 

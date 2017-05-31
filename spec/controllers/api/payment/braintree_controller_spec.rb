@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::Payment::BraintreeController do
@@ -80,7 +81,7 @@ describe Api::Payment::BraintreeController do
         it 'responds with subscription_id in JSON' do
           expect(response.body).to eq({
             success: true,
-            follow_up_url: '/a/asd-f/follow-up?member_id=79',
+            follow_up_url: '/a/asd-f/follow-up',
             subscription_id: 's1234'
           }.to_json)
         end

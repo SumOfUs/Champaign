@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Api::ActionsController do
@@ -237,9 +238,9 @@ describe Api::ActionsController do
       it 'does not update the action when given an invalid publish_status' do
         expect {
           put :update, params: { page_id: 2, id: a.id, publish_status: 'invalid' }
-        }.not_to change {
+        }.not_to(change {
           a.reload.publish_status
-        }
+        })
       end
     end
   end
