@@ -19,7 +19,7 @@ describe Plugins::FormsController do
     end
 
     it 'finds the plugin' do
-      expect(Plugins).to have_received(:find_for).with(params[:plugin_type], params[:plugin_id])
+      expect(Plugins).to have_received(:find_for).with('petition', '3')
     end
 
     it 'renders the form preview' do
@@ -41,11 +41,11 @@ describe Plugins::FormsController do
     end
 
     it 'finds form by form_id' do
-      expect(Form).to have_received(:find).with(params[:master_id])
+      expect(Form).to have_received(:find).with('2')
     end
 
     it 'finds plugin by plugin type and id' do
-      expect(Plugins).to have_received(:find_for).with(params[:plugin_type], params[:plugin_id])
+      expect(Plugins).to have_received(:find_for).with('petition', '3')
     end
 
     it 'duplicates the form' do
