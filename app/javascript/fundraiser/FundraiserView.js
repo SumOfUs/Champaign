@@ -4,21 +4,21 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import isEmpty from 'lodash/isEmpty';
-import StepContent from '../../components/Stepper/StepContent';
-import StepWrapper from '../../components/Stepper/StepWrapper';
-import AmountSelection from '../../components/AmountSelection/AmountSelection';
-import MemberDetailsForm from '../../components/MemberDetailsForm/MemberDetailsForm';
-import Payment from '../../components/Payment/Payment';
+import StepContent from '../components/Stepper/StepContent';
+import StepWrapper from '../components/Stepper/StepWrapper';
+import AmountSelection from '../components/AmountSelection/AmountSelection';
+import MemberDetailsForm from '../components/MemberDetailsForm/MemberDetailsForm';
+import Payment from '../components/Payment/Payment';
 import {
   changeAmount,
   changeCurrency,
   changeStep,
   setSubmitting,
-} from '../../state/fundraiser/actions';
+} from '../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
 import type { AppState } from '../../state';
-import type { Member, Fundraiser, Page } from '../../state';
+import type { Member, Fundraiser, Page } from '../state';
 
 type OwnProps = {
   fundraiser: Fundraiser;

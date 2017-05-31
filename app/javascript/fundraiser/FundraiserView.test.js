@@ -1,10 +1,10 @@
 /* @flow */
 import React from 'react';
-import configureStore from '../../state';
+import configureStore from '../state';
 import { Provider } from 'react-redux';
 import FundraiserView from './FundraiserView';
-import { changeStep } from '../../state/fundraiser/actions';
-import { mountWithIntl } from '../../jest/intl-enzyme-test-helpers';
+import { changeStep } from '../state/fundraiser/actions';
+import { mountWithIntl } from '../utils/jest/intl-enzyme-test-helpers';
 
 global.fbq = () => null;
 
