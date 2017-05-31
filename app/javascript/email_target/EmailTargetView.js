@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
-import Select from '../../components/SweetSelect/SweetSelect';
-import Input from '../../components/SweetInput/SweetInput';
-import Button from '../../components/Button/Button';
-import SelectCountry from '../../components/SelectCountry/SelectCountry';
+import Select from '../components/SweetSelect/SweetSelect';
+import Input from '../components/SweetInput/SweetInput';
+import Button from '../components/Button/Button';
+import SelectCountry from '../components/SelectCountry/SelectCountry';
 import { FormattedMessage } from 'react-intl';
 import './EmailTargetView.scss';
 
@@ -18,7 +18,7 @@ import {
   changeEmail,
   changeName,
   changeFund,
-} from '../../state/email_target/actions';
+} from '../state/email_target/actions';
 
 import type { Dispatch } from 'redux';
 

@@ -5,11 +5,11 @@ import isEmpty from 'lodash/isEmpty';
 import filter from 'lodash/filter';
 import find from 'lodash/find';
 import sample from 'lodash/sample';
-import ChampaignAPI from '../../util/ChampaignAPI';
-import type { OperationResponse } from '../../util/ChampaignAPI';
+import ChampaignAPI from '../util/ChampaignAPI';
+import type { OperationResponse } from '../util/ChampaignAPI';
 import type { IntlShape } from 'react-intl';
 
-import Form from '../../components/CallTool/Form';
+import Form from '../components/CallTool/Form';
 
 export type Target = {
   countryCode: string;
