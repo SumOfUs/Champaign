@@ -17,7 +17,7 @@ import {
 } from '../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
-import type { AppState } from '../../state';
+import type { AppState } from '../state';
 import type { Member, Fundraiser, Page } from '../state';
 
 type OwnProps = {
