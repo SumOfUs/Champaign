@@ -13,15 +13,19 @@ describe ApplicationController do
       end
 
       it 'does nothing if page_id is blank' do
-        allow(controller).to receive(:params).and_return(page_id: nil)
         controller.send(:localize_from_page_id)
         expect(controller).not_to have_received(:set_locale)
       end
 
+      controller do
+        def index
+          head :ok
+        end
+      end
+
       it 'sets locale with page language code' do
-        allow(controller).to receive(:params).and_return(page_id: page.id)
-        controller.send(:localize_from_page_id)
-        expect(controller).to have_received(:set_locale).with('en')
+        expect(controller).to receive(:set_locale).with(:en)
+        get :index, params: { page_id: page.id }
       end
     end
 
