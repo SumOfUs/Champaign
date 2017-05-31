@@ -37,34 +37,5 @@
 
       mountFundraiser('fundraiser-component', data);
     })
-    /*
-    $(document).ready(function(){
-      var chmp = window.champaign; // convenience binding
-      chmp.myActionForm  = new chmp.ActionForm({
-        member:            chmp.personalization.member,
-        outstandingFields: chmp.personalization.outstandingFields,
-        location:          chmp.personalization.location,
-        akid:              chmp.personalization.urlParams.akid,
-        source:            chmp.personalization.urlParams.source,
-        referrer_id:       chmp.personalization.urlParams.referrer_id,
-        bucket:            chmp.personalization.urlParams.bucket,
-        prefill:           true
-      });
-      chmp.myFundraiser = new chmp.Fundraiser({
-        pageId:           "{{ id }}",
-        followUpUrl:      "{{ follow_up_url }}",
-        member:           chmp.personalization.member,
-        showDirectDebit:  chmp.personalization.showDirectDebit,
-        currency:         chmp.personalization.urlParams.currency || chmp.personalization.location.currency,
-        donationBands:    chmp.personalization.donationBands,
-        amount:           chmp.personalization.urlParams.amount,
-        recurringDefault: chmp.personalization.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-        paymentMethods:   chmp.personalization.paymentMethods
-      });
-      chmp.mySidebar     = new chmp.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
-      chmp.hostedFields  = new chmp.BraintreeHostedFields();
-      chmp.overlayToggle = new chmp.OverlayToggle();
-    });
-    */
   </script>
 {% endif %}

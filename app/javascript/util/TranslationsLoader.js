@@ -1,5 +1,5 @@
 // @flow weak
-import translations from '../locales/translations';
+import translations from './locales/translations';
 
 export default function loadTranslations(locale: string) {
   if (!translations[locale]) {
