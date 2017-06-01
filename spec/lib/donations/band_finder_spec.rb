@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'rails_helper'
-require './lib/donations/band_finder'
 
 describe Donations::BandFinder do
   let(:band_name) { 'Wyld Stallyns' }
