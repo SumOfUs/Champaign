@@ -93,7 +93,7 @@ class LiquidTagFinder
   private
 
   def string_comments
-    all_comment_tags.map { |node| node.instance_values['nodelist'].select { |subnode| subnode.is_a? String } }
+    all_comment_tags.map { |node| node.nodelist.select { |subnode| subnode.is_a? String } }
   end
 
   def all_liquid_tags
@@ -102,7 +102,7 @@ class LiquidTagFinder
 
   def all_comment_tags
     all_liquid_tags.select do |node|
-      (node.class == Liquid::Comment) && !node.instance_values['nodelist'].empty?
+      (node.class == Liquid::Comment) && !node.nodelist.empty?
     end
   end
 
