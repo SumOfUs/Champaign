@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Donations
   class BandFinder
     class << self

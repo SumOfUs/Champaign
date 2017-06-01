@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 module Donations
   module Utils
     extend self
-    EURO_COUNTRY_CODES = [:AL, :AD, :AT, :BY, :BE, :BA, :BG, :HR, :CY, :CZ, :DK, :EE, :FO, :FI, :FR, :DE, :GI, :GR, :HU, :IS, :IE, :IT, :LV, :LI, :LT, :LU, :MK, :MT, :MD, :MC, :NL, :NO, :PL, :PT, :RO, :RU, :SM, :RS, :SK, :SI, :ES, :SE, :CH, :UA, :VA, :RS, :IM, :RS, :ME].freeze
+    EURO_COUNTRY_CODES = %i[AL AD AT BY BE BA BG HR CY CZ DK EE FO FI FR DE GI GR HU IS IE IT LV LI LT LU MK MT MD MC NL NO PL PT RO RU SM RS SK SI ES SE CH UA VA RS IM RS ME].freeze
     DEFAULT_CURRENCY = 'USD'
 
     def round_and_dedup(values)

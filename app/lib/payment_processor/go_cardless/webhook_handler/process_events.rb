@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'payment'
 require_relative 'subscription'
 require_relative 'mandate'

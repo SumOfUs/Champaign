@@ -19,7 +19,7 @@ module PaymentProcessor::Braintree
 
     def recurring?
       Plugins::Fundraiser.donation_default_for_page(page.id) ||
-        %w(recurring only_recurring).include?(params[:recurring_default])
+        %w[recurring only_recurring].include?(params[:recurring_default])
     end
 
     private

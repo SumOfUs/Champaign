@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module PaymentProcessor
   module Braintree
     class Populator
@@ -15,13 +16,13 @@ module PaymentProcessor
           first_name: customer_options[:first_name],
           last_name: customer_options[:last_name]
         }.tap do |options|
-          populate(options, :region, [:province, :state, :region])
+          populate(options, :region, %i[province state region])
           populate(options, :company, [:company])
-          populate(options, :locality, [:city, :locality])
-          populate(options, :postal_code, [:zip, :zip_code, :postal, :postal_code])
-          populate(options, :street_address, [:address, :address1, :street_address])
-          populate(options, :extended_address, [:apartment, :address2, :extended_address])
-          populate(options, :country_code_alpha2, [:country, :country_code, :country_code_alpha2])
+          populate(options, :locality, %i[city locality])
+          populate(options, :postal_code, %i[zip zip_code postal postal_code])
+          populate(options, :street_address, %i[address address1 street_address])
+          populate(options, :extended_address, %i[apartment address2 extended_address])
+          populate(options, :country_code_alpha2, %i[country country_code country_code_alpha2])
         end
       end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require './lib/liquid_markup_seeder'
 
 namespace :champaign do

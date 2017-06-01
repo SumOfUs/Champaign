@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :share_progress do
   desc 'Get button analytics'
   task analytics: :environment do

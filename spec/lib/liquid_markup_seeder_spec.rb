@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe LiquidMarkupSeeder do
@@ -21,10 +22,10 @@ describe LiquidMarkupSeeder do
   describe '.meta' do
     it 'returns array with class and name' do
       partial = subject.title_and_class('/foo/bar/_partial.liquid')
-      expect(partial).to eq(%w(Partial LiquidPartial))
+      expect(partial).to eq(%w[Partial LiquidPartial])
 
       layout = subject.title_and_class('/foo/bar/layout.liquid')
-      expect(layout).to eq(%w(Layout LiquidLayout))
+      expect(layout).to eq(%w[Layout LiquidLayout])
     end
   end
 

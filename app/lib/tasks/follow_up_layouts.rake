@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :champaign do
   desc 'Associate liquid layouts known to be petition or donation forms with their default post-action layouts'
   task associate_layouts: :environment do

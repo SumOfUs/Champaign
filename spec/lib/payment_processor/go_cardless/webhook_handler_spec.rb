@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 module PaymentProcessor::GoCardless
@@ -247,7 +248,7 @@ module PaymentProcessor::GoCardless
       end
 
       let(:positive_events) do
-        events.delete_if { |a| %w(cancelled customer_approval_denied).include? a['action'] }
+        events.delete_if { |a| %w[cancelled customer_approval_denied].include? a['action'] }
       end
 
       describe 'general behaviour' do
