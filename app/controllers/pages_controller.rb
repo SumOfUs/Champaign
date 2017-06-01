@@ -128,7 +128,7 @@ class PagesController < ApplicationController
       .permit(
         :id, :title, :slug, :active, :content, :featured, :template_id, :campaign_id,
         :language_id, :liquid_layout_id, :follow_up_liquid_layout_id, tag_ids: []
-      ).to_h
+      )
   end
 
   def search_params

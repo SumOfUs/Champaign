@@ -9,7 +9,7 @@ describe 'Campaigns', type: :request do
   describe '#create' do
     context 'given valid params' do
       let(:params) do
-        { campaign: { name: 'Super Campaign' } }
+        { params: { campaign: { name: 'Super Campaign' } } }
       end
 
       it 'creates a new campaign' do
@@ -33,7 +33,7 @@ describe 'Campaigns', type: :request do
 
     context 'given invalid params' do
       let(:params) do
-        { campaign: { name: '' } }
+        { params: { campaign: { name: '' } } }
       end
 
       it 'returns 422 Unprocessable Entity' do
@@ -52,7 +52,7 @@ describe 'Campaigns', type: :request do
     let!(:campaign) { create(:campaign) }
     context 'given valid params' do
       let(:params) do
-        { campaign: { name: 'Updated Campaign' } }
+        { params: { campaign: { name: 'Updated Campaign' } } }
       end
 
       it 'updates the campaign' do
@@ -77,7 +77,7 @@ describe 'Campaigns', type: :request do
 
     context 'given invalid params' do
       let(:params) do
-        { campaign: { name: '' } }
+        { params: { campaign: { name: '' } } }
       end
 
       it 'returns 422 Unprocessable Entity' do
