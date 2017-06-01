@@ -66,7 +66,7 @@ describe 'Api Actions' do
 
     describe 'queue' do
       before do
-        post "/api/pages/#{page.id}/actions", params, headers
+        post "/api/pages/#{page.id}/actions", params: params,  headers: headers
       end
 
       it 'pushes action to queue' do
@@ -80,7 +80,7 @@ describe 'Api Actions' do
       CountriesExtension::COUNTRIES.each do |code, name|
         it "successfully posts #{name}" do
           params[:country] = code.upcase
-          post "/api/pages/#{page.id}/actions", params
+          post "/api/pages/#{page.id}/actions", params: params
 
           expect(ChampaignQueue).to have_received(:push).with(
             hash_including(
@@ -97,7 +97,7 @@ describe 'Api Actions' do
       let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email] }
       let(:page2) { create :page }
 
-      subject { post "/api/pages/#{page.id}/actions", params }
+      subject { post "/api/pages/#{page.id}/actions", params: params }
 
       it 'creates a new action if existing action on a different page' do
         create :action, member: member, page: page2
@@ -123,7 +123,7 @@ describe 'Api Actions' do
         page.update(allow_duplicate_actions: true)
       end
 
-      subject { post "/api/pages/#{page.id}/actions", params }
+      subject { post "/api/pages/#{page.id}/actions", params: params }
 
       it 'creats an action if existing action on this page' do
         create :action, member: member, page: page
@@ -134,7 +134,7 @@ describe 'Api Actions' do
     describe 'akid manipulation' do
       context 'new member' do
         before do
-          post "/api/pages/#{page.id}/actions", params
+          post "/api/pages/#{page.id}/actions", params: params
         end
 
         it 'persists action' do
@@ -156,7 +156,7 @@ describe 'Api Actions' do
         let!(:member) { create :member, actionkit_user_id: '7777', email: params[:email] }
 
         it 'overwrites existing actionkit_user_id' do
-          post "/api/pages/#{page.id}/actions", params
+          post "/api/pages/#{page.id}/actions", params: params
           expect(member.reload.actionkit_user_id).to eq '5678'
         end
       end
@@ -179,14 +179,14 @@ describe 'Api Actions' do
         let!(:member) { create :member, actionkit_user_id: '1234', email: params[:email] }
 
         it 'does not overwrite existing actionkit_user_id' do
-          post "/api/pages/#{page.id}/actions", params
+          post "/api/pages/#{page.id}/actions", params: params
           expect(member.reload.actionkit_user_id).to eq '1234'
         end
       end
 
       context 'new member' do
         before do
-          post "/api/pages/#{page.id}/actions", params
+          post "/api/pages/#{page.id}/actions", params: params
         end
 
         it 'responds with success' do

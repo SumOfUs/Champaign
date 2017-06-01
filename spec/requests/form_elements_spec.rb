@@ -30,7 +30,7 @@ describe 'form element manipulation' do
     describe 'reordering survey forms' do
       let(:desired) { [@form2.id, @form1.id, @form3.id, @form0.id] }
 
-      subject { put "/plugins/surveys/#{survey.id}/sort", form_ids: desired.join(',') }
+      subject { put "/plugins/surveys/#{survey.id}/sort", params: { form_ids: desired.join(',') } }
 
       before :each do
         @form0 = survey.forms.first
@@ -66,7 +66,7 @@ describe 'form element manipulation' do
       }
     end
 
-    subject { post "/forms/#{survey.forms.first.id}/form_elements", @params }
+    subject { post "/forms/#{survey.forms.first.id}/form_elements", params: @params }
 
     it 'creates the dropdowns properly if sent many strings on separate lines with \r\n' do
       survey # for lazy load

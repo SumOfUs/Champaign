@@ -9,9 +9,13 @@ describe 'Email Confirmation when signing up to express donations' do
 
   context 'success' do
     let(:params) do
-      { token: auth.token,
-        email: 'test@example.com',
-        language: 'EN' }
+      { params:
+        {
+          token: auth.token,
+          email: 'test@example.com',
+          language: 'EN'
+        }
+      }
     end
 
     it 'confirms user authentication' do
@@ -28,9 +32,12 @@ describe 'Email Confirmation when signing up to express donations' do
 
   describe 'locale' do
     let(:params) do
-      { token: auth.token,
-        email: 'test@example.com',
-        language: 'de' }
+      { params:
+        { token: auth.token,
+          email: 'test@example.com',
+          language: 'de'
+        }
+      }
     end
 
     it 'sets locale to passed language code' do
