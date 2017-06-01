@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require './lib/payment_processor'
 require 'spec_helper'
 
 describe PaymentProcessor do
