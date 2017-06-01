@@ -26,7 +26,7 @@ module PaymentProcessor
         let(:local_customer) { instance_double('Payment::GoCardless::Customer', id: 7) }
         let(:local_mandate) { instance_double('Payment::GoCardless::PaymentMethod', id: 543) }
 
-        let(:gc_error) { GoCardlessPro::ValidationError.new('invalid') }
+        let(:gc_error) { GoCardlessPro::ValidationError.new(message: 'invalid') }
 
         let(:completed_flow) do
           instance_double('GoCardlessPro::Resources::RedirectFlow',
