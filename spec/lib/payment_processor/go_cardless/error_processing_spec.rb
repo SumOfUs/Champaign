@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 module PaymentProcessor
@@ -157,7 +158,7 @@ module PaymentProcessor
         end
       end
 
-      [:fr, :de].each do |locale|
+      %i[fr de].each do |locale|
         describe "with language as #{locale}" do
           let(:messages) do
             {

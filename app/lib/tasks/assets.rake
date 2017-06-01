@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 namespace :assets do
-  task :download_and_precompile, [:url_template, :credentials, :branch, :source_assets_path] => :environment do |_t, args|
+  task :download_and_precompile, %i[url_template credentials branch source_assets_path] => :environment do |_t, args|
     if args[:url_template].blank?
       puts 'Not including any external assets'
       next
@@ -25,7 +26,7 @@ namespace :assets do
   # Example:
   #  rake deploy:precompile_assets["https://api.github.com/repos/organisation/repo/tarball/<branch>","deploy-user:secret","master"]
   desc 'Download external assets'
-  task :download_external_assets, [:target_path, :url_template, :credentials, :branch] => :environment do |_t, args|
+  task :download_external_assets, %i[target_path url_template credentials branch] => :environment do |_t, args|
     target_path = args[:target_path]
     url_template = args[:url_template]
     credentials = args[:credentials]

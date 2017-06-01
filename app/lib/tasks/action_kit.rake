@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 namespace :action_kit do
   task import_languages: :environment do
     puts 'Importing languages from ActionKit'

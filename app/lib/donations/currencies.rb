@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Currency Converter to JSON
 #
 # Takes an array of integer amounts, in US cents, and
@@ -19,7 +20,7 @@
 module Donations
   class Currencies
     # Array of currency codes to convert to.
-    VALID_CURRENCIES = [:GBP, :EUR, :AUD, :NZD, :CAD].freeze
+    VALID_CURRENCIES = %i[GBP EUR AUD NZD CAD].freeze
 
     def self.for(amounts)
       new(amounts).convert

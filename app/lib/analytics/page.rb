@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Analytics
   class Page
     def self.increment(page_id, new_member:)
@@ -40,22 +41,20 @@ module Analytics
     private
 
     def total_by_hour(new_members_only)
-      12.times.inject({}) do |memo, i|
+      12.times.each_with_object({}) do |i, memo|
         hour = (Time.now.utc - i.send(:hour)).beginning_of_hour.to_s(:db)
 
         memo[hour] = Analytics.store.get(key_with_hour(hour: hour, new_member: new_members_only)).to_i
-        memo
       end
     end
 
     def total_by_day(new_members_only)
-      30.times.inject({}) do |memo, i|
+      30.times.each_with_object({}) do |i, memo|
         date = Time.now.utc - i.send(:day)
 
         day = (Time.now.utc - i.send(:day)).beginning_of_day.to_s(:db)
 
         memo[day] = Analytics.store.get(key_with_day(day: date.day, new_member: new_members_only)).to_i
-        memo
       end
     end
 

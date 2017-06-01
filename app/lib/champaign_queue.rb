@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'champaign_queue/clients/sqs'
 require_relative 'champaign_queue/clients/http'
 

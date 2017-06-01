@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class ShareAnalytics
   def self.data(page, type, share)
     new(page, type, share).data

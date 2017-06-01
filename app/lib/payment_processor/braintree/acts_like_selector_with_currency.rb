@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module PaymentProcessor
   module Braintree
     module ActsLikeSelectorWithCurrency
