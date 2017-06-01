@@ -111,7 +111,7 @@ class LiquidTagFinder
   end
 
   def partial_name_from_include(incl)
-    strip_quotes(incl.instance_values['template_name'])
+    strip_quotes(incl.instance_values['template_name_expr'])
   end
 
   def ref_from_include(incl)
