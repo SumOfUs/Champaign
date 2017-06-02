@@ -99,3 +99,39 @@ group :test do
   gem 'timecop'
   gem 'webmock'
 end
+
+
+source 'https://rails-assets.org' do
+  # Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
+  gem 'rails-assets-backbone'
+
+  # JavaScript's utility _ belt http://underscorejs.org
+  gem 'rails-assets-underscore'
+
+  # Reduce user-misspelled email addresses in your forms.
+  gem 'rails-assets-mailcheck'
+
+  # Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
+  gem 'rails-assets-dropzone'
+
+  # Generate a slug – transliteration with a lot of options
+  gem 'rails-assets-speakingurl'
+
+  # braintree js
+  gem 'rails-assets-braintree-web'
+
+  # for js testing
+  gem 'rails-assets-chai-jquery'
+
+  # A JavaScript visualization library for HTML and SVG.
+  gem 'rails-assets-d3'
+
+  # Transition numbers with ease
+  gem 'rails-assets-odometer'
+
+  # Parse, validate, manipulate, and display dates in javascript.
+  gem 'rails-assets-moment'
+
+  # make tables kick ass
+  gem 'rails-assets-datatables'
+end
