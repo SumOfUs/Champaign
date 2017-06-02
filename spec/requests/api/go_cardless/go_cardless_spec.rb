@@ -264,7 +264,7 @@ describe 'GoCardless API' do
 
         subject do
           VCR.use_cassette('go_cardless successful transaction') do
-            get api_go_cardless_transaction_path(page.id), params
+            get api_go_cardless_transaction_path(page.id), params: params
           end
         end
 
@@ -431,7 +431,7 @@ describe 'GoCardless API' do
 
         subject do
           VCR.use_cassette('go_cardless successful subscription') do
-            get api_go_cardless_transaction_path(page.id), params
+            get api_go_cardless_transaction_path(page.id), params: params
           end
         end
 
@@ -625,7 +625,7 @@ describe 'GoCardless API' do
 
         subject do
           VCR.use_cassette('go_cardless unsuccessful mandate retrieval') do
-            get api_go_cardless_transaction_path(page.id), params
+            get api_go_cardless_transaction_path(page.id), params: params
           end
         end
 
@@ -642,7 +642,7 @@ describe 'GoCardless API' do
 
         subject do
           VCR.use_cassette('go_cardless unsuccessful flow completion') do
-            get api_go_cardless_transaction_path(page.id), params
+            get api_go_cardless_transaction_path(page.id), params: params
           end
         end
 
@@ -660,7 +660,7 @@ describe 'GoCardless API' do
 
         subject do
           VCR.use_cassette('go_cardless unsuccessful transaction') do
-            get api_go_cardless_transaction_path(page.id), params
+            get api_go_cardless_transaction_path(page.id), params: params
           end
         end
 
@@ -678,7 +678,7 @@ describe 'GoCardless API' do
 
         subject do
           VCR.use_cassette('go_cardless unsuccessful subscription') do
-            get api_go_cardless_transaction_path(page.id), params
+            get api_go_cardless_transaction_path(page.id), params: params
           end
         end
 

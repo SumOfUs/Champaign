@@ -63,7 +63,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
 
   describe 'GET index' do
     it 'returns a list of one-off transactions with their payment methods' do
-      get '/api/stateless/go_cardless/transactions', nil, auth_headers
+      get '/api/stateless/go_cardless/transactions', params: {}, headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to be_an Array
       expect(first_transaction).to include(id: one_off_transaction.id,
@@ -83,7 +83,7 @@ describe 'API::Stateless GoCardless Subscriptions' do
     end
 
     it 'does not list transactions that are associated with subscriptions' do
-      get '/api/stateless/go_cardless/transactions', nil, auth_headers
+      get '/api/stateless/go_cardless/transactions', params: {}, headers: auth_headers
       expect(response.status).to eq(200)
       expect(first_transaction.keys).to match([
         :id,
