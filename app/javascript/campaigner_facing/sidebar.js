@@ -1,9 +1,7 @@
-const setupOnce = require('campaigner-facing/setup_once');
+const setupOnce = require('campaigner_facing/setup_once');
 
-(function(){
-
+(function() {
   let Sidebar = Backbone.View.extend({
-
     events: {
       'click .sidebar__header-link': 'toggleGroup',
     },
@@ -12,9 +10,9 @@ const setupOnce = require('campaigner-facing/setup_once');
       let $group = $(e.target).parents('.sidebar__group');
       $group.toggleClass('sidebar__group--closed sidebar__group--open');
     },
-
   });
 
-  $.subscribe("sidebar:nesting", function(){ setupOnce('.sidebar', Sidebar) });
-}());
-
+  $.subscribe('sidebar:nesting', function() {
+    setupOnce('.sidebar', Sidebar);
+  });
+})();
