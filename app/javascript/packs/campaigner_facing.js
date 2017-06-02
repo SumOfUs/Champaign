@@ -4,24 +4,13 @@
 // to reduce bundle size)
 
 // NPM modules
-import 'jquery';
-import 'jquery-ujs';
-import 'lodash';
-import 'backbone';
-import 'jquery-ui/widgets/sortable';
-// import 'jquery.remotipart';
 import 'd3';
 import 'odometer';
 import 'moment';
-import 'bootstrap';
 import 'selectize';
 import 'dropzone';
-import 'typeahead.jquery';
 import 'speakingurl';
 import 'summernote';
-import 'datatables.net';
-import 'i18n';
-// import 'i18n/translations'; ??
 
 // App code
 // TODO: Refactor this to *not* get imported into the global scope

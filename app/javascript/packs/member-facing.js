@@ -1,21 +1,10 @@
-import 'lodash'
-import 'backbone';
-import 'sticky';
-import 'selectize';
-import 'i18n';
-import 'i18n/translations';
 import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 
-// external assets
-<% if Settings.external_js_path.present? %>
-  require("<%= Settings.external_js_path %>");
-<% end %>
-
 let initializeApp = () => {
   window.URI = require('urijs');
-  window.sumofus = window.sumofus || {} // for legacy templates that reference window.sumofus
+  window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
   window.champaign = window.champaign || window.sumofus || {};
   window.champaign.Petition = require('../member-facing/backbone/petition');
   window.champaign.Survey = require('../member-facing/backbone/survey');
@@ -30,12 +19,11 @@ let initializeApp = () => {
   window.champaign.redirectors = require('../member-facing/redirectors');
 };
 
-<% if Rails.env.production? %>
+if (window.ChampaignSettings && window.ChampaignSettings.airbrake) {
   const airbrakeJs = require('airbrake-js');
-  const airbrake = new airbrakeJs({projectId: "<%= Settings.airbrake_project_id %>", projectKey: "<%= Settings.airbrake_api_key %>"});
+  const airbrake = new airbrakeJs(window.ChampaignSettings.airbrake);
   initializeApp = airbrake.wrap(initializeApp);
-<% end %>
-
+}
 require('../member-facing/track_shares');
 
 initializeApp();

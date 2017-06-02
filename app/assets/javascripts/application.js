@@ -1,0 +1,10 @@
+//= require jquery
+//= require jquery_ujs
+//= require jquery-ui/widgets/sortable
+//= require jquery.remotipart
+//= require bootstrap-sprockets
+//= require typeahead.jquery
+//= require datatables
+//= require datatables/dataTables.bootstrap
+//= require i18n
+//= require i18n/translations

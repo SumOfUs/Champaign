@@ -12,58 +12,58 @@ import type { IntlShape } from 'react-intl';
 import Form from '../components/CallTool/Form';
 
 export type Target = {
-  countryCode: string;
-  name: string;
-  title: string;
-  id: string;
-}
+  countryCode: string,
+  name: string,
+  title: string,
+  id: string,
+};
 
 export type Country = {
-  code: string;
-  name: string;
-  phoneCode: string;
-}
+  code: string,
+  name: string,
+  phoneCode: string,
+};
 
 export type CountryPhoneCode = {
-  code: string;
-  name: string;
-}
+  code: string,
+  name: string,
+};
 
 export type FormType = {
-  memberPhoneNumber: string;
-  memberPhoneCountryCode: string;
-  countryCode: string;
-}
+  memberPhoneNumber: string,
+  memberPhoneCountryCode: string,
+  countryCode: string,
+};
 
 export type Errors = {
-  memberPhoneNumber?: any;
-  memberPhoneCountryCode?: any;
-  countryCode?: any;
-  base?: any[];
-}
+  memberPhoneNumber?: any,
+  memberPhoneCountryCode?: any,
+  countryCode?: any,
+  base?: any[],
+};
 
 type OwnState = {
-  form: FormType;
-  errors: Errors;
-  loading: boolean;
-  selectedTarget?: Target;
-  selectedCountryCode?: string;
-}
+  form: FormType,
+  errors: Errors,
+  loading: boolean,
+  selectedTarget?: Target,
+  selectedCountryCode?: string,
+};
 
 type OwnProps = {
-  allowManualTargetSelection: boolean;
-  restrictedCountryCode: ?string;
-  targetByCountryEnabled: boolean;
-  memberPhoneNumber?: string;
-  countryCode?: string;
-  title?: string;
-  pageId: string | number;
-  targets: Target[];
-  countries: Country[];
-  countriesPhoneCodes: CountryPhoneCode[];
-  onSuccess?: () => void;
-  intl: IntlShape;
-}
+  allowManualTargetSelection: boolean,
+  restrictedCountryCode: ?string,
+  targetByCountryEnabled: boolean,
+  memberPhoneNumber?: string,
+  countryCode?: string,
+  title?: string,
+  pageId: string | number,
+  targets: Target[],
+  countries: Country[],
+  countriesPhoneCodes: CountryPhoneCode[],
+  onSuccess?: () => void,
+  intl: IntlShape,
+};
 
 class CallToolView extends Component {
   state: OwnState;
@@ -76,7 +76,7 @@ class CallToolView extends Component {
       form: {
         memberPhoneNumber: '',
         memberPhoneCountryCode: '',
-        countryCode: this.preselectedCountryCode()
+        countryCode: this.preselectedCountryCode(),
       },
       errors: {},
       loading: false,
@@ -87,9 +87,9 @@ class CallToolView extends Component {
   preselectedCountryCode() {
     let countryCode;
 
-    if(this.props.restrictedCountryCode) {
+    if (this.props.restrictedCountryCode) {
       countryCode = this.props.restrictedCountryCode;
-    } else if(this.props.targetByCountryEnabled) {
+    } else if (this.props.targetByCountryEnabled) {
       // Assign countryCode only if it's a valid one
       const preselectedTarget = find(this.props.targets, target => {
         return target.countryCode === this.props.countryCode;
@@ -103,24 +103,38 @@ class CallToolView extends Component {
 
   componentDidMount() {
     this.countryCodeChanged(this.state.form.countryCode);
-    if(!this.props.targetByCountryEnabled) {
-      this.setState({selectedTarget: this.selectNewTarget() });
+    if (!this.props.targetByCountryEnabled) {
+      this.setState({ selectedTarget: this.selectNewTarget() });
     }
   }
 
   countryCodeChanged(countryCode: string) {
-    if(this.props.targetByCountryEnabled) {
+    if (this.props.targetByCountryEnabled) {
       this.setState((prevState, props) => {
         return {
-          form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode },
+          form: {
+            ...prevState.form,
+            memberPhoneCountryCode: this.guessMemberPhoneCountryCode(
+              countryCode
+            ),
+            countryCode,
+          },
           selectedTarget: this.selectNewTargetFromCountryCode(countryCode),
-          errors: {...prevState.errors, countryCode: null },
+          errors: { ...prevState.errors, countryCode: null },
           selectedCountryCode: countryCode,
         };
       });
     } else {
       this.setState((prevState, props) => {
-        return { form: { ...prevState.form, memberPhoneCountryCode: this.guessMemberPhoneCountryCode(countryCode), countryCode } };
+        return {
+          form: {
+            ...prevState.form,
+            memberPhoneCountryCode: this.guessMemberPhoneCountryCode(
+              countryCode
+            ),
+            countryCode,
+          },
+        };
       });
     }
   }
@@ -128,7 +142,10 @@ class CallToolView extends Component {
   candidates(countryCode) {
     const code = countryCode || this.state.selectedCountryCode;
     if (this.props.targetByCountryEnabled) {
-      const candidates = filter(this.props.targets, t => t.countryCode === code);
+      const candidates = filter(
+        this.props.targets,
+        t => t.countryCode === code
+      );
       console.log('candidates: ', candidates);
       return candidates;
     }
@@ -136,24 +153,26 @@ class CallToolView extends Component {
   }
 
   guessMemberPhoneCountryCode(countryCode: string) {
-    const country = find(this.props.countries, t => { return t.code === countryCode; });
+    const country = find(this.props.countries, t => {
+      return t.code === countryCode;
+    });
     return country ? `+${country.phoneCode}` : '';
   }
 
   memberPhoneNumberChanged(memberPhoneNumber: string) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
-        form: {...prevState.form, memberPhoneNumber },
-        errors: {...prevState.errors, memberPhoneNumber: null }
+        form: { ...prevState.form, memberPhoneNumber },
+        errors: { ...prevState.errors, memberPhoneNumber: null },
       };
     });
   }
 
   memberPhoneCountryCodeChanged(memberPhoneCountryCode: string) {
-    this.setState((prevState) => {
+    this.setState(prevState => {
       return {
-        form: {...prevState.form, memberPhoneCountryCode },
-        errors: {...prevState.errors, memberPhoneCountryCode: null }
+        form: { ...prevState.form, memberPhoneCountryCode },
+        errors: { ...prevState.errors, memberPhoneCountryCode: null },
       };
     });
   }
@@ -165,11 +184,11 @@ class CallToolView extends Component {
   selectTarget = (id: string) => {
     console.log('selectTarget:', id);
     const target = find(this.props.targets, { id });
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       ...prevState,
       selectedTarget: target,
     }));
-  }
+  };
 
   selectNewTargetFromCountryCode(countryCode: string) {
     return sample(this.candidates(countryCode));
@@ -177,31 +196,40 @@ class CallToolView extends Component {
 
   submit(event: any) {
     event.preventDefault();
-    if(!this.validateForm()) return;
+    if (!this.validateForm()) return;
     this.setState({ errors: {}, loading: true });
-    ChampaignAPI.calls.create({
-      pageId: this.props.pageId,
-      memberPhoneNumber: this.state.form.memberPhoneCountryCode + this.state.form.memberPhoneNumber,
-      // $FlowIgnore
-      targetId: this.state.selectedTarget.id
-    }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
+    ChampaignAPI.calls
+      .create({
+        pageId: this.props.pageId,
+        memberPhoneNumber: this.state.form.memberPhoneCountryCode +
+          this.state.form.memberPhoneNumber,
+        // $FlowIgnore
+        targetId: this.state.selectedTarget.id,
+      })
+      .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
   validateForm() {
     const newErrors = {};
 
-    if(this.props.targetByCountryEnabled) {
-      if(isEmpty(this.state.form.memberPhoneCountryCode)) {
-        newErrors.memberPhoneCountryCode = <FormattedMessage id="validation.is_required" />;
+    if (this.props.targetByCountryEnabled) {
+      if (isEmpty(this.state.form.memberPhoneCountryCode)) {
+        newErrors.memberPhoneCountryCode = (
+          <FormattedMessage id="validation.is_required" />
+        );
       }
 
-      if(isEmpty(this.state.form.countryCode)) {
-        newErrors.countryCode = <FormattedMessage id="validation.is_required" />;
+      if (isEmpty(this.state.form.countryCode)) {
+        newErrors.countryCode = (
+          <FormattedMessage id="validation.is_required" />
+        );
       }
     }
 
-    if(isEmpty(this.state.form.memberPhoneNumber)) {
-      newErrors.memberPhoneNumber = <FormattedMessage id="validation.is_required" />;
+    if (isEmpty(this.state.form.memberPhoneNumber)) {
+      newErrors.memberPhoneNumber = (
+        <FormattedMessage id="validation.is_required" />
+      );
     }
 
     this.updateErrors(newErrors);
@@ -210,33 +238,33 @@ class CallToolView extends Component {
   }
 
   submitSuccessful(response: OperationResponse) {
-    this.setState({errors: {}, loading: false});
+    this.setState({ errors: {}, loading: false });
     this.props.onSuccess && this.props.onSuccess(this.state.selectedTarget);
   }
 
   submitFailed(response: OperationResponse) {
     const newErrors = {};
 
-    if(!isEmpty(response.errors.memberPhoneNumber)) {
+    if (!isEmpty(response.errors.memberPhoneNumber)) {
       newErrors.memberPhoneNumber = response.errors.memberPhoneNumber[0];
     }
 
-    if(!isEmpty(response.errors.base)) {
+    if (!isEmpty(response.errors.base)) {
       newErrors.base = response.errors.base;
     }
 
     this.updateErrors(newErrors);
-    this.setState({loading: false});
+    this.setState({ loading: false });
   }
 
   updateErrors(newErrors: any) {
     this.setState((prevState, props) => {
-      return { errors: {...prevState.errors, ...newErrors } };
+      return { errors: { ...prevState.errors, ...newErrors } };
     });
   }
 
   instructionsMessageId() {
-    if(this.props.restrictedCountryCode) {
+    if (this.props.restrictedCountryCode) {
       return 'call_tool.instructions_without_country';
     } else {
       return 'call_tool.instructions';
@@ -244,25 +272,25 @@ class CallToolView extends Component {
   }
 
   render() {
-    const {errors} = this.state;
+    const { errors } = this.state;
     return (
       <div>
-        { this.props.title &&
-          <h1> { this.props.title } </h1>
-        }
+        {this.props.title && <h1> {this.props.title} </h1>}
 
-        <p className='select-home-country'> <FormattedMessage id={this.instructionsMessageId()} /> </p>
+        <p className="select-home-country">
+          {' '}<FormattedMessage id={this.instructionsMessageId()} />{' '}
+        </p>
 
-        { errors.base !== undefined && !isEmpty(this.state.errors.base) &&
+        {errors.base !== undefined &&
+          !isEmpty(this.state.errors.base) &&
           <div className="base-errors">
             <ul>
-              { this.state.errors.base && this.state.errors.base.map((error, index) => {
+              {this.state.errors.base &&
+                this.state.errors.base.map((error, index) => {
                   return <li key={`error-${index}`}> {error} </li>;
-                })
-              }
+                })}
             </ul>
-          </div>
-        }
+          </div>}
 
         <Form
           allowManualTargetSelection={this.props.allowManualTargetSelection}
@@ -276,12 +304,21 @@ class CallToolView extends Component {
           errors={this.state.errors}
           onCountryCodeChange={this.countryCodeChanged.bind(this)}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
-          onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(this)}
-          onTargetSelected={(id) => this.selectTarget(id)}
+          onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(
+            this
+          )}
+          onTargetSelected={id => this.selectTarget(id)}
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
         />
-        <p className="fine-print" dangerouslySetInnerHTML={{ __html: this.props.intl.formatMessage({ id: 'call_tool.fine_print' })}} />
+        <p
+          className="fine-print"
+          dangerouslySetInnerHTML={{
+            __html: this.props.intl.formatMessage({
+              id: 'call_tool.fine_print',
+            }),
+          }}
+        />
       </div>
     );
   }
