@@ -9,7 +9,7 @@ class FormValidator
   EMAIL_REGEXP = /\A(?!\.)(?!.*\.{2})(?!.*@\.)(?!.*\.+@)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}\z/i
 
   def initialize(params, form_elements = nil)
-    @params = params.to_unsafe_hash.symbolize_keys
+    @params = params
     @errors = Hash.new { |hash, key| hash[key] = [] }
     @form_elements = form_elements unless form_elements.blank? # don't prevent memoization
     validate

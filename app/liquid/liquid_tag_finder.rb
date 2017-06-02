@@ -27,7 +27,7 @@ class LiquidTagFinder
   # 'petition' will be in the list returned by this method.
   def plugin_names
     markups = all_liquid_tags.map { |li| li.instance_values['markup'] }
-    plugins = markups.map { |markup| markup.match(/plugins\.([a-zA-Z0-9_]+)/) }
+    plugins = markups.compact.map { |markup| markup.match(/plugins\.([a-zA-Z0-9_]+)/) }
     plugins.select(&:present?).map { |matches| matches[1] }.uniq
   end
 

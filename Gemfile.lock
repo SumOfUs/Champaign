@@ -124,6 +124,7 @@ GEM
     browser (2.4.0)
     builder (3.2.3)
     byebug (9.0.6)
+    c3-rails (0.4.11)
     capybara (2.14.0)
       addressable
       mime-types (>= 1.16)
@@ -572,6 +573,7 @@ DEPENDENCIES
   braintree (~> 2.54.0)
   browser (~> 2.0, >= 2.0.3)
   byebug
+  c3-rails
   capybara
   codemirror-rails
   compass-rails

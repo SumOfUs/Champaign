@@ -22,13 +22,13 @@ describe 'API::Calls' do
       end
 
       it 'returns successfully' do
-        post "/api/pages/#{page.id}/call", params
+        post "/api/pages/#{page.id}/call", params: params
         expect(response).to have_http_status(:no_content)
       end
 
       it 'creates a call' do
         expect do
-          post "/api/pages/#{page.id}/call", params
+          post "/api/pages/#{page.id}/call", params: params
         end.to change(Call, :count).by(1)
 
         call = Call.last
@@ -44,7 +44,7 @@ describe 'API::Calls' do
                                to: '13437003482',
                                url: %r{/twilio/calls/\d+/start}))
 
-        post "/api/pages/#{page.id}/call", params
+        post "/api/pages/#{page.id}/call", params: params
       end
     end
 
@@ -59,12 +59,12 @@ describe 'API::Calls' do
       end
 
       it 'returns 422 Unprocessable Entity' do
-        post "/api/pages/#{page.id}/call", params
+        post "/api/pages/#{page.id}/call", params: params
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns the error messages' do
-        post "/api/pages/#{page.id}/call", params
+        post "/api/pages/#{page.id}/call", params: params
         expect(response_json['errors']).to be_present
       end
     end

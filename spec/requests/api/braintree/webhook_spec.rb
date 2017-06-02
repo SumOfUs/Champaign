@@ -74,7 +74,7 @@ describe 'Braintree API' do
         )
       end
 
-      subject { post api_payment_braintree_webhook_path, notification }
+      subject { post api_payment_braintree_webhook_path, params: notification }
 
       describe 'for a credit card' do
         let(:amount) { 813.20 }
@@ -83,7 +83,7 @@ describe 'Braintree API' do
         before :each do
           # rather than set up a fake testing environment, let the success test set it up for us
           VCR.use_cassette('subscription success basic new customer') do
-            post api_payment_braintree_transaction_path(page.id), params
+            post api_payment_braintree_transaction_path(page.id), params: params
           end
 
           @subscription = Payment::Braintree::Subscription.last
@@ -150,7 +150,7 @@ describe 'Braintree API' do
 
         before :each do
           VCR.use_cassette('subscription success paypal new customer') do
-            post api_payment_braintree_transaction_path(page.id), params
+            post api_payment_braintree_transaction_path(page.id), params: params
           end
         end
 
@@ -204,7 +204,7 @@ describe 'Braintree API' do
         )
       end
 
-      subject { post api_payment_braintree_webhook_path, notification }
+      subject { post api_payment_braintree_webhook_path, params: notification }
 
       context 'subscription does not exist' do
         let!(:subscription) { double(:fake_subscription, subscription_id: 'xx') }
@@ -222,7 +222,7 @@ describe 'Braintree API' do
 
           before :each do
             VCR.use_cassette('subscription success basic new customer') do
-              post api_payment_braintree_transaction_path(page.id), params
+              post api_payment_braintree_transaction_path(page.id), params: params
             end
           end
 
