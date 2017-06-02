@@ -11,7 +11,9 @@ export type { Member } from './member/reducer';
 export type { PaymentMethod } from './paymentMethods/reducer';
 export type { Page } from './page/reducer';
 
-export default function configureStore<AppState, A>(initialState?: AppState): Store<AppState, A> {
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  return createStore(reducers, initialState, composeEnhancers(applyMiddleware(thunk)));
+export default function configureStore(initialState: any): any {
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const enhancers = composeEnhancers(applyMiddleware(thunk));
+  return createStore(reducers, initialState, enhancers);
 }

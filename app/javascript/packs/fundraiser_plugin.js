@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
 import { render } from 'react-dom';
+import ComponentWrapper from '../components/ComponentWrapper';
 import FundraiserView from '../fundraiser/FundraiserView';
 import type { AppState } from '../state/reducers';
 
-const store: Store<AppState, any> = window.champaignStore;
+const store = window.champaignStore;
 
 window.document.addEventListener('DOMContentLoaded', () => {
   render(
@@ -14,4 +15,3 @@ window.document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('fundraiser-component')
   );
 });
-
