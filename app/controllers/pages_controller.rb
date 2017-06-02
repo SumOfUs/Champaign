@@ -156,8 +156,4 @@ class PagesController < ApplicationController
   def localize
     set_locale(@page.language_code)
   end
-
-  def unsafe_params
-    params.to_unsafe_hash
-  end
 end
