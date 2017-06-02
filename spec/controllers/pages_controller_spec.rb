@@ -19,6 +19,7 @@ describe PagesController do
   include_examples 'session authentication'
 
   before do
+    ActionController::Parameters.permit_all_parameters = true
     allow(request.env['warden']).to receive(:authenticate!) { user }
     allow(controller).to receive(:current_user) { user }
     allow_any_instance_of(ActionController::TestRequest).to receive(:location).and_return({})
@@ -54,7 +55,7 @@ describe PagesController do
       expected_params = { title: 'Foo Bar' }
 
       expect(PageBuilder).to have_received(:create)
-        .with(expected_params)
+        .with(ActionController::Parameters.new(expected_params))
     end
 
     context 'successfully created' do
@@ -95,7 +96,9 @@ describe PagesController do
     end
 
     it 'updates page' do
-      expect(page).to receive(:update).with(title: 'bar')
+      expect(page).to receive(:update).with(
+        ActionController::Parameters.new(title: 'bar')
+      )
       subject
     end
 

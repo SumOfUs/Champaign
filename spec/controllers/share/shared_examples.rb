@@ -8,6 +8,7 @@ shared_examples 'shares' do |share_class, service|
   include_examples 'session authentication'
 
   before do
+    ActionController::Parameters.permit_all_parameters = true
     allow(Page).to receive(:find).with('1') { page }
   end
 
@@ -94,7 +95,7 @@ shared_examples 'shares' do |share_class, service|
       it 'updates' do
         expect(ShareProgressVariantBuilder).to have_received(:update)
           .with(
-            params: params,
+            params: ActionController::Parameters.new(params),
             variant_type: service.to_sym,
             page: page,
             id: '2'
@@ -137,7 +138,7 @@ shared_examples 'shares' do |share_class, service|
       it 'creates' do
         expect(ShareProgressVariantBuilder).to have_received(:create)
           .with(
-            params: params,
+            params: ActionController::Parameters.new(params),
             variant_type: service.to_sym,
             page: page,
             url: 'http://test.host/a/1'

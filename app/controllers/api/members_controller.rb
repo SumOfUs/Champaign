@@ -4,7 +4,7 @@ class Api::MembersController < ApplicationController
 
   def create
     I18n.locale = permitted_params[:locale] if permitted_params[:locale].present?
-    workhorse = CreateMemberForApiMembersController.new(permitted_params)
+    workhorse = CreateMemberForApiMembersController.new(permitted_params.to_h)
     if workhorse.create
       render json: { member: workhorse.member }
     else
