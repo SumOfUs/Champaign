@@ -1,21 +1,20 @@
-let setupOnce = require('campaigner_facing/setup_once');
+import $ from 'jquery';
+import setupOnce from './setup_once';
 
-(function(){
-
+(function() {
   let ActionsEditor = Backbone.View.extend({
-
     events: {
       'click .action-publisher .btn': 'handleClick',
       'ajax:success form.shares-editor__new-form': 'clearFormAndConformView',
     },
 
-    initialize(){
+    initialize() {
       this.pageId = this.$el.data('page-id');
     },
 
     updateButtons($publisher, desired) {
       $publisher.find('.btn-primary').removeClass('btn-primary');
-      $publisher.find('[data-state="'+desired+'"]').addClass('btn-primary');
+      $publisher.find('[data-state="' + desired + '"]').addClass('btn-primary');
     },
 
     handleClick(e) {
@@ -30,14 +29,14 @@ let setupOnce = require('campaigner_facing/setup_once');
       this.updateButtons($publisher, desired);
       $.ajax(`/api/pages/${this.pageId}/actions/${$publisher.data('id')}`, {
         method: 'PUT',
-        data: { publish_status: desired }
+        data: { publish_status: desired },
       }).fail(() => {
         this.updateButtons($publisher, last);
       });
     },
   });
 
-  $.subscribe("actions:edit", function(){
+  $.subscribe('actions:edit', function() {
     setupOnce('.actions-editor', ActionsEditor);
   });
-}());
+})();

@@ -1,0 +1,21 @@
+//= require underscore
+//= require backbone
+//= require sticky
+//= require selectize
+//= require i18n
+//= require i18n/translations
+
+window.ChampaignSettings = {};
+
+<% if Settings.external_js_path.present? %>
+  require("<%= Settings.external_js_path %>");
+<% end %>>
+
+<% if Rails.env.production? %>
+  Object.assign(window.ChampaignSettings, {
+    airbrake: {
+      projectId: "<%= Settings.airbrake_project_id %>",
+      projectKey: "<%= Settings.airbrake_api_key %>",
+    },
+  });
+<% end %>

@@ -1,7 +1,9 @@
-$(function(){
+import $ from 'jquery';
+
+$(function() {
   $('.selectize-container').selectize({
     plugins: ['remove_button'],
-    closeAfterSelect: true
+    closeAfterSelect: true,
   });
 
   var lastVal;
@@ -13,7 +15,6 @@ $(function(){
     onDropdownClose: function() {
       if (this.items.length < 1) this.setValue(lastVal);
     },
-    closeAfterSelect: true
+    closeAfterSelect: true,
   });
-
 });
