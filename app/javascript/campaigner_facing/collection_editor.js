@@ -8,7 +8,7 @@
 //   Twitter's typeahead: http://twitter.github.io/typeahead.js/
 //   - Use for autocompleting for setting the field's name value
 
-const setupOnce = require('campaigner-facing/setup_once');
+const setupOnce = require('campaigner_facing/setup_once');
 const ErrorDisplay = require('shared/show_errors');
 const GlobalEvents = require('shared/global_events');
 

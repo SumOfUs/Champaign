@@ -1,4 +1,4 @@
-let setupOnce = require('campaigner-facing/setup_once');
+let setupOnce = require('campaigner_facing/setup_once');
 
 (function(){
 

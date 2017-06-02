@@ -1,4 +1,4 @@
-let setupOnce = require('campaigner-facing/setup_once');
+let setupOnce = require('campaigner_facing/setup_once');
 const GlobalEvents = require('shared/global_events');
 const Clipboard = require('clipboard');
 

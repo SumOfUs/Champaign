@@ -5,17 +5,23 @@ const FacebookShareView = Backbone.View.extend({
   el: '#facebook_share-container',
 
   events: {
-    'click input[type="checkbox"]' : 'handleClick',
-    'change textarea' : 'updateMessage',
+    'click input[type="checkbox"]': 'handleClick',
+    'change textarea': 'updateMessage',
   },
 
   trackEvent(name) {
-    ga('send', 'event', 'fb:sign_share', name, window.champaign.personalization.urlParams.id);
+    ga(
+      'send',
+      'event',
+      'fb:sign_share',
+      name,
+      window.champaign.personalization.urlParams.id
+    );
   },
 
   initialize() {
     this.fbConnected = false;
-    this.template =  _.template(this.$('script').html());
+    this.template = _.template(this.$('script').html());
     this.fbAppId = $("meta[property='fb:app_id']").attr('content');
     this.trackEvent('landed_on_page');
     this.model = new FacebookShareModel(this.fbShareData());
@@ -28,7 +34,7 @@ const FacebookShareView = Backbone.View.extend({
       title: $("meta[property='og:title']").attr('content'),
       image: $("meta[property='og:image:url']").attr('content'),
       url: $("meta[property='og:url']").attr('content'),
-    }
+    };
   },
 
   initializeFbClient() {
@@ -40,45 +46,48 @@ const FacebookShareView = Backbone.View.extend({
         version: 'v2.7',
       });
 
-      FB.getLoginStatus( (response) => {
-        if(response.status === 'connected'){
+      FB.getLoginStatus(response => {
+        if (response.status === 'connected') {
           this.processConnected();
         } else {
           this.model.disable();
           this.render();
         }
-      }.bind(this));
+      });
     });
   },
 
   processConnected() {
     let permitted = false;
-    FB.api('/me/permissions', (response) => {
-      _.forEach(response.data, function(item){
-        if(item.permission === 'publish_actions' && item.status === 'granted') {
+    FB.api('/me/permissions', response => {
+      _.forEach(response.data, function(item) {
+        if (
+          item.permission === 'publish_actions' &&
+          item.status === 'granted'
+        ) {
           permitted = true;
         }
       });
-      if(permitted) {
+      if (permitted) {
         this.fbConnected = true;
       } else {
         this.model.disable();
         this.render();
       }
-    }.bind(this));
+    });
   },
 
   post(cb) {
-    if( this.model.isEnabled() ) {
+    if (this.model.isEnabled()) {
       this.model.post(FB, () => {
         this.trackEvent('shared');
 
-        if(this.model.get('message') !== ''){
+        if (this.model.get('message') !== '') {
           this.trackEvent('custom_comment');
         }
 
         cb();
-      }.bind(this));
+      });
     } else {
       cb();
     }
@@ -89,8 +98,11 @@ const FacebookShareView = Backbone.View.extend({
   },
 
   handleClick() {
-    const loginHandler = (resp) => {
-      if(resp.status !== 'connected' || resp.authResponse.grantedScopes.indexOf('publish_actions') === -1) {
+    const loginHandler = resp => {
+      if (
+        resp.status !== 'connected' ||
+        resp.authResponse.grantedScopes.indexOf('publish_actions') === -1
+      ) {
         this.model.disable();
         this.render();
         this.fbConnected = false;
@@ -100,12 +112,12 @@ const FacebookShareView = Backbone.View.extend({
       }
     };
 
-    const checked =  this.$('input[type="checkbox"]').prop('checked');
+    const checked = this.$('input[type="checkbox"]').prop('checked');
     const options = { scope: 'publish_actions', return_scopes: true };
 
-    if(checked) {
+    if (checked) {
       this.trackEvent('enabled');
-      if(!this.fbConnected) FB.login( loginHandler, options );
+      if (!this.fbConnected) FB.login(loginHandler, options);
       this.model.enable();
     } else {
       this.trackEvent('disabled');
@@ -113,12 +125,12 @@ const FacebookShareView = Backbone.View.extend({
     }
   },
 
-  check(){
+  check() {
     this.$el.prop('checked', true);
   },
 
   render() {
-    this.$el.html( this.template( this.model.toJSON() ) );
+    this.$el.html(this.template(this.model.toJSON()));
     new SweetPlaceholder(this.$('.sweet-placeholder__field'));
     return this;
   },

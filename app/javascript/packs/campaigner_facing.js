@@ -5,24 +5,23 @@
 
 // NPM modules
 import 'jquery';
-import 'jquery_ujs';
+import 'jquery-ujs';
 import 'lodash';
 import 'backbone';
 import 'jquery-ui/widgets/sortable';
-import 'jquery.remotipart';
+// import 'jquery.remotipart';
 import 'd3';
 import 'odometer';
 import 'moment';
-import 'bootstrap-sprockets';
+import 'bootstrap';
 import 'selectize';
 import 'dropzone';
 import 'typeahead.jquery';
 import 'speakingurl';
 import 'summernote';
-import 'datatables';
-import 'datatables/dataTables.bootstrap';
+import 'datatables.net';
 import 'i18n';
-import 'i18n/translations';
+// import 'i18n/translations'; ??
 
 // App code
 // TODO: Refactor this to *not* get imported into the global scope
@@ -34,20 +33,20 @@ import '../campaigner_facing/selectize_config';
 import '../campaigner_facing/search';
 import '../campaigner_facing/configure_wysiwyg';
 import '../campaigner_facing/form_preview';
-import '../campaigner-facing/ajax';
-import '../campaigner-facing/page';
-import '../campaigner-facing/plugins_toggle';
-import '../campaigner-facing/sidebar';
-import '../campaigner-facing/tooltips';
-import '../campaigner-facing/collection_editor';
-import '../campaigner-facing/shares_editor';
-import '../campaigner-facing/actions_editor';
-import '../campaigner-facing/layout_picker';
+import '../campaigner_facing/ajax';
+import '../campaigner_facing/page';
+import '../campaigner_facing/plugins_toggle';
+import '../campaigner_facing/sidebar';
+import '../campaigner_facing/tooltips';
+import '../campaigner_facing/collection_editor';
+import '../campaigner_facing/shares_editor';
+import '../campaigner_facing/actions_editor';
+import '../campaigner_facing/layout_picker';
 
-import PageEditBar from '../campaigner-facing/page_edit_bar';
-import Analytics from '../campaigner-facing/analytics';
-import SurveyEditor from '../campaigner-facing/survey_editor';
-import FormElementCreator from '../campaigner-facing/form_element_creator';
+import PageEditBar from '../campaigner_facing/page_edit_bar';
+import Analytics from '../campaigner_facing/analytics';
+import SurveyEditor from '../campaigner_facing/survey_editor';
+import FormElementCreator from '../campaigner_facing/form_element_creator';
 
 Object.assign(window, {
   PageEditBar,
