@@ -42,7 +42,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w(page_id form_id name source akid referring_akid referrer_id bucket)
+    %w(page_id form_id name source akid referring_akid referrer_id rid bucket)
   end
 
   def fields

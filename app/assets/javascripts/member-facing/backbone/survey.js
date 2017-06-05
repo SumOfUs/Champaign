@@ -5,7 +5,7 @@ const GlobalEvents = require('shared/global_events');
 const Survey = Backbone.View.extend({
 
   el: '.survey',
-  HIDDEN_FIELDS: ['source', 'referrer_id', 'akid', 'referring_akid'],
+  HIDDEN_FIELDS: ['source', 'referrer_id', 'rid', 'akid', 'referring_akid'],
   DEFAULT_SCROLL_OFFSET: 80,
 
   events: {

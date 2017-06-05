@@ -23,7 +23,7 @@ class Api::SurveyResponsesController < ApplicationController
   end
 
   def survey_response_params
-    params.slice(*form.form_elements.map(&:name), 'akid', 'source', 'referring_akid', 'referrer_id')
+    params.slice(*form.form_elements.map(&:name), 'akid', 'source', 'referring_akid', 'rid', 'referrer_id')
   end
 
   def form
