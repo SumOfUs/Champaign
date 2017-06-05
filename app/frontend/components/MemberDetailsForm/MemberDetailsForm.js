@@ -36,7 +36,7 @@ export class MemberDetailsForm extends Component {
 
   static title = <FormattedMessage id="details" defaultMessage="details" />;
 
-  HIDDEN_FIELDS = ['source', 'akid', 'referrer_id', 'bucket', 'referring_akid'];
+  HIDDEN_FIELDS = ['source', 'akid', 'referrer_id', 'rid', 'bucket', 'referring_akid'];
 
   constructor(props: OwnProps) {
     super(props);
