@@ -5,7 +5,7 @@ const GlobalEvents = require('shared/global_events');
 const ActionForm = Backbone.View.extend({
 
   el: 'form.action-form',
-  HIDDEN_FIELDS: ['source', 'akid', 'referrer_id', 'bucket', 'referring_akid'],
+  HIDDEN_FIELDS: ['source', 'akid', 'referrer_id', 'rid', 'bucket', 'referring_akid'],
 
   events: {
     'click .action-form__clear-form': 'clearForm',

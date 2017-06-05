@@ -223,32 +223,32 @@ describe ActionBuilder do
     let(:akid) { '1234.5678.tKK7gX' }
     let(:ak_user_id) { akid.split('.')[1] }
 
-    describe 'is not added if referrer_id' do
+    describe 'is not added if rid' do
       it 'is not included' do
         action = MockActionBuilder.new(base_params).build_action
         expect(action.form_data.keys).not_to include('action_referrer_email')
       end
 
       it 'is blank' do
-        action = MockActionBuilder.new(base_params.merge(referrer_id: '')).build_action
+        action = MockActionBuilder.new(base_params.merge(rid: '')).build_action
         expect(action.form_data.keys).not_to include('action_referrer_email')
       end
 
       it "is an id of a member that doesn't exist" do
-        action = MockActionBuilder.new(base_params.merge(referrer_id: 1_234_567_890)).build_action
+        action = MockActionBuilder.new(base_params.merge(rid: 1_234_567_890)).build_action
         expect(action.form_data.keys).not_to include('action_referrer_email')
       end
 
       it 'is an id of a member with no email' do
         m2 = create :member, email: ''
-        action = MockActionBuilder.new(base_params.merge(referrer_id: m2.id)).build_action
+        action = MockActionBuilder.new(base_params.merge(rid: m2.id)).build_action
         expect(action.form_data.keys).not_to include('action_referrer_email')
       end
     end
 
-    it 'is added to form_data if referrer_id is the id of a member' do
+    it 'is added to form_data if rid is the id of a member' do
       m2 = create :member, email: 'asdf@hjkl.com'
-      action = MockActionBuilder.new(base_params.merge(referrer_id: m2.id)).build_action
+      action = MockActionBuilder.new(base_params.merge(rid: m2.id)).build_action
       expect(action.form_data['action_referrer_email']).to eq 'asdf@hjkl.com'
     end
 
@@ -258,13 +258,22 @@ describe ActionBuilder do
       expect(action.form_data['action_referrer_email']).to eq 'qwer@hjkl.com'
     end
 
-    it 'adds the email of a matching referrer_id if both referrer_id and referring_akid are present' do
+    it 'adds the email of a matching rid if both rid and referring_akid are present' do
       m2 = create :member, email: 'asdf@hjkl.com'
       m3 = create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
       action = MockActionBuilder.new(base_params.merge(
-        referrer_id: m2.id, referring_akid: akid
+        rid: m2.id, referring_akid: akid
       )).build_action
-      expect(action.form_data['action_referrer_email']).to eq 'asdf@hjkl.com'
+      expect(action.form_data['action_referrer_email']).to eq m2.email
+    end
+
+    it 'adds the email of a matching referring_id if both rid and referrer_id are present' do
+      m2 = create :member, email: 'asdf@hjkl.com'
+      m3 = create :member, email: 'qwer@hjkl.com'
+      action = MockActionBuilder.new(base_params.merge(
+        rid: m2.id, referrer_id: m3.id
+      )).build_action
+      expect(action.form_data['action_referrer_email']).to eq m3.email
     end
   end
 end

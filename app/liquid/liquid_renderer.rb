@@ -2,7 +2,7 @@
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  HIDDEN_FIELDS = %w(source bucket referrer_id akid referring_akid).freeze
+  HIDDEN_FIELDS = %w(source bucket referrer_id rid akid referring_akid).freeze
 
   def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
     @page = page
