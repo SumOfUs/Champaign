@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 (function() {
   var searchConfig = function() {
     $('.page-filter__reset').click(function() {

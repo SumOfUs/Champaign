@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import setupOnce from './setup_once';
 
 (function() {

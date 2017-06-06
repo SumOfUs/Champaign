@@ -1,6 +1,4 @@
-import $ from 'jquery';
-
-export default function setupOnce(selector, viewClass) {
+function setupOnce(selector, viewClass) {
   $(selector).each(function(ii, el) {
     let $el = $(el);
     if ($el.data('js-inited') != true) {
@@ -9,3 +7,5 @@ export default function setupOnce(selector, viewClass) {
     }
   });
 }
+
+export default setupOnce;

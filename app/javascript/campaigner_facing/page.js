@@ -1,4 +1,5 @@
 'use strict';
+import Backbone from 'backbone';
 
 const page = () => {
   var slugChecker = Backbone.Model.extend({

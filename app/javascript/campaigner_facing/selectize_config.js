@@ -1,5 +1,3 @@
-import $ from 'jquery';
-
 $(function() {
   $('.selectize-container').selectize({
     plugins: ['remove_button'],

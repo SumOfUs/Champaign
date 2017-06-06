@@ -1,17 +1,23 @@
-const GlobalEvents = require('shared/global_events');
+const GlobalEvents = require('../shared/global_events');
 
 const FormElementCreator = Backbone.View.extend({
-
   GENERIC_NAME: 'instruction', // since instruction fields are the only type with no need for a name
   GENERIC_LABEL: 'hidden', // since hidden fields are the only type with no need for a label
 
-  roles: ['defaultValue', 'defaultRevealer', 'choices', 'label', 'name', 'manyChoices'],
+  roles: [
+    'defaultValue',
+    'defaultRevealer',
+    'choices',
+    'label',
+    'name',
+    'manyChoices',
+  ],
   modes: {
-    default:     ['defaultRevealer', 'label', 'name', 'requirable'],
-    hidden:      ['defaultValue',  'name'],
+    default: ['defaultRevealer', 'label', 'name', 'requirable'],
+    hidden: ['defaultValue', 'name'],
     instruction: ['label'],
-    choice:      ['choices',  'label', 'name',  'requirable'],
-    dropdown:    ['manyChoices', 'label', 'name', 'requirable', 'defaultRevealer'],
+    choice: ['choices', 'label', 'name', 'requirable'],
+    dropdown: ['manyChoices', 'label', 'name', 'requirable', 'defaultRevealer'],
   },
 
   events: {
@@ -25,7 +31,7 @@ const FormElementCreator = Backbone.View.extend({
   },
 
   initialize() {
-    this.changeFormMode({target: this.$('#form_element_data_type')});
+    this.changeFormMode({ target: this.$('#form_element_data_type') });
     GlobalEvents.bindEvents(this);
   },
 
@@ -111,30 +117,35 @@ const FormElementCreator = Backbone.View.extend({
     this.ensureCopyableChoiceField();
     this.$('.form-element__choice-fields').html('');
     this.$('.form-element__many-choices-field textarea').val('');
-    this.$('.form-element__choice-fields').append(this.$copyableChoiceField.clone());
+    this.$('.form-element__choice-fields').append(
+      this.$copyableChoiceField.clone()
+    );
   },
 
   ensureCopyableChoiceField() {
     if (this.$copyableChoiceField === undefined) {
-      this.$copyableChoiceField = this.$('.form-element__choice-field').first().clone();
+      this.$copyableChoiceField = this.$('.form-element__choice-field')
+        .first()
+        .clone();
       this.$copyableChoiceField.find('input').val('');
     }
   },
 
   addChoice() {
     this.ensureCopyableChoiceField();
-    this.$('.form-element__choice-fields').append(this.$copyableChoiceField.clone());
+    this.$('.form-element__choice-fields').append(
+      this.$copyableChoiceField.clone()
+    );
   },
 
   removeChoice(e) {
     let $choiceField = this.$(e.target).parents('.form-element__choice-field');
     if (this.$('.form-element__choice-fields').children().length > 1) {
-      $choiceField.remove();  
+      $choiceField.remove();
     } else {
       $choiceField.find('input').val('');
     }
   },
-
 });
 
 module.exports = FormElementCreator;
