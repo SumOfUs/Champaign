@@ -47,7 +47,7 @@ describe 'API::Stateless Braintree Transactions' do
 
   describe 'GET index' do
     it 'returns a list of stand-alone transactions with their payment methods for member' do
-      get '/api/stateless/braintree/transactions', nil, auth_headers
+      get '/api/stateless/braintree/transactions', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to include({
         id: standalone_transaction.id,
@@ -68,7 +68,7 @@ describe 'API::Stateless Braintree Transactions' do
     end
 
     it 'does not list transactions that are associated with subscriptions' do
-      get '/api/stateless/braintree/transactions', nil, auth_headers
+      get '/api/stateless/braintree/transactions', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to_not include({
         id: subscription_transaction.id,
