@@ -30,7 +30,7 @@ describe 'API::Stateless Braintree PaymentMethods' do
 
   describe 'GET index' do
     it 'lists all payment methods that have been stored in vault for the member' do
-      get '/api/stateless/braintree/payment_methods', nil, auth_headers
+      get '/api/stateless/braintree/payment_methods', headers: auth_headers
 
       expect(response.status).to eq(200)
       expect(json_hash.first.keys).to include('token', 'last_4', 'bin', 'email', 'expiration_date')
@@ -38,7 +38,7 @@ describe 'API::Stateless Braintree PaymentMethods' do
     end
 
     it 'does not list inactive methods or payment methods that have not been stored in vault' do
-      get '/api/stateless/braintree/payment_methods', nil, auth_headers
+      get '/api/stateless/braintree/payment_methods', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.to_s).to_not include(method_b.token)
       expect(json_hash.to_s).to_not include(method_c.token)
@@ -50,7 +50,7 @@ describe 'API::Stateless Braintree PaymentMethods' do
     before do
       allow(::Braintree::PaymentMethod).to receive(:delete) { success_object }
       VCR.use_cassette('stateless api cancel braintree payment method') do
-        delete "/api/stateless/braintree/payment_methods/#{method_a.id}", nil, auth_headers
+        delete "/api/stateless/braintree/payment_methods/#{method_a.id}", headers: auth_headers
       end
     end
 

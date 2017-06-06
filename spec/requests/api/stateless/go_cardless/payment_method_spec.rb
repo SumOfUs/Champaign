@@ -34,7 +34,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
     end
 
     it 'returns list of active payment methods for member' do
-      get '/api/stateless/go_cardless/payment_methods', nil, auth_headers
+      get '/api/stateless/go_cardless/payment_methods', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.first.deep_symbolize_keys!).to include(id: 1432,
                                                               go_cardless_id: '9898',
@@ -44,7 +44,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
     end
 
     it 'does not return payment methods that have been cancelled' do
-      get '/api/stateless/go_cardless/payment_methods', nil, auth_headers
+      get '/api/stateless/go_cardless/payment_methods', headers: auth_headers
       expect(json_hash.to_s).to_not include(cancelled_method.go_cardless_id)
     end
   end
@@ -99,7 +99,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
     it 'cancels the mandate on GoCardless and sets the cancelled_at field in the local record' do
       Timecop.freeze do
         VCR.use_cassette('stateless api cancel go_cardless mandate') do
-          delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", nil, auth_headers
+          delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", headers: auth_headers
           expect(response.success?).to eq true
           expect(Payment::GoCardless::PaymentMethod.find(delete_me.id).cancelled_at)
             .to be_within(1.second).of Time.now
@@ -110,7 +110,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
     it 'marks active subcriptions with that method cancelled, but does not update cancelled subscriptions' do
       Timecop.freeze do
         VCR.use_cassette('stateless api cancel go_cardless mandate') do
-          delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", nil, auth_headers
+          delete "/api/stateless/go_cardless/payment_methods/#{delete_me.id}", headers: auth_headers
           expect(subscription_a.reload.cancelled_at).to be_within(0.1.second).of(Time.now)
           expect(subscription_b.reload.cancelled_at).to be_within(0.1.second).of(last_month)
           expect(subscription_c.reload.cancelled_at).to eq(nil)
@@ -122,7 +122,7 @@ describe 'API::Stateless GoCardless PaymentMethods' do
       VCR.use_cassette('stateless api cancel go_cardless payment method failure') do
         expect(Rails.logger).to receive(:error).with('GoCardlessPro::InvalidApiUsageError occurred when cancelling'\
         ' mandate nosuchthingongocardless: Resource not found')
-        delete "/api/stateless/go_cardless/payment_methods/#{i_dont_exist.id}", nil, auth_headers
+        delete "/api/stateless/go_cardless/payment_methods/#{i_dont_exist.id}", headers: auth_headers
         expect(response.success?).to eq false
         expect(json_hash['errors']).to eq([{ 'reason' => 'resource_not_found', 'message' => 'Resource not found' }])
         expect(Payment::GoCardless::PaymentMethod.find(i_dont_exist.id).cancelled_at).to be nil

@@ -59,7 +59,7 @@ describe 'API::Stateless Braintree Subscriptions' do
 
   describe 'GET index' do
     it 'returns subscriptions with its nested transactions and payment method for member' do
-      get '/api/stateless/braintree/subscriptions', nil, auth_headers
+      get '/api/stateless/braintree/subscriptions', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash).to be_an Array
       subscription = json_hash.first.deep_symbolize_keys!
@@ -85,7 +85,7 @@ describe 'API::Stateless Braintree Subscriptions' do
     end
 
     it 'does not list subscriptions that have been cancelled' do
-      get '/api/stateless/braintree/subscriptions', nil, auth_headers
+      get '/api/stateless/braintree/subscriptions', headers: auth_headers
       expect(response.status).to eq(200)
       expect(json_hash.to_s).to_not include(cancelled_subscription.id.to_s)
     end
@@ -103,7 +103,7 @@ describe 'API::Stateless Braintree Subscriptions' do
     it 'marks the local subscription cancelled and deletes it on Braintree' do
       VCR.use_cassette('stateless api cancel subscription') do
         Timecop.freeze do
-          delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
+          delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", headers: auth_headers
           expect(response.status).to eq(200)
           expect(::Payment::Braintree::Subscription.find(cancel_this_subscription.id).cancelled_at)
             .to be_within(0.1.second).of(Time.now)
@@ -114,7 +114,7 @@ describe 'API::Stateless Braintree Subscriptions' do
     it 'returns success and marks the local subscription cancelled even if does not exist on Braintree' do
       VCR.use_cassette('stateless api cancel subscription failure') do
         Timecop.freeze do
-          delete "/api/stateless/braintree/subscriptions/#{no_such_subscription.id}", nil, auth_headers
+          delete "/api/stateless/braintree/subscriptions/#{no_such_subscription.id}", headers: auth_headers
           expect(response.status).to eq(200)
           expect(::Payment::Braintree::Subscription.find(no_such_subscription.id).cancelled_at)
             .to be_within(0.1.second).of(Time.now)
@@ -130,7 +130,7 @@ describe 'API::Stateless Braintree Subscriptions' do
                                                         canceled_by: 'user'
                                                       })
 
-        delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", nil, auth_headers
+        delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", headers: auth_headers
       end
     end
   end
