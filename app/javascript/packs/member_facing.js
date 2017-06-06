@@ -4,10 +4,6 @@ import '../member-facing/registration';
 
 window.URI = require('urijs');
 
-if (window.ChampaignSettings && window.ChampaignSettings.external_js_path) {
-  require(window.ChampaignSettings.external_js_path);
-}
-
 let initializeApp = () => {
   window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
   window.champaign = window.champaign || window.sumofus || {};
