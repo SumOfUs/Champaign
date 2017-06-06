@@ -1,5 +1,5 @@
 module.exports = {
-  test: /\.(js|jsx)?(\.erb)?$/,
+  test: /\.(jsx?)(\.erb)?$/,
   exclude: /node_modules/,
-  loader: 'babel-loader'
-}
+  loader: 'babel-loader',
+};

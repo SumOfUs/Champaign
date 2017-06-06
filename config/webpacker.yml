@@ -20,7 +20,6 @@ default: &default
     - .gif
     - .jpeg
     - .jpg
-    - .yml
 
 development:
   <<: *default
