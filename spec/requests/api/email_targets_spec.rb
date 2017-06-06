@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-describe 'Emailing Targets' do
+describe 'Emailing Targets', type: :request do
   let(:aws_client) { double(:aws_client, put_item: true) }
   let(:akid) { '25429.9032842.RNP4O4' }
 
@@ -32,7 +32,7 @@ describe 'Emailing Targets' do
     end
 
     before do
-      post '/api/email_targets', params
+      post '/api/email_targets', params: params
     end
 
     it 'saves email to dynamodb' do

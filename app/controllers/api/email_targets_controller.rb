@@ -18,7 +18,7 @@ class Api::EmailTargetsController < ApplicationController
 
   def email_options
     params
-      .to_hash
+      .to_unsafe_hash
       .symbolize_keys
       .slice(:body, :subject, :page, :country, :target_name,
              :to_name, :to_email, :from_email,
