@@ -1,3 +1,4 @@
+//= require jquery
 //= require underscore
 //= require backbone
 //= require sticky
@@ -8,8 +9,8 @@
 window.ChampaignSettings = {};
 
 <% if Settings.external_js_path.present? %>
-  require("<%= Settings.external_js_path %>");
-<% end %>>
+window.ChampaignSettings.external_js_path = '<%= Settings.external_js_path %>';
+<% end %>
 
 <% if Rails.env.production? %>
   Object.assign(window.ChampaignSettings, {

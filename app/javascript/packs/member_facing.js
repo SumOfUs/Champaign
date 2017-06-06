@@ -2,8 +2,13 @@ import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 
+window.URI = require('urijs');
+
+if (window.ChampaignSettings && window.ChampaignSettings.external_js_path) {
+  require(window.ChampaignSettings.external_js_path);
+}
+
 let initializeApp = () => {
-  window.URI = require('urijs');
   window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
   window.champaign = window.champaign || window.sumofus || {};
   window.champaign.Petition = require('../member-facing/backbone/petition');
@@ -24,6 +29,7 @@ if (window.ChampaignSettings && window.ChampaignSettings.airbrake) {
   const airbrake = new airbrakeJs(window.ChampaignSettings.airbrake);
   initializeApp = airbrake.wrap(initializeApp);
 }
+
 require('../member-facing/track_shares');
 
 initializeApp();
