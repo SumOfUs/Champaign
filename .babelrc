@@ -10,11 +10,12 @@
         },
         "useBuiltIns": true
       }
-    ]
+    ],
+    "react"
   ],
   "plugins": [
     "syntax-dynamic-import",
-    "transform-flow-strip-types",
+    "transform-object-rest-spread",
     [
       "transform-class-properties",
       {
