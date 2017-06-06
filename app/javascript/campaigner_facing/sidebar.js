@@ -1,4 +1,4 @@
-const setupOnce = require('campaigner_facing/setup_once');
+import setupOnce from './setup_once';
 
 (function() {
   let Sidebar = Backbone.View.extend({

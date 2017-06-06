@@ -1,11 +1,10 @@
-let setupOnce = require('campaigner_facing/setup_once');
+import setupOnce from './setup_once';
+
 const GlobalEvents = require('shared/global_events');
 const Clipboard = require('clipboard');
 
-(function(){
-
+(function() {
   let SharesEditor = Backbone.View.extend({
-
     events: {
       'ajax:success form.shares-editor__delete-variant': 'deleteVariant',
       'click .shares-editor__toggle-edit': 'toggleEditor',
@@ -15,14 +14,14 @@ const Clipboard = require('clipboard');
     },
 
     globalEvents: {
-      'page:saved':      'updateSummaryRows',
-      'page:errors':     'openEditorForErrors',
-      'image:success':   'addImageSelectors',
+      'page:saved': 'updateSummaryRows',
+      'page:errors': 'openEditorForErrors',
+      'image:success': 'addImageSelectors',
       'image:destroyed': 'pruneImageSelectors',
     },
 
-    initialize: function(){
-      this.view = "summary";
+    initialize: function() {
+      this.view = 'summary';
       GlobalEvents.bindEvents(this);
     },
 
@@ -48,29 +47,33 @@ const Clipboard = require('clipboard');
       $target = $target.is('tr') ? $target : $target.parents('tr');
       let $btn = $target.find('.shares-editor__toggle-edit');
       this.editRow($target).toggleClass('hidden-closed');
-      $btn.text( $btn.text() == "Edit" ? "Done" : "Edit" );
+      $btn.text($btn.text() == 'Edit' ? 'Done' : 'Edit');
     },
 
-    openEditor: function($edit_row){
+    openEditor: function($edit_row) {
       let $prev = $edit_row.prev('.shares-editor__summary-row');
       let $btn = $prev.find('.shares-editor__toggle-edit');
-      $btn.text( "Done" );
+      $btn.text('Done');
       $edit_row.removeClass('hidden-closed');
     },
 
-    switchVariantForm: function(e){
-      let $target = this.$(e.target)
+    switchVariantForm: function(e) {
+      let $target = this.$(e.target);
       const desired = $target.data('state');
       if (desired) {
-        this.$('.shares-editor__new-type-toggle .btn').removeClass('btn-primary');
+        this.$('.shares-editor__new-type-toggle .btn').removeClass(
+          'btn-primary'
+        );
         $target.addClass('btn-primary');
         this.$('.shares-editor__new-form').addClass('hidden-closed');
-        this.$(`.shares-editor__new-form[data-share="${desired}"]`).removeClass('hidden-closed');
+        this.$(`.shares-editor__new-form[data-share="${desired}"]`).removeClass(
+          'hidden-closed'
+        );
       }
     },
 
     switchView: function(e) {
-      let $target = this.$(e.target)
+      let $target = this.$(e.target);
       const desired = $target.data('state');
       if (desired) {
         this.setView(desired);
@@ -92,8 +95,8 @@ const Clipboard = require('clipboard');
       }
     },
 
-    clearFormAndConformView: function(e){
-      $(e.target).find('input[type="text"], textarea').val('')
+    clearFormAndConformView: function(e) {
+      $(e.target).find('input[type="text"], textarea').val('');
       this.setView(this.view); // make new rows conform
     },
 
@@ -104,8 +107,8 @@ const Clipboard = require('clipboard');
     updateSummaryRows: function(e, data) {
       // this only updates existing shares. new ones are appended by
       // code in view/share/shares/create.js.erb, using rails UJS
-      $.get(`/api/pages/${data.id}/share-rows`, (rows) => {
-        _.each(rows, (row) => {
+      $.get(`/api/pages/${data.id}/share-rows`, rows => {
+        _.each(rows, row => {
           let $row = $(row.html);
           let $original = $(`#${$row.prop('id')}`);
           if ($original.hasClass('hidden-closed')) {
@@ -116,7 +119,7 @@ const Clipboard = require('clipboard');
           if (!this.editRow($row).hasClass('hidden-closed')) {
             $row.find('.shares-editor__toggle-edit').text('Done');
           }
-        })
+        });
       });
     },
 
@@ -130,17 +133,15 @@ const Clipboard = require('clipboard');
     },
   });
 
-  $.subscribe("shares:edit", function(){
+  $.subscribe('shares:edit', function() {
     setupOnce('.shares-editor', SharesEditor);
   });
-}());
+})();
 
-
-
-$(function(){
+$(function() {
   new Clipboard('.share-copy-url');
 
-  $('.shares-editor__existing').on('click', '.share-copy-url', (e) => {
+  $('.shares-editor__existing').on('click', '.share-copy-url', e => {
     e.preventDefault();
   });
 });

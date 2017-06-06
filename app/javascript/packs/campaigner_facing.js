@@ -3,16 +3,6 @@
 // A lot of this might be unnecessary (and it will do well
 // to reduce bundle size)
 
-// NPM modules
-import 'd3';
-import 'odometer';
-import 'moment';
-import 'selectize';
-import 'dropzone';
-import 'speakingurl';
-import 'summernote';
-
-// App code
 // TODO: Refactor this to *not* get imported into the global scope
 import '../shared/pub_sub';
 import '../shared/show_errors';

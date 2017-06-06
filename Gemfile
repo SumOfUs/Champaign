@@ -122,9 +122,6 @@ source 'https://rails-assets.org' do
   # braintree js
   gem 'rails-assets-braintree-web'
 
-  # for js testing
-  gem 'rails-assets-chai-jquery'
-
   # A JavaScript visualization library for HTML and SVG.
   gem 'rails-assets-d3'
 

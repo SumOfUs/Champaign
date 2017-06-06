@@ -1,23 +1,27 @@
-const setupOnce = require('campaigner_facing/setup_once');
+import setupOnce from './setup_once';
 
-(function(){
-
+(function() {
   let LayoutPicker = Backbone.View.extend({
-
     events: {
       'click .radio-group__option': 'updateSelected',
-      'change .layout-type-checkbox': 'showRelevantLayouts'
+      'change .layout-type-checkbox': 'showRelevantLayouts',
     },
 
     updateSelected(e) {
       let $target = $(e.target);
       if (!$target.hasClass('radio-group__option')) {
         // for bubbling
-        $target = $target.parents('.radio-group__option')
+        $target = $target.parents('.radio-group__option');
       }
       const name = $target.find('.layout-settings__title').text();
-      $target.parents('.layout-settings').find('.layout-settings__current').text(name);
-      $target.parents('.layout-settings').find('.radio-group__option').removeClass('active');
+      $target
+        .parents('.layout-settings')
+        .find('.layout-settings__current')
+        .text(name);
+      $target
+        .parents('.layout-settings')
+        .find('.radio-group__option')
+        .removeClass('active');
       $target.addClass('active');
       this.updatePlan($target);
     },
@@ -31,7 +35,9 @@ const setupOnce = require('campaigner_facing/setup_once');
 
     showRelevantLayouts(e) {
       const $target = $(e.target);
-      let $allRows = $target.closest('.form-group').find('.radio-group__option');
+      let $allRows = $target
+        .closest('.form-group')
+        .find('.radio-group__option');
       if ($target.is(':checked')) {
         $allRows.removeClass('hidden');
       } else {
@@ -47,10 +53,9 @@ const setupOnce = require('campaigner_facing/setup_once');
         return '.post-action-layout';
       }
     },
-
   });
 
-  $.subscribe("layout:edit pages:new", function(){
+  $.subscribe('layout:edit pages:new', function() {
     setupOnce('.layout-settings', LayoutPicker);
   });
-}());
+})();
