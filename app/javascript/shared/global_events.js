@@ -1,13 +1,14 @@
 // allow backbone views to use a hash to declaratively
-// bind their methods to events called through 
+// bind their methods to events called through
 // $.publish or Backbone.trigger
+import isObject from 'lodash/isObject';
 
-const GlobalEvents = {
+export default {
   bindEvents(view) {
     const events = view.globalEvents;
-    if (!events || !_.isObject(events)) return;
+    if (!events || !isObject(events)) return;
     for (var eventName in events) {
-      const methodName = events[eventName]
+      const methodName = events[eventName];
       const method = view[methodName];
       if (method) {
         Backbone.on(eventName, method, view);
@@ -16,5 +17,3 @@ const GlobalEvents = {
     }
   },
 };
-
-module.exports = GlobalEvents;

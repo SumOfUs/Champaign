@@ -1,6 +1,6 @@
 import setupOnce from './setup_once';
 
-(function() {
+$(function() {
   let LayoutPicker = Backbone.View.extend({
     events: {
       'click .radio-group__option': 'updateSelected',
@@ -58,4 +58,4 @@ import setupOnce from './setup_once';
   $.subscribe('layout:edit pages:new', function() {
     setupOnce('.layout-settings', LayoutPicker);
   });
-})();
+});

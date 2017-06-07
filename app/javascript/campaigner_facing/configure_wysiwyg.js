@@ -1,9 +1,9 @@
-(function(){
+$(function() {
   TALL_EDITORS = ['page_body'];
 
-  var configureWysiwyg = function(e, id) {
-    var $editor = $('#'+id);
-    if($editor.length === 0){
+  function configureWysiwyg(e, id) {
+    var $editor = $('#' + id);
+    if ($editor.length === 0) {
       return false;
     }
 
@@ -14,19 +14,19 @@
         ['para', ['ul', 'ol', 'paragraph']],
         ['color', ['color']],
         ['insert', ['link', 'picture', 'video']],
-        ['view', ['fullscreen', 'codeview', 'help']]
+        ['view', ['fullscreen', 'codeview', 'help']],
       ],
       height: TALL_EDITORS.indexOf(id) > -1 ? 280 : 120,
       fontSizes: ['8', '10', '11', '12', '14', '16', '20', '24', '36', '72'],
       codemirror: {
         theme: 'default',
-        mode: "text/html",
+        mode: 'text/html',
         lineNumbers: true,
         tabMode: 'indent',
-        lineWrapping: true
-      }
+        lineWrapping: true,
+      },
     });
-    var $contentField = $('#'+id+'_content');
+    var $contentField = $('#' + id + '_content');
 
     $editor.summernote('fontSize', '16'); // default
     $editor.summernote('code', $contentField.val());
@@ -36,7 +36,7 @@
     // and to the containing element. This adds a class to the containing element
     // that our CSS is looking for.
     var encapsulateIframes = function(html) {
-      if( html.indexOf('iframe') === -1 ) {
+      if (html.indexOf('iframe') === -1) {
         return html; // don't do anything if there's no iframe
       }
       var $html = $(html);
@@ -44,15 +44,15 @@
       $html.find('iframe').parent().addClass('iframe-responsive-container');
       // this little goof is just cause jquery doesn't have $el.outerHtml();
       return $('<div></div>').append($html).html();
-    }
+    };
 
-    var updateContentBeforeSave = function(){
+    var updateContentBeforeSave = function() {
       var content = encapsulateIframes($editor.summernote('code'));
       $contentField.val(content);
     };
 
-    $.subscribe("wysiwyg:submit", updateContentBeforeSave);
+    $.subscribe('wysiwyg:submit', updateContentBeforeSave);
   }
 
-  $.subscribe("wysiwyg:setup", configureWysiwyg);
-}());
+  $.subscribe('wysiwyg:setup', configureWysiwyg);
+});

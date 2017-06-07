@@ -1,6 +1,6 @@
 import setupOnce from './setup_once';
 
-(function() {
+$(function() {
   let ActivationToggle = Backbone.View.extend({
     events: {
       'ajax:before': 'toggleState',
@@ -57,4 +57,4 @@ import setupOnce from './setup_once';
   $.subscribe('activation:toggle', function() {
     setupOnce('form.activation-toggle', ActivationToggle);
   });
-})();
+});

@@ -1,4 +1,4 @@
-let ErrorDisplay = require('../shared/show_errors');
+import ErrorDisplay from '../shared/show_errors';
 
 $(function() {
   var handleStart = function(e, i) {

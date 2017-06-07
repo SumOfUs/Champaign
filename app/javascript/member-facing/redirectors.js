@@ -2,11 +2,11 @@ import uri from 'urijs';
 
 const RegisterMemberRedirector = {
   attemptRedirect(followUpUrl, member) {
-    if(typeof(member) !== 'object') {
+    if (typeof member !== 'object') {
       member = window.champaign.personalization.member;
     }
 
-    if ( shouldMemberRegister() ) {
+    if (shouldMemberRegister()) {
       redirectToRegistration();
       return true;
     } else {
@@ -18,34 +18,38 @@ const RegisterMemberRedirector = {
     }
 
     function redirectToRegistration() {
-      redirectTo(
-        registrationUrl(followUpUrl, member.email)
-      );
+      redirectTo(registrationUrl(followUpUrl, member.email));
     }
 
     function registrationUrl(url, email) {
       return uri('/member_authentication/new')
-        .query({follow_up_url: url, email: email})
+        .query({ follow_up_url: url, email: email })
         .toString();
     }
-  }
+  },
 };
 
 const AfterDonationRedirector = {
   attemptRedirect(followUpUrl, donationFormData) {
-    if(!(donationFormData.storeInVault && RegisterMemberRedirector.attemptRedirect(followUpUrl, donationFormData.member))) {
+    if (
+      !(donationFormData.storeInVault &&
+        RegisterMemberRedirector.attemptRedirect(
+          followUpUrl,
+          donationFormData.member
+        ))
+    ) {
       redirectTo(followUpUrl);
     }
 
     return true;
-  }
+  },
 };
 
 function redirectTo(url) {
   window.location.href = url;
 }
 
-module.exports = {
-  RegisterMemberRedirector: RegisterMemberRedirector,
-  AfterDonationRedirector:  AfterDonationRedirector
+export default {
+  RegisterMemberRedirector,
+  AfterDonationRedirector,
 };

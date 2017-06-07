@@ -2,6 +2,7 @@
 // For it to work properly, you need to pass data from the controller like:
 //   format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
 // The name field is for if the form element names are prefixed, eg 'link[title]'
+
 export default {
   show(e, data) {
     if (!e || !data || !data.responseText || data.status != 422) {

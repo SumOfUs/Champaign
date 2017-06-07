@@ -1,9 +1,8 @@
 import setupOnce from './setup_once';
+import GlobalEvents from '../shared/global_events';
+import Clipboard from 'clipboard';
 
-const GlobalEvents = require('shared/global_events');
-const Clipboard = require('clipboard');
-
-(function() {
+$(function() {
   let SharesEditor = Backbone.View.extend({
     events: {
       'ajax:success form.shares-editor__delete-variant': 'deleteVariant',
@@ -136,7 +135,7 @@ const Clipboard = require('clipboard');
   $.subscribe('shares:edit', function() {
     setupOnce('.shares-editor', SharesEditor);
   });
-})();
+});
 
 $(function() {
   new Clipboard('.share-copy-url');

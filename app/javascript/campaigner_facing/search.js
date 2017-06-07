@@ -1,4 +1,4 @@
-(function() {
+$(function() {
   var searchConfig = function() {
     $('.page-filter__reset').click(function() {
       $('select.selectize-container').map(function(index, item) {
@@ -16,4 +16,4 @@
   };
 
   $.subscribe('search:load', searchConfig);
-})();
+});

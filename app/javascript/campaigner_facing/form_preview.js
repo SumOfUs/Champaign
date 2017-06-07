@@ -1,6 +1,5 @@
-$(function(){
-
-  var fixPreviewElement = function(){
+$(function() {
+  var fixPreviewElement = function() {
     /*
      *
      * NOTE
@@ -10,34 +9,38 @@ $(function(){
      *
      */
 
-    var $preview =  $('.plugin-form-preview');
+    var $preview = $('.plugin-form-preview');
 
     var originalPosition = $preview.offset(),
-        originalTop = originalPosition.top;
+      originalTop = originalPosition.top;
 
-    var handleSroll = function(){
-      var css = {position: 'fixed', top: "0px" };
-      if($(window).scrollTop() >= originalTop){
+    var handleSroll = function() {
+      var css = { position: 'fixed', top: '0px' };
+      if ($(window).scrollTop() >= originalTop) {
         $preview.css(css);
       } else {
-        $preview.css({position: 'static'});
+        $preview.css({ position: 'static' });
       }
     };
 
     $(window).scroll(handleSroll);
   };
 
-  var updatePreview = function(){
+  var updatePreview = function() {
     var updater = function(plugin_type) {
-      return function(ii, el){
+      return function(ii, el) {
         var $el = $(el);
-          plugin_id = $el.data('plugin-id'),
-          url = ["/plugins/forms/", plugin_type, "/", plugin_id].join('');
+        (plugin_id = $el.data('plugin-id')), (url = [
+          '/plugins/forms/',
+          plugin_type,
+          '/',
+          plugin_id,
+        ].join(''));
 
         $.get(url, function(resp) {
           $el.find('.plugin-form-preview .content').html(resp);
         });
-      }
+      };
     };
     $('.plugin.petition').each(updater('petition'));
     $('.plugin.fundraiser').each(updater('fundraiser'));
@@ -49,23 +52,26 @@ $(function(){
     $.subscribe('page:saved', updatePreview);
   }
 
-  $('.plugin.petition, .plugin.fundraiser, .plugin.survey').on( 'ajax:success', function(){
+  $(
+    '.plugin.petition, .plugin.fundraiser, .plugin.survey'
+  ).on('ajax:success', function() {
     $.publish('plugin:form:preview:update');
   });
 
-  $('.plugin.petition, .plugin.fundraiser, .plugin.survey').on('ajax:error', function(e, xhr,resp){
+  $(
+    '.plugin.petition, .plugin.fundraiser, .plugin.survey'
+  ).on('ajax:error', function(e, xhr, resp) {
     //for debugging
     console.log(xhr, resp);
   });
 });
 
-(function(){
+$(function() {
   var bindCaretToggle = function() {
-    $('[data-toggle="collapse"]').on('click', function(e){
-      $(this).toggleClass('open')
-    })
+    $('[data-toggle="collapse"]').on('click', function(e) {
+      $(this).toggleClass('open');
+    });
   };
 
   $.subscribe('plugin:form:loaded', bindCaretToggle);
-}());
-
+});

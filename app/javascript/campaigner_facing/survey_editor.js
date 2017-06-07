@@ -1,4 +1,4 @@
-const GlobalEvents = require('../shared/global_events');
+import GlobalEvents from '../shared/global_events';
 
 const SurveyEditor = Backbone.View.extend({
   el: '.survey',
@@ -43,4 +43,4 @@ const SurveyEditor = Backbone.View.extend({
   },
 });
 
-module.exports = SurveyEditor;
+export default SurveyEditor;

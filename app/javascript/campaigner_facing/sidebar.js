@@ -1,6 +1,6 @@
 import setupOnce from './setup_once';
 
-(function() {
+$(function() {
   let Sidebar = Backbone.View.extend({
     events: {
       'click .sidebar__header-link': 'toggleGroup',
@@ -15,4 +15,4 @@ import setupOnce from './setup_once';
   $.subscribe('sidebar:nesting', function() {
     setupOnce('.sidebar', Sidebar);
   });
-})();
+});
