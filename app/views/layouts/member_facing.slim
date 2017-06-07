@@ -8,6 +8,8 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
     = stylesheet_link_tag 'member-facing'
     = stylesheet_pack_tag 'vendor'
+    = stylesheet_pack_tag 'fundraiser_plugin'
+
     = csrf_meta_tags
     = favicon_link_tag 'images/favicon.ico'
     = metamagic
@@ -19,18 +21,22 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag 'member-facing'
 
     = render partial: 'layouts/notification'
-    = yield
 
     .mobile-indicator
+
+    = yield
+
+    = javascript_include_tag "https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.de,Intl.~locale.es,Intl.~locale.fr"
+    = javascript_pack_tag 'manifest'
+    = javascript_pack_tag 'vendor'
+
+    = javascript_pack_tag 'member_facing'
+    = javascript_pack_tag 'fundraiser_plugin'
 
     = render partial: 'shared/js_locale'
     = render partial: 'shared/page_object'
     = render partial: 'shared/facebook_pixel' unless Rails.env.test?
 
-    = javascript_include_tag "https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.de,Intl.~locale.es,Intl.~locale.fr"
-    = javascript_pack_tag 'manifest'
-    = javascript_pack_tag 'vendor'
-    = javascript_pack_tag 'member_facing'
 
     = render partial: 'shared/google_analytics_snippet'
 
