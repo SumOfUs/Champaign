@@ -20,4 +20,9 @@
 //= require moment
 //= require selectize
 //= require speakingurl
+//= require codemirror
+//= require codemirror/modes/htmlmixed
+//= require codemirror/modes/javascript
+//= require codemirror/modes/xml
+//= require codemirror/modes/css
 //= require summernote

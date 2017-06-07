@@ -1,4 +1,4 @@
-const GlobalEvents = require('../shared/global_events');
+import GlobalEvents from '../shared/global_events';
 
 const FormElementCreator = Backbone.View.extend({
   GENERIC_NAME: 'instruction', // since instruction fields are the only type with no need for a name
@@ -148,4 +148,4 @@ const FormElementCreator = Backbone.View.extend({
   },
 });
 
-module.exports = FormElementCreator;
+export default FormElementCreator;

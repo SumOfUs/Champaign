@@ -599,6 +599,7 @@ DEPENDENCIES
   i18n-js
   jbuilder
   jquery-rails
+  jquery-ui-rails
   jwt
   kaminari
   liquid

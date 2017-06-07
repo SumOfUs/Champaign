@@ -1,7 +1,7 @@
 'use strict';
 import Backbone from 'backbone';
 
-const page = () => {
+$(function() {
   var slugChecker = Backbone.Model.extend({
     url: '/action_kit/check_slug',
 
@@ -131,6 +131,4 @@ const page = () => {
   };
 
   $.subscribe('pages:new', initialize);
-};
-
-page();
+});

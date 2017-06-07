@@ -146,7 +146,6 @@ class CallToolView extends Component {
         this.props.targets,
         t => t.countryCode === code
       );
-      console.log('candidates: ', candidates);
       return candidates;
     }
     return this.props.targets;
@@ -182,7 +181,6 @@ class CallToolView extends Component {
   }
 
   selectTarget = (id: string) => {
-    console.log('selectTarget:', id);
     const target = find(this.props.targets, { id });
     this.setState(prevState => ({
       ...prevState,

@@ -88,7 +88,6 @@ class PagesController < ApplicationController
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
     if !unsafe_params[:member_id].present? && recognized_member.try(:id).present?
-      puts "GOING TO REDIRECT"
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
     @rendered = renderer.render_follow_up

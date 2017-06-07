@@ -1,6 +1,6 @@
 import setupOnce from './setup_once';
 
-(function() {
+$(function() {
   let ActionsEditor = Backbone.View.extend({
     events: {
       'click .action-publisher .btn': 'handleClick',
@@ -38,4 +38,4 @@ import setupOnce from './setup_once';
   $.subscribe('actions:edit', function() {
     setupOnce('.actions-editor', ActionsEditor);
   });
-})();
+});

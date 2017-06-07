@@ -15,12 +15,23 @@ import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
 import { resetMember } from '../../state/member/actions';
-import { changeStep, setRecurring, setStoreInVault, setPaymentType } from '../../state/fundraiser/actions';
+import {
+  changeStep,
+  setRecurring,
+  setStoreInVault,
+  setPaymentType,
+} from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
 import type { Dispatch } from 'redux';
 import type { BraintreeClient } from 'braintree-web';
-import type { AppState, Member, Fundraiser, Page, PaymentMethod } from '../../state';
+import type {
+  AppState,
+  Member,
+  Fundraiser,
+  Page,
+  PaymentMethod,
+} from '../../state';
 
 // Styles
 import './Payment.css';
@@ -28,34 +39,34 @@ import './Payment.css';
 const DEFAULT_PAYMENT_TYPE = 'card';
 
 type OwnProps = {
-  member: Member;
-  fundraiser: Fundraiser;
+  member: Member,
+  fundraiser: Fundraiser,
   paymentMethods: PaymentMethod[],
   page: Page,
-  hideRecurring: boolean;
-  disableFormReveal: boolean;
-  formData: { member: any; storeInVault: boolean; };
-  resetMember: () => void;
-  changeStep: (step: number) => void;
-  setRecurring: (value: boolean) => void;
-  setStoreInVault: (value: boolean) => void;
-  setPaymentType: (value: ?string) => void;
-  setSubmitting: (value: boolean) => void;
+  hideRecurring: boolean,
+  disableFormReveal: boolean,
+  formData: { member: any, storeInVault: boolean },
+  resetMember: () => void,
+  changeStep: (step: number) => void,
+  setRecurring: (value: boolean) => void,
+  setStoreInVault: (value: boolean) => void,
+  setPaymentType: (value: ?string) => void,
+  setSubmitting: (value: boolean) => void,
 };
 
 type OwnState = {
-  client: BraintreeClient;
-  deviceData: Object;
-  loading: boolean;
-  submitting: boolean;
-  expressHidden: boolean;
+  client: BraintreeClient,
+  deviceData: Object,
+  loading: boolean,
+  submitting: boolean,
+  expressHidden: boolean,
   initializing: {
-    gocardless: boolean;
-    paypal: boolean;
-    card: boolean;
-  };
-  errors: any[];
-  waitingForGoCardless: boolean;
+    gocardless: boolean,
+    paypal: boolean,
+    card: boolean,
+  },
+  errors: any[],
+  waitingForGoCardless: boolean,
 };
 export class Payment extends Component {
   props: OwnProps;
@@ -82,31 +93,36 @@ export class Payment extends Component {
 
     const cpt = this.props.fundraiser.currentPaymentType;
     if (typeof cpt !== 'string' || cpt.length === 0) {
-      this.props.setPaymentType(DEFAULT_PAYMENT_TYPE); }
+      this.props.setPaymentType(DEFAULT_PAYMENT_TYPE);
+    }
   }
 
   componentDidMount() {
     // TODO: move to a service layer that returns a Promise
-    $.get('/api/payment/braintree/token')
-      .then(data => {
-        braintreeClient.create({ authorization: data.token }, (error, client) => {
-          // todo: handle err?
-          dataCollector.create({
+    $.get('/api/payment/braintree/token').then(data => {
+      braintreeClient.create({ authorization: data.token }, (error, client) => {
+        // todo: handle err?
+        dataCollector.create(
+          {
             client,
             kount: true,
             paypal: true,
-          }, (err, collectorInst) => {
-            if (err) { return this.setState({ client, loading: false }); }
+          },
+          (err, collectorInst) => {
+            if (err) {
+              return this.setState({ client, loading: false });
+            }
 
             const deviceData = collectorInst.deviceData;
             this.setState({
               client,
               deviceData: JSON.parse(deviceData),
-              loading: false
+              loading: false,
             });
-          });
-        });
+          }
+        );
       });
+    });
   }
 
   componentDidUpdate() {
@@ -122,7 +138,9 @@ export class Payment extends Component {
   }
 
   paymentInitialized(name: string) {
-    this.setState({ initializing: { ...this.state.initializing, [name]: false } });
+    this.setState({
+      initializing: { ...this.state.initializing, [name]: false },
+    });
   }
 
   loading(paymentType: ?string) {
@@ -135,9 +153,11 @@ export class Payment extends Component {
   }
 
   disableSubmit() {
-    return this.loading(this.props.fundraiser.currentPaymentType)
-      || !this.props.fundraiser.currentPaymentType
-      || !this.props.fundraiser.donationAmount;
+    return (
+      this.loading(this.props.fundraiser.currentPaymentType) ||
+      !this.props.fundraiser.currentPaymentType ||
+      !this.props.fundraiser.donationAmount
+    );
   }
 
   // this should actually be a selector (a fn that returns a slice of state)
@@ -160,7 +180,7 @@ export class Payment extends Component {
       store_in_vault: storeInVault,
       user: {
         ...formValues,
-        ...form
+        ...form,
       },
     };
   }
@@ -183,13 +203,12 @@ export class Payment extends Component {
       device_data: this.state.deviceData,
       provider: 'GC',
     };
-    console.log(payload);
     const url = `/api/go_cardless/pages/${this.props.page.id}/start_flow?${$.param(payload)}`;
     window.open(url);
 
     if (!this.state.waitingForGoCardless) {
       window.addEventListener('message', this.waitForGoCardless.bind(this));
-      this.setState({waitingForGoCardless: true });
+      this.setState({ waitingForGoCardless: true });
     }
   }
 
@@ -217,10 +236,9 @@ export class Payment extends Component {
     this.props.setSubmitting(true);
 
     if (delegate && delegate.submit) {
-      delegate.submit().then(
-        success => this.submit(success),
-        reason => this.onError(reason),
-      );
+      delegate
+        .submit()
+        .then(success => this.submit(success), reason => this.onError(reason));
     } else {
       this.submit();
     }
@@ -239,8 +257,10 @@ export class Payment extends Component {
       content_category: this.props.fundraiser.currentPaymentType,
     });
 
-    $.post(`/api/payment/braintree/pages/${this.props.page.id}/transaction`, payload)
-      .then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
+    $.post(
+      `/api/payment/braintree/pages/${this.props.page.id}/transaction`,
+      payload
+    ).then(this.onSuccess.bind(this), this.onBraintreeError.bind(this));
   }
 
   onSuccess(data: any) {
@@ -249,7 +269,9 @@ export class Payment extends Component {
       currency: this.props.fundraiser.currency,
       content_name: this.props.page.title,
       content_ids: [this.props.page.id],
-      content_type: this.props.fundraiser.recurring ? 'recurring' : 'not_recurring',
+      content_type: this.props.fundraiser.recurring
+        ? 'recurring'
+        : 'not_recurring',
     });
     $.publish('fundraiser:transaction_success', [data, this.props.formData]);
     this.setState({ errors: [] });
@@ -262,10 +284,14 @@ export class Payment extends Component {
 
   onBraintreeError(response: any) {
     let errors;
-    if (response.status === 422 && response.responseJSON && response.responseJSON.errors) {
-      errors = response.responseJSON.errors.map(function(error){
+    if (
+      response.status === 422 &&
+      response.responseJSON &&
+      response.responseJSON.errors
+    ) {
+      errors = response.responseJSON.errors.map(function(error) {
         if (error.declined) {
-          return <FormattedMessage id="fundraiser.card_declined"/>;
+          return <FormattedMessage id="fundraiser.card_declined" />;
         } else {
           return error.message;
         }
@@ -287,7 +313,7 @@ export class Payment extends Component {
         currentPaymentType,
         recurring,
         storeInVault,
-      }
+      },
     } = this.props;
 
     return (
@@ -295,32 +321,43 @@ export class Payment extends Component {
         <ShowIf condition={!isEmpty(this.state.errors)}>
           <div className="fundraiser-bar__errors">
             <div className="fundraiser-bar__error-intro">
-              <span className="fa fa-exclamation-triangle"></span>
-              <FormattedMessage id="fundraiser.error_intro" defaultMessage="Unable to process donation!" />
+              <span className="fa fa-exclamation-triangle" />
+              <FormattedMessage
+                id="fundraiser.error_intro"
+                defaultMessage="Unable to process donation!"
+              />
             </div>
-            {
-              this.state.errors.map((e, i) => {
-                return <div key={i} className="fundraiser-bar__error-detail">{e}</div>;
-              })
-            }
+            {this.state.errors.map((e, i) => {
+              return (
+                <div key={i} className="fundraiser-bar__error-detail">{e}</div>
+              );
+            })}
           </div>
         </ShowIf>
 
-        { !this.props.disableFormReveal &&
-          <WelcomeMember member={member} resetMember={() => this.resetMember()} />
-        }
+        {!this.props.disableFormReveal &&
+          <WelcomeMember
+            member={member}
+            resetMember={() => this.resetMember()}
+          />}
 
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
-          hidden={this.state.expressHidden || this.props.paymentMethods.length === 0}
+          hidden={
+            this.state.expressHidden || this.props.paymentMethods.length === 0
+          }
           onHide={() => this.setState({ expressHidden: true })}
         />
 
-        <ShowIf condition={this.state.expressHidden || this.props.paymentMethods.length === 0}>
+        <ShowIf
+          condition={
+            this.state.expressHidden || this.props.paymentMethods.length === 0
+          }
+        >
           <PaymentTypeSelection
             disabled={this.state.loading}
             currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
-            onChange={(p) => this.selectPaymentType(p)}
+            onChange={p => this.selectPaymentType(p)}
             showDirectDebit={this.props.fundraiser.showDirectDebit}
           />
 
@@ -339,33 +376,42 @@ export class Payment extends Component {
             onInit={() => this.paymentInitialized('card')}
           />
 
-          { currentPaymentType === 'paypal' &&
+          {currentPaymentType === 'paypal' &&
             <div className="PaymentMethod__guidance">
-              <FormattedMessage id={'fundraiser.payment_methods.ready_for_paypal'} />
-            </div>
-          }
+              <FormattedMessage
+                id={'fundraiser.payment_methods.ready_for_paypal'}
+              />
+            </div>}
 
-          { currentPaymentType === 'gocardless' &&
+          {currentPaymentType === 'gocardless' &&
             <div className="PaymentMethod__guidance">
-              <FormattedMessage id={'fundraiser.payment_methods.ready_for_gocardless'} />
-            </div>
-          }
+              <FormattedMessage
+                id={'fundraiser.payment_methods.ready_for_gocardless'}
+              />
+            </div>}
 
-          { !hideRecurring &&
+          {!hideRecurring &&
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
               defaultChecked={recurring}
-              onChange={(e) => this.props.setRecurring(e.target.checked)}>
-              <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
-            </Checkbox>
-          }
+              onChange={e => this.props.setRecurring(e.target.checked)}
+            >
+              <FormattedMessage
+                id="fundraiser.make_recurring"
+                defaultMessage="Make my donation monthly"
+              />
+            </Checkbox>}
 
           <Checkbox
             className="Payment__config"
             defaultChecked={storeInVault}
-            onChange={(e) => this.props.setStoreInVault(e.target.checked)}>
-            <FormattedMessage id="fundraiser.store_in_vault" defaultMessage="Securely store my payment information" />
+            onChange={e => this.props.setStoreInVault(e.target.checked)}
+          >
+            <FormattedMessage
+              id="fundraiser.store_in_vault"
+              defaultMessage="Securely store my payment information"
+            />
           </Checkbox>
 
           <DonateButton
@@ -375,7 +421,7 @@ export class Payment extends Component {
             recurring={recurring}
             disabled={this.disableSubmit()}
             onClick={() => this.makePayment()}
-            />
+          />
         </ShowIf>
 
         <div className="Payment__fine-print">
@@ -406,7 +452,7 @@ const mapStateToProps = (state: AppState) => ({
       ...state.fundraiser.formValues,
       ...state.fundraiser.form,
     },
-  }
+  },
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

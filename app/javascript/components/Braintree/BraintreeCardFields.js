@@ -3,26 +3,29 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
-import type { HostedFieldsInstance, HostedFieldsTokenizePayload } from 'braintree-web/hosted-fields';
+import type {
+  HostedFieldsInstance,
+  HostedFieldsTokenizePayload,
+} from 'braintree-web/hosted-fields';
 import './Braintree.scss';
 
 type OwnProps = {
-  client: ?BraintreeClient;
-  isActive: boolean;
-  recurring: boolean;
-  intl: any;
-  onInit?: () => void;
-  onSuccess?: (data: any) => void;
-  onFailure?: (data: any) => void;
+  client: ?BraintreeClient,
+  isActive: boolean,
+  recurring: boolean,
+  intl: any,
+  onInit?: () => void,
+  onSuccess?: (data: any) => void,
+  onFailure?: (data: any) => void,
 };
 
 class BraintreeCardFields extends Component {
   props: OwnProps;
 
   state: {
-    hostedFields: ?HostedFieldsInstance;
-    cardType?: string;
-    errors: { [key:string]: boolean };
+    hostedFields: ?HostedFieldsInstance,
+    cardType?: string,
+    errors: { [key: string]: boolean },
   };
 
   constructor(props: OwnProps) {
@@ -33,13 +36,13 @@ class BraintreeCardFields extends Component {
       errors: {
         number: false,
         expirationDate: false,
-        cvv: false
-      }
+        cvv: false,
+      },
     };
   }
 
   componentDidMount() {
-    if(this.props.client) {
+    if (this.props.client) {
       this.createHostedFields(this.props.client);
     }
   }
@@ -58,58 +61,73 @@ class BraintreeCardFields extends Component {
 
   createHostedFields(client: BraintreeClient) {
     const formatMessage = this.props.intl.formatMessage;
-    hostedFields.create({
-      client,
-      styles: {
-        input: {
-          color: '#333',
-          'font-size': '16px',
+    hostedFields.create(
+      {
+        client,
+        styles: {
+          input: {
+            color: '#333',
+            'font-size': '16px',
+          },
+          ':focus': { color: '#333' },
+          '.valid': { color: '#333' },
         },
-        ':focus': { color: '#333' },
-        '.valid': { color: '#333' },
+        fields: {
+          number: {
+            selector: '#braintree-card-number',
+            placeholder: formatMessage({
+              id: 'fundraiser.fields.number',
+              defaultMessage: 'Card number',
+            }),
+          },
+          cvv: {
+            selector: '#braintree-cvv',
+            placeholder: formatMessage({
+              id: 'fundraiser.fields.cvv',
+              defaultMessage: 'CVV',
+            }),
+          },
+          expirationDate: {
+            selector: '#braintree-expiration-date',
+            placeholder: formatMessage({
+              id: 'fundraiser.fields.expiration_format',
+              defaultMessage: 'MM/YY',
+            }),
+          },
+        },
       },
-      fields: {
-        number: {
-          selector: '#braintree-card-number',
-          placeholder: formatMessage({ id: 'fundraiser.fields.number', defaultMessage: 'Card number' }),
-        },
-        cvv: {
-          selector: '#braintree-cvv',
-          placeholder: formatMessage({ id: 'fundraiser.fields.cvv', defaultMessage: 'CVV' }),
-        },
-        expirationDate: {
-          selector: '#braintree-expiration-date',
-          placeholder: formatMessage({ id: 'fundraiser.fields.expiration_format', defaultMessage: 'MM/YY' }),
-        }
+      (err, hostedFieldsInstance) => {
+        this.setState({ hostedFields: hostedFieldsInstance }, () => {
+          if (this.props.onInit) {
+            this.props.onInit();
+          }
+        });
+
+        hostedFieldsInstance.on('validityChange', event => {
+          const field = event.fields[event.emittedBy];
+          const newErrors = {};
+          newErrors[event.emittedBy] = !field.isPotentiallyValid;
+          this.setState({
+            errors: Object.assign({}, this.state.errors, newErrors),
+          });
+        });
+
+        hostedFieldsInstance.on('cardTypeChange', event => {
+          if (event.cards.length === 1) {
+            this.setState({ cardType: event.cards[0].type });
+          } else {
+            this.setState({ cardType: '' });
+          }
+        });
       }
-    }, (err, hostedFieldsInstance) => {
-      this.setState({ hostedFields: hostedFieldsInstance }, () => {
-        if (this.props.onInit) {
-          this.props.onInit();
-        }
-      });
-
-      hostedFieldsInstance.on('validityChange', (event) => {
-        const field = event.fields[event.emittedBy];
-        const newErrors = {};
-        newErrors[event.emittedBy] = !field.isPotentiallyValid;
-        this.setState({ errors: Object.assign({}, this.state.errors, newErrors)});
-      });
-
-      hostedFieldsInstance.on('cardTypeChange', (event) => {
-        if (event.cards.length === 1) {
-          this.setState({ cardType: event.cards[0].type });
-        } else {
-          this.setState({ cardType: '' });
-        }
-      });
-    });
+    );
   }
 
   teardown() {
-    console.log('teardown...');
     if (!this.state.hostedFields) return null;
-    this.state.hostedFields.teardown(() => this.createHostedFields(this.props.client));
+    this.state.hostedFields.teardown(() =>
+      this.createHostedFields(this.props.client)
+    );
   }
 
   submit(event?: SyntheticEvent) {
@@ -119,31 +137,34 @@ class BraintreeCardFields extends Component {
     return new Promise((resolve, reject) => {
       if (!this.state.hostedFields) return reject();
 
-      this.state.hostedFields.tokenize({
-        vault: this.props.recurring,
-      }, (error: ?BraintreeError, data: HostedFieldsTokenizePayload) => {
-        if (error) {
-          this.processTokenizeErrors(error);
-          return reject(error);
+      this.state.hostedFields.tokenize(
+        {
+          vault: this.props.recurring,
+        },
+        (error: ?BraintreeError, data: HostedFieldsTokenizePayload) => {
+          if (error) {
+            this.processTokenizeErrors(error);
+            return reject(error);
+          }
+          this.teardown();
+          resolve(data);
         }
-        this.teardown();
-        resolve(data);
-      });
+      );
     });
   }
 
   resetErrors() {
     const newErrors = {};
-    Object.keys(this.state.errors).forEach((key) => {
+    Object.keys(this.state.errors).forEach(key => {
       newErrors[key] = false;
     });
-    this.setState({errors: newErrors});
+    this.setState({ errors: newErrors });
   }
 
   processTokenizeErrors(error) {
-    if (error.code === "HOSTED_FIELDS_FIELDS_INVALID") {
+    if (error.code === 'HOSTED_FIELDS_FIELDS_INVALID') {
       const errors = Object.assign({}, this.state.errors);
-      for(const key of error.details.invalidFieldKeys) {
+      for (const key of error.details.invalidFieldKeys) {
         errors[key] = true;
       }
       this.setState({ errors: errors });
@@ -158,7 +179,7 @@ class BraintreeCardFields extends Component {
       discover: 'fa-cc-discover',
       'master-card': 'fa-cc-mastercard',
       visa: 'fa-cc-visa',
-      'hidden-irrelevant': 'hidden-irrelevant'
+      'hidden-irrelevant': 'hidden-irrelevant',
     };
 
     return icons[cardType];
@@ -176,17 +197,40 @@ class BraintreeCardFields extends Component {
           id="braintree-hosted-fields-form"
           className="BraintreeCardFields__form"
           method="post"
-          onSubmit={this.submit.bind(this)}>
+          onSubmit={this.submit.bind(this)}
+        >
 
-          <div id="braintree-card-number" className="BraintreeCardFields__hosted-field BraintreeCardFields__card-number"> </div>
-          <span ref="card_type" className={"BraintreeCardFields__card-type fa " + this.currentCardClass(this.state.cardType)}></span>
-          { this.state.errors.number && this.renderError('number') }
-          <div className="BraintreeCardFields__row clearfix">
-            <div id="braintree-cvv" className="BraintreeCardFields__hosted-field BraintreeCardFields__cvv"></div>
-            <div id="braintree-expiration-date" className="BraintreeCardFields__hosted-field BraintreeCardFields__expiration-date"></div>
+          <div
+            id="braintree-card-number"
+            className="BraintreeCardFields__hosted-field BraintreeCardFields__card-number"
+          >
+            {' '}
           </div>
-          { this.state.errors.cvv && this.renderError('cvv', "BraintreeCardFields__error-msg--col-left") }
-          { this.state.errors.expirationDate && this.renderError('expiration', "BraintreeCardFields__error-msg--col-right") }
+          <span
+            ref="card_type"
+            className={
+              'BraintreeCardFields__card-type fa ' +
+                this.currentCardClass(this.state.cardType)
+            }
+          />
+          {this.state.errors.number && this.renderError('number')}
+          <div className="BraintreeCardFields__row clearfix">
+            <div
+              id="braintree-cvv"
+              className="BraintreeCardFields__hosted-field BraintreeCardFields__cvv"
+            />
+            <div
+              id="braintree-expiration-date"
+              className="BraintreeCardFields__hosted-field BraintreeCardFields__expiration-date"
+            />
+          </div>
+          {this.state.errors.cvv &&
+            this.renderError('cvv', 'BraintreeCardFields__error-msg--col-left')}
+          {this.state.errors.expirationDate &&
+            this.renderError(
+              'expiration',
+              'BraintreeCardFields__error-msg--col-right'
+            )}
 
         </form>
         <div className="clearfix"> </div>
@@ -194,12 +238,20 @@ class BraintreeCardFields extends Component {
     );
   }
 
-  renderError(field: string, className="") {
-    return <div className={`BraintreeCardFields__error-msg error-msg ${className}`}>
-      <FormattedMessage id={`fundraiser.field_names.${field}`} defaultMessage={`${field} (missing transl)`} />
-      &nbsp;
-      <FormattedMessage id="errors.probably_invalid" defaultMessage="doesn't look right (missing transl)" />
-    </div>;
+  renderError(field: string, className = '') {
+    return (
+      <div className={`BraintreeCardFields__error-msg error-msg ${className}`}>
+        <FormattedMessage
+          id={`fundraiser.field_names.${field}`}
+          defaultMessage={`${field} (missing transl)`}
+        />
+        &nbsp;
+        <FormattedMessage
+          id="errors.probably_invalid"
+          defaultMessage="doesn't look right (missing transl)"
+        />
+      </div>
+    );
   }
 }
 

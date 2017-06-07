@@ -9,10 +9,10 @@
 //   - Use for autocompleting for setting the field's name value
 
 import setupOnce from './setup_once';
-const ErrorDisplay = require('../shared/show_errors');
-const GlobalEvents = require('../shared/global_events');
+import ErrorDisplay from '../shared/show_errors';
+import GlobalEvents from '../shared/global_events';
 
-(function() {
+$(document).ready(function() {
   let CollectionEditor = Backbone.View.extend({
     whitelist: [
       // Permitted fields provided by ActionKit
@@ -157,4 +157,4 @@ const GlobalEvents = require('../shared/global_events');
   $.subscribe('collection:edit:loaded', function() {
     setupOnce('.collection-editor', CollectionEditor);
   });
-})();
+});

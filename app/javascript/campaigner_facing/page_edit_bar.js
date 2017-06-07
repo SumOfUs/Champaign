@@ -1,4 +1,7 @@
-let ErrorDisplay = require('../shared/show_errors');
+import ErrorDisplay from '../shared/show_errors';
+import isEqual from 'lodash/isEqual';
+import extend from 'lodash/extend';
+import each from 'lodash/each';
 
 let PageModel = Backbone.Model.extend({
   urlRoot: '/api/pages',
@@ -9,7 +12,7 @@ let PageModel = Backbone.Model.extend({
 
   // override save to only actually save if it's new data
   save: function(data, callbacks) {
-    if (_.isEqual(data, this.lastSaved)) {
+    if (isEqual(data, this.lastSaved)) {
       if (typeof callbacks.unchanged === 'function') {
         callbacks.unchanged();
       }
@@ -18,7 +21,7 @@ let PageModel = Backbone.Model.extend({
       Backbone.Model.prototype.save.call(
         this,
         data,
-        _.extend({ patch: true }, callbacks)
+        extend({ patch: true }, callbacks)
       );
     }
   },
@@ -85,7 +88,7 @@ let PageEditBar = Backbone.View.extend({
 
   serializeForm: function($form) {
     let data = {};
-    _.each($form.serializeArray(), function(pair) {
+    each($form.serializeArray(), function(pair) {
       // this is to handle form arrays cause their name ends in []
       if (pair.name.endsWith('[]')) {
         let name = pair.name.slice(0, -2);
@@ -224,7 +227,7 @@ let PageEditBar = Backbone.View.extend({
     let $lastSaved = $('.page-edit-bar__last-saved');
     const noNotice =
       $lastSaved.find('.page-edit-bar__unsaved-notice').length < 1;
-    const unsavedDataExists = !_.isEqual(this.model.lastSaved, this.readData());
+    const unsavedDataExists = !isEqual(this.model.lastSaved, this.readData());
     if (unsavedDataExists) {
       if (noNotice) {
         $lastSaved.append(
@@ -249,4 +252,4 @@ let PageEditBar = Backbone.View.extend({
   },
 });
 
-module.exports = PageEditBar;
+export default PageEditBar;
