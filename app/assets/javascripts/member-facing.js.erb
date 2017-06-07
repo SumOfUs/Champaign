@@ -5,21 +5,3 @@
 //= require selectize
 //= require i18n
 //= require i18n/translations
-
-window.ChampaignSettings = {};
-
-<% if false && Settings.external_js_path.present? %>
-  // FIXME
-  // This doesn't work because it relies on browserify and on some files
-  // being present in this folder (which)
-  // <% require_asset Settings.external_js_path %>
-<% end %>
-
-<% if Rails.env.production? %>
-  Object.assign(window.ChampaignSettings, {
-    airbrake: {
-      projectId: "<%= Settings.airbrake_project_id %>",
-      projectKey: "<%= Settings.airbrake_api_key %>",
-    },
-  });
-<% end %>

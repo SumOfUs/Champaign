@@ -6,4 +6,4 @@ const MobileCheck = {
   },
 };
 
-module.exports = MobileCheck;
+export default MobileCheck;

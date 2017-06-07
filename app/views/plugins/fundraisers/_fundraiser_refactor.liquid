@@ -1,5 +1,4 @@
 {% if plugins.fundraiser[ref].active %}
-  {{ 'fundraiser' | asset_url }}
   <div class="overlay-toggle">
     <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="fundraiser-bar__content">
@@ -9,9 +8,10 @@
   </div>
 
   <script type="text/javascript">
-    $(document).ready(function () {
-      var global = champaign.personalization;
+    $(function() {
+      var global = window.champaign.personalization;
       var data = {
+        el: 'fundraiser-component',
         paymentMethods: global.paymentMethods,
         member: global.member,
         locale: '{{locale}}',
