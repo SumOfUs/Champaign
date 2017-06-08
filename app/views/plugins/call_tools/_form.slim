@@ -28,11 +28,11 @@
       = render partial: 'plugins/call_tools/sound_clip_form.slim', locals: { plugin: plugin }
 
 javascript:
-$(function () {
-  $.publish("collection:edit:loaded");
-  $.publish("plugin:form:loaded")
-  $.publish("wysiwyg:setup", "call-tool-wysiwyg");
-  $('.call-tool form.one-form').on('ajax:before', function(){
-    $.publish('wysiwyg:submit')
-  });
-})
+  $(function () {
+    $.publish("collection:edit:loaded");
+    $.publish("plugin:form:loaded")
+    $.publish("wysiwyg:setup", "call-tool-wysiwyg");
+    $('.call-tool form.one-form').on('ajax:before', function(){
+      $.publish('wysiwyg:submit')
+    });
+  })
