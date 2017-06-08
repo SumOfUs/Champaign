@@ -5,7 +5,6 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1.0"
 
     = stylesheet_link_tag    "application", media: 'all'
-    = stylesheet_pack_tag 'vendor'
 
     = csrf_meta_tags
     = favicon_link_tag 'champaign/favicon.ico'
@@ -26,8 +25,6 @@ html
     = render 'shared/flash'
 
     = javascript_include_tag "application"
-    = javascript_pack_tag 'manifest'
-    = javascript_pack_tag 'vendor'
     = javascript_pack_tag 'campaigner_facing'
 
     = yield
