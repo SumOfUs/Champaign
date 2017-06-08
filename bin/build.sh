@@ -3,9 +3,6 @@
 export RAILS_ENV=production
 export NODE_ENV=production
 
-# Build front end bundle
-yarn run build
-
 # Precompile assets
 bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSET_PATHS]
 
