@@ -128,7 +128,7 @@ describe 'Express Donation' do
             page_id: page.id
           }
 
-          post api_payment_braintree_one_click_path(page.id), body
+          post api_payment_braintree_one_click_path(page.id), params: body
         end
       end
 
