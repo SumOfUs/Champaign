@@ -76,7 +76,7 @@ class PaymentController < ApplicationController
   end
 
   def follow_up
-    follow_up_params = params[:user].merge(member_id: builder.action.member_id)
+    follow_up_params = params[:user].merge(member_id: builder.action.member_id).to_unsafe_hash
     follow_up_url = PageFollower.new_from_page(page, follow_up_params).follow_up_path
     { follow_up_url: follow_up_url }
   end
