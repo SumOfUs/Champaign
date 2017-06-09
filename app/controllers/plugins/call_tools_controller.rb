@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 module Plugins
   class CallToolsController < BaseController
+    # FIXME
+    skip_before_action :verify_authenticity_token
+
     def update_targets
       @call_tool = Plugins::CallTool.find(params[:id])
       @show_targets = true
