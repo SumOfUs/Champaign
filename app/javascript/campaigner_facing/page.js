@@ -1,6 +1,4 @@
 'use strict';
-import Backbone from 'backbone';
-
 $(function() {
   var slugChecker = Backbone.Model.extend({
     url: '/action_kit/check_slug',
