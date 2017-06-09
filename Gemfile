@@ -33,7 +33,6 @@ gem 'rails', '~> 5.1'
 gem 'rails-i18n'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
-gem 'remotipart', '~> 1.2' # [Q] Are we using this?
 gem 'selectize-rails' # why not npm?
 gem 'slim-rails'
 
