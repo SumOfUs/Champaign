@@ -10,6 +10,8 @@
 //= require jquery.remotipart
 //= require bootstrap-sprockets
 //= require typeahead.jquery
+//= require underscore
+//= require backbone
 //= require datatables
 //= require datatables/dataTables.bootstrap
 //= require i18n
