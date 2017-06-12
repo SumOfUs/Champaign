@@ -403,6 +403,7 @@ GEM
       rails-assets-jquery (>= 1.7.0)
     rails-assets-dropzone (4.3.0)
     rails-assets-jquery (3.2.1)
+    rails-assets-lodash (4.17.4)
     rails-assets-mailcheck (1.1.2)
     rails-assets-moment (2.18.1)
     rails-assets-odometer (0.4.8)
@@ -625,11 +626,11 @@ DEPENDENCIES
   rails-assets-d3!
   rails-assets-datatables!
   rails-assets-dropzone!
+  rails-assets-lodash!
   rails-assets-mailcheck!
   rails-assets-moment!
   rails-assets-odometer!
   rails-assets-speakingurl!
-  rails-assets-underscore!
   rails-controller-testing
   rails-i18n
   rails-observers!

@@ -107,8 +107,7 @@ source 'https://rails-assets.org' do
   # Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
   gem 'rails-assets-backbone'
 
-  # JavaScript's utility _ belt http://underscorejs.org
-  gem 'rails-assets-underscore'
+  gem 'rails-assets-lodash'
 
   # Reduce user-misspelled email addresses in your forms.
   gem 'rails-assets-mailcheck'
