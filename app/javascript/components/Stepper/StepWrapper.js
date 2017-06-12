@@ -26,8 +26,9 @@ export default class StepWrapper extends Component {
     };
   }
 
-  getTitles() {
+  getTitles(): string[] {
     const { children } = this.props;
+    if (!children) return [];
     return Children.map(_.compact(children), child => child.props.title);
   }
 
@@ -38,12 +39,16 @@ export default class StepWrapper extends Component {
   }
 
   normalState() {
+    const stepperProps = {
+      ...this.props,
+      steps: this.getTitles()
+    };
     return (
       <div className="StepWrapper-root">
         <div className="overlay-toggle__mobile-ui">
           <a className="overlay-toggle__close-button">✕</a>
         </div>
-        <Stepper steps={this.getTitles()} {...this.props} />
+        <Stepper {...stepperProps} />
         <div className="fundraiser-bar__main">
           {this.childrenWithExtraProps(this.props.children)}
         </div>
