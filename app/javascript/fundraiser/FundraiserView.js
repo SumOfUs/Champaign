@@ -1,33 +1,33 @@
 // @flow
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import classnames from 'classnames';
-import isEmpty from 'lodash/isEmpty';
-import StepContent from '../components/Stepper/StepContent';
-import StepWrapper from '../components/Stepper/StepWrapper';
-import AmountSelection from '../components/AmountSelection/AmountSelection';
-import MemberDetailsForm from '../components/MemberDetailsForm/MemberDetailsForm';
-import Payment from '../components/Payment/Payment';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { FormattedMessage } from "react-intl";
+import classnames from "classnames";
+import _ from "lodash";
+import StepContent from "../components/Stepper/StepContent";
+import StepWrapper from "../components/Stepper/StepWrapper";
+import AmountSelection from "../components/AmountSelection/AmountSelection";
+import MemberDetailsForm from "../components/MemberDetailsForm/MemberDetailsForm";
+import Payment from "../components/Payment/Payment";
 import {
   changeAmount,
   changeCurrency,
   changeStep,
-  setSubmitting,
-} from '../state/fundraiser/actions';
+  setSubmitting
+} from "../state/fundraiser/actions";
 
-import type { Dispatch } from 'redux';
-import type { AppState } from '../state';
-import type { Member, Fundraiser, Page } from '../state';
+import type { Dispatch } from "redux";
+import type { AppState } from "../state";
+import type { Member, Fundraiser, Page } from "../state";
 
 type OwnProps = {
-  fundraiser: Fundraiser;
-  member: Member;
-  page: Page;
-  changeStep: (number) => any,
+  fundraiser: Fundraiser,
+  member: Member,
+  page: Page,
+  changeStep: number => any,
   selectAmount: (?number) => any,
-  selectCurrency: (string) => any,
-  setSubmitting: (boolean) => any,
+  selectCurrency: string => any,
+  setSubmitting: boolean => any
 };
 
 export class FundraiserView extends Component {
@@ -44,12 +44,12 @@ export class FundraiserView extends Component {
 
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
-    fbq('track', 'InitiateCheckout', {
+    fbq("track", "InitiateCheckout", {
       value: this.props.fundraiser.donationAmount,
       currency: this.props.fundraiser.currency,
       content_name: this.props.page.title,
       content_ids: [this.props.page.id],
-      content_type: 'product',
+      content_type: "product"
     });
   }
 
@@ -74,15 +74,20 @@ export class FundraiserView extends Component {
         currency,
         currentStep,
         outstandingFields,
-        submitting,
+        submitting
       }
-    }  = this.props;
+    } = this.props;
 
     // todo move this into AmountSelection (connect it to store)
-    const firstStepButtonTitle = isEmpty(formValues) ?
-      <FormattedMessage id="fundraiser.proceed_to_details" defaultMessage="Proceed to details (default)" /> :
-      <FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment (default)" />;
-
+    const firstStepButtonTitle = _.isEmpty(formValues)
+      ? <FormattedMessage
+          id="fundraiser.proceed_to_details"
+          defaultMessage="Proceed to details (default)"
+        />
+      : <FormattedMessage
+          id="fundraiser.proceed_to_payment"
+          defaultMessage="Proceed to payment (default)"
+        />;
 
     const classNames = classnames({
       "FundraiserView-container": true,
@@ -92,9 +97,12 @@ export class FundraiserView extends Component {
 
     return (
       <div id="fundraiser-view" className={classNames}>
-        <StepWrapper title={this.props.fundraiser.title}
-                     submitting={submitting}
-                     currentStep={currentStep} changeStep={this.props.changeStep}>
+        <StepWrapper
+          title={this.props.fundraiser.title}
+          submitting={submitting}
+          currentStep={currentStep}
+          changeStep={this.props.changeStep}
+        >
           <StepContent title={AmountSelection.title(donationAmount, currency)}>
             <AmountSelection
               donationAmount={donationAmount}
@@ -108,10 +116,15 @@ export class FundraiserView extends Component {
             />
           </StepContent>
 
-          { this.showStepTwo() &&
+          {this.showStepTwo() &&
             <StepContent title={<FormattedMessage id="fundraiser.details" />}>
               <MemberDetailsForm
-                buttonText={<FormattedMessage id="fundraiser.proceed_to_payment" defaultMessage="Proceed to payment" />}
+                buttonText={
+                  <FormattedMessage
+                    id="fundraiser.proceed_to_payment"
+                    defaultMessage="Proceed to payment"
+                  />
+                }
                 fields={fields}
                 outstandingFields={outstandingFields}
                 prefillValues={formValues}
@@ -119,11 +132,13 @@ export class FundraiserView extends Component {
                 pageId={this.props.page.id}
                 proceed={this.proceed.bind(this)}
               />
-            </StepContent>
-          }
+            </StepContent>}
 
           <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
-            <Payment disableFormReveal={this.showStepTwo()} setSubmitting={s => this.props.setSubmitting(s)} />
+            <Payment
+              disableFormReveal={this.showStepTwo()}
+              setSubmitting={s => this.props.setSubmitting(s)}
+            />
           </StepContent>
         </StepWrapper>
       </div>
@@ -134,14 +149,14 @@ export class FundraiserView extends Component {
 export const mapStateToProps = (state: AppState) => ({
   fundraiser: state.fundraiser,
   member: state.member,
-  page: state.page,
+  page: state.page
 });
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeStep: (step: number) => dispatch(changeStep(step)),
   selectAmount: (amount: ?number) => dispatch(changeAmount(amount)),
   selectCurrency: (currency: string) => dispatch(changeCurrency(currency)),
-  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting)),
+  setSubmitting: (submitting: boolean) => dispatch(setSubmitting(submitting))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FundraiserView);

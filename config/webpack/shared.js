@@ -3,16 +3,16 @@
 /* eslint global-require: 0 */
 /* eslint import/no-dynamic-require: 0 */
 
-const webpack = require('webpack');
-const { basename, dirname, join, relative, resolve } = require('path');
-const { sync } = require('glob');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const extname = require('path-complete-extname');
-const { env, settings, output, loadersDir } = require('./configuration.js');
-const appConfig = require('./app-config.js');
+const webpack = require("webpack");
+const { basename, dirname, join, relative, resolve } = require("path");
+const { sync } = require("glob");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const ManifestPlugin = require("webpack-manifest-plugin");
+const extname = require("path-complete-extname");
+const { env, settings, output, loadersDir } = require("./configuration.js");
+const appConfig = require("./app-config.js");
 
-const extensionGlob = `**/*{${settings.extensions.join(',')}}*`;
+const extensionGlob = `**/*{${settings.extensions.join(",")}}*`;
 const entryPath = join(settings.source_path, settings.source_entry_path);
 const packPaths = sync(join(entryPath, extensionGlob));
 
@@ -25,32 +25,34 @@ module.exports = {
   }, {}),
 
   output: {
-    filename: '[name].js',
+    filename: "[name].js",
     path: output.path,
-    publicPath: output.publicPath,
+    publicPath: output.publicPath
   },
 
   module: {
-    rules: sync(join(loadersDir, '*.js')).map(loader => require(loader)),
+    rules: sync(join(loadersDir, "*.js")).map(loader => require(loader))
   },
 
   plugins: appConfig.plugins.concat([
     new webpack.EnvironmentPlugin(JSON.parse(JSON.stringify(env))),
     new ExtractTextPlugin(
-      env.NODE_ENV === 'production' ? '[name]-[hash].css' : '[name].css'
+      env.NODE_ENV === "production" ? "[name]-[hash].css" : "[name].css"
     ),
     new ManifestPlugin({
       publicPath: output.publicPath,
-      writeToFileEmit: true,
-    }),
+      writeToFileEmit: true
+    })
   ]),
 
   resolve: {
     extensions: settings.extensions,
-    modules: [resolve(settings.source_path), 'node_modules'],
+    modules: [resolve(settings.source_path), "node_modules"]
   },
 
   resolveLoader: {
-    modules: ['node_modules'],
+    modules: ["node_modules"]
   },
+
+  externals: Object.assign({}, appConfig.externals)
 };

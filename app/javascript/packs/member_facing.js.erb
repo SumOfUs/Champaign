@@ -5,6 +5,7 @@ import '../member-facing/track_shares';
 import '../util/bootstrap';
 
 import airbrake from 'airbrake-js';
+import URI from 'urijs'
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
 import Survey from '../member-facing/backbone/survey';
@@ -19,7 +20,7 @@ import BraintreeHostedFields
   from '../member-facing/backbone/braintree_hosted_fields';
 import redirectors from '../member-facing/redirectors';
 
-window.URI = require('urijs');
+window.URI = URI;
 
 <% if Settings.external_asset_paths.present? && Settings.external_js_path.present? %>
 require(('<%= File.join(Settings.external_asset_paths.split(': ').first, Settings.external_js_path)%>'));

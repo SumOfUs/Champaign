@@ -1,45 +1,42 @@
-// @flow
-import React, { Component } from 'react';
-import { FormattedMessage, injectIntl } from 'react-intl';
-import isEmpty from 'lodash/isEmpty';
-import filter from 'lodash/filter';
-import find from 'lodash/find';
-import sample from 'lodash/sample';
-import ChampaignAPI from '../util/ChampaignAPI';
-import type { OperationResponse } from '../util/ChampaignAPI';
-import type { IntlShape } from 'react-intl';
+// @flow weak
+import React, { Component } from "react";
+import { FormattedMessage, injectIntl } from "react-intl";
+import { isEmpty, filter, find, sample } from "lodash";
+import ChampaignAPI from "../util/ChampaignAPI";
+import type { OperationResponse } from "../util/ChampaignAPI";
+import type { IntlShape } from "react-intl";
 
-import Form from '../components/CallTool/Form';
+import Form from "../components/CallTool/Form";
 
 export type Target = {
   countryCode: string,
   name: string,
   title: string,
-  id: string,
+  id: string
 };
 
 export type Country = {
   code: string,
   name: string,
-  phoneCode: string,
+  phoneCode: string
 };
 
 export type CountryPhoneCode = {
   code: string,
-  name: string,
+  name: string
 };
 
 export type FormType = {
   memberPhoneNumber: string,
   memberPhoneCountryCode: string,
-  countryCode: string,
+  countryCode: string
 };
 
 export type Errors = {
   memberPhoneNumber?: any,
   memberPhoneCountryCode?: any,
   countryCode?: any,
-  base?: any[],
+  base?: any[]
 };
 
 type OwnState = {
@@ -47,7 +44,7 @@ type OwnState = {
   errors: Errors,
   loading: boolean,
   selectedTarget?: Target,
-  selectedCountryCode?: string,
+  selectedCountryCode?: string
 };
 
 type OwnProps = {
@@ -61,8 +58,8 @@ type OwnProps = {
   targets: Target[],
   countries: Country[],
   countriesPhoneCodes: CountryPhoneCode[],
-  onSuccess?: () => void,
-  intl: IntlShape,
+  onSuccess?: (target: any) => void,
+  intl: IntlShape
 };
 
 class CallToolView extends Component {
@@ -74,13 +71,13 @@ class CallToolView extends Component {
 
     this.state = {
       form: {
-        memberPhoneNumber: '',
-        memberPhoneCountryCode: '',
-        countryCode: this.preselectedCountryCode(),
+        memberPhoneNumber: "",
+        memberPhoneCountryCode: "",
+        countryCode: this.preselectedCountryCode()
       },
       errors: {},
       loading: false,
-      selectedCountryCode: undefined,
+      selectedCountryCode: undefined
     };
   }
 
@@ -94,9 +91,9 @@ class CallToolView extends Component {
       const preselectedTarget = find(this.props.targets, target => {
         return target.countryCode === this.props.countryCode;
       });
-      countryCode = preselectedTarget ? preselectedTarget.countryCode : '';
+      countryCode = preselectedTarget ? preselectedTarget.countryCode : "";
     } else {
-      countryCode = this.props.countryCode || '';
+      countryCode = this.props.countryCode || "";
     }
     return countryCode;
   }
@@ -117,11 +114,11 @@ class CallToolView extends Component {
             memberPhoneCountryCode: this.guessMemberPhoneCountryCode(
               countryCode
             ),
-            countryCode,
+            countryCode
           },
           selectedTarget: this.selectNewTargetFromCountryCode(countryCode),
           errors: { ...prevState.errors, countryCode: null },
-          selectedCountryCode: countryCode,
+          selectedCountryCode: countryCode
         };
       });
     } else {
@@ -132,8 +129,8 @@ class CallToolView extends Component {
             memberPhoneCountryCode: this.guessMemberPhoneCountryCode(
               countryCode
             ),
-            countryCode,
-          },
+            countryCode
+          }
         };
       });
     }
@@ -155,14 +152,14 @@ class CallToolView extends Component {
     const country = find(this.props.countries, t => {
       return t.code === countryCode;
     });
-    return country ? `+${country.phoneCode}` : '';
+    return country ? `+${country.phoneCode}` : "";
   }
 
   memberPhoneNumberChanged(memberPhoneNumber: string) {
     this.setState(prevState => {
       return {
         form: { ...prevState.form, memberPhoneNumber },
-        errors: { ...prevState.errors, memberPhoneNumber: null },
+        errors: { ...prevState.errors, memberPhoneNumber: null }
       };
     });
   }
@@ -171,7 +168,7 @@ class CallToolView extends Component {
     this.setState(prevState => {
       return {
         form: { ...prevState.form, memberPhoneCountryCode },
-        errors: { ...prevState.errors, memberPhoneCountryCode: null },
+        errors: { ...prevState.errors, memberPhoneCountryCode: null }
       };
     });
   }
@@ -184,7 +181,7 @@ class CallToolView extends Component {
     const target = find(this.props.targets, { id });
     this.setState(prevState => ({
       ...prevState,
-      selectedTarget: target,
+      selectedTarget: target
     }));
   };
 
@@ -199,10 +196,11 @@ class CallToolView extends Component {
     ChampaignAPI.calls
       .create({
         pageId: this.props.pageId,
-        memberPhoneNumber: this.state.form.memberPhoneCountryCode +
-          this.state.form.memberPhoneNumber,
+        memberPhoneNumber:
+          this.state.form.memberPhoneCountryCode +
+            this.state.form.memberPhoneNumber,
         // $FlowIgnore
-        targetId: this.state.selectedTarget.id,
+        targetId: this.state.selectedTarget.id
       })
       .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
@@ -263,9 +261,9 @@ class CallToolView extends Component {
 
   instructionsMessageId() {
     if (this.props.restrictedCountryCode) {
-      return 'call_tool.instructions_without_country';
+      return "call_tool.instructions_without_country";
     } else {
-      return 'call_tool.instructions';
+      return "call_tool.instructions";
     }
   }
 
@@ -276,7 +274,7 @@ class CallToolView extends Component {
         {this.props.title && <h1> {this.props.title} </h1>}
 
         <p className="select-home-country">
-          {' '}<FormattedMessage id={this.instructionsMessageId()} />{' '}
+          {" "}<FormattedMessage id={this.instructionsMessageId()} />{" "}
         </p>
 
         {errors.base !== undefined &&
@@ -313,8 +311,8 @@ class CallToolView extends Component {
           className="fine-print"
           dangerouslySetInnerHTML={{
             __html: this.props.intl.formatMessage({
-              id: 'call_tool.fine_print',
-            }),
+              id: "call_tool.fine_print"
+            })
           }}
         />
       </div>
