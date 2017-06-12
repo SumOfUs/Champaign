@@ -1,9 +1,11 @@
+import $ from "jquery";
+
 const MobileCheck = {
-  el: '.mobile-indicator',
+  el: ".mobile-indicator",
 
   isMobile() {
-    return $(this.el).is(':visible');
-  },
+    return $(this.el).is(":visible");
+  }
 };
 
 export default MobileCheck;

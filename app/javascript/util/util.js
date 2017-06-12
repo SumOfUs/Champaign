@@ -1,22 +1,19 @@
-import isPlainObject from 'lodash/isPlainObject';
-import forEach from 'lodash/forEach';
-import camelCase from 'lodash/camelCase';
-import isArray from 'lodash/isArray';
+import _ from "lodash";
 
-export const camelizeKeys = (obj) => {
-  if(isPlainObject(obj)) {
+export const camelizeKeys = obj => {
+  if (_.isPlainObject(obj)) {
     const ret = {};
-    forEach(obj, (value, key) => {
-      const newKey = camelCase(key);
+    _.forEach(obj, (value, key) => {
+      const newKey = _.camelCase(key);
       const newValue = camelizeKeys(value);
       ret[newKey] = newValue;
     });
     return ret;
-  }
-  else if (isArray(obj)) {
-    return obj.map(val => { return camelizeKeys(val);});
-  }
-  else {
+  } else if (_.isArray(obj)) {
+    return obj.map(val => {
+      return camelizeKeys(val);
+    });
+  } else {
     return obj;
   }
 };

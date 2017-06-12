@@ -1,18 +1,17 @@
 // @flow
-import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
-import isEmpty from 'lodash/isEmpty';
-import find from 'lodash/find';
-import classnames from 'classnames';
-import FieldShape from '../../components/FieldShape/FieldShape';
+import React, { Component } from "react";
+import { FormattedMessage } from "react-intl";
+import _ from "lodash";
+import classnames from "classnames";
+import FieldShape from "../../components/FieldShape/FieldShape";
 import type {
   Country,
   CountryPhoneCode,
   Target,
   FormType,
-  Errors,
-} from '../../containers/CallToolView/CallToolView';
-import type { Field } from '../../components/FieldShape/FieldShape';
+  Errors
+} from "../../call_tool/CallToolView";
+import type { Field } from "../../components/FieldShape/FieldShape";
 
 type OwnProps = {
   allowManualTargetSelection: boolean,
@@ -29,45 +28,45 @@ type OwnProps = {
   onMemberPhoneCountryCodeChange: string => void,
   onTargetSelected: (id: string) => void,
   onSubmit: any => void,
-  loading: boolean,
+  loading: boolean
 };
 
 const memberPhoneNumberField: Field = {
-  data_type: 'phone',
-  name: 'call_tool[member_phone_number]',
+  data_type: "phone",
+  name: "call_tool[member_phone_number]",
   label: <FormattedMessage id="call_tool.form.phone_number" />,
-  default_value: '',
+  default_value: "",
   required: true,
-  disabled: false,
+  disabled: false
 };
 
 const memberPhoneCountryCodeField: Field = {
-  data_type: 'phone',
-  name: 'call_tool[member_phone_number]',
+  data_type: "phone",
+  name: "call_tool[member_phone_number]",
   label: <FormattedMessage id="call_tool.form.phone_country_code" />,
-  default_value: '',
+  default_value: "",
   required: true,
-  disabled: false,
+  disabled: false
 };
 
 const countryCodeField: Field = {
-  data_type: 'select',
-  name: 'call_tool[country_code]',
+  data_type: "select",
+  name: "call_tool[country_code]",
   label: <FormattedMessage id="call_tool.form.country" />,
   default_value: null,
   required: true,
   disabled: false,
-  choices: [],
+  choices: []
 };
 
 const targetField: Field = {
-  data_type: 'select',
-  name: 'call_tool[target]',
+  data_type: "select",
+  name: "call_tool[target]",
   label: <FormattedMessage id="call_tool.manual_target_selection" />,
   default_value: null,
   required: true,
   disabled: false,
-  choices: [],
+  choices: []
 };
 
 class Form extends Component {
@@ -82,8 +81,8 @@ class Form extends Component {
       memberPhoneCountryCodeField: memberPhoneCountryCodeField,
       countryCodeField: {
         ...countryCodeField,
-        choices: this.countryCodeOptions(),
-      },
+        choices: this.countryCodeOptions()
+      }
     };
   }
 
@@ -91,7 +90,7 @@ class Form extends Component {
     if (this.fields) {
       this.fields.targets = {
         ...targetField,
-        choices: this.targetOptions(newProps.targets),
+        choices: this.targetOptions(newProps.targets)
       };
     }
   }
@@ -104,13 +103,13 @@ class Form extends Component {
 
   targetField(targets: Target[]) {
     return {
-      data_type: 'select',
-      name: 'call_tool[target]',
+      data_type: "select",
+      name: "call_tool[target]",
       label: <FormattedMessage id="call_tool.you_will_be_calling" />,
       default_value: null,
       required: true,
       disabled: false,
-      choices: this.targetOptions(targets),
+      choices: this.targetOptions(targets)
     };
   }
 
@@ -119,38 +118,38 @@ class Form extends Component {
       value: target.id,
       label: (
         <div>
-          <p style={{ fontSize: '90%' }}>
+          <p style={{ fontSize: "90%" }}>
             {target.postalCode && <span>({target.postalCode})</span>}
-            {' - '}
+            {" - "}
             <strong>{target.name}</strong>
-            {' '}
-            <span style={{ fontSize: '70%' }}>{target.title}</span>
+            {" "}
+            <span style={{ fontSize: "70%" }}>{target.title}</span>
           </p>
         </div>
-      ),
+      )
     }));
   }
 
   phoneNumberCountryName() {
     const strippedCountryCode = this.props.form.memberPhoneCountryCode.replace(
-      '+',
-      ''
+      "+",
+      ""
     );
-    const countryPhoneCode = find(
+    const countryPhoneCode = _.find(
       this.props.countriesPhoneCodes,
       countryCode => {
         return countryCode.code === strippedCountryCode;
       }
     );
 
-    return countryPhoneCode ? countryPhoneCode.name : '';
+    return countryPhoneCode ? countryPhoneCode.name : "";
   }
 
   render() {
     const formClassNames = classnames({
-      'action-form': true,
-      'form--big': true,
-      'single-country': this.props.restrictToSingleCountry,
+      "action-form": true,
+      "form--big": true,
+      "single-country": this.props.restrictToSingleCountry
     });
     return (
       <form className={formClassNames} data-remote="true">
@@ -186,8 +185,8 @@ class Form extends Component {
         {!this.props.restrictToSingleCountry &&
           <p
             className={classnames({
-              'guessed-country-name': true,
-              hidden: !isEmpty(this.props.errors.memberPhoneNumber),
+              "guessed-country-name": true,
+              hidden: !_._.isEmpty(this.props.errors.memberPhoneNumber)
             })}
           >
             <span>
@@ -207,14 +206,14 @@ class Form extends Component {
             field={this.fields.targets}
           />}
 
-        {!isEmpty(this.props.selectedTarget) &&
+        {!_.isEmpty(this.props.selectedTarget) &&
           <SelectedTarget {...this.props.selectedTarget} />}
 
         <button
           type="submit"
           onClick={this.props.onSubmit}
           className="button action-form__submit-button"
-          disabled={this.props.loading ? 'disabled' : ''}
+          disabled={this.props.loading ? "disabled" : ""}
         >
           <FormattedMessage id="call_tool.form.submit" />
         </button>

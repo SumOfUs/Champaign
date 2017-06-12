@@ -2,9 +2,6 @@ extends:
   - react-app
 globals:
   I18n: I18n
-  $: $
-  Backbone: Backbone
-  _: _
   slugChecker: SlugChecker
   fbq: fbq
 rules:
