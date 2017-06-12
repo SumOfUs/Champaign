@@ -4,22 +4,12 @@
 // doesn't seem to have the compiled versions and attempts to require `./lib/dropzone.js`
 // but the npm package only has `src/dropzone.coffee`.
 
-//= require jquery
-//= require jquery_ujs
-//= require jquery-ui/widgets/sortable
-// require jquery.remotipart
 //= require bootstrap-sprockets
 //= require typeahead.jquery
-//= require underscore
-//= require backbone
 //= require datatables
 //= require datatables/dataTables.bootstrap
-//= require i18n
-//= require i18n/translations
 //= require dropzone
-//= require d3
 //= require odometer
-//= require moment
 //= require selectize
 //= require speakingurl
 //= require codemirror

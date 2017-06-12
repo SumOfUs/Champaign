@@ -12,4 +12,4 @@ end
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
-Rails.application.config.assets.precompile += %w[dependencies.js member-facing.css member-facing.js]
+Rails.application.config.assets.precompile += %w[globals.js member-facing.css]

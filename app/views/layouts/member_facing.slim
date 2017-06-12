@@ -16,14 +16,12 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     link rel="canonical" href=canonical_url
 
     = render partial: 'shared/optimizely_snippet' unless @page.optimizely_disabled?
+    = javascript_include_tag 'globals'
   body
-    = javascript_include_tag 'member-facing'
 
     = render partial: 'layouts/notification'
 
     .mobile-indicator
-
-    = yield
 
     = javascript_include_tag "https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.de,Intl.~locale.es,Intl.~locale.fr"
 
@@ -33,6 +31,8 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render partial: 'shared/js_locale'
     = render partial: 'shared/page_object'
     = render partial: 'shared/facebook_pixel' unless Rails.env.test?
+
+    = yield
 
 
     = render partial: 'shared/google_analytics_snippet'
