@@ -82,13 +82,13 @@ class CallToolView extends Component {
   }
 
   preselectedCountryCode() {
-    let countryCode;
+    let countryCode: string;
 
     if (this.props.restrictedCountryCode) {
       countryCode = this.props.restrictedCountryCode;
     } else if (this.props.targetByCountryEnabled) {
       // Assign countryCode only if it's a valid one
-      const preselectedTarget = find(this.props.targets, target => {
+      const preselectedTarget: Target = find(this.props.targets, target => {
         return target.countryCode === this.props.countryCode;
       });
       countryCode = preselectedTarget ? preselectedTarget.countryCode : "";

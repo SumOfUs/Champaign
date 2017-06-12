@@ -99,7 +99,7 @@ export class MemberDetailsForm extends Component {
   }
 
   handleFailure(response: any) {
-    const errors = mapValues(response.errors, ([message]) => {
+    const errors = _.mapValues(response.errors, ([message]) => {
       return {
         id: "errors.this_field_with_message",
         defaultMessage: "This field {message}",

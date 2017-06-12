@@ -186,7 +186,7 @@ class Form extends Component {
           <p
             className={classnames({
               "guessed-country-name": true,
-              hidden: !_._.isEmpty(this.props.errors.memberPhoneNumber)
+              hidden: !_.isEmpty(this.props.errors.memberPhoneNumber)
             })}
           >
             <span>
