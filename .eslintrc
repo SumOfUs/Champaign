@@ -1,9 +1,27 @@
+root: true
+parser: babel-eslint
 extends:
-  - react-app
+  - prettier
+  - prettier/react
+  - prettier/flowtype
 globals:
   I18n: I18n
   slugChecker: SlugChecker
   fbq: fbq
+env:
+  browser: true
+  commonjs: true
+  es6: true
+  jest: true
+  node: true
+parserOptions:
+  ecmaVersion: 6
+  sourceType: module
+  ecmaFeatures:
+    experimentalObjectRestSpread: true
+    modules: true
+    generators: true
+    jsx: true
 rules:
   no-fallthrough: warn
   no-extra-semi: warn
@@ -14,4 +32,8 @@ rules:
       after: true
   no-var: error
   prefer-const: warn
-
+plugins:
+  - import
+  - flowtype
+  - jsx-a11y
+  - react
