@@ -1,6 +1,8 @@
 {
   "scripts": {
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "pretest": "node bin/convert_translations.js",
+    "test": "jest"
   },
   "lint-staged": {
     "*.js": [
@@ -15,8 +17,11 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-regenerator": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.5.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "backbone": "^1.3.3",
     "braintree-web": "^3.17.0",
@@ -60,7 +65,9 @@
   },
   "devDependencies": {
     "babel-eslint": "6",
+    "babel-jest": "^20.0.3",
     "empty": "^0.10.1",
+    "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
     "eslint-config-prettier": "^2.1.1",
     "eslint-plugin-flowtype": "^2.34.0",
@@ -68,8 +75,27 @@
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
     "husky": "^0.13.4",
+    "jest": "^20.0.4",
+    "jest-cli": "^20.0.4",
     "lint-staged": "^3.6.0",
     "prettier": "^1.4.4",
-    "webpack-dev-server": "^2.4.5"
+    "react-addons-test-utils": "^15.5.1",
+    "react-dev-utils": "^3.0.0",
+    "regenerator-runtime": "^0.10.5",
+    "webpack-dev-server": "^2.4.5",
+    "yamljs": "^0.2.10"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleNameMapper": {
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/spec/jest/FileStub.js",
+      "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
+      "^.+/translations$": "<rootDir>/app/javascript/util/locales/translations-json.js"
+    },
+    "roots": [
+      "<rootDir>/app/javascript"
+    ]
   }
 }
