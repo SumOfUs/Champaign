@@ -1,8 +1,21 @@
 {
+  "presets": [
+    [
+      "env",
+      {
+        "modules": false,
+        "targets": {
+          "browsers": "> 1%",
+          "uglify": true
+        },
+        "useBuiltIns": true
+      }
+    ],
+    "react"
+  ],
   "plugins": [
     "syntax-dynamic-import",
     "transform-object-rest-spread",
-    "transform-regenerator",
     [
       "transform-class-properties",
       {
@@ -11,45 +24,14 @@
     ]
   ],
   "env": {
-    "production": {
-      "presets": [
-        [
-          "env",
-          {
-            "modules": false,
-            "targets": {
-              "browsers": "> 1%",
-              "uglify": true
-            },
-            "useBuiltIns": true
-          }
-        ],
-        "react"
-      ]
-    },
-    "development": {
-      "presets": [
-        [
-          "env",
-          {
-            "modules": false,
-            "targets": {
-              "browsers": "last 2 versions",
-              "uglify": false
-            },
-            "useBuiltIns": true
-          }
-        ],
-        "react"
-      ]
-    },
     "test": {
       "presets": [
         [
           "env",
           {
             "targets": {
-              "node": "8"
+              "node": "current",
+              "uglify": false
             },
             "useBuiltIns": true
           }
