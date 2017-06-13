@@ -5,9 +5,12 @@
 
 export default {
   show(e, data) {
-    if (!e || !data || !data.responseText || data.status != 422) {
+    if (!e || !data || !data.responseText
+        || !data.getResponseHeader('Content-Type').match(/json/i)
+        || data.status != 422) {
       return; // no reason to try if we dont have what we need
     }
+
     // use the relevant form if the event was a form submission.
     // otherwise, search in all the forms on the page.
     let $form = $(e.target) && $(e.target).length ? $(e.target) : $('form');
