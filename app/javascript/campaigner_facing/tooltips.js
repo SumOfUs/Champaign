@@ -1,5 +1,6 @@
-$(function() {
-  $.subscribe('pages:new pages:edit form:edit pages:analytics', function() {
-    $('[data-toggle="tooltip"]').tooltip();
-  });
+import $ from 'jquery';
+
+$.subscribe('pages:new pages:edit form:edit pages:analytics', function() {
+  console.log('pages:edit was triggered');
+  $('[data-toggle="tooltip"]').tooltip();
 });
