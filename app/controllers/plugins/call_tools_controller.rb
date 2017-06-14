@@ -8,12 +8,11 @@ module Plugins
       @call_tool = Plugins::CallTool.find(params[:id])
       @show_targets = true
       updater = ::CallTool::PluginUpdater.new(@call_tool, targets_params)
-      if updater.run
-        render template: 'plugins/call_tools/_target_form.slim', locals: { plugin: @call_tool }
-      else
-        render template: 'plugins/call_tools/_target_form.slim', locals: { plugin: @call_tool },
-               status: :unprocessable_entity
-      end
+      status = updater.run ? :ok : :unprocessable_entity
+      render template: 'plugins/call_tools/_target_form.slim',
+             status: status,
+             locals: { plugin: @call_tool },
+             layout: false
     end
 
     def update_sound_clip
