@@ -44,6 +44,11 @@ module PagesHelper
     end
   end
 
+  def label_tag_with_tooltip(field, label_text, tooltip_text)
+    tooltip = render partial: 'pages/tooltip', locals: { label_text: label_text, tooltip_text: tooltip_text }
+    label_tag field, "#{label_text} #{tooltip}".html_safe
+  end
+
   def button_group_item(text, path)
     selected = current_page?(path)
     klass = "#{selected ? 'btn-primary' : 'btn-default'} btn".trim
