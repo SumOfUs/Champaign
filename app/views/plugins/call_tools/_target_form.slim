@@ -1,8 +1,9 @@
 javascript:
-  Dropzone.options.dropzone = false;
+  Dropzone.options.targetsDropzone = false;
   $(function() {
-    new Dropzone('#dropzone', {
+    new Dropzone('#targets-dropzone', {
       paramName: 'plugins_call_tool[targets_csv_file]',
+      clickable: '#targets-dropzone__clickable',
       init: function() {
         this.on('complete', function(file) {
           $('.call-tool .targets-section').html(file.xhr.responseText)
@@ -25,9 +26,10 @@ javascript:
     span &nbsp;
     = label_with_tooltip(f, :target_by_country, t('plugins.call_tool.target_by_country'), t('tooltips.call_tool.target_by_country'))
 
-= label_tag_with_tooltip( :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
-= form_tag targets_plugins_call_tool_path(plugin), method: :post, id: 'dropzone', class: 'targets-form form-inline dropzone', multipart: true
-  div
+= form_tag targets_plugins_call_tool_path(plugin), method: :post, id: 'targets-dropzone', class: 'targets-form form-inline dropzone', multipart: true
+  = label_tag_with_tooltip( :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
+  = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
+
 = render partial: 'plugins/call_tools/targets', locals: { targets: plugin.targets, show_targets: @show_targets }
 
 
