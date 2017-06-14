@@ -1,7 +1,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/widgets/sortable
-//= require jquery.remotipart
 //= require lodash
 //= require backbone
 //= require i18n
