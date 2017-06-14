@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: liquid_partials
@@ -19,6 +20,9 @@ class LiquidPartial < ApplicationRecord
 
   validate :one_plugin
 
+  after_save { LiquidRenderer::Cache.invalidate }
+  after_destroy { LiquidRenderer::Cache.invalidate }
+
   def plugin_name
     LiquidTagFinder.new(content).plugin_names[0]
   end
@@ -38,6 +42,3 @@ class LiquidPartial < ApplicationRecord
     errors.add(:content, "can only reference one partial, but found #{plugin_names.join(',')}")
   end
 end
-
-# TEMP fix: See https://github.com/rails/rails-observers/issues/45
-ActiveRecord::Base.add_observer LiquidPartialObserver.instance
