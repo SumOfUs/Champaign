@@ -517,7 +517,23 @@ body.page-edit-body {
     input[type="submit"] {
       margin-left: 10px;
     }
+
+    label[for="targets_csv_file"] {
+      width: 170px;
+    }
   }
+
+  // --- Dropzone customizations
+  form.dropzone {
+    border: none;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .dz-message {
+    display: none;
+  }
+  // ---------------------------
 
   .sound-clip-section {
     input[type="submit"] {
@@ -526,6 +542,14 @@ body.page-edit-body {
 
     .form-group {
       margin-bottom: 5px;
+    }
+
+    label {
+      width: 170px;
+    }
+
+    .choose-file-btn {
+      margin-left: 2em;
     }
   }
 

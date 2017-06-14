@@ -1,39 +1,50 @@
-= form_for plugin, method: :post, url: sound_clip_plugins_call_tool_path(plugin), remote: true, html: {class: 'sound-clip-form'} do |f|
-  .error-msg
-    - if plugin.errors.present?
-      span Something went wrong, please make sure the uploaded file has the correct format
-      ul
-        - plugin.errors.full_messages.each do |error|
-          li = error
+javascript:
+  Dropzone.options.mainSoundClipDropzone = false;
+  Dropzone.options.menuSoundClipDropzone = false;
 
+  $(function() {
+    new Dropzone('#main-sound-clip-dropzone', {
+      paramName: 'plugins_call_tool[sound_clip]',
+      clickable: '#main-sound-clip-dropzone__clickable',
+      init: function() {
+        this.on('complete', handleComplete);
+      }
+    });
+
+    new Dropzone('#menu-sound-clip-dropzone', {
+      paramName: 'plugins_call_tool[menu_sound_clip]',
+      clickable: '#menu-sound-clip-dropzone__clickable',
+      init: function() {
+        this.on('complete', handleComplete);
+      }
+    });
+
+    function handleComplete(file) {
+      $('.call-tool .sound-clip-section').html(file.xhr.responseText)
+    }
+  });
+
+.error-msg
+  - if plugin.errors.present?
+    span Something went wrong, please make sure the uploaded file has the correct format
+    ul
+      - plugin.errors.full_messages.each do |error|
+        li = error
+
+= form_tag sound_clip_plugins_call_tool_path(plugin), method: :post, id: 'main-sound-clip-dropzone', class: 'dropzone', multipart: true
   .form-group
-    = label_with_tooltip(f, :sound_clip, 'Main Sound Clip', t('tooltips.call_tool.campaign_audio'))
-    = f.file_field :sound_clip, class: 'form-control'
+    = label_tag_with_tooltip(:sound_clip, 'Main Sound Clip', t('tooltips.call_tool.campaign_audio'))
+    = button_tag "Choose file", id: 'main-sound-clip-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
 
   .sound-clip-detail.main
     - if plugin.errors.blank? && plugin.sound_clip.present?
       = render partial: 'plugins/call_tools/main_sound_clip_player', locals: { plugin: plugin }
 
+= form_tag sound_clip_plugins_call_tool_path(plugin), method: :post, id: 'menu-sound-clip-dropzone', class: 'dropzone', multipart: true
   .form-group
-    = label_with_tooltip(f, :menu_sound_clip, 'Menu Sound Clip', t('tooltips.call_tool.menu_audio'))
-    = f.file_field :menu_sound_clip, class: 'form-control'
+    = label_tag_with_tooltip(:sound_clip, 'Menu Sound Clip', t('tooltips.call_tool.menu_audio'))
+    = button_tag "Choose file", id: 'menu-sound-clip-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
 
   .sound-clip-detail.menu
     - if plugin.errors.blank? && plugin.menu_sound_clip.present?
       = render partial: 'plugins/call_tools/menu_sound_clip_player', locals: { plugin: plugin }
-
-  .form-group
-    = submit_tag 'Upload', class: 'btn btn-default xhr-feedback'
-
-
-javascript:
-  $(".call-tool form.sound-clip-form").on("ajax:success", function(e, data, status, xhr) {
-    $('.call-tool .sound-clip-section').html(data.responseText)
-  }).on("ajax:error", function(e, data, status, xhr) {
-    if(parseInt(data.status) === 422 || parseInt(data.status) === 200) {
-      $('.call-tool .sound-clip-section').html(data.responseText)
-    } else {
-      alert("Oops! Something went wrong!");
-    }
-  });
-
