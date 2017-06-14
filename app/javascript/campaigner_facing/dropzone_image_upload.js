@@ -1,7 +1,6 @@
 import $ from 'jquery';
 
 const configureDropZone = function() {
-  console.log('dropzone configuring');
   Dropzone.options.dropzone = {
     maxFilesize: 2,
     paramName: 'image[content]',
