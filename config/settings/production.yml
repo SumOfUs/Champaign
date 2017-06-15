@@ -25,9 +25,8 @@ ak_password: <%= ENV['AK_PASSWORD'] %>
 action_kit:
   akid_secret: <%= ENV['AKID_SECRET'] %>
 
-
-# CloudFront config Variables.
-cloudfront_url: <%= ENV['CLOUDFRONT_URL'] %>
+# Assets config
+asset_host: <%= ENV['ASSET_HOST'] %>
 s3_asset_bucket: <%= ENV['S3_ASSET_BUCKET'] %>
 rails_serve_static_assets: <%= ENV['RAILS_SERVE_STATIC_ASSETS'] %>
 compile_static: <%= ENV['COMPILE_STATIC'] %>
