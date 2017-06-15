@@ -15,5 +15,7 @@
         = render partial: 'edit', locals: {form: @form }
 
 javascript:
-  $.publish("collection:edit:loaded");
+  $(function () {
+    $.publish("collection:edit:loaded");
+  });
 

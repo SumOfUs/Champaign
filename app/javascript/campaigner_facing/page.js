@@ -1,132 +1,129 @@
 'use strict';
-$(function() {
-  var slugChecker = Backbone.Model.extend({
-    url: '/action_kit/check_slug',
+import $ from 'jquery';
 
-    defaults: {
-      valid: null,
-      slug: '',
-    },
-  });
+const slugChecker = Backbone.Model.extend({
+  url: '/action_kit/check_slug',
 
-  var slugView = Backbone.View.extend({
-    el: '#new_page',
+  defaults: {
+    valid: null,
+    slug: '',
+  },
+});
 
-    events: {
-      'keyup #page_title': 'generateSlug',
-      'change #page_title': 'generateSlug',
-      'keyup #page_slug': 'resetFeedback',
-      'click #check_slug_available': 'checkSlugAvailable',
-      submit: 'submit',
-    },
+const slugView = Backbone.View.extend({
+  el: '#new_page',
 
-    initialize() {
-      this.slugChecker = new slugChecker();
-      this.slugChecker.on(
-        'change:valid',
-        _.bind(this.updateViewWithValid, this)
-      );
-      this.cacheDomElements();
+  events: {
+    'keyup #page_title': 'generateSlug',
+    'change #page_title': 'generateSlug',
+    'keyup #page_slug': 'resetFeedback',
+    'click #check_slug_available': 'checkSlugAvailable',
+    submit: 'submit',
+  },
+
+  initialize() {
+    this.slugChecker = new slugChecker();
+    this.slugChecker.on('change:valid', _.bind(this.updateViewWithValid, this));
+    this.cacheDomElements();
+    this.checking = false;
+  },
+
+  cacheDomElements() {
+    this.$title = this.$('#page_title');
+    this.$slug = this.$('#page_slug');
+    this.$feedback = this.$('.form-group.slug');
+    this.$checkButton = this.$('#check_slug_available');
+    this.$submit = this.$('.submit-new-page');
+  },
+
+  updateViewWithValid() {
+    const valid = this.slugChecker.get('valid');
+
+    this.$submit.removeClass('disabled');
+
+    this.$('.loading').hide();
+
+    this.$('.form-group.slug').removeClass(
+      'has-error has-success has-feedback'
+    );
+
+    this.$('.form-group.slug .glyphicon').hide();
+
+    if (valid) {
+      this.$('.form-group.slug').addClass('has-success has-feedback');
+      this.$('.form-group.slug .glyphicon-ok').show();
+    } else {
+      this.$('.slug-field').show();
+
+      this.$('.form-group.slug').addClass('has-error has-feedback');
+      this.$('.form-group.slug .glyphicon-remove').show();
+    }
+  },
+
+  generateSlug() {
+    const slug = getSlug(this.$title.val());
+    this.resetFeedback();
+    this.$slug.val(slug);
+  },
+
+  checkSlugAvailable(e, cb) {
+    let slug;
+
+    e.preventDefault();
+    this.updateSlug();
+    slug = this.$slug.val();
+
+    this.checking = true;
+
+    this.$submit.addClass('disabled');
+
+    this.$('.loading').show();
+
+    this.slugChecker.set('slug', slug);
+
+    this.slugChecker.save().done(() => {
       this.checking = false;
-    },
+      this.$checkButton
+        .text('Check if name is available')
+        .removeClass('disabled');
 
-    cacheDomElements() {
-      this.$title = this.$('#page_title');
-      this.$slug = this.$('#page_slug');
-      this.$feedback = this.$('.form-group.slug');
-      this.$checkButton = this.$('#check_slug_available');
-      this.$submit = this.$('.submit-new-page');
-    },
-
-    updateViewWithValid() {
-      var valid = this.slugChecker.get('valid');
-
-      this.$submit.removeClass('disabled');
-
-      this.$('.loading').hide();
-
-      this.$('.form-group.slug').removeClass(
-        'has-error has-success has-feedback'
-      );
-
-      this.$('.form-group.slug .glyphicon').hide();
-
-      if (valid) {
-        this.$('.form-group.slug').addClass('has-success has-feedback');
-        this.$('.form-group.slug .glyphicon-ok').show();
-      } else {
-        this.$('.slug-field').show();
-
-        this.$('.form-group.slug').addClass('has-error has-feedback');
-        this.$('.form-group.slug .glyphicon-remove').show();
+      if (cb) {
+        cb.call(this);
       }
-    },
+    });
+  },
 
-    generateSlug() {
-      var slug = getSlug(this.$title.val());
-      this.resetFeedback();
-      this.$slug.val(slug);
-    },
+  updateSlug() {
+    const slug = getSlug(this.$slug.val());
+    this.resetFeedback();
+    this.$slug.val(slug);
+  },
 
-    checkSlugAvailable(e, cb) {
-      var slug;
+  resetFeedback() {
+    this.$feedback.removeClass('has-error has-success has-feedback');
+  },
 
-      e.preventDefault();
-      this.updateSlug();
-      slug = this.$slug.val();
+  submit(e) {
+    e.preventDefault();
 
-      this.checking = true;
+    this.$checkButton.text('Checking...').addClass('disabled');
 
-      this.$submit.addClass('disabled');
-
-      this.$('.loading').show();
-
-      this.slugChecker.set('slug', slug);
-
-      this.slugChecker.save().done(() => {
-        this.checking = false;
-        this.$checkButton
-          .text('Check if name is available')
-          .removeClass('disabled');
-
-        if (cb) {
-          cb.call(this);
+    if (!this.slugChecker.get('valid')) {
+      this.checkSlugAvailable(e, () => {
+        if (this.slugChecker.get('valid')) {
+          this.$el.unbind();
+          this.$el.submit();
         }
       });
-    },
-
-    updateSlug() {
-      var slug = getSlug(this.$slug.val());
-      this.resetFeedback();
-      this.$slug.val(slug);
-    },
-
-    resetFeedback() {
-      this.$feedback.removeClass('has-error has-success has-feedback');
-    },
-
-    submit(e) {
-      e.preventDefault();
-
-      this.$checkButton.text('Checking...').addClass('disabled');
-
-      if (!this.slugChecker.get('valid')) {
-        this.checkSlugAvailable(e, () => {
-          if (this.slugChecker.get('valid')) {
-            this.$el.unbind();
-            this.$el.submit();
-          }
-        });
-      } else {
-        this.$el.unbind();
-        this.$el.submit();
-      }
-    },
-  });
-
-  var initialize = () => {
-    new slugView();
-  };
-
-  $.subscribe('pages:new', initialize);
+    } else {
+      this.$el.unbind();
+      this.$el.submit();
+    }
+  },
 });
+
+const initialize = () => {
+  new slugView();
+};
+
+$.subscribe('pages:new', initialize);

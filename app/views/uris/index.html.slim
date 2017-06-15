@@ -23,5 +23,7 @@
             = submit_tag t('common.save'), class: 'btn btn-primary xhr-feedback', 'data-disable-with' => t('common.saving')
 
       javascript:
-        $.publish("collection:edit:loaded");
+        $(function () {
+          $.publish("collection:edit:loaded");
+        });
 
