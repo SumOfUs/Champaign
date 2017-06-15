@@ -81,7 +81,7 @@ describe Api::Payment::BraintreeController do
         it 'responds with subscription_id in JSON' do
           expect(response.body).to eq({
             success: true,
-            follow_up_url: '/a/asd-f/follow-up',
+            follow_up_url: '/a/asd-f/follow-up?member_id=79',
             subscription_id: 's1234'
           }.to_json)
         end
@@ -111,7 +111,7 @@ describe Api::Payment::BraintreeController do
         it 'responds with transaction_id in JSON' do
           expect(response.body).to eq({
             success: true,
-            follow_up_url: '/a/asd-f/follow-up',
+            follow_up_url: '/a/asd-f/follow-up?member_id=79',
             transaction_id: 't1234'
           }.to_json)
         end
