@@ -18,13 +18,13 @@ describe 'api/pages/:id/survey_responses', type: :request do
       end
 
       it 'returns a successful response' do
-        post "/api/pages/#{page.id}/survey_responses", params
+        post "/api/pages/#{page.id}/survey_responses", params: params
         expect(response).to be_success
       end
 
       it 'creates a new action and sets the form data submitted' do
         expect do
-          post "/api/pages/#{page.id}/survey_responses", params
+          post "/api/pages/#{page.id}/survey_responses", params: params
         end.to change(Action, :count).by(1)
 
         action = Action.last
@@ -39,7 +39,7 @@ describe 'api/pages/:id/survey_responses', type: :request do
       context "given a member with the passed email doesn't exist" do
         it 'creates a member and assigns it to the action' do
           expect do
-            post "/api/pages/#{page.id}/survey_responses", params
+            post "/api/pages/#{page.id}/survey_responses", params: params
           end.to change(Member, :count).by(1)
 
           action = Action.last
@@ -50,7 +50,7 @@ describe 'api/pages/:id/survey_responses', type: :request do
       context 'given a member with the passed email already exists' do
         let!(:member) { create(:member, email: 'b@test.com') }
         it 'assigns the member to the created action' do
-          post "/api/pages/#{page.id}/survey_responses", params
+          post "/api/pages/#{page.id}/survey_responses", params: params
           action = Action.last
           expect(action.member_id).to eq member.id
         end
@@ -66,7 +66,7 @@ describe 'api/pages/:id/survey_responses', type: :request do
       end
 
       it 'returns 422 and an error message' do
-        post "/api/pages/#{page.id}/survey_responses", params
+        post "/api/pages/#{page.id}/survey_responses", params: params
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_json['errors']['email']).to include('is required')
       end
@@ -96,11 +96,11 @@ describe 'api/pages/:id/survey_responses', type: :request do
       end
 
       it 'updates the existing action' do
-        post "/api/pages/#{page.id}/survey_responses", form_params
+        post "/api/pages/#{page.id}/survey_responses", params: form_params
         expect(response).to be_success
         @action = Action.last
 
-        post "/api/pages/#{page.id}/survey_responses", form_2_params
+        post "/api/pages/#{page.id}/survey_responses", params: form_2_params
         expect(response).to be_success
 
         @action.reload
