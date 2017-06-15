@@ -6,7 +6,7 @@ module Api
       def index
         render json: { location: location_with_currency }
       rescue Api::Exceptions::LocationNotFound
-        head status: 504
+        head 504
       end
 
       private
