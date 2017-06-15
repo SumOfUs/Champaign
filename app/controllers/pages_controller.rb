@@ -141,7 +141,7 @@ class PagesController < ApplicationController
 
   def process_one_click
     @process_one_click ||= PaymentProcessor::Braintree::OneClickFromUri.new(
-      params,
+      params.to_unsafe_hash,
       page: @page,
       member: recognized_member,
       cookied_payment_methods: cookies.signed[:payment_methods]

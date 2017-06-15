@@ -32,7 +32,7 @@ module PaymentProcessor::Braintree
     end
 
     def options
-      ActionController::Parameters.new(
+      {
         payment: {
           payment_method_id: payment_method_id,
           currency: params[:currency],
@@ -44,7 +44,7 @@ module PaymentProcessor::Braintree
           email: member.email
         },
         page_id: page.id
-      )
+      }.with_indifferent_access
     end
 
     def payment_method_id
