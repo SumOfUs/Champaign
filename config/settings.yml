@@ -37,9 +37,7 @@
 #    ak_password: 'Just like ak_username.'
 
 
-# CloudFront config Variables. These variables are used to configure static asset serving via cloudfront, a CDN. Disabled
-# by default in development, they should be overridden in production settings to speed up Champaign's page performance.
-#    cloudfront_url: 'the url of your cloudfront distribution'
+#    asset_host: 'localhost:3000'
 #    s3_asset_bucket: 'your s3 bucket'
 #    rails_serve_static_assets: 'Should Rails serve your static assets?'
 #    compile_static: 'Should Rails compile your static assets on the run if the requested asset is missing?'

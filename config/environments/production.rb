@@ -71,7 +71,7 @@ Rails.application.configure do
   # config.cache_store = :mem_cache_store
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.action_controller.asset_host = Settings.cloudfront_url
+  config.action_controller.asset_host = Settings.asset_host
   config.assets.prefix = '/assets'
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -95,7 +95,7 @@ Rails.application.configure do
     storage: :s3,
     s3_region: Settings.aws_region,
     s3_host_name: Settings.s3_host_name,
-    s3_host_alias: Settings.cloudfront_url,
+    s3_host_alias: Settings.asset_host,
     s3_protocol: 'https',
     path: '/:class/:attachment/:id_partition/:style/:filename',
     url: ':s3_alias_url',
