@@ -43,10 +43,9 @@ section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-li
         = t('.show')
 
 javascript:
-  $.publish("pages:edit", #{@page.id});
-  $.publish("activation:toggle");
-  $.publish("shares:edit");
-
   $(document).ready(function(){
+    $.publish("pages:edit", #{@page.id});
+    $.publish("activation:toggle");
+    $.publish("shares:edit");
     new PageEditBar();
   });

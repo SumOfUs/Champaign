@@ -40,8 +40,8 @@
     button.btn.btn-default.xhr-feedback = t('plugins.petition.add_field')
 
 javascript:
-  $.publish('form:edit');
   $(document).ready(function(){
+    $.publish('form:edit');
     var myFormCreator = new window.FormElementCreator({el: '.#{klass}'});
     $('.reveal-default-value').on('click', function(e){
       $('.reveal-default-value').addClass('hidden-closed')

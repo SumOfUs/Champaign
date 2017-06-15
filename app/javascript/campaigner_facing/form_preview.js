@@ -1,5 +1,5 @@
 $(function() {
-  var fixPreviewElement = function() {
+  const fixPreviewElement = function() {
     /*
      *
      * NOTE
@@ -9,13 +9,13 @@ $(function() {
      *
      */
 
-    var $preview = $('.plugin-form-preview');
+    const $preview = $('.plugin-form-preview');
 
-    var originalPosition = $preview.offset(),
+    let originalPosition = $preview.offset(),
       originalTop = originalPosition.top;
 
-    var handleSroll = function() {
-      var css = { position: 'fixed', top: '0px' };
+    const handleSroll = function() {
+      const css = { position: 'fixed', top: '0px' };
       if ($(window).scrollTop() >= originalTop) {
         $preview.css(css);
       } else {
@@ -26,10 +26,10 @@ $(function() {
     $(window).scroll(handleSroll);
   };
 
-  var updatePreview = function() {
-    var updater = function(plugin_type) {
+  const updatePreview = function() {
+    const updater = function(plugin_type) {
       return function(ii, el) {
-        var $el = $(el);
+        const $el = $(el);
         (plugin_id = $el.data('plugin-id')), (url = [
           '/plugins/forms/',
           plugin_type,
@@ -66,12 +66,10 @@ $(function() {
   });
 });
 
-$(function() {
-  var bindCaretToggle = function() {
-    $('[data-toggle="collapse"]').on('click', function(e) {
-      $(this).toggleClass('open');
-    });
-  };
+const bindCaretToggle = function() {
+  $('[data-toggle="collapse"]').on('click', function(e) {
+    $(this).toggleClass('open');
+  });
+};
 
-  $.subscribe('plugin:form:loaded', bindCaretToggle);
-});
+$.subscribe('plugin:form:loaded', bindCaretToggle);
