@@ -53,7 +53,8 @@ describe 'Localization for pages' do
     expect(I18n.locale).to eq I18n.default_locale
 
     get "/a/#{german_page.slug}"
-    post "/api/pages/#{german_page.id}/actions", form_params.merge(page_id: german_page.id)
+    post "/api/pages/#{german_page.id}/actions",
+         params: form_params.merge(page_id: german_page.id)
     expect(response).to be_successful
     expect(I18n.locale).to eq :de
 
@@ -64,18 +65,22 @@ describe 'Localization for pages' do
 
   it "validates in the current page's language" do
     get "/a/#{german_page.slug}"
-    post "/api/pages/#{german_page.id}/actions/validate", form_params.merge(page_id: german_page.id)
+    post "/api/pages/#{german_page.id}/actions/validate",
+         params: form_params.merge(page_id: german_page.id)
     expect(response).to be_successful
     expect(I18n.locale).to eq :de
-    post "/api/pages/#{german_page.id}/actions", form_params.merge(page_id: german_page.id)
+    post "/api/pages/#{german_page.id}/actions",
+         params: form_params.merge(page_id: german_page.id)
     expect(response).to be_successful
     expect(I18n.locale).to eq :de
 
     get "/a/#{english_page.slug}"
-    post "/api/pages/#{english_page.id}/actions/validate", form_params.merge(page_id: english_page.id)
+    post "/api/pages/#{english_page.id}/actions/validate",
+         params: form_params.merge(page_id: english_page.id)
     expect(response).to be_successful
     expect(I18n.locale).to eq :en
-    post "/api/pages/#{english_page.id}/actions", form_params.merge(page_id: english_page.id)
+    post "/api/pages/#{english_page.id}/actions",
+         params: form_params.merge(page_id: english_page.id)
     expect(response).to be_successful
     expect(I18n.locale).to eq :en
   end
@@ -84,11 +89,15 @@ describe 'Localization for pages' do
     allow(ConfirmationMailer).to receive(:confirmation_email) { double(deliver_now: true) }
 
     get "/a/#{german_page.slug}"
-    post "/api/pages/#{german_page.id}/actions", form_params.merge(page_id: german_page.id)
-    get '/member_authentication/new', email: form_params[:email]
+    post "/api/pages/#{german_page.id}/actions",
+         params: form_params.merge(page_id: german_page.id)
+    get '/member_authentication/new', params: { email: form_params[:email] }
     expect(response).to be_successful
     expect(I18n.locale).to eq :de
-    post '/member_authentication', email: 'asdf@test.com', password: 'asdfasdf', password_confirmation: 'asdfasdf'
+    post '/member_authentication',
+         params: {
+           email: 'asdf@test.com', password: 'asdfasdf', password_confirmation: 'asdfasdf'
+         }
     expect(ConfirmationMailer).to have_received(:confirmation_email).with(a_hash_including(language: :de))
   end
 end
