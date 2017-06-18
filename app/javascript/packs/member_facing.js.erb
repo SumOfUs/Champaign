@@ -24,7 +24,7 @@ import redirectors from '../member-facing/redirectors';
 window.URI = URI;
 
 <% if Settings.external_asset_paths.present? && Settings.external_js_path.present? %>
-require(('<%= File.join(Settings.external_asset_paths.split(': ').first, Settings.external_js_path)%>'));
+require('<%= File.join(Settings.external_asset_paths.split(':').first, Settings.external_js_path)%>');
 <% end %>
 
 let initializeApp = () => {
