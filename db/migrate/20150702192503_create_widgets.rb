@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateWidgets < ActiveRecord::Migration
+
+class CreateWidgets < ActiveRecord::Migration[4.2]
   def change
     create_table :widgets do |t|
       t.jsonb :content

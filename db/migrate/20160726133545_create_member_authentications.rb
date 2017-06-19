@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateMemberAuthentications < ActiveRecord::Migration
+
+class CreateMemberAuthentications < ActiveRecord::Migration[4.2]
   def change
     create_table :member_authentications do |t|
       t.references :member, index: true, foreign_key: true

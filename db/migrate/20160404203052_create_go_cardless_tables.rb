@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateGoCardlessTables < ActiveRecord::Migration
+
+class CreateGoCardlessTables < ActiveRecord::Migration[4.2]
   def change
     create_table :payment_go_cardless_customers do |t|
       t.string :go_cardless_id

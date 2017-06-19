@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateShareProgressButtons < ActiveRecord::Migration
+
+class CreateShareProgressButtons < ActiveRecord::Migration[4.2]
   def change
     create_table :share_buttons do |t|
       t.string :title

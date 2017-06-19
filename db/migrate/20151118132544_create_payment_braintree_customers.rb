@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreatePaymentBraintreeCustomers < ActiveRecord::Migration
+
+class CreatePaymentBraintreeCustomers < ActiveRecord::Migration[4.2]
   def change
     create_table :payment_braintree_customers do |t|
       t.string :card_type

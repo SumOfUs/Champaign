@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateTextPlugin < ActiveRecord::Migration
+
+class CreateTextPlugin < ActiveRecord::Migration[4.2]
   def change
     create_table :plugins_texts do |t|
       t.text :content

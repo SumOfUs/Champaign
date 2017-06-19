@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class MultiplePaymentMethodTokens < ActiveRecord::Migration
+
+class MultiplePaymentMethodTokens < ActiveRecord::Migration[4.2]
   def change
     create_table :payment_braintree_payment_methods do |t|
       t.string :token

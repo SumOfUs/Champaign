@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateActionUsers < ActiveRecord::Migration
+
+class CreateActionUsers < ActiveRecord::Migration[4.2]
   def change
     create_table :action_users do |t|
       t.string :email

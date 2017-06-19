@@ -1,7 +1,8 @@
 # frozen_string_literal: true
-class CreateLanguages < ActiveRecord::Migration
+
+class CreateLanguages < ActiveRecord::Migration[4.2]
   def change
-    create_table :languages do |t|
+    create_table :lubocopanguages do |t|
       t.string :language_code, null: false, unique: true
       t.string :language_name, null: false, unique: true
       t.timestamps

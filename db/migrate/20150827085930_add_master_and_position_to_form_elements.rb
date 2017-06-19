@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddMasterAndPositionToFormElements < ActiveRecord::Migration
+
+class AddMasterAndPositionToFormElements < ActiveRecord::Migration[4.2]
   def change
     add_column :forms, :master, :boolean, default: false
     add_column :form_elements, :position, :integer, null: false, default: 0

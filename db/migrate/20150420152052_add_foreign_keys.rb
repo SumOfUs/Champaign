@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class AddForeignKeys < ActiveRecord::Migration
+
+class AddForeignKeys < ActiveRecord::Migration[4.2]
   def change
     add_foreign_key :actionkit_pages, :actionkit_page_types
 

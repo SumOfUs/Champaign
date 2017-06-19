@@ -1,4 +1,4 @@
-class MigrateCallTargetFormat < ActiveRecord::Migration
+class MigrateCallTargetFormat < ActiveRecord::Migration[4.2]
   class Plugins::CallTool < ActiveRecord::Base
     def targets
       super

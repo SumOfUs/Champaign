@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateCalls < ActiveRecord::Migration
+
+class CreateCalls < ActiveRecord::Migration[4.2]
   def change
     create_table :calls do |t|
       t.integer :page_id

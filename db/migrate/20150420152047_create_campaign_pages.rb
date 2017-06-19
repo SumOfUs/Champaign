@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateCampaignPages < ActiveRecord::Migration
+
+class CreateCampaignPages < ActiveRecord::Migration[4.2]
   def change
     create_table :campaign_pages do |t|
       t.integer :language_id, null: false

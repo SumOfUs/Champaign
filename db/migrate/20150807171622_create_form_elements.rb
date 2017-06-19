@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-class CreateFormElements < ActiveRecord::Migration
+
+class CreateFormElements < ActiveRecord::Migration[4.2]
   def change
     create_table :form_elements do |t|
       t.references :form, index: true, foreign_key: true
