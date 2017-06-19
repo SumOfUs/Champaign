@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # require './lib/api/stateless/payment_helper.rb'
 
 class GoCardlessCancellationService
@@ -31,7 +32,9 @@ class GoCardlessCancellationService
       @subscription.publish_cancellation('user')
       return nil
     rescue *GO_CARDLESS_ERRORS => e
-      Rails.logger.error("#{e} occurred when cancelling subscription #{@subscription.go_cardless_id}: #{e.message}")
+      Rails.logger.error(
+        "#{e.class} occurred when cancelling subscription #{@subscription.go_cardless_id}: #{e.message}"
+      )
       return e
     end
 
