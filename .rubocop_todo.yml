@@ -184,6 +184,7 @@ Metrics/BlockLength:
     - lib/**/*
     - spec/**/*
     - app/controllers/pages_controller.rb
+    - db/schema.rb
 Metrics/LineLength:
   Max: 120
   Exclude:
