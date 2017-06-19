@@ -18,7 +18,7 @@ class GoCardlessCancellationService
       cancel_active_subscriptions(@payment_method)
       return nil
     rescue *GO_CARDLESS_ERRORS => e
-      Rails.logger.error("#{e} occurred when cancelling mandate #{@payment_method.go_cardless_id}: #{e.message}")
+      Rails.logger.error("#{e.class} occurred when cancelling mandate #{@payment_method.go_cardless_id}: #{e.message}")
       return e
     end
 
