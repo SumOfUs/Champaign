@@ -41,8 +41,6 @@ test:
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
 
 deployment:
-  pre:
-    - echo "Checking if pre deploy step exists?"
   production:
     branch: 'master'
     commands:
