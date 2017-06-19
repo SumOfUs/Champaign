@@ -2,8 +2,8 @@ machine:
   node:
     version: 8.1.0
   environment:
-    YARN_VERSION: 0.24.6
-    PATH: "${HOME}/.yarn/bin:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin:${PATH}"
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+
   services:
     - docker
     - redis
