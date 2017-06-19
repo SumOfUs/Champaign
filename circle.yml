@@ -1,7 +1,4 @@
 machine:
-  pre:
-    # Update docker version
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   node:
     version: 8.1.0
   environment:
@@ -41,8 +38,13 @@ test:
     #   yarn run test &&
     #   bundle exec rubocop &&
     #   bundle exec rspec spec
+  post:
+    # Update docker version
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
 
 deployment:
+  pre:
+    - echo "Checking if pre deploy step exists?"
   production:
     branch: 'master'
     commands:
