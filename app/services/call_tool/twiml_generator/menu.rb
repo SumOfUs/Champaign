@@ -33,7 +33,7 @@ module CallTool::TwimlGenerator
     end
 
     def menu_sound_clip_url
-      ActionController::Base.new.view_context.asset_url call.menu_sound_clip.url
+      call.menu_sound_clip.url
     end
 
     def text_to_speach_message

@@ -48,6 +48,11 @@ Rails.application.configure do
   # Raises error for missing translations
   config.action_view.raise_on_missing_translations = true
 
+  config.paperclip_defaults = {
+    url: Settings.asset_host + "/system/:class/:attachment/:id_partition/:style/:filename",
+    path: ":rails_root/public/system/:rails_env/:class/:attachment/:id_partition/:filename"
+  }
+
   # Required for testing strong parameters for action_parameter gem
   config.action_controller.action_on_unpermitted_parameters = :raise
   config.cache_store = :null_store

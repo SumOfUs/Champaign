@@ -58,6 +58,11 @@ Rails.application.configure do
   # sets location of ImageMagick for Paperclip. Get it by the terminal command 'which convert'.
   Paperclip.options[:command_path] = '/usr/bin/'
 
+  config.paperclip_defaults = {
+    url: Settings.asset_host + "/system/:class/:attachment/:id_partition/:style/:filename",
+    path: ":rails_root/public/system/:rails_env/:class/:attachment/:id_partition/:filename"
+  }
+
   # to allow services consuming images through the API to have absolute URLs
   config.action_controller.asset_host = Settings.asset_host
   config.cache_store = :null_store

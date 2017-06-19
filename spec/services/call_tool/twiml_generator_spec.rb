@@ -12,14 +12,14 @@ describe CallTool::TwimlGenerator do
     end
 
     context 'with sound clip' do
-      let(:sound_clip) { double(url: 'foo-bar/1.wav') }
+      let(:sound_clip) { double(url: 'http://assets.com/foo-bar/1.wav') }
 
       before do
         allow(call).to receive(:sound_clip) { sound_clip }
       end
 
       it 'has Play attribute' do
-        expect(subject).to match(%r{<Play>/foo-bar/1.wav</Play>})
+        expect(subject).to match(%r{<Play>#{sound_clip.url}</Play>})
       end
     end
   end
@@ -43,14 +43,14 @@ describe CallTool::TwimlGenerator do
     end
 
     context 'given the call has a menu soundclip' do
-      let(:menu_sound_clip) { double(url: 'foo-bar/menu.wav') }
+      let(:menu_sound_clip) { double(url: 'http://assets.com/foo-bar/menu.wav') }
 
       before do
         allow(call).to receive(:menu_sound_clip) { menu_sound_clip }
       end
 
       it 'has Play attribute' do
-        expect(subject).to match(%r{<Play>/foo-bar/menu.wav</Play>})
+        expect(subject).to match(%r{<Play>#{menu_sound_clip.url}</Play>})
       end
     end
 
