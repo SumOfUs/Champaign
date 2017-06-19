@@ -11,8 +11,6 @@ machine:
 
 dependencies:
   cache_directories:
-    - node_modules
-    - vendor/bundle
     - ~/.yarn
     - ~/.cache/yarn
   override:
