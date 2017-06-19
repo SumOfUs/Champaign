@@ -9,7 +9,7 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ],
-    "*.{ruby}": [
+    "*.{rb,rake}": [
       "bundle exec rubocop -a",
       "git add"
     ]
