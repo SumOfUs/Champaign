@@ -26,8 +26,8 @@ database:
 test:
   override:
     - |
+      yarn run test &&
       bundle exec rspec spec
-      yarn run test
     # Temporarily disabling flow & rubocop
     # - |
     #   yarn run lint &&
