@@ -13,11 +13,6 @@ machine:
     - postgresql
 
 dependencies:
-  pre:
-    - |
-      if [[ ! -e ~/.yarn/bin/yarn || $(yarn --version) != "${YARN_VERSION}" ]]; then
-        curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version $YARN_VERSION
-      fi
   cache_directories:
     - node_modules # we're using yarn so no need to worry
     - ~/.yarn
