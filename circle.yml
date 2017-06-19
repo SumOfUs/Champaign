@@ -11,12 +11,13 @@ machine:
 
 dependencies:
   cache_directories:
-    - node_modules # we're using yarn so no need to worry
+    - node_modules
+    - vendor/bundle
     - ~/.yarn
     - ~/.cache/yarn
   override:
     - yarn
-    - bundle install --without development
+    - bundle check --without development --path=vendor/bundle || bundle install --path=vendor/bundle --jobs=4 --retry=3
 
 database:
   override:
