@@ -1,42 +1,42 @@
 // @flow
-import React, { Component } from "react";
-import $ from "../../util/PubSub";
-import { FormattedMessage } from "react-intl";
-import { connect } from "react-redux";
-import braintreeClient from "braintree-web/client";
-import dataCollector from "braintree-web/data-collector";
-import _ from "lodash";
+import React, { Component } from 'react';
+import $ from '../../util/PubSub';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import braintreeClient from 'braintree-web/client';
+import dataCollector from 'braintree-web/data-collector';
+import _ from 'lodash';
 
-import PayPal from "../Braintree/PayPal";
-import BraintreeCardFields from "../Braintree/BraintreeCardFields";
-import PaymentTypeSelection from "./PaymentTypeSelection";
-import WelcomeMember from "../WelcomeMember/WelcomeMember";
-import DonateButton from "../DonateButton";
-import Checkbox from "../Checkbox/Checkbox";
-import ShowIf from "../ShowIf";
-import { resetMember } from "../../state/member/actions";
+import PayPal from '../Braintree/PayPal';
+import BraintreeCardFields from '../Braintree/BraintreeCardFields';
+import PaymentTypeSelection from './PaymentTypeSelection';
+import WelcomeMember from '../WelcomeMember/WelcomeMember';
+import DonateButton from '../DonateButton';
+import Checkbox from '../Checkbox/Checkbox';
+import ShowIf from '../ShowIf';
+import { resetMember } from '../../state/member/actions';
 import {
   changeStep,
   setRecurring,
   setStoreInVault,
-  setPaymentType
-} from "../../state/fundraiser/actions";
-import ExpressDonation from "../ExpressDonation/ExpressDonation";
+  setPaymentType,
+} from '../../state/fundraiser/actions';
+import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
-import type { Dispatch } from "redux";
-import type { BraintreeClient } from "braintree-web";
+import type { Dispatch } from 'redux';
+import type { BraintreeClient } from 'braintree-web';
 import type {
   AppState,
   Member,
   Fundraiser,
   Page,
-  PaymentMethod
-} from "../../state";
+  PaymentMethod,
+} from '../../state';
 
 // Styles
-import "./Payment.css";
+import './Payment.css';
 
-const DEFAULT_PAYMENT_TYPE = "card";
+const DEFAULT_PAYMENT_TYPE = 'card';
 
 type OwnProps = {
   member: Member,
@@ -51,7 +51,7 @@ type OwnProps = {
   setRecurring: (value: boolean) => void,
   setStoreInVault: (value: boolean) => void,
   setPaymentType: (value: ?string) => void,
-  setSubmitting: (value: boolean) => void
+  setSubmitting: (value: boolean) => void,
 };
 
 type OwnState = {
@@ -63,10 +63,10 @@ type OwnState = {
   initializing: {
     gocardless: boolean,
     paypal: boolean,
-    card: boolean
+    card: boolean,
   },
   errors: any[],
-  waitingForGoCardless: boolean
+  waitingForGoCardless: boolean,
 };
 export class Payment extends Component {
   props: OwnProps;
@@ -85,28 +85,28 @@ export class Payment extends Component {
       initializing: {
         gocardless: false,
         paypal: true,
-        card: true
+        card: true,
       },
       errors: [],
-      waitingForGoCardless: false
+      waitingForGoCardless: false,
     };
 
     const cpt = this.props.fundraiser.currentPaymentType;
-    if (typeof cpt !== "string" || cpt.length === 0) {
+    if (typeof cpt !== 'string' || cpt.length === 0) {
       this.props.setPaymentType(DEFAULT_PAYMENT_TYPE);
     }
   }
 
   componentDidMount() {
     // TODO: move to a service layer that returns a Promise
-    $.get("/api/payment/braintree/token").then(data => {
+    $.get('/api/payment/braintree/token').then(data => {
       braintreeClient.create({ authorization: data.token }, (error, client) => {
         // todo: handle err?
         dataCollector.create(
           {
             client,
             kount: true,
-            paypal: true
+            paypal: true,
           },
           (err, collectorInst) => {
             if (err) {
@@ -117,7 +117,7 @@ export class Payment extends Component {
             this.setState({
               client,
               deviceData: JSON.parse(deviceData),
-              loading: false
+              loading: false,
             });
           }
         );
@@ -126,7 +126,7 @@ export class Payment extends Component {
   }
 
   componentDidUpdate() {
-    $.publish("sidebar:height_change");
+    $.publish('sidebar:height_change');
   }
 
   selectPaymentType(paymentType: string) {
@@ -139,7 +139,7 @@ export class Payment extends Component {
 
   paymentInitialized(name: string) {
     this.setState({
-      initializing: { ...this.state.initializing, [name]: false }
+      initializing: { ...this.state.initializing, [name]: false },
     });
   }
 
@@ -169,8 +169,8 @@ export class Payment extends Component {
         recurring,
         storeInVault,
         form,
-        formValues
-      }
+        formValues,
+      },
     } = this.props;
 
     return {
@@ -180,8 +180,8 @@ export class Payment extends Component {
       store_in_vault: storeInVault,
       user: {
         ...formValues,
-        ...form
-      }
+        ...form,
+      },
     };
   }
 
@@ -201,25 +201,25 @@ export class Payment extends Component {
     const payload = {
       ...this.donationData(),
       device_data: this.state.deviceData,
-      provider: "GC"
+      provider: 'GC',
     };
     const url = `/api/go_cardless/pages/${this.props.page
       .id}/start_flow?${$.param(payload)}`;
     window.open(url);
 
     if (!this.state.waitingForGoCardless) {
-      window.addEventListener("message", this.waitForGoCardless.bind(this));
+      window.addEventListener('message', this.waitForGoCardless.bind(this));
       this.setState({ waitingForGoCardless: true });
     }
   }
 
   waitForGoCardless(event: any) {
-    if (typeof event.data === "object") {
-      if (event.data.event === "follow_up:loaded") {
+    if (typeof event.data === 'object') {
+      if (event.data.event === 'follow_up:loaded') {
         event.source.close();
-        $.publish("direct_debit:donated");
+        $.publish('direct_debit:donated');
         this.onSuccess({});
-      } else if (event.data.event === "donation:error") {
+      } else if (event.data.event === 'donation:error') {
         const messages = event.data.errors.map(({ message }) => message);
         this.onError(messages);
         event.source.close();
@@ -228,7 +228,7 @@ export class Payment extends Component {
   }
 
   makePayment() {
-    if (this.props.fundraiser.currentPaymentType === "gocardless") {
+    if (this.props.fundraiser.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
       return;
     }
@@ -249,13 +249,13 @@ export class Payment extends Component {
     const payload = {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
-      device_data: this.state.deviceData
+      device_data: this.state.deviceData,
     };
 
-    fbq("track", "AddPaymentInfo", {
+    fbq('track', 'AddPaymentInfo', {
       value: this.props.fundraiser.donationAmount,
       currency: this.props.fundraiser.currency,
-      content_category: this.props.fundraiser.currentPaymentType
+      content_category: this.props.fundraiser.currentPaymentType,
     });
 
     $.post(
@@ -265,21 +265,21 @@ export class Payment extends Component {
   }
 
   onSuccess(data: any) {
-    fbq("track", "Purchase", {
+    fbq('track', 'Purchase', {
       value: this.props.fundraiser.donationAmount,
       currency: this.props.fundraiser.currency,
       content_name: this.props.page.title,
       content_ids: [this.props.page.id],
       content_type: this.props.fundraiser.recurring
-        ? "recurring"
-        : "not_recurring"
+        ? 'recurring'
+        : 'not_recurring',
     });
-    $.publish("fundraiser:transaction_success", [data, this.props.formData]);
+    $.publish('fundraiser:transaction_success', [data, this.props.formData]);
     this.setState({ errors: [] });
   }
 
   onError(reason: any) {
-    $.publish("fundraiser:transaction_error", [reason, this.props.formData]);
+    $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
     this.props.setSubmitting(false);
   }
 
@@ -313,8 +313,8 @@ export class Payment extends Component {
         donationAmount,
         currentPaymentType,
         recurring,
-        storeInVault
-      }
+        storeInVault,
+      },
     } = this.props;
 
     return (
@@ -366,28 +366,28 @@ export class Payment extends Component {
             ref="paypal"
             client={this.state.client}
             vault={recurring || storeInVault}
-            onInit={() => this.paymentInitialized("paypal")}
+            onInit={() => this.paymentInitialized('paypal')}
           />
 
           <BraintreeCardFields
             ref="card"
             client={this.state.client}
             recurring={recurring}
-            isActive={currentPaymentType === "card"}
-            onInit={() => this.paymentInitialized("card")}
+            isActive={currentPaymentType === 'card'}
+            onInit={() => this.paymentInitialized('card')}
           />
 
-          {currentPaymentType === "paypal" &&
+          {currentPaymentType === 'paypal' &&
             <div className="PaymentMethod__guidance">
               <FormattedMessage
-                id={"fundraiser.payment_methods.ready_for_paypal"}
+                id={'fundraiser.payment_methods.ready_for_paypal'}
               />
             </div>}
 
-          {currentPaymentType === "gocardless" &&
+          {currentPaymentType === 'gocardless' &&
             <div className="PaymentMethod__guidance">
               <FormattedMessage
-                id={"fundraiser.payment_methods.ready_for_gocardless"}
+                id={'fundraiser.payment_methods.ready_for_gocardless'}
               />
             </div>}
 
@@ -446,14 +446,14 @@ const mapStateToProps = (state: AppState) => ({
   page: state.page,
   paymentMethods: state.paymentMethods,
   member: state.member,
-  hideRecurring: state.fundraiser.recurringDefault === "only_recurring",
+  hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
   formData: {
     storeInVault: state.fundraiser.storeInVault,
     member: {
       ...state.fundraiser.formValues,
-      ...state.fundraiser.form
-    }
-  }
+      ...state.fundraiser.form,
+    },
+  },
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
@@ -461,7 +461,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeStep: (step: number) => dispatch(changeStep(step)),
   setRecurring: (value: boolean) => dispatch(setRecurring(value)),
   setStoreInVault: (value: boolean) => dispatch(setStoreInVault(value)),
-  setPaymentType: (value: ?string) => dispatch(setPaymentType(value))
+  setPaymentType: (value: ?string) => dispatch(setPaymentType(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

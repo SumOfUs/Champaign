@@ -1,6 +1,6 @@
 import $ from 'jquery';
 
-TALL_EDITORS = ['page_body'];
+const TALL_EDITORS = ['page_body'];
 
 function configureWysiwyg(e, id) {
   const $editor = $('#' + id);

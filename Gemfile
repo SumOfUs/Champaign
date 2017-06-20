@@ -131,4 +131,7 @@ source 'https://rails-assets.org' do
 
   # make tables kick ass
   gem 'rails-assets-datatables'
+
+  # Sticky JS (used in Desktop Sticky)
+  gem 'rails-assets-sticky'
 end

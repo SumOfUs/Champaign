@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui/widgets/sortable
+//= require sticky
 //= require lodash
 //= require backbone
 //= require i18n
