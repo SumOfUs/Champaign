@@ -27,9 +27,6 @@ test:
       yarn run test &&
       bundle exec rspec spec
   post:
-    # Update docker version
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
-    - docker info
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
 
 deployment:
