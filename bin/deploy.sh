@@ -27,8 +27,8 @@ function sync_s3() {
     id=$(docker create soutech/champaign_web:$SHA1)
     docker cp $id:/champaign/public/assets statics
     aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
-    docker cp $id:/champaign/public/webpack statics-webpack
-    aws s3 sync statics-webpack/ s3://$STATIC_BUCKET/webpack/
+    docker cp $id:/champaign/public/packs statics-packs
+    aws s3 sync statics-packs/ s3://$STATIC_BUCKET/packs/
     # aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
     # --exclude "*" --include "assets" --include "webpack"
 
