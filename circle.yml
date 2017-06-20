@@ -14,7 +14,7 @@ dependencies:
     - ~/.cache/yarn
   override:
     - yarn
-    - bundle check --path=vendor/bundle || bundle install --without development --path=vendor/bundle --jobs=4 --retry=3
+    - bundle check || bundle install --without development --jobs=4 --retry=3
 
 database:
   override:
