@@ -2,6 +2,7 @@
   "scripts": {
     "precommit": "lint-staged",
     "pretest": "node bin/convert_translations.js",
+    "flow": "flow check",
     "test": "jest"
   },
   "lint-staged": {
@@ -78,6 +79,7 @@
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-jsx-a11y": "^5.0.3",
     "eslint-plugin-react": "^7.0.1",
+    "flow-bin": "^0.48.0",
     "husky": "^0.13.4",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",

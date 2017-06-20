@@ -23,15 +23,9 @@ database:
 test:
   override:
     - |
+      yarn run flow &&
       yarn run test &&
       bundle exec rspec spec
-    # Temporarily disabling flow & rubocop
-    # - |
-    #   yarn run lint &&
-    #   yarn run flow-check &&
-    #   yarn run test &&
-    #   bundle exec rubocop &&
-    #   bundle exec rspec spec
   post:
     # Update docker version
     - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
