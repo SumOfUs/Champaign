@@ -36,12 +36,7 @@ deployment:
       - ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
-    branch:  'development'
+    branch:  'rails_5'
     commands:
       - ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
-  testing:
-    branch: testing
-    commands:
-      - ./bin/build.sh
-      - ./bin/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'champaign-testing' 'champaign-assets-testing'
