@@ -9,3 +9,4 @@
 //= require i18n/translations
 //= require d3
 //= require moment
+//= require braintree-web

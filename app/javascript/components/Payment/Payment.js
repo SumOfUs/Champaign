@@ -99,30 +99,38 @@ export class Payment extends Component {
 
   componentDidMount() {
     // TODO: move to a service layer that returns a Promise
-    $.get('/api/payment/braintree/token').then(data => {
-      braintreeClient.create({ authorization: data.token }, (error, client) => {
-        // todo: handle err?
-        dataCollector.create(
-          {
-            client,
-            kount: true,
-            paypal: true,
-          },
-          (err, collectorInst) => {
-            if (err) {
-              return this.setState({ client, loading: false });
-            }
+    $.get(process.env.BRAINTREE_TOKEN_URL).then(
+      data => {
+        braintreeClient.create(
+          { authorization: data.token },
+          (error, client) => {
+            // todo: handle err?
+            dataCollector.create(
+              {
+                client,
+                kount: true,
+                paypal: true,
+              },
+              (err, collectorInst) => {
+                if (err) {
+                  return this.setState({ client, loading: false });
+                }
 
-            const deviceData = collectorInst.deviceData;
-            this.setState({
-              client,
-              deviceData: JSON.parse(deviceData),
-              loading: false,
-            });
+                const deviceData = collectorInst.deviceData;
+                this.setState({
+                  client,
+                  deviceData: JSON.parse(deviceData),
+                  loading: false,
+                });
+              }
+            );
           }
         );
-      });
-    });
+      },
+      failure => {
+        console.log('could not fetch Braintree token', failure);
+      }
+    );
   }
 
   componentDidUpdate() {

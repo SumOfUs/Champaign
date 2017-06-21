@@ -1,10 +1,11 @@
-const webpack = require("webpack");
+require('dotenv').config();
+const webpack = require('webpack');
 
 module.exports = {
   plugins: [],
   externals: {
-    backbone: "window.Backbone",
-    jquery: "window.$",
-    lodash: "window._"
-  }
+    backbone: 'window.Backbone',
+    jquery: 'window.$',
+    lodash: 'window._',
+  },
 };

@@ -41,8 +41,6 @@ braintree:
   # use the sandbox environment
   environment: sandbox
 
-  token_url: 'your braintree token url (aws lambda)'
-
   merchants:
     EUR: 'braintree merchant for EUR' # for irish account. 'SumOfUs_EUR' for USA
     GBP: 'braintree merchant for GBP' # for irish account. 'SumOfUs_GBP' for USA

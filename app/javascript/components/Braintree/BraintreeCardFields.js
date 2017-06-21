@@ -210,7 +210,7 @@ class BraintreeCardFields extends Component {
             ref="card_type"
             className={
               'BraintreeCardFields__card-type fa ' +
-                this.currentCardClass(this.state.cardType)
+              this.currentCardClass(this.state.cardType)
             }
           />
           {this.state.errors.number && this.renderError('number')}

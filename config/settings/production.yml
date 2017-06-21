@@ -49,8 +49,6 @@ braintree:
   # on staging, we use sandbox, so this can't be 'production'
   environment: <%= ENV['BRAINTREE_ENV'] %>
 
-  token_url: <%= ENV['BRAINTREE_TOKEN_URL'] %>
-
   merchants:
     EUR: 'sumofus2_EUR' # for irish account. 'SumOfUs_EUR' for USA
     GBP: 'sumofus2_GBP' # for irish account. 'SumOfUs_GBP' for USA
