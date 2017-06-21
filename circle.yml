@@ -16,9 +16,6 @@ dependencies:
   cache_directories:
     - ~/.cache/yarn
   override:
-    - echo $CUSTOM_ASSETS_URL
-    - echo $CUSTOM_ASSETS_CREDENTIALS
-    - echo $EXTERNAL_ASSET_PATHS
     - docker info
     - sudo pip install awscli
     - yarn
