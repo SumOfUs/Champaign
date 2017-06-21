@@ -369,7 +369,7 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (2.0.5)
-    puma (2.15.3)
+    puma (3.9.1)
     rack (2.0.3)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -613,7 +613,7 @@ DEPENDENCIES
   pg
   phony_rails
   poltergeist
-  puma (~> 2.15.3)
+  puma (~> 3.9.1)
   rack-cors
   rails (~> 5.1)
   rails-assets-backbone!

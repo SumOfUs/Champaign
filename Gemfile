@@ -58,7 +58,7 @@ gem 'logger'
 gem 'lograge'
 gem 'metamagic'
 gem 'newrelic_rpm'
-gem 'puma', '~> 2.15.3'
+gem 'puma', '~> 3.9.1'
 gem 'sass-rails'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 gem 'sprockets-rails'
