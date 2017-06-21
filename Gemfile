@@ -118,7 +118,7 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-speakingurl'
 
   # braintree js
-  gem 'rails-assets-braintree-web'
+  gem 'rails-assets-braintree-web', '~> 2.24.1'
 
   # A JavaScript visualization library for HTML and SVG.
   gem 'rails-assets-d3'
