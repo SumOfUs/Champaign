@@ -34,7 +34,6 @@ const bindHandlers = function() {
 };
 
 const initialize = function() {
-  console.log('hi');
   configureDropZone();
   bindHandlers();
 };
