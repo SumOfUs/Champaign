@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.configure do
   {
     SQS_QUEUE_URL: 'http://example.com',
@@ -48,11 +49,6 @@ Rails.application.configure do
   # Raises error for missing translations
   config.action_view.raise_on_missing_translations = true
 
-  config.paperclip_defaults = {
-    url: Settings.asset_host + "/system/:class/:attachment/:id_partition/:style/:filename",
-    path: ":rails_root/public/system/:rails_env/:class/:attachment/:id_partition/:filename"
-  }
-
   # Required for testing strong parameters for action_parameter gem
   config.action_controller.action_on_unpermitted_parameters = :raise
   config.cache_store = :null_store
@@ -63,11 +59,8 @@ Rails.application.configure do
       origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
                headers: :any,
-               methods: [:get, :post, :delete, :put, :patch, :options, :head],
+               methods: %i[get post delete put patch options head],
                max_age: 86_400
     end
   end
-
-
-
 end
