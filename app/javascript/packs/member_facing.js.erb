@@ -9,6 +9,7 @@ import airbrake from 'airbrake-js';
 import URI from 'urijs'
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
+import Fundraiser from '../member-facing/backbone/fundraiser';
 import Survey from '../member-facing/backbone/survey';
 import ActionForm from '../member-facing/backbone/action_form';
 import OverlayToggle from '../member-facing/backbone/overlay_toggle';
@@ -32,6 +33,7 @@ let initializeApp = () => {
   window.champaign = window.champaign || window.sumofus || {};
   Object.assign(window.champaign, {
     Petition,
+    Fundraiser,
     Survey,
     ActionForm,
     OverlayToggle,
