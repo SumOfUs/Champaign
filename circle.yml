@@ -1,7 +1,4 @@
 machine:
-  pre:
-    # Update docker version
-    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
   node:
     version: 8.1.0
   environment:
@@ -16,8 +13,6 @@ dependencies:
   cache_directories:
     - ~/.cache/yarn
   override:
-    - docker info
-    - sudo pip install awscli
     - yarn
     - bundle check || bundle install --without development --jobs=4 --retry=3
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
