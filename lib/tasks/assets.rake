@@ -78,7 +78,8 @@ namespace :assets do
     tmp_assets_dir.strip!
 
     # Move assets to to target_path
-    files_to_mv = Dir.glob(Rails.root.join('tmp', tmp_assets_dir, '*'))
+
+    files_to_mv = Dir.glob(Rails.root.join('tmp', tmp_assets_dir, '{.[^\.]*,*}'))
     FileUtils.mv files_to_mv, target_path
   end
 
