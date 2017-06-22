@@ -16,6 +16,7 @@ dependencies:
     - yarn
     - bundle check || bundle install --without development --jobs=4 --retry=3
     - cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
+    - RAILS_ENV=production bundle exec rake assets:download_external_assets[$EXTERNAL_ASSET_PATHS,$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH]
 
 database:
   override:
