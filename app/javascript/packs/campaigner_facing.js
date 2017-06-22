@@ -4,6 +4,7 @@
 // to reduce bundle size)
 
 // TODO: Refactor this to *not* get imported into the global scope
+import d3 from 'd3';
 import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../campaigner_facing/syntax_highlighting';

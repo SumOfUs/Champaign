@@ -120,9 +120,6 @@ source 'https://rails-assets.org' do
   # braintree js
   gem 'rails-assets-braintree-web', '~> 2.24.1'
 
-  # A JavaScript visualization library for HTML and SVG.
-  gem 'rails-assets-d3'
-
   # Transition numbers with ease
   gem 'rails-assets-odometer'
 
