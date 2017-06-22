@@ -37,6 +37,7 @@ namespace :assets do
       raise 'usage: rake deploy:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
     end
 
+    FileUtils.remove_dir(target_path) if File.exist?(target_path)
     FileUtils.mkdir_p target_path
 
     urls = [current_branch, Settings.default_asset_branch, 'master'].map do |branch|
