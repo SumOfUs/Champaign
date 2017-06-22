@@ -27,7 +27,7 @@ if (process.env.EXTERNAL_JS_PATH) {
   require(process.env.EXTERNAL_JS_PATH);
 }
 
-let initializeApp = () => {
+const initializeApp = () => {
   window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
   window.champaign = window.champaign || window.sumofus || {};
   Object.assign(window.champaign, {
@@ -45,14 +45,6 @@ let initializeApp = () => {
     redirectors,
   });
 };
-
-if (process.env.NODE_ENV === 'production') {
-  const airbrakeClient = new airbrake({
-    projectId: process.env.AIRBRAKE_PROJECT_ID,
-    projectKey: process.env.AIRBRAKE_API_KEY,
-  });
-  initializeApp = airbrakeClient.wrap(initializeApp);
-}
 
 initializeApp();
 window.champaignStore = configureStore({});
