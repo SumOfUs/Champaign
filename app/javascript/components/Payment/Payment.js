@@ -99,6 +99,10 @@ export class Payment extends Component {
 
   componentDidMount() {
     // TODO: move to a service layer that returns a Promise
+    if (!process.env.BRAINTREE_TOKEN_URL) {
+      console.warn(`Couldn't find a Braintre token endpoint URL.`);
+      return;
+    }
     $.get(process.env.BRAINTREE_TOKEN_URL).then(
       data => {
         braintreeClient.create(
