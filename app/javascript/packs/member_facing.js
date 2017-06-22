@@ -6,7 +6,7 @@ import '../util/bootstrap';
 import 'whatwg-fetch';
 
 import airbrake from 'airbrake-js';
-import URI from 'urijs'
+import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
 import Fundraiser from '../member-facing/backbone/fundraiser';
@@ -18,15 +18,14 @@ import Sidebar from '../member-facing/backbone/sidebar';
 import Notification from '../member-facing/backbone/notification';
 import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
-import BraintreeHostedFields
-  from '../member-facing/backbone/braintree_hosted_fields';
+import BraintreeHostedFields from '../member-facing/backbone/braintree_hosted_fields';
 import redirectors from '../member-facing/redirectors';
 
 window.URI = URI;
 
-<% if Settings.external_asset_paths.present? && Settings.external_js_path.present? %>
-require('<%= File.join(Settings.external_asset_paths.split(':').first, Settings.external_js_path)%>');
-<% end %>
+if (process.env.EXTERNAL_JS_PATH) {
+  require(process.env.EXTERNAL_JS_PATH);
+}
 
 let initializeApp = () => {
   window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
@@ -47,13 +46,13 @@ let initializeApp = () => {
   });
 };
 
-<% if Rails.env.production? %>
-const airbrakeClient = new airbrake({
-  projectId: '<%= Settings.airbrake_project_id %>',
-  projectKey: '<%= Settings.airbrake_api_key %>',
-});
-initializeApp = airbrakeClient.wrap(initializeApp);
-<% end %>
+if (process.env.NODE_ENV === 'production') {
+  const airbrakeClient = new airbrake({
+    projectId: process.env.AIRBRAKE_PROJECT_ID,
+    projectKey: process.env.AIRBRAKE_API_KEY,
+  });
+  initializeApp = airbrakeClient.wrap(initializeApp);
+}
 
 initializeApp();
 window.champaignStore = configureStore({});
