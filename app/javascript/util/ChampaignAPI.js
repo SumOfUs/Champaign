@@ -5,12 +5,12 @@ import $ from 'jquery';
 import { camelizeKeys } from './util';
 
 export type OperationResponse = {
-  success: boolean;
-  errors: {[id:string]: any[]};
-}
+  success: boolean,
+  errors: { [id: string]: any[] },
+};
 
 const parseResponse = (response, textStatus, other): OperationResponse => {
-  if(response === undefined) {
+  if (response === undefined) {
     return { success: true, errors: {} };
   }
 
@@ -20,13 +20,21 @@ const parseResponse = (response, textStatus, other): OperationResponse => {
     case 204:
       return { success: true, errors: {} };
     case 422:
-      return { success: false, errors: camelizeKeys(response.responseJSON.errors) };
+      return {
+        success: false,
+        errors: camelizeKeys(response.responseJSON.errors),
+      };
     default:
       return {
         success: false,
         errors: {
-          base: [<FormattedMessage id="call_tool.errors.unknown" defaultMessage={`Unknown error, code ${response.code}`} />]
-        }
+          base: [
+            <FormattedMessage
+              id="call_tool.errors.unknown"
+              defaultMessage={`Unknown error, code ${response.code}`}
+            />,
+          ],
+        },
       };
   }
 };
@@ -36,19 +44,23 @@ type CreateCallParams = {
   memberPhoneNumber?: string,
   targetId: string,
 };
-const createCall = function(params: CreateCallParams): Promise<OperationResponse> {
+const createCall = function(
+  params: CreateCallParams
+): JQueryPromise<OperationResponse> {
   const payload = {
     call: {
       member_phone_number: params.memberPhoneNumber,
-      target_id: params.targetId
-    }
+      target_id: params.targetId,
+    },
   };
 
-  return $.post(`/api/pages/${params.pageId}/call`, payload).then(parseResponse, parseResponse);
+  return $.post(`/api/pages/${params.pageId}/call`, payload)
+    .done(parseResponse)
+    .fail(parseResponse);
 };
 
 const ChampaignAPI = {
-  calls: { create: createCall }
+  calls: { create: createCall },
 };
 
 export default ChampaignAPI;

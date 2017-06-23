@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
 import hostedFields from 'braintree-web/hosted-fields';
+import type { Client } from 'braintree-web';
 import type {
   HostedFieldsInstance,
   HostedFieldsTokenizePayload,
@@ -10,7 +11,7 @@ import type {
 import './Braintree.scss';
 
 type OwnProps = {
-  client: ?BraintreeClient,
+  client: ?Client,
   isActive: boolean,
   recurring: boolean,
   intl: any,
@@ -59,7 +60,7 @@ class BraintreeCardFields extends Component {
     }
   }
 
-  createHostedFields(client: BraintreeClient) {
+  createHostedFields(client: Client) {
     const formatMessage = this.props.intl.formatMessage;
     hostedFields.create(
       {

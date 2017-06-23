@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import $ from '../../util/PubSub';
+import $ from 'jquery';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
@@ -24,7 +24,7 @@ import {
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
 import type { Dispatch } from 'redux';
-import type { BraintreeClient } from 'braintree-web';
+import type { Client } from 'braintree-web';
 import type {
   AppState,
   Member,
@@ -55,16 +55,12 @@ type OwnProps = {
 };
 
 type OwnState = {
-  client: BraintreeClient,
+  client: Client,
   deviceData: Object,
   loading: boolean,
   submitting: boolean,
   expressHidden: boolean,
-  initializing: {
-    gocardless: boolean,
-    paypal: boolean,
-    card: boolean,
-  },
+  initializing: { [string]: boolean },
   errors: any[],
   waitingForGoCardless: boolean,
 };
@@ -100,11 +96,11 @@ export class Payment extends Component {
   componentDidMount() {
     // TODO: move to a service layer that returns a Promise
     if (!process.env.BRAINTREE_TOKEN_URL) {
-      console.warn(`Couldn't find a Braintre token endpoint URL.`);
+      console.warn("Couldn't find a Braintre token endpoint URL.");
       return;
     }
     $.get(process.env.BRAINTREE_TOKEN_URL).then(
-      data => {
+      (data: { token: string }) => {
         braintreeClient.create(
           { authorization: data.token },
           (error, client) => {

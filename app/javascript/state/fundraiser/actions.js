@@ -1,18 +1,17 @@
 // @flow
-import $ from '../../util/PubSub';
+import $ from 'jquery';
 import type { InitialAction } from '../reducers';
 
 export type FundraiserAction =
-  InitialAction
+  | InitialAction
   | { type: 'change_currency', payload: string }
-  | { type: 'change_amount',  payload: ?number }
+  | { type: 'change_amount', payload: ?number }
   | { type: 'set_recurring', payload: boolean }
-  | { type: 'set_submitting', payload: boolean}
+  | { type: 'set_submitting', payload: boolean }
   | { type: 'set_store_in_vault', payload: boolean }
   | { type: 'set_payment_type', payload: ?string }
   | { type: 'change_step', payload: number }
-  | { type: 'update_form', payload: {[key: string]: any} };
-
+  | { type: 'update_form', payload: { [key: string]: any } };
 
 export function changeAmount(payload: ?number): FundraiserAction {
   $.publish('fundraiser:change_amount', [payload]);
@@ -30,7 +29,9 @@ export function setSubmitting(payload: boolean): FundraiserAction {
 
 export function changeStep(payload: number): FundraiserAction {
   // we put it in a timeout because otherwise the event is fired before the step has switched
-  window.setTimeout(() => { $.publish('fundraiser:change_step', [payload]); }, 100);
+  window.setTimeout(() => {
+    $.publish('fundraiser:change_step', [payload]);
+  }, 100);
   return { type: 'change_step', payload };
 }
 

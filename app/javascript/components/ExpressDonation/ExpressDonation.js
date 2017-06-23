@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import $ from '../../util/PubSub';
+import $ from 'jquery';
 import { FormattedMessage } from 'react-intl';
 
 import Checkbox from '../Checkbox/Checkbox';
@@ -11,29 +11,24 @@ import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
-import type {
-  AppState,
-  PaymentMethod,
-  Fundraiser,
-  Page,
-} from '../../state';
+import type { AppState, PaymentMethod, Fundraiser, Page } from '../../state';
 
 import './ExpressDonation.scss';
 
 type OwnProps = {
-  hidden: boolean;
-  fundraiser: Fundraiser;
-  page: Page;
-  paymentMethods: PaymentMethod[];
-  formData: { member: any; storeInVault: boolean; };
-  setRecurring: (value: boolean) => void;
-  onHide: () => void;
-  setSubmitting: (boolean) => void;
+  hidden: boolean,
+  fundraiser: Fundraiser,
+  page: Page,
+  paymentMethods: PaymentMethod[],
+  formData: { member: any, storeInVault: boolean },
+  setRecurring: (value: boolean) => void,
+  onHide: () => void,
+  setSubmitting: boolean => void,
 };
 
 type OwnState = {
-  currentPaymentMethod: ?PaymentMethod;
-  submitting: boolean;
+  currentPaymentMethod: ?PaymentMethod,
+  submitting: boolean,
 };
 
 export class ExpressDonation extends Component {
@@ -44,7 +39,9 @@ export class ExpressDonation extends Component {
     super(props);
 
     this.state = {
-      currentPaymentMethod: props.paymentMethods ? props.paymentMethods[0] : null,
+      currentPaymentMethod: props.paymentMethods
+        ? props.paymentMethods[0]
+        : null,
       submitting: false,
     };
   }
@@ -64,19 +61,18 @@ export class ExpressDonation extends Component {
         // formValues will have the prefillValues
         ...this.props.fundraiser.formValues,
         // form will have the user's submitted values
-        ...this.props.fundraiser.form
-      }
+        ...this.props.fundraiser.form,
+      },
     };
   }
 
-  async onSuccess(data: any) {
+  async onSuccess(data: any): any {
     $.publish('fundraiser:transaction_success', [data, this.props.formData]);
     return data;
   }
 
-  async onFailure(reason: any) {
-    console.log('one click failure:', reason, this.oneClickData());
-    this.setState({submitting: false});
+  async onFailure(reason: any): any {
+    this.setState({ submitting: false });
     this.props.setSubmitting(false);
     $.publish('fundraiser:transaction_error', [reason, this.props.formData]);
     return reason;
@@ -87,11 +83,10 @@ export class ExpressDonation extends Component {
     if (data) {
       this.setState({ submitting: true });
       this.props.setSubmitting(true);
-      $.post(`/api/payment/braintree/pages/${this.props.page.id}/one_click`, data)
-        .then(
-          this.onSuccess.bind(this),
-          this.onFailure.bind(this)
-        );
+      $.post(
+        `/api/payment/braintree/pages/${this.props.page.id}/one_click`,
+        data
+      ).then(this.onSuccess.bind(this), this.onFailure.bind(this));
     }
   }
 
@@ -128,18 +123,20 @@ export class ExpressDonation extends Component {
     return (
       <PaymentMethodWrapper>
         <span className="ExpressDonation__prompt">
-          <FormattedMessage id="fundraiser.oneclick.select_payment" defaultMessage="Select a saved payment method" />
+          <FormattedMessage
+            id="fundraiser.oneclick.select_payment"
+            defaultMessage="Select a saved payment method"
+          />
         </span>
 
-        { this.props.paymentMethods.map(paymentMethod =>
-            <PaymentMethodItem
-              key={paymentMethod.id}
-              paymentMethod={paymentMethod}
-              checked={this.state.currentPaymentMethod === paymentMethod}
-              onChange={() => this.selectPaymentMethod(paymentMethod)}
-            />
-          )
-        }
+        {this.props.paymentMethods.map(paymentMethod =>
+          <PaymentMethodItem
+            key={paymentMethod.id}
+            paymentMethod={paymentMethod}
+            checked={this.state.currentPaymentMethod === paymentMethod}
+            onChange={() => this.selectPaymentMethod(paymentMethod)}
+          />
+        )}
       </PaymentMethodWrapper>
     );
   }
@@ -150,9 +147,17 @@ export class ExpressDonation extends Component {
     return (
       <div className="ExpressDonation">
         <div className="ExpressDonation__payment-methods">
-          { this.props.paymentMethods.length === 1 ? this.renderSingle() : this.renderChoices() }
-          <a className="ExpressDonation__toggle" onClick={() => this.props.onHide()}>
-            <FormattedMessage id="fundraiser.oneclick.new_payment_method" defaultMessage="Add payment method" />
+          {this.props.paymentMethods.length === 1
+            ? this.renderSingle()
+            : this.renderChoices()}
+          <a
+            className="ExpressDonation__toggle"
+            onClick={() => this.props.onHide()}
+          >
+            <FormattedMessage
+              id="fundraiser.oneclick.new_payment_method"
+              defaultMessage="Add payment method"
+            />
           </a>
         </div>
 
@@ -160,8 +165,12 @@ export class ExpressDonation extends Component {
           className="ExpressDonation__recurring-checkbox"
           disabled={this.props.fundraiser.recurringDefault === 'only_recurring'}
           checked={this.props.fundraiser.recurring}
-          onChange={(e) => this.props.setRecurring(e.target.checked)}>
-          <FormattedMessage id="fundraiser.make_recurring" defaultMessage="Make my donation monthly" />
+          onChange={e => this.props.setRecurring(e.target.checked)}
+        >
+          <FormattedMessage
+            id="fundraiser.make_recurring"
+            defaultMessage="Make my donation monthly"
+          />
         </Checkbox>
 
         <DonateButton

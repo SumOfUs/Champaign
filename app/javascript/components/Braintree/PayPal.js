@@ -1,20 +1,25 @@
 // @flow
 import { Component } from 'react';
 import paypal from 'braintree-web/paypal';
-import type { PayPalInstance, PayPalTokenizePayload, PayPalFlow } from 'braintree-web/paypal';
+import type {
+  PayPalInstance,
+  PayPalTokenizePayload,
+  PayPalFlow,
+} from 'braintree-web/paypal';
+import type { Client } from 'braintree-web';
 
 type OwnProps = {
-  client: BraintreeClient;
-  vault: boolean;
-  onInit?: () => void;
-  onFailure?: (data: any) => void;
+  client: Client,
+  vault: boolean,
+  onInit?: () => void,
+  onFailure?: (data: any) => void,
 };
 
 export default class PayPal extends Component {
   props: OwnProps;
   state: {
-    paypalInstance: ?PayPalInstance;
-    disabled: boolean;
+    paypalInstance: ?PayPalInstance,
+    disabled: boolean,
   };
 
   constructor(props: OwnProps) {
@@ -65,10 +70,13 @@ export default class PayPal extends Component {
     return new Promise((resolve, reject) => {
       if (!paypalInstance) return reject();
 
-      paypalInstance.tokenize({ flow: this.flow() }, (error: ?BraintreeError, payload: PayPalTokenizePayload) => {
-        if (error) return reject(error);
-        resolve(payload);
-      });
+      paypalInstance.tokenize(
+        { flow: this.flow() },
+        (error: ?BraintreeError, payload: PayPalTokenizePayload) => {
+          if (error) return reject(error);
+          resolve(payload);
+        }
+      );
     });
   }
 

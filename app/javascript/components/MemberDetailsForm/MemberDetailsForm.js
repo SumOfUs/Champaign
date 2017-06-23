@@ -1,17 +1,17 @@
 // @flow weak
-import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
-import { connect } from "react-redux";
-import _ from "lodash";
-import Button from "../Button/Button";
-import { updateForm } from "../../state/fundraiser/actions";
-import FieldShape from "../FieldShape/FieldShape";
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import _ from 'lodash';
+import Button from '../Button/Button';
+import { updateForm } from '../../state/fundraiser/actions';
+import FieldShape from '../FieldShape/FieldShape';
 
-import type { Element } from "react";
-import type { Dispatch } from "redux";
-import type { AppState } from "../../state";
+import type { Element } from 'react';
+import type { Dispatch } from 'redux';
+import type { AppState } from '../../state';
 
-import "react-select/dist/react-select.css";
+import 'react-select/dist/react-select.css';
 
 type OwnProps = {
   buttonText?: Element<any> | string,
@@ -23,7 +23,7 @@ type OwnProps = {
   formId: number,
   form: Object,
   formId: number,
-  updateForm: (form: Object) => void
+  updateForm: (form: Object) => void,
 };
 
 export class MemberDetailsForm extends Component {
@@ -31,19 +31,26 @@ export class MemberDetailsForm extends Component {
 
   state: {
     errors: any,
-    loading: boolean
+    loading: boolean,
   };
 
   static title = <FormattedMessage id="details" defaultMessage="details" />;
 
-  HIDDEN_FIELDS = ['source', 'akid', 'referrer_id', 'rid', 'bucket', 'referring_akid'];
+  HIDDEN_FIELDS = [
+    'source',
+    'akid',
+    'referrer_id',
+    'rid',
+    'bucket',
+    'referring_akid',
+  ];
 
   constructor(props: OwnProps) {
     super(props);
 
     this.state = {
       errors: {},
-      loading: false
+      loading: false,
     };
   }
 
@@ -72,7 +79,7 @@ export class MemberDetailsForm extends Component {
     this.props.updateForm({ ...this.props.form, ...data });
   }
 
-  getFieldError(field: string): FormattedMessage | void {
+  getFieldError(field: string): ?React$Element<FormattedMessage> {
     const error = this.state.errors[field];
     if (!error) return null;
     return <FormattedMessage {...error} />;
@@ -101,9 +108,9 @@ export class MemberDetailsForm extends Component {
   handleFailure(response: any) {
     const errors = _.mapValues(response.errors, ([message]) => {
       return {
-        id: "errors.this_field_with_message",
-        defaultMessage: "This field {message}",
-        values: { message }
+        id: 'errors.this_field_with_message',
+        defaultMessage: 'This field {message}',
+        values: { message },
       };
     });
 
@@ -113,7 +120,7 @@ export class MemberDetailsForm extends Component {
   updateField(key, value) {
     this.props.updateForm({
       ...this.props.form,
-      [key]: value
+      [key]: value,
     });
   }
 
@@ -124,12 +131,12 @@ export class MemberDetailsForm extends Component {
     // Use a proper xhr lib if we want to make our lives easy.
     // Ideally a
     fetch(`/api/pages/${this.props.pageId}/actions/validate`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "content-type": "application/json",
-        accept: "application/json"
+        'content-type': 'application/json',
+        accept: 'application/json',
       },
-      body: JSON.stringify({ ...this.props.form, form_id: this.props.formId })
+      body: JSON.stringify({ ...this.props.form, form_id: this.props.formId }),
     }).then(
       response => {
         this.setState({ loading: false });
@@ -179,11 +186,11 @@ export class MemberDetailsForm extends Component {
 
 const mapStateToProps = (state: AppState) => ({
   formId: state.fundraiser.formId,
-  form: state.fundraiser.form
+  form: state.fundraiser.form,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
-  updateForm: (form: Object) => dispatch(updateForm(form))
+  updateForm: (form: Object) => dispatch(updateForm(form)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MemberDetailsForm);

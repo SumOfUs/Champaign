@@ -5,34 +5,40 @@ import SelectCountry from '../SelectCountry/SelectCountry';
 import SweetSelect from '../SweetSelect/SweetSelect';
 import Checkbox from '../Checkbox/Checkbox';
 import type { Element } from 'react';
+import type { FormattedMessage } from 'react-intl';
 
+export type Choice = {
+  id: string,
+  value: string,
+  label?: mixed,
+};
 export type Field = {
-  data_type: string;
-  name: string;
-  label: any;
-  default_value: string | null;
-  required?: boolean;
-  disabled?: boolean;
-  choices?: any;
+  data_type: string,
+  name: string,
+  label: mixed,
+  default_value: string | null,
+  required?: boolean,
+  disabled?: boolean,
+  choices?: Choice[],
 };
 
 type FieldProps = {
-  name: string;
-  label: string;
-  disabled?: boolean;
-  required?: boolean;
-  value?: any;
-  errorMessage?: any;
-  onChange?: (v: string) => void;
+  name: string,
+  label: mixed,
+  disabled?: boolean,
+  required?: boolean,
+  value?: any,
+  errorMessage?: React$Element<*>,
+  onChange?: (v: string) => void,
 };
 
 export default class FieldShape extends Component {
   props: {
-    field: Field;
-    value?: any;
-    errorMessage?: any;
-    onChange?: (v: string) => void;
-    className?: string;
+    field: Field,
+    value?: any,
+    errorMessage?: any,
+    onChange?: (v: string) => void,
+    className?: string,
   };
 
   checkboxToggle(event: SyntheticInputEvent) {
@@ -54,52 +60,67 @@ export default class FieldShape extends Component {
   }
 
   errorMessage(fieldProps: FieldProps) {
-    if (fieldProps.errorMessage !== null && fieldProps.errorMessage !== undefined) {
-      return <span className='error-msg'>{ fieldProps.errorMessage }</span>;
-    }
+    if (fieldProps.errorMessage)
+      return <span className="error-msg">{fieldProps.errorMessage}</span>;
   }
 
   renderParagraph(fieldProps: FieldProps) {
-    return (<div>
-      <textarea
-        name={ fieldProps.name }
-        value={ fieldProps.value }
-        placeholder={fieldProps.label}
-        onChange={e => fieldProps.onChange && fieldProps.onChange(e.target.value)}
-        className={fieldProps.errorMessage ? 'has-error' : ''}
-        maxLength="9999">
-      </textarea>
-      { this.errorMessage(fieldProps) }
-    </div>);
+    return (
+      <div>
+        <textarea
+          name={fieldProps.name}
+          value={fieldProps.value}
+          placeholder={fieldProps.label}
+          onChange={(e: SyntheticInputEvent) =>
+            fieldProps.onChange && fieldProps.onChange(e.target.value)}
+          className={fieldProps.errorMessage ? 'has-error' : ''}
+          maxLength="9999"
+        />
+        {this.errorMessage(fieldProps)}
+      </div>
+    );
   }
 
   renderCheckbox(fieldProps: FieldProps) {
     fieldProps.value = (fieldProps.value || '0').toString();
-    const checked = fieldProps.value === '1' || fieldProps.value === 'checked' || fieldProps.value === 'true';
+    const checked =
+      fieldProps.value === '1' ||
+      fieldProps.value === 'checked' ||
+      fieldProps.value === 'true';
     return (
       <div>
         <Checkbox checked={checked} onChange={this.checkboxToggle.bind(this)}>
           {fieldProps.label}
         </Checkbox>
-        { this.errorMessage(fieldProps)}
+        {this.errorMessage(fieldProps)}
       </div>
     );
   }
 
   renderChoice(fieldProps: FieldProps) {
     const { field } = this.props;
-    return (<div className="radio-container">
-              <div className="form__instruction">{ fieldProps.label }</div>
-              {field.choices && field.choices.map( choice =>
-                <label key={choice.id} htmlFor={choice.id}>
-                  <input id={choice.id} name={fieldProps.name}
-                    type='radio' value={choice.value} checked={choice.value === fieldProps.value}
-                    onChange={(event: SyntheticInputEvent) => this.props.onChange && this.props.onChange(event.target.value)} />
-                  { choice.label }
-                </label>
-              )}
-              { this.errorMessage(fieldProps)}
-            </div>);
+    return (
+      <div className="radio-container">
+        <div className="form__instruction">{fieldProps.label}</div>
+        {field.choices &&
+          field.choices.map(choice =>
+            <label key={choice.id} htmlFor={choice.id}>
+              <input
+                id={choice.id}
+                name={fieldProps.name}
+                type="radio"
+                value={choice.value}
+                checked={choice.value === fieldProps.value}
+                onChange={(event: SyntheticInputEvent) =>
+                  this.props.onChange &&
+                  this.props.onChange(event.target.value)}
+              />
+              {choice.label}
+            </label>
+          )}
+        {this.errorMessage(fieldProps)}
+      </div>
+    );
   }
 
   renderField(type: string): Element<any> {
@@ -116,7 +137,9 @@ export default class FieldShape extends Component {
         return <SelectCountry {...fieldProps} />;
       case 'dropdown':
       case 'select':
-        return <SweetSelect {...fieldProps} options={this.props.field.choices} />;
+        return (
+          <SweetSelect {...fieldProps} options={this.props.field.choices} />
+        );
       case 'hidden':
         return <input type="hidden" name={name} value={default_value} />;
       case 'checkbox':
@@ -124,7 +147,7 @@ export default class FieldShape extends Component {
       case 'choice':
         return this.renderChoice(fieldProps);
       case 'instruction':
-        return <div className="form__instruction">{ fieldProps.label }</div>;
+        return <div className="form__instruction">{fieldProps.label}</div>;
       case 'paragraph':
         return this.renderParagraph(fieldProps);
       case 'text':
@@ -136,7 +159,11 @@ export default class FieldShape extends Component {
 
   render() {
     return (
-      <div key={this.props.field.name} className={`MemberDetailsForm-field form__group action-form__field-container ${this.props.className || ''}`}>
+      <div
+        key={this.props.field.name}
+        className={`MemberDetailsForm-field form__group action-form__field-container ${this
+          .props.className || ''}`}
+      >
         {this.renderField(this.props.field.data_type)}
       </div>
     );
