@@ -2,6 +2,9 @@ import $ from 'jquery';
 import _ from 'lodash';
 import Backbone from 'backbone';
 
+const BRAINTREE_TOKEN_URL =
+  process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
+
 const BraintreeHostedFields = Backbone.View.extend({
   el: '.hosted-fields-view',
   TOKEN_WAIT_BEFORE_RETRY: 1500,
@@ -170,7 +173,7 @@ const BraintreeHostedFields = Backbone.View.extend({
   },
 
   getClientToken(callback) {
-    $.get(process.env.BRAINTREE_TOKEN_URL, function(resp, success) {
+    $.get(BRAINTREE_TOKEN_URL, function(resp, success) {
       callback(resp.token);
     }).fail(error => {
       // this code tries to fetch the token again and again

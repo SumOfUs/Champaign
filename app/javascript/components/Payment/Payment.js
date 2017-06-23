@@ -37,6 +37,8 @@ import type {
 import './Payment.css';
 
 const DEFAULT_PAYMENT_TYPE = 'card';
+const BRAINTREE_TOKEN_URL =
+  process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
 type OwnProps = {
   member: Member,
@@ -60,7 +62,11 @@ type OwnState = {
   loading: boolean,
   submitting: boolean,
   expressHidden: boolean,
-  initializing: { [string]: boolean },
+  initializing: {
+    gocardless: boolean,
+    paypal: boolean,
+    card: boolean,
+  },
   errors: any[],
   waitingForGoCardless: boolean,
 };
@@ -94,13 +100,8 @@ export class Payment extends Component {
   }
 
   componentDidMount() {
-    // TODO: move to a service layer that returns a Promise
-    if (!process.env.BRAINTREE_TOKEN_URL) {
-      console.warn("Couldn't find a Braintre token endpoint URL.");
-      return;
-    }
-    $.get(process.env.BRAINTREE_TOKEN_URL).then(
-      (data: { token: string }) => {
+    $.get(BRAINTREE_TOKEN_URL)
+      .done(data => {
         braintreeClient.create(
           { authorization: data.token },
           (error, client) => {
@@ -126,11 +127,10 @@ export class Payment extends Component {
             );
           }
         );
-      },
-      failure => {
+      })
+      .fail(failure => {
         console.log('could not fetch Braintree token', failure);
-      }
-    );
+      });
   }
 
   componentDidUpdate() {

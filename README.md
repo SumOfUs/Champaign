@@ -60,6 +60,11 @@ credit card, debit card, and Paypal payments, and [GoCardless](https://gocardles
 working you'll have to setup the proper credentials by setting [environment variables](config/settings/production.yml) on
 your production environment.
 
+If you use a separate endpoint to fetch your Braintree tokens, you can point to it by updating
+the [env.yml](env.yml) with your `BRAINTREE_TOKEN_URL`. By default, Champaign will use its own token
+endpoint which could degrade performance, so it's recommended that you use a separate service where
+possible.
+
 ## Development Setup using Docker
 
 1. Install Docker - for detailed instructions, go [here](https://docs.docker.com/installation/).
