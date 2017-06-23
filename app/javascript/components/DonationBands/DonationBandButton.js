@@ -20,9 +20,9 @@ type OwnProps = {
 
 export default function DonationBandButton(props: OwnProps): any {
   const className = classnames({
-    'DonationBands-button': true,
-    'DonationBands-button--highlight': props.featuredAmount === props.amount,
-    'DonationBands-button--shade':
+    DonationBandButton: true,
+    'DonationBandButton--highlight': props.featuredAmount === props.amount,
+    'DonationBandButton--shade':
       !!props.featuredAmount && props.featuredAmount !== props.amount,
   });
 

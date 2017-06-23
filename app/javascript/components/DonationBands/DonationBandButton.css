@@ -1,16 +1,16 @@
-.DonationBandsButton {
+.Button-root.DonationBandButton {
   width: 48.5%;
   display: inline-block;
   font-size: 24px;
 }
 
-.DonationBandsButton--shade:not(:hover) {
+.DonationBandButton--shade:not(:hover) {
   background-color: darkgray;
   border-color: darkgray;
 }
 
 @media (max-width: 300px) {
-  .DonationBandButton {
+  .Button-root.DonationBandButton {
     min-width: 100%;
   }
 }
