@@ -25,7 +25,7 @@ database:
 test:
   override:
     - |
-      yarn run flow &&
+      yarn run flow check &&
       yarn run test &&
       bundle exec rspec spec
 

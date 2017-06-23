@@ -2,7 +2,7 @@
   "scripts": {
     "precommit": "lint-staged",
     "pretest": "node bin/convert_translations.js",
-    "flow": "flow check",
+    "flow": "flow",
     "test": "jest"
   },
   "lint-staged": {
