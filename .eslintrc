@@ -32,6 +32,9 @@ rules:
       after: true
   no-var: error
   prefer-const: warn
+  quotes:
+    - error
+    - single
 plugins:
   - import
   - flowtype
