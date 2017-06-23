@@ -2,16 +2,17 @@
 // @flow
 
 declare type WebpackModuleHot = {
-  accept: (path: string, callback: () => void) => void;
-}
+  accept: (path: string, callback: () => void) => void,
+};
 
 declare type WebpackModule = {
-  hot: WebpackModuleHot;
+  hot: WebpackModuleHot,
 };
 
 declare var module: WebpackModule;
 
-declare type FBStandardEvent = 'ViewContent'
+declare type FBStandardEvent =
+  | 'ViewContent'
   | 'Search'
   | 'AddToCart'
   | 'AddToWishlist'
@@ -28,7 +29,11 @@ declare type FBEventParams = {
   content_category?: any,
   content_type?: any,
   content_ids?: any[],
-  num_items?: any
+  num_items?: any,
 };
 
-declare function fbq(action: 'init' | 'track' | 'trackCustom', eventName: FBStandardEvent, data?: FBEventParams): void;
+declare function fbq(
+  action: 'init' | 'track' | 'trackCustom',
+  eventName: FBStandardEvent,
+  data?: FBEventParams
+): void;

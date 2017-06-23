@@ -12,89 +12,162 @@
  * https://github.com/flowtype/flow-typed
  */
 
-declare type BraintreeClient = any;
-declare type BraintreeError = any;
+interface ClientAnalyticsMetadata {
+  sessionId: string,
+  sdkVersion: string,
+  merchantAppId: string,
+}
+
+interface Configuration {
+  client: Client,
+  gatewayConfiguration: any,
+  analyticsMetadata: ClientAnalyticsMetadata,
+}
+
+interface CreditCardInfo {
+  number: string,
+  cvv: string,
+  expirationDate: string,
+  billingAddress: {
+    postalCode?: string,
+  },
+}
+
+declare interface Client {
+  VERSION: string,
+  authorization: string,
+  getConfiguration(): Configuration,
+  create(
+    options: { authorization: string },
+    callback: (error: BraintreeError, data: BraintreeClient) => void
+  ): void,
+
+  request(
+    options: { method: string, endpoint: string, data: any, timeout?: number },
+    callback: callback
+  ): void,
+}
+
+declare type BraintreeError = {
+  code: string,
+  message: string,
+  type: 'CUSTOMER' | 'MERCHANT' | 'NETWORK' | 'INTERNAL' | 'UNKNOWN',
+  details: any,
+};
 
 declare module 'braintree-web' {
   declare module.exports: any;
 }
 
 declare module 'braintree-web/client' {
+  declare module.exports: Client;
+}
+
+declare module 'braintree-web/data-collector' {
+  declare var VERSION: string;
+  declare var deviceData: string;
   declare function create(
-    options: { authorization: string },
-    callback: (error: BraintreeError, data: BraintreeClient) => void
+    options: { client: Client, kount: boolean, paypal: boolean },
+    callback: callback
   ): void;
+  declare function teardown(callback?: callback): void;
 }
 
 declare module 'braintree-web/paypal' {
   declare type PayPalFlow = 'checkout' | 'vault';
   declare type Address = {
-    line1: string;
-    line2: string;
-    city: string;
-    state: string;
-    postalCode: string;
-    countryCode: string;
+    line1: string,
+    line2: string,
+    city: string,
+    state: string,
+    postalCode: string,
+    countryCode: string,
   };
 
   declare type ShippingAddress = Address & { recipientName: string };
 
   declare type PayPalAccountDetails = {
-    email: string;
-    payerId: string;
-    firstName: string;
-    lastName: string;
-    countryCode: ?string;
-    phone: ?string;
-    billingAddress: Address;
-    shippingAddress: ShippingAddress;
+    email: string,
+    payerId: string,
+    firstName: string,
+    lastName: string,
+    countryCode: ?string,
+    phone: ?string,
+    billingAddress: Address,
+    shippingAddress: ShippingAddress,
   };
 
   declare type PayPalTokenizeReturn = {
     // A handle to close the PayPal checkout flow.
-    close: () => void;
+    close: () => void,
 
     // A handle to focus the PayPal checkout flow.
     // Note that some browsers (notably iOS Safari) do not support focusing popups.
     // Firefox requires the focus call to occur as the result of a user interaction, such as a button click.
-    focus: () => void;
+    focus: () => void,
   };
 
   declare type PayPalTokenizePayload = {
-    nonce: string;
-    type: 'PayPalAccount';
-    details: PayPalAccountDetails;
+    nonce: string,
+    type: 'PayPalAccount',
+    details: PayPalAccountDetails,
   };
 
   declare type PaypalTokenizeOptions = {
-    flow: 'checkout' | 'vault';
-    offerCredit?: boolean;
-    currency?: string;
-    displayName?: string;
-    locale?: 'en_US' | 'da_DK' | 'de_DE' | 'en_AU' | 'en_GB' | 'en_US' | 'es_ES' | 'fr_CA' | 'fr_FR' | 'id_ID' | 'it_IT' | 'ja_JP' | 'ko_KR' | 'nl_NL' | 'no_NO' | 'pl_PL' | 'pt_BR' | 'pt_PT' | 'ru_RU' | 'sv_SE' | 'th_TH' | 'zh_CN' | 'zh_HK' | 'and zh_TW';
-    enableShippingAddress?: boolean;
-    shippingAddressEditable?: boolean;
-    shippingAddressOverride?: ShippingAddress & { phone?: string };
+    flow: 'checkout' | 'vault',
+    offerCredit?: boolean,
+    currency?: string,
+    displayName?: string,
+    locale?:
+      | 'en_US'
+      | 'da_DK'
+      | 'de_DE'
+      | 'en_AU'
+      | 'en_GB'
+      | 'en_US'
+      | 'es_ES'
+      | 'fr_CA'
+      | 'fr_FR'
+      | 'id_ID'
+      | 'it_IT'
+      | 'ja_JP'
+      | 'ko_KR'
+      | 'nl_NL'
+      | 'no_NO'
+      | 'pl_PL'
+      | 'pt_BR'
+      | 'pt_PT'
+      | 'ru_RU'
+      | 'sv_SE'
+      | 'th_TH'
+      | 'zh_CN'
+      | 'zh_HK'
+      | 'and zh_TW',
+    enableShippingAddress?: boolean,
+    shippingAddressEditable?: boolean,
+    shippingAddressOverride?: ShippingAddress & { phone?: string },
     // Use this option to set the description of the preapproved payment agreement
     // visible to customers in their PayPal profile during Vault flows.
     // Max 255 characters.
-    billingAgreementDescription?: string;
+    billingAgreementDescription?: string,
   };
 
   declare type PaypalCheckoutFlowOptions = {
-    intent?: string;
-    userAction?: string;
-    amount: string | number;
+    intent?: string,
+    userAction?: string,
+    amount: string | number,
   };
 
   declare type PaypalVaultFlowOptions = {
-    amount?: string | number;
+    amount?: string | number,
   };
 
-
   declare type PayPalInstance = {
-    teardown: (callback?: (error: BraintreeError) => void) => void;
-    tokenize: (options: PaypalCheckoutFlowOptions | PaypalVaultFlowOptions, callback: (error: ?BraintreeError, payload: PayPalTokenizePayload) => void) => PayPalTokenizeReturn;
+    teardown: (callback?: (error: BraintreeError) => void) => void,
+    tokenize: (
+      options: PaypalCheckoutFlowOptions | PaypalVaultFlowOptions,
+      callback: (error: ?BraintreeError, payload: PayPalTokenizePayload) => void
+    ) => PayPalTokenizeReturn,
   };
 
   declare function create(
@@ -105,35 +178,36 @@ declare module 'braintree-web/paypal' {
 
 declare module 'braintree-web/hosted-fields' {
   declare type HostedFieldsTokenizePayload = {
-    nonce: string;
+    nonce: string,
     details: {
-      cardType: string;
-      lastTwo: string;
-    };
-    description: string;
-    type: 'CreditCard';
-
+      cardType: string,
+      lastTwo: string,
+    },
+    description: string,
+    type: 'CreditCard',
   };
 
   declare type HostedFieldsInstance = {
     tokenize: (
       options: { vault?: boolean },
-      callback: (error: BraintreeError, data: HostedFieldsTokenizePayload) => void
-    ) => void;
-    teardown: (callback?: () => void) => void;
-    on: (eventType: string, callback: (event:any) => void) => void;
+      callback: (
+        error: BraintreeError,
+        data: HostedFieldsTokenizePayload
+      ) => void
+    ) => void,
+    teardown: (callback?: () => void) => void,
+    on: (eventType: string, callback: (event: any) => void) => void,
   };
 
   declare function create(
     options: {
-      client: BraintreeClient;
-      fields: Object;
-      styles: Object;
+      client: BraintreeClient,
+      fields: Object,
+      styles: Object,
     },
     callback: (error: BraintreeError, data: HostedFieldsInstance) => void
   ): void;
 }
-
 
 /**
  * We include stubs for each file inside this npm package in case you need to
@@ -149,10 +223,6 @@ declare module 'braintree-web/apple-pay' {
 }
 
 declare module 'braintree-web/client' {
-  declare module.exports: any;
-}
-
-declare module 'braintree-web/data-collector' {
   declare module.exports: any;
 }
 
