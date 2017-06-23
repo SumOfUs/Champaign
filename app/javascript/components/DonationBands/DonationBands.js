@@ -1,9 +1,12 @@
 /* @flow */
 import React, { Component } from 'react';
+import $ from 'jquery';
 import { FormattedNumber, injectIntl } from 'react-intl';
 import classnames from 'classnames';
-import Button from '../Button/Button';
+import DonationBandButton from './DonationBandButton';
 import './DonationBands.css';
+
+import type { IntlShape } from 'react-intl';
 
 const FORMATTED_NUMBER_DEFAULTS = {
   style: 'currency',
@@ -12,20 +15,20 @@ const FORMATTED_NUMBER_DEFAULTS = {
 };
 
 type Props = {
-  amounts: number[];
-  currency: string;
-  customAmount?: number;
-  proceed: () => void;
-  intl: any,
-  selectAmount: (amount: ?number) => void;
-  featuredAmount?: number;
+  amounts: number[],
+  currency: string,
+  customAmount?: number,
+  proceed: () => void,
+  intl: IntlShape,
+  selectAmount: (amount: ?number) => void,
+  featuredAmount?: number,
 };
 
 export class DonationBands extends Component {
   props: Props;
 
   state: {
-    customAmount: string;
+    customAmount: string,
   };
 
   constructor(props: Props) {
@@ -75,38 +78,32 @@ export class DonationBands extends Component {
     return `${currencySymbol}${amountString}`;
   }
 
-  renderButton(amount: number, index: number): Button {
-    const featuredAmount = this.props.featuredAmount;
-    const className = classnames({
-      'DonationBands-button': true,
-      'DonationBands-button--highlight': (featuredAmount === amount),
-      'DonationBands-button--shade': (!!featuredAmount && featuredAmount !== amount)
-    });
-    const currency = ['AUD', 'CAD', 'NZD'].indexOf(this.props.currency) > -1 ? 'USD' : this.props.currency;
-
-    return (
-      <Button key={index}
-              className={className}
-              onClick={() => this.onButtonClicked(amount)}>
-        <FormattedNumber {...FORMATTED_NUMBER_DEFAULTS} currency={currency} value={amount} />
-      </Button>
-    );
-  }
-
   render() {
     const { amounts } = this.props;
     return (
       <div className="DonationBands-container">
-        {amounts.map((amount, i) => this.renderButton(amount, i))}
+        {amounts.map((amount, i) =>
+          <DonationBandButton
+            key={i}
+            amount={amount}
+            featuredAmount={this.props.featuredAmount}
+            currency={this.props.currency}
+            onClick={() => this.onButtonClicked(amount)}
+          />
+        )}
         <input
           type="tel"
           ref="customAmount"
           id="DonationBands-custom-amount"
           className="DonationBands__input"
-          placeholder={this.props.intl.formatMessage({id: 'fundraiser.other_amount'})}
+          placeholder={this.props.intl.formatMessage({
+            id: 'fundraiser.other_amount',
+          })}
           pattern={/^[0-9]+$/}
           value={this.customFieldDisplay()}
-          onChange={({target}) => this.onInputUpdated(target.value)}/>
+          onChange={(e: SyntheticInputEvent) =>
+            this.onInputUpdated(e.target.value)}
+        />
       </div>
     );
   }
