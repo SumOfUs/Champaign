@@ -741,6 +741,10 @@ declare class JQueryEasingFunctions {
  * Static members of jQuery (those on $ and jQuery themselves)
  */
 declare class JQueryStatic {
+  /* SumOfUs pubsub custom extension */
+  subscribe(eventName: string, cb: (any) => void): void,
+  unsubscribe(eventName: string, cb: (any) => void): void,
+  publish(eventName: string, data?: any): void,
   /**
    * Perform an asynchronous HTTP (Ajax: any) request.
    *
