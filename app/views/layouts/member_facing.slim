@@ -8,6 +8,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
     = stylesheet_link_tag 'member-facing'
     = stylesheet_pack_tag 'fundraiser_plugin'
+    = stylesheet_pack_tag 'email_target'
 
     = csrf_meta_tags
     = favicon_link_tag 'images/favicon.ico'
