@@ -7,7 +7,7 @@
   margin-bottom: 12px;
 }
 
-.AmountSelection__currency-selector {
+.AmountSelection__proceed-button, .AmountSelection__currency-selector {
   margin-top: 12px;
 }
 .DonationBands-input {
