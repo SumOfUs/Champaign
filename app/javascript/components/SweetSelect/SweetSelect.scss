@@ -1,5 +1,4 @@
 .SweetSelect {
-
   .Select.has-error .Select-control {
     border-color: #f8492e;
   }
@@ -15,6 +14,9 @@
     border-width: 2px;
     box-shadow: none;
     outline: none;
+  }
+  .Select-option {
+    font-size: 16px;
   }
   .Select-option.is-selected {
     background: white;
@@ -48,7 +50,7 @@
     }
   }
 
-  .error-msg:empty{
+  .error-msg:empty {
     display: none;
   }
 }

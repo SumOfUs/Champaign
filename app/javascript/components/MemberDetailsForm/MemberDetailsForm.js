@@ -118,6 +118,7 @@ export class MemberDetailsForm extends Component {
   }
 
   updateField(key, value) {
+    this.state.errors[key] = null; // reset error message when field value changes
     this.props.updateForm({
       ...this.props.form,
       [key]: value,

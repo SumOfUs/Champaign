@@ -207,7 +207,7 @@
   }
 
   &__toggle-payment-method {
-    @extend .fundraiser-bar__clear-form
+    @extend .fundraiser-bar__clear-form;
   }
 
   &__one-click-title {
@@ -215,7 +215,7 @@
   }
 
   &__payment-methods {
-    @extend .fundraiser-bar__welcome-text
+    @extend .fundraiser-bar__welcome-text;
   }
   #payment-methods-collection {
     overflow: hidden;
@@ -251,10 +251,19 @@
     .form--big textarea,
     .form--big .selectize-control.single .selectize-input,
     .form--big .hosted-fields__host,
-    .hosted-fields__host, input, select, .selectize-input {
+    .DonationBands__input,
+    .hosted-fields__host,
+    input,
+    select,
+    .selectize-input,
+    .SweetSelect .Select > .Select-control {
       border-color: $slate-gray;
-      &.braintree-hosted-fields-focused {
+      border-width: 2px;
+      &.braintree-hosted-fields-focused, &:focus {
         border-color: $teal;
+      }
+      &.has-error {
+        border-color: $orange;
       }
     }
 
@@ -276,7 +285,7 @@
       text-align: left;
     }
 
-    @media(max-width: 736px) {
+    @media (max-width: 736px) {
       label.checkbox-label input[type='checkbox'] {
         position: relative;
         vertical-align: middle;
@@ -300,8 +309,7 @@
     .BraintreeCardFields__hosted-field {
       border: #b2b5ba 2px solid;
     }
-    .Stepper__steps,
-    .StepContent {
+    .Stepper__steps, .StepContent {
       margin-left: auto;
       margin-right: auto;
     }
@@ -416,7 +424,9 @@
     }
   }
   .hosted-fields--grayed-out {
-    #braintree-paypal-button, #braintree-paypal-button img, .hosted-fields__direct-debit {
+    #braintree-paypal-button,
+    #braintree-paypal-button img,
+    .hosted-fields__direct-debit {
       @include filter(grayscale(100%));
       &:hover, &:hover img {
         @include filter(grayscale(0%));
