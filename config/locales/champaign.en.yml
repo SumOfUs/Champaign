@@ -76,6 +76,7 @@ en:
     canonical_url: "If a page is accessible through multiple URLs, then pick the best one for SEO. Defaults to https://our.site/a/page-slug"
     optimizely_status: "Optimizely can be slow to load, but we load it on all pages so we can run site-wide experiments. Please only disable for exceptional pages like microsites."
     publish_actions: 'Use this to make member responses to the page accessible through the API.'
+    auto_advance: "Enabling this option allows you to put the first question in the email someone receives, and then to skip to the second question on page load if that response is detected."
     shares:
       link_explanation: "Please keep the {LINK} in your text. Champaign will replace this with the actual link to your page."
       new: "Once you have uploaded the photos you want to test, use this box to create your shares. Champaign will use ShareProgress to serve the best-performing version when there's a winner."
@@ -300,6 +301,7 @@ en:
     survey:
       customise_form: "Edit survey section"
       create_form: "Add a new section to survey"
+      auto_advance: "Automatically skip first section if data is pre-filled"
     fundraiser:
       donation_band: "Default donation band for unknown user"
       title: "Title (eg 'Donate now')"

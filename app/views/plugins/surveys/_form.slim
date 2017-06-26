@@ -12,6 +12,14 @@
         .form-group
           = f.submit t('plugins.survey.create_form'), class: 'btn btn-default xhr-feedback'
 
+      - name = "plugins_survey_#{plugin.id}"
+      = form_for plugin, url: plugins_survey_path(plugin), remote: true, as: name, html: {class: 'plugin-settings one-form activation-toggle', data: {type: name }} do |f|
+        = render 'plugins/shared/plugin_metadata', f: f
+        label.edit-page-checkbox
+          = f.check_box :auto_advance
+          = t('plugins.survey.auto_advance')
+        = render 'tooltip', tooltip_text: t('tooltips.auto_advance'), space_left: true
+
     .plugin-form-preview.col-md-5
       h4 Preview
       .content

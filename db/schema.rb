@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170504213048) do
+ActiveRecord::Schema.define(version: 20170626194936) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -500,10 +500,11 @@ ActiveRecord::Schema.define(version: 20170504213048) do
 
   create_table "plugins_surveys", force: :cascade do |t|
     t.integer  "page_id"
-    t.boolean  "active",     default: false
+    t.boolean  "active",       default: false
     t.string   "ref"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "auto_advance", default: true
   end
 
   add_index "plugins_surveys", ["page_id"], name: "index_plugins_surveys_on_page_id", using: :btree
