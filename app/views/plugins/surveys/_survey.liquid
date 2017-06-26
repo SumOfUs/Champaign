@@ -34,6 +34,7 @@
           source:           window.champaign.personalization.urlParams.source,
           akid:             window.champaign.personalization.urlParams.akid,
           referring_akid:   window.champaign.personalization.urlParams.referring_akid,
+          autoAdvance:      ("{{ plugins.survey[ref].auto_advance }}" == "true"),
           followUpUrl:      "{{ follow_up_url }}"
         });
       });

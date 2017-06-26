@@ -21,6 +21,9 @@ const Survey = Backbone.View.extend({
   //    referring_akid: the AK id of the referrer
   //    prefill: an object with fields that will prefill the form
   //    followUpUrl: the url to redirect to after the survey is completed
+  //    autoAdvance: if the page has all the data necessary to complete the first
+  //      form section by the time the page loads (eg from url params) then if this
+  //      param is truthy, the page will automatically scroll.
   //    scrollOffset: the gap to leave between the top of the browser
   //      window and the start of a form when scrolling down. default is 80
   initialize(options={}) {
@@ -30,7 +33,7 @@ const Survey = Backbone.View.extend({
     this.insertHiddenFields(options);
     this.prefill(options.prefill);
     this.revealFirstForm();
-    this.submitFirstFormIfComplete();
+    if (options.autoAdvance) this.submitFirstFormIfComplete();
     this.followUpUrl = options.followUpUrl;
     if (!MobileCheck.isMobile()) {
       this.selectizeDropdowns();
