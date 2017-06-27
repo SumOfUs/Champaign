@@ -234,6 +234,7 @@
   &--freestanding {
     position: static;
     max-width: 400px;
+    min-height: 320px;
 
     .fundraiser-bar__top, .fundraiser-bar__main {
       background-color: transparent;
@@ -256,6 +257,7 @@
     input,
     select,
     .selectize-input,
+    div.BraintreeCardFields__hosted-field,
     .SweetSelect .Select > .Select-control {
       border-color: $slate-gray;
       border-width: 2px;

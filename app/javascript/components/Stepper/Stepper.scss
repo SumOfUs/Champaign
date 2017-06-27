@@ -45,7 +45,7 @@
   display: none;
 }
 
-@media(min-width: 700px) {
+@media (min-width: 700px) {
   .StepContent, .Stepper__steps {
     max-width: 290px;
   }
@@ -70,4 +70,8 @@
     }
   }
 }
-
+@media (max-width: 700px) {
+  .fundraiser-bar--freestanding .submission-interstitial {
+    left: 0;
+  }
+}
