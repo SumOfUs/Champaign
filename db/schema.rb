@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_170_425_192_450) do
+ActiveRecord::Schema.define(version: 20_170_626_194_936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20_170_425_192_450) do
     t.integer 'twilio_error_code'
     t.json 'target'
     t.integer 'status', default: 0
+    t.integer 'action_id'
     t.index ['target_call_info'], name: 'index_calls_on_target_call_info', using: :gin
   end
 
@@ -412,11 +413,11 @@ ActiveRecord::Schema.define(version: 20_170_425_192_450) do
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.string 'title'
+    t.json 'targets', default: [], array: true
     t.string 'sound_clip_file_name'
     t.string 'sound_clip_content_type'
     t.integer 'sound_clip_file_size'
     t.datetime 'sound_clip_updated_at'
-    t.json 'targets', default: [], array: true
     t.text 'description'
     t.boolean 'target_by_country', default: true
     t.string 'menu_sound_clip_file_name'
@@ -479,6 +480,7 @@ ActiveRecord::Schema.define(version: 20_170_425_192_450) do
     t.string 'ref'
     t.datetime 'created_at'
     t.datetime 'updated_at'
+    t.boolean 'auto_advance', default: true
     t.index ['page_id'], name: 'index_plugins_surveys_on_page_id'
   end
 
