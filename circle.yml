@@ -33,10 +33,10 @@ deployment:
   production:
     branch: 'master'
     commands:
-      - ./bin/build.sh
+      - BRAINTREE_TOKEN_URL=$PRODUCTION_BRAINTREE_TOKEN_URL ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
   staging:
     branch:  'rails_5'
     commands:
-      - ./bin/build.sh
+      - BRAINTREE_TOKEN_URL=$STAGING_BRAINTREE_TOKEN_URL ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
