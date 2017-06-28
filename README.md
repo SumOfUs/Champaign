@@ -16,7 +16,7 @@ If you're interested in collaborating on the project with us, or have ideas or r
 ## Development setup
 
 * Install gem dependencies by running `gem install bundler` and then `bundle install`.
-* Install node dependencies by running `npm install`
+* Install node dependencies by running `yarn`
 * Setup your db connection by running `cp config/env.template.yml config/env.yml` and edit
   `config/env.yml` with your development database information.
 * Create the development databases: `bundle exec rake db:create`
