@@ -3,11 +3,17 @@
 //   format.json { render json: {errors: link.errors, name: 'link'}, status: :unprocessable_entity }
 // The name field is for if the form element names are prefixed, eg 'link[title]'
 
+import ErrorDisplay from './show_errors';
+
 export default {
   show(e, data) {
-    if (!e || !data || !data.responseText
-        || !data.getResponseHeader('Content-Type').match(/json/i)
-        || data.status != 422) {
+    if (
+      !e ||
+      !data ||
+      !data.responseText ||
+      !data.getResponseHeader('Content-Type').match(/json/i) ||
+      data.status != 422
+    ) {
       return; // no reason to try if we dont have what we need
     }
 
