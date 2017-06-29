@@ -21,7 +21,7 @@ secret_key_base: 'a fake secret key'
 omniauth_client_secret: 'a fake client secret'
 omniauth_client_id: 'a fake client_id'
 homepage_url: 'http://sumofus.org'
-facebook_url: 'https://www.facebook.com/SumOfUs-181924628560212/'
+facebook_url: 'https://www.facebook.com/PageName'
 oauth_domain_whitelist:
   - 'example.com'
 
