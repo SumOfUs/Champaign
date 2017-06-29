@@ -10,6 +10,7 @@ web:
     - redis
   environment:
     PG_USERNAME: postgres
+    PG_PASSWORD: secretpwd
     PG_HOST: db
   env_file:
     - env.yml
@@ -20,6 +21,7 @@ db:
     - "5432"
   environment:
     POSTGRES_DB: champaign
+    POSTGRES_PASSWORD: secretpwd
 
 redis:
   image: redis
