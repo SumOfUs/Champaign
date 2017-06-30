@@ -129,7 +129,7 @@ export class Payment extends Component {
         );
       })
       .fail(failure => {
-        console.log('could not fetch Braintree token', failure);
+        console.warn('could not fetch Braintree token');
       });
   }
 
