@@ -20,7 +20,7 @@ export default (state: State = initialState, action: Action): State => {
         : donationBands;
 
       return Object.assign({}, state, fundraiser, {
-        currency: supportedCurrency(currency, Object.keys(donationBands)),
+        currency: supportedCurrency(currency, Object.keys(amounts)),
         donationBands: amounts,
         ...featuredAmountState({ ...state, donationBands: amounts }, currency),
         ...recurringState(recurringDefault),
