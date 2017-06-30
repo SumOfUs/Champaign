@@ -18,7 +18,6 @@
         fundraiser: {
           pageId: "{{ id }}",
           currency: global.urlParams.currency || global.location.currency,
-          amount: global.urlParams.amount,
           donationBands: global.donationBands,
           showDirectDebit: global.showDirectDebit,
           formValues: global.formValues,
@@ -29,7 +28,7 @@
         {% else %}
           title: "{{ plugins.fundraiser[ref].title }}",
         {% endif %}
-          preselectAmount: global.urlParams.preselect ? global.urlParams.preselect === '1' : {{ plugins.fundraiser[ref].preselect_amount }},
+          preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
           fields: {{ plugins.fundraiser[ref].fields | jsonify }},
           recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
           freestanding: {% if freestanding %} true {% else %} false {% endif %}

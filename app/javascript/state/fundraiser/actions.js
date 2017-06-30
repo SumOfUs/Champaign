@@ -1,9 +1,9 @@
 // @flow
 import $ from 'jquery';
-import type { InitialAction } from '../reducers';
+import type { GlobalActions } from '../reducers';
 
 export type FundraiserAction =
-  | InitialAction
+  | GlobalActions
   | { type: 'change_currency', payload: string }
   | { type: 'change_amount', payload: ?number }
   | { type: 'set_recurring', payload: boolean }

@@ -27,7 +27,7 @@ export const reducer = (state = initialState, action) => {
     case 'email_target:change_name':
       return { ...state, name: action.name };
     case 'email_target:change_pension_funds':
-      return { ...state, pensionFunds: action.funds};
+      return { ...state, pensionFunds: action.funds };
     case 'email_target:change_fund':
       const fund = action.fund;
       const contact = {
@@ -37,7 +37,7 @@ export const reducer = (state = initialState, action) => {
         fund: fund.fund,
       };
 
-      return { ...state, ...contact};
+      return { ...state, ...contact };
     case 'email_target:initialize':
       return { ...state, ...action.payload };
     default:
@@ -45,34 +45,34 @@ export const reducer = (state = initialState, action) => {
   }
 };
 
-export const changeSubmitting = (submitting) => {
+export const changeSubmitting = submitting => {
   return { type: 'email_target:change_submitting', submitting };
 };
 
-export const changeBody = (emailBody) => {
+export const changeBody = emailBody => {
   return { type: 'email_target:change_body', emailBody };
 };
 
-export const changeCountry = (country) => {
+export const changeCountry = country => {
   return { type: 'email_target:change_country', country };
 };
 
-export const changeSubject = (emailSubject) => {
+export const changeSubject = emailSubject => {
   return { type: 'email_target:change_subject', emailSubject };
 };
 
-export const changeName = (name) => {
-  return { type: 'email_target:change_name', name};
+export const changeName = name => {
+  return { type: 'email_target:change_name', name };
 };
 
-export const changeEmail = (email) => {
+export const changeEmail = email => {
   return { type: 'email_target:change_email', email };
 };
 
-export const changeFund = (fund) => {
+export const changeFund = fund => {
   return { type: 'email_target:change_fund', fund };
 };
 
-export const changePensionFunds = (funds) => {
+export const changePensionFunds = funds => {
   return { type: 'email_target:change_pension_funds', funds };
 };
