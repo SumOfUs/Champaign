@@ -4,7 +4,6 @@ AllCops:
   TargetRubyVersion: 2.4
   Exclude:
     - 'bin/**/*'
-    - 'db/schema.rb'
     - 'vendor/**/*'
     - 'node_modules/**/*'
 
