@@ -13,14 +13,17 @@ function WrapInStore({ store, children }) {
 
 export default class ComponentWrapper extends Component {
   props: {
-    store?: Store;
-    children?: any;
-    locale: string;
+    store?: Store,
+    children?: any,
+    locale: string,
   };
 
   render() {
     return (
-      <IntlProvider locale={this.props.locale} messages={ loadTranslations(this.props.locale) }>
+      <IntlProvider
+        locale={this.props.locale}
+        messages={loadTranslations(this.props.locale)}
+      >
         <WrapInStore store={this.props.store}>
           <div className="App">
             {this.props.children}
