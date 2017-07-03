@@ -1,4 +1,4 @@
-require('dotenv').config({ path: 'env.yml' });
+require('dotenv').config();
 const webpack = require('webpack');
 
 module.exports = {

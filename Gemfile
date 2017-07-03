@@ -4,6 +4,7 @@
 source 'https://rubygems.org'
 ruby '2.4.1'
 
+gem 'dotenv-rails', groups: [:development, :test]
 gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 gem 'bcrypt', '~> 3.1.7'
@@ -51,7 +52,6 @@ gem 'bootstrap-sass', '~> 3.3.5'
 gem 'browser', '~> 2.0', '>= 2.0.3'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
-gem 'envyable', require: 'envyable/rails-now'
 gem 'friendly_id'
 gem 'jwt'
 gem 'logger'
