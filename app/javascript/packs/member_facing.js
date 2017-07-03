@@ -47,4 +47,5 @@ const initializeApp = () => {
 };
 
 initializeApp();
-window.champaignStore = configureStore({});
+
+window.champaign.store = configureStore({});
