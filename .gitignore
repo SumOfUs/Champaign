@@ -22,8 +22,7 @@ coverage/
 # Ignore uploads
 public/uploads*
 
-env.yml
-config/env.yml
+.env
 
 queue_listeners/config/env.yml
 
