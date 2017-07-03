@@ -19,6 +19,3 @@
 //= require summernote
 
 window.champaign = window.champaign || {};
-window.champaign.configuration = {
-  actionKitEnabled: <%= !!Settings.ak_integration_enabled %>
-};
