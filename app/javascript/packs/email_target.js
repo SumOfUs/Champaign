@@ -19,7 +19,7 @@ type emailTargetInitialState = {
   isSubmitting: boolean,
 };
 
-const store: Store<AppState, *> = window.champaignStore;
+const store: Store<AppState, *> = window.champaign.store;
 
 window.mountEmailTarget = (root: string, props: emailTargetInitialState) => {
   props = camelizeKeys(props);

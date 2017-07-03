@@ -6,7 +6,7 @@ import ComponentWrapper from '../components/ComponentWrapper';
 import FundraiserView from '../fundraiser/FundraiserView';
 import configureStore from '../state';
 
-const store = window.champaignStore;
+const store = window.champaign.store;
 
 window.mountFundraiser = function(root, data) {
   store.dispatch({ type: 'initialize_page', payload: window.champaign.page });
