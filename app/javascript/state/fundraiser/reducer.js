@@ -1,5 +1,5 @@
 /* @flow */
-import { includes, isEmpty, without } from 'lodash';
+import { keys, includes, isEmpty, without, pick } from 'lodash';
 import {
   initialState,
   recurringState,
@@ -12,84 +12,78 @@ import type { Fundraiser as State, DonationBands } from './helpers';
 
 export default (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case 'parse_champaign_data': {
-      const { fundraiser } = action.payload;
-      const { currency, donationBands, recurringDefault } = fundraiser;
-      const amounts = isEmpty(donationBands)
-        ? state.donationBands
-        : donationBands;
-
-      return Object.assign({}, state, fundraiser, {
-        currency: supportedCurrency(currency, Object.keys(amounts)),
-        donationBands: amounts,
-        ...featuredAmountState({ ...state, donationBands: amounts }, currency),
-        ...recurringState(recurringDefault),
-      });
-    }
-    case 'querystring_parameters': {
-      const { amount, recurring_default, preselect } = action.payload;
-      const currency = supportedCurrency(
-        action.payload.currency,
-        Object.keys(state.donationBands)
-      );
-      return Object.assign(state, {
-        donationAmount: parseInt(amount, 10) || 0,
-        currency,
-        ...recurringState(recurring_default),
-        ...featuredAmountState(state, currency, preselect),
-      });
-    }
-    case 'reset_member':
-      return Object.assign({}, state, {
-        outstandingFields: state.fields.map(field => field.name),
-        formValues: {},
-      });
-    case 'set_submitting':
-      return Object.assign({}, state, {
-        submitting: action.payload,
-      });
-    case 'change_currency': {
-      const currency = supportedCurrency(
+    case 'initialize_fundraiser':
+      const initialData = pick(
         action.payload,
-        Object.keys(state.donationBands)
+        'member',
+        'pageId',
+        'formValues',
+        'formId',
+        'outstandingFields',
+        'title',
+        'fields',
+        'freestanding',
+        'donationAmount'
       );
-
+      return { ...state, ...initialData };
+    case 'reset_member':
       return {
         ...state,
-        ...featuredAmountState(state, currency),
+        outstandingFields: state.fields.map(field => field.name),
+        formValues: {},
+      };
+    case 'change_currency': {
+      const { preselectAmount, donationBands } = state;
+      const currency = supportedCurrency(action.payload, keys(donationBands));
+      return {
+        ...state,
+        ...featuredAmountState(preselectAmount, { donationBands, currency }),
         currency,
       };
     }
-
     case 'change_amount':
-      return Object.assign({}, state, {
-        donationAmount: action.payload || undefined,
-      });
+      const donationAmount = action.payload || undefined;
+      return { ...state, donationAmount };
     case 'change_step':
-      return Object.assign({}, state, {
-        currentStep: action.payload,
-      });
+      return { ...state, currentStep: action.payload };
     case 'proceed_step':
-      const nextStep = state.currentStep + 1;
-      return Object.assign({}, state, {
-        currentStep: nextStep,
-      });
+      const currentStep = state.currentStep + 1;
+      return { ...state, currentStep };
     case 'update_form':
-      return Object.assign({}, state, {
-        form: action.payload,
-      });
-    case 'set_store_in_vault':
-      return Object.assign({}, state, {
-        storeInVault: action.payload,
-      });
+      return { ...state, form: action.payload };
+    case 'set_donation_bands':
+      const payload: DonationBands = action.payload;
+      const donationBands: DonationBands = isEmpty(payload)
+        ? state.donationBands
+        : payload;
+      const currency = supportedCurrency(state.currency, keys(donationBands));
+      const preselectAmount = state.preselectAmount;
+      return {
+        ...state,
+        ...featuredAmountState(preselectAmount, { donationBands, currency }),
+        currency,
+        donationBands,
+      };
     case 'set_payment_type':
-      return Object.assign({}, state, {
-        currentPaymentType: action.payload,
-      });
+      return { ...state, currentPaymentType: action.payload };
     case 'set_recurring':
-      return Object.assign({}, state, {
-        recurring: action.payload,
-      });
+      return { ...state, recurring: action.payload };
+    case 'set_recurring_defaults':
+      return { ...state, ...recurringState(action.payload) };
+    case 'set_store_in_vault':
+      return { ...state, storeInVault: action.payload };
+    case 'set_submitting':
+      return { ...state, submitting: action.payload };
+    case 'toggle_direct_debit':
+      return { ...state, showDirectDebit: action.payload };
+    case 'preselect_amount':
+      return {
+        ...state,
+        ...featuredAmountState(action.payload, {
+          donationBands: state.donationBands,
+          currency: state.currency,
+        }),
+      };
     default:
       return state;
   }

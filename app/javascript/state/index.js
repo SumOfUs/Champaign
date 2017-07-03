@@ -9,7 +9,6 @@ export type { AppState } from './reducers';
 export type { Fundraiser } from './fundraiser/helpers';
 export type { Member } from './member/reducer';
 export type { PaymentMethod } from './paymentMethods/reducer';
-export type { Page } from './page/reducer';
 
 export default function configureStore(initialState: any): any {
   const composeEnhancers =
