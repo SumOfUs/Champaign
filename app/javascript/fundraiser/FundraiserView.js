@@ -18,12 +18,12 @@ import {
 
 import type { Dispatch } from 'redux';
 import type { AppState } from '../state';
-import type { Member, Fundraiser, Page } from '../state';
+import type { Member, Fundraiser } from '../state';
 
 type OwnProps = {
   fundraiser: Fundraiser,
   member: Member,
-  page: Page,
+  page: ChampaignPage,
   changeStep: number => void,
   selectAmount: (?number) => void,
   selectCurrency: string => void,

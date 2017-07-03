@@ -1,3 +1,4 @@
+// @flow
 import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
@@ -6,19 +7,60 @@ import ComponentWrapper from '../components/ComponentWrapper';
 import FundraiserView from '../fundraiser/FundraiserView';
 import configureStore from '../state';
 
-const store = window.champaign.store;
+import type { AppState } from '../state/reducers';
+import type { DonationBands } from '../state/fundraiser/helpers';
+import type { PageAction } from '../state/page/reducer';
+import type {
+  FundraiserAction,
+  FundraiserInitializationOptions,
+} from '../state/fundraiser/actions';
 
-window.mountFundraiser = function(root, data) {
-  store.dispatch({ type: 'initialize_page', payload: window.champaign.page });
-  store.dispatch({ type: 'parse_champaign_data', payload: data });
-  store.dispatch({
-    type: 'querystring_parameters',
-    payload: queryString.parse(location.search),
+type SearchParams = {
+  recurring_default?: string,
+  amount?: string,
+  currency?: string,
+  preselect?: string,
+};
+
+type Action = FundraiserAction | PageAction;
+const store: Store<AppState, FundraiserAction> = champaign.store;
+const dispatch = (a: Action): Action => store.dispatch(a);
+
+type MountFundraiserOptions = ChampaignPersonalizationData & {
+  fundraiser: FundraiserInitializationOptions,
+};
+
+window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
+  const search: SearchParams = queryString.parse(location.search);
+  dispatch({ type: 'initialize_page', payload: champaign.page });
+  dispatch({ type: 'initialize_fundraiser', payload: data.fundraiser });
+  dispatch({
+    type: 'set_donation_bands',
+    payload: data.fundraiser.donationBands,
   });
+
+  dispatch({
+    type: 'toggle_direct_debit',
+    payload: data.fundraiser.showDirectDebit,
+  });
+
+  dispatch({
+    type: 'change_currency',
+    payload: search.currency || data.fundraiser.currency,
+  });
+
+  const amount = parseInt(search.amount, 10) || undefined;
+  dispatch({ type: 'change_amount', payload: amount });
+
+  const preselect = search.preselect === '1' || data.fundraiser.preselectAmount;
+  dispatch({ type: 'preselect_amount', payload: preselect });
+
+  const rDefault = search.recurring_default || data.fundraiser.recurringDefault;
+  dispatch({ type: 'set_recurring_defaults', payload: rDefault });
   render(
     <ComponentWrapper store={store} locale={data.locale}>
       <FundraiserView />
     </ComponentWrapper>,
-    document.getElementById(data.el)
+    document.getElementById(root)
   );
 };

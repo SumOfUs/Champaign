@@ -6,6 +6,11 @@ type RecurringState = {
   recurringDefault: EnumRecurringDefault,
 };
 
+type FeaturedAmountState = {
+  preselectAmount: boolean,
+  donationFeaturedAmount?: number,
+};
+
 export type EnumRecurringDefault = 'one_off' | 'recurring' | 'only_recurring';
 
 export type DonationBands = { [id: string]: number[] };
@@ -96,21 +101,21 @@ export function pickMedianAmount(
   return amounts[Math.floor(amounts.length / 2)] || 0;
 }
 
-type FeaturedAmountState = {
-  preselectAmount: boolean,
-  donationFeaturedAmount?: number,
-};
 export function featuredAmountState(
-  state: Fundraiser,
-  currency: string,
-  preselect?: string
+  preselectAmount: boolean,
+  state?: { donationBands: DonationBands, currency: string }
 ): FeaturedAmountState {
-  const preselectAmount =
-    (preselect && preselect === '1') || state.preselectAmount;
+  if (preselectAmount && state) {
+    return {
+      preselectAmount,
+      donationFeaturedAmount: pickMedianAmount(
+        state.donationBands,
+        state.currency
+      ),
+    };
+  }
+
   return {
     preselectAmount,
-    donationFeaturedAmount: preselectAmount
-      ? pickMedianAmount(state.donationBands, currency)
-      : undefined,
   };
 }

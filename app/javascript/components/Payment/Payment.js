@@ -25,13 +25,7 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 
 import type { Dispatch } from 'redux';
 import type { Client } from 'braintree-web';
-import type {
-  AppState,
-  Member,
-  Fundraiser,
-  Page,
-  PaymentMethod,
-} from '../../state';
+import type { AppState, Member, Fundraiser, PaymentMethod } from '../../state';
 
 // Styles
 import './Payment.css';
@@ -44,7 +38,7 @@ type OwnProps = {
   member: Member,
   fundraiser: Fundraiser,
   paymentMethods: PaymentMethod[],
-  page: Page,
+  page: ChampaignPage,
   hideRecurring: boolean,
   disableFormReveal: boolean,
   formData: { member: any, storeInVault: boolean },
@@ -338,7 +332,9 @@ export class Payment extends Component {
             </div>
             {this.state.errors.map((e, i) => {
               return (
-                <div key={i} className="fundraiser-bar__error-detail">{e}</div>
+                <div key={i} className="fundraiser-bar__error-detail">
+                  {e}
+                </div>
               );
             })}
           </div>

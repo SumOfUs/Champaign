@@ -6,6 +6,11 @@ import FundraiserView from './FundraiserView';
 import { changeStep } from '../state/fundraiser/actions';
 import { mountWithIntl } from '../../../spec/jest/intl-enzyme-test-helpers';
 
+import type {
+  FundraiserAction,
+  FundraiserInitializationOptions,
+} from '../state/fundraiser/actions';
+
 global.fbq = () => null;
 
 const suite = {};
@@ -82,37 +87,86 @@ const paypalMethod = {
 };
 
 const fetchInitialState = vals => {
+  const defaults = {
+    paymentMethods: [],
+    locale: 'en',
+    member: {},
+    fundraiser: {
+      currency: 'USD',
+      donationAmount: null,
+      showDirectDebit: false,
+      donationBands: fundraiserDefaults.donationBands,
+      formValues: fundraiserDefaults.formValues,
+      formId: fundraiserDefaults.formId,
+      outstandingFields: fundraiserDefaults.outstandingFields,
+      title: 'Gimme the loot',
+      fields: fundraiserDefaults.fields,
+      recurringDefault: 'one_off',
+      preselectAmount: false,
+    },
+  };
   vals = vals || {};
   return {
-    paymentMethods: vals.paymentMethods || [],
-    member: vals.member || {},
-    locale: vals.locale || 'en',
     page: {
       id: '1',
       title: 'Test Title',
     },
+    paymentMethods: vals.paymentMethods || defaults.paymentMethods,
+    member: vals.member || defaults.member,
+    locale: vals.locale || defaults.locale,
     fundraiser: {
-      currency: vals.currency || 'USD',
-      donationAmount: vals.donationAmount || null,
-      donationBands: vals.donationBands || fundraiserDefaults.donationBands,
-      showDirectDebit: vals.showDirectDebit || false,
-      formValues: vals.formValues || fundraiserDefaults.formValues,
-      formId: vals.formId || fundraiserDefaults.formId,
-      outstandingFields:
-        vals.outstandingFields || fundraiserDefaults.outstandingFields,
-      title: vals.title || 'Gimme the loot',
-      fields: vals.fields || fundraiserDefaults.fields,
-      recurringDefault: vals.recurringDefault || 'one_off',
+      ...defaults.fundraiser,
+      ...vals,
     },
   };
 };
 
 const initialize = vals => {
-  suite.store = configureStore();
+  suite.store = configureStore({});
+  const data = fetchInitialState(vals);
+  const {
+    donationBands,
+    showDirectDebit,
+    currency,
+    preselectAmount,
+    recurringDefault,
+  } = data.fundraiser;
+
+  // FIXME: We shouldn't use this action for any reducers. Be more explicit.
   suite.store.dispatch({
     type: 'parse_champaign_data',
-    payload: fetchInitialState(vals),
+    payload: data,
   });
+  suite.store.dispatch({
+    type: 'initialize_fundraiser',
+    payload: data.fundraiser,
+  });
+
+  suite.store.dispatch({
+    type: 'set_donation_bands',
+    payload: donationBands,
+  });
+
+  suite.store.dispatch({
+    type: 'toggle_direct_debit',
+    payload: showDirectDebit,
+  });
+
+  suite.store.dispatch({
+    type: 'change_currency',
+    payload: currency,
+  });
+
+  suite.store.dispatch({
+    type: 'preselect_amount',
+    payload: preselectAmount,
+  });
+
+  suite.store.dispatch({
+    type: 'set_recurring_defaults',
+    payload: recurringDefault,
+  });
+
   suite.wrapper = mountView();
 };
 

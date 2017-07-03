@@ -11,14 +11,14 @@ import PaymentMethodItem from './PaymentMethod';
 import { setRecurring } from '../../state/fundraiser/actions';
 
 import type { Dispatch } from 'redux';
-import type { AppState, PaymentMethod, Fundraiser, Page } from '../../state';
+import type { AppState, PaymentMethod, Fundraiser } from '../../state';
 
 import './ExpressDonation.scss';
 
 type OwnProps = {
   hidden: boolean,
   fundraiser: Fundraiser,
-  page: Page,
+  page: ChampaignPage,
   paymentMethods: PaymentMethod[],
   formData: { member: any, storeInVault: boolean },
   setRecurring: (value: boolean) => void,
