@@ -1,8 +1,8 @@
+import 'babel-polyfill';
 import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
-import '../util/bootstrap';
 import 'whatwg-fetch';
 
 import airbrake from 'airbrake-js';
