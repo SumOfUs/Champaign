@@ -51,7 +51,7 @@ npm-debug.log
 public/webpack
 
 # ignore json locales (they're converted automatically)
-app/frontend/locales/*.json
+app/javascript/util/locales/*.json
 
 yarn-error.log
 /public/packs
