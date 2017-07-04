@@ -1,11 +1,11 @@
-import { camelCase, isPlainObject, forEach, mapKeys, mapValues } from 'lodash';
+// @flow
+import { camelCase, mapKeys, mapValues } from 'lodash';
 
-export function camelizeKeys<T>(obj: T): T {
-  if (isPlainObject(obj)) {
-    let aux = mapKeys(obj, (_, key: string) => camelCase(key));
-    return mapValues(aux, camelizeKeys);
-  } else if (Array.isArray(obj)) {
-    return obj.map((val: mixed) => camelizeKeys(val));
+export function camelizeKeys<T>(obj: T): Object | T {
+  if (Array.isArray(obj)) return obj.map(v => camelizeKeys(v));
+  if (typeof obj === 'object') {
+    const camelCased = mapKeys(obj, (v, k: string): string => camelCase(k));
+    return mapValues(camelCased, (v: Object) => camelizeKeys(v));
   }
   return obj;
 }
