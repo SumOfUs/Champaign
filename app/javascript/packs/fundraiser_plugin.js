@@ -32,7 +32,9 @@ type MountFundraiserOptions = ChampaignPersonalizationData & {
 
 window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   const search: SearchParams = queryString.parse(location.search);
-  dispatch({ type: 'initialize_page', payload: champaign.page });
+  const { personalization, page } = champaign;
+  dispatch({ type: 'parse_champaign_data', payload: personalization });
+  dispatch({ type: 'initialize_page', payload: page });
   dispatch({ type: 'initialize_fundraiser', payload: data.fundraiser });
   dispatch({
     type: 'set_donation_bands',

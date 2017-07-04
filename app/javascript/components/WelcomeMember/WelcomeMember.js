@@ -14,7 +14,7 @@
  *   <a href="javascript:;" class=" action-form__clear-form">Not you?</a>
  * </div>
  */
-import React  from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import type { Member } from '../../state';
@@ -23,7 +23,7 @@ import './WelcomeMember.css';
 
 type OwnProps = {
   member: Member,
-  resetMember: () => void;
+  resetMember: () => void,
 };
 
 export default function WelcomeMember(props: OwnProps) {
@@ -33,7 +33,9 @@ export default function WelcomeMember(props: OwnProps) {
     <div className="WelcomeMember">
       <i className="WelcomeMember__icon fa fa-check-square-o" />
       <div>
-        <span className="WelcomeMember__name">{props.member.name || props.member.email}</span>
+        <span className="WelcomeMember__name">
+          {props.member.name || props.member.email}
+        </span>
         <a className="WelcomeMember__link" onClick={props.resetMember}>
           <FormattedMessage id="form.switch_user" />
         </a>
