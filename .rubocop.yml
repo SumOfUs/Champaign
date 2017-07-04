@@ -6,6 +6,7 @@ AllCops:
     - 'bin/**/*'
     - 'vendor/**/*'
     - 'node_modules/**/*'
+    - 'db/schema.rb'
 
 Style/FrozenStringLiteralComment:
   Enabled: false
