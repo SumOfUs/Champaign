@@ -200,5 +200,3 @@ en:
       failure: 'Sorry, there was an issue confirming your account.'
       success: 'You have successfully confirmed your account. Thanks!'
       member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
-  footer:
-    home_url: 'http://yourhomepage.org' # replace with your homepage

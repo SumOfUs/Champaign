@@ -174,5 +174,3 @@ de:
       failure: 'Leider gab es bei der Einrichtung Ihres Kontos ein Problem. '
       success: 'Sie haben Ihr SumOfUs-Konto erfolgreich bestätigt. Vielen Dank!'
       member_management: "Um Ihre Zahlungsoptionen und -details zu verwalten, können Sie jederzeit die <a href='%{url}'>Seite für SumOfUs-Mitglieder</a> besuchen."
-  footer:
-    home_url: 'http://yourhomepage.org'
