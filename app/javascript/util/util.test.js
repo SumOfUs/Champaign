@@ -24,7 +24,6 @@ const fixture: Object = {
 
 it('keeps camelCase keys intact', () => {
   expect(camelizeKeys(fixture)).toHaveProperty('camelCaseKey');
-  expect(camelizeKeys(fixture)).toHaveProperty('arrayWithObjects');
 });
 
 it('converts snake_case keys to camelCase', () => {
