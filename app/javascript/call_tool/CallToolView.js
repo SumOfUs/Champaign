@@ -202,8 +202,7 @@ class CallToolView extends Component {
         // $FlowIgnore
         targetId: this.state.selectedTarget.id,
       })
-      .done(this.submitSuccessful.bind(this))
-      .fail(this.submitFailed.bind(this));
+      .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
   validateForm() {

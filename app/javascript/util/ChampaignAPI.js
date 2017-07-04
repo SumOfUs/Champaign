@@ -9,7 +9,7 @@ export type OperationResponse = {
   errors: { [id: string]: any[] },
 };
 
-const parseResponse = (response, textStatus, other): OperationResponse => {
+const parseResponse = (response): OperationResponse => {
   if (response === undefined) {
     return { success: true, errors: {} };
   }
@@ -46,7 +46,7 @@ type CreateCallParams = {
 };
 const createCall = function(
   params: CreateCallParams
-): JQueryPromise<OperationResponse> {
+): Promise<OperationResponse> {
   const payload = {
     call: {
       member_phone_number: params.memberPhoneNumber,
@@ -54,9 +54,11 @@ const createCall = function(
     },
   };
 
-  return $.post(`/api/pages/${params.pageId}/call`, payload)
-    .done(parseResponse)
-    .fail(parseResponse);
+  return new Promise((resolve, reject) => {
+    $.post(`/api/pages/${params.pageId}/call`, payload)
+      .done(response => resolve(parseResponse(response)))
+      .fail(response => reject(parseResponse(response)));
+  });
 };
 
 const ChampaignAPI = {
