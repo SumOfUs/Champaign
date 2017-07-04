@@ -1,0 +1,18 @@
+FROM starefossen/ruby-node:2-8
+
+ENV APP_ROOT /champaign
+
+RUN mkdir $APP_ROOT
+WORKDIR $APP_ROOT
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install --jobs 20 --retry 3
+
+COPY package.json yarn.lock $APP_ROOT/
+RUN yarn
+
+COPY . $APP_ROOT/
+
+EXPOSE 3000 8080
+
+CMD bundle exec foreman start

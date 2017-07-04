@@ -21,7 +21,7 @@ development: &default
   pool: 5
   username: <%= ENV['PG_USERNAME'] %>
   password: <%= ENV['PG_PASSWORD'] %>
-  host: localhost
+  host: <%= ENV.fetch('PG_HOST') { 'localhost' } %>
   port: <%= ENV['PG_PORT'] %>
 
 test:

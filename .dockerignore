@@ -1,7 +1,11 @@
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 .gitignore
-.git
-log
+.git/*
+log/*
+tmp/*
+public/packs
+public/packs-test
+Dockerfile
 node_modules
 vendor/bundle
