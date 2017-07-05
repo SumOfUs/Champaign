@@ -31,7 +31,21 @@ export default class ComponentWrapper extends Component {
     store?: Store,
     children?: any,
     locale: string,
+    optimizelyHook?: void => void,
   };
+
+  componentDidMount() {
+    this.optimizelyHook();
+  }
+  componentDidUpdate() {
+    this.optimizelyHook();
+  }
+
+  optimizelyHook() {
+    if (typeof this.props.optimizelyHook === 'function') {
+      this.props.optimizelyHook();
+    }
+  }
 
   render() {
     return (

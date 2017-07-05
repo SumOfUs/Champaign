@@ -23,7 +23,7 @@ type SearchParams = {
 };
 
 type Action = FundraiserAction | PageAction;
-const store: Store<AppState, FundraiserAction> = champaign.store;
+const store: Store<AppState, FundraiserAction> = window.champaign.store;
 const dispatch = (a: Action): Action => store.dispatch(a);
 
 type MountFundraiserOptions = ChampaignPersonalizationData & {
@@ -32,7 +32,7 @@ type MountFundraiserOptions = ChampaignPersonalizationData & {
 
 window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   const search: SearchParams = queryString.parse(location.search);
-  const { personalization, page } = champaign;
+  const { personalization, page } = window.champaign;
   dispatch({ type: 'parse_champaign_data', payload: personalization });
   dispatch({ type: 'initialize_page', payload: page });
   dispatch({ type: 'initialize_fundraiser', payload: data.fundraiser });
@@ -60,7 +60,11 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   const rDefault = search.recurring_default || data.fundraiser.recurringDefault;
   dispatch({ type: 'set_recurring_defaults', payload: rDefault });
   render(
-    <ComponentWrapper store={store} locale={data.locale}>
+    <ComponentWrapper
+      store={store}
+      locale={data.locale}
+      optimizelyHook={window.optimizelyHook}
+    >
       <FundraiserView />
     </ComponentWrapper>,
     document.getElementById(root)
