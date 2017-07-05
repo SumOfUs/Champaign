@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_call_tools
@@ -36,13 +37,16 @@ FactoryGirl.define do
   factory :call_tool_target, class: 'CallTool::Target' do
     skip_create
     name { Faker::Name.name }
-    title { Faker::Name.title }
     phone_number {
       ['+448008085429', '+448000119712', '+61261885481', '+13437003482'].sample
     }
 
     trait :with_country do
-      country_name { 'United Kingdom' }
+      country_name { Faker::Address.country }
+    end
+
+    trait :with_caller_id do
+      caller_id { Faker::PhoneNumber.phone_number }
     end
   end
 end
