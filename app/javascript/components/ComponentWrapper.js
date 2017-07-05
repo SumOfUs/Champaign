@@ -31,6 +31,7 @@ export default class ComponentWrapper extends Component {
     store?: Store,
     children?: any,
     locale: string,
+    messages?: { [key: string]: string },
     optimizelyHook?: void => void,
   };
 
@@ -51,7 +52,7 @@ export default class ComponentWrapper extends Component {
     return (
       <IntlProvider
         locale={this.props.locale}
-        messages={loadTranslations(this.props.locale)}
+        messages={this.props.messages || loadTranslations(this.props.locale)}
       >
         <WrapInStore store={this.props.store}>
           <div className="App">
