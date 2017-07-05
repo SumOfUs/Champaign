@@ -31,13 +31,28 @@ export default class ComponentWrapper extends Component {
     store?: Store,
     children?: any,
     locale: string,
+    messages?: { [key: string]: string },
+    optimizelyHook?: void => void,
   };
+
+  componentDidMount() {
+    this.optimizelyHook();
+  }
+  componentDidUpdate() {
+    this.optimizelyHook();
+  }
+
+  optimizelyHook() {
+    if (typeof this.props.optimizelyHook === 'function') {
+      this.props.optimizelyHook();
+    }
+  }
 
   render() {
     return (
       <IntlProvider
         locale={this.props.locale}
-        messages={loadTranslations(this.props.locale)}
+        messages={this.props.messages || loadTranslations(this.props.locale)}
       >
         <WrapInStore store={this.props.store}>
           <div className="App">

@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { mount } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import { IntlProvider } from 'react-intl';
 import translations from '../../util/locales/translations-json';
 import DonationBands from './DonationBands';
@@ -21,6 +22,11 @@ const component = (
     />
   </IntlProvider>
 );
+
+it('renders correctly', () => {
+  const wrapper = mount(component);
+  expect(toJson(wrapper)).toMatchSnapshot();
+});
 
 it('renders all amounts with the currency symbol', () => {
   const wrapper = mount(component);
