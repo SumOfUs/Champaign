@@ -82,6 +82,9 @@ fr:
     select_target: "Ecrivez simplement votre pays et votre numéro de téléphone -- et nous vous contacterons dans quelques instants."
     errors:
       unknown: "Oups ! Quelque chose n'a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
+      target:
+        outdated: "Oups ! Quelque chose n'a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
+        missing: "Oups ! Quelque chose n'a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
       phone_number:
         too_short: "Doit comporter au moins 6 chiffres"
         cant_connect: "Nous ne pouvons vous mettre en relation avec ce correspondant. Veuillez vérifier le numéro de téléphone, ou en essayer un autre. "

@@ -82,6 +82,9 @@ de:
     select_target: "Geben Sie Ihr Land und Ihre Telefonnummer ein -- wir rufen Sie dann umgehend an. "
     errors:
       unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
+      target:
+        outdated: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
+        missing: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
       phone_number:
         too_short: "enthält mindestens 6 Ziffern"
         cant_connect: "Es kann keine Verbindung zu dieser Telefonnummer hergestellt werden. Bitte überprüfen Sie, ob die Nummer korrekt ist, oder versuchen Sie es über eine andere Nummer"

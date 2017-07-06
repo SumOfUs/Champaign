@@ -119,3 +119,6 @@ facebook:
 twilio:
   account_sid: 'abc'
   auth_token: '123'
+
+calls:
+  targeting_secret: <%= ENV['CALL_TARGETING_SECRET'] %>
