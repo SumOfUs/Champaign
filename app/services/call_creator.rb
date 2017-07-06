@@ -62,8 +62,7 @@ class CallCreator
   end
 
   def valid_manual_target
-    ManualCallTargetValidator.validate(@params[:target_country_code],
-                                       @params[:target_phone_number], @params[:checksum])
+    ManualCallTargetValidator.validate(@params[:target_phone_number], @params[:checksum])
   end
 
   # TODO: Move method to service class, handle error messages in there.
@@ -115,7 +114,6 @@ class CallCreator
 
   def manual_target
     {
-      country_code: @params[:target_country_code],
       phone_number: @params[:target_phone_number],
       phone_extension: @params[:target_phone_extension],
       name: @params[:target_name],

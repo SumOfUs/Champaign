@@ -18,7 +18,7 @@ class Api::CallsController < ApplicationController
   def call_params
     params.require(:call)
       .permit(:member_phone_number, :target_id, :target_title, :target_name,
-              :target_phone, :target_country_code, :target_phone_extension, :checksum)
+              :target_phone, :target_phone_extension, :checksum)
       .merge(page_id: params[:page_id],
              member_id: recognized_member&.id)
   end

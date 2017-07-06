@@ -53,8 +53,7 @@ describe CallCreator do
         { page_id: page.id,
           member_id: member.id,
           member_phone_number: '+1 343-700-3482',
-          target_country_code: '1',
-          target_phone_number: '213-500-7319',
+          target_phone_number: '+1 213-500-7319',
           target_name: 'Sen. Kevin de Leon',
           checksum: 'a16cd2' }
       end
@@ -66,7 +65,6 @@ describe CallCreator do
         target = Call.last.target
         expect(target.name).to eq params[:target_name]
         expect(target.phone_number).to eq '2135007319'
-        expect(target.country_code).to eq params[:target_country_code]
       end
     end
 
@@ -155,8 +153,7 @@ describe CallCreator do
       { page_id: page.id,
         member_id: member.id,
         member_phone_number: '+1 343-700-3482',
-        target_country_code: '1',
-        target_phone_number: '213-500-7319',
+        target_phone_number: '+1 213-500-7319',
         target_name: 'Sen. Kevin de Leon',
         checksum: 'incorrect checksum' }
     end
