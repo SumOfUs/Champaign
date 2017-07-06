@@ -117,12 +117,11 @@ class LiquidRenderer
   end
 
   def call_tool_data
-    plugin_data.deep_symbolize_keys[:plugins][:call_tool].map do |data|
-      %i[target_phone target_country_code target_phone_extension target_name target_title].each do |key|
-        data[key] = @url_params[key] if @url_params[key].present?
-      end
-      data
-    end
+    CallTool::ExposedData.new(
+      plugin_data.deep_symbolize_keys[:call_tool],
+      @url_params,
+      Settings.call_tool.checksum_secret
+    ).to_h
   end
 
   def email_target_data
