@@ -44,13 +44,16 @@ export class FundraiserView extends Component {
 
   selectAmount(amount: ?number) {
     this.props.selectAmount(amount);
-    fbq('track', 'InitiateCheckout', {
-      value: this.props.fundraiser.donationAmount,
-      currency: this.props.fundraiser.currency,
-      content_name: this.props.page.title,
-      content_ids: [this.props.page.id],
-      content_type: 'product',
-    });
+
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'InitiateCheckout', {
+        value: this.props.fundraiser.donationAmount,
+        currency: this.props.fundraiser.currency,
+        content_name: this.props.page.title,
+        content_ids: [this.props.page.id],
+        content_type: 'product',
+      });
+    }
   }
 
   proceed() {

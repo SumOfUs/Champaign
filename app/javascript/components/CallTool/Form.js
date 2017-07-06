@@ -156,6 +156,7 @@ class Form extends Component {
     return (
       <form className={formClassNames} data-remote="true">
         {!this.props.restrictToSingleCountry &&
+          this.props.targetByCountryEnabled &&
           <FieldShape
             key="countryCode"
             errorMessage={this.props.errors.countryCode}

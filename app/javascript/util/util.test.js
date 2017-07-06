@@ -4,6 +4,7 @@ import { mapValues, mapKeys } from 'lodash';
 
 const fixture: Object = {
   camelCaseKey: 'lorem',
+  null_value: null,
   snake_case_key: 'ipsum',
   'kebab-case-key': 'dolor',
   PascalCaseKey: 'sit',
@@ -72,5 +73,9 @@ describe('values', () => {
 
   it('keeps arrays intact', () => {
     expect(Array.isArray(camelizeKeys(fixture).arrayWithObjects)).toBeTruthy();
+  });
+
+  it('keeps null values intact', () => {
+    expect(camelizeKeys(fixture).nullValue).toBeNull();
   });
 });

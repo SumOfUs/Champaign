@@ -2,6 +2,22 @@
 // @flow
 import type { AppState } from './state/reducers';
 
+declare var window: typeof window & {
+  champaign: ChampaignGlobalObject,
+  optimizelyHook?: void => void,
+  fbq?: (
+    action: 'init' | 'track' | 'trackCustom',
+    eventName: FBStandardEvent,
+    data?: FBEventParams
+  ) => void,
+};
+
+declare var $: typeof jQuery & {
+  subscribe: (eventName: string, callback: (...data: any) => void) => void,
+  unsubscribe: (eventName: string) => void,
+  publish: (eventName: string, data: any) => void,
+};
+
 declare type ChampaignMember = {
   id: number,
   email: string,
@@ -66,8 +82,6 @@ declare type ChampaignGlobalObject = {
   store: Store<AppState, *>,
 };
 
-declare var champaign: ChampaignGlobalObject;
-
 declare type FBStandardEvent =
   | 'ViewContent'
   | 'Search'
@@ -88,12 +102,6 @@ declare type FBEventParams = {
   content_ids?: any[],
   num_items?: any,
 };
-
-declare function fbq(
-  action: 'init' | 'track' | 'trackCustom',
-  eventName: FBStandardEvent,
-  data?: FBEventParams
-): void;
 
 declare var module: WebpackModule;
 
