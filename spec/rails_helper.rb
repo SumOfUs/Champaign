@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
@@ -26,11 +27,11 @@ VCR.configure do |config|
   config.hook_into :webmock
   config.ignore_localhost = true
   config.default_cassette_options = {
-    match_requests_on: [:path, :host, :method],
+    match_requests_on: %i[path host method],
     record: :once
   }
 
-  %w(merchant_id public_key private_key).each do |env|
+  %w[merchant_id public_key private_key].each do |env|
     config.filter_sensitive_data("<#{env}>") { Settings.braintree.send(env) }
   end
 
@@ -45,7 +46,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include HelperFunctions
   config.include OmniAuthHelper
-  config.extend ControllerMacros,     type: :controller
+  config.extend ControllerMacros, type: :controller
   config.include Warden::Test::Helpers, type: :request
   config.include Requests::RequestHelpers, type: :request
   config.infer_spec_type_from_file_location!
@@ -87,4 +88,6 @@ RSpec.configure do |config|
   config.append_after(:each) do
     DatabaseCleaner.clean
   end
+
+  config.after { I18n.locale = I18n.default_locale }
 end
