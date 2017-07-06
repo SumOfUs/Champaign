@@ -177,13 +177,13 @@ class CallToolView extends Component {
     return sample(this.candidates());
   }
 
-  selectTarget = (id: string) => {
+  selectTarget(id: string) {
     const target = find(this.props.targets, { id });
     this.setState(prevState => ({
       ...prevState,
       selectedTarget: target,
     }));
-  };
+  }
 
   selectNewTargetFromCountryCode(countryCode: string) {
     return sample(this.candidates(countryCode));
