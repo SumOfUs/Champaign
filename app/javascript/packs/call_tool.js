@@ -9,7 +9,10 @@ window.mountCallTool = (root: string, props: any) => {
   props = camelizeKeys(props);
 
   render(
-    <ComponentWrapper locale={props.locale}>
+    <ComponentWrapper
+      locale={props.locale}
+      optimizelyHook={window.optimizelyHook}
+    >
       <CallToolView {...props} />
     </ComponentWrapper>,
     document.getElementById(root)
