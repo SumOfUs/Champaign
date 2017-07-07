@@ -77,7 +77,7 @@ fr:
     signatures: signatures
     million: million
   call_tool:
-    manual_target_selection: "Please select your relevant minister (FR)"
+    manual_target_selection: "Please select your target (FR)"
     you_will_be_calling: "Nous allons vous appeler et vous mettre en relation avec "
     select_target: "Ecrivez simplement votre pays et votre numéro de téléphone -- et nous vous contacterons dans quelques instants."
     errors:
