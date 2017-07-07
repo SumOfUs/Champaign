@@ -118,9 +118,8 @@ class LiquidRenderer
 
   def call_tool_data
     CallTool::ExposedData.new(
-      plugin_data.deep_symbolize_keys[:call_tool],
-      @url_params,
-      Settings.call_tool.checksum_secret
+      plugin_data.deep_symbolize_keys[:plugins][:call_tool],
+      @url_params
     ).to_h
   end
 

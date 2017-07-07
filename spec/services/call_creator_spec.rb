@@ -7,6 +7,11 @@ describe CallCreator do
   let!(:call_tool) { Plugins::CallTool.find_by_page_id(page.id) }
   let(:target) { Plugins::CallTool.find_by_page_id(page.id).targets.sample }
   let(:member) { create(:member) }
+  let(:correct_checksum) { 'a1b2c3' }
+
+  before :each do
+    allow(Digest::SHA256).to receive(:hexdigest).and_return(correct_checksum)
+  end
 
   shared_examples 'basic calling' do
     it 'returns true' do
@@ -55,7 +60,7 @@ describe CallCreator do
           member_phone_number: '+1 343-700-3482',
           target_phone_number: '+1 213-500-7319',
           target_name: 'Sen. Kevin de Leon',
-          checksum: 'a16cd2' }
+          checksum: correct_checksum }
       end
 
       include_examples 'basic calling'
@@ -64,7 +69,7 @@ describe CallCreator do
         CallCreator.new(params).run
         target = Call.last.target
         expect(target.name).to eq params[:target_name]
-        expect(target.phone_number).to eq '2135007319'
+        expect(target.phone_number).to eq '12135007319'
       end
     end
 
@@ -159,7 +164,7 @@ describe CallCreator do
     end
 
     before :each do
-      allow(ManualCallTargetValidator).to receive(:validate).and_return(false)
+      allow(CallTool::ChecksumValidator).to receive(:validate).and_return(false)
     end
 
     context 'and a valid target id is specified' do

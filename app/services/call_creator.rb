@@ -62,7 +62,7 @@ class CallCreator
   end
 
   def valid_manual_target
-    ManualCallTargetValidator.validate(@params[:target_phone_number], @params[:checksum])
+    CallTool::ChecksumValidator.validate(@params[:target_phone_number], @params[:checksum])
   end
 
   # TODO: Move method to service class, handle error messages in there.
@@ -117,8 +117,7 @@ class CallCreator
       phone_number: @params[:target_phone_number],
       phone_extension: @params[:target_phone_extension],
       name: @params[:target_name],
-      title: @params[:target_title] || '',
-      caller_id: nil # autofilled with caller's number
+      title: @params[:target_title] || ''
     }
   end
 end

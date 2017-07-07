@@ -1,32 +1,23 @@
 module CallTool
   class ExposedData
     attr_reader :query
+    RELEVANT_ATTRIBUTES = %i[target_name target_title target_phone_number target_phone_extension checksum].freeze
 
-    def initialize(plugin_data, query, secret)
+    def initialize(plugin_data, query)
       @query = query
       @plugin_data = plugin_data
-      @secret = secret
     end
 
     def to_h
       return @plugin_data unless encoded_target_valid?
 
-      @plugin_data[:default].merge!(query.slice(:target_name, :target_number, :checksum))
-
-      @plugin_data
+      @plugin_data.map do |key, data|
+        [key, data.merge(query.slice(*RELEVANT_ATTRIBUTES))]
+      end.to_h
     end
 
     def encoded_target_valid?
-      return false if query[:checksum].blank?
-
-      options = {
-        name: query[:target_name],
-        number: query[:target_number],
-        checksum: query[:checksum],
-        secret: @secret
-      }
-
-      CheckSumValidator.validate(options)
+      CallTool::ChecksumValidator.validate(@query[:target_phone_number], @query[:checksum])
     end
   end
 end
