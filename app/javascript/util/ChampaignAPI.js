@@ -47,7 +47,8 @@ type CreateCallParams = {
 const createCall = function(
   params: CreateCallParams
 ): Promise<OperationResponse> {
-  const inner = { member_phone_number: params.memberPhoneNumber };
+  const inner = {};
+  inner.member_phone_number = params.memberPhoneNumber;
   if (!!params.targetPhoneExtension)
     inner.target_phone_extension = params.targetPhoneExtension;
   if (!!params.targetPhoneNumber)
