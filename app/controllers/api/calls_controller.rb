@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::CallsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
@@ -16,7 +17,8 @@ class Api::CallsController < ApplicationController
 
   def call_params
     params.require(:call)
-      .permit(:member_phone_number, :target_id)
+      .permit(:member_phone_number, :target_id, :target_title, :target_name,
+              :target_phone_number, :target_phone_extension, :checksum)
       .merge(page_id: params[:page_id],
              member_id: recognized_member&.id)
   end

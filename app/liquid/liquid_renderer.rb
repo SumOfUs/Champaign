@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
-  HIDDEN_FIELDS = %w(source bucket referrer_id rid akid referring_akid).freeze
+  HIDDEN_FIELDS = %w[source bucket referrer_id rid akid referring_akid].freeze
 
   def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
     @page = page
@@ -116,7 +117,10 @@ class LiquidRenderer
   end
 
   def call_tool_data
-    plugin_data.deep_symbolize_keys[:plugins][:call_tool]
+    CallTool::ExposedData.new(
+      plugin_data.deep_symbolize_keys[:plugins][:call_tool],
+      @url_params
+    ).to_h
   end
 
   def email_target_data

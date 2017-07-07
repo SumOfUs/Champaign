@@ -59,6 +59,11 @@ type OwnProps = {
   countries: Country[],
   countriesPhoneCodes: CountryPhoneCode[],
   onSuccess?: (target: any) => void,
+  targetPhoneNumber?: string,
+  targetPhoneExtension?: string,
+  targetName?: string,
+  targetTitle?: string,
+  checksum?: string,
   intl: IntlShape,
 };
 
@@ -148,6 +153,19 @@ class CallToolView extends Component {
     return this.props.targets;
   }
 
+  hasPrefilledTarget() {
+    return !!this.props.targetPhoneNumber && !!this.props.checksum;
+  }
+
+  prefilledTargetForDisplay() {
+    return {
+      countryCode: '',
+      name: this.props.targetName,
+      title: this.props.targetTitle,
+      id: 'prefilled',
+    };
+  }
+
   guessMemberPhoneCountryCode(countryCode: string) {
     const country = find(this.props.countries, t => {
       return t.code === countryCode;
@@ -177,13 +195,13 @@ class CallToolView extends Component {
     return sample(this.candidates());
   }
 
-  selectTarget = (id: string) => {
+  selectTarget(id: string) {
     const target = find(this.props.targets, { id });
     this.setState(prevState => ({
       ...prevState,
       selectedTarget: target,
     }));
-  };
+  }
 
   selectNewTargetFromCountryCode(countryCode: string) {
     return sample(this.candidates(countryCode));
@@ -195,14 +213,30 @@ class CallToolView extends Component {
     this.setState({ errors: {}, loading: true });
     ChampaignAPI.calls
       .create({
+        ...this.targetHash(),
         pageId: this.props.pageId,
         memberPhoneNumber:
           this.state.form.memberPhoneCountryCode +
             this.state.form.memberPhoneNumber,
-        // $FlowIgnore
-        targetId: this.state.selectedTarget.id,
       })
       .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
+  }
+
+  targetHash() {
+    if (this.hasPrefilledTarget()) {
+      return {
+        targetPhoneExtension: this.props.targetPhoneExtension,
+        targetPhoneNumber: this.props.targetPhoneNumber,
+        targetTitle: this.props.targetTitle,
+        targetName: this.props.targetName,
+        checksum: this.props.checksum,
+      };
+    } else {
+      return {
+        // $FlowIgnore
+        targetId: this.state.selectedTarget.id,
+      };
+    }
   }
 
   validateForm() {
@@ -289,13 +323,21 @@ class CallToolView extends Component {
           </div>}
 
         <Form
-          allowManualTargetSelection={this.props.allowManualTargetSelection}
-          targetByCountryEnabled={this.props.targetByCountryEnabled}
+          allowManualTargetSelection={
+            this.props.allowManualTargetSelection && !this.hasPrefilledTarget()
+          }
+          targetByCountryEnabled={
+            this.props.targetByCountryEnabled && !this.hasPrefilledTarget()
+          }
           restrictToSingleCountry={!!this.props.restrictedCountryCode}
           countries={this.props.countries}
           countriesPhoneCodes={this.props.countriesPhoneCodes}
           targets={this.candidates()}
-          selectedTarget={this.state.selectedTarget}
+          selectedTarget={
+            this.hasPrefilledTarget()
+              ? this.prefilledTargetForDisplay()
+              : this.state.selectedTarget
+          }
           form={this.state.form}
           errors={this.state.errors}
           onCountryCodeChange={this.countryCodeChanged.bind(this)}
