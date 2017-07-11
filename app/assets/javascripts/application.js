@@ -17,3 +17,5 @@
 //= require codemirror/modes/xml
 //= require codemirror/modes/css
 //= require summernote
+
+window.champaign = window.champaign || {};

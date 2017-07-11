@@ -14,9 +14,9 @@ action_kit:
   akid_secret: secret-sauce
 
 # Direct ActionKit Connection variables.
-ak_api_url: 'http://actionkit_api_url.com'
-ak_username: username
-ak_password: password
+ak_api_url: <%= ENV['AK_API_URL'] %>
+ak_username: <%= ENV['AK_USERNAME'] %>
+ak_password: <%= ENV['AK_PASSWORD'] %>
 
 
 # Assets config

@@ -108,7 +108,7 @@ const slugView = Backbone.View.extend({
 
     this.$checkButton.text('Checking...').addClass('disabled');
 
-    if (!this.slugChecker.get('valid')) {
+    if (process.env.AK_API_URL && !this.slugChecker.get('valid')) {
       this.checkSlugAvailable(e, () => {
         if (this.slugChecker.get('valid')) {
           this.$el.unbind();
