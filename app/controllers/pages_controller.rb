@@ -1,13 +1,14 @@
 # frozen_string_literal: true
+
 require 'champaign_queue'
 require 'browser'
 
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: [:show, :follow_up]
-  before_action :get_page, only: [:edit, :update, :destroy, :follow_up, :analytics, :actions]
+  before_action :authenticate_user!, except: %i[show follow_up]
+  before_action :get_page, only: %i[edit update destroy follow_up analytics actions]
   before_action :get_page_or_homepage, only: [:show]
-  before_action :redirect_unless_published, only: [:show, :follow_up]
-  before_action :localize, only: [:show, :follow_up]
+  before_action :redirect_unless_published, only: %i[show follow_up]
+  before_action :localize, only: %i[show follow_up]
 
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -39,7 +40,7 @@ class PagesController < ApplicationController
     @page = PageBuilder.create(page_params)
 
     if @page.valid?
-      redirect_to edit_page_path(@page.id)
+      redirect_to edit_page_path(@page)
     else
       render :new
     end
@@ -134,7 +135,7 @@ class PagesController < ApplicationController
     default_params = {
       publish_status: Page.publish_statuses.values_at(:published, :unpublished),
       limit: 500,
-      order_by: [:updated_at, :desc]
+      order_by: %i[updated_at desc]
     }
     @search_params = default_params.merge(params.to_unsafe_hash.symbolize_keys)
   end
