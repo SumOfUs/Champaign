@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pages
@@ -423,6 +424,15 @@ describe Page do
         expect(page.slug).to eq('oela')
       end
     end
+
+    context 'duplicate slug' do
+      it 'is invalid' do
+        page_with_dup = build(:page, title: 'new title!', slug: 'simple-slug', liquid_layout: liquid_layout)
+        expect { page_with_dup.save! }.to raise_error(
+          ActiveRecord::RecordInvalid, /Slug has already been taken/
+        )
+      end
+    end
   end
 
   describe 'follow_up_plan' do
@@ -436,7 +446,7 @@ describe Page do
     it 'correctly lists the names of plugins' do
       page = create :page
       [create(:plugins_petition, page: page), create(:plugins_fundraiser, page: page), create(:plugins_thermometer, page: page)]
-      plugin_names = %w(petition fundraiser thermometer)
+      plugin_names = %w[petition fundraiser thermometer]
       expect(page.plugin_names).to match_array(plugin_names)
     end
   end
