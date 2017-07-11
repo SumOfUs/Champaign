@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: pages
@@ -37,10 +38,10 @@ class Page < ApplicationRecord
   extend FriendlyId
   has_paper_trail
 
-  enum follow_up_plan: [:with_liquid, :with_page] # TODO: - :with_link
-  enum publish_status: [:published, :unpublished, :archived]
-  enum optimizely_status: [:optimizely_enabled, :optimizely_disabled]
-  enum publish_actions: [:secure, :default_hidden, :default_published]
+  enum follow_up_plan: %i[with_liquid with_page] # TODO: - :with_link
+  enum publish_status: %i[published unpublished archived]
+  enum optimizely_status: %i[optimizely_enabled optimizely_disabled]
+  enum publish_actions: %i[secure default_hidden default_published]
 
   belongs_to :language
   belongs_to :campaign # Note that some pages do not necessarily belong to campaigns
@@ -51,7 +52,6 @@ class Page < ApplicationRecord
 
   has_many :pages_tags, dependent: :destroy
   has_many :tags, through: :pages_tags
-
 
   has_many :actions
   has_many :images,     dependent: :destroy
@@ -64,12 +64,13 @@ class Page < ApplicationRecord
   validates :title, presence: true
   validates :liquid_layout, presence: true
   validates :publish_status, presence: true
+  validates :slug, uniqueness: true, on: :create
   validate  :primary_image_is_owned
   validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+\z} }
 
   after_save :switch_plugins
 
-  friendly_id :slug_candidates, use: [:finders, :slugged]
+  friendly_id :slug_candidates, use: %i[finders slugged]
 
   def liquid_data
     attributes.merge(link_list: links.map(&:attributes))
@@ -123,7 +124,7 @@ class Page < ApplicationRecord
   def slug_candidates
     [
       :transliterated_title,
-      [:transliterated_title, :number_of_pages_with_matching_title]
+      %i[transliterated_title number_of_pages_with_matching_title]
     ]
   end
 
@@ -142,7 +143,7 @@ class Page < ApplicationRecord
   private
 
   def switch_plugins
-    fields = %w(liquid_layout_id follow_up_liquid_layout_id follow_up_plan)
+    fields = %w[liquid_layout_id follow_up_liquid_layout_id follow_up_plan]
     if fields.any? { |f| saved_changes.keys.include?(f) }
       secondary = follow_up_plan == 'with_liquid' ? follow_up_liquid_layout : nil
       PagePluginSwitcher.new(self).switch(liquid_layout, secondary)
