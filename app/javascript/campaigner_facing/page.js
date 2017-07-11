@@ -39,7 +39,7 @@ const slugView = Backbone.View.extend({
   updateViewWithValid() {
     const valid = this.slugChecker.get('valid');
 
-    this.$submit.removeClass('disabled');
+    this.enableButton(this.$submit);
 
     this.$('.loading').hide();
 
@@ -49,11 +49,13 @@ const slugView = Backbone.View.extend({
 
     this.$('.form-group.slug .glyphicon').hide();
 
+    console.log('valid is', valid);
     if (valid) {
       this.$('.form-group.slug').addClass('has-success has-feedback');
       this.$('.form-group.slug .glyphicon-ok').show();
     } else {
       this.$('.slug-field').show();
+      console.log(this.$('.form-group.slug'));
 
       this.$('.form-group.slug').addClass('has-error has-feedback');
       this.$('.form-group.slug .glyphicon-remove').show();
@@ -75,7 +77,7 @@ const slugView = Backbone.View.extend({
 
     this.checking = true;
 
-    this.$submit.addClass('disabled');
+    this.disableButton(this.$submit);
 
     this.$('.loading').show();
 
@@ -83,9 +85,7 @@ const slugView = Backbone.View.extend({
 
     this.slugChecker.save().done(() => {
       this.checking = false;
-      this.$checkButton
-        .text('Check if name is available')
-        .removeClass('disabled');
+      this.enableButton(this.$checkButton.text('Check if name is available'));
 
       if (cb) {
         cb.call(this);
@@ -103,10 +103,20 @@ const slugView = Backbone.View.extend({
     this.$feedback.removeClass('has-error has-success has-feedback');
   },
 
+  disableButton($btn) {
+    $btn.prop('disabled', true);
+    $btn.addClass('disabled');
+  },
+
+  enableButton($btn) {
+    $btn.prop('disabled', false);
+    $btn.removeClass('disabled');
+  },
+
   submit(e) {
     e.preventDefault();
 
-    this.$checkButton.text('Checking...').addClass('disabled');
+    this.disableButton(this.$checkButton.text('Checking...'));
 
     if (!this.slugChecker.get('valid')) {
       this.checkSlugAvailable(e, () => {
