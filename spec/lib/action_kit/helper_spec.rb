@@ -19,5 +19,10 @@ describe ActionKit::Helper do
         ).to be false
       end
     end
+
+    it 'returns true when no AK config is available' do
+      allow(ActionKit::Client).to receive(:configured?).and_return(false)
+      expect(ActionKit::Helper.check_petition_name_is_available('foo-bar')).to be true
+    end
   end
 end

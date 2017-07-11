@@ -4,7 +4,7 @@ require 'httparty'
 
 module ActionKit
   module Client
-    extend self
+    module_function :client, :get, :configured?, :auth
 
     def client(verb, path, params)
       HTTParty.send(
@@ -17,6 +17,12 @@ module ActionKit
 
     def get(path, params)
       client('get', path, params)
+    end
+
+    def configured?
+      Settings.ak_api_url.present? &&
+        Settings.ak_username.present? &&
+        Settings.ak_password.present?
     end
 
     private
