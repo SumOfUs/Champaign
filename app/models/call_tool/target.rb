@@ -4,11 +4,18 @@ class CallTool::Target
   include ActiveModel::Model
   extend HasPhoneNumber
 
-  attr_accessor :country_code,
-                :phone_number,
-                :name,
-                :caller_id,
-                :fields
+  MAIN_ATTRS = %i[
+    name
+    title
+    phone_number
+    phone_extension
+    country_name
+    country_code
+    caller_id
+  ].freeze
+
+  attr_accessor(*MAIN_ATTRS)
+  attr_accessor :fields
 
   validate  :country_is_valid
   validates :phone_number, presence: true
@@ -18,13 +25,7 @@ class CallTool::Target
   normalize_phone_number :phone_number, :caller_id
 
   def to_hash
-    {
-      name: name,
-      phone_number: phone_number,
-      country_code: country_code,
-      caller_id: caller_id,
-      fields: fields
-    }
+    Hash[MAIN_ATTRS.collect { |attr| [attr, send(attr)] }].merge(fields: fields)
   end
 
   def country_name

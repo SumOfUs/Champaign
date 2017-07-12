@@ -8,20 +8,14 @@ class CallTool::TargetsParser
     converters: ->(o) { o.strip }
   }.freeze
 
-  REQUIRED_FIELDS = %i[
-    name
-    phone_number
-    country_name
-    caller_id
-  ].freeze
-
   class << self
     def parse_csv(csv_string)
       targets = []
       CSV.parse(csv_string, CSV_OPTIONS) do |row|
-        data = row.to_hash
-        target = data.slice(*REQUIRED_FIELDS).merge(fields: data.except(*REQUIRED_FIELDS))
-        targets << CallTool::Target.new(target)
+        attrs = row.to_hash
+        target = attrs.slice(*CallTool::Target::MAIN_ATTRS)
+        fields = attrs.except(*CallTool::Target::MAIN_ATTRS)
+        targets << CallTool::Target.new(target.merge(fields: fields))
       end
       targets
     end

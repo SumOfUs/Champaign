@@ -46,7 +46,11 @@ FactoryGirl.define do
     end
 
     trait :with_caller_id do
-      caller_id { Faker::PhoneNumber.phone_number }
+      fields {
+        {
+          caller_id: Faker::PhoneNumber.phone_number
+        }
+      }
     end
   end
 end
