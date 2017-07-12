@@ -11,19 +11,20 @@
 #  created_at                    :datetime
 #  updated_at                    :datetime
 #  title                         :string
-#  targets                       :json             is an Array
 #  sound_clip_file_name          :string
 #  sound_clip_content_type       :string
 #  sound_clip_file_size          :integer
 #  sound_clip_updated_at         :datetime
+#  targets                       :json             default("{}"), is an Array
 #  description                   :text
 #  menu_sound_clip_file_name     :string
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
 #  menu_sound_clip_updated_at    :datetime
-#  restricted_country_code       :string
-#  allow_manual_target_selection :boolean          default(FALSE)
+#  allow_manual_target_selection :boolean          default("false")
 #  caller_phone_number_id        :integer
+#  restricted_country_code       :string
+#  target_by_attributes          :string           is an Array
 #
 
 FactoryGirl.define do

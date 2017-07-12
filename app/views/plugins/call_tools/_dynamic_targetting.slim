@@ -1,0 +1,2 @@
+= label_tag_with_tooltip(:target_by_attributes, t('plugins.call_tool.target_by_attributes'), t('tooltips.call_tool.target_by_attributes'))
+= f.select(:target_by_attributes, options_for_select(plugin.target_keys.map{ |t| [t.titleize, t] }, plugin.target_by_attributes), {}, {class: 'selectize-container', multiple: true, include_blank: true} )

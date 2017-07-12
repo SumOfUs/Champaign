@@ -25,4 +25,4 @@ javascript:
   = label_tag_with_tooltip( :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
   = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
 
-= render partial: 'plugins/call_tools/targets', locals: { targets: plugin.targets, show_targets: @show_targets }
+= render partial: 'plugins/call_tools/targets', locals: { plugin: plugin, show_targets: @show_targets }

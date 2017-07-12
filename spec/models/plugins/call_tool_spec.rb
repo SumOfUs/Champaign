@@ -81,4 +81,24 @@ describe Plugins::CallTool do
       expect(call_tool).to be_valid
     end
   end
+
+  describe '#target_keys' do
+    it 'returns an array' do
+      expect(build(:call_tool).target_keys).to be_an(Array)
+    end
+  end
+
+  describe '#target_by_attributes (dynamic targetting)' do
+    it 'is an empty array by default' do
+      call_tool = build(:call_tool)
+      expect(call_tool.target_by_attributes).to be_an(Array)
+      expect(call_tool.target_by_attributes.size).to be(0)
+    end
+
+    it 'can contain a list of columns' do
+      call_tool = build(:call_tool, target_by_attributes: ['country_name'])
+      expect(call_tool.target_by_attributes).to include('country_name')
+      expect(call_tool.target_by_attributes.size).to be(1)
+    end
+  end
 end

@@ -1,5 +1,5 @@
 .targets-wrapper
-  - if targets.blank?
+  - if plugin.targets.blank?
     p
       span = t 'plugins.call_tool.no_targets_loaded'
 
@@ -7,6 +7,7 @@
     p
       a.toggle-targets = t 'plugins.call_tool.show_targets'
     .targets style=(show_targets ? '' : 'display:none')
+        - extra_cols = plugin.target_keys.reject { |k| %w[country_name].include? k }
         table.table.table-stripped
           tr
             th = t 'plugins.call_tool.targets.country'
@@ -15,8 +16,11 @@
             th = t 'plugins.call_tool.targets.phone_number'
             th = t 'plugins.call_tool.targets.phone_extension'
             th = t 'plugins.call_tool.targets.caller_id'
+            - if extra_cols.present?
+              - extra_cols.each do |col|
+                th = col.titleize
 
-          - targets.each do |target|
+          - plugin.targets.each do |target|
             tr
               td = target.country_name
               td = target.name
@@ -24,6 +28,9 @@
               td = format_phone_number(target.phone_number)
               td = target.phone_extension
               td = format_phone_number(target.caller_id)
+              - if extra_cols.present?
+                - extra_cols.each do |col|
+                  td = target.fields[col]
 
   javascript:
     $(function() {

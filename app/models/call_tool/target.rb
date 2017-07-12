@@ -45,6 +45,10 @@ class CallTool::Target
     Digest::SHA1.hexdigest(to_hash.to_s)
   end
 
+  def keys
+    MAIN_ATTRS.map(&:to_s).concat(fields&.keys || [])
+  end
+
   private
 
   def country_is_valid

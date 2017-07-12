@@ -427,6 +427,7 @@ ActiveRecord::Schema.define(version: 20170713183132) do
     t.string "restricted_country_code"
     t.boolean "allow_manual_target_selection", default: false
     t.integer "caller_phone_number_id"
+    t.string "target_by_attributes", default: [], array: true
   end
 
   create_table "plugins_email_targets", id: :serial, force: :cascade do |t|
