@@ -21,9 +21,15 @@ describe ActionKitController do
       post :check_slug, params: { slug: 'foo-bar', format: :json }
     end
 
+    it 'checks if name is available on Champaign' do
+      allow(Page).to receive(:exists?)
+      expect(Page).to receive(:exists?).with(slug: 'foo-bar')
+      subject
+    end
+
     it 'returns true if there is no matching page on AK or Champaign' do
       allow(ActionKit::Helper).to receive(:check_petition_name_is_available) { true }
-      allow(Page).to receive(:where) { [] }
+      allow(Page).to receive(:exists?) { false }
 
       subject
       expect(response.body).to eq '{"valid":true}'
@@ -31,7 +37,7 @@ describe ActionKitController do
 
     it 'returns false if there is a matching page on AK but not Champaign' do
       allow(ActionKit::Helper).to receive(:check_petition_name_is_available) { false }
-      allow(Page).to receive(:where) { [] }
+      allow(Page).to receive(:exists?) { false }
 
       subject
       expect(response.body).to eq '{"valid":false}'
@@ -39,7 +45,7 @@ describe ActionKitController do
 
     it 'returns false if there is a matching page on Champaign but not AK' do
       allow(ActionKit::Helper).to receive(:check_petition_name_is_available) { true }
-      allow(Page).to receive(:where) { [double(Page)] }
+      allow(Page).to receive(:exists?) { true }
 
       subject
       expect(response.body).to eq '{"valid":false}'
@@ -47,7 +53,7 @@ describe ActionKitController do
 
     it 'returns false if there is a matching page on AK and Champaign' do
       allow(ActionKit::Helper).to receive(:check_petition_name_is_available) { false }
-      allow(Page).to receive(:where) { [double(Page)] }
+      allow(Page).to receive(:exists?) { true }
 
       subject
       expect(response.body).to eq '{"valid":false}'
