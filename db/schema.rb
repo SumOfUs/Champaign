@@ -420,7 +420,6 @@ ActiveRecord::Schema.define(version: 20170713183132) do
     t.integer "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
     t.text "description"
-    t.boolean "target_by_country", default: true
     t.string "menu_sound_clip_file_name"
     t.string "menu_sound_clip_content_type"
     t.integer "menu_sound_clip_file_size"

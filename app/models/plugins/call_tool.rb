@@ -17,7 +17,6 @@
 #  sound_clip_file_size          :integer
 #  sound_clip_updated_at         :datetime
 #  description                   :text
-#  target_by_country             :boolean          default(TRUE)
 #  menu_sound_clip_file_name     :string
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
@@ -41,7 +40,6 @@ class Plugins::CallTool < ApplicationRecord
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
   validate :targets_are_valid
-  validate :target_countries_are_present, if: :target_by_country?
   validate :restricted_country_code_is_valid
 
   def name
@@ -109,7 +107,6 @@ class Plugins::CallTool < ApplicationRecord
         active: obj.active,
         restricted_country_code: restricted_country_code,
         targets: targets,
-        target_by_country_enabled: obj.target_by_country,
         countries: countries,
         countries_phone_codes: countries_phone_codes,
         title: obj.title,
@@ -138,10 +135,6 @@ class Plugins::CallTool < ApplicationRecord
       list =
         if obj.restricted_country_code.present?
           [ISO3166::Country[restricted_country_code]]
-        elsif obj.target_by_country
-          obj.targets.map(&:country_code).uniq.compact.map do |country_code|
-            ISO3166::Country[country_code]
-          end
         else
           ISO3166::Country.all
         end

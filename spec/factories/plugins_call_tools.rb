@@ -17,7 +17,6 @@
 #  sound_clip_file_size          :integer
 #  sound_clip_updated_at         :datetime
 #  description                   :text
-#  target_by_country             :boolean          default(TRUE)
 #  menu_sound_clip_file_name     :string
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
