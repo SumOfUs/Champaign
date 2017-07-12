@@ -1,8 +1,9 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import _ from 'lodash';
 import classnames from 'classnames';
+import CallToolDrillDown from './CallToolDrillDown';
 import FieldShape from '../../components/FieldShape/FieldShape';
 import type { Choice } from '../../components/FieldShape/FieldShape';
 import type {
@@ -16,7 +17,6 @@ import type { Field } from '../../components/FieldShape/FieldShape';
 
 type OwnProps = {
   allowManualTargetSelection: boolean,
-  targetByCountryEnabled: boolean,
   restrictToSingleCountry: boolean,
   countries: Country[],
   targets: Target[],
@@ -29,6 +29,7 @@ type OwnProps = {
   onMemberPhoneCountryCodeChange: string => void,
   onTargetSelected: (id: string) => void,
   onSubmit: any => void,
+  targetByAttributes: string[],
   loading: boolean,
 };
 
@@ -72,6 +73,10 @@ const targetField: Field = {
 
 class Form extends Component {
   props: OwnProps;
+  state: {
+    filters: { [string]: string },
+  };
+
   fields: { [key: string]: Field };
 
   constructor(props: OwnProps) {
@@ -84,6 +89,10 @@ class Form extends Component {
         ...countryCodeField,
         choices: this.countryCodeOptions(),
       },
+    };
+
+    this.state = {
+      filters: {},
     };
   }
 
@@ -147,6 +156,30 @@ class Form extends Component {
     return countryPhoneCode ? countryPhoneCode.name : '';
   }
 
+  updateFilters = (filters: { [string]: string }) => {
+    this.setState(prevState => {
+      return {
+        ...prevState,
+        filters,
+      };
+    });
+  };
+
+  targetsWithFields() {
+    return this.props.targets.map(t => ({
+      ..._.omit(t, 'fields'),
+      ..._.get(t, 'fields', {}),
+    }));
+  }
+
+  filteredTargets(filters: { [string]: string }): Target[] {
+    const targets = this.targetsWithFields();
+    if (!Object.keys(filters).length) return targets;
+    return targets.filter((target: Target) => {
+      return _.isMatch(target, filters);
+    });
+  }
+
   render() {
     const formClassNames = classnames({
       'action-form': true,
@@ -155,17 +188,6 @@ class Form extends Component {
     });
     return (
       <form className={formClassNames} data-remote="true">
-        {!this.props.restrictToSingleCountry &&
-          this.props.targetByCountryEnabled &&
-          <FieldShape
-            key="countryCode"
-            errorMessage={this.props.errors.countryCode}
-            onChange={this.props.onCountryCodeChange}
-            value={this.props.form.countryCode}
-            field={this.fields.countryCodeField}
-            className="countryCodeField"
-          />}
-
         {!this.props.restrictToSingleCountry &&
           <FieldShape
             key="memberPhoneCountryCode"
@@ -200,7 +222,13 @@ class Form extends Component {
         <div className="clearfix"> </div>
 
         {this.props.allowManualTargetSelection &&
-          this.props.targetByCountryEnabled &&
+          <CallToolDrillDown
+            targetByAttributes={_.compact(this.props.targetByAttributes)}
+            filters={this.state.filters}
+            targets={this.targetsWithFields()}
+            onUpdate={this.updateFilters}
+          />}
+        {this.props.allowManualTargetSelection &&
           this.props.selectedTarget &&
           <FieldShape
             key="selectedTarget"

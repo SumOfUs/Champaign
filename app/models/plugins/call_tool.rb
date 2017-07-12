@@ -121,7 +121,8 @@ class Plugins::CallTool < ApplicationRecord
         countries_phone_codes: countries_phone_codes,
         title: obj.title,
         description: obj.description,
-        allow_manual_target_selection: obj.allow_manual_target_selection
+        allow_manual_target_selection: obj.allow_manual_target_selection,
+        target_by_attributes: obj.target_by_attributes
       }
     end
 
