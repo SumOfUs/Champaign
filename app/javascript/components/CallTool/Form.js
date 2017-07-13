@@ -149,7 +149,7 @@ class Form extends Component {
       prevState => ({ ...prevState, filters }),
       () => {
         // TODO:
-        // Reset selected target if selectedTarget is not in this.filteredTargets
+        // reset selected target if selectedTarget is not in this.filteredTargets
       }
     );
   };
