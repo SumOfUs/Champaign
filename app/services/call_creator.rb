@@ -4,9 +4,10 @@ class CallCreator
   include Rails.application.routes.url_helpers
   attr_accessor :call, :page
 
-  def initialize(params)
+  def initialize(params, extra_params = {})
     @params = params.clone
     @errors = {}
+    @extra_params = extra_params
   end
 
   def run
@@ -98,7 +99,7 @@ class CallCreator
 
   def publish_event
     return if @call.member.blank? # handle this in worker
-    CallEvent::New.publish(@call)
+    CallEvent::New.publish(@call, @extra_params)
   end
 
   # If the targets are updated while the user is on the call tool page, the list

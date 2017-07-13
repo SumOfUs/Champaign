@@ -1,11 +1,12 @@
 module CallEvent
   class Base
-    def self.publish(call)
-      new(call).publish
+    def self.publish(call, extra_params = {})
+      new(call, extra_params).publish
     end
 
-    def initialize(call)
+    def initialize(call, extra_params = {})
       @call = call
+      @extra_params = extra_params
     end
 
     def publish

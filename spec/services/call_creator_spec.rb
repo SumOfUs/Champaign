@@ -48,7 +48,7 @@ describe CallCreator do
     end
 
     it 'publishes the event' do
-      expect(CallEvent::New).to receive(:publish).with(an_instance_of(Call))
+      expect(CallEvent::New).to receive(:publish).with(an_instance_of(Call), an_instance_of(Hash))
       CallCreator.new(params).run
     end
   end
