@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170626194936) do
+ActiveRecord::Schema.define(version: 20170713183132) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20170626194936) do
     t.integer "twilio_error_code"
     t.json "target"
     t.integer "status", default: 0
+    t.integer "action_id"
     t.index ["target_call_info"], name: "index_calls_on_target_call_info", using: :gin
   end
 

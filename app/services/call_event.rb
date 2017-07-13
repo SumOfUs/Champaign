@@ -25,7 +25,10 @@ module CallEvent
           action_target_call_status: @call.target_call_status,
           action_target: @call.target.to_hash
         },
-        meta: { call_id: @call.id }
+        meta: {
+          call_id: @call.id,
+          action_id: @call.action.id
+        }
       }
     end
   end

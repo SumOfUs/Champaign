@@ -23,6 +23,7 @@ class Call < ApplicationRecord
   enum status: %i[unstarted started connected failed]
   belongs_to :page
   belongs_to :member
+  belongs_to :action
 
   validates :page, presence: true
   validates :member_phone_number, presence: true

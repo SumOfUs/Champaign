@@ -23,6 +23,7 @@ class CallCreator
       end
 
       if @call.persisted? && !@call.failed?
+        create_action
         publish_event
       end
     end
@@ -95,6 +96,11 @@ class CallCreator
       Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{call.attributes.inspect}")
       add_error(:base, I18n.t('call_tool.errors.unknown'))
     end
+  end
+
+  def create_action
+    @action = Action.create!(page: @page, member: @call.member)
+    @call.update!(action: @action)
   end
 
   def publish_event

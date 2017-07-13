@@ -51,6 +51,11 @@ describe CallCreator do
       expect(CallEvent::New).to receive(:publish).with(an_instance_of(Call), an_instance_of(Hash))
       CallCreator.new(params).run
     end
+
+    it 'creates an action' do
+      CallCreator.new(params).run
+      expect(Call.last.action).to be_an_instance_of(Action)
+    end
   end
 
   context 'given valid params' do
