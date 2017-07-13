@@ -32,7 +32,8 @@ export default class CallToolDrillDown extends Component {
   }
 
   renderFilter = (key: string, index: number) => {
-    const previousKey = this.props.targetByAttributes[index - 1];
+    const attrs = this.props.targetByAttributes;
+    const previousKey = attrs[index - 1];
     const previousFilter = this.props.filters[previousKey];
     // if we're in the first filter, or if we've selected a previous filter
     if (index === 0 || previousFilter) {
@@ -43,13 +44,13 @@ export default class CallToolDrillDown extends Component {
             value={this.props.filters[key]}
             options={this.valuesForSelect(key)}
             label={startCase(key)}
-            onChange={(value: string) =>
-              this.props.onUpdate(
-                omitBy(
-                  { ...this.props.filters, [key]: value },
-                  (v: string) => !v
-                )
-              )}
+            onChange={(value: string) => {
+              const updatedFilters = { ...this.props.filters, [key]: value };
+              const discardFn = (v: string, k: string) => {
+                return !v || attrs.indexOf(k) > index;
+              };
+              this.props.onUpdate(omitBy(updatedFilters, discardFn));
+            }}
           />
           <div className="clearfix" />
         </div>

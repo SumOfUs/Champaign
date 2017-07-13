@@ -82,6 +82,8 @@ class Form extends Component {
   constructor(props: OwnProps) {
     super(props);
 
+    // FIXME: Use this.state for all these
+    // that way this.setState(...) updates these and triggers a re-render
     this.fields = {
       memberPhoneNumberField: memberPhoneNumberField,
       memberPhoneCountryCodeField: memberPhoneCountryCodeField,
@@ -96,35 +98,21 @@ class Form extends Component {
     };
   }
 
-  componentWillReceiveProps(newProps: OwnProps) {
-    if (this.fields) {
-      this.fields.targets = {
-        ...targetField,
-        choices: this.targetOptions(newProps.targets),
-      };
-    }
-  }
-
   countryCodeOptions() {
     return this.props.countries.map(country => {
       return { id: country.code, value: country.code, label: country.name };
     });
   }
 
-  targetField(targets: Target[]) {
+  targetFields() {
     return {
-      data_type: 'select',
-      name: 'call_tool[target]',
-      label: <FormattedMessage id="call_tool.you_will_be_calling" />,
-      default_value: null,
-      required: true,
-      disabled: false,
-      choices: this.targetOptions(targets),
+      ...targetField,
+      choices: this.targetOptions(),
     };
   }
 
-  targetOptions(targets: Target[]): Choice[] {
-    return targets.map((target: Target) => ({
+  targetOptions(): Choice[] {
+    return this.filteredTargets(this.state.filters).map((target: Target) => ({
       id: `target-${target.id}`,
       value: target.id,
       label: (
@@ -157,12 +145,13 @@ class Form extends Component {
   }
 
   updateFilters = (filters: { [string]: string }) => {
-    this.setState(prevState => {
-      return {
-        ...prevState,
-        filters,
-      };
-    });
+    this.setState(
+      prevState => ({ ...prevState, filters }),
+      () => {
+        // TODO:
+        // Reset selected target if selectedTarget is not in this.filteredTargets
+      }
+    );
   };
 
   targetsWithFields() {
@@ -234,7 +223,7 @@ class Form extends Component {
             key="selectedTarget"
             onChange={this.props.onTargetSelected}
             value={this.props.selectedTarget.id}
-            field={this.fields.targets}
+            field={this.targetFields()}
           />}
 
         {!_.isEmpty(this.props.selectedTarget) &&
