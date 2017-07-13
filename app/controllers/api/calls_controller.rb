@@ -24,8 +24,7 @@ class Api::CallsController < ApplicationController
   end
 
   def tracking_params
-    params
-      .slice('source', 'akid', 'referring_akid', 'referrer_id', 'rid', 'bucket')
-      .to_unsafe_hash
+    params.fetch(:tracking_params, {})
+      .permit(:source, :akid, :referring_akid, :referrer_id, :rid, :bucket)
   end
 end

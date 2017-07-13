@@ -29,7 +29,9 @@ module CallEvent
           call_id: @call.id,
           action_id: @call.action.id
         }
-      }
+      }.tap do |p|
+        p[:params].merge!(@extra_params)
+      end
     end
   end
 
