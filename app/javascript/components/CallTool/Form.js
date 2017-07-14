@@ -166,7 +166,7 @@ class Form extends Component {
       'single-country': this.props.restrictToSingleCountry,
     });
     return (
-      <form className={formClassNames} data-remote="true">
+      <form className={formClassNames}>
         {!this.props.restrictToSingleCountry &&
           <FieldShape
             key="memberPhoneCountryCode"
@@ -239,10 +239,11 @@ function SelectedTarget(props: { name: string, title?: string }) {
         <span>
           <FormattedMessage id="call_tool.you_will_be_calling" />
           &nbsp;
-          <span className="selectedTargetName">
-            {props.name}
-          </span>
-          {props.title && <span>, {props.title} </span>}
+          <span className="selectedTargetName">{props.name}</span>
+          {props.title &&
+            <span>
+              , {props.title}{' '}
+            </span>}
         </span>
       </p>
     </div>
