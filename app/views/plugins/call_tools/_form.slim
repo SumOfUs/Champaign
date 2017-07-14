@@ -32,11 +32,7 @@
           | &nbsp;
           = f.check_box :allow_manual_target_selection
 
-      - if plugin.targets.any?
-        .well.targets-section
-          = render partial: 'plugins/call_tools/dynamic_targetting.slim', locals: { plugin: plugin, f: f }
-
-    .well.targets-section
+    .call-tool__target-form
       = render partial: 'plugins/call_tools/target_form.slim', locals: { plugin: plugin }
 
     .well.sound-clip-section

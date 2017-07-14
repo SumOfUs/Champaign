@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Plugins
   class CallToolsController < BaseController
     # FIXME
@@ -6,7 +7,6 @@ module Plugins
 
     def update_targets
       @call_tool = Plugins::CallTool.find(params[:id])
-      @show_targets = true
       updater = ::CallTool::PluginUpdater.new(@call_tool, targets_params)
       status = updater.run ? :ok : :unprocessable_entity
       render template: 'plugins/call_tools/_target_form.slim',

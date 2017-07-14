@@ -509,15 +509,15 @@ body.page-edit-body {
   }
 
   .targets-section {
-    overflow: scroll;
+    margin-top: 10px;
+
     .targets-wrapper {
       margin-top: 10px;
+      overflow: scroll;
     }
-
     input[type="submit"] {
       margin-left: 10px;
     }
-
     label[for="targets_csv_file"] {
       width: 170px;
     }

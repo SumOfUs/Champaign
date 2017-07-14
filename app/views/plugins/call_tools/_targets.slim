@@ -4,9 +4,10 @@
       span = t 'plugins.call_tool.no_targets_loaded'
 
   - else
-    p
-      a.toggle-targets = t 'plugins.call_tool.show_targets'
-    .targets style=(show_targets ? '' : 'display:none')
+    h4 data-toggle="collapse" data-target=".targets-table" aria-expanded="false"
+      i.fa.fa-caret-right
+      = t('plugins.call_tool.show_targets')
+    .targets-table.collapse
         - extra_cols = plugin.target_keys.reject { |k| %w[country_name].include? k }
         table.table.table-stripped
           tr
@@ -31,10 +32,3 @@
               - if extra_cols.present?
                 - extra_cols.each do |col|
                   td = target.fields[col]
-
-  javascript:
-    $(function() {
-      $('.call-tool .toggle-targets').click(function() {
-        $('.call-tool .targets').slideToggle();
-      })
-    });
