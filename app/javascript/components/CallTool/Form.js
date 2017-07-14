@@ -115,17 +115,7 @@ class Form extends Component {
     return this.filteredTargets(this.state.filters).map((target: Target) => ({
       id: `target-${target.id}`,
       value: target.id,
-      label: (
-        <div>
-          <p style={{ fontSize: '90%' }}>
-            {target.postalCode && <span>({target.postalCode})</span>}
-            {' - '}
-            <strong>{target.name}</strong>
-            {' '}
-            <span style={{ fontSize: '70%' }}>{target.title}</span>
-          </p>
-        </div>
-      ),
+      label: `${target.name}, ${target.title}`,
     }));
   }
 
