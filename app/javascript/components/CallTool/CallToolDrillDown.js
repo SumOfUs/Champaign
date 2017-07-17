@@ -46,9 +46,8 @@ export default class CallToolDrillDown extends Component {
             label={startCase(key)}
             onChange={(value: string) => {
               const updatedFilters = { ...this.props.filters, [key]: value };
-              const discardFn = (v: string, k: string) => {
-                return !v || attrs.indexOf(k) > index;
-              };
+              const discardFn = (v: string, k: string) =>
+                !v || attrs.indexOf(k) > index;
               this.props.onUpdate(omitBy(updatedFilters, discardFn));
             }}
           />

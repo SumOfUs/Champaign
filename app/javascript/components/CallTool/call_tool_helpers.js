@@ -1,6 +1,15 @@
 // @flow
-import { compact, isMatch, pick, uniq } from 'lodash';
+import { compact, get, isMatch, omit, pick, uniq } from 'lodash';
 import type { Target } from '../../call_tool/CallToolView';
+
+export type TargetWithFields = Target & { [string]: string };
+
+export function targetsWithFields(targets: Target[]): TargetWithFields {
+  return targets.map(t => ({
+    ...omit(t, 'fields'),
+    ...get(t, 'fields', {}),
+  }));
+}
 
 export function valuesForFilter(
   targets: Target[],

@@ -176,9 +176,8 @@ class CallToolView extends Component {
         ...this.targetHash(),
         pageId: this.props.pageId,
         memberPhoneNumber:
-          this.state.form.memberPhoneCountryCode +
-            this.state.form.memberPhoneNumber,
-        trackingParams: this.props.trackingParams,
+          this.state.form.memberPhoneCountryCode + this.state.form.memberPhoneNumber,
+        trackingParams: this.props.trackingParams
       })
       .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
@@ -252,7 +251,10 @@ class CallToolView extends Component {
     const { errors } = this.state;
     return (
       <div>
-        {this.props.title && <h1> {this.props.title} </h1>}
+        {this.props.title &&
+          <h1>
+            {' '}{this.props.title}{' '}
+          </h1>}
 
         <p className="select-home-country">
           {' '}<FormattedMessage id={this.instructionsMessageId()} />{' '}
@@ -264,7 +266,11 @@ class CallToolView extends Component {
             <ul>
               {this.state.errors.base &&
                 this.state.errors.base.map((error, index) => {
-                  return <li key={`error-${index}`}> {error} </li>;
+                  return (
+                    <li key={`error-${index}`}>
+                      {' '}{error}{' '}
+                    </li>
+                  );
                 })}
             </ul>
           </div>}
