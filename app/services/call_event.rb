@@ -6,7 +6,8 @@ module CallEvent
 
     def initialize(call, extra_params = {})
       @call = call
-      @extra_params = extra_params
+      @extra_params = extra_params.clone
+      @extra_params[:action_referrer_email] = MemberEmailGuesser.run(extra_params)
     end
 
     def publish
