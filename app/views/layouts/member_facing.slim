@@ -7,8 +7,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     - if Settings.facebook_app_id.present?
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
     = stylesheet_link_tag 'member-facing'
-    = stylesheet_pack_tag 'fundraiser_plugin'
-    = stylesheet_pack_tag 'email_target'
 
     = csrf_meta_tags
     = favicon_link_tag 'images/org-favicon.ico'
@@ -28,10 +26,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_include_tag "https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.de,Intl.~locale.es,Intl.~locale.fr"
 
     = javascript_pack_tag 'member_facing'
-    - # Individual packs:
-    = javascript_pack_tag 'fundraiser_plugin'
-    = javascript_pack_tag 'email_target'
-    = javascript_pack_tag 'call_tool'
+    = render 'pages/packs', plugins: @page.plugins
 
     = render partial: 'shared/page_object'
     = render partial: 'shared/facebook_pixel' unless Rails.env.test?
