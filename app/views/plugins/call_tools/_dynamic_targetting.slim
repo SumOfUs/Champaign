@@ -1,15 +1,3 @@
-.dynamic-targeting-field style="#{'display: none;' unless plugin.allow_manual_target_selection}"
+.dynamic-targeting-field
   = label_tag_with_tooltip(:target_by_attributes, t('plugins.call_tool.target_by_attributes'), t('tooltips.call_tool.target_by_attributes'))
   = f.select(:target_by_attributes, options_for_select(plugin.target_keys.map{ |t| [t.titleize, t] }, plugin.target_by_attributes), {}, {class: 'selectize-container', multiple: true, include_blank: true} )
-
-javascript:
-  $('document').ready(function(){
-    var checkSelector = "input[name='plugins_call_tool_#{plugin.id}[allow_manual_target_selection]']";
-    $(checkSelector).on('change', function(e){
-      if($(this).prop('checked')) {
-        $('.dynamic-targeting-field').slideDown();
-      } else {
-        $('.dynamic-targeting-field').slideUp();
-      }
-    });
-  });
