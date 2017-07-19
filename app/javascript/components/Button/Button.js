@@ -22,7 +22,7 @@ const Button = (props: Props) => {
   return (
     <button
       disabled={props.disabled}
-      type={props.type || 'text'}
+      type={props.type}
       className={className}
       onClick={props.disabled ? null : props.onClick}
     >
