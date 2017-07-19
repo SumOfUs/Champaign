@@ -3,19 +3,20 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 
 type OwnProps = {
-  name: string;
-  label: any;
-  value: string;
-  type?: string;
-  required?: boolean;
-  errorMessage?: any;
-  onChange?: (value: string) => void;
+  name: string,
+  label: any,
+  value: string,
+  type?: string,
+  required?: boolean,
+  errorMessage?: any,
+  onChange?: (value: string) => void,
+  className?: string,
 };
 
 export default class SweetInput extends Component {
   props: OwnProps;
 
-  state: { filled: boolean; focused: boolean; };
+  state: { filled: boolean, focused: boolean };
 
   constructor(props: OwnProps) {
     super(props);
@@ -40,7 +41,7 @@ export default class SweetInput extends Component {
   }
 
   hasError() {
-    return !!(this.props.errorMessage);
+    return !!this.props.errorMessage;
   }
 
   toggleFocus(focused: boolean) {
@@ -49,16 +50,18 @@ export default class SweetInput extends Component {
   }
 
   render() {
-    const className = classnames({
+    const className = classnames('sweet-placeholder', this.props.className);
+    const labelClassName = classnames({
       'sweet-placeholder__label': true,
-      'sweet-placeholder__label--full': !!this.props.value && !this.state.focused,
+      'sweet-placeholder__label--full':
+        !!this.props.value && !this.state.focused,
       'sweet-placeholder__label--active': this.state.focused,
       'has-error': this.hasError(),
     });
 
-    return(
-      <div className="sweet-placeholder">
-        <label className={className} onClick={e => this.toggleFocus(true)}>
+    return (
+      <div className={className}>
+        <label className={labelClassName} onClick={e => this.toggleFocus(true)}>
           {this.props.label}
         </label>
         <input
@@ -70,9 +73,13 @@ export default class SweetInput extends Component {
           onChange={e => this.onChange(e.target.value)}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
-          className={`sweet-placeholder__field ${this.hasError() ? 'has-error' : ''}`}
+          className={`sweet-placeholder__field ${this.hasError()
+            ? 'has-error'
+            : ''}`}
         />
-        <span className="error-msg">{this.props.errorMessage}</span>
+        <span className="error-msg">
+          {this.props.errorMessage}
+        </span>
       </div>
     );
   }

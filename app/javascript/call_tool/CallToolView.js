@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { camelCase, isEmpty, filter, find, sample } from 'lodash';
 import ChampaignAPI from '../util/ChampaignAPI';
 import Form from '../components/CallTool/Form';
+import queryString from 'query-string';
 
 import type { OperationResponse } from '../util/ChampaignAPI';
 import type { IntlShape } from 'react-intl';
@@ -47,6 +48,7 @@ type OwnState = {
   loading: boolean,
   selectedTarget?: Target,
   selectedCountryCode?: string,
+  filters?: Object,
 };
 
 type OwnProps = {
@@ -77,6 +79,9 @@ class CallToolView extends Component {
   constructor(props: OwnProps) {
     super(props);
 
+    // FIXME:
+    // use search.filters to set filters?
+    const search: Object = queryString.parse(location.search);
     this.state = {
       form: {
         memberPhoneNumber: '',
@@ -86,6 +91,7 @@ class CallToolView extends Component {
       errors: {},
       loading: false,
       selectedCountryCode: undefined,
+      filters: search.filters,
     };
   }
 
@@ -298,10 +304,7 @@ class CallToolView extends Component {
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
           targetByAttributes={this.props.targetByAttributes.map(camelCase)}
-          filters={{
-            countryName: 'united kingdom',
-            state: 'London',
-          }}
+          filters={this.state.filters}
         />
         <p
           className="fine-print"

@@ -1,16 +1,24 @@
+.SweetPhoneInput__Title {
+  margin: 0.5em 1em;
+  color: #555;
+}
+
 .SweetPhoneInput {
   padding-bottom: 1em;
   display: flex;
 
-  div {
-    flex-grow: 1;
+  .sweet-placeholder__field {
+    border: solid 2px #dbdbdb;
   }
 }
 
 .SweetPhoneInput__CountryCode {
-  width: 25%;
+  width: 30%;
+  flex-grow: 1;
 }
 .SweetPhoneInput__PhoneNumber {
+  flex-grow: 1;
+  margin-left: 5px;
   .sweet-placeholder {
     float: none;
   }

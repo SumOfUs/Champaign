@@ -1,10 +1,11 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { get, findKey } from 'lodash';
+import { asYouType, format, parse, isValidNumber } from 'libphonenumber-js';
+import { get, findIndex } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import ReactPhoneInput from 'react-phone-input';
 import countryCodes from './country-codes.json';
+import SweetInput from '../SweetInput/SweetInput';
 
 import './SweetPhoneInput.scss';
 
@@ -12,12 +13,14 @@ type Props = {
   value: string,
   onChange: (number: string) => void,
   defaultCountry?: string,
-  countries?: string[],
-  preferredCountries?: string[],
+  title?: any,
 };
 
 type State = {
   defaultCountry: string,
+  countryCode: string,
+  phoneNumber: string,
+  countryCodeError?: any,
 };
 
 export default class SweetPhoneInput extends Component {
@@ -32,34 +35,81 @@ export default class SweetPhoneInput extends Component {
     );
     this.state = {
       defaultCountry: props.defaultCountry || defaultCountry || 'US',
+      countryCode: '',
+      phoneNumber: '',
     };
   }
 
+  defaultTitle() {
+    return (
+      <FormattedMessage
+        id="call_tool.member_phone_number_title"
+        defaultMessage="Enter your phone number"
+      />
+    );
+  }
   onChange(number: string) {
     console.log('phone number changed:', number);
     this.props.onChange(number);
   }
+
+  validateCountryCode(code: string) {
+    if (!findIndex(countryCodes, { dialCode: code })) {
+      // Translate invalid country code error?
+      return 'country code is invalid';
+    }
+  }
+
+  onPhoneNumberChange = (phoneNumber: string) => {
+    const number = format(
+      parse(`+${this.state.countryCode}${phoneNumber}`),
+      'International_plaintext'
+    );
+    console.log('asYouType:', new asYouType().input(phoneNumber));
+    console.log('parse:', number);
+    console.log(
+      'isValidNumber:',
+      isValidNumber(phoneNumber, this.state.countryCode)
+    );
+    this.setState(prevState => ({ ...prevState, phoneNumber }));
+  };
+
+  onCountryCodeChange = (countryCode: string) => {
+    console.log('country code changed:', countryCode);
+    this.setState(prevState => ({
+      countryCode: countryCode.replace('+', ''),
+      countryCodeError: this.validateCountryCode(countryCode.replace('+', '')),
+    }));
+  };
 
   render() {
     const className = classnames({
       SweetPhoneInput: true,
     });
 
-    const countries = [
-      { value: 'CA', label: 'Canada' },
-      { value: 'GB', label: 'United Kingdom' },
-      { value: 'US', label: 'United States' },
-    ];
-
     return (
-      <div>
-        <p style={{ textAlign: 'center', margin: '1em' }}>
-          Please put in your number
+      <div className="SweetPhoneInputContainer">
+        <p className="SweetPhoneInput__Title">
+          {this.props.title || this.defaultTitle()}
         </p>
         <div className={className}>
-          <ReactPhoneInput
-            defaultCountry={this.state.defaultCountry.toLowerCase()}
-            onChange={(number: string) => this.onChange(number)}
+          <SweetInput
+            className="SweetPhoneInput__CountryCode"
+            value={this.state.countryCode}
+            type="tel"
+            label="Code"
+            required
+            errorMessage={this.state.countryCodeError}
+            onChange={this.onCountryCodeChange}
+          />
+          <SweetInput
+            type="tel"
+            className="SweetPhoneInput__PhoneNumber"
+            value={this.state.phoneNumber}
+            label="Phone number"
+            required
+            errorMessage={this.state.countryCodeError}
+            onChange={this.onPhoneNumberChange}
           />
         </div>
       </div>
