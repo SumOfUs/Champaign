@@ -1,27 +1,73 @@
 // @flow
-import React from 'react';
-import InputPhone from 'react-phone-number-input';
+import React, { Component } from 'react';
 import classnames from 'classnames';
-import 'react-phone-number-input/rrui.css';
-import 'react-phone-number-input/style.css';
-import './SweetPhoneInput.css';
+import { findKey } from 'lodash';
+import { FormattedMessage } from 'react-intl';
+import SweetInput from '../SweetInput/SweetInput';
+import SweetSelect from '../SweetSelect/SweetSelect';
+import countryCodes from './country-codes.json';
 
-type OwnProps = {
-  value: ?string,
+import './SweetPhoneInput.scss';
+
+type Props = {
+  value: string,
   onChange: (number: string) => void,
-  country?: string,
+  defaultCountry?: string,
   countries?: string[],
-  nativeExpanded?: boolean,
+  preferredCountries?: string[],
 };
 
-export default function SweetPhoneInput(props: OwnProps) {
-  const className = classnames({
-    SweetPhoneInput: true,
-  });
+type State = {
+  countryCode: string,
+};
 
-  return (
-    <div className={className}>
-      <InputPhone {...props} />
-    </div>
-  );
+export default class SweetPhoneInput extends Component {
+  props: Props;
+  state: State;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      countryCode: countryCodes[props.defaultCountry || 'US'],
+    };
+  }
+
+  onCountryCodeChange(countryCode: string) {
+    this.setState({ countryCode });
+  }
+  onPhoneNumberChange(number: string) {
+    this.props.onChange(`${this.state.countryCode}${number}`);
+  }
+
+  render() {
+    const className = classnames({
+      SweetPhoneInput: true,
+    });
+
+    const countries = [
+      { value: 'CA', label: 'Canada' },
+      { value: 'GB', label: 'United Kingdom' },
+      { value: 'US', label: 'United States' },
+    ];
+
+    return (
+      <div className={className}>
+        <div className="SweetPhoneInput__CountryCode">
+          <SweetSelect
+            name="SweetPhoneInput__CountryCode"
+            onChange={country => console.log('country:', country)}
+            options={countries}
+          />
+        </div>
+        <div className="SweetPhoneInput__PhoneNumber">
+          <SweetInput
+            type="tel"
+            value={this.props.value}
+            label={<FormattedMessage id="call_tool.form.phone_number" />}
+            onChange={this.props.onChange}
+          />
+        </div>
+      </div>
+    );
+  }
 }

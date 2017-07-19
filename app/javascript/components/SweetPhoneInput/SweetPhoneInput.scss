@@ -1,0 +1,17 @@
+.SweetPhoneInput {
+  padding-bottom: 1em;
+  display: flex;
+
+  div {
+    flex-grow: 1;
+  }
+}
+
+.SweetPhoneInput__CountryCode {
+  width: 25%;
+}
+.SweetPhoneInput__PhoneNumber {
+  .sweet-placeholder {
+    float: none;
+  }
+}
