@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CallToolDrillDownWithFilters 1`] = `
+<div
+  className="CallToolDrillDown"
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={false}
+      label="Country"
+      name="filter-targets-by-attribute-country"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "id": "country-United States",
+            "label": "United States",
+            "value": "United States",
+          },
+          Object {
+            "id": "country-Canada",
+            "label": "Canada",
+            "value": "Canada",
+          },
+        ]
+      }
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+</div>
+`;

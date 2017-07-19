@@ -102,7 +102,6 @@ class CallToolView extends Component {
 
   componentDidMount() {
     this.countryCodeChanged(this.state.form.countryCode);
-    this.setState({ selectedTarget: this.selectNewTarget() });
   }
 
   countryCodeChanged(countryCode: string) {
@@ -159,7 +158,7 @@ class CallToolView extends Component {
     return sample(this.props.targets);
   }
 
-  selectTarget(id: string) {
+  selectTarget(id: ?string) {
     const target = find(this.props.targets, { id });
     this.setState(prevState => ({
       ...prevState,
@@ -299,6 +298,10 @@ class CallToolView extends Component {
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
           targetByAttributes={this.props.targetByAttributes.map(camelCase)}
+          filters={{
+            countryName: 'united kingdom',
+            state: 'London',
+          }}
         />
         <p
           className="fine-print"

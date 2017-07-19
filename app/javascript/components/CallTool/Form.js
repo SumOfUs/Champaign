@@ -27,7 +27,7 @@ type Props = {
   targetByAttributes: string[],
   form: FormType,
   errors: Errors,
-  onTargetSelected: (id: string) => void,
+  onTargetSelected: (id: ?string) => void,
   onSubmit: any => void,
   loading: boolean,
   filters?: Filters,
@@ -60,9 +60,11 @@ class Form extends Component {
     }));
   }
 
-  selectTarget(target: TargetWithFields) {
-    if (target.id) {
+  selectTarget(target: ?TargetWithFields) {
+    if (target && target.id) {
       this.props.onTargetSelected(target.id);
+    } else {
+      this.props.onTargetSelected(null);
     }
   }
 
@@ -85,7 +87,7 @@ class Form extends Component {
           targetByAttributes={compact(this.props.targetByAttributes || [])}
           filters={this.props.filters}
           targets={this.state.targetsWithFields}
-          onUpdate={(t: TargetWithFields) => this.selectTarget(t)}
+          onUpdate={t => this.selectTarget(t)}
         />
 
         <SelectedTarget target={this.props.selectedTarget} />

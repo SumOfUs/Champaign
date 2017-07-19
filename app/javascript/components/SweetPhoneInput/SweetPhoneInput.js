@@ -59,7 +59,6 @@ export default class SweetPhoneInput extends Component {
         <div className={className}>
           <ReactPhoneInput
             defaultCountry={this.state.defaultCountry.toLowerCase()}
-            onlyCountries={['us', 'gb', 'ca', 'de']}
             onChange={(number: string) => this.onChange(number)}
           />
         </div>

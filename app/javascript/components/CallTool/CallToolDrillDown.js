@@ -22,7 +22,7 @@ type Filters = { [string]: string };
 type Props = {
   targetByAttributes: string[],
   targets: TargetWithFields[],
-  onUpdate: (target: TargetWithFields) => void,
+  onUpdate: (target: ?TargetWithFields) => void,
   filters?: Filters,
 };
 
@@ -45,9 +45,7 @@ export default class CallToolDrillDown extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.targetByAttributes.length) {
-      this.props.onUpdate(this.sampleTarget(this.props.targets));
-    }
+    this.fn();
   }
 
   sampleTarget(targets: TargetWithFields[]): TargetWithFields {
@@ -75,8 +73,19 @@ export default class CallToolDrillDown extends Component {
         filters,
         targets: filterTargets(this.props.targets, filters),
       }),
-      () => this.props.onUpdate(this.sampleTarget(this.state.targets))
+      () => this.fn()
     );
+  }
+
+  fn() {
+    if (
+      Object.keys(this.state.filters).length ===
+      this.props.targetByAttributes.length
+    ) {
+      this.props.onUpdate(this.sampleTarget(this.state.targets));
+    } else {
+      this.props.onUpdate(null);
+    }
   }
 
   renderFilter = (key: string, index: number) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import toJSON from 'enzymue-to-json';
+import toJSON from 'enzyme-to-json';
 import CallToolDrillDown from './CallToolDrillDown';
 import { targets } from './call_tool_helpers.test';
 
