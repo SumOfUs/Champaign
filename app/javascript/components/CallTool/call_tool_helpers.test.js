@@ -7,7 +7,7 @@ import {
   valuesForFilter,
 } from './call_tool_helpers';
 
-const targets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(id => {
+export const targets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(id => {
   const country = sample(['United States', 'Canada']);
   let state;
   if (country === 'United States') {

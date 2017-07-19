@@ -21,9 +21,9 @@ import type { TargetWithFields } from './call_tool_helpers';
 type Filters = { [string]: string };
 type Props = {
   targetByAttributes: string[],
-  filters: Filters,
   targets: TargetWithFields[],
   onUpdate: (target: TargetWithFields) => void,
+  filters?: Filters,
 };
 
 type State = {
