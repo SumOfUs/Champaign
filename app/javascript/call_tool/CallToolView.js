@@ -4,7 +4,6 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { camelCase, isEmpty, filter, find, sample } from 'lodash';
 import ChampaignAPI from '../util/ChampaignAPI';
 import Form from '../components/CallTool/Form';
-import queryString from 'query-string';
 
 import type { OperationResponse } from '../util/ChampaignAPI';
 import type { IntlShape } from 'react-intl';
@@ -48,7 +47,6 @@ type OwnState = {
   loading: boolean,
   selectedTarget?: Target,
   selectedCountryCode?: string,
-  filters?: Object,
 };
 
 type OwnProps = {
@@ -70,6 +68,7 @@ type OwnProps = {
   checksum?: string,
   intl: IntlShape,
   trackingParams: any,
+  filters?: any,
 };
 
 class CallToolView extends Component {
@@ -79,9 +78,6 @@ class CallToolView extends Component {
   constructor(props: OwnProps) {
     super(props);
 
-    // FIXME:
-    // use search.filters to set filters?
-    const search: Object = queryString.parse(location.search);
     this.state = {
       form: {
         memberPhoneNumber: '',
@@ -91,7 +87,6 @@ class CallToolView extends Component {
       errors: {},
       loading: false,
       selectedCountryCode: undefined,
-      filters: search.filters,
     };
   }
 
@@ -181,8 +176,9 @@ class CallToolView extends Component {
         ...this.targetHash(),
         pageId: this.props.pageId,
         memberPhoneNumber:
-          this.state.form.memberPhoneCountryCode + this.state.form.memberPhoneNumber,
-        trackingParams: this.props.trackingParams
+          this.state.form.memberPhoneCountryCode +
+          this.state.form.memberPhoneNumber,
+        trackingParams: this.props.trackingParams,
       })
       .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
@@ -304,7 +300,7 @@ class CallToolView extends Component {
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}
           targetByAttributes={this.props.targetByAttributes.map(camelCase)}
-          filters={this.state.filters}
+          filters={this.props.filters}
         />
         <p
           className="fine-print"

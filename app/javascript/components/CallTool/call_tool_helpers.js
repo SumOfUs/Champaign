@@ -1,5 +1,5 @@
 // @flow
-import { compact, get, isMatch, pick, uniq, without } from 'lodash';
+import { compact, get, isMatchWith, pick, uniq, without } from 'lodash';
 import type { Target } from '../../call_tool/CallToolView';
 
 export type TargetWithFields = { [string]: any };
@@ -12,12 +12,20 @@ export function targetsWithFields(targets: Target[]): TargetWithFields[] {
   }));
 }
 
+const caseInsensitiveComp = (objValue, srcValue) => {
+  if (typeof objValue === 'string' && typeof srcValue === 'string') {
+    return objValue.toLowerCase() === srcValue.toLowerCase();
+  } else {
+    return objValue === srcValue;
+  }
+};
+
 export function filterTargets(
   targets: TargetWithFields[],
   filters: Filters
 ): TargetWithFields[] {
   if (!Object.keys(filters).length) return targets;
-  return targets.filter(t => isMatch(t, filters));
+  return targets.filter(t => isMatchWith(t, filters, caseInsensitiveComp));
 }
 
 export function valuesForFilter(

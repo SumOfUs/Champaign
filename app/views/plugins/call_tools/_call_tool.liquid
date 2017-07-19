@@ -8,6 +8,7 @@
                                    'source', 'akid', 'referring_akid',
                                    'referrer_id', 'rid');
       data.countryCode = window.champaign.personalization.member.country;
+      data.filters = window.champaign.personalization.urlParams.filters;
       data.onSuccess = function(selectedTarget) {
         var followUpUrl = window.URI("{{ follow_up_url }}");
         followUpUrl.addQuery({

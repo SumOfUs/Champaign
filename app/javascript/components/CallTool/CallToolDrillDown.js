@@ -98,7 +98,7 @@ export default class CallToolDrillDown extends Component {
         <div key={key} style={{ marginBottom: '10px' }}>
           <SweetSelect
             name={`filter-targets-by-attribute-${key}`}
-            value={this.state.filters[key]}
+            value={this.valueForSelect(key)}
             options={this.valuesForSelect(key)}
             label={startCase(key)}
             clearable={index > 0}
@@ -116,6 +116,12 @@ export default class CallToolDrillDown extends Component {
 
     return null;
   };
+
+  valueForSelect(key) {
+    if (this.state.filters[key] && this.state.targets.length) {
+      return this.state.targets[0][key];
+    }
+  }
 
   render() {
     if (!this.props.targetByAttributes.length) return null;
