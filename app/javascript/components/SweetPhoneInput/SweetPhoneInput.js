@@ -67,17 +67,17 @@ export default class SweetPhoneInput extends Component {
     );
     console.log('asYouType:', new asYouType().input(phoneNumber));
     console.log('parse:', number);
-    console.log(
-      'isValidNumber:',
-      isValidNumber(phoneNumber, this.state.countryCode)
-    );
+    console.log('isValidNumber:', isValidNumber(number));
+    // FIXME: ^ are any of these methods useful? see https://github.com/catamphetamine/libphonenumber-js
     this.setState(prevState => ({ ...prevState, phoneNumber }));
   };
 
   onCountryCodeChange = (countryCode: string) => {
     console.log('country code changed:', countryCode);
     this.setState(prevState => ({
+      // FIXME: i don't think replace('+', '') everywhere should be a thing
       countryCode: countryCode.replace('+', ''),
+      // FIXME: ditto .replace(...)
       countryCodeError: this.validateCountryCode(countryCode.replace('+', '')),
     }));
   };
