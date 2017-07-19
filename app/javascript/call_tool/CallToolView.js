@@ -14,7 +14,7 @@ export type Target = {
   name: string,
   countryCode?: string,
   countryName?: string,
-  fields?: { [key: string]: string | number },
+  fields?: { [string]: string },
 };
 
 export type Country = {

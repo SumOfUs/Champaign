@@ -1,10 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { findKey } from 'lodash';
+import { get, findKey } from 'lodash';
 import { FormattedMessage } from 'react-intl';
-import SweetInput from '../SweetInput/SweetInput';
-import SweetSelect from '../SweetSelect/SweetSelect';
+import ReactPhoneInput from 'react-phone-input';
 import countryCodes from './country-codes.json';
 
 import './SweetPhoneInput.scss';
@@ -18,7 +17,7 @@ type Props = {
 };
 
 type State = {
-  countryCode: string,
+  defaultCountry: string,
 };
 
 export default class SweetPhoneInput extends Component {
@@ -27,16 +26,18 @@ export default class SweetPhoneInput extends Component {
 
   constructor(props: Props) {
     super(props);
+    const defaultCountry = get(
+      window.champaign.personalization,
+      'location.country'
+    );
     this.state = {
-      countryCode: countryCodes[props.defaultCountry || 'US'],
+      defaultCountry: props.defaultCountry || defaultCountry || 'US',
     };
   }
 
-  onCountryCodeChange(countryCode: string) {
-    this.setState({ countryCode });
-  }
-  onPhoneNumberChange(number: string) {
-    this.props.onChange(`${this.state.countryCode}${number}`);
+  onChange(number: string) {
+    console.log('phone number changed:', number);
+    this.props.onChange(number);
   }
 
   render() {
@@ -51,20 +52,15 @@ export default class SweetPhoneInput extends Component {
     ];
 
     return (
-      <div className={className}>
-        <div className="SweetPhoneInput__CountryCode">
-          <SweetSelect
-            name="SweetPhoneInput__CountryCode"
-            onChange={country => console.log('country:', country)}
-            options={countries}
-          />
-        </div>
-        <div className="SweetPhoneInput__PhoneNumber">
-          <SweetInput
-            type="tel"
-            value={this.props.value}
-            label={<FormattedMessage id="call_tool.form.phone_number" />}
-            onChange={this.props.onChange}
+      <div>
+        <p style={{ textAlign: 'center', margin: '1em' }}>
+          Please put in your number
+        </p>
+        <div className={className}>
+          <ReactPhoneInput
+            defaultCountry={this.state.defaultCountry.toLowerCase()}
+            onlyCountries={['us', 'gb', 'ca', 'de']}
+            onChange={(number: string) => this.onChange(number)}
           />
         </div>
       </div>

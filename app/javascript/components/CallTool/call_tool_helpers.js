@@ -1,37 +1,34 @@
 // @flow
-import { compact, get, isMatch, omit, pick, uniq } from 'lodash';
+import { compact, get, isMatch, pick, uniq } from 'lodash';
 import type { Target } from '../../call_tool/CallToolView';
 
-export type TargetWithFields = Target & { [string]: string };
+export type TargetWithFields = { [string]: any };
+export type Filters = { [string]: string };
 
-export function targetsWithFields(targets: Target[]): TargetWithFields {
-  return targets.map(t => ({
-    ...omit(t, 'fields'),
+export function targetsWithFields(targets: Target[]): TargetWithFields[] {
+  return targets.map((t: Target): TargetWithFields => ({
+    ...pick(t, ['id', 'name', 'title', 'countryName', 'countryCode']),
     ...get(t, 'fields', {}),
   }));
+}
+
+export function filterTargets(
+  targets: TargetWithFields[],
+  filters: Filters
+): TargetWithFields[] {
+  if (!Object.keys(filters).length) return targets;
+  return targets.filter(t => isMatch(t, filters));
 }
 
 export function valuesForFilter(
   targets: Target[],
   attrs: string[],
   filters: { [string]: string },
-  currentFilter: string
+  filter: string
 ): string[] {
-  const index = attrs.indexOf(currentFilter);
-  const activeFilters = pick(filters, attrs.slice(0, index));
-  const values = targets
-    .filter(t => isMatch(t, activeFilters))
-    .map(t => t[currentFilter]);
-
-  console.debug({
-    index,
-    attrs,
-    activeFilters,
-    filters,
-    currentFilter,
-    targets,
-    filteredValues: values,
-  });
-
-  return compact(uniq(values));
+  const i = attrs.indexOf(filter);
+  const activeFilters = pick(filters, attrs.slice(0, attrs.indexOf(filter)));
+  return compact(
+    uniq(filterTargets(targets, activeFilters).map(t => t[filter]))
+  );
 }

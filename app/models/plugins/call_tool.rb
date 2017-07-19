@@ -60,7 +60,7 @@ class Plugins::CallTool < ApplicationRecord
   end
 
   def target_keys
-    discarded = %w[caller_id country_code name phone_number phone_extension title]
+    discarded = %w[caller_id country_code phone_number phone_extension title]
     targets
       .collect(&:keys)
       .flatten

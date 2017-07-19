@@ -1,9 +1,10 @@
 // @flow
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-
+import type { TargetWithFields } from './call_tool_helpers';
+import './SelectedTarget.css';
 type Props = {
-  target: ?Target,
+  target: ?TargetWithFields,
 };
 
 export default function SelectedTarget(props: Props) {
@@ -12,19 +13,15 @@ export default function SelectedTarget(props: Props) {
   const { name, title } = props.target;
 
   return (
-    <div className="SelectedTarget">
-      <p>
-        <FormattedMessage id="call_tool.you_will_be_calling" />
-        <span className="SelectedTarget-name">
-          {name}
-        </span>
-        {title &&
-          <span>
-            {', '}
-            {title}
-            {'.'}
-          </span>}
-      </p>
-    </div>
+    <p className="SelectedTarget">
+      <FormattedMessage id="call_tool.you_will_be_calling" />
+      <span className="SelectedTarget__name">
+        {name}
+      </span>
+      {title &&
+        <span>
+          , {title}.
+        </span>}
+    </p>
   );
 }

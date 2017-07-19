@@ -1,17 +1,16 @@
-// @flow weak
+// @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
+import { sample, compact } from 'lodash';
 import classnames from 'classnames';
 
 import CallToolDrillDown from './CallToolDrillDown';
-import ManualTargetSelection from './ManualTargetSelection';
 import SelectedTarget from './SelectedTarget';
 import Button from '../Button/Button';
 import SweetPhoneInput from '../SweetPhoneInput/SweetPhoneInput';
 
-import { targetsWithFields } from './call_tool_helpers';
-import type { TargetWithFields } from './call_tool_helpers';
+import { targetsWithFields, filterTargets } from './call_tool_helpers';
+import type { Filters, TargetWithFields } from './call_tool_helpers';
 
 import type {
   Country,
@@ -21,10 +20,9 @@ import type {
   Errors,
 } from '../../call_tool/CallToolView';
 
-type OwnProps = {
+type Props = {
   targets: Target[],
   selectedTarget: Target,
-  allowManualTargetSelection: boolean,
   restrictToSingleCountry: boolean,
   targetByAttributes: string[],
   form: FormType,
@@ -32,33 +30,46 @@ type OwnProps = {
   onTargetSelected: (id: string) => void,
   onSubmit: any => void,
   loading: boolean,
+  filters?: Filters,
 };
 
-type OwnState = {
-  targetsWithFields: { [string]: string }[],
-  filters: { [string]: string },
+type State = {
+  targetsWithFields: TargetWithFields[],
+  memberPhoneNumber: string,
   countryCode: ?string,
-  memberPhoneNumber: ?string,
-  memberPhoneCountryCode: ?string,
 };
 
-class Form extends Component<*, OwnProps, OwnState> {
-  constructor(props: OwnProps) {
+class Form extends Component {
+  props: Props;
+  state: State;
+
+  constructor(props: Props) {
     super(props);
 
     this.state = {
       targetsWithFields: targetsWithFields(props.targets),
-      filters: {},
       countryCode: null,
-      memberPhoneNumber: null,
-      memberPhoneCountryCode: null,
+      memberPhoneNumber: '',
     };
   }
 
-  componentWillReceiveProps(nextProps: OwnProps) {
-    this.setState(prevState => ({
+  componentWillReceiveProps(nextProps: Props) {
+    this.setState((prevState: State) => ({
       ...prevState,
       targetsWithFields: targetsWithFields(nextProps.targets),
+    }));
+  }
+
+  selectTarget(target: TargetWithFields) {
+    if (target.id) {
+      this.props.onTargetSelected(target.id);
+    }
+  }
+
+  updatePhoneNumber(memberPhoneNumber: string) {
+    this.setState(prevState => ({
+      ...prevState,
+      memberPhoneNumber,
     }));
   }
 
@@ -70,25 +81,24 @@ class Form extends Component<*, OwnProps, OwnState> {
     });
     return (
       <form className={formClassNames}>
-        <SweetPhoneInput
-          value={this.state.memberPhoneNumber}
-          onChange={(memberPhoneNumber: string) =>
-            this.setState({ memberPhoneNumber })}
-        />
-
-        <ManualTargetSelection
-          enabled={this.props.allowManualTargetSelection}
-          targets={this.state.filteredTargets}
-          target={this.props.selectedTarget}
-          onChange={(target: Target) => console.log('Selected target:', target)}
+        <CallToolDrillDown
+          targetByAttributes={compact(this.props.targetByAttributes || [])}
+          filters={this.props.filters}
+          targets={this.state.targetsWithFields}
+          onUpdate={(t: TargetWithFields) => this.selectTarget(t)}
         />
 
         <SelectedTarget target={this.props.selectedTarget} />
 
+        <SweetPhoneInput
+          value={this.state.memberPhoneNumber}
+          onChange={(number: string) => this.updatePhoneNumber(number)}
+        />
+
         <Button
           type="submit"
           onClick={this.props.onSubmit}
-          disabled={this.props.loading ? 'disabled' : ''}
+          disabled={this.props.loading}
         >
           <FormattedMessage id="call_tool.form.submit" />
         </Button>

@@ -1,0 +1,12 @@
+.SelectedTarget {
+  margin: 1em;
+  text-align: center;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.SelectedTarget__name {
+  padding-left: 0.4rem;
+  font-weight: bold;
+  color: #000;
+}

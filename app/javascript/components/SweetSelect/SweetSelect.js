@@ -5,20 +5,21 @@ import Select from 'react-select';
 import './SweetSelect.scss';
 
 type Props = {
-  name: string;
-  value?: string;
-  onChange: (value: any) => void;
-  options?: any[];
-  label?: any;
-  disabled?: boolean;
-  multiple?: boolean;
-  errorMessage?: any;
+  name: string,
+  value?: string,
+  onChange: (value: any) => void,
+  options?: any[],
+  label?: any,
+  clearable?: boolean,
+  disabled?: boolean,
+  multiple?: boolean,
+  errorMessage?: any,
 };
 
 export default class SweetSelect extends Component {
   props: Props;
 
-  state: { filled: boolean; focused: boolean; };
+  state: { filled: boolean, focused: boolean };
 
   constructor(props: Props) {
     super(props);
@@ -36,7 +37,7 @@ export default class SweetSelect extends Component {
   }
 
   hasError() {
-    return !!(this.props.errorMessage);
+    return !!this.props.errorMessage;
   }
 
   toggleFocus(focused: boolean) {
@@ -47,25 +48,31 @@ export default class SweetSelect extends Component {
   render() {
     const className = classnames({
       'sweet-placeholder__label': true,
-      'sweet-placeholder__label--full': !!this.props.value && !this.state.focused,
+      'sweet-placeholder__label--full':
+        !!this.props.value && !this.state.focused,
       'sweet-placeholder__label--active': this.state.focused,
       'has-error': this.hasError(),
     });
 
-    return (<div className="sweet-placeholder SweetSelect">
+    return (
+      <div className="sweet-placeholder SweetSelect">
         <label className={className} onClick={e => this.toggleFocus(true)}>
           {this.props.label}
         </label>
-        <Select {...this.props}
+        <Select
+          {...this.props}
           ref="select"
-          placeholder=''
+          placeholder=""
           openOnFocus={true}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
           onChange={this.onChange.bind(this)}
           className={this.hasError() ? 'has-error' : ''}
+          clearable={this.props.clearable}
         />
-        <span className="error-msg">{this.props.errorMessage}</span>
+        <span className="error-msg">
+          {this.props.errorMessage}
+        </span>
       </div>
     );
   }
