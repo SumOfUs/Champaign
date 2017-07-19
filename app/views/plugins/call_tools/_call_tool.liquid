@@ -6,7 +6,7 @@
       var data = _.clone(window.champaign.personalization.callTool['{{ref}}']);
       data.trackingParams = _.pick(window.champaign.personalization.urlParams,
                                    'source', 'akid', 'referring_akid',
-                                   'referrer_id', 'rid', 'bucket');
+                                   'referrer_id', 'rid');
       data.countryCode = window.champaign.personalization.member.country;
       data.onSuccess = function(selectedTarget) {
         var followUpUrl = window.URI("{{ follow_up_url }}");
