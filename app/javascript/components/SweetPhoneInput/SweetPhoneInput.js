@@ -1,7 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { asYouType, format, parse, isValidNumber } from 'libphonenumber-js';
+import {
+  asYouType,
+  format,
+  getPhoneCode,
+  parse,
+  isValidNumber,
+} from 'libphonenumber-js';
 import { get, findIndex } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import onClickOutside from 'react-onclickoutside';
@@ -18,6 +24,7 @@ type Props = {
   defaultCountry?: string,
   title?: any,
   className?: string,
+  useFlags?: boolean,
 };
 
 type State = {
@@ -65,7 +72,6 @@ class SweetPhoneInput extends Component {
   }
 
   onChange(number: string) {
-    console.log('phone number changed:', number);
     this.props.onChange(number);
   }
 
@@ -78,33 +84,32 @@ class SweetPhoneInput extends Component {
 
   onPhoneNumberChange = (phoneNumber: string) => {
     // First of all detect international format
-    const format: string =
-      phoneNumber[0] === '+' ? 'International' : 'National';
-    console.log('format:', format);
-    // if format is international
-
-    /*
-    const number = format(
-      parse(`+${this.state.countryCode}${phoneNumber}`),
-      'International_plaintext'
-    );
-    console.log('asYouType:', new asYouType().input(phoneNumber));
-    console.log('parse:', number);
-    console.log('isValidNumber:', isValidNumber(number));
-    // FIXME: ^ are any of these methods useful? see https://github.com/catamphetamine/libphonenumber-js
-
-    */
+    const type: string = phoneNumber[0] === '+' ? 'International' : 'National';
     const x = new asYouType(this.state.countryCode).input(phoneNumber);
     this.setState(prevState => ({ ...prevState, phoneNumber: x }));
+    console.log(
+      'format:',
+      format(phoneNumber, this.state.countryCode, 'International')
+    );
+    this.props.onChange(
+      format(phoneNumber, this.state.countryCode, 'International_plaintext')
+    );
   };
 
   onCountryCodeChange = (countryCode: string) => {
-    console.log('country code changed:', countryCode);
-    this.setState(state => ({
-      ...state,
-      countryCode,
-      selectingCountry: false,
-    }));
+    console.log('onCountryCodeChange:', countryCode);
+    this.setState(
+      state => ({
+        ...state,
+        countryCode,
+        selectingCountry: false,
+      }),
+      () => {
+        if (this.refs.phoneInput) {
+          this.refs.phoneInput.focus();
+        }
+      }
+    );
   };
 
   toggleSelectingCountry = () => {
@@ -140,9 +145,14 @@ class SweetPhoneInput extends Component {
             className="SweetPhoneInput__flag-container"
             onClick={this.toggleSelectingCountry}
           >
-            <div className="SweetPhoneInput__selected-flag">
-              <Flag countryCode={this.state.countryCode} />
-            </div>
+            {this.props.useFlags &&
+              <div className="SweetPhoneInput__selected-flag">
+                <Flag countryCode={this.state.countryCode} />
+              </div>}
+            {!this.props.useFlags &&
+              <div className="SweetPhoneInput__selected-code">
+                + {getPhoneCode(this.state.countryCode)}
+              </div>}
             <i
               className="fa fa-chevron-down"
               style={{
@@ -154,6 +164,7 @@ class SweetPhoneInput extends Component {
           </div>
           <div className="SweetPhoneInput__phone-number">
             <input
+              ref="phoneInput"
               className="SweetPhoneInput__phone-number-input"
               type="tel"
               value={this.state.phoneNumber}
