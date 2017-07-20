@@ -37,3 +37,172 @@ exports[`CallToolDrillDownWithFilters 1`] = `
   </div>
 </div>
 `;
+
+exports[`CallToolDrillDownWithFilters 2`] = `
+<div
+  className="CallToolDrillDown"
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={false}
+      label="Country"
+      name="filter-targets-by-attribute-country"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "id": "country-United States",
+            "label": "United States",
+            "value": "United States",
+          },
+          Object {
+            "id": "country-Canada",
+            "label": "Canada",
+            "value": "Canada",
+          },
+        ]
+      }
+      value="United States"
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={true}
+      label="State"
+      name="filter-targets-by-attribute-state"
+      onChange={[Function]}
+      options={Array []}
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+</div>
+`;
+
+exports[`CallToolDrillDownWithFilters 3`] = `
+<div
+  className="CallToolDrillDown"
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={false}
+      label="Country"
+      name="filter-targets-by-attribute-country"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "id": "country-United States",
+            "label": "United States",
+            "value": "United States",
+          },
+          Object {
+            "id": "country-Canada",
+            "label": "Canada",
+            "value": "Canada",
+          },
+        ]
+      }
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={true}
+      label="State"
+      name="filter-targets-by-attribute-state"
+      onChange={[Function]}
+      options={Array []}
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={true}
+      label="Name"
+      name="filter-targets-by-attribute-name"
+      onChange={[Function]}
+      options={Array []}
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+</div>
+`;
+
+exports[`CallToolDrillDownWithFilters 4`] = `
+<div
+  className="CallToolDrillDown"
+>
+  <div
+    style={
+      Object {
+        "marginBottom": "10px",
+      }
+    }
+  >
+    <SweetSelect
+      clearable={false}
+      label="Country"
+      name="filter-targets-by-attribute-country"
+      onChange={[Function]}
+      options={
+        Array [
+          Object {
+            "id": "country-United States",
+            "label": "United States",
+            "value": "United States",
+          },
+          Object {
+            "id": "country-Canada",
+            "label": "Canada",
+            "value": "Canada",
+          },
+        ]
+      }
+    />
+    <div
+      className="clearfix"
+    />
+  </div>
+</div>
+`;

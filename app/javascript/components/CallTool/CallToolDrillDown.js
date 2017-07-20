@@ -89,11 +89,14 @@ export default class CallToolDrillDown extends Component {
   }
 
   renderFilter = (key: string, index: number) => {
-    const attrs = this.props.targetByAttributes;
-    const previousKey = attrs[index - 1];
-    const previousFilter = this.state.filters[previousKey];
-    // if we're in the first filter, or if we've selected a previous filter
-    if (index === 0 || previousFilter) {
+    const keys = this.props.targetByAttributes;
+    let previousFiltersAreFull = true;
+    for (let ii = index - 1; ii >= 0; ii--) {
+      previousFiltersAreFull =
+        previousFiltersAreFull && this.state.filters[keys[ii]];
+    }
+    // if we're in the first filter, or if we've made it through all previous filters
+    if (previousFiltersAreFull) {
       return (
         <div key={key} style={{ marginBottom: '10px' }}>
           <SweetSelect
@@ -105,7 +108,7 @@ export default class CallToolDrillDown extends Component {
             onChange={(value: string) => {
               const updatedFilters = { ...this.state.filters, [key]: value };
               const discardFn = (v: string, k: string) =>
-                !v || attrs.indexOf(k) > index;
+                !v || keys.indexOf(k) > index;
               this.updateFilters(omitBy(updatedFilters, discardFn));
             }}
           />

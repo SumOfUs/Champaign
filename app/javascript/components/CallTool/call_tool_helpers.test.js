@@ -8,12 +8,12 @@ import {
 } from './call_tool_helpers';
 
 export const targets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(id => {
-  const country = sample(['United States', 'Canada']);
+  const country = id < 5 ? 'United States' : 'Canada';
   let state;
   if (country === 'United States') {
-    state = sample(['California', 'New York']);
+    state = id < 3 ? 'California' : 'New York';
   } else {
-    state = sample(['British Columbia', 'Ontario']);
+    state = id > 8 ? 'British Columbia' : 'Ontario';
   }
   return {
     id: id.toString(),
