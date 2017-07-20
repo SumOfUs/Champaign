@@ -15,6 +15,10 @@
 .SweetPhoneInput__CountryCode {
   width: 30%;
   flex-grow: 1;
+  label {
+    left: 22%;
+    max-width: 100%;
+  }
 }
 .SweetPhoneInput__PhoneNumber {
   flex-grow: 1;
