@@ -7,7 +7,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     - if Settings.facebook_app_id.present?
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
     = stylesheet_link_tag 'member-facing'
-    = stylesheet_pack_tag 'fundraiser'
 
     = csrf_meta_tags
     = favicon_link_tag 'images/org-favicon.ico'

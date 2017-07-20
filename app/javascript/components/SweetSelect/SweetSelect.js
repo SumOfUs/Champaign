@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import './SweetSelect.scss';
 
 type Props = {
