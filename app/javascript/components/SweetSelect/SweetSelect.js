@@ -15,6 +15,7 @@ type Props = {
   disabled?: boolean,
   multiple?: boolean,
   errorMessage?: any,
+  className?: string,
 };
 
 export default class SweetSelect extends Component {
@@ -41,22 +42,31 @@ export default class SweetSelect extends Component {
     return !!this.props.errorMessage;
   }
 
+  focus() {
+    if (!this.refs.select) return;
+    this.refs.select.focus();
+  }
   toggleFocus(focused: boolean) {
     if (focused) this.refs.select.focus();
     this.setState({ focused });
   }
 
   render() {
-    const className = classnames({
-      'sweet-placeholder__label': true,
+    const className = classnames('sweet-placeholder__label', {
       'sweet-placeholder__label--full':
         !!this.props.value && !this.state.focused,
       'sweet-placeholder__label--active': this.state.focused,
       'has-error': this.hasError(),
     });
 
+    const rootClassName = classnames(
+      'SweetSelect',
+      'sweet-placeholder',
+      this.props.className
+    );
+
     return (
-      <div className="sweet-placeholder SweetSelect">
+      <div className={rootClassName}>
         <label className={className} onClick={e => this.toggleFocus(true)}>
           {this.props.label}
         </label>
