@@ -1,29 +1,81 @@
-.SweetPhoneInput__Title {
-  margin: 0.5em 1em;
-  color: #555;
-}
+.SweetPhoneInput__root {
+  margin: 0.5rem -1rem;
+  padding: 0.5rem 1rem;
+  /* debug
+  background-color: rgba(255, 255, 0, 0.3);
+  border-radius: 5px;
+  border: 1px solid rgba(250, 250, 0, 0.3);
+  */
 
-.SweetPhoneInput {
-  padding-bottom: 1em;
-  display: flex;
+  .SweetPhoneInput__title {
+    margin: 0.5em 1em;
+    color: #555;
+  }
 
-  .sweet-placeholder__field {
-    border: solid 2px #dbdbdb;
+  .SweetPhoneInput {
+    display: flex;
+    align-items: stretch;
+    background: white;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+
+    .SweetPhoneInput__phone-number,
+    .SweetPhoneInput__country-list {
+      flex-grow: 1;
+    }
+    .SweetPhoneInput__phone-number {
+      .SweetPhoneInput__phone-number-input {
+        // FIXME: remove !important;
+        //        remove the #call-tool-component
+        //        styling in sou-assets to fix this
+        border: none !important;
+      }
+    }
+
+    .SweetPhoneInput__flag-container {
+      cursor: pointer;
+      padding: .5em .5em .5em 1em;
+      display: flex;
+      align-items: center;
+      &:hover {
+        background-color: #eee;
+      }
+    }
   }
 }
 
-.SweetPhoneInput__CountryCode {
-  width: 30%;
-  flex-grow: 1;
-  label {
-    left: 22%;
-    max-width: 100%;
+.SweetPhoneInput__select-country {
+  display: none;
+}
+
+.selecting-country {
+  .SweetPhoneInput {
+    border: 2px solid #00c0cf;
+    .SweetPhoneInput__phone-number {
+      display: none;
+    }
+    .SweetPhoneInput__select-country {
+      display: block;
+      margin-bottom: -1px;
+      margin-right: -2px;
+      // Country select dropdown overrides
+      // FIXME (remove stricter CSS rules)
+      .Select.is-focused .Select-control,
+      .Select .Select-control {
+        background: transparent !important;
+        border: none !important;
+      }
+    }
+    .SweetPhoneInput__country-list {
+      display: block;
+      position: absolute;
+      background: white;
+      min-height: 100px;
+      max-height: 400px;
+      overflow: scroll;
+      width: 90%;
+      box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+    }
   }
 }
-.SweetPhoneInput__PhoneNumber {
-  flex-grow: 1;
-  margin-left: 5px;
-  .sweet-placeholder {
-    float: none;
-  }
-}
+// 👏🏽👏🏽🤴🏽🤴🏽💯

@@ -4,8 +4,11 @@ import classnames from 'classnames';
 import { asYouType, format, parse, isValidNumber } from 'libphonenumber-js';
 import { get, findIndex } from 'lodash';
 import { FormattedMessage } from 'react-intl';
+import onClickOutside from 'react-onclickoutside';
 import countryCodes from './country-codes.json';
 import SweetInput from '../SweetInput/SweetInput';
+import Flag from './Flag';
+import SelectCountry from '../SelectCountry/SelectCountry';
 
 import './SweetPhoneInput.scss';
 
@@ -14,30 +17,42 @@ type Props = {
   onChange: (number: string) => void,
   defaultCountry?: string,
   title?: any,
+  className?: string,
 };
 
 type State = {
   defaultCountry: string,
   countryCode: string,
   phoneNumber: string,
-  countryCodeError?: any,
+  selectingCountry: boolean,
 };
 
-export default class SweetPhoneInput extends Component {
+class SweetPhoneInput extends Component {
   props: Props;
   state: State;
+  selectCountry: any;
 
   constructor(props: Props) {
     super(props);
-    const defaultCountry = get(
-      window.champaign.personalization,
-      'location.country'
-    );
     this.state = {
-      defaultCountry: props.defaultCountry || defaultCountry || 'US',
-      countryCode: '',
-      phoneNumber: '',
+      countryCode: this.props.defaultCountry || this.defaultCountry(),
+      phoneNumber: props.value || '',
+      selectingCountry: false,
     };
+  }
+
+  defaultCountry() {
+    return get(window.champaign.personalization, 'location.country') || 'US';
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      countryCode: newProps.defaultCountry || this.defaultCountry(),
+    });
+  }
+
+  handleClickOutside(e: SyntheticEvent) {
+    this.setState(state => ({ ...state, selectingCountry: false }));
   }
 
   defaultTitle() {
@@ -48,6 +63,7 @@ export default class SweetPhoneInput extends Component {
       />
     );
   }
+
   onChange(number: string) {
     console.log('phone number changed:', number);
     this.props.onChange(number);
@@ -61,6 +77,13 @@ export default class SweetPhoneInput extends Component {
   }
 
   onPhoneNumberChange = (phoneNumber: string) => {
+    // First of all detect international format
+    const format: string =
+      phoneNumber[0] === '+' ? 'International' : 'National';
+    console.log('format:', format);
+    // if format is international
+
+    /*
     const number = format(
       parse(`+${this.state.countryCode}${phoneNumber}`),
       'International_plaintext'
@@ -69,50 +92,86 @@ export default class SweetPhoneInput extends Component {
     console.log('parse:', number);
     console.log('isValidNumber:', isValidNumber(number));
     // FIXME: ^ are any of these methods useful? see https://github.com/catamphetamine/libphonenumber-js
-    this.setState(prevState => ({ ...prevState, phoneNumber }));
+
+    */
+    const x = new asYouType(this.state.countryCode).input(phoneNumber);
+    this.setState(prevState => ({ ...prevState, phoneNumber: x }));
   };
 
   onCountryCodeChange = (countryCode: string) => {
     console.log('country code changed:', countryCode);
-    this.setState(prevState => ({
-      // FIXME: i don't think replace('+', '') everywhere should be a thing
-      countryCode: countryCode.replace('+', ''),
-      // FIXME: ditto .replace(...)
-      countryCodeError: this.validateCountryCode(countryCode.replace('+', '')),
+    this.setState(state => ({
+      ...state,
+      countryCode,
+      selectingCountry: false,
     }));
   };
 
+  toggleSelectingCountry = () => {
+    this.setState(
+      state => ({
+        ...state,
+        selectingCountry: !state.selectingCountry,
+      }),
+      () => {
+        if (this.state.selectingCountry) {
+          this.refs.select.refs.wrappedInstance.focus();
+        }
+      }
+    );
+  };
+
   render() {
-    const className = classnames({
-      SweetPhoneInput: true,
-    });
+    const className = classnames(
+      {
+        SweetPhoneInput__root: true,
+        'selecting-country': this.state.selectingCountry,
+      },
+      this.props.className
+    );
 
     return (
-      <div className="SweetPhoneInputContainer">
-        <p className="SweetPhoneInput__Title">
+      <div className={className}>
+        <div className="SweetPhoneInput__title">
           {this.props.title || this.defaultTitle()}
-        </p>
-        <div className={className}>
-          <SweetInput
-            className="SweetPhoneInput__CountryCode"
+        </div>
+        <div className="SweetPhoneInput">
+          <div
+            className="SweetPhoneInput__flag-container"
+            onClick={this.toggleSelectingCountry}
+          >
+            <div className="SweetPhoneInput__selected-flag">
+              <Flag countryCode={this.state.countryCode} />
+            </div>
+            <i
+              className="fa fa-chevron-down"
+              style={{
+                fontSize: '.7em',
+                marginLeft: '5px',
+                color: '#ccc',
+              }}
+            />
+          </div>
+          <div className="SweetPhoneInput__phone-number">
+            <input
+              className="SweetPhoneInput__phone-number-input"
+              type="tel"
+              value={this.state.phoneNumber}
+              onChange={e => this.onPhoneNumberChange(e.target.value)}
+            />
+          </div>
+          <SelectCountry
+            ref="select"
+            className="SweetPhoneInput__select-country"
+            clearable={false}
+            label="Select your country..."
             value={this.state.countryCode}
-            type="tel"
-            label="Code"
-            required
-            errorMessage={this.state.countryCodeError}
-            onChange={this.onCountryCodeChange}
-          />
-          <SweetInput
-            type="tel"
-            className="SweetPhoneInput__PhoneNumber"
-            value={this.state.phoneNumber}
-            label="Phone number"
-            required
-            errorMessage={this.state.countryCodeError}
-            onChange={this.onPhoneNumberChange}
+            onChange={code => this.onCountryCodeChange(code)}
           />
         </div>
       </div>
     );
   }
 }
+
+export default onClickOutside(SweetPhoneInput);
