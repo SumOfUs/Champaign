@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { sample, compact } from 'lodash';
+import { findKey, sample, compact } from 'lodash';
 import classnames from 'classnames';
 
 import CallToolDrillDown from './CallToolDrillDown';
 import SelectedTarget from './SelectedTarget';
 import Button from '../Button/Button';
+import { countries } from '../SelectCountry/SelectCountry';
 import SweetPhoneInput from '../SweetPhoneInput/SweetPhoneInput';
 
 import { targetsWithFields, filterTargets } from './call_tool_helpers';
@@ -60,11 +61,22 @@ class Form extends Component {
     }));
   }
 
+  attemptCountryCodeUpdate(name: TargetWithFields = '') {
+    const countryCode = findKey(
+      countries,
+      c => c.toLowerCase() === name.toLowerCase()
+    );
+
+    this.setState(state => ({ ...state, countryCode }));
+  }
+
   selectTarget(target: ?TargetWithFields) {
     if (target && target.id) {
       this.props.onTargetSelected(target.id);
+      this.attemptCountryCodeUpdate(target['countryName'] || target['country']);
     } else {
       this.props.onTargetSelected(null);
+      this.attemptCountryCodeUpdate('');
     }
   }
 
@@ -94,6 +106,7 @@ class Form extends Component {
 
         <SweetPhoneInput
           value={this.state.memberPhoneNumber}
+          defaultCountry={this.state.countryCode}
           onChange={(number: string) => this.updatePhoneNumber(number)}
         />
 
