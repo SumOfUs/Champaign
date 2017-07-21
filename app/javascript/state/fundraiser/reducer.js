@@ -74,6 +74,11 @@ export default (state: State = initialState, action: Action): State => {
       return { ...state, storeInVault: action.payload };
     case 'set_submitting':
       return { ...state, submitting: action.payload };
+    case 'append_custom':
+      return {
+        ...state,
+        customData: Object.assign({}, action.payload, state.customData),
+      };
     case 'toggle_direct_debit':
       return { ...state, showDirectDebit: action.payload };
     case 'preselect_amount':

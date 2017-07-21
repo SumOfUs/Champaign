@@ -28,6 +28,7 @@ export type FundraiserAction =
   | { type: 'preselect_amount', payload: boolean }
   | { type: 'set_donation_bands', payload: DonationBands }
   | { type: 'set_payment_type', payload: ?string }
+  | { type: 'append_custom', payload: Object }
   | { type: 'set_recurring', payload: boolean }
   | { type: 'set_recurring_defaults', payload?: string }
   | { type: 'set_submitting', payload: boolean }
@@ -43,6 +44,10 @@ export function changeAmount(payload: ?number): FundraiserAction {
 export function changeCurrency(payload: string): FundraiserAction {
   $.publish('fundraiser:change_currency', [payload]);
   return { type: 'change_currency', payload };
+}
+
+export function appendCustom(payload: Object): FundraiserAction {
+  return { type: 'append_custom', payload };
 }
 
 export function setSubmitting(payload: boolean): FundraiserAction {

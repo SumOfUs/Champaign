@@ -19,6 +19,7 @@ import {
   changeStep,
   setRecurring,
   setStoreInVault,
+  appendCustom,
   setPaymentType,
 } from '../../state/fundraiser/actions';
 import ExpressDonation from '../ExpressDonation/ExpressDonation';
@@ -38,6 +39,7 @@ type OwnProps = {
   member: Member,
   fundraiser: Fundraiser,
   paymentMethods: PaymentMethod[],
+  customData: Object,
   page: ChampaignPage,
   hideRecurring: boolean,
   disableFormReveal: boolean,
@@ -252,6 +254,7 @@ export class Payment extends Component {
       ...this.donationData(),
       payment_method_nonce: data.nonce,
       device_data: this.state.deviceData,
+      custom_data: this.props.fundraiser.customData,
     };
 
     if (typeof window.fbq === 'function') {
@@ -455,6 +458,7 @@ const mapStateToProps = (state: AppState) => ({
   paymentMethods: state.paymentMethods,
   member: state.member,
   hideRecurring: state.fundraiser.recurringDefault === 'only_recurring',
+  customData: state.fundraiser.customData,
   formData: {
     storeInVault: state.fundraiser.storeInVault,
     member: {
