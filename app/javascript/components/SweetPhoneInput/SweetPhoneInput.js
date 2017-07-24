@@ -1,13 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import {
-  asYouType,
-  format,
-  getPhoneCode,
-  parse,
-  isValidNumber,
-} from 'libphonenumber-js';
+import { asYouType, format, getPhoneCode } from 'libphonenumber-js';
 import { get, findIndex } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import onClickOutside from 'react-onclickoutside';
@@ -20,14 +14,14 @@ import './SweetPhoneInput.scss';
 type Props = {
   value: string,
   onChange: (number: string) => void,
-  defaultCountryCode: string,
   title?: any,
   className?: string,
+  defaultCountryCode?: string,
   restrictedCountryCode?: string,
 };
 
 type State = {
-  countryCode: string,
+  countryCode?: string,
   phoneNumber: string,
   selectingCountry: boolean,
 };
@@ -40,19 +34,26 @@ class SweetPhoneInput extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      countryCode: this.props.defaultCountryCode || this.defaultCountry(),
+      countryCode: undefined,
       phoneNumber: props.value || '',
       selectingCountry: false,
     };
   }
 
-  defaultCountry(): string {
-    return get(window, 'champaign.personalization.location.country', 'US');
+  getCountryCode() {
+    if (!this.state) {
+      return this.props.defaultCountryCode || this.defaultCountry();
+    }
+
+    return (
+      this.state.countryCode ||
+      this.props.defaultCountryCode ||
+      this.defaultCountry()
+    );
   }
 
-  componentWillReceiveProps(newProps) {
-    const countryCode = newProps.defaultCountry || this.defaultCountry();
-    this.setState(state => ({ ...state, countryCode }));
+  defaultCountry(): string {
+    return get(window, 'champaign.personalization.location.country', 'US');
   }
 
   handleClickOutside(e: SyntheticEvent) {
@@ -68,33 +69,17 @@ class SweetPhoneInput extends Component {
     );
   }
 
-  onChange(number: string) {
-    this.props.onChange(number);
-  }
-
-  validateCountryCode(code: string) {
-    if (!findIndex(countryCodes, { dialCode: code })) {
-      // Translate invalid country code error?
-      return 'country code is invalid';
-    }
-  }
-
-  onPhoneNumberChange = (phoneNumber: string) => {
-    // First of all detect international format
-    const type: string = phoneNumber[0] === '+' ? 'International' : 'National';
-    const x = new asYouType(this.state.countryCode).input(phoneNumber);
-    this.setState(prevState => ({ ...prevState, phoneNumber: x }));
-    console.log(
-      'format:',
-      format(phoneNumber, this.state.countryCode, 'International')
-    );
-    this.props.onChange(
-      format(phoneNumber, this.state.countryCode, 'International_plaintext')
-    );
+  onPhoneNumberChange = (value: string = '') => {
+    this.setState(prevState => ({
+      ...prevState,
+      phoneNumber: format(value, this.getCountryCode(), 'National'),
+    }));
+    this.props.onChange(format(value, this.getCountryCode(), 'International'));
   };
 
   onCountryCodeChange = (countryCode: string) => {
-    console.log('onCountryCodeChange:', countryCode);
+    if (!countryCode) return;
+
     this.setState(
       state => ({
         ...state,
@@ -144,7 +129,7 @@ class SweetPhoneInput extends Component {
             onClick={this.toggleSelectingCountry}
           >
             <div className="SweetPhoneInput__selected-code">
-              + {getPhoneCode(this.state.countryCode)}
+              + {getPhoneCode(this.getCountryCode())}
             </div>
             <i
               className="fa fa-chevron-down"
@@ -169,7 +154,7 @@ class SweetPhoneInput extends Component {
             className="SweetPhoneInput__select-country"
             clearable={false}
             label="Select your country..."
-            value={this.state.countryCode}
+            value={this.getCountryCode()}
             filter={restrictedCountryCode ? [restrictedCountryCode] : null}
             onChange={code => this.onCountryCodeChange(code)}
           />
@@ -179,4 +164,6 @@ class SweetPhoneInput extends Component {
   }
 }
 
-export default onClickOutside(SweetPhoneInput);
+const X: typeof SweetPhoneInput = onClickOutside(SweetPhoneInput);
+
+export default X;

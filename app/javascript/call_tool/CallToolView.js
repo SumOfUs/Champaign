@@ -51,7 +51,7 @@ type OwnState = {
 
 type OwnProps = {
   allowManualTargetSelection: boolean,
-  restrictedCountryCode: ?string,
+  restrictedCountryCode?: string,
   targetByAttributes: string[],
   memberPhoneNumber?: string,
   countryCode?: string,

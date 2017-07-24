@@ -21,7 +21,6 @@ window.mountCallTool = (root: string, props: any) => {
 
   if (process.env.NODE_ENV === 'development' && module.hot) {
     module.hot.accept('../call_tool/CallToolView', () => {
-      console.log('new module:', require('../call_tool/CallToolView').default);
       mount(root, props, require('../call_tool/CallToolView').default);
     });
   }

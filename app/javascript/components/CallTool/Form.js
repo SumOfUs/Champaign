@@ -24,7 +24,7 @@ import type {
 type Props = {
   targets: Target[],
   selectedTarget: Target,
-  restrictedCountryCode: string[],
+  restrictedCountryCode?: string,
   targetByAttributes: string[],
   form: FormType,
   errors: Errors,
@@ -37,7 +37,7 @@ type Props = {
 type State = {
   targetsWithFields: TargetWithFields[],
   memberPhoneNumber: string,
-  countryCode: ?string,
+  countryCode?: string,
 };
 
 class Form extends Component {
@@ -49,7 +49,7 @@ class Form extends Component {
 
     this.state = {
       targetsWithFields: targetsWithFields(props.targets),
-      countryCode: null,
+      countryCode: undefined,
       memberPhoneNumber: '',
     };
   }
@@ -107,7 +107,7 @@ class Form extends Component {
 
         <SweetPhoneInput
           value={this.state.memberPhoneNumber}
-          defaultCountry={
+          defaultCountryCode={
             this.props.restrictedCountryCode || this.state.countryCode
           }
           onChange={(number: string) => this.updatePhoneNumber(number)}
