@@ -24,7 +24,7 @@ import type {
 type Props = {
   targets: Target[],
   selectedTarget: Target,
-  restrictToSingleCountry: boolean,
+  restrictedCountryCode: string[],
   targetByAttributes: string[],
   form: FormType,
   errors: Errors,
@@ -91,8 +91,9 @@ class Form extends Component {
     const formClassNames = classnames({
       'action-form': true,
       'form--big': true,
-      'single-country': this.props.restrictToSingleCountry,
+      'single-country': !!this.props.restrictedCountryCode,
     });
+
     return (
       <form className={formClassNames}>
         <CallToolDrillDown
@@ -106,8 +107,11 @@ class Form extends Component {
 
         <SweetPhoneInput
           value={this.state.memberPhoneNumber}
-          defaultCountry={this.state.countryCode}
+          defaultCountry={
+            this.props.restrictedCountryCode || this.state.countryCode
+          }
           onChange={(number: string) => this.updatePhoneNumber(number)}
+          restrictedCountryCode={this.props.restrictedCountryCode}
         />
 
         <Button

@@ -23,6 +23,7 @@ type Props = {
   defaultCountryCode: string,
   title?: any,
   className?: string,
+  restrictedCountryCode?: string,
 };
 
 type State = {
@@ -123,6 +124,7 @@ class SweetPhoneInput extends Component {
   };
 
   render() {
+    const { restrictedCountryCode } = this.props;
     const className = classnames(
       {
         SweetPhoneInput__root: true,
@@ -168,6 +170,7 @@ class SweetPhoneInput extends Component {
             clearable={false}
             label="Select your country..."
             value={this.state.countryCode}
+            filter={restrictedCountryCode ? [restrictedCountryCode] : null}
             onChange={code => this.onCountryCodeChange(code)}
           />
         </div>

@@ -280,7 +280,7 @@ class CallToolView extends Component {
           allowManualTargetSelection={
             this.props.allowManualTargetSelection && !this.hasPrefilledTarget()
           }
-          restrictToSingleCountry={!!this.props.restrictedCountryCode}
+          restrictedCountryCode={this.props.restrictedCountryCode}
           countries={this.props.countries}
           countriesPhoneCodes={this.props.countriesPhoneCodes}
           targets={this.props.targets}

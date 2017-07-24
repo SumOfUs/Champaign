@@ -414,19 +414,19 @@ ActiveRecord::Schema.define(version: 20170713183132) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "title"
-    t.json "targets", default: [], array: true
     t.string "sound_clip_file_name"
     t.string "sound_clip_content_type"
     t.integer "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
+    t.json "targets", default: [], array: true
     t.text "description"
     t.string "menu_sound_clip_file_name"
     t.string "menu_sound_clip_content_type"
     t.integer "menu_sound_clip_file_size"
     t.datetime "menu_sound_clip_updated_at"
-    t.string "restricted_country_code"
     t.boolean "allow_manual_target_selection", default: false
     t.integer "caller_phone_number_id"
+    t.string "restricted_country_code"
     t.string "target_by_attributes", default: [], array: true
   end
 
