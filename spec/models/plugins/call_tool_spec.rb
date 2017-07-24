@@ -22,7 +22,6 @@
 #  menu_sound_clip_file_size     :integer
 #  menu_sound_clip_updated_at    :datetime
 #  restricted_country_code       :string
-#  allow_manual_target_selection :boolean          default(FALSE)
 #  caller_phone_number_id        :integer
 #
 

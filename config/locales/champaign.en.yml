@@ -330,7 +330,6 @@ en:
       show_targets: 'Show Targets'
       restricted_country_code: 'Restrict calls to'
       caller_id: 'Caller ID'
-      allow_manual_target_selection: "Allow manual target selection"
       target_by_attributes: 'Allow members to filter targets by:'
       targets:
         country: 'Country'

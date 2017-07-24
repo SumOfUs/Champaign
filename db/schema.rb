@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713183132) do
+ActiveRecord::Schema.define(version: 20170724194540) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -424,7 +424,6 @@ ActiveRecord::Schema.define(version: 20170713183132) do
     t.string "menu_sound_clip_content_type"
     t.integer "menu_sound_clip_file_size"
     t.datetime "menu_sound_clip_updated_at"
-    t.boolean "allow_manual_target_selection", default: false
     t.integer "caller_phone_number_id"
     t.string "restricted_country_code"
     t.string "target_by_attributes", default: [], array: true

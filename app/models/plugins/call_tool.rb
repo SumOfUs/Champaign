@@ -21,7 +21,6 @@
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
 #  menu_sound_clip_updated_at    :datetime
-#  allow_manual_target_selection :boolean          default("false")
 #  caller_phone_number_id        :integer
 #  restricted_country_code       :string
 #  target_by_attributes          :string           is an Array
@@ -121,7 +120,6 @@ class Plugins::CallTool < ApplicationRecord
         countries_phone_codes: countries_phone_codes,
         title: obj.title,
         description: obj.description,
-        allow_manual_target_selection: obj.allow_manual_target_selection,
         target_by_attributes: obj.target_by_attributes
       }
     end

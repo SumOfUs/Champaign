@@ -21,7 +21,6 @@
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
 #  menu_sound_clip_updated_at    :datetime
-#  allow_manual_target_selection :boolean          default("false")
 #  caller_phone_number_id        :integer
 #  restricted_country_code       :string
 #  target_by_attributes          :string           is an Array
