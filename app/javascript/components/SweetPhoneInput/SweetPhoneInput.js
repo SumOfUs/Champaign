@@ -126,19 +126,21 @@ class SweetPhoneInput extends Component {
         <div className="SweetPhoneInput">
           <div
             className="SweetPhoneInput__flag-container"
-            onClick={this.toggleSelectingCountry}
+            onClick={!restrictedCountryCode && this.toggleSelectingCountry}
           >
             <div className="SweetPhoneInput__selected-code">
               + {getPhoneCode(this.getCountryCode())}
             </div>
-            <i
-              className="fa fa-chevron-down"
-              style={{
-                fontSize: '.7em',
-                marginLeft: '5px',
-                color: '#ccc',
-              }}
-            />
+
+            {!restrictedCountryCode &&
+              <i
+                className="fa fa-chevron-down"
+                style={{
+                  fontSize: '.7em',
+                  marginLeft: '5px',
+                  color: '#ccc',
+                }}
+              />}
           </div>
           <div className="SweetPhoneInput__phone-number">
             <input
