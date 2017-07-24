@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
-import translations from '../../util/locales/translations-json';
+import { translations } from 'champaign-i18n';
 import DonationBandButton from './DonationBandButton';
 
 describe('Featured Amount', function() {

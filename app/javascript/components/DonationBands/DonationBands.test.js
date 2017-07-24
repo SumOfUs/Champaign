@@ -3,7 +3,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { IntlProvider } from 'react-intl';
-import translations from '../../util/locales/translations-json';
+import { translations } from 'champaign-i18n';
 import DonationBands from './DonationBands';
 
 const amounts = [1, 2, 3, 4, 5];
