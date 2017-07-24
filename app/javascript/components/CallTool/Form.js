@@ -61,10 +61,10 @@ class Form extends Component {
     }));
   }
 
-  attemptCountryCodeUpdate(name: TargetWithFields = '') {
+  attemptCountryCodeUpdate(countryName: string = '') {
     const countryCode = findKey(
       countries,
-      c => c.toLowerCase() === name.toLowerCase()
+      c => c.toLowerCase() === countryName.toLowerCase()
     );
 
     this.setState(state => ({ ...state, countryCode }));

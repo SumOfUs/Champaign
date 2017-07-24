@@ -120,7 +120,7 @@ export default class CallToolDrillDown extends Component {
     return null;
   };
 
-  valueForSelect(key) {
+  valueForSelect(key: string) {
     if (this.state.filters[key] && this.state.targets.length) {
       return this.state.targets[0][key];
     }

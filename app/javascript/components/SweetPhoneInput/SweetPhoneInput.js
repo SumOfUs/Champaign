@@ -21,14 +21,13 @@ import './SweetPhoneInput.scss';
 type Props = {
   value: string,
   onChange: (number: string) => void,
-  defaultCountry?: string,
+  defaultCountryCode: string,
   title?: any,
   className?: string,
   useFlags?: boolean,
 };
 
 type State = {
-  defaultCountry: string,
   countryCode: string,
   phoneNumber: string,
   selectingCountry: boolean,
@@ -42,20 +41,19 @@ class SweetPhoneInput extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      countryCode: this.props.defaultCountry || this.defaultCountry(),
+      countryCode: this.props.defaultCountryCode || this.defaultCountry(),
       phoneNumber: props.value || '',
       selectingCountry: false,
     };
   }
 
-  defaultCountry() {
-    return get(window.champaign.personalization, 'location.country') || 'US';
+  defaultCountry(): string {
+    return get(window, 'champaign.personalization.location.country', 'US');
   }
 
   componentWillReceiveProps(newProps) {
-    this.setState({
-      countryCode: newProps.defaultCountry || this.defaultCountry(),
-    });
+    const countryCode = newProps.defaultCountry || this.defaultCountry();
+    this.setState(state => ({ ...state, countryCode }));
   }
 
   handleClickOutside(e: SyntheticEvent) {
