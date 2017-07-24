@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { IntlProvider } from 'react-intl';
 import { translations } from 'champaign-i18n';
+import { transform } from '../../util/locales/helpers';
 import DonationBands from './DonationBands';
 
 const amounts = [1, 2, 3, 4, 5];
@@ -12,7 +13,7 @@ const selectAmount = jest.fn();
 const proceed = jest.fn();
 
 const component = (
-  <IntlProvider locale="en" messages={translations.en}>
+  <IntlProvider locale="en" messages={transform(translations.en)}>
     <DonationBands
       customAmount={10}
       amounts={amounts}

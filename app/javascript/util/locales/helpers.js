@@ -5,12 +5,6 @@ import reduce from 'lodash/reduce';
 import isPlainObject from 'lodash/reduce';
 import type { I18nDict, I18nDictValue, I18nFlatDict } from 'champaign-i18n';
 
-export function sanitizeTranslations(translations: I18nDict): I18nFlatDict {
-  return mapValues(translations, (value: I18nDict): I18nFlatDict =>
-    translateInterpolations(flattenObject(value))
-  );
-}
-
 export function transform(translations: I18nDict): I18nFlatDict {
   return translateInterpolations(flattenObject(translations));
 }
