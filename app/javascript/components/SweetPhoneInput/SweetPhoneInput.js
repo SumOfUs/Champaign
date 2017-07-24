@@ -13,7 +13,6 @@ import { FormattedMessage } from 'react-intl';
 import onClickOutside from 'react-onclickoutside';
 import countryCodes from './country-codes.json';
 import SweetInput from '../SweetInput/SweetInput';
-import Flag from './Flag';
 import SelectCountry from '../SelectCountry/SelectCountry';
 
 import './SweetPhoneInput.scss';
@@ -24,7 +23,6 @@ type Props = {
   defaultCountryCode: string,
   title?: any,
   className?: string,
-  useFlags?: boolean,
 };
 
 type State = {
@@ -143,14 +141,9 @@ class SweetPhoneInput extends Component {
             className="SweetPhoneInput__flag-container"
             onClick={this.toggleSelectingCountry}
           >
-            {this.props.useFlags &&
-              <div className="SweetPhoneInput__selected-flag">
-                <Flag countryCode={this.state.countryCode} />
-              </div>}
-            {!this.props.useFlags &&
-              <div className="SweetPhoneInput__selected-code">
-                + {getPhoneCode(this.state.countryCode)}
-              </div>}
+            <div className="SweetPhoneInput__selected-code">
+              + {getPhoneCode(this.state.countryCode)}
+            </div>
             <i
               className="fa fa-chevron-down"
               style={{
