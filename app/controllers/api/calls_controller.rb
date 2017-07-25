@@ -4,7 +4,7 @@ class Api::CallsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    service = CallCreator.new(call_params)
+    service = CallCreator.new(call_params, tracking_params)
 
     if service.run
       head :no_content
@@ -21,5 +21,11 @@ class Api::CallsController < ApplicationController
               :target_phone_number, :target_phone_extension, :checksum)
       .merge(page_id: params[:page_id],
              member_id: recognized_member&.id)
+  end
+
+  def tracking_params
+    params.fetch(:tracking_params, {})
+      .permit(:source, :akid, :referring_akid, :referrer_id, :rid)
+      .merge(mobile_value)
   end
 end

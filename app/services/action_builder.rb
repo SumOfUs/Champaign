@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ActionBuilder
   def build_action(extra_attrs = {})
     @extra_attrs = extra_attrs
@@ -72,11 +73,8 @@ module ActionBuilder
 
   def form_data
     @params.tap do |params|
-      member = nil
-      member = Member.find_by_akid(params[:referring_akid]) if params[:referring_akid].present?
-      member = Member.find_by(id: params[:rid]) if params[:rid].present?
-      member = Member.find_by(id: params[:referrer_id]) if params[:referrer_id].present?
-      params[:action_referrer_email] = member.email if member.try(:email).present?
+      email = MemberEmailGuesser.run(params)
+      params[:action_referrer_email] = email if email.present?
     end
   end
 end

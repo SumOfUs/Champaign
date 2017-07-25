@@ -5,15 +5,16 @@
  * English-locale intl context around them.
  */
 
-import React from "react";
-import { IntlProvider, intlShape } from "react-intl";
-import { mount, shallow } from "enzyme";
-import messages from "../../app/javascript/util/locales/translations-json";
+import React from 'react';
+import { IntlProvider, intlShape } from 'react-intl';
+import { mount, shallow } from 'enzyme';
+import { translations } from 'champaign-i18n';
+import { transform } from '../../app/javascript/util/locales/helpers';
 
 // You can pass your messages to the IntlProvider. Optional: remove if unneeded.
 // Create the IntlProvider to retrieve context for wrapping around.
 const intlProvider = new IntlProvider(
-  { locale: "en", messages: messages.en },
+  { locale: 'en', messages: transform(translations.en) },
   {}
 );
 const { intl } = intlProvider.getChildContext();
@@ -32,6 +33,10 @@ export function shallowWithIntl(node, { context } = {}) {
 export function mountWithIntl(node, { context, childContextTypes } = {}) {
   return mount(nodeWithIntlProp(node), {
     context: Object.assign({}, context, { intl }),
-    childContextTypes: Object.assign({}, { intl: intlShape }, childContextTypes)
+    childContextTypes: Object.assign(
+      {},
+      { intl: intlShape },
+      childContextTypes
+    ),
   });
 }

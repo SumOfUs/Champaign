@@ -60,7 +60,7 @@ describe PagesController do
 
     context 'successfully created' do
       it 'redirects to edit_page' do
-        expect(response).to redirect_to(edit_page_path(page.id))
+        expect(response).to redirect_to(edit_page_path(page))
       end
     end
 

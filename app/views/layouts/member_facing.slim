@@ -11,13 +11,14 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = stylesheet_pack_tag 'email_target'
 
     = csrf_meta_tags
-    = favicon_link_tag 'images/favicon.ico'
+    = favicon_link_tag 'images/org-favicon.ico'
     = metamagic
     - canonical_url = @page.canonical_url.blank? ? member_facing_page_url(@page) : @page.canonical_url
     link rel="canonical" href=canonical_url
 
     = render partial: 'shared/optimizely_snippet' unless @page.optimizely_disabled?
     = javascript_include_tag 'globals'
+    = render partial: 'shared/js_locale'
   body
 
     = render partial: 'layouts/notification'
@@ -32,7 +33,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_pack_tag 'email_target'
     = javascript_pack_tag 'call_tool'
 
-    = render partial: 'shared/js_locale'
     = render partial: 'shared/page_object'
     = render partial: 'shared/facebook_pixel' unless Rails.env.test?
 

@@ -43,6 +43,7 @@ type CreateCallParams = {
   pageId: string | number,
   memberPhoneNumber?: string,
   targetId: string,
+  trackingParams: any,
 };
 const createCall = function(
   params: CreateCallParams
@@ -57,7 +58,11 @@ const createCall = function(
   if (!!params.targetName) inner.target_name = params.targetName;
   if (!!params.checksum) inner.checksum = params.checksum;
   if (!!params.targetId) inner.target_id = params.targetId;
-  const payload = { call: inner };
+
+  const payload = {
+    call: inner,
+    tracking_params: params.trackingParams,
+  };
 
   return new Promise((resolve, reject) => {
     $.post(`/api/pages/${params.pageId}/call`, payload)

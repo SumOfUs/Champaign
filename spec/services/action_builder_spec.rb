@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ActionBuilder do
@@ -253,21 +254,21 @@ describe ActionBuilder do
     end
 
     it 'is added to form_data if referring_akid has the ak_user_id of a member' do
-      m3 = create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
+      create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
       action = MockActionBuilder.new(base_params.merge(referring_akid: akid)).build_action
       expect(action.form_data['action_referrer_email']).to eq 'qwer@hjkl.com'
     end
 
     it 'adds the email of a matching rid if both rid and referring_akid are present' do
       m2 = create :member, email: 'asdf@hjkl.com'
-      m3 = create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
+      create :member, email: 'qwer@hjkl.com', actionkit_user_id: ak_user_id
       action = MockActionBuilder.new(base_params.merge(
         rid: m2.id, referring_akid: akid
       )).build_action
       expect(action.form_data['action_referrer_email']).to eq m2.email
     end
 
-    it 'adds the email of a matching referring_id if both rid and referrer_id are present' do
+    it 'adds the email of a matching referrer_id if both rid and referrer_id are present' do
       m2 = create :member, email: 'asdf@hjkl.com'
       m3 = create :member, email: 'qwer@hjkl.com'
       action = MockActionBuilder.new(base_params.merge(

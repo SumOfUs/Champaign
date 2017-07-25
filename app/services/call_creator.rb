@@ -4,9 +4,10 @@ class CallCreator
   include Rails.application.routes.url_helpers
   attr_accessor :call, :page
 
-  def initialize(params)
+  def initialize(params, extra_params = {})
     @params = params.clone
     @errors = {}
+    @extra_params = extra_params
   end
 
   def run
@@ -18,7 +19,12 @@ class CallCreator
 
     if errors.blank?
       Call.transaction do
-        place_call if call.save
+        place_call if @call.save
+      end
+
+      if @call.persisted? && !@call.failed?
+        create_action
+        publish_event
       end
     end
 
@@ -90,6 +96,16 @@ class CallCreator
       Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{call.attributes.inspect}")
       add_error(:base, I18n.t('call_tool.errors.unknown'))
     end
+  end
+
+  def create_action
+    @action = Action.create!(page: @page, member: @call.member)
+    @call.update!(action: @action)
+  end
+
+  def publish_event
+    return if @call.member.blank? # handle this in worker
+    CallEvent::New.publish(@call, @extra_params)
   end
 
   # If the targets are updated while the user is on the call tool page, the list

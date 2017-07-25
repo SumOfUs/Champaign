@@ -65,6 +65,7 @@ type OwnProps = {
   targetTitle?: string,
   checksum?: string,
   intl: IntlShape,
+  trackingParams: any,
 };
 
 class CallToolView extends Component {
@@ -218,6 +219,7 @@ class CallToolView extends Component {
         memberPhoneNumber:
           this.state.form.memberPhoneCountryCode +
             this.state.form.memberPhoneNumber,
+        trackingParams: this.props.trackingParams,
       })
       .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }

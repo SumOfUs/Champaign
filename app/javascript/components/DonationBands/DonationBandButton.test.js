@@ -1,7 +1,8 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { IntlProvider } from 'react-intl';
-import translations from '../../util/locales/translations-json';
+import { translations } from 'champaign-i18n';
+import { transform } from '../../util/locales/helpers';
 import DonationBandButton from './DonationBandButton';
 
 describe('Featured Amount', function() {
@@ -9,7 +10,7 @@ describe('Featured Amount', function() {
 
   it('highlights the Button if it is a featured amount ', () => {
     const wrapper = mount(
-      <IntlProvider locale="en" messages={translations.en}>
+      <IntlProvider locale="en" messages={transform(translations.en)}>
         <DonationBandButton
           amount={3}
           featuredAmount={3}

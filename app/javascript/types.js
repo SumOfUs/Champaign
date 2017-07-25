@@ -1,6 +1,7 @@
 /* eslint-disable */
 // @flow
 import type { AppState } from './state/reducers';
+import type { I18nDict } from './util/locales/helpers';
 
 declare var window: typeof window & {
   champaign: ChampaignGlobalObject,
@@ -112,3 +113,13 @@ declare type WebpackModule = {
 declare type WebpackModuleHot = {
   accept: (path: string, callback: () => void) => void,
 };
+
+/* This is just an alias to windows.I18n */
+declare module 'champaign-i18n' {
+  declare type I18nDict = { [key: string]: I18nDictValue };
+  declare type I18nDictValue = I18nDict | string;
+  declare type I18nFlatDict = { [string]: string };
+  declare var translations: {
+    [lang: string]: I18nDict,
+  };
+}
