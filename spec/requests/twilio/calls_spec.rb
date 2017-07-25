@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'POST /twilio/calls/:id/start' do
   before { allow(CallEvent::Update).to receive(:publish) }
-  let(:call) { create(:call) }
+  let(:call) { create(:call, member: create(:member)) }
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/start"
@@ -24,7 +24,7 @@ describe 'POST /twilio/calls/:id/start' do
 end
 
 describe 'POST /twilio/calls/:id/menu' do
-  let(:call) { create(:call) }
+  let(:call) { create(:call, member: create(:member)) }
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/menu"
@@ -34,7 +34,7 @@ end
 
 describe 'POST /twilio/calls/:id/connect' do
   before { allow(CallEvent::Update).to receive(:publish) }
-  let(:call) { create(:call) }
+  let(:call) { create(:call, member: create(:member)) }
 
   it 'returns successfully' do
     post "/twilio/calls/#{call.id}/connect"
@@ -55,7 +55,7 @@ end
 
 describe 'POST /twilio/calls/:id/target_call_status' do
   before { allow(CallEvent::Update).to receive(:publish) }
-  let(:call) { create(:call) }
+  let(:call) { create(:call, member: create(:member)) }
 
   it 'updates call target_call_info' do
     post "/twilio/calls/#{call.id}/target_call_status", params: { foo: 'bar' }
@@ -71,7 +71,7 @@ end
 
 describe 'POST /twilio/calls/:id/member_call_event' do
   before { allow(CallEvent::Update).to receive(:publish) }
-  let(:call) { create(:call) }
+  let(:call) { create(:call, member: create(:member)) }
   let(:params) do
     {
       'Called' => '+14152300381',
