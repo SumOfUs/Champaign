@@ -430,18 +430,34 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.string "target_by_attributes", default: [], array: true
   end
 
-  create_table "plugins_email_targets", id: :serial, force: :cascade do |t|
+  create_table "plugins_email_pensions", id: :serial, force: :cascade do |t|
     t.string "ref"
     t.integer "page_id"
     t.boolean "active", default: false
     t.string "email_from"
     t.string "email_subject"
-    t.text "email_body_b"
+    t.text "email_body"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "test_email_address"
-    t.text "email_body_a"
-    t.text "email_body_c"
+    t.text "email_body_header"
+    t.text "email_body_footer"
+    t.index ["page_id"], name: "index_plugins_email_pensions_on_page_id"
+  end
+
+  create_table "plugins_email_targets", force: :cascade do |t|
+    t.string "ref"
+    t.integer "page_id"
+    t.boolean "active", default: false
+    t.string "email_from"
+    t.string "email_subject"
+    t.text "email_body"
+    t.text "email_body_header"
+    t.text "email_body_footer"
+    t.string "test_email_address"
+    t.json "targets", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["page_id"], name: "index_plugins_email_targets_on_page_id"
   end
 
