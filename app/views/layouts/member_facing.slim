@@ -18,6 +18,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
     = render partial: 'shared/optimizely_snippet' unless @page.optimizely_disabled?
     = javascript_include_tag 'globals'
+    = render partial: 'shared/js_locale'
   body
 
     = render partial: 'layouts/notification'
@@ -32,7 +33,6 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = javascript_pack_tag 'email_target'
     = javascript_pack_tag 'call_tool'
 
-    = render partial: 'shared/js_locale'
     = render partial: 'shared/page_object'
     = render partial: 'shared/facebook_pixel' unless Rails.env.test?
 

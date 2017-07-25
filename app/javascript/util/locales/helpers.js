@@ -1,34 +1,34 @@
+// @flow
 // Converts translations from Rails format to ReactIntl format.
-import _ from "lodash";
+import mapValues from 'lodash/mapValues';
+import reduce from 'lodash/reduce';
+import isPlainObject from 'lodash/reduce';
+import type { I18nDict, I18nDictValue, I18nFlatDict } from 'champaign-i18n';
 
-export function sanitizeTranslations(translations) {
-  return _.mapValues(translations, value =>
-    translateInterpolationFormat(flattenTranslations(value))
-  );
+export function transform(translations: I18nDict): I18nFlatDict {
+  return translateInterpolations(flattenObject(translations));
 }
 
 // Translate interpolation format
 // Rails "hello %{name}" to ReactIntl: "hello {name}"
-function translateInterpolationFormat(translations) {
-  const str = JSON.stringify(translations).replace(/%{(\w+)}/g, "{$1}");
-  return JSON.parse(str);
+export function translateInterpolations<T>(translations: T): T {
+  return JSON.parse(JSON.stringify(translations).replace(/%{(\w+)}/g, '{$1}'));
 }
 
-// Convert a nested translations object into a shallow one
+// Convert a nested object into a shallow one
 // { page: { hello: 'hola'}} => { 'page.hello' => 'hola'}
-function flattenTranslations(translations, prefix = "") {
-  const flatTranslations = {};
-  Object.keys(translations).forEach(key => {
-    const val = translations[key];
-    const fullKey = prefix === "" ? key : `${prefix}.${key}`;
-    if (typeof val === "string") {
-      flatTranslations[fullKey] = val;
-    } else {
-      Object.assign(
-        flatTranslations,
-        flattenTranslations(translations[key], fullKey)
-      );
-    }
-  });
-  return flatTranslations;
+export function flattenObject(obj: Object, prefix: string = ''): I18nFlatDict {
+  return reduce(
+    obj,
+    (flatObject, value, key) => {
+      const fullKey = `${prefix}${key}`;
+      if (typeof value === 'string') {
+        flatObject[fullKey] = value;
+      } else {
+        Object.assign(flatObject, flattenObject(value, `${fullKey}.`));
+      }
+      return flatObject;
+    },
+    {}
+  );
 }

@@ -38,6 +38,7 @@ export default class ComponentWrapper extends Component {
   componentDidMount() {
     this.optimizelyHook();
   }
+
   componentDidUpdate() {
     this.optimizelyHook();
   }

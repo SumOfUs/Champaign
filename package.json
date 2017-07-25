@@ -1,7 +1,6 @@
 {
   "scripts": {
     "precommit": "lint-staged",
-    "pretest": "node bin/convert_translations.js",
     "flow": "flow",
     "test": "jest"
   },
@@ -10,10 +9,7 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ],
-    "*.{rb,rake}": [
-      "bundle exec rubocop -a --force-exclusion",
-      "git add"
-    ]
+    "*.{rb,rake}": ["bundle exec rubocop -a --force-exclusion", "git add"]
   },
   "dependencies": {
     "airbrake-js": "^0.9.0",
@@ -101,14 +97,9 @@
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/spec/jest/FileStub.js",
       "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
-      "^.+/translations$": "<rootDir>/app/javascript/util/locales/translations-json.js"
+      "^champaign-i18n$": "<rootDir>/spec/jest/champaign-i18n-stub.js"
     },
-    "roots": [
-      "<rootDir>/app/javascript"
-    ],
-    "setupFiles": [
-      "<rootDir>/spec/jest/setupJest",
-      "babel-polyfill"
-    ]
+    "roots": ["<rootDir>/app/javascript"],
+    "setupFiles": ["<rootDir>/spec/jest/setupJest", "babel-polyfill"]
   }
 }
