@@ -95,6 +95,8 @@ class SweetPhoneInput extends Component {
   };
 
   toggleSelectingCountry = () => {
+    if (this.props.restrictedCountryCode) return;
+
     this.setState(
       state => ({
         ...state,
@@ -126,7 +128,7 @@ class SweetPhoneInput extends Component {
         <div className="SweetPhoneInput">
           <div
             className="SweetPhoneInput__flag-container"
-            onClick={!restrictedCountryCode && this.toggleSelectingCountry}
+            onClick={this.toggleSelectingCountry}
           >
             <div className="SweetPhoneInput__selected-code">
               + {getPhoneCode(this.getCountryCode())}
@@ -166,6 +168,4 @@ class SweetPhoneInput extends Component {
   }
 }
 
-const X: typeof SweetPhoneInput = onClickOutside(SweetPhoneInput);
-
-export default X;
+export default onClickOutside(SweetPhoneInput);
