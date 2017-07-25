@@ -1,3 +1,3 @@
 - plugins.each do |plugin|
-  = stylesheet_pack_tag plugin.name.underscore if Rails.env.production?
-  = javascript_pack_tag plugin.name.underscore if Webpacker::Manifest.instance.data.keys.find { |pack| /#{plugin.name.underscore}/ =~ pack }
+  = stylesheet_pack_tag_for_plugin(plugin)
+  = javascript_pack_tag_for_plugin(plugin)
