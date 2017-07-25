@@ -1,10 +1,10 @@
-{% if plugins.email_target[ref].active %}
+{% if plugins.email_pension[ref].active %}
   <div id='email-target-component'></div>
 
   <script>
     $(document).ready(function() {
       var member = window.champaign.personalization.member;
-      var data = _.clone(window.champaign.personalization.emailTarget['{{ref}}']);
+      var data = _.clone(window.champaign.personalization.emailPension['{{ref}}']);
       _.merge(data, {
         name: member.full_name,
         email: member.email,
