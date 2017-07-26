@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_call_tools
@@ -16,13 +17,11 @@
 #  sound_clip_file_size          :integer
 #  sound_clip_updated_at         :datetime
 #  description                   :text
-#  target_by_country             :boolean          default(TRUE)
 #  menu_sound_clip_file_name     :string
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
 #  menu_sound_clip_updated_at    :datetime
 #  restricted_country_code       :string
-#  allow_manual_target_selection :boolean          default(FALSE)
 #  caller_phone_number_id        :integer
 #
 
@@ -61,27 +60,6 @@ describe Plugins::CallTool do
     end
   end
 
-  describe 'targets validations' do
-    context 'given target_by_country is set' do
-      let(:targets) { [build(:call_tool_target, :with_country), build(:call_tool_target)] }
-      let(:call_tool) { build(:call_tool, targets: targets) }
-
-      it 'requires the targets country to be set' do
-        expect(call_tool).not_to be_valid
-        expect(call_tool.errors[:targets]).to be_present
-        expect(call_tool.errors[:targets]).to include("Country can't be blank (row 1)")
-      end
-    end
-
-    context 'given target_by_country is not set' do
-      let(:targets) { [build(:call_tool_target, :with_country), build(:call_tool_target)] }
-      let(:call_tool) { build(:call_tool, targets: targets, target_by_country: false) }
-      it 'allows targets with blank countries' do
-        expect(call_tool).to be_valid
-      end
-    end
-  end
-
   describe '#restricted_country_code=' do
     it 'nullifies value when trying to set an empty string' do
       call_tool = build(:call_tool, restricted_country_code: 'AR')
@@ -100,6 +78,26 @@ describe Plugins::CallTool do
     it 'allows valid country codes' do
       call_tool = build(:call_tool, restricted_country_code: 'AR')
       expect(call_tool).to be_valid
+    end
+  end
+
+  describe '#target_keys' do
+    it 'returns an array' do
+      expect(build(:call_tool).target_keys).to be_an(Array)
+    end
+  end
+
+  describe '#target_by_attributes (dynamic targetting)' do
+    it 'is an empty array by default' do
+      call_tool = build(:call_tool)
+      expect(call_tool.target_by_attributes).to be_an(Array)
+      expect(call_tool.target_by_attributes.size).to be(0)
+    end
+
+    it 'can contain a list of columns' do
+      call_tool = build(:call_tool, target_by_attributes: ['country_name'])
+      expect(call_tool.target_by_attributes).to include('country_name')
+      expect(call_tool.target_by_attributes.size).to be(1)
     end
   end
 end

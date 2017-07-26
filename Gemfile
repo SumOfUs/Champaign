@@ -77,9 +77,9 @@ group :development, :test do
   gem 'magic_lamp'
   gem 'rspec-rails'
   gem 'rubocop', require: false
-  gem 'spring'
   gem 'spring-commands-rspec'
   gem 'vcr'
+  gem 'zeus', '~> 0.15.15.pre'
 end
 
 group :development do

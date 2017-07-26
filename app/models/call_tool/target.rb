@@ -1,14 +1,21 @@
 # frozen_string_literal: true
+
 class CallTool::Target
   include ActiveModel::Model
   extend HasPhoneNumber
 
-  attr_accessor :country_code,
-                :phone_number,
-                :phone_extension,
-                :name,
-                :title,
-                :caller_id
+  MAIN_ATTRS = %i[
+    name
+    title
+    phone_number
+    phone_extension
+    country_name
+    country_code
+    caller_id
+  ].freeze
+
+  attr_accessor(*MAIN_ATTRS)
+  attr_accessor :fields
 
   validate  :country_is_valid
   validates :phone_number, presence: true
@@ -18,14 +25,7 @@ class CallTool::Target
   normalize_phone_number :phone_number, :caller_id
 
   def to_hash
-    {
-      country_code: country_code,
-      phone_number: phone_number,
-      phone_extension: phone_extension,
-      name: name,
-      title: title,
-      caller_id: caller_id
-    }
+    Hash[MAIN_ATTRS.collect { |attr| [attr, send(attr)] }].merge(fields: fields)
   end
 
   def country_name
@@ -37,12 +37,24 @@ class CallTool::Target
     self.country_code = ISO3166::Country.find_country_by_name(country_name)&.alpha2
   end
 
+  def country=(country)
+    if ISO3166::Country[country].present?
+      self.country_code = country
+    else
+      self.country_name = country
+    end
+  end
+
   def ==(other)
     to_hash == other.to_hash
   end
 
   def id
     Digest::SHA1.hexdigest(to_hash.to_s)
+  end
+
+  def keys
+    MAIN_ATTRS.map(&:to_s).concat(fields&.keys || [])
   end
 
   private

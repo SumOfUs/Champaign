@@ -1,245 +1,130 @@
 // @flow
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
+import { findKey, sample, compact } from 'lodash';
 import classnames from 'classnames';
-import FieldShape from '../../components/FieldShape/FieldShape';
-import type { Choice } from '../../components/FieldShape/FieldShape';
+
+import CallToolDrillDown from './CallToolDrillDown';
+import SelectedTarget from './SelectedTarget';
+import Button from '../Button/Button';
+import { countries } from '../SelectCountry/SelectCountry';
+import SweetPhoneInput from '../SweetPhoneInput/SweetPhoneInput';
+
+import { targetsWithFields, filterTargets } from './call_tool_helpers';
+import type { Filters, TargetWithFields } from './call_tool_helpers';
+
 import type {
   Country,
   CountryPhoneCode,
   Target,
-  FormType,
   Errors,
 } from '../../call_tool/CallToolView';
-import type { Field } from '../../components/FieldShape/FieldShape';
 
-type OwnProps = {
-  allowManualTargetSelection: boolean,
-  targetByCountryEnabled: boolean,
-  restrictToSingleCountry: boolean,
-  countries: Country[],
+type Props = {
   targets: Target[],
-  countriesPhoneCodes: CountryPhoneCode[],
   selectedTarget: Target,
-  form: FormType,
+  restrictedCountryCode?: string,
+  targetByAttributes: string[],
   errors: Errors,
-  onCountryCodeChange: string => void,
+  onTargetSelected: (id: ?string) => void,
   onMemberPhoneNumberChange: string => void,
-  onMemberPhoneCountryCodeChange: string => void,
-  onTargetSelected: (id: string) => void,
   onSubmit: any => void,
   loading: boolean,
+  filters?: Filters,
 };
 
-const memberPhoneNumberField: Field = {
-  data_type: 'phone',
-  name: 'call_tool[member_phone_number]',
-  label: <FormattedMessage id="call_tool.form.phone_number" />,
-  default_value: '',
-  required: true,
-  disabled: false,
-};
-
-const memberPhoneCountryCodeField: Field = {
-  data_type: 'phone',
-  name: 'call_tool[member_phone_number]',
-  label: <FormattedMessage id="call_tool.form.phone_country_code" />,
-  default_value: '',
-  required: true,
-  disabled: false,
-};
-
-const countryCodeField: Field = {
-  data_type: 'select',
-  name: 'call_tool[country_code]',
-  label: <FormattedMessage id="call_tool.form.country" />,
-  default_value: null,
-  required: true,
-  disabled: false,
-  choices: [],
-};
-
-const targetField: Field = {
-  data_type: 'select',
-  name: 'call_tool[target]',
-  label: <FormattedMessage id="call_tool.manual_target_selection" />,
-  default_value: null,
-  required: true,
-  disabled: false,
-  choices: [],
+type State = {
+  targetsWithFields: TargetWithFields[],
+  memberPhoneNumber: string,
+  countryCode?: string,
 };
 
 class Form extends Component {
-  props: OwnProps;
-  fields: { [key: string]: Field };
+  props: Props;
+  state: State;
 
-  constructor(props: OwnProps) {
+  constructor(props: Props) {
     super(props);
 
-    this.fields = {
-      memberPhoneNumberField: memberPhoneNumberField,
-      memberPhoneCountryCodeField: memberPhoneCountryCodeField,
-      countryCodeField: {
-        ...countryCodeField,
-        choices: this.countryCodeOptions(),
-      },
+    this.state = {
+      targetsWithFields: targetsWithFields(props.targets),
+      countryCode: undefined,
+      memberPhoneNumber: '',
     };
   }
 
-  componentWillReceiveProps(newProps: OwnProps) {
-    if (this.fields) {
-      this.fields.targets = {
-        ...targetField,
-        choices: this.targetOptions(newProps.targets),
-      };
-    }
-  }
-
-  countryCodeOptions() {
-    return this.props.countries.map(country => {
-      return { id: country.code, value: country.code, label: country.name };
-    });
-  }
-
-  targetField(targets: Target[]) {
-    return {
-      data_type: 'select',
-      name: 'call_tool[target]',
-      label: <FormattedMessage id="call_tool.you_will_be_calling" />,
-      default_value: null,
-      required: true,
-      disabled: false,
-      choices: this.targetOptions(targets),
-    };
-  }
-
-  targetOptions(targets: Target[]): Choice[] {
-    return targets.map((target: Target) => ({
-      id: `target-${target.id}`,
-      value: target.id,
-      label: (
-        <div>
-          <p style={{ fontSize: '90%' }}>
-            {target.postalCode && <span>({target.postalCode})</span>}
-            {' - '}
-            <strong>{target.name}</strong>
-            {' '}
-            <span style={{ fontSize: '70%' }}>{target.title}</span>
-          </p>
-        </div>
-      ),
+  componentWillReceiveProps(nextProps: Props) {
+    this.setState((prevState: State) => ({
+      ...prevState,
+      targetsWithFields: targetsWithFields(nextProps.targets),
     }));
   }
 
-  phoneNumberCountryName() {
-    const strippedCountryCode = this.props.form.memberPhoneCountryCode.replace(
-      '+',
-      ''
-    );
-    const countryPhoneCode = _.find(
-      this.props.countriesPhoneCodes,
-      countryCode => {
-        return countryCode.code === strippedCountryCode;
-      }
+  attemptCountryCodeUpdate(countryName: string = '') {
+    const countryCode = findKey(
+      countries,
+      c => c.toLowerCase() === countryName.toLowerCase()
     );
 
-    return countryPhoneCode ? countryPhoneCode.name : '';
+    this.setState(state => ({ ...state, countryCode }));
+  }
+
+  selectTarget(target: ?TargetWithFields) {
+    if (target && target.id) {
+      this.props.onTargetSelected(target.id);
+      this.attemptCountryCodeUpdate(target['countryName'] || target['country']);
+    } else {
+      this.props.onTargetSelected(null);
+      this.attemptCountryCodeUpdate('');
+    }
+  }
+
+  updatePhoneNumber(memberPhoneNumber: string) {
+    this.props.onMemberPhoneNumberChange(memberPhoneNumber);
+    this.setState(prevState => ({
+      ...prevState,
+      memberPhoneNumber,
+    }));
   }
 
   render() {
     const formClassNames = classnames({
       'action-form': true,
       'form--big': true,
-      'single-country': this.props.restrictToSingleCountry,
+      'single-country': !!this.props.restrictedCountryCode,
     });
+
     return (
-      <form className={formClassNames} data-remote="true">
-        {!this.props.restrictToSingleCountry &&
-          this.props.targetByCountryEnabled &&
-          <FieldShape
-            key="countryCode"
-            errorMessage={this.props.errors.countryCode}
-            onChange={this.props.onCountryCodeChange}
-            value={this.props.form.countryCode}
-            field={this.fields.countryCodeField}
-            className="countryCodeField"
-          />}
-
-        {!this.props.restrictToSingleCountry &&
-          <FieldShape
-            key="memberPhoneCountryCode"
-            errorMessage={this.props.errors.memberPhoneCountryCode}
-            onChange={this.props.onMemberPhoneCountryCodeChange}
-            value={this.props.form.memberPhoneCountryCode}
-            field={this.fields.memberPhoneCountryCodeField}
-            className="phoneCountryCodeField"
-          />}
-
-        <FieldShape
-          key="memberPhoneNumber"
-          errorMessage={this.props.errors.memberPhoneNumber}
-          onChange={this.props.onMemberPhoneNumberChange}
-          value={this.props.form.memberPhoneNumber}
-          field={this.fields.memberPhoneNumberField}
-          className="phoneNumberField"
+      <form className={formClassNames}>
+        <CallToolDrillDown
+          targetByAttributes={compact(this.props.targetByAttributes || [])}
+          filters={this.props.filters}
+          targets={this.state.targetsWithFields}
+          onUpdate={t => this.selectTarget(t)}
         />
 
-        {!this.props.restrictToSingleCountry &&
-          <p
-            className={classnames({
-              'guessed-country-name': true,
-              hidden: !_.isEmpty(this.props.errors.memberPhoneNumber),
-            })}
-          >
-            <span>
-              {this.phoneNumberCountryName()}
-            </span>
-          </p>}
+        <SelectedTarget target={this.props.selectedTarget} />
 
-        <div className="clearfix"> </div>
+        <SweetPhoneInput
+          value={this.state.memberPhoneNumber}
+          defaultCountryCode={
+            this.props.restrictedCountryCode || this.state.countryCode
+          }
+          onChange={(number: string) => this.updatePhoneNumber(number)}
+          restrictedCountryCode={this.props.restrictedCountryCode}
+          errors={this.props.errors}
+        />
 
-        {this.props.allowManualTargetSelection &&
-          this.props.targetByCountryEnabled &&
-          this.props.selectedTarget &&
-          <FieldShape
-            key="selectedTarget"
-            onChange={this.props.onTargetSelected}
-            value={this.props.selectedTarget.id}
-            field={this.fields.targets}
-          />}
-
-        {!_.isEmpty(this.props.selectedTarget) &&
-          <SelectedTarget {...this.props.selectedTarget} />}
-
-        <button
+        <Button
           type="submit"
           onClick={this.props.onSubmit}
-          className="button action-form__submit-button"
-          disabled={this.props.loading ? 'disabled' : ''}
+          disabled={this.props.loading}
         >
           <FormattedMessage id="call_tool.form.submit" />
-        </button>
+        </Button>
       </form>
     );
   }
-}
-
-function SelectedTarget(props: { name: string, title?: string }) {
-  return (
-    <div className="selectedTarget">
-      <p>
-        <span>
-          <FormattedMessage id="call_tool.you_will_be_calling" />
-          &nbsp;
-          <span className="selectedTargetName">
-            {props.name}
-          </span>
-          {props.title && <span>, {props.title} </span>}
-        </span>
-      </p>
-    </div>
-  );
 }
 
 export default Form;

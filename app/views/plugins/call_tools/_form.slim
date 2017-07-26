@@ -17,7 +17,7 @@
         = f.select :caller_phone_number_id,
                    PhoneNumber.all.map { |p| ["#{p.country} #{p.number}", p.id] },
                    {include_blank: true},
-                   class: 'form-control restricted_country_code'
+                   class: 'form-control caller_id'
 
       .form-group
         = label_with_tooltip(f, :restricted_country_code, t('plugins.call_tool.restricted_country_code'), t('tooltips.call_tool.restricted_country_code'))
@@ -26,13 +26,7 @@
                    { include_blank: true },
                    class: 'form-control restricted_country_code'
 
-      .form-group
-        label
-          = t('plugins.call_tool.allow_manual_target_selection')
-          | &nbsp;
-          = f.check_box :allow_manual_target_selection
-
-    .well.targets-section
+    .call-tool__target-form
       = render partial: 'plugins/call_tools/target_form.slim', locals: { plugin: plugin }
 
     .well.sound-clip-section

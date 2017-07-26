@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module PagesHelper
   def page_nav_item(text, path, strict = true)
     selected = current_page?(path) || (!strict && request.path.include?(path))
@@ -156,5 +157,30 @@ module PagesHelper
 
   def collapse_share_url_form(page)
     page.share_buttons.map(&:url).uniq == [member_facing_page_url(page)]
+  end
+
+  def pack_exists?(name)
+    packs_available.find { |pack| /#{name}/ =~ pack }
+  end
+
+  def javascript_pack_tag_for_plugin(plugin)
+    pack_name = plugin.name.underscore
+    javascript_pack_tag pack_name if pack_exists?(pack_name)
+  end
+
+  def stylesheet_pack_tag_for_plugin(plugin)
+    # In development mode, we don't use a <link> tag for stylesheets, but instead
+    # we use the style loader which injects style tags in the DOM. This gives us
+    # hot reloading for (S)CSS, so we're only going to include the stylesheet tag
+    # if we're in production
+    return unless Rails.env.production?
+    pack_name = plugin.name.underscore
+    stylesheet_pack_tag pack_name if pack_exists?(pack_name)
+  end
+
+  private
+
+  def packs_available
+    @packs_available ||= Webpacker::Manifest.instance.data.keys
   end
 end

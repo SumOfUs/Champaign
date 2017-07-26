@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PagesHelper do
@@ -151,9 +152,9 @@ describe PagesHelper do
 
   describe 'twitter_meta' do
     it 'has all expected keys' do
-      expect(twitter_meta(page).keys).to match_array(%w(
+      expect(twitter_meta(page).keys).to match_array(%w[
         card domain site creator title description image
-      ).map(&:to_sym))
+      ].map(&:to_sym))
     end
 
     it 'uses title, description, and image from share_card if present' do
@@ -186,9 +187,9 @@ describe PagesHelper do
 
   describe 'facebook_meta' do
     it 'has all expected keys' do
-      expect(facebook_meta(page).keys).to match_array(%w(
+      expect(facebook_meta(page).keys).to match_array(%w[
         site_name title description url type article image
-      ).map(&:to_sym))
+      ].map(&:to_sym))
     end
 
     it 'uses title, description, and image from share_card if present' do
@@ -256,6 +257,35 @@ describe PagesHelper do
 
     it 'returns share url' do
       expect(helper.share_url(button)).to eq('http://sumof.us/99/2/facebook')
+    end
+  end
+
+  describe '#javascript_pack_tag_for_plugin' do
+    let(:call_tool) { create(:call_tool) }
+    let(:thermometer) { create(:plugins_thermometer) }
+
+    it 'includes a script tag for (webpacker) plugins that exist' do
+      expect(helper.javascript_pack_tag_for_plugin(call_tool)).to eq('<script src="/packs-test/call_tool.js"></script>')
+    end
+
+    it 'does not include script tag for (webpacker) plugins that exist' do
+      # Until these are moved to their separate plugins, if ever...
+      expect(helper.javascript_pack_tag_for_plugin(thermometer)).to be_nil
+    end
+  end
+
+  describe '#stylesheet_pack_tag_for_plugin' do
+    let(:call_tool) { create(:call_tool) }
+    let(:thermometer) { create(:plugins_thermometer) }
+
+    it 'does not include stylesheet if we are not in production' do
+      expect(helper.stylesheet_pack_tag_for_plugin(call_tool)).to eq(nil)
+    end
+
+    it 'includes stylesheet if we are in production and plugin exists' do
+      allow(Rails).to receive(:env).and_return 'production'.inquiry
+      expect(helper.stylesheet_pack_tag_for_plugin(call_tool))
+        .to eq('<link rel="stylesheet" media="screen" href="/packs-test/call_tool.css" />')
     end
   end
 end
