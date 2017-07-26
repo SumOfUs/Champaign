@@ -59,7 +59,7 @@ class Plugins::CallTool < ApplicationRecord
   end
 
   def empty_cols
-    CallTool::Target::MAIN_ATTRS.select do |field|
+    ::CallTool::Target::MAIN_ATTRS.select do |field|
       targets.map { |t| t.try(field) }.compact.empty?
     end
   end
