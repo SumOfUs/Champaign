@@ -1,25 +1,27 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe CallTool::Target do
   let(:target) { CallTool::Target.new }
 
-  describe '#country_name=' do
+  describe '#country=' do
     it 'assigns the country code if code is valid' do
-      target.country_name = 'United states'
+      target.country = 'US'
       expect(target.country_code).to eq 'US'
+      expect(target.country_name).to eq 'United States of America'
+    end
+
+    it 'assigns the country code if name is valid' do
+      target.country = 'United states'
+      expect(target.country_code).to eq 'US'
+      expect(target.country_name).to eq 'United states'
     end
 
     it 'sets country_code to nil if name is invalid' do
-      target.country_name = 'Magic Country'
+      target.country = 'Magic Country'
       expect(target.country_code).to be_nil
-    end
-  end
-
-  describe '#country_name' do
-    it 'returns the name of the country matching the country_code' do
-      target.country_code = 'AR'
-      expect(target.country_name).to eq('Argentina')
+      expect(target.country_name).to be_nil
     end
   end
 

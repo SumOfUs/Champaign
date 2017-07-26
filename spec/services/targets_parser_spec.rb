@@ -5,7 +5,7 @@ require 'rails_helper'
 describe CallTool::TargetsParser do
   let(:csv_string) do
     <<-EOS
-      Country name, State, phone number, Phone Extension, NAME, title, caller id, dynamic column
+      Country, State, phone number, Phone Extension, NAME, title, caller id, dynamic column
       united kingdom, Greater London, 4410000000, 123, Claire Do, MEP South East England, 1234567, Dynamic
       united kingdom, Greater London, 4411111111,, Emily Fred, MEP for South West England, 123
       united kingdom, Brighton and Hove, 442222222,, George Harris, MEP for South West England, 123
@@ -34,22 +34,12 @@ describe CallTool::TargetsParser do
     expect(t.fields[:dynamic_column]).to eq('Dynamic')
   end
 
-  it 'detects a `country_name` field and sets the country code' do
-    t = targets.first
-    expect(t.country_code).to eq('GB')
-  end
-
   it 'detects a `country` field with a name and sets the country code' do
-    different_csv = csv_string.gsub(/Country name/i, 'country')
-    expect(different_csv.include?('ountry name')).to eq false
-    different_targets = CallTool::TargetsParser.parse_csv(different_csv)
-    t = different_targets.first
-    expect(t.country_code).to eq('GB')
+    expect(targets.first.country_code).to eq('GB')
   end
 
   it 'detects a `country` field with a code and sets it to country code' do
-    different_csv = csv_string.gsub(/Country name/i, 'country').gsub(/united kingdom/i, 'DE')
-    expect(different_csv.include?('ountry name')).to eq false
+    different_csv = csv_string.gsub(/united kingdom/i, 'DE')
     different_targets = CallTool::TargetsParser.parse_csv(different_csv)
     t = different_targets.first
     expect(t.country_code).to eq('DE')
