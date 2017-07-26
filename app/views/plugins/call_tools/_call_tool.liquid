@@ -3,11 +3,24 @@
 
   <script>
     $(document).ready(function() {
+      var parseFilters = function(params) {
+        if (!!params.filters) return params.filters;
+        var filters = {};
+        for (var key in params) {
+          if (key.indexOf('filters_') === 0 || key.indexOf('filter_') === 0) {
+            var shortKey = key.replace(/filters?_/i, '');
+            filters[shortKey] = params[key];
+          }
+        }
+        return filters;
+      }
+
       var data = _.clone(window.champaign.personalization.callTool['{{ref}}']);
       data.trackingParams = _.pick(window.champaign.personalization.urlParams,
                                    'source', 'akid', 'referring_akid',
-                                   'referrer_id', 'rid', 'bucket');
+                                   'referrer_id', 'rid');
       data.countryCode = window.champaign.personalization.member.country;
+      data.filters = parseFilters(window.champaign.personalization.urlParams);
       data.onSuccess = function(selectedTarget) {
         var followUpUrl = window.URI("{{ follow_up_url }}");
         followUpUrl.addQuery({

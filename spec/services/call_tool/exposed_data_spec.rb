@@ -18,8 +18,7 @@ describe CallTool::ExposedData do
         locale: 'en',
         active: true,
         restricted_country_code: nil,
-        targets: [],
-        target_by_country_enabled: false
+        targets: []
       }
     end
     let(:plugin_data) { { default: plugin_instance_data } }

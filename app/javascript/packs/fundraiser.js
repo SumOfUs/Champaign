@@ -30,6 +30,19 @@ type MountFundraiserOptions = ChampaignPersonalizationData & {
   fundraiser: FundraiserInitializationOptions,
 };
 
+function mount(root: string, options: any, Component?: any = FundraiserView) {
+  render(
+    <ComponentWrapper
+      store={options.store}
+      locale={options.locale}
+      optimizelyHook={window.optimizelyHook}
+    >
+      <FundraiserView />
+    </ComponentWrapper>,
+    document.getElementById(root)
+  );
+}
+
 window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   const search: SearchParams = queryString.parse(location.search);
   const { personalization, page } = window.champaign;
@@ -59,14 +72,14 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
 
   const rDefault = search.recurring_default || data.fundraiser.recurringDefault;
   dispatch({ type: 'set_recurring_defaults', payload: rDefault });
-  render(
-    <ComponentWrapper
-      store={store}
-      locale={data.locale}
-      optimizelyHook={window.optimizelyHook}
-    >
-      <FundraiserView />
-    </ComponentWrapper>,
-    document.getElementById(root)
-  );
+
+  const options = { store, locale: data.locale };
+
+  mount(root, options, FundraiserView);
+
+  if (process.env.NODE_ENV === 'development' && module.hot) {
+    module.hot.accept('../fundraiser/FundraiserView', () => {
+      mount(root, options, require('../fundraiser/FundraiserView').default);
+    });
+  }
 };

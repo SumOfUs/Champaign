@@ -1,3 +1,5 @@
+- name = "plugins_call_tool_#{plugin.id}"
+
 javascript:
   Dropzone.options.targetsDropzone = false;
   $(function() {
@@ -6,11 +8,16 @@ javascript:
       clickable: '#targets-dropzone__clickable',
       init: function() {
         this.on('complete', function(file) {
-          $('.call-tool .targets-section').html(file.xhr.responseText)
+          $('.call-tool__target-form').html(file.xhr.responseText);
+          $('##{name}_target_by_attributes').selectize();
         });
       }
     });
   });
+
+- if plugin.targets.any?
+  = form_for plugin, remote: true, as: name, html: { class: 'form-element one-form' }, data: { type: name }  do |f|
+    = render partial: 'plugins/call_tools/dynamic_targetting.slim', locals: { plugin: plugin, f: f }
 
 - if plugin.errors.present?
   .error-msg
@@ -19,17 +26,9 @@ javascript:
       - plugin.errors.full_messages.each do |error|
         li = error
 
-- name = "plugins_call_tool_#{plugin.id}"
-= form_for plugin, remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name } do |f|
-  .form-group
-    = f.check_box :target_by_country, class: 'target-by-country'
-    span &nbsp;
-    = label_with_tooltip(f, :target_by_country, t('plugins.call_tool.target_by_country'), t('tooltips.call_tool.target_by_country'))
+.well.targets-section
+  = form_tag targets_plugins_call_tool_path(plugin), method: :post, id: 'targets-dropzone', class: 'targets-form form-inline dropzone', multipart: true
+    = label_tag_with_tooltip( :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
+    = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
 
-= form_tag targets_plugins_call_tool_path(plugin), method: :post, id: 'targets-dropzone', class: 'targets-form form-inline dropzone', multipart: true
-  = label_tag_with_tooltip( :targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
-  = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
-
-= render partial: 'plugins/call_tools/targets', locals: { targets: plugin.targets, show_targets: @show_targets }
-
-
+  = render partial: 'plugins/call_tools/targets', locals: { plugin: plugin }

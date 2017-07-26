@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_call_tools
@@ -10,20 +11,19 @@
 #  created_at                    :datetime
 #  updated_at                    :datetime
 #  title                         :string
-#  targets                       :json             is an Array
 #  sound_clip_file_name          :string
 #  sound_clip_content_type       :string
 #  sound_clip_file_size          :integer
 #  sound_clip_updated_at         :datetime
+#  targets                       :json             default("{}"), is an Array
 #  description                   :text
-#  target_by_country             :boolean          default(TRUE)
 #  menu_sound_clip_file_name     :string
 #  menu_sound_clip_content_type  :string
 #  menu_sound_clip_file_size     :integer
 #  menu_sound_clip_updated_at    :datetime
-#  restricted_country_code       :string
-#  allow_manual_target_selection :boolean          default(FALSE)
 #  caller_phone_number_id        :integer
+#  restricted_country_code       :string
+#  target_by_attributes          :string           is an Array
 #
 
 class Plugins::CallTool < ApplicationRecord
@@ -40,7 +40,6 @@ class Plugins::CallTool < ApplicationRecord
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
   validate :targets_are_valid
-  validate :target_countries_are_present, if: :target_by_country?
   validate :restricted_country_code_is_valid
 
   def name
@@ -57,6 +56,21 @@ class Plugins::CallTool < ApplicationRecord
 
   def targets
     json_targets.map { |t| ::CallTool::Target.new(t) }
+  end
+
+  def empty_cols
+    CallTool::Target::MAIN_ATTRS.select do |field|
+      targets.map { |t| t.try(field) }.compact.empty?
+    end
+  end
+
+  def target_keys
+    discarded = %w[caller_id country_code phone_number phone_extension] + empty_cols
+    targets
+      .collect(&:keys)
+      .flatten
+      .uniq
+      .reject { |k| discarded.include?(k) }
   end
 
   def find_target(id)
@@ -108,12 +122,11 @@ class Plugins::CallTool < ApplicationRecord
         active: obj.active,
         restricted_country_code: restricted_country_code,
         targets: targets,
-        target_by_country_enabled: obj.target_by_country,
         countries: countries,
         countries_phone_codes: countries_phone_codes,
         title: obj.title,
         description: obj.description,
-        allow_manual_target_selection: obj.allow_manual_target_selection
+        target_by_attributes: obj.target_by_attributes
       }
     end
 
@@ -137,10 +150,6 @@ class Plugins::CallTool < ApplicationRecord
       list =
         if obj.restricted_country_code.present?
           [ISO3166::Country[restricted_country_code]]
-        elsif obj.target_by_country
-          obj.targets.map(&:country_code).uniq.compact.map do |country_code|
-            ISO3166::Country[country_code]
-          end
         else
           ISO3166::Country.all
         end

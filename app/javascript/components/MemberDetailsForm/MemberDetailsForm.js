@@ -11,8 +11,6 @@ import type { Element } from 'react';
 import type { Dispatch } from 'redux';
 import type { AppState } from '../../state';
 
-import 'react-select/dist/react-select.css';
-
 type OwnProps = {
   buttonText?: Element<any> | string,
   proceed?: () => void,

@@ -43,10 +43,10 @@ body.page-edit-body {
     overflow: hidden;
     @include transition (height 0.2s ease-out);
     &--open {
-      height: 228px
+      height: 228px;
     }
     &--closed {
-      height: 50px
+      height: 50px;
     }
   }
 
@@ -171,7 +171,7 @@ body.page-edit-body {
     border-radius: 4px;
     color: white;
   }
-  @media(min-width: 950px) {
+  @media (min-width: 950px) {
     // put toggles and label inline
 
     .page-edit-bar__toggle {
@@ -268,7 +268,7 @@ body.page-edit-body {
     }
   }
 }
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   .page-edit-bar, .sidebar {
     width: 100%;
     position: relative;
@@ -297,7 +297,7 @@ body.page-edit-body {
     }
   }
   &__view-toggle {
-    margin-bottom: 15px
+    margin-bottom: 15px;
   }
   &__toggle-edit {
     width: 60px;
@@ -400,22 +400,22 @@ body.page-edit-body {
     .icon-bar {
       background-color: white;
     }
-    @media(min-width: 600px) {
+    @media (min-width: 600px) {
       height: 50px;
     }
-    @media(max-width: 600px) {
+    @media (max-width: 600px) {
       padding-right: 0;
     }
   }
   &--fixed {
-    @media(min-width: 600px) {
+    @media (min-width: 600px) {
       position: fixed;
       width: 100%;
       top: 0;
       right: 0;
     }
     &__spacer {
-      @media(min-width: 600px) {
+      @media (min-width: 600px) {
         height: 50px;
         width: 100%;
       }
@@ -486,7 +486,6 @@ body.page-edit-body {
     width: 170px;
     top: 10px;
     left: 10px;
-
   }
 }
 .well .tooltip__trigger, .tooltip--white .tooltip__trigger {
@@ -510,14 +509,15 @@ body.page-edit-body {
   }
 
   .targets-section {
+    margin-top: 10px;
+
     .targets-wrapper {
       margin-top: 10px;
+      overflow: scroll;
     }
-
     input[type="submit"] {
       margin-left: 10px;
     }
-
     label[for="targets_csv_file"] {
       width: 170px;
     }

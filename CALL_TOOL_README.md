@@ -11,9 +11,6 @@ automatically mapped to `CallTool::Target` instances)
 message and instructions from the campaigner about the campaign.
 * `menu_sound_clip`: paperclip attachment that holds a recorded audio file to be used as a
 menu during a call (Press 1 to connect, press 2 to hear the campaigner's message again)
-* `target_by_country`. This is flag that changes the way the call tool works. If it's enabled then
-when a member chooses a country from the dropdown, a random target **from that specific country**
-is selected. If it's disabled then a target is randomly chosen disregarding its country completely
 
 
 ## Call flow
@@ -77,7 +74,3 @@ I added an extra status `unknown` to describe the case when we don't receive a c
 Twilio. This is sent in a callback request and stored in `Call#target_call_info['DialCallStatus']`.
 To know the possible states and their meanings please see
 [Twilio's docs](https://support.twilio.com/hc/en-us/articles/223132547-What-do-the-call-statuses-mean-)
-
-
-
-
