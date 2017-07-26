@@ -28,19 +28,12 @@ class CallTool::Target
     Hash[MAIN_ATTRS.collect { |attr| [attr, send(attr)] }].merge(fields: fields)
   end
 
-  def country_name
-    @country_name ||= ISO3166::Country[country_code]&.name
-  end
-
-  def country_name=(country_name)
-    @country_name = country_name
-    self.country_code = ISO3166::Country.find_country_by_name(country_name)&.alpha2
-  end
-
   def country=(country)
     if ISO3166::Country[country].present?
       self.country_code = country
-    else
+      self.country_name = ISO3166::Country[country].name
+    elsif ISO3166::Country.find_country_by_name(country)
+      self.country_code = ISO3166::Country.find_country_by_name(country)&.alpha2
       self.country_name = country
     end
   end
