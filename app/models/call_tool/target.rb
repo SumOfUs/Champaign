@@ -37,6 +37,14 @@ class CallTool::Target
     self.country_code = ISO3166::Country.find_country_by_name(country_name)&.alpha2
   end
 
+  def country=(country)
+    if ISO3166::Country[country].present?
+      self.country_code = country
+    else
+      self.country_name = country
+    end
+  end
+
   def ==(other)
     to_hash == other.to_hash
   end
