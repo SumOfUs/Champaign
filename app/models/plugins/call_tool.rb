@@ -58,8 +58,14 @@ class Plugins::CallTool < ApplicationRecord
     json_targets.map { |t| ::CallTool::Target.new(t) }
   end
 
+  def empty_cols
+    CallTool::Target::MAIN_ATTRS.select do |field|
+      targets.map { |t| t.try(field) }.compact.empty?
+    end
+  end
+
   def target_keys
-    discarded = %w[caller_id country_code phone_number phone_extension title]
+    discarded = %w[caller_id country_code phone_number phone_extension] + empty_cols
     targets
       .collect(&:keys)
       .flatten
