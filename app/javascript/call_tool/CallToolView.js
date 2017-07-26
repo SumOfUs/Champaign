@@ -146,15 +146,6 @@ class CallToolView extends Component {
     });
   }
 
-  memberPhoneCountryCodeChanged(memberPhoneCountryCode: string) {
-    this.setState(prevState => {
-      return {
-        form: { ...prevState.form, memberPhoneCountryCode },
-        errors: { ...prevState.errors, memberPhoneCountryCode: null },
-      };
-    });
-  }
-
   selectNewTarget() {
     return sample(this.props.targets);
   }
@@ -289,13 +280,9 @@ class CallToolView extends Component {
               ? this.prefilledTargetForDisplay()
               : this.state.selectedTarget
           }
-          form={this.state.form}
           errors={this.state.errors}
           onCountryCodeChange={this.countryCodeChanged.bind(this)}
           onMemberPhoneNumberChange={this.memberPhoneNumberChanged.bind(this)}
-          onMemberPhoneCountryCodeChange={this.memberPhoneCountryCodeChanged.bind(
-            this
-          )}
           onTargetSelected={id => this.selectTarget(id)}
           onSubmit={this.submit.bind(this)}
           loading={this.state.loading}

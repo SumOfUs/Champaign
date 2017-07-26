@@ -52,6 +52,10 @@
   display: none;
 }
 
+.has-error .SweetPhoneInput {
+  border: 2px solid #f8492e;
+}
+
 .selecting-country {
   .SweetPhoneInput {
     border: 2px solid #00c0cf;

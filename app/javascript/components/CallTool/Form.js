@@ -17,7 +17,6 @@ import type {
   Country,
   CountryPhoneCode,
   Target,
-  FormType,
   Errors,
 } from '../../call_tool/CallToolView';
 
@@ -26,9 +25,9 @@ type Props = {
   selectedTarget: Target,
   restrictedCountryCode?: string,
   targetByAttributes: string[],
-  form: FormType,
   errors: Errors,
   onTargetSelected: (id: ?string) => void,
+  onMemberPhoneNumberChange: string => void,
   onSubmit: any => void,
   loading: boolean,
   filters?: Filters,
@@ -81,6 +80,7 @@ class Form extends Component {
   }
 
   updatePhoneNumber(memberPhoneNumber: string) {
+    this.props.onMemberPhoneNumberChange(memberPhoneNumber);
     this.setState(prevState => ({
       ...prevState,
       memberPhoneNumber,
@@ -112,6 +112,7 @@ class Form extends Component {
           }
           onChange={(number: string) => this.updatePhoneNumber(number)}
           restrictedCountryCode={this.props.restrictedCountryCode}
+          errors={this.props.errors}
         />
 
         <Button

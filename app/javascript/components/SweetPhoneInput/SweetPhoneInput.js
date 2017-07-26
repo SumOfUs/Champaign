@@ -11,11 +11,14 @@ import SelectCountry from '../SelectCountry/SelectCountry';
 
 import './SweetPhoneInput.scss';
 
+import type { Errors } from '../../call_tool/CallToolView';
+
 type Props = {
   value: string,
   onChange: (number: string) => void,
   title?: any,
   className?: string,
+  errors: Errors,
   defaultCountryCode?: string,
   restrictedCountryCode?: string,
 };
@@ -116,6 +119,7 @@ class SweetPhoneInput extends Component {
       {
         SweetPhoneInput__root: true,
         'selecting-country': this.state.selectingCountry,
+        'has-error': this.props.errors.memberPhoneNumber,
       },
       this.props.className
     );
@@ -163,6 +167,10 @@ class SweetPhoneInput extends Component {
             onChange={code => this.onCountryCodeChange(code)}
           />
         </div>
+        {this.props.errors.memberPhoneNumber !== undefined &&
+          <div className="base-errors">
+            {this.props.errors.memberPhoneNumber}
+          </div>}
       </div>
     );
   }
