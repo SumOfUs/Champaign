@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 describe ManageBraintreeDonation do
   let(:braintree_arguments) do
@@ -92,7 +93,8 @@ describe ManageBraintreeDonation do
         expected = {
           type: 'donation'
         }
-        expect(ChampaignQueue).to have_received(:push).with(hash_including(expected))
+        expect(ChampaignQueue).to have_received(:push)
+          .with(hash_including(expected), group_id: /action:\d+/)
       end
 
       it 'is marked as a donation' do

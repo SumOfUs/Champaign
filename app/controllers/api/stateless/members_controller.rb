@@ -51,7 +51,7 @@ module Api
       end
 
       def update_on_ak(member)
-        ChampaignQueue.push(
+        ChampaignQueue.push({
           type: 'update_member',
           params: {
             akid: member.actionkit_user_id,
@@ -64,7 +64,7 @@ module Api
             address1: member.address1,
             address2: member.address2
           }
-        )
+        }, { group_id: "member:#{member.id}" })
       end
     end
   end

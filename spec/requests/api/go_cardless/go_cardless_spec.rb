@@ -1,5 +1,6 @@
 # coding: utf-8
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'GoCardless API' do
@@ -300,7 +301,9 @@ describe 'GoCardless API' do
 
           it 'posts donation action to queue with correct data' do
             allow(ChampaignQueue).to receive(:push)
-            expect(ChampaignQueue).to receive(:push).with(donation_push_params)
+            expect(ChampaignQueue).to receive(:push).with(
+              donation_push_params, group_id: /action:\d+/
+            )
             subject
           end
 
@@ -453,7 +456,8 @@ describe 'GoCardless API' do
             allow(ChampaignQueue).to receive(:push)
 
             subject
-            expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
+            expect(ChampaignQueue).to have_received(:push)
+              .with(donation_push_params, group_id: /action:\d+/)
           end
 
           it 'stores amount, currency, is_subscription, and subscription_id in form_data on the Action' do
@@ -560,7 +564,6 @@ describe 'GoCardless API' do
         end
 
         it 'does not push to the queue' do
-          allow(ChampaignQueue).to receive(:push)
           expect(ChampaignQueue).not_to receive(:push)
           subject
         end

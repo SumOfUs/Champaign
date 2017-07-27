@@ -11,9 +11,9 @@ describe ChampaignQueue do
 
       it 'delegates to Client::Sqs' do
         expect(ChampaignQueue::Clients::Sqs)
-          .to receive(:push).with({ foo: 'bar' }, {})
+          .to receive(:push).with({ foo: 'bar' }, { group_id: 'bla' })
 
-        ChampaignQueue.push(foo: 'bar')
+        ChampaignQueue.push({ foo: 'bar' }, { group_id: 'bla' })
       end
     end
 
@@ -22,7 +22,7 @@ describe ChampaignQueue do
         expect(ChampaignQueue::Clients::Sqs)
           .to_not receive(:push)
 
-        ChampaignQueue.push(foo: 'bar')
+        ChampaignQueue.push(foo: 'bar', group_id: 'bla')
       end
     end
   end

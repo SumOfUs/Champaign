@@ -359,11 +359,13 @@ module PaymentProcessor::GoCardless
 
         context 'first created payment' do
           it 'posts to queue' do
-            expect(ChampaignQueue).to have_received(:push)
-              .with(type: 'subscription-payment',
-                    params: {
-                      recurring_id: 'index_ID_123'
-                    }).once
+            expect(ChampaignQueue).to have_received(:push).with(
+              { type: 'subscription-payment',
+                params: {
+                  recurring_id: 'index_ID_123'
+                } },
+              { group_id: "gocardless-subscription:#{subscription.id}" }
+            ).once
           end
         end
 
@@ -373,11 +375,13 @@ module PaymentProcessor::GoCardless
           end
 
           it 'posts to queue' do
-            expect(ChampaignQueue).to have_received(:push)
-              .with(type: 'subscription-payment',
-                    params: {
-                      recurring_id: 'index_ID_123'
-                    }).twice
+            expect(ChampaignQueue).to have_received(:push).with(
+              { type: 'subscription-payment',
+                params: {
+                  recurring_id: 'index_ID_123'
+                } },
+              { group_id: "gocardless-subscription:#{subscription.id}" }
+            ).twice
           end
         end
       end

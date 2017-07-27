@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'subscriptions' do
@@ -83,7 +84,10 @@ describe 'subscriptions' do
       describe 'Posting to queue' do
         context 'with existing transaction' do
           it 'posts to queue' do
-            expect(ChampaignQueue).to have_received(:push).with(type: 'subscription-payment', params: { recurring_id: 'index_ID_123' })
+            expect(ChampaignQueue).to have_received(:push).with(
+              { type: 'subscription-payment', params: { recurring_id: 'index_ID_123' } },
+              { group_id: /gocardless-subscription:\d+/ }
+            )
           end
         end
       end
@@ -137,7 +141,9 @@ describe 'subscriptions' do
             success: 0,
             status: 'failed'
           }
-        }, { delay: 120 })
+        },
+                                                      { delay: 120,
+                                                        group_id: /gocardless-subscription:\d+/ })
         post('/api/go_cardless/webhook', params: events, headers: headers)
       end
     end

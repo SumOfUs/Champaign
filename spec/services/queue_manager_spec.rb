@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe QueueManager do
@@ -28,7 +29,8 @@ describe QueueManager do
       it 'posts to queue' do
         expect(ChampaignQueue).to receive(:push)
           .with(expected_params.merge(donation_uri: 'http://example.com/donation',
-                                      petition_uri: 'http://example.com/petition'))
+                                      petition_uri: 'http://example.com/petition'),
+                group_id: "page:#{page.id}")
 
         subject
       end
@@ -38,7 +40,9 @@ describe QueueManager do
       subject { QueueManager.push(page, job_type: :create) }
 
       it 'posts to queue' do
-        expect(ChampaignQueue).to receive(:push).with(expected_params.merge(type: :create))
+        expect(ChampaignQueue).to receive(:push).with(
+          expected_params.merge(type: :create), group_id: "page:#{page.id}"
+        )
         subject
       end
     end

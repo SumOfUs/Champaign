@@ -17,7 +17,7 @@ describe ChampaignQueue::Clients::Sqs do
         </SendMessageResponse>)
     end
 
-    let(:request_body) { 'Action=SendMessage&DelaySeconds=0&MessageBody=%7B%22foo%22%3A%22bar%22%7D&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F679051310897%2Fdemo&Version=2012-11-05' }
+    let(:request_body) { 'Action=SendMessage&DelaySeconds=0&MessageBody=%7B%22foo%22%3A%22bar%22%7D&MessageGroupId=abc&QueueUrl=https%3A%2F%2Fsqs.us-east-1.amazonaws.com%2F679051310897%2Fdemo&Version=2012-11-05' }
     let(:request_uri)  { 'https://sqs.us-east-1.amazonaws.com/679051310897/demo' }
 
     before do
@@ -33,7 +33,7 @@ describe ChampaignQueue::Clients::Sqs do
 
     it 'delivers payload to AWS SQS Queue' do
       Timecop.freeze('2015/01/01') do
-        resp = ChampaignQueue::Clients::Sqs.push(foo: :bar)
+        resp = ChampaignQueue::Clients::Sqs.push({ foo: :bar }, { group_id: 'abc' })
 
         expect(resp.message_id).to eq('918aba5a-b70f-4e31-9905-ba02000fcdaa')
       end
@@ -47,7 +47,7 @@ describe ChampaignQueue::Clients::Sqs do
 
     it 'does not deliver payload to AWS SQS Queue' do
       expect_any_instance_of(Aws::SQS::Client).to_not receive(:send_message)
-      ChampaignQueue::Clients::Sqs.push(foo: :bar)
+      ChampaignQueue::Clients::Sqs.push({ foo: :bar }, { group_id: 'abc' })
     end
   end
 end

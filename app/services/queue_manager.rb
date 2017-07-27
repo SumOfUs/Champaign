@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class QueueManager
   include Rails.application.routes.url_helpers
 
@@ -31,7 +32,8 @@ class QueueManager
 
   def to_queue(additions = {})
     ChampaignQueue.push(
-      data_for_queue.merge(additions)
+      data_for_queue.merge(additions),
+      group_id: "page:#{@page.id}"
     )
   end
 
