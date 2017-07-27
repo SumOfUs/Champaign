@@ -26,7 +26,7 @@ type OwnState = {
   memberPhoneNumber: string,
   errors: Errors,
   loading: boolean,
-  selectedTarget?: Target,
+  selectedTarget: ?Target,
 };
 
 type OwnProps = {
@@ -57,20 +57,21 @@ class CallToolView extends Component {
     super(props);
 
     this.state = {
+      selectedTarget: undefined,
       memberPhoneNumber: props.memberPhoneNumber || '',
       errors: {},
       loading: false,
     };
   }
 
-  hasPrefilledTarget() {
-    return this.props.targetPhoneNumber && this.props.checksum;
+  hasPrefilledTarget(): boolean {
+    return !!this.props.targetPhoneNumber && !!this.props.checksum;
   }
 
-  prefilledTargetForDisplay() {
+  prefilledTargetForDisplay(): ?Target {
     return {
-      name: this.props.targetName,
-      title: this.props.targetTitle,
+      name: this.props.targetName || '',
+      title: this.props.targetTitle || '',
       id: 'prefilled',
     };
   }
@@ -103,7 +104,7 @@ class CallToolView extends Component {
     this.setState({ errors: {}, loading: true });
     ChampaignAPI.calls
       .create({
-        ...this.targetHash(),
+        ...this.targetObject(),
         pageId: this.props.pageId,
         memberPhoneNumber: this.state.memberPhoneNumber,
         trackingParams: this.props.trackingParams,
@@ -111,7 +112,7 @@ class CallToolView extends Component {
       .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
-  targetHash() {
+  targetObject(): any {
     if (this.hasPrefilledTarget()) {
       return {
         targetTitle: this.props.targetTitle,
@@ -201,9 +202,6 @@ class CallToolView extends Component {
           </div>}
 
         <Form
-          allowManualTargetSelection={
-            this.props.allowManualTargetSelection && !this.hasPrefilledTarget()
-          }
           restrictedCountryCode={this.props.restrictedCountryCode}
           targets={this.props.targets}
           selectedTarget={

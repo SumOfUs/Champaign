@@ -17,7 +17,7 @@ import type { Target, Errors } from '../../call_tool/CallToolView';
 
 type Props = {
   targets: Target[],
-  selectedTarget: Target,
+  selectedTarget: ?Target,
   restrictedCountryCode?: string,
   targetByAttributes: string[],
   errors: Errors,
