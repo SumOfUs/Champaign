@@ -142,6 +142,11 @@ describe CallCreator do
       CallCreator.new(params).run
       expect(Call.last.status).to eql('failed')
     end
+
+    it 'doesnt create an action' do
+      CallCreator.new(params).run
+      expect(Call.last.action).to be_nil
+    end
   end
 
   context 'given the target id is invalid' do

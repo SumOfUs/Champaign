@@ -19,11 +19,14 @@ class CallCreator
 
     if errors.blank?
       Call.transaction do
-        place_call if @call.save
+        if @call.valid?
+          @call.action = Action.create!(page: @page, member: @call.member)
+          @call.save!
+          place_call
+        end
       end
 
       if @call.persisted? && !@call.failed?
-        create_action
         publish_event
       end
     end
@@ -89,18 +92,14 @@ class CallCreator
     # 13226: Dial: Invalid country code
     # 21211: Invalid 'To' Phone Number
     # 21214: 'To' phone number cannot be reached
-    call.update!(twilio_error_code: e.code, status: 'failed')
+    call.action.destroy!
+    call.update!(twilio_error_code: e.code, status: 'failed', action_id: nil)
     if (e.code >= 13_223 && e.code <= 13_226) || [21_211, 21_214].include?(e.code)
       add_error(:member_phone_number, I18n.t('call_tool.errors.phone_number.cant_connect'))
     else
       Rails.logger.error("Twilio Error: API responded with code #{e.code} for #{call.attributes.inspect}")
       add_error(:base, I18n.t('call_tool.errors.unknown'))
     end
-  end
-
-  def create_action
-    @action = Action.create!(page: @page, member: @call.member)
-    @call.update!(action: @action)
   end
 
   def publish_event
