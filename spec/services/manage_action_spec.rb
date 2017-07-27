@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ManageAction do
@@ -24,7 +25,7 @@ describe ManageAction do
     end
 
     it 'posts action to queue' do
-      expected = {
+      payload = {
         type: 'action',
         meta: hash_including(
           title: 'Foo Bar'
@@ -38,7 +39,8 @@ describe ManageAction do
         }
       }
 
-      expect(ChampaignQueue).to receive(:push).with(expected)
+      expect(ChampaignQueue).to receive(:push)
+        .with(payload, group_id: /action:\d+/)
       subject
     end
 

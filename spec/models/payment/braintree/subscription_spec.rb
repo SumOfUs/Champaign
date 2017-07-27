@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_braintree_subscriptions
@@ -58,11 +59,14 @@ describe Payment::Braintree::Subscription do
   describe 'publish cancellation event' do
     let(:subscription) { create(:payment_braintree_subscription, subscription_id: 'asd123') }
     it 'pushes to the event queue with correct parameters' do
-      expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
-                                                    params: {
-                                                      recurring_id: 'asd123',
-                                                      canceled_by: 'user'
-                                                    })
+      expect(ChampaignQueue).to receive(:push).with(
+        { type: 'cancel_subscription',
+          params: {
+            recurring_id: 'asd123',
+            canceled_by: 'user'
+          } },
+        { group_id: "braintree-subscription:#{subscription.id}" }
+      )
       subscription.publish_cancellation('user')
     end
   end
@@ -70,11 +74,14 @@ describe Payment::Braintree::Subscription do
   describe 'publish amount update event' do
     let(:subscription) { create(:payment_braintree_subscription, subscription_id: 'asd123', amount: 100) }
     it 'pushes to the event queue with correct parameters' do
-      expect(ChampaignQueue).to receive(:push).with(type: 'recurring_payment_update',
-                                                    params: {
-                                                      recurring_id: 'asd123',
-                                                      amount: '100.0'
-                                                    })
+      expect(ChampaignQueue).to receive(:push).with(
+        { type: 'recurring_payment_update',
+          params: {
+            recurring_id: 'asd123',
+            amount: '100.0'
+          } },
+        { group_id: "braintree-subscription:#{subscription.id}" }
+      )
       subscription.publish_amount_update
     end
   end

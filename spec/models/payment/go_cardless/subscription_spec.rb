@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_subscriptions
@@ -163,11 +164,14 @@ describe Payment::GoCardless::Subscription do
   describe 'publish cancellation event' do
     let(:subscription) { create(:payment_go_cardless_subscription, go_cardless_id: 'adklwe') }
     it 'pushes to the event queue with correct parameters' do
-      expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
-                                                    params: {
-                                                      recurring_id: 'adklwe',
-                                                      canceled_by: 'user'
-                                                    })
+      expect(ChampaignQueue).to receive(:push).with(
+        { type: 'cancel_subscription',
+          params: {
+            recurring_id: 'adklwe',
+            canceled_by: 'user'
+          } },
+        { group_id: "gocardless-subscription:#{subscription.id}" }
+      )
       subscription.publish_cancellation('user')
     end
   end

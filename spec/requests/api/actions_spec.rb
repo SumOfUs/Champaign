@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Api Actions' do
@@ -66,11 +67,11 @@ describe 'Api Actions' do
 
     describe 'queue' do
       before do
-        post "/api/pages/#{page.id}/actions", params: params,  headers: headers
+        post "/api/pages/#{page.id}/actions", params: params, headers: headers
       end
 
       it 'pushes action to queue' do
-        expect(ChampaignQueue).to have_received(:push).with(message_body)
+        expect(ChampaignQueue).to have_received(:push).with(message_body, group_id: /action:\d+/)
       end
     end
 
@@ -87,7 +88,8 @@ describe 'Api Actions' do
               params: hash_including(
                 country: name
               )
-            )
+            ),
+            group_id: /action:\d+/
           )
         end
       end
@@ -216,7 +218,8 @@ describe 'Api Actions' do
             }
           )
 
-          expect(ChampaignQueue).to have_received(:push).with(expected_params)
+          expect(ChampaignQueue).to have_received(:push)
+            .with(expected_params, group_id: /action:\d+/)
         end
       end
     end

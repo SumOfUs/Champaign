@@ -60,7 +60,9 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           }
 
           expect(ChampaignQueue).to receive(:push)
-            .with(expected_payload, delay: 120)
+            .with(expected_payload,
+                  delay: 120,
+                  group_id: "braintree-subscription:#{subscription.id}")
 
           subject
         end
@@ -104,11 +106,14 @@ describe PaymentProcessor::Braintree::WebhookHandler do
       end
 
       it 'pushes an event to the queue' do
-        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
-                                                      params: {
-                                                        recurring_id: 'subscription_id',
-                                                        canceled_by: 'processor'
-                                                      })
+        expect(ChampaignQueue).to receive(:push).with(
+          { type: 'cancel_subscription',
+            params: {
+              recurring_id: 'subscription_id',
+              canceled_by: 'processor'
+            } },
+          { group_id: "braintree-subscription:#{subscription.id}" }
+        )
         subject
       end
     end
@@ -142,7 +147,11 @@ describe PaymentProcessor::Braintree::WebhookHandler do
             amount: '0.0'
           }
         }
-        expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+        expect(ChampaignQueue).to receive(:push).with(
+          expected_payload,
+          delay: 120,
+          group_id: "braintree-subscription:#{subscription.id}"
+        )
         subject
       end
     end
@@ -205,8 +214,13 @@ describe PaymentProcessor::Braintree::WebhookHandler do
             amount: '10.0'
           }
         }
-        expect(ChampaignQueue).to receive(:push).with(update_payload).ordered
-        expect(ChampaignQueue).to receive(:push).with(payment_payload, delay: 120).ordered
+        expect(ChampaignQueue).to receive(:push)
+          .with(update_payload, group_id: "braintree-subscription:#{subscription.id}")
+          .ordered
+        expect(ChampaignQueue).to receive(:push)
+          .with(payment_payload, group_id: "braintree-subscription:#{subscription.id}", delay: 120)
+          .ordered
+
         subject
       end
     end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_transactions
@@ -56,11 +57,11 @@ class Payment::GoCardless::Transaction < ApplicationRecord
     end
 
     event :run_confirm do
-      transitions from: [:created, :submitted], to: :confirmed
+      transitions from: %i[created submitted], to: :confirmed
     end
 
     event :run_payout do
-      transitions from: [:created, :submitted, :confirmed], to: :paid_out
+      transitions from: %i[created submitted confirmed], to: :paid_out
     end
 
     event :run_cancel do
@@ -86,6 +87,8 @@ class Payment::GoCardless::Transaction < ApplicationRecord
         success: 0,
         status: 'failed'
       }
-    }, { delay: 120 })
+    },
+                        { delay: 120,
+                          group_id: "gocardless-subscription:#{id}" })
   end
 end

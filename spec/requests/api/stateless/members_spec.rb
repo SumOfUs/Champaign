@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'API::Stateless Members' do
@@ -109,18 +110,19 @@ describe 'API::Stateless Members' do
         allow(ChampaignQueue).to receive(:push)
 
         expect(ChampaignQueue).to receive(:push).with(
-          type: 'update_member',
-          params: {
-            akid: member.actionkit_user_id,
-            email: 'test+1@example.com',
-            first_name: 'Harry',
-            last_name: 'Tubman',
-            country: 'United Kingdom',
-            city: 'London',
-            postal: '12345',
-            address1: 'Jam Factory 123',
-            address2: nil
-          }
+          { type: 'update_member',
+            params: {
+              akid: member.actionkit_user_id,
+              email: 'test+1@example.com',
+              first_name: 'Harry',
+              last_name: 'Tubman',
+              country: 'United Kingdom',
+              city: 'London',
+              postal: '12345',
+              address1: 'Jam Factory 123',
+              address2: nil
+            } },
+          { group_id: "member:#{member.id}" }
         )
         subject
       end
