@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CampaignUpdater
   def self.run(campaign, params)
     new(campaign, params).run
@@ -18,8 +19,11 @@ class CampaignUpdater
   private
 
   def publish_event
-    ChampaignQueue.push(type: 'update_campaign',
-                        name: @campaign.name,
-                        campaign_id: @campaign.id)
+    ChampaignQueue.push(
+      { type: 'update_campaign',
+        name: @campaign.name,
+        campaign_id: @campaign.id },
+      { group_id: "campaign:#{@campaign.id}" }
+    )
   end
 end

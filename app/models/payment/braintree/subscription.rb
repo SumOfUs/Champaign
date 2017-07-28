@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_braintree_subscriptions
@@ -32,18 +33,24 @@ class Payment::Braintree::Subscription < ApplicationRecord
 
   def publish_cancellation(reason)
     # reason can be "user", "admin", "processor", "failure", "expired"
-    ChampaignQueue.push(type: 'cancel_subscription',
-                        params: {
-                          recurring_id: subscription_id,
-                          canceled_by: reason
-                        })
+    ChampaignQueue.push(
+      { type: 'cancel_subscription',
+        params: {
+          recurring_id: subscription_id,
+          canceled_by: reason
+        } },
+      { group_id: "braintree-subscription:#{id}" }
+    )
   end
 
   def publish_amount_update
-    ChampaignQueue.push(type: 'recurring_payment_update',
-                        params: {
-                          recurring_id: subscription_id,
-                          amount: amount.to_s
-                        })
+    ChampaignQueue.push(
+      { type: 'recurring_payment_update',
+        params: {
+          recurring_id: subscription_id,
+          amount: amount.to_s
+        } },
+      { group_id: "braintree-subscription:#{id}" }
+    )
   end
 end

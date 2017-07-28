@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: members
@@ -27,7 +28,7 @@ class Member < ApplicationRecord
   has_one :authentication, class_name: 'MemberAuthentication', dependent: :destroy
   has_many :payment_methods, through: :customer
   has_many :actions
-  has_paper_trail on: [:update, :destroy]
+  has_paper_trail on: %i[update destroy]
 
   delegate :authenticate, to: :authentication, allow_nil: true
 
@@ -35,7 +36,7 @@ class Member < ApplicationRecord
 
   before_validation { email.try(:downcase!) }
 
-  enum donor_status: [:nondonor, :donor, :recurring_donor]
+  enum donor_status: %i[nondonor donor recurring_donor]
 
   def self.find_from_request(akid: nil, id: nil)
     member = find_by_akid(akid)
@@ -84,7 +85,11 @@ class Member < ApplicationRecord
       postal: postal
     }
     params[:locale] = locale if locale.present?
-    ChampaignQueue.push(type: 'subscribe_member', params: params)
+    ChampaignQueue.push(
+      { type: 'subscribe_member',
+        params: params },
+      { group_id: "member:#{id}" }
+    )
   end
 
   def token_payload

@@ -11,7 +11,7 @@ module ActionQueue
     end
 
     def push
-      ChampaignQueue.push(payload.merge(meta))
+      ChampaignQueue.push(payload.merge(meta), group_id: "action:#{@action.id}")
     end
 
     def page

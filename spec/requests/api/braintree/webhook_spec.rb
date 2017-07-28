@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Braintree API' do
@@ -108,7 +109,11 @@ describe 'Braintree API' do
               }
             }
 
-            expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+            expect(ChampaignQueue).to receive(:push).with(
+              expected_payload,
+              delay: 120,
+              group_id: "braintree-subscription:#{@subscription.id}"
+            )
 
             subject
           end
@@ -173,7 +178,11 @@ describe 'Braintree API' do
               }
             }
 
-            expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+            expect(ChampaignQueue).to receive(:push).with(
+              expected_payload,
+              delay: 120,
+              group_id: "braintree-subscription:#{subscription.id}"
+            )
             subject
           end
         end
@@ -227,11 +236,14 @@ describe 'Braintree API' do
           end
 
           it 'posts a cancellation event to the ChampaignQueue' do
-            expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
-                                                          params: {
-                                                            recurring_id: subscription.subscription_id,
-                                                            canceled_by: 'processor'
-                                                          })
+            expect(ChampaignQueue).to receive(:push).with(
+              { type: 'cancel_subscription',
+                params: {
+                  recurring_id: subscription.subscription_id,
+                  canceled_by: 'processor'
+                } },
+              { group_id: "braintree-subscription:#{subscription.id}" }
+            )
             subject
           end
 

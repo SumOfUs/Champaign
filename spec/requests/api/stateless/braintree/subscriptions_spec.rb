@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'API::Stateless Braintree Subscriptions' do
@@ -124,11 +125,14 @@ describe 'API::Stateless Braintree Subscriptions' do
 
     it 'pushes a cancelled subscription event to the event queue' do
       VCR.use_cassette('stateless api cancel subscription') do
-        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
-                                                      params: {
-                                                        recurring_id: '4ts4r2',
-                                                        canceled_by: 'user'
-                                                      })
+        expect(ChampaignQueue).to receive(:push).with(
+          { type: 'cancel_subscription',
+            params: {
+              recurring_id: '4ts4r2',
+              canceled_by: 'user'
+            } },
+          { group_id: /braintree-subscription:\d+/ }
+        )
 
         delete "/api/stateless/braintree/subscriptions/#{cancel_this_subscription.id}", headers: auth_headers
       end

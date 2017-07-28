@@ -11,7 +11,7 @@ module CallEvent
     end
 
     def publish
-      ChampaignQueue.push(payload)
+      ChampaignQueue.push(payload, group_id: "call:#{@call.id}")
     end
 
     private

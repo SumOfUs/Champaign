@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Emailing Targets', type: :request do
@@ -68,7 +69,7 @@ describe 'Emailing Targets', type: :request do
     end
 
     it 'posts action to queue' do
-      expected_options = hash_including(
+      payload = hash_including(
         type: 'action',
         params: hash_including(page: 'foo-bar-petition',
                                name: "Sender's Name",
@@ -78,7 +79,10 @@ describe 'Emailing Targets', type: :request do
                                akid: akid)
       )
 
-      expect(ChampaignQueue).to have_received(:push).with(expected_options)
+      expect(ChampaignQueue).to have_received(:push).with(
+        payload,
+        group_id: /action:\d+/
+      )
     end
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_go_cardless_subscriptions
@@ -43,12 +44,13 @@ class Payment::GoCardless::Subscription < ApplicationRecord
         subscription: subscription
       )
 
-      ChampaignQueue.push(
+      ChampaignQueue.push({
         type: 'subscription-payment',
         params: {
           recurring_id: @subscription.go_cardless_id
         }
-      )
+      },
+                          { group_id: "gocardless-subscription:#{subscription.id}" })
     end
   end
 end
@@ -87,7 +89,7 @@ class Payment::GoCardless::Subscription < ApplicationRecord
     end
 
     event :run_approve do
-      transitions from: [:pending, :created], to: :active
+      transitions from: %i[pending created], to: :active
     end
 
     event :run_cancel do
@@ -109,10 +111,13 @@ class Payment::GoCardless::Subscription < ApplicationRecord
 
   def publish_cancellation(reason)
     # reason can be "user", "admin", "processor", "failure", "expired"
-    ChampaignQueue.push(type: 'cancel_subscription',
-                        params: {
-                          recurring_id: go_cardless_id,
-                          canceled_by: reason
-                        })
+    ChampaignQueue.push(
+      { type: 'cancel_subscription',
+        params: {
+          recurring_id: go_cardless_id,
+          canceled_by: reason
+        } },
+      { group_id: "gocardless-subscription:#{id}" }
+    )
   end
 end

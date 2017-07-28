@@ -6,14 +6,15 @@ module ChampaignQueue
       class << self
         # +params+ - The message to send. String maximum 256 KB in size.
         # +delay+  - The number of seconds (0 to 900 - 15 minutes) to delay a specific message.
-        def push(params, delay: 0)
-          new(params, delay).push
+        def push(params, group_id:, delay: 0)
+          new(params, group_id, delay).push
         end
       end
 
-      def initialize(params, delay)
+      def initialize(params, group_id, delay)
         @params = params
         @delay = delay
+        @group_id = group_id
       end
 
       def push
@@ -21,7 +22,8 @@ module ChampaignQueue
 
         client.send_message(queue_url:    queue_url,
                             message_body: @params.to_json,
-                            delay_seconds: @delay)
+                            delay_seconds: @delay,
+                            message_group_id: @group_id)
       end
 
       private

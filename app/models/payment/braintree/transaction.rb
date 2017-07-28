@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_braintree_transactions
@@ -27,7 +28,7 @@ class Payment::Braintree::Transaction < ApplicationRecord
   belongs_to :payment_method, class_name: 'Payment::Braintree::PaymentMethod'
   belongs_to :customer,       class_name: 'Payment::Braintree::Customer', primary_key: 'customer_id'
   belongs_to :subscription,   class_name: 'Payment::Braintree::Subscription'
-  enum status: [:success, :failure]
+  enum status: %i[success failure]
 
   scope :one_off, -> { where(subscription_id: nil) }
 
@@ -41,6 +42,8 @@ class Payment::Braintree::Transaction < ApplicationRecord
         status: status == 'success' ? 'completed' : 'failed',
         amount: amount.to_s
       }
-    }, { delay: 120 })
+    },
+                        { delay: 120,
+                          group_id: "braintree-subscription:#{subscription.id}" })
   end
 end

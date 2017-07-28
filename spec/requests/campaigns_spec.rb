@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Campaigns', type: :request do
@@ -24,9 +25,12 @@ describe 'Campaigns', type: :request do
       end
 
       it 'publishes the event' do
-        expect(ChampaignQueue).to receive(:push).with(name: 'Super Campaign',
-                                                      type: 'create_campaign',
-                                                      campaign_id: be_a(Integer))
+        expect(ChampaignQueue).to receive(:push).with(
+          { name: 'Super Campaign',
+            type: 'create_campaign',
+            campaign_id: be_a(Integer) },
+          { group_id: /campaign:\d+/ }
+        )
         post '/campaigns', params
       end
     end
@@ -67,9 +71,10 @@ describe 'Campaigns', type: :request do
 
       it 'publishes the event' do
         expect(ChampaignQueue).to receive(:push).with(
-          type: 'update_campaign',
-          name: 'Updated Campaign',
-          campaign_id: campaign.id
+          { type: 'update_campaign',
+            name: 'Updated Campaign',
+            campaign_id: campaign.id },
+          { group_id: /campaign:\d+/ }
         )
         put "/campaigns/#{campaign.id}", params
       end

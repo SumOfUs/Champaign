@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'API::Stateless GoCardless Subscriptions' do
@@ -142,11 +143,14 @@ describe 'API::Stateless GoCardless Subscriptions' do
 
     it 'pushes a cancelled subscription event to the event queue' do
       VCR.use_cassette('stateless api cancel go_cardless subscription') do
-        expect(ChampaignQueue).to receive(:push).with(type: 'cancel_subscription',
-                                                      params: {
-                                                        recurring_id: 'SB00003GHBQ3YF',
-                                                        canceled_by: 'user'
-                                                      })
+        expect(ChampaignQueue).to receive(:push).with(
+          { type: 'cancel_subscription',
+            params: {
+              recurring_id: 'SB00003GHBQ3YF',
+              canceled_by: 'user'
+            } },
+          { group_id: "gocardless-subscription:#{delete_subscription.id}" }
+        )
 
         delete "/api/stateless/go_cardless/subscriptions/#{delete_subscription.id}", headers: auth_headers
       end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'api/members' do
@@ -29,14 +30,15 @@ describe 'api/members' do
       allow(ChampaignQueue).to receive :push
       subject
       expect(ChampaignQueue).to have_received(:push).with(
-        type: 'subscribe_member',
-        params: {
-          email: params[:email],
-          name: params[:name],
-          country: params[:country],
-          locale: params[:locale],
-          postal: params[:postal]
-        }
+        { type: 'subscribe_member',
+          params: {
+            email: params[:email],
+            name: params[:name],
+            country: params[:country],
+            locale: params[:locale],
+            postal: params[:postal]
+          } },
+        { group_id: /member:\d+/ }
       )
     end
 

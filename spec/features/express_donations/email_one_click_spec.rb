@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require_relative 'shared_methods'
 
@@ -71,7 +72,8 @@ feature 'Express From Mailing Link' do
     expect(customer.transactions.count).to eq(1)
 
     @is_authenticated = 1
-    expect(ChampaignQueue).to receive(:push).with(queue_payload)
+    expect(ChampaignQueue).to receive(:push)
+      .with(queue_payload, group_id: /action:\d+/)
 
     VCR.use_cassette('feature_member_email_donation') do
       visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)
@@ -91,7 +93,8 @@ feature 'Express From Mailing Link' do
     expect(Action.count).to eq(1)
 
     @is_authenticated = 0
-    expect(ChampaignQueue).to receive(:push).with(queue_payload)
+    expect(ChampaignQueue).to receive(:push)
+      .with(queue_payload, group_id: /action:\d+/)
 
     VCR.use_cassette('feature_one_click_cookie') do
       visit page_path(donation_page, amount: '2.10', currency: 'GBP', akid: valid_akid, one_click: true)

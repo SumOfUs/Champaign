@@ -1,5 +1,6 @@
 # coding: utf-8
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Express Donation' do
@@ -210,25 +211,28 @@ describe 'Express Donation' do
     it 'posts a donation to the queue with action_express_donation custom field' do
       expect(ChampaignQueue).to have_received(:push)
         .with(
-          type: 'donation',
-          payment_provider: 'braintree',
-          params: {
-            donationpage: {
-              name: 'hello-world-donation',
-              payment_account: 'Braintree GBP'
+          {
+            type: 'donation',
+            payment_provider: 'braintree',
+            params: {
+              donationpage: {
+                name: 'hello-world-donation',
+                payment_account: 'Braintree GBP'
+              },
+              order: hash_including(amount: '2.0',
+                                    card_num: '1234',
+                                    exp_date_month: '12',
+                                    exp_date_year: '2050'),
+              action: hash_including(fields: hash_including(action_express_donation: 1)),
+              user: hash_including(first_name: 'John',
+                                   last_name: 'Doe',
+                                   email: 'test@example.com',
+                                   user_express_cookie: 1,
+                                   user_express_account: 0)
             },
-            order: hash_including(amount: '2.0',
-                                  card_num: '1234',
-                                  exp_date_month: '12',
-                                  exp_date_year: '2050'),
-            action: hash_including(fields: hash_including(action_express_donation: 1)),
-            user: hash_including(first_name: 'John',
-                                 last_name: 'Doe',
-                                 email: 'test@example.com',
-                                 user_express_cookie: 1,
-                                 user_express_account: 0)
+            meta: hash_including({})
           },
-          meta: hash_including({})
+          { group_id: /action:\d+/ }
         )
     end
 
@@ -411,30 +415,33 @@ describe 'Braintree API' do
         end
 
         it 'pushes a new donation action to the ActionKit queue' do
+          payload = hash_including(
+            type: 'donation',
+            payment_provider: 'braintree',
+            params: {
+              donationpage: {
+                name: 'cash-rules-everything-around-me-donation',
+                payment_account: 'Braintree EUR'
+              },
+              order: hash_including(amount: '2.0'),
+              action: {
+                source: 'fb',
+                fields: {
+                  action_registered_voter: '1',
+                  action_mobile: 'desktop',
+                  action_express_donation: 0
+                }
+              },
+              user: hash_including(
+                first_name: 'Bernie',
+                last_name: 'Sanders',
+                email: 'itsme@feelthebern.org',
+                user_express_cookie: 0
+              )
+            }
+          )
           expect(ChampaignQueue).to have_received(:push)
-            .with(hash_including(type: 'donation',
-                                 payment_provider: 'braintree',
-                                 params: {
-                                   donationpage: {
-                                     name: 'cash-rules-everything-around-me-donation',
-                                     payment_account: 'Braintree EUR'
-                                   },
-                                   order: hash_including(amount: '2.0'),
-                                   action: {
-                                     source: 'fb',
-                                     fields: {
-                                       action_registered_voter: '1',
-                                       action_mobile: 'desktop',
-                                       action_express_donation: 0
-                                     }
-                                   },
-                                   user: hash_including(
-                                     first_name: 'Bernie',
-                                     last_name: 'Sanders',
-                                     email: 'itsme@feelthebern.org',
-                                     user_express_cookie: 0
-                                   )
-                                 }))
+            .with(payload, group_id: /action:\d+/)
         end
       end
 
@@ -524,7 +531,8 @@ describe 'Braintree API' do
 
               it 'posts donation action to queue with key data' do
                 subject
-                expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
+                expect(ChampaignQueue).to have_received(:push)
+                  .with(donation_push_params, group_id: /action:\d+/)
               end
 
               it 'increments action count on page' do
@@ -641,7 +649,7 @@ describe 'Braintree API' do
                 subject
                 expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
                   params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
-                ))
+                ), group_id: /action:\d+/)
               end
 
               it 'responds successfully with transaction_id' do
@@ -737,7 +745,8 @@ describe 'Braintree API' do
 
               it 'posts donation action to queue with key data' do
                 subject
-                expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
+                expect(ChampaignQueue).to have_received(:push)
+                  .with(donation_push_params, group_id: /action:\d+/)
               end
 
               it 'increments action count on page' do
@@ -849,7 +858,7 @@ describe 'Braintree API' do
                 subject
                 expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
                   params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
-                ))
+                ), group_id: /action:\d+/)
               end
 
               it 'responds successfully with transaction_id' do
@@ -1062,7 +1071,8 @@ describe 'Braintree API' do
 
             it 'posts donation action to queue with key data' do
               subject
-              expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
+              expect(ChampaignQueue).to have_received(:push)
+                .with(donation_push_params, group_id: /action:\d+/)
             end
 
             it 'increments action count on page' do
@@ -1181,7 +1191,7 @@ describe 'Braintree API' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
                 params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
-              ))
+              ), group_id: /action:\d+/)
             end
 
             it 'responds successfully with follow_up_url and subscription_id' do
@@ -1259,7 +1269,8 @@ describe 'Braintree API' do
 
             it 'posts donation action to queue with key data' do
               subject
-              expect(ChampaignQueue).to have_received(:push).with(donation_push_params)
+              expect(ChampaignQueue).to have_received(:push)
+                .with(donation_push_params, group_id: /action:\d+/)
             end
 
             it 'increments action count on page' do
@@ -1396,7 +1407,7 @@ describe 'Braintree API' do
               subject
               expect(ChampaignQueue).to have_received(:push).with(a_hash_including(
                 params: a_hash_including(order: a_hash_including(card_num: 'PYPL'))
-              ))
+              ), group_id: /action:\d+/)
             end
 
             it 'responds successfully with follow_up_url and subscription_id' do

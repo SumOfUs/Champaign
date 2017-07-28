@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_braintree_transactions
@@ -118,7 +119,11 @@ describe Payment::Braintree::Transaction do
           amount: '123.0'
         }
       }
-      expect(ChampaignQueue).to receive(:push).with(expected_payload, delay: 120)
+      expect(ChampaignQueue).to receive(:push).with(
+        expected_payload,
+        delay: 120,
+        group_id: "braintree-subscription:#{subscription.id}"
+      )
       transaction.publish_subscription_charge
     end
   end
