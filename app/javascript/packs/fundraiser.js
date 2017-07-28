@@ -1,5 +1,4 @@
 // @flow
-import 'babel-polyfill';
 import React from 'react';
 import { render } from 'react-dom';
 import queryString from 'query-string';
@@ -8,21 +7,23 @@ import FundraiserView from '../fundraiser/FundraiserView';
 import configureStore from '../state';
 
 import type { AppState } from '../state/reducers';
-import type { DonationBands } from '../state/fundraiser/helpers';
+import type { DonationBands } from '../state/fundraiser/types.js';
 import type { PageAction } from '../state/page/reducer';
+import type { InitialAction } from '../state/reducers';
 import type {
   FundraiserAction,
   FundraiserInitializationOptions,
-} from '../state/fundraiser/actions';
+} from '../state/fundraiser/types';
 
 type SearchParams = {
-  recurring_default?: string,
   amount?: string,
   currency?: string,
+  dd_only?: string,
+  recurring_default?: string,
   preselect?: string,
 };
 
-type Action = FundraiserAction | PageAction;
+type Action = FundraiserAction | PageAction | InitialAction;
 const store: Store<AppState, FundraiserAction> = window.champaign.store;
 const dispatch = (a: Action): Action => store.dispatch(a);
 
@@ -72,6 +73,8 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
 
   const rDefault = search.recurring_default || data.fundraiser.recurringDefault;
   dispatch({ type: 'set_recurring_defaults', payload: rDefault });
+
+  dispatch({ type: 'set_direct_debit_only', payload: search.dd_only === '1' });
 
   const options = { store, locale: data.locale };
 

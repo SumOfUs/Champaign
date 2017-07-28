@@ -7,8 +7,12 @@ import {
   pickMedianAmount,
   featuredAmountState,
 } from './helpers';
-import type { FundraiserAction as Action } from './actions';
-import type { Fundraiser as State, DonationBands } from './helpers';
+
+import type {
+  Fundraiser as State,
+  FundraiserAction as Action,
+  DonationBands,
+} from './types';
 
 export default (state: State = initialState, action: Action): State => {
   switch (action.type) {
@@ -51,6 +55,15 @@ export default (state: State = initialState, action: Action): State => {
       return { ...state, currentStep };
     case 'update_form':
       return { ...state, form: action.payload };
+    case 'set_direct_debit_only':
+      if (state.showDirectDebit) {
+        return {
+          ...state,
+          currentPaymentType: 'gocardless',
+          directDebitOnly: true,
+        };
+      }
+      return state;
     case 'set_donation_bands':
       const payload: DonationBands = action.payload;
       const donationBands: DonationBands = isEmpty(payload)
