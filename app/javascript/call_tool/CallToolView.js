@@ -169,10 +169,6 @@ class CallToolView extends Component {
     });
   }
 
-  jjkj() {
-    return '';
-  }
-
   render() {
     const { errors } = this.state;
     return (
