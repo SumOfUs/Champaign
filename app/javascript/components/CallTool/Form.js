@@ -13,16 +13,11 @@ import SweetPhoneInput from '../SweetPhoneInput/SweetPhoneInput';
 import { targetsWithFields, filterTargets } from './call_tool_helpers';
 import type { Filters, TargetWithFields } from './call_tool_helpers';
 
-import type {
-  Country,
-  CountryPhoneCode,
-  Target,
-  Errors,
-} from '../../call_tool/CallToolView';
+import type { Target, Errors } from '../../call_tool/CallToolView';
 
 type Props = {
   targets: Target[],
-  selectedTarget: Target,
+  selectedTarget: ?Target,
   restrictedCountryCode?: string,
   targetByAttributes: string[],
   errors: Errors,
