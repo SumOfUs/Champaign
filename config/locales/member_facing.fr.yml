@@ -67,7 +67,7 @@ fr:
     default:
       country: Pays
       email: "Adresse email"
-      name: "Nom et prénom"
+      name: "Prénom et nom"
       postal: "Code postal"
     processing: "En cours de traitement..."
     submit: Envoyer
@@ -84,7 +84,7 @@ fr:
     details: Détails
     donate: "Donner %{amount}"
     donate_monthly: "Donner  %{amount} tous les mois"
-    donate_now: "Donnez maintenant"
+    donate_now: "Faites un don sécurisé"
     error_intro: "Votre don n’a pas pu être effectué !"
     field_names:
       cvv: "Le CVV" # FIXME « Code de sécurité » ou « Cryptogramme visuel » might sound nicer to French folks?
