@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_email_targets
@@ -19,6 +20,8 @@
 
 class Plugins::EmailTarget < ApplicationRecord
   DEFAULTS = {}.freeze
+  include HasTargets
+  use_tool_module ::EmailTool
 
   belongs_to :page, touch: true
   belongs_to :form
