@@ -14,6 +14,12 @@ class CallTool::Target
     caller_id
   ].freeze
 
+  FILTERABLE = %i[
+    name
+    title
+    country_name
+  ].freeze
+
   attr_accessor(*MAIN_ATTRS)
   attr_accessor :fields
 

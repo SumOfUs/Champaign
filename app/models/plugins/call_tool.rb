@@ -28,6 +28,8 @@
 
 class Plugins::CallTool < ApplicationRecord
   DEFAULTS = {}.freeze
+  include HasTargets
+  use_tool_module ::CallTool
 
   belongs_to :page, touch: true
   belongs_to :form
@@ -39,7 +41,6 @@ class Plugins::CallTool < ApplicationRecord
   has_attached_file :menu_sound_clip, default_url: ''
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
-  validate :targets_are_valid
   validate :restricted_country_code_is_valid
 
   def name
@@ -50,33 +51,6 @@ class Plugins::CallTool < ApplicationRecord
     Presenter.new(self).to_hash
   end
 
-  def targets=(target_objects)
-    write_attribute :targets, target_objects.map(&:to_hash)
-  end
-
-  def targets
-    json_targets.map { |t| ::CallTool::Target.new(t) }
-  end
-
-  def empty_cols
-    ::CallTool::Target::MAIN_ATTRS.select do |field|
-      targets.map { |t| t.try(field) }.compact.empty?
-    end
-  end
-
-  def target_keys
-    discarded = %w[caller_id country_code phone_number phone_extension] + empty_cols
-    targets
-      .collect(&:keys)
-      .flatten
-      .uniq
-      .reject { |k| discarded.include?(k) }
-  end
-
-  def find_target(id)
-    targets.find { |t| t.id == id }
-  end
-
   def restricted_country_code=(code)
     new_value = code.present? ? code : nil
     write_attribute(:restricted_country_code, new_value)
@@ -84,22 +58,9 @@ class Plugins::CallTool < ApplicationRecord
 
   private
 
-  def json_targets
-    read_attribute(:targets)
-  end
-
   def restricted_country_code_is_valid
     if restricted_country_code.present? && ISO3166::Country[restricted_country_code].blank?
       errors.add(:restricted_country_code, 'is invalid')
-    end
-  end
-
-  def targets_are_valid
-    targets.each_with_index.each do |target, index|
-      target.valid?
-      target.errors.full_messages.each do |message|
-        errors.add(:targets, "#{message} (row #{index + 1})")
-      end
     end
   end
 
