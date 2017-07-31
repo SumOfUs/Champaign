@@ -1,0 +1,97 @@
+.email-target {
+  .email-target_box {
+    border: 1px solid #f8492e;
+    border-radius: 5px;
+    padding: 10px;
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    .email-target_notice {
+      font-size: 16px;
+    }
+  }
+
+  padding: 0 20px;
+  line-height: 1.2em;
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  .email-target-action {
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    margin-bottom: 20px;
+  }
+
+  .body-text.text-top {
+    margin-top: 20px;
+    padding: 10px 20px;
+    margin-bottom: 5px;
+    color: black;
+  }
+
+  .email__target-body {
+    textarea {
+      height: 250px;
+      border-radius: 0;
+      font-size: 100%;
+      font: inherit;
+      line-height: 1.4em;
+    }
+  }
+
+  .email__target-header {
+    background: white;
+    color: #999;
+    padding: 20px 20px 0 20px;
+    line-height: 1.4em;
+    font-size: 100%;
+    border-radius: 5px 5px 0 0;
+    p {
+      padding: 18px 0 0 0;
+    }
+  }
+
+  .email__target-footer {
+    background: white;
+    padding: 10px 20px 20px 20px;
+    line-height: 1.4em;
+    font-size: 100%;
+    color: #999;
+    margin-top: -5px;
+    border-radius: 0 0 5px 5px;
+    p {
+      padding: 10px 0;
+    }
+  }
+
+  .email__target-greeting input {
+    border-radius: 3px 0;
+    padding-top: 12px;
+    padding-bottom: 0;
+  }
+
+  .email__target-sign-off input {
+    border-radius: 0 3px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-top: -3px;
+  }
+
+  .email__target-suggest-fund {
+    margin: 10px 0 0 0;
+    font-size: 85%;
+
+    p {
+      padding-bottom: 5px;
+    }
+  }
+}
