@@ -3,9 +3,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import { camelizeKeys } from '../util/util';
 import ComponentWrapper from '../components/ComponentWrapper';
-import EmailTargetView from '../email_target/EmailTargetView';
+import EmailPensionView from '../email_pension/EmailPensionView';
+import type { AppState } from '../state/reducers';
 
-type Props = {
+type emailTargetInitialState = {
   locale: string,
   emailSubject?: string,
   country?: string,
@@ -18,11 +19,16 @@ type Props = {
   isSubmitting: boolean,
 };
 
-window.mountEmailTarget = (root: string, props: Props) => {
-  const locale = window.champaign.personalization.member;
+const store: Store<AppState, *> = window.champaign.store;
+
+window.mountEmailTarget = (root: string, props: emailTargetInitialState) => {
+  props = camelizeKeys(props);
+
+  store.dispatch({ type: 'email_pension:initialize', payload: props });
+
   render(
-    <ComponentWrapper locale={props.locale}>
-      <EmailTargetView {...camelizeKeys(props)} />
+    <ComponentWrapper store={store} locale={props.locale}>
+      <EmailPensionView />
     </ComponentWrapper>,
     document.getElementById(root)
   );
