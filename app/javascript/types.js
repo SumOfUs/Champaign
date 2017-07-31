@@ -37,13 +37,13 @@ declare type ChampaignMember = {
 };
 
 declare type ChampaignLocation = {
-  country: string,
-  country_code: string,
-  country_name: string,
-  currency: string,
-  ip: string,
-  latitude: string,
-  longitude: string,
+  country?: string,
+  country_code?: string,
+  country_name?: string,
+  currency?: string,
+  ip?: string,
+  latitude?: string,
+  longitude?: string,
 };
 
 declare type ChampaignPage = {
