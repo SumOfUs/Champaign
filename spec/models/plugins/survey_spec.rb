@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_surveys
@@ -19,7 +20,7 @@ describe Plugins::Survey do
   let(:german) { create :language, code: 'de' }
 
   describe 'auto-creation of email field' do
-    { de: 'E-MAIL', en: 'Email Address', fr: 'ADRESSE EMAIL' }.each_pair do |locale, label|
+    { de: 'E-MAIL', en: 'Email Address', fr: 'Adresse email' }.each_pair do |locale, label|
       it "automatically adds a form with an email field labeled in #{locale}" do
         page = create :page, language: (create :language, code: locale)
         survey = Plugins::Survey.new(page: page)

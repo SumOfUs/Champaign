@@ -105,10 +105,10 @@ en:
     call_tool:
       campaign_audio: 'Audio clip to be played to the caller as soon as they pick up the phone.'
       menu_audio: "Audio clip to be played to the caller after the main one. This file should explain the menu to the member: Press 1 to connect to the target; press 2 to listen to the campaigner's message again."
-      targets: 'CSV File should must adhere to the specified format. First row will be used for headers and will be discarded. Each following row must have these fields in order: Country, *Target Phone, Target Phone Extension, *Target Name, Target Title, Caller ID (fields marked with * are required).'
-      restricted_country_code: "If you plan to use the Call tool to call numbers only on a specific country, please select the country name here. Leave blank if you'd like to be able to call multiple countries."
+      targets: 'Upload a CSV file where each column is a field and each row is a target. The first row should have headers naming each column. Required columns are Phone Number and Name.'
+      restricted_country_code: "If you select a country here, members can only enter their phone number if it has the country code of this country."
       caller_id: "Calls made with the CallTool will be seen as made from this phone number"
-      target_by_attributes: "Allow members to filter or drill down targets by selecting values from the columns specified here. Selected columns will be shown to the user as drop downs."
+      target_by_attributes: "Allow members to filter or drill down targets by selecting values from the columns specified here. Specified columns will be shown to the user as dropdowns."
   oauth:
     not_authorised: "You're not authorised to authenticate with that account."
 
@@ -328,7 +328,7 @@ en:
       talking_points: 'Talking points'
       no_targets_loaded: 'There are no targets loaded'
       show_targets: 'Show Targets'
-      restricted_country_code: 'Restrict calls to'
+      restricted_country_code: 'Restrict to members calling from one country'
       caller_id: 'Caller ID'
       target_by_attributes: 'Allow members to filter targets by:'
       targets:
