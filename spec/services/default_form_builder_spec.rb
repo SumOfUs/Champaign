@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe DefaultFormBuilder do
@@ -18,7 +19,7 @@ describe DefaultFormBuilder do
     end
 
     it 'translates the fields to French' do
-      expect(DefaultFormBuilder.find_or_create(locale: :fr).form_elements.first.label).to eq 'ADRESSE EMAIL'
+      expect(DefaultFormBuilder.find_or_create(locale: :fr).form_elements.first.label).to eq 'Adresse email'
     end
 
     it 'translates the fields to English' do

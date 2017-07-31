@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Plugins do
@@ -77,7 +78,7 @@ describe Plugins do
 
         it 'works for fundraisers' do
           Plugins.create_for_page('fundraiser', page, nil)
-          expect(Plugins::Fundraiser.last.title).to eq 'Don maintenant'
+          expect(Plugins::Fundraiser.last.title).to eq 'Faites un don sécurisé'
         end
 
         it 'works for thermometers' do
