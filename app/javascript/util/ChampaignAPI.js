@@ -61,7 +61,7 @@ const createCall = function(
 
   const payload = {
     call: inner,
-    tracking_params: params.trackingParams,
+    ...params.trackingParams,
   };
 
   return new Promise((resolve, reject) => {

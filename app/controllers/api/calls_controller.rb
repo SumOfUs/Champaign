@@ -24,8 +24,8 @@ class Api::CallsController < ApplicationController
   end
 
   def tracking_params
-    params.fetch(:tracking_params, {})
-      .permit(:source, :akid, :referring_akid, :referrer_id, :rid)
+    params.to_unsafe_hash
+      .slice(:source, :akid, :referring_akid, :referrer_id, :rid)
       .merge(mobile_value)
   end
 end
