@@ -14,7 +14,7 @@ describe 'Emailing Targets', type: :request do
 
   describe 'POST#create' do
     let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
-    let!(:plugin) { create(:email_target, page: page, email_from: 'origin@example.com') }
+    let!(:plugin) { create(:email_tool, page: page, email_from: 'origin@example.com') }
 
     let(:params) do
       {
@@ -33,7 +33,7 @@ describe 'Emailing Targets', type: :request do
     end
 
     before do
-      post '/api/email_targets', params: params
+      post '/api/emails', params: params
     end
 
     it 'saves email to dynamodb' do

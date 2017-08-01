@@ -106,7 +106,7 @@ Rails.application.routes.draw do
         post 'suggest_fund'
       end
     end
-    resources :email_targets, only: [:create]
+    resources :emails, only: [:create]
 
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do

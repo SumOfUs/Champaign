@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class Api::EmailTargetsController < ApplicationController
+class Api::EmailsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    EmailTargetService
+    EmailTool::Sender
       .new(email_options)
       .create
 
