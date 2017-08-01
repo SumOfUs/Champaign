@@ -142,8 +142,7 @@ describe 'subscriptions' do
             status: 'failed'
           }
         },
-                                                      { delay: 120,
-                                                        group_id: /gocardless-subscription:\d+/ })
+                                                      { group_id: /gocardless-subscription:\d+/ })
         post('/api/go_cardless/webhook', params: events, headers: headers)
       end
     end

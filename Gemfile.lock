@@ -115,6 +115,8 @@ GEM
     aws-sigv4 (1.0.0)
     bcrypt (3.1.11)
     bindex (0.5.0)
+    bootsnap (1.1.2)
+      msgpack (~> 1.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
@@ -312,6 +314,7 @@ GEM
     minitest (5.10.2)
     money (6.9.0)
       i18n (>= 0.6.4, < 0.9)
+    msgpack (1.1.0)
     multi_json (1.12.1)
     multi_xml (0.6.0)
     multipart-post (2.0.0)
@@ -569,6 +572,7 @@ DEPENDENCIES
   aws-sdk (~> 2)
   aws-sdk-rails
   bcrypt (~> 3.1.7)
+  bootsnap
   bootstrap-sass (~> 3.3.5)
   braintree (~> 2.54.0)
   browser (~> 2.0, >= 2.0.3)

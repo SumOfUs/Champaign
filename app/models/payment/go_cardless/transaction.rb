@@ -88,7 +88,6 @@ class Payment::GoCardless::Transaction < ApplicationRecord
         status: 'failed'
       }
     },
-                        { delay: 120,
-                          group_id: "gocardless-subscription:#{id}" })
+                        { group_id: "gocardless-subscription:#{id}" })
   end
 end
