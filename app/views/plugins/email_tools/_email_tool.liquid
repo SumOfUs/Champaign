@@ -1,0 +1,18 @@
+{% if plugins.email_tool[ref].active %}
+  <div id="email-tool-component"></div>
+
+  <script>
+    $(document).ready(function() {
+      var member = window.champaign.personalization.member;
+      var data = _.clone(window.champaign.personalization.emailTool['{{ref}}']);
+      _.merge(data, {
+        name: member.full_name,
+        email: member.email,
+        country: member.country,
+        formValues: window.champaign.personalization.formValues
+      });
+
+      mountEmailTool('email-tool-component', data);
+    });
+  </script>
+{% endif %}
