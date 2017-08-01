@@ -37,7 +37,7 @@ fr:
       member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a> de SumOfUs."
       success: "Félicitations, votre compte SumOfUs a bien été confirmé. Merci !"
     title: "Confirmation du compte"
-  email_target:
+  email_tool:
     form:
       errors:
         country: "Merci de sélectionner votre pays"

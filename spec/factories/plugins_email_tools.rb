@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
-# Table name: plugins_email_targets
+# Table name: plugins_email_tools
 #
 #  id                 :integer          not null, primary key
 #  ref                :string
@@ -18,7 +19,7 @@
 #
 
 FactoryGirl.define do
-  factory :email_target, class: 'Plugins::EmailTarget' do
+  factory :email_tool, class: 'Plugins::EmailTool' do
     association :page
     email_from 'foo@example.com'
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EmailTargetService
+class EmailTool::Sender
   include ActionView::Helpers::TextHelper
 
   attr_reader :opts
@@ -10,7 +10,7 @@ class EmailTargetService
   end
 
   def create
-    EmailTargetService.dynamodb.put_item(options)
+    self.class.dynamodb.put_item(options)
   end
 
   def options
@@ -51,7 +51,7 @@ class EmailTargetService
   end
 
   def plugin
-    @plugin ||= Plugins::EmailTarget.find_by page_id: page.id
+    @plugin ||= Plugins::EmailTool.find_by page_id: page.id
   end
 
   def page

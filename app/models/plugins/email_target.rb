@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: plugins_email_targets
+# Table name: plugins_email_tools
 #
 #  id                 :integer          not null, primary key
 #  ref                :string
@@ -18,7 +18,7 @@
 #  email_body_c       :text
 #
 
-class Plugins::EmailTarget < ApplicationRecord
+class Plugins::EmailTool < ApplicationRecord
   DEFAULTS = {}.freeze
   include HasTargets
   use_tool_module ::EmailTool
