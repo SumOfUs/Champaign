@@ -93,6 +93,24 @@ describe CallCreator do
 
       include_examples 'basic calling'
     end
+
+    context 'including a valid akid in extra params' do
+      let(:params) do
+        { page_id: page.id,
+          member_phone_number: '+1 343-700-3482',
+          target_id: target.id }
+      end
+
+      let(:akid) { '1234.5678.tKK7gX' }
+
+      it 'recognizes the member by its akid' do
+        member.update!(actionkit_user_id: '5678')
+        CallCreator.new(params, akid: akid).run
+        call = Call.last
+        expect(call.member).to eq(member)
+        expect(call.action.member).to eq(member)
+      end
+    end
   end
 
   context 'given invalid params' do

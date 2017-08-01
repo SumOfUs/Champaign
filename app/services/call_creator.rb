@@ -46,10 +46,16 @@ class CallCreator
   private
 
   def sanitize_params!
-    if @params[:member_phone_number].present?
-      @params[:member_phone_number] = Phony.normalize(@params[:member_phone_number])
+    begin
+      if @params[:member_phone_number].present?
+        @params[:member_phone_number] = Phony.normalize(@params[:member_phone_number])
+      end
+    rescue Phony::NormalizationError
     end
-  rescue Phony::NormalizationError
+
+    if @params[:member_id].blank? && @extra_params[:akid].present?
+      @params[:member_id] = Member.find_by_akid(@extra_params[:akid])&.id
+    end
   end
 
   def build_call_record
