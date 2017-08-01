@@ -111,7 +111,6 @@ describe 'Braintree API' do
 
             expect(ChampaignQueue).to receive(:push).with(
               expected_payload,
-              delay: 120,
               group_id: "braintree-subscription:#{@subscription.id}"
             )
 
@@ -180,7 +179,6 @@ describe 'Braintree API' do
 
             expect(ChampaignQueue).to receive(:push).with(
               expected_payload,
-              delay: 120,
               group_id: "braintree-subscription:#{subscription.id}"
             )
             subject

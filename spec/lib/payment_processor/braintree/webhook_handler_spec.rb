@@ -61,7 +61,6 @@ describe PaymentProcessor::Braintree::WebhookHandler do
 
           expect(ChampaignQueue).to receive(:push)
             .with(expected_payload,
-                  delay: 120,
                   group_id: "braintree-subscription:#{subscription.id}")
 
           subject
@@ -149,7 +148,6 @@ describe PaymentProcessor::Braintree::WebhookHandler do
         }
         expect(ChampaignQueue).to receive(:push).with(
           expected_payload,
-          delay: 120,
           group_id: "braintree-subscription:#{subscription.id}"
         )
         subject
@@ -218,7 +216,7 @@ describe PaymentProcessor::Braintree::WebhookHandler do
           .with(update_payload, group_id: "braintree-subscription:#{subscription.id}")
           .ordered
         expect(ChampaignQueue).to receive(:push)
-          .with(payment_payload, group_id: "braintree-subscription:#{subscription.id}", delay: 120)
+          .with(payment_payload, group_id: "braintree-subscription:#{subscription.id}")
           .ordered
 
         subject

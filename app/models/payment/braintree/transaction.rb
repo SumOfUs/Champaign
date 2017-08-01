@@ -43,7 +43,6 @@ class Payment::Braintree::Transaction < ApplicationRecord
         amount: amount.to_s
       }
     },
-                        { delay: 120,
-                          group_id: "braintree-subscription:#{subscription.id}" })
+                        { group_id: "braintree-subscription:#{subscription.id}" })
   end
 end
