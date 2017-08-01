@@ -34,7 +34,7 @@ class LiquidRenderer
       donation_bands: donation_bands,
       thermometer: thermometer,
       call_tool: call_tool_data,
-      email_target: email_target_data,
+      email_tool: email_tool_data,
       action_count: @page.action_count,
       show_direct_debit: show_direct_debit?,
       payment_methods: @payment_methods
@@ -123,8 +123,8 @@ class LiquidRenderer
     ).to_h
   end
 
-  def email_target_data
-    plugin_data.deep_symbolize_keys[:plugins][:email_target]
+  def email_tool_data
+    plugin_data.deep_symbolize_keys[:plugins][:email_tool]
   end
 
   def isolate_from_plugin_data(field)

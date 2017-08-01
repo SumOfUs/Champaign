@@ -29,7 +29,7 @@ module Plugins
        Plugins::Survey,
        Plugins::Text,
        Plugins::CallTool,
-       Plugins::EmailTarget,
+       Plugins::EmailTool,
        Plugins::EmailPension]
     end
 

@@ -311,7 +311,7 @@ en:
         one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
-    email_target:
+    email_tool:
       subject: 'Email subject'
       email_header: "Header (member can't edit)"
       email_body: 'Body'
