@@ -18,11 +18,11 @@ import {
   changeEmail,
   changeName,
   changeFund,
-} from '../state/email_target/actions';
+} from '../state/email_pension/actions';
 
 import type { Dispatch } from 'redux';
 
-class EmailTargetView extends Component {
+class EmailPensionView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -366,7 +366,7 @@ class EmailTargetView extends Component {
   }
 }
 
-type EmailTargetType = {
+type EmailPensionType = {
   emailBody: string,
   emailHeader: string,
   emailFooter: string,
@@ -385,7 +385,7 @@ type EmailTargetType = {
 };
 
 type OwnState = {
-  emailTarget: EmailTargetType,
+  emailTarget: EmailPensionType,
 };
 
 export const mapStateToProps = (state: OwnState) => ({
@@ -427,4 +427,4 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeFund: (fund: string) => dispatch(changeFund(fund)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmailTargetView);
+export default connect(mapStateToProps, mapDispatchToProps)(EmailPensionView);
