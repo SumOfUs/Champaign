@@ -2,7 +2,7 @@ module HasTargets
   extend ActiveSupport::Concern
 
   included do
-    validate :targets_are_valid
+    validate :targets_are_valid, if: :targets_changed?
   end
 
   module ClassMethods

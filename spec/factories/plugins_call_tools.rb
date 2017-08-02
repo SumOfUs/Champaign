@@ -41,9 +41,9 @@ FactoryGirl.define do
     }
 
     trait :with_country do
-      country {
-        ISO3166::Country.find_country_by_alpha2(Faker::Address.country_code).name
-      }
+      code = Faker::Address.country_code
+      country_name { ISO3166::Country[code].name }
+      country_code { code }
     end
 
     trait :with_caller_id do
