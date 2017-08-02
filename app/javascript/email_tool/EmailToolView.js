@@ -25,7 +25,7 @@ type Props = {
   page: string,
 };
 
-type State = {
+type State = Props & {
   name: string,
   errors: { [field: string]: string },
 };
@@ -37,6 +37,7 @@ export default class EmailToolView extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
+      ...this.props,
       name: '',
       errors: {},
     };
