@@ -3,11 +3,23 @@
 require 'rails_helper'
 
 describe CallTool::Target do
-  let(:target) { CallTool::Target.new }
+  let(:target) { build(:call_tool_target) }
 
   describe 'country validation' do
-    it 'is invalid if either country_name or country_code is blank' do
-      target.country_code, target.country_name = [nil, 'Something'].shuffle
+    it 'is valid if country_code matches country_name' do
+      target.country_code = 'AR'
+      target.country_name = 'Argentina'
+      expect(target).to be_valid
+    end
+
+    it 'is invalid if country_name is blank' do
+      target.country_code = 'AR'
+      expect(target).not_to be_valid
+      expect(target.errors[:country]).to include('is invalid')
+    end
+
+    it 'is invalid if country_code is blank' do
+      target.country_name = 'Argentina'
       expect(target).not_to be_valid
       expect(target.errors[:country]).to include('is invalid')
     end
