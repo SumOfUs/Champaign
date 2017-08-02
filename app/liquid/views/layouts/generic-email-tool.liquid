@@ -1,5 +1,6 @@
 {% comment %} Description: A page with the email tool widget. {% endcomment %}
 {% comment %} Primary layout: true {% endcomment %}
+{% comment %} Experimental: true {% endcomment %}
 
 {% include 'Full Width Header'  %}
 
@@ -10,12 +11,6 @@
     </div>
 
     {% include 'Email Tool' %}
-
-    <div class="body-text text-bottom">
-      {% if plugins.email_tool[ref].active %}
-        {{ plugins.email_tool[ref].body }}
-      {% endif %}
-    </div>
   </div>
 </div>
 
