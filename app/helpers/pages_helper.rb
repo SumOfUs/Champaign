@@ -88,6 +88,8 @@ module PagesHelper
       survey: 'edit',
       text: 'paragraph',
       fundraiser: 'money',
+      email_tool: 'envelope-o',
+      email_pension: 'university',
       call_tool: 'phone'
     }
     name = plugin.name.underscore.to_sym
