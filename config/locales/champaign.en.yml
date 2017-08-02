@@ -46,6 +46,7 @@ en:
     is_invalid_country: 'must be a two letter country code'
     is_invalid_postal: 'must be a valid postal code'
     is_invalid_length: 'must be less than %{length} characters long'
+    is_invalid: 'is invalid'
 
   menu:
     pages: 'Pages'
