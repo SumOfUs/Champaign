@@ -15,4 +15,10 @@
       mountEmailTarget('email-target-component', data);
     });
   </script>
+
+  <div class="body-text text-bottom">
+    {% if plugins.email_pension[ref].active %}
+      {{ plugins.email_pension[ref].body }}
+    {% endif %}
+  </div>
 {% endif %}
