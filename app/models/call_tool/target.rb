@@ -23,7 +23,7 @@ class CallTool::Target
   attr_accessor(*MAIN_ATTRS)
   attr_accessor :fields
 
-  validate  :country_is_valid
+  validate :country_is_valid
   validates :phone_number, presence: true
   validates :name,         presence: true
 
@@ -31,17 +31,7 @@ class CallTool::Target
   normalize_phone_number :phone_number, :caller_id
 
   def to_hash
-    Hash[MAIN_ATTRS.collect { |attr| [attr, send(attr)] }].merge(fields: fields)
-  end
-
-  def country=(country)
-    if ISO3166::Country[country].present?
-      self.country_code = country
-      self.country_name = ISO3166::Country[country].name
-    elsif ISO3166::Country.find_country_by_name(country)
-      self.country_code = ISO3166::Country.find_country_by_name(country)&.alpha2
-      self.country_name = country
-    end
+    Hash[MAIN_ATTRS.map { |attr| [attr, send(attr)] }].merge(fields: fields)
   end
 
   def ==(other)
@@ -53,14 +43,13 @@ class CallTool::Target
   end
 
   def keys
-    MAIN_ATTRS.map(&:to_s).concat(fields&.keys || [])
+    MAIN_ATTRS.map(&:to_s) + (fields&.keys || [])
   end
 
-  private
-
   def country_is_valid
-    if country_name.present? && country_code.blank?
-      errors.add(:country, 'is invalid')
+    if (country_code.present? ^ country_name.present?) ||
+       (country_code.present? && ISO3166::Country[country_code]&.name != country_name)
+      errors.add(:country, I18n.t('validation.is_invalid'))
     end
   end
 end
