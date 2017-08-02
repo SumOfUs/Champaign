@@ -127,6 +127,10 @@ class LiquidRenderer
     plugin_data.deep_symbolize_keys[:plugins][:email_tool]
   end
 
+  def email_pension_data
+    plugin_data.deep_symbolize_keys[:plugins][:email_pension]
+  end
+
   def isolate_from_plugin_data(field)
     plugin_values = plugin_data.deep_symbolize_keys[:plugins].values.map(&:values).flatten
     plugin_values.map { |plugin| plugin[field] }.flatten.compact
