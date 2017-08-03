@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811124034) do
+ActiveRecord::Schema.define(version: 20170802231650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -317,6 +317,8 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.decimal "amount", precision: 10, scale: 2
     t.integer "payment_method_id"
     t.integer "subscription_id"
+    t.boolean "pledge", default: false
+    t.datetime "pledge_processed_at"
     t.index ["page_id"], name: "index_payment_braintree_transactions_on_page_id"
     t.index ["payment_method_id"], name: "braintree_payment_method_index"
     t.index ["subscription_id"], name: "braintree_transaction_subscription"
@@ -339,6 +341,7 @@ ActiveRecord::Schema.define(version: 20170811124034) do
   create_table "payment_go_cardless_payment_methods", id: :serial, force: :cascade do |t|
     t.string "go_cardless_id"
     t.string "reference"
+    t.integer "status"
     t.string "scheme"
     t.date "next_possible_charge_date"
     t.integer "customer_id"
@@ -425,8 +428,8 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.string "menu_sound_clip_content_type"
     t.integer "menu_sound_clip_file_size"
     t.datetime "menu_sound_clip_updated_at"
-    t.integer "caller_phone_number_id"
     t.string "restricted_country_code"
+    t.integer "caller_phone_number_id"
     t.string "target_by_attributes", default: [], array: true
   end
 
@@ -435,7 +438,7 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.integer "page_id"
     t.boolean "active", default: false
     t.string "email_from"
-    t.string "email_subject"
+    t.string "email_subjects", default: [], array: true
     t.text "email_body"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -450,7 +453,7 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.integer "page_id"
     t.boolean "active", default: false
     t.string "email_from"
-    t.string "email_subject"
+    t.string "email_subjects", default: [], array: true
     t.text "email_body"
     t.text "email_body_header"
     t.text "email_body_footer"
@@ -471,6 +474,9 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.integer "form_id"
     t.integer "donation_band_id"
     t.integer "recurring_default", default: 0, null: false
+    t.boolean "pledge", default: false
+    t.datetime "pledge_processed_on"
+    t.integer "pledge_target_in_actions", default: 0
     t.boolean "preselect_amount", default: false
     t.index ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id"
     t.index ["form_id"], name: "index_plugins_fundraisers_on_form_id"
