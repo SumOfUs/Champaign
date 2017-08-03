@@ -2,7 +2,6 @@
 
 class EmailTool::Target
   include ActiveModel::Model
-  include EmailValidatable
 
   MAIN_ATTRS = %i[
     name
