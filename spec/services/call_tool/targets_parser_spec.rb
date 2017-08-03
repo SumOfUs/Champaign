@@ -33,15 +33,4 @@ describe CallTool::TargetsParser do
     expect(t.fields[:state]).to eq('Greater London')
     expect(t.fields[:dynamic_column]).to eq('Dynamic')
   end
-
-  it 'detects a `country` field with a name and sets the country code' do
-    expect(targets.first.country_code).to eq('GB')
-  end
-
-  it 'detects a `country` field with a code and sets it to country code' do
-    different_csv = csv_string.gsub(/united kingdom/i, 'DE')
-    different_targets = CallTool::TargetsParser.parse_csv(different_csv)
-    t = different_targets.first
-    expect(t.country_code).to eq('DE')
-  end
 end
