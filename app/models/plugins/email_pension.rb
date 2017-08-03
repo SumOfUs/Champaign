@@ -9,7 +9,7 @@
 #  page_id            :integer
 #  active             :boolean          default(FALSE)
 #  email_from         :string
-#  email_subject      :string
+#  email_subjects     :string           default([]), is an Array
 #  email_body_b       :text
 #  created_at         :datetime
 #  updated_at         :datetime
@@ -34,7 +34,7 @@ class Plugins::EmailPension < ApplicationRecord
       locale: page.language_code,
       active: active,
       page: page.slug,
-      email_subject: email_subject,
+      email_subject: email_subjects.sample,
       email_header: email_body_header,
       email_body: email_body,
       email_footer: email_body_footer
