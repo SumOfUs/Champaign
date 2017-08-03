@@ -43,6 +43,7 @@ javascript:
   $(document).ready(function(){
     $.publish('form:edit');
     var myFormCreator = new window.FormElementCreator({el: '.#{klass}'});
+    var myListEditor  = new window.ListEditor({el: '.#{klass}'});
     $('.reveal-default-value').on('click', function(e){
       $('.reveal-default-value').addClass('hidden-closed')
       $('.default-value-field').removeClass('hidden-closed');
