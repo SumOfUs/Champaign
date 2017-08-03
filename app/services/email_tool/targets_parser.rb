@@ -13,9 +13,9 @@ class EmailTool::TargetsParser
       targets = []
       CSV.parse(csv_string, CSV_OPTIONS) do |row|
         attrs = row.to_hash
-        target = attrs.slice(*EmailTool::Target::MAIN_ATTRS)
-        fields = attrs.except(*EmailTool::Target::MAIN_ATTRS)
-        targets << EmailTool::Target.new(target.merge(fields: fields))
+        target = attrs.extract!(*EmailTool::Target::MAIN_ATTRS)
+        target[:fields] = attrs
+        targets << EmailTool::Target.new(target)
       end
       targets
     end
