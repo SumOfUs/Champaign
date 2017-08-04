@@ -83,6 +83,9 @@ Rails.application.routes.draw do
       post :sound_clip, on: :member, action: :update_sound_clip
       post :targets, on: :member, action: :update_targets
     end
+    resources :email_tools do
+      post :targets, on: :member, action: :update_targets
+    end
 
     post 'surveys/:plugin_id/form', to: 'surveys#add_form', as: 'add_survey_form'
     put 'surveys/:plugin_id/sort', to: 'surveys#sort_forms', as: 'sort_survey_forms'

@@ -42,3 +42,6 @@
       .form-group
         = f.label(:email_body_footer, t('plugins.email_tool.email_footer'))
         = f.text_area :email_body_footer, class: 'form-control height-short'
+
+    .email-tool__target-form
+      = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }

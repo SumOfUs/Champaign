@@ -23,20 +23,12 @@ module HasTargets
     json_targets.map { |t| tool_module::Target.new(t) }
   end
 
-  def empty_cols
-    targets.collect(&:keys).flatten.uniq.select do |field|
-      json_targets.map { |t| t[field] || (t['fields'] && t['fields'][field]) }.compact.empty?
-    end
+  def target_fields
+    targets.inject([]) { |mem, t| mem | t.keys }
   end
 
-  def target_keys
-    unfilterable = (tool_module::Target::MAIN_ATTRS - tool_module::Target::FILTERABLE).map(&:to_s)
-    discarded = unfilterable + empty_cols
-    targets
-      .collect(&:keys)
-      .flatten
-      .uniq
-      .reject { |k| discarded.include?(k) }
+  def target_filterable_fields
+    target_fields - tool_module::Target::NOT_FILTERABLE.map(&:to_s)
   end
 
   def find_target(id)
