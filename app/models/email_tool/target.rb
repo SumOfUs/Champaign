@@ -9,15 +9,14 @@ class EmailTool::Target
     email
   ].freeze
 
-  FILTERABLE = %i[
-    name
-    title
+  NOT_FILTERABLE = %i[
+    email
   ].freeze
 
   attr_accessor(*MAIN_ATTRS)
   attr_accessor :fields
 
-  validates :email, email: true
+  validates :email, email: true, presence: true
   validates :name, presence: true
 
   def to_hash
@@ -33,6 +32,24 @@ class EmailTool::Target
   end
 
   def keys
-    MAIN_ATTRS.map(&:to_s).concat(fields&.keys || [])
+    MAIN_ATTRS.map(&:to_s).select { |attr| send(attr).present? } + fields_keys
+  end
+
+  def get(key)
+    if MAIN_ATTRS.include?(key.to_sym)
+      send(key)
+    else
+      fields[key]
+    end
+  end
+
+  private
+
+  def fields_keys
+    if fields.present?
+      fields.select { |_k, v| v.present? }.keys
+    else
+      []
+    end
   end
 end

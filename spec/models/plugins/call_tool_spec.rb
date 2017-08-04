@@ -90,23 +90,16 @@ describe Plugins::CallTool do
     end
   end
 
-  describe '#target_keys' do
+  describe '#target_filterable_fields' do
     it 'returns an array of strings' do
-      keys = build(:call_tool).target_keys
+      keys = build(:call_tool).target_filterable_fields
       expect(keys).to be_an(Array)
       expect(keys.map(&:class).uniq).to eq [String]
     end
 
     it 'returns the correct keys' do
-      keys = build(:call_tool, targets: target_hashes).target_keys
+      keys = build(:call_tool, targets: target_hashes).target_filterable_fields
       expect(keys).to eq %w[name title country_name state]
-    end
-  end
-
-  describe '#empty_cols' do
-    it 'identifies columns in both the main attributes and fields:' do
-      call_tool = build(:call_tool, targets: target_hashes)
-      expect(call_tool.empty_cols).to eq %w[phone_extension caller_id other]
     end
   end
 

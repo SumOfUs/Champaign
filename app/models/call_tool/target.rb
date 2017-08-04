@@ -14,10 +14,11 @@ class CallTool::Target
     caller_id
   ].freeze
 
-  FILTERABLE = %i[
-    name
-    title
-    country_name
+  NOT_FILTERABLE = %i[
+    phone_number
+    phone_extension
+    country_code
+    caller_id
   ].freeze
 
   attr_accessor(*MAIN_ATTRS)
@@ -43,7 +44,25 @@ class CallTool::Target
   end
 
   def keys
-    MAIN_ATTRS.map(&:to_s) + (fields&.keys || [])
+    MAIN_ATTRS.map(&:to_s).select { |attr| send(attr).present? } + fields_keys
+  end
+
+  def get(key)
+    if MAIN_ATTRS.include?(key.to_sym)
+      send(key)
+    else
+      fields[key]
+    end
+  end
+
+  private
+
+  def fields_keys
+    if fields.present?
+      fields.select { |_k, v| v.present? }.keys
+    else
+      []
+    end
   end
 
   def country_is_valid
