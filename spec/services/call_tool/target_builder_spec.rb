@@ -41,4 +41,16 @@ describe CallTool::TargetBuilder do
       expect(target.country_name).to be_nil
     end
   end
+
+  context 'given country is passed' do
+    it 'attempts to find a country with a matching country code' do
+      target = builder.run(country: 'AR')
+      expect(target.country_name).to eq 'Argentina'
+    end
+
+    it 'attempts to find a country with a matching country name' do
+      target = builder.run(country: 'Argentina')
+      expect(target.country_code).to eq 'AR'
+    end
+  end
 end
