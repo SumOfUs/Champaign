@@ -46,7 +46,7 @@ module CallTool
     end
 
     def self.build_from_code_or_name(code_or_name)
-      if ISO3166::Country[country].present?
+      if ISO3166::Country[code_or_name].present?
         build_from_code(code_or_name)
       else
         build_from_name(code_or_name)
