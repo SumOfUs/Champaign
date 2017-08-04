@@ -332,13 +332,6 @@ en:
       restricted_country_code: 'Restrict to members calling from one country'
       caller_id: 'Caller ID'
       target_by_attributes: 'Allow members to filter targets by:'
-      targets:
-        country: 'Country'
-        name: 'Name'
-        title: 'Title'
-        phone_number: 'Phone Number'
-        phone_extension: 'Phone Extension'
-        caller_id: 'Caller ID'
 
   ak_logs:
     index:
