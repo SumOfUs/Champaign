@@ -1,0 +1,16 @@
+- list_editor_id = "#{name}_email_subjects"
+.form-group class=list_editor_id
+  = f.label :email_subjects, t('plugins.email_tool.subject')
+  .form-element__choice-fields
+    - plugin.email_subjects.each do |subject|
+      .form-element__choice-field
+        = f.text_field :email_subjects, value: subject, multiple: true, class: 'form-control'
+        a.form-element__remove-choice
+          small
+            span.glyphicon.glyphicon-remove
+  a.form-element__add-choice = t('form_elements.add_choice')
+
+  javascript:
+    $(document).ready(function(){
+      var myListEditor = new window.ListEditor({el: '.#{list_editor_id}'});
+    });
