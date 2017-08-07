@@ -6,12 +6,12 @@ module HasTargets
   end
 
   module ClassMethods
-    attr_reader :tool_module
+    attr_reader :target_class
 
     private
 
-    def use_tool_module(desired)
-      @tool_module = desired
+    def set_target_class(target_class)
+      @target_class = target_class
     end
   end
 
@@ -20,7 +20,7 @@ module HasTargets
   end
 
   def targets
-    json_targets.map { |t| tool_module::Target.new(t) }
+    json_targets.map { |t| target_class.new(t) }
   end
 
   def target_fields
@@ -28,7 +28,7 @@ module HasTargets
   end
 
   def target_filterable_fields
-    target_fields - tool_module::Target::NOT_FILTERABLE.map(&:to_s)
+    target_fields - target_class.not_filterable_attributes
   end
 
   def find_target(id)
@@ -50,7 +50,7 @@ module HasTargets
     end
   end
 
-  def tool_module
-    self.class.tool_module
+  def target_class
+    self.class.target_class
   end
 end

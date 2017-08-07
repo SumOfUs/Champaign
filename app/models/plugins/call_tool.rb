@@ -29,7 +29,7 @@
 class Plugins::CallTool < ApplicationRecord
   DEFAULTS = {}.freeze
   include HasTargets
-  use_tool_module ::CallTool
+  set_target_class ::CallTool::Target
 
   belongs_to :page, touch: true
   belongs_to :form

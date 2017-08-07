@@ -21,7 +21,7 @@
 class Plugins::EmailTool < ApplicationRecord
   DEFAULTS = {}.freeze
   include HasTargets
-  use_tool_module ::EmailTool
+  set_target_class ::EmailTool::Target
 
   belongs_to :page, touch: true
   belongs_to :form
