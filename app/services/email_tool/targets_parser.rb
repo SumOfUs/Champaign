@@ -13,7 +13,7 @@ class EmailTool::TargetsParser
       targets = []
       CSV.parse(csv_string, CSV_OPTIONS) do |row|
         attrs = row.to_hash
-        target = attrs.extract!(*EmailTool::Target::MAIN_ATTRS)
+        target = attrs.extract!(*EmailTool::Target.attributes)
         target[:fields] = attrs
         targets << EmailTool::Target.new(target)
       end

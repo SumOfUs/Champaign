@@ -7,7 +7,7 @@ module CallTool
     def initialize(params)
       params = params.clone
       @country_attrs = params.extract!(:country, :country_name, :country_code)
-      @attrs = params.extract!(*CallTool::Target::MAIN_ATTRS)
+      @attrs = params.extract!(*CallTool::Target.attributes)
       @attrs[:fields] = params
     end
 

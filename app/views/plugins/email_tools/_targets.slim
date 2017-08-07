@@ -12,7 +12,7 @@
         tr
         - fields = plugin.target_fields
         - fields.each do |field|
-          th = field.titleize
+          th = field.to_s.titleize
 
         - plugin.targets.each do |target|
           tr

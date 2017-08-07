@@ -28,15 +28,6 @@
 require 'rails_helper'
 
 describe Plugins::CallTool do
-  let(:target_hashes) do
-    [{ 'name' => 'Richard Roth', 'title' => 'Senator', 'phone_number' => '19166514031',
-       'phone_extension' => nil, 'country_name' => 'United States of America', 'country_code' => 'US',
-       'caller_id' => nil, 'fields' => { 'state' => 'California', 'other' => nil } },
-     { 'name' => 'Tony Mendoza', 'title' => 'Senator', 'phone_number' => '19166514032',
-       'phone_extension' => nil, 'country_name' => 'United States of America', 'country_code' => 'US',
-       'caller_id' => nil, 'fields' => { 'state' => 'California', 'other' => nil } }]
-  end
-
   describe '#sound_clip' do
     let(:sound_file) { File.new(Rails.root.join('spec', 'fixtures', 'sound.mp3')) }
 
@@ -87,26 +78,6 @@ describe Plugins::CallTool do
     it 'allows valid country codes' do
       call_tool = build(:call_tool, restricted_country_code: 'AR')
       expect(call_tool).to be_valid
-    end
-  end
-
-  describe '#target_filterable_fields' do
-    it 'returns an array of strings' do
-      keys = build(:call_tool).target_filterable_fields
-      expect(keys).to be_an(Array)
-      expect(keys.map(&:class).uniq).to eq [String]
-    end
-
-    it 'returns the correct keys' do
-      keys = build(:call_tool, targets: target_hashes).target_filterable_fields
-      expect(keys).to eq %w[name title country_name state]
-    end
-  end
-
-  describe '#targets' do
-    it 'instantiates a Target for each hash in the json array' do
-      call_tool = build(:call_tool, targets: target_hashes)
-      expect(call_tool.targets.map(&:class)).to eq [::CallTool::Target, ::CallTool::Target]
     end
   end
 
