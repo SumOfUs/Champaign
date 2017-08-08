@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ActiveAdmin.register Member do
   permit_params :email,
                 :country,
@@ -13,17 +14,10 @@ ActiveAdmin.register Member do
 
   index pagination_total: false
   config.per_page = 20
+
   scope :active, show_count: false
 
-  filter :email
-  filter :country
-  filter :first_name
-  filter :last_name
-  filter :city
-  filter :postal
-  filter :donor_status
-  filter :created_at
-  filter :updated_at
+  filter :email_equals
 
   actions :all, except: [:destroy]
 
