@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: forms
@@ -8,11 +9,11 @@
 #  description   :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  visible       :boolean          default(FALSE)
-#  master        :boolean          default(FALSE)
+#  visible       :boolean          default("false")
+#  master        :boolean          default("false")
 #  formable_id   :integer
 #  formable_type :string
-#  position      :integer          default(0), not null
+#  position      :integer          default("0"), not null
 #
 
 class Form < ApplicationRecord
@@ -28,7 +29,7 @@ class Form < ApplicationRecord
     { label: 'form.default.postal',  name: 'postal',  required: false, data_type: 'postal'  }
   ].freeze
 
-  has_paper_trail on: [:update, :destroy]
+  has_paper_trail on: %i[update destroy]
   has_many :form_elements, -> { order(:position) }, dependent: :destroy
   belongs_to :formable, polymorphic: true, touch: true
 

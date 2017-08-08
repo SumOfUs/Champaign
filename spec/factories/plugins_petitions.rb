@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_petitions
 #
 #  id          :integer          not null, primary key
 #  page_id     :integer
-#  active      :boolean          default(FALSE)
+#  active      :boolean          default("false")
 #  form_id     :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null

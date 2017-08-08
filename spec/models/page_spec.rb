@@ -15,23 +15,23 @@
 #  status                     :string           default("pending")
 #  messages                   :text
 #  content                    :text             default("")
-#  featured                   :boolean          default(FALSE)
+#  featured                   :boolean          default("false")
 #  liquid_layout_id           :integer
 #  follow_up_liquid_layout_id :integer
-#  action_count               :integer          default(0)
+#  action_count               :integer          default("0")
 #  primary_image_id           :integer
 #  ak_petition_resource_uri   :string
 #  ak_donation_resource_uri   :string
-#  follow_up_plan             :integer          default(0), not null
+#  follow_up_plan             :integer          default("0"), not null
 #  follow_up_page_id          :integer
 #  javascript                 :text
-#  publish_status             :integer          default(1), not null
-#  optimizely_status          :integer          default(0), not null
+#  publish_status             :integer          default("1"), not null
+#  optimizely_status          :integer          default("0"), not null
 #  canonical_url              :string
-#  allow_duplicate_actions    :boolean          default(FALSE)
-#  enforce_styles             :boolean          default(FALSE), not null
+#  allow_duplicate_actions    :boolean          default("false")
+#  enforce_styles             :boolean          default("false"), not null
 #  notes                      :text
-#  publish_actions            :integer          default(0), not null
+#  publish_actions            :integer          default("0"), not null
 #
 
 require 'rails_helper'

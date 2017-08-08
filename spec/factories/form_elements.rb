@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: form_elements
@@ -13,8 +14,8 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  name          :string
-#  position      :integer          default(0), not null
-#  choices       :jsonb
+#  position      :integer          default("0"), not null
+#  choices       :jsonb            default("[]")
 #
 
 FactoryGirl.define do

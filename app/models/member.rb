@@ -17,7 +17,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  actionkit_user_id :string
-#  donor_status      :integer          default(0), not null
+#  donor_status      :integer          default("0"), not null
 #  more              :jsonb
 #
 

@@ -7,15 +7,15 @@
 #  id                 :integer          not null, primary key
 #  ref                :string
 #  page_id            :integer
-#  active             :boolean          default(FALSE)
+#  active             :boolean          default("false")
 #  email_from         :string
-#  email_subjects     :string           default([]), is an Array
-#  email_body_b       :text
+#  email_subjects     :string           default("{}"), is an Array
+#  email_body         :text
 #  created_at         :datetime
 #  updated_at         :datetime
 #  test_email_address :string
-#  email_body_a       :text
-#  email_body_c       :text
+#  email_body_header  :text
+#  email_body_footer  :text
 #
 
 class Plugins::EmailPension < ApplicationRecord
