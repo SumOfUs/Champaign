@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: members
@@ -16,7 +17,7 @@
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  actionkit_user_id :string
-#  donor_status      :integer          default(0), not null
+#  donor_status      :integer          default("0"), not null
 #  more              :jsonb
 #
 
@@ -103,7 +104,7 @@ describe Member do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member
       expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) +
-                                                [:name, :full_name, :welcome_name, :registered])
+                                                %i[name full_name welcome_name registered])
     end
 
     it 'uses name as name if available' do

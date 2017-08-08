@@ -4,26 +4,26 @@
 #
 # Table name: plugins_call_tools
 #
-#  id                            :integer          not null, primary key
-#  page_id                       :integer
-#  active                        :boolean
-#  ref                           :string
-#  created_at                    :datetime
-#  updated_at                    :datetime
-#  title                         :string
-#  sound_clip_file_name          :string
-#  sound_clip_content_type       :string
-#  sound_clip_file_size          :integer
-#  sound_clip_updated_at         :datetime
-#  targets                       :json             default("{}"), is an Array
-#  description                   :text
-#  menu_sound_clip_file_name     :string
-#  menu_sound_clip_content_type  :string
-#  menu_sound_clip_file_size     :integer
-#  menu_sound_clip_updated_at    :datetime
-#  caller_phone_number_id        :integer
-#  restricted_country_code       :string
-#  target_by_attributes          :string           is an Array
+#  id                           :integer          not null, primary key
+#  page_id                      :integer
+#  active                       :boolean
+#  ref                          :string
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  title                        :string
+#  targets                      :json             default("{}"), is an Array
+#  sound_clip_file_name         :string
+#  sound_clip_content_type      :string
+#  sound_clip_file_size         :integer
+#  sound_clip_updated_at        :datetime
+#  description                  :text
+#  menu_sound_clip_file_name    :string
+#  menu_sound_clip_content_type :string
+#  menu_sound_clip_file_size    :integer
+#  menu_sound_clip_updated_at   :datetime
+#  restricted_country_code      :string
+#  caller_phone_number_id       :integer
+#  target_by_attributes         :string           default("{}"), is an Array
 #
 
 class Plugins::CallTool < ApplicationRecord

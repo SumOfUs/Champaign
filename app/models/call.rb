@@ -10,11 +10,11 @@
 #  member_phone_number :string
 #  created_at          :datetime
 #  updated_at          :datetime
-#  target_call_info    :jsonb            not null
-#  member_call_events  :json             is an Array
+#  target_call_info    :jsonb            default("{}"), not null
+#  member_call_events  :json             default("{}"), is an Array
 #  twilio_error_code   :integer
 #  target              :json
-#  status              :integer          default(0)
+#  status              :integer          default("0")
 #  action_id           :integer
 #
 

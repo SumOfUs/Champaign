@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: liquid_layouts
@@ -9,7 +10,7 @@
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  description                 :text
-#  experimental                :boolean          default(FALSE), not null
+#  experimental                :boolean          default("false"), not null
 #  default_follow_up_layout_id :integer
 #  primary_layout              :boolean
 #  post_action_layout          :boolean
@@ -73,13 +74,13 @@ describe LiquidLayout do
       pb = create :liquid_partial, title: 'b', content: '<p>{% include "e", ref: "lol" %} {{ plugins.b[ref] }}</p>'
       pa = create :liquid_partial, title: 'a', content: '<p>{% include "b", ref: "heyy" %}</p>{% include "c" %} {{ plugins.a[ref] }}'
       layout.content = '{% include "a" %} {% include "d", ref: "wink" %}'
-      expect(layout.plugin_refs).to match_array [['a', nil], %w(b heyy), ['c', nil], %w(d wink), ['e', nil], %w(e lol)]
+      expect(layout.plugin_refs).to match_array [['a', nil], %w[b heyy], ['c', nil], %w[d wink], ['e', nil], %w[e lol]]
     end
 
     it 'captures plugins from its own content' do
       pd = create :liquid_partial, title: 'd', content: '<p>{{ plugins.d[ref] }}</p>'
       layout.content = "<p>{{ plugins.thermometer[ref] }}</p>{% include 'd', ref: 'modal' %}"
-      expect(layout.plugin_refs).to match_array [['thermometer', nil], %w(d modal)]
+      expect(layout.plugin_refs).to match_array [['thermometer', nil], %w[d modal]]
     end
   end
 

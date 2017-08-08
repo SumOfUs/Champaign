@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: payment_braintree_payment_methods
@@ -15,7 +16,7 @@
 #  expiration_date :string
 #  instrument_type :string
 #  email           :string
-#  store_in_vault  :boolean          default(FALSE)
+#  store_in_vault  :boolean          default("false")
 #  cancelled_at    :datetime
 #
 
