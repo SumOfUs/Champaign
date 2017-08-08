@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: images
@@ -37,13 +38,13 @@ class Image < ApplicationRecord
 
   validates_attachment_presence :content
   validates_attachment_size :content, less_than: 20.megabytes
-  validates_attachment_content_type :content, content_type: %w(image/tiff image/jpeg image/jpg image/png image/x-png image/gif)
+  validates_attachment_content_type :content, content_type: %w[image/tiff image/jpeg image/jpg image/png image/x-png image/gif]
 
   belongs_to :page, touch: true
   has_one    :page_using_as_primary, class_name: 'Page', dependent: :nullify, foreign_key: :primary_image_id
   has_many   :share_facebooks, dependent: :nullify, class_name: 'Share::Facebook'
 
   def decide_format
-    content.size.to_i > TO_JPG_SIZE_THRESHOLD ? :jpg : content.content_type
+    content.size.to_i > TO_JPG_SIZE_THRESHOLD ? :jpg : content.content_type.split('/').last
   end
 end
