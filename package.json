@@ -10,7 +10,10 @@
       "prettier --trailing-comma es5 --single-quote --write",
       "git add"
     ],
-    "*.{rb,rake}": ["bundle exec rubocop -a --force-exclusion", "git add"]
+    "*.{rb,rake}": [
+      "bundle exec rubocop -a --force-exclusion",
+      "git add"
+    ]
   },
   "dependencies": {
     "airbrake-js": "^0.9.4",
@@ -71,27 +74,27 @@
     "yaml-loader": "^0.5.0"
   },
   "devDependencies": {
-    "babel-eslint": "6",
+    "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "empty": "^0.10.1",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
-    "eslint": "^3.19.0",
+    "eslint": "^4.4.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-flowtype": "^2.35.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
     "faker": "^4.1.0",
-    "flow-bin": "^0.48.0",
-    "husky": "^0.13.4",
+    "flow-bin": "^0.52.0",
+    "husky": "^0.14.3",
     "jest": "^20.0.4",
     "jest-cli": "^20.0.4",
-    "lint-staged": "^4.0.1",
-    "prettier": "^1.5.2",
+    "lint-staged": "^4.0.3",
+    "prettier": "^1.5.3",
     "react-addons-test-utils": "^15.6.0",
-    "react-dev-utils": "^3.0.2",
-    "webpack-dev-server": "^2.5.1",
+    "react-dev-utils": "^3.1.0",
+    "webpack-dev-server": "^2.7.1",
     "yamljs": "^0.3.0"
   },
   "jest": {
@@ -103,7 +106,12 @@
       "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
       "^champaign-i18n$": "<rootDir>/spec/jest/champaign-i18n-stub.js"
     },
-    "roots": ["<rootDir>/app/javascript"],
-    "setupFiles": ["<rootDir>/spec/jest/setupJest", "babel-polyfill"]
+    "roots": [
+      "<rootDir>/app/javascript"
+    ],
+    "setupFiles": [
+      "<rootDir>/spec/jest/setupJest",
+      "babel-polyfill"
+    ]
   }
 }
