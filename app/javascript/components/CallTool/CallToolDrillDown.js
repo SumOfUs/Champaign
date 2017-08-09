@@ -4,7 +4,7 @@ import {
   compact,
   flatten,
   get,
-  omit,
+  isEmpty,
   omitBy,
   sample,
   startCase,
@@ -37,7 +37,8 @@ export default class CallToolDrillDown extends Component {
   constructor(props: Props) {
     super(props);
 
-    const filters = Object.assign({}, props.filters);
+    // omit filters with empty values
+    const filters = omitBy(Object.assign({}, props.filters), isEmpty);
     this.state = {
       filters,
       targets: filterTargets(props.targets, filters),
@@ -45,7 +46,7 @@ export default class CallToolDrillDown extends Component {
   }
 
   componentDidMount() {
-    this.fn();
+    this.updateSelection();
   }
 
   sampleTarget(targets: TargetWithFields[]): TargetWithFields {
@@ -73,11 +74,11 @@ export default class CallToolDrillDown extends Component {
         filters,
         targets: filterTargets(this.props.targets, filters),
       }),
-      () => this.fn()
+      () => this.updateSelection()
     );
   }
 
-  fn() {
+  updateSelection() {
     if (
       Object.keys(this.state.filters).length ===
       this.props.targetByAttributes.length
