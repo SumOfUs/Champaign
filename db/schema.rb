@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170724194540) do
+ActiveRecord::Schema.define(version: 20170811124034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -201,6 +201,7 @@ ActiveRecord::Schema.define(version: 20170724194540) do
     t.integer "donor_status", default: 0, null: false
     t.jsonb "more"
     t.index ["actionkit_user_id"], name: "index_members_on_actionkit_user_id"
+    t.index ["email", "id"], name: "index_members_on_email_and_id"
     t.index ["email"], name: "index_members_on_email"
   end
 
@@ -312,8 +313,8 @@ ActiveRecord::Schema.define(version: 20170724194540) do
     t.integer "page_id"
     t.string "payment_instrument_type"
     t.integer "status"
-    t.decimal "amount", precision: 10, scale: 2
     t.string "processor_response_code"
+    t.decimal "amount", precision: 10, scale: 2
     t.integer "payment_method_id"
     t.integer "subscription_id"
     t.index ["page_id"], name: "index_payment_braintree_transactions_on_page_id"
@@ -424,8 +425,8 @@ ActiveRecord::Schema.define(version: 20170724194540) do
     t.string "menu_sound_clip_content_type"
     t.integer "menu_sound_clip_file_size"
     t.datetime "menu_sound_clip_updated_at"
-    t.integer "caller_phone_number_id"
     t.string "restricted_country_code"
+    t.integer "caller_phone_number_id"
     t.string "target_by_attributes", default: [], array: true
   end
 
