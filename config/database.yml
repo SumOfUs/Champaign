@@ -14,15 +14,26 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
+
 development: &default
   adapter: postgresql
   encoding: unicode
-  database: <%= Settings.development_database %>
+  database: ebdb
   pool: 5
-  username: <%= ENV['PG_USERNAME'] %>
-  password: <%= ENV['PG_PASSWORD'] %>
-  host: localhost
-  port: <%= ENV['PG_PORT'] %>
+  username: soutech
+  password: 0dnlj4KbVPBw
+  host: champaign-env-production.cnssncor2lrg.us-west-2.rds.amazonaws.com
+  # host: env-staging.cnssncor2lrg.us-west-2.rds.amazonaws.com
+  port: 5432
+# development: &default
+#   adapter: postgresql
+#   encoding: unicode
+#   database: <%= Settings.development_database %>
+#   pool: 5
+#   username: <%= ENV['PG_USERNAME'] %>
+#   password: <%= ENV['PG_PASSWORD'] %>
+#   host: localhost
+#   port: <%= ENV['PG_PORT'] %>
 
 test:
   <<: *default
