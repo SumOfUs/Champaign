@@ -39,3 +39,15 @@ describe('CallToolDrillDown Snapshots', () => {
     expect(toJSON(wrapper)).toMatchSnapshot('CallToolDrillDownWithFilters');
   });
 });
+
+it('ignores empty filters', () => {
+  const props = {
+    ...baseProps,
+    filters: { country: 'United States', state: '' },
+  };
+
+  const wrapper = shallow(<CallToolDrillDown {...props} />);
+
+  expect(wrapper.state('filters')).not.toHaveProperty('state');
+  expect(wrapper.state('filters')).toHaveProperty('country');
+});

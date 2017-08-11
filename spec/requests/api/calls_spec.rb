@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'API::Calls' do
@@ -45,6 +46,23 @@ describe 'API::Calls' do
                                url: %r{/twilio/calls/\d+/start}))
 
         post "/api/pages/#{page.id}/call", params: params
+      end
+
+      context 'given a valid akid is passed' do
+        let(:params_with_akid) { params.merge(akid: '1234.5678.tKK7gX') }
+        let!(:member) { create(:member, actionkit_user_id: '5678') }
+
+        it 'returns successfully' do
+          post "/api/pages/#{page.id}/call", params: params_with_akid
+          expect(response).to have_http_status(:no_content)
+        end
+
+        it 'creates a call and action assigning the recognized member' do
+          post "/api/pages/#{page.id}/call", params: params_with_akid
+          call = Call.last
+          expect(call.member).to eq(member)
+          expect(call.action.member).to eq(member)
+        end
       end
     end
 

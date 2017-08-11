@@ -73,10 +73,16 @@ class SweetPhoneInput extends Component {
   }
 
   onPhoneNumberChange = (value: string = '') => {
-    this.setState(prevState => ({
-      ...prevState,
-      phoneNumber: format(value, this.getCountryCode(), 'National'),
-    }));
+    this.setState(prevState => {
+      const diff = value.replace(prevState.phoneNumber, '');
+      const newPhoneNumber = new asYouType(this.getCountryCode()).input(value);
+      return {
+        ...prevState,
+        // if the diff is non-numeric, we didn't change a number so
+        // we pick the unformatted value, otherwise pick the formatted value.
+        phoneNumber: diff.match(/\D/) ? value : newPhoneNumber,
+      };
+    });
     this.props.onChange(format(value, this.getCountryCode(), 'International'));
   };
 
