@@ -114,5 +114,9 @@
       "<rootDir>/spec/jest/setupJest",
       "babel-polyfill"
     ]
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "singleQuote": true
   }
 }
