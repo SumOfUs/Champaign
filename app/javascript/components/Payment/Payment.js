@@ -26,15 +26,17 @@ import ExpressDonation from '../ExpressDonation/ExpressDonation';
 import type { Dispatch } from 'redux';
 import type { Client } from 'braintree-web';
 import type { AppState, Member, Fundraiser, PaymentMethod } from '../../state';
+import type { PaymentType } from '../../state/fundraiser/types';
 
 // Styles
 import './Payment.css';
 
-const DEFAULT_PAYMENT_TYPE = 'card';
 const BRAINTREE_TOKEN_URL =
   process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
 
 type OwnProps = {
+  defaultPaymentType: PaymentType,
+  currentPaymentType: PaymentType,
   member: Member,
   fundraiser: Fundraiser,
   paymentMethods: PaymentMethod[],
@@ -46,7 +48,7 @@ type OwnProps = {
   changeStep: (step: number) => void,
   setRecurring: (value: boolean) => void,
   setStoreInVault: (value: boolean) => void,
-  setPaymentType: (value: ?string) => void,
+  setPaymentType: (value: PaymentType) => void,
   setSubmitting: (value: boolean) => void,
 };
 
@@ -86,11 +88,6 @@ export class Payment extends Component {
       errors: [],
       waitingForGoCardless: false,
     };
-
-    const cpt = this.props.fundraiser.currentPaymentType;
-    if (typeof cpt !== 'string' || cpt.length === 0) {
-      this.props.setPaymentType(DEFAULT_PAYMENT_TYPE);
-    }
   }
 
   componentDidMount() {
@@ -131,7 +128,7 @@ export class Payment extends Component {
     $.publish('sidebar:height_change');
   }
 
-  selectPaymentType(paymentType: string) {
+  selectPaymentType(paymentType: PaymentType) {
     this.props.setPaymentType(paymentType);
   }
 
@@ -156,8 +153,8 @@ export class Payment extends Component {
 
   disableSubmit() {
     return (
-      this.loading(this.props.fundraiser.currentPaymentType) ||
-      !this.props.fundraiser.currentPaymentType ||
+      this.loading(this.props.currentPaymentType) ||
+      !this.props.currentPaymentType ||
       !this.props.fundraiser.donationAmount
     );
   }
@@ -188,7 +185,7 @@ export class Payment extends Component {
   }
 
   delegate() {
-    const delegate = this.refs[this.props.fundraiser.currentPaymentType];
+    const delegate = this.refs[this.props.currentPaymentType];
 
     if (delegate && delegate.submit) {
       return delegate;
@@ -230,7 +227,7 @@ export class Payment extends Component {
   }
 
   makePayment() {
-    if (this.props.fundraiser.currentPaymentType === 'gocardless') {
+    if (this.props.currentPaymentType === 'gocardless') {
       this.submitGoCardless();
       return;
     }
@@ -258,7 +255,7 @@ export class Payment extends Component {
       window.fbq('track', 'AddPaymentInfo', {
         value: this.props.fundraiser.donationAmount,
         currency: this.props.fundraiser.currency,
-        content_category: this.props.fundraiser.currentPaymentType,
+        content_category: this.props.currentPaymentType,
       });
     }
 
@@ -365,9 +362,8 @@ export class Payment extends Component {
         >
           <PaymentTypeSelection
             disabled={this.state.loading}
-            currentPaymentType={currentPaymentType || DEFAULT_PAYMENT_TYPE}
+            currentPaymentType={this.props.currentPaymentType}
             onChange={p => this.selectPaymentType(p)}
-            showDirectDebit={this.props.fundraiser.showDirectDebit}
           />
 
           <PayPal
@@ -450,6 +446,10 @@ export class Payment extends Component {
 }
 
 const mapStateToProps = (state: AppState) => ({
+  defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
+  currentPaymentType: state.fundraiser.directDebitOnly
+    ? 'gocardless'
+    : state.fundraiser.currentPaymentType,
   fundraiser: state.fundraiser,
   page: state.page,
   paymentMethods: state.paymentMethods,
@@ -469,7 +469,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeStep: (step: number) => dispatch(changeStep(step)),
   setRecurring: (value: boolean) => dispatch(setRecurring(value)),
   setStoreInVault: (value: boolean) => dispatch(setStoreInVault(value)),
-  setPaymentType: (value: ?string) => dispatch(setPaymentType(value)),
+  setPaymentType: (value: PaymentType) => dispatch(setPaymentType(value)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Payment);

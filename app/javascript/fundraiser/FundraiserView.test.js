@@ -9,7 +9,7 @@ import { mountWithIntl } from '../../../spec/jest/intl-enzyme-test-helpers';
 import type {
   FundraiserAction,
   FundraiserInitializationOptions,
-} from '../state/fundraiser/actions';
+} from '../state/fundraiser/types';
 
 global.fbq = () => null;
 
@@ -347,6 +347,11 @@ describe('Donation Amount Tab', function() {
 
 describe('Payment Panel', function() {
   describe('Initial state', () => {
+    describe('when directDebitOnly = true', () => {
+      it('[pending] gocardless is the default if showDirectDebit is true');
+      it('[pending] has no effect if showDirectDebit is false');
+    });
+
     it("displays the user's name if they are logged in", () => {
       initialize({
         member: { email: 'asdf@gmail.com', name: 'As Df', country: 'US' },

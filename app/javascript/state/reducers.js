@@ -18,7 +18,7 @@ export default combineReducers(reducers);
 
 // import types
 import type { Member } from './member/reducer';
-import type { Fundraiser, EnumRecurringDefault } from './fundraiser/helpers';
+import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
 import type { PaymentMethod } from './paymentMethods/reducer';
 import type { PageAction } from './page/reducer';
 

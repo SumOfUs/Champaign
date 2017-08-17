@@ -5,7 +5,6 @@ import '../member-facing/registration';
 import '../member-facing/track_shares';
 import 'whatwg-fetch';
 
-import airbrake from 'airbrake-js';
 import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
