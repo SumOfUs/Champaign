@@ -16,23 +16,21 @@ type Props = {
 export class PaymentTypeSelection extends Component {
   props: Props;
 
-  constructor(props: Props) {
-    super(props);
+  showCardAndPaypal() {
+    if (this.props.directDebitOnly && !this.props.showDirectDebit) return true;
+    if (this.props.directDebitOnly) return false;
+    return true;
   }
 
   paymentTypes(): PaymentType[] {
     const paymentTypes = [];
 
-    if (
-      !this.props.directDebitOnly ||
-      (this.props.directDebitOnly && !this.props.showDirectDebit)
-    ) {
-      paymentTypes.push('paypal');
-      paymentTypes.push('card');
-    }
-
     if (this.props.showDirectDebit) {
       paymentTypes.push('gocardless');
+    }
+
+    if (this.showCardAndPaypal()) {
+      paymentTypes.push('paypal', 'card');
     }
 
     return paymentTypes;
