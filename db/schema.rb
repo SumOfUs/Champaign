@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802231650) do
+ActiveRecord::Schema.define(version: 20170811124034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20170802231650) do
     t.text "body"
     t.string "resource_id", null: false
     t.string "resource_type", null: false
-    t.integer "author_id"
     t.string "author_type"
+    t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20170802231650) do
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: {}, null: false
+    t.jsonb "target_call_info", default: "{}", null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 20170802231650) do
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
     t.boolean "master", default: false
-    t.integer "formable_id"
     t.string "formable_type"
+    t.integer "formable_id"
     t.integer "position", default: 0, null: false
     t.index ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id"
   end
@@ -313,12 +313,10 @@ ActiveRecord::Schema.define(version: 20170802231650) do
     t.integer "page_id"
     t.string "payment_instrument_type"
     t.integer "status"
-    t.string "processor_response_code"
     t.decimal "amount", precision: 10, scale: 2
+    t.string "processor_response_code"
     t.integer "payment_method_id"
     t.integer "subscription_id"
-    t.boolean "pledge", default: false
-    t.datetime "pledge_processed_at"
     t.index ["page_id"], name: "index_payment_braintree_transactions_on_page_id"
     t.index ["payment_method_id"], name: "braintree_payment_method_index"
     t.index ["subscription_id"], name: "braintree_transaction_subscription"
@@ -341,7 +339,6 @@ ActiveRecord::Schema.define(version: 20170802231650) do
   create_table "payment_go_cardless_payment_methods", id: :serial, force: :cascade do |t|
     t.string "go_cardless_id"
     t.string "reference"
-    t.integer "status"
     t.string "scheme"
     t.date "next_possible_charge_date"
     t.integer "customer_id"
@@ -474,9 +471,6 @@ ActiveRecord::Schema.define(version: 20170802231650) do
     t.integer "form_id"
     t.integer "donation_band_id"
     t.integer "recurring_default", default: 0, null: false
-    t.boolean "pledge", default: false
-    t.datetime "pledge_processed_on"
-    t.integer "pledge_target_in_actions", default: 0
     t.boolean "preselect_amount", default: false
     t.index ["donation_band_id"], name: "index_plugins_fundraisers_on_donation_band_id"
     t.index ["form_id"], name: "index_plugins_fundraisers_on_form_id"
