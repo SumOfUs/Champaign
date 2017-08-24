@@ -15,6 +15,11 @@ const Petition = Backbone.View.extend({
   //    submissionCallback: callback with event and server data for successful submission
   //    redirectAfterAction: when true it redirects to the follow up page, defaults to true
   initialize(options = {}) {
+    $.publish('petition:arrived', {
+      member: champaign.personalization.member,
+      page: champaign.page,
+    });
+
     this.followUpUrl = options.followUpUrl;
     this.submissionCallback = options.submissionCallback;
     this.skipOnSuccessAction = options.skipOnSuccessAction;
@@ -33,7 +38,10 @@ const Petition = Backbone.View.extend({
   },
 
   handleSuccess(e, data) {
-    $.publish('petition:submitted');
+    $.publish('petition:submit:success', {
+      page: champaign.page,
+    });
+
     if (this.skipOnSuccessAction) {
       return;
     }

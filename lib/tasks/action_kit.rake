@@ -5,6 +5,7 @@ namespace :action_kit do
     puts 'Importing languages from ActionKit'
     response = ActionKitConnector.client.list_languages
 
+    pp response
     unless response.success?
       raise "Error connecting to ActionKit: #{response.inspect}"
     end
