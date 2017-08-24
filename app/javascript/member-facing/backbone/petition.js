@@ -13,6 +13,7 @@ const Petition = Backbone.View.extend({
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
   //    submissionCallback: callback with event and server data for successful submission
+  //    redirectAfterAction: when true it redirects to the follow up page, defaults to true
   initialize(options = {}) {
     this.followUpUrl = options.followUpUrl;
     this.submissionCallback = options.submissionCallback;
