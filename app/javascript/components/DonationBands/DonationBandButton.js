@@ -30,13 +30,9 @@ export default function DonationBandButton(props: OwnProps): any {
     <Button className={className} onClick={props.onClick}>
       <FormattedNumber
         {...FORMATTED_NUMBER_DEFAULTS}
-        currency={normalizeDollars(props.currency)}
+        currency={props.currency}
         value={props.amount}
       />
     </Button>
   );
-}
-
-function normalizeDollars(currency: string): string {
-  return ['AUD', 'CAD', 'NZD'].indexOf(currency) > -1 ? 'USD' : currency;
 }
