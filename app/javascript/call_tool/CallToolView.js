@@ -2,10 +2,10 @@
 import React, { Component } from 'react';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { camelCase, isEmpty, filter, find, sample } from 'lodash';
-import ChampaignAPI from '../util/ChampaignAPI';
+import { CallsClient } from '../util/ChampaignClient';
 import Form from '../components/CallTool/Form';
 
-import type { OperationResponse } from '../util/ChampaignAPI';
+import type { OperationResponse } from '../util/ChampaignClient';
 import type { IntlShape } from 'react-intl';
 
 export type Target = {
@@ -102,14 +102,12 @@ class CallToolView extends Component {
     event.preventDefault();
     if (!this.validateForm()) return;
     this.setState({ errors: {}, loading: true });
-    ChampaignAPI.calls
-      .create({
-        ...this.targetObject(),
-        pageId: this.props.pageId,
-        memberPhoneNumber: this.state.memberPhoneNumber,
-        trackingParams: this.props.trackingParams,
-      })
-      .then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
+    CallsClient.create({
+      ...this.targetObject(),
+      pageId: this.props.pageId,
+      memberPhoneNumber: this.state.memberPhoneNumber,
+      trackingParams: this.props.trackingParams,
+    }).then(this.submitSuccessful.bind(this), this.submitFailed.bind(this));
   }
 
   targetObject(): any {
