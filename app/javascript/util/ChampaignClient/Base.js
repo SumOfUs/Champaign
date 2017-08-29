@@ -3,12 +3,12 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { camelizeKeys } from '../util';
 
-declare type OperationResponse = {
+export type OperationResponse = {
   success: boolean,
   errors: { [id: string]: any[] },
 };
 
-export const parseResponse = (response): OperationResponse => {
+export const parseResponse = (response: any): OperationResponse => {
   if (response === undefined) {
     return { success: true, errors: {} };
   }

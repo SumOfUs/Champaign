@@ -33,14 +33,17 @@ class Plugins::EmailTool < ApplicationRecord
 
   def liquid_data(_supplemental_data = {})
     {
-      page_id: page_id,
-      locale: page.language_code,
       active: active,
-      page: page.slug,
-      email_subject: email_subjects.sample,
-      email_header: email_body_header,
+      email_body: email_body,
       email_footer: email_body_footer,
-      email_body: email_body
+      email_from: email_from,
+      email_header: email_body_header,
+      email_subject: email_subjects.sample,
+      locale: page.language_code,
+      page_id: page_id,
+      page: page.slug,
+      targets: targets,
+      use_member_email: use_member_email
     }
   end
 end
