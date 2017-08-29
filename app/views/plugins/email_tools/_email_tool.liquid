@@ -3,13 +3,12 @@
 
   <script>
     $(document).ready(function() {
-      var member = window.champaign.personalization.member;
-      var data = _.clone(window.champaign.personalization.emailTool['{{ref}}']);
+      var personalization = window.champaign.personalization;
+      var data = _.clone(personalization.emailTool['{{ref}}']);
       _.merge(data, {
-        name: member.full_name,
-        email: member.email,
-        country: member.country,
-        formValues: window.champaign.personalization.formValues
+        name: personalization.member.full_name,
+        email: personalization.member.email,
+        country: personalization.member.country || personalization.location.country
       });
 
       mountEmailTool('email-tool-component', data);

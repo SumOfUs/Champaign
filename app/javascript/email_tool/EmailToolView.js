@@ -1,33 +1,40 @@
 // @flow
 import React, { Component } from 'react';
-import { template } from 'lodash';
+import { get, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import SelectCountry from '../components/SelectCountry/SelectCountry';
+import CascadingSelect from '../components/CascadingSelect/CascadingSelect';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../util/ChampaignClient';
+
+type ChampaignEmailPayload = any;
+
+type EmailTarget = {
+  name: string,
+  email: string,
+};
 
 type Props = {
   emailBody: string,
   emailHeader: string,
   emailFooter: string,
+  emailFrom: string,
   emailSubject: string,
   country: string,
   email: string,
   name: string,
-  pensionFunds: Array<string>,
-  to: string,
-  fundId: string,
-  fund: string,
-  fundContact: string,
-  fundEmail: string,
+  isSubmitting: boolean,
   page: string,
+  pageId: number,
+  targets: EmailTarget[],
+  useMemberEmail: boolean,
 };
 
 type State = Props & {
-  name: string,
+  target: ?EmailTarget,
   errors: { [field: string]: string },
   isSubmitting: boolean,
 };
@@ -40,19 +47,48 @@ export default class EmailToolView extends Component {
     super(props);
     this.state = {
       ...this.props,
-      name: '',
+      target: undefined,
       errors: {},
     };
   }
 
-  onSubmit = e => {
-    e.preventDefault();
-    const params = {
-      pageId: this.props.page,
+  fromEmail(): string {
+    if (this.state.useMemberEmail) {
+      return this.state.email;
+    }
+
+    return this.state.emailFrom;
+  }
+
+  emailPayload(): ChampaignEmailPayload {
+    return {
+      email: {
+        target_id: get(this.state.target, 'id', undefined),
+        body: this.prepBody(),
+        country: this.state.country,
+        from_name: this.state.name,
+        from_email: this.fromEmail(),
+        page: this.props.page,
+        page_id: this.props.pageId,
+        subject: this.state.emailSubject,
+      },
     };
-    console.log(MailerClient);
-    console.log(MailerClient.sendEmail(params));
-  };
+  }
+
+  onSubmit(e: SyntheticEvent) {
+    e.preventDefault();
+    this.setState(s => ({ ...s, isSubmitting: true }));
+    MailerClient.sendEmail(this.emailPayload()).then(
+      success => {
+        console.log('Sending email success!', success);
+        this.setState(s => ({ ...s, isSubmitting: false }));
+      },
+      failure => {
+        console.log('Sending email failed', failure);
+        this.setState(s => ({ ...s, isSubmitting: false }));
+      }
+    );
+  }
 
   parseHeader() {
     return { __html: this.parse(this.props.emailHeader) };
@@ -69,15 +105,30 @@ export default class EmailToolView extends Component {
 
   parse(templateString: string) {
     templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    const templateObject = template(templateString);
-    return templateObject(this.props);
+    return template(templateString)(this.state);
+  }
+
+  updateTarget(target: ?EmailTarget) {
+    this.setState(state => ({
+      ...state,
+      target,
+    }));
   }
 
   render() {
     return (
       <div className="email-target">
         <div className="email-target-form">
-          <form onSubmit={this.onSubmit} className="action-form form--big">
+          {/*<CascadingSelect
+            targets={this.props.targets}
+            onChange={t => this.updateTarget(t)}
+          />
+          */}
+
+          <form
+            onSubmit={e => this.onSubmit(e)}
+            className="action-form form--big"
+          >
             <div className="email-target-action">
               <h3>
                 <FormattedMessage
@@ -88,16 +139,17 @@ export default class EmailToolView extends Component {
 
               <div className="form__group">
                 <Input
-                  name="email_subject"
+                  name="subject"
                   errorMessage={this.state.errors.emailSubject}
-                  value={this.props.emailSubject}
+                  value={this.state.emailSubject}
                   label={
                     <FormattedMessage
                       id="email_target.form.subject"
                       defaultMessage="Subject (default)"
                     />
                   }
-                  onChange={subject => this.setState(s => ({ ...s, subject }))}
+                  onChange={emailSubject =>
+                    this.setState(s => ({ ...s, emailSubject }))}
                 />
               </div>
 
@@ -110,7 +162,7 @@ export default class EmailToolView extends Component {
                       defaultMessage="Your name (default)"
                     />
                   }
-                  value={this.props.name}
+                  value={this.state.name}
                   errorMessage={this.state.errors.name}
                   onChange={name => this.setState(s => ({ ...s, name }))}
                 />
@@ -126,7 +178,7 @@ export default class EmailToolView extends Component {
                       defaultMessage="Your email (default)"
                     />
                   }
-                  value={this.props.email}
+                  value={this.state.email}
                   errorMessage={this.state.errors.email}
                   onChange={email => this.setState(s => ({ ...s, email }))}
                 />
@@ -141,8 +193,12 @@ export default class EmailToolView extends Component {
                   <textarea
                     name="email_body"
                     value={this.state.emailBody}
-                    onChange={emailBody =>
-                      this.setState(s => ({ ...s, emailBody }))}
+                    onChange={e => {
+                      this.setState(s => ({
+                        ...s,
+                        emailBody: e.currentTarget.value,
+                      }));
+                    }}
                     maxLength="9999"
                   />
                   <div

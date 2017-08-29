@@ -12,7 +12,7 @@ type SendEmailParams = {
   to_email: string,
 };
 
-const sendEmail = function(
+export function sendEmail(
   emailParams: SendEmailParams,
   trackingParams: any = {}
 ): Promise<OperationResponse> {
@@ -26,10 +26,8 @@ const sendEmail = function(
       .done(response => resolve(parseResponse(response)))
       .fail(response => reject(parseResponse(response)));
   });
-};
+}
 
-const MailerClient = {
-  sendEmail: sendEmail,
+export default {
+  sendEmail,
 };
-
-export default MailerClient;
