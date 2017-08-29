@@ -27,7 +27,7 @@ class Api::EmailsController < ApplicationController
 
   def action_params
     {
-      page_id: params[:page],
+      page_id: params[:page_id],
       name: params[:from_name],
       email: params[:from_email],
       postal: '10000',
