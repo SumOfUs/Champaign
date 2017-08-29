@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { FormattedMessage } from 'react-intl';
 import { camelizeKeys } from '../util';
 
 declare type OperationResponse = {
