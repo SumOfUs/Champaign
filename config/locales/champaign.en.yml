@@ -320,7 +320,9 @@ en:
       email_address_for_testing: 'Email address to send to (use for testing only)'
       from_address: "'from' email address"
       test_email_warning: "Don't forget to remove the test address before publishing."
+      use_member_email: "Send from the member's email address"
       tooltips:
+        use_member_email: "Emails sent to targets will use the member's email address in the `from` field"
         from_address: 'Must be a valid address using a validated domain'
         email_address_for_testing: 'ALL emails will be delivered to this address - use when you want to test a campaign before publishing.'
     call_tool:
