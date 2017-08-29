@@ -1,11 +1,13 @@
 // @flow
 import React, { Component } from 'react';
+import { template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import SelectCountry from '../components/SelectCountry/SelectCountry';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
+import { MailerClient } from '../util/ChampaignClient';
 
 type Props = {
   emailBody: string,
@@ -16,7 +18,6 @@ type Props = {
   email: string,
   name: string,
   pensionFunds: Array<string>,
-  isSubmitting: boolean,
   to: string,
   fundId: string,
   fund: string,
@@ -28,6 +29,7 @@ type Props = {
 type State = Props & {
   name: string,
   errors: { [field: string]: string },
+  isSubmitting: boolean,
 };
 
 export default class EmailToolView extends Component {
@@ -45,6 +47,11 @@ export default class EmailToolView extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+    const params = {
+      pageId: this.props.page,
+    };
+    console.log(MailerClient);
+    console.log(MailerClient.sendEmail(params));
   };
 
   parseHeader() {
@@ -60,10 +67,10 @@ export default class EmailToolView extends Component {
       .emailBody}\n\n${this.parseFooter().__html}`;
   }
 
-  parse(template) {
-    template = template.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    template = _.template(template);
-    return template(this.props);
+  parse(templateString: string) {
+    templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    const templateObject = template(templateString);
+    return templateObject(this.props);
   }
 
   render() {
