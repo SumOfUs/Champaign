@@ -43,6 +43,6 @@ class Api::EmailsController < ApplicationController
   end
 
   def page
-    Page.find(params[:page])
+    Page.find(params[:page_id])
   end
 end

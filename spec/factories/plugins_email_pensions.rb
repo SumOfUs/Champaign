@@ -20,31 +20,9 @@
 #  from_email_address_id :integer
 #
 
-class Plugins::EmailTool < ApplicationRecord
-  DEFAULTS = {}.freeze
-  include HasTargets
-  set_target_class ::EmailTool::Target
-
-  belongs_to :page, touch: true
-  belongs_to :form
-  belongs_to :from_email_address, class_name: 'RegisteredEmailAddress'
-
-  def name
-    self.class.name.demodulize
-  end
-
-  def liquid_data(_supplemental_data = {})
-    {
-      active: active,
-      email_body: email_body,
-      email_footer: email_body_footer,
-      email_header: email_body_header,
-      email_subject: email_subjects.sample,
-      locale: page.language_code,
-      page_id: page_id,
-      page: page.slug,
-      targets: targets,
-      use_member_email: use_member_email
-    }
+FactoryGirl.define do
+  factory :email_pension, class: 'Plugins::EmailPension' do
+    association :page
+    email_from 'foo@example.com'
   end
 end

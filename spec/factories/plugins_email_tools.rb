@@ -23,6 +23,5 @@
 FactoryGirl.define do
   factory :email_tool, class: 'Plugins::EmailTool' do
     association :page
-    email_from 'foo@example.com'
   end
 end

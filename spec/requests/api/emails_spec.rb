@@ -14,11 +14,12 @@ describe 'Emailing Targets', type: :request do
 
   describe 'POST#create' do
     let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
-    let!(:plugin) { create(:email_tool, page: page, email_from: 'origin@example.com') }
+    let!(:plugin) { create(:email_pension, page: page, email_from: 'origin@example.com') }
 
     let(:params) do
       {
         page: 'foo-bar',
+        page_id: 'foo-bar',
         from_name: "Sender's Name",
         from_email: 'sender@example.com',
         to_name: "Target's Name",
