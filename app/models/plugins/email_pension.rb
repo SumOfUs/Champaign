@@ -33,7 +33,6 @@ class Plugins::EmailPension < ApplicationRecord
       page_id: page_id,
       locale: page.language_code,
       active: active,
-      page: page.slug,
       email_subject: email_subjects.sample,
       email_header: email_body_header,
       email_body: email_body,

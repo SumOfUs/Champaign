@@ -8,10 +8,7 @@ class Api::EmailsController < ApplicationController
   end
 
   def create_pension_email
-    EmailTool::Sender
-      .new(pension_email_params)
-      .create
-
+    PensionEmailSender.run(params[:page_id], pension_email_params)
     action = ManageAction.create(action_params)
     write_member_cookie(action.member_id)
 
@@ -24,7 +21,7 @@ class Api::EmailsController < ApplicationController
     params
       .to_unsafe_hash
       .symbolize_keys
-      .slice(:body, :subject, :page, :country, :target_name,
+      .slice(:body, :subject, :country, :target_name,
              :to_name, :to_email, :from_email,
              :from_name)
   end

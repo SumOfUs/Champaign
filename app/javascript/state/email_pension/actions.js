@@ -8,7 +8,6 @@ const initialState = {
   email: '',
   fund: '',
   to: '',
-  page: '',
   isSubmitting: false,
 };
 
