@@ -4,8 +4,12 @@ class Api::EmailsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
+    raise 'implement'
+  end
+
+  def create_pension_email
     EmailTool::Sender
-      .new(email_options)
+      .new(pension_email_params)
       .create
 
     action = ManageAction.create(action_params)
@@ -16,7 +20,7 @@ class Api::EmailsController < ApplicationController
 
   private
 
-  def email_options
+  def pension_email_params
     params
       .to_unsafe_hash
       .symbolize_keys
