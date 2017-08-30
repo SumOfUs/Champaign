@@ -1,14 +1,19 @@
-.row.plugin.email_tool.collection-editor data-plugin-id=plugin.id
+.row.plugin.email-tool.collection-editor data-plugin-id=plugin.id
   .col-md-7
     - name = "plugins_email_tool_#{plugin.id}"
     = form_for plugin, url: '#', remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
       = render 'plugins/shared/plugin_metadata', f: f
       .form-group
         = label_with_tooltip(f, :email_from, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
-        = f.text_field :email_from, class: 'form-control'
-        label.use-member-email-checkbox.edit-page-checkbox
-          = f.check_box :use_member_email
-          = t('plugins.email_tool.use_member_email')
+        = f.select :from_email_address_id,
+                   RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
+                   { include_blank: true },
+                   class: 'form-control from-email-address'
+        .checkbox
+          label.use-member-email-checkbox.edit-page-checkbox
+            = f.check_box :use_member_email, class: 'use-member-email'
+            = t('plugins.email_tool.use_member_email')
+            | &nbsp;
 
       .form-group.field_with_errors
         = label_with_tooltip(f, :test_email_address, t('plugins.email_tool.email_address_for_testing'), t('plugins.email_tool.tooltips.email_address_for_testing'))
@@ -33,3 +38,21 @@
 
     .email-tool__target-form
       = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }
+
+  javascript:
+    $(function() {
+      var useMemberEmail = $('input.use-member-email');
+      var fromEmailAddress = $('select.from-email-address');
+
+      useMemberEmail.change(function(e) {
+         if(useMemberEmail.prop('checked')){
+           fromEmailAddress.val('');
+         }
+      });
+
+      fromEmailAddress.change(function() {
+        if(fromEmailAddress.val() !== '') {
+          useMemberEmail.prop('checked', false);
+        }
+      });
+    });
