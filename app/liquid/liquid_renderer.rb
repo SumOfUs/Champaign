@@ -35,6 +35,7 @@ class LiquidRenderer
       thermometer: thermometer,
       call_tool: call_tool_data,
       email_tool: email_tool_data,
+      email_pension: email_pension_data,
       action_count: @page.action_count,
       show_direct_debit: show_direct_debit?,
       payment_methods: @payment_methods

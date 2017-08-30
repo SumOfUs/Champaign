@@ -197,7 +197,7 @@ class EmailPensionView extends Component {
       _.merge(payload, this.props.formValues);
 
       this.props.changeSubmitting(true);
-      $.post('/api/email_targets', payload).done((a, b, c) => {});
+      $.post('/api/emails', payload).done((a, b, c) => {});
     };
 
     return (
