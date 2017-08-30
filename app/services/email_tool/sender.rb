@@ -50,8 +50,10 @@ class EmailTool::Sender
     plugin.test_email_address
   end
 
+  # TODO: Refactor, do not depend on plugin class
   def plugin
-    @plugin ||= Plugins::EmailTool.find_by page_id: page.id
+    @plugin ||= Plugins::EmailTool.find_by(page_id: page.id) ||
+                Plugins::EmailPension.find_by(page_id: page.id)
   end
 
   def page
