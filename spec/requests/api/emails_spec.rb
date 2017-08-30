@@ -34,7 +34,7 @@ describe 'Emailing Targets', type: :request do
     end
 
     before do
-      post '/api/emails', params: params
+      post "/api/pages/#{page.id}/pension_emails", params: params
     end
 
     it 'saves email to dynamodb' do

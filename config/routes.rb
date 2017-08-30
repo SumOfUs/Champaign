@@ -109,7 +109,6 @@ Rails.application.routes.draw do
         post 'suggest_fund'
       end
     end
-    resources :emails, only: [:create]
 
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
@@ -141,6 +140,8 @@ Rails.application.routes.draw do
       end
       resources :survey_responses, only: [:create]
       resource :call, only: [:create]
+      post 'emails', to: 'emails#create'
+      post 'pension_emails', to: 'emails#create_pension_email'
     end
 
     namespace :stateless, defaults: { format: 'json' } do
