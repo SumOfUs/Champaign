@@ -18,8 +18,7 @@ describe 'Emailing Targets', type: :request do
 
     let(:params) do
       {
-        page: 'foo-bar',
-        page_id: 'foo-bar',
+        page_slug: 'foo-bar',
         from_name: "Sender's Name",
         from_email: 'sender@example.com',
         to_name: "Target's Name",

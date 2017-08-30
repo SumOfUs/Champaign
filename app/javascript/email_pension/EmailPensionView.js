@@ -185,7 +185,6 @@ class EmailPensionView extends Component {
       const payload = {
         body: prepBody(),
         subject: this.props.subject,
-        page: this.props.page,
         target_name: this.props.fund,
         country: this.props.country,
         from_name: this.props.name,
@@ -381,7 +380,6 @@ type EmailPensionType = {
   fund: string,
   fundContact: string,
   fundEmail: string,
-  page: string,
 };
 
 type OwnState = {
@@ -402,7 +400,6 @@ export const mapStateToProps = (state: OwnState) => ({
   fundContact: state.emailTarget.fundContact,
   fundEmail: state.emailTarget.fundEmail,
   to: state.emailTarget.to,
-  page: state.emailTarget.page,
   isSubmitting: state.emailTarget.isSubmitting,
   formValues: state.emailTarget.formValues,
 });
