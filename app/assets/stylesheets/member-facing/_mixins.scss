@@ -1,4 +1,3 @@
-
 @mixin centered-to-full($width, $padding: 0%) {
   width: $width;
   margin: 0 auto;
@@ -6,7 +5,7 @@
 }
 
 @mixin full-width-after($maxWidth, $padding: 0%) {
-  @media(max-width: $maxWidth) {
+  @media (max-width: $maxWidth) {
     width: 100%;
     padding-left: $padding;
     padding-right: $padding;
@@ -53,11 +52,7 @@
   $unit: unit($value);
 
   @if (index((vw, vh, vmin, vmax), $unit) != null) {
-    $devices: (
-      (768px, 1024px), // iPad (all versions)
-      (320px, 480px),  // iPhone 4
-      (320px, 568px)   // iPhone 5, 5C, 5S
-    );
+    $devices: ( (768px, 1024px),  (320px, 480px),  (320px, 568px));
 
     @each $device in $devices {
       $device-width: nth($device, 1);
@@ -76,8 +71,7 @@
         @media #{$device-query} {
           #{$property}: if($unit == vmin, $percent-width, $percent-height);
         }
-      }
-      @else {
+      } @else {
         @media #{$device-query} and (orientation: portrait) {
           #{$property}: if($unit == vw, $percent-width, $percent-height);
         }
