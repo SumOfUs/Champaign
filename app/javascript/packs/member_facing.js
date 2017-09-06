@@ -3,8 +3,6 @@ import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
-import '../member-facing/mixpanel';
-
 import 'whatwg-fetch';
 
 import URI from 'urijs';

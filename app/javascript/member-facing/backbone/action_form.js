@@ -21,7 +21,6 @@ const ActionForm = Backbone.View.extend({
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
     'ajax:send': 'disableButton',
-    'ajax:send': 'handleSend',
   },
 
   globalEvents: {
@@ -224,10 +223,6 @@ const ActionForm = Backbone.View.extend({
   disableButton() {
     this.$submitButton.text(I18n.t('form.processing'));
     this.$submitButton.addClass('button--disabled');
-  },
-
-  handleSend() {
-    this.disableButton();
   },
 
   enableButton() {
