@@ -1,43 +1,13 @@
 // @flow
-import type { FormField } from '../reducers';
+import type {
+  DonationBands,
+  EnumRecurringDefault,
+  FeaturedAmountState,
+  Fundraiser,
+  PaymentType,
+  RecurringState,
+} from './types';
 
-type RecurringState = {
-  recurring: boolean,
-  recurringDefault: EnumRecurringDefault,
-};
-
-type FeaturedAmountState = {
-  preselectAmount: boolean,
-  donationFeaturedAmount?: number,
-};
-
-export type EnumRecurringDefault = 'one_off' | 'recurring' | 'only_recurring';
-
-export type DonationBands = { [id: string]: number[] };
-export type FeaturedAmounts = { [id: string]: number };
-
-export type Fundraiser = {
-  title: string,
-  currency: string,
-  donationBands: DonationBands,
-  donationFeaturedAmount?: number,
-  donationAmount?: number,
-  currentStep: number,
-  recurring: boolean,
-  recurringDefault: EnumRecurringDefault,
-  storeInVault: boolean,
-  paymentMethods: any[],
-  formId: string,
-  fields: FormField[],
-  form: Object,
-  formValues: Object,
-  currentPaymentType: ?string,
-  showDirectDebit?: boolean,
-  freestanding?: boolean,
-  submitting: boolean,
-  preselectAmount: boolean,
-  outstandingFields: string[],
-};
 export const initialState: Fundraiser = {
   currency: 'USD',
   donationBands: {
@@ -53,8 +23,9 @@ export const initialState: Fundraiser = {
   recurringDefault: 'one_off',
   recurring: false,
   storeInVault: true,
-  currentPaymentType: null,
+  currentPaymentType: 'card',
   showDirectDebit: false,
+  directDebitOnly: false,
   paymentMethods: [],
   title: '',
   fields: [],

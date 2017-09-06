@@ -1,39 +1,6 @@
 // @flow
 import $ from 'jquery';
-import type { FormField, InitialAction } from '../reducers';
-import type { DonationBands, EnumRecurringDefault } from './helpers';
-
-export type FundraiserInitializationOptions = {
-  pageId: string,
-  currency: string,
-  amount: string,
-  donationBands: { [key: string]: number[] },
-  showDirectDebit: boolean,
-  formValues: { [key: string]: string },
-  formId: string,
-  outstandingFields: string[],
-  title: string,
-  preselectAmount: boolean,
-  fields: FormField[],
-  recurringDefault: EnumRecurringDefault,
-  freestanding: boolean,
-};
-
-export type FundraiserAction =
-  | InitialAction
-  | { type: 'initialize_fundraiser', payload: FundraiserInitializationOptions }
-  | { type: 'change_amount', payload: ?number }
-  | { type: 'change_currency', payload: string }
-  | { type: 'change_step', payload: number }
-  | { type: 'preselect_amount', payload: boolean }
-  | { type: 'set_donation_bands', payload: DonationBands }
-  | { type: 'set_payment_type', payload: ?string }
-  | { type: 'set_recurring', payload: boolean }
-  | { type: 'set_recurring_defaults', payload?: string }
-  | { type: 'set_submitting', payload: boolean }
-  | { type: 'set_store_in_vault', payload: boolean }
-  | { type: 'toggle_direct_debit', payload: boolean }
-  | { type: 'update_form', payload: { [key: string]: any } };
+import type { FundraiserAction, PaymentType } from './types';
 
 export function changeAmount(payload: ?number): FundraiserAction {
   $.publish('fundraiser:change_amount', [payload]);
@@ -67,6 +34,6 @@ export function setStoreInVault(payload: boolean = false): FundraiserAction {
   return { type: 'set_store_in_vault', payload };
 }
 
-export function setPaymentType(payload: ?string = null): FundraiserAction {
+export function setPaymentType(payload: PaymentType): FundraiserAction {
   return { type: 'set_payment_type', payload };
 }

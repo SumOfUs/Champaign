@@ -1,6 +1,6 @@
 {% if plugins.fundraiser[ref].active %}
   <div class="overlay-toggle">
-    <div class="{% unless freestanding %}overlay-toggle__mobile-view overlay-toggle__mobile-view--closed{% endunless %}">
+    <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
       <div class="fundraiser-bar__content">
         <div id="fundraiser-component" class="fundraiser-bar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% else %} sidebar stuck-right {% endif %}"></div>
       </div>
