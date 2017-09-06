@@ -29,6 +29,8 @@ class Plugins::EmailTool < ApplicationRecord
   belongs_to :form
   belongs_to :from_email_address, class_name: 'RegisteredEmailAddress'
 
+  before_create :set_from_email_address
+
   def name
     self.class.name.demodulize
   end
@@ -46,5 +48,11 @@ class Plugins::EmailTool < ApplicationRecord
       targets: targets,
       use_member_email: use_member_email
     }
+  end
+
+  private
+
+  def set_from_email_address
+    self.from_email_address ||= RegisteredEmailAddress.first
   end
 end
