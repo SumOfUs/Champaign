@@ -18,11 +18,11 @@ class EmailSender
     dynamodb_client.put_item(
       table_name: Settings.dynamodb_mailer_table,
       item: {
-        MailingId: "#{opts[:page_slug]}:#{Time.now.to_i}",
+        MailingId: "#{opts[:id]}:#{Time.now.to_i}",
         UserId: opts[:from_email],
         Body: simple_format(opts[:body]),
         Subject: opts[:subject],
-        ToEmails: format_emails_list(opts[:to_emails]),
+        ToEmails: format_emails_list(opts[:to]),
         FromName: opts[:from_name],
         FromEmail: opts[:from_email],
         ReplyTo: format_emails_list(opts[:reply_to])
@@ -51,7 +51,7 @@ class EmailSender
   end
 
   def validate_fields!
-    required_fields = %i[page_slug from_email body to_emails from_name from_email]
+    required_fields = %i[id from_email body to from_name from_email]
     blank_fields = required_fields.select { |f| opts[f].blank? }
     if blank_fields.any?
       raise ArgumentError, "The following fields are blank but are required: #{blank_fields.join(',')}"

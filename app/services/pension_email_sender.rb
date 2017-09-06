@@ -11,12 +11,14 @@ class PensionEmailSender
 
   def run
     EmailSender.run(
-      page_slug:  @page.slug,
+      id:  @page.slug,
       subject:    @params[:subject],
       body:       @params[:body],
-      to_emails:  to_emails,
+      to:         to_emails,
       from_name:  @params[:from_name],
+      # Use member's email only if #use_email_address is true
       from_email: @params[:from_email],
+      # Don't reply-to members email address if use_email_address is false
       reply_to: [{ name: @plugin.name_from, address: @plugin.email_from },
                  { name: @params[:from_name], address: @params[:from_email] }]
     )

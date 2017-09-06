@@ -4,6 +4,7 @@
 #
 #  id    :integer          not null, primary key
 #  email :string
+#  name  :string
 #
 
 class RegisteredEmailAddress < ActiveRecord::Base
