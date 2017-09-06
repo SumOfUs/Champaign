@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Emailing Targets', type: :request do
+describe 'Pension Emails', type: :request do
   let(:aws_client) { double(:aws_client, put_item: true) }
   let(:akid) { '25429.9032842.RNP4O4' }
 
@@ -44,13 +44,10 @@ describe 'Emailing Targets', type: :request do
           UserId: 'sender@example.com',
           Body: '<p>Body text</p>',
           Subject: 'Subject',
-          ToName: "Target's Name",
-          ToEmail: 'recipient@example.com',
+          ToEmails: 'Target name <recipient@example.com>',
           FromName: "Sender's Name",
           FromEmail: 'sender@example.com',
-          SourceEmail: 'origin@example.com',
-          Country: 'GB',
-          TargetName: 'Target name'
+          ReplyTo: "origin@example.com, Sender's Name <sender@example.com>"
         }
       }
 

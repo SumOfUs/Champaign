@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170829202936) do
+ActiveRecord::Schema.define(version: 20170905055514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -442,6 +442,7 @@ ActiveRecord::Schema.define(version: 20170829202936) do
     t.string "test_email_address"
     t.text "email_body_header"
     t.text "email_body_footer"
+    t.string "name_from"
     t.index ["page_id"], name: "index_plugins_email_pensions_on_page_id"
   end
 

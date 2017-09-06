@@ -4,7 +4,7 @@ class Api::EmailsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    raise 'implement'
+    EmailToolSender.run(params[:page_id], email_params)
   end
 
   def create_pension_email
@@ -16,6 +16,13 @@ class Api::EmailsController < ApplicationController
   end
 
   private
+
+  def email_params
+    params
+      .require(:email)
+      .permit(:body, :subject, :target_id, :country,
+              :to_email, :from_email, :from_name)
+  end
 
   def pension_email_params
     params

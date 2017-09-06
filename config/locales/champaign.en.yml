@@ -319,6 +319,7 @@ en:
       email_footer: "Footer (member can't edit)"
       email_address_for_testing: 'Email address to send to (use for testing only)'
       from_address: "'from' email address"
+      from_name: "'from' name"
       test_email_warning: "Don't forget to remove the test address before publishing."
       use_member_email: "Send from the member's email address"
       tooltips:
