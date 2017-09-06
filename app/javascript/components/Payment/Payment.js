@@ -341,11 +341,12 @@ export class Payment extends Component {
           </div>
         </ShowIf>
 
-        {!this.props.disableFormReveal &&
+        {!this.props.disableFormReveal && (
           <WelcomeMember
             member={member}
             resetMember={() => this.resetMember()}
-          />}
+          />
+        )}
 
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
@@ -368,6 +369,8 @@ export class Payment extends Component {
 
           <PayPal
             ref="paypal"
+            amount={donationAmount}
+            currency={currency}
             client={this.state.client}
             vault={recurring || storeInVault}
             onInit={() => this.paymentInitialized('paypal')}
@@ -381,21 +384,23 @@ export class Payment extends Component {
             onInit={() => this.paymentInitialized('card')}
           />
 
-          {currentPaymentType === 'paypal' &&
+          {currentPaymentType === 'paypal' && (
             <div className="PaymentMethod__guidance">
               <FormattedMessage
                 id={'fundraiser.payment_methods.ready_for_paypal'}
               />
-            </div>}
+            </div>
+          )}
 
-          {currentPaymentType === 'gocardless' &&
+          {currentPaymentType === 'gocardless' && (
             <div className="PaymentMethod__guidance">
               <FormattedMessage
                 id={'fundraiser.payment_methods.ready_for_gocardless'}
               />
-            </div>}
+            </div>
+          )}
 
-          {!hideRecurring &&
+          {!hideRecurring && (
             <Checkbox
               className="Payment__config"
               disabled={hideRecurring}
@@ -406,7 +411,8 @@ export class Payment extends Component {
                 id="fundraiser.make_recurring"
                 defaultMessage="Make my donation monthly"
               />
-            </Checkbox>}
+            </Checkbox>
+          )}
 
           <Checkbox
             className="Payment__config"

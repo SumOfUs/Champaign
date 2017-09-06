@@ -113,10 +113,22 @@ declare module 'braintree-web/paypal' {
     details: PayPalAccountDetails,
   };
 
-  declare type PaypalTokenizeOptions = {
-    flow: 'checkout' | 'vault',
+  declare type PayPalVaultFlowOptions = {
+    flow: 'vault',
+  };
+
+  declare type PayPalCheckoutFlowOptions = {
+    flow: 'checkout',
+    amount: number | string,
+    currency: string,
+  };
+
+  declare type PayPalTokenizeRequiredOptions =
+    | PayPalTokenizeVaultFlowOptions
+    | PayPalTokenizeCheckoutFlowOptions;
+
+  declare type PayPalTokenizeOptions = PayPalTokenizeRequiredOptions & {
     offerCredit?: boolean,
-    currency?: string,
     displayName?: string,
     locale?:
       | 'en_US'
