@@ -16,6 +16,7 @@
 #  test_email_address :string
 #  email_body_header  :text
 #  email_body_footer  :text
+#  name_from          :string
 #
 
 class Plugins::EmailPension < ApplicationRecord

@@ -24,4 +24,10 @@ FactoryGirl.define do
   factory :email_tool, class: 'Plugins::EmailTool' do
     association :page
   end
+
+  factory :email_tool_target, class: 'EmailTool::Target' do
+    skip_create
+    name { Faker::Name.name }
+    email { Faker::Internet.email }
+  end
 end

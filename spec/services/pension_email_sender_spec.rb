@@ -14,10 +14,10 @@ describe PensionEmailSender do
     PensionEmailSender.run(page.id, params)
   end
 
-  it 'sets the to_email to the plugin test_email if present' do
+  it "sets the 'to' field to the plugin test_email if present" do
     plugin.update(test_email_address: 'test@test.com')
     expect(EmailSender).to receive(:run)
-      .with(hash_including(to_emails: { address: 'test@test.com', name: 'Test' }))
+      .with(hash_including(to: { address: 'test@test.com', name: 'Test' }))
     PensionEmailSender.run(page.id, {})
   end
 
@@ -34,9 +34,9 @@ describe PensionEmailSender do
     PensionEmailSender.run(page.id, from_name: 'John', from_email: 'john@mail.com')
   end
 
-  it 'sets the page_slug' do
+  it 'sets the id to the page_slug' do
     expect(EmailSender).to receive(:run)
-      .with(hash_including(page_slug: 'foo-bar'))
+      .with(hash_including(id: 'foo-bar'))
     PensionEmailSender.run(page.id, {})
   end
 end
