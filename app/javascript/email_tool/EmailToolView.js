@@ -60,32 +60,27 @@ export default class EmailToolView extends Component {
     return this.state.emailFrom;
   }
 
-  emailPayload(): ChampaignEmailPayload {
+  payload(): ChampaignEmailPayload {
     return {
-      email: {
-        target_id: get(this.state.target, 'id', undefined),
-        body: this.prepBody(),
-        country: this.state.country,
-        from_name: this.state.name,
-        from_email: this.fromEmail(),
-        page: this.props.page,
-        page_id: this.props.pageId,
-        subject: this.state.emailSubject,
-      },
+      body: this.prepBody(),
+      country: this.state.country,
+      from_name: this.state.name,
+      from_email: this.fromEmail(),
+      page_id: this.props.pageId,
+      subject: this.state.emailSubject,
+      target_id: get(this.state.target, 'id', undefined),
     };
   }
 
   onSubmit(e: SyntheticEvent) {
     e.preventDefault();
-    this.setState(s => ({ ...s, isSubmitting: true }));
-    MailerClient.sendEmail(this.emailPayload()).then(
-      success => {
-        console.log('Sending email success!', success);
-        this.setState(s => ({ ...s, isSubmitting: false }));
+    this.setState(s => ({ ...s, isSubmitting: true, errors: [] }));
+    MailerClient.sendEmail(this.payload()).then(
+      ({ errors }) => {
+        this.setState(s => ({ ...s, isSubmitting: false, errors }));
       },
-      failure => {
-        console.log('Sending email failed', failure);
-        this.setState(s => ({ ...s, isSubmitting: false }));
+      ({ errors }) => {
+        this.setState(s => ({ ...s, isSubmitting: false, errors }));
       }
     );
   }
@@ -113,6 +108,10 @@ export default class EmailToolView extends Component {
       ...state,
       target,
     }));
+  }
+
+  updateBody(emailBody: string) {
+    return this.setState(s => ({ ...s, emailBody }));
   }
 
   render() {
@@ -193,11 +192,9 @@ export default class EmailToolView extends Component {
                   <textarea
                     name="email_body"
                     value={this.state.emailBody}
-                    onChange={e => {
-                      this.setState(s => ({
-                        ...s,
-                        emailBody: e.currentTarget.value,
-                      }));
+                    onChange={({ target }: SyntheticEvent) => {
+                      target instanceof HTMLTextAreaElement &&
+                        this.updateBody(target.value);
                     }}
                     maxLength="9999"
                   />
