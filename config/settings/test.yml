@@ -122,3 +122,5 @@ twilio:
 
 calls:
   targeting_secret: <%= ENV['CALL_TARGETING_SECRET'] %>
+
+dynamodb_mailer_table: 'UserMailing'
