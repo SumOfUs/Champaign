@@ -97,12 +97,20 @@ describe EmailToolSender do
     end
   end
 
-  it "fails if the plugin doesn't have a from_email_address configures" do
+  it "fails if the plugin doesn't have a from_email_address configured" do
     plugin.update! from_email_address: nil
     service = EmailToolSender.new(page.id, params)
 
     expect(service.run).to be false
-    expect(service.errors[:base]).to include('Please configure a From email address.')
+    expect(service.errors[:base]).to include('Please configure a From email address')
+  end
+
+  it "fails if the plugins doesn't have at least a target" do
+    plugin.update! targets: []
+    service = EmailToolSender.new(page.id, params)
+
+    expect(service.run).to be false
+    expect(service.errors[:base]).to include('Please configure at least one target')
   end
 
   it 'validates the presence of following fields: from_name, from_email, body and subject' do
