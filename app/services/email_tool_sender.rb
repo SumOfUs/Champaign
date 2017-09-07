@@ -1,4 +1,6 @@
 class EmailToolSender
+  attr_reader :errors
+
   def self.run(page_id, params)
     new(page_id, params).run
   end
@@ -7,22 +9,26 @@ class EmailToolSender
     @plugin ||= Plugins::EmailTool.find_by(page_id: page_id)
     @page = Page.find(page_id)
     @params = params.slice(:from_email, :from_name, :body, :subject, :target_id)
+    @errors = {}
   end
 
   def run
-    # TODO: validate the @plugin.from_email_address is present
-    # validate from_name presence
-    # validate from_email presence and format
-    # validate body, subject presence
-    EmailSender.run(
-      id: @page.slug,
-      to: to_emails,
-      from_name: from_email_hash[:name],
-      from_email: from_email_hash[:address],
-      reply_to: reply_to_emails,
-      subject: @params[:subject],
-      body: @params[:body]
-    )
+    validate_plugin
+    validate_email_fields
+
+    if errors.blank?
+      EmailSender.run(
+        id: @page.slug,
+        to: to_emails,
+        from_name: from_email_hash[:name],
+        from_email: from_email_hash[:address],
+        reply_to: reply_to_emails,
+        subject: @params[:subject],
+        body: @params[:body]
+      )
+    end
+
+    errors.blank?
   end
 
   private
@@ -61,5 +67,32 @@ class EmailToolSender
     list = [plugin_email_from_hash]
     list << member_email_hash if @plugin.use_member_email?
     list
+  end
+
+  def validate_plugin
+    if @plugin.from_email_address.blank?
+      add_error(:base, 'Please configure a From email address.')
+    end
+  end
+
+  def validate_email_fields
+    email = Email.new @params.slice(:from_name, :from_email, :body, :subject)
+    email.validate
+    email.errors.each { |key, msg| add_error(key, msg) }
+  end
+
+  def add_error(key, message)
+    @errors[key] ||= []
+    @errors[key] << message
+  end
+
+  class Email
+    include ActiveModel::Model
+    attr_accessor :from_name, :from_email, :body, :subject
+
+    validates :from_name, presence: true
+    validates :from_email, presence: true, email: true
+    validates :body, presence: true
+    validates :subject, presence: true
   end
 end

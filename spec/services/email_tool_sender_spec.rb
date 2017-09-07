@@ -96,4 +96,26 @@ describe EmailToolSender do
       EmailToolSender.run(page.id, params)
     end
   end
+
+  it "fails if the plugin doesn't have a from_email_address configures" do
+    plugin.update! from_email_address: nil
+    service = EmailToolSender.new(page.id, params)
+
+    expect(service.run).to be false
+    expect(service.errors[:base]).to include('Please configure a From email address.')
+  end
+
+  it 'validates the presence of following fields: from_name, from_email, body and subject' do
+    service = EmailToolSender.new(page.id, {})
+    expect(service.run).to be false
+    %i[from_name from_email body subject].each do |field|
+      expect(service.errors[field]).to include("can't be blank")
+    end
+  end
+
+  it 'validates the format of from_email' do
+    service = EmailToolSender.new(page.id, from_email: 'wrongformat@')
+    expect(service.run).to be false
+    expect(service.errors[:from_email]).to include('is not an email')
+  end
 end
