@@ -46,5 +46,5 @@ Style/VariableNumber:
 Lint/HandleExceptions:
   Enabled: false
 
-Naming/AccessorMethodName:
+Style/AccessorMethodName:
   Enabled: false

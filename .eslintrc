@@ -23,9 +23,6 @@ parserOptions:
     generators: true
     jsx: true
 rules:
-  comma-dangle:
-    - warn
-    - always-multiline
   no-fallthrough: warn
   no-extra-semi: warn
   semi: error
