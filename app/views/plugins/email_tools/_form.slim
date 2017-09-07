@@ -36,5 +36,12 @@
         = f.label(:email_body_footer, t('plugins.email_tool.email_footer'))
         = f.text_area :email_body_footer, class: 'form-control height-short'
 
+      .form-group
+        = f.label(:targeting_mode, t('plugins.email_tool.targeting_mode'))
+        = f.select :targeting_mode,
+                   Plugins::EmailTool.targeting_modes.keys.map { |mode| [t("plugins.email_tool.targeting_modes.#{mode}"), mode] },
+                   {},
+                   class: 'form-control'
+
     .email-tool__target-form
       = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }
