@@ -4,7 +4,12 @@ class Api::EmailsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    EmailToolSender.run(params[:page_id], email_params)
+    service = EmailToolSender.new(params[:page_id], email_params)
+    if service.run
+      head :ok
+    else
+      render json: { errors: service.errors }, status: :unprocessable_entity
+    end
   end
 
   def create_pension_email
@@ -21,7 +26,7 @@ class Api::EmailsController < ApplicationController
     params
       .require(:email)
       .permit(:body, :subject, :target_id, :country,
-              :to_email, :from_email, :from_name)
+              :from_email, :from_name)
   end
 
   def pension_email_params
