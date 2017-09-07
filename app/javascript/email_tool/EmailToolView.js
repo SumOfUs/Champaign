@@ -5,9 +5,11 @@ import Select from '../components/SweetSelect/SweetSelect';
 import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
+import EmailEditor from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../util/ChampaignClient';
+import type { ErrorMap } from '../util/ChampaignClient/Base';
 
 type ChampaignEmailPayload = any;
 
@@ -35,10 +37,14 @@ type Props = {
   onSuccess?: (target: EmailTarget) => void,
 };
 
-type State = Props & {
+type State = {
+  name: string,
+  email: string,
+  subject: string,
+  body: string,
   target: ?EmailTarget,
   targetsForSelection: SelectOption[],
-  errors: { [field: string]: string },
+  errors: ErrorMap,
   isSubmitting: boolean,
 };
 
@@ -56,29 +62,25 @@ export default class EmailToolView extends Component {
   constructor(props: Props) {
     super(props);
     this.state = {
-      ...this.props,
+      name: this.props.name,
+      email: this.props.email,
+      subject: this.props.emailSubject,
+      body: '', // this is the complete body: header + body + footer
       target: sample(this.props.targets),
       targetsForSelection: props.targets.map(emailTargetAsSelectOption),
       errors: {},
+      isSubmitting: false,
     };
-  }
-
-  fromEmail(): string {
-    if (this.state.useMemberEmail) {
-      return this.state.email;
-    }
-
-    return this.state.emailFrom;
   }
 
   payload(): ChampaignEmailPayload {
     return {
-      body: this.prepBody(),
-      country: this.state.country,
+      body: this.state.body,
+      country: this.props.country,
       from_name: this.state.name,
-      from_email: this.fromEmail(),
+      from_email: this.state.email,
       page_id: this.props.pageId,
-      subject: this.state.emailSubject,
+      subject: this.state.subject,
       target_id: get(this.state.target, 'id', undefined),
     };
   }
@@ -99,39 +101,10 @@ export default class EmailToolView extends Component {
     );
   }
 
-  parseHeader() {
-    return { __html: this.parse(this.props.emailHeader) };
-  }
-
-  parseFooter() {
-    return { __html: this.parse(this.props.emailFooter) };
-  }
-
-  prepBody() {
-    return `${this.parseHeader().__html}\n\n${this.props
-      .emailBody}\n\n${this.parseFooter().__html}`;
-  }
-
-  parse(templateString: string) {
-    templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    return template(templateString)(this.state);
-  }
-
-  updateBody(emailBody: string) {
-    return this.setState(s => ({ ...s, emailBody }));
-  }
-
   updateTarget(id: ?string) {
     this.setState(state => ({
       ...state,
       target: this.props.targets.find(t => t.id === id),
-    }));
-  }
-
-  targetsAsOptions() {
-    return this.props.targets.map(target => ({
-      label: target.name,
-      value: target,
     }));
   }
 
@@ -164,22 +137,6 @@ export default class EmailToolView extends Component {
 
               <div className="form__group">
                 <Input
-                  name="subject"
-                  errorMessage={this.state.errors.emailSubject}
-                  value={this.state.emailSubject}
-                  label={
-                    <FormattedMessage
-                      id="email_target.form.subject"
-                      defaultMessage="Subject (default)"
-                    />
-                  }
-                  onChange={emailSubject =>
-                    this.setState(s => ({ ...s, emailSubject }))}
-                />
-              </div>
-
-              <div className="form__group">
-                <Input
                   name="name"
                   label={
                     <FormattedMessage
@@ -192,7 +149,6 @@ export default class EmailToolView extends Component {
                   onChange={name => this.setState(s => ({ ...s, name }))}
                 />
               </div>
-
               <div className="form__group">
                 <Input
                   name="email"
@@ -208,28 +164,20 @@ export default class EmailToolView extends Component {
                   onChange={email => this.setState(s => ({ ...s, email }))}
                 />
               </div>
-
-              <div className="form__group">
-                <div className="email__target-body">
-                  <div
-                    className="email__target-header"
-                    dangerouslySetInnerHTML={this.parseHeader()}
-                  />
-                  <textarea
-                    name="email_body"
-                    value={this.state.emailBody}
-                    onChange={({ target }: SyntheticEvent) => {
-                      target instanceof HTMLTextAreaElement &&
-                        this.updateBody(target.value);
-                    }}
-                    maxLength="9999"
-                  />
-                  <div
-                    className="email__target-footer"
-                    dangerouslySetInnerHTML={this.parseFooter()}
-                  />
-                </div>
-              </div>
+              <EmailEditor
+                name={this.state.name}
+                errors={this.state.errors}
+                emailBody={this.props.emailBody}
+                emailHeader={this.props.emailHeader}
+                emailFooter={this.props.emailFooter}
+                emailSubject={this.props.emailSubject}
+                onChange={data =>
+                  this.setState(s => ({
+                    ...s,
+                    body: data.body,
+                    subject: data.subject,
+                  }))}
+              />
             </div>
 
             <div className="form__group">

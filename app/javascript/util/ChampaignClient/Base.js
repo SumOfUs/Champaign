@@ -3,9 +3,13 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { camelizeKeys } from '../util';
 
+export type ErrorMap = {
+  [key: string]: any[],
+};
+
 export type OperationResponse = {
   success: boolean,
-  errors: { [id: string]: any[] },
+  errors: ErrorMap,
 };
 
 export const parseResponse = (response: any): OperationResponse => {
