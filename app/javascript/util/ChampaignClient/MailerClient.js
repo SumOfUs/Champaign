@@ -16,7 +16,7 @@ export function sendEmail(params: SendEmailParams): Promise<OperationResponse> {
   const { page_id, ...email } = params;
 
   return new Promise((resolve, reject) => {
-    $.post(`/api/pages/${page_id}/email`, { email })
+    $.post(`/api/pages/${page_id}/emails`, { email })
       .done(response => resolve(parseResponse(response)))
       .fail(response => reject(parseResponse(response)));
   });
