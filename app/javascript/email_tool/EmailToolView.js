@@ -1,21 +1,22 @@
 // @flow
 import React, { Component } from 'react';
-import { get, template } from 'lodash';
+import { get, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
+import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
-import SelectCountry from '../components/SelectCountry/SelectCountry';
-import CascadingSelect from '../components/CascadingSelect/CascadingSelect';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../util/ChampaignClient';
 
 type ChampaignEmailPayload = any;
 
-type EmailTarget = {
+export interface EmailTarget {
+  id: string,
+  title?: string,
   name: string,
   email: string,
-};
+}
 
 type Props = {
   emailBody: string,
@@ -31,13 +32,22 @@ type Props = {
   pageId: number,
   targets: EmailTarget[],
   useMemberEmail: boolean,
+  onSuccess?: (target: EmailTarget) => void,
 };
 
 type State = Props & {
   target: ?EmailTarget,
+  targetsForSelection: SelectOption[],
   errors: { [field: string]: string },
   isSubmitting: boolean,
 };
+
+function emailTargetAsSelectOption(target: EmailTarget): SelectOption {
+  return {
+    label: target.title ? `${target.name}, ${target.title}` : target.name,
+    value: target.id,
+  };
+}
 
 export default class EmailToolView extends Component {
   props: Props;
@@ -47,7 +57,8 @@ export default class EmailToolView extends Component {
     super(props);
     this.state = {
       ...this.props,
-      target: undefined,
+      target: sample(this.props.targets),
+      targetsForSelection: props.targets.map(emailTargetAsSelectOption),
       errors: {},
     };
   }
@@ -78,6 +89,9 @@ export default class EmailToolView extends Component {
     MailerClient.sendEmail(this.payload()).then(
       ({ errors }) => {
         this.setState(s => ({ ...s, isSubmitting: false, errors }));
+        if (typeof this.props.onSuccess === 'function' && this.state.target) {
+          this.props.onSuccess(this.state.target);
+        }
       },
       ({ errors }) => {
         this.setState(s => ({ ...s, isSubmitting: false, errors }));
@@ -103,27 +117,28 @@ export default class EmailToolView extends Component {
     return template(templateString)(this.state);
   }
 
-  updateTarget(target: ?EmailTarget) {
+  updateBody(emailBody: string) {
+    return this.setState(s => ({ ...s, emailBody }));
+  }
+
+  updateTarget(id: ?string) {
     this.setState(state => ({
       ...state,
-      target,
+      target: this.props.targets.find(t => t.id === id),
     }));
   }
 
-  updateBody(emailBody: string) {
-    return this.setState(s => ({ ...s, emailBody }));
+  targetsAsOptions() {
+    return this.props.targets.map(target => ({
+      label: target.name,
+      value: target,
+    }));
   }
 
   render() {
     return (
       <div className="email-target">
         <div className="email-target-form">
-          {/*<CascadingSelect
-            targets={this.props.targets}
-            onChange={t => this.updateTarget(t)}
-          />
-          */}
-
           <form
             onSubmit={e => this.onSubmit(e)}
             className="action-form form--big"
@@ -135,6 +150,17 @@ export default class EmailToolView extends Component {
                   defaultMessage="Compose Your Email"
                 />
               </h3>
+              <div className="form__group">
+                <Select
+                  clearable={false}
+                  name="Target"
+                  label="Select a target"
+                  value={get(this.state.target, 'id', undefined)}
+                  options={this.state.targetsForSelection}
+                  onChange={id => this.updateTarget(id)}
+                />
+                <br />
+              </div>
 
               <div className="form__group">
                 <Input
