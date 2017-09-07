@@ -4,11 +4,7 @@ import { render } from 'react-dom';
 import { camelizeKeys } from '../util/util';
 import ComponentWrapper from '../components/ComponentWrapper';
 import EmailToolView from '../email_tool/EmailToolView';
-
-type EmailTarget = {
-  name: string,
-  email: string,
-};
+import type { EmailTarget } from '../email_tool/EmailToolView';
 
 type Props = {
   country?: string,
@@ -26,6 +22,7 @@ type Props = {
   targets: EmailTarget[],
   useMemberEmail: boolean,
   useManualTargeting: boolean,
+  onSuccess: (target: EmailTarget) => void,
 };
 
 function mount(

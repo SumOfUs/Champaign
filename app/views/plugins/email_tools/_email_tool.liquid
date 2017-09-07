@@ -8,7 +8,15 @@
       _.merge(data, {
         name: personalization.member.full_name,
         email: personalization.member.email,
-        country: personalization.member.country || personalization.location.country
+        country: personalization.member.country || personalization.location.country,
+        onSuccess: function (target) {
+          window.location.href = window.URI("{{ follow_up_url }}")
+            .addSearch({
+              'target[name]': target.name,
+              'target[title]': target.title
+            })
+            .toString();
+        }
       });
 
       mountEmailTool('email-tool-component', data);

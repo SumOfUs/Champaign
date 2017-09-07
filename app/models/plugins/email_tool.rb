@@ -45,7 +45,7 @@ class Plugins::EmailTool < ApplicationRecord
       locale: page.language_code,
       page_id: page_id,
       page: page.slug,
-      targets: targets,
+      targets: targets.map { |t| t.to_hash.merge(id: t.id) },
       use_member_email: use_member_email
     }
   end
