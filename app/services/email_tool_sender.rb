@@ -71,7 +71,11 @@ class EmailToolSender
 
   def validate_plugin
     if @plugin.from_email_address.blank?
-      add_error(:base, 'Please configure a From email address.')
+      add_error(:base, 'Please configure a From email address')
+    end
+
+    if @plugin.targets.empty?
+      add_error(:base, 'Please configure at least one target')
     end
   end
 
