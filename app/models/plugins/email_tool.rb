@@ -18,6 +18,7 @@
 #  updated_at            :datetime         not null
 #  use_member_email      :boolean          default("false")
 #  from_email_address_id :integer
+#  targeting_mode        :integer
 #
 
 class Plugins::EmailTool < ApplicationRecord
@@ -25,11 +26,15 @@ class Plugins::EmailTool < ApplicationRecord
   include HasTargets
   set_target_class ::EmailTool::Target
 
+  enum targeting_mode: %i[member_selected_target all_targets]
+
   belongs_to :page, touch: true
   belongs_to :form
   belongs_to :from_email_address, class_name: 'RegisteredEmailAddress'
 
   before_create :set_from_email_address
+
+  validates :targeting_mode, presence: true
 
   def name
     self.class.name.demodulize

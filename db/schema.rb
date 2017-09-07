@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170906141735) do
+ActiveRecord::Schema.define(version: 20170907191558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -460,6 +460,7 @@ ActiveRecord::Schema.define(version: 20170906141735) do
     t.datetime "updated_at", null: false
     t.boolean "use_member_email", default: false
     t.integer "from_email_address_id"
+    t.integer "targeting_mode", default: 0
     t.index ["page_id"], name: "index_plugins_email_tools_on_page_id"
   end
 

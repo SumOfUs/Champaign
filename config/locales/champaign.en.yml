@@ -322,6 +322,10 @@ en:
       from_name: "'from' name"
       test_email_warning: "Don't forget to remove the test address before publishing."
       use_member_email: "Send from the member's email address"
+      targeting_mode: "Targeting mode"
+      targeting_modes:
+        all_targets: "Send email to all targets"
+        member_selected_target: "Send email to a single target selected by the member"
       tooltips:
         use_member_email: "Emails sent to targets will use the member's email address in the `from` field"
         from_address: "Email will be sent from this email address if \"Send from member's email address\" is unchecked. In any case, this address will also be used as a reply-to address."

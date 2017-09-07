@@ -18,6 +18,7 @@
 #  updated_at            :datetime         not null
 #  use_member_email      :boolean          default("false")
 #  from_email_address_id :integer
+#  targeting_mode        :integer
 #
 
 FactoryGirl.define do
