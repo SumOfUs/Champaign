@@ -60,7 +60,7 @@ export default (state: State = initialState, action: Action): State => {
         return {
           ...state,
           currentPaymentType: 'gocardless',
-          directDebitOnly: true,
+          directDebitOnly: action.payload,
         };
       }
       return state;
