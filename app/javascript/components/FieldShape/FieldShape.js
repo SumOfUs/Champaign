@@ -6,12 +6,10 @@ import SweetSelect from '../SweetSelect/SweetSelect';
 import Checkbox from '../Checkbox/Checkbox';
 import type { Element } from 'react';
 import type { FormattedMessage } from 'react-intl';
+import type { SelectOption } from '../SweetSelect/SweetSelect';
 
-export type Choice = {
-  id: string,
-  value: string,
-  label?: mixed,
-};
+export type Choice = SelectOption & { id?: string };
+
 export type Field = {
   data_type: string,
   name: string,
@@ -103,7 +101,7 @@ export default class FieldShape extends Component {
       <div className="radio-container">
         <div className="form__instruction">{fieldProps.label}</div>
         {field.choices &&
-          field.choices.map(choice =>
+          field.choices.map(choice => (
             <label key={choice.id} htmlFor={choice.id}>
               <input
                 id={choice.id}
@@ -117,7 +115,7 @@ export default class FieldShape extends Component {
               />
               {choice.label}
             </label>
-          )}
+          ))}
         {this.errorMessage(fieldProps)}
       </div>
     );
