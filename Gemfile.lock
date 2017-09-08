@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/SumOfUs/actionkit_connector
-  revision: c49c3ebde5664969fc6d9bb9ddb1d5664e983d9a
+  revision: 43454681be53430f9671795bcb3a250554231acb
   branch: master
   specs:
     actionkit_connector (0.4.4)
@@ -255,7 +255,7 @@ GEM
     hashdiff (0.3.4)
     hashie (3.5.5)
     hiredis (0.6.1)
-    httparty (0.15.5)
+    httparty (0.15.6)
       multi_xml (>= 0.5.2)
     i18n (0.8.6)
     i18n-js (3.0.0)
