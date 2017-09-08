@@ -5,11 +5,14 @@ import Select from '../components/SweetSelect/SweetSelect';
 import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
+import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../util/ChampaignClient';
 import type { ErrorMap } from '../util/ChampaignClient/Base';
+
+import './EmailToolView';
 
 type ChampaignEmailPayload = any;
 
@@ -108,22 +111,29 @@ export default class EmailToolView extends Component {
     }));
   }
 
+  templateVars() {
+    return {
+      name: this.state.name,
+      target: this.state.target,
+    };
+  }
+
   render() {
     return (
-      <div className="email-target">
-        <div className="email-target-form">
+      <div className="EmailToolView">
+        <div className="EmailToolView-form">
           <form
             onSubmit={e => this.onSubmit(e)}
             className="action-form form--big"
           >
-            <div className="email-target-action">
-              <h3>
+            <div className="EmailToolView-action">
+              <h3 className="EmailToolView-title">
                 <FormattedMessage
-                  id="email_target.section.compose"
+                  id="email_tool.section.compose"
                   defaultMessage="Compose Your Email"
                 />
               </h3>
-              <div className="form__group">
+              <FormGroup>
                 <Select
                   clearable={false}
                   name="Target"
@@ -132,15 +142,14 @@ export default class EmailToolView extends Component {
                   options={this.state.targetsForSelection}
                   onChange={id => this.updateTarget(id)}
                 />
-                <br />
-              </div>
+              </FormGroup>
 
-              <div className="form__group">
+              <FormGroup>
                 <Input
                   name="name"
                   label={
                     <FormattedMessage
-                      id="email_target.form.your_name"
+                      id="email_tool.form.your_name"
                       defaultMessage="Your name (default)"
                     />
                   }
@@ -148,14 +157,14 @@ export default class EmailToolView extends Component {
                   errorMessage={this.state.errors.name}
                   onChange={name => this.setState(s => ({ ...s, name }))}
                 />
-              </div>
-              <div className="form__group">
+              </FormGroup>
+              <FormGroup>
                 <Input
                   name="email"
                   type="email"
                   label={
                     <FormattedMessage
-                      id="email_target.form.your_email"
+                      id="email_toolt.form.your_email"
                       defaultMessage="Your email (default)"
                     />
                   }
@@ -163,14 +172,14 @@ export default class EmailToolView extends Component {
                   errorMessage={this.state.errors.email}
                   onChange={email => this.setState(s => ({ ...s, email }))}
                 />
-              </div>
+              </FormGroup>
               <EmailEditor
-                name={this.state.name}
                 errors={this.state.errors}
                 emailBody={this.props.emailBody}
                 emailHeader={this.props.emailHeader}
                 emailFooter={this.props.emailFooter}
                 emailSubject={this.props.emailSubject}
+                templateVars={this.templateVars()}
                 onChange={data =>
                   this.setState(s => ({
                     ...s,
@@ -180,17 +189,17 @@ export default class EmailToolView extends Component {
               />
             </div>
 
-            <div className="form__group">
+            <FormGroup>
               <Button
                 disabled={this.state.isSubmitting}
                 className="button action-form__submit-button"
               >
                 <FormattedMessage
-                  id="email_target.form.send_email"
+                  id="email_tool.form.send_email"
                   defaultMessage="Send email (default)"
                 />
               </Button>
-            </div>
+            </FormGroup>
           </form>
         </div>
       </div>
