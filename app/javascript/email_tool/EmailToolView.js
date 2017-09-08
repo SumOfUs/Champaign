@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { get, sample, template } from 'lodash';
+import { compact, get, join, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
+import type { EmailProps } from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
 import { MailerClient } from '../util/ChampaignClient';
@@ -37,6 +38,7 @@ type Props = {
   pageId: number,
   targets: EmailTarget[],
   useMemberEmail: boolean,
+  manualTargeting: boolean,
   onSuccess?: (target: EmailTarget) => void,
 };
 
@@ -53,7 +55,7 @@ type State = {
 
 function emailTargetAsSelectOption(target: EmailTarget): SelectOption {
   return {
-    label: target.title ? `${target.name}, ${target.title}` : target.name,
+    label: join(compact([target.name, target.title]), ', '),
     value: target.id,
   };
 }
@@ -76,19 +78,33 @@ export default class EmailToolView extends Component {
     };
   }
 
+  targetId(): ?string {
+    if (this.props.manualTargeting) {
+      return get(this.state.target, 'id', undefined);
+    }
+  }
+
   payload(): ChampaignEmailPayload {
     return {
-      body: this.state.body,
+      body: '',
       country: this.props.country,
       from_name: this.state.name,
       from_email: this.state.email,
       page_id: this.props.pageId,
       subject: this.state.subject,
-      target_id: get(this.state.target, 'id', undefined),
+      target_id: this.targetId(),
     };
   }
 
-  onSubmit(e: SyntheticEvent) {
+  // Event Handlers
+  // Use arrow functions so that we don't create new instances
+  // inside `render()` to avoid triggering unnecessary re-renders.
+
+  // onSubmit
+  // Attempt to send the email on submit. If successful, we call the
+  // onSuccess prop with the selected target. On failure, we update
+  // the state with the errors we receive from the backend.
+  onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     this.setState(s => ({ ...s, isSubmitting: true, errors: [] }));
     MailerClient.sendEmail(this.payload()).then(
@@ -102,14 +118,30 @@ export default class EmailToolView extends Component {
         this.setState(s => ({ ...s, isSubmitting: false, errors }));
       }
     );
-  }
+  };
 
-  updateTarget(id: ?string) {
+  // onTargetChange
+  // Update the selected target. We use the target.id to find the
+  // target. If no id is passed, we clear the target property.
+  onTargetChange = (id: ?string) => {
     this.setState(state => ({
       ...state,
       target: this.props.targets.find(t => t.id === id),
     }));
-  }
+  };
+
+  onNameChange = (name: string) => this.setState(s => ({ ...s, name }));
+
+  onEmailChange = (email: string) => this.setState(s => ({ ...s, email }));
+
+  // onEmailEditorChange
+  // The EmailEditor component returns a structure
+  onEmailEditorUpdate = (emailProps: EmailProps) => {
+    this.setState(s => ({
+      ...s,
+      ...emailProps,
+    }));
+  };
 
   templateVars() {
     return {
@@ -122,10 +154,7 @@ export default class EmailToolView extends Component {
     return (
       <div className="EmailToolView">
         <div className="EmailToolView-form">
-          <form
-            onSubmit={e => this.onSubmit(e)}
-            className="action-form form--big"
-          >
+          <form onSubmit={this.onSubmit} className="action-form form--big">
             <div className="EmailToolView-action">
               <h3 className="EmailToolView-title">
                 <FormattedMessage
@@ -133,16 +162,18 @@ export default class EmailToolView extends Component {
                   defaultMessage="Compose Your Email"
                 />
               </h3>
-              <FormGroup>
-                <Select
-                  clearable={false}
-                  name="Target"
-                  label="Select a target"
-                  value={get(this.state.target, 'id', undefined)}
-                  options={this.state.targetsForSelection}
-                  onChange={id => this.updateTarget(id)}
-                />
-              </FormGroup>
+              {this.props.manualTargeting && (
+                <FormGroup>
+                  <Select
+                    clearable={false}
+                    name="Target"
+                    label="Select a target"
+                    value={get(this.state.target, 'id', undefined)}
+                    options={this.state.targetsForSelection}
+                    onChange={this.onTargetChange}
+                  />
+                </FormGroup>
+              )}
 
               <FormGroup>
                 <Input
@@ -155,7 +186,7 @@ export default class EmailToolView extends Component {
                   }
                   value={this.state.name}
                   errorMessage={this.state.errors.name}
-                  onChange={name => this.setState(s => ({ ...s, name }))}
+                  onChange={this.onNameChange}
                 />
               </FormGroup>
               <FormGroup>
@@ -170,7 +201,7 @@ export default class EmailToolView extends Component {
                   }
                   value={this.state.email}
                   errorMessage={this.state.errors.email}
-                  onChange={email => this.setState(s => ({ ...s, email }))}
+                  onChange={this.onEmailChange}
                 />
               </FormGroup>
               <EmailEditor
@@ -180,12 +211,7 @@ export default class EmailToolView extends Component {
                 emailFooter={this.props.emailFooter}
                 emailSubject={this.props.emailSubject}
                 templateVars={this.templateVars()}
-                onChange={data =>
-                  this.setState(s => ({
-                    ...s,
-                    body: data.body,
-                    subject: data.subject,
-                  }))}
+                onUpdate={this.onEmailEditorUpdate}
               />
             </div>
 
