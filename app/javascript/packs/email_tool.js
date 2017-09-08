@@ -21,7 +21,7 @@ type Props = {
   pageId: number,
   targets: EmailTarget[],
   useMemberEmail: boolean,
-  useManualTargeting: boolean,
+  manualTargeting: boolean,
   onSuccess: (target: EmailTarget) => void,
 };
 

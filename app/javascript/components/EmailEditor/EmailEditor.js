@@ -2,12 +2,13 @@
 import React, { PureComponent } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
+import ErrorMessage from '../ErrorMessage';
 import { FormattedMessage } from 'react-intl';
 import { compact, get, template } from 'lodash';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
 import './EmailEditor.scss';
 
-type EmailFields = {
+export type EmailProps = {
   subject: string,
   body: string,
 };
@@ -19,12 +20,12 @@ type Props = {
   emailSubject: string,
   templateVars: { [key: string]: any },
   errors: ErrorMap,
-  onChange: (email: EmailFields) => void,
+  onUpdate: (email: EmailProps) => void,
 };
 
 export default class EmailEditor extends PureComponent {
   props: Props;
-  state: EmailFields;
+  state: EmailProps;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -34,7 +35,7 @@ export default class EmailEditor extends PureComponent {
   }
 
   componentDidMount() {
-    this.onChange();
+    this.update();
   }
 
   body() {
@@ -50,23 +51,25 @@ export default class EmailEditor extends PureComponent {
     return template(templateString)(this.props.templateVars);
   }
 
-  onChange() {
-    if (typeof this.props.onChange === 'function') {
-      this.props.onChange({
+  update = () => {
+    if (typeof this.props.onUpdate === 'function') {
+      this.props.onUpdate({
         subject: this.state.subject,
         body: this.body(),
       });
     }
-  }
+  };
 
-  updateSubject(subject: string) {
-    this.setState(s => ({ ...s, subject }), () => this.onChange());
-  }
+  updateSubject = (subject: string) => {
+    this.setState(s => ({ ...s, subject }), this.update);
+  };
 
-  updateBody(body: string) {
-    console.log('update body');
-    this.setState(s => ({ ...s, body }), () => this.onChange());
-  }
+  updateBody = ({ target }: SyntheticEvent) => {
+    if (target instanceof HTMLTextAreaElement) {
+      const body = target.value;
+      this.setState(s => ({ ...s, body }), this.update);
+    }
+  };
 
   render() {
     const { emailHeader, emailFooter, errors } = this.props;
@@ -83,7 +86,7 @@ export default class EmailEditor extends PureComponent {
                 defaultMessage="Subject (default)"
               />
             }
-            onChange={subject => this.updateSubject(subject)}
+            onChange={this.updateSubject}
           />
         </FormGroup>
         <FormGroup>
@@ -96,11 +99,8 @@ export default class EmailEditor extends PureComponent {
             )}
             <textarea
               name="email_body"
-              value={this.state.body}
-              onChange={({ target }: SyntheticEvent) => {
-                target instanceof HTMLTextAreaElement &&
-                  this.updateBody(target.value);
-              }}
+              defaultValue={this.state.body}
+              onChange={this.updateBody}
               maxLength="9999"
             />
             {emailFooter && (
@@ -110,6 +110,8 @@ export default class EmailEditor extends PureComponent {
               />
             )}
           </div>
+
+          <ErrorMessage name="Email body" error={this.props.errors.body} />
         </FormGroup>
       </div>
     );
