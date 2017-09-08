@@ -1,9 +1,11 @@
 // @flow
 import React, { PureComponent } from 'react';
 import Input from '../SweetInput/SweetInput';
+import FormGroup from '../Form/FormGroup';
 import { FormattedMessage } from 'react-intl';
-import { compact, template } from 'lodash';
+import { compact, get, template } from 'lodash';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
+import './EmailEditor.scss';
 
 type EmailFields = {
   subject: string,
@@ -15,19 +17,14 @@ type Props = {
   emailFooter?: string,
   emailHeader?: string,
   emailSubject: string,
-  name: string,
+  templateVars: { [key: string]: any },
   errors: ErrorMap,
   onChange: (email: EmailFields) => void,
 };
 
-type State = {
-  subject: string,
-  body: string,
-};
-
 export default class EmailEditor extends PureComponent {
   props: Props;
-  state: State;
+  state: EmailFields;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -50,17 +47,12 @@ export default class EmailEditor extends PureComponent {
 
   parse(templateString?: string = ''): ?string {
     templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    return template(templateString)(this.props);
+    return template(templateString)(this.props.templateVars);
   }
 
   onChange() {
     if (typeof this.props.onChange === 'function') {
       this.props.onChange({
-        subject: this.state.subject,
-        body: this.body(),
-      });
-
-      console.log('on change triggered', {
         subject: this.state.subject,
         body: this.body(),
       });
@@ -77,30 +69,31 @@ export default class EmailEditor extends PureComponent {
   }
 
   render() {
+    const { emailHeader, emailFooter, errors } = this.props;
     return (
       <div className="EmailEditor">
-        <div className="form__group">
+        <FormGroup>
           <Input
             name="subject"
-            errorMessage={this.props.errors.emailSubject}
+            errorMessage={errors.emailSubject}
             value={this.state.subject}
             label={
               <FormattedMessage
-                id="email_target.form.subject"
+                id="email_tool.form.subject"
                 defaultMessage="Subject (default)"
               />
             }
             onChange={subject => this.updateSubject(subject)}
           />
-        </div>
-        <div className="form__group">
-          <div className="email__target-body">
-            <div
-              className="email__target-header"
-              dangerouslySetInnerHTML={{
-                __html: this.parse(this.props.emailHeader),
-              }}
-            />
+        </FormGroup>
+        <FormGroup>
+          <div className="EmailEditor-body">
+            {emailHeader && (
+              <div
+                className="EmailEditor-header"
+                dangerouslySetInnerHTML={{ __html: this.parse(emailHeader) }}
+              />
+            )}
             <textarea
               name="email_body"
               value={this.state.body}
@@ -110,14 +103,14 @@ export default class EmailEditor extends PureComponent {
               }}
               maxLength="9999"
             />
-            <div
-              className="email__target-footer"
-              dangerouslySetInnerHTML={{
-                __html: this.parse(this.props.emailFooter),
-              }}
-            />
+            {emailFooter && (
+              <div
+                className="EmailEditor-footer"
+                dangerouslySetInnerHTML={{ __html: this.parse(emailFooter) }}
+              />
+            )}
           </div>
-        </div>
+        </FormGroup>
       </div>
     );
   }

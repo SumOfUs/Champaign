@@ -1,0 +1,22 @@
+.EmailEditor-body {
+  line-height: 1.4em;
+  font-size: 100%;
+  background: white;
+  padding: 18px;
+  border: 2px solid white;
+  font-size: 18px;
+
+  textarea {
+    margin: 10px 0;
+    padding: 0;
+    border: none;
+    height: auto;
+    min-height: 250px;
+    resize: vertical;
+  }
+}
+
+.EmailEditor-header,
+.EmailEditor-footer {
+  color: #999;
+}
