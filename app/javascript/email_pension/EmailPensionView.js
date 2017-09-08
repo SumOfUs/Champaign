@@ -45,7 +45,7 @@ class EmailPensionView extends Component {
 
     this.setState({ isSubmittingNewPensionFundName: true });
 
-    $.post(url, { 'email_target[name]': fund })
+    $.post(url, { 'email_tool[name]': fund })
       .done(a => {
         this.setState({
           shouldShowFundSuggestion: false,
@@ -88,7 +88,7 @@ class EmailPensionView extends Component {
 
     fields.forEach(field => {
       if (_.isEmpty(this.props[field])) {
-        const location = `email_target.form.errors.${field}`;
+        const location = `email_tool.form.errors.${field}`;
         const message = <FormattedMessage id={location} />;
         errors[field] = message;
       }
@@ -103,7 +103,7 @@ class EmailPensionView extends Component {
       if (!_.isEmpty(this.state.errors)) {
         return (
           <span className="error-msg left-align">
-            <FormattedMessage id="email_target.form.errors.message" />
+            <FormattedMessage id="email_tool.form.errors.message" />
           </span>
         );
       }
@@ -143,7 +143,7 @@ class EmailPensionView extends Component {
                 name="new_pension_fund"
                 label={
                   <FormattedMessage
-                    id="email_target.form.new_pension_fund"
+                    id="email_tool.form.new_pension_fund"
                     defaultMessage="Name of your pension fund"
                   />
                 }
@@ -230,7 +230,7 @@ class EmailPensionView extends Component {
                   ]}
                   label={
                     <FormattedMessage
-                      id="email_target.form.select_country"
+                      id="email_tool.form.select_country"
                       defaultMessage="Select country (default)"
                     />
                   }
@@ -248,7 +248,7 @@ class EmailPensionView extends Component {
                   errorMessage={this.state.errors.fund}
                   label={
                     <FormattedMessage
-                      id="email_target.form.select_target"
+                      id="email_tool.form.select_target"
                       defaultMessage="Select a fund (default)"
                     />
                   }
@@ -275,7 +275,7 @@ class EmailPensionView extends Component {
             <div className="email-target-action">
               <h3>
                 <FormattedMessage
-                  id="email_target.section.compose"
+                  id="email_tool.section.compose"
                   defaultMessage="Compose Your Email"
                 />
               </h3>
@@ -287,7 +287,7 @@ class EmailPensionView extends Component {
                   value={this.props.subject}
                   label={
                     <FormattedMessage
-                      id="email_target.form.subject"
+                      id="email_tool.form.subject"
                       defaultMessage="Subejct (default)"
                     />
                   }
@@ -300,7 +300,7 @@ class EmailPensionView extends Component {
                   name="name"
                   label={
                     <FormattedMessage
-                      id="email_target.form.your_name"
+                      id="email_tool.form.your_name"
                       defaultMessage="Your name (default)"
                     />
                   }
@@ -315,7 +315,7 @@ class EmailPensionView extends Component {
                   name="email"
                   label={
                     <FormattedMessage
-                      id="email_target.form.your_email"
+                      id="email_tool.form.your_email"
                       defaultMessage="Your email (default)"
                     />
                   }
@@ -352,7 +352,7 @@ class EmailPensionView extends Component {
                 className="button action-form__submit-button"
               >
                 <FormattedMessage
-                  id="email_target.form.send_email"
+                  id="email_tool.form.send_email"
                   defaultMessage="Send email (default)"
                 />
               </Button>
