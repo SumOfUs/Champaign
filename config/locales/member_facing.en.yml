@@ -129,6 +129,7 @@ en:
     is_invalid: is invalid
     this_field: This field
     this_field_with_message: This field %{message}
+    named_field_error: "{name} has some errors:"
   validation:
     is_required: is required
     is_invalid_email: is not a valid email address
