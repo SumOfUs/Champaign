@@ -97,33 +97,41 @@ describe EmailToolSender do
     end
   end
 
-  it "fails if the plugin doesn't have a from_email_address configured" do
-    plugin.update! from_email_address: nil
-    service = EmailToolSender.new(page.id, params)
+  describe 'Validations' do
+    it "fails if the plugin doesn't have a from_email_address configured" do
+      plugin.update! from_email_address: nil
+      service = EmailToolSender.new(page.id, params)
 
-    expect(service.run).to be false
-    expect(service.errors[:base]).to include('Please configure a From email address')
-  end
-
-  it "fails if the plugins doesn't have at least a target" do
-    plugin.update! targets: []
-    service = EmailToolSender.new(page.id, params)
-
-    expect(service.run).to be false
-    expect(service.errors[:base]).to include('Please configure at least one target')
-  end
-
-  it 'validates the presence of following fields: from_name, from_email, body and subject' do
-    service = EmailToolSender.new(page.id, {})
-    expect(service.run).to be false
-    %i[from_name from_email body subject].each do |field|
-      expect(service.errors[field]).to include("can't be blank")
+      expect(service.run).to be false
+      expect(service.errors[:base]).to include('Please configure a From email address')
     end
-  end
 
-  it 'validates the format of from_email' do
-    service = EmailToolSender.new(page.id, from_email: 'wrongformat@')
-    expect(service.run).to be false
-    expect(service.errors[:from_email]).to include('is not an email')
+    it "fails if the plugins doesn't have at least a target" do
+      plugin.update! targets: []
+      service = EmailToolSender.new(page.id, params)
+
+      expect(service.run).to be false
+      expect(service.errors[:base]).to include('Please configure at least one target')
+    end
+
+    it 'validates the presence of following fields: from_name, from_email, body and subject' do
+      service = EmailToolSender.new(page.id, {})
+      expect(service.run).to be false
+      %i[from_name from_email body subject].each do |field|
+        expect(service.errors[field]).to include("can't be blank")
+      end
+    end
+
+    it 'validates the format of from_email' do
+      service = EmailToolSender.new(page.id, from_email: 'wrongformat@')
+      expect(service.run).to be false
+      expect(service.errors[:from_email]).to include('is not an email')
+    end
+
+    it 'checks if the target_id is valid' do
+      service = EmailToolSender.new(page.id, target_id: 'wrong')
+      expect(service.run).to be false
+      expect(service.errors[:base]).to include(/targets information has recently changed/)
+    end
   end
 end

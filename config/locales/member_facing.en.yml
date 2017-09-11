@@ -25,6 +25,8 @@ en:
         email: 'Please add your email address'
         name: 'Please add you name'
         fund: 'Please select a pension fund'
+        target:
+          outdated: "It seems the targets information has recently changed. Please reload the page and try again."
 
   fundraiser:
     payment_methods:

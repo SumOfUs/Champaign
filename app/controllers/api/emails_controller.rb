@@ -4,7 +4,7 @@ class Api::EmailsController < ApplicationController
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
-    service = EmailToolSender.new(params[:page_id], email_params)
+    service = EmailToolSender.new(params[:page_id], email_params, tracking_params)
     if service.run
       head :ok
     else
@@ -25,8 +25,13 @@ class Api::EmailsController < ApplicationController
   def email_params
     params
       .require(:email)
-      .permit(:body, :subject, :target_id, :country,
-              :from_email, :from_name)
+      .permit(:body, :subject, :target_id, :from_email, :from_name)
+  end
+
+  def tracking_params
+    params.to_unsafe_hash
+      .slice(:source, :akid, :referring_akid, :referrer_id, :rid, :country)
+      .merge(mobile_value)
   end
 
   def pension_email_params

@@ -50,9 +50,46 @@ describe 'Emails', type: :request do
         post "/api/pages/#{page.id}/emails", params: params
       end
 
-      it 'creates an action'
+      it 'creates an action' do
+        expect {
+          post "/api/pages/#{page.id}/emails", params: params
+        }.to change(Action, :count).by(1)
+      end
 
-      it 'publishes an event'
+      it 'creates a member' do
+        params[:country] = 'GB'
+        expect {
+          post "/api/pages/#{page.id}/emails", params: params
+        }.to change(Member, :count).by(1)
+
+        member = Member.last
+
+        expect(member.email).to eq 'john@email.com'
+        expect(member.first_name).to eq 'John'
+        expect(member.last_name).to eq 'Doe'
+        expect(member.country).to eq 'GB'
+      end
+
+      it 'publishes an event' do
+        akid = '25429.9032842.RNP4O4'
+        payload = hash_including(
+          type: 'action',
+          params: hash_including(
+            page: 'foo-bar-petition',
+            name: 'John Doe',
+            source: 'fb',
+            akid: akid
+          )
+        )
+
+        expect(ChampaignQueue).to receive(:push).with(
+          payload,
+          group_id: /action:\d+/
+        )
+
+        params.merge!(source: 'fb', akid: akid)
+        post "/api/pages/#{page.id}/emails", params: params
+      end
     end
 
     context 'given invalid params' do

@@ -1,14 +1,18 @@
 class EmailToolSender
-  attr_reader :errors
+  attr_reader :errors, :action
 
-  def self.run(page_id, params)
-    new(page_id, params).run
+  def self.run(page_id, params, tracking_params = {})
+    new(page_id, params, tracking_params).run
   end
 
-  def initialize(page_id, params)
-    @plugin ||= Plugins::EmailTool.find_by(page_id: page_id)
+  def initialize(page_id, params, tracking_params = {})
+    @plugin = Plugins::EmailTool.find_by(page_id: page_id)
+    @target = @plugin.find_target(params[:target_id])
     @page = Page.find(page_id)
     @params = params.slice(:from_email, :from_name, :body, :subject, :target_id)
+    @tracking_params = tracking_params.slice(
+      :country, :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
+    )
     @errors = {}
   end
 
@@ -16,28 +20,45 @@ class EmailToolSender
     validate_plugin
     validate_email_fields
 
-    if errors.blank?
-      EmailSender.run(
-        id: @page.slug,
-        to: to_emails,
-        from_name: from_email_hash[:name],
-        from_email: from_email_hash[:address],
-        reply_to: reply_to_emails,
-        subject: @params[:subject],
-        body: @params[:body]
-      )
+    if errors.empty?
+      send_email
+      create_action
     end
 
-    errors.blank?
+    errors.empty?
+  end
+
+  def send_email
+    EmailSender.run(
+      id:         @page.slug,
+      to:         to_emails,
+      from_name:  from_email_hash[:name],
+      from_email: from_email_hash[:address],
+      reply_to:   reply_to_emails,
+      subject:    @params[:subject],
+      body:       @params[:body]
+    )
+  end
+
+  def create_action
+    @action = ManageAction.create(
+      {
+        page_id:             @page.id,
+        name:                from_email_hash[:name],
+        email:               from_email_hash[:address],
+        postal:              '10000',
+        action_target:       @target&.name,
+        action_target_email: @target&.email
+      }.merge(@tracking_params)
+    )
   end
 
   private
 
   def to_emails
     if @plugin.test_email_address.blank?
-      target = @plugin.find_target(@params[:target_id])
-      if target.present?
-        { name: target.name, address: target.email }
+      if @target.present?
+        { name: @target.name, address: @target.email }
       else
         @plugin.targets.map { |t| { name: t.name, address: t.email } }
       end
@@ -76,6 +97,11 @@ class EmailToolSender
 
     if @plugin.targets.empty?
       add_error(:base, 'Please configure at least one target')
+    end
+
+    target_id = @params[:target_id]
+    if target_id.present? && @plugin.find_target(target_id).nil?
+      add_error(:base, I18n.t('email_tool.form.errors.target.outdated'))
     end
   end
 
