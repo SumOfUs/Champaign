@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 class ManageBraintreeDonation
-  include ActionBuilder
   PAYPAL_IDENTIFIER = 'PYPL'
 
   def self.create(params:, braintree_result:, is_subscription: false, store_in_vault: false)
@@ -39,7 +39,7 @@ class ManageBraintreeDonation
       end
     )
 
-    build_action(donation: true)
+    ManageAction.create(@params, extra_params: { donation: true })
   end
 
   private
