@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
-import ErrorMessage from '../ErrorMessage';
+import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
 import { compact, get, template } from 'lodash';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
@@ -78,7 +78,9 @@ export default class EmailEditor extends PureComponent {
         <FormGroup>
           <Input
             name="subject"
-            errorMessage={errors.emailSubject}
+            errorMessage={
+              <ErrorMessages name="Subject" errors={errors.subject} />
+            }
             value={this.state.subject}
             label={
               <FormattedMessage
@@ -111,7 +113,7 @@ export default class EmailEditor extends PureComponent {
             )}
           </div>
 
-          <ErrorMessage name="Email body" error={this.props.errors.body} />
+          <ErrorMessages name="Email body" error={this.props.errors.body} />
         </FormGroup>
       </div>
     );

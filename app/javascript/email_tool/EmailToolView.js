@@ -7,6 +7,7 @@ import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
+import ErrorMessages from '../components/ErrorMessages';
 import type { EmailProps } from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage } from 'react-intl';
 import './EmailToolView.scss';
@@ -86,7 +87,7 @@ export default class EmailToolView extends Component {
 
   payload(): ChampaignEmailPayload {
     return {
-      body: '',
+      body: this.state.body,
       country: this.props.country,
       from_name: this.state.name,
       from_email: this.state.email,
@@ -162,6 +163,12 @@ export default class EmailToolView extends Component {
                   defaultMessage="Compose Your Email"
                 />
               </h3>
+              <FormGroup>
+                <ErrorMessages
+                  name="This form"
+                  errors={this.state.errors.base}
+                />
+              </FormGroup>
               {this.props.manualTargeting && (
                 <FormGroup>
                   <Select
@@ -185,7 +192,12 @@ export default class EmailToolView extends Component {
                     />
                   }
                   value={this.state.name}
-                  errorMessage={this.state.errors.name}
+                  errorMessage={
+                    <ErrorMessages
+                      name="Name"
+                      errors={this.state.errors.fromName}
+                    />
+                  }
                   onChange={this.onNameChange}
                 />
               </FormGroup>
@@ -200,7 +212,12 @@ export default class EmailToolView extends Component {
                     />
                   }
                   value={this.state.email}
-                  errorMessage={this.state.errors.email}
+                  errorMessage={
+                    <ErrorMessages
+                      name="Email"
+                      errors={this.state.errors.fromEmail}
+                    />
+                  }
                   onChange={this.onEmailChange}
                 />
               </FormGroup>
