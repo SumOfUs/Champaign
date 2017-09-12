@@ -33,7 +33,7 @@ export const parseResponse = (response: any): OperationResponse => {
         errors: {
           base: [
             <FormattedMessage
-              id="call_tool.errors.unknown"
+              id="call_tool.errors.unknown" // TODO use generic error and allow customization
               defaultMessage={`Unknown error, code ${response.code}`}
             />,
           ],

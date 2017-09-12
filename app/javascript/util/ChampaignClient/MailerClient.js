@@ -3,22 +3,31 @@ import { parseResponse } from './Base';
 import type { OperationResponse } from './Base';
 
 type SendEmailParams = {
-  body: string,
-  subject: string,
   page_id: string,
-  from_name: string,
-  from_email: string,
-  to_name: string,
-  to_email: string,
+  email: {
+    body: string,
+    subject: string,
+    from_name: string,
+    from_email: string,
+    target_id: string,
+  },
+  tracking_params: {
+    country: string,
+  },
 };
 
 export function sendEmail(params: SendEmailParams): Promise<OperationResponse> {
-  const { page_id, ...email } = params;
+  const { page_id, ...payload } = params;
 
   return new Promise((resolve, reject) => {
-    $.post(`/api/pages/${page_id}/emails`, { email })
-      .done(response => resolve(parseResponse(response)))
-      .fail(response => reject(parseResponse(response)));
+    // FIXME: On 500 we're resolving, should be failing.
+    $.post(`/api/pages/${page_id}/emails`, payload)
+      .done((data, textStatus, jqXHR) => {
+        resolve(parseResponse(jqXHR));
+      })
+      .fail((jqXHR, textStatus, errorThrown) => {
+        reject(parseResponse(jqXHR));
+      });
   });
 }
 

@@ -4,11 +4,17 @@
   <script>
     $(document).ready(function() {
       var personalization = window.champaign.personalization;
+      // FIXME: don't copy all params, pick only the ones we need.
       var data = _.clone(personalization.emailTool['{{ref}}']);
+      var trackingParams =  _.pick(window.champaign.personalization.urlParams,
+                                   'source', 'akid', 'referring_akid',
+                                   'referrer_id', 'rid');
+      // FIXME: this, at least in dev, is undefined and it's required.
+      trackingParams.country = personalization.member.country || personalization.location.country,
       _.merge(data, {
         name: personalization.member.full_name,
         email: personalization.member.email,
-        country: personalization.member.country || personalization.location.country,
+        trackingParams: trackingParams,
         onSuccess: function (target) {
           window.location.href = window.URI("{{ follow_up_url }}")
             .addSearch({

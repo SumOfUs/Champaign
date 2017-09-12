@@ -1,4 +1,4 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import { compact, get, join, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
@@ -41,6 +41,7 @@ type Props = {
   useMemberEmail: boolean,
   manualTargeting: boolean,
   onSuccess?: (target: EmailTarget) => void,
+  trackingParams?: { [key: string]: string },
 };
 
 type State = {
@@ -87,13 +88,15 @@ export default class EmailToolView extends Component {
 
   payload(): ChampaignEmailPayload {
     return {
-      body: this.state.body,
-      country: this.props.country,
-      from_name: this.state.name,
-      from_email: this.state.email,
       page_id: this.props.pageId,
-      subject: this.state.subject,
-      target_id: this.targetId(),
+      email: {
+        body: this.state.body,
+        subject: this.state.subject,
+        from_name: this.state.name,
+        from_email: this.state.email,
+        target_id: this.targetId(),
+      },
+      tracking_params: this.props.trackingParams,
     };
   }
 
@@ -151,6 +154,15 @@ export default class EmailToolView extends Component {
     };
   }
 
+  // DUP renderError
+  renderError(fieldName: string, errors?: [string]): any {
+    if (errors !== undefined && errors.length > 0) {
+      return <ErrorMessages name="Name" errors={errors} />;
+    } else {
+      return undefined;
+    }
+  }
+
   render() {
     return (
       <div className="EmailToolView">
@@ -169,7 +181,7 @@ export default class EmailToolView extends Component {
                   errors={this.state.errors.base}
                 />
               </FormGroup>
-              {this.props.manualTargeting && (
+              {this.props.manualTargeting &&
                 <FormGroup>
                   <Select
                     clearable={false}
@@ -179,8 +191,7 @@ export default class EmailToolView extends Component {
                     options={this.state.targetsForSelection}
                     onChange={this.onTargetChange}
                   />
-                </FormGroup>
-              )}
+                </FormGroup>}
 
               <FormGroup>
                 <Input
@@ -192,12 +203,10 @@ export default class EmailToolView extends Component {
                     />
                   }
                   value={this.state.name}
-                  errorMessage={
-                    <ErrorMessages
-                      name="Name"
-                      errors={this.state.errors.fromName}
-                    />
-                  }
+                  errorMessage={this.renderError(
+                    'Name',
+                    this.state.errors.fromName
+                  )}
                   onChange={this.onNameChange}
                 />
               </FormGroup>
@@ -212,12 +221,10 @@ export default class EmailToolView extends Component {
                     />
                   }
                   value={this.state.email}
-                  errorMessage={
-                    <ErrorMessages
-                      name="Email"
-                      errors={this.state.errors.fromEmail}
-                    />
-                  }
+                  errorMessage={this.renderError(
+                    'Email',
+                    this.state.errors.fromEmail
+                  )}
                   onChange={this.onEmailChange}
                 />
               </FormGroup>

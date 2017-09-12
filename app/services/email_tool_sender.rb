@@ -19,6 +19,7 @@ class EmailToolSender
   def run
     validate_plugin
     validate_email_fields
+    # validate_tracking_params  validate country is present
 
     if errors.empty?
       send_email

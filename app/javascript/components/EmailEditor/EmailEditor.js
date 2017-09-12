@@ -71,6 +71,15 @@ export default class EmailEditor extends PureComponent {
     }
   };
 
+  // DUP renderError
+  renderError(fieldName: string, errors?: [string]): any {
+    if (errors !== undefined && errors.length > 0) {
+      return <ErrorMessages name="Name" errors={errors} />;
+    } else {
+      return undefined;
+    }
+  }
+
   render() {
     const { emailHeader, emailFooter, errors } = this.props;
     return (
@@ -78,9 +87,7 @@ export default class EmailEditor extends PureComponent {
         <FormGroup>
           <Input
             name="subject"
-            errorMessage={
-              <ErrorMessages name="Subject" errors={errors.subject} />
-            }
+            errorMessage={this.renderError('Subject', errors.subject)}
             value={this.state.subject}
             label={
               <FormattedMessage
@@ -93,27 +100,25 @@ export default class EmailEditor extends PureComponent {
         </FormGroup>
         <FormGroup>
           <div className="EmailEditor-body">
-            {emailHeader && (
+            {emailHeader &&
               <div
                 className="EmailEditor-header"
                 dangerouslySetInnerHTML={{ __html: this.parse(emailHeader) }}
-              />
-            )}
+              />}
             <textarea
               name="email_body"
               defaultValue={this.state.body}
               onChange={this.updateBody}
               maxLength="9999"
             />
-            {emailFooter && (
+            {emailFooter &&
               <div
                 className="EmailEditor-footer"
                 dangerouslySetInnerHTML={{ __html: this.parse(emailFooter) }}
-              />
-            )}
+              />}
           </div>
 
-          <ErrorMessages name="Email body" error={this.props.errors.body} />
+          <ErrorMessages name="Email body" errors={this.props.errors.body} />
         </FormGroup>
       </div>
     );
