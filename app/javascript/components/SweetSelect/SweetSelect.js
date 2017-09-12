@@ -10,6 +10,9 @@ export interface SelectOption {
   value: string,
 }
 
+// TODO: deduplicate this (also seen in SweetInput)
+export type ValidationState = 'success' | 'warning' | 'error' | null;
+
 type Props = {
   name: string,
   value?: string,
@@ -20,6 +23,7 @@ type Props = {
   disabled?: boolean,
   multiple?: boolean,
   errorMessage?: any,
+  validationState?: ValidationState,
   className?: string,
 };
 
@@ -44,6 +48,10 @@ export default class SweetSelect extends Component {
   }
 
   hasError() {
+    const { validationState, errorMessage } = this.props;
+    if (validationState || validationState === null) {
+      return validationState === 'error';
+    }
     return !!this.props.errorMessage;
   }
 

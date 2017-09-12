@@ -20,7 +20,6 @@ export function sendEmail(params: SendEmailParams): Promise<OperationResponse> {
   const { page_id, ...payload } = params;
 
   return new Promise((resolve, reject) => {
-    // FIXME: On 500 we're resolving, should be failing.
     $.post(`/api/pages/${page_id}/emails`, payload)
       .done((data, textStatus, jqXHR) => {
         resolve(parseResponse(jqXHR));

@@ -4,6 +4,7 @@ import { compact, get, join, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
+import type { ValidationState } from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
@@ -112,8 +113,8 @@ export default class EmailToolView extends Component {
     e.preventDefault();
     this.setState(s => ({ ...s, isSubmitting: true, errors: [] }));
     MailerClient.sendEmail(this.payload()).then(
-      ({ errors }) => {
-        this.setState(s => ({ ...s, isSubmitting: false, errors }));
+      () => {
+        this.setState(s => ({ ...s, isSubmitting: false }));
         if (typeof this.props.onSuccess === 'function' && this.state.target) {
           this.props.onSuccess(this.state.target);
         }
@@ -154,7 +155,15 @@ export default class EmailToolView extends Component {
     };
   }
 
+  // TODO: Make this a helper function, part of all Form elements:
+  // SweetInput, SweetSelect, SweetPhoneInput, etc.
+  validationState(errors: any[]): ValidationState {
+    if (errors && errors.length > 0) return 'error';
+    return null;
+  }
+
   render() {
+    const { errors } = this.state;
     return (
       <div className="EmailToolView">
         <div className="EmailToolView-form">
@@ -168,10 +177,7 @@ export default class EmailToolView extends Component {
               </h3>
               <FormGroup>
                 {/* Use a <BaseErrorMesages /> component */}
-                <ErrorMessages
-                  name="This form"
-                  errors={this.state.errors.base}
-                />
+                <ErrorMessages name="This form" errors={errors.base} />
               </FormGroup>
               {this.props.manualTargeting && (
                 <FormGroup>
@@ -189,31 +195,33 @@ export default class EmailToolView extends Component {
               <FormGroup>
                 <Input
                   name="name"
+                  validationState={this.validationState(errors.fromName)}
                   label={<FormattedMessage id="email_tool.form.your_name" />}
                   value={this.state.name}
                   onChange={this.onNameChange}
                 />
                 <ErrorMessages
                   name={<FormattedMessage id="email_tool.form.your_name" />}
-                  errors={this.state.errors.fromName}
+                  errors={errors.fromName}
                 />
               </FormGroup>
               <FormGroup>
                 <Input
                   name="email"
                   type="email"
+                  validationState={this.validationState(errors.fromEmail)}
                   label={<FormattedMessage id="email_tool.form.your_email" />}
                   value={this.state.email}
                   onChange={this.onEmailChange}
                 />
                 <ErrorMessages
                   name={<FormattedMessage id="email_tool.form.your_email" />}
-                  errors={this.state.errors.fromEmail}
+                  errors={errors.fromEmail}
                 />
               </FormGroup>
 
               <EmailEditor
-                errors={this.state.errors}
+                errors={errors}
                 body={this.props.emailBody}
                 header={this.props.emailHeader}
                 footer={this.props.emailFooter}
