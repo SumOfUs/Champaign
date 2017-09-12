@@ -6,6 +6,7 @@ import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
 import { compact, get, template } from 'lodash';
+import classnames from 'classnames';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
 import './EmailEditor.scss';
 
@@ -77,8 +78,13 @@ export default class EmailEditor extends PureComponent {
     return null;
   }
 
+  // TODO: Styles should be imported
   render() {
     const { header, footer, errors } = this.props;
+
+    const bodyClassName = classnames({
+      'has-error': errors.body && errors.body.length > 0,
+    });
     return (
       <div className="EmailEditor">
         <FormGroup>
@@ -100,26 +106,28 @@ export default class EmailEditor extends PureComponent {
           />
         </FormGroup>
         <FormGroup>
-          <div className="EmailEditor-body">
-            {header && (
-              <div
-                className="EmailEditor-header"
-                dangerouslySetInnerHTML={{ __html: this.parse(header) }}
+          <FormGroup className={bodyClassName}>
+            <div className="EmailEditor-body">
+              {header && (
+                <div
+                  className="EmailEditor-header"
+                  dangerouslySetInnerHTML={{ __html: this.parse(header) }}
+                />
+              )}
+              <textarea
+                name="email_body"
+                defaultValue={this.state.body}
+                onChange={this.updateBody}
+                maxLength="9999"
               />
-            )}
-            <textarea
-              name="email_body"
-              defaultValue={this.state.body}
-              onChange={this.updateBody}
-              maxLength="9999"
-            />
-            {footer && (
-              <div
-                className="EmailEditor-footer"
-                dangerouslySetInnerHTML={{ __html: this.parse(footer) }}
-              />
-            )}
-          </div>
+              {footer && (
+                <div
+                  className="EmailEditor-footer"
+                  dangerouslySetInnerHTML={{ __html: this.parse(footer) }}
+                />
+              )}
+            </div>
+          </FormGroup>
           <ErrorMessages
             name={<FormattedMessage id="email_tool.form.email_body" />}
             errors={errors.body}

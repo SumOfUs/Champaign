@@ -1,17 +1,14 @@
+// @flow
 import React from 'react';
 import classnames from 'classnames';
+import './FormGroup.scss';
 
 type Props = {
   className?: string,
-  style?: CSSProperties,
   children: React$Element<any>,
 };
 
 export default function FormGroup(props: Props): React$Element<any> {
-  const className = classnames('form__group', props.className);
-  return (
-    <div className={className} style={props.style}>
-      {props.children}
-    </div>
-  );
+  const className = classnames('FormGroup', 'form__group', props.className);
+  return <div className={className}>{props.children}</div>;
 }
