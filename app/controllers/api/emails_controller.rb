@@ -25,12 +25,12 @@ class Api::EmailsController < ApplicationController
   def email_params
     params
       .require(:email)
-      .permit(:body, :subject, :target_id, :from_email, :from_name)
+      .permit(:body, :subject, :target_id, :from_email, :from_name, :country)
   end
 
   def tracking_params
     params.to_unsafe_hash
-      .slice(:source, :akid, :referring_akid, :referrer_id, :rid, :country)
+      .slice(:source, :akid, :referring_akid, :referrer_id, :rid)
       .merge(mobile_value)
   end
 

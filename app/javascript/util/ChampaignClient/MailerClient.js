@@ -10,10 +10,9 @@ type SendEmailParams = {
     from_name: string,
     from_email: string,
     target_id: string,
-  },
-  tracking_params: {
     country: string,
   },
+  tracking_params: { [key: string]: string },
 };
 
 export function sendEmail(params: SendEmailParams): Promise<OperationResponse> {

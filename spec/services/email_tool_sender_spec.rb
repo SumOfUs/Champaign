@@ -16,7 +16,8 @@ describe EmailToolSender do
     { from_email: 'john@email.com',
       from_name: 'John',
       body: 'Lorem ipsum',
-      subject: 'Some subject' }
+      subject: 'Some subject',
+      country: 'GB' }
   end
 
   def expect_email_sender_to_be_called_with(params)
@@ -132,6 +133,12 @@ describe EmailToolSender do
       service = EmailToolSender.new(page.id, target_id: 'wrong')
       expect(service.run).to be false
       expect(service.errors[:base]).to include(/targets information has recently changed/)
+    end
+
+    it 'validates the presence of country' do
+      service = EmailToolSender.new(page.id, {})
+      expect(service.run).to be false
+      expect(service.errors[:base]).to include('Please make sure a country is being sent')
     end
   end
 end

@@ -13,12 +13,15 @@ describe 'Emails', type: :request do
 
     context 'given valid params' do
       let(:params) do
-        { email: {
-          body: 'Lorem ipsum',
-          subject: 'A Subject',
-          from_email: 'john@email.com',
-          from_name: 'John Doe'
-        } }
+        {
+          email: {
+            body: 'Lorem ipsum',
+            subject: 'A Subject',
+            from_email: 'john@email.com',
+            from_name: 'John Doe',
+            country: 'GB'
+          }
+        }
       end
 
       before do
@@ -57,7 +60,6 @@ describe 'Emails', type: :request do
       end
 
       it 'creates a member' do
-        params[:country] = 'GB'
         expect {
           post "/api/pages/#{page.id}/emails", params: params
         }.to change(Member, :count).by(1)
@@ -78,7 +80,8 @@ describe 'Emails', type: :request do
             page: 'foo-bar-petition',
             name: 'John Doe',
             source: 'fb',
-            akid: akid
+            akid: akid,
+            country: 'United Kingdom'
           )
         )
 

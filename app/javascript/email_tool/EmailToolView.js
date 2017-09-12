@@ -96,6 +96,7 @@ export default class EmailToolView extends Component {
         from_name: this.state.name,
         from_email: this.state.email,
         target_id: this.targetId(),
+        country: this.props.country,
       },
       tracking_params: this.props.trackingParams,
     };

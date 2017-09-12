@@ -145,7 +145,7 @@ class LiquidRenderer
                      @location.country_code
                    end
     return @location.data if country_code.blank?
-    return {} if country_code == 'RD'
+    return { country: 'US' } if country_code == 'RD'
     currency = Donations::Utils.currency_from_country_code(country_code)
     @location.data.merge(currency: currency, country: country_code)
   end

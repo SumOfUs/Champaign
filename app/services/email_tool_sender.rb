@@ -9,9 +9,9 @@ class EmailToolSender
     @plugin = Plugins::EmailTool.find_by(page_id: page_id)
     @target = @plugin.find_target(params[:target_id])
     @page = Page.find(page_id)
-    @params = params.slice(:from_email, :from_name, :body, :subject, :target_id)
+    @params = params.slice(:from_email, :from_name, :body, :subject, :target_id, :country)
     @tracking_params = tracking_params.slice(
-      :country, :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
+      :akid, :referring_akid, :referrer_id, :rid, :source, :action_mobile
     )
     @errors = {}
   end
@@ -19,7 +19,6 @@ class EmailToolSender
   def run
     validate_plugin
     validate_email_fields
-    # validate_tracking_params  validate country is present
 
     if errors.empty?
       send_email
@@ -45,11 +44,12 @@ class EmailToolSender
     @action = ManageAction.create(
       {
         page_id:             @page.id,
-        name:                from_email_hash[:name],
-        email:               from_email_hash[:address],
+        name:                @params[:from_name],
+        email:               @params[:from_email],
         postal:              '10000',
         action_target:       @target&.name,
-        action_target_email: @target&.email
+        action_target_email: @target&.email,
+        country:             @params[:country]
       }.merge(@tracking_params)
     )
   end
@@ -98,6 +98,10 @@ class EmailToolSender
 
     if @plugin.targets.empty?
       add_error(:base, 'Please configure at least one target')
+    end
+
+    if @params[:country].blank?
+      add_error(:base, 'Please make sure a country is being sent')
     end
 
     target_id = @params[:target_id]
