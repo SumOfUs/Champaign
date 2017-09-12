@@ -3,23 +3,20 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
 type Props = {
-  name?: string,
-  errors?: React$Element<any>[],
+  name?: any,
+  errors?: any[],
 };
 
-export default function ErrorMessages(props: Props) {
+export default function ErrorMessages(props: Props): React$Node<*> | null {
   if (!props.errors) return null;
+  const name = props.name || (
+    <FormattedMessage id="errors.this_field" defaultMessage="This field" />
+  );
 
   return (
     <div className="ErrorMessages error-msg">
       <p>
-        <span style={{ marginRight: '.25em' }}>
-          <FormattedMessage
-            id="errors.named_field_error"
-            defaultMessage="{name} has some errors:"
-            values={{ name: props.name || 'This field' }}
-          />
-        </span>
+        <span>{props.name} </span>
         {props.errors
           .map((error, i) => (
             <span key={i} className="inline-error">
@@ -27,6 +24,7 @@ export default function ErrorMessages(props: Props) {
             </span>
           ))
           .reduce((prev, curr) => [prev, ', ', curr])}
+        .
       </p>
     </div>
   );

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { camelizeKeys } from '../util';
 
 export type ErrorMap = {
-  [key: string]: React$Element<any>[],
+  [key: string]: any[],
 };
 
 export type OperationResponse = {

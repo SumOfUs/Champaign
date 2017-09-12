@@ -14,10 +14,11 @@ en:
     form:
       select_country: 'Select your Country'
       select_target: 'Select your Pension or Mutual Fund'
-      subject: 'Subject Line'
-      your_name: 'Your Name'
-      your_email: 'Your Email Address'
-      send_email: 'Send Email'
+      subject: 'Subject line'
+      your_name: 'Your name'
+      your_email: 'Your email address'
+      send_email: 'Send email'
+      email_body: 'Body'
       errors:
         message: "Whoops! There are some errors with the form. Please check you've filled in the required fields."
         country: 'Please select a country'

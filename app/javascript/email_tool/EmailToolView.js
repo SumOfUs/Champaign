@@ -1,4 +1,4 @@
-// @flow weak
+// @flow
 import React, { Component } from 'react';
 import { compact, get, join, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
@@ -154,15 +154,6 @@ export default class EmailToolView extends Component {
     };
   }
 
-  // DUP renderError
-  renderError(fieldName: string, errors?: [string]): any {
-    if (errors !== undefined && errors.length > 0) {
-      return <ErrorMessages name="Name" errors={errors} />;
-    } else {
-      return undefined;
-    }
-  }
-
   render() {
     return (
       <div className="EmailToolView">
@@ -176,12 +167,13 @@ export default class EmailToolView extends Component {
                 />
               </h3>
               <FormGroup>
+                {/* Use a <BaseErrorMesages /> component */}
                 <ErrorMessages
                   name="This form"
                   errors={this.state.errors.base}
                 />
               </FormGroup>
-              {this.props.manualTargeting &&
+              {this.props.manualTargeting && (
                 <FormGroup>
                   <Select
                     clearable={false}
@@ -191,49 +183,41 @@ export default class EmailToolView extends Component {
                     options={this.state.targetsForSelection}
                     onChange={this.onTargetChange}
                   />
-                </FormGroup>}
+                </FormGroup>
+              )}
 
               <FormGroup>
                 <Input
                   name="name"
-                  label={
-                    <FormattedMessage
-                      id="email_tool.form.your_name"
-                      defaultMessage="Your name (default)"
-                    />
-                  }
+                  label={<FormattedMessage id="email_tool.form.your_name" />}
                   value={this.state.name}
-                  errorMessage={this.renderError(
-                    'Name',
-                    this.state.errors.fromName
-                  )}
                   onChange={this.onNameChange}
+                />
+                <ErrorMessages
+                  name={<FormattedMessage id="email_tool.form.your_name" />}
+                  errors={this.state.errors.fromName}
                 />
               </FormGroup>
               <FormGroup>
                 <Input
                   name="email"
                   type="email"
-                  label={
-                    <FormattedMessage
-                      id="email_toolt.form.your_email"
-                      defaultMessage="Your email (default)"
-                    />
-                  }
+                  label={<FormattedMessage id="email_tool.form.your_email" />}
                   value={this.state.email}
-                  errorMessage={this.renderError(
-                    'Email',
-                    this.state.errors.fromEmail
-                  )}
                   onChange={this.onEmailChange}
                 />
+                <ErrorMessages
+                  name={<FormattedMessage id="email_tool.form.your_email" />}
+                  errors={this.state.errors.fromEmail}
+                />
               </FormGroup>
+
               <EmailEditor
                 errors={this.state.errors}
-                emailBody={this.props.emailBody}
-                emailHeader={this.props.emailHeader}
-                emailFooter={this.props.emailFooter}
-                emailSubject={this.props.emailSubject}
+                body={this.props.emailBody}
+                header={this.props.emailHeader}
+                footer={this.props.emailFooter}
+                subject={this.props.emailSubject}
                 templateVars={this.templateVars()}
                 onUpdate={this.onEmailEditorUpdate}
               />

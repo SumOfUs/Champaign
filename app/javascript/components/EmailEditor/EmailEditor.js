@@ -14,10 +14,10 @@ export type EmailProps = {
 };
 
 type Props = {
-  emailBody: string,
-  emailFooter?: string,
-  emailHeader?: string,
-  emailSubject: string,
+  body: string,
+  footer?: string,
+  header?: string,
+  subject: string,
   templateVars: { [key: string]: any },
   errors: ErrorMap,
   onUpdate: (email: EmailProps) => void,
@@ -29,8 +29,8 @@ export default class EmailEditor extends PureComponent {
   constructor(props: Props) {
     super(props);
     this.state = {
-      subject: this.props.emailSubject,
-      body: this.props.emailBody,
+      subject: this.props.subject,
+      body: this.props.body,
     };
   }
 
@@ -40,9 +40,9 @@ export default class EmailEditor extends PureComponent {
 
   body() {
     return compact([
-      this.parse(this.props.emailHeader),
+      this.parse(this.props.header),
       this.state.body,
-      this.parse(this.props.emailFooter),
+      this.parse(this.props.footer),
     ]).join('\n\n');
   }
 
@@ -71,23 +71,13 @@ export default class EmailEditor extends PureComponent {
     }
   };
 
-  // DUP renderError
-  renderError(fieldName: string, errors?: [string]): any {
-    if (errors !== undefined && errors.length > 0) {
-      return <ErrorMessages name="Name" errors={errors} />;
-    } else {
-      return undefined;
-    }
-  }
-
   render() {
-    const { emailHeader, emailFooter, errors } = this.props;
+    const { header, footer, errors } = this.props;
     return (
       <div className="EmailEditor">
         <FormGroup>
           <Input
             name="subject"
-            errorMessage={this.renderError('Subject', errors.subject)}
             value={this.state.subject}
             label={
               <FormattedMessage
@@ -97,28 +87,36 @@ export default class EmailEditor extends PureComponent {
             }
             onChange={this.updateSubject}
           />
+          <ErrorMessages
+            name={<FormattedMessage id="email_tool.form.subject" />}
+            errors={errors.subject}
+          />
         </FormGroup>
         <FormGroup>
           <div className="EmailEditor-body">
-            {emailHeader &&
+            {header && (
               <div
                 className="EmailEditor-header"
-                dangerouslySetInnerHTML={{ __html: this.parse(emailHeader) }}
-              />}
+                dangerouslySetInnerHTML={{ __html: this.parse(header) }}
+              />
+            )}
             <textarea
               name="email_body"
               defaultValue={this.state.body}
               onChange={this.updateBody}
               maxLength="9999"
             />
-            {emailFooter &&
+            {footer && (
               <div
                 className="EmailEditor-footer"
-                dangerouslySetInnerHTML={{ __html: this.parse(emailFooter) }}
-              />}
+                dangerouslySetInnerHTML={{ __html: this.parse(footer) }}
+              />
+            )}
           </div>
-
-          <ErrorMessages name="Email body" errors={this.props.errors.body} />
+          <ErrorMessages
+            name={<FormattedMessage id="email_tool.form.email_body" />}
+            errors={errors.body}
+          />
         </FormGroup>
       </div>
     );
