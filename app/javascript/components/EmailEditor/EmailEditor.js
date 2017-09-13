@@ -1,7 +1,6 @@
 // @flow
 import React, { PureComponent } from 'react';
 import Input from '../SweetInput/SweetInput';
-import type { ValidationState } from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
@@ -73,12 +72,6 @@ export default class EmailEditor extends PureComponent {
     }
   };
 
-  validationState(errors: any[]): ValidationState {
-    if (errors && errors.length > 0) return 'error';
-    return null;
-  }
-
-  // TODO: Styles should be imported
   render() {
     const { header, footer, errors } = this.props;
 
@@ -91,7 +84,7 @@ export default class EmailEditor extends PureComponent {
           <Input
             name="subject"
             value={this.state.subject}
-            validationState={this.validationState(errors.subject)}
+            hasError={errors.subject && errors.subject.length}
             label={
               <FormattedMessage
                 id="email_tool.form.subject"

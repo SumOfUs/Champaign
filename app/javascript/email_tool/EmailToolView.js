@@ -4,7 +4,6 @@ import { compact, get, join, sample, template } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
-import type { ValidationState } from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
@@ -156,13 +155,6 @@ export default class EmailToolView extends Component {
     };
   }
 
-  // TODO: Make this a helper function, part of all Form elements:
-  // SweetInput, SweetSelect, SweetPhoneInput, etc.
-  validationState(errors: any[]): ValidationState {
-    if (errors && errors.length > 0) return 'error';
-    return null;
-  }
-
   render() {
     const { errors } = this.state;
     return (
@@ -196,7 +188,7 @@ export default class EmailToolView extends Component {
               <FormGroup>
                 <Input
                   name="name"
-                  validationState={this.validationState(errors.fromName)}
+                  hasError={errors.fromName && errors.fromName.length}
                   label={<FormattedMessage id="email_tool.form.your_name" />}
                   value={this.state.name}
                   onChange={this.onNameChange}
@@ -210,7 +202,7 @@ export default class EmailToolView extends Component {
                 <Input
                   name="email"
                   type="email"
-                  validationState={this.validationState(errors.fromEmail)}
+                  hasError={errors.fromEmail && errors.fromEmail.length}
                   label={<FormattedMessage id="email_tool.form.your_email" />}
                   value={this.state.email}
                   onChange={this.onEmailChange}

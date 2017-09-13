@@ -2,8 +2,6 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-export type ValidationState = 'success' | 'warning' | 'error' | null;
-
 type OwnProps = {
   name: string,
   label: any,
@@ -11,7 +9,7 @@ type OwnProps = {
   type?: string,
   required?: boolean,
   errorMessage?: any,
-  validationState?: ValidationState,
+  hasError?: boolean,
   onChange?: (value: string) => void,
   className?: string,
 };
@@ -34,14 +32,11 @@ export default class SweetInput extends Component {
     label: '',
     type: 'text',
     errorMessage: '',
+    hasError: false,
   };
 
   hasError() {
-    const { validationState, errorMessage } = this.props;
-    if (validationState || validationState === null) {
-      return validationState === 'error';
-    }
-    return !!this.props.errorMessage;
+    return this.props.hasError || !!this.props.errorMessage;
   }
 
   onChange = (e: SyntheticInputEvent) => {
@@ -72,7 +67,7 @@ export default class SweetInput extends Component {
 
     if (process.env.NODE_ENV === 'development' && this.props.errorMessage) {
       console.warn(
-        "SweetInput's `errorMessage` prop will be deprecated. Please use `validationState`."
+        "SweetInput's `errorMessage` prop will be deprecated. Please use `hasError` (boolean)."
       );
     }
 
@@ -92,7 +87,9 @@ export default class SweetInput extends Component {
           onBlur={this.onBlur}
           className={inputClassName}
         />
-        <span className="error-msg">{this.props.errorMessage}</span>
+        {this.props.errorMessage && (
+          <span className="error-msg">{this.props.errorMessage}</span>
+        )}
       </div>
     );
   }
