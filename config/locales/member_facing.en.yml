@@ -10,7 +10,7 @@ en:
     suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
 
     section:
-      compose: "Compose Your Email to your Fund Manager"
+      compose: "Compose Your Email"
     form:
       select_country: 'Select your Country'
       select_target: 'Select your Pension or Mutual Fund'
