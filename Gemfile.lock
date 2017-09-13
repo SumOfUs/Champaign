@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/RubyMoney/google_currency
+  revision: fa6e8ba366c0b63f8583e7ec7675f47d8ee7c410
+  branch: master
+  specs:
+    google_currency (3.3.0)
+      money (~> 6.7)
+
+GIT
   remote: https://github.com/SumOfUs/actionkit_connector
   revision: c49c3ebde5664969fc6d9bb9ddb1d5664e983d9a
   branch: master
@@ -227,8 +235,6 @@ GEM
       activesupport (>= 4.2.0)
     gocardless_pro (2.0.0)
       faraday (>= 0.8.9, < 0.10)
-    google_currency (3.3.0)
-      money (~> 6.7)
     guard (2.14.1)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -251,7 +257,7 @@ GEM
     hiredis (0.6.1)
     httparty (0.15.5)
       multi_xml (>= 0.5.2)
-    i18n (0.8.4)
+    i18n (0.8.6)
     i18n-js (3.0.0)
       i18n (~> 0.6, >= 0.6.6)
     i18n_data (0.7.0)
@@ -595,7 +601,7 @@ DEPENDENCIES
   friendly_id
   geocoder
   gocardless_pro
-  google_currency
+  google_currency!
   guard-rspec
   hiredis
   httparty
@@ -661,4 +667,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.1
+   1.15.4
