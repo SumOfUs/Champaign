@@ -13,10 +13,6 @@ export type OperationResponse = {
 };
 
 export const parseResponse = (response: any): OperationResponse => {
-  if (response === undefined) {
-    return { success: true, errors: {} };
-  }
-
   switch (response.status) {
     case 200:
     case 201:

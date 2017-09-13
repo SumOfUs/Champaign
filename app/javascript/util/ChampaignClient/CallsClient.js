@@ -27,8 +27,12 @@ const create = function(params: CreateCallParams): Promise<OperationResponse> {
 
   return new Promise((resolve, reject) => {
     $.post(`/api/pages/${params.pageId}/call`, payload)
-      .done(response => resolve(parseResponse(response)))
-      .fail(response => reject(parseResponse(response)));
+      .done((data, textStatus, jqXHR) => {
+        resolve(parseResponse(jqXHR));
+      })
+      .fail((jqXHR, textStatus, errorThrown) => {
+        reject(parseResponse(jqXHR));
+      });
   });
 };
 
