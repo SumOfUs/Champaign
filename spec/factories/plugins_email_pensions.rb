@@ -17,11 +17,11 @@
 #  email_body_header  :text
 #  email_body_footer  :text
 #  name_from          :string
+#  use_member_email   :boolean          default("false")
 #
 
 FactoryGirl.define do
   factory :email_pension, class: 'Plugins::EmailPension' do
     association :page
-    email_from 'foo@example.com'
   end
 end

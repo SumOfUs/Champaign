@@ -14,7 +14,8 @@ describe 'Pension Emails', type: :request do
 
   describe 'POST#create' do
     let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
-    let!(:plugin) { create(:email_pension, page: page, email_from: 'origin@example.com') }
+    let(:registered_email) { create(:registered_email_address) }
+    let!(:plugin) { create(:email_pension, page: page, from_email_address: registered_email) }
 
     let(:params) do
       {
@@ -41,13 +42,13 @@ describe 'Pension Emails', type: :request do
         table_name: 'UserMailing',
         item: {
           MailingId: /foo-bar:\d*/,
-          UserId: 'sender@example.com',
+          UserId: registered_email.email,
           Body: '<p>Body text</p>',
           Subject: 'Subject',
           ToEmails: 'Target name <recipient@example.com>',
-          FromName: "Sender's Name",
-          FromEmail: 'sender@example.com',
-          ReplyTo: "origin@example.com, Sender's Name <sender@example.com>"
+          FromName: registered_email.name,
+          FromEmail: registered_email.email,
+          ReplyTo: "#{registered_email.name} <#{registered_email.email}>"
         }
       }
 

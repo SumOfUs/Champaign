@@ -11,16 +11,13 @@ class PensionEmailSender
 
   def run
     EmailSender.run(
-      id:  @page.slug,
+      id:         @page.slug,
       subject:    @params[:subject],
       body:       @params[:body],
       to:         to_emails,
-      from_name:  @params[:from_name],
-      # Use member's email only if #use_email_address is true
-      from_email: @params[:from_email],
-      # Don't reply-to members email address if use_email_address is false
-      reply_to: [{ name: @plugin.name_from, address: @plugin.email_from },
-                 { name: @params[:from_name], address: @params[:from_email] }]
+      from_name:  from_email_hash[:name],
+      from_email: from_email_hash[:address],
+      reply_to:   reply_to_emails
     )
   end
 
@@ -32,5 +29,28 @@ class PensionEmailSender
     else
       { name: 'Test', address: @plugin.test_email_address }
     end
+  end
+
+  def from_email_hash
+    if @plugin.use_member_email?
+      member_email_hash
+    elsif @plugin.from_email_address.present?
+      plugin_email_from_hash
+    end
+  end
+
+  def member_email_hash
+    { name: @params[:from_name], address: @params[:from_email] }
+  end
+
+  def plugin_email_from_hash
+    email = @plugin.from_email_address
+    { name: email.name, address: email.email }
+  end
+
+  def reply_to_emails
+    list = [plugin_email_from_hash]
+    list << member_email_hash if @plugin.use_member_email?
+    list
   end
 end

@@ -196,6 +196,7 @@ class EmailPensionView extends Component {
       _.merge(payload, this.props.formValues);
 
       this.props.changeSubmitting(true);
+      // FIXME Handle errors
       $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload);
     };
 

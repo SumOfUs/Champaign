@@ -17,6 +17,7 @@
 #  email_body_header  :text
 #  email_body_footer  :text
 #  name_from          :string
+#  use_member_email   :boolean          default("false")
 #
 
 class Plugins::EmailPension < ApplicationRecord
@@ -24,6 +25,7 @@ class Plugins::EmailPension < ApplicationRecord
 
   belongs_to :page, touch: true
   belongs_to :form
+  belongs_to :from_email_address, class_name: 'RegisteredEmailAddress'
 
   def name
     self.class.name.demodulize

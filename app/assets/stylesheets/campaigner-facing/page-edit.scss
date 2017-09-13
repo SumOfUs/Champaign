@@ -607,6 +607,25 @@ body.page-edit-body {
   }
 }
 
+.email-tool {
+  .checkbox {
+    label {
+      cursor: pointer;
+    }
+    input {
+      margin-top: 5px;
+    }
+  }
+
+  textarea.height-large {
+    height: 300px;
+  }
+
+  textarea.height-short {
+    height: 100px;
+  }
+}
+
 .edit-page-checkbox {
   font-weight: normal;
   cursor: pointer;
