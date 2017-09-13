@@ -20,6 +20,8 @@ describe EmailToolSender do
       country: 'GB' }
   end
 
+  before { allow(EmailSender).to receive(:run) }
+
   def expect_email_sender_to_be_called_with(params)
     expect(EmailSender).to receive(:run)
       .with(hash_including(params))
@@ -96,6 +98,18 @@ describe EmailToolSender do
       )
       EmailToolSender.run(page.id, params)
     end
+  end
+
+  it 'creates an action with the correct params' do
+    service = EmailToolSender.new(page.id, params)
+    expect {
+      service.run
+    }.to change(Action, :count).by(1)
+
+    action = service.action
+    expect(action.member&.email).to eq 'john@email.com'
+    expect(action.member&.first_name).to eq 'John'
+    expect(action.page).to eq page
   end
 
   describe 'Validations' do
