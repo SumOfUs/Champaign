@@ -6,6 +6,7 @@ class Api::EmailsController < ApplicationController
   def create
     service = EmailToolSender.new(params[:page_id], email_params, tracking_params)
     if service.run
+      write_member_cookie(service.action.member_id)
       head :no_content
     else
       render json: { errors: service.errors }, status: :unprocessable_entity
