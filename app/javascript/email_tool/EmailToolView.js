@@ -38,6 +38,7 @@ type Props = {
   page: string,
   pageId: number,
   targets: EmailTarget[],
+  title: string,
   useMemberEmail: boolean,
   manualTargeting: boolean,
   onSuccess?: (target: EmailTarget) => void,
@@ -162,12 +163,7 @@ export default class EmailToolView extends Component {
         <div className="EmailToolView-form">
           <form onSubmit={this.onSubmit} className="action-form form--big">
             <div className="EmailToolView-action">
-              <h3 className="EmailToolView-title">
-                <FormattedMessage
-                  id="email_tool.section.compose"
-                  defaultMessage="Compose Your Email"
-                />
-              </h3>
+              <h3 className="EmailToolView-title">{this.props.title}</h3>
               <FormGroup>
                 {/* Use a <BaseErrorMesages /> component */}
                 <ErrorMessages name="This form" errors={errors.base} />

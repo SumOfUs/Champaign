@@ -3,12 +3,16 @@
     - name = "plugins_email_tool_#{plugin.id}"
     = form_for plugin, url: '#', remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
       = render 'plugins/shared/plugin_metadata', f: f
+      .form-group 
+        = label_with_tooltip(f, :title, t('plugins.email_tool.title'), t('plugins.email_tool.tooltips.title'))
+        = f.text_field :title, class: 'form-control'
       .form-group
         = label_with_tooltip(f, :from_email_address_id, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
         = f.select :from_email_address_id,
                    RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
                    { include_blank: true },
-                   class: 'form-control from-email-address'
+                   class: 'form-control from-email-address',
+                   disabled: plugin.use_member_email?
         .checkbox
           label.use-member-email-checkbox.edit-page-checkbox
             = f.check_box :use_member_email, class: 'use-member-email'
@@ -45,3 +49,4 @@
 
     .email-tool__target-form
       = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }
+

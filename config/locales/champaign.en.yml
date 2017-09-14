@@ -313,6 +313,7 @@ en:
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
     email_tool:
+      title: "Title (e.g. 'Compose your email')"
       subject: 'Email subject'
       email_header: "Header (member can't edit)"
       email_body: 'Body'
@@ -327,6 +328,7 @@ en:
         all_targets: "Send email to all targets"
         member_selected_target: "Send email to a single target selected by the member"
       tooltips:
+        title: "The title that will appear just above the email form"
         use_member_email: "Emails sent to targets will use the member's email address in the `from` field"
         from_address: "Email will be sent from this email address if \"Send from member's email address\" is unchecked. In any case, this address will also be used as a reply-to address."
         email_address_for_testing: 'ALL emails will be delivered to this address - use when you want to test a campaign before publishing.'
