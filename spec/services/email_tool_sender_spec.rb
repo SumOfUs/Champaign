@@ -60,7 +60,7 @@ describe EmailToolSender do
   context 'if use_member_email is false' do
     it 'sends it from the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
-        from_name: registered_email.name, from_email: registered_email.email
+        from_name: params[:from_name], from_email: registered_email.email
       )
       EmailToolSender.run(page.id, params)
     end

@@ -32,8 +32,8 @@ class EmailToolSender
     EmailSender.run(
       id:         @page.slug,
       to:         to_emails,
-      from_name:  from_email_hash[:name],
-      from_email: from_email_hash[:address],
+      from_name:  @params[:from_name],
+      from_email: from_email,
       reply_to:   reply_to_emails,
       subject:    @params[:subject],
       body:       @params[:body]
@@ -68,11 +68,11 @@ class EmailToolSender
     end
   end
 
-  def from_email_hash
+  def from_email
     if @plugin.use_member_email?
-      member_email_hash
+      @params[:from_email]
     elsif @plugin.from_email_address.present?
-      plugin_email_from_hash
+      @plugin.from_email_address.email
     end
   end
 
