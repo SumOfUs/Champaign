@@ -30,7 +30,7 @@ describe 'Emails', type: :request do
 
       it 'returns 200 OK' do
         post "/api/pages/#{page.id}/emails", params: params
-        expect(response).to have_http_status(:ok)
+        expect(response).to have_http_status(:no_content)
       end
 
       it 'sends an email with the expected params' do
