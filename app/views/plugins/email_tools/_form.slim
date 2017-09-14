@@ -11,8 +11,7 @@
         = f.select :from_email_address_id,
                    RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
                    { include_blank: true },
-                   class: 'form-control from-email-address',
-                   disabled: plugin.use_member_email?
+                   class: 'form-control from-email-address'
         .checkbox
           label.use-member-email-checkbox.edit-page-checkbox
             = f.check_box :use_member_email, class: 'use-member-email'
