@@ -1,9 +1,9 @@
 root: true
 parser: babel-eslint
+plugins:
+  - prettier
 extends:
   - prettier
-  - prettier/react
-  - prettier/flowtype
 globals:
   I18n: I18n
   slugChecker: SlugChecker
@@ -25,18 +25,10 @@ parserOptions:
 rules:
   no-fallthrough: warn
   no-extra-semi: warn
+  no-var: error
+  prefer-const: warn
   semi: error
   semi-spacing:
     - error
     - before: false
-      after: true
-  no-var: error
-  prefer-const: warn
-  quotes:
-    - error
-    - single
-plugins:
-  - import
-  - flowtype
-  - jsx-a11y
-  - react
+      after: false
