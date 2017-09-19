@@ -46,7 +46,7 @@ describe 'Pension Emails', type: :request do
           Body: '<p>Body text</p>',
           Subject: 'Subject',
           ToEmails: 'Target name <recipient@example.com>',
-          FromName: registered_email.name,
+          FromName: "Sender's Name",
           FromEmail: registered_email.email,
           ReplyTo: "#{registered_email.name} <#{registered_email.email}>"
         }

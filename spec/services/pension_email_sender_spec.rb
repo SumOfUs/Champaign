@@ -47,9 +47,9 @@ describe PensionEmailSender do
   context 'given use_member_email is false' do
     it 'sends it from the plugin from_email_address' do
       expect_email_sender_to_be_called_with(
-        from_name: registered_email.name, from_email: registered_email.email
+        from_name: 'John', from_email: registered_email.email
       )
-      PensionEmailSender.run(page.id, {})
+      PensionEmailSender.run(page.id, from_name: 'John')
     end
 
     it 'sets the reply_to to the plugin from_email_address' do
