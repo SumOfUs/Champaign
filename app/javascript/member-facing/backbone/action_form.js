@@ -1,24 +1,31 @@
-import $ from "jquery";
-import _ from "lodash";
-import Backbone from "backbone";
-import ErrorDisplay from "../../shared/show_errors";
-import MobileCheck from "./mobile_check";
-import GlobalEvents from "../../shared/global_events";
+import $ from 'jquery';
+import _ from 'lodash';
+import Backbone from 'backbone';
+import ErrorDisplay from '../../shared/show_errors';
+import MobileCheck from './mobile_check';
+import GlobalEvents from '../../shared/global_events';
 
 const ActionForm = Backbone.View.extend({
   el: 'form.action-form',
-  HIDDEN_FIELDS: ['source', 'akid', 'referrer_id', 'rid', 'bucket', 'referring_akid'],
+  HIDDEN_FIELDS: [
+    'source',
+    'akid',
+    'referrer_id',
+    'rid',
+    'bucket',
+    'referring_akid',
+  ],
 
   events: {
-    "click .action-form__clear-form": "clearForm",
-    "ajax:success": "handleSuccess",
-    "ajax:error": "handleFailure",
-    "ajax:send": "disableButton"
+    'click .action-form__clear-form': 'clearForm',
+    'ajax:success': 'handleSuccess',
+    'ajax:error': 'handleFailure',
+    'ajax:send': 'disableButton',
   },
 
   globalEvents: {
-    "form:clear": "clearForm",
-    "form:step_change": "handleStepChange"
+    'form:clear': 'clearForm',
+    'form:step_change': 'handleStepChange',
   },
 
   // options: object with any of the following keys
@@ -40,7 +47,7 @@ const ActionForm = Backbone.View.extend({
     if (!MobileCheck.isMobile()) {
       this.selectizeDropdowns();
     }
-    this.$submitButton = this.$(".action-form__submit-button");
+    this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
   },
@@ -53,7 +60,7 @@ const ActionForm = Backbone.View.extend({
       if (this.formFieldCount() > 0) {
         this.showFormClearer(options.member);
       }
-      this.$el.data("prefilled", true);
+      this.$el.data('prefilled', true);
       return true;
     } else {
       this.partialPrefill(
@@ -67,12 +74,12 @@ const ActionForm = Backbone.View.extend({
 
   selectizeDropdowns() {
     this.$(
-      ".action-form__country-selector, .action-form__dropdown"
+      '.action-form__country-selector, .action-form__dropdown'
     ).selectize();
   },
 
   clearFormErrors() {
-    ErrorDisplay.clearErrors(this.$("form"));
+    ErrorDisplay.clearErrors(this.$('form'));
   },
 
   formCanAutocomplete(outstandingFields, member) {
@@ -84,46 +91,46 @@ const ActionForm = Backbone.View.extend({
   },
 
   clearForm() {
-    const $fields_holder = this.$(".form__group--prefilled");
-    $fields_holder.removeClass("form__group--prefilled");
+    const $fields_holder = this.$('.form__group--prefilled');
+    $fields_holder.removeClass('form__group--prefilled');
     $fields_holder
       .find(
         'input[type="text"], input[type="email"], input[type="tel"], select'
       )
-      .val("")
-      .trigger("change");
-    $fields_holder.find('input[type="checkbox"]').attr("checked", false);
+      .val('')
+      .trigger('change');
+    $fields_holder.find('input[type="checkbox"]').attr('checked', false);
 
-    $fields_holder.find("select").each((ii, el) => {
+    $fields_holder.find('select').each((ii, el) => {
       el.selectedIndex = -1;
     });
-    $fields_holder.find(".selectized").each((ii, el) => {
+    $fields_holder.find('.selectized').each((ii, el) => {
       el.selectize.clear();
     });
-    $fields_holder.parents("form").trigger("reset");
-    $(".action-form__welcome-text").addClass("hidden-irrelevant");
+    $fields_holder.parents('form').trigger('reset');
+    $('.action-form__welcome-text').addClass('hidden-irrelevant');
     this.renameActionKitIdToReferringId();
-    Backbone.trigger("sidebar:height_change");
+    Backbone.trigger('sidebar:height_change');
   },
 
   completePrefill(prefillValues, unvalidatedPrefillValues) {
-    this.$(".action-form__field-container").addClass("form__group--prefilled");
+    this.$('.action-form__field-container').addClass('form__group--prefilled');
     this.partialPrefill(prefillValues, unvalidatedPrefillValues, []);
 
     // DESIRED BUT WEIRD BEHAVIOR - unhide empty fields,
     //   radio buttons, check boxes, and instructions
-    const $empties = this.$(".action-form__field-container")
-      .find("input, textarea, select")
+    const $empties = this.$('.action-form__field-container')
+      .find('input, textarea, select')
       .filter(function(ii, el) {
         const val = $(this).val();
         return val === null || val.length === 0;
       });
-    const $checkboxes = this.$(".action-form__field-container").find(
-      ".checkbox-label, .radio-container, .form__instruction"
+    const $checkboxes = this.$('.action-form__field-container').find(
+      '.checkbox-label, .radio-container, .form__instruction'
     );
     $.merge($empties, $checkboxes)
-      .parents(".action-form__field-container")
-      .removeClass("form__group--prefilled");
+      .parents('.action-form__field-container')
+      .removeClass('form__group--prefilled');
   },
 
   // prefillValues - an object mapping form names to prefill values
@@ -141,35 +148,35 @@ const ActionForm = Backbone.View.extend({
       return;
     }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
-    this.$(".action-form__field-container input, select").each((ii, field) => {
+    this.$('.action-form__field-container input, select').each((ii, field) => {
       const $field = $(field);
-      const name = $field.prop("name");
+      const name = $field.prop('name');
       if (unvalidatedPrefillValues.hasOwnProperty(name)) {
         // weird edge case handling - if the name field is country and the country code is
         // the 'Reserved' country code, don't prefill since it's not a real code.
         const isUnknownCountry =
-          name.match("country") && unvalidatedPrefillValues[name] == "RD";
+          name.match('country') && unvalidatedPrefillValues[name] == 'RD';
         if (!isUnknownCountry) {
-          $field.val(unvalidatedPrefillValues[name]).trigger("change");
+          $field.val(unvalidatedPrefillValues[name]).trigger('change');
         }
       }
       if (
         prefillValues.hasOwnProperty(name) &&
         fieldsToSkipPrefill.indexOf(name) === -1
       ) {
-        $field.val(prefillValues[name]).trigger("change");
+        $field.val(prefillValues[name]).trigger('change');
       }
     });
   },
 
   formFieldCount() {
-    return this.$(".action-form__field-container").length;
+    return this.$('.action-form__field-container').length;
   },
 
   showFormClearer(member) {
     // don't bind to this.$ so it can be anywhere on the page
-    $(".action-form__welcome-name").text(member.welcome_name);
-    $(".action-form__welcome-text").removeClass("hidden-irrelevant");
+    $('.action-form__welcome-name').text(member.welcome_name);
+    $('.action-form__welcome-text').removeClass('hidden-irrelevant');
   },
 
   insertHiddenFields(options) {
@@ -182,11 +189,11 @@ const ActionForm = Backbone.View.extend({
   },
 
   insertHiddenInput(name, value, element) {
-    $("<input>")
+    $('<input>')
       .attr({
-        type: "hidden",
+        type: 'hidden',
         name: name,
-        value: value
+        value: value,
       })
       .appendTo(element);
   },
@@ -194,12 +201,12 @@ const ActionForm = Backbone.View.extend({
   renameActionKitIdToReferringId() {
     const $action_kit_hidden = $('input[name="akid"]');
     if ($action_kit_hidden) {
-      $action_kit_hidden.attr("name", "referring_akid");
+      $action_kit_hidden.attr('name', 'referring_akid');
     }
   },
 
   handleSuccess(e, data) {
-    Backbone.trigger("form:submitted", e, data);
+    Backbone.trigger('form:submitted', e, data);
   },
 
   handleFailure(e, data) {
@@ -214,14 +221,14 @@ const ActionForm = Backbone.View.extend({
   },
 
   disableButton() {
-    this.$submitButton.text(I18n.t("form.processing"));
-    this.$submitButton.addClass("button--disabled");
+    this.$submitButton.text(I18n.t('form.processing'));
+    this.$submitButton.addClass('button--disabled');
   },
 
   enableButton() {
     this.$submitButton.text(this.buttonText);
-    this.$submitButton.removeClass("button--disabled");
-  }
+    this.$submitButton.removeClass('button--disabled');
+  },
 });
 
 export default ActionForm;

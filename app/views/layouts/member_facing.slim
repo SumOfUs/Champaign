@@ -6,6 +6,9 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     meta name="description" content=t('branding.description')
     - if Settings.facebook_app_id.present?
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
+      
+    - if Settings.mixpanel_token
+      = render 'layouts/mixpanel'
     = stylesheet_link_tag 'member-facing'
 
     = csrf_meta_tags

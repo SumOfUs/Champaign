@@ -40,3 +40,9 @@ deployment:
     commands:
       - BRAINTREE_TOKEN_URL=$STAGING_BRAINTREE_TOKEN_URL ./bin/build.sh
       - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+
+  staging:
+    branch:  'testing'
+    commands:
+      - BRAINTREE_TOKEN_URL=$STAGING_BRAINTREE_TOKEN_URL ./bin/build.sh
+      - ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
