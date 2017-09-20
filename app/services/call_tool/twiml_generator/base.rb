@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module CallTool::TwimlGenerator
   class Base
     include Rails.application.routes.url_helpers
