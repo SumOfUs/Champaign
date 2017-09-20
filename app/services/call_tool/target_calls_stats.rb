@@ -1,6 +1,6 @@
 module CallTool
   class TargetCallsStats
-    STATUSES = %w(completed busy no-answer failed).freeze
+    STATUSES = %w[completed busy no-answer failed].freeze
     def initialize(page)
       @page = page
       @calls = Call.connected.where(page: page)
