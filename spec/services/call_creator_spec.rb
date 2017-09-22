@@ -79,7 +79,7 @@ describe CallCreator do
         CallCreator.new(params).run
         target = Call.last.target
         expect(target.name).to eq params[:target_name]
-        expect(target.phone_number).to eq '12135007319'
+        expect(target.phone_number).to eq '+12135007319'
       end
     end
 

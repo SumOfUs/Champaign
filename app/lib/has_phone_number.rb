@@ -13,7 +13,7 @@ module HasPhoneNumber
     attrs.each do |attr|
       define_method("#{attr}=") do |number|
         new_value = begin
-          number && Phony.normalize(number.to_s)
+          number && "+#{Phony.normalize(number.to_s)}"
         rescue Phony::NormalizationError
           number
         end
