@@ -24,7 +24,7 @@ describe CallTool::TargetsParser do
     expect(t.name).to eq('Claire Do')
     expect(t.title).to eq('MEP South East England')
     expect(t.country_code).to eq('GB')
-    expect(t.phone_number).to eq('4410000000')
+    expect(t.phone_number).to eq('+4410000000')
     expect(t.phone_extension).to eq('123')
   end
 

@@ -36,7 +36,7 @@ describe CallTool::Target do
   describe 'caller_id=' do
     it 'normalizes the entered phone number' do
       target.caller_id = '+1 (234) 123456'
-      expect(target.caller_id).to eq '1234123456'
+      expect(target.caller_id).to eq '+1234123456'
     end
   end
 

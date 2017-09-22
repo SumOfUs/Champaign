@@ -82,10 +82,10 @@ describe CallTool::TwimlGenerator do
     end
 
     context 'given the number has extensions' do
-      let(:call) { create(:call, target: build(:call_tool_target, phone_number: '12345678', phone_extension: '234')) }
+      let(:call) { create(:call, target: build(:call_tool_target, phone_number: '+12345678', phone_extension: '234')) }
 
       it 'includes the sendDigits option' do
-        re = %r{<Dial.*><Number sendDigits="234">12345678</Number></Dial>}
+        re = %r{<Dial.*><Number sendDigits="234">\+12345678</Number></Dial>}
         expect(subject).to match re
       end
     end
