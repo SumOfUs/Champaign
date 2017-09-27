@@ -92,8 +92,7 @@ members:
 
 admins: ''
 
-mixpanel:
-  token: ''
+mixpanel_token: ''
 
 facebook:
   pixel_id: ''
