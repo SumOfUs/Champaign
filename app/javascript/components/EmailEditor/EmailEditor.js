@@ -31,7 +31,7 @@ export default class EmailEditor extends PureComponent {
     super(props);
     this.state = {
       subject: this.props.subject,
-      body: this.props.body,
+      body: this.parse(this.props.body),
     };
   }
 
@@ -47,7 +47,7 @@ export default class EmailEditor extends PureComponent {
     ]).join('\n\n');
   }
 
-  parse(templateString?: string = ''): ?string {
+  parse(templateString?: string = ''): string {
     templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
     return template(templateString)(this.props.templateVars);
   }
@@ -101,24 +101,22 @@ export default class EmailEditor extends PureComponent {
         <FormGroup>
           <FormGroup className={bodyClassName}>
             <div className="EmailEditor-body">
-              {header && (
+              {header &&
                 <div
                   className="EmailEditor-header"
                   dangerouslySetInnerHTML={{ __html: this.parse(header) }}
-                />
-              )}
+                />}
               <textarea
                 name="email_body"
                 defaultValue={this.state.body}
                 onChange={this.updateBody}
                 maxLength="9999"
               />
-              {footer && (
+              {footer &&
                 <div
                   className="EmailEditor-footer"
                   dangerouslySetInnerHTML={{ __html: this.parse(footer) }}
-                />
-              )}
+                />}
             </div>
           </FormGroup>
           <ErrorMessages
