@@ -1,0 +1,51 @@
+.row.plugin.email-tool.collection-editor data-plugin-id=plugin.id
+  .col-md-7
+    - name = "plugins_email_tool_#{plugin.id}"
+    = form_for plugin, url: '#', remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
+      = render 'plugins/shared/plugin_metadata', f: f
+      .form-group 
+        = label_with_tooltip(f, :title, t('plugins.email_tool.title'), t('plugins.email_tool.tooltips.title'))
+        = f.text_field :title, class: 'form-control'
+      .form-group
+        = label_with_tooltip(f, :from_email_address_id, t('plugins.email_tool.from_address'), t('plugins.email_tool.tooltips.from_address'))
+        = f.select :from_email_address_id,
+                   RegisteredEmailAddress.all.map { |e| [e.email, e.id] },
+                   { include_blank: true },
+                   class: 'form-control from-email-address'
+        .checkbox
+          label.use-member-email-checkbox.edit-page-checkbox
+            = f.check_box :use_member_email, class: 'use-member-email'
+            = t('plugins.email_tool.use_member_email')
+            | &nbsp;
+
+      .form-group.field_with_errors
+        = label_with_tooltip(f, :test_email_address, t('plugins.email_tool.email_address_for_testing'), t('plugins.email_tool.tooltips.email_address_for_testing'))
+        = f.text_field :test_email_address, class: 'form-control'
+        - if plugin.test_email_address
+          .has-error
+            strong = t('plugins.email_tool.test_email_warning')
+
+      = render 'plugins/shared/subject_editor', name: name, f: f, plugin: plugin
+
+      .form-group
+        = f.label(:email_body_header, t('plugins.email_tool.email_header'))
+        = f.text_area :email_body_header, class: 'form-control height-short'
+
+      .form-group
+        = f.label(:email_body, t('plugins.email_tool.email_body'))
+        = f.text_area :email_body, class: 'form-control height-large'
+
+      .form-group
+        = f.label(:email_body_footer, t('plugins.email_tool.email_footer'))
+        = f.text_area :email_body_footer, class: 'form-control height-short'
+
+      .form-group
+        = f.label(:targeting_mode, t('plugins.email_tool.targeting_mode'))
+        = f.select :targeting_mode,
+                   Plugins::EmailTool.targeting_modes.keys.map { |mode| [t("plugins.email_tool.targeting_modes.#{mode}"), mode] },
+                   {},
+                   class: 'form-control'
+
+    .email-tool__target-form
+      = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }
+

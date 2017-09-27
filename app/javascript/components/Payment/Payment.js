@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
-import _ from 'lodash';
+import { isEmpty } from 'lodash';
 
 import PayPal from '../Braintree/PayPal';
 import BraintreeCardFields from '../Braintree/BraintreeCardFields';
@@ -322,7 +322,7 @@ export class Payment extends Component {
 
     return (
       <div className="Payment section">
-        <ShowIf condition={!_.isEmpty(this.state.errors)}>
+        <ShowIf condition={!isEmpty(this.state.errors)}>
           <div className="fundraiser-bar__errors">
             <div className="fundraiser-bar__error-intro">
               <span className="fa fa-exclamation-triangle" />

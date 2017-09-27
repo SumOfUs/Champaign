@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_fundraisers
@@ -7,13 +8,13 @@
 #  title             :string
 #  ref               :string
 #  page_id           :integer
-#  active            :boolean          default(FALSE)
+#  active            :boolean          default("false")
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  form_id           :integer
 #  donation_band_id  :integer
-#  recurring_default :integer          default(0), not null
-#  preselect_amount  :boolean          default(FALSE)
+#  recurring_default :integer          default("0"), not null
+#  preselect_amount  :boolean          default("false")
 #
 
 require 'rails_helper'

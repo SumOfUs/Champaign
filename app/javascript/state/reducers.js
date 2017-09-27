@@ -4,7 +4,7 @@ import member from './member/reducer';
 import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
-import { reducer as emailTarget } from './email_target/actions';
+import { reducer as emailTarget } from './email_pension/actions';
 
 const reducers = {
   member,

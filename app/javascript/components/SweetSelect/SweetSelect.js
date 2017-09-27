@@ -5,16 +5,25 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import './SweetSelect.scss';
 
+export interface SelectOption {
+  label: any,
+  value: string,
+}
+
+// TODO: deduplicate this (also seen in SweetInput)
+export type ValidationState = 'success' | 'warning' | 'error' | null;
+
 type Props = {
   name: string,
   value?: string,
   onChange: (value: any) => void,
-  options?: any[],
+  options: SelectOption[],
   label?: any,
   clearable?: boolean,
   disabled?: boolean,
   multiple?: boolean,
   errorMessage?: any,
+  validationState?: ValidationState,
   className?: string,
 };
 
@@ -39,6 +48,10 @@ export default class SweetSelect extends Component {
   }
 
   hasError() {
+    const { validationState, errorMessage } = this.props;
+    if (validationState || validationState === null) {
+      return validationState === 'error';
+    }
     return !!this.props.errorMessage;
   }
 
@@ -75,15 +88,14 @@ export default class SweetSelect extends Component {
           ref="select"
           placeholder=""
           openOnFocus={true}
+          options={this.props.options}
           onFocus={e => this.toggleFocus(true)}
           onBlur={e => this.toggleFocus(false)}
           onChange={this.onChange.bind(this)}
           className={this.hasError() ? 'has-error' : ''}
           clearable={this.props.clearable}
         />
-        <span className="error-msg">
-          {this.props.errorMessage}
-        </span>
+        <span className="error-msg">{this.props.errorMessage}</span>
       </div>
     );
   }

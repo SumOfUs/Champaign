@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: forms
@@ -8,11 +9,11 @@
 #  description   :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  visible       :boolean          default(FALSE)
-#  master        :boolean          default(FALSE)
+#  visible       :boolean          default("false")
+#  master        :boolean          default("false")
 #  formable_id   :integer
 #  formable_type :string
-#  position      :integer          default(0), not null
+#  position      :integer          default("0"), not null
 #
 
 FactoryGirl.define do

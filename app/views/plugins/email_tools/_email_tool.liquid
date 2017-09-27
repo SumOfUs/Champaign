@@ -1,0 +1,34 @@
+{% if plugins.email_tool[ref].active %}
+  <div id="email-tool-component"></div>
+
+  <script>
+    $(document).ready(function() {
+      var personalization = window.champaign.personalization;
+      // FIXME: don't copy all params, pick only the ones we need.
+      var data = _.clone(personalization.emailTool['{{ref}}']);
+      var trackingParams =  _.pick(window.champaign.personalization.urlParams,
+                                   'source', 'akid', 'referring_akid',
+                                   'referrer_id', 'rid');
+      _.merge(data, {
+        name: personalization.member.full_name,
+        email: personalization.member.email,
+        country: personalization.member.country || personalization.location.country,
+        trackingParams: trackingParams,
+        onSuccess: function (target) {
+          window.location.href = window.URI("{{ follow_up_url }}")
+            .addSearch({
+              'target[name]': target.name,
+              'target[title]': target.title
+            })
+            .toString();
+        }
+      });
+
+      mountEmailTool('email-tool-component', data);
+    });
+  </script>
+
+  <div class="body-text text-bottom">
+    {{ plugins.email_tool[ref].body }}
+  </div>
+{% endif %}

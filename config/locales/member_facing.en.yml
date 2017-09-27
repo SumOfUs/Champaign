@@ -6,18 +6,20 @@ en:
     or: or
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
-  email_target:
+  email_tool:
+    title: 'Compose your email'
     suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
 
     section:
-      compose: "Compose Your Email to your Fund Manager"
+      compose: "Compose Your Email"
     form:
       select_country: 'Select your Country'
       select_target: 'Select your Pension or Mutual Fund'
-      subject: 'Subject Line'
-      your_name: 'Your Name'
-      your_email: 'Your Email Address'
-      send_email: 'Send Email'
+      subject: 'Subject line'
+      your_name: 'Your name'
+      your_email: 'Your email address'
+      send_email: 'Send email'
+      email_body: 'Body'
       errors:
         message: "Whoops! There are some errors with the form. Please check you've filled in the required fields."
         country: 'Please select a country'
@@ -25,6 +27,8 @@ en:
         email: 'Please add your email address'
         name: 'Please add you name'
         fund: 'Please select a pension fund'
+        target:
+          outdated: "It seems the targets information has recently changed. Please reload the page and try again."
 
   fundraiser:
     payment_methods:
@@ -129,6 +133,7 @@ en:
     is_invalid: is invalid
     this_field: This field
     this_field_with_message: This field %{message}
+    named_field_error: "{name} has some errors:"
   validation:
     is_required: is required
     is_invalid_email: is not a valid email address

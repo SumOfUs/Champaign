@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_thermometers
@@ -7,7 +8,7 @@
 #  title      :string
 #  offset     :integer
 #  page_id    :integer
-#  active     :boolean          default(FALSE)
+#  active     :boolean          default("false")
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  ref        :string

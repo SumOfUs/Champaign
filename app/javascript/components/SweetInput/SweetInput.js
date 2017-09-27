@@ -9,6 +9,7 @@ type OwnProps = {
   type?: string,
   required?: boolean,
   errorMessage?: any,
+  hasError?: boolean,
   onChange?: (value: string) => void,
   className?: string,
 };
@@ -16,12 +17,11 @@ type OwnProps = {
 export default class SweetInput extends Component {
   props: OwnProps;
 
-  state: { filled: boolean, focused: boolean };
+  state: { focused: boolean };
 
   constructor(props: OwnProps) {
     super(props);
     this.state = {
-      filled: false,
       focused: false,
     };
   }
@@ -32,22 +32,25 @@ export default class SweetInput extends Component {
     label: '',
     type: 'text',
     errorMessage: '',
+    hasError: false,
   };
 
-  onChange(value: string) {
-    if (this.props.onChange) {
-      this.props.onChange(value);
-    }
-  }
-
   hasError() {
-    return !!this.props.errorMessage;
+    return this.props.hasError || !!this.props.errorMessage;
   }
 
-  toggleFocus(focused: boolean) {
-    if (focused) this.refs.input.focus();
-    this.setState({ focused });
-  }
+  onChange = (e: SyntheticInputEvent) => {
+    if (this.props.onChange) {
+      this.props.onChange(e.target.value);
+    }
+  };
+
+  onFocus = () => {
+    this.refs.input.focus();
+    this.setState({ focused: true });
+  };
+
+  onBlur = () => this.setState({ focused: false });
 
   render() {
     const className = classnames('sweet-placeholder', this.props.className);
@@ -58,10 +61,19 @@ export default class SweetInput extends Component {
       'sweet-placeholder__label--active': this.state.focused,
       'has-error': this.hasError(),
     });
+    const inputClassName = classnames('sweet-placeholder__field', {
+      'has-error': this.hasError(),
+    });
+
+    if (process.env.NODE_ENV === 'development' && this.props.errorMessage) {
+      console.warn(
+        "SweetInput's `errorMessage` prop will be deprecated. Please use `hasError` (boolean)."
+      );
+    }
 
     return (
       <div className={className}>
-        <label className={labelClassName} onClick={e => this.toggleFocus(true)}>
+        <label className={labelClassName} onClick={this.onFocus}>
           {this.props.label}
         </label>
         <input
@@ -70,16 +82,14 @@ export default class SweetInput extends Component {
           name={this.props.name}
           type={this.props.type}
           required={this.props.required}
-          onChange={e => this.onChange(e.target.value)}
-          onFocus={e => this.toggleFocus(true)}
-          onBlur={e => this.toggleFocus(false)}
-          className={`sweet-placeholder__field ${this.hasError()
-            ? 'has-error'
-            : ''}`}
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          className={inputClassName}
         />
-        <span className="error-msg">
-          {this.props.errorMessage}
-        </span>
+        {this.props.errorMessage && (
+          <span className="error-msg">{this.props.errorMessage}</span>
+        )}
       </div>
     );
   }

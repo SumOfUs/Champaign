@@ -4,30 +4,32 @@
 #
 # Table name: plugins_call_tools
 #
-#  id                            :integer          not null, primary key
-#  page_id                       :integer
-#  active                        :boolean
-#  ref                           :string
-#  created_at                    :datetime
-#  updated_at                    :datetime
-#  title                         :string
-#  sound_clip_file_name          :string
-#  sound_clip_content_type       :string
-#  sound_clip_file_size          :integer
-#  sound_clip_updated_at         :datetime
-#  targets                       :json             default("{}"), is an Array
-#  description                   :text
-#  menu_sound_clip_file_name     :string
-#  menu_sound_clip_content_type  :string
-#  menu_sound_clip_file_size     :integer
-#  menu_sound_clip_updated_at    :datetime
-#  caller_phone_number_id        :integer
-#  restricted_country_code       :string
-#  target_by_attributes          :string           is an Array
+#  id                           :integer          not null, primary key
+#  page_id                      :integer
+#  active                       :boolean
+#  ref                          :string
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  title                        :string
+#  targets                      :json             default("{}"), is an Array
+#  sound_clip_file_name         :string
+#  sound_clip_content_type      :string
+#  sound_clip_file_size         :integer
+#  sound_clip_updated_at        :datetime
+#  description                  :text
+#  menu_sound_clip_file_name    :string
+#  menu_sound_clip_content_type :string
+#  menu_sound_clip_file_size    :integer
+#  menu_sound_clip_updated_at   :datetime
+#  restricted_country_code      :string
+#  caller_phone_number_id       :integer
+#  target_by_attributes         :string           default("{}"), is an Array
 #
 
 class Plugins::CallTool < ApplicationRecord
   DEFAULTS = {}.freeze
+  include HasTargets
+  set_target_class ::CallTool::Target
 
   belongs_to :page, touch: true
   belongs_to :form
@@ -39,7 +41,6 @@ class Plugins::CallTool < ApplicationRecord
   has_attached_file :menu_sound_clip, default_url: ''
   validates_attachment_content_type :sound_clip, content_type: %r{\Aaudio/.*\Z}, allow_nil: true
 
-  validate :targets_are_valid
   validate :restricted_country_code_is_valid
 
   def name
@@ -50,33 +51,6 @@ class Plugins::CallTool < ApplicationRecord
     Presenter.new(self).to_hash
   end
 
-  def targets=(target_objects)
-    write_attribute :targets, target_objects.map(&:to_hash)
-  end
-
-  def targets
-    json_targets.map { |t| ::CallTool::Target.new(t) }
-  end
-
-  def empty_cols
-    ::CallTool::Target::MAIN_ATTRS.select do |field|
-      targets.map { |t| t.try(field) }.compact.empty?
-    end
-  end
-
-  def target_keys
-    discarded = %w[caller_id country_code phone_number phone_extension] + empty_cols
-    targets
-      .collect(&:keys)
-      .flatten
-      .uniq
-      .reject { |k| discarded.include?(k) }
-  end
-
-  def find_target(id)
-    targets.find { |t| t.id == id }
-  end
-
   def restricted_country_code=(code)
     new_value = code.present? ? code : nil
     write_attribute(:restricted_country_code, new_value)
@@ -84,22 +58,9 @@ class Plugins::CallTool < ApplicationRecord
 
   private
 
-  def json_targets
-    read_attribute(:targets)
-  end
-
   def restricted_country_code_is_valid
     if restricted_country_code.present? && ISO3166::Country[restricted_country_code].blank?
       errors.add(:restricted_country_code, 'is invalid')
-    end
-  end
-
-  def targets_are_valid
-    targets.each_with_index.each do |target, index|
-      target.valid?
-      target.errors.full_messages.each do |message|
-        errors.add(:targets, "#{message} (row #{index + 1})")
-      end
     end
   end
 

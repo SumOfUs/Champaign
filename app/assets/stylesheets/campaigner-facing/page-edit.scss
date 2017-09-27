@@ -12,13 +12,16 @@ body.page-edit-body {
 
 .note-editable {
   // don't pad the paragraphs in the WYSIWYG or the output
-  ol, ul, p {
+  ol,
+  ul,
+  p {
     margin-bottom: 0;
     margin-top: 0;
   }
 }
 
-.page-edit-bar, .sidebar {
+.page-edit-bar,
+.sidebar {
   width: 20%;
   height: 100%;
   position: fixed;
@@ -53,7 +56,6 @@ body.page-edit-body {
   &__step-list {
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
 
     li {
       border-top: 1px solid $save-box-color;
@@ -74,7 +76,8 @@ body.page-edit-body {
         overflow: hidden;
         cursor: pointer;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
           background-color: $save-box-color;
           text-decoration: none;
           color: white;
@@ -85,7 +88,8 @@ body.page-edit-body {
         &.sidebar__secondary-link {
           padding: 12px 15px 12px 36px;
           background: black;
-          &:hover, &.active {
+          &:hover,
+          &.active {
             text-decoration: underline;
           }
         }
@@ -201,7 +205,9 @@ body.page-edit-body {
   }
 }
 
-.page-edit-step__title, .edit-block__title, .centered-overlay__title {
+.page-edit-step__title,
+.edit-block__title,
+.centered-overlay__title {
   position: absolute;
   top: 0;
   left: 0;
@@ -220,7 +226,8 @@ body.page-edit-body {
   width: 80%;
   float: right;
 }
-.page-edit-step, .edit-block {
+.page-edit-step,
+.edit-block {
   width: 80%;
   float: right;
   background: white;
@@ -269,14 +276,16 @@ body.page-edit-body {
   }
 }
 @media (max-width: 600px) {
-  .page-edit-bar, .sidebar {
+  .page-edit-bar,
+  .sidebar {
     width: 100%;
     position: relative;
   }
   .page-edit-bar__step-list {
     padding: 0 0 200px 10px;
   }
-  .page-edit-step, .edit-block {
+  .page-edit-step,
+  .edit-block {
     width: 100%;
     padding: 80px 20px 20px;
     overflow: scroll;
@@ -325,7 +334,9 @@ body.page-edit-body {
     margin: 10px 0;
   }
 
-  .dz-preview.dz-image-preview, .dz-preview.dz-file-preview, .dz-preview {
+  .dz-preview.dz-image-preview,
+  .dz-preview.dz-file-preview,
+  .dz-preview {
     margin: 10px;
     background-color: transparent;
     max-width: 100px;
@@ -389,7 +400,8 @@ body.page-edit-body {
       color: $page-edit-text-color;
       text-decoration: none;
 
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         background-color: $save-box-color;
         color: white;
       }
@@ -424,7 +436,8 @@ body.page-edit-body {
 }
 
 .layout-settings {
-  &--primary, &--follow_up {
+  &--primary,
+  &--follow_up {
     padding-top: 15px;
   }
   &__title {
@@ -488,7 +501,8 @@ body.page-edit-body {
     left: 10px;
   }
 }
-.well .tooltip__trigger, .tooltip--white .tooltip__trigger {
+.well .tooltip__trigger,
+.tooltip--white .tooltip__trigger {
   background: white;
 }
 
@@ -498,7 +512,8 @@ body.page-edit-body {
 .form-sort-handle {
   cursor: move;
   opacity: 0.5;
-  &:hover, &:active {
+  &:hover,
+  &:active {
     opacity: 1;
   }
 }
@@ -520,6 +535,10 @@ body.page-edit-body {
     }
     label[for="targets_csv_file"] {
       width: 170px;
+    }
+
+    .targets-table {
+      margin-top: 1em;
     }
   }
 
@@ -555,6 +574,55 @@ body.page-edit-body {
 
   .sound-clip-detail {
     margin-bottom: 1.5em;
+  }
+}
+
+.email-tool {
+  .checkbox {
+    label {
+      cursor: pointer;
+    }
+    input {
+      margin-top: 5px;
+    }
+  }
+  // --- Dropzone customizations
+  form.dropzone {
+    border: none;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .dz-message {
+    display: none;
+  }
+
+  label[for="targets_csv_file"] {
+    width: 170px;
+  }
+  // ---
+
+  .targets-table {
+    margin-top: 1em;
+  }
+}
+
+.email-tool {
+  .checkbox {
+    label {
+      cursor: pointer;
+    }
+    input {
+      margin-top: 5px;
+    }
+  }
+
+  textarea.height-large {
+    height: 300px;
+  }
+
+  textarea.height-short {
+    height: 100px;
   }
 }
 

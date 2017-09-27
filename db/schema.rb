@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811124034) do
+ActiveRecord::Schema.define(version: 20170914121051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.text "body"
     t.string "resource_id", null: false
     t.string "resource_type", null: false
-    t.integer "author_id"
     t.string "author_type"
+    t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: {}, null: false
+    t.jsonb "target_call_info", default: "{}", null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -113,8 +113,8 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
     t.boolean "master", default: false
-    t.integer "formable_id"
     t.string "formable_type"
+    t.integer "formable_id"
     t.integer "position", default: 0, null: false
     t.index ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id"
   end
@@ -313,8 +313,8 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.integer "page_id"
     t.string "payment_instrument_type"
     t.integer "status"
-    t.string "processor_response_code"
     t.decimal "amount", precision: 10, scale: 2
+    t.string "processor_response_code"
     t.integer "payment_method_id"
     t.integer "subscription_id"
     t.index ["page_id"], name: "index_payment_braintree_transactions_on_page_id"
@@ -430,19 +430,39 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.string "target_by_attributes", default: [], array: true
   end
 
-  create_table "plugins_email_targets", id: :serial, force: :cascade do |t|
+  create_table "plugins_email_pensions", id: :serial, force: :cascade do |t|
     t.string "ref"
     t.integer "page_id"
     t.boolean "active", default: false
-    t.string "email_from"
-    t.string "email_subject"
-    t.text "email_body_b"
+    t.string "email_subjects", default: [], array: true
+    t.text "email_body"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "test_email_address"
-    t.text "email_body_a"
-    t.text "email_body_c"
-    t.index ["page_id"], name: "index_plugins_email_targets_on_page_id"
+    t.text "email_body_header"
+    t.text "email_body_footer"
+    t.boolean "use_member_email", default: false
+    t.integer "from_email_address_id"
+    t.index ["page_id"], name: "index_plugins_email_pensions_on_page_id"
+  end
+
+  create_table "plugins_email_tools", force: :cascade do |t|
+    t.string "ref"
+    t.integer "page_id"
+    t.boolean "active", default: false
+    t.string "email_subjects", default: [], array: true
+    t.text "email_body"
+    t.text "email_body_header"
+    t.text "email_body_footer"
+    t.string "test_email_address"
+    t.json "targets", default: [], array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "use_member_email", default: false
+    t.integer "from_email_address_id"
+    t.integer "targeting_mode", default: 0
+    t.string "title", default: ""
+    t.index ["page_id"], name: "index_plugins_email_tools_on_page_id"
   end
 
   create_table "plugins_fundraisers", id: :serial, force: :cascade do |t|
@@ -504,6 +524,11 @@ ActiveRecord::Schema.define(version: 20170811124034) do
     t.datetime "updated_at", null: false
     t.string "ref"
     t.index ["page_id"], name: "index_plugins_thermometers_on_page_id"
+  end
+
+  create_table "registered_email_addresses", force: :cascade do |t|
+    t.string "email"
+    t.string "name"
   end
 
   create_table "share_buttons", id: :serial, force: :cascade do |t|

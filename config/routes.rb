@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.routes.draw do
   if Settings.google_verification
     match "/#{Settings.google_verification}.html", to: proc { |_env| [200, {}, ["google-site-verification: #{Settings.google_verification}.html"]] }, via: :get
@@ -34,13 +35,13 @@ Rails.application.routes.draw do
   end
 
   # Standard resources
-  resources :uris, except: [:new, :edit]
+  resources :uris, except: %i[new edit]
   resources :campaigns
-  resources :donation_bands, except: [:show, :destroy]
+  resources :donation_bands, except: %i[show destroy]
 
   resources :clone_pages
 
-  resources :featured_pages, except: [:show, :new, :edit]
+  resources :featured_pages, except: %i[show new edit]
 
   resources :pages do
     namespace :share do
@@ -58,10 +59,10 @@ Rails.application.routes.draw do
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
 
-    resource :archive, only: [:create, :destroy], controller: 'page_archives'
+    resource :archive, only: %i[create destroy], controller: 'page_archives'
   end
 
-  resources :pages, path: 'a', as: 'member_facing_page', only: [:edit, :show] do
+  resources :pages, path: 'a', as: 'member_facing_page', only: %i[edit show] do
     get 'follow-up', on: :member, action: 'follow_up'
   end
 
@@ -77,10 +78,12 @@ Rails.application.routes.draw do
     resources :fundraisers, only: :update
     resources :surveys, only: :update
     resources :texts, only: :update
-    resources :email_targets
     resources :call_tools, only: :update do
       delete :sound_clip, on: :member, action: :delete_sound_clip
       post :sound_clip, on: :member, action: :update_sound_clip
+      post :targets, on: :member, action: :update_targets
+    end
+    resources :email_tools do
       post :targets, on: :member, action: :update_targets
     end
 
@@ -92,7 +95,7 @@ Rails.application.routes.draw do
 
   resources :liquid_partials, except: [:show]
   resources :liquid_layouts, except: [:show]
-  resources :links, only: [:create, :destroy]
+  resources :links, only: %i[create destroy]
 
   # legacy route
   get '/api/braintree/token', to: 'api/payment/braintree#token'
@@ -106,7 +109,6 @@ Rails.application.routes.draw do
         post 'suggest_fund'
       end
     end
-    resources :email_targets, only: [:create]
 
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
@@ -133,11 +135,13 @@ Rails.application.routes.draw do
         get 'call_tool', on: :member
       end
 
-      resources :actions, only: [:create, :update] do
+      resources :actions, only: %i[create update] do
         post 'validate', on: :collection, action: 'validate'
       end
       resources :survey_responses, only: [:create]
       resource :call, only: [:create]
+      post 'emails', to: 'emails#create'
+      post 'pension_emails', to: 'emails#create_pension_email'
     end
 
     namespace :stateless, defaults: { format: 'json' } do

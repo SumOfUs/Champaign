@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: form_elements
@@ -13,8 +14,8 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  name          :string
-#  position      :integer          default(0), not null
-#  choices       :jsonb
+#  position      :integer          default("0"), not null
+#  choices       :jsonb            default("[]")
 #
 
 class FormElement < ApplicationRecord
@@ -30,7 +31,7 @@ class FormElement < ApplicationRecord
   validate :choices_is_valid
 
   # Array of possible field types.
-  VALID_TYPES = %w(
+  VALID_TYPES = %w[
     text
     paragraph
     email
@@ -42,7 +43,7 @@ class FormElement < ApplicationRecord
     checkbox
     instruction
     hidden
-  ).freeze
+  ].freeze
   validates :data_type, inclusion: { in: VALID_TYPES }
 
   def liquid_data
@@ -121,7 +122,7 @@ class FormElement < ApplicationRecord
 
   def set_name
     unless name.blank? || ActionKitFields::ACTIONKIT_FIELDS_WHITELIST.include?(name)
-      if !(name =~ ActionKitFields::VALID_PREFIX_RE) && !(name =~ /^(action_)+$/)
+      if name !~ ActionKitFields::VALID_PREFIX_RE && name !~ /^(action_)+$/
         self.name = field_prefix(data_type) + name
       end
     end

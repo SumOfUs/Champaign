@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_texts
@@ -7,7 +8,7 @@
 #  content    :text
 #  ref        :string
 #  page_id    :integer
-#  active     :boolean          default(FALSE)
+#  active     :boolean          default("false")
 #  created_at :datetime
 #  updated_at :datetime
 #

@@ -27,10 +27,12 @@ import PageEditBar from '../campaigner_facing/page_edit_bar';
 import Analytics from '../campaigner_facing/analytics';
 import SurveyEditor from '../campaigner_facing/survey_editor';
 import FormElementCreator from '../campaigner_facing/form_element_creator';
+import ListEditor from '../campaigner_facing/list_editor';
 
 Object.assign(window, {
   PageEditBar,
   Analytics,
   SurveyEditor,
   FormElementCreator,
+  ListEditor,
 });

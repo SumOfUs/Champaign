@@ -12,10 +12,7 @@ class CallTool::TargetsParser
     def parse_csv(csv_string)
       targets = []
       CSV.parse(csv_string, CSV_OPTIONS) do |row|
-        attrs = row.to_hash
-        target = attrs.slice(*CallTool::Target::MAIN_ATTRS, :country)
-        fields = attrs.except(*CallTool::Target::MAIN_ATTRS, :country)
-        targets << CallTool::Target.new(target.merge(fields: fields))
+        targets << CallTool::TargetBuilder.run(row.to_hash)
       end
       targets
     end

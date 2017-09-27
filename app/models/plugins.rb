@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Plugins
   class << self
     def table_name_prefix
@@ -28,7 +29,8 @@ module Plugins
        Plugins::Survey,
        Plugins::Text,
        Plugins::CallTool,
-       Plugins::EmailTarget]
+       Plugins::EmailTool,
+       Plugins::EmailPension]
     end
 
     def translate_defaults(defaults, locale)

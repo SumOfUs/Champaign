@@ -1,0 +1,30 @@
+- name = "plugins_email_tool_#{plugin.id}"
+
+javascript:
+  Dropzone.options.targetsDropzone = false;
+  $(function() {
+    new Dropzone('#targets-dropzone', {
+      paramName: 'plugins_email_tool[targets_csv_file]',
+      clickable: '#targets-dropzone__clickable',
+      init: function() {
+        this.on('complete', function(file) {
+          $('.email-tool__target-form').html(file.xhr.responseText);
+          $('##{name}_target_by_attributes').selectize();
+        });
+      }
+    });
+  });
+
+- if plugin.errors.present?
+  .error-msg
+    span Something went wrong, please make sure the uploaded file has the correct format
+    ul
+      - plugin.errors.full_messages.each do |error|
+        li = error
+
+.well.targets-section
+  = form_tag targets_plugins_email_tool_path(plugin), method: :post, id: 'targets-dropzone', class: 'targets-form form-inline dropzone', multipart: true
+    = label_tag_with_tooltip(:targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
+    = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
+
+  = render partial: 'plugins/email_tools/targets', locals: { plugin: plugin }

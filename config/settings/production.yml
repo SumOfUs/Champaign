@@ -117,8 +117,7 @@ airbrake_project_id: <%= ENV['AIRBRAKE_PROJECT_ID'] %>
 
 admins: <%= ENV['ADMIN_WHITELIST'] %>
 
-mixpanel:
-  token: "<%= ENV['MIXPANEL_TOKEN'] %>"
+mixpanel_token: "<%= ENV['MIXPANEL_TOKEN'] %>"
 
 facebook:
   pixel_id: <%= ENV['FACEBOOK_PIXEL_ID'] %>
@@ -129,3 +128,5 @@ twilio:
 
 calls:
   targeting_secret: <%= ENV['CALL_TARGETING_SECRET'] %>
+
+dynamodb_mailer_table: <%= ENV['DYNAMODB_MAILER_TABLE'] %>

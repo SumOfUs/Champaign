@@ -4,45 +4,20 @@
       span = t 'plugins.call_tool.no_targets_loaded'
 
   - else
-    h4 data-toggle="collapse" data-target=".targets-table" aria-expanded="false"
+    a data-toggle="collapse" data-target=".targets-table" aria-expanded="false"
       i.fa.fa-caret-right
       = t('plugins.call_tool.show_targets')
     .targets-table.collapse
-        - extra_cols = plugin.targets.map(&:fields).compact.map(&:keys).flatten.uniq
-        - empty_cols = plugin.empty_cols
+      table.table.table-stripped
+        tr
+        - fields = plugin.target_fields
+        - fields.each do |field|
+          th = field.to_s.titleize
 
-        table.table.table-stripped
+        - plugin.targets.each do |target|
           tr
-            - unless empty_cols.include? :country_name
-              th = t 'plugins.call_tool.targets.country'
-            - unless empty_cols.include? :name
-              th = t 'plugins.call_tool.targets.name'
-            - unless empty_cols.include? :title
-              th = t 'plugins.call_tool.targets.title'
-            - unless empty_cols.include? :phone_number
-              th = t 'plugins.call_tool.targets.phone_number'
-            - unless empty_cols.include? :phone_extension
-              th = t 'plugins.call_tool.targets.phone_extension'
-            - unless empty_cols.include? :caller_id
-              th = t 'plugins.call_tool.targets.caller_id'
-            - if extra_cols.present?
-              - extra_cols.each do |col|
-                th = col.titleize
-
-          - plugin.targets.each do |target|
-            tr
-              - unless empty_cols.include? :country_name
-                td = target.country_name
-              - unless empty_cols.include? :name
-                td = target.name
-              - unless empty_cols.include? :title
-                td = target.title
-              - unless empty_cols.include? :phone_number
-                td = format_phone_number(target.phone_number)
-              - unless empty_cols.include? :phone_extension
-                td = target.phone_extension
-              - unless empty_cols.include? :caller_id
-                td = format_phone_number(target.caller_id)
-              - if extra_cols.present?
-                - extra_cols.each do |col|
-                  td = target.fields[col]
+          - fields.each do |field|
+            - if ['caller_id', 'phone_number'].include?(field)
+              td = format_phone_number(target.get(field))
+            - else
+              td = target.get(field)

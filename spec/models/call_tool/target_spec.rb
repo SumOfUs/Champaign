@@ -3,31 +3,30 @@
 require 'rails_helper'
 
 describe CallTool::Target do
-  let(:target) { CallTool::Target.new }
-
-  describe '#country=' do
-    it 'assigns the country code if code is valid' do
-      target.country = 'US'
-      expect(target.country_code).to eq 'US'
-      expect(target.country_name).to eq 'United States of America'
-    end
-
-    it 'assigns the country code if name is valid' do
-      target.country = 'United states'
-      expect(target.country_code).to eq 'US'
-      expect(target.country_name).to eq 'United states'
-    end
-
-    it 'sets country_code to nil if name is invalid' do
-      target.country = 'Magic Country'
-      expect(target.country_code).to be_nil
-      expect(target.country_name).to be_nil
-    end
-  end
+  let(:target) { build(:call_tool_target) }
 
   describe 'country validation' do
-    it 'is invalid if country name is wrong' do
-      target.country_name = 'Magic country'
+    it 'is valid if country_code matches country_name' do
+      target.country_code = 'AR'
+      target.country_name = 'Argentina'
+      expect(target).to be_valid
+    end
+
+    it 'is invalid if country_name is blank' do
+      target.country_code = 'AR'
+      expect(target).not_to be_valid
+      expect(target.errors[:country]).to include('is invalid')
+    end
+
+    it 'is invalid if country_code is blank' do
+      target.country_name = 'Argentina'
+      expect(target).not_to be_valid
+      expect(target.errors[:country]).to include('is invalid')
+    end
+
+    it "is invalid if country_code doesn't match the country_name" do
+      target.country_code = 'NLAND'
+      target.country_name = 'United States'
       expect(target).not_to be_valid
       expect(target.errors[:country]).to include('is invalid')
     end

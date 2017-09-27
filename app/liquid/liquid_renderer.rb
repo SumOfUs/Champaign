@@ -34,7 +34,8 @@ class LiquidRenderer
       donation_bands: donation_bands,
       thermometer: thermometer,
       call_tool: call_tool_data,
-      email_target: email_target_data,
+      email_tool: email_tool_data,
+      email_pension: email_pension_data,
       action_count: @page.action_count,
       show_direct_debit: show_direct_debit?,
       payment_methods: @payment_methods
@@ -123,8 +124,12 @@ class LiquidRenderer
     ).to_h
   end
 
-  def email_target_data
-    plugin_data.deep_symbolize_keys[:plugins][:email_target]
+  def email_tool_data
+    plugin_data.deep_symbolize_keys[:plugins][:email_tool]
+  end
+
+  def email_pension_data
+    plugin_data.deep_symbolize_keys[:plugins][:email_pension]
   end
 
   def isolate_from_plugin_data(field)
@@ -140,7 +145,7 @@ class LiquidRenderer
                      @location.country_code
                    end
     return @location.data if country_code.blank?
-    return {} if country_code == 'RD'
+    return { country: 'US' } if country_code == 'RD'
     currency = Donations::Utils.currency_from_country_code(country_code)
     @location.data.merge(currency: currency, country: country_code)
   end

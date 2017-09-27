@@ -4,25 +4,26 @@
 #
 # Table name: plugins_call_tools
 #
-#  id                            :integer          not null, primary key
-#  page_id                       :integer
-#  active                        :boolean
-#  ref                           :string
-#  created_at                    :datetime
-#  updated_at                    :datetime
-#  title                         :string
-#  targets                       :json             is an Array
-#  sound_clip_file_name          :string
-#  sound_clip_content_type       :string
-#  sound_clip_file_size          :integer
-#  sound_clip_updated_at         :datetime
-#  description                   :text
-#  menu_sound_clip_file_name     :string
-#  menu_sound_clip_content_type  :string
-#  menu_sound_clip_file_size     :integer
-#  menu_sound_clip_updated_at    :datetime
-#  restricted_country_code       :string
-#  caller_phone_number_id        :integer
+#  id                           :integer          not null, primary key
+#  page_id                      :integer
+#  active                       :boolean
+#  ref                          :string
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  title                        :string
+#  targets                      :json             default("{}"), is an Array
+#  sound_clip_file_name         :string
+#  sound_clip_content_type      :string
+#  sound_clip_file_size         :integer
+#  sound_clip_updated_at        :datetime
+#  description                  :text
+#  menu_sound_clip_file_name    :string
+#  menu_sound_clip_content_type :string
+#  menu_sound_clip_file_size    :integer
+#  menu_sound_clip_updated_at   :datetime
+#  restricted_country_code      :string
+#  caller_phone_number_id       :integer
+#  target_by_attributes         :string           default("{}"), is an Array
 #
 
 require 'rails_helper'
@@ -78,12 +79,6 @@ describe Plugins::CallTool do
     it 'allows valid country codes' do
       call_tool = build(:call_tool, restricted_country_code: 'AR')
       expect(call_tool).to be_valid
-    end
-  end
-
-  describe '#target_keys' do
-    it 'returns an array' do
-      expect(build(:call_tool).target_keys).to be_an(Array)
     end
   end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: plugins_fundraisers
@@ -7,19 +8,19 @@
 #  title             :string
 #  ref               :string
 #  page_id           :integer
-#  active            :boolean          default(FALSE)
+#  active            :boolean          default("false")
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  form_id           :integer
 #  donation_band_id  :integer
-#  recurring_default :integer          default(0), not null
-#  preselect_amount  :boolean          default(FALSE)
+#  recurring_default :integer          default("0"), not null
+#  preselect_amount  :boolean          default("false")
 #
 
 class Plugins::Fundraiser < ApplicationRecord
   include Plugins::HasForm
 
-  enum recurring_default: [:one_off, :recurring, :only_recurring]
+  enum recurring_default: %i[one_off recurring only_recurring]
 
   belongs_to :page, touch: true
   belongs_to :donation_band
@@ -38,7 +39,7 @@ class Plugins::Fundraiser < ApplicationRecord
   end
 
   def recurring?
-    ['recurring', 'only_recurring'].include?(recurring_default)
+    %w[recurring only_recurring].include?(recurring_default)
   end
 
   def self.donation_default_for_page(page_id)

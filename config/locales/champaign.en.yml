@@ -46,6 +46,7 @@ en:
     is_invalid_country: 'must be a two letter country code'
     is_invalid_postal: 'must be a valid postal code'
     is_invalid_length: 'must be less than %{length} characters long'
+    is_invalid: 'is invalid'
 
   menu:
     pages: 'Pages'
@@ -311,16 +312,25 @@ en:
         one_off: 'Default to one-time donation'
         recurring: 'Default to recurring donation'
         only_recurring: 'Only allow recurring donations'
-    email_target:
+    email_tool:
+      title: "Title (e.g. 'Compose your email')"
       subject: 'Email subject'
       email_header: "Header (member can't edit)"
       email_body: 'Body'
       email_footer: "Footer (member can't edit)"
       email_address_for_testing: 'Email address to send to (use for testing only)'
-      from_address: "'from' email address"
+      from_address: "'from' and 'reply to' email address"
+      from_name: "'from' name"
       test_email_warning: "Don't forget to remove the test address before publishing."
+      use_member_email: "Send from the member's email address"
+      targeting_mode: "Targeting mode"
+      targeting_modes:
+        all_targets: "Send email to all targets"
+        member_selected_target: "Send email to a single target selected by the member"
       tooltips:
-        from_address: 'Must be a valid address using a validated domain'
+        title: "The title that will appear just above the email form"
+        use_member_email: "Emails sent to targets will use the member's email address in the `from` field"
+        from_address: "Email will be sent from this email address if \"Send from member's email address\" is unchecked. In any case, this address will also be used as a reply-to address."
         email_address_for_testing: 'ALL emails will be delivered to this address - use when you want to test a campaign before publishing.'
     call_tool:
       title: 'Title'
@@ -331,13 +341,6 @@ en:
       restricted_country_code: 'Restrict to members calling from one country'
       caller_id: 'Caller ID'
       target_by_attributes: 'Allow members to filter targets by:'
-      targets:
-        country: 'Country'
-        name: 'Name'
-        title: 'Title'
-        phone_number: 'Phone Number'
-        phone_extension: 'Phone Extension'
-        caller_id: 'Caller ID'
 
   ak_logs:
     index:

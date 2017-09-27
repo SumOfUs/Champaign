@@ -1,0 +1,20 @@
+.targets-wrapper
+  - if plugin.targets.blank?
+    p
+      span = t 'plugins.call_tool.no_targets_loaded'
+
+  - else
+    a data-toggle="collapse" data-target=".targets-table" aria-expanded="false"
+      i.fa.fa-caret-right
+      = t('plugins.call_tool.show_targets')
+    .targets-table.collapse
+      table.table.table-stripped
+        tr
+        - fields = plugin.target_fields
+        - fields.each do |field|
+          th = field.to_s.titleize
+
+        - plugin.targets.each do |target|
+          tr
+          - fields.each do |field|
+            td = target.get(field)

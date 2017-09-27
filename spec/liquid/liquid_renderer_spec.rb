@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe LiquidRenderer do
@@ -116,7 +117,7 @@ describe LiquidRenderer do
     end
 
     it 'has expected keys' do
-      expected_keys = %w(
+      expected_keys = %w[
         plugins
         ref
         images
@@ -127,7 +128,7 @@ describe LiquidRenderer do
         primary_image
         petition_target
         locale
-      )
+      ]
 
       expected_keys += page.liquid_data.keys.map(&:to_s)
 
@@ -155,7 +156,7 @@ describe LiquidRenderer do
     end
 
     it 'should have expected keys' do
-      expected_keys = %w(
+      expected_keys = %w[
         url_params
         outstanding_fields
         location
@@ -167,8 +168,9 @@ describe LiquidRenderer do
         payment_methods
         form_values
         call_tool
-        email_target
-      )
+        email_tool
+        email_pension
+      ]
       actual_keys = renderer.personalization_data.keys
       expect(actual_keys).to match_array(expected_keys)
     end
@@ -196,7 +198,7 @@ describe LiquidRenderer do
 
       it 'calls DirectDebitDecider with location country and member country' do
         LiquidRenderer.new(page, member: member, location: location).personalization_data
-        expect(DirectDebitDecider).to have_received(:decide).with(%w(US DE), 'recurring')
+        expect(DirectDebitDecider).to have_received(:decide).with(%w[US DE], 'recurring')
       end
     end
 
@@ -214,7 +216,7 @@ describe LiquidRenderer do
       it 'has the fields from one plugin form' do
         form = create :form_with_email_and_name
         create :plugins_fundraiser, page: page, form: form
-        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to eq %w(email name)
+        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to eq %w[email name]
       end
 
       it "checks with the member's liquid data" do
@@ -231,14 +233,14 @@ describe LiquidRenderer do
         p2 = create :plugins_petition, page: page
         p1.update_attributes(form: create(:form_with_email_and_name))
         p2.update_attributes(form: create(:form_with_phone_and_country))
-        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to match_array %w(email name phone country)
+        expect(LiquidRenderer.new(page).personalization_data['outstanding_fields']).to match_array %w[email name phone country]
       end
     end
 
     describe 'donation_bands' do
       let(:stubbed_amounts) { [1, 2, 3, 4, 5] }
       let(:stubbed_conversion) do
-        %w(GBP EUR AUD NZD CAD).inject({}) do |memo, a|
+        %w[GBP EUR AUD NZD CAD].inject({}) do |memo, a|
           memo[a] = stubbed_amounts
           memo
         end
