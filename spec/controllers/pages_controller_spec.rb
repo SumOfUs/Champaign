@@ -174,13 +174,6 @@ describe PagesController do
 
     include_examples 'show and follow-up'
 
-    context 'unsupported mimetype' do
-      it 'raises 415' do
-        expect do
-          get :show, params: { id: 'foo-BaR', format: :json }
-        end.to raise_error(ActionController::UnknownFormat)
-      end
-    end
     it 'finds page by un-altered slug' do
       expect(Page).to receive(:find).with('foo-BaR')
       get :show, params: { id: 'foo-BaR' }
