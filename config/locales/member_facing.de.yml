@@ -5,7 +5,29 @@ de:
   basics:
     or: oder
   branding:
-    description: "This is who we are."
+    description: "Wir stellen uns vor."
+  email_tool:
+    title: 'Schreiben Sie Ihre E-Mail'
+    suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
+    section:
+      compose: "Schreiben Sie Ihre E-Mail"
+    form:
+      select_country: 'Wählen Sie Ihr Land'
+      select_target: 'Wählen Sie Ihren Renten- oder Investement-Fonds.'
+      subject: 'Betreffzeile'
+      your_name: 'Ihr Name'
+      your_email: 'Ihre E-Mail-Adresse'
+      send_email: 'E-Mail senden'
+      email_body: 'E-Mail-Text'
+      errors:
+        message: "Ups! In einigen Feldern haben sich Fehler eingeschlichen. Bitte füllen Sie die benötigten Felder aus."
+        country: 'Bitte wählen Sie ein Land'
+        subject: 'Bitte fügen Sie eine Betreffzeile hinzu'
+        email: 'Bitte fügen Sie Ihre E-Mail-Adresse hinzu'
+        name: 'Bitte fügen Sie Ihren Namen hinzu'
+        fund: 'Bitte wählen Sie einen Rentenfonds'
+        target:
+          outdated: "Offensichtlich haben sich gerade Informationen auf Empfänger-Seite verändert. Bitte laden Sie die Seite erneut und probieren es noch einmal. "
   fundraiser:
     payment_methods:
       gocardless: "Lastschrift"
@@ -77,9 +99,11 @@ de:
     signatures: Unterschriften
     million: Millionen
   call_tool:
-    manual_target_selection: "Please select your target (DE)"
+    manual_target_selection: "Bitte wählen Sie den/die Empfänger/in "
     you_will_be_calling: "Wir rufen Sie gleich an und verbinden Sie anschließend mit"
-    select_target: "Geben Sie Ihr Land und Ihre Telefonnummer ein -- wir rufen Sie dann umgehend an. "
+    instructions: "Geben Sie Ihr Land und Ihre Telefonnummer ein -- wir rufen Sie dann umgehend an. "
+    instructions_without_country: "Geben Sie Ihre Telefonnummer inklusive Vorwahl ein -- wir rufen Sie dann umgehend an."
+    text_to_speach_menu: "Bitte drücken Sie die 1, wenn Sie bereit sind -- wir verbinden Sie dann. Drücken Sie die 2, um die Nachricht des/der Kampagnenleiter/in noch einmal zu hören."
     errors:
       unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
       target:
@@ -88,6 +112,7 @@ de:
       phone_number:
         too_short: "enthält mindestens 6 Ziffern"
         cant_connect: "Es kann keine Verbindung zu dieser Telefonnummer hergestellt werden. Bitte überprüfen Sie, ob die Nummer korrekt ist, oder versuchen Sie es über eine andere Nummer"
+        is_invalid: "ist keine gültige Telefonnummer"
     fine_print: 'SumOfUs schützt<a href="https://www.sumofus.org/de/privacy" target="_blank"> Ihre Daten</a> und hält Sie auf dem Laufenden über diese und andere SumOfUs-Kampagnen. Wenn Sie Ihre Telefonnummer angeben, können wir Sie auch anrufen oder Ihnen eine SMS senden.'
     form:
       phone_number: "Meine Telefonnummer."
@@ -105,6 +130,7 @@ de:
     is_invalid: ist ungültig
     this_field: Dieses Feld
     this_field_with_message: Dieses Feld %{message}
+    named_field_error: "{name} enthält einige Fehler:"
   validation:
     is_required: wird benötigt
     is_invalid_email: ist keine gültige E-Mail-Adresse
