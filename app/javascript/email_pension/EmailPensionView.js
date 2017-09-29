@@ -249,7 +249,7 @@ class EmailPensionView extends Component {
                   errorMessage={this.state.errors.fund}
                   label={
                     <FormattedMessage
-                      id="email_tool.form.select_target"
+                      id="email_pension.form.select_target"
                       defaultMessage="Select a fund (default)"
                     />
                   }

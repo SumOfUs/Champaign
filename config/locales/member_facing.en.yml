@@ -6,6 +6,9 @@ en:
     or: or
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
+  email_pension:
+    form:
+      select_taget: 'Select your Pension or Mutual Fund'
   email_tool:
     title: 'Compose your email'
     suggest_fund: "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database."
@@ -14,7 +17,7 @@ en:
       compose: "Compose Your Email"
     form:
       select_country: 'Select your Country'
-      select_target: 'Select your Pension or Mutual Fund'
+      select_target: 'Select a target'
       subject: 'Subject line'
       your_name: 'Your name'
       your_email: 'Your email address'

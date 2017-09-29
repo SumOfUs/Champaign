@@ -37,6 +37,9 @@ fr:
       member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a> de SumOfUs."
       success: "Félicitations, votre compte SumOfUs a bien été confirmé. Merci !"
     title: "Confirmation du compte"
+  email_pension:
+    form:
+      select_taget: "Sélectionnez votre fond de pension ou votre mutuelle"
   email_tool:
     form:
       errors:
@@ -47,7 +50,7 @@ fr:
         name: "Merci d’indiquer votre nom"
         subject: "Merci d’indiquer l’objet du courriel"
       select_country: "Sélectionnez votre pays"
-      select_target: "Sélectionnez votre fond de pension ou votre mutuelle"
+      select_target: "Select a target (FR)"
       send_email: "Envoyer le courriel"
       subject: Objet
       your_email: "Votre adresse courriel"
