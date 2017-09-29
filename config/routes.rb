@@ -100,7 +100,7 @@ Rails.application.routes.draw do
   # legacy route
   get '/api/braintree/token', to: 'api/payment/braintree#token'
 
-  resource :member_authentication
+  resource :member_authentication, only: %i[new create]
   resource :reset_password
 
   namespace :api do
