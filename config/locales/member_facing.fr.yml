@@ -50,7 +50,7 @@ fr:
         name: "Merci d’indiquer votre nom"
         subject: "Merci d’indiquer l’objet du courriel"
       select_country: "Sélectionnez votre pays"
-      select_target: "Select a target (FR)"
+      select_target: "Choisissez le destinataire de votre courriel"
       send_email: "Envoyer le courriel"
       subject: Objet
       your_email: "Votre adresse courriel"
