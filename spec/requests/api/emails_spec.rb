@@ -47,7 +47,7 @@ describe 'Emails', type: :request do
               ToEmails: "#{target.name} <#{target.email}>",
               FromName: 'John Doe',
               FromEmail: 'john@email.com',
-              ReplyTo: "#{from_email.name} <#{from_email.email}>, John Doe <john@email.com>"
+              ReplyTo: "#{from_email.name} <#{from_email.email}>;John Doe <john@email.com>"
             }
           )
         post "/api/pages/#{page.id}/emails", params: params
