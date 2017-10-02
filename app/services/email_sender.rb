@@ -35,7 +35,6 @@ class EmailSender
   def format_emails_list(emails)
     list = emails.is_a?(Array) ? emails : [emails]
     list.map { |i| format_email(i[:address], i[:name]) }
-      .join(', ')
   end
 
   def format_email(address, name)
