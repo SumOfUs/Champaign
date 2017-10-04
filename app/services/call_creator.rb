@@ -18,12 +18,12 @@ class CallCreator
     validate_call_tool if errors.blank?
 
     if errors.blank?
-      Call.transaction do
-        if @call.valid?
+      if @call.valid?
+        Call.transaction do
           @call.action = Action.create!(page: @page, member: @call.member)
           @call.save!
-          place_call
         end
+        place_call
       end
 
       if @call.persisted? && !@call.failed?

@@ -47,37 +47,33 @@ class PagesController < ApplicationController
   end
 
   def show
-    respond_to do |format|
-      format.html do
-        one_click_processor = process_one_click
+    one_click_processor = process_one_click
 
-        if one_click_processor
-          i18n_options = {
-            amount: view_context.number_to_currency(
-              params[:amount],
-              unit: PaymentProcessor.currency_to_symbol(params[:currency]).html_safe
-            )
-          }
+    if one_click_processor
+      i18n_options = {
+        amount: view_context.number_to_currency(
+          params[:amount],
+          unit: PaymentProcessor.currency_to_symbol(params[:currency]).html_safe
+        )
+      }
 
-          i18n_key = if one_click_processor.recurring?
-                       'fundraiser.recurring_thank_you_with_amount'
-                     else
-                       'fundraiser.thank_you_with_amount'
-                     end
+      i18n_key = if one_click_processor.recurring?
+                   'fundraiser.recurring_thank_you_with_amount'
+                 else
+                   'fundraiser.thank_you_with_amount'
+                 end
 
-          flash[:notice] =
-            t(i18n_key, i18n_options).html_safe
+      flash[:notice] =
+        t(i18n_key, i18n_options).html_safe
 
-          redirect_to new_member_authentication_path(
-            email: recognized_member.email,
-            follow_up_url: PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
-          )
-        else
-          @rendered = renderer.render
-          @data = renderer.personalization_data
-          render :show, layout: 'member_facing'
-        end
-      end
+      redirect_to new_member_authentication_path(
+        email: recognized_member.email,
+        follow_up_url: PageFollower.new_from_page(@page, member_id: recognized_member.id).follow_up_path
+      )
+    else
+      @rendered = renderer.render
+      @data = renderer.personalization_data
+      render :show, layout: 'member_facing'
     end
   end
 

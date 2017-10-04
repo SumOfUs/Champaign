@@ -9,7 +9,8 @@ class EmailTool::PluginUpdater
 
   def run
     if @targets_csv.present?
-      @params[:targets] = EmailTool::TargetsParser.parse_csv(@targets_csv.force_encoding('UTF-8'))
+      encoding = EncodingPicker.pick(@targets_csv)
+      @params[:targets] = EmailTool::TargetsParser.parse_csv(@targets_csv.force_encoding(encoding))
     end
     @email_tool.update(@params)
   end
