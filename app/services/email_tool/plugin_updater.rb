@@ -9,6 +9,7 @@ class EmailTool::PluginUpdater
 
   def run
     if @targets_csv.present?
+      encoding = EncodingPicker.pick(@targets_csv)
       @params[:targets] = EmailTool::TargetsParser.parse_csv(@targets_csv.force_encoding(encoding))
     end
     @email_tool.update(@params)
@@ -16,15 +17,5 @@ class EmailTool::PluginUpdater
 
   def errors
     @email_tool.errors
-  end
-
-  private
-
-  def encoding
-    if @targets_csv.force_encoding(Encoding::UTF_8).valid_encoding?
-      Encoding::UTF_8
-    else
-      Encoding::ISO_8859_15
-    end
   end
 end
