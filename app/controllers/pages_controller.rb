@@ -47,6 +47,7 @@ class PagesController < ApplicationController
   end
 
   def show
+    respond_to :html
     one_click_processor = process_one_click
 
     if one_click_processor
