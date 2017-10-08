@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: languages
@@ -12,8 +13,8 @@
 #
 
 class Language < ApplicationRecord
-  has_paper_trail on: [:update, :destroy]
+  has_paper_trail on: %i[update destroy]
   has_many :pages
 
-  validates :code, :actionkit_uri, :name, presence: true, allow_blank: false
+  validates :code, :name, presence: true, allow_blank: false
 end
