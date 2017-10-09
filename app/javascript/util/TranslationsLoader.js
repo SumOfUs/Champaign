@@ -6,9 +6,10 @@ import type { I18nFlatDict } from 'champaign-i18n';
 import { transform } from './locales/helpers';
 
 export default function loadTranslations(locale: string) {
-  const messages = translations[locale];
+  const lang = locale.split('-')[0];
+  const messages = translations[lang];
   if (!messages) {
-    throw new Error(`Unsuported locale: ${locale}`);
+    throw new Error(`Unsupported locale: ${lang}`);
   }
   return transform(messages);
 }

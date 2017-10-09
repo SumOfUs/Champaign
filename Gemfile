@@ -17,6 +17,7 @@ gem 'geocoder'
 gem 'gocardless_pro'
 gem 'google_currency', git: 'https://github.com/RubyMoney/google_currency', branch: 'master'
 gem 'hiredis'
+gem 'http_accept_language'
 gem 'httparty'
 gem 'i18n-js'
 gem 'jbuilder'
@@ -133,3 +134,4 @@ source 'https://rails-assets.org' do
   # Sticky JS (used in Desktop Sticky)
   gem 'rails-assets-sticky'
 end
+gem 'http_accept_language'

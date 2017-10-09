@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class LiquidRenderer
   include Rails.application.routes.url_helpers
 
   HIDDEN_FIELDS = %w[source bucket referrer_id rid akid referring_akid].freeze
 
-  def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [])
+  def initialize(page, location: nil, member: nil, url_params: {}, payment_methods: [], browser_locale: I18n.default_locale)
     @page = page
     @location = location
     @member = member
     @url_params = url_params
     @payment_methods = payment_methods
+    @browser_locale = browser_locale.to_s
   end
 
   def render
@@ -60,7 +62,7 @@ class LiquidRenderer
       named_images:  named_images,
       primary_image: image_urls(@page.image_to_display),
       shares:        Shares.get_all(@page),
-      locale:        @page.language&.code || 'en',
+      locale:        @browser_locale || 'en',
       follow_up_url: follow_up_url
     }
       .merge(@page.liquid_data)
@@ -157,32 +159,5 @@ class LiquidRenderer
 
   def follow_up_url
     PageFollower.new_from_page(@page).follow_up_path
-  end
-
-  class Cache
-    INVALIDATOR_KEY = 'cache_invalidator'
-
-    def self.invalidate
-      Rails.cache.increment(INVALIDATOR_KEY)
-    end
-
-    def initialize(page_key, layout_key)
-      @page_key   = page_key
-      @layout_key = layout_key
-    end
-
-    def fetch(&block)
-      Rails.cache.fetch(key_for_markup, &block)
-    end
-
-    private
-
-    def key_for_markup
-      "liquid_markup:#{invalidator_seed}:#{@page_key}:#{@layout_key}"
-    end
-
-    def invalidator_seed
-      Rails.cache.fetch(INVALIDATOR_KEY) { 0 }
-    end
   end
 end

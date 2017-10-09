@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -11,7 +12,6 @@ module Champaign
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
-
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -28,7 +28,7 @@ module Champaign
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.i18n.available_locales = %i[en fr de]
+    config.i18n.available_locales = %i[en en-US en-GB en-CA en-AU fr-CA fr de]
     config.i18n.enforce_available_locales = true
   end
 end
