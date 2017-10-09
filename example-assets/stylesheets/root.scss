@@ -5,6 +5,7 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans;
 }
 .example-assets {
+  // LAYOUT
   .header,
   .footer {
     background-color: $primary-color;
@@ -50,6 +51,9 @@ body {
     margin: 30px auto;
     max-width: 1050px;
 
+    @media (max-width: 600px) {
+      margin: 0;
+    }
     &__main-section,
     &__sidebar-section {
       background: white;
@@ -58,6 +62,14 @@ body {
     }
     &__main-section {
       width: calc(100% - 350px);
+      @media (max-width: 700px) {
+        width: calc(100% - 300px);
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0;
+        left: 0;
+      }
       float: left;
       left: 10px;
       z-index: 2;
@@ -84,14 +96,22 @@ body {
       }
     }
     &__sidebar-section {
-      padding: 40px;
-      padding-left: 60px;
+      padding: 0 0 0 20px;
       left: -10px;
-      width: 350px;
       float: left;
       margin-top: 20px;
       z-index: 1;
       @include box-shadow(rgba(0,0,0,0.3) 1px 1px 4px);
+      width: 350px;
+      @media (max-width: 700px) {
+        width: 300px;
+      }
+      @media (max-width: 600px) {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        left: 0;
+      }
     }
 
     &:after {
@@ -99,6 +119,65 @@ body {
       content: '';
       display: table;
       clear: both;
+    }
+  }
+
+  // BASE STYLES
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+      color: lighten($primary-color, 20%);
+    }
+  }
+
+  // COMPONENTS
+  .petition-bar {
+    &__target {
+      background: #1f2533;
+      color: white;
+      padding: 20px;
+      font-size: 22px;
+      font-weight: normal;
+      margin: 0;
+    }
+    &__petition-text {
+      padding: 20px;
+    }
+    &__fine-print {
+      padding: 20px;
+    }
+    .action-form {
+      padding: 0 20px;
+    }
+  }
+  .sweet-placeholder {
+    &.has-error {
+      .selectize-control.single .selectize-input {
+        border-color: #f8492e;
+      }
+    }
+    &__field,
+    .selectize-control.single .selectize-input {
+      border-color: #bbb;
+      &.has-error {
+        border-color: #f8492e;
+      }
+      &:focus,
+      &.input-active {
+        border-color: $primary-color;
+      }
+    }
+    .selectize-dropdown {
+      border-color: $primary-color;
+    }
+    &__label {
+      &--active {
+        color: $primary-color;
+      }
+    }
+    .selectize-dropdown.single .option.active {
+      background-color: $primary-color;
     }
   }
 }

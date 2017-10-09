@@ -1,4 +1,13 @@
-.hidden-irrelevant, .hidden-deleted, .hidden-closed {
+.hidden-irrelevant,
+.hidden-deleted,
+.hidden-closed {
   display: none !important;
   visibility: hidden;
+}
+// to use: $('.mobile-indicator').is(':visible');
+.mobile-indicator {
+  display: none;
+  @media (max-width: 700px) {
+    display: block;
+  }
 }
