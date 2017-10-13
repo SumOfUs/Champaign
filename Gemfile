@@ -134,4 +134,3 @@ source 'https://rails-assets.org' do
   # Sticky JS (used in Desktop Sticky)
   gem 'rails-assets-sticky'
 end
-gem 'http_accept_language'
