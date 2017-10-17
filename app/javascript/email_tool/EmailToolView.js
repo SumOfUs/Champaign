@@ -163,14 +163,12 @@ export default class EmailToolView extends Component {
         <div className="EmailToolView-form">
           <form onSubmit={this.onSubmit} className="action-form form--big">
             <div className="EmailToolView-action">
-              <h3 className="EmailToolView-title">
-                {this.props.title}
-              </h3>
+              <h3 className="EmailToolView-title">{this.props.title}</h3>
               <FormGroup>
                 {/* Use a <BaseErrorMesages /> component */}
                 <ErrorMessages name="This form" errors={errors.base} />
               </FormGroup>
-              {this.props.manualTargeting &&
+              {this.props.manualTargeting && (
                 <FormGroup>
                   <Select
                     clearable={false}
@@ -182,7 +180,8 @@ export default class EmailToolView extends Component {
                     options={this.state.targetsForSelection}
                     onChange={this.onTargetChange}
                   />
-                </FormGroup>}
+                </FormGroup>
+              )}
 
               <FormGroup>
                 <Input
