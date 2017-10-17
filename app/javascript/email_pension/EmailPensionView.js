@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
+import { isEmpty, find, template, merge } from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import Select from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 import SelectCountry from '../components/SelectCountry/SelectCountry';
+import FormGroup from '../components/Form/FormGroup';
+import EmailEditor from '../components/EmailEditor/EmailEditor';
 import { FormattedMessage } from 'react-intl';
+import SelectPensionFund from './SelectPensionFund';
 import './EmailPensionView.scss';
 
 import {
@@ -38,44 +41,6 @@ class EmailPensionView extends Component {
     this.getPensionFunds(this.props.country);
   }
 
-  postSuggestedFund(fund: string) {
-    if (!fund) return;
-
-    const url = '/api/pension_funds/suggest_fund';
-
-    this.setState({ isSubmittingNewPensionFundName: true });
-
-    $.post(url, { 'email_tool[name]': fund })
-      .done(a => {
-        this.setState({
-          shouldShowFundSuggestion: false,
-          newPensionFundName: '',
-          newPensionFundSuggested: true,
-          isSubmittingNewPensionFundName: false,
-        });
-      })
-      .fail(a => {
-        console.log('err');
-      });
-  }
-
-  getPensionFunds(country: string) {
-    if (!country) return;
-
-    const url = `/api/pension_funds?country=${country.toLowerCase()}`;
-
-    const handleSuccess = data => {
-      data.forEach(fund => {
-        fund.value = fund._id;
-        fund.label = fund.fund;
-      });
-
-      this.props.changePensionFunds(data);
-    };
-
-    $.getJSON(url).done(handleSuccess);
-  }
-
   changeCountry(value) {
     this.getPensionFunds(value);
     this.props.changeCountry(value);
@@ -87,7 +52,7 @@ class EmailPensionView extends Component {
     const fields = ['country', 'subject', 'name', 'email', 'fund'];
 
     fields.forEach(field => {
-      if (_.isEmpty(this.props[field])) {
+      if (isEmpty(this.props[field])) {
         const location = `email_tool.form.errors.${field}`;
         const message = <FormattedMessage id={location} />;
         errors[field] = message;
@@ -95,12 +60,23 @@ class EmailPensionView extends Component {
     });
 
     this.setState({ errors: errors });
-    return _.isEmpty(errors);
+    return isEmpty(errors);
   }
+
+  templateVars() {
+    return {
+      ...this.props,
+      ...this.state,
+    };
+  }
+
+  onEmailEditorUpdate = data => {
+    console.log(data);
+  };
 
   render() {
     const errorNotice = () => {
-      if (!_.isEmpty(this.state.errors)) {
+      if (!isEmpty(this.state.errors)) {
         return (
           <span className="error-msg left-align">
             <FormattedMessage id="email_tool.form.errors.message" />
@@ -109,10 +85,10 @@ class EmailPensionView extends Component {
       }
     };
 
-    const parse = template => {
-      template = template.replace(/(?:\r\n|\r|\n)/g, '<br />');
-      template = _.template(template);
-      return template(this.props);
+    const parse = tpl => {
+      tpl = tpl.replace(/(?:\r\n|\r|\n)/g, '<br />');
+      tpl = template(tpl);
+      return tpl(this.props);
     };
 
     const parseHeader = () => {
@@ -124,7 +100,7 @@ class EmailPensionView extends Component {
     };
 
     const changeFund = value => {
-      const contact = _.find(this.props.pensionFunds, { _id: value });
+      const contact = find(this.props.pensionFunds, { _id: value });
       this.props.changeFund(contact);
     };
 
@@ -193,7 +169,7 @@ class EmailPensionView extends Component {
         to_email: this.props.fundEmail,
       };
 
-      _.merge(payload, this.props.formValues);
+      merge(payload, this.props.formValues);
 
       this.props.changeSubmitting(true);
       // FIXME Handle errors
@@ -204,6 +180,15 @@ class EmailPensionView extends Component {
       <div className="email-target">
         <div className="email-target-form">
           <form onSubmit={onSubmit} className="action-form form--big">
+            <SelectPensionFund
+              country={this.props.country}
+              fund={this.props.fundId}
+              onChange={changeFund}
+              errors={{
+                country: this.state.errors.country,
+                fund: this.state.errors.fund,
+              }}
+            />
             <div className="email-target-action">
               <div className="form__group">
                 <SelectCountry
@@ -272,7 +257,6 @@ class EmailPensionView extends Component {
                 {showFundSuggestion()}
               </div>
             </div>
-
             <div className="email-target-action">
               <h3>
                 <FormattedMessage
@@ -281,22 +265,7 @@ class EmailPensionView extends Component {
                 />
               </h3>
 
-              <div className="form__group">
-                <Input
-                  name="email_subject"
-                  errorMessage={this.state.errors.subject}
-                  value={this.props.subject}
-                  label={
-                    <FormattedMessage
-                      id="email_tool.form.subject"
-                      defaultMessage="Subejct (default)"
-                    />
-                  }
-                  onChange={value => this.props.changeSubject(value)}
-                />
-              </div>
-
-              <div className="form__group">
+              <FormGroup>
                 <Input
                   name="name"
                   label={
@@ -309,9 +278,9 @@ class EmailPensionView extends Component {
                   errorMessage={this.state.errors.name}
                   onChange={value => this.props.changeName(value)}
                 />
-              </div>
+              </FormGroup>
 
-              <div className="form__group">
+              <FormGroup>
                 <Input
                   name="email"
                   label={
@@ -324,27 +293,17 @@ class EmailPensionView extends Component {
                   errorMessage={this.state.errors.country}
                   onChange={value => this.props.changeEmail(value)}
                 />
-              </div>
+              </FormGroup>
 
-              <div className="form__group">
-                <div className="email__target-body">
-                  <div
-                    className="email__target-header"
-                    dangerouslySetInnerHTML={parseHeader()}
-                  />
-                  <textarea
-                    name="email_body"
-                    value={this.props.body}
-                    onChange={event =>
-                      this.props.changeBody(event.currentTarget.value)}
-                    maxLength="9999"
-                  />
-                  <div
-                    className="email__target-footer"
-                    dangerouslySetInnerHTML={parseFooter()}
-                  />
-                </div>
-              </div>
+              <EmailEditor
+                errors={this.state.errors}
+                body={this.props.emailBody}
+                header={this.props.emailHeader}
+                footer={this.props.emailFooter}
+                subject={this.props.emailSubject}
+                templateVars={this.templateVars()}
+                onUpdate={this.onEmailEditorUpdate}
+              />
             </div>
 
             <div className="form__group">
