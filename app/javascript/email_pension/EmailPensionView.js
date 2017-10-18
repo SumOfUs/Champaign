@@ -85,7 +85,7 @@ class EmailPensionView extends Component {
 
     const payload = {
       body: this.state.body,
-      subject: this.state.subject,
+      subject: this.props.subject,
       target_name: this.props.fund,
       country: this.props.country,
       from_name: this.props.name,
