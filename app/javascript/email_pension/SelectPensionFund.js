@@ -109,7 +109,7 @@ class SelectPensionFund extends Component {
             onChange={this.changeFund}
           />
         </FormGroup>
-        <SuggestFund country={this.props.country} />
+        <SuggestFund />
       </div>
     );
   }

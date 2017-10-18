@@ -5,10 +5,6 @@ import { FormattedMessage } from 'react-intl';
 import Input from '../components/SweetInput/SweetInput';
 import Button from '../components/Button/Button';
 
-type Props = {
-  country: string,
-};
-
 type State = {
   showForm: boolean,
   isSubmittingNewPensionFundName: boolean,
@@ -16,12 +12,10 @@ type State = {
 };
 
 export default class SuggestFund extends Component {
-  props: Props;
   state: State;
 
-  constructor(props: Props) {
-    super(props);
-
+  constructor() {
+    super();
     this.state = {
       showForm: false,
       newPensionFundName: '',
