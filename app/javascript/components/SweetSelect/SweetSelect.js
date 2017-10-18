@@ -17,7 +17,7 @@ type Props = {
   name: string,
   value?: string,
   onChange: (value: any) => void,
-  options: SelectOption[],
+  options: SelectOption[] | string[],
   label?: any,
   clearable?: boolean,
   disabled?: boolean,
