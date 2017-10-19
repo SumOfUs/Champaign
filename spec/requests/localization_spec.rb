@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Localization for pages' do
@@ -7,7 +8,12 @@ describe 'Localization for pages' do
   let(:form) { create :form_with_email_and_name }
   let(:form_params) { { form_id: form.id, email: 'asdf@test.com', name: 'Metiulous Tester' } }
 
-  Champaign::Application.config.i18n.available_locales.each do |locale|
+  Champaign::Application
+    .config
+    .i18n
+    .available_locales
+    .reject { |locale| locale.to_s.split('-').size > 1 }
+    .each do |locale|
     it "sets localization for a page in #{locale}" do
       page = create :page, language: (create :language, code: locale)
       get "/pages/#{page.id}"
