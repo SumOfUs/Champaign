@@ -24,10 +24,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_default_locale
-    locale = http_accept_language
-      .compatible_language_from(I18n.available_locales) || I18n.default_locale
-
-    set_locale(locale)
+    set_locale(I18n.default_locale)
   end
 
   def set_locale(code)
