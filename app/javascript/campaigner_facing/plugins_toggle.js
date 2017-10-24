@@ -33,9 +33,7 @@ $(function() {
     },
 
     handleSuccess: function(e, data) {
-      console.log('success');
-
-      // stop it from bubbling up
+      // stop event from bubbling up
       return false;
     },
 
