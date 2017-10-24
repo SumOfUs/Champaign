@@ -32,6 +32,7 @@ class FormElement < ApplicationRecord
   validates :display_mode, presence: true
   validates_with ActionKitFields
   validate :choices_is_valid
+  validate :required_only_if_visible_to_all
 
   # Array of possible field types.
   VALID_TYPES = %w[
@@ -128,6 +129,12 @@ class FormElement < ApplicationRecord
       if name !~ ActionKitFields::VALID_PREFIX_RE && name !~ /^(action_)+$/
         self.name = field_prefix(data_type) + name
       end
+    end
+  end
+
+  def required_only_if_visible_to_all
+    if required? && display_mode != 'all_members'
+      errors.add(:required, 'can only be checked if visibility is enabled for all members')
     end
   end
 end
