@@ -11,8 +11,12 @@ puts 'Seeding...'
   DefaultFormBuilder.find_or_create(locale: locale)
 end
 
-if Rails.env.development? && User.where(email: 'admin@test.com').blank?
-  User.create(email: 'admin@test.com', password: 12_345_678)
+email = Settings.default_admin_email || 'admin@test.com'
+if User.where(email: email).blank?
+  if Rails.env.development? || Settings.default_admin_password.present?
+    pwd = Settings.default_admin_password || '12345678'
+    User.create(email: email, password: pwd)
+  end
 end
 
 # Liquid Markup

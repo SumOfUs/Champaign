@@ -13,7 +13,7 @@
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
 # Asset paths
-external_asset_paths: "./example-assets"
+external_asset_paths: "./example-assets:settings.yml"
 external_css_path: "stylesheets/root"
 external_js_path: "javascripts/root"
 external_translation_path: 'translations'

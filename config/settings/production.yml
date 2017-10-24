@@ -8,12 +8,20 @@ liquid_templating_source: <%= ENV['LIQUID_TEMPLATING_SOURCE'] || 'store' %>
 home_page_url: <%= ENV['HOME_PAGE_URL'] %>
 facebook_url: <%= ENV['FACEBOOK_URL'] %>
 oauth_domain_whitelist: <%= ENV['OAUTH_DOMAIN_WHITELIST']&.split(':') %>
+default_admin_password: <%= ENV['DEFAULT_ADMIN_PASSWORD'] %>
+default_admin_email: <%= ENV['DEFAULT_ADMIN_EMAIL'] %>
 
 aws_region: <%= ENV['AWS_REGION'] %>
 sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
+publish_to_queue: <%= ENV['PUBLISH_TO_QUEUE'] %>
+log_to_stdout: <%= ENV['LOG_TO_STDOUT'] %>
 s3_host_name: <%= ENV['S3_HOST_NAME'] %>
+s3_without_alias: <%= ENV['S3_WITHOUT_ALIAS'] %>
 ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
 
+# this was added for sparkling-wine, probably should not go to trunk
+aws_access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+aws_secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 
 # Direct ActionKit Connection variables.
 ak_api_url: <%= ENV['AK_API_URL'] %>
@@ -70,6 +78,7 @@ redis:
 cache:
   host: <%= ENV["CACHE_HOST"] %>
   port: <%= ENV["CACHE_PORT"] %>
+  url: <%= ENV["REDIS_URL"] %> # for heroku; only used if no host provided
 
 geocoder:
   host: <%= ENV["GEOCODER_HOST"] %>

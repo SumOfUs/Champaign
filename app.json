@@ -1,0 +1,112 @@
+{
+  "name": "Champaign",
+  "description": "For easily and flexibly creating petitions, fundraisers, and more.",
+  "keywords": ["activism"],
+  "website": "https://sumofus.org/",
+  "repository": "https://github.com/SumOfUs/Champaign",
+  "success_url": "/pages",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:schema:load && bundle exec rake db:seed",
+    "heroku-postbuild": "./bin/webpack"
+  },
+  "env": {
+    "DEFAULT_ADMIN_EMAIL": {
+      "description": "Set the login email for the default admin user",
+      "value": "admin@test.com"
+    },
+    "DEFAULT_ADMIN_PASSWORD": {
+      "description": "Set the password for the default admin user",
+      "value": "12345678"
+    },
+    "CHAMPAIGN_PAGE_HOST": {
+      "description": "The domain that users will access your website through. If you're not sure, just use the app name you entered above, plus .herokuapp.com",
+      "value": "my-app-name.herokuapp.com"
+    },
+    "AWS_ACCESS_KEY_ID": {
+      "description": "The secret access key for your S3 bucket user. Get from https://console.aws.amazon.com/iam/home#users",
+      "value": "",
+      "required": false
+    },
+    "AWS_SECRET_ACCESS_KEY": {
+      "description": "The secret access key for your S3 bucket user. Get from https://console.aws.amazon.com/iam/home#users",
+      "value": "",
+      "required": false
+    },
+    "S3_ASSET_BUCKET": {
+      "description": "The name of your Amazon S3 bucket",
+      "value": "",
+      "required": false
+    },
+    "AWS_REGION": {
+      "description": "The region for your Amazon S3 bucket",
+      "value": "us-east-1",
+      "required": false
+    },
+    "S3_HOST_NAME": {
+      "description": "The S3 host. If you don't know, leave it as s3.amazonaws.com",
+      "value": "s3.amazonaws.com",
+      "required": false
+    },
+    "S3_WITHOUT_ALIAS": {
+      "description": "VALUES BELOW THIS ONE NEED NOT BE MODIFIED. Leave this as 'true'",
+      "value": "true",
+      "required": false
+    },
+    "EXTERNAL_ASSET_PATHS": {
+      "description": "Where to find your oranization's assets in the repo",
+      "value": "./example-assets",
+      "required": false
+    },
+    "EXTERNAL_CSS_PATH": {
+      "description": "Where to load the root stylesheet for your org's assets",
+      "value": "stylesheets/root",
+      "required": false
+    },
+    "EXTERNAL_JS_PATH": {
+      "description": "Where to load the root script file for your org's assets, relative to ./app/javascript/packs/",
+      "value": "../../../example-assets/javascripts/root",
+      "required": false
+    },
+    "EXTERNAL_TRANSLATION_PATH": {
+      "description": "Where to load your org's extra trnaslations",
+      "value": "translations",
+      "required": false
+    },
+    "EXTERNAL_LIQUID_PATH": {
+      "description": "The directory with your org's liquid templates",
+      "value": "templates",
+      "required": false
+    },
+    "LOG_TO_STDOUT": {
+      "description": "To make logs readable on Heroku",
+      "value": "true"
+    },
+    "RAILS_ENV": {
+      "description": "The environment - use 'production'",
+      "value": "production"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "Free"
+    }
+  },
+  "image": "heroku/ruby",
+  "addons": [
+    {
+      "plan": "heroku-postgresql:hobby-dev",
+      "options": {
+        "version": "9.5"
+      }
+    },
+    {
+      "plan": "heroku-redis:hobby-dev"
+    }
+  ],
+  "buildpacks": [
+    { "url": "heroku/nodejs" },
+    { "url": "heroku/ruby" }
+  ],
+  "environments": {}
+}
