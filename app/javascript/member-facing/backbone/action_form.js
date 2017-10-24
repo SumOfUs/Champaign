@@ -41,6 +41,7 @@ const ActionForm = Backbone.View.extend({
   //    skipPrefill: boolean, will not prefill if true
   initialize(options = {}) {
     this.insertHiddenFields(options);
+    this.applyDisplayModeToFields(options.member);
     if (!options.skipPrefill) {
       this.prefillAsPossible(options);
     }
@@ -50,6 +51,16 @@ const ActionForm = Backbone.View.extend({
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
+  },
+
+  // Looks at the display-mode for each field and hides them accordingly
+  applyDisplayModeToFields(member) {
+    var memberPresent = !_.isEmpty(member);
+    if (memberPresent) {
+      this.$el.find('[data-display-mode="new_members_only"]').hide(0);
+    } else {
+      this.$el.find('[data-display-mode="recognized_members_only"]').hide(0);
+    }
   },
 
   // prefills based on outstandingFields and member, returns true or false to indicate

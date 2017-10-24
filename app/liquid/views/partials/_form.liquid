@@ -9,21 +9,24 @@
       <div class="form__group action-form__field-container">
         {% case field.data_type %}
         {% when 'text' or 'postal' %}
-          <div class="sweet-placeholder">
+          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
             <label class="sweet-placeholder__label">{{ field.label }}</label>
             <input type="text" name="{{field.name}}" class="form__content sweet-placeholder__field" maxlength="249" value="{{ field.default_value }}" />
           </div>
         {% when 'hidden' %}
           <input type="hidden" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'paragraph' %}
-          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" class="form__content sweet-placeholder__field" id="" maxlength="9999">{{ field.default_value }}</textarea>
+          <textarea name="{{ field.name }}" placeholder="{{ field.label }}" data-display-mode="{{field.display_mode}}"
+                    class="form__content sweet-placeholder__field" id="" maxlength="9999">
+            {{ field.default_value }}
+          </textarea>
         {% when 'email' %}
-          <div class="sweet-placeholder">
+          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
             <label class="sweet-placeholder__label">{{ field.label }}</label>
             <input type="email" name="{{field.name}}" class="form__content sweet-placeholder__field" value="{{ field.default_value }}" />
           </div>
         {% when 'phone' %}
-          <div class="sweet-placeholder">
+          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
             <label class="sweet-placeholder__label">{{ field.label }}</label>
             <input type="tel" name="{{field.name}}" class="form__content sweet-placeholder__field" value="{{ field.default_value }}" />
           </div>
@@ -33,12 +36,12 @@
           {% else %}
             {% assign checked = 'checked' %}
           {% endif %}
-          <label class="checkbox-label">
+          <label class="checkbox-label" data-display-mode="{{field.display_mode}}">
             <input name="{{field.name}}" type="hidden" value="0" />
             <input type="checkbox" name="{{field.name}}" class="form__content" value="1" {{ checked }}/> {{ field.label }}
           </label>
         {% when 'country' %}
-          <div class="sweet-placeholder">
+          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
             <label class="sweet-placeholder__label">{{ field.label }}</label>
             <select name="{{field.name}}" class="action-form__dropdown form__content sweet-placeholder__field selectize">
               <option></option>
@@ -50,7 +53,7 @@
             </select>
           </div>
         {% when 'dropdown' %}
-          <div class="sweet-placeholder">
+          <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
             <label class="sweet-placeholder__label">{{ field.label }}</label>
             <select name="{{ field.name }}" class="action-form__dropdown form__content sweet-placeholder__field selectize">
               <option></option>
@@ -64,7 +67,7 @@
             </select>
           </div>
         {% when 'choice' %}
-          <div class="radio-container">
+          <div class="radio-container" data-display-mode="{{field.display_mode}}">
             <div class="">{{ field.label }}</div>
             {% for choice in field.choices %}
               <label for="{{ choice.id }}">
@@ -74,7 +77,7 @@
             {% endfor %}
           </div>
         {% when 'instruction' %}
-          <div class="form__instruction">
+          <div class="form__instruction" data-display-mode="{{field.display_mode}}">
             {{ field.label }}
           </div>
         {% endcase %}
