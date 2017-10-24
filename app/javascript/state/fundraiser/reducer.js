@@ -6,6 +6,7 @@ import {
   supportedCurrency,
   pickMedianAmount,
   featuredAmountState,
+  searchStringOverrides,
 } from './helpers';
 
 import type {
@@ -30,6 +31,8 @@ export default (state: State = initialState, action: Action): State => {
         'donationAmount'
       );
       return { ...state, ...initialData };
+    case 'search_string_overrides':
+      return searchStringOverrides(state, action.payload);
     case 'reset_member':
       return {
         ...state,

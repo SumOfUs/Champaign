@@ -36,6 +36,7 @@ const BRAINTREE_TOKEN_URL =
 
 type OwnProps = {
   defaultPaymentType: PaymentType,
+  disableSavedPayments: boolean,
   currentPaymentType: PaymentType,
   member: Member,
   fundraiser: Fundraiser,
@@ -307,6 +308,10 @@ export class Payment extends Component {
     this.onError(response);
   }
 
+  isExpressHidden() {
+    return this.state.expressHidden || this.props.disableSavedPayments;
+  }
+
   render() {
     const {
       member,
@@ -350,17 +355,11 @@ export class Payment extends Component {
 
         <ExpressDonation
           setSubmitting={s => this.props.setSubmitting(s)}
-          hidden={
-            this.state.expressHidden || this.props.paymentMethods.length === 0
-          }
+          hidden={this.isExpressHidden()}
           onHide={() => this.setState({ expressHidden: true })}
         />
 
-        <ShowIf
-          condition={
-            this.state.expressHidden || this.props.paymentMethods.length === 0
-          }
-        >
+        <ShowIf condition={this.isExpressHidden()}>
           <PaymentTypeSelection
             disabled={this.state.loading}
             currentPaymentType={this.props.currentPaymentType}
@@ -452,6 +451,8 @@ export class Payment extends Component {
 }
 
 const mapStateToProps = (state: AppState) => ({
+  disableSavedPayments:
+    state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'

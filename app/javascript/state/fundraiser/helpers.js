@@ -1,4 +1,5 @@
 // @flow
+import { keys, pick, reduce } from 'lodash';
 import type {
   DonationBands,
   EnumRecurringDefault,
@@ -10,6 +11,7 @@ import type {
 
 export const initialState: Fundraiser = {
   currency: 'USD',
+  disableSavedPayments: false,
   donationBands: {
     USD: [2, 5, 10, 25, 50],
     GBP: [2, 5, 10, 25, 50],
@@ -89,4 +91,22 @@ export function featuredAmountState(
   return {
     preselectAmount,
   };
+}
+
+function hideSavedPayments(state: Fundraiser, value: string): Fundraiser {
+  if (value === '1') return { ...state, disableSavedPayments: true };
+  else return state;
+}
+
+const searchStringHandlers = {
+  hide_spm: hideSavedPayments,
+};
+
+// Overrides state values based on url query/search string (highest priority)
+export function searchStringOverrides(
+  state: Fundraiser,
+  search: { [key: string]: string }
+): Fundraiser {
+  const handlers = pick(searchStringHandlers, keys(search));
+  return reduce(handlers, (res, handler, k) => handler(res, search[k]), state);
 }

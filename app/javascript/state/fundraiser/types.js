@@ -17,6 +17,7 @@ export type Fundraiser = {
   currency: string,
   currentPaymentType: PaymentType,
   currentStep: number,
+  disableSavedPayments: boolean,
   directDebitOnly: boolean,
   donationAmount?: number,
   donationBands: DonationBands,
@@ -51,6 +52,7 @@ export type FundraiserAction =
   | { type: 'set_submitting', payload: boolean }
   | { type: 'set_store_in_vault', payload: boolean }
   | { type: 'toggle_direct_debit', payload: boolean }
+  | { type: 'search_string_overrides', payload: { [key: string]: string } }
   | { type: 'update_form', payload: { [key: string]: any } };
 
 export type FundraiserInitializationOptions = {
