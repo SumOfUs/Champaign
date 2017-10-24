@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Plugins::PetitionsController < ApplicationController
   before_action :find_form
 
@@ -10,9 +11,8 @@ class Plugins::PetitionsController < ApplicationController
     @page = @plugin.page
 
     respond_to do |format|
-      format.js   { render nothing: true }
+      format.js
       format.html { render 'plugins/show' }
-      format.json { render json: @plugin, status: :ok }
     end
   end
 

@@ -29,14 +29,24 @@ export const reducer = (state = initialState, action) => {
       return { ...state, pensionFunds: action.funds };
     case 'email_target:change_fund':
       const fund = action.fund;
-      const contact = {
+
+      if (!fund) {
+        return {
+          ...state,
+          fundEmail: undefined,
+          fundContact: undefined,
+          fundId: undefined,
+          fund: undefined,
+        };
+      }
+
+      return {
+        ...state,
         fundEmail: fund.email,
         fundContact: fund.name,
         fundId: fund._id,
         fund: fund.fund,
       };
-
-      return { ...state, ...contact };
     case 'email_target:initialize':
       return { ...state, ...action.payload };
     default:
