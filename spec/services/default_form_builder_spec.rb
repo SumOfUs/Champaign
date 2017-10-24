@@ -10,7 +10,7 @@ describe DefaultFormBuilder do
   end
 
   it 'creates fields' do
-    expect(DefaultFormBuilder.find_or_create.form_elements.size).to eq(4)
+    expect(DefaultFormBuilder.find_or_create.form_elements.size).to eq(5)
   end
 
   describe 'i18n' do

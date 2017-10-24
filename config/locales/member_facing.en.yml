@@ -100,6 +100,7 @@ en:
       email: Email Address
       country: Country
       postal: Postal Code
+      phone_number: Phone number
   thermometer:
     signatures_until_goal: "%{remaining} signatures until %{goal}"
     signatures: signatures # as in '225 signatures'

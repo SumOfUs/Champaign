@@ -72,6 +72,7 @@ fr:
       email: "Adresse email"
       name: "Prénom et nom"
       postal: "Code postal"
+      phone_number: "Numéro de téléphone"
     processing: "En cours de traitement..."
     submit: Envoyer
     switch_user: Déconnexion
