@@ -16,9 +16,12 @@
 #  name          :string
 #  position      :integer          default("0"), not null
 #  choices       :jsonb            default("[]")
+#  display_mode  :integer          default("0")
 #
 
 class FormElement < ApplicationRecord
+  enum display_mode: %i[all_members recognized_members_only new_members_only]
+
   belongs_to :form, touch: true
   has_paper_trail
 
@@ -26,8 +29,8 @@ class FormElement < ApplicationRecord
   before_validation :set_name, on: :create
 
   validates :name, :label, :data_type, presence: true
+  validates :display_mode, presence: true
   validates_with ActionKitFields
-
   validate :choices_is_valid
 
   # Array of possible field types.

@@ -19,7 +19,6 @@
 class Form < ApplicationRecord
   # DEFAULT_ constants are used for building an initial, default
   # form. See service class +DefaultFormBuilder+.
-  #
   DEFAULT_NAME = 'Basic'
 
   DEFAULT_FIELDS = [
@@ -42,7 +41,6 @@ class Form < ApplicationRecord
   scope :masters, -> { where(master: true) }
 
   validates :name, presence: true
-
   validate :name_is_unique
 
   def name_is_unique

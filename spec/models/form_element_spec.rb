@@ -16,6 +16,7 @@
 #  name          :string
 #  position      :integer          default("0"), not null
 #  choices       :jsonb            default("[]")
+#  display_mode  :integer          default("0")
 #
 
 require 'rails_helper'
