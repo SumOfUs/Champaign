@@ -32,7 +32,12 @@ $(function() {
       this.$checkbox.prop('checked', !this.$checkbox.prop('checked'));
     },
 
-    handleSuccess: function(e, data) {},
+    handleSuccess: function(e, data) {
+      console.log('success');
+
+      // stop it from bubbling up
+      return false;
+    },
 
     handleError: function(xhr, status, error) {
       console.error('error', status, error);
