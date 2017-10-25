@@ -21,6 +21,7 @@ type SearchParams = {
   dd_only?: string,
   recurring_default?: string,
   preselect?: string,
+  hide_spm?: string, // hide saved payment methods
 };
 
 type Action = FundraiserAction | PageAction | InitialAction;
@@ -75,6 +76,7 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   dispatch({ type: 'set_recurring_defaults', payload: rDefault });
 
   dispatch({ type: 'set_direct_debit_only', payload: search.dd_only === '1' });
+  dispatch({ type: 'search_string_overrides', payload: search });
 
   const options = { store, locale: data.locale };
 
