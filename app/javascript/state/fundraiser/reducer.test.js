@@ -1,7 +1,6 @@
 // @flow
 import { isFunction } from 'lodash';
-import { initialState } from './helpers';
-import reducer from './reducer';
+import reducer, { initialState } from './reducer';
 
 test('is a function', () => {
   expect(isFunction(reducer)).toEqual(true);
