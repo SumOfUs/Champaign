@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import braintreeClient from 'braintree-web/client';
 import dataCollector from 'braintree-web/data-collector';
@@ -435,7 +435,7 @@ export class Payment extends Component {
         </ShowIf>
 
         <div className="Payment__fine-print">
-          <FormattedMessage
+          <FormattedHTMLMessage
             className="Payment__fine-print"
             id="fundraiser.fine_print"
             defaultMessage={`
