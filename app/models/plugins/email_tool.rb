@@ -19,6 +19,7 @@
 #  use_member_email      :boolean          default("false")
 #  from_email_address_id :integer
 #  targeting_mode        :integer          default("0")
+#  title                 :string           default("")
 #
 
 class Plugins::EmailTool < ApplicationRecord

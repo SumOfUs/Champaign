@@ -25,11 +25,20 @@
           small
             span.glyphicon.glyphicon-remove
     a.form-element__add-choice = t('form_elements.add_choice')
-  a.reveal-default-value data-editor-role="defaultRevealer"
-    = t('form_elements.add_default_value')
+  p
+    a.reveal-default-value data-editor-role="defaultRevealer"
+      = t('form_elements.add_default_value')
+    | &nbsp; | &nbsp;
+    a.reveal-display-mode data-editor-role="revealDisplayMode"
+      = t('form_elements.change_visibility')
   .form-group.default-value-field data-editor-role="defaultValue"
     = label_with_tooltip(f, :default_value, t('form_elements.default_value'), t('tooltips.form_elements.default_value'))
     = f.text_field :default_value,  class: 'form-control', placeholder: t('form_elements.default_value_suggestion')
+
+  .form-group.display-mode-field data-editor-role="displayMode"
+    = label_with_tooltip(f, :display_mode, t('form_elements.display_mode'), t('tooltips.form_elements.display_mode'))
+    = f.select :display_mode, FormElement.display_modes.map {|k, v| [t("form_elements.display_modes.#{k}"), k]},
+                              {}, class: 'form-control'
   .form-group data-editor-role="requirable"
     .checkbox
       = f.label :required do
@@ -42,10 +51,12 @@
 javascript:
   $(document).ready(function(){
     $.publish('form:edit');
-    var myFormCreator = new window.FormElementCreator({el: '.#{klass}'});
-    var myListEditor  = new window.ListEditor({el: '.#{klass}'});
+    new window.FormElementCreator({el: '.#{klass}'});
+    new window.ListEditor({el: '.#{klass}'});
     $('.reveal-default-value').on('click', function(e){
-      $('.reveal-default-value').addClass('hidden-closed')
       $('.default-value-field').removeClass('hidden-closed');
+    })
+    $('.reveal-display-mode').on('click', function(e){
+      $('.display-mode-field').removeClass('hidden-closed');
     })
   });

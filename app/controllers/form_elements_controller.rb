@@ -1,6 +1,7 @@
 # frozen_string_literal: true
+
 class FormElementsController < ApplicationController
-  before_action :find_form, only: [:create, :sort]
+  before_action :find_form, only: %i[create sort]
   before_action :authenticate_user!
 
   def create
@@ -42,7 +43,8 @@ class FormElementsController < ApplicationController
   def permitted_params
     params
       .require(:form_element)
-      .permit(:label, :name, :data_type, :required, :default_value, :many_choices, choices: [])
+      .permit(:label, :name, :data_type, :required, :display_mode,
+              :default_value, :many_choices, choices: [])
   end
 
   def find_form

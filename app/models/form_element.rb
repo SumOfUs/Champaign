@@ -16,9 +16,12 @@
 #  name          :string
 #  position      :integer          default("0"), not null
 #  choices       :jsonb            default("[]")
+#  display_mode  :integer          default("0")
 #
 
 class FormElement < ApplicationRecord
+  enum display_mode: %i[all_members recognized_members_only new_members_only]
+
   belongs_to :form, touch: true
   has_paper_trail
 
@@ -26,9 +29,10 @@ class FormElement < ApplicationRecord
   before_validation :set_name, on: :create
 
   validates :name, :label, :data_type, presence: true
+  validates :display_mode, presence: true
   validates_with ActionKitFields
-
   validate :choices_is_valid
+  validate :required_only_if_visible_to_all
 
   # Array of possible field types.
   VALID_TYPES = %w[
@@ -125,6 +129,12 @@ class FormElement < ApplicationRecord
       if name !~ ActionKitFields::VALID_PREFIX_RE && name !~ /^(action_)+$/
         self.name = field_prefix(data_type) + name
       end
+    end
+  end
+
+  def required_only_if_visible_to_all
+    if required? && display_mode != 'all_members'
+      errors.add(:required, 'can only be checked if visibility is enabled for all members')
     end
   end
 end
