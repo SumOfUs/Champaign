@@ -165,7 +165,8 @@ module ActionQueue
             recurring_id: data[:subscription_id]
           }.merge(fake_card_info),
           action: action_data,
-          user: user_data
+          user: user_data,
+          referring_akid: @action.form_data['referring_akid']
         }
       }
     end
@@ -184,7 +185,8 @@ module ActionQueue
             currency:     currency
           }.merge(fake_card_info),
           action: action_data,
-          user: user_data
+          user: user_data,
+          referring_akid: @action.form_data['referring_akid']
         }
       }
     end
@@ -253,7 +255,8 @@ module ActionQueue
             source: data[:source],
             fields: action_fields
           },
-          user: user_data
+          user: user_data,
+          referring_akid: @action.form_data['referring_akid']
         }
       }
     end
@@ -279,7 +282,8 @@ module ActionQueue
             source: data[:source],
             fields: action_fields
           },
-          user: user_data
+          user: user_data,
+          referring_akid: @action.form_data['referring_akid']
         }
       }
     end

@@ -45,7 +45,8 @@ feature 'Express From Mailing Link' do
           user_express_cookie: 1,
           user_express_account: @is_authenticated,
           user_en: 1
-        }
+        },
+        referring_akid: nil
       },
       meta: a_hash_including(
         title: 'Foo Bar',
