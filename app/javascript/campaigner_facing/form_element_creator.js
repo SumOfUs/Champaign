@@ -6,6 +6,7 @@ const FormElementCreator = Backbone.View.extend({
 
   roles: [
     'defaultValue',
+    'displayMode',
     'defaultRevealer',
     'choices',
     'label',
@@ -14,7 +15,7 @@ const FormElementCreator = Backbone.View.extend({
   ],
   modes: {
     default: ['defaultRevealer', 'label', 'name', 'requirable'],
-    hidden: ['defaultValue', 'name'],
+    hidden: ['defaultValue', 'displayMode', 'name'],
     instruction: ['label'],
     choice: ['choices', 'label', 'name', 'requirable'],
     dropdown: ['manyChoices', 'label', 'name', 'requirable', 'defaultRevealer'],
@@ -61,6 +62,9 @@ const FormElementCreator = Backbone.View.extend({
     }
     if (!this.hasField('defaultValue', mode)) {
       this.resetDefaultValue();
+    }
+    if (!this.hasField('displayMode', mode)) {
+      this.resetDisplayMode();
     }
     if (!this.hasField('requirable', mode)) {
       this.resetRequired();
@@ -109,6 +113,10 @@ const FormElementCreator = Backbone.View.extend({
 
   resetDefaultValue() {
     this.$('input#form_element_default_value').val('');
+  },
+
+  resetDisplayMode() {
+    this.$('select#form_element_display_mode').val('all_members');
   },
 
   resetChoices() {

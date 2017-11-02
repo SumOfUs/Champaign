@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 shared_examples 'plugin with form' do |plugin_type|
   let(:form) { create :form_with_email }
 
@@ -54,7 +55,7 @@ shared_examples 'plugin with form' do |plugin_type|
   it 'auto-creates a master form and current form with default fields' do
     # it creates two forms cause it creates the master form if it doesn't exist
     expect { @p = create plugin_type }.to change { Form.count }.by 2
-    expect(@p.form.form_elements.map(&:name)).to match_array(%w(email name country postal))
+    expect(@p.form.form_elements.map(&:name)).to match_array(%w[email name country postal action_phone_number])
     expect(Form.all.map(&:master)).to match_array([true, false])
 
     # now master already exists, just makes one form
@@ -64,7 +65,7 @@ shared_examples 'plugin with form' do |plugin_type|
   it 'will not auto-override the form passed to the factory' do
     my_form = create :form_with_email_and_name
     expect { @p = create plugin_type, form: my_form }.to change { Form.count }.by 0
-    expect(@p.form.form_elements.map(&:name)).to match_array(%w(email name))
+    expect(@p.form.form_elements.map(&:name)).to match_array(%w[email name])
   end
 
   describe '#update_form' do

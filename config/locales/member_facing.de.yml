@@ -97,6 +97,7 @@ de:
       email: E-MAIL
       country: LAND
       postal: PLZ
+      phone_number: "Telefonnummer"
   thermometer:
     signatures_until_goal: "Noch %{remaining} Unterschriften bis zur Zielmarke %{goal}"
     signatures: Unterschriften

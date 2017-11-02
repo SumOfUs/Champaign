@@ -16,6 +16,7 @@
 #  name          :string
 #  position      :integer          default("0"), not null
 #  choices       :jsonb            default("[]")
+#  display_mode  :integer          default("0")
 #
 
 require 'rails_helper'
@@ -230,6 +231,13 @@ describe FormElement do
         subject.name = 'action_'
         expect(subject).not_to be_valid
         expect(subject.errors.messages).to eq(name: ["'action_' is not a permitted ActionKit name."])
+      end
+
+      it 'is a required field but the visitility is limited to some users' do
+        subject.display_mode = 'new_members_only'
+        subject.required = true
+        expect(subject).not_to be_valid
+        expect(subject.errors.messages[:required]).to include('can only be checked if visibility is enabled for all members')
       end
     end
 
