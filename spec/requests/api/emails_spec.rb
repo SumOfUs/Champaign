@@ -90,7 +90,7 @@ describe 'Emails', type: :request do
           group_id: /action:\d+/
         )
 
-        params.merge!(source: 'fb', akid: akid)
+        params[:tracking_params] = { source: 'fb', akid: akid }
         post "/api/pages/#{page.id}/emails", params: params
       end
     end
