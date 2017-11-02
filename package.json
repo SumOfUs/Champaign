@@ -3,7 +3,8 @@
     "precommit": "lint-staged",
     "flow": "flow",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:update_snapshot": "jest --updateSnapshot"
   },
   "lint-staged": {
     "*.{js,jsx,css,scss}": [
