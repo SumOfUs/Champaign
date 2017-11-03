@@ -19,8 +19,7 @@ fr:
       phone_country_code: Code
       phone_number: "Mon numéro de téléphone"
       submit: Appelez-moi
-    instructions: "Indiquez simplement votre pays et votre numéro de téléphone -- et nous vous rappellerons dans quelques instants."
-    instructions_without_country: "Indiquez simplement votre numéro de téléphone complet -- et nous vous rappellerons dans quelques instants."
+    instructions: "Indiquez simplement votre numéro de téléphone complet -- et nous vous rappellerons dans quelques instants."
     manual_target_selection: "Merci de sélectionner votre cible"
     text_to_speach_menu: "Merci de presser la touche une lorsque vous serez prêt-e pour être mis en relation. Pressez la touche deux pour entendre de nouveau le message du chargé de campagne"
     you_will_be_calling: "Nous allons vous appeler et vous mettre en relation avec "

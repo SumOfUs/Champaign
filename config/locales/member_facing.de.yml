@@ -105,8 +105,7 @@ de:
   call_tool:
     manual_target_selection: "Bitte wählen Sie den/die Empfänger/in "
     you_will_be_calling: "Wir rufen Sie gleich an und verbinden Sie anschließend mit"
-    instructions: "Geben Sie Ihr Land und Ihre Telefonnummer ein -- wir rufen Sie dann umgehend an. "
-    instructions_without_country: "Geben Sie Ihre Telefonnummer inklusive Vorwahl ein -- wir rufen Sie dann umgehend an."
+    instructions: "Geben Sie Ihre Telefonnummer inklusive Vorwahl ein -- wir rufen Sie dann umgehend an."
     text_to_speach_menu: "Bitte drücken Sie die 1, wenn Sie bereit sind -- wir verbinden Sie dann. Drücken Sie die 2, um die Nachricht des/der Kampagnenleiter/in noch einmal zu hören."
     errors:
       unknown: "Entschuldigung, hier hat sich ein Fehler eingeschlichen. Bitte probieren Sie es in ein paar Minuten noch einmal, oder verwenden Sie eine andere Telefonnummer. "
