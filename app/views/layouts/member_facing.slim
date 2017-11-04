@@ -7,8 +7,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     - if Settings.facebook_app_id.present?
       meta property='fb:app_id' content="#{Settings.facebook_app_id}"
       
-    - if Settings.mixpanel_token
-      = render 'layouts/mixpanel'
+    = render 'layouts/mixpanel'
     = stylesheet_link_tag 'member-facing'
 
     = csrf_meta_tags
@@ -32,11 +31,10 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = render 'pages/packs', plugins: @page.plugins
 
     = render partial: 'shared/page_object'
-    = render partial: 'shared/facebook_pixel' unless Rails.env.test?
+    = render partial: 'shared/facebook_pixel'
 
     = yield
 
 
     = render partial: 'shared/google_analytics_snippet'
-
-    script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
+    = render partial: 'shared/share_progress_snippet'

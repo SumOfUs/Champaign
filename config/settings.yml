@@ -58,6 +58,7 @@ omniauth_client_id: 'Set this in settings.local.yml or in an environment setting
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
 facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
 share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+share_progress_base_url: 'd.shpg.org'
 
 # Braintree connection information. Used for taking donations.
 # braintree:

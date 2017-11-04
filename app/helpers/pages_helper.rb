@@ -154,7 +154,7 @@ module PagesHelper
   end
 
   def share_url(button)
-    "http://sumof.us/99/#{button.sp_id}/#{button.sp_type}"
+    "http://#{Settings.share_progress_base_url}/#{Settings.share_progress_app_id}/#{button.sp_id}/#{button.sp_type}"
   end
 
   def collapse_share_url_form(page)

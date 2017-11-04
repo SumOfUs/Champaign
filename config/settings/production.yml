@@ -41,10 +41,14 @@ compile_static: <%= ENV['COMPILE_STATIC'] %>
 # NewRelic Connection information.
 newrelic_license_key: <%= ENV['NEWRELIC_LICENSE_KEY'] %>
 
+# Optimizely
+optimizely_app_id: <%= ENV['OPTIMIZELY_APP_ID'] %>
 
 # Social media connection information.
 facebook_app_id: <%= ENV['FACEBOOK_APP_ID'] %>
 share_progress_api_key: <%= ENV['SHARE_PROGRESS_API_KEY'] %>
+share_progress_app_id: <%= ENV['SHARE_PROGRESS_APP_ID'] %>
+share_progress_base_url: <%= ENV['SHARE_PROGRESS_BASE_URL'] %>
 
 # Braintree
 braintree:
