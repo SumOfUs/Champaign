@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -53,7 +54,7 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     params = event.payload[:params].reject do |k|
-      %w(controller action).include? k
+      %w[controller action].include? k
     end
     log_hash = { 'params' => params.except!(*:bt_payload), 'time' => event.time }
     unless event.payload[:exception].blank?
@@ -88,6 +89,9 @@ Rails.application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # log to stdout (important for Heroku and 12factor platforms)
+  Rails.logger = Logger.new(STDOUT) if Settings.log_to_stdout.present?
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
@@ -98,7 +102,7 @@ Rails.application.configure do
     s3_host_alias: Settings.asset_host,
     s3_protocol: 'https',
     path: '/:class/:attachment/:id_partition/:style/:filename',
-    url: ':s3_alias_url',
+    url: Settings.s3_without_alias.present? ? ':s3_domain_url' : ':s3_alias_url',
     s3_credentials: {
       bucket: Settings.s3_asset_bucket,
       access_key_id: Settings.aws_access_key_id,
@@ -108,11 +112,15 @@ Rails.application.configure do
 
   # config.action_controller.perform_caching = true
 
+  redis_config = if Settings.cache.host.present?
+                   { host: Settings.cache.host, port: Settings.cache.port }
+                 else
+                   { url: Settings.cache.url }
+                 end
   config.cache_store = :readthis_store, {
     namespace: 'cache',
     expires_in: 1.day.to_i,
-    redis:     { host: Settings.cache.host,
-                 port: Settings.cache.port, drive: :hiredis }
+    redis: redis_config.merge(drive: :hiredis)
   }
 
   # In production, we only accept CORS request from sumofus.org or its subdomains.
@@ -121,7 +129,7 @@ Rails.application.configure do
       origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
                headers: :any,
-               methods: [:get, :post, :delete, :put, :patch, :options, :head],
+               methods: %i[get post delete put patch options head],
                max_age: 86_400
     end
   end

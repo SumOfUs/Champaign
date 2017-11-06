@@ -26,6 +26,7 @@ if (process.env.EXTERNAL_JS_PATH) {
   require(process.env.EXTERNAL_JS_PATH);
 }
 
+
 const initializeApp = () => {
   window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
   window.champaign = window.champaign || window.sumofus || {};

@@ -2,6 +2,8 @@
 
 [![Circle CI](https://circleci.com/gh/SumOfUs/Champaign/tree/master.svg?style=shield)](https://circleci.com/gh/SumOfUs/Champaign/tree/master) [![Coverage Status](https://coveralls.io/repos/github/SumOfUs/Champaign/badge.svg?branch=master)](https://coveralls.io/github/SumOfUs/Champaign?branch=master) [![Code Climate](https://codeclimate.com/github/SumOfUs/Champaign/badges/gpa.svg)](https://codeclimate.com/github/SumOfUs/Champaign)
 
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
 Champaign is an open source digital campaigning platform built by [SumOfUs](http://sumofus.org/). It's designed to streamline campaigner workflows creating and iterating on pages, while also providing tools for deep customization of layouts and functionality, all through the web interface. At it's core, Champaign is a CMS to easily create petitions, fundraisers, social-media shares, and surveys, and to record member responses to these action pages. It is also designed to be extensible, allowing developers to contribute new page functionality.
 
 Champaign is also designed with a focus on performance, reliability, maintainability.

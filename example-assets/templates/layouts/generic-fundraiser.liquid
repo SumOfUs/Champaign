@@ -1,0 +1,22 @@
+{% comment %} Description: This is a generic, white-labeled fundraiser template. {% endcomment %}
+{% comment %} Experimental: false {% endcomment %}
+
+<div class="example-assets"><!-- CSS namespace -->
+  {% include 'Generic Header' %}
+
+  <div class="primary-wrapper">
+    <div class="primary-wrapper__main-section">
+      <div class='main-section__header-image' style="background-image: url('{{ images[0].urls.large }}');">
+      </div>
+      <h1 class="main-section__title">{{title}}</h1>
+      <div class="main-section__body">
+        {{content}}
+      </div>
+    </div>
+    <div class="primary-wrapper__sidebar-section">
+      {% include 'Fundraiser', freestanding: true, untogglable: true %}
+    </div>
+  </div>
+
+  {% include 'Generic Footer' %}
+</div>

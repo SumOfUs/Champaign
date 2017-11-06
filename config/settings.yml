@@ -12,50 +12,58 @@
 # config/settings/#{environment}.yml will override the settings in this file, and settings in
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
+# Asset paths
+external_asset_paths: "./example-assets:settings.yml"
+external_css_path: "stylesheets/root"
+external_js_path: "javascripts/root"
+external_translation_path: 'translations'
+external_liquid_path: 'templates'
+
 # General Champaign settings.
-     secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
-     omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
-     omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
-#    oauth_domain_whitelist: 'If someone is trying to use Google OAuth to authenticate and the domain of their email address is in this list, they will be allowed.'
+secret_key_base: 'Set this in settings.local.yml or in an environment settings file.'
+omniauth_client_secret: 'Set this in settings.local.yml or in an environment settings file.'
+omniauth_client_id: 'Set this in settings.local.yml or in an environment settings file.'
+# oauth_domain_whitelist: 'If someone is trying to use Google OAuth to authenticate and the domain of their email address is in this list, they will be allowed.'
 
 
 # AWS Config Variables. These Variables will cause Champaign to attempt to send background processing information, like
 # page creation/update information or page signature events to a background processor listening on the specified
 # queue. Only set these settings to values if you want Champaign to take these actions. Disabled by default, except
 # in production situations.
-#    aws_access_key_id: ‘get from https://console.aws.amazon.com/iam/home#users’
-#    aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
-#    aws_region: 'get this from your AWS SQS dashboard.'
-#    sqs_queue_url: 'Set this based on your AWS SQS queue information.'
-#    s3_host_name: 'S3 host name for storing static assets.'
-#    ak_processor_url: 'The URL of the endpoint used to process queue requests. Only use for testing.'
+# aws_access_key_id: ‘get from https://console.aws.amazon.com/iam/home#users’
+# aws_secret_access_key: 'get from https://console.aws.amazon.com/iam/home#users’
+# aws_region: 'get this from your AWS SQS dashboard.'
+# sqs_queue_url: 'Set this based on your AWS SQS queue information.'
+# s3_host_name: 'S3 host name for storing static assets.'
+# ak_processor_url: 'The URL of the endpoint used to process queue requests. Only use for testing.'
 
 
 # Direct ActionKit Connection variables.
-#    ak_api_url: 'set this based on your ActionKit API URL.'
-#    ak_username: 'Set this based on an account which has API access to your ActionKit instance for direct data pushing to AK, in a .local file.'
-#    ak_password: 'Just like ak_username.'
+# ak_api_url: 'set this based on your ActionKit API URL.'
+# ak_username: 'Set this based on an account which has API access to your ActionKit instance for direct data pushing to AK, in a .local file.'
+# ak_password: 'Just like ak_username.'
 
 
-#    asset_host: 'localhost:3000'
-#    s3_asset_bucket: 'your s3 bucket'
-#    rails_serve_static_assets: 'Should Rails serve your static assets?'
-#    compile_static: 'Should Rails compile your static assets on the run if the requested asset is missing?'
+# asset_host: 'localhost:3000'
+# s3_asset_bucket: 'your s3 bucket'
+# rails_serve_static_assets: 'Should Rails serve your static assets?'
+# compile_static: 'Should Rails compile your static assets on the run if the requested asset is missing?'
 
 
 # NewRelic Connection information. This variable, if set to a valid value, will cause the NewRelic connector to send
 # performance and error information to the NewRelic Dashboard. Disabled by default, except in production.
-#    newrelick_license_key: 'Get this from your NewRelic Dashboard'
+# newrelick_license_key: 'Get this from your NewRelic Dashboard'
 
 
 # Social media connection information. Useful for allowing connections to things like Facebook or Twitter.
-     facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
-     share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+facebook_app_id: 'overwrite in settings.local.yml or in an environment settings file'
+share_progress_api_key: 'Get this from your ShareProgress instance and include in a .local file or environment setting file.'
+share_progress_base_url: 'd.shpg.org'
 
 # Braintree connection information. Used for taking donations.
-     braintree:
-       # public_key: Set this based on your braintree integration information
-       # private_key: Set this based on your braintree integration information
-       # merchant_id: Set this based on your braintree integration information
-       # environment: The Braintree environment you will run transactions against. Set to production in production, sandbox otherwise.
+# braintree:
+#   public_key: Set this based on your braintree integration information
+#   private_key: Set this based on your braintree integration information
+#   merchant_id: Set this based on your braintree integration information
+#   environment: The Braintree environment you will run transactions against. Set to production in production, sandbox otherwise.
 

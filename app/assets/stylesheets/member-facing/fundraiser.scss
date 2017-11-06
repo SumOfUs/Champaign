@@ -1,4 +1,4 @@
-@import "compass/css3/filter";
+@import 'compass/css3/filter';
 
 .fundraiser-bar {
   text-align: left;
@@ -138,7 +138,8 @@
       color: $slate-gray;
     }
   }
-  &__step-numbers, &__step-names {
+  &__step-numbers,
+  &__step-names {
     float: left;
     width: 100%;
     position: relative;
@@ -236,11 +237,18 @@
     max-width: 400px;
     min-height: 320px;
 
-    .fundraiser-bar__top, .fundraiser-bar__main {
+    .fundraiser-bar__top,
+    .fundraiser-bar__main {
       background-color: transparent;
       position: relative;
     }
+    .fundraiser-bar__top {
+      padding-bottom: 0;
+    }
 
+    .fundraiser-bar__main {
+      float: left; // clear float without hiding overflow
+    }
     .fundraiser-bar__top h2 {
       font-size: 24px;
       font-weight: normal;
@@ -261,7 +269,8 @@
     .SweetSelect .Select > .Select-control {
       border-color: $slate-gray;
       border-width: 2px;
-      &.braintree-hosted-fields-focused, &:focus {
+      &.braintree-hosted-fields-focused,
+      &:focus {
         border-color: $teal;
       }
       &.has-error {
@@ -311,9 +320,26 @@
     .BraintreeCardFields__hosted-field {
       border: #b2b5ba 2px solid;
     }
-    .Stepper__steps, .StepContent {
+    .Stepper__steps,
+    .StepContent {
       margin-left: auto;
       margin-right: auto;
+    }
+    .Step__circle {
+      background: white;
+    }
+    .Step--complete {
+      &:hover {
+        .Step__circle {
+          background: #30394f;
+        }
+      }
+      .Step__circle {
+        background: #b2b5ba;
+      }
+    }
+    .Step--active .Step__circle {
+      background: #30394f;
     }
     .AmountSelection-container {
       font-size: 14px;
@@ -430,7 +456,8 @@
     #braintree-paypal-button img,
     .hosted-fields__direct-debit {
       @include filter(grayscale(100%));
-      &:hover, &:hover img {
+      &:hover,
+      &:hover img {
         @include filter(grayscale(0%));
       }
     }
@@ -449,10 +476,12 @@
   &__header {
     font-size: 24px;
   }
-  p, ul {
+  p,
+  ul {
     margin-top: 16px;
   }
-  ul, ol {
+  ul,
+  ol {
     margin-left: 30px;
   }
   li {

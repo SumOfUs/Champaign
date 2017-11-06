@@ -7,7 +7,7 @@ module ChampaignQueue
   extend self
 
   def push(payload, opts = {})
-    if Rails.env.production? || Settings.publish_champaign_events
+    if Rails.env.production? && Settings.publish_to_queue
       client.push(payload, opts)
     else
       false

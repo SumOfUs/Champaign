@@ -1,1 +1,2 @@
-script src='//cdn.optimizely.com/js/117352208.js'
+- if Settings.optimizely_app_id.present?
+  script src='//cdn.optimizely.com/js/#{Settings.optimizely_app_id}.js'

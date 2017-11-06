@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
   end
 
   def renderer
-    @renderer ||= LiquidRenderer.new(@page, location: request.location,
+    @renderer ||= LiquidRenderer.new(@page, location: request&.location,
                                             member: recognized_member,
                                             url_params: unsafe_params,
                                             payment_methods: payment_methods)
