@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914121051) do
+ActiveRecord::Schema.define(version: 20171104074413) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -541,6 +541,7 @@ ActiveRecord::Schema.define(version: 20170914121051) do
     t.string "sp_type"
     t.string "sp_button_html"
     t.text "analytics"
+    t.boolean "uses_share_progress", default: true, null: false
     t.index ["page_id"], name: "index_share_buttons_on_page_id"
   end
 
