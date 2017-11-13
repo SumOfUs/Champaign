@@ -7,7 +7,7 @@ class DefaultFormBuilder
     { label: 'form.default.country',      name: 'country', required: true,  data_type: 'country' },
     { label: 'form.default.postal',       name: 'postal',  required: false, data_type: 'postal'  },
     { label: 'form.default.phone_number', name: 'phone_number',
-      required: false, data_type: 'postal', display_mode: 'recognized_members_only' }
+      required: false, data_type: 'phone', display_mode: 'recognized_members_only' }
   ].freeze
 
   class << self
