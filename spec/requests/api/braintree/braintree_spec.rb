@@ -228,7 +228,8 @@ describe 'Express Donation' do
                                    last_name: 'Doe',
                                    email: 'test@example.com',
                                    user_express_cookie: 1,
-                                   user_express_account: 0)
+                                   user_express_account: 0),
+              referring_akid: nil
             },
             meta: hash_including({})
           },
@@ -328,7 +329,8 @@ describe 'Braintree API' do
             action_mobile: 'desktop',
             action_express_donation: action_express_donation
           )
-        }
+        },
+        referring_akid: nil
       }
     }
   end
@@ -437,7 +439,8 @@ describe 'Braintree API' do
                 last_name: 'Sanders',
                 email: 'itsme@feelthebern.org',
                 user_express_cookie: 0
-              )
+              ),
+              referring_akid: nil
             }
           )
           expect(ChampaignQueue).to have_received(:push)
@@ -981,7 +984,8 @@ describe 'Braintree API' do
                 action_mobile: 'desktop',
                 action_express_donation: 0
               }
-            }
+            },
+            referring_akid: nil
           }
         }
       end

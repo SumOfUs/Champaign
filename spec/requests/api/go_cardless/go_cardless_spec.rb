@@ -258,7 +258,8 @@ describe 'GoCardless API' do
                   action_bank_name: 'BARCLAYS BANK PLC',
                   action_account_number_ending: '11'
                 )
-              }
+              },
+              referring_akid: nil
             }
           }
         end
@@ -427,7 +428,8 @@ describe 'GoCardless API' do
                   action_account_number_ending: '11',
                   action_express_donation: 0
                 )
-              }
+              },
+              referring_akid: nil
             }
           }
         end
