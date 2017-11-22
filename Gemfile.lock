@@ -123,7 +123,7 @@ GEM
     aws-sigv4 (1.0.0)
     bcrypt (3.1.11)
     bindex (0.5.0)
-    bootsnap (1.1.2)
+    bootsnap (1.1.5)
       msgpack (~> 1.0)
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
@@ -667,4 +667,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
