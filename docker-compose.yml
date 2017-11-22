@@ -1,18 +1,18 @@
-web:
-  build: .
-  volumes:
-    - .:/champaign
-    - ../sou-assets:/sou-assets
-  ports:
-    - "3000:3000"
-  links:
-    - db
-    - redis
-  environment:
-    PG_USERNAME: postgres
-    PG_HOST: db
-  env_file:
-    - env.yml
+#web:
+#  build: .
+#  volumes:
+#    - .:/champaign
+#    - ../sou-assets:/sou-assets
+#  ports:
+#    - "3000:3000"
+#  links:
+#    - db
+#    - redis
+#  environment:
+#    PG_USERNAME: postgres
+#    PG_HOST: db
+#  env_file:
+#    - env.yml
 
 db:
   image: postgres
