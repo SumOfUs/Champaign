@@ -17,6 +17,7 @@ type Props = {
   isSubmitting: boolean,
   locale: string,
   name?: string,
+  postal?: string,
   page: string,
   pageId: number,
   targets: EmailTarget[],

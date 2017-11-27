@@ -12,6 +12,7 @@
       _.merge(data, {
         name: personalization.member.full_name,
         email: personalization.member.email,
+        postal: personalization.member.postal,
         country: personalization.member.country || personalization.location.country,
         trackingParams: trackingParams,
         onSuccess: function (target) {

@@ -34,6 +34,7 @@ type Props = {
   country: string,
   email: string,
   name: string,
+  postal: string,
   isSubmitting: boolean,
   page: string,
   pageId: number,
@@ -152,6 +153,7 @@ export default class EmailToolView extends Component {
   templateVars() {
     return {
       name: this.state.name,
+      postal: this.props.postal,
       target: this.state.target,
     };
   }

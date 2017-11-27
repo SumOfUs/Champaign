@@ -3,7 +3,7 @@
     - name = "plugins_email_tool_#{plugin.id}"
     = form_for plugin, url: '#', remote: true, as: name, html: { class: 'form-element one-form' }, data: {type: name }  do |f|
       = render 'plugins/shared/plugin_metadata', f: f
-      .form-group 
+      .form-group
         = label_with_tooltip(f, :title, t('plugins.email_tool.title'), t('plugins.email_tool.tooltips.title'))
         = f.text_field :title, class: 'form-control'
       .form-group
@@ -28,15 +28,15 @@
       = render 'plugins/shared/subject_editor', name: name, f: f, plugin: plugin
 
       .form-group
-        = f.label(:email_body_header, t('plugins.email_tool.email_header'))
+        = label_with_tooltip f, :email_body_header, t('plugins.email_tool.email_header'), t('plugins.email_tool.tooltips.email_content')
         = f.text_area :email_body_header, class: 'form-control height-short'
 
       .form-group
-        = f.label(:email_body, t('plugins.email_tool.email_body'))
+        = label_with_tooltip f, :email_body, t('plugins.email_tool.email_body'), t('plugins.email_tool.tooltips.email_content')
         = f.text_area :email_body, class: 'form-control height-large'
 
       .form-group
-        = f.label(:email_body_footer, t('plugins.email_tool.email_footer'))
+        = label_with_tooltip f, :email_body_footer, t('plugins.email_tool.email_footer'), t('plugins.email_tool.tooltips.email_content')
         = f.text_area :email_body_footer, class: 'form-control height-short'
 
       .form-group

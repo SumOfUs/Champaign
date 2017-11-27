@@ -339,6 +339,10 @@ en:
         use_member_email: "Emails sent to targets will use the member's email address in the `from` field"
         from_address: "Email will be sent from this email address if \"Send from member's email address\" is unchecked. In any case, this address will also be used as a reply-to address."
         email_address_for_testing: 'ALL emails will be delivered to this address - use when you want to test a campaign before publishing.'
+        email_content: "To use the member's name include a tag with the following format: ${name}. \
+         The available variables are: ${name}, ${postal}, ${target.email} and ${target.name}. Target's custom fields included in the CSV such as country \
+         and state, can be access with ${target.fields.country} and ${target.fields.state}."
+
     call_tool:
       title: 'Title'
       click_to_play: 'Click to play'
