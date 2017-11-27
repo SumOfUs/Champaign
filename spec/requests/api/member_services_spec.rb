@@ -30,7 +30,8 @@ describe 'API::MemberServices' do
 
       it 'marks the recurring braintree donation cancelled and sends back the subscription id' do
         Timecop.freeze do
-          delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo', {}, headers
+          request.headers.merge! headers
+          delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo'
           expect(response.status).to eq 200
           expect(braintree_recurring_donation.reload.cancelled_at).to be_within(0.1.seconds).of(Time.now)
           # TODO: expect response.body to match the subscription to_json
