@@ -26,30 +26,65 @@ describe 'API::MemberServices' do
     end
 
     context 'given valid params' do
-      headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
-
-      it 'marks the recurring braintree donation cancelled and sends back the subscription id' do
+      it 'marks the recurring braintree donation cancelled and sends back data about' do
         Timecop.freeze do
-          request.headers.merge! headers
           delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo'
           expect(response.status).to eq 200
           expect(braintree_recurring_donation.reload.cancelled_at).to be_within(0.1.seconds).of(Time.now)
-          # TODO: expect response.body to match the subscription to_json
+          expect(json_hash.with_indifferent_access).to match(recurring_donation: {
+            provider: 'braintree',
+            id: 'BraintreeWoohoo',
+            created_at: /\A\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}[.]\d{3}[a-zA-Z]\z/,
+            cancelled_at: /\A\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}[.]\d{3}[a-zA-Z]\z/,
+            amount: '100.0',
+            currency: 'GBP'
+          })
         end
       end
 
-      it 'marks the recurring GoCardless donation cancelled and sends back the subscription id' do
+      it 'marks the recurring GoCardless donation cancelled and sends back data' do
         Timecop.freeze do
           delete '/api/member_services/recurring_donations/gocardless/GoCardless123'
           expect(response.status).to eq 200
           expect(gocardless_recurring_donation.reload.cancelled_at).to be_within(0.1.seconds).of(Time.now)
-          # TODO: expect response.body to match the subscription to_json
+          expect(json_hash.with_indifferent_access).to match(recurring_donation: {
+            provider: 'gocardless',
+            id: 'GoCardless123',
+            created_at: /\A\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}[.]\d{3}[a-zA-Z]\z/,
+            cancelled_at: /\A\d{4}(-\d{2}){2}T(\d{2}:){2}\d{2}[.]\d{3}[a-zA-Z]\z/,
+            amount: '100.0',
+            currency: 'GBP'
+          })
         end
       end
     end
 
     context 'when a subscription does not exist' do
-      it 'sends back errors' do
+      it 'sends back errors and NotFound status' do
+        error_body = {
+          errors: ['Recurring donation IamNotThere for braintree not found.']
+        }
+
+        delete '/api/member_services/recurring_donations/braintree/IamNotThere'
+        expect(response.status).to eq 404
+        expect(json_hash.with_indifferent_access).to match(error_body)
+      end
+    end
+
+    context 'when update fails' do
+      let(:messed_up_donation) { instance_double(Payment::Braintree::Subscription, subscription_id: 'BraintreeWoohoo') }
+
+      it 'sends back errors and status 422' do
+        allow(Payment::Braintree::Subscription).to receive(:find_by).and_return(messed_up_donation)
+        allow(messed_up_donation).to receive(:update).and_return(false)
+
+        error_body = {
+          errors: ['Updating cancelled recurring donation failed on Champaign for braintree donation BraintreeWoohoo.']
+        }
+
+        delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo'
+        expect(response.status).to eq 422
+        expect(json_hash.with_indifferent_access).to match(error_body)
       end
     end
   end

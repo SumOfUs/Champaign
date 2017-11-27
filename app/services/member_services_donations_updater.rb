@@ -14,7 +14,7 @@ class MemberServicesDonationsUpdater
     @resource = assign_provider::Subscription.find_by(recurring_field_name)
 
     unless @resource
-      @errors = ["Recurring donation #{id} for #{@payment_provider} not found."]
+      @errors = ["Recurring donation #{@id} for #{@payment_provider} not found."]
       @status = 404
       return false
     end
@@ -22,7 +22,7 @@ class MemberServicesDonationsUpdater
     if @resource.update(cancelled_at: Time.now)
       return true
     else
-      @errors = ["Updating cancelled recurring donation failed on Champaign for #{@payment_provider} donation #{id}."]
+      @errors = ["Updating cancelled recurring donation failed on Champaign for #{@payment_provider} donation #{@id}."]
       @status = 422
       return false
     end
