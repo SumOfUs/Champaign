@@ -102,3 +102,5 @@ twilio:
   auth_token: ''
 
 development_database: 'champaign'
+
+member_services_secret: 'hotpotato!'
