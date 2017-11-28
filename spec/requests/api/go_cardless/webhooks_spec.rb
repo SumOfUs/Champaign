@@ -124,10 +124,10 @@ describe 'subscriptions' do
         }.to_json
       end
 
-      let(:valid) { instance_double(PaymentProcessor::GoCardless::WebhookSignature) }
+      let(:valid) { instance_double(Api::HMACSignatureValidator) }
 
       before do
-        allow(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new).and_return(valid)
+        allow(Api::HMACSignatureValidator).to receive(:new).and_return(valid)
         allow(valid).to receive(:valid?).and_return(true)
       end
 

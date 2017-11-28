@@ -180,15 +180,15 @@ describe Api::GoCardlessController do
     let(:validator) { double(valid?: true) }
 
     before do
-      allow(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new) { validator }
+      allow(Api::HMACSignatureValidator).to receive(:new) { validator }
       allow(PaymentProcessor::GoCardless::WebhookHandler::ProcessEvents).to receive(:process)
     end
 
     it 'instantiates signature validator' do
-      expect(PaymentProcessor::GoCardless::WebhookSignature).to receive(:new)
+      expect(Api::HMACSignatureValidator).to receive(:new)
         .with(secret: 'monkey',
               signature: 'foobar',
-              body: { events: { an: :event } }.to_json)
+              data: { events: { an: :event } }.to_json)
 
       request.headers['HTTP_WEBHOOK_SIGNATURE'] = 'foobar'
       post 'webhook', params: { events: { an: :event } }

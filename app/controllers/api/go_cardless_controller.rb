@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::GoCardlessController < PaymentController
   skip_before_action :verify_authenticity_token, raise: false
 
@@ -17,10 +18,10 @@ class Api::GoCardlessController < PaymentController
   def webhook
     signature = request.headers['HTTP_WEBHOOK_SIGNATURE']
 
-    validator = PaymentProcessor::GoCardless::WebhookSignature.new(
+    validator = Api::HMACSignatureValidator.new(
       secret: Settings.gocardless.secret,
       signature: signature,
-      body: { events: unsafe_params[:events] }.to_json
+      data: { events: unsafe_params[:events] }.to_json
     )
 
     if validator.valid?

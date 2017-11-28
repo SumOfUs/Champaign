@@ -38,7 +38,7 @@ Style/GuardClause:
   Enabled: false
 
 Style/IfUnlessModifier:
-  MaxLineLength: 40
+  MaxLineLength: 1000
 
 Style/VariableNumber:
   Enabled: false
