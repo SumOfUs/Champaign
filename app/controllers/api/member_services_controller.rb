@@ -19,22 +19,25 @@ class Api::MemberServicesController < ApplicationController
   def authenticate_member_services
     signature = request.headers['X-CHAMPAIGN-SIGNATURE']
 
+    if signature.blank?
+      render json: { errors: 'Missing authentication header.' }, status: :unauthorized
+      return
+    end
+
     validator = Api::HMACSignatureValidator.new(
       secret: Settings.member_services_secret,
       signature: signature,
-      data: unsafe_params.to_json
+      data: permitted_params.to_json
     )
+
     unless validator.valid?
-      Rails.logger.error('Access violation for member services API marking a subscription cancelled.')
-      render nothing: true, status: :unauthorized
+      Rails.logger.error('Access violation for member services API.')
+      render json: { errors: 'Invalid authentication header.' }, status: :unauthorized
+      return
     end
   end
 
   def permitted_params
     @permitted_params ||= params.permit(:provider, :id)
-  end
-
-  def unsafe_params
-    params.to_unsafe_hash
   end
 end

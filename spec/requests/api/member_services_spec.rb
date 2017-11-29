@@ -26,21 +26,23 @@ describe 'API::MemberServices' do
     end
 
     context 'with valid auth headers' do
+      # SHA256 HMAC out of Settings.member_services_secret and {"provider":"braintree","id":"BraintreeWoohoo"}
       let(:valid_bt_headers) do
-        { 'X-CHAMPAIGN-SIGNATURE' => '4b3d28161c077769c221ffabdc05850e68923e4659f212f0ae43d3e6f85c313c' }
+        { 'X-CHAMPAIGN-SIGNATURE' => 'ec1136da36c35330ef5df4d9902102120730a25fadb2b329225b9fc9f8fba008' }
       end
+
+      # SHA256 HMAC out of Settings.member_services_secret and {"provider":"braintree","id":"IamNotHere"}
       let(:not_found_bt_headers) do
-        { 'X-CHAMPAIGN-SIGNATURE' => 'cc78172f07e361d9b0bd73aa8909315eef6c2828b9b6bfa7de4c3368ea844c6c' }
+        { 'X-CHAMPAIGN-SIGNATURE' => '25f41807fc410c3d3059e0a48c8c7b5a320a74ac252dfb61bf3db235e7547115' }
       end
+
+      # SHA256 HMAC out of Settings.member_services_secret and {"provider":"gocardless","id":"GoCardless123"}
       let(:valid_gc_headers) do
-        { 'X-CHAMPAIGN-SIGNATURE' => 'd34bcd0ae9bbb9deb3e4be8965a877cdc71d47e845173156b2578f0ae358a36d' }
+        { 'X-CHAMPAIGN-SIGNATURE' => '20284a2b3b50780ef5776f3d39c3007c4fbef4b9d87c8c7d234c4a9798d35057' }
       end
 
       context 'given valid params' do
         it 'marks the recurring braintree donation cancelled and sends back data' do
-          # '"{\"controller\":\"api/member_services\",\"action\":\"cancel_recurring_donation\
-          # ",\"provider\":\"braintree\",\"id\":\"BraintreeWoohoo\"}"'
-
           Timecop.freeze do
             delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo', headers: valid_bt_headers
             expect(response.status).to eq 200
@@ -57,9 +59,6 @@ describe 'API::MemberServices' do
         end
 
         it 'marks the recurring GoCardless donation cancelled and sends back data' do
-          # '"{\"controller\":\"api/member_services\",\"action\":\
-          # "cancel_recurring_donation\",\"provider\":\"gocardless\",\"id\":\"GoCardless123\"}"'
-
           Timecop.freeze do
             delete '/api/member_services/recurring_donations/gocardless/GoCardless123', headers: valid_gc_headers
             expect(response.status).to eq 200
@@ -81,9 +80,6 @@ describe 'API::MemberServices' do
           error_body = {
             errors: ['Recurring donation IamNotThere for braintree not found.']
           }
-
-          # '"{\"controller\":\"api/member_services\",\"action\":\
-          # "cancel_recurring_donation\",\"provider\":\"braintree\",\"id\":\"IamNotThere\"}"'
 
           delete '/api/member_services/recurring_donations/braintree/IamNotThere', headers: not_found_bt_headers
 
@@ -111,6 +107,28 @@ describe 'API::MemberServices' do
           expect(response.status).to eq 422
           expect(json_hash.with_indifferent_access).to match(error_body)
         end
+      end
+    end
+
+    context 'with invalid auth headers' do
+      let(:bogus_header) do
+        { 'X-CHAMPAIGN-SIGNATURE' => 'olololololo' }
+      end
+
+      it 'logs an access violation and sends back status 401' do
+        error_string = 'Access violation for member services API.'
+        expect(Rails.logger).to receive(:error).with(error_string)
+        delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo', headers: bogus_header
+        expect(response.status).to eq 401
+        expect(response.body).to include('Invalid authentication header')
+      end
+    end
+
+    context 'with missing auth headers' do
+      it 'complains about missing auth headers' do
+        delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo'
+        expect(response.status).to eq 401
+        expect(response.body).to include('Missing authentication header.')
       end
     end
   end
