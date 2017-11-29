@@ -4,8 +4,8 @@ class Api::MemberServicesController < ApplicationController
   before_action :authenticate_member_services
 
   def cancel_recurring_donation
-    @provider = permitted_params[:provider]
-    @donations_updater = MemberServicesDonationsUpdater.new(permitted_params.to_h)
+    @permitted_params ||= params.permit(:provider, :id)
+    @donations_updater = MemberServicesDonationsUpdater.new(@permitted_params.to_h)
 
     if @donations_updater.cancel
       render 'api/member_services/cancel_recurring_donation', status: 200
@@ -18,16 +18,17 @@ class Api::MemberServicesController < ApplicationController
 
   def authenticate_member_services
     signature = request.headers['X-CHAMPAIGN-SIGNATURE']
+    nonce = request.headers['X-CHAMPAIGN-NONCE']
 
-    if signature.blank?
-      render json: { errors: 'Missing authentication header.' }, status: :unauthorized
+    unless [signature, nonce].all?
+      render json: { errors: 'Missing authentication header or nonce.' }, status: :unauthorized
       return
     end
 
     validator = Api::HMACSignatureValidator.new(
       secret: Settings.member_services_secret,
       signature: signature,
-      data: permitted_params.to_json
+      data: nonce
     )
 
     unless validator.valid?
@@ -35,9 +36,5 @@ class Api::MemberServicesController < ApplicationController
       render json: { errors: 'Invalid authentication header.' }, status: :unauthorized
       return
     end
-  end
-
-  def permitted_params
-    @permitted_params ||= params.permit(:provider, :id)
   end
 end

@@ -26,19 +26,28 @@ describe 'API::MemberServices' do
     end
 
     context 'with valid auth headers' do
-      # SHA256 HMAC out of Settings.member_services_secret and {"provider":"braintree","id":"BraintreeWoohoo"}
+      # SHA256 HMAC out of Settings.member_services_secret and UUID 'd7b82ede-17f2-4e79-8377-0ad1a1dd8621'
       let(:valid_bt_headers) do
-        { 'X-CHAMPAIGN-SIGNATURE' => 'ec1136da36c35330ef5df4d9902102120730a25fadb2b329225b9fc9f8fba008' }
+        {
+          'X-CHAMPAIGN-SIGNATURE' => '2d39dea4bc00ceff1ec1fdf160540400f673e97474b1d197d240b084bd186d34',
+          'X-CHAMPAIGN-NONCE' => 'd7b82ede-17f2-4e79-8377-0ad1a1dd8621'
+        }
       end
 
-      # SHA256 HMAC out of Settings.member_services_secret and {"provider":"braintree","id":"IamNotHere"}
+      # SHA256 HMAC out of Settings.member_services_secret and UUID '92bb6b31-e7d3-46e1-8153-821c1cc64147'
       let(:not_found_bt_headers) do
-        { 'X-CHAMPAIGN-SIGNATURE' => '25f41807fc410c3d3059e0a48c8c7b5a320a74ac252dfb61bf3db235e7547115' }
+        {
+          'X-CHAMPAIGN-SIGNATURE' => '0b9173ba69d37d53423b212d553fdf50859288b47bafe8593c98ab7d5cbecaf0',
+          'X-CHAMPAIGN-NONCE' => '92bb6b31-e7d3-46e1-8153-821c1cc64147'
+        }
       end
 
-      # SHA256 HMAC out of Settings.member_services_secret and {"provider":"gocardless","id":"GoCardless123"}
+      # SHA256 HMAC out of Settings.member_services_secret and 'b751ba1f-f272-4516-9c54-6636e2a1927b'
       let(:valid_gc_headers) do
-        { 'X-CHAMPAIGN-SIGNATURE' => '20284a2b3b50780ef5776f3d39c3007c4fbef4b9d87c8c7d234c4a9798d35057' }
+        {
+          'X-CHAMPAIGN-SIGNATURE' => 'e26d5781addb0f74f248be078fdc1e106aa0de5593656d1ff6d856f76c50cb31',
+          'X-CHAMPAIGN-NONCE' => 'b751ba1f-f272-4516-9c54-6636e2a1927b'
+        }
       end
 
       context 'given valid params' do
@@ -112,7 +121,10 @@ describe 'API::MemberServices' do
 
     context 'with invalid auth headers' do
       let(:bogus_header) do
-        { 'X-CHAMPAIGN-SIGNATURE' => 'olololololo' }
+        {
+          'X-CHAMPAIGN-SIGNATURE' => 'olololololo',
+          'X-CHAMPAIGN-NONCE' => 'wololo'
+        }
       end
 
       it 'logs an access violation and sends back status 401' do
@@ -128,7 +140,7 @@ describe 'API::MemberServices' do
       it 'complains about missing auth headers' do
         delete '/api/member_services/recurring_donations/braintree/BraintreeWoohoo'
         expect(response.status).to eq 401
-        expect(response.body).to include('Missing authentication header.')
+        expect(response.body).to include('Missing authentication header or nonce.')
       end
     end
   end
