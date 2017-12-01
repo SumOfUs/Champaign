@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Api::MemberServicesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   before_action :authenticate_member_services
 
   def cancel_recurring_donation
