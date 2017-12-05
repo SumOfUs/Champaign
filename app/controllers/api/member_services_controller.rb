@@ -15,6 +15,16 @@ class Api::MemberServicesController < ApplicationController
     end
   end
 
+  def update_member
+    @permitted_params ||= params.permit(:email, :first_name, :last_name, :country, :postal)
+    @member_service = MemberServicesMemberService.new(@permitted_params.to_h)
+    if @member_service.update
+      render 'api/member_services/member', status: 200
+    else
+      render json: { errors: @member_service.errors }, status: @member_service.status
+    end
+  end
+
   private
 
   def authenticate_member_services
