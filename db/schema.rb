@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20171023193604) do
     t.text "body"
     t.string "resource_id", null: false
     t.string "resource_type", null: false
-    t.integer "author_id"
     t.string "author_type"
+    t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(version: 20171023193604) do
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: {}, null: false
+    t.jsonb "target_call_info", default: "{}", null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -114,8 +114,8 @@ ActiveRecord::Schema.define(version: 20171023193604) do
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
     t.boolean "master", default: false
-    t.integer "formable_id"
     t.string "formable_type"
+    t.integer "formable_id"
     t.integer "position", default: 0, null: false
     t.index ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id"
   end
@@ -416,11 +416,11 @@ ActiveRecord::Schema.define(version: 20171023193604) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "title"
-    t.json "targets", default: [], array: true
     t.string "sound_clip_file_name"
     t.string "sound_clip_content_type"
     t.integer "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
+    t.json "targets", default: [], array: true
     t.text "description"
     t.string "menu_sound_clip_file_name"
     t.string "menu_sound_clip_content_type"
