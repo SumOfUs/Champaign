@@ -3,7 +3,7 @@
 - meta og: facebook_meta(@page, share_card)
 
 - meta optimization_tags: @page.meta_tags
-
+- meta liquid_layout: @page.liquid_layout.title
 = @rendered
 = render 'pages/personalization', data: @data
 = render 'pages/campaigner_overlay', page: @page
