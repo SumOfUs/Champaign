@@ -61,7 +61,8 @@ class AnalyticsDashboard {
   }
 
   setYForLabel(d) {
-    let scaled = this.scale(d.value), y = this.height - scaled + 15;
+    let scaled = this.scale(d.value),
+      y = this.height - scaled + 15;
 
     if (scaled < AnalyticsDashboard.yAxisLabelLimit) {
       y -= AnalyticsDashboard.yAxisLabelLimit;
@@ -127,7 +128,10 @@ class AnalyticsDashboard {
       )
       .rangeBands([0, this.width]);
 
-    var xAxis = d3.svg.axis().scale(xScale).orient('bottom');
+    var xAxis = d3.svg
+      .axis()
+      .scale(xScale)
+      .orient('bottom');
 
     this.svg
       .append('g')
@@ -154,7 +158,6 @@ class Conductor {
     this.id = id;
     this.chart = chart;
     this.$totalAll = $('.total-actions-all');
-    this.$totalNew = $('.total-actions-new');
 
     $('button#refresh-data').on('click', this.refreshData.bind(this));
   }
@@ -170,7 +173,6 @@ class Conductor {
 
   setCounters(totals) {
     this.$totalAll.html(totals.all_total);
-    this.$totalNew.html(totals.new_total);
   }
 
   refreshData() {
