@@ -179,6 +179,7 @@ Rails.application.routes.draw do
     namespace :member_services do
       delete '/recurring_donations/:provider/:id', action: 'cancel_recurring_donation'
       put '/members/', action: 'update_member'
+      get '/gocardless/customers', action: :gocardless_customers
     end
   end
 

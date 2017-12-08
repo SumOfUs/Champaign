@@ -15,6 +15,14 @@ class Api::MemberServicesController < ApplicationController
     end
   end
 
+  def gocardless_customers
+    @permitted_params ||= params.permit(:email)
+    member = Member.find_by(email: @permitted_params[:email])
+    customers = member.present? ? Payment::GoCardless::Customer.where(member_id: member.id) : []
+
+    render json: customers.map(&:go_cardless_id)
+  end
+
   def update_member
     @permitted_params ||= params.permit(:email, :first_name, :last_name, :country, :postal)
     @member_service = MemberServicesMemberService.new(@permitted_params.to_h)
