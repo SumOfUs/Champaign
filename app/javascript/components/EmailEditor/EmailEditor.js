@@ -30,8 +30,8 @@ export default class EmailEditor extends PureComponent {
   constructor(props: Props) {
     super(props);
     this.state = {
-      subject: this.parse(this.props.subject),
-      body: this.parse(this.props.body),
+      subject: this.interpolateVars(this.props.subject),
+      body: this.interpolateVars(this.props.body),
     };
   }
 
@@ -48,10 +48,13 @@ export default class EmailEditor extends PureComponent {
   }
 
   parse(templateString?: string = ''): string {
-    if (!templateString) {
-      return '';
-    }
+    if (!templateString) return '';
     templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    return this.interpolateVars(templateString);
+  }
+
+  interpolateVars(templateString?: string = ''): string {
+    if (!templateString) return '';
     return template(templateString)(this.props.templateVars);
   }
 
