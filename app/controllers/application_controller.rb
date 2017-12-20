@@ -55,7 +55,8 @@ class ApplicationController < ActionController::Base
     @renderer ||= LiquidRenderer.new(@page, location: request.location,
                                             member: recognized_member,
                                             url_params: unsafe_params,
-                                            payment_methods: payment_methods)
+                                            payment_methods: payment_methods,
+                                            browser_locale: http_preferred_lang)
   end
 
   def payment_methods
@@ -86,5 +87,10 @@ class ApplicationController < ActionController::Base
 
   def unsafe_params
     params.to_unsafe_hash
+  end
+
+  def http_preferred_lang
+    http_accept_language
+      .preferred_language_from(I18n.available_locales)
   end
 end

@@ -44,7 +44,7 @@ export class SelectCountry extends Component {
 
   render() {
     const props = this.props;
-    let countries = countriesByLocale[props.intl.locale];
+    let countries = countriesByLocale[props.intl.locale.split('-')[0]];
 
     countries = Object.keys(countries).map(c => {
       return { value: c, label: countries[c] };

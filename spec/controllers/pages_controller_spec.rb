@@ -202,7 +202,8 @@ describe PagesController do
                                                          location: {},
                                                          member: nil,
                                                          payment_methods: [],
-                                                         url_params: url_params)
+                                                         url_params: url_params,
+                                                         browser_locale: nil)
       expect(renderer).to have_received(:render)
     end
 
@@ -262,7 +263,8 @@ describe PagesController do
                                                            location: {},
                                                            member: anything,
                                                            payment_methods: [],
-                                                           url_params: anything)
+                                                           url_params: anything,
+                                                           browser_locale: nil)
       end
 
       it 'instantiates a LiquidRenderer and calls render' do
@@ -273,7 +275,8 @@ describe PagesController do
                                                            location: {},
                                                            member: member,
                                                            payment_methods: [],
-                                                           url_params: url_params)
+                                                           url_params: url_params,
+                                                           browser_locale: nil)
         expect(renderer).to have_received(:render_follow_up)
       end
     end
