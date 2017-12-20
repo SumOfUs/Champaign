@@ -17,9 +17,7 @@
           <input type="hidden" name="{{field.name}}" class="form__content" id="" placeholder="{{ field.label }}" value="{{ field.default_value }}" />
         {% when 'paragraph' %}
           <textarea name="{{ field.name }}" placeholder="{{ field.label }}" data-display-mode="{{field.display_mode}}"
-                    class="form__content sweet-placeholder__field" id="" maxlength="9999">
-            {{ field.default_value }}
-          </textarea>
+                    class="form__content sweet-placeholder__field" id="" maxlength="9999">{{ field.default_value }}</textarea>
         {% when 'email' %}
           <div class="sweet-placeholder" data-display-mode="{{field.display_mode}}">
             <label class="sweet-placeholder__label">{{ field.label }}</label>
