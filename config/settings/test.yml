@@ -38,6 +38,7 @@ ak_processor_url: 'http://example.com'
 ak_api_url: 'https://act.sumofus.org/rest/v1'
 ak_username: 'ak_username'
 ak_password: 'ak_password'
+ak_report_url: 'https://act.savetheworld.org/report/1586/'
 
 # Assets config
 asset_host: 'http://assets.example.com'

@@ -10,9 +10,11 @@ module PagesHelper
     end
   end
 
-  def format_ak_ui_url(api_url, ak_ui_url)
-    return api_url unless ak_ui_url.present?
-    api_url.gsub(%r{.*rest\/v1}, ak_ui_url)
+  def ak_report_url(resource_uri)
+    resource_id = ak_resource_id(resource_uri)
+    report_url = URI(Settings.ak_report_url)
+    report_url.query = "page_id=#{resource_id}"
+    report_url.to_s
   end
 
   def ak_resource_id(ak_resource_url)

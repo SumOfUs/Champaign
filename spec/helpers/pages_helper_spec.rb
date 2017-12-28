@@ -28,38 +28,28 @@ describe PagesHelper do
     end
   end
 
-  describe 'format_ak_ui_url' do
-    it 'returns the passed value if no Settings.ak_ui_url' do
-      url = 'https://act.sumofus.org/rest/v1/petition/1234'
-      expect(helper.format_ak_ui_url(url, nil)).to eq url
-    end
-
-    it "returns the passed value if it doesn't contain 'rest/v1'" do
-      url = 'https://act.sumofus.org/petition/1234'
-      expect(helper.format_ak_ui_url(url, 'https://google.com')).to eq url
-    end
-
-    it "replaces everything leading up to 'rest/v1' with Settings.ak_ui_url" do
-      ak_ui_url = 'https://act.sumofus.org/admin/core'
-      initial = 'https://act.sumofus.org/rest/v1/petition/1234'
-      expected = 'https://act.sumofus.org/admin/core/petition/1234'
-      expect(helper.format_ak_ui_url(initial, ak_ui_url)).to eq expected
+  describe 'ak_report_url' do
+    it 'returns the report url for the passed page uri' do
+      ak_resource_url = 'https://act.example.org/rest/v1/petitionpage/11207/'
+      expect(helper.ak_report_url(ak_resource_url)).to eq(
+        Settings.ak_report_url + '?page_id=11207'
+      )
     end
   end
 
   describe 'ak_resource_id' do
     it 'parses an ak petition resource uri to an ID' do
-      ak_resource_url = 'https://act.sumofus.org/rest/v1/petitionpage/11207/'
+      ak_resource_url = 'https://act.example.org/rest/v1/petitionpage/11207/'
       expect(helper.ak_resource_id(ak_resource_url)).to eq '11207'
     end
 
     it 'parses an ak donation resource uri to an ID' do
-      ak_resource_url = 'https://act.sumofus.org/rest/v1/donationpage/12345/'
+      ak_resource_url = 'https://act.example.org/rest/v1/donationpage/12345/'
       expect(helper.ak_resource_id(ak_resource_url)).to eq '12345'
     end
 
     it 'works without a trailing slash' do
-      ak_resource_url = 'https://act.sumofus.org/rest/v1/donationpage/12345'
+      ak_resource_url = 'https://act.example.org/rest/v1/donationpage/12345'
       expect(helper.ak_resource_id(ak_resource_url)).to eq '12345'
     end
   end
