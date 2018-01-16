@@ -24,12 +24,14 @@ class Api::MemberServicesController < ApplicationController
   end
 
   def update_member
-    @permitted_params ||= params.permit(:email, :first_name, :last_name, :country, :postal)
-    @member_service = MemberServicesMemberService.new(@permitted_params.to_h)
-    if @member_service.update
-      render 'api/member_services/member', status: 200
+    email = params.require(:email)
+    member_params = params.require(:member).permit(:email, :first_name, :last_name, :country, :postal)
+    service = MemberServices::MemberUpdater.new(email, member_params)
+    if service.run
+      @member = service.member
+      render 'api/member_services/member', status: :ok
     else
-      render json: { errors: @member_service.errors }, status: @member_service.status
+      render json: { errors: service.errors }, status: :unprocessable_entity
     end
   end
 
