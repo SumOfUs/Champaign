@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import classnames from 'classnames';
 import PaymentMethodWrapper from '../ExpressDonation/PaymentMethodWrapper';
 import type { AppState } from '../../state';
 import type { PaymentType } from '../../state/fundraiser/types';
@@ -51,7 +52,7 @@ export class PaymentTypeSelection extends Component {
 
           {this.paymentTypes().map((paymentType, i) => {
             return (
-              <div className="PaymentMethod" key={i}>
+              <div className={classnames('PaymentMethod', paymentType)} key={i}>
                 <label>
                   <input
                     disabled={disabled}

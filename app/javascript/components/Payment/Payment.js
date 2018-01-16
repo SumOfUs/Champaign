@@ -51,6 +51,7 @@ type OwnProps = {
   setStoreInVault: (value: boolean) => void,
   setPaymentType: (value: PaymentType) => void,
   setSubmitting: (value: boolean) => void,
+  showDirectDebit: boolean,
 };
 
 type OwnState = {
@@ -445,6 +446,12 @@ export class Payment extends Component {
             `}
           />
         </div>
+
+        {this.props.showDirectDebit && (
+          <div className="Payment__direct-debit-logo">
+            <img src={require('./dd_logo_landscape.png')} alt="DIRECT Debit" />
+          </div>
+        )}
       </div>
     );
   }
@@ -454,6 +461,7 @@ const mapStateToProps = (state: AppState) => ({
   disableSavedPayments:
     state.fundraiser.disableSavedPayments || state.paymentMethods.length === 0,
   defaultPaymentType: state.fundraiser.directDebitOnly ? 'gocardless' : 'card',
+  showDirectDebit: state.fundraiser.showDirectDebit,
   currentPaymentType: state.fundraiser.directDebitOnly
     ? 'gocardless'
     : state.fundraiser.currentPaymentType,
