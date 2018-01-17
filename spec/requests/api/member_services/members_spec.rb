@@ -21,7 +21,6 @@ describe 'API::MemberServices' do
              more: '{}')
     end
 
-    # TODO: Move out auth headers specs from recurring_donations_spec.rb into its own file.
     context 'with valid auth headers' do
       let(:valid_headers) do
         {

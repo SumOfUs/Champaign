@@ -44,6 +44,8 @@ class Api::MemberServicesController < ApplicationController
       return
     end
 
+    verify_nonce(nonce)
+
     validator = Api::HMACSignatureValidator.new(
       secret: Settings.member_services_secret,
       signature: signature,
@@ -54,6 +56,15 @@ class Api::MemberServicesController < ApplicationController
       Rails.logger.error('Access violation for member services API.')
       render json: { errors: 'Invalid authentication header.' }, status: :unauthorized
       return
+    end
+  end
+
+  def verify_nonce(nonce)
+    if Authentication::Nonce.exists?(nonce: nonce)
+      render json: { errors: 'The nonce has already been used.' }, status: :unauthorized
+      nil
+    else
+      Authentication::Nonce.create!(nonce: nonce)
     end
   end
 end
