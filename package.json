@@ -61,7 +61,7 @@
     "react-intl": "^2.3.0",
     "react-onclickoutside": "^6.4.0",
     "react-redux": "^5.0.5",
-    "react-select": "^1.0.0-rc.5",
+    "react-select": "^1.2.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "regenerator-runtime": "^0.10.5",
