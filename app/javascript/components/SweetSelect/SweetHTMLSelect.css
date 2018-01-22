@@ -1,5 +1,5 @@
-.form--big .SweetHTMLSelect,
-.SweetHTMLSelect {
+.form--big .SweetHTMLSelect select,
+.SweetHTMLSelect select {
   padding: 0 18px;
   background: white url(./arrow-down.png) no-repeat 96% 50%;
   overflow: hidden;
