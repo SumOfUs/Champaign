@@ -46,7 +46,6 @@ class EmailToolSender
         page_id:             @page.id,
         name:                @params[:from_name],
         email:               @params[:from_email],
-        postal:              '10000',
         action_target:       @target&.name,
         action_target_email: @target&.email,
         country:             @params[:country]
