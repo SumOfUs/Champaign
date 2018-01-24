@@ -248,9 +248,12 @@ describe('Donation Amount Tab', function() {
       expect(
         suite.wrapper.find('FundraiserView').prop('fundraiser').donationAmount
       ).toEqual(2);
-      expect(suite.wrapper.find('Step').find('FormattedNumber').text()).toEqual(
-        '$2'
-      );
+      expect(
+        suite.wrapper
+          .find('Step')
+          .find('CurrencyAmount')
+          .text()
+      ).toEqual('$2');
     });
 
     it('updates the selected amount when we use the custom input box', () => {
@@ -261,9 +264,12 @@ describe('Donation Amount Tab', function() {
       expect(
         suite.wrapper.find('FundraiserView').prop('fundraiser').donationAmount
       ).toEqual(8);
-      expect(suite.wrapper.find('Step').find('FormattedNumber').text()).toEqual(
-        '$8'
-      );
+      expect(
+        suite.wrapper
+          .find('Step')
+          .find('CurrencyAmount')
+          .text()
+      ).toEqual('$8');
     });
 
     // changing the currency
@@ -314,9 +320,12 @@ describe('Donation Amount Tab', function() {
         .find('Button')
         .map(node => node.text());
       expect(labels).toEqual(['£2', '£5', '£10', '£25', '£50']);
-      expect(suite.wrapper.find('Step').find('FormattedNumber').text()).toEqual(
-        '£8'
-      );
+      expect(
+        suite.wrapper
+          .find('Step')
+          .find('FormattedNumber')
+          .text()
+      ).toEqual('£8');
       expect(
         suite.wrapper.find('#DonationBands-custom-amount').prop('value')
       ).toEqual('£8');
