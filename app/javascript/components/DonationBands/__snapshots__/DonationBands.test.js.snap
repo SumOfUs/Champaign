@@ -416,17 +416,22 @@ exports[`renders correctly 1`] = `
               className="Button-root DonationBandButton"
               onClick={[Function]}
             >
-              <FormattedNumber
+              <CurrencyAmount
+                amount={1}
                 currency="GBP"
-                maximumFractionDigits={0}
-                minimumFractionDigits={0}
-                style="currency"
-                value={1}
               >
-                <span>
-                  £1
-                </span>
-              </FormattedNumber>
+                <FormattedNumber
+                  currency="GBP"
+                  maximumFractionDigits={0}
+                  minimumFractionDigits={0}
+                  style="currency"
+                  value={1}
+                >
+                  <span>
+                    £1
+                  </span>
+                </FormattedNumber>
+              </CurrencyAmount>
             </button>
           </Button>
         </DonationBandButton>
@@ -443,17 +448,22 @@ exports[`renders correctly 1`] = `
               className="Button-root DonationBandButton"
               onClick={[Function]}
             >
-              <FormattedNumber
+              <CurrencyAmount
+                amount={2}
                 currency="GBP"
-                maximumFractionDigits={0}
-                minimumFractionDigits={0}
-                style="currency"
-                value={2}
               >
-                <span>
-                  £2
-                </span>
-              </FormattedNumber>
+                <FormattedNumber
+                  currency="GBP"
+                  maximumFractionDigits={0}
+                  minimumFractionDigits={0}
+                  style="currency"
+                  value={2}
+                >
+                  <span>
+                    £2
+                  </span>
+                </FormattedNumber>
+              </CurrencyAmount>
             </button>
           </Button>
         </DonationBandButton>
@@ -470,17 +480,22 @@ exports[`renders correctly 1`] = `
               className="Button-root DonationBandButton"
               onClick={[Function]}
             >
-              <FormattedNumber
+              <CurrencyAmount
+                amount={3}
                 currency="GBP"
-                maximumFractionDigits={0}
-                minimumFractionDigits={0}
-                style="currency"
-                value={3}
               >
-                <span>
-                  £3
-                </span>
-              </FormattedNumber>
+                <FormattedNumber
+                  currency="GBP"
+                  maximumFractionDigits={0}
+                  minimumFractionDigits={0}
+                  style="currency"
+                  value={3}
+                >
+                  <span>
+                    £3
+                  </span>
+                </FormattedNumber>
+              </CurrencyAmount>
             </button>
           </Button>
         </DonationBandButton>
@@ -497,17 +512,22 @@ exports[`renders correctly 1`] = `
               className="Button-root DonationBandButton"
               onClick={[Function]}
             >
-              <FormattedNumber
+              <CurrencyAmount
+                amount={4}
                 currency="GBP"
-                maximumFractionDigits={0}
-                minimumFractionDigits={0}
-                style="currency"
-                value={4}
               >
-                <span>
-                  £4
-                </span>
-              </FormattedNumber>
+                <FormattedNumber
+                  currency="GBP"
+                  maximumFractionDigits={0}
+                  minimumFractionDigits={0}
+                  style="currency"
+                  value={4}
+                >
+                  <span>
+                    £4
+                  </span>
+                </FormattedNumber>
+              </CurrencyAmount>
             </button>
           </Button>
         </DonationBandButton>
@@ -524,17 +544,22 @@ exports[`renders correctly 1`] = `
               className="Button-root DonationBandButton"
               onClick={[Function]}
             >
-              <FormattedNumber
+              <CurrencyAmount
+                amount={5}
                 currency="GBP"
-                maximumFractionDigits={0}
-                minimumFractionDigits={0}
-                style="currency"
-                value={5}
               >
-                <span>
-                  £5
-                </span>
-              </FormattedNumber>
+                <FormattedNumber
+                  currency="GBP"
+                  maximumFractionDigits={0}
+                  minimumFractionDigits={0}
+                  style="currency"
+                  value={5}
+                >
+                  <span>
+                    £5
+                  </span>
+                </FormattedNumber>
+              </CurrencyAmount>
             </button>
           </Button>
         </DonationBandButton>

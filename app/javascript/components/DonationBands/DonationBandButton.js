@@ -1,15 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { FormattedNumber } from 'react-intl';
+import CurrencyAmount from '../CurrencyAmount';
 import classnames from 'classnames';
 import Button from '../Button/Button';
 import './DonationBandButton.css';
-
-const FORMATTED_NUMBER_DEFAULTS = {
-  style: 'currency',
-  minimumFractionDigits: 0,
-  maximumFractionDigits: 0,
-};
 
 type OwnProps = {
   featuredAmount?: number,
@@ -28,11 +22,7 @@ export default function DonationBandButton(props: OwnProps): any {
 
   return (
     <Button className={className} onClick={props.onClick}>
-      <FormattedNumber
-        {...FORMATTED_NUMBER_DEFAULTS}
-        currency={props.currency}
-        value={props.amount}
-      />
+      <CurrencyAmount currency={props.currency} amount={props.amount} />
     </Button>
   );
 }

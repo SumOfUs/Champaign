@@ -9,10 +9,25 @@ const CONFIG = {
 };
 
 type OwnProps = {
-  amount: number;
-  currency: string;
+  amount: number,
+  currency: string,
 };
 
-export default (props: OwnProps) => (
-  <FormattedNumber {...CONFIG} currency={props.currency} value={props.amount} />
-);
+export default function CurrencyAmount(props: OwnProps) {
+  const { currency, amount } = props;
+
+  switch (currency) {
+    case 'USD':
+    case 'NZD':
+    case 'CAD':
+    case 'AUD':
+      return (
+        <span>
+          {'$'}
+          <FormattedNumber {...CONFIG} style="decimal" value={props.amount} />
+        </span>
+      );
+    default:
+      return <FormattedNumber {...CONFIG} currency={currency} value={amount} />;
+  }
+}
