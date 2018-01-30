@@ -27,7 +27,6 @@ type Props = {
   intl: intlShape,
   className?: string,
   clearable?: boolean,
-  errorMessage?: string,
   filter?: FilterCountry[],
 };
 
@@ -61,8 +60,7 @@ export class SelectCountry extends Component {
           onChange={props.onChange}
           value={props.value}
           options={props.options || countries}
-          label={props.label}
-          errorMessage={props.errorMessage}
+          placeholder="Country"
         />
       );
     }

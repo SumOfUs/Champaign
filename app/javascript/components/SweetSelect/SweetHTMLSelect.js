@@ -1,6 +1,5 @@
 // @flow weak
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import './SweetHTMLSelect.css';
 
 interface SelectOption {
@@ -9,28 +8,26 @@ interface SelectOption {
 }
 
 export default class SweetHTMLSelect extends Component {
-  onChange = (option: SyntheticInputEvent) => {
+  onChange = (option: SelectOption) => {
     if (this.props.onChange) {
-      this.props.onChange(option.target.value);
+      this.props.onChange(option.value);
     }
   };
 
   render() {
-    const { errorMessage, label, options, value } = this.props;
-    const rootClassName = classnames('SweetHTMLSelect', this.props.className);
-
+    const { options, value } = this.props;
     return (
-      <div className={rootClassName}>
-        <select value={value || undefined} onChange={this.onChange}>
-          <option value="">{label}</option>
-          {options.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <span className="error-msg">{errorMessage}</span>
-      </div>
+      <select
+        className="SweetHTMLSelect"
+        value={value || undefined}
+        onChange={this.onChange}
+      >
+        {options.map(({ value, label }) => (
+          <option key={value} value={value}>
+            {label}
+          </option>
+        ))}
+      </select>
     );
   }
 }
