@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import classnames from 'classnames';
-import { asYouType, format, getPhoneCode } from 'libphonenumber-js';
+import { AsYouType, format, getPhoneCode } from 'libphonenumber-js';
 import { get, findIndex } from 'lodash';
 import { FormattedMessage } from 'react-intl';
 import onClickOutside from 'react-onclickoutside';
@@ -75,7 +75,7 @@ class SweetPhoneInput extends Component {
   onPhoneNumberChange = (value: string = '') => {
     this.setState(prevState => {
       const diff = value.replace(prevState.phoneNumber, '');
-      const newPhoneNumber = new asYouType(this.getCountryCode()).input(value);
+      const newPhoneNumber = new AsYouType(this.getCountryCode()).input(value);
       return {
         ...prevState,
         // if the diff is non-numeric, we didn't change a number so
@@ -144,7 +144,7 @@ class SweetPhoneInput extends Component {
               + {getPhoneCode(this.getCountryCode())}
             </div>
 
-            {!restrictedCountryCode &&
+            {!restrictedCountryCode && (
               <i
                 className="fa fa-chevron-down"
                 style={{
@@ -152,7 +152,8 @@ class SweetPhoneInput extends Component {
                   marginLeft: '5px',
                   color: '#ccc',
                 }}
-              />}
+              />
+            )}
           </div>
           <div className="SweetPhoneInput__phone-number">
             <input
@@ -173,10 +174,11 @@ class SweetPhoneInput extends Component {
             onChange={code => this.onCountryCodeChange(code)}
           />
         </div>
-        {this.props.errors.memberPhoneNumber !== undefined &&
+        {this.props.errors.memberPhoneNumber !== undefined && (
           <div className="base-errors">
             {this.props.errors.memberPhoneNumber}
-          </div>}
+          </div>
+        )}
       </div>
     );
   }
