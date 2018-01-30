@@ -1,9 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { indexOf } from 'lodash';
-import isMobile from 'ismobilejs';
 import SweetSelect from '../SweetSelect/SweetSelect';
-import SweetHTMLSelect from '../SweetSelect/SweetHTMLSelect';
 import countriesEn from './countries/en.json';
 import countriesDe from './countries/de.json';
 import countriesEs from './countries/es.json';
@@ -39,6 +37,10 @@ const countriesByLocale = {
 
 export class SelectCountry extends Component {
   props: Props;
+  focus() {
+    if (!this.refs.select) return;
+    this.refs.select.focus();
+  }
 
   render() {
     const props = this.props;
@@ -54,22 +56,11 @@ export class SelectCountry extends Component {
       });
     }
 
-    if (isMobile.apple.phone) {
-      return (
-        <SweetHTMLSelect
-          onChange={props.onChange}
-          value={props.value}
-          options={props.options || countries}
-          placeholder="Country"
-        />
-      );
-    }
-
     return (
       <SweetSelect
         {...props}
+        ref="select"
         options={props.options || countries}
-        clearable={props.clearable || false}
       />
     );
   }
