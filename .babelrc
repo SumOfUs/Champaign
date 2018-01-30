@@ -25,19 +25,7 @@
   ],
   "env": {
     "test": {
-      "presets": [
-        [
-          "env",
-          {
-            "targets": {
-              "node": "current",
-              "uglify": false
-            },
-            "useBuiltIns": true
-          }
-        ],
-        "react"
-      ]
+      "plugins": ["transform-es2015-modules-commonjs"]
     }
   }
 }

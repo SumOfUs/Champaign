@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  config.webpacker.check_yarn_integrity = false
 
   # Code is not reloaded between requests.
   config.cache_classes = true
@@ -53,7 +55,7 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     params = event.payload[:params].reject do |k|
-      %w(controller action).include? k
+      %w[controller action].include? k
     end
     log_hash = { 'params' => params.except!(*:bt_payload), 'time' => event.time }
     unless event.payload[:exception].blank?
@@ -121,7 +123,7 @@ Rails.application.configure do
       origins(%r{^(https?:\/\/)?([a-z0-9-]+\.)?sumofus\.org$}i)
       resource '*',
                headers: :any,
-               methods: [:get, :post, :delete, :put, :patch, :options, :head],
+               methods: %i[get post delete put patch options head],
                max_age: 86_400
     end
   end

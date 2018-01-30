@@ -66,7 +66,7 @@ gem 'summernote-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
-gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
+gem 'webpacker', '~> 3.0'
 gem 'bootsnap', require: false
 
 group :development, :test do
