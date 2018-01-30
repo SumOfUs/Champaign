@@ -88,3 +88,5 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
     });
   }
 };
+
+window.storeDispatch = dispatch;
