@@ -154,7 +154,7 @@ export class MemberDetailsForm extends Component {
           onSubmit={this.submit.bind(this)}
           className="form--big action-form"
         >
-          {this.props.fields.map((field, ii) => (
+          {this.props.fields.map(field => (
             <FieldShape
               key={field.name}
               errorMessage={this.getFieldError(field.name)}

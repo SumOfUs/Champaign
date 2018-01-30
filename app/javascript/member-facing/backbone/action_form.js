@@ -159,7 +159,9 @@ const ActionForm = Backbone.View.extend({
       return;
     }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
-    this.$('.action-form__field-container input, select').each((ii, field) => {
+    this.$(
+      'input[type=text], input[type=email], input[type=tel], select'
+    ).each((ii, field) => {
       const $field = $(field);
       const name = $field.prop('name');
       if (unvalidatedPrefillValues.hasOwnProperty(name)) {
@@ -217,7 +219,26 @@ const ActionForm = Backbone.View.extend({
   },
 
   handleSuccess(e, data) {
+    data.petitionForm = this.formValues();
     Backbone.trigger('form:submitted', e, data);
+  },
+
+  formValues() {
+    const values = {};
+    this.$(
+      'input[type=text], input[type=email], input[type=tel], textarea, select'
+    ).each((i, input) => {
+      values[input.name] = this.$(input).val();
+    });
+
+    this.$('input[type=checkbox]').each((i, input) => {
+      values[input.name] = input.checked ? '1' : '0';
+    });
+
+    this.$('input[type=radio]:checked').each((i, input) => {
+      values[input.name] = this.$(input).val();
+    });
+    return values;
   },
 
   handleFailure(e, data) {
