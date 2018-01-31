@@ -57,9 +57,22 @@ export default (state: State = initialState, action: Action): State => {
         'freestanding',
         'donationAmount'
       );
+      initialData.formValues = initialData.formValues || {};
       return { ...state, ...initialData };
     case 'search_string_overrides':
       return searchStringOverrides(state, action.payload);
+    case 'login_member':
+      const formValues = action.payload.formValues || {};
+      const outstandingFields = state.fields
+        .map(field => field.name)
+        .filter(fieldName => !keys(formValues).includes(fieldName));
+
+      return {
+        ...state,
+        form: formValues,
+        formValues,
+        outstandingFields,
+      };
     case 'reset_member':
       return {
         ...state,

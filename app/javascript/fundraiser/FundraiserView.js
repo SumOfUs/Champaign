@@ -82,15 +82,17 @@ export class FundraiserView extends Component {
     } = this.props;
 
     // todo move this into AmountSelection (connect it to store)
-    const firstStepButtonTitle = _.isEmpty(formValues)
-      ? <FormattedMessage
-          id="fundraiser.proceed_to_details"
-          defaultMessage="Proceed to details (default)"
-        />
-      : <FormattedMessage
-          id="fundraiser.proceed_to_payment"
-          defaultMessage="Proceed to payment (default)"
-        />;
+    const firstStepButtonTitle = _.isEmpty(formValues) ? (
+      <FormattedMessage
+        id="fundraiser.proceed_to_details"
+        defaultMessage="Proceed to details (default)"
+      />
+    ) : (
+      <FormattedMessage
+        id="fundraiser.proceed_to_payment"
+        defaultMessage="Proceed to payment (default)"
+      />
+    );
 
     const classNames = classnames({
       'FundraiserView-container': true,
@@ -119,7 +121,7 @@ export class FundraiserView extends Component {
             />
           </StepContent>
 
-          {this.showStepTwo() &&
+          {this.showStepTwo() && (
             <StepContent title={<FormattedMessage id="fundraiser.details" />}>
               <MemberDetailsForm
                 buttonText={
@@ -130,12 +132,13 @@ export class FundraiserView extends Component {
                 }
                 fields={fields}
                 outstandingFields={outstandingFields}
-                prefillValues={formValues}
+                formValues={formValues}
                 formId={formId}
                 pageId={this.props.page.id}
                 proceed={this.proceed.bind(this)}
               />
-            </StepContent>}
+            </StepContent>
+          )}
 
           <StepContent title={<FormattedMessage id="fundraiser.payment" />}>
             <Payment
