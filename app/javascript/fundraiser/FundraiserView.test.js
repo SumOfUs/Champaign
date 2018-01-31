@@ -28,6 +28,7 @@ const fundraiserDefaults = {
       name: 'email',
       position: 0,
       choices: [],
+      display_mode: 'all_members',
     },
     {
       id: 772,
@@ -40,6 +41,7 @@ const fundraiserDefaults = {
       name: 'name',
       position: 1,
       choices: [],
+      display_mode: 'all_members',
     },
     {
       id: 773,
@@ -52,6 +54,7 @@ const fundraiserDefaults = {
       name: 'country',
       position: 2,
       choices: [],
+      display_mode: 'recognized_members_only',
     },
   ],
   formId: 180,

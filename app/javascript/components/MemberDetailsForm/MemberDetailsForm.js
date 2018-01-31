@@ -145,6 +145,28 @@ export class MemberDetailsForm extends Component {
     );
   }
 
+  fieldsToDisplay() {
+    return this.props.fields.filter(field => {
+      switch (field.display_mode) {
+        case 'all_members':
+          return true;
+        case 'recognized_members_only':
+          return this.recognizedMemberPresent();
+        case 'new_members_only':
+          return !this.recognizedMemberPresent();
+        default:
+          console.log(
+            `Unknown display_mode "${field.display_mode}" for field "${field.name}"`
+          );
+          return false;
+      }
+    });
+  }
+
+  recognizedMemberPresent() {
+    return !!this.props.formValues.email;
+  }
+
   render() {
     const { loading } = this.state;
 
@@ -154,7 +176,7 @@ export class MemberDetailsForm extends Component {
           onSubmit={this.submit.bind(this)}
           className="form--big action-form"
         >
-          {this.props.fields.map(field => (
+          {this.fieldsToDisplay().map(field => (
             <FieldShape
               key={field.name}
               errorMessage={this.getFieldError(field.name)}
