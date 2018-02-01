@@ -40,7 +40,7 @@ gem 'slim-rails'
 gem 'action_parameter'
 gem 'aws-sdk', '~> 2'
 gem 'paper_trail'
-gem 'paperclip'
+gem 'paperclip', '~> 5.2'
 gem 'rmagick' # rmagick for image processing
 ## AWS SDK for Rails - makes SES integration easy
 gem 'actionkit_connector', git: 'https://github.com/SumOfUs/actionkit_connector', branch: 'master'
