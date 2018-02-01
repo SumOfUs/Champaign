@@ -25,6 +25,7 @@ rails_serve_static_assets: true
 compile_static: true
 asset_host: 'localhost:3000'
 webpack_host: 'localhost'
+amplitude_token:
 
 # NewRelic Connection information.
 newrelic_license_key: 'fake-newrelic-agent'
