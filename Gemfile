@@ -104,28 +104,11 @@ end
 # TEMP
 gem 'c3-rails'
 source 'https://rails-assets.org' do
-  # Give your JS App some Backbone with Models, Views, Collections, and Events http://backbonejs.org
-  gem 'rails-assets-backbone'
-
-  gem 'rails-assets-lodash'
-
   # Reduce user-misspelled email addresses in your forms.
   gem 'rails-assets-mailcheck'
 
-  # Dropzone is an easy to use drag'n'drop library. It supports image previews and shows nice progress bars.
-  gem 'rails-assets-dropzone'
-
-  # Generate a slug – transliteration with a lot of options
-  gem 'rails-assets-speakingurl'
-
-  # braintree js
-  gem 'rails-assets-braintree-web', '~> 2.24.1'
-
   # Transition numbers with ease
   gem 'rails-assets-odometer'
-
-  # Parse, validate, manipulate, and display dates in javascript.
-  gem 'rails-assets-moment'
 
   # make tables kick ass
   gem 'rails-assets-datatables'

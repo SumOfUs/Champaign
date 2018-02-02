@@ -10,7 +10,7 @@
 //= require datatables/dataTables.bootstrap
 //= require dropzone
 //= require odometer
-//= require speakingurl
+// require speakingurl
 //= require codemirror
 //= require codemirror/modes/htmlmixed
 //= require codemirror/modes/javascript

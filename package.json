@@ -26,10 +26,14 @@
     "clipboard": "^1.7.1",
     "dotenv": "^4.0.0",
     "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "jquery-ujs": "^1.2.2",
     "js-cookie": "^2.2.0",
     "js-yaml": "^3.10.0",
     "libphonenumber-js": "^1.0.7",
     "lodash": "^4.17.4",
+    "mailcheck": "^1.1.1",
+    "moment": "^2.20.1",
     "prop-types": "^15.6.0",
     "query-string": "^5.0.1",
     "react": "^16.2.0",
@@ -40,6 +44,8 @@
     "react-select": "^1.2.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
+    "selectize": "^0.12.4",
+    "speakingurl": "^14.0.1",
     "urijs": "^1.19.0"
   },
   "devDependencies": {
