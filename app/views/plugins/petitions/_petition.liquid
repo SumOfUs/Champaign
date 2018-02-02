@@ -21,24 +21,6 @@
   </div>
 
   {% unless skip_javascript %}
-    <script type="text/javascript">
-      $(document).ready(function(){
-        var chmp = window.champaign; // convenience binding
-        chmp.myActionForm  = new chmp.ActionForm({
-          member:           chmp.personalization.member,
-          outstandingFields:chmp.personalization.outstandingFields,
-          location:         chmp.personalization.location,
-          akid:             chmp.personalization.urlParams.akid,
-          referring_akid:   chmp.personalization.urlParams.referring_akid,
-          source:           chmp.personalization.urlParams.source,
-          referrer_id:      chmp.personalization.urlParams.referrer_id,
-          rid:              chmp.personalization.urlParams.rid,
-          bucket:           chmp.personalization.urlParams.bucket,
-          prefill:          true
-        });
-
-        chmp.myPetition      = new chmp.Petition({followUpUrl: "{{ follow_up_url }}"});
-      });
-    </script>
+    {{ javascript_tag 'globals' }}
   {% endunless %}
 {% endif %}
