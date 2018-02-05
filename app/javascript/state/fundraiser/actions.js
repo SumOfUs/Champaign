@@ -13,6 +13,7 @@ export function changeCurrency(payload: string): FundraiserAction {
 }
 
 export function setSubmitting(payload: boolean): FundraiserAction {
+  $.publish('fundraiser:set_submitting', [payload]);
   return { type: 'set_submitting', payload };
 }
 
@@ -27,13 +28,16 @@ export function updateForm(payload: Object): FundraiserAction {
 }
 
 export function setRecurring(payload: boolean = false): FundraiserAction {
+  $.publish('fundraiser:set_recurring', [payload]);
   return { type: 'set_recurring', payload };
 }
 
 export function setStoreInVault(payload: boolean = false): FundraiserAction {
+  $.publish('fundraiser:set_store_in_vault', [payload]);
   return { type: 'set_store_in_vault', payload };
 }
 
 export function setPaymentType(payload: PaymentType): FundraiserAction {
+  $.publish('fundraiser:set_payment_type', [payload]);
   return { type: 'set_payment_type', payload };
 }

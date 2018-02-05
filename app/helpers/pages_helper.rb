@@ -166,4 +166,17 @@ module PagesHelper
   def pack_exists?(name, type)
     Webpacker.manifest.lookup("#{name}#{compute_asset_extname(name, type: type)}")
   end
+
+  def page_object(page)
+    exceptions = %i[content javascript liquid_layout_id compiled_html messages]
+    base = page.as_json(except: exceptions)
+
+    layouts_and_plugins = {
+      layout: page.liquid_layout.title,
+      follow_up_layout: page.follow_up_liquid_layout.try(:title),
+      plugins: page.plugins.map { |plugin| plugin.class.name }
+    }
+
+    base.merge(layouts_and_plugins)
+  end
 end
