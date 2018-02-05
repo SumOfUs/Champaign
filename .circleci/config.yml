@@ -1,0 +1,109 @@
+defaults: &defaults
+  working_directory: ~/circleci-champaign
+  docker:
+    - image: soutech/ruby2.4.1_node_awscli:0.1
+
+version: 2
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - image: postgres:9.4.12
+      - image: redis
+
+    steps:
+      - checkout
+      # Restore cache
+      - restore_cache:
+          key: champaign-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          key: champaign-{{ checksum "yarn.lock" }}
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+      # Store bundle cache
+      - save_cache:
+          key: champaign-{{ checksum "Gemfile.lock" }}
+          paths:
+          - vendor/bundle
+      - run: yarn
+      - save_cache:
+          key: champaign-{{ checksum "yarn.lock" }}
+          paths:
+          - node_modules
+     # Create DB, run migrations, seed
+      - run: bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
+      - run: bundle exec rake
+      - run:
+          name: Run JS tests
+          command: yarn run test
+      - run:
+          name: Run specs
+          command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+
+  docker_build:
+    <<: *defaults
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Docker build
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            .circleci/build.sh
+
+  deploy_production:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+        name: Deploy production
+        command: ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
+
+  deploy_staging:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+        name: Deploy production
+        command: deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+
+  deploy_feature:
+    <<: *defaults
+    steps:
+      - checkout
+      - run:
+        name: Deploy feature branch
+        command: deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
+
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - test
+      - docker_build
+      - deploy_production:
+          requires:
+            - test
+            - docker_build
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_staging:
+          requires:
+            - test
+            - docker_build
+          filters:
+            branches:
+              only:
+                - circleci-2
+      - deploy_feature:
+          requires:
+            - test
+            - docker_build
+          filters:
+            branches:
+              only:
+                - override
