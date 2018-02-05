@@ -25,6 +25,7 @@ config/environments/*.local.yml
 config/settings.local.yml
 config/settings/*.local.yml
 coverage/
+custom_plan.rb
 env.yml
 npm-debug.log
 out/*
@@ -35,3 +36,4 @@ queue_listeners/config/env.yml
 yarn-debug.log*
 yarn-error.log
 yarn-error.log*
+zeus.json
