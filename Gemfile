@@ -80,7 +80,6 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'spring-commands-rspec'
   gem 'vcr'
-  gem 'zeus', '~> 0.15.15.pre'
 end
 
 group :development do
