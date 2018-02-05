@@ -8,7 +8,10 @@ jobs:
   test:
     <<: *defaults
     steps:
-      - image: postgres:9.4.12
+      - image: postgres:9.4-alpine-ram
+        environment:
+          POSTGRES_USER: champaign
+          POSTGRES_DB: champaign
       - image: redis
 
     steps:
