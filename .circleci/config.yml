@@ -5,94 +5,45 @@ defaults: &defaults
 
 version: 2
 jobs:
-  build:
+  test:
     <<: *defaults
-    environment:
-      EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
-      EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
+    steps:
+      - image: postgres:9.4.12
+      - image: redis
+
     steps:
       - checkout
-      # Restore gem, JS and assets caches
+      # Restore cache
       - restore_cache:
-          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          key: champaign-{{ checksum "Gemfile.lock" }}
       - restore_cache:
-          key: yarn-cache-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          # change CIRCLE_SHA1 to git commit sha of the last commit in the sou-assets repo (replace master with the branch you'll be downloading from):
-          # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
-          key: assets-cache-$($CIRCLE_SHA1)
+          key: champaign-{{ checksum "yarn.lock" }}
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
       # Store bundle cache
       - save_cache:
-          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          key: champaign-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
       - run: yarn
       - save_cache:
-          key: yarn-cache-{{ checksum "yarn.lock" }}
+          key: champaign-{{ checksum "yarn.lock" }}
           paths:
           - node_modules
-      # ASSET PRECOMPILATION
-      - run:
-          name: Precompile assets
-          command: bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
-      - save_cache:
-          # change CIRCLE_SHA1 to git commit sha of the last commit in the sou-assets repo (replace master with the branch you'll be downloading from):
-          # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
-          key: assets-cache-$($CIRCLE_SHA1)
-          paths:
-          - public/assets
-      # PERSIST TO WORKSPACE which you will source for migrations_and_tests as well as the Docker build
-      - persist_to_workspace:
-          root: . #/home/circleci/circleci-champaign
-          paths:
-            - .bundle
-            - Gemfile
-            - Gemfile.lock
-            - package.json
-            - yarn.lock
-            - vendor/bundle
-            - node_modules
-            - public/assets
-            - tmp/external_assets_source
-
-  migrations_and_tests:
-    working_directory: ~/circleci-champaign
-    docker:
-      - image: soutech/ruby2.4.1_node_awscli:0.1
-        environment:
-          PG_USERNAME: champaign
-          PG_PASSWORD: champaign
-          RAILS_ENV: test
-          EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
-      - image: circleci/postgres:9.4-alpine-ram
-        environment:
-          POSTGRES_USER: champaign
-          POSTGRES_DB: champaign
-      - image: redis
-    steps:
-      - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
-      - run:
-          name: Migrations and seeding
-          command: |
-            bundle --path vendor/bundle
-            bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
+     # Create DB, run migrations, seed
+      - run: bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
+      - run: bundle exec rake
       - run:
           name: Run JS tests
           command: yarn run test
       - run:
-          name: Rspec tests
-          command: bundle exec rspec spec
+          name: Run specs
+          command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
 
   docker_build:
     <<: *defaults
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/circleci-champaign
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
@@ -106,40 +57,35 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy production
-          command: deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
+        name: Deploy production
+        command: ./bin/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
 
   deploy_staging:
     <<: *defaults
     steps:
       - checkout
       - run:
-          name: Deploy production
-          command: deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+        name: Deploy production
+        command: deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
 
   deploy_feature:
     <<: *defaults
     steps:
       - checkout
       - run:
-          name: Deploy feature branch
-          command: deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
+        name: Deploy feature branch
+        command: deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
 
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
-      - build
-      - migrations_and_tests:
-          requires:
-            - build
-      - docker_build:
-          requires:
-            - build
+      - test
+      - docker_build
       - deploy_production:
           requires:
-            - migrations_and_tests
+            - test
             - docker_build
           filters:
             branches:
@@ -147,7 +93,7 @@ workflows:
                 - master
       - deploy_staging:
           requires:
-            - migrations_and_tests
+            - test
             - docker_build
           filters:
             branches:
@@ -155,7 +101,7 @@ workflows:
                 - circleci-2
       - deploy_feature:
           requires:
-            - migrations_and_tests
+            - test
             - docker_build
           filters:
             branches:
