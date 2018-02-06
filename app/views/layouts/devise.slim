@@ -10,7 +10,9 @@ html
     = csrf_meta_tags
     = favicon_link_tag 'champaign/favicon.ico'
 
+
   body
     .photo-bg class="photo-#{rand(5)}"
     .centered-overlay
       = yield
+    = render 'cdn/jquery'

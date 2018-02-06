@@ -5,6 +5,7 @@
 - meta optimization_tags: @page.meta_tags
 - meta liquid_layout: @page.liquid_layout.title.downcase
 = @rendered
+= render 'shared/page_object'
 = render 'pages/personalization', data: @data
 = render 'pages/campaigner_overlay', page: @page
 

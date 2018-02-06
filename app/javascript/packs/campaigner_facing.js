@@ -4,10 +4,8 @@
 // to reduce bundle size)
 
 // TODO: Refactor this to *not* get imported into the global scope
-import 'jquery';
-import 'lodash';
-import 'speakingurl';
-import d3 from 'd3';
+require('d3');
+
 import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../campaigner_facing/syntax_highlighting';
@@ -31,6 +29,9 @@ import Analytics from '../campaigner_facing/analytics';
 import SurveyEditor from '../campaigner_facing/survey_editor';
 import FormElementCreator from '../campaigner_facing/form_element_creator';
 import ListEditor from '../campaigner_facing/list_editor';
+
+// Styles
+import 'c3/c3.css';
 
 Object.assign(window, {
   PageEditBar,

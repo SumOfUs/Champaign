@@ -13,7 +13,7 @@
         <textarea name="{{ field.name }}" class="form-control form__content" id="" maxlength="9999">{{ field.default_value }}</textarea>
       {% when 'email' %}
         <label for="{{ field.name }}" class="survey__question">{{ field.label }}</label>
-        <input type="email" name="{{field.name}}" class="form-control mailcheck form__content" id="" value="{{ field.default_value }}" />
+        <input type="email" name="{{field.name}}" class="form-control form__content" id="" value="{{ field.default_value }}" />
       {% when 'phone' %}
         <label for="{{ field.name }}" class="survey__question">{{ field.label }}</label>
         <input type="tel" name="{{field.name}}" class="form-control form__content" id="" value="{{ field.default_value }}" />

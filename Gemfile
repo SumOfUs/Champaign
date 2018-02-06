@@ -8,11 +8,9 @@ gem 'aasm'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 gem 'bcrypt', '~> 3.1.7'
 gem 'braintree', '~> 2.54.0'
-gem 'codemirror-rails'
 gem 'countries', require: 'countries/global'
 gem 'country_select'
 gem 'devise'
-gem 'font-awesome-sass'
 gem 'geocoder'
 gem 'gocardless_pro'
 gem 'google_currency', git: 'https://github.com/RubyMoney/google_currency', branch: 'master'
@@ -20,8 +18,6 @@ gem 'hiredis'
 gem 'httparty'
 gem 'i18n-js'
 gem 'jbuilder'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'kaminari'
 gem 'liquid'
 gem 'money'
@@ -33,7 +29,6 @@ gem 'rails', '~> 5.1'
 gem 'rails-i18n'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
-gem 'selectize-rails' # why not npm?
 gem 'slim-rails'
 
 ## Use Paper Trail for containing a full history of our edits.
@@ -62,7 +57,6 @@ gem 'puma', '~> 3.9.1'
 gem 'sass-rails'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 gem 'sprockets-rails'
-gem 'summernote-rails'
 gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
@@ -97,21 +91,4 @@ group :test do
   gem 'rspec-json_expectations'
   gem 'timecop'
   gem 'webmock'
-end
-
-
-# TEMP
-gem 'c3-rails'
-source 'https://rails-assets.org' do
-  # Reduce user-misspelled email addresses in your forms.
-  gem 'rails-assets-mailcheck'
-
-  # Transition numbers with ease
-  gem 'rails-assets-odometer'
-
-  # make tables kick ass
-  gem 'rails-assets-datatables'
-
-  # Sticky JS (used in Desktop Sticky)
-  gem 'rails-assets-sticky'
 end
