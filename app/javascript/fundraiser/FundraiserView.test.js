@@ -338,8 +338,7 @@ describe('Donation Amount Tab', function() {
     it('transitions to the next step when we click an amount button', () => {
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(0);
       suite.wrapper
-        .find('DonationBands')
-        .find('Button')
+        .find('DonationBandButton')
         .first()
         .simulate('click');
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
@@ -351,7 +350,9 @@ describe('Donation Amount Tab', function() {
       suite.wrapper
         .find('#DonationBands-custom-amount')
         .simulate('change', { target: { value: '8' } });
-      suite.wrapper.find('.AmountSelection__proceed-button').simulate('click');
+      suite.wrapper
+        .find('Button.AmountSelection__proceed-button')
+        .simulate('click');
       expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
     });
   });
@@ -528,6 +529,7 @@ describe('Payment Panel', function() {
         expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(1);
 
         suite.store.dispatch(changeStep(2));
+        suite.wrapper.update();
         expect(suite.wrapper.find('Stepper').prop('currentStep')).toEqual(2);
         expect(suite.wrapper.find('.ExpressDonation').length).toEqual(0);
       });

@@ -145,15 +145,15 @@ exports[`Snapshots: With default messages object 1`] = `
       "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
       "reset_password_mailer.reset_password_email.subject": "Please reset your password",
       "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.
-    
-    You can use the following link within the next day to reset your password:
-    
-    {url}
-    
-    If you didn't request a new password, you can safely ignore this email.
-    
-    Thanks,
-    SumOfUs",
+
+You can use the following link within the next day to reset your password:
+
+{url}
+
+If you didn't request a new password, you can safely ignore this email.
+
+Thanks,
+SumOfUs",
       "reset_passwords.create.not_found": "Sorry, we can't find that email.",
       "reset_passwords.edit.button_label": "Change password",
       "reset_passwords.edit.description": "Password must be at least 6 characters long.",

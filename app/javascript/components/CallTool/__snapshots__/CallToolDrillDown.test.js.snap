@@ -1,10 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CallToolDrillDownWithFilters 1`] = `
+exports[`CallToolDrillDown Snapshots pre-selects nothing if the passed filter is not first: CallToolDrillDownWithFilters 1`] = `
 <div
   className="CallToolDrillDown"
 >
   <div
+    key="country"
     style={
       Object {
         "marginBottom": "10px",
@@ -38,11 +39,12 @@ exports[`CallToolDrillDownWithFilters 1`] = `
 </div>
 `;
 
-exports[`CallToolDrillDownWithFilters 2`] = `
+exports[`CallToolDrillDown Snapshots pre-selects the first property if it is passed in the filter: CallToolDrillDownWithFilters 1`] = `
 <div
   className="CallToolDrillDown"
 >
   <div
+    key="country"
     style={
       Object {
         "marginBottom": "10px",
@@ -75,6 +77,7 @@ exports[`CallToolDrillDownWithFilters 2`] = `
     />
   </div>
   <div
+    key="state"
     style={
       Object {
         "marginBottom": "10px",
@@ -95,11 +98,12 @@ exports[`CallToolDrillDownWithFilters 2`] = `
 </div>
 `;
 
-exports[`CallToolDrillDownWithFilters 3`] = `
+exports[`CallToolDrillDown Snapshots pre-selects the first two properties if they passed in the filter: CallToolDrillDownWithFilters 1`] = `
 <div
   className="CallToolDrillDown"
 >
   <div
+    key="country"
     style={
       Object {
         "marginBottom": "10px",
@@ -131,6 +135,7 @@ exports[`CallToolDrillDownWithFilters 3`] = `
     />
   </div>
   <div
+    key="state"
     style={
       Object {
         "marginBottom": "10px",
@@ -149,6 +154,7 @@ exports[`CallToolDrillDownWithFilters 3`] = `
     />
   </div>
   <div
+    key="name"
     style={
       Object {
         "marginBottom": "10px",
@@ -169,11 +175,12 @@ exports[`CallToolDrillDownWithFilters 3`] = `
 </div>
 `;
 
-exports[`CallToolDrillDownWithFilters 4`] = `
+exports[`CallToolDrillDown Snapshots renders filters when there are targetByAttributes: CallToolDrillDownWithFilters 1`] = `
 <div
   className="CallToolDrillDown"
 >
   <div
+    key="country"
     style={
       Object {
         "marginBottom": "10px",

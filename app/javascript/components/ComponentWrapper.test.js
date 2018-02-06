@@ -8,7 +8,9 @@ import ComponentWrapper from './ComponentWrapper';
 describe('Snapshots:', () => {
   test('With custom messages object', () => {
     const wrapper = shallow(
-      <ComponentWrapper locale="en" messages={{}}>Test</ComponentWrapper>
+      <ComponentWrapper locale="en" messages={{}}>
+        Test
+      </ComponentWrapper>
     );
     expect(toJson(wrapper)).toMatchSnapshot();
   });
@@ -26,17 +28,19 @@ describe('Store', () => {
 
   test('Wraps the component in a redux Provider if given a store', () => {
     const wrapper = mount(
-      <ComponentWrapper locale="en" store={store}>...</ComponentWrapper>
+      <ComponentWrapper locale="en" store={store}>
+        Should be wrapped in a store
+      </ComponentWrapper>
     );
     const provider = wrapper.find('Provider');
-    expect(provider.get(0)).toHaveProperty('store', store);
-    expect(provider.text()).toBe('...');
+    expect(provider.prop('store')).toEqual(store);
+    expect(provider.text()).toBe('Should be wrapped in a store');
   });
 
   test('Does create a Provider if no store is passed', () => {
     const wrapper = mount(<ComponentWrapper locale="en">...</ComponentWrapper>);
     const provider = wrapper.find('Provider');
-    expect(provider.get(0)).toBeUndefined();
+    expect(provider.length).toBe(0);
   });
 });
 
@@ -58,6 +62,7 @@ describe('Optimizely hook', () => {
         Test
       </ComponentWrapper>
     );
+    wrapper.setProps({ children: 'Updated test' });
     wrapper.update();
     expect(optimizelyHook).toHaveBeenCalledTimes(2);
   });

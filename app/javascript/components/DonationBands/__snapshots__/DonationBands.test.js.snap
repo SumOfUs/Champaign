@@ -1,579 +1,783 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
-<IntlProvider
-  locale="en"
-  messages={
+exports[`renders all amounts with the currency symbol 1`] = `
+<DonationBands
+  amounts={
+    Array [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ]
+  }
+  currency="GBP"
+  customAmount={10}
+  intl={
     Object {
-      "basics.or": "or",
-      "branding.description": "This is who we are.",
-      "call_tool.errors.phone_number.cant_connect": "can't connect to this phone number, please check it's correct or try another one",
-      "call_tool.errors.phone_number.is_invalid": "is not a valid phone number",
-      "call_tool.errors.phone_number.too_short": "must have at least 6 digits",
-      "call_tool.errors.target.missing": "Something wasn't right about the number you're trying to call.",
-      "call_tool.errors.target.outdated": "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again.",
-      "call_tool.errors.unknown": "Oops! Something went wrong, please try a different phone number or again in a few minutes.",
-      "call_tool.fine_print": "SumOfUs will protect <a href=\\"https://sumofus.org/privacy\\" target=\\"_blank\\">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.",
-      "call_tool.form.country": "Country",
-      "call_tool.form.phone_country_code": "Code",
-      "call_tool.form.phone_number": "My phone number",
-      "call_tool.form.submit": "Call me",
-      "call_tool.instructions": "Just enter your phone number including the area code -- and we'll call shortly after.",
-      "call_tool.manual_target_selection": "Please select your target",
-      "call_tool.text_to_speach_menu": "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again.",
-      "call_tool.you_will_be_calling": "We will call you and connect you to",
-      "confirmation_mailer.confirmation_email.body_html": "To confirm your account, please <a href='{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>",
-      "confirmation_mailer.confirmation_email.body_text": "To confirm your registration, please follow this link: {confirmation_url}",
-      "confirmation_mailer.confirmation_email.headline": "Thank you for registering an account",
-      "confirmation_mailer.confirmation_email.subject": "Confirm your account",
-      "confirmation_mailer.follow_up_page.account_already_confirmed": "Your account has already been confirmed!",
-      "confirmation_mailer.follow_up_page.account_not_found": "Sorry, no account was found associated with this link.",
-      "confirmation_mailer.follow_up_page.failure": "Sorry, there was an issue confirming your account.",
-      "confirmation_mailer.follow_up_page.member_management": "To manage your payment methods and details, you can visit the <a href='{url}'>members dashboard</a> at any time.",
-      "confirmation_mailer.follow_up_page.success": "You have successfully confirmed your account. Thanks!",
-      "confirmation_mailer.title": "Account Confirmation",
-      "email_pension.form.select_taget": "Select your Pension or Mutual Fund",
-      "email_tool.form.email_body": "Body",
-      "email_tool.form.errors.country": "Please select a country",
-      "email_tool.form.errors.email": "Please add your email address",
-      "email_tool.form.errors.fund": "Please select a pension fund",
-      "email_tool.form.errors.message": "Whoops! There are some errors with the form. Please check you've filled in the required fields.",
-      "email_tool.form.errors.name": "Please add you name",
-      "email_tool.form.errors.subject": "Please add a subject line",
-      "email_tool.form.errors.target.outdated": "It seems the targets information has recently changed. Please reload the page and try again.",
-      "email_tool.form.select_country": "Select your Country",
-      "email_tool.form.select_target": "Select a target",
-      "email_tool.form.send_email": "Send email",
-      "email_tool.form.subject": "Subject line",
-      "email_tool.form.your_email": "Your email address",
-      "email_tool.form.your_name": "Your name",
-      "email_tool.section.compose": "Compose Your Email",
-      "email_tool.suggest_fund": "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database.",
-      "email_tool.title": "Compose your email",
-      "errors.is_invalid": "is invalid",
-      "errors.named_field_error": "{name} has some errors:",
-      "errors.probably_invalid": "doesn't look right",
-      "errors.this_field": "This field",
-      "errors.this_field_with_message": "This field {message}",
-      "facebook_share.caption": "I just signed this petition on SumOfUs.org",
-      "facebook_share.comment_field_label": "I'm signing because...",
-      "form.default.country": "Country",
-      "form.default.email": "Email Address",
-      "form.default.name": "Full name",
-      "form.default.phone_number": "Phone number",
-      "form.default.postal": "Postal Code",
-      "form.processing": "Processing...",
-      "form.submit": "Submit",
-      "form.switch_user": "Sign out",
-      "fundraiser.amount": "Amount",
-      "fundraiser.card_declined": "Your card was declined by the payment processor. Please try a different payment method.",
-      "fundraiser.confirmation": "Donation received",
-      "fundraiser.currency_in": "Values shown in {currency}",
-      "fundraiser.debit.direct_debit": "Direct Debit",
-      "fundraiser.debit.one_time": "You are donating {amount}",
-      "fundraiser.debit.recurring": "You are setting up a monthly donation of {amount}",
-      "fundraiser.details": "Details",
-      "fundraiser.donate": "Donate {amount}",
-      "fundraiser.donate_monthly": "Donate {amount} / month",
-      "fundraiser.donate_now": "Donate now",
-      "fundraiser.error_intro": "We were unable to process your donation!",
-      "fundraiser.field_names.cvv": "CVV",
-      "fundraiser.field_names.expiration": "Expiration date",
-      "fundraiser.field_names.number": "Card number",
-      "fundraiser.fields.cvv": "CVV",
-      "fundraiser.fields.expiration": "Expiration date",
-      "fundraiser.fields.expiration_format": "MM / YY",
-      "fundraiser.fields.number": "Card number",
-      "fundraiser.fields.postalCode": "Postal code",
-      "fundraiser.fine_print": "Donations are not tax deductable. For more information please email us.",
-      "fundraiser.loading": "Loading secure <br> payment portal",
-      "fundraiser.make_recurring": "Make my donation monthly",
-      "fundraiser.month": "month",
-      "fundraiser.oneclick.credit_card_payment_method": "{card_type} ending in {last_four_digits}",
-      "fundraiser.oneclick.new_payment_method": "Add payment method",
-      "fundraiser.oneclick.paypal_payment_method": "Paypal ({email})",
-      "fundraiser.oneclick.select_payment": "Select a saved payment method",
-      "fundraiser.other_amount": "Other",
-      "fundraiser.payment": "Payment",
-      "fundraiser.payment_methods.card": "Credit or debit card",
-      "fundraiser.payment_methods.gocardless": "Direct Debit",
-      "fundraiser.payment_methods.paypal": "PayPal",
-      "fundraiser.payment_methods.ready_for_gocardless": "Click 'Donate' to finish donating through GoCardless, our direct debit provider.",
-      "fundraiser.payment_methods.ready_for_paypal": "When you click the button below, Paypal will guide you to finish your donation.",
-      "fundraiser.payment_type_prompt": "Payment Method",
-      "fundraiser.proceed_to_details": "Proceed to details",
-      "fundraiser.proceed_to_payment": "Proceed to payment",
-      "fundraiser.recurring_thank_you_with_amount": "<strong>Thank you for your recurring donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
-      "fundraiser.store_in_vault": "Securely store my payment information",
-      "fundraiser.switch_currency": "Switch currency",
-      "fundraiser.thank_you": "Thank you for your donation!",
-      "fundraiser.thank_you_with_amount": "<strong>Thank you for your donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
-      "fundraiser.unknown_error": "Our technical team has been notified. Please double check your info or try a different payment method.",
-      "member_registration.check_email": "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>",
-      "member_registration.create_account": "We're processing your donation.",
-      "member_registration.create_account_description": "Now, create an account to securely manage your donations, and cancel a donation at any time.",
-      "member_registration.enter_password_message": "Just enter a password to get started",
-      "member_registration.form.confirm_password": "Confirm Password",
-      "member_registration.form.password": "Password",
-      "member_registration.form.register": "Register",
-      "member_registration.form.your_email": "Your email",
-      "member_registration.thanks": "Thanks! Just one more step:",
-      "member_registration.title": "Member Registration",
-      "page.more_info": "More information",
-      "page.no_script": "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action.",
-      "petition.confirmation": "Name submitted",
-      "petition.excited_confirmation": "Name submitted!",
-      "petition.fine_print": "We will protect your privacy, and keep you updated about this and similar campaigns.",
-      "petition.sign_it": "Sign the petition",
-      "petition.target_prefix": "TO",
-      "petition.thank_you": "Thanks for adding your name to \\"{petition_title}\\"",
-      "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
-      "reset_password_mailer.reset_password_email.subject": "Please reset your password",
-      "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.
-    
-    You can use the following link within the next day to reset your password:
-    
-    {url}
-    
-    If you didn't request a new password, you can safely ignore this email.
-    
-    Thanks,
-    SumOfUs",
-      "reset_passwords.create.not_found": "Sorry, we can't find that email.",
-      "reset_passwords.edit.button_label": "Change password",
-      "reset_passwords.edit.description": "Password must be at least 6 characters long.",
-      "reset_passwords.edit.invalid_link": "It looks like you clicked on an invalid password reset link. Please try again.",
-      "reset_passwords.edit.password": "Password",
-      "reset_passwords.edit.password_confirmation": "Confirm password",
-      "reset_passwords.edit.title": "Change password for",
-      "reset_passwords.new.button_label": "Send password reset email",
-      "reset_passwords.new.description": "Enter your email address and we will send you a link to reset your password.",
-      "reset_passwords.new.email": "Email",
-      "reset_passwords.new.title": "Reset your password",
-      "reset_passwords.show.description": "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.",
-      "reset_passwords.show.title": "Reset your password",
-      "reset_passwords.success.description": "Visit the <a href='{url}'>Member Dashboard</a> to log-in.",
-      "reset_passwords.success.title": "Your new password was successfully saved",
-      "share.cta": "Share the campaign!",
-      "share.send_email": "Send Email",
-      "share.share": "Share",
-      "share.tweet": "Tweet",
-      "share.twitter_handle": "@sumofus",
-      "survey.finish": "Finish",
-      "survey.next": "Next",
-      "survey.skip": "Skip",
-      "thermometer.million": "million",
-      "thermometer.signatures": "signatures",
-      "thermometer.signatures_until_goal": "{remaining} signatures until {goal}",
-      "time.formats.default": "%-d %B %Y",
-      "validation.is_invalid_country": "must be a valid country code",
-      "validation.is_invalid_email": "is not a valid email address",
-      "validation.is_invalid_length": "must be less than {length} characters long",
-      "validation.is_invalid_phone": "can only have numbers, dash, plus, and parentheses",
-      "validation.is_required": "is required",
-      "validation.postal.has_invalid_characters": "Can only contain letters, numbers, spaces, and hyphens",
-      "validation.postal.too_long": "May contain no more than 9 letter or number characters",
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {
+        "basics.or": "or",
+        "branding.description": "This is who we are.",
+        "call_tool.errors.phone_number.cant_connect": "can't connect to this phone number, please check it's correct or try another one",
+        "call_tool.errors.phone_number.is_invalid": "is not a valid phone number",
+        "call_tool.errors.phone_number.too_short": "must have at least 6 digits",
+        "call_tool.errors.target.missing": "Something wasn't right about the number you're trying to call.",
+        "call_tool.errors.target.outdated": "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again.",
+        "call_tool.errors.unknown": "Oops! Something went wrong, please try a different phone number or again in a few minutes.",
+        "call_tool.fine_print": "SumOfUs will protect <a href=\\"https://sumofus.org/privacy\\" target=\\"_blank\\">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.",
+        "call_tool.form.country": "Country",
+        "call_tool.form.phone_country_code": "Code",
+        "call_tool.form.phone_number": "My phone number",
+        "call_tool.form.submit": "Call me",
+        "call_tool.instructions": "Just enter your phone number including the area code -- and we'll call shortly after.",
+        "call_tool.manual_target_selection": "Please select your target",
+        "call_tool.text_to_speach_menu": "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again.",
+        "call_tool.you_will_be_calling": "We will call you and connect you to",
+        "confirmation_mailer.confirmation_email.body_html": "To confirm your account, please <a href='{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>",
+        "confirmation_mailer.confirmation_email.body_text": "To confirm your registration, please follow this link: {confirmation_url}",
+        "confirmation_mailer.confirmation_email.headline": "Thank you for registering an account",
+        "confirmation_mailer.confirmation_email.subject": "Confirm your account",
+        "confirmation_mailer.follow_up_page.account_already_confirmed": "Your account has already been confirmed!",
+        "confirmation_mailer.follow_up_page.account_not_found": "Sorry, no account was found associated with this link.",
+        "confirmation_mailer.follow_up_page.failure": "Sorry, there was an issue confirming your account.",
+        "confirmation_mailer.follow_up_page.member_management": "To manage your payment methods and details, you can visit the <a href='{url}'>members dashboard</a> at any time.",
+        "confirmation_mailer.follow_up_page.success": "You have successfully confirmed your account. Thanks!",
+        "confirmation_mailer.title": "Account Confirmation",
+        "email_pension.form.select_taget": "Select your Pension or Mutual Fund",
+        "email_tool.form.email_body": "Body",
+        "email_tool.form.errors.country": "Please select a country",
+        "email_tool.form.errors.email": "Please add your email address",
+        "email_tool.form.errors.fund": "Please select a pension fund",
+        "email_tool.form.errors.message": "Whoops! There are some errors with the form. Please check you've filled in the required fields.",
+        "email_tool.form.errors.name": "Please add you name",
+        "email_tool.form.errors.subject": "Please add a subject line",
+        "email_tool.form.errors.target.outdated": "It seems the targets information has recently changed. Please reload the page and try again.",
+        "email_tool.form.select_country": "Select your Country",
+        "email_tool.form.select_target": "Select a target",
+        "email_tool.form.send_email": "Send email",
+        "email_tool.form.subject": "Subject line",
+        "email_tool.form.your_email": "Your email address",
+        "email_tool.form.your_name": "Your name",
+        "email_tool.section.compose": "Compose Your Email",
+        "email_tool.suggest_fund": "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database.",
+        "email_tool.title": "Compose your email",
+        "errors.is_invalid": "is invalid",
+        "errors.named_field_error": "{name} has some errors:",
+        "errors.probably_invalid": "doesn't look right",
+        "errors.this_field": "This field",
+        "errors.this_field_with_message": "This field {message}",
+        "facebook_share.caption": "I just signed this petition on SumOfUs.org",
+        "facebook_share.comment_field_label": "I'm signing because...",
+        "form.default.country": "Country",
+        "form.default.email": "Email Address",
+        "form.default.name": "Full name",
+        "form.default.phone_number": "Phone number",
+        "form.default.postal": "Postal Code",
+        "form.processing": "Processing...",
+        "form.submit": "Submit",
+        "form.switch_user": "Sign out",
+        "fundraiser.amount": "Amount",
+        "fundraiser.card_declined": "Your card was declined by the payment processor. Please try a different payment method.",
+        "fundraiser.confirmation": "Donation received",
+        "fundraiser.currency_in": "Values shown in {currency}",
+        "fundraiser.debit.direct_debit": "Direct Debit",
+        "fundraiser.debit.one_time": "You are donating {amount}",
+        "fundraiser.debit.recurring": "You are setting up a monthly donation of {amount}",
+        "fundraiser.details": "Details",
+        "fundraiser.donate": "Donate {amount}",
+        "fundraiser.donate_monthly": "Donate {amount} / month",
+        "fundraiser.donate_now": "Donate now",
+        "fundraiser.error_intro": "We were unable to process your donation!",
+        "fundraiser.field_names.cvv": "CVV",
+        "fundraiser.field_names.expiration": "Expiration date",
+        "fundraiser.field_names.number": "Card number",
+        "fundraiser.fields.cvv": "CVV",
+        "fundraiser.fields.expiration": "Expiration date",
+        "fundraiser.fields.expiration_format": "MM / YY",
+        "fundraiser.fields.number": "Card number",
+        "fundraiser.fields.postalCode": "Postal code",
+        "fundraiser.fine_print": "Donations are not tax deductable. For more information please email us.",
+        "fundraiser.loading": "Loading secure <br> payment portal",
+        "fundraiser.make_recurring": "Make my donation monthly",
+        "fundraiser.month": "month",
+        "fundraiser.oneclick.credit_card_payment_method": "{card_type} ending in {last_four_digits}",
+        "fundraiser.oneclick.new_payment_method": "Add payment method",
+        "fundraiser.oneclick.paypal_payment_method": "Paypal ({email})",
+        "fundraiser.oneclick.select_payment": "Select a saved payment method",
+        "fundraiser.other_amount": "Other",
+        "fundraiser.payment": "Payment",
+        "fundraiser.payment_methods.card": "Credit or debit card",
+        "fundraiser.payment_methods.gocardless": "Direct Debit",
+        "fundraiser.payment_methods.paypal": "PayPal",
+        "fundraiser.payment_methods.ready_for_gocardless": "Click 'Donate' to finish donating through GoCardless, our direct debit provider.",
+        "fundraiser.payment_methods.ready_for_paypal": "When you click the button below, Paypal will guide you to finish your donation.",
+        "fundraiser.payment_type_prompt": "Payment Method",
+        "fundraiser.proceed_to_details": "Proceed to details",
+        "fundraiser.proceed_to_payment": "Proceed to payment",
+        "fundraiser.recurring_thank_you_with_amount": "<strong>Thank you for your recurring donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
+        "fundraiser.store_in_vault": "Securely store my payment information",
+        "fundraiser.switch_currency": "Switch currency",
+        "fundraiser.thank_you": "Thank you for your donation!",
+        "fundraiser.thank_you_with_amount": "<strong>Thank you for your donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
+        "fundraiser.unknown_error": "Our technical team has been notified. Please double check your info or try a different payment method.",
+        "member_registration.check_email": "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>",
+        "member_registration.create_account": "We're processing your donation.",
+        "member_registration.create_account_description": "Now, create an account to securely manage your donations, and cancel a donation at any time.",
+        "member_registration.enter_password_message": "Just enter a password to get started",
+        "member_registration.form.confirm_password": "Confirm Password",
+        "member_registration.form.password": "Password",
+        "member_registration.form.register": "Register",
+        "member_registration.form.your_email": "Your email",
+        "member_registration.thanks": "Thanks! Just one more step:",
+        "member_registration.title": "Member Registration",
+        "page.more_info": "More information",
+        "page.no_script": "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action.",
+        "petition.confirmation": "Name submitted",
+        "petition.excited_confirmation": "Name submitted!",
+        "petition.fine_print": "We will protect your privacy, and keep you updated about this and similar campaigns.",
+        "petition.sign_it": "Sign the petition",
+        "petition.target_prefix": "TO",
+        "petition.thank_you": "Thanks for adding your name to \\"{petition_title}\\"",
+        "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
+        "reset_password_mailer.reset_password_email.subject": "Please reset your password",
+        "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.
+
+You can use the following link within the next day to reset your password:
+
+{url}
+
+If you didn't request a new password, you can safely ignore this email.
+
+Thanks,
+SumOfUs",
+        "reset_passwords.create.not_found": "Sorry, we can't find that email.",
+        "reset_passwords.edit.button_label": "Change password",
+        "reset_passwords.edit.description": "Password must be at least 6 characters long.",
+        "reset_passwords.edit.invalid_link": "It looks like you clicked on an invalid password reset link. Please try again.",
+        "reset_passwords.edit.password": "Password",
+        "reset_passwords.edit.password_confirmation": "Confirm password",
+        "reset_passwords.edit.title": "Change password for",
+        "reset_passwords.new.button_label": "Send password reset email",
+        "reset_passwords.new.description": "Enter your email address and we will send you a link to reset your password.",
+        "reset_passwords.new.email": "Email",
+        "reset_passwords.new.title": "Reset your password",
+        "reset_passwords.show.description": "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.",
+        "reset_passwords.show.title": "Reset your password",
+        "reset_passwords.success.description": "Visit the <a href='{url}'>Member Dashboard</a> to log-in.",
+        "reset_passwords.success.title": "Your new password was successfully saved",
+        "share.cta": "Share the campaign!",
+        "share.send_email": "Send Email",
+        "share.share": "Share",
+        "share.tweet": "Tweet",
+        "share.twitter_handle": "@sumofus",
+        "survey.finish": "Finish",
+        "survey.next": "Next",
+        "survey.skip": "Skip",
+        "thermometer.million": "million",
+        "thermometer.signatures": "signatures",
+        "thermometer.signatures_until_goal": "{remaining} signatures until {goal}",
+        "time.formats.default": "%-d %B %Y",
+        "validation.is_invalid_country": "must be a valid country code",
+        "validation.is_invalid_email": "is not a valid email address",
+        "validation.is_invalid_length": "must be less than {length} characters long",
+        "validation.is_invalid_phone": "can only have numbers, dash, plus, and parentheses",
+        "validation.is_required": "is required",
+        "validation.postal.has_invalid_characters": "Can only contain letters, numbers, spaces, and hyphens",
+        "validation.postal.too_long": "May contain no more than 9 letter or number characters",
+      },
+      "now": [Function],
+      "textComponent": "span",
     }
   }
+  proceed={[MockFunction]}
+  selectAmount={[MockFunction]}
 >
-  <InjectIntl(DonationBands)
-    amounts={
-      Array [
-        1,
-        2,
-        3,
-        4,
-        5,
-      ]
-    }
-    currency="GBP"
-    customAmount={10}
-    proceed={[Function]}
-    selectAmount={[Function]}
+  <div
+    className="DonationBands-container"
   >
-    <DonationBands
-      amounts={
-        Array [
-          1,
-          2,
-          3,
-          4,
-          5,
-        ]
-      }
+    <DonationBandButton
+      amount={1}
       currency="GBP"
-      customAmount={10}
-      intl={
-        Object {
-          "defaultFormats": Object {},
-          "defaultLocale": "en",
-          "formatDate": [Function],
-          "formatHTMLMessage": [Function],
-          "formatMessage": [Function],
-          "formatNumber": [Function],
-          "formatPlural": [Function],
-          "formatRelative": [Function],
-          "formatTime": [Function],
-          "formats": Object {},
-          "formatters": Object {
-            "getDateTimeFormat": [Function],
-            "getMessageFormat": [Function],
-            "getNumberFormat": [Function],
-            "getPluralFormat": [Function],
-            "getRelativeFormat": [Function],
-          },
-          "locale": "en",
-          "messages": Object {
-            "basics.or": "or",
-            "branding.description": "This is who we are.",
-            "call_tool.errors.phone_number.cant_connect": "can't connect to this phone number, please check it's correct or try another one",
-            "call_tool.errors.phone_number.is_invalid": "is not a valid phone number",
-            "call_tool.errors.phone_number.too_short": "must have at least 6 digits",
-            "call_tool.errors.target.missing": "Something wasn't right about the number you're trying to call.",
-            "call_tool.errors.target.outdated": "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again.",
-            "call_tool.errors.unknown": "Oops! Something went wrong, please try a different phone number or again in a few minutes.",
-            "call_tool.fine_print": "SumOfUs will protect <a href=\\"https://sumofus.org/privacy\\" target=\\"_blank\\">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.",
-            "call_tool.form.country": "Country",
-            "call_tool.form.phone_country_code": "Code",
-            "call_tool.form.phone_number": "My phone number",
-            "call_tool.form.submit": "Call me",
-            "call_tool.instructions": "Just enter your phone number including the area code -- and we'll call shortly after.",
-            "call_tool.manual_target_selection": "Please select your target",
-            "call_tool.text_to_speach_menu": "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again.",
-            "call_tool.you_will_be_calling": "We will call you and connect you to",
-            "confirmation_mailer.confirmation_email.body_html": "To confirm your account, please <a href='{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>",
-            "confirmation_mailer.confirmation_email.body_text": "To confirm your registration, please follow this link: {confirmation_url}",
-            "confirmation_mailer.confirmation_email.headline": "Thank you for registering an account",
-            "confirmation_mailer.confirmation_email.subject": "Confirm your account",
-            "confirmation_mailer.follow_up_page.account_already_confirmed": "Your account has already been confirmed!",
-            "confirmation_mailer.follow_up_page.account_not_found": "Sorry, no account was found associated with this link.",
-            "confirmation_mailer.follow_up_page.failure": "Sorry, there was an issue confirming your account.",
-            "confirmation_mailer.follow_up_page.member_management": "To manage your payment methods and details, you can visit the <a href='{url}'>members dashboard</a> at any time.",
-            "confirmation_mailer.follow_up_page.success": "You have successfully confirmed your account. Thanks!",
-            "confirmation_mailer.title": "Account Confirmation",
-            "email_pension.form.select_taget": "Select your Pension or Mutual Fund",
-            "email_tool.form.email_body": "Body",
-            "email_tool.form.errors.country": "Please select a country",
-            "email_tool.form.errors.email": "Please add your email address",
-            "email_tool.form.errors.fund": "Please select a pension fund",
-            "email_tool.form.errors.message": "Whoops! There are some errors with the form. Please check you've filled in the required fields.",
-            "email_tool.form.errors.name": "Please add you name",
-            "email_tool.form.errors.subject": "Please add a subject line",
-            "email_tool.form.errors.target.outdated": "It seems the targets information has recently changed. Please reload the page and try again.",
-            "email_tool.form.select_country": "Select your Country",
-            "email_tool.form.select_target": "Select a target",
-            "email_tool.form.send_email": "Send email",
-            "email_tool.form.subject": "Subject line",
-            "email_tool.form.your_email": "Your email address",
-            "email_tool.form.your_name": "Your name",
-            "email_tool.section.compose": "Compose Your Email",
-            "email_tool.suggest_fund": "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database.",
-            "email_tool.title": "Compose your email",
-            "errors.is_invalid": "is invalid",
-            "errors.named_field_error": "{name} has some errors:",
-            "errors.probably_invalid": "doesn't look right",
-            "errors.this_field": "This field",
-            "errors.this_field_with_message": "This field {message}",
-            "facebook_share.caption": "I just signed this petition on SumOfUs.org",
-            "facebook_share.comment_field_label": "I'm signing because...",
-            "form.default.country": "Country",
-            "form.default.email": "Email Address",
-            "form.default.name": "Full name",
-            "form.default.phone_number": "Phone number",
-            "form.default.postal": "Postal Code",
-            "form.processing": "Processing...",
-            "form.submit": "Submit",
-            "form.switch_user": "Sign out",
-            "fundraiser.amount": "Amount",
-            "fundraiser.card_declined": "Your card was declined by the payment processor. Please try a different payment method.",
-            "fundraiser.confirmation": "Donation received",
-            "fundraiser.currency_in": "Values shown in {currency}",
-            "fundraiser.debit.direct_debit": "Direct Debit",
-            "fundraiser.debit.one_time": "You are donating {amount}",
-            "fundraiser.debit.recurring": "You are setting up a monthly donation of {amount}",
-            "fundraiser.details": "Details",
-            "fundraiser.donate": "Donate {amount}",
-            "fundraiser.donate_monthly": "Donate {amount} / month",
-            "fundraiser.donate_now": "Donate now",
-            "fundraiser.error_intro": "We were unable to process your donation!",
-            "fundraiser.field_names.cvv": "CVV",
-            "fundraiser.field_names.expiration": "Expiration date",
-            "fundraiser.field_names.number": "Card number",
-            "fundraiser.fields.cvv": "CVV",
-            "fundraiser.fields.expiration": "Expiration date",
-            "fundraiser.fields.expiration_format": "MM / YY",
-            "fundraiser.fields.number": "Card number",
-            "fundraiser.fields.postalCode": "Postal code",
-            "fundraiser.fine_print": "Donations are not tax deductable. For more information please email us.",
-            "fundraiser.loading": "Loading secure <br> payment portal",
-            "fundraiser.make_recurring": "Make my donation monthly",
-            "fundraiser.month": "month",
-            "fundraiser.oneclick.credit_card_payment_method": "{card_type} ending in {last_four_digits}",
-            "fundraiser.oneclick.new_payment_method": "Add payment method",
-            "fundraiser.oneclick.paypal_payment_method": "Paypal ({email})",
-            "fundraiser.oneclick.select_payment": "Select a saved payment method",
-            "fundraiser.other_amount": "Other",
-            "fundraiser.payment": "Payment",
-            "fundraiser.payment_methods.card": "Credit or debit card",
-            "fundraiser.payment_methods.gocardless": "Direct Debit",
-            "fundraiser.payment_methods.paypal": "PayPal",
-            "fundraiser.payment_methods.ready_for_gocardless": "Click 'Donate' to finish donating through GoCardless, our direct debit provider.",
-            "fundraiser.payment_methods.ready_for_paypal": "When you click the button below, Paypal will guide you to finish your donation.",
-            "fundraiser.payment_type_prompt": "Payment Method",
-            "fundraiser.proceed_to_details": "Proceed to details",
-            "fundraiser.proceed_to_payment": "Proceed to payment",
-            "fundraiser.recurring_thank_you_with_amount": "<strong>Thank you for your recurring donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
-            "fundraiser.store_in_vault": "Securely store my payment information",
-            "fundraiser.switch_currency": "Switch currency",
-            "fundraiser.thank_you": "Thank you for your donation!",
-            "fundraiser.thank_you_with_amount": "<strong>Thank you for your donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
-            "fundraiser.unknown_error": "Our technical team has been notified. Please double check your info or try a different payment method.",
-            "member_registration.check_email": "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>",
-            "member_registration.create_account": "We're processing your donation.",
-            "member_registration.create_account_description": "Now, create an account to securely manage your donations, and cancel a donation at any time.",
-            "member_registration.enter_password_message": "Just enter a password to get started",
-            "member_registration.form.confirm_password": "Confirm Password",
-            "member_registration.form.password": "Password",
-            "member_registration.form.register": "Register",
-            "member_registration.form.your_email": "Your email",
-            "member_registration.thanks": "Thanks! Just one more step:",
-            "member_registration.title": "Member Registration",
-            "page.more_info": "More information",
-            "page.no_script": "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action.",
-            "petition.confirmation": "Name submitted",
-            "petition.excited_confirmation": "Name submitted!",
-            "petition.fine_print": "We will protect your privacy, and keep you updated about this and similar campaigns.",
-            "petition.sign_it": "Sign the petition",
-            "petition.target_prefix": "TO",
-            "petition.thank_you": "Thanks for adding your name to \\"{petition_title}\\"",
-            "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
-            "reset_password_mailer.reset_password_email.subject": "Please reset your password",
-            "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.
-        
-        You can use the following link within the next day to reset your password:
-        
-        {url}
-        
-        If you didn't request a new password, you can safely ignore this email.
-        
-        Thanks,
-        SumOfUs",
-            "reset_passwords.create.not_found": "Sorry, we can't find that email.",
-            "reset_passwords.edit.button_label": "Change password",
-            "reset_passwords.edit.description": "Password must be at least 6 characters long.",
-            "reset_passwords.edit.invalid_link": "It looks like you clicked on an invalid password reset link. Please try again.",
-            "reset_passwords.edit.password": "Password",
-            "reset_passwords.edit.password_confirmation": "Confirm password",
-            "reset_passwords.edit.title": "Change password for",
-            "reset_passwords.new.button_label": "Send password reset email",
-            "reset_passwords.new.description": "Enter your email address and we will send you a link to reset your password.",
-            "reset_passwords.new.email": "Email",
-            "reset_passwords.new.title": "Reset your password",
-            "reset_passwords.show.description": "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.",
-            "reset_passwords.show.title": "Reset your password",
-            "reset_passwords.success.description": "Visit the <a href='{url}'>Member Dashboard</a> to log-in.",
-            "reset_passwords.success.title": "Your new password was successfully saved",
-            "share.cta": "Share the campaign!",
-            "share.send_email": "Send Email",
-            "share.share": "Share",
-            "share.tweet": "Tweet",
-            "share.twitter_handle": "@sumofus",
-            "survey.finish": "Finish",
-            "survey.next": "Next",
-            "survey.skip": "Skip",
-            "thermometer.million": "million",
-            "thermometer.signatures": "signatures",
-            "thermometer.signatures_until_goal": "{remaining} signatures until {goal}",
-            "time.formats.default": "%-d %B %Y",
-            "validation.is_invalid_country": "must be a valid country code",
-            "validation.is_invalid_email": "is not a valid email address",
-            "validation.is_invalid_length": "must be less than {length} characters long",
-            "validation.is_invalid_phone": "can only have numbers, dash, plus, and parentheses",
-            "validation.is_required": "is required",
-            "validation.postal.has_invalid_characters": "Can only contain letters, numbers, spaces, and hyphens",
-            "validation.postal.too_long": "May contain no more than 9 letter or number characters",
-          },
-          "now": [Function],
-          "textComponent": "span",
-        }
-      }
-      proceed={[Function]}
-      selectAmount={[Function]}
+      key="0"
+      onClick={[Function]}
     >
-      <div
-        className="DonationBands-container"
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
       >
-        <DonationBandButton
-          amount={1}
-          currency="GBP"
+        <button
+          className="Button-root DonationBandButton"
           onClick={[Function]}
         >
-          <Button
-            className="DonationBandButton"
-            onClick={[Function]}
+          <CurrencyAmount
+            amount={1}
+            currency="GBP"
           >
-            <button
-              className="Button-root DonationBandButton"
-              onClick={[Function]}
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={1}
             >
-              <CurrencyAmount
-                amount={1}
-                currency="GBP"
-              >
-                <FormattedNumber
-                  currency="GBP"
-                  maximumFractionDigits={0}
-                  minimumFractionDigits={0}
-                  style="currency"
-                  value={1}
-                >
-                  <span>
-                    £1
-                  </span>
-                </FormattedNumber>
-              </CurrencyAmount>
-            </button>
-          </Button>
-        </DonationBandButton>
-        <DonationBandButton
-          amount={2}
-          currency="GBP"
+              <span>
+                £1
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={2}
+      currency="GBP"
+      key="1"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
           onClick={[Function]}
         >
-          <Button
-            className="DonationBandButton"
-            onClick={[Function]}
+          <CurrencyAmount
+            amount={2}
+            currency="GBP"
           >
-            <button
-              className="Button-root DonationBandButton"
-              onClick={[Function]}
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={2}
             >
-              <CurrencyAmount
-                amount={2}
-                currency="GBP"
-              >
-                <FormattedNumber
-                  currency="GBP"
-                  maximumFractionDigits={0}
-                  minimumFractionDigits={0}
-                  style="currency"
-                  value={2}
-                >
-                  <span>
-                    £2
-                  </span>
-                </FormattedNumber>
-              </CurrencyAmount>
-            </button>
-          </Button>
-        </DonationBandButton>
-        <DonationBandButton
-          amount={3}
-          currency="GBP"
+              <span>
+                £2
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={3}
+      currency="GBP"
+      key="2"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
           onClick={[Function]}
         >
-          <Button
-            className="DonationBandButton"
-            onClick={[Function]}
+          <CurrencyAmount
+            amount={3}
+            currency="GBP"
           >
-            <button
-              className="Button-root DonationBandButton"
-              onClick={[Function]}
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={3}
             >
-              <CurrencyAmount
-                amount={3}
-                currency="GBP"
-              >
-                <FormattedNumber
-                  currency="GBP"
-                  maximumFractionDigits={0}
-                  minimumFractionDigits={0}
-                  style="currency"
-                  value={3}
-                >
-                  <span>
-                    £3
-                  </span>
-                </FormattedNumber>
-              </CurrencyAmount>
-            </button>
-          </Button>
-        </DonationBandButton>
-        <DonationBandButton
-          amount={4}
-          currency="GBP"
+              <span>
+                £3
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={4}
+      currency="GBP"
+      key="3"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
           onClick={[Function]}
         >
-          <Button
-            className="DonationBandButton"
-            onClick={[Function]}
+          <CurrencyAmount
+            amount={4}
+            currency="GBP"
           >
-            <button
-              className="Button-root DonationBandButton"
-              onClick={[Function]}
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={4}
             >
-              <CurrencyAmount
-                amount={4}
-                currency="GBP"
-              >
-                <FormattedNumber
-                  currency="GBP"
-                  maximumFractionDigits={0}
-                  minimumFractionDigits={0}
-                  style="currency"
-                  value={4}
-                >
-                  <span>
-                    £4
-                  </span>
-                </FormattedNumber>
-              </CurrencyAmount>
-            </button>
-          </Button>
-        </DonationBandButton>
-        <DonationBandButton
-          amount={5}
-          currency="GBP"
+              <span>
+                £4
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={5}
+      currency="GBP"
+      key="4"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
           onClick={[Function]}
         >
-          <Button
-            className="DonationBandButton"
-            onClick={[Function]}
+          <CurrencyAmount
+            amount={5}
+            currency="GBP"
           >
-            <button
-              className="Button-root DonationBandButton"
-              onClick={[Function]}
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={5}
             >
-              <CurrencyAmount
-                amount={5}
-                currency="GBP"
-              >
-                <FormattedNumber
-                  currency="GBP"
-                  maximumFractionDigits={0}
-                  minimumFractionDigits={0}
-                  style="currency"
-                  value={5}
-                >
-                  <span>
-                    £5
-                  </span>
-                </FormattedNumber>
-              </CurrencyAmount>
-            </button>
-          </Button>
-        </DonationBandButton>
-        <input
-          className="DonationBands__input"
-          id="DonationBands-custom-amount"
-          onChange={[Function]}
-          pattern={/\\^\\[0-9\\]\\+\\$/}
-          placeholder="Other"
-          type="tel"
-          value="£10"
-        />
-      </div>
-    </DonationBands>
-  </InjectIntl(DonationBands)>
-</IntlProvider>
+              <span>
+                £5
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <input
+      className="DonationBands__input"
+      id="DonationBands-custom-amount"
+      onChange={[Function]}
+      pattern={/\\^\\[0-9\\]\\+\\$/}
+      placeholder="Other"
+      type="tel"
+      value="£10"
+    />
+  </div>
+</DonationBands>
+`;
+
+exports[`renders correctly 1`] = `
+<DonationBands
+  amounts={
+    Array [
+      1,
+      2,
+      3,
+      4,
+      5,
+    ]
+  }
+  currency="GBP"
+  customAmount={10}
+  intl={
+    Object {
+      "defaultFormats": Object {},
+      "defaultLocale": "en",
+      "formatDate": [Function],
+      "formatHTMLMessage": [Function],
+      "formatMessage": [Function],
+      "formatNumber": [Function],
+      "formatPlural": [Function],
+      "formatRelative": [Function],
+      "formatTime": [Function],
+      "formats": Object {},
+      "formatters": Object {
+        "getDateTimeFormat": [Function],
+        "getMessageFormat": [Function],
+        "getNumberFormat": [Function],
+        "getPluralFormat": [Function],
+        "getRelativeFormat": [Function],
+      },
+      "locale": "en",
+      "messages": Object {
+        "basics.or": "or",
+        "branding.description": "This is who we are.",
+        "call_tool.errors.phone_number.cant_connect": "can't connect to this phone number, please check it's correct or try another one",
+        "call_tool.errors.phone_number.is_invalid": "is not a valid phone number",
+        "call_tool.errors.phone_number.too_short": "must have at least 6 digits",
+        "call_tool.errors.target.missing": "Something wasn't right about the number you're trying to call.",
+        "call_tool.errors.target.outdated": "It seems the number we're trying to connect you to is no longer available. Please reload the page and try again.",
+        "call_tool.errors.unknown": "Oops! Something went wrong, please try a different phone number or again in a few minutes.",
+        "call_tool.fine_print": "SumOfUs will protect <a href=\\"https://sumofus.org/privacy\\" target=\\"_blank\\">your privacy</a>, and keep you updated. If you provide your phone number we may also call or SMS you about campaigns.",
+        "call_tool.form.country": "Country",
+        "call_tool.form.phone_country_code": "Code",
+        "call_tool.form.phone_number": "My phone number",
+        "call_tool.form.submit": "Call me",
+        "call_tool.instructions": "Just enter your phone number including the area code -- and we'll call shortly after.",
+        "call_tool.manual_target_selection": "Please select your target",
+        "call_tool.text_to_speach_menu": "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again.",
+        "call_tool.you_will_be_calling": "We will call you and connect you to",
+        "confirmation_mailer.confirmation_email.body_html": "To confirm your account, please <a href='{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>",
+        "confirmation_mailer.confirmation_email.body_text": "To confirm your registration, please follow this link: {confirmation_url}",
+        "confirmation_mailer.confirmation_email.headline": "Thank you for registering an account",
+        "confirmation_mailer.confirmation_email.subject": "Confirm your account",
+        "confirmation_mailer.follow_up_page.account_already_confirmed": "Your account has already been confirmed!",
+        "confirmation_mailer.follow_up_page.account_not_found": "Sorry, no account was found associated with this link.",
+        "confirmation_mailer.follow_up_page.failure": "Sorry, there was an issue confirming your account.",
+        "confirmation_mailer.follow_up_page.member_management": "To manage your payment methods and details, you can visit the <a href='{url}'>members dashboard</a> at any time.",
+        "confirmation_mailer.follow_up_page.success": "You have successfully confirmed your account. Thanks!",
+        "confirmation_mailer.title": "Account Confirmation",
+        "email_pension.form.select_taget": "Select your Pension or Mutual Fund",
+        "email_tool.form.email_body": "Body",
+        "email_tool.form.errors.country": "Please select a country",
+        "email_tool.form.errors.email": "Please add your email address",
+        "email_tool.form.errors.fund": "Please select a pension fund",
+        "email_tool.form.errors.message": "Whoops! There are some errors with the form. Please check you've filled in the required fields.",
+        "email_tool.form.errors.name": "Please add you name",
+        "email_tool.form.errors.subject": "Please add a subject line",
+        "email_tool.form.errors.target.outdated": "It seems the targets information has recently changed. Please reload the page and try again.",
+        "email_tool.form.select_country": "Select your Country",
+        "email_tool.form.select_target": "Select a target",
+        "email_tool.form.send_email": "Send email",
+        "email_tool.form.subject": "Subject line",
+        "email_tool.form.your_email": "Your email address",
+        "email_tool.form.your_name": "Your name",
+        "email_tool.section.compose": "Compose Your Email",
+        "email_tool.suggest_fund": "Sorry about that. Email the name of your fund to sumofus@ourpension.org and we'll do our best to add it to our database.",
+        "email_tool.title": "Compose your email",
+        "errors.is_invalid": "is invalid",
+        "errors.named_field_error": "{name} has some errors:",
+        "errors.probably_invalid": "doesn't look right",
+        "errors.this_field": "This field",
+        "errors.this_field_with_message": "This field {message}",
+        "facebook_share.caption": "I just signed this petition on SumOfUs.org",
+        "facebook_share.comment_field_label": "I'm signing because...",
+        "form.default.country": "Country",
+        "form.default.email": "Email Address",
+        "form.default.name": "Full name",
+        "form.default.phone_number": "Phone number",
+        "form.default.postal": "Postal Code",
+        "form.processing": "Processing...",
+        "form.submit": "Submit",
+        "form.switch_user": "Sign out",
+        "fundraiser.amount": "Amount",
+        "fundraiser.card_declined": "Your card was declined by the payment processor. Please try a different payment method.",
+        "fundraiser.confirmation": "Donation received",
+        "fundraiser.currency_in": "Values shown in {currency}",
+        "fundraiser.debit.direct_debit": "Direct Debit",
+        "fundraiser.debit.one_time": "You are donating {amount}",
+        "fundraiser.debit.recurring": "You are setting up a monthly donation of {amount}",
+        "fundraiser.details": "Details",
+        "fundraiser.donate": "Donate {amount}",
+        "fundraiser.donate_monthly": "Donate {amount} / month",
+        "fundraiser.donate_now": "Donate now",
+        "fundraiser.error_intro": "We were unable to process your donation!",
+        "fundraiser.field_names.cvv": "CVV",
+        "fundraiser.field_names.expiration": "Expiration date",
+        "fundraiser.field_names.number": "Card number",
+        "fundraiser.fields.cvv": "CVV",
+        "fundraiser.fields.expiration": "Expiration date",
+        "fundraiser.fields.expiration_format": "MM / YY",
+        "fundraiser.fields.number": "Card number",
+        "fundraiser.fields.postalCode": "Postal code",
+        "fundraiser.fine_print": "Donations are not tax deductable. For more information please email us.",
+        "fundraiser.loading": "Loading secure <br> payment portal",
+        "fundraiser.make_recurring": "Make my donation monthly",
+        "fundraiser.month": "month",
+        "fundraiser.oneclick.credit_card_payment_method": "{card_type} ending in {last_four_digits}",
+        "fundraiser.oneclick.new_payment_method": "Add payment method",
+        "fundraiser.oneclick.paypal_payment_method": "Paypal ({email})",
+        "fundraiser.oneclick.select_payment": "Select a saved payment method",
+        "fundraiser.other_amount": "Other",
+        "fundraiser.payment": "Payment",
+        "fundraiser.payment_methods.card": "Credit or debit card",
+        "fundraiser.payment_methods.gocardless": "Direct Debit",
+        "fundraiser.payment_methods.paypal": "PayPal",
+        "fundraiser.payment_methods.ready_for_gocardless": "Click 'Donate' to finish donating through GoCardless, our direct debit provider.",
+        "fundraiser.payment_methods.ready_for_paypal": "When you click the button below, Paypal will guide you to finish your donation.",
+        "fundraiser.payment_type_prompt": "Payment Method",
+        "fundraiser.proceed_to_details": "Proceed to details",
+        "fundraiser.proceed_to_payment": "Proceed to payment",
+        "fundraiser.recurring_thank_you_with_amount": "<strong>Thank you for your recurring donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
+        "fundraiser.store_in_vault": "Securely store my payment information",
+        "fundraiser.switch_currency": "Switch currency",
+        "fundraiser.thank_you": "Thank you for your donation!",
+        "fundraiser.thank_you_with_amount": "<strong>Thank you for your donation of {amount}!</strong> If you have any questions or made this donation in error, please email donations@sumofus.org.",
+        "fundraiser.unknown_error": "Our technical team has been notified. Please double check your info or try a different payment method.",
+        "member_registration.check_email": "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>",
+        "member_registration.create_account": "We're processing your donation.",
+        "member_registration.create_account_description": "Now, create an account to securely manage your donations, and cancel a donation at any time.",
+        "member_registration.enter_password_message": "Just enter a password to get started",
+        "member_registration.form.confirm_password": "Confirm Password",
+        "member_registration.form.password": "Password",
+        "member_registration.form.register": "Register",
+        "member_registration.form.your_email": "Your email",
+        "member_registration.thanks": "Thanks! Just one more step:",
+        "member_registration.title": "Member Registration",
+        "page.more_info": "More information",
+        "page.no_script": "Thanks for coming to learn about this issue! Unfortunately, you can't take action while Javascript is disabled in your browser. Please enable Javascript or return in a browser with Javascript enabled to take action.",
+        "petition.confirmation": "Name submitted",
+        "petition.excited_confirmation": "Name submitted!",
+        "petition.fine_print": "We will protect your privacy, and keep you updated about this and similar campaigns.",
+        "petition.sign_it": "Sign the petition",
+        "petition.target_prefix": "TO",
+        "petition.thank_you": "Thanks for adding your name to \\"{petition_title}\\"",
+        "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
+        "reset_password_mailer.reset_password_email.subject": "Please reset your password",
+        "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.
+
+You can use the following link within the next day to reset your password:
+
+{url}
+
+If you didn't request a new password, you can safely ignore this email.
+
+Thanks,
+SumOfUs",
+        "reset_passwords.create.not_found": "Sorry, we can't find that email.",
+        "reset_passwords.edit.button_label": "Change password",
+        "reset_passwords.edit.description": "Password must be at least 6 characters long.",
+        "reset_passwords.edit.invalid_link": "It looks like you clicked on an invalid password reset link. Please try again.",
+        "reset_passwords.edit.password": "Password",
+        "reset_passwords.edit.password_confirmation": "Confirm password",
+        "reset_passwords.edit.title": "Change password for",
+        "reset_passwords.new.button_label": "Send password reset email",
+        "reset_passwords.new.description": "Enter your email address and we will send you a link to reset your password.",
+        "reset_passwords.new.email": "Email",
+        "reset_passwords.new.title": "Reset your password",
+        "reset_passwords.show.description": "Check your email for a link to reset your password. If it doesn't appear within a few minutes, check your spam folder.",
+        "reset_passwords.show.title": "Reset your password",
+        "reset_passwords.success.description": "Visit the <a href='{url}'>Member Dashboard</a> to log-in.",
+        "reset_passwords.success.title": "Your new password was successfully saved",
+        "share.cta": "Share the campaign!",
+        "share.send_email": "Send Email",
+        "share.share": "Share",
+        "share.tweet": "Tweet",
+        "share.twitter_handle": "@sumofus",
+        "survey.finish": "Finish",
+        "survey.next": "Next",
+        "survey.skip": "Skip",
+        "thermometer.million": "million",
+        "thermometer.signatures": "signatures",
+        "thermometer.signatures_until_goal": "{remaining} signatures until {goal}",
+        "time.formats.default": "%-d %B %Y",
+        "validation.is_invalid_country": "must be a valid country code",
+        "validation.is_invalid_email": "is not a valid email address",
+        "validation.is_invalid_length": "must be less than {length} characters long",
+        "validation.is_invalid_phone": "can only have numbers, dash, plus, and parentheses",
+        "validation.is_required": "is required",
+        "validation.postal.has_invalid_characters": "Can only contain letters, numbers, spaces, and hyphens",
+        "validation.postal.too_long": "May contain no more than 9 letter or number characters",
+      },
+      "now": [Function],
+      "textComponent": "span",
+    }
+  }
+  proceed={[MockFunction]}
+  selectAmount={[MockFunction]}
+>
+  <div
+    className="DonationBands-container"
+  >
+    <DonationBandButton
+      amount={1}
+      currency="GBP"
+      key="0"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
+          onClick={[Function]}
+        >
+          <CurrencyAmount
+            amount={1}
+            currency="GBP"
+          >
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={1}
+            >
+              <span>
+                £1
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={2}
+      currency="GBP"
+      key="1"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
+          onClick={[Function]}
+        >
+          <CurrencyAmount
+            amount={2}
+            currency="GBP"
+          >
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={2}
+            >
+              <span>
+                £2
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={3}
+      currency="GBP"
+      key="2"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
+          onClick={[Function]}
+        >
+          <CurrencyAmount
+            amount={3}
+            currency="GBP"
+          >
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={3}
+            >
+              <span>
+                £3
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={4}
+      currency="GBP"
+      key="3"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
+          onClick={[Function]}
+        >
+          <CurrencyAmount
+            amount={4}
+            currency="GBP"
+          >
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={4}
+            >
+              <span>
+                £4
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <DonationBandButton
+      amount={5}
+      currency="GBP"
+      key="4"
+      onClick={[Function]}
+    >
+      <Button
+        className="DonationBandButton"
+        onClick={[Function]}
+      >
+        <button
+          className="Button-root DonationBandButton"
+          onClick={[Function]}
+        >
+          <CurrencyAmount
+            amount={5}
+            currency="GBP"
+          >
+            <FormattedNumber
+              currency="GBP"
+              maximumFractionDigits={0}
+              minimumFractionDigits={0}
+              style="currency"
+              value={5}
+            >
+              <span>
+                £5
+              </span>
+            </FormattedNumber>
+          </CurrencyAmount>
+        </button>
+      </Button>
+    </DonationBandButton>
+    <input
+      className="DonationBands__input"
+      id="DonationBands-custom-amount"
+      onChange={[Function]}
+      pattern={/\\^\\[0-9\\]\\+\\$/}
+      placeholder="Other"
+      type="tel"
+      value="£10"
+    />
+  </div>
+</DonationBands>
 `;
