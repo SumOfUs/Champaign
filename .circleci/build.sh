@@ -12,7 +12,7 @@ export BRAINTREE_TOKEN_URL=$([ $CIRCLE_BRANCH == "master" ] && echo $PRODUCTION_
 bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSET_PATHS]
 
 # Build docker image
-docker build -t soutech/champaign_web:$CIRCLE_SHA1 --build-arg ci=true circleci-champaign/
+docker build -t soutech/champaign_web:$CIRCLE_SHA1 circleci-champaign/
 
 # Publish the image
 docker login -u $DOCKER_USER -p $DOCKER_PASS
