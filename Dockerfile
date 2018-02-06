@@ -15,9 +15,7 @@ RUN mkdir $APP_ROOT
 ADD . $APP_ROOT
 WORKDIR $APP_ROOT
 
-RUN gem install bundler
-RUN bundler -v
-RUN bundle install --jobs 4 --deployment --without development:test:doc; fi
+RUN bundle install --jobs 4 --deployment --without development:test:doc
 
 EXPOSE 3000
 CMD bundle exec puma -b tcp://0.0.0.0 -p 3000 -t 5:16
