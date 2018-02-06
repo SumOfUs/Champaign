@@ -1,5 +1,4 @@
 // campaigner facing stylesheet
-//= require c3
 
 // third-party styles
 // except this first one which overrides bootstrap SASS vars
@@ -7,16 +6,6 @@
 @import "compass";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "selectize";
-@import "selectize.bootstrap2";
-@import "summernote";
-@import "dropzone";
-@import "codemirror";
-@import "codemirror/themes/3024-night";
-@import "typeahead";
-@import "datatables/dataTables.bootstrap";
-@import "font-awesome-sprockets";
-@import "font-awesome";
 
 // from vendor/assets
 @import "analytics/analytics";

@@ -8,7 +8,6 @@ html
 
     = csrf_meta_tags
     = favicon_link_tag 'champaign/favicon.ico'
-
   body.page-edit-body
     .navbar--fixed__spacer
     .navbar.navbar-static-top.navbar--dark.navbar--fixed
@@ -24,7 +23,7 @@ html
 
     = render 'shared/flash'
 
-    = javascript_pack_tag "globals"
+    = render 'cdn/campaigner_facing'
     = javascript_include_tag "application"
     = javascript_pack_tag 'campaigner_facing'
     = javascript_pack_tag 'call_tool_analytics'
