@@ -15,10 +15,9 @@ RUN mkdir $APP_ROOT
 ADD . $APP_ROOT
 WORKDIR $APP_ROOT
 
-# Install all gems if CI=false. Install deployment gems if CI=true
 RUN gem install bundler
-RUN if [ $CI = false ]; then bundle install --jobs 4; fi
-RUN if [ $CI = true ]; then bundle install --jobs 4 --deployment --without development:test:doc; fi
+RUN bundler -v
+RUN bundle install --jobs 4 --deployment --without development:test:doc; fi
 
 EXPOSE 3000
 CMD bundle exec puma -b tcp://0.0.0.0 -p 3000 -t 5:16
