@@ -6,9 +6,14 @@ defaults: &defaults
 version: 2
 jobs:
   test:
-    <<: *defaults
-    steps:
-      - image: postgres:9.4-alpine-ram
+    working_directory: ~/circleci-champaign
+    docker:
+      - image: soutech/ruby2.4.1_node_awscli:0.1
+        environment:
+          PG_USERNAME: champaign
+          PG_PASSWORD: champaign
+          RAILS_ENV: test
+      - image: circleci/postgres:9.4-alpine-ram
         environment:
           POSTGRES_USER: champaign
           POSTGRES_DB: champaign
@@ -34,14 +39,17 @@ jobs:
           paths:
           - node_modules
      # Create DB, run migrations, seed
-      - run: bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
-      - run: bundle exec rake
+      - run:
+          name: Migrations and seeding
+          command: bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
       - run:
           name: Run JS tests
           command: yarn run test
       - run:
-          name: Run specs
-          command: CI_NODE_TOTAL=2 CI_NODE_INDEX=0 bundle exec rake knapsack:rspec
+          name: Generate knapsack report for RSpec
+          command: |
+            export KNAPSACK_GENERATE_REPORT=true
+            bundle exec rspec spec
 
   docker_build:
     <<: *defaults
