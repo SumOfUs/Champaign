@@ -1,6 +1,9 @@
 // @flow
 import React from 'react';
-import { mountWithIntl } from '../../../../spec/jest/intl-enzyme-test-helpers';
+import {
+  shallowWithIntl,
+  mountWithIntl,
+} from '../../../../spec/jest/intl-enzyme-test-helpers';
 import AmountSelection from './AmountSelection';
 import type { OwnProps } from './AmountSelection';
 
@@ -25,19 +28,33 @@ describe('Donation bands', () => {
   const component = mountWithIntl(<AmountSelection {...defaultProps} />);
 
   it('shows the donation band passed as an argument', () => {
-    const firstButton = component.find('DonationBands').find('Button').first();
-    const lastButton = component.find('DonationBands').find('Button').last();
+    const firstButton = component
+      .find('DonationBands')
+      .find('Button')
+      .first();
+    const lastButton = component
+      .find('DonationBands')
+      .find('Button')
+      .last();
     expect(firstButton.text()).toBe('$1');
     expect(lastButton.text()).toBe('$5');
   });
 
   it('calls `selectedAmount` with the selected amount when we click on a DonationBand button', () => {
     // select first amount ($1)
-    component.find('DonationBands').find('Button').first().simulate('click');
+    component
+      .find('DonationBands')
+      .find('Button')
+      .first()
+      .simulate('click');
     expect(defaultProps.selectAmount).toBeCalledWith(1);
 
     // select last amount ($5)
-    component.find('DonationBands').find('Button').last().simulate('click');
+    component
+      .find('DonationBands')
+      .find('Button')
+      .last()
+      .simulate('click');
     expect(defaultProps.selectAmount).toBeCalledWith(5);
   });
 });
@@ -67,8 +84,18 @@ describe('Changing currency', () => {
 
     // check contents
     const selector = component.find('.AmountSelection__currency-selector');
-    expect(selector.find('option').first().prop('value')).toBe('USD');
-    expect(selector.find('option').last().prop('value')).toBe('GBP');
+    expect(
+      selector
+        .find('option')
+        .first()
+        .prop('value')
+    ).toBe('USD');
+    expect(
+      selector
+        .find('option')
+        .last()
+        .prop('value')
+    ).toBe('GBP');
 
     // hide it
     component.find('.AmountSelection__currency-toggle').simulate('click');
@@ -86,21 +113,27 @@ describe('Changing currency', () => {
 });
 
 describe('Proceed button', () => {
-  it('is enabled if there is a featured amount', () => {
-    const component = mountWithIntl(
+  it('is rendered if there is a featured amount', () => {
+    const component = shallowWithIntl(
       <AmountSelection {...defaultProps} donationFeaturedAmount={1} />
     );
-    expect(
-      component.find('.AmountSelection__proceed-button').prop('disabled')
-    ).toBe(false);
+    const button = component.find('Button.AmountSelection__proceed-button');
+    expect(button.length).toBe(1);
+    expect(button.prop('disabled')).toBe(false);
   });
 
   it('is enabled if there is a donation amount', () => {
-    const component = mountWithIntl(
+    const component = shallowWithIntl(
       <AmountSelection {...defaultProps} donationAmount={1} />
     );
-    expect(
-      component.find('.AmountSelection__proceed-button').prop('disabled')
-    ).toBe(false);
+    const button = component.find('Button.AmountSelection__proceed-button');
+    expect(button.length).toBe(1);
+    expect(button.prop('disabled')).toBe(false);
+  });
+
+  it('is not rendered if there is no donation (or featured) amount', () => {
+    const component = shallowWithIntl(<AmountSelection {...defaultProps} />);
+    const button = component.find('Button.AmountSelection__proceed-button');
+    expect(button.length).toBe(0);
   });
 });

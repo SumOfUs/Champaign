@@ -1,10 +1,7 @@
 // @flow
 import React from 'react';
-import { mount } from 'enzyme';
+import { mountWithIntl } from '../../../../spec/jest/intl-enzyme-test-helpers';
 import toJson from 'enzyme-to-json';
-import { IntlProvider } from 'react-intl';
-import { translations } from 'champaign-i18n';
-import { transform } from '../../util/locales/helpers';
 import DonationBands from './DonationBands';
 
 const amounts = [1, 2, 3, 4, 5];
@@ -13,71 +10,52 @@ const selectAmount = jest.fn();
 const proceed = jest.fn();
 
 const component = (
-  <IntlProvider locale="en" messages={transform(translations.en)}>
-    <DonationBands
-      customAmount={10}
-      amounts={amounts}
-      currency="GBP"
-      proceed={proceed}
-      selectAmount={selectAmount}
-    />
-  </IntlProvider>
+  <DonationBands
+    customAmount={10}
+    amounts={amounts}
+    currency="GBP"
+    proceed={proceed}
+    selectAmount={selectAmount}
+  />
 );
 
 it('renders correctly', () => {
-  const wrapper = mount(component);
+  const wrapper = mountWithIntl(component).find('DonationBands');
   expect(toJson(wrapper)).toMatchSnapshot();
 });
 
 it('renders all amounts with the currency symbol', () => {
-  const wrapper = mount(component);
-  expect(wrapper.childAt(0).html()).toMatch(/£1/);
-  expect(wrapper.childAt(1).html()).toMatch(/£2/);
-  expect(wrapper.childAt(2).html()).toMatch(/£3/);
-  expect(wrapper.childAt(3).html()).toMatch(/£4/);
-  expect(wrapper.childAt(4).html()).toMatch(/£5/);
+  const wrapper = mountWithIntl(component).find('DonationBands');
+  expect(toJson(wrapper)).toMatchSnapshot();
 });
 
 it('renders a custom input as the last element', () => {
-  const wrapper = mount(component);
-  expect(wrapper.childAt(5).containsMatchingElement(<input />)).toBeTruthy();
+  const wrapper = mountWithIntl(component).find('DonationBands');
+  expect(wrapper.find('#DonationBands-custom-amount')).toBeTruthy();
 });
 
 it('calls `selectAmount` when user clicks on an amount', () => {
-  const wrapper = mount(component);
-
   selectAmount.mockClear();
-
-  wrapper.childAt(0).simulate('click');
+  const wrapper = mountWithIntl(component).find('DonationBands');
+  wrapper
+    .find('DonationBandButton')
+    .first()
+    .simulate('click');
   expect(selectAmount).toHaveBeenCalledWith(1);
-
-  selectAmount.mockClear();
-});
-
-it('calls `selectAmount` when user clicks on an amount', () => {
-  const wrapper = mount(component);
-
-  selectAmount.mockClear();
-
-  wrapper.childAt(0).simulate('click');
-  expect(selectAmount).toHaveBeenCalledWith(1);
-
   selectAmount.mockClear();
 });
 
 it('clears the input when the user clicks on a donation amount button', () => {
-  const wrapper = mount(component);
-  const input = wrapper.childAt(5);
-
+  // Mainly testing that the selectAmount callback is being called since
+  // the value is passed down via props
+  const wrapper = mountWithIntl(component);
+  const input = wrapper.find('#DonationBands-custom-amount');
   input.simulate('focus');
   input.simulate('change', { target: { value: '123' } });
-
-  const inputEl = input.get(0);
-  if (!(inputEl instanceof HTMLInputElement)) {
-    throw new Error('Unexpected element type');
-  }
-
-  expect(inputEl.value).toBe('£123');
-  wrapper.childAt(0).simulate('click');
-  expect(inputEl.value).toBe('');
+  expect(selectAmount).toHaveBeenCalledWith(123);
+  wrapper
+    .find('DonationBandButton')
+    .first()
+    .simulate('click');
+  expect(selectAmount).toHaveBeenCalledWith(1);
 });

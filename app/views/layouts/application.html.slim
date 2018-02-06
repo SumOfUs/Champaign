@@ -1,13 +1,12 @@
 doctype html
 html
   head
-    title= content_for?(:title) ? content_for(:title) : 'Champaign'
+    title= content_for?(:title) ? content_for(:title) : "Champaign"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
-
-    = stylesheet_link_tag    "application", media: 'all'
-
     = csrf_meta_tags
-    = favicon_link_tag 'champaign/favicon.ico'
+    = favicon_link_tag "champaign/favicon.ico"
+    = stylesheet_link_tag "application", media: "all"
+    = render partial: "shared/js_locale"
   body.page-edit-body
     .navbar--fixed__spacer
     .navbar.navbar-static-top.navbar--dark.navbar--fixed
@@ -17,15 +16,12 @@ html
         span.icon-bar
       .navbar-collapse.collapse.navbar-responsive-collapse
         ul.nav.navbar-nav.pull-right
-          = render 'shared/loginout_button'
+          = render partial: "shared/loginout_button"
         ul.nav.navbar-nav.pull-right
-          = render 'shared/navbar_links'
-
-    = render 'shared/flash'
-
-    = render 'cdn/campaigner_facing'
+          = render partial: "shared/navbar_links"
+    = render partial: "shared/flash"
+    = render partial: "cdn/campaigner_facing"
     = javascript_include_tag "application"
-    = javascript_pack_tag 'campaigner_facing'
-    = javascript_pack_tag 'call_tool_analytics'
-
+    = javascript_pack_tag "campaigner_facing"
+    = javascript_pack_tag "call_tool_analytics"
     = yield

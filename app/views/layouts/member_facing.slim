@@ -3,41 +3,39 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
   head
     title  = @page.title
     meta name="viewport" content="width=device-width, initial-scale=1.0"
-    meta name="description" content=t('branding.description')
+    meta name="description" content=t("branding.description")
     - if Settings.facebook_app_id.present?
-      meta property='fb:app_id' content="#{Settings.facebook_app_id}"
+      meta property="fb:app_id" content="#{Settings.facebook_app_id}"
 
-    = stylesheet_link_tag 'member-facing'
+    = stylesheet_link_tag "member-facing"
 
     = csrf_meta_tags
-    = favicon_link_tag 'images/org-favicon.ico'
+    = favicon_link_tag "images/org-favicon.ico"
     = metamagic
     - canonical_url = @page.canonical_url.blank? ? member_facing_page_url(@page) : @page.canonical_url
     link rel="canonical" href=canonical_url
 
-    = render partial: 'shared/optimizely_snippet' unless @page.optimizely_disabled?
-    = javascript_include_tag 'translations'
-    = render partial: 'shared/js_locale'
-
-    = render 'layouts/mixpanel' if Settings.mixpanel_token
-    = render partial: 'shared/amplitude_snippet' if Settings.amplitude_token
+    = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
+    = render partial: "shared/js_locale"
+    = render partial: "layouts/mixpanel" if Settings.mixpanel_token
+    = render partial: "shared/amplitude_snippet" if Settings.amplitude_token
   body
 
-    = render partial: 'layouts/notification'
+    = render partial: "layouts/notification"
 
     .mobile-indicator
 
     = javascript_include_tag "https://cdn.polyfill.io/v2/polyfill.min.js?features=Intl.~locale.en,Intl.~locale.de,Intl.~locale.es,Intl.~locale.fr"
 
 
-    = render 'cdn/member_facing'
-    = javascript_pack_tag 'member_facing'
-    = render 'pages/packs', plugins: @page.plugins
+    = render partial: "cdn/member_facing"
+    = javascript_pack_tag "member_facing"
+    = render "pages/packs", plugins: @page.plugins
 
-    = render partial: 'shared/facebook_pixel' unless Rails.env.test?
+    = render partial: "shared/facebook_pixel" unless Rails.env.test?
 
     = yield
 
-    = render partial: 'shared/google_analytics_snippet'
+    = render partial: "shared/google_analytics_snippet"
 
     script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"
