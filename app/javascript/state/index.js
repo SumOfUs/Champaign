@@ -2,7 +2,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-
+import passToLogTracker from './pass_to_log_tracker';
 // flow types
 export type { Store } from 'redux';
 export type { AppState } from './reducers';
@@ -13,6 +13,6 @@ export type { PaymentMethod } from './paymentMethods/reducer';
 export default function configureStore(initialState: any): any {
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const enhancers = composeEnhancers(applyMiddleware(thunk));
+  const enhancers = composeEnhancers(applyMiddleware(thunk, passToLogTracker));
   return createStore(reducers, initialState, enhancers);
 }
