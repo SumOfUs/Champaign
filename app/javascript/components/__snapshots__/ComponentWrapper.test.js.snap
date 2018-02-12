@@ -72,6 +72,7 @@ exports[`Snapshots: With default messages object 1`] = `
       "errors.this_field_with_message": "This field {message}",
       "facebook_share.caption": "I just signed this petition on SumOfUs.org",
       "facebook_share.comment_field_label": "I'm signing because...",
+      "footer.home_url": "http://example.com",
       "form.default.country": "Country",
       "form.default.email": "Email Address",
       "form.default.name": "Full name",
