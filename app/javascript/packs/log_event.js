@@ -1,4 +1,7 @@
 export const logEvent = (eventName, payload) => {
+  if (typeof mixpanel === 'undefined') return;
+  if (typeof champaign === 'undefined') return;
+
   const opts = {
     page: champaign.page.slug,
     plugins: champaign.page.plugins,
