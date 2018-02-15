@@ -85,7 +85,7 @@ namespace :assets do
   end
 
   task :precompile_assets, [:external_asset_paths] => :environment do |_t, args|
-    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSET_PATHS=#{args[:external_asset_paths]} rake assets:precompile"
+    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSETS_PATH=#{args[:external_asset_paths]} rake assets:precompile"
     puts "Running: #{cmd}"
     exec(cmd)
   end

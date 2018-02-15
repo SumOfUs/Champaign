@@ -12,7 +12,7 @@
 # config/settings/#{environment}.yml will override the settings in this file, and settings in
 # config/settings/#{environment}.local.yml will override the settings in that file.
 
-external_asset_paths: '<%= ENV["EXTERNAL_ASSET_PATHS"] %>'
+external_asset_paths: '<%= ENV["EXTERNAL_ASSETS_PATH"] %>'
 external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
 external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
 
