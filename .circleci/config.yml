@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/circleci-champaign
   docker:
-    - image: soutech/ruby2.4.1_node_awscli:0.1
+    - image: soutech/ruby2.4.1_node_awscli:0.2
 
 version: 2
 jobs:
@@ -28,7 +28,7 @@ jobs:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
-      - run: yarn
+      - run: yarn && yarn run flow check && yarn run test
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
@@ -48,9 +48,11 @@ jobs:
           root: . #/home/circleci/circleci-champaign
           paths:
             - .bundle
+            - .babelrc
             - Gemfile
             - Gemfile.lock
             - package.json
+            - package-lock.json
             - yarn.lock
             - vendor/bundle
             - node_modules
@@ -60,7 +62,7 @@ jobs:
   migrations_and_tests:
     working_directory: ~/circleci-champaign
     docker:
-      - image: soutech/ruby2.4.1_node_awscli:0.1
+      - image: soutech/ruby2.4.1_node_awscli:0.2
         environment:
           PG_USERNAME: champaign
           PG_PASSWORD: champaign
@@ -95,7 +97,6 @@ jobs:
           at: ~/circleci-champaign
       - setup_remote_docker:
           docker_layer_caching: true
-      - run:
           name: Docker build
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
