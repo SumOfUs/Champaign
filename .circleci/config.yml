@@ -7,6 +7,9 @@ version: 2
 jobs:
   build:
     <<: *defaults
+    environment:
+      EXTERNAL_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+      STUPID_TEST_VAR: asdffgklew
     steps:
       - checkout
       # Restore gem, JS and assets caches
@@ -82,7 +85,7 @@ jobs:
           command: yarn run test
       - run:
           name: Rspec tests
-          command: bundle exec rake knapsack:rspec
+          command: bundle exec rspec spec
 
   docker_build:
     <<: *defaults
