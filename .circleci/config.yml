@@ -8,8 +8,7 @@ jobs:
   build:
     <<: *defaults
     environment:
-      EXTERNAL_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
-      STUPID_TEST_VAR: asdffgklew
+      EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
     steps:
       - checkout
       # Restore gem, JS and assets caches
@@ -65,7 +64,7 @@ jobs:
           PG_USERNAME: champaign
           PG_PASSWORD: champaign
           RAILS_ENV: test
-          EXTERNAL_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+          EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
       - image: circleci/postgres:9.4-alpine-ram
         environment:
           POSTGRES_USER: champaign
