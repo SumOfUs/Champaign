@@ -65,9 +65,6 @@
     "yamljs": "^0.3.0"
   },
   "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
-    },
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/spec/jest/FileStub.js",
       "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",
