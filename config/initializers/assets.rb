@@ -6,8 +6,8 @@
 Rails.application.config.assets.version = '1.0'
 
 # Add additional assets to the asset load path
-if Settings.external_asset_paths.present?
-  Rails.application.config.assets.paths += Settings.external_asset_paths.split(':')
+if Settings.external_assets_path.present?
+  Rails.application.config.assets.paths += Settings.external_assets_path.split(':')
   Rails.application.config.assets.precompile += %w[*.png *.jpg *.gif *.ico]
 end
 

@@ -69,6 +69,7 @@ jobs:
           PG_PASSWORD: champaign
           RAILS_ENV: test
           EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+          EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
       - image: circleci/postgres:9.4-alpine-ram
         environment:
           POSTGRES_USER: champaign
