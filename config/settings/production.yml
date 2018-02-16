@@ -97,7 +97,7 @@ home_page_url: <%= ENV['HOME_PAGE_URL'] %>
 
 # Colon separated list of paths that will be added to config.assets.path
 # http://guides.rubyonrails.org/v4.2/asset_pipeline.html#asset-organization
-external_asset_paths: '<%= ENV["EXTERNAL_ASSETS_PATH"] %>'
+external_assets_path: '<%= ENV["EXTERNAL_ASSETS_PATH"] %>'
 external_css_path: '<%= ENV["EXTERNAL_CSS_PATH"] %>'
 external_js_path: '<%= ENV["EXTERNAL_ASSETS_JS_PATH"] %>'
 external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'

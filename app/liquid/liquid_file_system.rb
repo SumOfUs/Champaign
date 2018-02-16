@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # The <tt>LiquidFileSystem</tt> class is used by +Liquid+ for
 # retrieving partial content.
 #
@@ -59,8 +60,8 @@ class LiquidFileSystem
     end
 
     def external_dirs
-      return [] unless Settings.external_asset_paths.present? && Settings.external_liquid_path.present?
-      Settings.external_asset_paths.split(':').map { |path| File.join(path, Settings.external_liquid_path) }
+      return [] unless Settings.external_assets_path.present? && Settings.external_liquid_path.present?
+      Settings.external_assets_path.split(':').map { |path| File.join(path, Settings.external_liquid_path) }
     end
   end
 end
