@@ -40,7 +40,8 @@ jobs:
       - save_cache:
           # change CIRCLE_SHA1 to git commit sha of the last commit in the sou-assets repo (replace master with the branch you'll be downloading from):
           # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
-          key: assets-cache-$($CIRCLE_SHA1)
+          # key: assets-cache-$($CIRCLE_SHA1)
+          key: assets-cache-{{ epoch }}
           paths:
           - public/assets
       # PERSIST TO WORKSPACE which you will source for migrations_and_tests as well as the Docker build
