@@ -23,7 +23,7 @@ If you're interested in collaborating on the project with us, or have ideas or r
 * Run migrations: `bundle exec rake db:schema:load`
 * Run the seed task: `bundle exec rake db:seed`
 * Run the test suite to make sure everything's setup correctly: `bundle
-  exec rake test`
+  exec rake spec`
 
 ## Champaign Configuration
 
