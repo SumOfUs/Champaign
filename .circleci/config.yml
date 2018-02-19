@@ -110,7 +110,7 @@ jobs:
       - checkout
       - run:
           name: Deploy production
-          command: deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
+          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
 
   deploy_staging:
     <<: *defaults
@@ -118,7 +118,7 @@ jobs:
       - checkout
       - run:
           name: Deploy production
-          command: deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
 
   deploy_feature:
     <<: *defaults
@@ -126,7 +126,7 @@ jobs:
       - checkout
       - run:
           name: Deploy feature branch
-          command: deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
+          command: .circleci/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
 
 
 workflows:
