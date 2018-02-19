@@ -2,7 +2,7 @@
 set -eu -o pipefail
 
 case "$CIRCLE_BRANCH" in
-  'development')
+  'circleci-2')
     export STATIC_BUCKET='champaign-assets-staging'
   ;;
   'production')

@@ -24,7 +24,7 @@ function ebextensions_setup() {
 
 function sync_s3() {
     echo 'Shipping source bundle to S3...'
-    cat ../Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
+    cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
     zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
     SOURCE_BUNDLE=$SHA1-config.zip
     aws configure set default.region $AWS_REGION

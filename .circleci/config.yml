@@ -97,6 +97,7 @@ jobs:
           at: ~/circleci-champaign
       - setup_remote_docker:
           docker_layer_caching: true
+      - run:
           name: Docker build
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
