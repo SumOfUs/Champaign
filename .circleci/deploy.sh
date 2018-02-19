@@ -23,16 +23,8 @@ function ebextensions_setup() {
 }
 
 function sync_s3() {
-    echo 'Shipping static assets to S3...'
-    id=$(docker create soutech/champaign_web:$SHA1)
-    docker cp $id:/champaign/public/assets statics
-    aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
-    docker cp $id:/champaign/public/packs statics-packs
-    aws s3 sync statics-packs/ s3://$STATIC_BUCKET/packs/
-    # aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
-    # --exclude "*" --include "assets" --include "webpack"
-
     echo 'Shipping source bundle to S3...'
+    cat ../Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
     zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
     SOURCE_BUNDLE=$SHA1-config.zip
     aws configure set default.region $AWS_REGION

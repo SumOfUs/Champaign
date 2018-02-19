@@ -28,7 +28,7 @@ jobs:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
-      - run: yarn && yarn run flow check && yarn run test
+      - run: yarn && yarn run flow check
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
@@ -38,15 +38,13 @@ jobs:
           name: Precompile assets
           command: bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
       - save_cache:
-          # change CIRCLE_SHA1 to git commit sha of the last commit in the sou-assets repo (replace master with the branch you'll be downloading from):
+          # change epoch to git commit sha of the last commit in the sou-assets repo (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
           # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
-          # key: assets-cache-$($CIRCLE_SHA1)
           key: assets-cache-{{ epoch }}
           paths:
           - public/assets
-      # PERSIST TO WORKSPACE which you will source for migrations_and_tests as well as the Docker build
       - persist_to_workspace:
-          root: . #/home/circleci/circleci-champaign
+          root: .
           paths:
             - .bundle
             - .babelrc
@@ -57,7 +55,7 @@ jobs:
             - yarn.lock
             - vendor/bundle
             - node_modules
-            - public/assets
+            - public
             - tmp/external_assets_source
 
   migrations_and_tests:
@@ -104,6 +102,16 @@ jobs:
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             .circleci/build.sh
 
+  sync_assets:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Ship assets to S3
+          command: .circleci/sync_assets.sh
+
   deploy_production:
     <<: *defaults
     steps:
@@ -117,7 +125,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Deploy production
+          name: Deploy staging
           command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
 
   deploy_feature:
@@ -140,10 +148,14 @@ workflows:
       - docker_build:
           requires:
             - build
+      - sync_assets:
+          requires:
+            - migrations_and_tests
       - deploy_production:
           requires:
             - migrations_and_tests
             - docker_build
+            - sync_assets
           filters:
             branches:
               only:
@@ -152,6 +164,7 @@ workflows:
           requires:
             - migrations_and_tests
             - docker_build
+            - sync_assets
           filters:
             branches:
               only:
@@ -160,6 +173,7 @@ workflows:
           requires:
             - migrations_and_tests
             - docker_build
+            - sync_assets
           filters:
             branches:
               only:
