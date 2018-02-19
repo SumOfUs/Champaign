@@ -25,6 +25,7 @@
     "classnames": "^2.2.5",
     "clipboard": "^1.7.1",
     "dotenv": "^4.0.0",
+    "ismobilejs": "^0.4.1",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "jquery-ujs": "^1.2.2",
