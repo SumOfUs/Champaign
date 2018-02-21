@@ -7,6 +7,7 @@ html
     = favicon_link_tag "champaign/favicon.ico"
     = stylesheet_link_tag "application", media: "all"
     = render partial: "shared/js_locale"
+    = render partial: "cdn/campaigner_facing"
   body.page-edit-body
     .navbar--fixed__spacer
     .navbar.navbar-static-top.navbar--dark.navbar--fixed
@@ -20,7 +21,7 @@ html
         ul.nav.navbar-nav.pull-right
           = render partial: "shared/navbar_links"
     = render partial: "shared/flash"
-    = render partial: "cdn/campaigner_facing"
+
     = javascript_include_tag "application"
     = javascript_pack_tag "campaigner_facing"
     = javascript_pack_tag "call_tool_analytics"
