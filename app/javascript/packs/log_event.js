@@ -11,6 +11,5 @@ export const logEvent = (eventName, payload) => {
     ...payload,
   };
 
-  // amplitude.logEvent('champaign:' + eventName, payload);
-  mixpanel.track('champaign:' + eventName, opts);
+  if (window.TRACK_USER_ACTIONS) mixpanel.track('champaign:' + eventName, opts);
 };

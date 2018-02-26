@@ -10,4 +10,6 @@ import { logEvent } from './../packs/log_event';
   $.subscribe(eventName, callback);
 });
 
-$.publish('page:arrived');
+$(() => {
+  $.publish('page:arrived');
+});
