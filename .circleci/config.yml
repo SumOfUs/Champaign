@@ -12,34 +12,63 @@ jobs:
       EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
     steps:
       - checkout
-      # Restore gem, JS and assets caches
+      # Restore dependencies caches
       - restore_cache:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
-      - restore_cache:
-          # change epoch to git commit sha of the last commit in the sou-assets repo (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
-          # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
-          key: assets-cache-{{ epoch }}
-      # Bundle install dependencies
+
       - run: bundle install --path vendor/bundle
-      # Store bundle cache
       - save_cache:
           key: gem-cache-{{ checksum "Gemfile.lock" }}
           paths:
           - vendor/bundle
+
       - run: yarn && yarn run flow check
       - save_cache:
           key: yarn-cache-{{ checksum "yarn.lock" }}
           paths:
           - node_modules
-      # ASSET PRECOMPILATION
+
+      - persist_to_workspace:
+          root: .
+          paths:
+#            - vendor/bundle
+#            - node_modules
+            - .bundle
+            - .babelrc
+            - Gemfile
+            - Gemfile.lock
+            - package.json
+            - yarn.lock
+            - vendor/bundle
+            - vendor/cache
+            - node_modules
+            - public
+            - tmp/external_assets_source
+
+  precompile_assets:
+    # TODO: change epoch in cache key to git commit sha of the last commit in the sou-assets repo
+    # (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
+    # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
+    <<: *defaults
+    environment:
+      EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+      EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
+      RAILS_ENV: production
+      NODE_ENV: production
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      # Restore assets caches
+      - restore_cache:
+          key: assets-cache-{{ epoch }}
       - run:
           name: Precompile assets
-          command: RAILS_ENV=production NODE_ENV=production bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
+          # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
+          command: bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
       - save_cache:
-          # change epoch to git commit sha of the last commit in the sou-assets repo (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
-          # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
           key: assets-cache-{{ epoch }}
           paths:
           - public/assets
@@ -47,14 +76,6 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - .bundle
-            - .babelrc
-            - Gemfile
-            - Gemfile.lock
-            - package.json
-            - package-lock.json
-            - yarn.lock
-            - vendor/bundle
             - node_modules
             - public
             - tmp/external_assets_source
@@ -140,12 +161,15 @@ workflows:
   build_and_deploy:
     jobs:
       - build
+      - precompile_assets:
+          requires:
+            - build
       - migrations_and_tests:
           requires:
             - build
       - docker_build:
           requires:
-            - build
+            - precompile_assets
       - deploy_production:
           requires:
             - migrations_and_tests
