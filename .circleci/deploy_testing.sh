@@ -6,26 +6,19 @@ AWS_APPLICATION_NAME=$2
 export AWS_ENVIRONMENT_NAME=$3
 STATIC_BUCKET=$4
 
-echo 'Deleting configuration files that do not apply to testing'
-rm .ebextensions/03_papertrail.config
+echo 'Deleting configuration files that do not apply to feature deployment'
+rm .ebextensions/04_newrelic.config
 rm .ebextensions/05_nginx_proxy.config
 
-echo 'Applying environment-specific configuration in .ebextensions'
-envsubst '$AWS_ENVIRONMENT_NAME' <.ebextensions/04_newrelic.config >temp
-mv temp .ebextensions/04_newrelic.config
-
 echo 'Shipping source bundle to S3...'
+cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
 zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
 SOURCE_BUNDLE=$SHA1-config.zip
-
-echo 'Shipping static assets to S3...'
-id=$(docker create soutech/champaign_web:$SHA1)
-docker cp $id:/champaign/public/assets statics
-
-aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
-
 aws configure set default.region $AWS_REGION
 aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE
+
+echo 'Shipping static assets to S3...'
+aws s3 sync public/assets s3://$STATIC_BUCKET/assets/ && aws s3 sync public/packs/ s3://$STATIC_BUCKET/packs/
 
 echo 'Creating new application version...'
 aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICATION_NAME" \

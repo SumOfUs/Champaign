@@ -59,16 +59,13 @@
     "faker": "^4.1.0",
     "flow-bin": "^0.52.0",
     "husky": "^0.14.3",
-    "jest": "^22.1.4",
+    "jest": "^22.3.0",
     "lint-staged": "^6.1.0",
     "prettier": "^1.10.2",
     "webpack-dev-server": "^2.11.1",
     "yamljs": "^0.3.0"
   },
   "jest": {
-    "transform": {
-      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest"
-    },
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/spec/jest/FileStub.js",
       "^.+\\.s?css$": "<rootDir>/spec/jest/CSSStub.js",

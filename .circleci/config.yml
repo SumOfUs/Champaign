@@ -1,0 +1,196 @@
+defaults: &defaults
+  working_directory: ~/circleci-champaign
+  docker:
+    - image: soutech/ruby2.4.1_node_awscli:0.2
+
+version: 2
+jobs:
+  build:
+    <<: *defaults
+    environment:
+      EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+      EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
+    steps:
+      - checkout
+      # Restore dependencies caches
+      - restore_cache:
+          key: gem-cache-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          key: yarn-cache-{{ checksum "yarn.lock" }}
+
+      - run: bundle install --path vendor/bundle
+      - save_cache:
+          key: gem-cache-{{ checksum "Gemfile.lock" }}
+          paths:
+          - vendor/bundle
+
+      - run: yarn && yarn run flow check
+      - save_cache:
+          key: yarn-cache-{{ checksum "yarn.lock" }}
+          paths:
+          - node_modules
+
+      - persist_to_workspace:
+          root: .
+          paths:
+#            - vendor/bundle
+#            - node_modules
+            - .bundle
+            - .babelrc
+            - Gemfile
+            - Gemfile.lock
+            - package.json
+            - yarn.lock
+            - vendor/bundle
+            - vendor/cache
+            - node_modules
+            - public
+            - tmp/external_assets_source
+
+  precompile_assets:
+    # TODO: change epoch in cache key to git commit sha of the last commit in the sou-assets repo
+    # (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
+    # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
+    <<: *defaults
+    environment:
+      EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+      EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
+      RAILS_ENV: production
+      NODE_ENV: production
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      # Restore assets caches
+      - restore_cache:
+          key: assets-cache-{{ epoch }}
+      - run:
+          name: Precompile assets
+          # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
+          command: bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
+      - save_cache:
+          key: assets-cache-{{ epoch }}
+          paths:
+          - public/assets
+          - public/packs
+      - persist_to_workspace:
+          root: .
+          paths:
+            - node_modules
+            - public
+            - tmp/external_assets_source
+
+  migrations_and_tests:
+    working_directory: ~/circleci-champaign
+    docker:
+      - image: soutech/ruby2.4.1_node_awscli:0.2
+        environment:
+          PG_USERNAME: champaign
+          PG_PASSWORD: champaign
+          RAILS_ENV: test
+          EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
+          EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
+      - image: circleci/postgres:9.4-alpine-ram
+        environment:
+          POSTGRES_USER: champaign
+          POSTGRES_DB: champaign
+      - image: redis
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Migrations and seeding
+          command: |
+            bundle --path vendor/bundle
+            bundle exec rake db:create db:migrate db:seed champaign:seed_liquid
+      - run:
+          name: Run JS tests
+          command: yarn run test
+      - run:
+          name: Rspec tests
+          command: bundle exec rspec spec
+
+  docker_build:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Docker build
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            .circleci/build.sh
+
+  deploy_production:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Deploy production
+          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-production-1' 'champaign-assets-production' 'logs3.papertrailapp.com:44107' 'actions.sumofus.org'
+
+  deploy_staging:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Deploy staging
+          command: .circleci/deploy.sh $CIRCLE_SHA1 'champaign' 'env-staging' 'champaign-assets-staging' 'logs3.papertrailapp.com:34848' 'action-staging.sumofus.org'
+
+  deploy_feature:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Deploy feature branch
+          command: .circleci/deploy_testing.sh $CIRCLE_SHA1 'champaign' 'env-feature' 'champaign-assets-testing' 'logs3.papertrailapp.com:34848' 'testing.sumofus.org'
+
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - precompile_assets:
+          requires:
+            - build
+      - migrations_and_tests:
+          requires:
+            - build
+      - docker_build:
+          requires:
+            - precompile_assets
+      - deploy_production:
+          requires:
+            - migrations_and_tests
+            - docker_build
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_staging:
+          requires:
+            - migrations_and_tests
+            - docker_build
+          filters:
+            branches:
+              only:
+                - circleci-2
+      - deploy_feature:
+          requires:
+            - migrations_and_tests
+            - docker_build
+          filters:
+            branches:
+              only:
+                - override
