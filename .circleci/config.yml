@@ -10,8 +10,6 @@ jobs:
     environment:
       EXTERNAL_ASSETS_JS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/javascripts/champaign
       EXTERNAL_ASSETS_PATH: /home/circleci/circleci-champaign/tmp/external_assets_source/
-      NODE_ENV: production
-      RAILS_ENV: production
     steps:
       - checkout
       # Restore gem, JS and assets caches
@@ -38,7 +36,7 @@ jobs:
       # ASSET PRECOMPILATION
       - run:
           name: Precompile assets
-          command: bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
+          command: RAILS_ENV=production NODE_ENV=production bundle exec rake assets:download_and_precompile[$CUSTOM_ASSETS_URL,$CUSTOM_ASSETS_CREDENTIALS,$CIRCLE_BRANCH,$EXTERNAL_ASSETS_PATH]
       - save_cache:
           # change epoch to git commit sha of the last commit in the sou-assets repo (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
           # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
