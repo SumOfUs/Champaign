@@ -22,8 +22,8 @@ import redirectors from '../member-facing/redirectors';
 
 window.URI = URI;
 
-if (process.env.EXTERNAL_JS_PATH) {
-  require(process.env.EXTERNAL_JS_PATH);
+if (process.env.EXTERNAL_ASSETS_JS_PATH) {
+  require(process.env.EXTERNAL_ASSETS_JS_PATH);
 }
 
 const initializeApp = () => {
