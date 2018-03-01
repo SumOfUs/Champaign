@@ -1,16 +1,10 @@
 #!/bin/bash
 set -eu -o pipefail
 
-SHA1=$1
-AWS_APPLICATION_NAME=$2
-export AWS_ENVIRONMENT_NAME=$3
-STATIC_BUCKET=$4
-export ENV_URL=$5
+SOURCE_BUNDLE=$CIRCLE_SHA1-config.zip
 
 function ebextensions_setup() {
     echo 'Setting up configuration for Papertrail logging'
-    export PAPERTRAIL_HOST=$(cut -d ":" -f 1 <<< $ENV_URL)
-    export PAPERTRAIL_PORT=$(cut -d ":" -f 2 <<< $ENV_URL)
     export PAPERTRAIL_SYSTEM=$AWS_ENVIRONMENT_NAME
     cat .ebextensions/03_papertrail.config | envsubst '$PAPERTRAIL_HOST:$PAPERTRAIL_PORT:$PAPERTRAIL_SYSTEM' >temp
     mv temp .ebextensions/03_papertrail.config
@@ -18,23 +12,17 @@ function ebextensions_setup() {
     echo 'Applying environment-specific configuration in .ebextensions'
     envsubst '$AWS_ENVIRONMENT_NAME' <.ebextensions/04_newrelic.config >temp
     mv temp .ebextensions/04_newrelic.config
-    envsubst '$ENV_URL' <.ebextensions/05_nginx_proxy.config >temp
+    envsubst '$APP_DOMAIN' <.ebextensions/05_nginx_proxy.config >temp
     mv temp .ebextensions/05_nginx_proxy.config
 }
 
 function sync_s3() {
-    echo 'Shipping static assets to S3...'
-    id=$(docker create soutech/champaign_web:$SHA1)
-    docker cp $id:/champaign/public/assets statics
-    aws s3 sync statics/ s3://$STATIC_BUCKET/assets/
-    docker cp $id:/champaign/public/packs statics-packs
-    aws s3 sync statics-packs/ s3://$STATIC_BUCKET/packs/
-    # aws s3 cp /tmp/foo/ s3://bucket/ --recursive \
-    # --exclude "*" --include "assets" --include "webpack"
+    aws s3 sync public/assets s3://$S3_BUCKET/assets/
+    aws s3 sync public/packs/ s3://$S3_BUCKET/packs/
 
     echo 'Shipping source bundle to S3...'
-    zip -r9 $SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
-    SOURCE_BUNDLE=$SHA1-config.zip
+    cat Dockerrun.aws.json.template | envsubst > Dockerrun.aws.json
+    zip -r9 $CIRCLE_SHA1-config.zip Dockerrun.aws.json ./.ebextensions/
     aws configure set default.region $AWS_REGION
     aws s3 cp $SOURCE_BUNDLE s3://$EB_BUCKET/$SOURCE_BUNDLE
 }
@@ -62,7 +50,7 @@ function get_version() {
 
 function count_versions() {
     # Get all applications with the specified version label and look at the length of the ApplicationVersions array
-    echo $(aws elasticbeanstalk describe-application-versions --application-name $AWS_APPLICATION_NAME --version-label $SHA1 2>/dev/null | jq -r '.ApplicationVersions | length')
+    echo $(aws elasticbeanstalk describe-application-versions --application-name $AWS_APPLICATION_NAME --version-label $CIRCLE_SHA1 2>/dev/null | jq -r '.ApplicationVersions | length')
 }
 
 function create_version() {
@@ -71,17 +59,17 @@ function create_version() {
     else
         echo 'Creating new application version...'
         aws elasticbeanstalk create-application-version --application-name "$AWS_APPLICATION_NAME" \
-          --version-label $SHA1 --source-bundle S3Bucket=$EB_BUCKET,S3Key=$SOURCE_BUNDLE
+          --version-label $CIRCLE_SHA1 --source-bundle S3Bucket=$EB_BUCKET,S3Key=$SOURCE_BUNDLE
     fi
 }
 
 function deploy() {
     echo 'Updating environment...'
     aws elasticbeanstalk update-environment --environment-name $AWS_ENVIRONMENT_NAME \
-        --version-label $SHA1
+        --version-label $CIRCLE_SHA1
     wait_until_ready "Waiting for deploy to finish. "
     VERSION_LABEL="$(get_version $AWS_ENVIRONMENT_NAME)"
-    if [ "$VERSION_LABEL" == "$SHA1" ]; then
+    if [ "$VERSION_LABEL" == "$CIRCLE_SHA1" ]; then
         echo ""
         echo "Application deployed succesfully. Triggering NewRelic deploy event."
         new_relic_deploy
@@ -95,7 +83,7 @@ function deploy() {
 function new_relic_deploy() {
     curl -X POST -H "x-api-key: $NEWRELIC_LICENSE_KEY" \
     -d "deployment[app_name]=$AWS_APPLICATION_NAME" \
-    -d "Deploying version $SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
+    -d "Deploying version $CIRCLE_SHA1 to $AWS_ENVIRONMENT_NAME" https://api.newrelic.com/deployments.xml
 }
 
 

@@ -2,8 +2,8 @@
 
 # include the locale files from external asset directories, if relevant
 Rails.application.config.after_initialize do
-  if Settings.external_asset_paths.present? && Settings.external_translation_path.present?
-    Settings.external_asset_paths.try(:split, ':').each do |directory|
+  if Settings.external_assets_path.present? && Settings.external_translation_path.present?
+    Settings.external_assets_path.try(:split, ':').each do |directory|
       files = Dir[File.join(directory, Settings.external_translation_path, '*.{rb,yml}')]
       I18n.load_path += files
     end

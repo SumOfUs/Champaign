@@ -34,7 +34,7 @@ namespace :assets do
     tar_file_path = './tmp/assets.tar'
 
     if url_template.blank? || target_path.blank?
-      raise 'usage: rake deploy:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
+      raise 'usage: rake assets:download_external_assets[target_path,url_template[,"user:password"][,branch]]'
     end
 
     FileUtils.remove_dir(target_path) if File.exist?(target_path)
@@ -84,8 +84,8 @@ namespace :assets do
     FileUtils.mv files_to_mv, target_path
   end
 
-  task :precompile_assets, [:external_asset_paths] => :environment do |_t, args|
-    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSET_PATHS=#{args[:external_asset_paths]} rake assets:precompile"
+  task :precompile_assets, [:external_assets_path] => :environment do |_t, args|
+    cmd = "RAILS_ENV=#{Rails.env} EXTERNAL_ASSETS_PATH=#{args[:external_assets_path]} rake assets:precompile"
     puts "Running: #{cmd}"
     exec(cmd)
   end
