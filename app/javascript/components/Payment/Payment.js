@@ -204,8 +204,9 @@ export class Payment extends Component {
       device_data: this.state.deviceData,
       provider: 'GC',
     };
-    const url = `/api/go_cardless/pages/${this.props.page
-      .id}/start_flow?${$.param(payload)}`;
+    const url = `/api/go_cardless/pages/${
+      this.props.page.id
+    }/start_flow?${$.param(payload)}`;
     window.open(url);
 
     if (!this.state.waitingForGoCardless) {
@@ -253,13 +254,21 @@ export class Payment extends Component {
       device_data: this.state.deviceData,
     };
 
+    const eventPayload = {
+      value: this.props.fundraiser.donationAmount,
+      currency: this.props.fundraiser.currency,
+      content_category: this.props.currentPaymentType,
+      recurring: this.props.fundraiser.recurring,
+    };
+
     if (typeof window.fbq === 'function') {
-      window.fbq('track', 'AddPaymentInfo', {
-        value: this.props.fundraiser.donationAmount,
-        currency: this.props.fundraiser.currency,
-        content_category: this.props.currentPaymentType,
-      });
+      window.fbq('track', 'AddPaymentInfo', eventPayload);
     }
+
+    $.publish('fundraiser:transaction_submitted', [
+      eventPayload,
+      this.props.formData,
+    ]);
 
     $.post(
       `/api/payment/braintree/pages/${this.props.page.id}/transaction`,
