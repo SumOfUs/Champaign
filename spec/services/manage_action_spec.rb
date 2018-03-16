@@ -71,8 +71,11 @@ describe ManageAction do
       end
 
       it 'ignores a sent id parameter' do
-        action = ManageAction.create(data.merge(id: 200))
-        expect(action.id).not_to eq 200
+        expect(Action).to receive(:create)
+          .with(hash_excluding(id: 200))
+          .and_call_original
+
+        ManageAction.create(data.merge(id: 200))
       end
     end
 

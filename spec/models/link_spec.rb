@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: links
@@ -105,10 +106,10 @@ describe Link do
   end
 
   describe 'associated page' do
-    let!(:page) { create(:page, links: [link]) }
+    Timecop.freeze do
+      let!(:page) { create(:page, links: [link]) }
 
-    it 'touches page on update' do
-      Timecop.freeze do
+      it 'touches page on update' do
         old_time = Time.now.utc
 
         Timecop.travel(1.hour) do
