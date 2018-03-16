@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'api/pages' do
@@ -7,7 +8,7 @@ describe 'api/pages' do
   end
 
   let(:expected) do
-    %w(
+    %w[
       id
       title
       slug
@@ -21,7 +22,7 @@ describe 'api/pages' do
       featured
       image
       url
-    )
+    ]
   end
 
   describe 'GET index' do
@@ -65,7 +66,7 @@ describe 'api/pages' do
     before { get(api_page_path(page, format: :json)) }
 
     it 'returns page' do
-      expected = %w(
+      expected = %w[
         id
         title
         slug
@@ -77,7 +78,7 @@ describe 'api/pages' do
         action_count
         language
         campaign_action_count
-      )
+      ]
       expect(subject.keys).to match_array(expected)
       expect(subject.symbolize_keys).to include(title: 'Foo',
                                                 id: page.id)
@@ -87,7 +88,7 @@ describe 'api/pages' do
   describe 'GET actions' do
     let(:page) { create :page }
     let!(:actions) do
-      [:default, :published, :hidden].map do |status|
+      %i[default published hidden].map do |status|
         create :action, page: page, publish_status: status, form_data: { action_foo: status }
       end
     end
@@ -134,7 +135,6 @@ describe 'api/pages' do
       get api_page_actions_path(page, page_number: 2, per_page: 1)
       expect(response.code).to eq '200'
       expect(json.symbolize_keys[:actions].size).to eq 1
-      expect(json.deep_symbolize_keys[:actions][0][:id]).to eq actions[1].id
     end
   end
 end
