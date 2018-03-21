@@ -121,7 +121,7 @@ jobs:
           name: Docker build
           command: .circleci/build.sh
 
-  deploy:
+  deploy_production:
     <<: *defaults
     steps:
       - checkout
@@ -129,6 +129,16 @@ jobs:
           at: ~/circleci-champaign
       - run:
           name: Deploy production
+          command: .circleci/deploy.sh
+
+  deploy_staging:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run:
+          name: Deploy staging
           command: .circleci/deploy.sh
 
   deploy_feature:
@@ -181,7 +191,7 @@ workflows:
                 - development
                 - /^feature(?:\/|-).+$/
 
-      - deploy:
+      - deploy_production:
           requires:
             - build_docker_image
             - rspec
@@ -193,7 +203,7 @@ workflows:
               only:
                 - master
 
-      - deploy:
+      - deploy_staging:
           requires:
             - build_docker_image
             - rspec
