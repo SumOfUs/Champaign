@@ -127,3 +127,5 @@ calls:
 dynamodb_mailer_table: 'UserMailing'
 
 member_services_secret: 'hotpotato!'
+
+oxr_app_id: '1234'
