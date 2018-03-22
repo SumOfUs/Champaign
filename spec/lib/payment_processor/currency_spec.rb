@@ -5,7 +5,7 @@ require 'vcr'
 
 describe PaymentProcessor::Currency do
   it 'converts from USD' do
-    VCR.use_cassette('money_google_bank_from_usd') do
+    VCR.use_cassette('money_from_oxr') do
       expect(
         PaymentProcessor::Currency.convert(100, 'eur').format
       ).to match(/€0[.,]\d\d/)
@@ -13,7 +13,7 @@ describe PaymentProcessor::Currency do
   end
 
   it 'converts from GBP' do
-    VCR.use_cassette('money_google_bank_from_gbp') do
+    VCR.use_cassette('money_from_oxr') do
       expect(
         PaymentProcessor::Currency.convert(1000, 'eur', 'gbp').cents
       ).to be_between(1100, 1400)
