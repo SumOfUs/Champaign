@@ -82,6 +82,28 @@ jobs:
           paths:
             - public
 
+  precompile_production_assets:
+    # TODO: change epoch in cache key to git commit sha of the last commit in the sou-assets repo
+    # (Branch is either current branch, $DEFAULT_ASSET_BRANCH, or 'master', in that order):
+    # git ls-remote git://github.com/SumOfUs/sou-assets.git \ grep refs/heads/master | cut -f 1
+    <<: *defaults
+    environment:
+      RAILS_ENV: production
+      NODE_ENV: production
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - run: bundle install --path vendor/bundle
+      - run:
+          name: Precompile assets
+          # NOTE: Webpacker runs yarn on asset precompilation so this will install production assets into node_modules!
+          command: bundle exec rake assets:precompile
+      - persist_to_workspace:
+          root: .
+          paths:
+            - public
+
   rspec:
     working_directory: ~/circleci-champaign
     docker:
@@ -110,6 +132,18 @@ jobs:
           command: bundle exec rspec spec
 
   build_docker_image:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/circleci-champaign
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run:
+          name: Docker build
+          command: .circleci/build.sh
+
+  build_production_docker_image:
     <<: *defaults
     steps:
       - checkout
@@ -170,14 +204,24 @@ workflows:
           requires:
             - install_dependencies
 
-      - precompile_assets:
+      - precompile_production_assets:
           requires:
             - install_dependencies
+          context: champaign-production
           # Only precompile assets when we need to build and deploy
           filters:
             branches:
               only:
                 - master
+
+      - precompile_assets:
+          requires:
+            - install_dependencies
+          context: champaign-staging
+          # Only precompile assets when we need to build and deploy
+          filters:
+            branches:
+              only:
                 - development
                 - /^feature(?:\/|-).+$/
 
@@ -191,9 +235,17 @@ workflows:
                 - development
                 - /^feature(?:\/|-).+$/
 
+      - build_production_docker_image:
+          requires:
+            - precompile_production_assets
+          filters:
+            branches:
+              only:
+                - master
+
       - deploy_production:
           requires:
-            - build_docker_image
+            - build_production_docker_image
             - rspec
             - jest
             - flow
