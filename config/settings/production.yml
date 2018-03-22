@@ -132,3 +132,4 @@ calls:
 dynamodb_mailer_table: <%= ENV['DYNAMODB_MAILER_TABLE'] %>
 
 member_services_secret: <%= ENV['MEMBER_SERVICES_SECRET'] %>
+oxr_app_id: <%= ENV['OXR_APP_ID'] %>
