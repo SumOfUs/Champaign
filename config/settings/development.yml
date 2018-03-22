@@ -105,3 +105,4 @@ twilio:
 development_database: 'champaign'
 
 member_services_secret: 'hotpotato!'
+oxr_app_id: '' # get app id from https://openexchangerates.org

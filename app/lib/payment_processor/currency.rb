@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'money'
-require 'money/bank/google_currency'
+require 'money_oxr/bank'
 
 module PaymentProcessor
   # = PaymentProcessor::Currency
@@ -20,12 +20,17 @@ module PaymentProcessor
   #
   #   amount = PaymentProcessor::Currency.convert(1_50, :eur)
   #   amount.format
-  #   "€1.12"
+  #   "EURO 1.12"
   #
   class Currency
     # Cache fetche conversion rates.
-    Money::Bank::GoogleCurrency.ttl_in_seconds = 86_400 # 24 hours
-    Money.default_bank = Money::Bank::GoogleCurrency.new
+    # API provided by https://openexchangerates.org
+    #
+    Money.default_bank = MoneyOXR::Bank.new(
+      app_id: Settings.oxr_app_id,
+      cache_path: 'tmp/oxr.json',
+      max_age: 86_400 # 24 hours
+    )
 
     def self.convert(amount, end_currency, start_currency = 'USD')
       Money.new(amount, start_currency).exchange_to(end_currency)

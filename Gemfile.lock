@@ -1,12 +1,4 @@
 GIT
-  remote: https://github.com/RubyMoney/google_currency
-  revision: fa6e8ba366c0b63f8583e7ec7675f47d8ee7c410
-  branch: master
-  specs:
-    google_currency (3.3.0)
-      money (~> 6.7)
-
-GIT
   remote: https://github.com/SumOfUs/actionkit_connector
   revision: 43454681be53430f9671795bcb3a250554231acb
   branch: master
@@ -309,6 +301,8 @@ GEM
     minitest (5.11.3)
     money (6.9.0)
       i18n (>= 0.6.4, < 0.9)
+    money-oxr (0.3.0)
+      money (~> 6.6)
     msgpack (1.1.0)
     multi_json (1.13.1)
     multi_xml (0.6.0)
@@ -574,7 +568,6 @@ DEPENDENCIES
   friendly_id
   geocoder
   gocardless_pro
-  google_currency!
   guard-rspec
   hiredis
   httparty
@@ -588,6 +581,7 @@ DEPENDENCIES
   magic_lamp
   metamagic
   money
+  money-oxr
   newrelic_rpm
   omniauth-google-oauth2
   paper_trail
