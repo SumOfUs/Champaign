@@ -20,7 +20,7 @@
 module Donations
   class Currencies
     # Array of currency codes to convert to.
-    VALID_CURRENCIES = %i[GBP EUR AUD NZD CAD].freeze
+    VALID_CURRENCIES = %i[GBP EUR CHF AUD NZD CAD].freeze
 
     def self.for(amounts)
       new(amounts).convert

@@ -54,6 +54,7 @@ braintree:
     AUD: 'SumOfUs_AUD'
     CAD: 'SumOfUs_CAD'
     NZD: 'SumOfUs_NZD'
+    CHF: 'SumOfUs_CHF'
 
   subscription_plans:
     EUR: 'EUR'
@@ -62,6 +63,7 @@ braintree:
     AUD: 'AUD'
     CAD: 'CAD'
     NZD: 'NZD'
+    CHF: 'CHF'
 
 redis:
   host: <%= ENV["REDIS_PORT_6379_TCP_ADDR"] %>
