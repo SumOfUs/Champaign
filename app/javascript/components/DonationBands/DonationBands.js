@@ -28,61 +28,48 @@ export class DonationBands extends Component {
   props: Props;
 
   state: {
-    customAmount: string,
+    customAmount?: number,
   };
 
   constructor(props: Props) {
     super(props);
 
-    let customAmount = '';
-    if (props.customAmount) {
-      customAmount = props.customAmount.toString();
-    }
-
     this.state = {
-      customAmount: customAmount,
+      customAmount: props.customAmount,
     };
   }
 
   onButtonClicked(amount: number = 0) {
-    this.setState({ customAmount: '' });
+    this.setState({ customAmount: undefined });
     this.props.selectAmount(amount);
     this.props.proceed();
   }
 
   onInputUpdated(value: string) {
-    let amount = null;
-    // \u00a3 is £, \u20ac is €
-    const match = value.match(/^[$\u20ac\u00a3]*(\d{0,10})/);
-
-    if (match && match[1].length) {
-      amount = parseFloat(match[1]);
-      this.setState({ customAmount: amount.toString() });
-    } else if (value === '' || (match && match[1] === '')) {
-      amount = null;
-      this.setState({ customAmount: '' });
-    } else {
-      amount = parseFloat(this.state.customAmount);
-    }
-
+    // Remove non-digit characters before parsing
+    const number = value.replace(/\D/g, '');
+    const amount = number ? parseFloat(number) : undefined;
+    this.setState({ customAmount: amount });
     if (this.props.selectAmount) {
       this.props.selectAmount(amount);
     }
   }
 
   customFieldDisplay() {
-    const amountString = this.state.customAmount || '';
-    if (amountString === '') return '';
-    let currencySymbol = this.props.currency === 'GBP' ? '£' : '$';
-    if (this.props.currency === 'EUR') currencySymbol = '€';
-    return `${currencySymbol}${amountString}`;
+    if (!this.state.customAmount) return '';
+    return this.props.intl.formatNumber(this.state.customAmount, {
+      currency: this.props.currency,
+      style: 'currency',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
   }
 
   render() {
     const { amounts } = this.props;
     return (
       <div className="DonationBands-container">
-        {amounts.map((amount, i) =>
+        {amounts.map((amount, i) => (
           <DonationBandButton
             key={i}
             amount={amount}
@@ -90,7 +77,7 @@ export class DonationBands extends Component {
             currency={this.props.currency}
             onClick={() => this.onButtonClicked(amount)}
           />
-        )}
+        ))}
         <input
           type="tel"
           ref="customAmount"
@@ -102,7 +89,8 @@ export class DonationBands extends Component {
           pattern={/^[0-9]+$/}
           value={this.customFieldDisplay()}
           onChange={(e: SyntheticInputEvent) =>
-            this.onInputUpdated(e.target.value)}
+            this.onInputUpdated(e.target.value)
+          }
         />
       </div>
     );
