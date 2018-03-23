@@ -99,6 +99,10 @@ describe Donations::Utils do
       expect(subject.currency_from_country_code('GB')).to eq 'GBP'
     end
 
+    it 'maps CH to CHF' do
+      expect(subject.currency_from_country_code('CH')).to eq 'CHF'
+    end
+
     it 'maps NZ to NZD' do
       expect(subject.currency_from_country_code('NZ')).to eq 'NZD'
     end
@@ -113,6 +117,7 @@ describe Donations::Utils do
 
     it 'works with symbols' do
       expect(subject.currency_from_country_code(:CA)).to eq 'CAD'
+      expect(subject.currency_from_country_code(:CH)).to eq 'CHF'
     end
   end
 end
