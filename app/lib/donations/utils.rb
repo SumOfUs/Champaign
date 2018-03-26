@@ -2,8 +2,8 @@
 
 module Donations
   module Utils
-    extend self
-    EURO_COUNTRY_CODES = %i[AL AD AT BY BE BA BG HR CY CZ DK EE FO FI FR DE GI GR HU IS IE IT LV LI LT LU MK MT MD MC NL NO PL PT RO RU SM RS SK SI ES SE CH UA VA RS IM RS ME].freeze
+    extend self # rubocop:disable Style/ModuleFunction
+    EURO_COUNTRY_CODES = %i[AL AD AT BY BE BA BG HR CY CZ DK EE FO FI FR DE GI GR HU IS IE IT LV LI LT LU MK MT MD MC NL NO PL PT RO RU SM RS SK SI ES SE UA VA RS IM RS ME].freeze # rubocop:disable Metrics/LineLength
     DEFAULT_CURRENCY = 'USD'
 
     def round_and_dedup(values)
@@ -46,7 +46,8 @@ module Donations
         GB: 'GBP',
         NZ: 'NZD',
         AU: 'AUD',
-        CA: 'CAD'
+        CA: 'CAD',
+        CH: 'CHF'
       }[country_code.to_s.to_sym] || DEFAULT_CURRENCY
     end
   end

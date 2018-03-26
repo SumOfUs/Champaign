@@ -49,6 +49,7 @@ braintree:
     AUD: 'braintree merchant for AUD'
     CAD: 'braintree merchant for CAD'
     NZD: 'braintree merchant for NZD'
+    CHF: 'braintree merchant for CHF'
 
   subscription_plans:
     EUR: 'EUR subscription plan id'
@@ -57,6 +58,7 @@ braintree:
     AUD: 'AUD subscription plan id'
     CAD: 'CAD subscription plan id'
     NZD: 'NZD subscription plan id'
+    CHF: 'CHF subscription plan id'
 
 # GoCardless
 gocardless:

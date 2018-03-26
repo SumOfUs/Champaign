@@ -240,7 +240,7 @@ describe LiquidRenderer do
     describe 'donation_bands' do
       let(:stubbed_amounts) { [1, 2, 3, 4, 5] }
       let(:stubbed_conversion) do
-        %w[GBP EUR AUD NZD CAD].inject({}) do |memo, a|
+        %w[GBP EUR AUD NZD CAD CHF].inject({}) do |memo, a|
           memo[a] = stubbed_amounts
           memo
         end

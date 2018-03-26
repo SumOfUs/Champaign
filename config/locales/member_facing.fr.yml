@@ -104,6 +104,8 @@ fr:
   call_tool:
     manual_target_selection: "Merci de sélectionner votre cible"
     you_will_be_calling: "Nous allons vous appeler et vous mettre en relation avec "
+    instructions: "Inscrivez simplement votre numéro de téléphone en incluant l'indicatif téléphonique et nous vous appèlerons dans quelques instants."
+    member_phone_number_title: 'Entrez votre numéro de téléphone'
     text_to_speach_menu: "Merci de presser la touche 1 lorsque vous serez prêt-e pour être mis en relation. Pressez la touche 2 pour entendre de nouveau le message du chargé de campagne"
     errors:
       unknown: "Oups ! Quelque chose n’a pas fonctionné, veuillez réessayer dans quelques minutes ou utiliser un autre numéro de téléphone."
