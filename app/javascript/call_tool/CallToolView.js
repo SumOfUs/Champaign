@@ -171,29 +171,23 @@ class CallToolView extends Component {
     const { errors } = this.state;
     return (
       <div>
-        {this.props.title &&
-          <h1>
-            {' '}{this.props.title}{' '}
-          </h1>}
+        {this.props.title && <h1> {this.props.title} </h1>}
 
-        <p className="select-home-country">
+        <p className="instructions">
           <FormattedMessage id="call_tool.instructions" />
         </p>
 
         {errors.base !== undefined &&
-          !isEmpty(this.state.errors.base) &&
-          <div className="base-errors">
-            <ul>
-              {this.state.errors.base &&
-                this.state.errors.base.map((error, index) => {
-                  return (
-                    <li key={`error-${index}`}>
-                      {' '}{error}{' '}
-                    </li>
-                  );
-                })}
-            </ul>
-          </div>}
+          !isEmpty(this.state.errors.base) && (
+            <div className="base-errors">
+              <ul>
+                {this.state.errors.base &&
+                  this.state.errors.base.map((error, index) => {
+                    return <li key={`error-${index}`}> {error} </li>;
+                  })}
+              </ul>
+            </div>
+          )}
 
         <Form
           restrictedCountryCode={this.props.restrictedCountryCode}

@@ -35,6 +35,7 @@ exports[`Snapshots: With default messages object 1`] = `
       "call_tool.form.submit": "Call me",
       "call_tool.instructions": "Just enter your phone number including the area code -- and we'll call shortly after.",
       "call_tool.manual_target_selection": "Please select your target",
+      "call_tool.member_phone_number_title": "Enter your phone number",
       "call_tool.text_to_speach_menu": "Please press one when you're ready and we will connect you. Press two to hear the campaigner's message again.",
       "call_tool.you_will_be_calling": "We will call you and connect you to",
       "confirmation_mailer.confirmation_email.body_html": "To confirm your account, please <a href='{confirmation_url}'>follow this link.</a><br/><br/>Thanks!<br/>",
