@@ -47,17 +47,10 @@ export class SelectCountry extends Component {
     let countries = countriesByLocale[props.intl.locale];
 
     countries = Object.keys(countries)
-      .map(c => {
-        return { value: c, label: countries[c] };
-      })
-      .sort((a, b) => {
-        let countryA = a.label.toUpperCase();
-        let countryB = b.label.toUpperCase();
-        if (countryA < countryB) return -1;
-        if (countryA > countryB) return 1;
-
-        return 0;
-      });
+      .map(c => ({ value: c, label: countries[c] }))
+      .sort((a, b) =>
+        new window.Intl.Collator(props.intl.locale).compare(a.label, b.label)
+      );
 
     if (props.filter && props.filter.length) {
       countries = countries.filter(c => {

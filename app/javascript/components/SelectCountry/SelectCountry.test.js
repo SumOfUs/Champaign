@@ -59,6 +59,8 @@ describe('localisation', () => {
       'SweetSelect'
     );
     const countries: Country[] = select.props().options;
-    expect(countries[2].label).toEqual('Algerien');
+    expect(countries[0].label).toEqual('Afghanistan');
+    expect(countries[2].label).toEqual('Åland');
+    expect(countries[countries.length - 1].label).toEqual('Zypern');
   });
 });
