@@ -45,7 +45,7 @@ export const initialState: State = {
 
 export default (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case 'initialize_fundraiser':
+    case '@champaign:fundraiser:init':
       const initialData = pick(
         action.payload,
         'member',
@@ -89,17 +89,14 @@ export default (state: State = initialState, action: Action): State => {
         currency,
       };
     }
-    case 'change_amount':
+    case '@champaign:fundraiser:change_amount':
       const donationAmount = action.payload || undefined;
       return { ...state, donationAmount };
-    case 'change_step':
+    case '@champaign:fundraiser:change_step':
       return { ...state, currentStep: action.payload };
-    case 'proceed_step':
-      const currentStep = state.currentStep + 1;
-      return { ...state, currentStep };
     case 'update_form':
       return { ...state, form: action.payload };
-    case 'set_direct_debit_only':
+    case '@champaign:fundraiser:set_direct_debit_only':
       if (state.showDirectDebit) {
         return {
           ...state,
@@ -108,7 +105,7 @@ export default (state: State = initialState, action: Action): State => {
         };
       }
       return state;
-    case 'set_donation_bands':
+    case '@champaign:fundraiser:set_donation_bands':
       const payload: DonationBands = action.payload;
       const donationBands: DonationBands = isEmpty(payload)
         ? state.donationBands
@@ -121,13 +118,13 @@ export default (state: State = initialState, action: Action): State => {
         currency,
         donationBands,
       };
-    case 'set_payment_type':
+    case '@champaign:fundraiser:set_payment_type':
       return { ...state, currentPaymentType: action.payload };
-    case 'set_recurring':
+    case '@champaign:fundraiser:set_recurring':
       return { ...state, recurring: action.payload };
-    case 'set_recurring_defaults':
+    case '@champaign:fundraiser:set_recurring_defaults':
       return { ...state, ...recurringState(action.payload) };
-    case 'set_store_in_vault':
+    case '@champaign:fundraiser:set_store_in_vault':
       return { ...state, storeInVault: action.payload };
     case 'set_submitting':
       return { ...state, submitting: action.payload };

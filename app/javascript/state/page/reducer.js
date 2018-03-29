@@ -20,7 +20,7 @@ const initialState: ChampaignPage = {
 };
 
 export type PageAction = {
-  type: 'initialize_page',
+  type: '@champaign:page:init',
   payload: ChampaignPage,
 };
 
@@ -28,7 +28,7 @@ export default function pageReducer(
   state: ChampaignPage = initialState,
   action: PageAction
 ) {
-  if (action.type === 'initialize_page') {
+  if (action.type === '@champaign:page:init') {
     return action.payload;
   }
   return state;

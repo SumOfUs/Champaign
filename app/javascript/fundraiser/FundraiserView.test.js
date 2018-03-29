@@ -144,16 +144,17 @@ const initialize = vals => {
 
   // FIXME: We shouldn't use this action for any reducers. Be more explicit.
   suite.store.dispatch({
-    type: 'parse_champaign_data',
+    type: '@champaign:data:parse',
     payload: data,
   });
+
   suite.store.dispatch({
-    type: 'initialize_fundraiser',
+    type: '@champaign:fundraiser:init',
     payload: data.fundraiser,
   });
 
   suite.store.dispatch({
-    type: 'set_donation_bands',
+    type: '@champaign:fundraiser:set_donation_bands',
     payload: donationBands,
   });
 
@@ -173,7 +174,7 @@ const initialize = vals => {
   });
 
   suite.store.dispatch({
-    type: 'set_recurring_defaults',
+    type: '@champaign:fundraiser:set_recurring_defaults',
     payload: recurringDefault,
   });
 

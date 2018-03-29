@@ -37,5 +37,5 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     = yield
 
     = render partial: 'shared/google_analytics_snippet'
-    = javascript_pack_tag 'event_tracking'
+    = javascript_pack_tag 'event_logger'
     script type="text/javascript" charset="utf-8" async=true src="//c.shpg.org/99/sp.js"

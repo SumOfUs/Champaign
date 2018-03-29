@@ -47,20 +47,15 @@ function mount(root: string, options: any, Component?: any = FundraiserView) {
 
 window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   const search: SearchParams = queryString.parse(location.search);
-  const { personalization, page } = window.champaign;
+
+  // XXX: there's too much going on here. We now know enough to simplify this.
   dispatch({
-    type: 'parse_champaign_data',
-    payload: personalization,
-    skip_log: true,
-  });
-  dispatch({ type: 'initialize_page', payload: page, skip_log: true });
-  dispatch({
-    type: 'initialize_fundraiser',
+    type: '@champaign:fundraiser:init',
     payload: data.fundraiser,
     skip_log: true,
   });
   dispatch({
-    type: 'set_donation_bands',
+    type: '@champaign:fundraiser:set_donation_bands',
     payload: data.fundraiser.donationBands,
     skip_log: true,
   });
@@ -78,20 +73,24 @@ window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   });
 
   const amount = parseInt(search.amount, 10) || undefined;
-  dispatch({ type: 'change_amount', payload: amount, skip_log: true });
+  dispatch({
+    type: '@champaign:fundraiser:change_amount',
+    payload: amount,
+    skip_log: true,
+  });
 
   const preselect = search.preselect === '1' || data.fundraiser.preselectAmount;
   dispatch({ type: 'preselect_amount', payload: preselect, skip_log: true });
 
   const rDefault = search.recurring_default || data.fundraiser.recurringDefault;
   dispatch({
-    type: 'set_recurring_defaults',
+    type: '@champaign:fundraiser:set_recurring_defaults',
     payload: rDefault,
     skip_log: true,
   });
 
   dispatch({
-    type: 'set_direct_debit_only',
+    type: '@champaign:fundraiser:set_direct_debit_only',
     payload: search.dd_only === '1',
     skip_log: true,
   });

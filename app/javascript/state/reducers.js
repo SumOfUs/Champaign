@@ -23,7 +23,6 @@ const reducers = {
 
 export default combineReducers(reducers);
 
-
 export type AppState = {
   member: Member,
   fundraiser: Fundraiser,
@@ -48,8 +47,8 @@ export type FormField = {
 };
 
 export type InitialAction = {
-  type: 'parse_champaign_data',
+  type: '@champaign:data:parse',
   payload: ChampaignPersonalizationData,
 };
 
-export const INITIAL_ACTION = 'parse_champaign_data';
+export const INITIAL_ACTION = '@champaign:data:parse';

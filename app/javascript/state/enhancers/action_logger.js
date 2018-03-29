@@ -1,4 +1,4 @@
-import { logEvent } from './../packs/log_event';
+import { logEvent } from '../../logging/log_event';
 
 const blacklist = ['update_form'];
 
