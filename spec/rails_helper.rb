@@ -37,7 +37,7 @@ VCR.configure do |config|
 
   config.filter_sensitive_data('<shareprogress_api_key>') { ENV['SHARE_PROGRESS_API_KEY'] }
   config.filter_sensitive_data('<gocardless_token>') { Settings.gocardless.token }
-  config.filter_sensitive_data('<oxr_app_id>') { Settings.oxr_app_id }
+  config.filter_sensitive_data('<app_id>') { Settings.oxr_app_id }
 end
 
 RSpec.configure do |config|

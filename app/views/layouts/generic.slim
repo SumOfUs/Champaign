@@ -11,9 +11,12 @@ html lang= I18n.locale
     = render partial: "shared/facebook_pixel" unless Rails.env.test?
     = render partial: "shared/js_locale"
     = stylesheet_link_tag "member-facing"
-    = javascript_pack_tag "member_facing"
   body
     = render partial: "layouts/notification"
+    = render partial: "cdn/member_facing"
+    = javascript_pack_tag "member_facing"
+
     = yield
     .mobile-indicator
+
     = render partial: "shared/google_analytics_snippet"
