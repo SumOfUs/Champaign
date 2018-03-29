@@ -60,8 +60,8 @@ credit card, debit card, and Paypal payments, and [GoCardless](https://gocardles
 working you'll have to setup the proper credentials by setting [environment variables](config/settings/production.yml) on
 your production environment.
 
-If you use a separate endpoint to fetch your Braintree tokens, you can point to it by updating
-the [env.yml](env.yml) with your `BRAINTREE_TOKEN_URL`. By default, Champaign will use its own token
+If you use a separate endpoint to fetch your Braintree tokens, you can point to it by setting the
+`Settings.braintree.token_url` value in `config/settings/{environment}.yml`. Champaign will default to its own token
 endpoint which could degrade performance, so it's recommended that you use a separate service where
 possible.
 

@@ -135,6 +135,13 @@ const initialize = vals => {
     recurringDefault,
   } = data.fundraiser;
 
+  suite.store.dispatch({
+    type: '@champaign:config:init',
+    payload: {
+      braintreeTokenUrl: '/api/braintree/token',
+    },
+  });
+
   // FIXME: We shouldn't use this action for any reducers. Be more explicit.
   suite.store.dispatch({
     type: 'parse_champaign_data',

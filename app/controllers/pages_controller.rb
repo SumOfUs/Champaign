@@ -9,6 +9,7 @@ class PagesController < ApplicationController
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up]
+  before_action :frontend_config, only: %i[show follow_up]
 
   def index
     @pages = Search::PageSearcher.search(search_params)

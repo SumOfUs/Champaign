@@ -1,9 +1,10 @@
+import $ from 'jquery';
 import 'babel-polyfill';
+import 'whatwg-fetch';
 import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
-import 'whatwg-fetch';
 
 import URI from 'urijs';
 import configureStore from '../state';
@@ -22,6 +23,9 @@ import redirectors from '../member-facing/redirectors';
 
 window.URI = URI;
 
+// TODO: Move this out? External js needs to be compiled (webpack or sprockets)
+// so it's not something we can import dynamically in the browser, unless we have
+// a compiled bundle to reference.
 if (process.env.EXTERNAL_ASSETS_JS_PATH) {
   require(process.env.EXTERNAL_ASSETS_JS_PATH);
 }
@@ -47,4 +51,15 @@ const initializeApp = () => {
 
 initializeApp();
 
-window.champaign.store = configureStore({});
+// TODO: Improve how we initialize the store (use localStorage when possible)
+const store = (window.champaign.store = configureStore({}));
+
+$(() => {
+  const { page, personalization, config } = window.champaign;
+
+  store.dispatch({
+    type: '@champaign:config:init',
+    payload: config,
+    skip_log: true
+  });
+})
