@@ -13,9 +13,10 @@ html lang= I18n.locale
     = stylesheet_link_tag "member-facing"
   body
     = render partial: "layouts/notification"
+    = render partial: "cdn/member_facing"
+    = javascript_pack_tag "member_facing"
+
     = yield
     .mobile-indicator
 
-    = render partial: "cdn/member_facing"
-    = javascript_pack_tag "member_facing"
     = render partial: "shared/google_analytics_snippet"
