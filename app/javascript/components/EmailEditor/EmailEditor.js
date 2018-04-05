@@ -1,10 +1,10 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, get, template } from 'lodash';
+import { compact, get, template, isEqual } from 'lodash';
 import classnames from 'classnames';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
 import './EmailEditor.scss';
@@ -24,7 +24,7 @@ type Props = {
   onUpdate: (email: EmailProps) => void,
 };
 
-export default class EmailEditor extends PureComponent {
+export default class EmailEditor extends Component {
   props: Props;
   state: EmailProps;
   constructor(props: Props) {
@@ -37,6 +37,14 @@ export default class EmailEditor extends PureComponent {
 
   componentDidMount() {
     this.update();
+  }
+
+  componentDidUpdate() {
+    this.update();
+  }
+
+  shouldComponentUpdate(nextProps: Props) {
+    return !isEqual(nextProps, this.props);
   }
 
   body() {
