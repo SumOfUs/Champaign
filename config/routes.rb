@@ -110,6 +110,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :consent, only: [:create]
+
     namespace :payment do
       namespace :braintree, defaults: { format: 'json' } do
         get 'token'
