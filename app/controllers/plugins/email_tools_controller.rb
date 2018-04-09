@@ -16,7 +16,7 @@ module Plugins
     private
 
     def targets_params
-      params[:plugins_email_tool]&.permit(:targets_csv_file) || {}
+      params[:plugins_email_tool]&.permit(:targets_csv_file, :targets_csv_text) || {}
     end
   end
 end
