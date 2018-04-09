@@ -586,8 +586,14 @@ body.page-edit-body {
       margin-top: 5px;
     }
   }
+
+  textarea {
+    margin-bottom: 1em;
+  }
+
   // --- Dropzone customizations
   form.dropzone {
+    background-color:transparent;
     border: none;
     padding: 0;
     min-height: 0;
