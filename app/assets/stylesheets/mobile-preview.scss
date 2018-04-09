@@ -1,0 +1,40 @@
+body {
+  height: 100% !important;
+  background: none;
+  font-size: 18px;
+  line-height: 1.5em;
+}
+
+iframe::-webkit-scrollbar	{ display: none;}
+iframe {
+  overflow-y:hidden;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
+#viewport {
+  width: 320px;
+  height: 568px;
+  margin: 217px 0 0 3px;
+  display: inline-block;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+}
+
+#mobile_skin {
+  background-image: url(asset-path('mobile_skin'));
+  width: 586px;
+  height: 1001px;
+  background-repeat: no-repeat;
+  background-position: top left;
+  margin: 0 auto 0 auto;
+  text-align: center;
+  transform: scale(1);
+  transform-origin: 0px 0px 0px;
+}
+
+#wrapper {
+  display: block;
+  height: 1001px;
+}
