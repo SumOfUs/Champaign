@@ -52,7 +52,8 @@ Rails.application.routes.draw do
     end
 
     get 'analytics', on: :member
-    get 'actions', on: :member
+    get 'actions', on:   :member
+    get 'preview', on:   :member
 
     get 'follow-up', on: :member, action: 'follow_up'
     resources :images

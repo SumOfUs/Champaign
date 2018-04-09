@@ -38,9 +38,9 @@ section.page-edit-step#sources data-icon='link'
 section.page-edit-step.page-edit-step--just-title#review data-icon='eye' data-link-to=member_facing_page_url(@page)
   h1.page-edit-step__title
     = t('.view')
-    = link_to member_facing_page_path(@page), target: "_blank"  do
-      button.btn-primary.btn.pull-right
-        = t('.show')
+    .btn-group.pull-right
+      = link_to 'Desktop', member_facing_page_path(@page), target: "_blank", class: 'btn btn-default'
+      = link_to 'Mobile', preview_page_path(@page), target: "_blank", class: 'btn btn-default'
 
 javascript:
   $(document).ready(function(){
