@@ -5,12 +5,12 @@ require 'rails_helper'
 describe 'Api::Consent' do
   let!(:member) { create(:member, email: 'foo@example.com') }
 
-  describe 'POST /api/consent' do
+  describe 'POST /api/stateless/members/:id/consent' do
     context 'member exists' do
       it 'records time consent given' do
         now = Time.now.utc
         Timecop.freeze(now) do
-          post '/api/consent', params: { email: 'foo@example.com', id: member.id }
+          post "/api/stateless/members/#{member.id}/consent", params: { email: 'foo@example.com' }
           expect(member.reload.consented_at.to_s).to eq(now.to_s)
         end
       end
@@ -18,7 +18,7 @@ describe 'Api::Consent' do
 
     context 'member does not exist' do
       it 'returns not found' do
-        post '/api/consent', params: { email: 'missing@example.com', id: 100 }
+        post "/api/stateless/members/#{member.id}/consent", params: { email: 'bar@example.com' }
 
         expect(response.status).to eq(404)
       end
