@@ -7,7 +7,7 @@ module Api
 
       def create
         member = Member.find_by_id_and_email! params[:member_id], params[:email]
-        member.update(consented_at: Time.now)
+        member.update!(consented_at: Time.now)
         render json: member
       end
 
