@@ -157,7 +157,9 @@ Rails.application.routes.draw do
         resources :transactions
       end
 
-      resources :members
+      resources :members do
+        resource :consent, only: [:create]
+      end
 
       namespace :auth do
         post :password

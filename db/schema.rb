@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171023193604) do
+ActiveRecord::Schema.define(version: 20180406135834) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -201,6 +201,7 @@ ActiveRecord::Schema.define(version: 20171023193604) do
     t.string "actionkit_user_id"
     t.integer "donor_status", default: 0, null: false
     t.jsonb "more"
+    t.datetime "consented_at"
     t.index ["actionkit_user_id"], name: "index_members_on_actionkit_user_id"
     t.index ["email", "id"], name: "index_members_on_email_and_id"
     t.index ["email"], name: "index_members_on_email"
