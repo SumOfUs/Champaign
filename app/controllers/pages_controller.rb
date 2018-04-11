@@ -5,7 +5,7 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: %i[show follow_up]
-  before_action :get_page, only: %i[edit update destroy follow_up analytics actions]
+  before_action :get_page, only: %i[edit update destroy follow_up analytics actions preview]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up]
@@ -34,6 +34,10 @@ class PagesController < ApplicationController
   def edit
     @variations = @page.shares
     render :edit
+  end
+
+  def preview
+    render :preview, layout: 'mobile_preview'
   end
 
   def create

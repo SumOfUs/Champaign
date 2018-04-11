@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
-import { find } from 'lodash';
+import { find, sortBy } from 'lodash';
 import Select from '../components/SweetSelect/SweetSelect';
 import type { SelectOption } from '../components/SweetSelect/SweetSelect';
 import Input from '../components/SweetInput/SweetInput';
@@ -60,7 +60,14 @@ class SelectPensionFund extends Component {
     const url = `/api/pension_funds?country=${country.toLowerCase()}`;
 
     $.getJSON(url)
-      .then(data => data.map(f => ({ ...f, value: f._id, label: f.fund })))
+      .then(data => {
+        // $FlowIgnore
+        return sortBy(data, ['fund']).map(f => ({
+          ...f,
+          value: f._id,
+          label: f.fund,
+        }));
+      })
       .then(this.props.changePensionFunds);
   };
 

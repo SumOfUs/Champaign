@@ -1,3 +1,32 @@
-.form-group
+.form-group.twitter-share
   = label_with_tooltip(form, :description, t('share.twitter.form.description'), t('tooltips.shares.link_explanation'))
-  = form.text_area :description, class: 'form-control', maxlength: 124
+  = form.text_area :description, class: 'form-control'
+  p.char-count <span> x </span> of 280
+
+javascript:
+  $(function() {
+    function getTweetLength(tweet) {
+      tweet = tweet.replace('{LINK}', 'http://aurl.com');
+      return Twitter.getTweetLength(tweet);
+    }
+
+    function updateForm(textarea) {
+      var $textarea = $(textarea);
+      var length = getTweetLength($textarea.val())
+      if(length > 280) {
+        // Twitter URLs use 23 chars. {LINK} length is 6
+        // 280 - (23 - 6) = 263
+        $textarea.val( $textarea.val().substr(0, 263) );
+        length = 280;
+      }
+      $textarea.next('p.char-count').find('span').text(length);
+    }
+
+    $('.twitter-share textarea').on('change keyup paste', function(e) {
+      updateForm(e.target);
+    });
+
+    $('.twitter-share textarea').each(function(i, textarea) {
+      updateForm(textarea);
+    });
+  });
