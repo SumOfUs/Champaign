@@ -9,6 +9,7 @@ type State = {
   showForm: boolean,
   isSubmittingNewPensionFundName: boolean,
   newPensionFundName: string,
+  newPensionFundNameError: boolean,
 };
 
 export default class SuggestFund extends Component {
@@ -20,6 +21,7 @@ export default class SuggestFund extends Component {
       showForm: false,
       newPensionFundName: '',
       isSubmittingNewPensionFundName: false,
+      newPensionFundNameError: false,
     };
   }
 
@@ -36,6 +38,7 @@ export default class SuggestFund extends Component {
           showForm: false,
           isSubmittingNewPensionFundName: false,
           newPensionFundName: '',
+          newPensionFundNameError: false,
         });
       })
       .fail(() => {
@@ -59,10 +62,23 @@ export default class SuggestFund extends Component {
 
   submit = (e: SyntheticEvent) => {
     e.preventDefault();
-    this.postSuggestedFund(this.state.newPensionFundName);
+    if (this.state.newPensionFundName.trim() === '') {
+      this.setState({ newPensionFundNameError: true });
+    } else {
+      this.postSuggestedFund(this.state.newPensionFundName);
+    }
   };
 
   render() {
+    const errorMessage = this.state.newPensionFundNameError ? (
+      <FormattedMessage
+        id="email_tool.form.errors.suggest_fund"
+        defaultMessage="Name of pension fund can't be blank"
+      />
+    ) : (
+      ''
+    );
+
     return (
       <div className="email-target-action">
         <div className="email__target-suggest-fund">
@@ -89,6 +105,7 @@ export default class SuggestFund extends Component {
                 }
                 value={this.state.newPensionFundName}
                 onChange={this.onChange}
+                errorMessage={errorMessage}
               />
             </div>
 

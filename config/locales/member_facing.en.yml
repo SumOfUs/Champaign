@@ -32,6 +32,7 @@ en:
         email: 'Please add your email address'
         name: 'Please add you name'
         fund: 'Please select a pension fund'
+        suggest_fund: Name of pension fund can't be blank
         target:
           outdated: "It seems the targets information has recently changed. Please reload the page and try again."
 

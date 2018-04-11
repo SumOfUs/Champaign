@@ -29,6 +29,7 @@ fr:
         email: 'Merci d’indiquer votre adresse courriel'
         name: 'Merci d’indiquer votre nom'
         fund: 'Merci de sélectionner votre fonds de pension'
+        suggest_fund: Le nom du fonds de pension ne peut être nul
         target:
           outdated: "Il semble que les informations de la cible aient récemment changé. Veuillez actualiser la page et réessayer. "
   fundraiser:
