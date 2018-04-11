@@ -3,17 +3,28 @@
 javascript:
   Dropzone.options.targetsDropzone = false;
   $(function() {
+    function renderTargetForm(htmlString) {
+      $('.email-tool__target-form').html(htmlString);
+      $('##{name}_target_by_attributes').selectize();
+    }
+
     new Dropzone('#targets-dropzone', {
       paramName: 'plugins_email_tool[targets_csv_file]',
       clickable: '#targets-dropzone__clickable',
       init: function() {
         this.on('complete', function(file) {
-          $('.email-tool__target-form').html(file.xhr.responseText);
-          $('##{name}_target_by_attributes').selectize();
+          renderTargetForm(file.xhr.responseText);
         });
       }
     });
+
+    $("#targets-by-text-form").on("ajax:success", function (e, data, status, xhr) {
+      renderTargetForm(xhr.responseText);
+    }).on("ajax:error", function (e, xhr, status, error) {
+      renderTargetForm(xhr.responseText);
+    });
   });
+
 
 - if plugin.errors.present?
   .error-msg
@@ -23,8 +34,15 @@ javascript:
         li = error
 
 .well.targets-section
+  h4 Targets
   = form_tag targets_plugins_email_tool_path(plugin), method: :post, id: 'targets-dropzone', class: 'targets-form form-inline dropzone', multipart: true
-    = label_tag_with_tooltip(:targets_csv_file, 'Targets CSV', t('tooltips.call_tool.targets'))
+    = label_tag_with_tooltip(:targets_csv_file, 'CSV File', t('tooltips.call_tool.targets'))
     = button_tag "Choose file", id: 'targets-dropzone__clickable', type: 'button', class: 'btn btn-default choose-file-btn'
+
+  .form-group
+    = form_tag targets_plugins_email_tool_path(plugin), remote: true, data: {type: 'html'}, method: :post, id: 'targets-by-text-form' do
+      = label_tag_with_tooltip :targets_csv_text, 'CSV Text', t('plugins.email_tool.tooltips.targets_csv_text')
+      = text_area_tag "plugins_email_tool[targets_csv_text]", TargetsCSVFormatter.run(plugin.targets), placeholder: "email, name\nmember@gmail.com, John Doe", class: 'form-control height-short'
+      = submit_tag "Update targets", class: 'btn btn-default'
 
   = render partial: 'plugins/email_tools/targets', locals: { plugin: plugin }

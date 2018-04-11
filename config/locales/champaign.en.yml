@@ -342,6 +342,7 @@ en:
         email_content: "To use the member's name include a tag with the following format: ${name}. \
          The available variables are: ${name}, ${postal}, ${target.email} and ${target.name}. Target's custom fields included in the CSV such as country \
          and state, can be access with ${target.fields.country} and ${target.fields.state}."
+        targets_csv_text: "Enter CSV text. Columns are separated by a comma. The first line contains the field names in any order. The mandatory fields are name and email."
 
     call_tool:
       title: 'Title'
