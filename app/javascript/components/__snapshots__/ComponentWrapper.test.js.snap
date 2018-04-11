@@ -56,6 +56,7 @@ exports[`Snapshots: With default messages object 1`] = `
       "email_tool.form.errors.message": "Whoops! There are some errors with the form. Please check you've filled in the required fields.",
       "email_tool.form.errors.name": "Please add you name",
       "email_tool.form.errors.subject": "Please add a subject line",
+      "email_tool.form.errors.suggest_fund": "Name of pension fund can't be blank",
       "email_tool.form.errors.target.outdated": "It seems the targets information has recently changed. Please reload the page and try again.",
       "email_tool.form.select_country": "Select your Country",
       "email_tool.form.select_target": "Select a target",
