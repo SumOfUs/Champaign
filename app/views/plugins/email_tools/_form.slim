@@ -27,17 +27,18 @@
 
       = render 'plugins/shared/subject_editor', name: name, f: f, plugin: plugin
 
-      .form-group
-        = label_with_tooltip f, :email_body_header, t('plugins.email_tool.email_header'), t('plugins.email_tool.tooltips.email_content')
-        = f.text_area :email_body_header, class: 'form-control height-short'
+      .email-body-section
+        .form-group
+          = label_with_tooltip f, :email_body_header, t('plugins.email_tool.email_header'), t('plugins.email_tool.tooltips.email_content')
+          = f.text_area :email_body_header, class: 'wysiwyg form-control height-short'
 
-      .form-group
-        = label_with_tooltip f, :email_body, t('plugins.email_tool.email_body'), t('plugins.email_tool.tooltips.email_content')
-        = f.text_area :email_body, class: 'form-control height-large'
+        .form-group
+          = label_with_tooltip f, :email_body, t('plugins.email_tool.email_body'), t('plugins.email_tool.tooltips.email_content')
+          = f.text_area :email_body, class: 'wysiwyg form-control height-large'
 
-      .form-group
-        = label_with_tooltip f, :email_body_footer, t('plugins.email_tool.email_footer'), t('plugins.email_tool.tooltips.email_content')
-        = f.text_area :email_body_footer, class: 'form-control height-short'
+        .form-group
+          = label_with_tooltip f, :email_body_footer, t('plugins.email_tool.email_footer'), t('plugins.email_tool.tooltips.email_content')
+          = f.text_area :email_body_footer, class: 'wysiwyg form-control height-short'
 
       .form-group
         = f.label(:targeting_mode, t('plugins.email_tool.targeting_mode'))
@@ -49,3 +50,10 @@
     .email-tool__target-form
       = render partial: 'plugins/email_tools/target_form.slim', locals: { plugin: plugin }
 
+
+javascript:
+  $(function () {
+    $('.email-body-section .wysiwyg').each(function (index, el) {
+      $.publish("wysiwyg:setup", el.id);
+    });
+  });
