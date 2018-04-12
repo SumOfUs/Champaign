@@ -62,7 +62,7 @@ class SelectPensionFund extends Component {
     $.getJSON(url)
       .then(data => {
         // $FlowIgnore
-        return sortBy(data, ['fund']).map(f => ({
+        return sortBy(data, [o => o.fund.toLowerCase()]).map(f => ({
           ...f,
           value: f._id,
           label: f.fund,
