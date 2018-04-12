@@ -1,10 +1,10 @@
-// @flow
+// @flow weak
 import React, { Component } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, debounce, get, template, isEqual } from 'lodash';
+import { compact, debounce, get, template, isEqual, isEqualWith } from 'lodash';
 import classnames from 'classnames';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
 import {
@@ -21,7 +21,6 @@ import './EmailEditor.scss';
 export type EmailProps = {
   subject: string,
   body: string,
-  emailBody: string,
 };
 
 type Props = {
@@ -54,23 +53,18 @@ export default class EmailEditor extends Component {
     this.state = EmailEditor.getDerivedStateFromProps(props);
   }
 
-  static getDerivedStateFromProps(props: Props): State {
+  static getDerivedStateFromProps(props: Props, state?: State): State {
+    console.log('getDerivedStateFromProps:');
     return {
       subject: interpolateVars(props.subject, props.templateVars),
       header: interpolateVars(props.header, props.templateVars),
       footer: interpolateVars(props.footer, props.templateVars),
-      editorState: EditorState.createWithContent(
-        stateFromHTML(interpolateVars(props.body, props.templateVars))
-      ),
+      editorState: state
+        ? state.editorState
+        : EditorState.createWithContent(
+            stateFromHTML(interpolateVars(props.body, props.templateVars))
+          ),
     };
-  }
-
-  componentDidMount() {
-    this.update();
-  }
-
-  componentDidUpdate() {
-    this.update();
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
@@ -80,25 +74,12 @@ export default class EmailEditor extends Component {
     );
   }
 
-  body() {
-    return compact([
-      this.parse(this.props.header),
-      this.interpolateVars(
-        stateToHTML(this.state.editorState.getCurrentContent())
-      ),
-      this.parse(this.props.footer),
-    ]).join('\n\n');
+  componentDidMount() {
+    this.update();
   }
 
-  parse(templateString?: string = ''): string {
-    if (!templateString) return '';
-    templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    return this.interpolateVars(templateString);
-  }
-
-  interpolateVars(templateString?: string = ''): string {
-    if (!templateString) return '';
-    return template(templateString)(this.props.templateVars);
+  componentDidUpdate() {
+    this.update();
   }
 
   update = debounce(() => {
@@ -110,12 +91,23 @@ export default class EmailEditor extends Component {
     }
   }, 400);
 
+  body() {
+    return compact([
+      this.state.header,
+      stateToHTML(this.state.editorState.getCurrentContent()),
+      this.state.footer,
+    ]).join('<br />');
+  }
+
   updateSubject = (subject: string) => {
-    this.setState(s => ({ ...s, subject }), this.update);
+    this.setState({ subject }, this.update);
   };
 
   onEditorChange = (editorState: EditorState) => {
-    this.setState({ editorState }, this.update);
+    this.setState({ editorState }, () => {
+      if (!editorState.getLastChangeType()) return;
+      this.update();
+    });
   };
 
   render() {
@@ -151,7 +143,7 @@ export default class EmailEditor extends Component {
               {header && (
                 <div
                   className="EmailEditor-header"
-                  dangerouslySetInnerHTML={{ __html: this.parse(header) }}
+                  dangerouslySetInnerHTML={{ __html: this.state.header }}
                 />
               )}
               <Editor
@@ -161,7 +153,7 @@ export default class EmailEditor extends Component {
               {footer && (
                 <div
                   className="EmailEditor-footer"
-                  dangerouslySetInnerHTML={{ __html: this.parse(footer) }}
+                  dangerouslySetInnerHTML={{ __html: this.state.footer }}
                 />
               )}
             </div>
