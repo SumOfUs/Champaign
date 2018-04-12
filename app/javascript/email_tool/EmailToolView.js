@@ -19,10 +19,10 @@ import './EmailToolView';
 type ChampaignEmailPayload = any;
 
 export interface EmailTarget {
-  id: string,
-  title?: string,
-  name: string,
-  email: string,
+  id: string;
+  title?: string;
+  name: string;
+  email: string;
 }
 
 type Props = {

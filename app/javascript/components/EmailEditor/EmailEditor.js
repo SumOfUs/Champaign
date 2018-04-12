@@ -4,14 +4,24 @@ import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, get, template, isEqual } from 'lodash';
+import { compact, debounce, get, template, isEqual } from 'lodash';
 import classnames from 'classnames';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
+import {
+  ContentState,
+  CompositeDecorator,
+  convertFromHTML,
+  Editor,
+  EditorState,
+} from 'draft-js';
+import { stateFromHTML } from 'draft-js-import-html';
+import { stateToHTML } from 'draft-js-export-html';
 import './EmailEditor.scss';
 
 export type EmailProps = {
   subject: string,
   body: string,
+  emailBody: string,
 };
 
 type Props = {
@@ -24,14 +34,34 @@ type Props = {
   onUpdate: (email: EmailProps) => void,
 };
 
+type State = {
+  subject: string,
+  header: string,
+  footer: string,
+  editorState: EditorState,
+};
+
+function interpolateVars(templateString: ?string, templateVars: any): string {
+  if (!templateString) return '';
+  return template(templateString)(templateVars);
+}
 export default class EmailEditor extends Component {
   props: Props;
-  state: EmailProps;
+  state: State;
   constructor(props: Props) {
     super(props);
-    this.state = {
-      subject: this.interpolateVars(this.props.subject),
-      body: this.interpolateVars(this.props.body),
+
+    this.state = EmailEditor.getDerivedStateFromProps(props);
+  }
+
+  static getDerivedStateFromProps(props: Props): State {
+    return {
+      subject: interpolateVars(props.subject, props.templateVars),
+      header: interpolateVars(props.header, props.templateVars),
+      footer: interpolateVars(props.footer, props.templateVars),
+      editorState: EditorState.createWithContent(
+        stateFromHTML(interpolateVars(props.body, props.templateVars))
+      ),
     };
   }
 
@@ -43,14 +73,19 @@ export default class EmailEditor extends Component {
     this.update();
   }
 
-  shouldComponentUpdate(nextProps: Props) {
-    return !isEqual(nextProps, this.props);
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    return (
+      !isEqual(nextProps.templateVars, this.props.templateVars) ||
+      this.state.editorState !== nextState.editorState
+    );
   }
 
   body() {
     return compact([
       this.parse(this.props.header),
-      this.state.body,
+      this.interpolateVars(
+        stateToHTML(this.state.editorState.getCurrentContent())
+      ),
       this.parse(this.props.footer),
     ]).join('\n\n');
   }
@@ -66,24 +101,21 @@ export default class EmailEditor extends Component {
     return template(templateString)(this.props.templateVars);
   }
 
-  update = () => {
+  update = debounce(() => {
     if (typeof this.props.onUpdate === 'function') {
       this.props.onUpdate({
         subject: this.state.subject,
         body: this.body(),
       });
     }
-  };
+  }, 400);
 
   updateSubject = (subject: string) => {
     this.setState(s => ({ ...s, subject }), this.update);
   };
 
-  updateBody = ({ target }: SyntheticEvent) => {
-    if (target instanceof HTMLTextAreaElement) {
-      const body = target.value;
-      this.setState(s => ({ ...s, body }), this.update);
-    }
+  onEditorChange = (editorState: EditorState) => {
+    this.setState({ editorState }, this.update);
   };
 
   render() {
@@ -92,6 +124,7 @@ export default class EmailEditor extends Component {
     const bodyClassName = classnames({
       'has-error': errors.body && errors.body.length > 0,
     });
+
     return (
       <div className="EmailEditor">
         <FormGroup>
@@ -121,11 +154,9 @@ export default class EmailEditor extends Component {
                   dangerouslySetInnerHTML={{ __html: this.parse(header) }}
                 />
               )}
-              <textarea
-                name="email_body"
-                defaultValue={this.state.body}
-                onChange={this.updateBody}
-                maxLength="9999"
+              <Editor
+                editorState={this.state.editorState}
+                onChange={this.onEditorChange}
               />
               {footer && (
                 <div
