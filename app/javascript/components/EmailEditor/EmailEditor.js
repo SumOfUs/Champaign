@@ -1,19 +1,13 @@
-// @flow weak
+// @flow
 import React, { Component } from 'react';
 import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, debounce, get, template, isEqual, isEqualWith } from 'lodash';
+import { compact, debounce, template, isEqual } from 'lodash';
 import classnames from 'classnames';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
-import {
-  ContentState,
-  CompositeDecorator,
-  convertFromHTML,
-  Editor,
-  EditorState,
-} from 'draft-js';
+import { Editor, EditorState } from 'draft-js';
 import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import './EmailEditor.scss';
@@ -54,7 +48,6 @@ export default class EmailEditor extends Component {
   }
 
   static getDerivedStateFromProps(props: Props, state?: State): State {
-    console.log('getDerivedStateFromProps:');
     return {
       subject: interpolateVars(props.subject, props.templateVars),
       header: interpolateVars(props.header, props.templateVars),
