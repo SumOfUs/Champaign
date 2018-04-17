@@ -80,7 +80,6 @@ class EmailPensionView extends Component {
     e.preventDefault();
 
     const valid = this.validateForm();
-
     if (!valid) return;
 
     const payload = {
@@ -207,6 +206,7 @@ export const mapStateToProps = (state: OwnState) => ({
   header: state.emailTarget.emailHeader,
   footer: state.emailTarget.emailFooter,
   fundContact: state.emailTarget.fundContact,
+  fundEmail: state.emailTarget.fundEmail,
   subject: state.emailTarget.emailSubject,
   country: state.emailTarget.country,
   email: state.emailTarget.email,
