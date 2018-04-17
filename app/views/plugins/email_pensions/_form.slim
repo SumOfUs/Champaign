@@ -25,14 +25,22 @@
 
       = render 'plugins/shared/subject_editor', name: name, f: f, plugin: plugin
 
-      .form-group
-        = f.label(:email_body_header, t('plugins.email_tool.email_header'))
-        = f.text_area :email_body_header, class: 'form-control height-short'
+      .email-body-section
+        .form-group
+          = f.label(:email_body_header, t('plugins.email_tool.email_header'))
+          = f.text_area :email_body_header, class: 'wysiwyg form-control height-short'
 
-      .form-group
-        = f.label(:email_body, t('plugins.email_tool.email_body'))
-        = f.text_area :email_body, class: 'form-control height-large'
+        .form-group
+          = f.label(:email_body, t('plugins.email_tool.email_body'))
+          = f.text_area :email_body, class: 'wysiwyg form-control height-large'
 
-      .form-group
-        = f.label(:email_body_footer, t('plugins.email_tool.email_footer'))
-        = f.text_area :email_body_footer, class: 'form-control height-short'
+        .form-group
+          = f.label(:email_body_footer, t('plugins.email_tool.email_footer'))
+          = f.text_area :email_body_footer, class: 'wysiwyg form-control height-short'
+
+javascript:
+  $(function () {
+    $('.email-body-section .wysiwyg').each(function (index, el) {
+      $.publish("wysiwyg:setup", el.id);
+    });
+  });
