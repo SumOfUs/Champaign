@@ -26,3 +26,13 @@
         .javascript-editor class="#{js_hidden}"
           = label_with_tooltip(f, :javascript, t('pages.edit.javascript'), t('tooltips.javascript'))
           = f.text_area :javascript, class: 'form-control syntax-highlighting', 'data-highlight-mode' => 'javascript'
+
+      .clearfix
+
+      .form-group
+        = label_with_tooltip(f, :meta_description, t('pages.edit.meta_description'), t('tooltips.meta_description'))
+        = f.text_area :meta_description, class: 'form-control', 'max-length' => 140, placeholder: t('branding.description')
+
+      .form-group
+        = label_with_tooltip(f, :meta_tags, t('pages.edit.meta_tags'), t('tooltips.meta_tags'))
+        = f.text_area :meta_tags, class: 'form-control', placeholder: "<meta name=\"tag-name\" content=\"Lorem ipsum\">\n" * 2

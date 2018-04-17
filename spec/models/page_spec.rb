@@ -73,7 +73,6 @@ describe Page do
   it { is_expected.to respond_to :campaign_action_count }
   it { is_expected.to respond_to :tag_names }
   it { is_expected.to respond_to :plugin_names }
-  it { is_expected.to respond_to :meta_tags }
   it { is_expected.to respond_to :javascript }
   it { is_expected.to respond_to :canonical_url }
   it { is_expected.to respond_to :optimizely_status }

@@ -69,6 +69,7 @@ class Page < ApplicationRecord
   validates :slug, uniqueness: true, on: :create
   validate  :primary_image_is_owned
   validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+\z} }
+  validates :meta_description, length: { maximum: 140 }
 
   after_save :switch_plugins
 
@@ -100,10 +101,6 @@ class Page < ApplicationRecord
 
   def image_to_display
     primary_image || images.first
-  end
-
-  def meta_tags
-    tag_names << plugin_names
   end
 
   def dup
