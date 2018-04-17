@@ -40,7 +40,7 @@ class PensionEmailSender
   end
 
   def reply_to_emails
-    list = [plugin_email_from_hash] if @plugin.from_email_address
+    list = @plugin.from_email_address ? [plugin_email_from_hash] : []
     list << member_email_hash if @plugin.use_member_email?
     list
   end
