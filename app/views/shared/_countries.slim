@@ -1,0 +1,2 @@
+javascript:
+  window.champaign.countries = #{ISO3166::Country.all.map { |c| c.instance_values['country_data_or_code'] }.to_json.html_safe }
