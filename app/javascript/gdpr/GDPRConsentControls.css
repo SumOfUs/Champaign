@@ -1,0 +1,31 @@
+.GDPRConsentControls {
+  position: relative;
+}
+
+.GDPRConsentControls label {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.GDPRConsentControls input[type="radio"] {
+  float: none;
+}
+
+/* Selectable Buttons variant */
+.selectable-buttons .GDPRConsentControls input[type="radio"] {
+  display: none;
+}
+.selectable-buttons .GDPRConsentControls label {
+  display: block;
+  background: white;
+  border: 1px solid #F73415;
+  margin: 15px 0 0 0;
+  padding: 10px 5px 10px 10px;
+  cursor: pointer;
+}
+
+.selectable-buttons .GDPRConsentControls label:hover,
+.selectable-buttons .GDPRConsentControls label.active {
+  background: #F73415;
+  color: white;
+}
