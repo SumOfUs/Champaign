@@ -29,6 +29,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
 
 
     = render partial: "cdn/member_facing"
+    = stylesheet_pack_tag "member_facing"
     = javascript_pack_tag "member_facing"
     = render "pages/packs", plugins: @page.plugins
 

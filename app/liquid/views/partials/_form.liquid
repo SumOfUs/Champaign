@@ -82,11 +82,17 @@
       </div>
     {% endfor %}
 
+    <div id="gdpr-consent-section"></div>
+
     <button type="submit" class="button action-form__submit-button">{{ cta }}</button>
 </form>
 <script type="text/javascript">
   $(document).ready(function(){
     new window.champaign.SweetPlaceholder();
+    new window.champaign.GDPRConsentComponent({
+      container: document.getElementById('gdpr-consent-section'),
+      variant: 'selectable-buttons'
+    })
   });
 </script>
 
