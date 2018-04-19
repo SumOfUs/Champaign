@@ -12,57 +12,33 @@ import { stateFromHTML } from 'draft-js-import-html';
 import { stateToHTML } from 'draft-js-export-html';
 import './EmailEditor.scss';
 
-export type EmailProps = {
-  subject: string,
-  body: string,
-};
+const MAX_SUBJECT_LENGTH = 64;
 
-type Props = {
-  body: string,
-  footer?: string,
-  header?: string,
-  subject: string,
-  templateVars: { [key: string]: any },
-  errors: ErrorMap,
-  onUpdate: (email: EmailProps) => void,
-};
-
-type State = {
-  subject: string,
-  header: string,
-  footer: string,
-  editorState: EditorState,
-};
-
-function interpolateVars(templateString: ?string, templateVars: any): string {
-  if (!templateString) return '';
-  return template(templateString)(templateVars);
-}
 export default class EmailEditor extends Component {
   props: Props;
   state: State;
   constructor(props: Props) {
     super(props);
 
-    this.state = EmailEditor.getDerivedStateFromProps(props);
+    this.state = {
+      subject: interpolateVars(props.subject, props.templateVars),
+      editorState: EditorState.createWithContent(
+        stateFromHTML(interpolateVars(props.body, props.templateVars))
+      ),
+    };
   }
 
-  static getDerivedStateFromProps(props: Props, state?: State): State {
+  static getDerivedStateFromProps(props: Props, state?: State) {
     return {
-      subject: interpolateVars(props.subject, props.templateVars),
       header: interpolateVars(props.header, props.templateVars),
       footer: interpolateVars(props.footer, props.templateVars),
-      editorState: state
-        ? state.editorState
-        : EditorState.createWithContent(
-            stateFromHTML(interpolateVars(props.body, props.templateVars))
-          ),
     };
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State) {
     return (
       !isEqual(nextProps.templateVars, this.props.templateVars) ||
+      this.state.subject !== nextState.subject ||
       this.state.editorState !== nextState.editorState
     );
   }
@@ -76,12 +52,11 @@ export default class EmailEditor extends Component {
   }
 
   update = debounce(() => {
-    if (typeof this.props.onUpdate === 'function') {
-      this.props.onUpdate({
-        subject: this.state.subject,
-        body: this.body(),
-      });
-    }
+    if (typeof this.props.onUpdate !== 'function') return;
+    this.props.onUpdate({
+      subject: this.state.subject,
+      body: this.body(),
+    });
   }, 400);
 
   body() {
@@ -93,6 +68,7 @@ export default class EmailEditor extends Component {
   }
 
   updateSubject = (subject: string) => {
+    if (subject.length > MAX_SUBJECT_LENGTH) return;
     this.setState({ subject }, this.update);
   };
 
@@ -160,3 +136,30 @@ export default class EmailEditor extends Component {
     );
   }
 }
+
+function interpolateVars(templateString: ?string, templateVars: any): string {
+  if (!templateString) return '';
+  return template(templateString)(templateVars);
+}
+
+export type EmailProps = {
+  subject: string,
+  body: string,
+};
+
+type Props = {
+  body: string,
+  footer?: string,
+  header?: string,
+  subject: string,
+  templateVars: { [key: string]: any },
+  errors: ErrorMap,
+  onUpdate: (email: EmailProps) => void,
+};
+
+type State = {
+  subject: string,
+  editorState: EditorState,
+  header?: string,
+  footer?: string,
+};
