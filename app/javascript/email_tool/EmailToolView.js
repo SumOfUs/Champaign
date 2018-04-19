@@ -131,23 +131,17 @@ export default class EmailToolView extends Component {
   // Update the selected target. We use the target.id to find the
   // target. If no id is passed, we clear the target property.
   onTargetChange = (id: ?string) => {
-    this.setState(state => ({
-      ...state,
-      target: this.props.targets.find(t => t.id === id),
-    }));
+    this.setState({ target: this.props.targets.find(t => t.id === id) });
   };
 
-  onNameChange = (name: string) => this.setState(s => ({ ...s, name }));
+  onNameChange = (name: string) => this.setState({ name });
 
-  onEmailChange = (email: string) => this.setState(s => ({ ...s, email }));
+  onEmailChange = (email: string) => this.setState({ email });
 
   // onEmailEditorChange
   // The EmailEditor component returns a structure
   onEmailEditorUpdate = (emailProps: EmailProps) => {
-    this.setState(s => ({
-      ...s,
-      ...emailProps,
-    }));
+    this.setState({ ...emailProps });
   };
 
   templateVars() {
@@ -218,7 +212,7 @@ export default class EmailToolView extends Component {
                 body={this.props.emailBody}
                 header={this.props.emailHeader}
                 footer={this.props.emailFooter}
-                subject={this.props.emailSubject}
+                subject={this.state.subject}
                 templateVars={this.templateVars()}
                 onUpdate={this.onEmailEditorUpdate}
               />
