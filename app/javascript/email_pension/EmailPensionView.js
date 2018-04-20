@@ -140,6 +140,7 @@ class EmailPensionView extends Component {
               <FormGroup>
                 <Input
                   name="email"
+                  type="email"
                   label={
                     <FormattedMessage
                       id="email_tool.form.your_email"
