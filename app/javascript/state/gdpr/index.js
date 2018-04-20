@@ -7,7 +7,7 @@ export type ConsentState = {
   email: ?string,
   isEU: false,
   memberId: ?string,
-  variant: string,
+  variant: 'simple' | 'selectable-buttons' | 'scrolling',
 };
 
 const defaultState: ConsentState = {
