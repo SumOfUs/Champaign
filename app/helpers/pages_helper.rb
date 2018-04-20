@@ -179,4 +179,24 @@ module PagesHelper
 
     base.merge(layouts_and_plugins)
   end
+
+  def countries
+    @countries ||= ISO3166::Country.all.map do |c|
+      {
+        name: c.name,
+        alpha2: c.alpha2,
+        alpha3: c.alpha3,
+        country_code: c.country_code,
+        currency_code: c.currency_code,
+        eu_member: c.in_eu?,
+        languages_official: c.languages_official,
+        translations: {
+          en: c.translations['en'],
+          fr: c.translations['fr'],
+          de: c.translations['de'],
+          es: c.translations['es']
+        }
+      }
+    end
+  end
 end
