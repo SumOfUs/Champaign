@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :tag do
-    name 'MyTag'
-    actionkit_uri 'http://example.com/tag'
+    sequence(:name) { |n| "#{['+', '@', '*'].sample}#{Faker::Commerce.color}#{n}" }
+    actionkit_uri
   end
 end

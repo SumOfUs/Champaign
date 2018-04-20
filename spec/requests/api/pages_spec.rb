@@ -138,7 +138,7 @@ describe 'api/pages' do
     end
   end
 
-  describe 'GET similar' do
+  describe 'GET /similar' do
     let(:name_tag) { create :tag, name: 'TuuliP' }
     let(:region_tag) { create :tag, name: '@Global' }
     let(:issue_tag1) { create :tag, name: '#AnimalRights' }
@@ -146,53 +146,59 @@ describe 'api/pages' do
     let(:english) { create :language, :english }
     let(:french) { create :language, :french }
 
-    let(original_page) do
+    let!(:original_page) do
       create(:page,
              :published,
+             id: 123,
              title: 'Coolest petition',
+             content: 'Coolest petition content',
              language: english,
              tags: [name_tag, region_tag, issue_tag1, issue_tag2])
     end
-
-    let(french_page) do
-      create(:page,
-             :published,
-             title: 'Je ne parle pas français',
-             language: french,
-             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
-    end
-
-    let(similar_page) do
-      create(:page,
-             :published,
-             title: 'A similar petition',
-             language: english,
-             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
-    end
-
-    let(similar_unpublished) do
-      create(:page,
-             :unpublished,
-             title: 'A similar petition',
-             language: english,
-             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
-    end
-
-    let(one_issue_tag_page) do
-      create(:page,
-             :published,
-             title: 'Another similar petition',
-             language: english,
-             tags: [name_tag, region_tag, issue_tag1])
-    end
-
-    subject { get('/api/pages/similar/') }
 
     context 'valid request' do
       context 'similar pages exist' do
+        let!(:similar_french_page) do
+          create(:page,
+                 :published,
+                 title: 'Je ne parle pas français',
+                 language: french,
+                 tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+        end
+
+        let!(:similar_page) do
+          create(:page,
+                 :published,
+                 title: 'A similar petition',
+                 content: 'Also cool content',
+                 language: english,
+                 tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+        end
+
+        let!(:similar_unpublished) do
+          create(:page,
+                 :unpublished,
+                 title: 'Similar but unpublished',
+                 language: english,
+                 tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+        end
+
+        let!(:one_issue_tag_page) do
+          create(:page,
+                 :published,
+                 title: 'One tag match',
+                 language: english,
+                 tags: [name_tag, region_tag, issue_tag1])
+        end
+
+        subject { get(api_page_similar_path(original_page, number: 3, format: :json)) }
+
         it 'returns pages with tags that are similar to the original page' do
           subject
           expect(response.code).to eq '200'
+          expect(json_hash.first.keys).to match_array(expected)
+          expect(json_hash.first.symbolize_keys).to include(title: 'A similar petition',
+                                                            content: 'Also cool content')
         end
 
         it 'does not return pages that have no matching issue tag' do

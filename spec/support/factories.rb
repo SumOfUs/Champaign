@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryGirl.define do
   sequence(:email) { |n| "person#{n}@gmail.com" }
   sequence(:slug)  { |n| "petition-#{n}" }
@@ -16,10 +17,5 @@ FactoryGirl.define do
     email
     password { Faker::Internet.password }
     admin true
-  end
-
-  factory :tag do
-    sequence(:name) { |n| "#{['+', '@', '*'].sample}#{Faker::Commerce.color}#{n}" }
-    actionkit_uri
   end
 end

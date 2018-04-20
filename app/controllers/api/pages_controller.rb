@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
-  before_action :get_page, except: [:index, :featured]
-  before_action :authenticate_user!, except: [:index, :featured, :show, :actions]
+  before_action :get_page, except: %i[index featured similar]
+  before_action :authenticate_user!, except: %i[index featured show actions similar]
 
   layout false
 
@@ -50,6 +51,11 @@ class Api::PagesController < ApplicationController
     page_number = { page_number: params[:page_number], per_page: params[:per_page] }
     hashes, headers, _paginator = ActionReader.new(query).run(**page_number)
     render json: { actions: hashes, headers: headers }
+  end
+
+  def similar
+    @pages = PageService.list_similar(Page.find(params[:page_id]), language: params[:language], number: params[:number])
+    render :index, format: :json
   end
 
   private
