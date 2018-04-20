@@ -137,4 +137,91 @@ describe 'api/pages' do
       expect(json.symbolize_keys[:actions].size).to eq 1
     end
   end
+
+  describe 'GET similar' do
+    let(:name_tag) { create :tag, name: 'TuuliP' }
+    let(:region_tag) { create :tag, name: '@Global' }
+    let(:issue_tag1) { create :tag, name: '#AnimalRights' }
+    let(:issue_tag2) { create :tag, name: '#Sexism' }
+    let(:english) { create :language, :english }
+    let(:french) { create :language, :french }
+
+    let(original_page) do
+      create(:page,
+             :published,
+             title: 'Coolest petition',
+             language: english,
+             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+    end
+
+    let(french_page) do
+      create(:page,
+             :published,
+             title: 'Je ne parle pas français',
+             language: french,
+             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+    end
+
+    let(similar_page) do
+      create(:page,
+             :published,
+             title: 'A similar petition',
+             language: english,
+             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+    end
+
+    let(similar_unpublished) do
+      create(:page,
+             :unpublished,
+             title: 'A similar petition',
+             language: english,
+             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+    end
+
+    let(one_issue_tag_page) do
+      create(:page,
+             :published,
+             title: 'Another similar petition',
+             language: english,
+             tags: [name_tag, region_tag, issue_tag1])
+    end
+
+    subject { get('/api/pages/similar/') }
+
+    context 'valid request' do
+      context 'similar pages exist' do
+        it 'returns pages with tags that are similar to the original page' do
+          subject
+          expect(response.code).to eq '200'
+        end
+
+        it 'does not return pages that have no matching issue tag' do
+        end
+
+        it 'does not return pages that match by tags but are different language' do
+        end
+
+        it 'returns the specified number of pages' do
+        end
+
+        it 'does not return unpublished pages' do
+        end
+      end
+
+      context 'insufficient number of similar pages' do
+        it 'falls back to pages with fewer matching issue tags if there are otherwise not enough similar pages' do
+        end
+
+        it 'falls back to recent featured petitions with the same region tag if there are no matches by issue tag' do
+        end
+      end
+    end
+
+    context 'the requested page does not exist' do
+      it 'responds with 404' do
+        get('/api/pages/similar/')
+        expect(response.code).to eq '404'
+      end
+    end
+  end
 end
