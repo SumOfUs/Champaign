@@ -25,8 +25,8 @@ export class GDPRConsentControls extends PureComponent {
         <label className={acceptClass}>
           <input
             type="radio"
-            name="user_consented"
-            value={true}
+            name="consented"
+            value={1}
             checked={consented === true}
             onChange={() => this.props.onChange(true)}
           />
@@ -42,7 +42,8 @@ export class GDPRConsentControls extends PureComponent {
         <label className={declineClass}>
           <input
             type="radio"
-            name="user_consented"
+            name="consented"
+            value={0}
             checked={consented === false}
             onChange={() => this.props.onChange(false)}
           />
