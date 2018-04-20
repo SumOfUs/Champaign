@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -12,8 +13,11 @@
 
 class Tag < ApplicationRecord
   validates :name, :actionkit_uri, presence: true, uniqueness: true
-  has_paper_trail on: [:update, :destroy]
+  has_paper_trail on: %i[update destroy]
 
   has_many :pages_tags, dependent: :destroy
   has_many :pages, through: :pages_tags
+
+  scope :issue,  -> { where("name LIKE '#%'") }
+  scope :region, -> { where("name LIKE '@%'") }
 end

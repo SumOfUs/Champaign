@@ -131,6 +131,7 @@ Rails.application.routes.draw do
       get 'share-rows', on: :member, action: 'share_rows'
       get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
+      get 'similar'
 
       resource :analytics, only: [:show] do
         get 'call_tool', on: :member
