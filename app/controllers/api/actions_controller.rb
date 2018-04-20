@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Api::ActionsController < ApplicationController
   before_action :localize_from_page_id
 
@@ -8,11 +9,20 @@ class Api::ActionsController < ApplicationController
     validator = FormValidator.new(action_params.to_h)
 
     if validator.valid?
-      action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
-      write_member_cookie(action.member_id)
-      render json: {
-        follow_up_url: PageFollower.new_from_page(page, action_params.merge(member_id: action.member_id)).follow_up_path
-      }, status: 200
+      if validate_gdpr_consent
+        action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
+        write_member_cookie(action.member_id)
+        render json: {
+          follow_up_url: PageFollower.new_from_page(
+            page,
+            action_params.merge(member_id: action.member_id)
+          ).follow_up_path
+        }, status: 200
+      else
+        render json: {
+          follow_up_url: PageFollower.new_from_page(page).follow_up_path
+        }, status: 200
+      end
     else
       render json: { errors: validator.errors }, status: 422
     end
@@ -42,7 +52,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w(page_id form_id name source akid referring_akid referrer_id rid bucket)
+    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented]
   end
 
   def fields
@@ -51,5 +61,14 @@ class Api::ActionsController < ApplicationController
 
   def page
     @page ||= Page.find(action_params[:page_id])
+  end
+
+  def country
+    @country ||= Country[params[:country]]
+  end
+
+  def validate_gdpr_consent
+    return true unless country&.in_eu?
+    ActiveRecord::Type::Boolean.new.deserialize(params[:consented]) || false
   end
 end
