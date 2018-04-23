@@ -1,9 +1,15 @@
-/* @flow */
+// @flow
+import type { Member } from './member/reducer';
+import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
+import type { PaymentMethod } from './paymentMethods/reducer';
+import type { PageAction } from './page/reducer';
+import type { Config as ChampaignConfig } from './configuration';
 import { combineReducers } from 'redux';
 import member from './member/reducer';
 import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
+import config from './configuration';
 import { reducer as emailTarget } from './email_pension/actions';
 
 const reducers = {
@@ -12,24 +18,18 @@ const reducers = {
   emailTarget,
   paymentMethods,
   page,
+  config,
 };
 
 export default combineReducers(reducers);
-
-// import types
-import type { Member } from './member/reducer';
-import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
-import type { PaymentMethod } from './paymentMethods/reducer';
-import type { PageAction } from './page/reducer';
 
 export type AppState = {
   member: Member,
   fundraiser: Fundraiser,
   paymentMethods: PaymentMethod[],
   page: ChampaignPage,
+  config: ChampaignConfig,
 };
-
-type ChampaignPaymentMethod = any;
 
 export type FormField = {
   id: number,
@@ -47,8 +47,8 @@ export type FormField = {
 };
 
 export type InitialAction = {
-  type: 'parse_champaign_data',
+  type: '@champaign:data:parse',
   payload: ChampaignPersonalizationData,
 };
 
-export const INITIAL_ACTION = 'parse_champaign_data';
+export const INITIAL_ACTION = '@champaign:data:parse';

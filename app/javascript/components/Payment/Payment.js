@@ -31,9 +31,6 @@ import type { PaymentType } from '../../state/fundraiser/types';
 // Styles
 import './Payment.css';
 
-const BRAINTREE_TOKEN_URL =
-  process.env.BRAINTREE_TOKEN_URL || '/api/payment/braintree/token';
-
 type OwnProps = {
   defaultPaymentType: PaymentType,
   disableSavedPayments: boolean,
@@ -52,6 +49,7 @@ type OwnProps = {
   setPaymentType: (value: PaymentType) => void,
   setSubmitting: (value: boolean) => void,
   showDirectDebit: boolean,
+  tokenUrl: string,
 };
 
 type OwnState = {
@@ -93,7 +91,7 @@ export class Payment extends Component {
   }
 
   componentDidMount() {
-    $.get(BRAINTREE_TOKEN_URL)
+    $.get(this.props.tokenUrl)
       .done(data => {
         braintreeClient.create(
           { authorization: data.token },
@@ -486,6 +484,7 @@ const mapStateToProps = (state: AppState) => ({
       ...state.fundraiser.form,
     },
   },
+  tokenUrl: state.config.braintreeTokenUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<*>) => ({

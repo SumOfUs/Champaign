@@ -2,7 +2,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
-import passToLogTracker from './pass_to_log_tracker';
+import passToLogTracker from './enhancers/action_logger';
 // flow types
 export type { Store } from 'redux';
 export type { AppState } from './reducers';

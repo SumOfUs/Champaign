@@ -4,12 +4,14 @@
 
 - meta optimization_tags: @page.meta_tags
 - meta liquid_layout: @page.liquid_layout.title.downcase
-= @rendered
-= render 'shared/page_object'
 = render 'pages/personalization', data: @data
-= render 'pages/campaigner_overlay', page: @page
+= render 'pages/frontend_config'
+= render 'shared/page_object'
+= @rendered
 
 javascript:
   $(document).ready(function() {
     #{@page.javascript.try(:html_safe)}
   });
+
+= render 'pages/campaigner_overlay', page: @page

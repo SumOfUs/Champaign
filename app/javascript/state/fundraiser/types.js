@@ -39,18 +39,21 @@ export type Fundraiser = {
 };
 
 export type FundraiserAction =
-  | { type: 'initialize_fundraiser', payload: FundraiserInitializationOptions }
-  | { type: 'change_amount', payload: ?number }
+  | {
+      type: '@champaign:fundraiser:init',
+      payload: FundraiserInitializationOptions,
+    }
+  | { type: '@champaign:fundraiser:change_amount', payload: ?number }
   | { type: 'change_currency', payload: string }
-  | { type: 'change_step', payload: number }
+  | { type: '@champaign:fundraiser:change_step', payload: number }
   | { type: 'preselect_amount', payload: boolean }
-  | { type: 'set_direct_debit_only', payload: boolean }
-  | { type: 'set_donation_bands', payload: DonationBands }
-  | { type: 'set_payment_type', payload: PaymentType }
-  | { type: 'set_recurring', payload: boolean }
-  | { type: 'set_recurring_defaults', payload?: string }
+  | { type: '@champaign:fundraiser:set_direct_debit_only', payload: boolean }
+  | { type: '@champaign:fundraiser:set_donation_bands', payload: DonationBands }
+  | { type: '@champaign:fundraiser:set_payment_type', payload: PaymentType }
+  | { type: '@champaign:fundraiser:set_recurring', payload: boolean }
+  | { type: '@champaign:fundraiser:set_recurring_defaults', payload?: string }
   | { type: 'set_submitting', payload: boolean }
-  | { type: 'set_store_in_vault', payload: boolean }
+  | { type: '@champaign:fundraiser:set_store_in_vault', payload: boolean }
   | { type: 'toggle_direct_debit', payload: boolean }
   | { type: 'search_string_overrides', payload: { [key: string]: string } }
   | { type: 'update_form', payload: { [key: string]: any } };

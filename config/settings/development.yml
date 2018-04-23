@@ -42,6 +42,10 @@ braintree:
   # use the sandbox environment
   environment: sandbox
 
+  # External endpoint to fetch a braintree client token (browser clients)
+  # If this setting is empty, Champaign will fall back to its internal endpoint
+  token_url: <%= ENV['BRAINTREE_TOKEN_URL'] %>
+
   merchants:
     EUR: 'braintree merchant for EUR' # for irish account. 'SumOfUs_EUR' for USA
     GBP: 'braintree merchant for GBP' # for irish account. 'SumOfUs_GBP' for USA

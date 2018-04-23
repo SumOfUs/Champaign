@@ -79,6 +79,12 @@ class ApplicationController < ActionController::Base
                            Member.find_from_request(akid: unsafe_params[:akid], id: cookies.signed[:member_id])
   end
 
+  def frontend_config
+    @frontend_config ||= {
+      braintree_token_url: Settings.braintree.token_url || api_payment_braintree_token_path
+    }
+  end
+
   def authenticate_super_admin!
     return true if authenticate_user! && Settings.admins =~ Regexp.new(current_user.email)
     raise SecurityError, "#{current_user.email} is not an administrator."
