@@ -33,6 +33,12 @@ javascript:
       - plugin.errors.full_messages.each do |error|
         li = error
 
+- if flash[:success].present?
+  .alert.alert-success.alert-dismissible role="alert"
+    = flash[:success]
+    button type="button" class="close" data-dismiss="alert" aria-label="Close"
+      span aria-hidden="true" &times;
+
 .well.targets-section
   h4 Targets
   = form_tag targets_plugins_email_tool_path(plugin), method: :post, id: 'targets-dropzone', class: 'targets-form form-inline dropzone', multipart: true
@@ -42,7 +48,10 @@ javascript:
   .form-group
     = form_tag targets_plugins_email_tool_path(plugin), remote: true, data: {type: 'html'}, method: :post, id: 'targets-by-text-form' do
       = label_tag_with_tooltip :targets_csv_text, 'CSV Text', t('plugins.email_tool.tooltips.targets_csv_text')
-      = text_area_tag "plugins_email_tool[targets_csv_text]", TargetsCSVFormatter.run(plugin.targets), placeholder: "email, name\nmember@gmail.com, John Doe", class: 'form-control height-short'
+      = text_area_tag "plugins_email_tool[targets_csv_text]",
+          @targets_csv_text || TargetsCSVFormatter.run(plugin.targets),
+          placeholder: "email, name\nmember@gmail.com, John Doe",
+          class: 'form-control height-short'
       = submit_tag "Update targets", class: 'btn btn-default'
 
   = render partial: 'plugins/email_tools/targets', locals: { plugin: plugin }
