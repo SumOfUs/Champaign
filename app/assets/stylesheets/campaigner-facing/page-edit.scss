@@ -20,6 +20,10 @@ body.page-edit-body {
   }
 }
 
+.page-edit-body .note-editor {
+  z-index: 0;
+}
+
 .page-edit-bar,
 .sidebar {
   width: 20%;
