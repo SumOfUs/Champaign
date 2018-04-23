@@ -32,6 +32,8 @@
 #  enforce_styles             :boolean          default("false"), not null
 #  notes                      :text
 #  publish_actions            :integer          default("0"), not null
+#  meta_tags                  :string
+#  meta_description           :string
 #
 
 class Page < ApplicationRecord

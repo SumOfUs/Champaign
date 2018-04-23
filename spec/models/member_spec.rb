@@ -19,6 +19,7 @@
 #  actionkit_user_id :string
 #  donor_status      :integer          default("0"), not null
 #  more              :jsonb
+#  consented_at      :datetime
 #
 
 require 'rails_helper'
