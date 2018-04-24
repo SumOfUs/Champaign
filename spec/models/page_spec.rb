@@ -520,5 +520,19 @@ describe Page do
         expect(page).to be_invalid
       end
     end
+
+    describe 'meta_tags' do
+      it 'is invalid if it has the wrong format' do
+        page.meta_tags = 'random text <hello>'
+        expect(page).to be_invalid
+        expect(page.errors[:meta_tags]).to be_present
+      end
+
+      it 'is invalid if it doesn\'t contain at least one META tag' do
+        page.meta_tags = '<hello> </hello>'
+        expect(page).to be_invalid
+        expect(page.errors[:meta_tags]).to be_present
+      end
+    end
   end
 end
