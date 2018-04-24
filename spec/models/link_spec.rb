@@ -110,12 +110,10 @@ describe Link do
       let!(:page) { create(:page, links: [link]) }
 
       it 'touches page on update' do
-        old_time = Time.now.utc
-
-        Timecop.travel(1.hour) do
+        Timecop.freeze(1.hour.from_now) do
           expect { link.update(source: 'BBC') }.to change {
             page.reload.updated_at.to_s
-          }.from(old_time.to_s).to((old_time + 1.hour).to_s)
+          }.to(Time.now.utc.to_s)
         end
       end
     end
