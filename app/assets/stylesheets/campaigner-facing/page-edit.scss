@@ -8,6 +8,18 @@ $orange: #f8492e;
 body.page-edit-body {
   position: relative;
   background-color: $page-edit-bar-color;
+
+  .toggle-links {
+    text-align: right;
+
+    a.disabled {
+      color: #AAA;
+      &:hover {
+        text-decoration: none;
+        cursor: default;
+      }
+    }
+  }
 }
 
 .note-editable {
@@ -201,9 +213,6 @@ body.page-edit-body {
 }
 
 .javascript-editor {
-  &__toggle {
-    float: right;
-  }
   .CodeMirror {
     height: 136px;
   }

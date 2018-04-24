@@ -18,21 +18,28 @@
           = t('pages.edit.enforce_styles')
 
       .form-group
-        - js_hidden = ''
-        - if page.javascript.blank?
-          a data-target=".javascript-editor" data-toggle="collapse" class="javascript-editor__toggle"
-            = t('pages.edit.add_javascript')
-          - js_hidden = 'collapse'
-        .javascript-editor class="#{js_hidden}"
-          = label_with_tooltip(f, :javascript, t('pages.edit.javascript'), t('tooltips.javascript'))
-          = f.text_area :javascript, class: 'form-control syntax-highlighting', 'data-highlight-mode' => 'javascript'
-
-      .clearfix
-
-      .form-group
         = label_with_tooltip(f, :meta_description, t('pages.edit.meta_description'), t('tooltips.meta_description'))
         = f.text_area :meta_description, class: 'form-control', 'max-length' => 140, placeholder: t('branding.description')
 
-      .form-group
+      .toggle-links
+        - js_enabled = page.javascript.blank?
+        - mt_enabled = page.meta_tags.blank?
+        a data-target=".javascript-editor" data-toggle="#{'collapse' if js_enabled}" class="#{'disabled' unless js_enabled}"
+          = t('pages.edit.add_javascript')
+
+        | &nbsp; | &nbsp;
+
+        a data-target=".meta-tags-editor" data-toggle="#{'collapse' if mt_enabled}" class="#{'disabled' unless mt_enabled}"
+          = t('pages.edit.add_meta_tags')
+
+
+      .form-group.meta-tags-editor class="#{'collapse' if page.meta_tags.blank?}"
         = label_with_tooltip(f, :meta_tags, t('pages.edit.meta_tags'), t('tooltips.meta_tags'))
         = f.text_area :meta_tags, class: 'form-control', placeholder: "<meta name=\"tag-name\" content=\"Lorem ipsum\">\n" * 2
+
+      .form-group
+        .javascript-editor class="#{'collapse' if page.javascript.blank?}"
+          = label_with_tooltip(f, :javascript, t('pages.edit.javascript'), t('tooltips.javascript'))
+          = f.text_area :javascript, class: 'form-control syntax-highlighting', 'data-highlight-mode' => 'javascript'
+
+

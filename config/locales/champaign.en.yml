@@ -152,6 +152,7 @@ en:
       notes: 'Notes'
       add_notes: 'Add internal-facing notes'
       add_javascript: 'Add javascript'
+      add_meta_tags: 'Add meta tags'
       javascript: 'Javascript'
       settings: 'Settings'
       enforce_styles: 'Override formatting to match standard page style'
