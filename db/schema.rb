@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417152308) do
+ActiveRecord::Schema.define(version: 20180424140020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "intarray"
 
   create_table "actionkit_page_types", id: :serial, force: :cascade do |t|
     t.string "actionkit_page_type", null: false
@@ -63,13 +64,20 @@ ActiveRecord::Schema.define(version: 20180417152308) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "authentication_nonces", force: :cascade do |t|
+    t.string "nonce"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nonce"], name: "index_authentication_nonces_on_nonce"
+  end
+
   create_table "calls", id: :serial, force: :cascade do |t|
     t.integer "page_id"
     t.integer "member_id"
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: {}, null: false
+    t.jsonb "target_call_info", default: "{}", null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -419,11 +427,11 @@ ActiveRecord::Schema.define(version: 20180417152308) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "title"
-    t.json "targets", default: [], array: true
     t.string "sound_clip_file_name"
     t.string "sound_clip_content_type"
     t.integer "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
+    t.json "targets", default: [], array: true
     t.text "description"
     t.string "menu_sound_clip_file_name"
     t.string "menu_sound_clip_content_type"
