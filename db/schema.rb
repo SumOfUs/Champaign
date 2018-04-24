@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417152308) do
+ActiveRecord::Schema.define(version: 20180424140020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "intarray"
 
   create_table "actionkit_page_types", id: :serial, force: :cascade do |t|
     t.string "actionkit_page_type", null: false
@@ -61,6 +62,13 @@ ActiveRecord::Schema.define(version: 20180417152308) do
     t.string "resource"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "authentication_nonces", force: :cascade do |t|
+    t.string "nonce"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nonce"], name: "index_authentication_nonces_on_nonce"
   end
 
   create_table "calls", id: :serial, force: :cascade do |t|

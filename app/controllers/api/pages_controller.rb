@@ -54,7 +54,7 @@ class Api::PagesController < ApplicationController
   end
 
   def similar
-    @pages = PageService.list_similar(Page.find(params[:page_id]), language: params[:language], number: params[:number])
+    @pages = PageService.list_similar(Page.find(params[:page_id]), number: params[:number])
     render :index, format: :json
   end
 
