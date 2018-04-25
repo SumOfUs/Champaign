@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Api::ActionsController < ApplicationController
+  include GDPRConsentable
+
   before_action :localize_from_page_id
 
   skip_before_action :verify_authenticity_token, raise: false
@@ -9,9 +11,16 @@ class Api::ActionsController < ApplicationController
     validator = FormValidator.new(action_params.to_h)
 
     if validator.valid?
-      if validate_gdpr_consent
+      if gdpr_consent_check_passed?
+        logger.info('GDPR CHECK PASSED')
         action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
+
+        # TODO: Move write_member_cookie to a member service.
+        #       We're going to have to decouple actions from members and make the
+        #       association optional. A cleaner approach would be to let the class
+        #       that creates and updates members be the one to write the cookie.
         write_member_cookie(action.member_id)
+
         render json: {
           follow_up_url: PageFollower.new_from_page(
             page,
@@ -52,7 +61,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented]
+    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented consented_at gdpr_enabled]
   end
 
   def fields
@@ -61,14 +70,5 @@ class Api::ActionsController < ApplicationController
 
   def page
     @page ||= Page.find(action_params[:page_id])
-  end
-
-  def country
-    @country ||= Country[params[:country]]
-  end
-
-  def validate_gdpr_consent
-    return true unless country&.in_eu?
-    ActiveRecord::Type::Boolean.new.deserialize(params[:consented]) || false
   end
 end
