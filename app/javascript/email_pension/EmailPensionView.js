@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isEmpty, find, template, merge, pick } from 'lodash';
+import { isEmpty, find, template, merge, each, pick } from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import Select from '../components/SweetSelect/SweetSelect';
@@ -8,7 +8,7 @@ import Button from '../components/Button/Button';
 import SelectCountry from '../components/SelectCountry/SelectCountry';
 import FormGroup from '../components/Form/FormGroup';
 import EmailEditor from '../components/EmailEditor/EmailEditor';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl } from 'react-intl';
 import SelectPensionFund from './SelectPensionFund';
 import './EmailPensionView.scss';
 
@@ -28,6 +28,20 @@ import type { Dispatch } from 'redux';
 class EmailPensionView extends Component {
   constructor(props) {
     super(props);
+    this.defaultTemplateVars = {
+      fundContact: this.props.intl.formatMessage({
+        id: 'email_tool.template_defaults.fund_contact',
+      }),
+      fundEmail: this.props.intl.formatMessage({
+        id: 'email_tool.template_defaults.fund_email',
+      }),
+      fund: this.props.intl.formatMessage({
+        id: 'email_tool.template_defaults.fund',
+      }),
+      name: this.props.intl.formatMessage({
+        id: 'email_tool.template_defaults.name',
+      }),
+    };
 
     this.state = {
       shouldShowFundSuggestion: false,
@@ -56,10 +70,22 @@ class EmailPensionView extends Component {
   }
 
   templateVars() {
-    return {
-      ...this.props,
-      ...this.state,
-    };
+    let vars = pick(this.props, [
+      'name',
+      'fund',
+      'fundContact',
+      'fundEmail',
+      'email',
+      'country',
+      'postal',
+    ]);
+
+    each(this.defaultTemplateVars, (val, key) => {
+      if (vars[key] === undefined || vars[key] === '') {
+        vars[key] = val;
+      }
+    });
+    return vars;
   }
 
   onEmailEditorUpdate = ({ subject, body }) => {
@@ -221,4 +247,6 @@ export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeEmail: (email: string) => dispatch(changeEmail(email)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmailPensionView);
+export default injectIntl(
+  connect(mapStateToProps, mapDispatchToProps)(EmailPensionView)
+);

@@ -36,6 +36,11 @@ fr:
         suggest_fund: Le nom du fonds de pension ne peut être nul
         target:
           outdated: "Il semble que les informations de la cible aient récemment changé. Veuillez actualiser la page et réessayer. "
+    template_defaults:
+      fund: '[Select fund from above]'
+      fund_contact: '[Select fund from above]'
+      fund_email: '[Select fund from above]'
+      name: '[Enter your name above]'
   fundraiser:
     payment_methods:
       gocardless: "Prélèvement SEPA"
