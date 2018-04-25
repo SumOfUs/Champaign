@@ -32,6 +32,7 @@ describe 'Api Actions' do
         form_id:  form.id,
         source:   'fb',
         country:  'FR',
+        consented: 'true',
         akid:     '1234.5678.tKK7gX',
         referring_akid: '1234.5678.tKK7gX',
         name: 'Bob Mash'
@@ -46,7 +47,7 @@ describe 'Api Actions' do
                              slug:       'foo-bar',
                              first_name: 'Bob',
                              last_name:  'Mash',
-                             created_at: be_within(1.second).of(Time.now),
+                             created_at: be_within(1.second).of(Time.zone.now),
                              country: 'France',
                              subscribed_member: true,
                              action_id: instance_of(Integer)),
@@ -63,6 +64,87 @@ describe 'Api Actions' do
                                action_referer: 'www.google.com',
                                user_en: 1)
       }
+    end
+
+    describe 'GDPR Consent support' do
+      context 'when gdpr_enabled param is absent or false' do
+        let(:base_params) do
+          {
+            email:    'hello@example.com',
+            form_id:  form.id,
+            source:   'fb',
+            country:  'DE',
+            name: 'Bob Mash'
+          }
+        end
+
+        it 'ignores ignores the GDPR consent checks' do
+          expect {
+            post "/api/pages/#{page.id}/actions",
+                 params: base_params,
+                 headers: headers
+          }.to change { Action.count }.by 1
+        end
+      end
+
+      context 'when gdpr_enabled param is true' do
+        let(:base_params) do
+          {
+            email:    'hello@example.com',
+            form_id:  form.id,
+            source:   'fb',
+            country:  'DE',
+            name: 'Bob Mash',
+            gdpr_enabled: '1'
+          }
+        end
+
+        context 'and the member is not in a EU country' do
+          it 'create an action always' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'CA'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+        end
+
+        context 'and the member is in a EU country' do
+          it 'does not create an action if consented is absent or false' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params,
+                   headers: headers
+            }.not_to change { Action.count }
+          end
+
+          it 'does not add consented/consented_at fields to member if consented is absent or false' do
+            post "/api/pages/#{page.id}/actions", params: base_params, headers: headers
+            last_member = Member.last
+            expect(last_member.consented_at).to be(nil)
+          end
+
+          # XXX This will change...
+          it 'creates an action if the user gave consent' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(consented: '1'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+
+          it 'sets a consented_at if consented is true' do
+            Timecop.freeze do
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(consented: '1'),
+                   headers: headers
+
+              last_member = Member.last
+              expect(last_member.consented_at.utc).to eq(Time.now.utc)
+            end
+          end
+        end
+      end
     end
 
     describe 'queue' do
