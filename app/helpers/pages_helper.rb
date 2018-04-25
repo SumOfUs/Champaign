@@ -19,7 +19,7 @@ module PagesHelper
 
   def ak_resource_id(ak_resource_url)
     match = %r{\/(\d+)\/?$}.match(ak_resource_url)
-    return unless match.present?
+    return if match.blank?
     match[1]
   end
 
@@ -189,6 +189,7 @@ module PagesHelper
         country_code: c.country_code,
         currency_code: c.currency_code,
         eu_member: c.in_eu?,
+        eea_member: c.in_eea?,
         languages_official: c.languages_official,
         translations: {
           en: c.translations['en'],

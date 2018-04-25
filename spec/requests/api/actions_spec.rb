@@ -67,81 +67,100 @@ describe 'Api Actions' do
     end
 
     describe 'GDPR Consent support' do
-      context 'when gdpr_enabled param is absent or false' do
-        let(:base_params) do
-          {
-            email:    'hello@example.com',
-            form_id:  form.id,
-            source:   'fb',
-            country:  'DE',
-            name: 'Bob Mash'
-          }
-        end
+      let(:base_params) do
+        {
+          email:    'hello@example.com',
+          form_id:  form.id,
+          source:   'fb',
+          country:  'DE',
+          name: 'Bob Mash'
+        }
+      end
 
-        it 'ignores ignores the GDPR consent checks' do
-          expect {
-            post "/api/pages/#{page.id}/actions",
-                 params: base_params,
-                 headers: headers
-          }.to change { Action.count }.by 1
+      it 'skips GDPR checks when no GDPR params are present' do
+        expect {
+          post "/api/pages/#{page.id}/actions",
+               params: base_params,
+               headers: headers
+        }.to change { Action.count }.by 1
+      end
+
+      context 'when `gdpr_enabled=false` or not present' do
+        context 'and country is in the EEA' do
+          it 'ignores `consented=true` param' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consented: '1'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+
+          it 'ignores `consented=false` param' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consented: '0'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
         end
       end
 
-      context 'when gdpr_enabled param is true' do
-        let(:base_params) do
-          {
-            email:    'hello@example.com',
-            form_id:  form.id,
-            source:   'fb',
-            country:  'DE',
-            name: 'Bob Mash',
-            gdpr_enabled: '1'
-          }
-        end
-
-        context 'and the member is not in a EU country' do
-          it 'create an action always' do
+      context 'when `gdpr_enabled=true`' do
+        context 'and country is in the EEA' do
+          it 'creates action if `consented=true`' do
             expect {
               post "/api/pages/#{page.id}/actions",
-                   params: base_params.merge(country: 'CA'),
-                   headers: headers
-            }.to change { Action.count }.by 1
-          end
-        end
-
-        context 'and the member is in a EU country' do
-          it 'does not create an action if consented is absent or false' do
-            expect {
-              post "/api/pages/#{page.id}/actions",
-                   params: base_params,
-                   headers: headers
-            }.not_to change { Action.count }
-          end
-
-          it 'does not add consented/consented_at fields to member if consented is absent or false' do
-            post "/api/pages/#{page.id}/actions", params: base_params, headers: headers
-            last_member = Member.last
-            expect(last_member.consented_at).to be(nil)
-          end
-
-          # XXX This will change...
-          it 'creates an action if the user gave consent' do
-            expect {
-              post "/api/pages/#{page.id}/actions",
-                   params: base_params.merge(consented: '1'),
+                   params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
                    headers: headers
             }.to change { Action.count }.by 1
           end
 
-          it 'sets a consented_at if consented is true' do
+          it 'sets `consented_at` if `consented=true`' do
             Timecop.freeze do
               post "/api/pages/#{page.id}/actions",
-                   params: base_params.merge(consented: '1'),
+                   params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
                    headers: headers
-
               last_member = Member.last
               expect(last_member.consented_at.utc).to eq(Time.now.utc)
             end
+          end
+
+          it 'responds with success and a follow_up_url when `consented=true`' do
+            post "/api/pages/#{page.id}/actions",
+                 params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
+                 headers: headers
+            expect(response).to be_success
+            expect(response.body).to match('follow_up_url')
+          end
+
+          it 'does not create an action when `consented=false`' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '0'),
+                   headers: headers
+            }.to change { Action.count }.by 0
+          end
+
+          it 'responds with success and a follow_up_url when `consented=false`' do
+            post "/api/pages/#{page.id}/actions",
+                 params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '0'),
+                 headers: headers
+            expect(response).to be_success
+            expect(response.body).to match('follow_up_url')
+          end
+        end
+
+        context 'and country is not in the EEA' do
+          it 'skips GDPR checks when `consented=false`' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(
+                     country: 'CA',
+                     gdpr_enabled: '1',
+                     consented: '0'
+                   ),
+                   headers: headers
+            }.to change { Action.count }.by 1
           end
         end
       end

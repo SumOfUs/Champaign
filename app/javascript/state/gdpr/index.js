@@ -87,5 +87,5 @@ export function changeVariant(variant: string = 'simple'): Action {
 function isEU(countryCode: ?string, countries = window.champaign.countries) {
   const country = countries.find(c => c.alpha2 === countryCode);
   if (!country) return false;
-  return country.eu_member;
+  return country.eea_member;
 }
