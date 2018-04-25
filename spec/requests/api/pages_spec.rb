@@ -144,7 +144,6 @@ describe 'api/pages' do
     let(:issue_tag1) { create :tag, name: '#AnimalRights' }
     let(:issue_tag2) { create :tag, name: '#Sexism' }
     let(:english) { create :language, :english }
-    let(:french) { create :language, :french }
 
     let!(:original_page) do
       create(:page,
@@ -157,75 +156,54 @@ describe 'api/pages' do
     end
 
     context 'valid request' do
-      context 'similar pages exist' do
-        let!(:similar_french_page) do
-          create(:page,
-                 :published,
-                 title: 'Je ne parle pas français',
-                 language: french,
-                 tags: [name_tag, region_tag, issue_tag1, issue_tag2])
-        end
-
-        let!(:similar_page) do
-          create(:page,
-                 :published,
-                 title: 'A similar petition',
-                 content: 'Also cool content',
-                 language: english,
-                 tags: [name_tag, region_tag, issue_tag1, issue_tag2])
-        end
-
-        let!(:similar_unpublished) do
-          create(:page,
-                 :unpublished,
-                 title: 'Similar but unpublished',
-                 language: english,
-                 tags: [name_tag, region_tag, issue_tag1, issue_tag2])
-        end
-
-        let!(:one_issue_tag_page) do
-          create(:page,
-                 :published,
-                 title: 'One tag match',
-                 language: english,
-                 tags: [name_tag, region_tag, issue_tag1])
-        end
-
-        subject { get(api_page_similar_path(original_page, number: 3, format: :json)) }
-
-        it 'returns pages with tags that are similar to the original page' do
-          subject
-          expect(response.code).to eq '200'
-          expect(json_hash.first.keys).to match_array(expected)
-          expect(json_hash.first.symbolize_keys).to include(title: 'A similar petition',
-                                                            content: 'Also cool content')
-        end
-
-        it 'does not return pages that have no matching issue tag' do
-        end
-
-        it 'does not return pages that match by tags but are different language' do
-        end
-
-        it 'returns the specified number of pages' do
-        end
-
-        it 'does not return unpublished pages' do
-        end
+      # Look into spec/service/page_service.spec for specs going through all the business logic of deciding which
+      # pages to send back in the request.
+      let!(:similar_page) do
+        create(:page,
+               :published,
+               title: 'A very similar page',
+               content: 'Also cool content',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1, issue_tag2])
       end
 
-      context 'insufficient number of similar pages' do
-        it 'falls back to pages with fewer matching issue tags if there are otherwise not enough similar pages' do
-        end
+      let!(:another_similar_page) do
+        create(:page,
+               :published,
+               title: 'A similar petition',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1])
+      end
 
-        it 'falls back to recent featured petitions with the same region tag if there are no matches by issue tag' do
-        end
+      let!(:similar_unpublished) do
+        create(:page,
+               :unpublished,
+               title: 'Similar but unpublished',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+      end
+
+      let!(:one_issue_tag_page) do
+        create(:page,
+               :published,
+               title: 'One tag match',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1])
+      end
+
+      it 'returns the specified number of pages with tags that are similar to the original page' do
+        get(api_page_similar_path(original_page, limit: 3, format: :json))
+        expect(response.code).to eq '200'
+        expect(json_hash.first.keys).to match_array(expected)
+        expect(json_hash.first.symbolize_keys).to include(title: 'A very similar page',
+                                                          content: 'Also cool content')
+        expect(json_hash.length).to eq(3)
       end
     end
 
     context 'the requested page does not exist' do
       it 'responds with 404' do
-        get('/api/pages/similar/')
+        get(api_page_similar_path(13_289_248, limit: 3, format: :json))
         expect(response.code).to eq '404'
       end
     end
