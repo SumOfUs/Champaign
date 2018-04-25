@@ -5,8 +5,16 @@ module Plugins
 
     def update_targets
       @email_tool = Plugins::EmailTool.find(params[:id])
+      @targets_csv_text = targets_params[:targets_csv_text]
+
       updater = ::EmailTool::PluginUpdater.new(@email_tool, targets_params)
-      status = updater.run ? :ok : :unprocessable_entity
+      status = if updater.run
+                 flash.now[:success] = 'Targets have been updated successully'
+                 :ok
+               else
+                 :unprocessable_entity
+               end
+
       render template: 'plugins/email_tools/_target_form.slim',
              status: status,
              locals: { plugin: @email_tool },

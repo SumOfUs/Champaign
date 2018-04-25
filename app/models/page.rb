@@ -32,6 +32,8 @@
 #  enforce_styles             :boolean          default("false"), not null
 #  notes                      :text
 #  publish_actions            :integer          default("0"), not null
+#  meta_tags                  :string
+#  meta_description           :string
 #
 
 class Page < ApplicationRecord
@@ -67,6 +69,8 @@ class Page < ApplicationRecord
   validates :slug, uniqueness: true, on: :create
   validate  :primary_image_is_owned
   validates :canonical_url, allow_blank: true, format: { with: %r{\Ahttps{0,1}:\/\/.+\..+\z} }
+  validates :meta_description, length: { maximum: 140 }
+  validate  :meta_tags_are_valid, if: ->(o) { o.meta_tags.present? }
 
   after_save :switch_plugins
 
@@ -98,10 +102,6 @@ class Page < ApplicationRecord
 
   def image_to_display
     primary_image || images.first
-  end
-
-  def meta_tags
-    tag_names << plugin_names
   end
 
   def dup
@@ -158,5 +158,15 @@ class Page < ApplicationRecord
 
   def transliterated_title
     I18n.transliterate(title, locale: language_code || I18n.default_locale)
+  end
+
+  def meta_tags_are_valid
+    xml = "<root> #{meta_tags} </root>"
+    doc = Nokogiri::XML(xml)
+    if doc.errors.any?
+      errors.add(:meta_tags, 'seem to be invalid HTML code')
+    elsif doc.xpath('/root//meta').empty? && doc.xpath('/root//META').empty?
+      errors.add(:meta_tags, 'must contain a list of valid "META" or "meta" tags')
+    end
   end
 end

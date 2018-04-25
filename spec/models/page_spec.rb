@@ -32,6 +32,8 @@
 #  enforce_styles             :boolean          default("false"), not null
 #  notes                      :text
 #  publish_actions            :integer          default("0"), not null
+#  meta_tags                  :string
+#  meta_description           :string
 #
 
 require 'rails_helper'
@@ -71,7 +73,6 @@ describe Page do
   it { is_expected.to respond_to :campaign_action_count }
   it { is_expected.to respond_to :tag_names }
   it { is_expected.to respond_to :plugin_names }
-  it { is_expected.to respond_to :meta_tags }
   it { is_expected.to respond_to :javascript }
   it { is_expected.to respond_to :canonical_url }
   it { is_expected.to respond_to :optimizely_status }
@@ -517,6 +518,20 @@ describe Page do
       it 'with a newline' do
         page.canonical_url = "https://example.com\n"
         expect(page).to be_invalid
+      end
+    end
+
+    describe 'meta_tags' do
+      it 'is invalid if it has the wrong format' do
+        page.meta_tags = 'random text <hello>'
+        expect(page).to be_invalid
+        expect(page.errors[:meta_tags]).to be_present
+      end
+
+      it 'is invalid if it doesn\'t contain at least one META tag' do
+        page.meta_tags = '<hello> </hello>'
+        expect(page).to be_invalid
+        expect(page.errors[:meta_tags]).to be_present
       end
     end
   end

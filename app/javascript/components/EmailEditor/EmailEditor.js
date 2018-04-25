@@ -4,35 +4,43 @@ import Input from '../SweetInput/SweetInput';
 import FormGroup from '../Form/FormGroup';
 import ErrorMessages from '../ErrorMessages';
 import { FormattedMessage } from 'react-intl';
-import { compact, get, template, isEqual } from 'lodash';
+import { compact, debounce, template, isEqual } from 'lodash';
 import classnames from 'classnames';
 import type { ErrorMap } from '../../util/ChampaignClient/Base';
+import { Editor, EditorState } from 'draft-js';
+import { stateFromHTML } from 'draft-js-import-html';
+import { stateToHTML } from 'draft-js-export-html';
 import './EmailEditor.scss';
 
-export type EmailProps = {
-  subject: string,
-  body: string,
-};
-
-type Props = {
-  body: string,
-  footer?: string,
-  header?: string,
-  subject: string,
-  templateVars: { [key: string]: any },
-  errors: ErrorMap,
-  onUpdate: (email: EmailProps) => void,
-};
+const MAX_SUBJECT_LENGTH = 64;
 
 export default class EmailEditor extends Component {
   props: Props;
-  state: EmailProps;
+  state: State;
   constructor(props: Props) {
     super(props);
+
     this.state = {
-      subject: this.interpolateVars(this.props.subject),
-      body: this.interpolateVars(this.props.body),
+      subject: interpolateVars(props.subject, props.templateVars),
+      editorState: EditorState.createWithContent(
+        stateFromHTML(interpolateVars(props.body, props.templateVars))
+      ),
     };
+  }
+
+  static getDerivedStateFromProps(props: Props, state?: State) {
+    return {
+      header: interpolateVars(props.header, props.templateVars),
+      footer: interpolateVars(props.footer, props.templateVars),
+    };
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    return (
+      !isEqual(nextProps.templateVars, this.props.templateVars) ||
+      this.state.subject !== nextState.subject ||
+      this.state.editorState !== nextState.editorState
+    );
   }
 
   componentDidMount() {
@@ -43,47 +51,32 @@ export default class EmailEditor extends Component {
     this.update();
   }
 
-  shouldComponentUpdate(nextProps: Props) {
-    return !isEqual(nextProps, this.props);
-  }
+  update = debounce(() => {
+    if (typeof this.props.onUpdate !== 'function') return;
+    this.props.onUpdate({
+      subject: this.state.subject,
+      body: this.body(),
+    });
+  }, 400);
 
   body() {
     return compact([
-      this.parse(this.props.header),
-      this.state.body,
-      this.parse(this.props.footer),
-    ]).join('\n\n');
+      this.state.header,
+      stateToHTML(this.state.editorState.getCurrentContent()),
+      this.state.footer,
+    ]).join('<br />');
   }
-
-  parse(templateString?: string = ''): string {
-    if (!templateString) return '';
-    templateString = templateString.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    return this.interpolateVars(templateString);
-  }
-
-  interpolateVars(templateString?: string = ''): string {
-    if (!templateString) return '';
-    return template(templateString)(this.props.templateVars);
-  }
-
-  update = () => {
-    if (typeof this.props.onUpdate === 'function') {
-      this.props.onUpdate({
-        subject: this.state.subject,
-        body: this.body(),
-      });
-    }
-  };
 
   updateSubject = (subject: string) => {
-    this.setState(s => ({ ...s, subject }), this.update);
+    if (subject.length > MAX_SUBJECT_LENGTH) return;
+    this.setState({ subject }, this.update);
   };
 
-  updateBody = ({ target }: SyntheticEvent) => {
-    if (target instanceof HTMLTextAreaElement) {
-      const body = target.value;
-      this.setState(s => ({ ...s, body }), this.update);
-    }
+  onEditorChange = (editorState: EditorState) => {
+    this.setState({ editorState }, () => {
+      if (!editorState.getLastChangeType()) return;
+      this.update();
+    });
   };
 
   render() {
@@ -92,6 +85,7 @@ export default class EmailEditor extends Component {
     const bodyClassName = classnames({
       'has-error': errors.body && errors.body.length > 0,
     });
+
     return (
       <div className="EmailEditor">
         <FormGroup>
@@ -118,19 +112,17 @@ export default class EmailEditor extends Component {
               {header && (
                 <div
                   className="EmailEditor-header"
-                  dangerouslySetInnerHTML={{ __html: this.parse(header) }}
+                  dangerouslySetInnerHTML={{ __html: this.state.header }}
                 />
               )}
-              <textarea
-                name="email_body"
-                defaultValue={this.state.body}
-                onChange={this.updateBody}
-                maxLength="9999"
+              <Editor
+                editorState={this.state.editorState}
+                onChange={this.onEditorChange}
               />
               {footer && (
                 <div
                   className="EmailEditor-footer"
-                  dangerouslySetInnerHTML={{ __html: this.parse(footer) }}
+                  dangerouslySetInnerHTML={{ __html: this.state.footer }}
                 />
               )}
             </div>
@@ -144,3 +136,30 @@ export default class EmailEditor extends Component {
     );
   }
 }
+
+function interpolateVars(templateString: ?string, templateVars: any): string {
+  if (!templateString) return '';
+  return template(templateString)(templateVars);
+}
+
+export type EmailProps = {
+  subject: string,
+  body: string,
+};
+
+type Props = {
+  body: string,
+  footer?: string,
+  header?: string,
+  subject: string,
+  templateVars: { [key: string]: any },
+  errors: ErrorMap,
+  onUpdate: (email: EmailProps) => void,
+};
+
+type State = {
+  subject: string,
+  editorState: EditorState,
+  header?: string,
+  footer?: string,
+};

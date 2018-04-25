@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180406135834) do
+ActiveRecord::Schema.define(version: 20180417152308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -235,6 +235,8 @@ ActiveRecord::Schema.define(version: 20180406135834) do
     t.boolean "enforce_styles", default: false, null: false
     t.text "notes"
     t.integer "publish_actions", default: 0, null: false
+    t.string "meta_tags"
+    t.string "meta_description"
     t.index ["campaign_id"], name: "index_pages_on_campaign_id"
     t.index ["follow_up_liquid_layout_id"], name: "index_pages_on_follow_up_liquid_layout_id"
     t.index ["follow_up_page_id"], name: "index_pages_on_follow_up_page_id"
