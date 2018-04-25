@@ -68,7 +68,8 @@ en:
     content: "This will maintain any formatting pasted from Google docs, so set font size to 16 and font to Helvetica Neue when pasting. You can also use this to embed images and videos inline."
     javascript: 'Put any javascript you want the page to execute here. It will be run after the page is loaded, inside a document.ready handler.'
     meta_description: 'Description meta tag content which will show on search engines as snippet text.'
-    meta_tags: 'Custom meta tags meant for SEO optimizations. This field must contain valid HTML META tags.'
+    meta_tags: "Custom meta tags meant for SEO optimizations. This field must contain valid HTML META tags. For example - to stop page from being indexed\
+     or followed use <META name=\"robots\" content=\"NOINDEX, NOFOLLOW\"/>"
     notes: 'Notes are only visible to campaigners, here on this page.'
     tags: 'Standard SumOfUs tags as used in ActionKit'
     page_layout: "Change this to a petition page, a fundraising page, or change the appearance"
