@@ -31,7 +31,7 @@ class ConsentComponent extends Component {
     return (
       <div className="ConsentComponent">
         <div className="ConsentComponent--opt-in-reason opt-in-reason">
-          <FormattedHTMLMessage id="gdpr.opt_in_reason" defaultMessage="hi" />
+          <FormattedHTMLMessage id="gdpr.opt_in_reason" />
         </div>
         <div className={controlsClass}>
           <GDPRConsentControls
@@ -40,8 +40,18 @@ class ConsentComponent extends Component {
             shortLabels={variant === 'simple'}
           />
         </div>
+        {consented === false && (
+          <div className="ConsentComponent--opt-out-warn">
+            <h5 className="ConsentComponent--opt-out-warn-title">
+              <FormattedHTMLMessage id="gdpr.opt_out_warn_title" />
+            </h5>
+            <p className="ConsentComponent--opt-out-warn-message">
+              <FormattedHTMLMessage id="gdpr.opt_out_warn_message" />
+            </p>
+          </div>
+        )}
         <div className="ConsentComponent--how-to-opt-out how-to-opt-out">
-          <FormattedHTMLMessage id="gdpr.how_to_opt_out" defaultMessage="hi" />
+          <FormattedHTMLMessage id="gdpr.how_to_opt_out" />
         </div>
       </div>
     );
