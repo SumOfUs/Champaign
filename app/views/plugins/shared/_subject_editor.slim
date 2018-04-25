@@ -1,6 +1,6 @@
 - list_editor_id = "#{name}_email_subjects"
 .form-group class=list_editor_id
-  = label_with_tooltip f, :email_subjects, t('plugins.email_tool.subject'), t('plugins.email_tool.tooltips.email_content')
+  = label_with_tooltip f, :email_subjects, t('plugins.email_tool.subject'), tooltip
   .form-element__choice-fields
     - plugin.email_subjects << '' if plugin.email_subjects.empty?
     - plugin.email_subjects.each_with_index do |subject, i|

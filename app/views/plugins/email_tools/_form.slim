@@ -25,7 +25,7 @@
           .has-error
             strong = t('plugins.email_tool.test_email_warning')
 
-      = render 'plugins/shared/subject_editor', name: name, f: f, plugin: plugin
+      = render 'plugins/shared/subject_editor', name: name, f: f, plugin: plugin, tooltip: t('plugins.email_tool.tooltips.email_content')
 
       .email-body-section
         .form-group

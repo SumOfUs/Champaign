@@ -39,6 +39,11 @@ de:
         suggest_fund: Bitte geben Sie den Namen Ihres Rentenfonds ein
         target:
           outdated: "Offensichtlich haben sich gerade Informationen auf Empfänger-Seite verändert. Bitte laden Sie die Seite erneut und probieren es noch einmal. "
+    template_defaults:
+      fund: '[Select fund from above]'
+      fund_contact: '[Select fund from above]'
+      fund_email: '[Select fund from above]'
+      name: '[Enter your name above]'
   fundraiser:
     payment_methods:
       gocardless: "Lastschrift"
