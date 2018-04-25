@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
@@ -42,7 +43,7 @@ guard :rspec, cmd: 'rspec' do
   dsl.watch_spec_files_for(ruby.lib_files)
 
   # Rails files
-  rails = dsl.rails(view_extensions: %w(erb haml slim))
+  rails = dsl.rails(view_extensions: %w[erb haml slim])
   dsl.watch_spec_files_for(rails.app_files)
   dsl.watch_spec_files_for(rails.views)
 
@@ -77,4 +78,9 @@ guard :rspec, cmd: 'rspec' do
   # watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
   # Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
   # end
+end
+
+guard :rubocop, all_on_start: false, cli: '--rails -a' do
+  watch(/.+\.rb$/) { |m| m[0] }
+  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
 end
