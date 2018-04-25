@@ -12,7 +12,6 @@ class Api::ActionsController < ApplicationController
 
     if validator.valid?
       if gdpr_consent_check_passed?
-        logger.info('GDPR CHECK PASSED')
         action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
 
         # TODO: Move write_member_cookie to a member service.
