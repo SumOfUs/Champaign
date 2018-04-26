@@ -134,6 +134,8 @@ exports[`Snapshots: With default messages object 1`] = `
       "gdpr.how_to_opt_out": "You can opt out of receiving our messages at any time. Just go to our <a href=\\"https://www.sumofus.org/unsubscribe\\" target=\\"_blank\\">unsubscribe page</a>. By entering your details you confirm that you are 16 or older.",
       "gdpr.opt_in_error": "Please choose an option",
       "gdpr.opt_in_reason": "<b>SumOfUs is a global community of people committed to fighting corporate power</b>. Would you like to hear about our latest campaigns, news, events and fundraising, and find out more about how you can get involved? <b>Choose 'yes' to opt in to email below:</b>",
+      "gdpr.opt_out_warn_message": "If you choose ‘Yes,’ we’ll keep you posted about SumOfUs campaigns so you can take action when the next big company steps out of line.",
+      "gdpr.opt_out_warn_title": "Are you sure?",
       "member_registration.check_email": "<strong>Thanks for registering.</strong> <span>Now, check your email and click the confirmation link</span>",
       "member_registration.create_account": "We're processing your donation.",
       "member_registration.create_account_description": "Now, create an account to securely manage your donations, and cancel a donation at any time.",
