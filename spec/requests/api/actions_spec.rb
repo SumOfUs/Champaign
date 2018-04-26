@@ -121,7 +121,7 @@ describe 'Api Actions' do
                    params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
                    headers: headers
               last_member = Member.last
-              expect(last_member.consented_at.utc).to eq(Time.now.utc)
+              expect(last_member.consented_at.utc).to be_within(1.second).of(Time.now.utc)
             end
           end
 
