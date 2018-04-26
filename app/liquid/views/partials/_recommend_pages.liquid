@@ -1,7 +1,7 @@
 <div class="overlay-toggle">
   <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
     <div class="fundraiser-bar__content">
-      <div id="fundraiser-component" class="fundraiser-bar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% else %} sidebar stuck-right {% endif %}"></div>
+      <div id="recommend-pages-component" class="fundraiser-bar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% else %} sidebar stuck-right {% endif %}"></div>
     </div>
   </div>
 </div>
@@ -10,29 +10,10 @@
   $(function() {
     var global = window.champaign.personalization;
     var data = {
-      el: 'fundraiser-component',
-      paymentMethods: global.paymentMethods,
-      member: global.member,
       locale: '{{locale}}',
-      fundraiser: {
-        pageId: "{{ id }}",
-        currency: global.urlParams.currency || global.location.currency,
-        donationBands: global.donationBands,
-        showDirectDebit: global.showDirectDebit,
-        formValues: global.formValues,
-        formId: "{{ plugins.fundraiser[ref].form_id }}",
-        outstandingFields: global.outstandingFields,
-    {% if fundraiser_title %}
-      title: "{{ fundraiser_title }}",
-      {% else %}
-    title: "{{ plugins.fundraiser[ref].title }}",
-    {% endif %}
-  preselectAmount: {{ plugins.fundraiser[ref].preselect_amount }},
-  fields: {{ plugins.fundraiser[ref].fields | jsonify }},
-  recurringDefault: global.urlParams.recurring_default || "{{ plugins.fundraiser[ref].recurring_default }}",
-    freestanding: {% if freestanding %} true {% else %} false {% endif %}
-  }
-  };
+      pageId: "{{ id }}"
+    };
+
   window.setTimeout(function(){
     champaign.overlayToggle = new champaign.OverlayToggle();
     {% unless freestanding %}
@@ -40,6 +21,6 @@
     {% endunless %}
   }, 100);
 
-  mountFundraiser('fundraiser-component', data);
+   mountRecommendPages('recommend-pages-component', data);
   })
 </script>

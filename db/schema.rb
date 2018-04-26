@@ -64,13 +64,6 @@ ActiveRecord::Schema.define(version: 20180424140020) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "authentication_nonces", force: :cascade do |t|
-    t.string "nonce"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["nonce"], name: "index_authentication_nonces_on_nonce"
-  end
-
   create_table "calls", id: :serial, force: :cascade do |t|
     t.integer "page_id"
     t.integer "member_id"
