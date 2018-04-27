@@ -6,6 +6,10 @@ de:
     or: oder
   branding:
     description: "Wir stellen uns vor."
+  recommend_pages:
+    recommend_pages_title: ''
+    actions: "%{action_count} Unterschriften"
+    learn_more: "Mehr erfahren"
   email_pension:
     form:
       select_target: 'Wählen Sie Ihren Renten- oder Investement-Fonds.'

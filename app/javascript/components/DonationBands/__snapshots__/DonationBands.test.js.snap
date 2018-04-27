@@ -168,6 +168,9 @@ exports[`renders all amounts with the currency symbol 1`] = `
         "petition.sign_it": "Sign the petition",
         "petition.target_prefix": "TO",
         "petition.thank_you": "Thanks for adding your name to \\"{petition_title}\\"",
+        "recommend_pages.actions": "{action_count} actions",
+        "recommend_pages.learn_more": "learn more",
+        "recommend_pages.recommend_pages_title": "Here are other similar campaigns we need your support on!",
         "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
         "reset_password_mailer.reset_password_email.subject": "Please reset your password",
         "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.
@@ -571,6 +574,9 @@ exports[`renders correctly 1`] = `
         "petition.sign_it": "Sign the petition",
         "petition.target_prefix": "TO",
         "petition.thank_you": "Thanks for adding your name to \\"{petition_title}\\"",
+        "recommend_pages.actions": "{action_count} actions",
+        "recommend_pages.learn_more": "learn more",
+        "recommend_pages.recommend_pages_title": "Here are other similar campaigns we need your support on!",
         "reset_password_mailer.reset_password_email.html.body": "Someone (probably you) has requested a password reset on your SumOfUs account.<br />You can use the following link within the next day to reset your password:<br /><br />{url}<br /><br />If you didn't request a new password, you can safely ignore this email.<br /><br />Thanks,<br />SumOfUs",
         "reset_password_mailer.reset_password_email.subject": "Please reset your password",
         "reset_password_mailer.reset_password_email.text.body": "Someone (probably you) has requested a password reset on your SumOfUs account.

@@ -3,7 +3,7 @@
 class Api::PagesController < ApplicationController
   rescue_from ActiveRecord::RecordNotFound, with: :render_errors
   before_action :get_page, except: %i[index featured similar]
-  before_action :authenticate_user!, except: %i[index featured show actions similar]
+  before_action :authenticate_user!, only: %i[update share_rows]
 
   layout false
 

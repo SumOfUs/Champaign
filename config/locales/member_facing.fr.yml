@@ -6,6 +6,10 @@ fr:
     or: ou
   branding:
     description: "This is who we are."
+  recommend_pages:
+    recommend_pages_title: ''
+    actions: "%{action_count} signataires"
+    learn_more: "En savoir plus "
   email_pension:
     form:
       select_taget: 'Veuillez sélectionner votre fonds commun d''investissement ou de pension. '

@@ -1,9 +1,8 @@
-<div class="overlay-toggle">
-  <div class="overlay-toggle__mobile-view overlay-toggle__mobile-view--closed">
-    <div class="fundraiser-bar__content">
-      <div id="recommend-pages-component" class="fundraiser-bar {{ extra_class }} {% if freestanding %} fundraiser-bar--freestanding {% else %} sidebar stuck-right {% endif %}"></div>
-    </div>
+<div class="full-screen-block similar-block">
+  <div class="similar-block__subheader">
+    <h1>{{ 'recommend_pages.recommend_pages_title' | t }}</h1>
   </div>
+  <div id="recommend-pages-component" class="similar-block__campaigns"></div>
 </div>
 
 <script type="text/javascript">
@@ -13,14 +12,6 @@
       locale: '{{locale}}',
       pageId: "{{ id }}"
     };
-
-  window.setTimeout(function(){
-    champaign.overlayToggle = new champaign.OverlayToggle();
-    {% unless freestanding %}
-    champaign.mySidebar = new champaign.Sidebar({petitionTextMinHeight: 162, baseClass: 'fundraiser-bar'});
-    {% endunless %}
-  }, 100);
-
    mountRecommendPages('recommend-pages-component', data);
   })
 </script>
