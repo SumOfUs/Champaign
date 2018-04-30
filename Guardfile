@@ -80,7 +80,7 @@ guard :rspec, cmd: 'rspec' do
   # end
 end
 
-guard :rubocop, all_on_start: false, cli: '--rails -a' do
-  watch(/.+\.rb$/) { |m| m[0] }
-  watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
-end
+# guard :rubocop, all_on_start: false, cli: '--rails -a' do
+#   watch(/.+\.rb$/) { |m| m[0] }
+#   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
+# end
