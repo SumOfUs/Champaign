@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::ActionsController < ApplicationController
-  include GDPRConsentable
+  include Consentable
 
   before_action :localize_from_page_id
 
@@ -11,7 +11,7 @@ class Api::ActionsController < ApplicationController
     validator = FormValidator.new(action_params.to_h)
 
     if validator.valid?
-      if gdpr_consent_check_passed?
+      if consent_check_passed?
         action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
 
         # TODO: Move write_member_cookie to a member service.
@@ -60,7 +60,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented consented_at gdpr_enabled]
+    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented consented_at consent_enabled]
   end
 
   def fields

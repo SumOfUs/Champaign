@@ -9,13 +9,13 @@ import {
   changeMemberEmail,
   changeMemberId,
   changeVariant,
-} from '../state/gdpr';
+} from '../state/consent';
 
 // TODO: Listen for member ID (new members)
-export default function GDPRConsentComponent(options) {
+export default function ConsentFeature(options) {
   if (!options) {
     throw new Error(
-      'GDPRConsentComponent must be initialized with an options object'
+      'ConsentFeature must be initialized with an options object'
     );
   }
   const store = window.champaign.store;

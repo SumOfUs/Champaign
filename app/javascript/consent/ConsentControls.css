@@ -1,21 +1,21 @@
-.GDPRConsentControls {
+.ConsentControls {
   position: relative;
 }
 
-.GDPRConsentControls label {
+.ConsentControls label {
   display: inline-block;
   margin-right: 30px;
 }
 
-.GDPRConsentControls input[type="radio"] {
+.ConsentControls input[type="radio"] {
   float: none;
 }
 
 /* Selectable Buttons variant */
-.selectable-buttons .GDPRConsentControls input[type="radio"] {
+.selectable-buttons .ConsentControls input[type="radio"] {
   display: none;
 }
-.selectable-buttons .GDPRConsentControls label {
+.selectable-buttons .ConsentControls label {
   display: block;
   background: white;
   border: 1px solid #F73415;
@@ -24,8 +24,8 @@
   cursor: pointer;
 }
 
-.selectable-buttons .GDPRConsentControls label:hover,
-.selectable-buttons .GDPRConsentControls label.active {
+.selectable-buttons .ConsentControls label:hover,
+.selectable-buttons .ConsentControls label.active {
   background: #F73415;
   color: white;
 }

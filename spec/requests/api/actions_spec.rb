@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+consent_ # frozen_string_literal: true
 
 require 'rails_helper'
 
@@ -66,7 +66,7 @@ describe 'Api Actions' do
       }
     end
 
-    describe 'GDPR Consent support' do
+    describe 'Consent support' do
       let(:base_params) do
         {
           email:    'hello@example.com',
@@ -77,7 +77,7 @@ describe 'Api Actions' do
         }
       end
 
-      it 'skips GDPR checks when no GDPR params are present' do
+      it 'skips consent checks when no consent params are present' do
         expect {
           post "/api/pages/#{page.id}/actions",
                params: base_params,
@@ -85,7 +85,7 @@ describe 'Api Actions' do
         }.to change { Action.count }.by 1
       end
 
-      context 'when `gdpr_enabled=false` or not present' do
+      context 'when `consent_enabled=false` or not present' do
         context 'and country is in the EEA' do
           it 'ignores `consented=true` param' do
             expect {
@@ -105,12 +105,12 @@ describe 'Api Actions' do
         end
       end
 
-      context 'when `gdpr_enabled=true`' do
+      context 'when `consent_enabled=true`' do
         context 'and country is in the EEA' do
           it 'creates action if `consented=true`' do
             expect {
               post "/api/pages/#{page.id}/actions",
-                   params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
+                   params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '1'),
                    headers: headers
             }.to change { Action.count }.by 1
           end
@@ -118,7 +118,7 @@ describe 'Api Actions' do
           it 'sets `consented_at` if `consented=true`' do
             Timecop.freeze do
               post "/api/pages/#{page.id}/actions",
-                   params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
+                   params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '1'),
                    headers: headers
               last_member = Member.last
               expect(last_member.consented_at.utc).to be_within(1.second).of(Time.now.utc)
@@ -127,7 +127,7 @@ describe 'Api Actions' do
 
           it 'responds with success and a follow_up_url when `consented=true`' do
             post "/api/pages/#{page.id}/actions",
-                 params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '1'),
+                 params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '1'),
                  headers: headers
             expect(response).to be_success
             expect(response.body).to match('follow_up_url')
@@ -136,14 +136,14 @@ describe 'Api Actions' do
           it 'does not create an action when `consented=false`' do
             expect {
               post "/api/pages/#{page.id}/actions",
-                   params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '0'),
+                   params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '0'),
                    headers: headers
             }.to change { Action.count }.by 0
           end
 
           it 'responds with success and a follow_up_url when `consented=false`' do
             post "/api/pages/#{page.id}/actions",
-                 params: base_params.merge(country: 'LI', gdpr_enabled: '1', consented: '0'),
+                 params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '0'),
                  headers: headers
             expect(response).to be_success
             expect(response.body).to match('follow_up_url')
@@ -151,12 +151,12 @@ describe 'Api Actions' do
         end
 
         context 'and country is not in the EEA' do
-          it 'skips GDPR checks when `consented=false`' do
+          it 'skips consent checks when `consented=false`' do
             expect {
               post "/api/pages/#{page.id}/actions",
                    params: base_params.merge(
                      country: 'CA',
-                     gdpr_enabled: '1',
+                     consent_enabled: '1',
                      consented: '0'
                    ),
                    headers: headers
