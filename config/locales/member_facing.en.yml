@@ -213,7 +213,7 @@ en:
       failure: 'Sorry, there was an issue confirming your account.'
       success: 'You have successfully confirmed your account. Thanks!'
       member_management: "To manage your payment methods and details, you can visit the <a href='%{url}'>members dashboard</a> at any time."
-  gdpr:
+  consent:
     opt_in_reason: "<b>SumOfUs is a global community of people committed to fighting corporate power</b>. Would you like to hear about our latest campaigns, news, events and fundraising, and find out more about how you can get involved? <b>Choose 'yes' to opt in to email below:</b>"
     opt_out_warn_title: "Are you sure?"
     opt_out_warn_message: "If you choose ‘Yes,’ we’ll keep you posted about SumOfUs campaigns so you can take action when the next big company steps out of line."

@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classnames from 'classnames';
-import './GDPRConsentControls.css';
+import './ConsentControls.css';
 
 type Props = {
   onChange: (consented: boolean) => void,
@@ -10,7 +10,7 @@ type Props = {
   shortLabels?: boolean,
 };
 
-export class GDPRConsentControls extends PureComponent {
+export class ConsentControls extends PureComponent {
   props: Props;
   render() {
     const { shortLabels, consented } = this.props;
@@ -21,7 +21,7 @@ export class GDPRConsentControls extends PureComponent {
       active: consented === false,
     });
     return (
-      <div className="GDPRConsentControls">
+      <div className="ConsentControls">
         <label className={acceptClass}>
           <input
             type="radio"
@@ -31,10 +31,10 @@ export class GDPRConsentControls extends PureComponent {
             onChange={() => this.props.onChange(true)}
           />
           {shortLabels ? (
-            <FormattedMessage id="gdpr.accept_short" defaultMessage="Yes" />
+            <FormattedMessage id="consent.accept_short" defaultMessage="Yes" />
           ) : (
             <FormattedMessage
-              id="gdpr.accept_long"
+              id="consent.accept_long"
               defaultMessage="Yes – sign and receive emails"
             />
           )}
@@ -48,10 +48,10 @@ export class GDPRConsentControls extends PureComponent {
             onChange={() => this.props.onChange(false)}
           />
           {shortLabels ? (
-            <FormattedMessage id="gdpr.decline_short" defaultMessage="No" />
+            <FormattedMessage id="consent.decline_short" defaultMessage="No" />
           ) : (
             <FormattedMessage
-              id="gdpr.decline_long"
+              id="consent.decline_long"
               defaultMessage="No – sign, but don't receive emails"
             />
           )}
