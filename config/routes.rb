@@ -162,6 +162,10 @@ Rails.application.routes.draw do
         resource :consent, only: [:create]
       end
 
+      delete '/api/consent', to: 'api/stateless/consents#destroy'
+
+      resource :consent, only: %i[create destroy]
+
       namespace :auth do
         post :password
         post :facebook
