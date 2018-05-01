@@ -82,7 +82,6 @@ group :development do
   gem 'annotate'
   gem 'foreman', require: false
   gem 'guard-rspec', require: false
-  gem 'guard-rubocop', require: false
   gem 'terminal-notifier-guard' # [OSX] brew install terminal-notifier
   gem 'web-console'
 end
