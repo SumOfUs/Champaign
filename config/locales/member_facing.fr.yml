@@ -207,3 +207,13 @@ fr:
       failure: 'Désolé, nous n’avons pas pu confirmer votre compte.'
       success: 'Félicitations, votre compte SumOfUs a bien été confirmé. Merci !'
       member_management: "Pour gérer vos modalités de paiement, vous pouvez à tout moment visiter le <a href='%{url}'>tableau de bord des membres</a> de SumOfUs."
+  consent:
+    opt_in_reason: "<b>SumOfUs is a global community of people committed to fighting corporate power</b>. Would you like to hear about our latest campaigns, news, events and fundraising, and find out more about how you can get involved? <b>Choose 'yes' to opt in to email below:</b>"
+    opt_out_warn_title: "Are you sure?"
+    opt_out_warn_message: "If you choose ‘Yes,’ we’ll keep you posted about SumOfUs campaigns so you can take action when the next big company steps out of line."
+    how_to_opt_out: 'You can opt out of receiving our messages at any time. Just go to our <a href="https://www.sumofus.org/unsubscribe" target="_blank">unsubscribe page</a>. By entering your details you confirm that you are 16 or older.'
+    opt_in_error: "Please choose an option"
+    accept_short: "Yes"
+    accept_long: "Yes – sign and receive emails"
+    decline_short: "No"
+    decline_long: "No – sign, but don't receive emails"
