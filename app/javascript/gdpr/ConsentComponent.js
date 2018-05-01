@@ -29,7 +29,7 @@ class ConsentComponent extends Component {
     const controlsClass = classnames('ConsentComponent--prompt', variant);
 
     return (
-      <div className="ConsentComponent">
+      <div className={classnames('ConsentComponent', variant)}>
         <div className="ConsentComponent--opt-in-reason opt-in-reason">
           <FormattedHTMLMessage id="gdpr.opt_in_reason" />
         </div>
