@@ -68,19 +68,4 @@ guard :rspec, cmd: 'rspec' do
   watch(%r{^app/controllers/(.+)_(controller)\.rb$})  do |m|
     ["spec/routing/#{m[1]}_routing_spec.rb", "spec/#{m[2]}s/#{m[1]}_#{m[2]}_spec.rb", "spec/acceptance/#{m[1]}_spec.rb"]
   end
-
-  # Capybara features specs
-  # watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
-  # watch(rails.layouts)       { |m| rspec.spec.("features/#{m[1]}") }
-
-  # Turnip features and steps
-  # watch(%r{^spec/acceptance/(.+)\.feature$})
-  # watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
-  # Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
-  # end
 end
-
-# guard :rubocop, all_on_start: false, cli: '--rails -a' do
-#   watch(/.+\.rb$/) { |m| m[0] }
-#   watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
-# end
