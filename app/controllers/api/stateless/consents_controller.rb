@@ -11,6 +11,11 @@ module Api
         render json: member
       end
 
+      def destroy
+        member = Member.find_by_email! params[:email]
+        member.update!(consented_at: nil)
+      end
+
       private
 
       def not_found
