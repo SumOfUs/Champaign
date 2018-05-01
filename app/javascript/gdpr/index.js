@@ -29,6 +29,7 @@ export default function GDPRConsentComponent(options) {
     store.dispatch(setPreviouslyConsented(member.consented));
     store.dispatch(changeMemberEmail(member.email));
     store.dispatch(changeMemberId(member.id));
+    store.dispatch(changeCountry(member.country));
   }
 
   if (options.variant) store.dispatch(changeVariant(options.variant));
