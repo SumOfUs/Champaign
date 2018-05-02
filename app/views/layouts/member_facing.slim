@@ -16,6 +16,7 @@ html lang="#{@page.language.try(:code).try(:downcase)}"
     - canonical_url = @page.canonical_url.blank? ? member_facing_page_url(@page) : @page.canonical_url
     link rel="canonical" href=canonical_url
 
+    = javascript_pack_tag 'sentry'
     = render partial: "shared/optimizely_snippet" unless @page.optimizely_disabled?
     = render partial: "shared/js_locale"
     = render partial: "layouts/mixpanel" if Settings.mixpanel_token
