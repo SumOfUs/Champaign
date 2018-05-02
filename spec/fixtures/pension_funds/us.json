@@ -1,4 +1,14 @@
 [{
+	"_id": "ac01de44b5d1c628a64e406389934b1d",
+	"email": "Bonnie.Saynay@invesco.com",
+	"name": "Bonnie Saynay",
+	"fund": "Invesco"
+},{
+	"_id": "ec01de44b5d1c628a64e406389934b8c",
+	"email": "pschwab@paxworld.com",
+	"name": "Peter Schwab",
+	"fund": "Pax World Funds"
+}, {
 	"_id": "fc01de44b5d1c628a64e807289934b8b",
 	"email": "gary.bader@alaska.gov",
 	"name": "Gary",
