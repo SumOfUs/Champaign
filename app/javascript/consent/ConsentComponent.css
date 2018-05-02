@@ -1,0 +1,29 @@
+.ConsentComponent {
+  clear: both;
+  padding-top: 1px;
+}
+.ConsentComponent--opt-in-reason {
+  margin: 20px 0;
+}
+
+.ConsentComponent--opt-out-warn {
+  margin: 15px 0;
+  padding: 10px;
+  color: red;
+  border: 2px solid red;
+}
+
+.ConsentComponent--opt-out-warn-title {
+  font-weight: bold;
+}
+
+.ConsentComponent--opt-out-warn-message {
+  margin-top: 10px;
+}
+.ConsentComponent--prompt {
+  margin-bottom: 15px;
+}
+
+.ConsentComponent--how-to-opt-out {
+  margin-bottom: 15px;
+}

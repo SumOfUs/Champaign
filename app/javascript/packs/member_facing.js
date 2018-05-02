@@ -19,6 +19,7 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import BraintreeHostedFields from '../member-facing/backbone/braintree_hosted_fields';
 import redirectors from '../member-facing/redirectors';
+import ConsentFeature from '../consent/index';
 
 window.URI = URI;
 
@@ -42,6 +43,7 @@ const initializeApp = () => {
     CampaignerOverlay,
     BraintreeHostedFields,
     redirectors,
+    ConsentFeature,
   });
 };
 

@@ -32,6 +32,7 @@ describe 'Api Actions' do
         form_id:  form.id,
         source:   'fb',
         country:  'FR',
+        consented: 'true',
         akid:     '1234.5678.tKK7gX',
         referring_akid: '1234.5678.tKK7gX',
         name: 'Bob Mash'
@@ -46,7 +47,7 @@ describe 'Api Actions' do
                              slug:       'foo-bar',
                              first_name: 'Bob',
                              last_name:  'Mash',
-                             created_at: be_within(1.second).of(Time.now),
+                             created_at: be_within(1.second).of(Time.zone.now),
                              country: 'France',
                              subscribed_member: true,
                              action_id: instance_of(Integer)),
@@ -63,6 +64,106 @@ describe 'Api Actions' do
                                action_referer: 'www.google.com',
                                user_en: 1)
       }
+    end
+
+    describe 'Consent support' do
+      let(:base_params) do
+        {
+          email:    'hello@example.com',
+          form_id:  form.id,
+          source:   'fb',
+          country:  'DE',
+          name: 'Bob Mash'
+        }
+      end
+
+      it 'skips consent checks when no consent params are present' do
+        expect {
+          post "/api/pages/#{page.id}/actions",
+               params: base_params,
+               headers: headers
+        }.to change { Action.count }.by 1
+      end
+
+      context 'when `consent_enabled=false` or not present' do
+        context 'and country is in the EEA' do
+          it 'ignores `consented=true` param' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consented: '1'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+
+          it 'ignores `consented=false` param' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consented: '0'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+        end
+      end
+
+      context 'when `consent_enabled=true`' do
+        context 'and country is in the EEA' do
+          it 'creates action if `consented=true`' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '1'),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+
+          it 'sets `consented_at` if `consented=true`' do
+            Timecop.freeze do
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '1'),
+                   headers: headers
+              last_member = Member.last
+              expect(last_member.consented_at.utc).to be_within(1.second).of(Time.now.utc)
+            end
+          end
+
+          it 'responds with success and a follow_up_url when `consented=true`' do
+            post "/api/pages/#{page.id}/actions",
+                 params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '1'),
+                 headers: headers
+            expect(response).to be_success
+            expect(response.body).to match('follow_up_url')
+          end
+
+          it 'does not create an action when `consented=false`' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '0'),
+                   headers: headers
+            }.to change { Action.count }.by 0
+          end
+
+          it 'responds with success and a follow_up_url when `consented=false`' do
+            post "/api/pages/#{page.id}/actions",
+                 params: base_params.merge(country: 'LI', consent_enabled: '1', consented: '0'),
+                 headers: headers
+            expect(response).to be_success
+            expect(response.body).to match('follow_up_url')
+          end
+        end
+
+        context 'and country is not in the EEA' do
+          it 'skips consent checks when `consented=false`' do
+            expect {
+              post "/api/pages/#{page.id}/actions",
+                   params: base_params.merge(
+                     country: 'CA',
+                     consent_enabled: '1',
+                     consented: '0'
+                   ),
+                   headers: headers
+            }.to change { Action.count }.by 1
+          end
+        end
+      end
     end
 
     describe 'queue' do

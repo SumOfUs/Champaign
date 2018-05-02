@@ -19,7 +19,7 @@ module PagesHelper
 
   def ak_resource_id(ak_resource_url)
     match = %r{\/(\d+)\/?$}.match(ak_resource_url)
-    return unless match.present?
+    return if match.blank?
     match[1]
   end
 
@@ -178,5 +178,26 @@ module PagesHelper
     }
 
     base.merge(layouts_and_plugins)
+  end
+
+  def countries
+    @countries ||= ISO3166::Country.all.map do |c|
+      {
+        name: c.name,
+        alpha2: c.alpha2,
+        alpha3: c.alpha3,
+        country_code: c.country_code,
+        currency_code: c.currency_code,
+        eu_member: c.in_eu?,
+        eea_member: c.in_eea?,
+        languages_official: c.languages_official,
+        translations: {
+          en: c.translations['en'],
+          fr: c.translations['fr'],
+          de: c.translations['de'],
+          es: c.translations['es']
+        }
+      }
+    end
   end
 end

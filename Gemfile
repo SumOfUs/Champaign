@@ -44,9 +44,9 @@ gem 'actionkit_connector', git: 'https://github.com/SumOfUs/actionkit_connector'
 gem 'airbrake', '~> 5.7.1'
 gem 'airbrake-ruby', '1.7.1'
 gem 'aws-sdk-rails'
+gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.3.5'
 gem 'browser', '~> 2.0', '>= 2.0.3'
-gem 'money-oxr'
 gem 'compass-rails' # was using git master branch before
 gem 'config'
 gem 'envyable', require: 'envyable/rails-now'
@@ -55,6 +55,7 @@ gem 'jwt'
 gem 'logger'
 gem 'lograge'
 gem 'metamagic'
+gem 'money-oxr'
 gem 'newrelic_rpm'
 gem 'puma', '~> 3.9.1'
 gem 'sass-rails'
@@ -64,7 +65,6 @@ gem 'turnout'
 gem 'twilio-ruby'
 gem 'uglifier'
 gem 'webpacker', '~> 3.0'
-gem 'bootsnap', require: false
 
 group :development, :test do
   gem 'byebug'

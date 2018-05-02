@@ -1,0 +1,31 @@
+.ConsentControls {
+  position: relative;
+}
+
+.ConsentControls label {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.ConsentControls input[type="radio"] {
+  float: none;
+}
+
+/* Selectable Buttons variant */
+.selectable-buttons .ConsentControls input[type="radio"] {
+  display: none;
+}
+.selectable-buttons .ConsentControls label {
+  display: block;
+  background: white;
+  border: 1px solid #F73415;
+  margin: 15px 0 0 0;
+  padding: 10px 5px 10px 10px;
+  cursor: pointer;
+}
+
+.selectable-buttons .ConsentControls label:hover,
+.selectable-buttons .ConsentControls label.active {
+  background: #F73415;
+  color: white;
+}

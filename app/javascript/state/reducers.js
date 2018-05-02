@@ -4,6 +4,7 @@ import member from './member/reducer';
 import fundraiser from './fundraiser/reducer';
 import paymentMethods from './paymentMethods/reducer';
 import page from './page/reducer';
+import consent from './consent';
 import { reducer as emailTarget } from './email_pension/actions';
 
 const reducers = {
@@ -12,6 +13,7 @@ const reducers = {
   emailTarget,
   paymentMethods,
   page,
+  consent,
 };
 
 export default combineReducers(reducers);
@@ -21,12 +23,14 @@ import type { Member } from './member/reducer';
 import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
 import type { PaymentMethod } from './paymentMethods/reducer';
 import type { PageAction } from './page/reducer';
+import type { ConsentState } from './consent';
 
 export type AppState = {
   member: Member,
   fundraiser: Fundraiser,
   paymentMethods: PaymentMethod[],
   page: ChampaignPage,
+  consent: ConsentState,
 };
 
 type ChampaignPaymentMethod = any;
