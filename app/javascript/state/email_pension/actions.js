@@ -1,14 +1,14 @@
 const initialState = {
-  country: '',
-  emailBody: '',
-  emailHeader: '',
-  emailFooter: '',
-  emailSubject: '',
   name: '',
   email: '',
-  fund: '',
-  to: '',
   isSubmitting: false,
+  emailSubject: '',
+  fundContact: '',
+  fundEmail: '',
+  fundContact: '',
+  fundId: '',
+  fund: '',
+  country: '',
 };
 
 export const reducer = (state = initialState, action) => {
@@ -48,7 +48,8 @@ export const reducer = (state = initialState, action) => {
         fund: fund.fund,
       };
     case 'email_target:initialize':
-      return { ...state, ...action.payload };
+      const { email, name, emailSubject, country, fundId } = action.payload;
+      return { ...state, email, name, emailSubject, country, fundId };
     default:
       return state;
   }
