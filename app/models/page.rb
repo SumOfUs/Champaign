@@ -140,6 +140,10 @@ class Page < ApplicationRecord
     language&.code || I18n.default_locale
   end
 
+  def optimization_tags
+    tag_names << plugin_names
+  end
+
   private
 
   def switch_plugins
