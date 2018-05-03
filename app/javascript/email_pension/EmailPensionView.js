@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { isEmpty, find, template, merge } from 'lodash';
+import { isEmpty, find, template, merge, pick } from 'lodash';
 import $ from 'jquery';
 import { connect } from 'react-redux';
 import Select from '../components/SweetSelect/SweetSelect';
@@ -28,6 +28,7 @@ import type { Dispatch } from 'redux';
 class EmailPensionView extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       shouldShowFundSuggestion: false,
       newPensionFundName: '',
@@ -40,7 +41,7 @@ class EmailPensionView extends Component {
   validateForm() {
     const errors = {};
 
-    const fields = ['country', 'subject', 'name', 'email', 'fund'];
+    const fields = ['country', 'emailSubject', 'name', 'email', 'fund'];
 
     fields.forEach(field => {
       if (isEmpty(this.props[field])) {
@@ -84,7 +85,7 @@ class EmailPensionView extends Component {
 
     const payload = {
       body: this.state.body,
-      subject: this.props.subject,
+      subject: this.props.emailSubject,
       target_name: this.props.fund,
       country: this.props.country,
       from_name: this.props.name,
@@ -94,8 +95,8 @@ class EmailPensionView extends Component {
     };
 
     merge(payload, this.props.formValues);
-
     this.props.changeSubmitting(true);
+
     // FIXME Handle errors
     $.post(`/api/pages/${this.props.pageId}/pension_emails`, payload);
   };
@@ -148,7 +149,7 @@ class EmailPensionView extends Component {
                     />
                   }
                   value={this.props.email}
-                  errorMessage={this.state.errors.country}
+                  errorMessage={this.state.errors.email}
                   onChange={value => this.props.changeEmail(value)}
                 />
               </FormGroup>
@@ -184,39 +185,32 @@ class EmailPensionView extends Component {
 }
 
 type EmailPensionType = {
-  emailBody: string,
-  emailHeader: string,
-  emailFooter: string,
-  emailSubject: string,
-  country: string,
   email: string,
   name: string,
   isSubmitting: boolean,
-  to: string,
-  fund: string,
   fundContact: string,
   fundEmail: string,
+  fund: string,
+  fundId: string,
+  country: string,
 };
 
 type OwnState = {
   emailTarget: EmailPensionType,
 };
 
-export const mapStateToProps = (state: OwnState) => ({
-  body: state.emailTarget.emailBody,
-  header: state.emailTarget.emailHeader,
-  footer: state.emailTarget.emailFooter,
-  fundContact: state.emailTarget.fundContact,
-  fundEmail: state.emailTarget.fundEmail,
-  subject: state.emailTarget.emailSubject,
-  country: state.emailTarget.country,
-  email: state.emailTarget.email,
-  name: state.emailTarget.name,
-  fund: state.emailTarget.fund,
-  to: state.emailTarget.to,
-  isSubmitting: state.emailTarget.isSubmitting,
-  formValues: state.emailTarget.formValues,
-});
+export const mapStateToProps = (state: OwnState) =>
+  pick(state.emailTarget, [
+    'email',
+    'name',
+    'country',
+    'emailSubject',
+    'isSubmitting',
+    'fundContact',
+    'fundEmail',
+    'fund',
+    'fundId',
+  ]);
 
 export const mapDispatchToProps = (dispatch: Dispatch<*>) => ({
   changeSubmitting: (value: boolean) => dispatch(changeSubmitting(true)),

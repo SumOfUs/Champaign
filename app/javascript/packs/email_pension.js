@@ -23,7 +23,7 @@ const store: Store<AppState, *> = window.champaign.store;
 
 window.mountEmailPension = (root: string, props: emailPensionInitialState) => {
   props = camelizeKeys(props);
-  store.dispatch({ type: 'email_pension:initialize', payload: props });
+  store.dispatch({ type: 'email_target:initialize', payload: props });
 
   render(
     <ComponentWrapper store={store} locale={props.locale}>
