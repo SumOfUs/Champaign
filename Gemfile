@@ -59,6 +59,7 @@ gem 'money-oxr'
 gem 'newrelic_rpm'
 gem 'puma', '~> 3.9.1'
 gem 'sass-rails'
+gem 'sentry-raven'
 gem 'share_progress', git: 'https://github.com/SumOfUs/share_progress', branch: 'master', require: false
 gem 'sprockets-rails'
 gem 'turnout'
