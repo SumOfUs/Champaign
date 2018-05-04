@@ -331,7 +331,7 @@ en:
       email_header: "Header (member can't edit)"
       email_body: 'Body'
       email_footer: "Footer (member can't edit)"
-      email_address_for_testing: 'Email address to send to (use for testing only)'
+      email_address_for_testing: 'FOR TESTING ONLY: email address to send test to'
       from_address: "'from' and 'reply to' email address"
       from_name: "'from' name"
       test_email_warning: "Don't forget to remove the test address before publishing."
