@@ -4,6 +4,7 @@ html
     = stylesheet_link_tag "mobile-preview"
     = stylesheet_link_tag "member-facing"
     = csrf_meta_tags
+    = javascript_pack_tag 'sentry'
   body
     = yield
     = render partial: "cdn/member_facing"
