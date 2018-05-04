@@ -7,7 +7,7 @@ fr:
   branding:
     description: "This is who we are."
   recommend_pages:
-    recommend_pages_title: ''
+    recommend_pages_title: "Voici d’autres campagnes similaires pour lesquelles nous avons besoin de votre soutien !"
     actions: "%{action_count} signataires"
     learn_more: "En savoir plus "
   email_pension:

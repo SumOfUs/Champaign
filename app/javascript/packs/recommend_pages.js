@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import ComponentWrapper from '../components/ComponentWrapper';
+import queryString from 'query-string';
 
 const store = window.champaign.store;
 
@@ -12,11 +13,18 @@ class RecommendPagesView extends React.Component {
     };
   }
 
+  queryStr() {
+    const query = queryString.parse(location.search);
+    query.source = 'similar_pages';
+    return queryString.stringify(query);
+  }
+
   render() {
+    const query = this.queryStr();
     return (
       <div className="campaign-tiles">
         {this.state.pages.map(function(page) {
-          return <CampaignTile key={page.id} {...page} />;
+          return <CampaignTile key={page.id} {...page} query={query} />;
         })}
       </div>
     );
@@ -39,7 +47,10 @@ class RecommendPagesView extends React.Component {
 }
 
 const CampaignTile = props => (
-  <a className="campaign-tile campaign-tile--compact" href={props.url}>
+  <a
+    className="campaign-tile campaign-tile--compact"
+    href={`${props.url}?${props.query}`}
+  >
     <div
       className="campaign-tile__image"
       style={{ backgroundImage: `url(${props.image})` }}
