@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 Raven.config(process.env.SENTRY_DSN, {
   release: process.env.CIRCLE_SHA1,
+  environment: process.env.SENTRY_ENVIRONMENT || 'development',
   dataCallback: data => {
     addReduxState(data);
     console.log('sentry data:', data);
