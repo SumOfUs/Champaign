@@ -7,7 +7,7 @@ de:
   branding:
     description: "Wir stellen uns vor."
   recommend_pages:
-    recommend_pages_title: ''
+    recommend_pages_title: "Hier finden Sie ähnliche Kampagnen, für die wir Ihre Unterstützung benötigen!"
     actions: "%{action_count} Unterschriften"
     learn_more: "Mehr erfahren"
   email_pension:
