@@ -20,7 +20,7 @@
 
       .form-group.field_with_errors
         = label_with_tooltip(f, :test_email_address, t('plugins.email_tool.email_address_for_testing'), t('plugins.email_tool.tooltips.email_address_for_testing'))
-        = f.text_field :test_email_address, class: 'form-control'
+        = f.text_field :test_email_address, class: 'form-control', autocomplete: 'email'
         - if plugin.test_email_address
           .has-error
             strong = t('plugins.email_tool.test_email_warning')

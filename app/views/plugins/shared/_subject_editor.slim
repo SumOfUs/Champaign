@@ -3,9 +3,9 @@
   = label_with_tooltip f, :email_subjects, t('plugins.email_tool.subject'), t('plugins.email_tool.tooltips.email_content')
   .form-element__choice-fields
     - plugin.email_subjects << '' if plugin.email_subjects.empty?
-    - plugin.email_subjects.each do |subject|
+    - plugin.email_subjects.each_with_index do |subject, i|
       .form-element__choice-field
-        = f.text_field :email_subjects, value: subject, multiple: true, class: 'form-control'
+        = f.text_field :email_subjects, value: subject, multiple: true, class: 'form-control', autocomplete: "subject-#{i}"
         a.form-element__remove-choice
           small
             span.glyphicon.glyphicon-remove
