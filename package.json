@@ -22,7 +22,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-preset-react": "^6.24.1",
     "backbone": "^1.3.3",
-    "braintree-web": "^3.28.1",
+    "braintree-web": "^3.32.1",
     "c3": "^0.4.18",
     "classnames": "^2.2.5",
     "clipboard": "^1.7.1",
