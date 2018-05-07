@@ -1275,9 +1275,9 @@ braces@^2.3.0:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-braintree-web@^3.28.1:
-  version "3.32.0"
-  resolved "https://registry.yarnpkg.com/braintree-web/-/braintree-web-3.32.0.tgz#b2f19e38c9a7e8ab101a6b8c3dc694ae1144dbd1"
+braintree-web@^3.32.1:
+  version "3.32.1"
+  resolved "https://registry.yarnpkg.com/braintree-web/-/braintree-web-3.32.1.tgz#f6350cafcfcaf51c8d9d130e075d55cb0aeec83a"
   dependencies:
     "@braintree/browser-detection" "1.7.0"
     "@braintree/iframer" "1.0.3"
