@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Share::Variant
   extend ActiveSupport::Concern
 
@@ -20,7 +21,7 @@ module Share::Variant
   end
 
   def self.all
-    [Share::Facebook, Share::Twitter, Share::Email].inject([]) do |variations, share_class|
+    [Share::Facebook, Share::Twitter, Share::Email, Share::Whatsapp].inject([]) do |variations, share_class|
       variations += share_class.all
     end
   end
