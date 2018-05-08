@@ -106,7 +106,7 @@ describe Member do
     it 'includes all attributes, plus name and welcome_name' do
       m = create :member
       expect(m.liquid_data.keys).to match_array(m.attributes.keys.map(&:to_sym) +
-                                                %i[consented name full_name welcome_name registered])
+                                                %i[name full_name welcome_name registered])
     end
 
     it 'uses name as name if available' do

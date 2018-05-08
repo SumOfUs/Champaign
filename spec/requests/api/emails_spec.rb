@@ -19,7 +19,7 @@ describe 'Emails', type: :request do
             subject: 'A Subject',
             from_email: 'john@email.com',
             from_name: 'John Doe',
-            country: 'GB'
+            country: 'US'
           }
         }
       end
@@ -59,7 +59,7 @@ describe 'Emails', type: :request do
         }.to change(Action, :count).by(1)
       end
 
-      it 'creates a member' do
+      it 'creates a member (given the country is not EEA)' do
         expect {
           post "/api/pages/#{page.id}/emails", params: params
         }.to change(Member, :count).by(1)
@@ -69,10 +69,10 @@ describe 'Emails', type: :request do
         expect(member.email).to eq 'john@email.com'
         expect(member.first_name).to eq 'John'
         expect(member.last_name).to eq 'Doe'
-        expect(member.country).to eq 'GB'
+        expect(member.country).to eq 'US'
       end
 
-      it 'publishes an event' do
+      it 'publishes an event (given the country is not EEA)' do
         akid = '25429.9032842.RNP4O4'
         payload = hash_including(
           type: 'action',
@@ -81,7 +81,7 @@ describe 'Emails', type: :request do
             name: 'John Doe',
             source: 'fb',
             akid: akid,
-            country: 'United Kingdom'
+            country: 'United States'
           )
         )
 
