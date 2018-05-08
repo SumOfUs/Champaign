@@ -71,7 +71,7 @@ describe ManageAction do
       end
 
       it 'ignores a sent id parameter' do
-        expect(Action).to receive(:create)
+        expect(Action).to receive(:create!)
           .with(hash_excluding(id: 200))
           .and_call_original
 
@@ -157,6 +157,130 @@ describe ManageAction do
         expect(ChampaignQueue).to receive(:push)
 
         subject
+      end
+    end
+
+    describe 'consent' do
+      let(:extra_params) { {} }
+
+      shared_examples 'regular action creation' do
+        it 'creates an action' do
+          expect {
+            ManageAction.create(params, extra_params: extra_params)
+          }.to change(Action, :count).by(1)
+        end
+
+        it 'creates a member' do
+          action = nil
+          expect {
+            action = ManageAction.create(params, extra_params: extra_params)
+          }.to change(Member, :count).by(1)
+
+          expect(action.member.email).to eq params[:email]
+        end
+
+        it 'publishes an event' do
+          expect(ChampaignQueue).to receive(:push)
+          ManageAction.create(params, extra_params: extra_params)
+        end
+      end
+
+      context 'for an existing member' do
+        let!(:member) { create(:member, email: 'bob@example.com') }
+        let(:params) { { email: 'bob@example.com', first_name: 'Bob', page_id: page.id } }
+
+        context 'that gives consent' do
+          before { params[:consented] = true }
+
+          it 'creates an action' do
+            expect {
+              ManageAction.create(params)
+            }.to change(Action, :count).by(1)
+          end
+
+          it 'updates the member' do
+            ManageAction.create(params)
+            expect(member.reload.first_name).to eq('Bob')
+            expect(member.consented).to be true
+          end
+
+          it 'publishes an event' do
+            expect(ChampaignQueue).to receive(:push)
+            ManageAction.create(params)
+          end
+        end
+
+        context "that explicitly doesn't give consent" do
+          before { params[:consented] = false }
+
+          it 'creates an action' do
+            expect {
+              ManageAction.create(params)
+            }.to change(Action, :count).by(1)
+          end
+
+          it 'updates the member' do
+            ManageAction.create(params)
+            expect(member.reload.first_name).to eq('Bob')
+            expect(member.consented).to be false
+          end
+
+          it 'publishes an event' do
+            expect(ChampaignQueue).to receive(:push)
+            ManageAction.create(params)
+          end
+        end
+      end
+
+      context 'for a new user' do
+        describe 'given a EEA country is selected and the action is not a donation' do
+          let(:params) { { email: 'bob@example.com', country: 'DE', page_id: page.id } }
+
+          context 'that gives consent' do
+            before { params[:consented] = true }
+            include_examples 'regular action creation'
+
+            it 'updates the consented flag on the member' do
+              action = ManageAction.create(params)
+              expect(action.member.consented).to be true
+            end
+          end
+
+          context "that doesn't give consent" do
+            before { params[:consented] = false }
+            it 'creates an action' do
+              expect {
+                ManageAction.create(params)
+              }.to change(Action, :count).by(1)
+            end
+
+            it "doesn't create a member" do
+              action = nil
+              expect {
+                action = ManageAction.create(params)
+              }.not_to change(Member, :count)
+              expect(action.member).to be_nil
+            end
+
+            it "doesn't publish an event" do
+              expect(ChampaignQueue).not_to receive(:push)
+              ManageAction.create(params)
+            end
+          end
+        end
+
+        context 'given a non EEA country is selected and no consent is given' do
+          let(:params) { { email: 'bob@example.com', country: 'AR', page_id: page.id } }
+
+          include_examples 'regular action creation'
+        end
+
+        context 'given it is a donation action and no consent is given' do
+          let(:params) { { email: 'bob@example.com', country: 'DE', page_id: page.id } }
+          let(:extra_params) { { donation: true } }
+
+          include_examples 'regular action creation'
+        end
       end
     end
   end

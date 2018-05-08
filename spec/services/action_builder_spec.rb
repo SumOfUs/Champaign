@@ -52,19 +52,6 @@ describe ManageAction do
     expect(mab.send(:page)).to eq(page)
   end
 
-  it 'correctly finds created users' do
-    mab = ManageAction.new(email: member.email)
-    expect(mab.member).to eq(member)
-  end
-
-  it 'correctly changes the attributes of provided users' do
-    person = member
-    not_real = 'Not a real country.'
-    expect(person.country).to_not eq(not_real)
-    mab = ManageAction.new(email: person.email, country: not_real)
-    expect(mab.member.country).to eq(not_real)
-  end
-
   it 'correctly builds and returns actions' do
     action = ManageAction.create(page_id: page.id, email: member.email)
     expect(action).to eq(found_action)
