@@ -137,6 +137,7 @@ fr:
     send_email: Envoyer un courriel
     share: Partager
     tweet: Tweeter
+    share_on_whatsapp: Whatsapp
     twitter_handle: '@sumofus_fr'
   errors:
     probably_invalid: semble invalide

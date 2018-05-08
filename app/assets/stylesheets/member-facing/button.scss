@@ -49,15 +49,16 @@ button.button {
 // shareprogress isn't super customization friendly, so we do
 // what we can.
 .button {
-  &--facebook, &--twitter {
-    float: left;
-    width: 145px;
-    &.sp_em_small, &.sp_em_large, &.sp_tw_small, &.sp_tw_large, &.sp_fb_small, &.sp_fb_large {
-      a {
-        width: 100%;
-        max-width: 145px;
-        padding-top: 20px;
-      }
+  &--facebook, &--twitter, &--whatsapp {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    display: inline-block;
+    width: 135px;
+    a {
+      width: 100%;
+      max-width: 135px;
+      padding-top: 20px;
     }
 
     a::before {
@@ -94,6 +95,15 @@ button.button {
         font-size: 1px;
         font-size: 0;
       }
+    }
+  }
+  &--whatsapp {
+    a {
+      @include button($whatsapp);
+      padding-top: 15px;
+      color: $whatsapp;
+      font-size: 1px;
+      font-size: 0;
     }
   }
   &--facebook a::before {

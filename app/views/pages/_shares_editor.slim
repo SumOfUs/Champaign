@@ -3,14 +3,22 @@
     = toggle_switch 'summary', 'summary', 'Summary view'
     = toggle_switch 'stats', 'summary', 'Analysis view'
 
-  table.table.shares-editor__existing
+  table.table.shares-editor__existing__shareprogress
     thead.shares-editor__stats-heading.hidden-closed
-      = render 'share_analytics_header'
+      = render 'sp_share_analytics_header', hide_title: @sp_variations.blank?
 
     tbody
-      - @variations.each do |variation|
+      - @sp_variations.each do |variation|
         = render variation, page: @page
-      = render 'links_to_share_progress'
+  = render 'links_to_share_progress'
+
+  table.table.shares-editor__existing__champaign
+    thead.shares-editor__stats-heading.hidden-closed
+      = render 'local_share_analytics_header', hide_title: @local_variations.blank?
+
+    tbody
+      - @local_variations.each do |variation|
+        = render variation, page: @page
 
   .col-md-6
     .well
@@ -25,9 +33,12 @@
             = toggle_switch 'facebook', 'facebook', 'Facebook'
             = toggle_switch 'twitter', 'facebook', 'Twitter'
             = toggle_switch 'email', 'facebook', 'Email'
+            = toggle_switch 'whatsapp', 'facebook', 'WhatsApp'
+
         = render 'share/new_form', page: @page, share: Share::Facebook.new, css_class: nil
         = render 'share/new_form', page: @page, share: prefill_link(Share::Twitter.new), css_class: 'hidden-closed'
         = render 'share/new_form', page: @page, share: prefill_link(Share::Email.new), css_class: 'hidden-closed'
+        = render 'share/new_form', page: @page, share: prefill_link(Share::Whatsapp.new), css_class: 'hidden-closed'
 
   .col-md-6
     #share-url-updater

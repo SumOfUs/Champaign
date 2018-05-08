@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180611102745) do
+
+ActiveRecord::Schema.define(version: 20180614131526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -563,8 +564,8 @@ ActiveRecord::Schema.define(version: 20180611102745) do
     t.datetime "updated_at", null: false
     t.string "sp_id"
     t.integer "page_id"
-    t.string "sp_type"
-    t.string "sp_button_html"
+    t.string "share_type"
+    t.string "share_button_html"
     t.text "analytics"
     t.index ["page_id"], name: "index_share_buttons_on_page_id"
   end
@@ -606,6 +607,17 @@ ActiveRecord::Schema.define(version: 20180611102745) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["page_id"], name: "index_share_twitters_on_page_id"
+  end
+
+  create_table "share_whatsapps", force: :cascade do |t|
+    t.bigint "page_id"
+    t.string "text"
+    t.integer "button_id"
+    t.integer "click_count", default: 0, null: false
+    t.integer "conversion_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_share_whatsapps_on_page_id"
   end
 
   create_table "tags", id: :serial, force: :cascade do |t|
@@ -687,5 +699,6 @@ ActiveRecord::Schema.define(version: 20180611102745) do
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"
   add_foreign_key "share_twitters", "pages"
+  add_foreign_key "share_whatsapps", "pages"
   add_foreign_key "uris", "pages"
 end

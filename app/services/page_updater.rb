@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 ##
 # The <tt>PageUpdater</tt> class serves to update a Page model along with
 # its associate Plugins and Share Variants. It allows for comprehensive saving
@@ -88,7 +89,7 @@ class PageUpdater
     page_tags_after = @page.pages_tags.map(&:tag_id)
 
     @page.changed_attributes.keys.any? do |attr|
-      %w(language_id title campaign_id).include?(attr)
+      %w[language_id title campaign_id].include?(attr)
     end || page_tags_before != page_tags_after
   end
 
@@ -111,21 +112,21 @@ class PageUpdater
   def update_plugin(plugin_params)
     plugin = plugins.select { |p| p.id == plugin_params[:id].to_i && p.name == plugin_params[:name] }.first
     raise ActiveRecord::RecordNotFound if plugin.blank?
-    plugin.update_attributes(without_name(plugin_params))
+    plugin.update_attributes(plugin_params.except(:name))
     plugin.errors
   end
 
   def update_share(share_params, _name)
     variant = if share_params[:id].present?
-                ShareProgressVariantBuilder.update(
-                  params: without_name(share_params),
+                ShareVariantBuilder.update(
+                  params: share_params.except(:name),
                   variant_type: share_params[:name],
                   page: @page,
                   id: share_params[:id]
                 )
               else
-                ShareProgressVariantBuilder.create(
-                  params: without_name(share_params),
+                ShareVariantBuilder.create(
+                  params: share_params.except(:name),
                   variant_type: share_params[:name],
                   page: @page,
                   url: @page_url
@@ -156,9 +157,5 @@ class PageUpdater
 
   def plugins
     @page.plugins
-  end
-
-  def without_name(params)
-    params.select { |k| k.to_sym != :name }
   end
 end

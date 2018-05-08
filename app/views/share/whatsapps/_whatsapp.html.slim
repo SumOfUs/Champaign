@@ -1,0 +1,24 @@
+- only_stats = local_assigns.fetch(:only_stats, false)
+
+- unless only_stats
+  = render 'share/whatsapps/summary_row', share: whatsapp
+/= render 'share/stats_row', share: whatsapp, share_type: 'whatsapp', page: page, preview: whatsapp.text, only_stats: only_stats
+- analytics = ShareAnalytics.data(page, 'whatsapp', whatsapp)
+
+tr.shares-editor__stats-row class="#{only_stats ? '' : 'hidden-closed'}"
+  td
+    span.fa.fa-whatsapp
+  td = whatsapp.text
+  td = analytics['click_count']
+  td = analytics['conversion_count']
+  td = analytics['conversion_rate']
+  td = analytics['weight']
+  td.shares-editor__button-cell
+    - unless only_stats
+      = render 'share/btn_edit_share'
+
+
+- unless only_stats
+  tr.shares-editor__edit-row.hidden-closed
+    td colspan=9
+      = render 'share/form', page: page, share: whatsapp

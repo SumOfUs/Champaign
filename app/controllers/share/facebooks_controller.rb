@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Share::FacebooksController < Share::SharesController
   private
 
@@ -16,6 +17,6 @@ class Share::FacebooksController < Share::SharesController
   def permitted_params
     params
       .require(:share_facebook)
-      .permit(:title, :image_id, :description)
+      .permit(:title, :image_id, :description, :name)
   end
 end

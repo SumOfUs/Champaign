@@ -1,0 +1,16 @@
+h3 id='champaign-shares-header' class=(hide_title ? 'hidden-irrelevant': '') = "Shares managed by Champaign:"
+th
+th = "Content"
+th
+  = t('share.analytics.click_count')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.click_count'), space_left: true }
+th
+  = t('share.analytics.conversion_count')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.conversion_count'), space_left: true }
+th
+  = t('share.analytics.conversion_rate')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.local_conversion_rate'), space_left: true }
+th
+  = t('share.analytics.weight')
+  = render partial: 'tooltip', locals: { tooltip_text: t('tooltips.shares.traffic_allocation'), space_left: true }
+th
