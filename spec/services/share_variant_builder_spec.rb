@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
-describe ShareProgressVariantBuilder do
+describe ShareVariantBuilder do
   let(:params) { { title: 'foo', description: 'bar' } }
 
   let(:sp_variants) { [{ id: 123 }] }
@@ -30,7 +31,7 @@ describe ShareProgressVariantBuilder do
 
     before do
       allow(ShareProgress::Button).to receive(:new) { sp_button }
-      ShareProgressVariantBuilder.update_button_url('http://example.com', button)
+      ShareVariantBuilder.update_button_url('http://example.com', button)
     end
 
     it 'saves button on ShareProgress' do
@@ -49,7 +50,7 @@ describe ShareProgressVariantBuilder do
 
   describe '.create' do
     subject(:create_variant) do
-      ShareProgressVariantBuilder.create(
+      ShareVariantBuilder.create(
         params: params,
         variant_type: 'facebook',
         page: page,
@@ -90,7 +91,7 @@ describe ShareProgressVariantBuilder do
 
         button = Share::Button.first
         expect(button.sp_id).to eq('1')
-        expect(button.sp_button_html).to eq('<div />')
+        expect(button.share_button_html).to eq('<div />')
         expect(button.url).to eq 'http://example.com/foo'
       end
 
@@ -98,7 +99,7 @@ describe ShareProgressVariantBuilder do
         variant = create_variant
         expected_url = variant.button.url
 
-        new_variant = ShareProgressVariantBuilder.create(
+        new_variant = ShareVariantBuilder.create(
           params: params,
           variant_type: 'facebook',
           page: page,
@@ -175,11 +176,11 @@ describe ShareProgressVariantBuilder do
 
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
-    let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
+    let!(:button) { create(:share_button, share_type: 'facebook', page: page, sp_id: 23) }
     let(:params) { { title: 'Bar' } }
 
     subject(:update_variant) do
-      ShareProgressVariantBuilder.update(
+      ShareVariantBuilder.update(
         params: params,
         variant_type: 'facebook',
         page: page,
@@ -232,7 +233,7 @@ describe ShareProgressVariantBuilder do
 
   context '.destroy' do
     subject(:destroy_variant) do
-      ShareProgressVariantBuilder.destroy(
+      ShareVariantBuilder.destroy(
         params: params,
         variant_type: 'facebook',
         page: page,
@@ -241,7 +242,7 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'success' do
-      let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
+      let!(:button) { create(:share_button, share_type: 'facebook', page: page, sp_id: 24) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
       let(:params) { { title: 'Bar' } }
 
@@ -250,7 +251,7 @@ describe ShareProgressVariantBuilder do
       end
 
       it 'returns an object with no errors' do
-        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: [:host, :path]) do
+        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: %i[host path]) do
           expect(ShareProgress::Button).to receive(:new)
           result = destroy_variant
           expect(result.errors[:base]).to eq []
@@ -258,7 +259,7 @@ describe ShareProgressVariantBuilder do
       end
 
       it 'removes the variant from local storage' do
-        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: [:host, :path]) do
+        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: %i[host path]) do
           expect(ShareProgress::Button).to receive(:new)
           expect(Share::Facebook.find(share.id)).to eq(share)
           destroy_variant
@@ -268,7 +269,7 @@ describe ShareProgressVariantBuilder do
     end
 
     describe 'failure' do
-      let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
+      let!(:button) { create(:share_button, share_type: 'facebook', page: page, sp_id: nil) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
       let(:params) { { title: 'Bar' } }
 

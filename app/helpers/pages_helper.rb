@@ -47,6 +47,7 @@ module PagesHelper
   def prefill_link(new_variant)
     new_variant.description = '{LINK}' if new_variant.name == 'twitter'
     new_variant.body = '{LINK}' if new_variant.name == 'email'
+    new_variant.text = '{LINK}' if new_variant.name == 'whatsapp'
     new_variant
   end
 
@@ -165,8 +166,12 @@ module PagesHelper
     end
   end
 
-  def share_url(button)
-    "http://sumof.us/99/#{button.sp_id}/#{button.sp_type}"
+  def share_url(variant)
+    if variant.share_progress?
+      "http://sumof.us/99/#{variant.button.sp_id}/#{variant.button.share_type}"
+    else
+      URI.extract(variant.html).first
+    end
   end
 
   def collapse_share_url_form(page)

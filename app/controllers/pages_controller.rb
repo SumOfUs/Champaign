@@ -11,6 +11,7 @@ class PagesController < ApplicationController
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up]
+  before_action :record_tracking, only: %i[show]
 
   def index
     @pages = Search::PageSearcher.search(search_params)
@@ -34,7 +35,8 @@ class PagesController < ApplicationController
   end
 
   def edit
-    @variations = @page.shares
+    @sp_variations = @page.shares('sp')
+    @local_variations = @page.shares('local')
     render :edit
   end
 
@@ -126,6 +128,17 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def record_tracking
+    # Currently the only use case is to parse query parameters for a whatsapp variant
+    # to see if the member has come from a whatsapp share.
+    return unless params[:src] == 'whatsapp'
+    Share::Whatsapp.find(params[:variant_id]).increment!(:conversion_count)
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error(
+      "Conversion count increment attempted on an invalid #{params[:src]} variant ID #{params[:variant_id]}."
+    )
+  end
 
   def get_page
     @page = Page.find(params[:id])
