@@ -99,7 +99,7 @@ class ManageAction
 
   def sanitize_params
     if @extra_attrs[:donation]
-      @params[:donor_status] = @params.delete(:is_subscription) ? 'recurring_donor' : 'donor'
+      @params[:donor_status] = @params[:is_subscription] ? 'recurring_donor' : 'donor'
     end
   end
 

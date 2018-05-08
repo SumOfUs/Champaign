@@ -71,8 +71,8 @@ class Member < ApplicationRecord
   def liquid_data
     full_name = name
     additional_values = {
-      consented: consented_at.present?,
-      donor_status: donor_status, # to get the string not enum int
+      consented: consented,
+      donor_status: donor_status,
       name: full_name,
       registered: authentication.present?,
       full_name: full_name,
