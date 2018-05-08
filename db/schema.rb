@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 20180611102745) do
     t.text "body"
     t.string "resource_id", null: false
     t.string "resource_type", null: false
-    t.string "author_type"
     t.integer "author_id"
+    t.string "author_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -64,13 +64,20 @@ ActiveRecord::Schema.define(version: 20180611102745) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "authentication_nonces", force: :cascade do |t|
+    t.string "nonce"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["nonce"], name: "index_authentication_nonces_on_nonce"
+  end
+
   create_table "calls", id: :serial, force: :cascade do |t|
     t.integer "page_id"
     t.integer "member_id"
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: "{}", null: false
+    t.jsonb "target_call_info", default: {}, null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -115,8 +122,8 @@ ActiveRecord::Schema.define(version: 20180611102745) do
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
     t.boolean "master", default: false
-    t.string "formable_type"
     t.integer "formable_id"
+    t.string "formable_type"
     t.integer "position", default: 0, null: false
     t.index ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id"
   end
@@ -608,6 +615,15 @@ ActiveRecord::Schema.define(version: 20180611102745) do
     t.index ["page_id"], name: "index_share_twitters_on_page_id"
   end
 
+  create_table "share_whatsapps", force: :cascade do |t|
+    t.bigint "page_id"
+    t.string "text"
+    t.integer "button_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_share_whatsapps_on_page_id"
+  end
+
   create_table "tags", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "actionkit_uri"
@@ -687,5 +703,6 @@ ActiveRecord::Schema.define(version: 20180611102745) do
   add_foreign_key "share_emails", "pages"
   add_foreign_key "share_facebooks", "images"
   add_foreign_key "share_twitters", "pages"
+  add_foreign_key "share_whatsapps", "pages"
   add_foreign_key "uris", "pages"
 end

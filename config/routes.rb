@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       resources :facebooks
       resources :twitters
       resources :emails
+      resources :whatsapps
     end
 
     get 'analytics', on: :member
