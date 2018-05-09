@@ -35,7 +35,6 @@ class ConsentComponent extends Component {
     if (hidden) return null;
     return (
       <div className={classnames('ConsentComponent', variant)}>
-        <input type="hidden" name="consent_enabled" value="1" />
         <div className="ConsentComponent--opt-in-reason opt-in-reason">
           <FormattedHTMLMessage id="consent.opt_in_reason" />
         </div>
