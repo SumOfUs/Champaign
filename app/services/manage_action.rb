@@ -103,6 +103,7 @@ class ManageAction
     if @extra_attrs[:donation]
       @params[:donor_status] = @params[:is_subscription] ? 'recurring_donor' : 'donor'
     end
+    @params[:consented] = ActiveRecord::Type::Boolean.new.deserialize(@params[:consented])
   end
 
   def requires_consent?
