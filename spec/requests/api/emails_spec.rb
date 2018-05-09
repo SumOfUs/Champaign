@@ -44,10 +44,10 @@ describe 'Emails', type: :request do
               UserId: 'john@email.com',
               Body: '<p>Lorem ipsum</p>',
               Subject: 'A Subject',
-              ToEmails: "#{target.name} <#{target.email}>",
+              ToEmails: ["#{target.name} <#{target.email}>"],
               FromName: 'John Doe',
               FromEmail: 'john@email.com',
-              ReplyTo: "#{from_email.name} <#{from_email.email}>, John Doe <john@email.com>"
+              ReplyTo: ["#{from_email.name} <#{from_email.email}>", 'John Doe <john@email.com>']
             }
           )
         post "/api/pages/#{page.id}/emails", params: params
