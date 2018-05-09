@@ -24,22 +24,24 @@ class ManageAction
 
   def create_action
     action_params = {
-      page: page,
-      form_data: form_data
+      page: page
     }.merge(@extra_attrs)
 
     if existing_member.present?
       action_params[:member] = existing_member
+      action_params[:form_data] = form_data
       action_params[:subscribed_member] = false
       update_existing_member
       @action = Action.create!(action_params)
       publish_event
     elsif !requires_consent? || @params[:consented]
       action_params[:member] = create_member
+      action_params[:form_data] = form_data
       action_params[:subscribed_member] = true
       @action = Action.create!(action_params)
       publish_event
     else
+      action_params[:form_data] = @params.slice(:name, :first_name, :last_name)
       action_params[:subscribed_member] = false
       @action = Action.create!(action_params)
     end

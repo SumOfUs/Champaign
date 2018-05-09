@@ -214,8 +214,9 @@ describe ManageAction do
           before { params[:consented] = false }
 
           it 'creates an action' do
+            action = nil
             expect {
-              ManageAction.create(params)
+              action = ManageAction.create(params)
             }.to change(Action, :count).by(1)
           end
 
@@ -234,7 +235,7 @@ describe ManageAction do
 
       context 'for a new user' do
         describe 'given a EEA country is selected and the action is not a donation' do
-          let(:params) { { email: 'bob@example.com', country: 'DE', page_id: page.id } }
+          let(:params) { { email: 'bob@example.com', name: 'Bob', country: 'DE', page_id: page.id } }
 
           context 'that gives consent' do
             before { params[:consented] = true }
@@ -248,10 +249,12 @@ describe ManageAction do
 
           context "that doesn't give consent" do
             before { params[:consented] = false }
-            it 'creates an action' do
+            it "creates an action, only saving the user's name" do
+              action = nil
               expect {
-                ManageAction.create(params)
+                action = ManageAction.create(params)
               }.to change(Action, :count).by(1)
+              expect(action.form_data).to eq('name' => 'Bob')
             end
 
             it "doesn't create a member" do
