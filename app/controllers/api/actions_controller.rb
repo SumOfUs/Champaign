@@ -1,25 +1,19 @@
 # frozen_string_literal: true
 
 class Api::ActionsController < ApplicationController
-  include Consentable
-
   before_action :localize_from_page_id
 
   skip_before_action :verify_authenticity_token, raise: false
 
   def create
+    # TODO: Move form validator to ManageAction
     validator = FormValidator.new(action_params.to_h)
 
     if validator.valid?
-      if consent_check_passed?
-        action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
+      action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
 
-        # TODO: Move write_member_cookie to a member service.
-        #       We're going to have to decouple actions from members and make the
-        #       association optional. A cleaner approach would be to let the class
-        #       that creates and updates members be the one to write the cookie.
+      if action.member.present?
         write_member_cookie(action.member_id)
-
         render json: {
           follow_up_url: PageFollower.new_from_page(
             page,
@@ -60,7 +54,7 @@ class Api::ActionsController < ApplicationController
   end
 
   def base_params
-    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented consented_at consent_enabled]
+    %w[page_id form_id name source akid referring_akid referrer_id rid bucket consented]
   end
 
   def fields

@@ -7,13 +7,13 @@ module Api
 
       def create
         member = Member.find_by_id_and_email! params[:member_id], params[:email]
-        member.update!(consented_at: Time.now)
+        member.update!(consented: true)
         render json: member
       end
 
       def destroy
         member = Member.find_by_email! params[:email]
-        member.update!(consented_at: nil)
+        member.update!(consented: false)
       end
 
       private

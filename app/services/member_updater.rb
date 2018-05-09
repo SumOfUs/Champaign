@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class MemberUpdater
   def self.run(member, params)
     new(member, params).run
@@ -13,7 +14,12 @@ class MemberUpdater
   def run
     @member.name = @params[:name] if @params.key? :name
     @member.actionkit_user_id = action_kit_user_id if action_kit_user_id.present?
-    @member.assign_attributes(@params.select { |k| member_attributes.include? k })
+    @member.donor_status = @params[:donor_status] if @params[:donor_status] && !@member.recurring_donor?
+    @member.assign_attributes(
+      @params.slice(
+        :email, :country, :first_name, :last_name, :city, :postal, :title, :address1, :address2, :consented
+      )
+    )
     @member.more = (@member.more || {}).merge(@params.select { |k| belongs_in_more? k })
     @member.save!
   end
@@ -25,7 +31,7 @@ class MemberUpdater
   end
 
   def member_attributes
-    @member_attributes ||= Member.column_names.map(&:to_sym).select { |k| k != :id }
+    @member_attributes ||= Member.column_names.map(&:to_sym).reject { |k| k == :id }
   end
 
   def belongs_in_more?(k)

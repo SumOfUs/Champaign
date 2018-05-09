@@ -7,7 +7,7 @@ describe Api::ActionsController do
     let(:form) { instance_double('Form', form_elements: [double(name: 'foo')]) }
     let(:page) { instance_double('Page', id: 2) }
     let(:member) { instance_double('Member', id: 12) }
-    let(:action) { instance_double('Action', member_id: member.id) }
+    let(:action) { instance_double('Action', member_id: member.id, member: member) }
     let(:follower) { instance_double('PageFollower', follow_up_path: '/asdf?member_id=12345') }
 
     before :each do

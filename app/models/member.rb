@@ -4,22 +4,23 @@
 #
 # Table name: members
 #
-#  id                :integer          not null, primary key
-#  email             :string
-#  country           :string
-#  first_name        :string
-#  last_name         :string
-#  city              :string
-#  postal            :string
-#  title             :string
-#  address1          :string
-#  address2          :string
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  actionkit_user_id :string
-#  donor_status      :integer          default("0"), not null
-#  more              :jsonb
-#  consented_at      :datetime
+#  id                   :integer          not null, primary key
+#  email                :string
+#  country              :string
+#  first_name           :string
+#  last_name            :string
+#  city                 :string
+#  postal               :string
+#  title                :string
+#  address1             :string
+#  address2             :string
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  actionkit_user_id    :string
+#  donor_status         :integer          default("0"), not null
+#  more                 :jsonb
+#  consented_updated_at :datetime
+#  consented            :boolean          default("false")
 #
 
 class Member < ApplicationRecord
@@ -36,6 +37,7 @@ class Member < ApplicationRecord
   validates :email, uniqueness: { case_sensitive: true }, allow_nil: true
 
   before_validation { email.try(:downcase!) }
+  before_save :update_consented_updated_at
 
   enum donor_status: %i[nondonor donor recurring_donor]
 
@@ -69,8 +71,8 @@ class Member < ApplicationRecord
   def liquid_data
     full_name = name
     additional_values = {
-      consented: consented_at.present?,
-      donor_status: donor_status, # to get the string not enum int
+      consented: consented,
+      donor_status: donor_status,
       name: full_name,
       registered: authentication.present?,
       full_name: full_name,
@@ -100,5 +102,11 @@ class Member < ApplicationRecord
       email: email,
       authentication_id: authentication.try(:id)
     }
+  end
+
+  private
+
+  def update_consented_updated_at
+    self.consented_updated_at = Time.now if consented_changed?
   end
 end

@@ -41,6 +41,8 @@ class EmailToolSender
   end
 
   def create_action
+    # TODO: Not handling consent.
+    # No new members for EEA countries
     @action = ManageAction.create(
       {
         page_id:             @page.id,
