@@ -170,6 +170,7 @@ module PagesHelper
   def page_object(page)
     exceptions = %i[content javascript liquid_layout_id compiled_html messages]
     base = page.as_json(except: exceptions)
+    base[:language_code] = page.language_code
 
     layouts_and_plugins = {
       layout: page.liquid_layout.title,

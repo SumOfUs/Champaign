@@ -24,6 +24,7 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import BraintreeHostedFields from '../member-facing/backbone/braintree_hosted_fields';
 import redirectors from '../member-facing/redirectors';
+import { formatMessage } from '../util/TranslationsLoader';
 
 window.URI = URI;
 
@@ -55,8 +56,17 @@ const initializeApp = () => {
 };
 
 const initializeCookieConsent = () => {
-  window.cookieconsent.initialise({
-    theme: 'block',
+  $(() => {
+    const locale = window.champaign.page.language_code || 'en';
+    window.cookieconsent.initialise({
+      theme: 'block',
+      content: {
+        message: formatMessage('cookie_consent.message', locale),
+        dismiss: formatMessage('cookie_consent.dismiss_button_text', locale),
+        link: formatMessage('cookie_consent.more_info_link_text', locale),
+        href: 'http://cookiesandyou.com',
+      },
+    });
   });
 };
 

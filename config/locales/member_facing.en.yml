@@ -230,3 +230,7 @@ en:
     existing:
       opt_in_reason: "<p>We’re asking SumOfUs members to confirm that they still want to receive emails from us about this and other urgent campaigns.</p><p><b>Would you like to confirm today?</b></p>"
       decline: "Not right now"
+  cookie_consent:
+    message: 'This website uses cookies to ensure you get the best experience on our website.'
+    dismiss_button_text: 'Got it!'
+    more_info_link_text: 'Learn more'
