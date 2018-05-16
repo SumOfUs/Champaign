@@ -4,6 +4,7 @@ import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
 import 'whatwg-fetch';
+import 'cookieconsent';
 
 require('lodash');
 require('backbone');
@@ -49,6 +50,13 @@ const initializeApp = () => {
     BraintreeHostedFields,
     redirectors,
     store,
+  });
+  initializeCookieConsent();
+};
+
+const initializeCookieConsent = () => {
+  window.cookieconsent.initialise({
+    theme: 'block',
   });
 };
 
