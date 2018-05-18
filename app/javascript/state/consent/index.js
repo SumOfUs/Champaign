@@ -1,8 +1,11 @@
 // @flow
 
+import { includes } from 'lodash';
+
 export type ConsentState = {
   previouslyConsented: boolean,
   consented: ?boolean,
+  isDoubleOptIn: false,
   countryCode: ?string,
   email: ?string,
   isEU: false,
@@ -16,6 +19,7 @@ const defaultState: ConsentState = {
   countryCode: null,
   email: null,
   isEU: false,
+  isDoubleOptIn: false,
   memberId: null,
   variant: 'simple',
 };
@@ -41,6 +45,7 @@ export default function reducer(
         ...state,
         countryCode: action.countryCode,
         isEU: isEU(action.countryCode),
+        isDoubleOptIn: includes(['DE', 'AT'], action.countryCode),
       };
     case '@@champaign:member:change_previously_consented':
       return { ...state, previouslyConsented: action.previouslyConsented };

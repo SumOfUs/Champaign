@@ -27,8 +27,8 @@ gem 'pg'
 gem 'phony_rails'
 gem 'rack-cors', require: 'rack/cors'
 gem 'rails', '~> 5.1'
-gem 'rails-i18n'
 gem 'rails-html-sanitizer', '~> 1.0.4'
+gem 'rails-i18n'
 gem 'readthis'
 gem 'redis', require: ['redis', 'redis/connection/hiredis']
 gem 'slim-rails'
@@ -89,7 +89,7 @@ group :development do
 end
 
 group :test do
-  gem 'coveralls', '~> 0.8.20', require: false
+  gem 'coveralls', '~> 0.8.21', require: false
   gem 'poltergeist'
   gem 'rails-controller-testing'
   gem 'rspec-json_expectations'

@@ -11,6 +11,7 @@ import './ConsentComponent.css';
 type Props = {
   hidden: boolean,
   consented: ?boolean,
+  doubleOptIn: boolean,
   variant: string,
   dispatch: (action: any) => void,
 };
@@ -64,7 +65,8 @@ class ConsentComponent extends Component {
 }
 
 const mapStateToProps = ({ consent }: AppState) => ({
-  hidden: consent.previosulyConsented || !consent.isEU,
+  hidden: consent.isDoubleOptIn || consent.previosulyConsented || !consent.isEU,
+  doubleOptIn: consent.isDoubleOptIn,
   consented: consent.consented,
   variant: consent.variant,
   memberId: consent.memberId,

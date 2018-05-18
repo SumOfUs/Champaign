@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # The <tt>ActionKitFields</tt> class is a Rails <tt>ActiveModel::Validator<tt> class
 # for validating a model's +name+ field against ActionKits +action+ and +user+
 # tables.
@@ -41,7 +42,7 @@ class ActionKitFields < ActiveModel::Validator
   #
   VALID_PREFIX_RE = /^(action)\_[0-9a-z_]+/
 
-  ACTIONKIT_FIELDS_WHITELIST = %w(
+  ACTIONKIT_FIELDS_WHITELIST = %w[
     address1
     address2
     city
@@ -61,11 +62,11 @@ class ActionKitFields < ActiveModel::Validator
     state
     suffix
     zip
-  ).freeze
+  ].freeze
 
-  CUSTOM_PREFIXES = %w(
+  CUSTOM_PREFIXES = %w[
     action_
-  ).freeze
+  ].freeze
 
   def initialize(name)
     @name = name.to_s

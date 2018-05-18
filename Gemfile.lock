@@ -559,7 +559,7 @@ DEPENDENCIES
   config
   countries
   country_select
-  coveralls (~> 0.8.20)
+  coveralls (~> 0.8.21)
   database_cleaner
   devise
   envyable
