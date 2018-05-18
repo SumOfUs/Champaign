@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180508033355) do
+ActiveRecord::Schema.define(version: 20180509160857) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 20180508033355) do
     t.text "body"
     t.string "resource_id", null: false
     t.string "resource_type", null: false
-    t.integer "author_id"
     t.string "author_type"
+    t.integer "author_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 20180508033355) do
     t.string "member_phone_number"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.jsonb "target_call_info", default: {}, null: false
+    t.jsonb "target_call_info", default: "{}", null: false
     t.json "member_call_events", default: [], array: true
     t.integer "twilio_error_code"
     t.json "target"
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 20180508033355) do
     t.datetime "updated_at", null: false
     t.boolean "visible", default: false
     t.boolean "master", default: false
-    t.integer "formable_id"
     t.string "formable_type"
+    t.integer "formable_id"
     t.integer "position", default: 0, null: false
     t.index ["formable_type", "formable_id"], name: "index_forms_on_formable_type_and_formable_id"
   end
@@ -409,6 +409,19 @@ ActiveRecord::Schema.define(version: 20180508033355) do
     t.index ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id"
   end
 
+  create_table "pending_actions", force: :cascade do |t|
+    t.jsonb "data"
+    t.datetime "confirmed_at"
+    t.datetime "emailed_at"
+    t.integer "email_count", default: 0
+    t.string "email"
+    t.string "token"
+    t.bigint "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["page_id"], name: "index_pending_actions_on_page_id"
+  end
+
   create_table "phone_numbers", id: :serial, force: :cascade do |t|
     t.string "number"
     t.string "country"
@@ -421,11 +434,11 @@ ActiveRecord::Schema.define(version: 20180508033355) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "title"
-    t.json "targets", default: [], array: true
     t.string "sound_clip_file_name"
     t.string "sound_clip_content_type"
     t.integer "sound_clip_file_size"
     t.datetime "sound_clip_updated_at"
+    t.json "targets", default: [], array: true
     t.text "description"
     t.string "menu_sound_clip_file_name"
     t.string "menu_sound_clip_content_type"

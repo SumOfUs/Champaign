@@ -234,8 +234,21 @@ describe ManageAction do
       end
 
       context 'for a new user' do
-        describe 'given a EEA country is selected and the action is not a donation' do
+        describe 'when Germany or Austria are selected and the action is not a donation' do
           let(:params) { { email: 'bob@example.com', name: 'Bob', country: 'DE', page_id: page.id } }
+
+          before do
+            allow(PendingActionService).to receive(:create)
+          end
+
+          it 'defers to PendingActionService' do
+            ManageAction.create(params)
+            expect(PendingActionService).to have_received(:create)
+          end
+        end
+
+        describe 'given a EEA country is selected and the action is not a donation' do
+          let(:params) { { email: 'bob@example.com', name: 'Bob', country: 'FR', page_id: page.id } }
 
           context 'that gives consent' do
             before { params[:consented] = true }

@@ -1,0 +1,17 @@
+h3 Hallo #{@name},
+
+p Danke, dass Sie die Petition "#{@page.title}" unterstützen wollen. Leider haben Sie Ihre Teilnahme noch nicht bestätigt.
+
+p Wir würden Sie außerdem gerne per E-Mail regelmäßig über diese und weitere Kampagnen auf dem Laufenden halten (jederzeit abbestellbar). Bitte klicken Sie jetzt auf einen der nachfolgenden Links.
+
+h3
+ = link_to "Ich möchte teilnehmen und weiter informiert werden", confirm_api_action_confirmations_url(token: @token, consented: true)
+p
+ = link_to "Ich möchte teilnehmen, aber verzichte auf weitere Informationen", confirm_api_action_confirmations_url(token: @token)
+
+p Nur mit dieser Bestätigung zählt Ihre Stimme!
+
+p
+  | Herzlichen Dank
+  br
+  | Ihr Team von SumOfUs

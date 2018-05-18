@@ -105,6 +105,13 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resource :action_confirmations, only: [] do
+      member do
+        get 'confirm'
+        post 'resend_confirmations'
+      end
+    end
+
     resources :pension_funds, only: [:index] do
       collection do
         post 'suggest_fund'

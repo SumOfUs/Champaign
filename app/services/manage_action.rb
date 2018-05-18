@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ManageAction
+  DOUBLE_OPT_IN_COUNTRIES = %w[DE AT].freeze
+
   def self.create(params, extra_params: {}, skip_queue: false, skip_counter: false)
     new(params, extra_params: extra_params, skip_queue: skip_queue, skip_counter: skip_counter).create
   end
@@ -26,6 +28,10 @@ class ManageAction
     action_params = {
       page: page
     }.merge(@extra_attrs)
+
+    if requires_double_opt_in
+      return PendingActionService.create(@params)
+    end
 
     if existing_member.present?
       action_params[:member] = existing_member
@@ -107,6 +113,12 @@ class ManageAction
   end
 
   def requires_consent?
-    Country[@params[:country]]&.in_eea? && !@extra_attrs[:donation]
+    Country[@params[:country]]&.in_eea? && !@extra_attrs[:donation] && existing_member.nil?
+  end
+
+  def requires_double_opt_in
+    requires_consent? &&
+      DOUBLE_OPT_IN_COUNTRIES.include?(@params[:country]) &&
+      !@params[:consented]
   end
 end
