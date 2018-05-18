@@ -11,6 +11,11 @@ class Api::ActionsController < ApplicationController
 
     if validator.valid?
       action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
+      if action.is_a?(PendingAction)
+        path = PageFollower.new_from_page(page, double_opt_in: true).follow_up_path
+        render js: "location.href = '#{path}';", status: 200
+        return
+      end
 
       if action.member.present?
         write_member_cookie(action.member_id)
@@ -22,7 +27,7 @@ class Api::ActionsController < ApplicationController
         }, status: 200
       else
         render json: {
-          follow_up_url: PageFollower.new_from_page(page).follow_up_path
+          follow_up_url: PageFollower.new_from_page(page, double_opt_in: true).follow_up_path
         }, status: 200
       end
     else

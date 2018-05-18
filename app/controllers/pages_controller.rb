@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 require 'champaign_queue'
 require 'browser'
 
@@ -89,12 +90,25 @@ class PagesController < ApplicationController
     # conditional below ensures that the member_id is present if it should be, but it is
     # usually already included because of the logic to pass member_id to the follow_up_url
     # returned when an action is taken.
-    if !unsafe_params[:member_id].present? && recognized_member.try(:id).present?
+    if member_id_should_be_present
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
-    @rendered = renderer.render_follow_up
+
+    @rendered = if unsafe_params[:double_opt_in]
+                  renderer.render_custom('Double Opt In Follow Up')
+                else
+                  renderer.render_follow_up
+                end
+
     @data = renderer.personalization_data
+
     render :follow_up, layout: 'member_facing'
+  end
+
+  def member_id_should_be_present
+    !unsafe_params[:member_id].present? &&
+      recognized_member.try(:id).present? &&
+      !unsafe_params[:double_opt_in]
   end
 
   def update
