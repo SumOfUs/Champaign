@@ -3,7 +3,7 @@
 class PageFollower
   include Rails.application.routes.url_helpers
 
-  PARAMS_TO_PASS = %i[member_id bucket double_opt_in].freeze
+  PARAMS_TO_PASS = %i[member_id bucket double_opt_in d_name d_email].freeze
 
   def self.new_from_page(page, extra_params = nil)
     new(page.follow_up_plan, page.slug, page.follow_up_liquid_layout_id, page.follow_up_page.try(:slug), extra_params)
