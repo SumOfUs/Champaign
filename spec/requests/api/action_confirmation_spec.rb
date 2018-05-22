@@ -46,22 +46,57 @@ describe 'Confirmation Reminder' do
 end
 
 describe 'New Action Confirmation' do
-  describe 'when a pending action exists' do
-    let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
-    let(:form) { create(:form_with_email_and_optional_country) }
+  let(:page) { create(:page, title: 'Foo Bar', slug: 'foo-bar') }
+  let(:form) { create(:form_with_email_and_optional_country) }
 
-    let(:params) do
-      {
-        email:    'hello@example.com',
-        form_id:  form.id,
-        page_id: page.id,
-        source:   'fb',
-        country:  'DE',
-        name: 'John Doe'
-      }
+  let(:params) do
+    {
+      email:    'hello@example.com',
+      form_id:  form.id,
+      page_id: page.id,
+      source:   'fb',
+      country:  'DE',
+      name: 'John Doe'
+    }
+  end
+
+  let!(:pending_action) { create(:pending_action, data: params, token: '1234') }
+
+  describe 'with consent' do
+    before do
+      allow(ActionQueue::Pusher).to receive(:push)
     end
 
-    let!(:pending_action) { create(:pending_action, data: params, token: '1234') }
+    it 'sets confimed_at on pending action' do
+      Timecop.freeze do
+        now = Time.now.utc
+
+        get confirm_api_action_confirmations_path(token: '1234', consent: true)
+        expect(pending_action.reload.confirmed_at.to_s).to eq(now.to_s)
+      end
+    end
+
+    it 'posts to queue' do
+      get confirm_api_action_confirmations_path(token: '1234', consent: true)
+      expect(ActionQueue::Pusher).to have_received(:push).with(:new_action, Action.last)
+    end
+
+    it 'creates action and member' do
+      get confirm_api_action_confirmations_path(token: '1234', consent: true)
+      expect(Member.find_by(email: 'hello@example.com')).to_not eq nil
+      expect(Action.last).not_to be nil
+    end
+  end
+
+  describe 'without consent' do
+    before do
+      allow(ActionQueue::Pusher).to receive(:push)
+    end
+
+    it 'does not post to queue' do
+      get confirm_api_action_confirmations_path(token: '1234')
+      expect(ActionQueue::Pusher).not_to have_received(:push)
+    end
 
     it 'sets confimed_at on pending action' do
       Timecop.freeze do
@@ -72,9 +107,10 @@ describe 'New Action Confirmation' do
       end
     end
 
-    it 'creates action and member' do
+    it 'creates action without a member' do
       get confirm_api_action_confirmations_path(token: '1234')
-      expect(Member.find_by(email: 'hello@example.com')).to_not eq nil
+      expect(Member.find_by(email: 'hello@example.com')).to be nil
+      expect(Action.last).not_to be nil
     end
   end
 end
