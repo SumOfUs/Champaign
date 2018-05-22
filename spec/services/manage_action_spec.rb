@@ -30,13 +30,13 @@ describe ManageAction do
         meta: hash_including(
           title: 'Foo Bar'
         ),
-        params: {
+        params: hash_including(
           page:           "#{page.slug}-petition",
           email:          'bob@example.com',
           page_id:        page.id,
           referring_akid: '123.456.xyz',
           user_en: 1
-        }
+        )
       }
 
       expect(ChampaignQueue).to receive(:push)
