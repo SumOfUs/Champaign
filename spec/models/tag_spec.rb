@@ -54,13 +54,15 @@ describe Tag do
 
     describe 'issue tag' do
       it 'returns issue tags' do
-        expect(Tag.issue).to eq([issue_tag])
+        expect(Tag.issue).to include(issue_tag)
+        expect(Tag.issue).not_to include(region_tag)
       end
     end
 
     describe 'region tag' do
       it 'returns region tags' do
-        expect(Tag.region).to eq([region_tag])
+        expect(Tag.region).to include(region_tag)
+        expect(Tag.region).not_to include(issue_tag)
       end
     end
   end
