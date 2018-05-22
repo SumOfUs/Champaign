@@ -117,8 +117,9 @@ class ManageAction
   end
 
   def requires_double_opt_in
+    return false if @params[:consented] == false
+
     requires_consent? &&
-      DOUBLE_OPT_IN_COUNTRIES.include?(@params[:country]) &&
-      !@params[:consented]
+      DOUBLE_OPT_IN_COUNTRIES.include?(@params[:country]) && !@params[:consented]
   end
 end

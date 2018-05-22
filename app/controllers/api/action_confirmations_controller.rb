@@ -14,16 +14,20 @@ class Api::ActionConfirmationsController < ApplicationController
     action = ManageAction.create(
       pending
       .data
-      .merge(consented: true)
+      .merge(consented: consent)
       .with_indifferent_access
     )
 
-    redirect_to follow_up_page_path(action.page, member_id: action.member.id)
+    redirect_to follow_up_page_path(action.page, action.member ? { member_id: action.member.id } : {})
   end
 
   private
 
   def valid_api_key?
     request.headers['X-Api-Key'] == Settings.api_key
+  end
+
+  def consent
+    params[:consent] == 'true'
   end
 end

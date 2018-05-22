@@ -11,6 +11,7 @@ class Api::ActionsController < ApplicationController
 
     if validator.valid?
       action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
+
       if action.is_a?(PendingAction)
         path = PageFollower.new_from_page(page, double_opt_in: true,
                                                 d_name: action.data['name'],
@@ -19,19 +20,14 @@ class Api::ActionsController < ApplicationController
         return
       end
 
-      if action.member.present?
-        write_member_cookie(action.member_id)
-        render json: {
-          follow_up_url: PageFollower.new_from_page(
-            page,
-            action_params.merge(member_id: action.member_id)
-          ).follow_up_path
-        }, status: 200
-      else
-        render json: {
-          follow_up_url: PageFollower.new_from_page(page, double_opt_in: true).follow_up_path
-        }, status: 200
-      end
+      write_member_cookie(action.member_id) if action.member
+
+      render json: {
+        follow_up_url: PageFollower.new_from_page(
+          page,
+          action.member ? action_params.merge(member_id: action.member_id) : {}
+        ).follow_up_path
+      }, status: 200
     else
       render json: { errors: validator.errors }, status: 422
     end
