@@ -215,7 +215,8 @@ describe 'Api Actions' do
               akid: invalid_akid,
               action_mobile: 'unknown',
               action_referer: nil,
-              user_en: 1
+              user_en: 1,
+              consented: anything
             }
           )
 
