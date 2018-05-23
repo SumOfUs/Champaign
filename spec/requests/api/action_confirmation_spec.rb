@@ -71,18 +71,18 @@ describe 'New Action Confirmation' do
       Timecop.freeze do
         now = Time.now.utc
 
-        get confirm_api_action_confirmations_path(token: '1234', consent: true)
+        get confirm_api_action_confirmations_path(token: '1234', consented: true)
         expect(pending_action.reload.confirmed_at.to_s).to eq(now.to_s)
       end
     end
 
     it 'posts to queue' do
-      get confirm_api_action_confirmations_path(token: '1234', consent: true)
+      get confirm_api_action_confirmations_path(token: '1234', consented: true)
       expect(ActionQueue::Pusher).to have_received(:push).with(:new_action, Action.last)
     end
 
     it 'creates action and member' do
-      get confirm_api_action_confirmations_path(token: '1234', consent: true)
+      get confirm_api_action_confirmations_path(token: '1234', consented: true)
       expect(Member.find_by(email: 'hello@example.com')).to_not eq nil
       expect(Action.last).not_to be nil
     end
