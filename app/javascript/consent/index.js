@@ -37,9 +37,10 @@ export default function ConsentFeature(options) {
   if (options.variant) store.dispatch(changeVariant(options.variant));
 
   // listen for changes to country
-  $countrySelect.on('change', () =>
-    store.dispatch(changeCountry($countrySelect.val() || null))
-  );
+  $countrySelect.on('change', () => {
+    store.dispatch(changeCountry($countrySelect.val() || null));
+    window.setTimeout(() => $.publish('sidebar:height_change'), 100);
+  });
 
   // listen for changes to email
   $emailInput.on('change', () =>
