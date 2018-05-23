@@ -218,9 +218,9 @@ de:
     opt_in_reason: "<b>SumOfUs ist eine Gemeinschaft von Menschen aus der ganzen Welt, die gemeinsam Großkonzerne zur Verantwortung zieht.</b>. Möchten Sie über aktuelle Kampagnen, Neuigkeiten, Veranstaltungen sowie Spendenaktionen informiert werden und erfahren, wie Sie sich engagieren können? <b>Dann klicken Sie 'Ja', um sich für unseren Newsletter anzumelden:</b>"
     opt_out_warn_title: "Sind Sie sicher?"
     opt_out_warn_message: "Wenn Sie 'Ja' wählen, werden Sie von uns über aktuelle SumOfUs-Kampagnen informiert, damit Sie etwas tun können, wenn wieder ein Großkonzern versucht, skrupellose Geschäfte zu machen."
-    how_to_opt_out: 'You can opt out of receiving our messages at any time. Just go to our <a href="https://www.sumofus.org/unsubscribe" target="_blank">unsubscribe page</a>. By entering your details you confirm that you are 16 or older.'
+    how_to_opt_out: 'Sie können sich jederzeit wieder abmelden - gehen Sie dazu einfach auf: <a href="https://www.sumofus.org/unsubscribe" target="_blank">https://www.sumofus.org/unsubscribe</a>. Mit der Eingabe Ihrer Daten bestätigen Sie, dass Sie mindestens 16 Jahre alt sind.'
     opt_in_error: "Please choose an option"
-    accept_short: "Yes"
-    accept_long: "Yes – sign and receive emails"
-    decline_short: "No"
-    decline_long: "No – sign, but don't receive emails"
+    accept_short: "Ja"
+    accept_long: "Ja - unterschreiben und E-Mails erhalten"
+    decline_short: "Nein"
+    decline_long: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"

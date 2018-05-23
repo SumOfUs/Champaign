@@ -218,6 +218,6 @@ fr:
     how_to_opt_out: 'Vous pouvez vous désinscrire à tout moment. Rendez-vous simplement sur notre <a href="https://www.sumofus.org/unsubscribe" target="_blank">page de désinscription</a>. En entrant vos informations, vous certifiez avoir plus de 16 ans.'
     opt_in_error: "Veuillez choisir une option"
     accept_short: "Oui"
-    accept_long: "Yes – sign and receive emails"
+    accept_long: "Oui, je signe et je souhaite recevoir les courriels"
     decline_short: "Non"
-    decline_long: "No – sign, but don't receive emails"
+    decline_long: "Non, je signe mais je m'engage moins"
