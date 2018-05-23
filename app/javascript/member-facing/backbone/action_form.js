@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import ErrorDisplay from '../../shared/show_errors';
 import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
+import { resetState } from '../../state/consent';
 
 const ActionForm = Backbone.View.extend({
   el: 'form.action-form',
@@ -18,6 +19,7 @@ const ActionForm = Backbone.View.extend({
 
   events: {
     'click .action-form__clear-form': 'clearForm',
+    'change select[name=country]': 'updateActionUrl',
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
     'ajax:send': 'disableButton',
@@ -39,9 +41,16 @@ const ActionForm = Backbone.View.extend({
   //    bucket: if passed, submitted to the server in the form
   //    location: a hash of location values inferred from the user's request
   //    skipPrefill: boolean, will not prefill if true
+  //    consentNeeded: when true and only for new members, the form will trigger a
+  //      validation if the selected country is in the EU and if consent hasnt been
+  //      given. If consent has been given or if the country is not in the EU
+  //      then a regular action is created.
   initialize(options = {}) {
+    this.consentNeeded = options.consentNeeded;
     this.insertHiddenFields(options);
     this.applyDisplayModeToFields(options.member);
+    this.url = this.$el.attr('action');
+    this.updateActionUrl();
     if (!options.skipPrefill) {
       this.prefillAsPossible(options);
     }
@@ -50,7 +59,21 @@ const ActionForm = Backbone.View.extend({
     }
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
+    this.existingMember = !!options.member.email;
     GlobalEvents.bindEvents(this);
+  },
+
+  updateActionUrl() {
+    if (!this.consentNeeded) {
+      return;
+    }
+    var consent = window.champaign.store.getState().consent;
+
+    if (!this.existingMember && consent.isEU && consent.consented === null) {
+      this.$el.attr('action', this.url + '/validate');
+    } else {
+      this.$el.attr('action', this.url);
+    }
   },
 
   // Looks at the display-mode for each field and hides them accordingly
@@ -102,6 +125,11 @@ const ActionForm = Backbone.View.extend({
   },
 
   clearForm() {
+    this.existingMember = false;
+    if (this.consentNeeded) {
+      champaign.store.dispatch(resetState());
+      this.updateActionUrl();
+    }
     const $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder
@@ -159,27 +187,27 @@ const ActionForm = Backbone.View.extend({
       return;
     }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
-    this.$(
-      'input[type=text], input[type=email], input[type=tel], select'
-    ).each((ii, field) => {
-      const $field = $(field);
-      const name = $field.prop('name');
-      if (unvalidatedPrefillValues.hasOwnProperty(name)) {
-        // weird edge case handling - if the name field is country and the country code is
-        // the 'Reserved' country code, don't prefill since it's not a real code.
-        const isUnknownCountry =
-          name.match('country') && unvalidatedPrefillValues[name] == 'RD';
-        if (!isUnknownCountry) {
-          $field.val(unvalidatedPrefillValues[name]).trigger('change');
+    this.$('input[type=text], input[type=email], input[type=tel], select').each(
+      (ii, field) => {
+        const $field = $(field);
+        const name = $field.prop('name');
+        if (unvalidatedPrefillValues.hasOwnProperty(name)) {
+          // weird edge case handling - if the name field is country and the country code is
+          // the 'Reserved' country code, don't prefill since it's not a real code.
+          const isUnknownCountry =
+            name.match('country') && unvalidatedPrefillValues[name] == 'RD';
+          if (!isUnknownCountry) {
+            $field.val(unvalidatedPrefillValues[name]).trigger('change');
+          }
+        }
+        if (
+          prefillValues.hasOwnProperty(name) &&
+          fieldsToSkipPrefill.indexOf(name) === -1
+        ) {
+          $field.val(prefillValues[name]).trigger('change');
         }
       }
-      if (
-        prefillValues.hasOwnProperty(name) &&
-        fieldsToSkipPrefill.indexOf(name) === -1
-      ) {
-        $field.val(prefillValues[name]).trigger('change');
-      }
-    });
+    );
   },
 
   formFieldCount() {
@@ -198,6 +226,10 @@ const ActionForm = Backbone.View.extend({
       if (options[field] && this.$el) {
         this.insertHiddenInput(field, options[field], this.$el);
       }
+    }
+
+    if (this.consentNeeded) {
+      this.insertHiddenInput('consented', options.member.consented, this.$el);
     }
   },
 
