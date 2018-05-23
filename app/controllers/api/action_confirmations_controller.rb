@@ -28,6 +28,6 @@ class Api::ActionConfirmationsController < ApplicationController
   end
 
   def consent
-    params[:consent] == 'true'
+    params[:consented] == 'true'
   end
 end
