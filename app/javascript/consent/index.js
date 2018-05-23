@@ -19,7 +19,7 @@ export default function ConsentFeature(options) {
     );
   }
   const store = window.champaign.store;
-  const member = window.champaign.personalization.member;
+  const { member, location } = window.champaign.personalization;
   const variant = options.variant;
   const $countrySelect = $('.petition-bar__main select[name=country]');
   const $emailInput = $('.petition-bar__main input[name=email]');
@@ -29,7 +29,7 @@ export default function ConsentFeature(options) {
     store.dispatch(setPreviouslyConsented(member.consented));
     store.dispatch(changeMemberEmail(member.email));
     store.dispatch(changeMemberId(member.id));
-    store.dispatch(changeCountry(member.country));
+    store.dispatch(changeCountry(member.country || location.country));
   }
 
   if (options.variant) store.dispatch(changeVariant(options.variant));
