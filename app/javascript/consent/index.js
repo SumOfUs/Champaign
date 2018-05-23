@@ -9,6 +9,7 @@ import {
   changeMemberEmail,
   changeMemberId,
   changeVariant,
+  resetState,
 } from '../state/consent';
 
 // TODO: Listen for member ID (new members)
@@ -23,6 +24,7 @@ export default function ConsentFeature(options) {
   const variant = options.variant;
   const $countrySelect = $('.petition-bar__main select[name=country]');
   const $emailInput = $('.petition-bar__main input[name=email]');
+  const $clearForm = $('.action-form__clear-form');
 
   // set member id, and email
   if (member) {
@@ -43,6 +45,9 @@ export default function ConsentFeature(options) {
   $emailInput.on('change', () =>
     store.dispatch(changeMemberEmail($emailInput.val() || null))
   );
+
+  // reset state if clear form link is clicked.
+  $clearForm.on('click', () => store.dispatch(resetState()));
 
   render(
     <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>

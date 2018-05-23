@@ -33,6 +33,7 @@ type Action =
   | { type: '@@champaign:member:change_country', countryCode: ?string }
   | { type: '@@champaign:member:change_member_email', email: ?string }
   | { type: '@@champaign:member:change_member_id', memberId: ?string }
+  | { type: '@@champaign:member:reset_state' }
   | { type: '@@champaign:member:change_variant', variant: string };
 
 export default function reducer(
@@ -57,6 +58,8 @@ export default function reducer(
       return { ...state, memberId: action.memberId };
     case '@@champaign:member:change_variant':
       return { ...state, variant: action.variant };
+    case '@@champaign:member:reset_state':
+      return defaultState;
     default:
       return state;
   }
@@ -87,6 +90,10 @@ export function changeMemberId(memberId: ?string = null): Action {
 
 export function changeVariant(variant: string = 'simple'): Action {
   return { type: '@@champaign:member:change_variant', variant };
+}
+
+export function resetState(): Action {
+  return { type: '@@champaign:member:reset_state' };
 }
 
 function isEU(countryCode: ?string, countries = window.champaign.countries) {
