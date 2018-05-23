@@ -10,6 +10,8 @@ ActiveAdmin.register Member do
                 :title,
                 :address1,
                 :address2,
+                :consented_updated_at,
+                :consented,
                 :actionkit_member_id
 
   index pagination_total: false
