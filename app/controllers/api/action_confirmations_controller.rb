@@ -18,6 +18,7 @@ class Api::ActionConfirmationsController < ApplicationController
       .with_indifferent_access
     )
 
+    write_member_cookie(action.member_id) if action&.member
     redirect_to follow_up_page_path(action.page, action.member ? { member_id: action.member.id } : {})
   end
 

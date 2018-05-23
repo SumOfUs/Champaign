@@ -86,6 +86,13 @@ describe 'New Action Confirmation' do
       expect(Member.find_by(email: 'hello@example.com')).to_not eq nil
       expect(Action.last).not_to be nil
     end
+
+    it 'stores member_id to cookie' do
+      expect(cookies['member_id']).to eq nil
+      get confirm_api_action_confirmations_path(token: '1234', consented: true)
+      expect(cookies['member_id']).not_to eq nil
+      expect(cookies['member_id'].length).to be > 20
+    end
   end
 
   describe 'without consent' do
@@ -111,6 +118,7 @@ describe 'New Action Confirmation' do
       get confirm_api_action_confirmations_path(token: '1234')
       expect(Member.find_by(email: 'hello@example.com')).to be nil
       expect(Action.last).not_to be nil
+      expect(cookies['member_id']).to eq nil
     end
   end
 end
