@@ -44,9 +44,8 @@ const initializeApp = () => {
     BraintreeHostedFields,
     redirectors,
     ConsentFeature,
+    store: configureStore({}),
   });
 };
 
 initializeApp();
-
-window.champaign.store = configureStore({});

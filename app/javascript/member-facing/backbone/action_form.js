@@ -1,9 +1,19 @@
 import $ from 'jquery';
+import React from 'react';
+import { render } from 'react-dom';
 import _ from 'lodash';
 import Backbone from 'backbone';
 import ErrorDisplay from '../../shared/show_errors';
 import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
+import ComponentWrapper from '../../components/ComponentWrapper';
+import ConsentComponent from '../../consent/ConsentComponent';
+import {
+  changeCountry,
+  changeMemberEmail,
+  changeVariant,
+  resetState,
+} from '../../state/consent';
 
 const ActionForm = Backbone.View.extend({
   el: 'form.action-form',
@@ -18,9 +28,12 @@ const ActionForm = Backbone.View.extend({
 
   events: {
     'click .action-form__clear-form': 'clearForm',
+    'click .action-form__clear-form': 'resetState',
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
     'ajax:send': 'disableButton',
+    'change .action-form__dropdown[name="country"]': 'handleCountryChange',
+    'change .form__content[name="email"]': 'handleEmailChange',
   },
 
   globalEvents: {
@@ -40,6 +53,8 @@ const ActionForm = Backbone.View.extend({
   //    location: a hash of location values inferred from the user's request
   //    skipPrefill: boolean, will not prefill if true
   initialize(options = {}) {
+    this.store = window.champaign.store;
+    this.member = options.member;
     this.insertHiddenFields(options);
     this.applyDisplayModeToFields(options.member);
     if (!options.skipPrefill) {
@@ -51,12 +66,49 @@ const ActionForm = Backbone.View.extend({
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
+    if (!this.isMemberPresent()) {
+      this.enableGDPRConsent();
+    }
+  },
+
+  isMemberPresent() {
+    return !_.isEmpty(this.member);
+  },
+
+  enableGDPRConsent() {
+    if (this.gdprContainer) return;
+    this.gdprContainer = document.createElement('div');
+    this.$submitButton.before(this.gdprContainer);
+    render(
+      <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
+        <ConsentComponent />
+      </ComponentWrapper>,
+      this.gdprContainer
+    );
+  },
+
+  resetState() {
+    if (this.store) {
+      this.store.dispatch(resetState());
+      this.store.dispatch(
+        changeCountry(window.champaign.personalization.location.country)
+      );
+    }
+  },
+
+  handleCountryChange(event) {
+    if (this.store)
+      this.store.dispatch(changeCountry(event.target.value) || null);
+  },
+
+  handleEmailChange(event) {
+    if (this.store)
+      this.store.dispatch(changeMemberEmail(event.target.value) || null);
   },
 
   // Looks at the display-mode for each field and hides them accordingly
   applyDisplayModeToFields(member) {
-    var memberPresent = !_.isEmpty(member);
-    if (memberPresent) {
+    if (this.isMemberPresent()) {
       this.$el.find('[data-display-mode="new_members_only"]').hide(0);
     } else {
       this.$el.find('[data-display-mode="recognized_members_only"]').hide(0);
@@ -121,6 +173,8 @@ const ActionForm = Backbone.View.extend({
     $fields_holder.parents('form').trigger('reset');
     $('.action-form__welcome-text').addClass('hidden-irrelevant');
     this.renameActionKitIdToReferringId();
+    this.member = {};
+    this.enableGDPRConsent();
     Backbone.trigger('sidebar:height_change');
   },
 
@@ -159,27 +213,27 @@ const ActionForm = Backbone.View.extend({
       return;
     }
     fieldsToSkipPrefill = fieldsToSkipPrefill || [];
-    this.$(
-      'input[type=text], input[type=email], input[type=tel], select'
-    ).each((ii, field) => {
-      const $field = $(field);
-      const name = $field.prop('name');
-      if (unvalidatedPrefillValues.hasOwnProperty(name)) {
-        // weird edge case handling - if the name field is country and the country code is
-        // the 'Reserved' country code, don't prefill since it's not a real code.
-        const isUnknownCountry =
-          name.match('country') && unvalidatedPrefillValues[name] == 'RD';
-        if (!isUnknownCountry) {
-          $field.val(unvalidatedPrefillValues[name]).trigger('change');
+    this.$('input[type=text], input[type=email], input[type=tel], select').each(
+      (ii, field) => {
+        const $field = $(field);
+        const name = $field.prop('name');
+        if (unvalidatedPrefillValues.hasOwnProperty(name)) {
+          // weird edge case handling - if the name field is country and the country code is
+          // the 'Reserved' country code, don't prefill since it's not a real code.
+          const isUnknownCountry =
+            name.match('country') && unvalidatedPrefillValues[name] == 'RD';
+          if (!isUnknownCountry) {
+            $field.val(unvalidatedPrefillValues[name]).trigger('change');
+          }
+        }
+        if (
+          prefillValues.hasOwnProperty(name) &&
+          fieldsToSkipPrefill.indexOf(name) === -1
+        ) {
+          $field.val(prefillValues[name]).trigger('change');
         }
       }
-      if (
-        prefillValues.hasOwnProperty(name) &&
-        fieldsToSkipPrefill.indexOf(name) === -1
-      ) {
-        $field.val(prefillValues[name]).trigger('change');
-      }
-    });
+    );
   },
 
   formFieldCount() {
