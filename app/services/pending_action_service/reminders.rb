@@ -18,7 +18,7 @@ class PendingActionService
 
             EmailDelivery.send_email(action, html: html(assigns),
                                              text: text(assigns),
-                                             subject: 'Nur noch ein Klick - bitte Teilnahme bestätigen!')
+                                             subject: I18n.t('double_opt_in.email.subject', locale: :de))
           end
       end
 
