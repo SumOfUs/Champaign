@@ -45,7 +45,7 @@ export default function ConsentFeature(options) {
   );
 
   render(
-    <ComponentWrapper store={window.champaign.store} locale={'en'}>
+    <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
       <ConsentComponent />
     </ComponentWrapper>,
     options.container
