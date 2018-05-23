@@ -27,7 +27,7 @@ export const initialState: State = {
   currentStep: 0,
   recurringDefault: 'one_off',
   recurring: false,
-  storeInVault: true,
+  storeInVault: false,
   currentPaymentType: 'card',
   showDirectDebit: false,
   directDebitOnly: false,
