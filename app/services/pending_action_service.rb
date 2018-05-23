@@ -26,7 +26,7 @@ class PendingActionService
         action,
         html: html,
         text: text,
-        subject: 'Nur noch ein Klick - bitte Teilnahme bestätigen!'
+        subject: I18n.t('double_opt_in.email.subject', locale: :de)
       )
     end
 
