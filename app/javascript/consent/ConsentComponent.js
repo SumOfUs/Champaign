@@ -65,7 +65,7 @@ class ConsentComponent extends Component {
 }
 
 const mapStateToProps = ({ consent }: AppState) => ({
-  hidden: consent.isDoubleOptIn || consent.previosulyConsented || !consent.isEU,
+  hidden: consent.isDoubleOptIn || consent.previouslyConsented || !consent.isEU,
   doubleOptIn: consent.isDoubleOptIn,
   consented: consent.consented,
   variant: consent.variant,
