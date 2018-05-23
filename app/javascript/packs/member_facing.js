@@ -8,6 +8,7 @@ import 'whatwg-fetch';
 import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
+import PetitionAndScrollToConsent from '../member-facing/backbone/petition_and_scroll_to_consent';
 import Fundraiser from '../member-facing/backbone/fundraiser';
 import Survey from '../member-facing/backbone/survey';
 import ActionForm from '../member-facing/backbone/action_form';
@@ -31,6 +32,7 @@ const initializeApp = () => {
   window.champaign = window.champaign || window.sumofus || {};
   Object.assign(window.champaign, {
     Petition,
+    PetitionAndScrollToConsent,
     Fundraiser,
     Survey,
     ActionForm,
