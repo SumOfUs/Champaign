@@ -28,7 +28,6 @@ const ActionForm = Backbone.View.extend({
 
   events: {
     'click .action-form__clear-form': 'clearForm',
-    'click .action-form__clear-form': 'resetState',
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
     'ajax:send': 'disableButton',
@@ -55,6 +54,7 @@ const ActionForm = Backbone.View.extend({
   initialize(options = {}) {
     this.store = window.champaign.store;
     this.member = options.member;
+    this.variant = options.variant || 'simple';
     this.insertHiddenFields(options);
     this.applyDisplayModeToFields(options.member);
     if (!options.skipPrefill) {
@@ -67,6 +67,7 @@ const ActionForm = Backbone.View.extend({
     this.buttonText = this.$submitButton.text();
     GlobalEvents.bindEvents(this);
     if (!this.isMemberPresent()) {
+      this.store.dispatch(changeVariant(this.variant));
       this.enableGDPRConsent();
     }
   },
@@ -75,30 +76,17 @@ const ActionForm = Backbone.View.extend({
     return !_.isEmpty(this.member);
   },
 
-  enableGDPRConsent() {
-    if (this.gdprContainer) return;
-    this.gdprContainer = document.createElement('div');
-    this.$submitButton.before(this.gdprContainer);
-    render(
-      <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
-        <ConsentComponent />
-      </ComponentWrapper>,
-      this.gdprContainer
-    );
-  },
-
   resetState() {
     if (this.store) {
       this.store.dispatch(resetState());
-      this.store.dispatch(
-        changeCountry(window.champaign.personalization.location.country)
-      );
+      this.store.dispatch(changeVariant(this.variant));
     }
   },
 
   handleCountryChange(event) {
-    if (this.store)
+    if (this.store) {
       this.store.dispatch(changeCountry(event.target.value) || null);
+    }
   },
 
   handleEmailChange(event) {
@@ -174,6 +162,7 @@ const ActionForm = Backbone.View.extend({
     $('.action-form__welcome-text').addClass('hidden-irrelevant');
     this.renameActionKitIdToReferringId();
     this.member = {};
+    this.resetState();
     this.enableGDPRConsent();
     Backbone.trigger('sidebar:height_change');
   },
@@ -314,6 +303,19 @@ const ActionForm = Backbone.View.extend({
   enableButton() {
     this.$submitButton.text(this.buttonText);
     this.$submitButton.removeClass('button--disabled');
+  },
+
+  enableGDPRConsent() {
+    if (this.gdprContainer) return;
+    this.gdprContainer = document.createElement('div');
+    this.$submitButton.before(this.gdprContainer);
+
+    render(
+      <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
+        <ConsentComponent />
+      </ComponentWrapper>,
+      this.gdprContainer
+    );
   },
 });
 

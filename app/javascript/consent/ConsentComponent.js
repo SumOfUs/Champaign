@@ -1,4 +1,5 @@
 // @flow
+import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
@@ -31,6 +32,11 @@ class ConsentComponent extends Component {
         return false;
     }
   }
+
+  componentDidUpdate() {
+    $.publish('sidebar:height_change');
+  }
+
   render() {
     const { consented, hidden, variant } = this.props;
     if (hidden) return null;
