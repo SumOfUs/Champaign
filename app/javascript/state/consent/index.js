@@ -11,6 +11,7 @@ export type ConsentState = {
   isEU: false,
   memberId: ?string,
   variant: 'simple' | 'selectable-buttons' | 'scrolling',
+  modalOpen: boolean,
 };
 
 const defaultState: ConsentState = {
@@ -22,6 +23,7 @@ const defaultState: ConsentState = {
   isDoubleOptIn: false,
   memberId: null,
   variant: 'simple',
+  modalOpen: false,
 };
 
 type Action =
@@ -34,7 +36,8 @@ type Action =
   | { type: '@@champaign:member:change_member_email', email: ?string }
   | { type: '@@champaign:member:change_member_id', memberId: ?string }
   | { type: '@@champaign:member:reset_state' }
-  | { type: '@@champaign:member:change_variant', variant: string };
+  | { type: '@@champaign:member:change_variant', variant: string }
+  | { type: '@@champaign:member:toggle_modal', modalOpen: boolean };
 
 export default function reducer(
   state: ConsentState = defaultState,
@@ -58,6 +61,8 @@ export default function reducer(
       return { ...state, memberId: action.memberId };
     case '@@champaign:member:change_variant':
       return { ...state, variant: action.variant };
+    case '@@champaign:member:toggle_modal':
+      return { ...state, modalOpen: action.modalOpen };
     case '@@champaign:member:reset_state':
       return defaultState;
     default:
@@ -94,6 +99,10 @@ export function changeVariant(variant: string = 'simple'): Action {
 
 export function resetState(): Action {
   return { type: '@@champaign:member:reset_state' };
+}
+
+export function toggleModal(value: boolean): Action {
+  return { type: '@@champaign:member:toggle_modal', modalOpen: value };
 }
 
 function isEU(countryCode: ?string, countries = window.champaign.countries) {
