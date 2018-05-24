@@ -8,11 +8,14 @@ import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import ConsentComponent from '../../consent/ConsentComponent';
+import ConsentModal from '../../consent/ConsentModal';
 import {
   changeCountry,
   changeMemberEmail,
   changeVariant,
   resetState,
+  setPreviouslyConsented,
+  toggleModal,
 } from '../../state/consent';
 
 const ActionForm = Backbone.View.extend({
@@ -27,6 +30,7 @@ const ActionForm = Backbone.View.extend({
   ],
 
   events: {
+    submit: 'handleSubmit',
     'click .action-form__clear-form': 'clearForm',
     'change select[name=country]': 'updateActionUrl',
     'ajax:success': 'handleSuccess',
@@ -39,6 +43,7 @@ const ActionForm = Backbone.View.extend({
   globalEvents: {
     'form:clear': 'clearForm',
     'form:step_change': 'handleStepChange',
+    'form:submit_action_form': 'submitForm',
   },
 
   // options: object with any of the following keys
@@ -75,9 +80,16 @@ const ActionForm = Backbone.View.extend({
     this.buttonText = this.$submitButton.text();
     this.existingMember = !!options.member.email;
     GlobalEvents.bindEvents(this);
-    if (!this.isMemberPresent()) {
-      this.store.dispatch(changeVariant(this.variant));
-      this.enableGDPRConsent();
+    this.setupState();
+    this.enableGDPRConsent();
+  },
+
+  setupState() {
+    this.store.dispatch(changeVariant(this.variant));
+    if (this.member) {
+      this.store.dispatch(setPreviouslyConsented(this.member.consented));
+      this.store.dispatch(changeCountry(this.member.country));
+      this.store.dispatch(changeMemberEmail(this.member.email));
     }
   },
 
@@ -85,11 +97,25 @@ const ActionForm = Backbone.View.extend({
     return !_.isEmpty(this.member);
   },
 
+  isConsentNeededForExistingMember() {
+    const { member, consent } = this.store.getState();
+    return (
+      member &&
+      !consent.previouslyConsented &&
+      consent.isEU &&
+      consent.consented === null
+    );
+  },
+
   resetState() {
     if (this.store) {
       this.store.dispatch(resetState());
       this.store.dispatch(changeVariant(this.variant));
     }
+  },
+
+  submitForm() {
+    window.setTimeout(() => this.$el.submit(), 200);
   },
 
   handleCountryChange(event) {
@@ -103,11 +129,28 @@ const ActionForm = Backbone.View.extend({
       this.store.dispatch(changeMemberEmail(event.target.value) || null);
   },
 
+  handleSubmit(e) {
+    if (this.isConsentNeededForExistingMember()) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.validateForm();
+    }
+  },
+
+  modalForExistingMember() {},
+
+  validateForm() {
+    $.post(`${this.url}/validate`, this.$el.serialize()).then(
+      () => this.store.dispatch(toggleModal(true)),
+      data => this.handleFailure({ target: this.$el }, data)
+    );
+  },
+
   updateActionUrl() {
     if (!this.consentNeeded) {
       return;
     }
-    var consent = window.champaign.store.getState().consent;
+    var consent = this.store.getState().consent;
 
     if (!this.existingMember && consent.isEU && consent.consented === null) {
       this.$el.attr('action', this.url + '/validate');
@@ -344,6 +387,7 @@ const ActionForm = Backbone.View.extend({
     render(
       <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
         <ConsentComponent />
+        <ConsentModal />
       </ComponentWrapper>,
       this.gdprContainer
     );
