@@ -20,6 +20,8 @@ export class ConsentControls extends PureComponent {
     const declineClass = classnames({
       active: consented === false,
     });
+
+    console.log('consented', consented);
     return (
       <div className="ConsentControls">
         <label className={acceptClass}>
