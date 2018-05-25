@@ -8,7 +8,9 @@ class PendingActionService
         to: action.email,
         html: html,
         text: text,
-        subject: subject
+        subject: subject,
+        record_id: action.id,
+        service: 'DoubleOptIn'
       }
 
       sns = Aws::SNS::Client.new(region: Settings.aws_region, stub_responses: Rails.env.test?)
