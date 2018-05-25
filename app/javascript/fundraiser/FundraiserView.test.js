@@ -92,7 +92,8 @@ const fetchInitialState = vals => {
   const defaults = {
     paymentMethods: [],
     locale: 'en',
-    member: null,
+    member: {},
+    location: {},
     fundraiser: {
       currency: 'USD',
       donationAmount: null,
@@ -131,6 +132,7 @@ const fetchInitialState = vals => {
       paymentMethods: vals.paymentMethods || defaults.paymentMethods,
       member: vals.member || defaults.member,
       locale: vals.locale || defaults.locale,
+      location: vals.location || defaults.location,
       fundraiser: {
         ...defaults.fundraiser,
         ...vals,
@@ -148,11 +150,11 @@ const initialize = vals => {
     currency,
     preselectAmount,
     recurringDefault,
-  } = data.fundraiser;
+  } = data.personalization.fundraiser;
 
   suite.store.dispatch({
     type: 'initialize_fundraiser',
-    payload: data.fundraiser,
+    payload: data.personalization.fundraiser,
   });
 
   suite.store.dispatch({
