@@ -8,13 +8,11 @@ import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import ConsentComponent from '../../consent/ConsentComponent';
-import ConsentModal from '../../consent/ConsentModal';
+import ExistingMemberConsent from '../../consent/ExistingMemberConsent';
 import {
   changeCountry,
-  changeMemberEmail,
   changeVariant,
   resetState,
-  setPreviouslyConsented,
   toggleModal,
 } from '../../state/consent';
 
@@ -30,14 +28,13 @@ const ActionForm = Backbone.View.extend({
   ],
 
   events: {
-    submit: 'handleSubmit',
+    'click .action-form__submit-button': 'onClickSubmit',
     'click .action-form__clear-form': 'clearForm',
     'change select[name=country]': 'updateActionUrl',
+    'change .action-form__dropdown[name="country"]': 'handleCountryChange',
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
     'ajax:send': 'disableButton',
-    'change .action-form__dropdown[name="country"]': 'handleCountryChange',
-    'change .form__content[name="email"]': 'handleEmailChange',
   },
 
   globalEvents: {
@@ -84,13 +81,13 @@ const ActionForm = Backbone.View.extend({
     this.enableGDPRConsent();
   },
 
+  state() {
+    if (!this.store) return null;
+    return this.store.getState();
+  },
+
   setupState() {
     this.store.dispatch(changeVariant(this.variant));
-    if (this.member) {
-      this.store.dispatch(setPreviouslyConsented(this.member.consented));
-      this.store.dispatch(changeCountry(this.member.country));
-      this.store.dispatch(changeMemberEmail(this.member.email));
-    }
   },
 
   isMemberPresent() {
@@ -98,13 +95,8 @@ const ActionForm = Backbone.View.extend({
   },
 
   isConsentNeededForExistingMember() {
-    const { member, consent } = this.store.getState();
-    return (
-      member &&
-      !consent.previouslyConsented &&
-      consent.isEU &&
-      consent.consented === null
-    );
+    const { member, consent } = this.state();
+    return member && consent.isRequired;
   },
 
   resetState() {
@@ -124,24 +116,18 @@ const ActionForm = Backbone.View.extend({
     }
   },
 
-  handleEmailChange(event) {
-    if (this.store)
-      this.store.dispatch(changeMemberEmail(event.target.value) || null);
-  },
-
-  handleSubmit(e) {
+  onClickSubmit(event) {
     if (this.isConsentNeededForExistingMember()) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.validateForm();
+      console.log('Consent is needed for existing member');
+      event.preventDefault();
+      event.stopPropagation();
+      this.validateForm().then(() => this.store.dispatch(toggleModal(true)));
     }
   },
 
-  modalForExistingMember() {},
-
   validateForm() {
-    $.post(`${this.url}/validate`, this.$el.serialize()).then(
-      () => this.store.dispatch(toggleModal(true)),
+    return $.post(`${this.url}/validate`, this.$el.serialize()).then(
+      undefined,
       data => this.handleFailure({ target: this.$el }, data)
     );
   },
@@ -150,9 +136,9 @@ const ActionForm = Backbone.View.extend({
     if (!this.consentNeeded) {
       return;
     }
-    var consent = this.store.getState().consent;
+    var consent = this.state().consent;
 
-    if (!this.existingMember && consent.isEU && consent.consented === null) {
+    if (!this.existingMember && consent.isRequired) {
       this.$el.attr('action', this.url + '/validate');
     } else {
       this.$el.attr('action', this.url);
@@ -387,7 +373,7 @@ const ActionForm = Backbone.View.extend({
     render(
       <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
         <ConsentComponent />
-        <ConsentModal />
+        <ExistingMemberConsent />
       </ComponentWrapper>,
       this.gdprContainer
     );

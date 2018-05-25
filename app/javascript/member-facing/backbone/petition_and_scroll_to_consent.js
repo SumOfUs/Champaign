@@ -2,10 +2,7 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import GlobalEvents from '../../shared/global_events';
 import {
-  setPreviouslyConsented,
   changeCountry,
-  changeMemberEmail,
-  changeMemberId,
   changeVariant,
   changeConsent,
 } from '../../state/consent';
@@ -103,7 +100,7 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
 
   updateConsent(consented) {
     window.champaign.store.dispatch({
-      type: '@@champaign:member:change_consent',
+      type: '@@chmp:consent:change_consent',
       consented: consented,
     });
   },
@@ -117,13 +114,6 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
       store.dispatch(changeCountry(countrySelect.val()));
     });
     countrySelect.trigger('change');
-
-    if (member) {
-      store.dispatch(setPreviouslyConsented(member.consented));
-      store.dispatch(changeMemberEmail(member.email));
-      store.dispatch(changeMemberId(member.id));
-      store.dispatch(changeCountry(member.country));
-    }
 
     var consentField = this.$('input[name=consented]');
     store.subscribe(function() {
