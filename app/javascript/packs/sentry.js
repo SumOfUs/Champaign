@@ -6,13 +6,12 @@ Raven.config(process.env.SENTRY_DSN, {
   environment: process.env.SENTRY_ENVIRONMENT || 'development',
   dataCallback: data => {
     addReduxState(data);
-    console.log('sentry data:', data);
     return data;
   },
 }).install();
 
 function addReduxState(data) {
-  if (window.champaign.store) {
+  if (window.champaign && window.champaign.store) {
     data.extra = {
       ...data.extra,
       reduxState: window.champaign.store.getState(),

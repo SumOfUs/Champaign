@@ -1,7 +1,8 @@
 'use strict';
 import $ from 'jquery';
+import { Model, View } from 'backbone';
 
-const slugChecker = Backbone.Model.extend({
+const slugChecker = Model.extend({
   url: '/action_kit/check_slug',
 
   defaults: {
@@ -10,7 +11,7 @@ const slugChecker = Backbone.Model.extend({
   },
 });
 
-const slugView = Backbone.View.extend({
+const slugView = View.extend({
   el: '#new_page',
 
   events: {

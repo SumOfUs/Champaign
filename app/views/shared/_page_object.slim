@@ -1,2 +1,3 @@
 javascript:
-  champaign.page = #{page_object(@page).to_json.html_safe}
+  window.champaign = window.champaign || {};
+  window.champaign.page = #{page_object(@page).to_json.html_safe}

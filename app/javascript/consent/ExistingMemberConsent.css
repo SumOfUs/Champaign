@@ -1,0 +1,40 @@
+.ExistingMemberConsent {
+  width: 600px;
+  text-align: center;
+}
+
+.ExistingMemberConsent--opt-in-reason {
+  font-size: 22px;
+  line-height: 1.3em;
+  margin-bottom: 1em;
+}
+
+.ExistingMemberConsent--accept.Button-root,
+.ExistingMemberConsent--decline.Button-root {
+  max-width: 300px;
+  margin: 20px auto;
+}
+
+.ExistingMemberConsent--decline.Button-root {
+  background: transparent;
+  border: none;
+  color: #00c0cf;
+  text-transform: none;
+  height: auto;
+  width: auto;
+  font-weight: normal;
+}
+
+.ExistingMemberConsent--decline.Button-root:hover {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+}
+
+.ExistingMemberConsent--decline.Button-root:active {
+  box-shadow: none;
+}
+
+.ExistingMemberConsent--how-to-opt-out {
+  font-size: 0.9em;
+}

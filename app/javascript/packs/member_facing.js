@@ -5,6 +5,9 @@ import '../member-facing/registration';
 import '../member-facing/track_shares';
 import 'whatwg-fetch';
 
+require('lodash');
+require('backbone');
+
 import URI from 'urijs';
 import configureStore from '../state';
 import Petition from '../member-facing/backbone/petition';
@@ -30,6 +33,7 @@ if (process.env.EXTERNAL_ASSETS_JS_PATH) {
 const initializeApp = () => {
   window.sumofus = window.sumofus || {}; // for legacy templates that reference window.sumofus
   window.champaign = window.champaign || window.sumofus || {};
+  const store = configureStore(window.champaign);
   Object.assign(window.champaign, {
     Petition,
     PetitionAndScrollToConsent,
@@ -44,7 +48,7 @@ const initializeApp = () => {
     CampaignerOverlay,
     BraintreeHostedFields,
     redirectors,
-    store: configureStore({}),
+    store,
   });
 };
 

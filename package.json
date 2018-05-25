@@ -46,7 +46,7 @@
     "js-yaml": "^3.10.0",
     "libphonenumber-js": "^1.0.7",
     "lint-staged": "^6.1.0",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.10",
     "mailcheck": "^1.1.1",
     "moment": "^2.20.1",
     "prettier": "^1.10.2",

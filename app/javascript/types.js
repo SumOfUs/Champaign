@@ -19,22 +19,26 @@ declare var $: typeof jQuery & {
   publish: (eventName: string, data: any) => void,
 };
 
-declare type ChampaignMember = {
-  id: number,
-  email: string,
-  country: string,
-  name: string,
-  first_name: string,
-  last_name: string,
-  full_name: string,
-  welcome_name: string,
-  postal: string,
-  actionkit_user_id: ?string,
-  donor_status: 'donor' | 'non_donor' | 'recurring_donor',
-  registered: boolean,
-  created_at: string,
-  updated_at: string,
-};
+declare type ChampaignMember =
+  | {
+      id: number,
+      email: string,
+      country: string,
+      consented: boolean | null,
+      consented_updated_at: string | null,
+      name: string,
+      first_name: string,
+      last_name: string,
+      full_name: string,
+      welcome_name: string,
+      postal: string,
+      actionkit_user_id: ?string,
+      donor_status: 'donor' | 'non_donor' | 'recurring_donor',
+      registered: boolean,
+      created_at: string,
+      updated_at: string,
+    }
+  | {};
 
 declare type ChampaignLocation = {
   country?: string,
@@ -72,7 +76,7 @@ declare type ChampaignPage = {
 declare type ChampaignPersonalizationData = {
   locale: string,
   location: ChampaignLocation,
-  member: ?ChampaignMember,
+  member: ChampaignMember,
   paymentMethods: ChampaignPaymentMethod[],
   urlParams: { [key: string]: string },
 };
@@ -80,7 +84,7 @@ declare type ChampaignPersonalizationData = {
 declare type ChampaignGlobalObject = {
   personalization: ChampaignPersonalizationData,
   page: ChampaignPage,
-  store: Store<AppState, *>,
+  store?: Store<AppState, *>,
 };
 
 declare type FBStandardEvent =

@@ -10,9 +10,9 @@ import type { AppState } from '../state/reducers';
 import './ConsentComponent.css';
 
 type Props = {
-  hidden: boolean,
+  isNewMember: boolean,
+  isRequired: boolean,
   consented: ?boolean,
-  doubleOptIn: boolean,
   variant: string,
   dispatch: (action: any) => void,
 };
@@ -38,10 +38,15 @@ class ConsentComponent extends Component {
   }
 
   render() {
-    const { consented, hidden, variant } = this.props;
-    if (hidden) return null;
+    const { consented, isRequired, isNewMember, variant } = this.props;
+    if (!isRequired) return null;
+
+    const classNames = classnames('ConsentComponent', variant, {
+      'hidden-irrelevant': !isNewMember,
+    });
+
     return (
-      <div className={classnames('ConsentComponent', variant)}>
+      <div className={classNames}>
         <div className="ConsentComponent--opt-in-reason opt-in-reason">
           <FormattedHTMLMessage id="consent.opt_in_reason" />
         </div>
@@ -70,12 +75,10 @@ class ConsentComponent extends Component {
   }
 }
 
-const mapStateToProps = ({ consent }: AppState) => ({
-  hidden: consent.isDoubleOptIn || consent.previouslyConsented || !consent.isEU,
-  doubleOptIn: consent.isDoubleOptIn,
+const mapStateToProps = ({ member, consent }: AppState) => ({
+  isNewMember: !member,
+  isRequired: consent.isRequired,
   consented: consent.consented,
   variant: consent.variant,
-  memberId: consent.memberId,
-  email: consent.email,
 });
 export default connect(mapStateToProps)(ConsentComponent);
