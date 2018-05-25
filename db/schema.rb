@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180509160857) do
+ActiveRecord::Schema.define(version: 20180525151104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -419,6 +419,11 @@ ActiveRecord::Schema.define(version: 20180509160857) do
     t.bigint "page_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "delivered_at"
+    t.datetime "opened_at"
+    t.datetime "bounced_at"
+    t.boolean "complaint"
+    t.string "clicked", default: [], array: true
     t.index ["page_id"], name: "index_pending_actions_on_page_id"
   end
 

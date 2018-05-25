@@ -105,6 +105,16 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resources :pending_action_notifications, only: [] do
+      member do
+        put 'delivered'
+        put 'opened'
+        put 'bounced'
+        put 'complaint'
+        put 'clicked'
+      end
+    end
+
     resource :action_confirmations, only: [] do
       member do
         get 'confirm'
