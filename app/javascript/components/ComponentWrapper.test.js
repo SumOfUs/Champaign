@@ -24,7 +24,7 @@ describe('Snapshots:', () => {
 });
 
 describe('Store', () => {
-  const store = configureStore({});
+  const store = configureStore();
 
   test('Wraps the component in a redux Provider if given a store', () => {
     const wrapper = mount(
