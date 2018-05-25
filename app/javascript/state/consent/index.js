@@ -1,112 +1,99 @@
 // @flow
-
 import { includes } from 'lodash';
+import type { InitialAction } from '../reducers';
 
 export type ConsentState = {
   previouslyConsented: boolean,
+  isRequired: boolean,
   consented: ?boolean,
-  isDoubleOptIn: false,
-  countryCode: ?string,
-  email: ?string,
-  isEU: false,
-  memberId: ?string,
-  variant: 'simple' | 'selectable-buttons' | 'scrolling',
+  countryCode: string,
+  variant: string,
   modalOpen: boolean,
 };
 
 const defaultState: ConsentState = {
   previouslyConsented: false,
+  isRequired: false,
   consented: null,
-  countryCode: null,
-  email: null,
-  isEU: false,
-  isDoubleOptIn: false,
-  memberId: null,
+  countryCode: '',
   variant: 'simple',
   modalOpen: false,
 };
 
 type Action =
-  | {
-      type: '@@champaign:member:change_previously_consented',
-      previouslyConsented: boolean,
-    }
-  | { type: '@@champaign:member:change_consent', consented: ?boolean }
-  | { type: '@@champaign:member:change_country', countryCode: ?string }
-  | { type: '@@champaign:member:change_member_email', email: ?string }
-  | { type: '@@champaign:member:change_member_id', memberId: ?string }
-  | { type: '@@champaign:member:reset_state' }
-  | { type: '@@champaign:member:change_variant', variant: string }
-  | { type: '@@champaign:member:toggle_modal', modalOpen: boolean };
+  | InitialAction
+  | { type: '@@chmp:consent:change_consent', consented: ?boolean }
+  | { type: '@@chmp:consent:change_country', countryCode: string }
+  | { type: '@@chmp:consent:reset_state' }
+  | { type: '@@chmp:consent:change_variant', variant: string }
+  | { type: '@@chmp:consent:toggle_modal', modalOpen: boolean };
 
 export default function reducer(
   state: ConsentState = defaultState,
   action: Action
 ) {
   switch (action.type) {
-    case '@@champaign:member:change_country':
+    case '@@chmp:initialize':
+      const {
+        personalization: { member, location },
+      } = action.payload;
+      return {
+        ...state,
+        countryCode: member.country || location.country || '',
+        previouslyConsented: member.consented || false,
+      };
+    case '@@chmp:consent:change_country':
       return {
         ...state,
         countryCode: action.countryCode,
-        isEU: isEU(action.countryCode),
-        isDoubleOptIn: includes(['DE', 'AT'], action.countryCode),
+        isRequired: isRequired({ ...state, countryCode: action.countryCode }),
       };
-    case '@@champaign:member:change_previously_consented':
-      return { ...state, previouslyConsented: action.previouslyConsented };
-    case '@@champaign:member:change_consent':
+    case '@@chmp:consent:change_consent':
       return { ...state, consented: action.consented };
-    case '@@champaign:member:change_member_email':
-      return { ...state, email: action.email };
-    case '@@champaign:member:change_member_id':
-      return { ...state, memberId: action.memberId };
-    case '@@champaign:member:change_variant':
+    case '@@chmp:consent:change_variant':
       return { ...state, variant: action.variant };
-    case '@@champaign:member:toggle_modal':
+    case '@@chmp:consent:toggle_modal':
       return { ...state, modalOpen: action.modalOpen };
-    case '@@champaign:member:reset_state':
+    case '@@chmp:consent:reset_state':
       return defaultState;
     default:
       return state;
   }
 }
 
-export function setPreviouslyConsented(previouslyConsented: boolean): Action {
-  return {
-    type: '@@champaign:member:change_previously_consented',
-    previouslyConsented,
-  };
-}
-
 export function changeConsent(consented: ?boolean = false): Action {
-  return { type: '@@champaign:member:change_consent', consented };
+  return { type: '@@chmp:consent:change_consent', consented };
 }
 
-export function changeCountry(countryCode: ?string = null): Action {
-  return { type: '@@champaign:member:change_country', countryCode };
-}
-
-export function changeMemberEmail(email: ?string = null): Action {
-  return { type: '@@champaign:member:change_member_email', email };
-}
-
-export function changeMemberId(memberId: ?string = null): Action {
-  return { type: '@@champaign:member:change_member_id', memberId };
+export function changeCountry(countryCode: string = ''): Action {
+  return { type: '@@chmp:consent:change_country', countryCode };
 }
 
 export function changeVariant(variant: string = 'simple'): Action {
-  return { type: '@@champaign:member:change_variant', variant };
+  return { type: '@@chmp:consent:change_variant', variant };
 }
 
 export function resetState(): Action {
-  return { type: '@@champaign:member:reset_state' };
+  return { type: '@@chmp:consent:reset_state' };
 }
 
 export function toggleModal(value: boolean): Action {
-  return { type: '@@champaign:member:toggle_modal', modalOpen: value };
+  return { type: '@@chmp:consent:toggle_modal', modalOpen: value };
 }
 
-function isEU(countryCode: ?string, countries = window.champaign.countries) {
-  const country = countries.find(c => c.alpha2 === countryCode);
-  if (!country) return false;
-  return country.eea_member;
+// Conditions:
+// * selected country is in an affected country
+// * user has not previously given consent
+// * user has not selected to consent or not (`consented` is still null)
+function isRequired(state: ConsentState) {
+  const { countryCode, consented, previouslyConsented } = state;
+  // Affected countries: EEA members except Germany and Austria
+  const inAffectedCountry = includes(
+    window.champaign.countries
+      .filter(c => c.eea_member)
+      .filter(c => !includes(['DE', 'AT'], c.alpha2))
+      .map(c => c.alpha2),
+    countryCode
+  );
+  return inAffectedCountry && !previouslyConsented && consented === null;
 }

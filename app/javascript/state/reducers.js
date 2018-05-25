@@ -22,7 +22,6 @@ export default combineReducers(reducers);
 import type { Member } from './member/reducer';
 import type { Fundraiser, EnumRecurringDefault } from './fundraiser/types';
 import type { PaymentMethod } from './paymentMethods/reducer';
-import type { PageAction } from './page/reducer';
 import type { ConsentState } from './consent';
 
 export type AppState = {
@@ -51,8 +50,8 @@ export type FormField = {
 };
 
 export type InitialAction = {
-  type: 'parse_champaign_data',
-  payload: ChampaignPersonalizationData,
+  type: '@@chmp:initialize',
+  payload: ChampaignGlobalObject,
 };
 
-export const INITIAL_ACTION = 'parse_champaign_data';
+export const INITIAL_ACTION = '@@chmp:initialize';

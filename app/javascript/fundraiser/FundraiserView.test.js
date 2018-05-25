@@ -1,4 +1,3 @@
-/* @flow */
 import React from 'react';
 import configureStore from '../state';
 import { Provider } from 'react-redux';
@@ -93,7 +92,7 @@ const fetchInitialState = vals => {
   const defaults = {
     paymentMethods: [],
     locale: 'en',
-    member: {},
+    member: null,
     fundraiser: {
       currency: 'USD',
       donationAmount: null,
@@ -113,20 +112,36 @@ const fetchInitialState = vals => {
     page: {
       id: '1',
       title: 'Test Title',
+      action_count: 0,
+      allow_duplicate_actions: false,
+      canonical_url: '',
+      created_at: '',
+      featured: false,
+      follow_up_page_id: 0,
+      follow_up_plan: 'with_liquid',
+      language_id: 1,
+      optimizely_status: 'optimizely_disabled',
+      primary_image_id: 0,
+      publish_status: 'unpublished',
+      slug: '',
+      status: 'pending',
+      updated_at: '',
     },
-    paymentMethods: vals.paymentMethods || defaults.paymentMethods,
-    member: vals.member || defaults.member,
-    locale: vals.locale || defaults.locale,
-    fundraiser: {
-      ...defaults.fundraiser,
-      ...vals,
+    personalization: {
+      paymentMethods: vals.paymentMethods || defaults.paymentMethods,
+      member: vals.member || defaults.member,
+      locale: vals.locale || defaults.locale,
+      fundraiser: {
+        ...defaults.fundraiser,
+        ...vals,
+      },
     },
   };
 };
 
 const initialize = vals => {
-  suite.store = configureStore({});
   const data = fetchInitialState(vals);
+  suite.store = configureStore(data);
   const {
     donationBands,
     showDirectDebit,
@@ -135,11 +150,6 @@ const initialize = vals => {
     recurringDefault,
   } = data.fundraiser;
 
-  // FIXME: We shouldn't use this action for any reducers. Be more explicit.
-  suite.store.dispatch({
-    type: 'parse_champaign_data',
-    payload: data,
-  });
   suite.store.dispatch({
     type: 'initialize_fundraiser',
     payload: data.fundraiser,

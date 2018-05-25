@@ -10,9 +10,17 @@ export type { Fundraiser } from './fundraiser/types';
 export type { Member } from './member/reducer';
 export type { PaymentMethod } from './paymentMethods/reducer';
 
-export default function configureStore(initialState: any): any {
+export default (data: ChampaignGlobalObject): AppState => {
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const enhancers = composeEnhancers(applyMiddleware(thunk, passToLogTracker));
-  return createStore(reducers, initialState, enhancers);
-}
+  const store = createStore(reducers, {}, enhancers);
+
+  store.dispatch({
+    type: '@@chmp:initialize',
+    payload: data,
+    skip_log: true,
+  });
+
+  return store;
+};
