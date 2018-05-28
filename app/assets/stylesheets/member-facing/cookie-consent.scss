@@ -25,13 +25,11 @@
   a, a:hover {
     display: block;
     border-radius: 3px;
-    width: 150px;
+    width: 180px;
     line-height: 2em;
     background-color: #f8492e;
-    text-transform: uppercase;
     text-decoration: none;
     font-family: system-ui;
-    font-weight: bold;
     color: white;
     text-align: center;
     @media(max-width: 700px) {

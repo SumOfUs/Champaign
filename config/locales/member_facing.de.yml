@@ -224,3 +224,7 @@ de:
     accept_long: "Ja - unterschreiben und E-Mails erhalten"
     decline_short: "Nein"
     decline_long: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"
+  cookie_consent:
+    message: 'Cookies erleichtern die Nutzung unserer Webseite.'
+    dismiss_button_text: 'Einverstanden, weiter'
+    more_info_link_text: ''

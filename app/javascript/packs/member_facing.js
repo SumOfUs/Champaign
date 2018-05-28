@@ -66,6 +66,9 @@ const initializeCookieConsent = () => {
         link: formatMessage('cookie_consent.more_info_link_text', locale),
         href: 'http://cookiesandyou.com',
       },
+      layouts: {
+        basic: '{{messagelink}}{{compliance}}',
+      },
     });
   });
 };
