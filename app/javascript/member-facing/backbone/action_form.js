@@ -63,7 +63,7 @@ const ActionForm = Backbone.View.extend({
     this.store = window.champaign.store;
     this.member = options.member;
     this.variant = options.variant || 'simple';
-    this.consentNeeded = options.consentNeeded;
+    this.async = options.async || false;
     this.insertHiddenFields(options);
     this.applyDisplayModeToFields(options.member);
     this.url = this.$el.attr('action');
@@ -76,9 +76,16 @@ const ActionForm = Backbone.View.extend({
     }
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
-    GlobalEvents.bindEvents(this);
     this.setupState();
     this.enableGDPRConsent();
+    GlobalEvents.bindEvents(this);
+  },
+
+  defaultAction() {
+    if (this.isConsentNeededForExistingMember() || this.async) {
+      return 'validate';
+    }
+    return 'submit';
   },
 
   state() {
@@ -107,7 +114,7 @@ const ActionForm = Backbone.View.extend({
   },
 
   submitForm() {
-    window.setTimeout(() => this.$el.submit(), 200);
+    _.delay(() => this.$el.submit(), 300);
   },
 
   handleCountryChange(event) {
@@ -117,10 +124,16 @@ const ActionForm = Backbone.View.extend({
   },
 
   onClickSubmit(event) {
-    if (this.isConsentNeededForExistingMember()) {
+    if (this.defaultAction() === 'validate') {
       event.preventDefault();
       event.stopPropagation();
-      this.validateForm().then(() => this.store.dispatch(toggleModal(true)));
+      this.validateForm().then(() => {
+        if (this.isConsentNeededForExistingMember()) {
+          this.store.dispatch(toggleModal(true));
+        } else {
+          Backbone.trigger('form:validated');
+        }
+      });
     }
   },
 
