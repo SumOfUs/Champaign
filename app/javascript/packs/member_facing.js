@@ -25,6 +25,7 @@ import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import BraintreeHostedFields from '../member-facing/backbone/braintree_hosted_fields';
 import redirectors from '../member-facing/redirectors';
 import { formatMessage } from '../util/TranslationsLoader';
+import initializeCookieConsent from '../member-facing/cookieConsent';
 
 window.URI = URI;
 
@@ -53,24 +54,6 @@ const initializeApp = () => {
     store,
   });
   initializeCookieConsent();
-};
-
-const initializeCookieConsent = () => {
-  $(() => {
-    const locale = window.champaign.page.language_code || 'en';
-    window.cookieconsent.initialise({
-      theme: 'block',
-      content: {
-        message: formatMessage('cookie_consent.message', locale),
-        dismiss: formatMessage('cookie_consent.dismiss_button_text', locale),
-        link: formatMessage('cookie_consent.more_info_link_text', locale),
-        href: 'http://cookiesandyou.com',
-      },
-      layouts: {
-        basic: '{{messagelink}}{{compliance}}',
-      },
-    });
-  });
 };
 
 initializeApp();
