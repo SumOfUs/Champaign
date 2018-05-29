@@ -11,6 +11,7 @@ oauth_domain_whitelist: <%= ENV['OAUTH_DOMAIN_WHITELIST']&.split(':') %>
 
 aws_region: <%= ENV['AWS_REGION'] %>
 sqs_queue_url: <%= ENV['SQS_QUEUE_URL'] %>
+sqs_queue_id: <%= ENV['SQS_QUEUE_ID'] %>
 s3_host_name: <%= ENV['S3_HOST_NAME'] %>
 ak_processor_url: <%= ENV['AK_PROCESSOR_URL'] %>
 
@@ -101,8 +102,8 @@ home_page_url: <%= ENV['HOME_PAGE_URL'] %>
 # http://guides.rubyonrails.org/v4.2/asset_pipeline.html#asset-organization
 external_assets_path: '<%= ENV["EXTERNAL_ASSETS_PATH"] %>'
 external_css_path: '<%= ENV["EXTERNAL_CSS_PATH"] %>'
-external_translation_path: '<%= ENV["EXTERNAL_TRANSLATION_PATH"] %>'
-external_liquid_path: '<%= ENV["EXTERNAL_LIQUID_PATH"] %>'
+external_translation_path: <%= ENV["EXTERNAL_TRANSLATION_PATH"] || 'translation' %>
+external_liquid_path: <%= ENV["EXTERNAL_LIQUID_PATH"] || 'templates' %>
 default_asset_branch: <%= ENV['DEFAULT_ASSET_BRANCH'] %>
 
 default_mailer_address: <%= ENV['DEFAULT_MAILER_ADDRESS'] %>
