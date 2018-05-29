@@ -11,7 +11,8 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   el: '.petition-bar',
 
   globalEvents: {
-    'form:submitted': 'formSubmittedCallback',
+    'form:validated': 'onValidateSuccess',
+    'form:submitted': 'onSubmitSuccess',
   },
 
   // options: object with any of the following keys
@@ -29,37 +30,27 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
     this.optInButton.on('click', this.optInCallback.bind(this));
     this.optOutButton.on('click', this.optOutCallback.bind(this));
 
-    this.setupStore();
     GlobalEvents.bindEvents(this);
   },
 
-  formSubmittedCallback(e, data) {
-    var isValidateRequest = this.$('form.action-form')
-      .attr('action')
-      .match(/validate/);
-    if (isValidateRequest) {
-      this.petitionSidebar.fadeOut();
-      this.petitionOverlayButton.fadeOut();
-      this.displayAndScrollToConsentQuestion();
-    } else {
-      this.redirectToFollowUp();
-    }
+  onValidateSuccess() {
+    this.petitionSidebar.fadeOut();
+    this.petitionOverlayButton.fadeOut();
+    this.displayAndScrollToConsentQuestion();
+  },
+
+  onSubmitSuccess() {
+    this.redirectToFollowUp();
   },
 
   optInCallback() {
     window.champaign.store.dispatch(changeConsent(true));
-    setTimeout(function() {
-      window.champaign.myActionForm.updateActionUrl();
-      this.$('form.action-form button[type=submit]').trigger('click');
-    }, 300);
+    Backbone.trigger('form:submit_action_form');
   },
 
   optOutCallback() {
     window.champaign.store.dispatch(changeConsent(false));
-    setTimeout(function() {
-      window.champaign.myActionForm.updateActionUrl();
-      this.$('form.action-form button[type=submit]').trigger('click');
-    }, 300);
+    Backbone.trigger('form:submit_action_form');
   },
 
   displayAndScrollToConsentQuestion() {
@@ -96,29 +87,6 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
 
   redirectTo(url) {
     window.location.href = url;
-  },
-
-  updateConsent(consented) {
-    window.champaign.store.dispatch({
-      type: '@@chmp:consent:change_consent',
-      consented: consented,
-    });
-  },
-
-  setupStore() {
-    var store = champaign.store;
-    var member = champaign.personalization.member;
-    var countrySelect = this.$('select[name=country]');
-
-    countrySelect.on('change', function() {
-      store.dispatch(changeCountry(countrySelect.val()));
-    });
-    countrySelect.trigger('change');
-
-    var consentField = this.$('input[name=consented]');
-    store.subscribe(function() {
-      consentField.val(store.getState().consent.consented);
-    });
   },
 });
 
