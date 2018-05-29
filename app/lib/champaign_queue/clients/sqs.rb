@@ -30,7 +30,8 @@ module ChampaignQueue
       end
 
       def queue_url
-        Settings.sqs_queue_url
+        Settings.sqs_queue_url ||
+          "https://sqs.#{Settings.aws_region.downcase}.amazonaws.com/#{Settings.sqs_queue_id}.fifo"
       end
     end
   end
