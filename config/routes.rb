@@ -56,6 +56,8 @@ Rails.application.routes.draw do
     get 'preview', on:   :member
 
     get 'follow-up', on: :member, action: 'follow_up'
+    get 'confirmation', on: :member, action: 'double_opt_in_notice'
+
     resources :images
     get 'plugins', to: 'plugins#index'
     get 'plugins/:type/:id', to: 'plugins#show', as: 'plugin'
