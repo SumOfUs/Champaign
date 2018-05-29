@@ -62,3 +62,11 @@ export default (state: Member = initialState, action: MemberAction): Member => {
       return state;
   }
 };
+
+export function resetMember(): MemberAction {
+  return { type: 'reset_member' };
+}
+
+export function setMember(payload: Member): MemberAction {
+  return { type: 'set_member', payload };
+}
