@@ -8,12 +8,24 @@ import Button from '../components/Button/Button';
 import { changeConsent, toggleModal } from '../state/consent';
 import './ExistingMemberConsent.css';
 
+import type { Member } from '../state/member/reducer';
+
 const style = {
   width: 'auto',
   padding: 30,
 };
 
+type Props = {
+  open: boolean,
+  isRequired: boolean,
+  member: Member,
+  toggleModal: boolean => void,
+  changeConsent: boolean => void,
+};
+
 class ExistingMemberConsent extends Component {
+  props: Props;
+
   closeModal = () => this.props.toggleModal(false);
 
   submit = (value?: boolean) => {
@@ -23,7 +35,7 @@ class ExistingMemberConsent extends Component {
   };
 
   render() {
-    if (!this.props.member) return null;
+    if (!this.props.member || !this.props.isRequired) return null;
     return (
       <Popup
         open={this.props.open}
@@ -61,6 +73,7 @@ class ExistingMemberConsent extends Component {
 
 const mapStateToProps = (state: AppState) => ({
   open: state.consent.modalOpen,
+  isRequired: state.consent.isRequired,
   member: state.member,
 });
 
