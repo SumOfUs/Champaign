@@ -14,7 +14,7 @@ import WelcomeMember from '../WelcomeMember/WelcomeMember';
 import DonateButton from '../DonateButton';
 import Checkbox from '../Checkbox/Checkbox';
 import ShowIf from '../ShowIf';
-import { resetMember } from '../../state/member/actions';
+import { resetMember } from '../../state/member/reducer';
 import {
   changeStep,
   setRecurring,

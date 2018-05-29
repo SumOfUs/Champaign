@@ -15,6 +15,7 @@ import {
   resetState,
   toggleModal,
 } from '../../state/consent';
+import { resetMember } from '../../state/member/reducer';
 
 const ActionForm = Backbone.View.extend({
   el: 'form.action-form',
@@ -193,6 +194,7 @@ const ActionForm = Backbone.View.extend({
 
   clearForm() {
     this.existingMember = false;
+    this.store.dispatch(resetMember());
     if (this.consentNeeded) {
       champaign.store.dispatch(resetState());
       this.updateActionUrl();
