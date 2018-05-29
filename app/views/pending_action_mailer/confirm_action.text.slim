@@ -1,0 +1,15 @@
+| Hallo #{@name},
+
+  Sie haben gerade die SumOfUs-Petition "#{@page.title}" unterzeichnet. Jetzt müssen Sie Ihre Teilnahme nur noch durch den Klick auf einen der nachfolgenden Links bestätigen.
+
+  Ihr Engagement entscheidet, ob unsere Petitionen und Aktionen erfolgreich sind. Wir möchten Sie daher in entscheidenden Momenten per E-Mail informieren. Sie können sich jederzeit entscheiden, keine weiteren E-Mails zu erhalten. Bitte klicken Sie hier:
+
+= link_to "Ich möchte teilnehmen und weiter informiert werden", confirm_api_action_confirmations_url(token: @token, consented: true)
+
+= link_to "Ich möchte teilnehmen, aber verzichte auf weitere Informationen", confirm_api_action_confirmations_url(token: @token)
+
+|  Nur wenn Sie Ihre Unterschrift bestätigen, zählt Ihre Stimme!
+
+|
+  Mit herzlichen Grüßen
+  Das Team von SumOfUs

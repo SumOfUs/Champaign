@@ -137,4 +137,75 @@ describe 'api/pages' do
       expect(json.symbolize_keys[:actions].size).to eq 1
     end
   end
+
+  describe 'GET /similar' do
+    let(:name_tag) { create :tag, name: 'TuuliP' }
+    let(:region_tag) { create :tag, name: '@Global' }
+    let(:issue_tag1) { create :tag, name: '#AnimalRights' }
+    let(:issue_tag2) { create :tag, name: '#Sexism' }
+    let(:english) { create :language, :english }
+
+    let!(:original_page) do
+      create(:page,
+             :published,
+             id: 123,
+             title: 'Coolest petition',
+             content: 'Coolest petition content',
+             language: english,
+             tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+    end
+
+    context 'valid request' do
+      # Look into spec/service/page_service.spec for specs going through all the business logic of deciding which
+      # pages to send back in the request.
+      let!(:similar_page) do
+        create(:page,
+               :published,
+               title: 'A very similar page',
+               content: 'Also cool content',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+      end
+
+      let!(:another_similar_page) do
+        create(:page,
+               :published,
+               title: 'A similar petition',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1])
+      end
+
+      let!(:similar_unpublished) do
+        create(:page,
+               :unpublished,
+               title: 'Similar but unpublished',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1, issue_tag2])
+      end
+
+      let!(:one_issue_tag_page) do
+        create(:page,
+               :published,
+               title: 'One tag match',
+               language: english,
+               tags: [name_tag, region_tag, issue_tag1])
+      end
+
+      it 'returns the specified number of pages with tags that are similar to the original page' do
+        get(api_page_similar_path(original_page, limit: 3, format: :json))
+        expect(response.code).to eq '200'
+        expect(json_hash.first.keys).to match_array(expected)
+        expect(json_hash.first.symbolize_keys).to include(title: 'A very similar page',
+                                                          content: 'Also cool content')
+        expect(json_hash.length).to eq(3)
+      end
+    end
+
+    context 'the requested page does not exist' do
+      it 'responds with 404' do
+        get(api_page_similar_path(13_289_248, limit: 3, format: :json))
+        expect(response.code).to eq '404'
+      end
+    end
+  end
 end

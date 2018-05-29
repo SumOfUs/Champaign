@@ -223,7 +223,7 @@ workflows:
             branches:
               only:
                 - development
-                - /^feature(?:\/|-).+$/
+                - /^feature(?:\/|-|\.).+$/
 
       - build_docker_image:
           requires:
@@ -233,7 +233,7 @@ workflows:
               only:
                 - master
                 - development
-                - /^feature(?:\/|-).+$/
+                - /^feature(?:\/|-|\.).+$/
 
       - build_production_docker_image:
           requires:
@@ -281,4 +281,4 @@ workflows:
           filters:
             branches:
               only:
-                - /^feature(?:\/|-).+$/
+                - /^feature(?:\/|-|\.).+$/

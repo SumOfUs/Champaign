@@ -8,6 +8,10 @@ en:
     or: or
   branding:
     description: "This is who we are." # override this with org-specific details in your own yml file.
+  recommend_pages:
+    recommend_pages_title: 'Here are other similar campaigns we need your support on!'
+    actions: '%{action_count} actions'
+    learn_more: 'learn more'
   email_pension:
     form:
       select_target: 'Select your Pension or Mutual Fund'

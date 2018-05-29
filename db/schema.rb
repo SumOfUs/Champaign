@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180417152308) do
+ActiveRecord::Schema.define(version: 20180525151104) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "intarray"
 
   create_table "actionkit_page_types", id: :serial, force: :cascade do |t|
     t.string "actionkit_page_type", null: false
@@ -201,7 +202,8 @@ ActiveRecord::Schema.define(version: 20180417152308) do
     t.string "actionkit_user_id"
     t.integer "donor_status", default: 0, null: false
     t.jsonb "more"
-    t.datetime "consented_at"
+    t.datetime "consented_updated_at"
+    t.boolean "consented"
     t.index ["actionkit_user_id"], name: "index_members_on_actionkit_user_id"
     t.index ["email", "id"], name: "index_members_on_email_and_id"
     t.index ["email"], name: "index_members_on_email"
@@ -405,6 +407,24 @@ ActiveRecord::Schema.define(version: 20180417152308) do
     t.datetime "updated_at", null: false
     t.string "resource_id"
     t.index ["event_id"], name: "index_payment_go_cardless_webhook_events_on_event_id"
+  end
+
+  create_table "pending_actions", force: :cascade do |t|
+    t.jsonb "data"
+    t.datetime "confirmed_at"
+    t.datetime "emailed_at"
+    t.integer "email_count", default: 0
+    t.string "email"
+    t.string "token"
+    t.bigint "page_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "delivered_at"
+    t.datetime "opened_at"
+    t.datetime "bounced_at"
+    t.boolean "complaint"
+    t.string "clicked", default: [], array: true
+    t.index ["page_id"], name: "index_pending_actions_on_page_id"
   end
 
   create_table "phone_numbers", id: :serial, force: :cascade do |t|

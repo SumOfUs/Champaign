@@ -16,11 +16,14 @@ require 'webmock/rspec'
 require 'paper_trail/frameworks/rspec'
 require 'capybara/rails'
 require 'capybara/poltergeist'
+require 'coveralls'
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 Capybara.javascript_driver = :poltergeist
 ActiveRecord::Migration.maintain_test_schema!
+
+Coveralls.wear!('rails')
 
 VCR.configure do |config|
   config.cassette_library_dir = 'spec/fixtures/vcr_cassettes'

@@ -17,7 +17,7 @@ describe EmailToolSender do
       from_name: 'John',
       body: 'Lorem ipsum',
       subject: 'Some subject',
-      country: 'GB' }
+      country: 'US' }
   end
 
   before { allow(EmailSender).to receive(:run) }
@@ -100,7 +100,7 @@ describe EmailToolSender do
     end
   end
 
-  it 'creates an action with the correct params' do
+  it 'creates an action and member with the correct params (not-EEA country)' do
     service = EmailToolSender.new(page.id, params)
     expect {
       service.run

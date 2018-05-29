@@ -105,6 +105,23 @@ Rails.application.routes.draw do
   resource :reset_password
 
   namespace :api do
+    resources :pending_action_notifications, only: [] do
+      member do
+        put 'delivered'
+        put 'opened'
+        put 'bounced'
+        put 'complaint'
+        put 'clicked'
+      end
+    end
+
+    resource :action_confirmations, only: [] do
+      member do
+        get 'confirm'
+        post 'resend_confirmations'
+      end
+    end
+
     resources :pension_funds, only: [:index] do
       collection do
         post 'suggest_fund'
@@ -131,6 +148,7 @@ Rails.application.routes.draw do
       get 'share-rows', on: :member, action: 'share_rows'
       get 'actions', on: :member, action: 'actions'
       get 'featured', on: :collection
+      get 'similar'
 
       resource :analytics, only: [:show] do
         get 'call_tool', on: :member

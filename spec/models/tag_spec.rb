@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tags
@@ -43,6 +44,25 @@ describe Tag do
 
       it 'destroys tag' do
         expect { tag.destroy }.to change { Tag.count }.by -1
+      end
+    end
+  end
+
+  describe 'scopes' do
+    let!(:issue_tag) { create(:tag, name: '#AnimalRights') }
+    let!(:region_tag) { create(:tag, name: '@Global') }
+
+    describe 'issue tag' do
+      it 'returns issue tags' do
+        expect(Tag.issue).to include(issue_tag)
+        expect(Tag.issue).not_to include(region_tag)
+      end
+    end
+
+    describe 'region tag' do
+      it 'returns region tags' do
+        expect(Tag.region).to include(region_tag)
+        expect(Tag.region).not_to include(issue_tag)
       end
     end
   end

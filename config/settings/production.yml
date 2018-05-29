@@ -116,6 +116,8 @@ members:
 airbrake_api_key: <%= ENV['AIRBRAKE_API_KEY'] %>
 airbrake_project_id: <%= ENV['AIRBRAKE_PROJECT_ID'] %>
 
+sentry_dsn: <%= ENV['SENTRY_DSN'] %>
+
 admins: <%= ENV['ADMIN_WHITELIST'] %>
 
 mixpanel_token: "<%= ENV['MIXPANEL_TOKEN'] %>"
@@ -135,3 +137,5 @@ dynamodb_mailer_table: <%= ENV['DYNAMODB_MAILER_TABLE'] %>
 
 member_services_secret: <%= ENV['MEMBER_SERVICES_SECRET'] %>
 oxr_app_id: <%= ENV['OXR_APP_ID'] %>
+api_key: <%= ENV['CHAMPAIGN_API_KEY'] %>
+mailer_topic_arn: <%= ENV['MAILING_TOPIC_ARN'] %>

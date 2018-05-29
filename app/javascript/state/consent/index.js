@@ -1,8 +1,11 @@
 // @flow
 
+import { includes } from 'lodash';
+
 export type ConsentState = {
   previouslyConsented: boolean,
   consented: ?boolean,
+  isDoubleOptIn: false,
   countryCode: ?string,
   email: ?string,
   isEU: false,
@@ -16,6 +19,7 @@ const defaultState: ConsentState = {
   countryCode: null,
   email: null,
   isEU: false,
+  isDoubleOptIn: false,
   memberId: null,
   variant: 'simple',
 };
@@ -29,6 +33,7 @@ type Action =
   | { type: '@@champaign:member:change_country', countryCode: ?string }
   | { type: '@@champaign:member:change_member_email', email: ?string }
   | { type: '@@champaign:member:change_member_id', memberId: ?string }
+  | { type: '@@champaign:member:reset_state' }
   | { type: '@@champaign:member:change_variant', variant: string };
 
 export default function reducer(
@@ -41,6 +46,7 @@ export default function reducer(
         ...state,
         countryCode: action.countryCode,
         isEU: isEU(action.countryCode),
+        isDoubleOptIn: includes(['DE', 'AT'], action.countryCode),
       };
     case '@@champaign:member:change_previously_consented':
       return { ...state, previouslyConsented: action.previouslyConsented };
@@ -52,6 +58,8 @@ export default function reducer(
       return { ...state, memberId: action.memberId };
     case '@@champaign:member:change_variant':
       return { ...state, variant: action.variant };
+    case '@@champaign:member:reset_state':
+      return defaultState;
     default:
       return state;
   }
@@ -82,6 +90,10 @@ export function changeMemberId(memberId: ?string = null): Action {
 
 export function changeVariant(variant: string = 'simple'): Action {
   return { type: '@@champaign:member:change_variant', variant };
+}
+
+export function resetState(): Action {
+  return { type: '@@champaign:member:reset_state' };
 }
 
 function isEU(countryCode: ?string, countries = window.champaign.countries) {

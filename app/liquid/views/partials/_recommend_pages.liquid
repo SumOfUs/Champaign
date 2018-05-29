@@ -1,0 +1,17 @@
+<div class="full-screen-block similar-block">
+  <div class="similar-block__subheader">
+    <h1>{{ 'recommend_pages.recommend_pages_title' | t }}</h1>
+  </div>
+  <div id="recommend-pages-component" class="similar-block__campaigns"></div>
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    var global = window.champaign.personalization;
+    var data = {
+      locale: '{{locale}}',
+      pageId: "{{ id }}"
+    };
+   mountRecommendPages('recommend-pages-component', data);
+  })
+</script>

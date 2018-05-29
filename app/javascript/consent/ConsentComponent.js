@@ -1,4 +1,5 @@
 // @flow
+import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
@@ -11,6 +12,7 @@ import './ConsentComponent.css';
 type Props = {
   hidden: boolean,
   consented: ?boolean,
+  doubleOptIn: boolean,
   variant: string,
   dispatch: (action: any) => void,
 };
@@ -30,12 +32,16 @@ class ConsentComponent extends Component {
         return false;
     }
   }
+
+  componentDidUpdate() {
+    $.publish('sidebar:height_change');
+  }
+
   render() {
     const { consented, hidden, variant } = this.props;
     if (hidden) return null;
     return (
       <div className={classnames('ConsentComponent', variant)}>
-        <input type="hidden" name="consent_enabled" value="1" />
         <div className="ConsentComponent--opt-in-reason opt-in-reason">
           <FormattedHTMLMessage id="consent.opt_in_reason" />
         </div>
@@ -65,7 +71,8 @@ class ConsentComponent extends Component {
 }
 
 const mapStateToProps = ({ consent }: AppState) => ({
-  hidden: consent.previosulyConsented || !consent.isEU,
+  hidden: consent.isDoubleOptIn || consent.previouslyConsented || !consent.isEU,
+  doubleOptIn: consent.isDoubleOptIn,
   consented: consent.consented,
   variant: consent.variant,
   memberId: consent.memberId,

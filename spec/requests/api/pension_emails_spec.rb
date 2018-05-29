@@ -26,7 +26,7 @@ describe 'Pension Emails', type: :request do
         to_email: 'recipient@example.com',
         body: 'Body text',
         target_name: 'Target name',
-        country: 'GB',
+        country: 'US',
         subject: 'Subject',
         akid: akid,
         source: 'fb'
@@ -55,14 +55,14 @@ describe 'Pension Emails', type: :request do
       expect(aws_client).to have_received(:put_item).with(expected_options)
     end
 
-    it 'creates an action and member' do
+    it 'creates an action and member (not-EEA country)' do
       expect(Action.count).to eq(1)
 
       expect(Action.first.member.attributes).to include({
         email: 'sender@example.com',
         first_name: "Sender's",
         last_name: 'Name',
-        country: 'GB'
+        country: 'US'
       }.stringify_keys)
     end
 
