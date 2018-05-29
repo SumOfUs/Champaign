@@ -118,7 +118,6 @@ const ActionForm = Backbone.View.extend({
 
   onClickSubmit(event) {
     if (this.isConsentNeededForExistingMember()) {
-      console.log('Consent is needed for existing member');
       event.preventDefault();
       event.stopPropagation();
       this.validateForm().then(() => this.store.dispatch(toggleModal(true)));
