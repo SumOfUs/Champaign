@@ -6,7 +6,7 @@ require 'browser'
 
 class PagesController < ApplicationController
   before_action :authenticate_user!, except: %i[show follow_up]
-  before_action :get_page, only: %i[edit update destroy follow_up analytics actions preview]
+  before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
   before_action :localize, only: %i[show follow_up]
@@ -83,6 +83,11 @@ class PagesController < ApplicationController
     end
   end
 
+  def double_opt_in_notice
+    @rendered = renderer.render_custom('Double Opt In Follow Up')
+    render :follow_up, layout: 'member_facing'
+  end
+
   def follow_up
     # currently, we use ShareProgress to evaluate and track shares. The only method they
     # have to allow us to tell who referred who is by adding URL parameters (in this case,
@@ -94,12 +99,7 @@ class PagesController < ApplicationController
       return redirect_to follow_up_member_facing_page_path(@page, member_id: recognized_member.id)
     end
 
-    @rendered = if unsafe_params[:double_opt_in]
-                  renderer.render_custom('Double Opt In Follow Up')
-                else
-                  renderer.render_follow_up
-                end
-
+    @rendered = renderer.render_follow_up
     @data = renderer.personalization_data
 
     render :follow_up, layout: 'member_facing'
