@@ -76,7 +76,6 @@ const ActionForm = Backbone.View.extend({
     }
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
-    this.existingMember = !!options.member.email;
     GlobalEvents.bindEvents(this);
     this.setupState();
     this.enableGDPRConsent();
@@ -136,9 +135,9 @@ const ActionForm = Backbone.View.extend({
     if (!this.consentNeeded) {
       return;
     }
-    var consent = this.state().consent;
+    const { member, consent } = this.state();
 
-    if (!this.existingMember && consent.isRequired) {
+    if (!member && consent.isRequired) {
       this.$el.attr('action', this.url + '/validate');
     } else {
       this.$el.attr('action', this.url);
@@ -193,7 +192,6 @@ const ActionForm = Backbone.View.extend({
   },
 
   clearForm() {
-    this.existingMember = false;
     this.store.dispatch(resetMember());
     if (this.consentNeeded) {
       champaign.store.dispatch(resetState());
