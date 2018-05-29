@@ -13,9 +13,10 @@ class Api::ActionsController < ApplicationController
       action = ManageAction.create(action_params.merge(referer_url).merge(mobile_value))
 
       if action.is_a?(PendingAction)
-        path = PageFollower.new_from_page(page, double_opt_in: true,
-                                                d_name: action.data['name'],
-                                                d_email: action.data['email']).follow_up_path
+        path = confirmation_page_path(page, double_opt_in: true,
+                                            d_name: action.data['name'],
+                                            d_email: action.data['email'])
+
         render js: "location.href = '#{path}';", status: 200
         return
       end

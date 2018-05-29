@@ -53,5 +53,11 @@ describe 'Double opt-in' do
         expect(pending_action.emailed_at.to_s).to eq(@now.to_s)
       end
     end
+
+    it 'redirects to notice' do
+      post "/api/pages/#{page.id}/actions", params: params
+      path = '/pages/foo-bar/confirmation?d_email=hello%40example.com&d_name=John+Doe&double_opt_in=true'
+      expect(response.body).to include("location.href = '#{path}'")
+    end
   end
 end
