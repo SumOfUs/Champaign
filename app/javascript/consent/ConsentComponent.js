@@ -10,8 +10,8 @@ import type { AppState } from '../state/reducers';
 import './ConsentComponent.css';
 
 type Props = {
-  isNewMember: boolean,
-  isRequiredNew: boolean,
+  shouldRenderHidden: boolean,
+  shouldRender: boolean,
   consented: ?boolean,
   variant: string,
   dispatch: (action: any) => void,
