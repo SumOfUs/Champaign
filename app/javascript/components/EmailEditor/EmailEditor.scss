@@ -14,9 +14,14 @@
     min-height: 250px;
     resize: vertical;
   }
+
+  .editor-content-block {
+    margin-bottom: .6em;
+  }
 }
 
 .EmailEditor-header,
 .EmailEditor-footer {
   color: #999;
+  margin-bottom: .6em;
 }

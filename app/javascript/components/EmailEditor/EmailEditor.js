@@ -64,7 +64,7 @@ export default class EmailEditor extends Component {
       this.state.header,
       stateToHTML(this.state.editorState.getCurrentContent()),
       this.state.footer,
-    ]).join('<br />');
+    ]).join('');
   }
 
   updateSubject = (subject: string) => {
@@ -78,6 +78,9 @@ export default class EmailEditor extends Component {
       this.update();
     });
   };
+
+  // class applied to content blocks
+  blockStyleFn = () => 'editor-content-block';
 
   render() {
     const { header, footer, errors } = this.props;
@@ -118,6 +121,7 @@ export default class EmailEditor extends Component {
               <Editor
                 editorState={this.state.editorState}
                 onChange={this.onEditorChange}
+                blockStyleFn={this.blockStyleFn}
               />
               {footer && (
                 <div
