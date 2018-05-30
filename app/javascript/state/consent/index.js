@@ -4,7 +4,8 @@ import type { InitialAction } from '../reducers';
 
 export type ConsentState = {
   previouslyConsented: boolean,
-  isRequired: boolean,
+  isRequiredExisting: boolean,
+  isRequiredNew: boolean,
   consented: ?boolean,
   countryCode: string,
   variant: string,
@@ -13,7 +14,8 @@ export type ConsentState = {
 
 const defaultState: ConsentState = {
   previouslyConsented: false,
-  isRequired: false,
+  isRequiredNew: false,
+  isRequiredExisting: false,
   consented: null,
   countryCode: '',
   variant: 'simple',
@@ -46,7 +48,14 @@ export default function reducer(
       return {
         ...state,
         countryCode: action.countryCode,
-        isRequired: isRequired({ ...state, countryCode: action.countryCode }),
+        isRequiredNew: isRequired(
+          { ...state, countryCode: action.countryCode },
+          c => !includes(['DE', 'AT'], c.alpha2)
+        ),
+        isRequiredExisting: isRequired({
+          ...state,
+          countryCode: action.countryCode,
+        }),
       };
     case '@@chmp:consent:change_consent':
       return { ...state, consented: action.consented };
@@ -85,15 +94,16 @@ export function toggleModal(value: boolean): Action {
 // * selected country is in an affected country
 // * user has not previously given consent
 // * user has not selected to consent or not (`consented` is still null)
-function isRequired(state: ConsentState) {
+function isRequired(state: ConsentState, filter?: (country: any) => boolean) {
   const { countryCode, consented, previouslyConsented } = state;
   // Affected countries: EEA members except Germany and Austria
-  const inAffectedCountry = includes(
-    window.champaign.countries
-      .filter(c => c.eea_member)
-      .filter(c => !includes(['DE', 'AT'], c.alpha2))
-      .map(c => c.alpha2),
-    countryCode
-  );
+
+  const countries = window.champaign.countries
+    .filter(c => c.eea_member)
+    .filter(filter || (() => true))
+    .map(c => c.alpha2);
+
+  const inAffectedCountry = includes(countries, countryCode);
+
   return inAffectedCountry && !previouslyConsented && consented === null;
 }

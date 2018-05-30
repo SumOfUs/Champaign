@@ -221,6 +221,10 @@ fr:
     accept_long: "Oui, je signe et je souhaite recevoir les courriels"
     decline_short: "Non"
     decline_long: "Non, je signe mais je m'engage moins"
+    existing:
+      opt_in_reason: "<p>Nous demandons aux membres SumOfUs de confirmer qu’ils/elles souhaitent toujours recevoir nos courriels à ce sujet et concernant d’autres campagnes urgentes.</p><p><b>Souhaitez-vous confirmer aujourd’hui?</b></p>"
+      decline: "Pas maintenant"
+
   cookie_consent:
     message: 'Les cookies sont importants pour le bon fonctionnement de notre site.'
     dismiss_button_text: 'Accepter et continuer'

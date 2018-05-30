@@ -11,7 +11,7 @@ import './ConsentComponent.css';
 
 type Props = {
   isNewMember: boolean,
-  isRequired: boolean,
+  isRequiredNew: boolean,
   consented: ?boolean,
   variant: string,
   dispatch: (action: any) => void,
@@ -38,11 +38,11 @@ class ConsentComponent extends Component {
   }
 
   render() {
-    const { consented, isRequired, isNewMember, variant } = this.props;
-    if (!isRequired) return null;
+    const { consented, shouldRender, shouldRenderHidden, variant } = this.props;
+    if (!shouldRender) return null;
 
     const classNames = classnames('ConsentComponent', variant, {
-      'hidden-irrelevant': !isNewMember,
+      'hidden-irrelevant': shouldRenderHidden,
     });
 
     return (
@@ -75,10 +75,17 @@ class ConsentComponent extends Component {
   }
 }
 
-const mapStateToProps = ({ member, consent }: AppState) => ({
-  isNewMember: !member,
-  isRequired: consent.isRequired,
-  consented: consent.consented,
-  variant: consent.variant,
-});
+const mapStateToProps = ({ member, consent }: AppState) => {
+  const { consented, variant, isRequiredNew, isRequiredExisting } = consent;
+  const shouldRender =
+    (member && isRequiredExisting) || (!member && isRequiredNew);
+  const shouldRenderHidden = !!member;
+
+  return {
+    shouldRenderHidden,
+    shouldRender,
+    consented,
+    variant,
+  };
+};
 export default connect(mapStateToProps)(ConsentComponent);

@@ -31,7 +31,6 @@ const ActionForm = Backbone.View.extend({
   events: {
     'click .action-form__submit-button': 'onClickSubmit',
     'click .action-form__clear-form': 'clearForm',
-    'change select[name=country]': 'updateActionUrl',
     'change .action-form__dropdown[name="country"]': 'handleCountryChange',
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
@@ -55,10 +54,8 @@ const ActionForm = Backbone.View.extend({
   //    bucket: if passed, submitted to the server in the form
   //    location: a hash of location values inferred from the user's request
   //    skipPrefill: boolean, will not prefill if true
-  //    consentNeeded: when true and only for new members, the form will trigger a
-  //      validation if the selected country is in the EU and if consent hasnt been
-  //      given. If consent has been given or if the country is not in the EU
-  //      then a regular action is created.
+  //    async: when true the form will validate by default.
+  //      To submit trigger event `form:submit_action_form`
   initialize(options = {}) {
     this.store = window.champaign.store;
     this.member = options.member;
@@ -67,7 +64,6 @@ const ActionForm = Backbone.View.extend({
     this.insertHiddenFields(options);
     this.applyDisplayModeToFields(options.member);
     this.url = this.$el.attr('action');
-    this.updateActionUrl();
     if (!options.skipPrefill) {
       this.prefillAsPossible(options);
     }
@@ -103,7 +99,7 @@ const ActionForm = Backbone.View.extend({
 
   isConsentNeededForExistingMember() {
     const { member, consent } = this.state();
-    return member && consent.isRequired;
+    return member && consent.isRequiredExisting;
   },
 
   resetState() {
@@ -142,19 +138,6 @@ const ActionForm = Backbone.View.extend({
       undefined,
       data => this.handleFailure({ target: this.$el }, data)
     );
-  },
-
-  updateActionUrl() {
-    if (!this.consentNeeded) {
-      return;
-    }
-    const { member, consent } = this.state();
-
-    if (!member && consent.isRequired) {
-      this.$el.attr('action', this.url + '/validate');
-    } else {
-      this.$el.attr('action', this.url);
-    }
   },
 
   // Looks at the display-mode for each field and hides them accordingly
@@ -206,10 +189,9 @@ const ActionForm = Backbone.View.extend({
 
   clearForm() {
     this.store.dispatch(resetMember());
-    if (this.consentNeeded) {
-      champaign.store.dispatch(resetState());
-      this.updateActionUrl();
-    }
+    // if (this.consentNeeded) {
+    //   champaign.store.dispatch(resetState());
+    // }
     const $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder
