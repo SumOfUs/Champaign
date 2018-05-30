@@ -17,7 +17,7 @@ const style = {
 
 type Props = {
   open: boolean,
-  isRequired: boolean,
+  isRequiredExisting: boolean,
   member: Member,
   toggleModal: boolean => void,
   changeConsent: boolean => void,
@@ -35,7 +35,7 @@ class ExistingMemberConsent extends Component {
   };
 
   render() {
-    if (!this.props.member || !this.props.isRequired) return null;
+    if (!this.props.member || !this.props.isRequiredExisting) return null;
     return (
       <Popup
         open={this.props.open}
@@ -73,7 +73,7 @@ class ExistingMemberConsent extends Component {
 
 const mapStateToProps = (state: AppState) => ({
   open: state.consent.modalOpen,
-  isRequired: state.consent.isRequired,
+  isRequiredExisting: state.consent.isRequiredExisting,
   member: state.member,
 });
 

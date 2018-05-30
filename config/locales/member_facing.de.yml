@@ -224,6 +224,9 @@ de:
     accept_long: "Ja - unterschreiben und E-Mails erhalten"
     decline_short: "Nein"
     decline_long: "Nein - unterschreiben, aber in Zukunft über keine weiteren Aktionen informiert werden"
+    existing:
+      opt_in_reason: "<p>We’re asking SumOfUs members to confirm that they still want to receive emails from us about this and other urgent campaigns.</p><p><b>Would you like to confirm today?</b></p>"
+      decline: "Not right now"
   cookie_consent:
     message: 'Cookies erleichtern die Nutzung unserer Webseite.'
     dismiss_button_text: 'Einverstanden, weiter'

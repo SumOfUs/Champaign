@@ -18,6 +18,7 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
   // options: object with any of the following keys
   //    followUpUrl: the url to redirect to after success
   initialize(options = {}) {
+    this.store = window.champaign.store;
     this.followUpUrl = options.followUpUrl;
     this.petitionSidebar = $('.center-content__fixed-right');
     this.petitionOverlayButton = $('.petition-bar__mobile_ui__bottom_bar');
@@ -33,10 +34,20 @@ const PetitionAndScrollToConsent = Backbone.View.extend({
     GlobalEvents.bindEvents(this);
   },
 
+  state() {
+    return this.store.getState();
+  },
+
   onValidateSuccess() {
-    this.petitionSidebar.fadeOut();
-    this.petitionOverlayButton.fadeOut();
-    this.displayAndScrollToConsentQuestion();
+    const { member, consent } = this.state();
+
+    if (consent.isRequiredNew && !member) {
+      this.petitionSidebar.fadeOut();
+      this.petitionOverlayButton.fadeOut();
+      this.displayAndScrollToConsentQuestion();
+    } else {
+      Backbone.trigger('form:submit_action_form');
+    }
   },
 
   onSubmitSuccess() {
