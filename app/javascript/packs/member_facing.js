@@ -4,6 +4,7 @@ import '../shared/show_errors';
 import '../member-facing/registration';
 import '../member-facing/track_shares';
 import 'whatwg-fetch';
+import 'cookieconsent';
 
 require('lodash');
 require('backbone');
@@ -23,6 +24,8 @@ import SweetPlaceholder from '../member-facing/backbone/sweet_placeholder';
 import CampaignerOverlay from '../member-facing/backbone/campaigner_overlay';
 import BraintreeHostedFields from '../member-facing/backbone/braintree_hosted_fields';
 import redirectors from '../member-facing/redirectors';
+import { formatMessage } from '../util/TranslationsLoader';
+import initializeCookieConsent from '../member-facing/cookieConsent';
 
 window.URI = URI;
 
@@ -50,6 +53,7 @@ const initializeApp = () => {
     redirectors,
     store,
   });
+  initializeCookieConsent();
 };
 
 initializeApp();

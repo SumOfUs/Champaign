@@ -221,3 +221,7 @@ fr:
     accept_long: "Oui, je signe et je souhaite recevoir les courriels"
     decline_short: "Non"
     decline_long: "Non, je signe mais je m'engage moins"
+  cookie_consent:
+    message: 'Les cookies sont importants pour le bon fonctionnement de notre site.'
+    dismiss_button_text: 'Accepter et continuer'
+    more_info_link_text: ''
