@@ -17,7 +17,7 @@ class PendingActionService
 
       sns.publish(
         message: message.to_json,
-        topic_arn: Settings.mailer_topic_arn
+        topic_arn: "arn:aws:sns:#{Settings.aws_region}:#{Settings.aws_id}:#{Settings.mailer_topic_id}"
       )
 
       action.update(email_count: (action.email_count || 0) + 1, emailed_at: Time.now)
