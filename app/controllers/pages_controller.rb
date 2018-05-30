@@ -5,7 +5,7 @@ require 'champaign_queue'
 require 'browser'
 
 class PagesController < ApplicationController
-  before_action :authenticate_user!, except: %i[show follow_up]
+  before_action :authenticate_user!, except: %i[show follow_up double_opt_in_notice]
   before_action :get_page, only: %i[edit update destroy follow_up double_opt_in_notice analytics actions preview]
   before_action :get_page_or_homepage, only: [:show]
   before_action :redirect_unless_published, only: %i[show follow_up]
