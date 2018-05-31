@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Share::TwittersController < Share::SharesController
   private
 
@@ -9,7 +10,7 @@ class Share::TwittersController < Share::SharesController
   def permitted_params
     params
       .require(:share_twitter)
-      .permit(:description)
+      .permit(:description, :name)
   end
 
   def share_class

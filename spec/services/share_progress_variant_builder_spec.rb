@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe ShareProgressVariantBuilder do
-  let(:params) { { title: 'foo', description: 'bar' } }
+  let(:params) { { title: 'foo', description: 'bar', name: 'facebook' } }
 
   let(:sp_variants) { [{ id: 123 }] }
 
@@ -51,7 +52,6 @@ describe ShareProgressVariantBuilder do
     subject(:create_variant) do
       ShareProgressVariantBuilder.create(
         params: params,
-        variant_type: 'facebook',
         page: page,
         url: 'http://example.com/foo'
       )
@@ -100,7 +100,6 @@ describe ShareProgressVariantBuilder do
 
         new_variant = ShareProgressVariantBuilder.create(
           params: params,
-          variant_type: 'facebook',
           page: page,
           url: 'http://ignored.com'
         )
@@ -176,12 +175,11 @@ describe ShareProgressVariantBuilder do
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
     let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
-    let(:params) { { title: 'Bar' } }
+    let(:params) { { title: 'Bar', name: 'facebook' } }
 
     subject(:update_variant) do
       ShareProgressVariantBuilder.update(
         params: params,
-        variant_type: 'facebook',
         page: page,
         id: share.id
       )
@@ -234,7 +232,6 @@ describe ShareProgressVariantBuilder do
     subject(:destroy_variant) do
       ShareProgressVariantBuilder.destroy(
         params: params,
-        variant_type: 'facebook',
         page: page,
         id: share.id
       )
@@ -243,14 +240,14 @@ describe ShareProgressVariantBuilder do
     describe 'success' do
       let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
-      let(:params) { { title: 'Bar' } }
+      let(:params) { { title: 'Bar', name: 'facebook' } }
 
       before do
         allow(ShareProgress::Button).to receive(:new) { success_sp_button }
       end
 
       it 'returns an object with no errors' do
-        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: [:host, :path]) do
+        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: %i[host path]) do
           expect(ShareProgress::Button).to receive(:new)
           result = destroy_variant
           expect(result.errors[:base]).to eq []
@@ -258,7 +255,7 @@ describe ShareProgressVariantBuilder do
       end
 
       it 'removes the variant from local storage' do
-        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: [:host, :path]) do
+        VCR.use_cassette('shareprogress_destroy_variant_success', match_requests_on: %i[host path]) do
           expect(ShareProgress::Button).to receive(:new)
           expect(Share::Facebook.find(share.id)).to eq(share)
           destroy_variant
@@ -270,7 +267,7 @@ describe ShareProgressVariantBuilder do
     describe 'failure' do
       let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
-      let(:params) { { title: 'Bar' } }
+      let(:params) { { title: 'Bar', name: 'facebook' } }
 
       before do
         allow(ShareProgress::Button).to receive(:new) { success_sp_button }
