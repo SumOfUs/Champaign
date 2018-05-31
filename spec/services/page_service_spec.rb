@@ -75,7 +75,6 @@ describe PageService do
       let!(:original_page) do
         create(:page,
                :published,
-               id: 123,
                title: 'Coolest petition',
                content: 'Coolest petition content',
                language: english,
