@@ -10,7 +10,7 @@ class Share::WhatsappsController < Share::SharesController
   def permitted_params
     params
       .require(:share_whatsapp)
-      .permit(:text)
+      .permit(:text, :name)
   end
 
   def share_class
