@@ -216,7 +216,6 @@ fr:
     opt_out_warn_title: "En êtes-vous sûr ?"
     opt_out_warn_message: "Si vous choisissez 'Oui', nous vous tiendrons au courant des campagnes de SumOfUs afin que vous puissiez passer à l’action lorsque la prochaine grande entreprise dépassera les bornes."
     how_to_opt_out: 'Vous pouvez vous désinscrire à tout moment. Rendez-vous simplement sur notre <a href="https://www.sumofus.org/unsubscribe" target="_blank">page de désinscription</a>. En entrant vos informations, vous certifiez avoir plus de 16 ans.'
-    opt_in_error: "Veuillez choisir une option"
     accept_short: "Oui"
     accept_long: "Oui, je signe et je souhaite recevoir les courriels"
     decline_short: "Non"
