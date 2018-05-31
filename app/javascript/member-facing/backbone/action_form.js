@@ -189,9 +189,6 @@ const ActionForm = Backbone.View.extend({
 
   clearForm() {
     this.store.dispatch(resetMember());
-    // if (this.consentNeeded) {
-    //   champaign.store.dispatch(resetState());
-    // }
     const $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder
