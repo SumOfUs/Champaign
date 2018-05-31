@@ -1,0 +1,44 @@
+.cc-window {
+  background-color: #30394f;
+  z-index: 500;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  height: 150px;
+}
+
+.cc-message {
+  display: block;
+  margin: 2em 30px 1em 30px;
+  color: white;
+  @media(max-width: 700px) {
+    text-align: center;
+  }
+}
+
+.cc-compliance {
+  margin-left: 30px;
+  @media(max-width: 700px) {
+    margin: auto;
+  }
+
+  a, a:hover {
+    display: block;
+    border-radius: 3px;
+    width: 180px;
+    line-height: 2em;
+    background-color: #f8492e;
+    text-decoration: none;
+    font-family: system-ui;
+    color: white;
+    text-align: center;
+    @media(max-width: 700px) {
+      margin: auto;
+    }
+  }
+}
+
+.cc-invisible {
+  display: none;
+}
+

@@ -1,6 +1,7 @@
 // @flow
+import type { InitialAction } from '../reducers';
 
-const initialState: ChampaignPage = {
+export const initialState: ChampaignPage = {
   action_count: 0,
   allow_duplicate_actions: false,
   canonical_url: '',
@@ -19,17 +20,12 @@ const initialState: ChampaignPage = {
   updated_at: '',
 };
 
-export type PageAction = {
-  type: 'initialize_page',
-  payload: ChampaignPage,
-};
-
 export default function pageReducer(
   state: ChampaignPage = initialState,
-  action: PageAction
+  action: InitialAction
 ) {
-  if (action.type === 'initialize_page') {
-    return action.payload;
+  if (action.type === '@@chmp:initialize') {
+    return action.payload.page;
   }
   return state;
 }

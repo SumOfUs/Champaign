@@ -8,7 +8,6 @@ import configureStore from '../state';
 
 import type { AppState } from '../state/reducers';
 import type { DonationBands } from '../state/fundraiser/types.js';
-import type { PageAction } from '../state/page/reducer';
 import type { InitialAction } from '../state/reducers';
 import type {
   FundraiserAction,
@@ -24,7 +23,7 @@ type SearchParams = {
   hide_spm?: string, // hide saved payment methods
 };
 
-type Action = FundraiserAction | PageAction | InitialAction;
+type Action = FundraiserAction | InitialAction;
 const store: Store<AppState, FundraiserAction> = window.champaign.store;
 const dispatch = (a: Action): Action => store.dispatch(a);
 
@@ -48,12 +47,6 @@ function mount(root: string, options: any, Component?: any = FundraiserView) {
 window.mountFundraiser = function(root: string, data: MountFundraiserOptions) {
   const search: SearchParams = queryString.parse(location.search);
   const { personalization, page } = window.champaign;
-  dispatch({
-    type: 'parse_champaign_data',
-    payload: personalization,
-    skip_log: true,
-  });
-  dispatch({ type: 'initialize_page', payload: page, skip_log: true });
   dispatch({
     type: 'initialize_fundraiser',
     payload: data.fundraiser,

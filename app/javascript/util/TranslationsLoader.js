@@ -4,11 +4,25 @@
 import { translations } from 'champaign-i18n';
 import type { I18nFlatDict } from 'champaign-i18n';
 import { transform } from './locales/helpers';
+import IntlMessageFormat from 'intl-messageformat';
+
+const transformedMessages = {};
 
 export default function loadTranslations(locale: string) {
   const messages = translations[locale];
   if (!messages) {
     throw new Error(`Unsuported locale: ${locale}`);
   }
-  return transform(messages);
+  if (!transformedMessages[locale]) {
+    transformedMessages[locale] = transform(messages);
+  }
+  return transformedMessages[locale];
 }
+
+const formatMessage = (key: string, locale: string) => {
+  return new IntlMessageFormat(loadTranslations(locale)[key], locale).format(
+    {}
+  );
+};
+
+export { formatMessage };

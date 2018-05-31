@@ -8,12 +8,14 @@ import MobileCheck from './mobile_check';
 import GlobalEvents from '../../shared/global_events';
 import ComponentWrapper from '../../components/ComponentWrapper';
 import ConsentComponent from '../../consent/ConsentComponent';
+import ExistingMemberConsent from '../../consent/ExistingMemberConsent';
 import {
   changeCountry,
-  changeMemberEmail,
   changeVariant,
   resetState,
+  toggleModal,
 } from '../../state/consent';
+import { resetMember } from '../../state/member/reducer';
 
 const ActionForm = Backbone.View.extend({
   el: 'form.action-form',
@@ -27,17 +29,18 @@ const ActionForm = Backbone.View.extend({
   ],
 
   events: {
+    'click .action-form__submit-button': 'onClickSubmit',
     'click .action-form__clear-form': 'clearForm',
+    'change .action-form__dropdown[name="country"]': 'handleCountryChange',
     'ajax:success': 'handleSuccess',
     'ajax:error': 'handleFailure',
     'ajax:send': 'disableButton',
-    'change .action-form__dropdown[name="country"]': 'handleCountryChange',
-    'change .form__content[name="email"]': 'handleEmailChange',
   },
 
   globalEvents: {
     'form:clear': 'clearForm',
     'form:step_change': 'handleStepChange',
+    'form:submit_action_form': 'submitForm',
   },
 
   // options: object with any of the following keys
@@ -51,12 +54,16 @@ const ActionForm = Backbone.View.extend({
   //    bucket: if passed, submitted to the server in the form
   //    location: a hash of location values inferred from the user's request
   //    skipPrefill: boolean, will not prefill if true
+  //    async: when true the form will validate by default.
+  //      To submit trigger event `form:submit_action_form`
   initialize(options = {}) {
     this.store = window.champaign.store;
     this.member = options.member;
     this.variant = options.variant || 'simple';
+    this.async = options.async || false;
     this.insertHiddenFields(options);
     this.applyDisplayModeToFields(options.member);
+    this.url = this.$el.attr('action');
     if (!options.skipPrefill) {
       this.prefillAsPossible(options);
     }
@@ -65,15 +72,34 @@ const ActionForm = Backbone.View.extend({
     }
     this.$submitButton = this.$('.action-form__submit-button');
     this.buttonText = this.$submitButton.text();
+    this.setupState();
+    this.enableGDPRConsent();
     GlobalEvents.bindEvents(this);
-    if (!this.isMemberPresent()) {
-      this.store.dispatch(changeVariant(this.variant));
-      this.enableGDPRConsent();
+  },
+
+  defaultAction() {
+    if (this.isConsentNeededForExistingMember() || this.async) {
+      return 'validate';
     }
+    return 'submit';
+  },
+
+  state() {
+    if (!this.store) return null;
+    return this.store.getState();
+  },
+
+  setupState() {
+    this.store.dispatch(changeVariant(this.variant));
   },
 
   isMemberPresent() {
     return !_.isEmpty(this.member);
+  },
+
+  isConsentNeededForExistingMember() {
+    const { member, consent } = this.state();
+    return member && consent.isRequiredExisting;
   },
 
   resetState() {
@@ -83,15 +109,35 @@ const ActionForm = Backbone.View.extend({
     }
   },
 
+  submitForm() {
+    _.delay(() => this.$el.submit(), 300);
+  },
+
   handleCountryChange(event) {
     if (this.store) {
       this.store.dispatch(changeCountry(event.target.value) || null);
     }
   },
 
-  handleEmailChange(event) {
-    if (this.store)
-      this.store.dispatch(changeMemberEmail(event.target.value) || null);
+  onClickSubmit(event) {
+    if (this.defaultAction() === 'validate') {
+      event.preventDefault();
+      event.stopPropagation();
+      this.validateForm().then(() => {
+        if (this.isConsentNeededForExistingMember()) {
+          this.store.dispatch(toggleModal(true));
+        } else {
+          Backbone.trigger('form:validated');
+        }
+      });
+    }
+  },
+
+  validateForm() {
+    return $.post(`${this.url}/validate`, this.$el.serialize()).then(
+      undefined,
+      data => this.handleFailure({ target: this.$el }, data)
+    );
   },
 
   // Looks at the display-mode for each field and hides them accordingly
@@ -142,6 +188,7 @@ const ActionForm = Backbone.View.extend({
   },
 
   clearForm() {
+    this.store.dispatch(resetMember());
     const $fields_holder = this.$('.form__group--prefilled');
     $fields_holder.removeClass('form__group--prefilled');
     $fields_holder
@@ -242,6 +289,10 @@ const ActionForm = Backbone.View.extend({
         this.insertHiddenInput(field, options[field], this.$el);
       }
     }
+
+    if (this.consentNeeded) {
+      this.insertHiddenInput('consented', options.member.consented, this.$el);
+    }
   },
 
   insertHiddenInput(name, value, element) {
@@ -313,6 +364,7 @@ const ActionForm = Backbone.View.extend({
     render(
       <ComponentWrapper store={window.champaign.store} locale={I18n.locale}>
         <ConsentComponent />
+        <ExistingMemberConsent />
       </ComponentWrapper>,
       this.gdprContainer
     );

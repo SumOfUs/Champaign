@@ -5,7 +5,6 @@
 
 // TODO: Refactor this to *not* get imported into the global scope
 require('d3');
-
 import '../shared/pub_sub';
 import '../shared/show_errors';
 import '../campaigner_facing/syntax_highlighting';
@@ -33,6 +32,9 @@ import Twitter from 'twitter-text';
 
 // Styles
 import 'c3/c3.css';
+
+require('backbone');
+require('lodash');
 
 Object.assign(window, {
   PageEditBar,
