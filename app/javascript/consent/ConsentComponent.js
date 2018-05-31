@@ -1,6 +1,6 @@
 // @flow
 import $ from 'jquery';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { FormattedMessage, FormattedHTMLMessage } from 'react-intl';
 import classnames from 'classnames';
@@ -10,18 +10,24 @@ import type { AppState } from '../state/reducers';
 import './ConsentComponent.css';
 
 type Props = {
-  shouldRenderHidden: boolean,
-  shouldRender: boolean,
+  // active: if true, the component will be rendered.
+  active: boolean,
+  // hidden: indicates that the component, if rendered, needs to be hidden. it
+  //   uses the `hidden-irrelevant` class to hide the component.
+  hidden: boolean,
+  // consented: the selected value for this form.
   consented: ?boolean,
+  // variant: applied as a css class, used to style the input elements
   variant: string,
-  dispatch: (action: any) => void,
+  // changeConsent: dispatches the change consent action.
+  changeConsent: (value: boolean) => void,
 };
 
-class ConsentComponent extends Component {
+class ConsentComponent extends PureComponent {
   props: Props;
 
   changeConsent = (consented: boolean) => {
-    this.props.dispatch(changeConsent(consented));
+    this.props.changeConsent(consented);
   };
 
   shortLabels() {
@@ -37,12 +43,26 @@ class ConsentComponent extends Component {
     $.publish('sidebar:height_change');
   }
 
+  optOutWarning() {
+    if (this.props.consented !== false) return;
+    return (
+      <div className="ConsentComponent--opt-out-warn">
+        <h5 className="ConsentComponent--opt-out-warn-title">
+          <FormattedHTMLMessage id="consent.opt_out_warn_title" />
+        </h5>
+        <p className="ConsentComponent--opt-out-warn-message">
+          <FormattedHTMLMessage id="consent.opt_out_warn_message" />
+        </p>
+      </div>
+    );
+  }
+
   render() {
-    const { consented, shouldRender, shouldRenderHidden, variant } = this.props;
-    if (!shouldRender) return null;
+    const { consented, active, hidden, variant } = this.props;
+    if (!active) return null;
 
     const classNames = classnames('ConsentComponent', variant, {
-      'hidden-irrelevant': shouldRenderHidden,
+      'hidden-irrelevant': hidden,
     });
 
     return (
@@ -57,16 +77,7 @@ class ConsentComponent extends Component {
             shortLabels={this.shortLabels()}
           />
         </div>
-        {consented === false && (
-          <div className="ConsentComponent--opt-out-warn">
-            <h5 className="ConsentComponent--opt-out-warn-title">
-              <FormattedHTMLMessage id="consent.opt_out_warn_title" />
-            </h5>
-            <p className="ConsentComponent--opt-out-warn-message">
-              <FormattedHTMLMessage id="consent.opt_out_warn_message" />
-            </p>
-          </div>
-        )}
+        {this.optOutWarning()}
         <div className="ConsentComponent--how-to-opt-out how-to-opt-out">
           <FormattedHTMLMessage id="consent.how_to_opt_out" />
         </div>
@@ -77,15 +88,19 @@ class ConsentComponent extends Component {
 
 const mapStateToProps = ({ member, consent }: AppState) => {
   const { consented, variant, isRequiredNew, isRequiredExisting } = consent;
-  const shouldRender =
-    (member && isRequiredExisting) || (!member && isRequiredNew);
-  const shouldRenderHidden = !!member;
+  const active = (member && isRequiredExisting) || (!member && isRequiredNew);
+  const hidden = !!member;
 
   return {
-    shouldRenderHidden,
-    shouldRender,
+    active,
+    hidden,
     consented,
     variant,
   };
 };
-export default connect(mapStateToProps)(ConsentComponent);
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  changeConsent: (value: boolean) => dispatch(changeConsent(value)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConsentComponent);
