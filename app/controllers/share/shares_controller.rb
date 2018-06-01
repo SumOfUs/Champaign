@@ -73,7 +73,7 @@ class Share::SharesController < ApplicationController
     find_share
     @deleted_share = ShareVariantBuilder.destroy(
       params: {},
-      share_type: @resource.to_sym,
+      variant_type: @resource.to_sym,
       page: @page,
       id: params[:id]
     )
