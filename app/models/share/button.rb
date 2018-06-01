@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: share_buttons
@@ -18,4 +19,9 @@
 class Share::Button < ApplicationRecord
   belongs_to :page
   validates :url, presence: true, allow_blank: false
+
+  def share_progress?
+    # the share types currently managed by share progress
+    %w[facebook twitter email].include? sp_type
+  end
 end

@@ -18,12 +18,13 @@ class ShareVariantBuilder
     end
 
     def update_button_url(url, button)
-      sp_button = ShareProgress::Button.new(id: button.sp_id,
-                                            page_url: url,
-                                            button_template: "sp_#{variant_initials(button.sp_type)}_large")
-
-      button.update(url: url) if sp_button.save
-      sp_button
+      if button.share_progress?
+        sp_button = ShareProgress::Button.new(id: button.sp_id,
+                                              page_url: url,
+                                              button_template: "sp_#{variant_initials(button.sp_type)}_large")
+        return unless sp_button.save
+      end
+      button.update(url: url)
     end
 
     def variant_initials(variant_type)
@@ -62,12 +63,14 @@ class ShareVariantBuilder
     @variant.page = @page
 
     return @variant unless @variant.valid?
-
     @button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
     @variant.button = @button
 
     if @variant.share_progress?
       update_sp_resources
+    else
+      # Update button with sp_button_html and page_url
+      update_button
     end
     @variant
   end
@@ -89,6 +92,14 @@ class ShareVariantBuilder
   end
 
   private
+
+  def update_button
+    # Update with other options when we will support other non-sp share types.
+    case @variant_type
+    when 'whatsapp'
+      @button.update(sp_button_html: "<div class=''>Whatsapp ftw! #{params[:text]}</div>", url: @url)
+    end
+  end
 
   def update_sp_resources
     sp_button = ShareProgress::Button.new(share_progress_button_params(@variant, @button))
