@@ -349,7 +349,10 @@ en:
          The available variables are: ${name}, ${postal}, ${target.email} and ${target.name}. Target's custom fields included in the CSV such as country \
          and state, can be access with ${target.fields.country} and ${target.fields.state}."
         targets_csv_text: "Enter the name followed by email separated by a comma. Eg., Tom Hanks, tomhanks@sumofus.org"
-
+    pension_tool:
+      tooltips:
+        email_content: "You can include information dynamically from the form. For example, to use the name of the member you can use the ${name} tag.\
+         The available fields are: ${name}, ${email}, ${fund}, ${fundContact}, ${fundEmail}, ${country}, ${postal}."
     call_tool:
       title: 'Title'
       click_to_play: 'Click to play'
