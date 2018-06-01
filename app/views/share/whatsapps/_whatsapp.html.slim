@@ -1,0 +1,10 @@
+- only_stats = local_assigns.fetch(:only_stats, false)
+
+- unless only_stats
+  = render 'share/twitters/summary_row', share: whatsapp
+= render 'share/stats_row', share: whatsapp, share_type: 'whatsapp', page: page, preview: whatsapp.text, only_stats: only_stats
+
+- unless only_stats
+  tr.shares-editor__edit-row.hidden-closed
+    td colspan=9
+      = render 'share/form', page: page, share: whatsapp

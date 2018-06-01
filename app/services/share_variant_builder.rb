@@ -1,8 +1,9 @@
 # frozen_string_literal: true
+
 require 'share_progress'
 
 # rubocop:disable ClassLength
-class ShareProgressVariantBuilder
+class ShareVariantBuilder
   class << self
     def create(params:, variant_type:, page:, url:)
       new(params, variant_type, page, url, nil).create
@@ -36,60 +37,68 @@ class ShareProgressVariantBuilder
 
   def initialize(params, variant_type, page, url = nil, id = nil)
     @page = page
-    @params = params
+    @params = params.except(:name)
     @variant_type = variant_type.to_sym
     @url = url
     @id = id
   end
 
   def update
-    variant = variant_class.find(@id)
-    variant.assign_attributes(@params)
+    @variant = variant_class.find(@id)
+    @variant.assign_attributes(@params)
 
-    return variant if variant.changed.empty? || variant.invalid?
+    return @variant if @variant.changed.empty? || @variant.invalid?
 
-    button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
-    sp_button = ShareProgress::Button.new(share_progress_button_params(variant, button))
+    @button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
 
-    if sp_button.save
-      variant.save
-    else
-      add_sp_errors_to_variant(sp_button, variant)
+    if @variant.share_progress?
+      update_sp_resources
     end
-    variant
+    @variant
   end
 
   def create
-    variant = variant_class.new(@params)
-    variant.page = @page
-    return variant unless variant.valid?
-    button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
-    variant.button = button
-    sp_button = ShareProgress::Button.new(share_progress_button_params(variant, button))
+    @variant = variant_class.new(@params)
+    @variant.page = @page
 
-    if sp_button.save
-      button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html, url: sp_button.page_url)
-      variant.update(sp_id: sp_button.variants[@variant_type].last[:id])
-    else
-      add_sp_errors_to_variant(sp_button, variant)
+    return @variant unless @variant.valid?
+
+    @button = Share::Button.find_or_initialize_by(sp_type: @variant_type, page_id: @page.id)
+    @variant.button = @button
+
+    if @variant.share_progress?
+      update_sp_resources
     end
-    variant
+    @variant
   end
 
   def destroy
-    variant = variant_class.find(@id)
-    button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
-    sp_button = ShareProgress::Button.new(share_progress_button_params(variant, button))
-    sp_variant = sp_variant_class.new(id: variant.sp_id, button: sp_button)
-    if sp_variant.destroy
-      variant.destroy
-    else
-      add_sp_errors_to_variant(sp_variant, variant)
+    @variant = variant_class.find(@id)
+    @button = Share::Button.find_by(sp_type: @variant_type, page_id: @page.id)
+
+    if @variant.share_progress?
+      sp_button = ShareProgress::Button.new(share_progress_button_params(@variant, @button))
+      sp_variant = sp_variant_class.new(id: @variant.sp_id, button: sp_button)
+      unless sp_variant.destroy
+        add_sp_errors_to_variant(sp_variant, @variant)
+        return @variant
+      end
     end
-    variant
+    @variant.destroy
+    @variant
   end
 
   private
+
+  def update_sp_resources
+    sp_button = ShareProgress::Button.new(share_progress_button_params(@variant, @button))
+    if sp_button.save
+      @button.update(sp_id: sp_button.id, sp_button_html: sp_button.share_button_html, url: sp_button.page_url)
+      @variant.update(sp_id: sp_button.variants[@variant_type].last[:id])
+    else
+      add_sp_errors_to_variant(sp_button, @variant)
+    end
+  end
 
   def add_sp_errors_to_variant(sp_button, variant)
     if sp_button.errors.key? 'variants'

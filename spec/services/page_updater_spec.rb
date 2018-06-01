@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe PageUpdater do
@@ -200,14 +201,14 @@ describe PageUpdater do
       end
 
       before :each do
-        allow(ShareProgressVariantBuilder).to receive(:create) { errorless_variant }
-        allow(ShareProgressVariantBuilder).to receive(:update) { errorless_variant }
+        allow(ShareVariantBuilder).to receive(:create) { errorless_variant }
+        allow(ShareVariantBuilder).to receive(:update) { errorless_variant }
         params = { share_twitter_1: { description: 'I want you to {LINK} for me', id: '1', name: 'twitter' } }
       end
 
       it 'creates variants if not given an id' do
         pupdater.update(create_params)
-        expect(ShareProgressVariantBuilder).to have_received(:create).with(
+        expect(ShareVariantBuilder).to have_received(:create).with(
           params: { description: 'I want you to {LINK} for me' },
           variant_type: 'twitter',
           page: page,
@@ -217,7 +218,7 @@ describe PageUpdater do
 
       it 'updates variants if given an id' do
         pupdater.update(update_params)
-        expect(ShareProgressVariantBuilder).to have_received(:update).with(
+        expect(ShareVariantBuilder).to have_received(:update).with(
           params: { description: 'I want you to {LINK} for me', id: '12' },
           variant_type: 'twitter',
           page: page,
@@ -228,19 +229,19 @@ describe PageUpdater do
       it 'can update and create at the same time' do
         params = update_params.merge(create_params)
         pupdater.update(params)
-        expect(ShareProgressVariantBuilder).to have_received(:update)
-        expect(ShareProgressVariantBuilder).to have_received(:create)
+        expect(ShareVariantBuilder).to have_received(:update)
+        expect(ShareVariantBuilder).to have_received(:create)
       end
 
       it 'can update multiple at once' do
         params = update_params.merge(share_twitter_1: create_params[:share_twitter_1].merge(id: '1'))
         pupdater.update(params)
-        expect(ShareProgressVariantBuilder).to have_received(:update).exactly(2).times
+        expect(ShareVariantBuilder).to have_received(:update).exactly(2).times
       end
 
       it 'can return multiple errors' do
-        allow(ShareProgressVariantBuilder).to receive(:update) { error_variant }
-        allow(ShareProgressVariantBuilder).to receive(:create) { error_variant }
+        allow(ShareVariantBuilder).to receive(:update) { error_variant }
+        allow(ShareVariantBuilder).to receive(:create) { error_variant }
         expect(pupdater.update(update_params.merge(create_params))).to eq false
         expect(pupdater.errors).to eq(
           share_twitter_12: { description: "can't be blank" }, share_twitter_1: { description: "can't be blank" }

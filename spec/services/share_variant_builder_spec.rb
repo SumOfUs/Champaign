@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe ShareProgressVariantBuilder do
-  let(:params) { { title: 'foo', description: 'bar', name: 'facebook' } }
+describe ShareVariantBuilder do
+  let(:params) { { title: 'foo', description: 'bar' } }
 
   let(:sp_variants) { [{ id: 123 }] }
 
@@ -31,7 +31,7 @@ describe ShareProgressVariantBuilder do
 
     before do
       allow(ShareProgress::Button).to receive(:new) { sp_button }
-      ShareProgressVariantBuilder.update_button_url('http://example.com', button)
+      ShareVariantBuilder.update_button_url('http://example.com', button)
     end
 
     it 'saves button on ShareProgress' do
@@ -50,8 +50,9 @@ describe ShareProgressVariantBuilder do
 
   describe '.create' do
     subject(:create_variant) do
-      ShareProgressVariantBuilder.create(
+      ShareVariantBuilder.create(
         params: params,
+        variant_type: 'facebook',
         page: page,
         url: 'http://example.com/foo'
       )
@@ -98,8 +99,9 @@ describe ShareProgressVariantBuilder do
         variant = create_variant
         expected_url = variant.button.url
 
-        new_variant = ShareProgressVariantBuilder.create(
+        new_variant = ShareVariantBuilder.create(
           params: params,
+          variant_type: 'facebook',
           page: page,
           url: 'http://ignored.com'
         )
@@ -175,11 +177,12 @@ describe ShareProgressVariantBuilder do
   describe '.update' do
     let!(:share) { create(:share_facebook, title: 'Foo') }
     let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 23) }
-    let(:params) { { title: 'Bar', name: 'facebook' } }
+    let(:params) { { title: 'Bar' } }
 
     subject(:update_variant) do
-      ShareProgressVariantBuilder.update(
+      ShareVariantBuilder.update(
         params: params,
+        variant_type: 'facebook',
         page: page,
         id: share.id
       )
@@ -230,8 +233,9 @@ describe ShareProgressVariantBuilder do
 
   context '.destroy' do
     subject(:destroy_variant) do
-      ShareProgressVariantBuilder.destroy(
+      ShareVariantBuilder.destroy(
         params: params,
+        variant_type: 'facebook',
         page: page,
         id: share.id
       )
@@ -240,7 +244,7 @@ describe ShareProgressVariantBuilder do
     describe 'success' do
       let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: 24) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: 24) }
-      let(:params) { { title: 'Bar', name: 'facebook' } }
+      let(:params) { { title: 'Bar' } }
 
       before do
         allow(ShareProgress::Button).to receive(:new) { success_sp_button }
@@ -267,7 +271,7 @@ describe ShareProgressVariantBuilder do
     describe 'failure' do
       let!(:button) { create(:share_button, sp_type: 'facebook', page: page, sp_id: nil) }
       let!(:share) { create(:share_facebook, title: 'herpaderp', sp_id: nil) }
-      let(:params) { { title: 'Bar', name: 'facebook' } }
+      let(:params) { { title: 'Bar' } }
 
       before do
         allow(ShareProgress::Button).to receive(:new) { success_sp_button }
