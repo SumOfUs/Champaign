@@ -23,8 +23,9 @@ class Share::SharesController < ApplicationController
   end
 
   def update
-    @share = share_builder.update(
+    @share = ShareVariantBuilder.update(
       params: permitted_params,
+      variant_type: @resource.to_sym,
       page: @page,
       id: params[:id]
     )
@@ -43,7 +44,7 @@ class Share::SharesController < ApplicationController
       url = params[button.sp_type.to_sym]
 
       if url
-        ShareProgressVariantBuilder.update_button_url(url, button)
+        ShareVariantBuilder.update_button_url(url, button)
       end
     end
 
@@ -51,8 +52,9 @@ class Share::SharesController < ApplicationController
   end
 
   def create
-    @share = share_builder.create(
+    @share = ShareVariantBuilder.create(
       params: permitted_params,
+      variant_type: @resource.to_sym,
       page: @page,
       url: member_facing_page_url(@page)
     )
@@ -69,8 +71,9 @@ class Share::SharesController < ApplicationController
 
   def destroy
     find_share
-    @deleted_share = share_builder.destroy(
-      params: { name: @resource.to_sym },
+    @deleted_share = ShareVariantBuilder.destroy(
+      params: {},
+      share_type: @resource.to_sym,
       page: @page,
       id: params[:id]
     )
@@ -103,9 +106,5 @@ class Share::SharesController < ApplicationController
 
   def index_path
     send("page_share_#{@resource.pluralize}_path", @page)
-  end
-
-  def share_builder
-    @share_builder ||= (@resource == 'whatsapp' ? WhatsappShareVariantBuilder : ShareProgressVariantBuilder)
   end
 end

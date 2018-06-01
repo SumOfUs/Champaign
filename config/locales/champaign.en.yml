@@ -297,6 +297,10 @@ en:
         subject: "Email subject"
         body: "Email body"
 
+    whatsapp:
+      form:
+        text: 'WhatsApp message text'
+
   plugins:
     petition:
       petition_description: "Petition Text"

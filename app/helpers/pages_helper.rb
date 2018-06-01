@@ -37,6 +37,7 @@ module PagesHelper
   def prefill_link(new_variant)
     new_variant.description = '{LINK}' if new_variant.name == 'twitter'
     new_variant.body = '{LINK}' if new_variant.name == 'email'
+    new_variant.text = '{LINK}' if new_variant.name == 'whatsapp'
     new_variant
   end
 
